@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
 import PocketCastsUtils
+import UIKit
 
 struct LocalSearchView: View {
     @EnvironmentObject var theme: Theme
@@ -28,10 +29,12 @@ struct LocalSearchView: View {
                     .background(theme.secondaryUi01)
             }
             .onAppear {
+                Analytics.track(.filterAddEpisodesShown)
                 viewModel.onAppear(searchResultsModel: searchResults)
                 previousNavigationPath = navigationPath
             }
             .onDisappear { viewModel.onDisappear() }
+            .scrollDismissesKeyboard(.immediately)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     if navigationPath.isEmpty {
@@ -55,6 +58,7 @@ struct LocalSearchView: View {
                 }
             })
             .onChange(of: navigationPath) { newValue in
+                UIApplication.shared.endEditing(true) // Dismiss the keyboard and end editing any time we navigate between sections.
                 handleNavigationPathChange(newValue, previousPath: previousNavigationPath)
                 previousNavigationPath = newValue
             }
@@ -72,6 +76,7 @@ struct LocalSearchView: View {
     private func handleSelection(for result: PodcastFolderSearchResult) {
         switch result.kind {
         case .folder:
+            Analytics.track(.filterAddEpisodesFolderTapped)
             viewModel.selectFolder(result)
             let route = LocalSearchRoute.folder(result.uuid)
             if navigationPath.last != route {
@@ -80,6 +85,7 @@ struct LocalSearchView: View {
                 }
             }
         case .podcast:
+            Analytics.track(.filterAddEpisodesPodcastTapped)
             if navigationPath.last?.isPodcast == true {
                 withAnimation(navigationAnimation) {
                     navigationPath.removeLast()
@@ -166,7 +172,7 @@ private extension LocalSearchView {
         } label: {
             Image("close")
                 .renderingMode(.template)
-                .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+                .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
         }
         .accessibilityLabel(L10n.close)
     }
@@ -175,9 +181,9 @@ private extension LocalSearchView {
         Button {
             popNavigation()
         } label: {
-            Image("nav-back")
+            Image(systemName: "chevron.backward")
         }
-        .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+        .foregroundColor(AppTheme.color(for: .primaryIcon03, theme: theme))
         .accessibilityLabel(L10n.back)
     }
 

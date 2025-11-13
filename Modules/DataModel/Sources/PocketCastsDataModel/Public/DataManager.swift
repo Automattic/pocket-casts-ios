@@ -164,6 +164,10 @@ public class DataManager {
         upNextManager.isEpisodePresent(uuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    public func allUpNextEpisodes(from uuids: [String]) -> [Episode] {
+        episodeManager.allUpNextEpisodes(from: uuids, dbQueue: dbQueue)
+    }
+
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
         if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
@@ -501,6 +505,10 @@ public class DataManager {
 
     public func findEpisodesWhere(customWhere: String, arguments: [Any]?) -> [Episode] {
         episodeManager.findEpisodesWhere(customWhere: customWhere, arguments: arguments, dbQueue: dbQueue)
+    }
+
+    public func findEpisodes(with term: String, podcastUUID: String) -> [Episode] {
+        episodeManager.findEpisodes(with: term, podcastUUID: podcastUUID, dbQueue: dbQueue)
     }
 
     public func findPlaylistEpisodesWhere(query: String, arguments: [Any]?) -> [Episode] {
@@ -974,7 +982,8 @@ public class DataManager {
         playlistManager.save(playlist: playlist, dbQueue: dbQueue)
     }
 
-    public func add(episodes: [Episode], to playlist: EpisodeFilter) {
+    @discardableResult
+    public func add(episodes: [Episode], to playlist: EpisodeFilter) -> Bool {
         playlistManager.add(episodes: episodes, to: playlist, dbQueue: dbQueue)
     }
 
@@ -994,6 +1003,14 @@ public class DataManager {
         playlistManager.nextSortPositionForPlaylist(dbQueue: dbQueue)
     }
 
+    public func firstSortPositionForPlaylist() -> Int {
+        playlistManager.firstSortPositionForPlaylist(dbQueue: dbQueue)
+    }
+
+    public func bumpSortPositionForAllPlaylists(adding value: Int = 1) {
+        playlistManager.bumpSortPositionForAllPlaylists(adding: value, dbQueue: dbQueue)
+    }
+
     public func updatePosition(playlist: EpisodeFilter, newPosition: Int32) {
         playlistManager.updatePosition(playlist: playlist, newPosition: newPosition, dbQueue: dbQueue)
     }
@@ -1009,6 +1026,10 @@ public class DataManager {
 
     public func deleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
         playlistManager.deleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
+    }
+
+    public func rawDeleteEpisodes(_ episodeUuids: [String], from playlist: EpisodeFilter) {
+        playlistManager.rawDeleteEpisodes(episodeUuids, from: playlist, dbQueue: dbQueue)
     }
 
     public func deleteAllEpisodes(in playlist: EpisodeFilter) {

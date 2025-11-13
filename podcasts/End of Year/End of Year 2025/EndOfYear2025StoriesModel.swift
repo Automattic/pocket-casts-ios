@@ -83,19 +83,19 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .topSpot:
                 return TopSpotStory2025(topPodcast: data.topPodcasts.first!)
             case .top5Podcasts:
-                return Top5Podcasts2024Story(top5Podcasts: data.topPodcasts)
+                return Top5Podcasts2025Story(top5Podcasts: data.topPodcasts)
             case .ratings:
                 return Ratings2024Story(ratings: data.ratings)
             case .listeningTime:
-                return ListeningTime2025Story(listeningTime: data.listeningTime)
+                return ListeningTime2024Story(listeningTime: data.listeningTime)
             case .longestEpisode:
-                return LongestEpisode2024Story(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
+                return LongestEpisode2025Story(episode: data.longestEpisode, podcast: data.longestEpisodePodcast)
             case .yearOverYearListeningTime:
-                return YearOverYearCompare2024Story(subscriptionTier: SubscriptionHelper.activeTier, listeningTime: data.yearOverYearListeningTime)
+                return YearOverYearCompare2025Story(subscriptionTier: SubscriptionHelper.activeTier, listeningTime: data.yearOverYearListeningTime)
             case .completionRate:
-                return CompletionRate2024Story(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
+                return CompletionRate2025Story(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
             case .epilogue:
-                return EpilogueStory2024()
+                return EpilogueStory2025()
         }
     }
 
@@ -136,7 +136,7 @@ class EndOfYear2025StoriesModel: StoryModel {
     }
 
     func paywallView() -> AnyView {
-        AnyView(PaidStoryWallView2024(subscriptionTier: SubscriptionHelper.activeTier))
+        AnyView(PaidStoryWallView2025(subscriptionTier: SubscriptionHelper.activeTier))
     }
 
     func overlaidShareView() -> AnyView? {

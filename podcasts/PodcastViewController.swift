@@ -1368,7 +1368,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if shouldDisplayPodcastFeedReloadButton() {
             refreshControl = CustomRefreshControl()
             refreshControl?.customTintColor = contrastColorForPodcastImage
-            refreshControl?.perform = { [weak self] in
+            refreshControl?.perform = { [weak self] _ in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
             episodesTable.refreshControl = refreshControl

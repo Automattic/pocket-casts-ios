@@ -10,14 +10,14 @@ struct PlaylistArtworkView: View {
     @EnvironmentObject var theme: Theme
     let items: [ImageItem]
 
-    private let imageSize: Int
+    private let cornerRadius: CGFloat
 
     init(
         items: [ImageItem],
-        imageSize: Int
+        cornerRadius: CGFloat = 4
     ) {
         self.items = items
-        self.imageSize = imageSize
+        self.cornerRadius = cornerRadius
     }
 
     var body: some View {
@@ -37,31 +37,30 @@ struct PlaylistArtworkView: View {
                     case 4:
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                AsyncImageView(url: items[0].url, cacheKey: items[0].id, size: imageSize)
+                                AsyncImageView(url: items[0].url, cacheKey: items[0].id)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: items[1].url, cacheKey: items[1].id, size: imageSize)
+                                AsyncImageView(url: items[1].url, cacheKey: items[1].id)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                             HStack(spacing: 0) {
-                                AsyncImageView(url: items[2].url, cacheKey: items[2].id, size: imageSize)
+                                AsyncImageView(url: items[2].url, cacheKey: items[2].id)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
-                                AsyncImageView(url: items[3].url, cacheKey: items[3].id, size: imageSize)
+                                AsyncImageView(url: items[3].url, cacheKey: items[3].id)
                                     .frame(width: size.width / 2, height: size.height / 2)
                                     .clipped()
                             }
                         }
                     default:
-                        AsyncImageView(url: items[0].url, cacheKey: items[0].id, size: imageSize)
+                        AsyncImageView(url: items[0].url, cacheKey: items[0].id)
                             .frame(width: size.width, height: size.height)
                             .clipped()
                     }
                 }
             }
-            .cornerRadius(4)
-            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         }
     }
 }

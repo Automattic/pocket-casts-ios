@@ -8,7 +8,7 @@ struct PlaylistBlurHeaderView: View {
         GeometryReader { proxy in
             HStack {
                 Spacer()
-                PlaylistArtworkView(items: viewModel.images, imageSize: 168)
+                PlaylistArtworkView(items: viewModel.images)
                     .frame(width: proxy.size.width, height: proxy.size.height)
                 .blur(radius: 60)
                 Spacer()

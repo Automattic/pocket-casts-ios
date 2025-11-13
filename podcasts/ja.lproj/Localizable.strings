@@ -2047,16 +2047,22 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートプレイリストを作成</string>
     <key>playlist_detail_description</key>
     <string>%1$@件のエピソード • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1エピソード • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1件のエピソードを「%@」に追加しました</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@件のエピソードを「%2$@」に追加しました</string>
     <key>playlist_episodes_count</key>
     <string>%1$@件のエピソード</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>プレイリストがいっぱいです。 新しいプレイリストを作成してみてください</string>
     <key>playlist_manual_add_episodes</key>
     <string>すべてのエピソード</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>このプレイリストのエピソードがアーカイブされました</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>このプレイリストの%1$@件のエピソードがすべてアーカイブされました</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>ポッドキャストを参照</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>エピソードを左にスワイプしてプレイリストに追加します。</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2073,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>プレイリストに追加</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>エピソードを並べ替え</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>全エピソードをアーカイブしました。 再生するには、追加またはアーカイブを解除してください。</string>
     <key>playlist_options</key>
     <string>プレイリストのオプション</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2111,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>プレイリスト</string>
     <key>playlists_default_new_playlist</key>
     <string>新しいプレイリスト</string>
+    <key>playlists_delete</key>
+    <string>プレイリストを削除</string>
+    <key>playlists_delete_alert_message</key>
+    <string>プレイリストを削除してもよいですか ? この操作を元に戻すことはできません。</string>
+    <key>playlists_delete_alert_title</key>
+    <string>プレイリストを削除しますか ?</string>
     <key>playlists_empty_state_description</key>
     <string>プレイリストを使うと、手動またはスマートルールを適用して自動でエピソードを整理できます。</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2129,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ルールに則ってエピソードを自動的に追加するという点では、まったく同じように機能します。 既存のフィルターはすべてこちらにあります。変わったのは名前だけです。</string>
     <key>playlists_onboarding_smart_title</key>
     <string>フィルターがスマートプレイリストになりました</string>
+    <key>playlists_play_all</key>
+    <string>すべて再生</string>
     <key>please_try_again</key>
     <string>もう一度お試しください</string>
     <key>please_try_again_later</key>
@@ -2665,6 +2681,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>すべて削除</string>
     <key>remove_download</key>
     <string>ダウンロードファイルを削除</string>
+    <key>remove_from_playlist</key>
+    <string>プレイリストから削除</string>
     <key>remove_from_up_next</key>
     <string>次のエピソードから削除</string>
     <key>remove_up_next</key>
@@ -2701,6 +2719,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最近の検索</string>
     <key>search_results</key>
     <string>%1$@ / %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>フィードバックを送信</string>
+    <key>search_results_empty_message</key>
+    <string>新しい検索を試すか、ポッドキャストフィードの URL を追加してください</string>
+    <key>search_results_empty_title</key>
+    <string>結果はありません</string>
+    <key>search_results_view_all</key>
+    <string>「%1$@」のすべての結果を表示</string>
     <key>season</key>
     <string>シーズン</string>
     <key>season_episode_shorthand_format</key>
@@ -3065,12 +3091,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フィルターを選択</string>
     <key>settings_select_filters_plural</key>
     <string>フィルターを選択</string>
+    <key>settings_select_playlist_singular</key>
+    <string>プレイリストを選択</string>
     <key>settings_select_playlists_plural</key>
     <string>プレイリストを選択</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>スマートプレイリストを選択</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>フィルターを開く</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>プレイリストを開く</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>すべてのエピソードを再生</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3117,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>有効化済みショートカット</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>特定のフィルターへのショートカット</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>特定のポッドキャストへのショートカット</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>特定のポッドキャストへのショートカット</string>
     <key>settings_skip_first</key>

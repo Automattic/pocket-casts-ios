@@ -1,7 +1,7 @@
 import Foundation
 
 class CustomRefreshControl: UIRefreshControl {
-    var perform: (() -> Void)?
+    var perform: ((CustomRefreshControl) -> Void)?
 
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
@@ -40,7 +40,7 @@ class CustomRefreshControl: UIRefreshControl {
         beginRefreshing()
         isAnimating = true
         startRefreshAnimation()
-        perform?()
+        perform?(self)
     }
 
     override func endRefreshing() {
@@ -51,6 +51,10 @@ class CustomRefreshControl: UIRefreshControl {
             self?.isAnimating = false
             self?.alpha = 0
         }
+    }
+
+    func set(text: String) {
+        refreshLabel.text = text
     }
 
     private func setupView() {

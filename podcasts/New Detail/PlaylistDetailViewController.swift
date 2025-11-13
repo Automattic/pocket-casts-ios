@@ -2,6 +2,7 @@ import UIKit
 import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
+import PocketCastsServer
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -76,7 +77,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     if self.viewModel.isSearching {
                         self.searchController.searchTextField.resignFirstResponder()
                     }
-                    Analytics.track(.filterMultiSelectEntered)
+                    self.track(.filterMultiSelectEntered)
                     if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                         self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
                     }
@@ -96,7 +97,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     // Adjusts multiSelectHeaderView based on screen width
                     self.setMultiSelectHeaderViewConstraint()
                 } else {
-                    Analytics.track(.filterMultiSelectExited)
+                    self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true
                     self.multiSelectHeaderView.isHidden = true
                     self.selectedEpisodes.removeAll()
@@ -150,7 +151,10 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
 
-    init(playlist: EpisodeFilter) {
+    private weak var delegate: FilterCreatedDelegate?
+
+    init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
         self.viewModel = PlaylistDetailViewModel(playlist: playlist) { [weak self] newSet, animated, contentChanged in
             self?.reload(data: newSet, animated: animated, contentChanged: contentChanged)
@@ -184,6 +188,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.firstTimeLoading {
             loadingIndicator.startAnimating()
         }
+
+        track(.filterShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -201,6 +207,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
         refreshControl?.parentViewControllerDidAppear()
+        delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -348,10 +355,13 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func setupRefreshControl() {
+        if viewModel.isManualPlaylist { return }
+
         refreshControl = CustomRefreshControl()
         refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { [weak self] in
-            self?.viewModel.reloadPlaylistAndEpisodes()
+        refreshControl?.perform = { refreshControl in
+            refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
+            RefreshManager.shared.refreshPodcasts()
         }
         tableView.refreshControl = refreshControl
     }
@@ -362,22 +372,41 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        refreshControl?.endRefreshing()
         loadingIndicator.stopAnimating()
+        refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.refreshControl?.alpha = 0
+            }, completion: { _ in
+                self?.refreshControl?.endRefreshing()
+            })
+        }
 
         if animated, contentChanged {
             tableView.reload(using: data, with: .fade) { [weak self] newData in
-                self?.viewModel.update(data: newData)
+                self?.viewModel.update(data: newData) {
+                    self?.reloadRefreshControlColor()
+                }
             }
         } else {
             if let data = data.last?.data {
-                viewModel.update(data: data)
+                viewModel.update(data: data) { [weak self] in
+                    self?.reloadRefreshControlColor()
+                }
             }
             tableView.reloadData()
         }
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+    }
+
+    private func reloadRefreshControlColor() {
+        if let snapshot = blurHeaderView.sj_snapshotImage() {
+            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+        } else {
+            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+        }
     }
 
     private func reloadNavTitle() {
@@ -394,6 +423,8 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func editPlaylist() {
+        track(.filterEditRulesTapped)
+
         let vc = PlaylistPreviewViewController(playlist: self.viewModel.playlist) { [weak self] in
             self?.viewModel.reloadPlaylistAndEpisodes()
         }
@@ -402,7 +433,17 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     func addEpisodes() {
-        let searchAnalyticsHelper = SearchAnalyticsHelper(source: .unknown)
+        let isPlaylistFull = viewModel.isPlaylistFull
+
+        track(.filterAddEpisodesTapped, properties: ["is_playlist_full": isPlaylistFull])
+
+        if isPlaylistFull {
+            let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+            Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+            return
+        }
+
+        let searchAnalyticsHelper = SearchAnalyticsHelper(source: .playlistEditor)
         let searchResults = SearchResultsModel(analyticsHelper: searchAnalyticsHelper)
         let vc = PCHostingController(rootView: LocalSearchView(
             playlist: viewModel.playlist,
@@ -422,11 +463,5 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
-    }
-}
-
-extension PlaylistDetailViewController: AnalyticsSourceProvider {
-    var analyticsSource: AnalyticsSource {
-        .filters
     }
 }

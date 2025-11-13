@@ -167,10 +167,9 @@ class PlaylistPreviewViewController: PCViewController {
 
     private func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
-
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
+        closeButton.target = self
+        closeButton.action = #selector(closeTapped)
+        navigationItem.leftBarButtonItem = closeButton
     }
 
     @objc private func closeTapped() {
@@ -194,6 +193,10 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     @objc private func saveTapped() {
+        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+
+        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        viewModel.newPlaylist.sortPosition = Int32(firstSortPosition)
         viewModel.newPlaylist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.newPlaylist.isNew = false
         viewModel.removeObserver()
@@ -222,6 +225,8 @@ class PlaylistPreviewViewController: PCViewController {
             "color": viewModel.newPlaylist.playlistColor().hexString(),
             "icon_name": viewModel.newPlaylist.iconImageName() ?? "unknown"
         ])
+
+        delegate?.presentingPlaylistDetail = true
 
         dismiss()
     }

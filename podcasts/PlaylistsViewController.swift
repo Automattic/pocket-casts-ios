@@ -34,6 +34,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var sourceIndexPath: IndexPath?
     var snapshot: UIView?
     var previouslyDisplayedDetail = false
+    var presentingPlaylistDetail: Bool = false
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -60,8 +61,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private var firstTimeLoading = true
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
-        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
         let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
+        let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
         let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()
@@ -70,7 +71,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewDidLoad()
 
         if FeatureFlag.playlistsRebranding.enabled {
-            customRightBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewFilter))
+            let barButton = UIBarButtonItem(image: UIImage(named: "playlist_add_icon"), style: .plain, target: self, action: #selector(addNewFilter))
+            barButton.tintColor = ThemeColor.primaryIcon01()
+            customRightBtn = barButton
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
@@ -186,6 +189,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
         if FeatureFlag.playlistsRebranding.enabled {
             view.backgroundColor = ThemeColor.primaryUi04()
+            customRightBtn?.tintColor = ThemeColor.primaryIcon01()
         }
     }
 
@@ -195,10 +199,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
         previouslyDisplayedDetail = true
+        presentingPlaylistDetail = true
 
         let viewController: UIViewController
         if FeatureFlag.playlistsRebranding.enabled {
-            viewController = PlaylistDetailViewController(playlist: filter)
+            viewController = PlaylistDetailViewController(playlist: filter, delegate: self)
         } else {
             let playlistViewController = PlaylistViewController(filter: filter)
             playlistViewController.isNewFilter = isNew ?? false
@@ -235,7 +240,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         if filtersTable.tableHeaderView != nil {
             return
         }
-        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 160)) {
+        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 135)) {
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.filtersTable.tableHeaderView = nil
             }

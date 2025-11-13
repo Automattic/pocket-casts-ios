@@ -677,7 +677,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
             if playlist.manual {
                 let archivedEpisodes = playlistEpisodes.filter(\.archived)
-                EpisodeManager.bulkUnarchive(episodes: archivedEpisodes)
+                EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
             }
         } else {
             let query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit())
@@ -685,7 +685,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
-        populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
+        if FeatureFlag.playlistsRebranding.enabled {
+            populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
+        } else {
+            populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
+        }
         uuidOfPlayingList = playlist.uuid
     }
 
@@ -1060,6 +1064,10 @@ class PlaybackManager: ServerPlaybackDelegate {
             autoplayIfNeeded()
 
             FileLog.shared.addMessage("Finished playing \(episode.displayableTitle())")
+            Analytics.track(.playerEpisodeCompleted, properties: [
+                "podcast_uuid": episode.parentIdentifier(),
+                "episode_uuid": episode.uuid
+            ])
             episode.playingStatus = PlayingStatus.completed.rawValue
             episode.playedUpTo = episode.duration
 
@@ -1191,6 +1199,25 @@ class PlaybackManager: ServerPlaybackDelegate {
                 }
             }
             queue.bulkOperationDidComplete()
+        }
+    }
+
+    private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
+        if episodes == nil, queue.upNextCount() > 0 {
+            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
+            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
+        } else {
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                // there's a new list of episodes to play, so clear what's currently playing and play that
+                self?.load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+
+                let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
+                if filteredEpisodes.isEmpty {
+                    return
+                }
+                self?.queue.bulkAdd(filteredEpisodes)
+            }
         }
     }
 

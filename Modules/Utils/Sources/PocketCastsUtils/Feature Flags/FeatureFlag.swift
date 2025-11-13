@@ -378,7 +378,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingVariant:
             true
         case .playlistsRebranding:
-            false
+            true
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
@@ -398,17 +398,9 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
-            #if DEBUG
-                true
-            #else
-                BuildEnvironment.current == .testFlight
-            #endif
+            true
         case .searchPredictive:
-            #if DEBUG
-                true
-            #else
-                BuildEnvironment.current == .testFlight
-            #endif
+            true
         case .podcastBookmarksInline:
             true
         case .earlyReloadSubscriptionStatus:
@@ -448,12 +440,7 @@ extension FeatureFlag: OverrideableFlag {
     }
 
     public var canOverride: Bool {
-        switch self {
-            case .searchPredictive, .searchImprovements:
-                !Self.isTestFlight
-            default:
-                true
-        }
+        true
     }
 
     private static let isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"

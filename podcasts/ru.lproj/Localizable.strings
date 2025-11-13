@@ -2047,16 +2047,22 @@ Pocket Casts на полную мощность.</string>
     <string>Преобразовать в умный плейлист</string>
     <key>playlist_detail_description</key>
     <string>Выпусков: %1$@ • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 выпуск • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 выпуск добавлен в плейлист «%@»</string>
     <key>playlist_episodes_added_title</key>
     <string>Выпуски (%1$@) добавлены в плейлист «%2$@»</string>
     <key>playlist_episodes_count</key>
     <string>Выпусков: %1$@</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Плейлист заполнен. Создайте новый</string>
     <key>playlist_manual_add_episodes</key>
     <string>Добавить выпуски</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>Выпуск в этом плейлисте архивирован</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>Все выпуски (%1$@) этого плейлиста архивированы</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Просмотр подкастов</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Смахните выпуск влево, чтобы добавить его в плейлист.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2073,8 @@ Pocket Casts на полную мощность.</string>
     <string>Добавить в плейлист</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Изменение порядка выпусков</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>Все выпуски архивированы. Чтобы начать воспроизведение, добавьте или распакуйте архив.</string>
     <key>playlist_options</key>
     <string>Настройки плейлиста</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2111,12 @@ Pocket Casts на полную мощность.</string>
     <string>Плейлисты</string>
     <key>playlists_default_new_playlist</key>
     <string>Новый плейлист</string>
+    <key>playlists_delete</key>
+    <string>Удалить плейлист</string>
+    <key>playlists_delete_alert_message</key>
+    <string>Вы действительно хотите удалить плейлист? Отменить эту операцию будет невозможно.</string>
+    <key>playlists_delete_alert_title</key>
+    <string>Удалить плейлист?</string>
     <key>playlists_empty_state_description</key>
     <string>Плейлисты позволяют упорядочивать выпуски вручную или автоматически по умным правилам.</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2129,8 @@ Pocket Casts на полную мощность.</string>
     <string>Всё работает точно так же, как и раньше: выпуски автоматически добавляются по установленным правилам. Все ваши фильтры никуда не делись, и ничего не изменилось, кроме названия.</string>
     <key>playlists_onboarding_smart_title</key>
     <string>Умные плейлисты — это новое название фильтров</string>
+    <key>playlists_play_all</key>
+    <string>Воспроизвести все</string>
     <key>please_try_again</key>
     <string>Попробуйте еще раз</string>
     <key>please_try_again_later</key>
@@ -2665,6 +2681,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удалить все</string>
     <key>remove_download</key>
     <string>Удалить скачивание</string>
+    <key>remove_from_playlist</key>
+    <string>Удалить из плейлиста</string>
     <key>remove_from_up_next</key>
     <string>Удалить из следующих</string>
     <key>remove_up_next</key>
@@ -2701,6 +2719,14 @@ Pocket Casts на полную мощность.</string>
     <string>Последний поиск</string>
     <key>search_results</key>
     <string>%1$@ из %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Отправить отзыв</string>
+    <key>search_results_empty_message</key>
+    <string>Попробуйте уточнить поиск, введя URL-адрес ленты подкаста</string>
+    <key>search_results_empty_title</key>
+    <string>Нет результатов</string>
+    <key>search_results_view_all</key>
+    <string>Просмотреть все результаты по запросу «%1$@»</string>
     <key>season</key>
     <string>Сезон</string>
     <key>season_episode_shorthand_format</key>
@@ -3065,12 +3091,16 @@ Pocket Casts на полную мощность.</string>
     <string>Выбрать фильтр</string>
     <key>settings_select_filters_plural</key>
     <string>Выбрать фильтры</string>
+    <key>settings_select_playlist_singular</key>
+    <string>Выбрать плейлист</string>
     <key>settings_select_playlists_plural</key>
     <string>Выберите списки воспроизведения</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>Выберите умные списки воспроизведения</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Открыть фильтр</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>Открыть плейлист</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>Воспроизвести все выпуски</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3117,8 @@ Pocket Casts на полную мощность.</string>
     <string>Включенные шорткаты</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>Шорткат для отдельного фильтра </string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>Шорткат отдельного подкаста</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>Шорткат для отдельного подкаста</string>
     <key>settings_skip_first</key>

@@ -2047,16 +2047,22 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Trasforma in una playlist intelligente</string>
     <key>playlist_detail_description</key>
     <string>%1$@ episodi • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 episodio • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 episodio aggiunto a "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ episodi aggiunti a "%2$@"</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodi</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Playlist piena. Prova a crearne una nuova</string>
     <key>playlist_manual_add_episodes</key>
     <string>Aggiungi episodi</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>Il tuo episodio in questa playlist è stato archiviato</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>Tutti i %1$@ episodi di questa playlist sono stati archiviati</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Sfoglia i podcast</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Scorri verso sinistra su un episodio per aggiungerlo alla tua playlist.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2073,8 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Aggiungi alla playlist</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Riordina episodi</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>Tutti gli episodi sono stati archiviati. Aggiungi o rimuovi l'archivio per riprodurre.</string>
     <key>playlist_options</key>
     <string>Opzioni della playlist</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2111,12 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Playlist</string>
     <key>playlists_default_new_playlist</key>
     <string>Nuova playlist</string>
+    <key>playlists_delete</key>
+    <string>Elimina playlist</string>
+    <key>playlists_delete_alert_message</key>
+    <string>Vuoi eliminare la playlist? Questa operazione non può essere annullata.</string>
+    <key>playlists_delete_alert_title</key>
+    <string>Eliminare la playlist?</string>
     <key>playlists_empty_state_description</key>
     <string>Con le playlist, puoi organizzare gli episodi manualmente o lasciare che le regole intelligenti lo facciano in automatico.</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2129,8 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Le playlist funzionano nello stesso modo di prima, quindi usano regole per aggiungere automaticamente gli episodi. Ritroverai tutti i tuoi filtri esistenti: l'unico elemento a essere cambiato è il nome.</string>
     <key>playlists_onboarding_smart_title</key>
     <string>I filtri sono ora Playlist intelligenti</string>
+    <key>playlists_play_all</key>
+    <string>Riproduci tutto</string>
     <key>please_try_again</key>
     <string>Riprova</string>
     <key>please_try_again_later</key>
@@ -2665,6 +2681,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Rimuovi tutti</string>
     <key>remove_download</key>
     <string>Rimuovi download</string>
+    <key>remove_from_playlist</key>
+    <string>Rimuovi dalla playlist</string>
     <key>remove_from_up_next</key>
     <string>Rimuovi da Successivo</string>
     <key>remove_up_next</key>
@@ -2701,6 +2719,14 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Ricerche recenti</string>
     <key>search_results</key>
     <string>%1$@ di %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Inviaci un feedback</string>
+    <key>search_results_empty_message</key>
+    <string>Prova una nuova ricerca o aggiungi un URL di feed del podcast</string>
+    <key>search_results_empty_title</key>
+    <string>Nessun risultato</string>
+    <key>search_results_view_all</key>
+    <string>Visualizza tutti i risultati per "%1$@"</string>
     <key>season</key>
     <string>Stagione</string>
     <key>season_episode_shorthand_format</key>
@@ -3065,12 +3091,16 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Seleziona filtro</string>
     <key>settings_select_filters_plural</key>
     <string>Apri filtri</string>
+    <key>settings_select_playlist_singular</key>
+    <string>Seleziona playlist</string>
     <key>settings_select_playlists_plural</key>
     <string>Seleziona playlist</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>Seleziona playlist intelligenti</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Apri filtro</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>Apri playlist</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>Riproduci tutti gli episodi</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3117,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Scorciatoie abilitate</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>Scorciatoia a un filtro specifico</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>Scorciatoia a una playlist specifica</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>Scorciatoia a un podcast specifico</string>
     <key>settings_skip_first</key>

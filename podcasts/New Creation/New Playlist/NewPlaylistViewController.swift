@@ -20,6 +20,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private let creationType: CreationType
+    private let analyticsSource: String?
+
     private var creationView: UIView?
     private var smartPlaylistsTip: UIViewController? = nil
 
@@ -67,8 +69,9 @@ class NewPlaylistViewController: PCViewController {
         }
     }
 
-    init(creationType: CreationType = .default) {
+    init(creationType: CreationType = .default, analyticsSource: String? = nil) {
         self.creationType = creationType
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -89,7 +92,17 @@ class NewPlaylistViewController: PCViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        Analytics.track(.filterCreateShown)
+
         showSmartPlaylistTooltip()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isMovingFromParent {
+            Analytics.track(.filterCreateCancelled)
+        }
     }
 
     private func setupNavBar() {
@@ -175,10 +188,9 @@ class NewPlaylistViewController: PCViewController {
 
     private func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
+        closeButton.target = self
+        closeButton.action = #selector(closeTapped)
+        navigationItem.leftBarButtonItem = closeButton
     }
 
     private func setupSaveButtonTitle() {
@@ -187,8 +199,14 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func createManualPlaylist() {
+        delegate?.presentingPlaylistDetail = true
+
+        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
+        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        playlist.sortPosition = Int32(firstSortPosition)
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue
@@ -200,12 +218,20 @@ class NewPlaylistViewController: PCViewController {
             delegate?.filterCreated(newFilter: playlist)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
-            DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            guard didAdd else {
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
+                return
+            }
+
+            Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
+
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
 
-        //TODO: Add analytics for manual playlist creation
+        Analytics.track(.filterCreateAsManualPlaylistTapped)
 
         if Settings.firstTimePlaylistCreated {
             Settings.shouldShowDragAndDropTip = true
@@ -215,6 +241,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func createSmartPlaylist() {
+        Analytics.track(.filterCreateAsSmartPlaylistTapped)
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let createPlaylistVC = PlaylistPreviewViewController(playlistName: playlistName)
         createPlaylistVC.delegate = delegate
@@ -223,6 +251,8 @@ class NewPlaylistViewController: PCViewController {
     }
 
     @objc private func closeTapped(_ sender: Any) {
+        Analytics.track(.filterCreateCancelled)
+        delegate?.presentingPlaylistDetail = false
         dismiss(animated: true, completion: nil)
     }
 
@@ -254,7 +284,7 @@ class NewPlaylistViewController: PCViewController {
     }
 
     private func dismissTipView() {
-        dismiss(animated: true) { [weak self] in
+        smartPlaylistsTip?.dismiss(animated: true) { [weak self] in
             self?.smartPlaylistsTip = nil
         }
     }

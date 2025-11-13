@@ -15,6 +15,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
     private let episode: Episode
+    private let analyticsSource: String
     private let dataManager = DataManager.sharedManager
 
     private var tableView: ThemeableTable! {
@@ -49,8 +50,9 @@ class ManualPlaylistsChooserViewController: PCViewController {
         }
     }
 
-    init(episode: Episode) {
+    init(episode: Episode, analyticsSource: String) {
         self.episode = episode
+        self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,6 +66,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
         setupNavBar()
         addCloseButton()
         setupContent()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Analytics.track(.addToPlaylistsShown, properties: ["source": analyticsSource])
     }
 
     private func setupNavBar() {
@@ -134,10 +142,9 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
     private func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
+        closeButton.target = self
+        closeButton.action = #selector(closeTapped)
+        navigationItem.leftBarButtonItem = closeButton
     }
 
     @objc private func closeTapped(_ sender: Any) {
@@ -150,13 +157,23 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         FileLog.shared.console("Added \(added), removed \(removed)")
 
+        var changedPlaylists: Set<EpisodeFilter> = []
+
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
+                track(episode: episode, added: true, to: playlist)
                 dataManager.add(episodes: [episode], to: playlist)
+                changedPlaylists.insert(playlist)
             }
             if removed.contains(playlist.uuid) {
+                track(episode: episode, added: false, to: playlist)
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
             }
+        }
+
+        changedPlaylists.forEach { playlist in
+            playlist.syncStatus = SyncStatus.notSynced.rawValue
+            dataManager.save(playlist: playlist)
         }
 
         dismiss(animated: true, completion: nil)
@@ -208,7 +225,8 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 playlist: playlist,
                 isLastRow: indexPath.row == manualPlaylists.count - 1,
                 isSelected: isSelected,
-                canBeDisabled: !episodeIsInPlaylist
+                canBeDisabled: !episodeIsInPlaylist,
+                analyticsSource: analyticsSource
             )
         }
         return cell
@@ -223,7 +241,9 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode))
+        Analytics.track(.addToPlaylistsNewPlaylistTapped, properties: ["source": analyticsSource])
+
+        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode), analyticsSource: analyticsSource)
         navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }
@@ -292,5 +312,11 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
 fileprivate extension UITableView {
     func reload(section: TableSection, with animation: UITableView.RowAnimation) {
         reloadSections(IndexSet(integer: section.rawValue), with: animation)
+    }
+}
+
+extension ManualPlaylistsChooserViewController: PlaylistTypeTrackerProvider {
+    var analyticsSourceType: String {
+        analyticsSource
     }
 }

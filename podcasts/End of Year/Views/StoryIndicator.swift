@@ -28,9 +28,9 @@ struct StoryIndicatorStyle {
 struct StoryIndicator: View {
     let index: Int
     let style: StoryIndicatorStyle
-    @ObservedObject var progressModel: StoriesModel
+    @ObservedObject var progressModel: StoriesProgressModel
 
-    init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle(), progressModel: StoriesModel) {
+    init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle(), progressModel: StoriesProgressModel) {
         self.index = index
         self.style = style
         self.progressModel = progressModel

@@ -24,9 +24,8 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         tableView.separatorStyle = .none
         tableView.register(UINib(nibName: "RadioButtonCell", bundle: nil), forCellReuseIdentifier: DownloadFilterOverlayController.downloadCellId)
         addTableViewHeader()
-
+        title = SmartPlaylistRule.downloadStatus.title
         setupLargeTitle()
-        title = L10n.filterDownloadStatus
         tableView.contentInsetAdjustmentBehavior = .never
         setCurrentDownloadStatus()
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")

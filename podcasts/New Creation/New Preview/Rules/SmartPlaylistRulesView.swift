@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsUtils
 
 struct SmartPlaylistRulesView: View {
     @State var isExpanded: Bool = false
@@ -152,7 +153,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
 
             if episodes.isEmpty {
                 EmptyStateView(
-                    title: L10n.filterCreateNoEpisodes,
+                    title: FeatureFlag.playlistsRebranding.enabled ? L10n.filterCreateNoEpisodes.sentenceCased : L10n.filterCreateNoEpisodes,
                     message: L10n.playlistCreateNoEpisodesDescription,
                     icon: {
                         Image("empty-playlist-info")

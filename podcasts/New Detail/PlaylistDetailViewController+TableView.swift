@@ -28,14 +28,14 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    Analytics.track(.filterSelectAllAbove)
-                    self.tableView.selectAllAbove(indexPath: indexPath)
+                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [weak self] in
+                    self?.track(.filterSelectAllAbove)
+                    self?.tableView.selectAllAbove(indexPath: indexPath)
                 })
 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    Analytics.track(.filterSelectAllBelow)
-                    self.tableView.selectAllBelow(indexPath: indexPath)
+                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [weak self] in
+                    self?.track(.filterSelectAllBelow)
+                    self?.tableView.selectAllBelow(indexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
@@ -70,6 +70,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
             guard let self = self else { return }
 
+            self.track(selected ? .filterShowArchivedTapped : .filterHideArchivedTapped)
             self.viewModel.updateShowArchivedEpisodes(show: selected)
             self.viewModel.reloadEpisodeList(animated: true)
         }
@@ -105,10 +106,11 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return configuredEmptyCell(
                 for: tableView,
                 at: indexPath,
-                title: L10n.episodeFilterNoEpisodesTitle,
+                title: FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle,
                 message: archivedPlaceholder.message,
                 actions: [
-                    .init(title: L10n.podcastShowArchived, action: {
+                    .init(title: FeatureFlag.playlistsRebranding.enabled ? L10n.podcastShowArchived.sentenceCased : L10n.podcastShowArchived, action: { [weak self] in
+                        self?.track(.filterShowArchivedCtaEmptyTapped)
                         onToggleChange(true)
                     })
                 ]
@@ -116,11 +118,11 @@ extension PlaylistDetailViewController: UITableViewDataSource {
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
-
+        cell.episodeImageLeadConstraint.constant = 16.0
         cell.playlist = .filter(uuid: viewModel.playlist.uuid)
         cell.delegate = self
         if let listEpisode = itemAtRow as? ListEpisode {
-            cell.populateFrom(episode: listEpisode.episode, tintColor: viewModel.playlist.playlistColor(), playlistUuid: viewModel.playlist.uuid)
+            cell.populateFrom(episode: listEpisode.episode, tintColor: nil, playlistUuid: viewModel.playlist.uuid)
             cell.shouldShowSelect = isMultiSelectEnabled
             if isMultiSelectEnabled {
                 cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
@@ -153,8 +155,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.isManualPlaylist, viewModel.archivedEpisodesCount == 0, indexPath.section == viewModel.index(for: .archive) {
-            return 1
+        if viewModel.isManualPlaylist, indexPath.section == viewModel.index(for: .archive) {
+            return viewModel.archivedEpisodesCount == 0 ? 1 : 49.0
         }
         return UITableView.automaticDimension
     }
@@ -167,6 +169,14 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let searchSection: PlaylistDetailViewModel.Section = viewModel.isManualPlaylist ? .archive : .episodes
         return section == viewModel.index(for: searchSection) ? PCSearchBarController.defaultHeight : 0
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
     }
 
     // MARK: - Selection
@@ -219,6 +229,8 @@ extension PlaylistDetailViewController: UITableViewDelegate {
                 let episodeUuid = selectedEpisode.uuid
                 let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
                     guard let self else { return }
+                    self.track(.filterRemoveFromPlaylistTapped)
+                    self.track(episode: selectedEpisode, added: false, to: self.viewModel.playlist, source: "unavailable_episode")
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
                 BottomSheetSwiftUIWrapper.present(

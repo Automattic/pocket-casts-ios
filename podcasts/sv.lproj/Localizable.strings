@@ -2047,16 +2047,22 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Gör till smart spellista</string>
     <key>playlist_detail_description</key>
     <string>%1$@ avsnitt • %2$@</string>
+    <key>playlist_detail_description_one_episode</key>
+    <string>1 avsnitt • %1$@</string>
     <key>playlist_episode_added_title</key>
     <string>1 avsnitt tillagt i "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ avsnitt tillagda i ”%2$@”</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ avsnitt</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Spellistan är full. Prova att skapa en ny</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
+    <key>playlist_manual_archived_episode_placeholder</key>
+    <string>Ditt avsnitt i denna spellista har arkiverats</string>
+    <key>playlist_manual_archived_episodes_placeholder</key>
+    <string>Alla %1$@ avsnitt av den här podcasten har arkiverats</string>
+    <key>playlist_manual_browse_shows_title</key>
+    <string>Bläddra bland podcasts</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2067,6 +2073,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Lägg till i spellista</string>
     <key>playlist_manual_episodes_order_option</key>
     <string>Sortera om avsnitt</string>
+    <key>playlist_manual_play_all_empty_list</key>
+    <string>Alla avsnitt arkiverade. Lägg till eller avarkivera för att spela upp.</string>
     <key>playlist_options</key>
     <string>Spellistealternativ</string>
     <key>playlist_preview_create_smart_playlist</key>
@@ -2103,6 +2111,12 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Spellistor</string>
     <key>playlists_default_new_playlist</key>
     <string>Ny spellista</string>
+    <key>playlists_delete</key>
+    <string>Ta bort spellista</string>
+    <key>playlists_delete_alert_message</key>
+    <string>Är du säker på att du vill ta bort din spellista? Det går inte att ångra åtgärden.</string>
+    <key>playlists_delete_alert_title</key>
+    <string>Ta bort spellista?</string>
     <key>playlists_empty_state_description</key>
     <string>Spellistor låter dig organisera avsnitt manuellt eller automatiskt med smarta regler.</string>
     <key>playlists_empty_state_title</key>
@@ -2115,6 +2129,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>De fungerar fortfarande exakt likadant, med regler för att automatiskt lägga till dina avsnitt. Alla dina befintliga filter finns här, inget har ändrats förutom namnet.</string>
     <key>playlists_onboarding_smart_title</key>
     <string>Filter är nu Smarta spellistor</string>
+    <key>playlists_play_all</key>
+    <string>Spela upp alla</string>
     <key>please_try_again</key>
     <string>Vänligen försök igen</string>
     <key>please_try_again_later</key>
@@ -2665,6 +2681,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Ta bort alla.</string>
     <key>remove_download</key>
     <string>Ta bort nedladdning</string>
+    <key>remove_from_playlist</key>
+    <string>Ta bort från spellista</string>
     <key>remove_from_up_next</key>
     <string>Ta bort från Nästa</string>
     <key>remove_up_next</key>
@@ -2701,6 +2719,14 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Senaste sökningar</string>
     <key>search_results</key>
     <string>%1$@ av %2$@</string>
+    <key>search_results_empty_action</key>
+    <string>Ge oss feedback</string>
+    <key>search_results_empty_message</key>
+    <string>Prova en ny sökning eller att lägga till en podcastflödes-URL</string>
+    <key>search_results_empty_title</key>
+    <string>Inga resultat</string>
+    <key>search_results_view_all</key>
+    <string>Visa alla resultat för ”%1$@”</string>
     <key>season</key>
     <string>Säsong</string>
     <key>season_episode_shorthand_format</key>
@@ -3065,12 +3091,16 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Välj filter</string>
     <key>settings_select_filters_plural</key>
     <string>Välj filter</string>
+    <key>settings_select_playlist_singular</key>
+    <string>Välj spellista</string>
     <key>settings_select_playlists_plural</key>
     <string>Välj spellistor</string>
     <key>settings_select_smart_playlists_plural</key>
     <string>Välj smarta spellistor</string>
     <key>settings_shortcuts_filter_open_filter</key>
     <string>Öppna filter</string>
+    <key>settings_shortcuts_filter_open_playlist</key>
+    <string>Öppna spellista</string>
     <key>settings_shortcuts_filter_play_all_episodes</key>
     <string>Spela alla avsnitt</string>
     <key>settings_shortcuts_filter_play_top_episode</key>
@@ -3087,6 +3117,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Aktiverade genvägar</string>
     <key>settings_siri_shortcuts_specific_filter</key>
     <string>Genväg till ett specifikt filter</string>
+    <key>settings_siri_shortcuts_specific_playlist</key>
+    <string>Genväg till en specifik podcast</string>
     <key>settings_siri_shortcuts_specific_podcast</key>
     <string>Genväg till en specifik podcast</string>
     <key>settings_skip_first</key>

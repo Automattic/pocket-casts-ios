@@ -5,20 +5,20 @@ struct StoryHeader2025: View {
     let title: String?
     let description: String?
     let subscriptionTier: SubscriptionTier?
-    let addTopPadding: Bool
+    let topPadding: CGFloat?
 
-    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil, addTopPadding: Bool = true) {
+    init(title: String? = nil, description: String? = nil, subscriptionTier: SubscriptionTier? = nil, topPadding: CGFloat? = nil) {
         self.title = title
         self.description = description
         self.subscriptionTier = subscriptionTier
-        self.addTopPadding = addTopPadding
+        self.topPadding = topPadding
     }
 
     var body: some View {
-        VStack(alignment: .center, spacing: 16) {
-            HStack { Spacer() }
+        VStack(spacing: 8) {
             if let subscriptionTier {
-                SubscriptionBadge2024(subscriptionTier: subscriptionTier)
+                SubscriptionBadge2025(subscriptionTier: subscriptionTier)
+                    .padding(.bottom, 8)
             }
             if let title {
                 Text(title)
@@ -29,12 +29,23 @@ struct StoryHeader2025: View {
                 Text(description)
                     .font(.system(size: 16, weight: .medium))
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .minimumScaleFactor(0.9)
         .padding(.horizontal, 24)
-        .if(addTopPadding) { content in
-            content.padding(.top, UIScreen.isSmallScreen ? 80 : 110)
+        .padding(.top, topPadding ?? (UIScreen.isSmallScreen ? 70 : 110))
+    }
+}
+
+struct StoryHeader2025_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            StoryHeader2025(title: "This is the title")
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", subscriptionTier: .plus)
+            StoryHeader2025(title: "This is the title", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", subscriptionTier: .patron)
+            Spacer()
         }
+        .padding(.horizontal, 24)
     }
 }

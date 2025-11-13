@@ -8,6 +8,7 @@ struct PlaylistCellView: View {
     @Binding private var isSelected: Bool
     @State private var refreshToken = UUID()
     private let canBeDisabled: Bool
+    private let analyticsSource: String?
 
     private var title: String {
         switch viewModel.displayType {
@@ -41,11 +42,13 @@ struct PlaylistCellView: View {
     init(
         viewModel: PlaylistCellViewModel,
         isSelected: Binding<Bool> = .constant(false),
-        canBeDisabled: Bool = false
+        canBeDisabled: Bool = false,
+        analyticsSource: String? = nil
     ) {
         self.viewModel = viewModel
         self._isSelected = isSelected
         self.canBeDisabled = canBeDisabled
+        self.analyticsSource = analyticsSource
     }
 
     var body: some View {
@@ -63,7 +66,7 @@ struct PlaylistCellView: View {
                 .frame(width: 56.0, height: 56.0)
                 .padding(.leading, 16.0)
             } else {
-                PlaylistArtworkView(items: viewModel.images, imageSize: 168)
+                PlaylistArtworkView(items: viewModel.images)
                     .frame(width: 56.0, height: 56.0)
                     .padding(.leading, 16.0)
             }
@@ -83,11 +86,14 @@ struct PlaylistCellView: View {
             view
                 .contentShape(Rectangle())
                 .onTapGesture {
+                    trackTapEvent()
+
                     if !shouldDisableRow {
                         isSelected.toggle()
                         refreshToken = UUID()
                     } else {
-                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast)
+                        let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
                     }
                 }
         }
@@ -135,6 +141,15 @@ struct PlaylistCellView: View {
         case .addNew, .plain:
             EmptyView()
         }
+    }
+
+    private func trackTapEvent() {
+        let event: AnalyticsEvent = !isSelected ? .addToPlaylistsEpisodeAddTapped : .addToPlaylistsRemoveTapped
+        var properties = ["source": self.analyticsSource ?? "unknown"]
+        if !isSelected {
+            properties["is_playlist_full"] = shouldDisableRow ? "true" : "false"
+        }
+        Analytics.track(event, properties: properties)
     }
 }
 
