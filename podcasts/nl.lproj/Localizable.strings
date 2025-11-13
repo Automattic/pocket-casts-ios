@@ -1949,9 +1949,6 @@ UPDATES</string>
     <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
     <key>playback_2025_feature_title</key>
     <string>Afspelen 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Welkom bij Afspelen!
- Een feest van je jaar in podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Mijn Playback van 2025 bekijken</string>
     <key>playback_effect_all_podcasts</key>
@@ -2054,8 +2051,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>%1$@ afleveringen toegevoegd aan "%2$@"</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ afleveringen</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Playlist is vol. Probeer een nieuwe aan te maken.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2680,6 +2675,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Alles verwijderen</string>
     <key>remove_download</key>
     <string>Download verwijderen</string>
+    <key>remove_from_playlist</key>
+    <string>Verwijderen uit playlist</string>
     <key>remove_from_up_next</key>
     <string>Verwijderen uit Hierna</string>
     <key>remove_up_next</key>

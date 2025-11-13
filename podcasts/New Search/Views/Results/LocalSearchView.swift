@@ -222,7 +222,6 @@ private extension LocalSearchView {
                 searchText: viewModel.searchText,
                 selectedPodcastTitle: viewModel.selectedPodcast?.title,
                 onAddEpisode: { result in
-                    let isFull = false
                     if reduceMotion {
                         viewModel.handleAddEpisode(result)
                     } else {

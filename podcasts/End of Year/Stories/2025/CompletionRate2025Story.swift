@@ -44,6 +44,7 @@ struct CompletionRate2025Story: ShareableStory {
                 .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                 .scaledToFill()
                 .ignoresSafeArea()
+                .offset(y: UIScreen.isSmallScreen ? 60 : 0)
         }
         .ignoresSafeArea()
         .background(backgroundColor)

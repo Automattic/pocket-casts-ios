@@ -106,10 +106,10 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             return configuredEmptyCell(
                 for: tableView,
                 at: indexPath,
-                title: L10n.episodeFilterNoEpisodesTitle,
+                title: FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle,
                 message: archivedPlaceholder.message,
                 actions: [
-                    .init(title: L10n.podcastShowArchived, action: { [weak self] in
+                    .init(title: FeatureFlag.playlistsRebranding.enabled ? L10n.podcastShowArchived.sentenceCased : L10n.podcastShowArchived, action: { [weak self] in
                         self?.track(.filterShowArchivedCtaEmptyTapped)
                         onToggleChange(true)
                     })
@@ -230,6 +230,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
                 let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
                     guard let self else { return }
                     self.track(.filterRemoveFromPlaylistTapped)
+                    self.track(episode: selectedEpisode, added: false, to: self.viewModel.playlist, source: "unavailable_episode")
                     self.viewModel.remove(episode: episodeUuid, at: indexPath.row)
                 }
                 BottomSheetSwiftUIWrapper.present(

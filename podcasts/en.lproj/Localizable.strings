@@ -995,7 +995,7 @@
 "playlist_preview_title" = "Preview %@";
 
 /* Button title used to create a new smart playlist */
-"playlist_preview_create_smart_playlist" = "Create Smart Playlist";
+"playlist_preview_create_smart_playlist" = "Create smart playlist";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
@@ -5433,10 +5433,10 @@
 "playlists_play_all" = "Play all";
 
 /* A common string used throughout the app. Often refers to the Smart Playlist. */
-"smart_playlist" = "Smart Playlist";
+"smart_playlist" = "Smart playlist";
 
 /* The title shown in a Tip View when the user hasn't yet added a smart playlist */
-"smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
+"smart_playlists_tip_view_title" = "Smart playlists, ready to go";
 
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
@@ -5472,13 +5472,13 @@
 "playlists_empty_state_description" = "Playlists let you organize episodes manually or automatically with Smart Rules.";
 
 /* A placeholder title for a new playlist. */
-"playlists_default_new_playlist" = "New Playlist";
+"playlists_default_new_playlist" = "New playlist";
 
 /* Title of the save button dislayed in each smart rule */
-"playlist_smart_rule_save_button" = "Save Smart Rule";
+"playlist_smart_rule_save_button" = "Save smart rule";
 
 /* Header title for smart rule podcasts */
-"playlist_smart_rule_podcasts_header_title" = "All Followed Podcasts";
+"playlist_smart_rule_podcasts_header_title" = "All followed podcasts";
 
 /* Header subtitle for smart rule podcasts when select all is on */
 "playlist_smart_rule_podcasts_header_subtitle_auto_add" = "New podcasts you follow will be automatically added.";
@@ -5487,7 +5487,7 @@
 "playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
 /* Header title for smart rule starred  */
-"playlist_smart_rule_starred_header_title" = "Starred Episodes";
+"playlist_smart_rule_starred_header_title" = "Starred episodes";
 
 /* Header subtitle for smart rule starred when the toggle is on */
 "playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
@@ -5496,25 +5496,25 @@
 "playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
 
 /* Title for the button used during the Playlist creation */
-"playlist_creation_create_playlist_button" = "Create Playlist";
+"playlist_creation_create_playlist_button" = "Create playlist";
 
 /* Title for the button used to open the rules during the Playlist creation */
-"playlist_creation_create_smart_playlist_button_title" = "Make into Smart Playlist";
+"playlist_creation_create_smart_playlist_button_title" = "Make into smart playlist";
 
 /* Subtitle for the button used to open the rules during the Playlist creation */
 "playlist_creation_create_smart_playlist_button_subtitle" = "Automatically add episodes based on rules.";
 
 /* Smart Playlist preview: description that appears when initially there are no rules set */
-"playlist_smart_preview_description" = "Set up Smart Rules to automatically add episodes to your Smart Playlist.";
+"playlist_smart_preview_description" = "Set up smart rules to automatically add episodes to your smart playlist.";
 
 /* Smart Playlist preview: title for the enabled rules section */
-"playlist_smart_preview_enabled_rules" = "Enabled Rules";
+"playlist_smart_preview_enabled_rules" = "Enabled rules";
 
 /* Smart Playlist preview: title for the available rules section */
-"playlist_smart_preview_other_rules" = "Other Options";
+"playlist_smart_preview_other_rules" = "Other options";
 
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
-"playlist_smart_rules_title" = "Smart Rules";
+"playlist_smart_rules_title" = "Smart rules";
 
 /* Message shown when you have no episodes in a playlist */
 "playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
@@ -5529,7 +5529,7 @@
 "playlist_episodes_count" = "%1$@ episodes";
 
 /* Manual Playlist: header button title to add new episodes to the playlist */
-"playlist_manual_add_episodes" = "Add Episodes";
+"playlist_manual_add_episodes" = "Add episodes";
 
 /* Search placeholder used in the add episode to manual playlist search from podcast and player */
 "playlist_search" = "Find playlist";
@@ -5559,7 +5559,7 @@
 "playlist_manual_browse_shows_title" = "Browse podcasts";
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
-"playlist_manual_episodes_order_option" = "Reorder Episodes";
+"playlist_manual_episodes_order_option" = "Reorder episodes";
 
 /* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
 "playlist_manual_episode_add_to_playlist" = "Add to playlist";
