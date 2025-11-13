@@ -28,7 +28,7 @@ struct LongestEpisode2025Story: ShareableStory {
             PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                 .frame(width: 196, height: 196)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
-                .scaleEffect(imageScale)
+                .scaleEffect(renderForSharing ? 1 : imageScale)
                 .if(isAnimating) {
                     $0.animation(scaleAnimation, value: imageScale)
                 }
@@ -43,7 +43,7 @@ struct LongestEpisode2025Story: ShareableStory {
                 .configure({ animationView in
                     animationView.contentMode = .scaleAspectFill
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
                 .scaledToFill()
                 .ignoresSafeArea()
         }
