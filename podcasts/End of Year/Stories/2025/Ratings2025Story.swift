@@ -14,6 +14,7 @@ struct Ratings2025Story: ShareableStory {
 
     @Environment(\.animated) var animated: Bool
     @Environment(\.pauseState) var pauseState
+    @Environment(\.renderForSharing) var renderForSharing: Bool
 
     let identifier: String = "ratings"
 
@@ -117,7 +118,8 @@ struct Ratings2025Story: ShareableStory {
                         ChartColumn(
                             value: ratings[UInt32(ratingGroup)] ?? 0,
                             maxValue: maxRating,
-                            index: ratingGroup
+                            index: ratingGroup,
+                            animated: !renderForSharing 
                         )
                     }
                     .frame(width: columnWidth, height: geometry.size.height)
@@ -178,9 +180,11 @@ fileprivate struct ChartColumn: View {
     let value: Int
     let maxValue: Int
     let index: Int
+    let animated: Bool
 
     var body: some View {
         ZStack {
+            let markerName = Self.marker(for: value, maxValue: maxValue)
             LottieView(animation: .named("2025_rating_bars"))
                 .configure({ animationView in
                     animationView.contentMode = .scaleToFill
@@ -188,11 +192,12 @@ fileprivate struct ChartColumn: View {
                     animationView.fontProvider = LottieFontProvider()
                 })
                 .playbackMode(
+                    animated ?
                     .playing(
-                        .marker(Self.marker(for: value, maxValue: maxValue),
+                        .marker(markerName,
                                 loopMode: .playOnce
                                )
-                    )
+                    ) : .paused(at: .marker(markerName, position: .end))
                 )
             LottieView(animation: .named("2025_rating_numbers"))
                 .configure({ animationView in
@@ -201,11 +206,12 @@ fileprivate struct ChartColumn: View {
                     animationView.fontProvider = LottieFontProvider()
                 })
                 .playbackMode(
-                    .playing(
-                        .marker(Self.marker(for: value, maxValue: maxValue),
-                                loopMode: .playOnce
-                               )
-                    )
+                    animated ?
+                        .playing(
+                            .marker(markerName,
+                                    loopMode: .playOnce
+                                   )
+                        ) : .paused(at: .marker(markerName, position: .end))
                 )
         }
     }
