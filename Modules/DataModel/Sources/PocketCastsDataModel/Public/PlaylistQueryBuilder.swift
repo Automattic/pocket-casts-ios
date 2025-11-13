@@ -6,7 +6,7 @@ public class PlaylistQueryBuilder {
         case episode
         case episodeCount
         case allEpisodeCount
-        case podcast
+        case firstDistinctEpisodes
     }
 
     private enum QueryResult {
@@ -94,19 +94,64 @@ public class PlaylistQueryBuilder {
                     \(manualJoin)
                     \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
-            case .podcast:
-                let select = manualSelect(clause: clause, for: playlist)
-                queryString = "\(select)"
+            case .firstDistinctEpisodes:
+                var sortBy = "ORDER BY playlist_position ASC"
+                if playlist.sortType != 4, let newSort = add(sortFor: playlist.sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                    sortBy = newSort
+                }
+                let distinctCTE =
+                """
+                WITH ordered_episodes AS (
+                  SELECT episode.*,
+                         ROW_NUMBER() OVER (
+                           PARTITION BY episode.podcast_id
+                           ORDER BY
+                             CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                             episode.id ASC
+                         ) AS rn
+                  FROM \(DataManager.episodeTableName) episode
+                  JOIN \(DataManager.playlistEpisodeTableName) playlist
+                    ON episode.uuid = playlist.episodeUuid
+                  WHERE playlist.playlist_uuid = '\(playlist.uuid)'
+                  \(shouldShowArchived ? "" : "AND episode.archived = 0")
+                )
+                SELECT *
+                FROM ordered_episodes
+                WHERE rn = 1
+                \(sortBy)
+                LIMIT \(limit)
+                """
+                return distinctCTE
             }
         } else {
-            let select = select(clause: clause)
-
             var queryValues = [QueryResult]()
             let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
             queryValues.append(addedUuid)
             queryValues.append(add(smartRulesFor: playlist))
             let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
 
+            if clause == .firstDistinctEpisodes {
+                return """
+                WITH numbered_episodes AS (
+                    SELECT episode.*,
+                           ROW_NUMBER() OVER (
+                             PARTITION BY episode.podcast_id
+                            \(add(sortFor: playlist.sortType) ?? "")
+                           ) AS rn
+                    FROM \(DataManager.episodeTableName) episode
+                    LEFT JOIN \(DataManager.podcastTableName) podcast
+                      ON episode.podcast_id = podcast.id
+                    WHERE episode.archived = 0 \(stringifiedValues)\(addedUuid.boolValue ? ")" : ""))
+                )
+                SELECT *
+                FROM numbered_episodes
+                WHERE rn = 1
+                \(add(sortFor: playlist.sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+                LIMIT \(limit)
+                """
+            }
+
+            let select = select(clause: clause)
             queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
             queryString += ")"
             if addedUuid.boolValue {
@@ -149,19 +194,8 @@ public class PlaylistQueryBuilder {
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
         case .episodeCount, .allEpisodeCount:
             return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .podcast:
-            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        }
-    }
-
-    private static func manualSelect(clause: SelectClause, for playlist: EpisodeFilter) -> String {
-        switch clause {
-        case .episode:
-            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .episodeCount, .allEpisodeCount:
-            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .podcast:
-            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .firstDistinctEpisodes:
+            return ""
         }
     }
 

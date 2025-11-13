@@ -42,7 +42,9 @@ class PlaylistCellViewModel: ObservableObject {
                 }
             }
         }
-
+        if !results.isEmpty, results.count < limit {
+            return Array(results.prefix(1))
+        }
         return results
     }
 
@@ -129,6 +131,8 @@ class PlaylistCellViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let list = await self.loadListEpisodes()
+//                print("• Playlist \(playlist.playlistName) has \(list.count) episodes")
+//                list.forEach { print("  \($0.episode.title)") }
                 let firstFourDistinct = self.firstDistinctPodcasts(from: list, limit: 4)
                 let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                 await MainActor.run {
@@ -143,10 +147,10 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
+    private func loadListEpisodes() async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
+            self?.episodesDataManager.playlistFirstDistinctEpisodes(for: playlist, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
         }.value
     }
 

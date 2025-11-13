@@ -153,6 +153,16 @@ class EpisodesDataManager {
         return EpisodeTableHelper.loadPlaylistEpisodes(query: query)
     }
 
+    func playlistFirstDistinctEpisodes(
+        for playlist: EpisodeFilter,
+        limit: Int = 4,
+        shouldShowArchived: Bool = false,
+        search: String? = nil
+    ) -> [ListEpisode] {
+        let query = PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), searchTerm: search, limit: limit, shouldShowArchived: shouldShowArchived)
+        return EpisodeTableHelper.loadPlaylistEpisodes(query: query)
+    }
+
     // MARK: - Downloads
 
     func downloadedEpisodes() -> [ArraySection<String, ListEpisode>] {
