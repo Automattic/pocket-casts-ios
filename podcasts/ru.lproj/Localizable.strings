@@ -1951,9 +1951,6 @@ Pocket Casts на полную мощность.</string>
     <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
     <key>playback_2025_feature_title</key>
     <string>История прослушиваний — 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Добро пожаловать в Playback!
- Вспомните ваш год в подкастах.</string>
     <key>playback_2025_view_year</key>
     <string>Просмотреть мою историю прослушиваний за 2025 год</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуски (%1$@) добавлены в плейлист «%2$@»</string>
     <key>playlist_episodes_count</key>
     <string>Выпусков: %1$@</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Плейлист заполнен. Создайте новый</string>
     <key>playlist_manual_add_episodes</key>
     <string>Добавить выпуски</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Pocket Casts на полную мощность.</string>
     <string>Удалить все</string>
     <key>remove_download</key>
     <string>Удалить скачивание</string>
+    <key>remove_from_playlist</key>
+    <string>Удалить из плейлиста</string>
     <key>remove_from_up_next</key>
     <string>Удалить из следующих</string>
     <key>remove_up_next</key>
@@ -2725,7 +2722,7 @@ Pocket Casts на полную мощность.</string>
     <key>search_results_empty_action</key>
     <string>Отправить отзыв</string>
     <key>search_results_empty_message</key>
-    <string>Попробуйте уточнить поиск, введя URL-адрес ленты подкаста.</string>
+    <string>Попробуйте уточнить поиск, введя URL-адрес ленты подкаста</string>
     <key>search_results_empty_title</key>
     <string>Нет результатов</string>
     <key>search_results_view_all</key>

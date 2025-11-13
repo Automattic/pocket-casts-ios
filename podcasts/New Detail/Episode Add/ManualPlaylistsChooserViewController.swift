@@ -142,10 +142,9 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
     private func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
+        closeButton.target = self
+        closeButton.action = #selector(closeTapped)
+        navigationItem.leftBarButtonItem = closeButton
     }
 
     @objc private func closeTapped(_ sender: Any) {
@@ -162,10 +161,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
+                track(episode: episode, added: true, to: playlist)
                 dataManager.add(episodes: [episode], to: playlist)
                 changedPlaylists.insert(playlist)
             }
             if removed.contains(playlist.uuid) {
+                track(episode: episode, added: false, to: playlist)
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
             }
         }
@@ -311,5 +312,11 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
 fileprivate extension UITableView {
     func reload(section: TableSection, with animation: UITableView.RowAnimation) {
         reloadSections(IndexSet(integer: section.rawValue), with: animation)
+    }
+}
+
+extension ManualPlaylistsChooserViewController: PlaylistTypeTrackerProvider {
+    var analyticsSourceType: String {
+        analyticsSource
     }
 }

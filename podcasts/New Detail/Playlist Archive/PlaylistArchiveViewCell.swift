@@ -53,7 +53,7 @@ class PlaylistArchiveViewCell: ThemeableCell {
             topSeparator.trailingAnchor.constraint(equalTo: trailingAnchor),
             topSeparator.heightAnchor.constraint(equalToConstant: 1.0),
 
-            bottomSeparator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomSeparator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4.0),
             bottomSeparator.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomSeparator.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomSeparator.heightAnchor.constraint(equalToConstant: 1.0)

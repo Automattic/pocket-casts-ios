@@ -999,7 +999,7 @@
 "playlist_preview_title" = "Preview %@";
 
 /* Button title used to create a new smart playlist */
-"playlist_preview_create_smart_playlist" = "Create Smart Playlist";
+"playlist_preview_create_smart_playlist" = "Create smart playlist";
 
 /* Used on the screen to create a new filter. Title for the toggle to include all podcasts in the filter. */
 "filter_create_podcasts_all_podcasts" = "All Podcasts";
@@ -1171,6 +1171,9 @@
 
 /* Time format to display a set number of hours. '%1$@' is a placeholder for a number of hours, this value will be more than one. */
 "hours_plural_format" = "%1$@ hours";
+
+/* Time format to display 1 hour. */
+"hours_singular_format" = "1 hour";
 
 /* The initial informational text explaining how to upload a file */
 "how_to_upload_explanation" = "First, open an app that has the audio files you'd like to save";
@@ -1827,6 +1830,18 @@
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
+
+/* Indicates that the episode is unavailable server side. */
+"podcast_unavailable" = "Unavailable";
+
+/* Title indicating that the episode is unavailable server side */
+"episode_unavailable_title" = "Episode Unavailable";
+
+/* Message indicating that the episode is unavailable server side but will remain in your manual playlist until removed. */
+"episode_unavailable_message" = "The podcast creator deleted this episode. It will stay in your playlist until you remove it.";
+
+/* A title used for an action to remove an episode from a playlist */
+"remove_from_playlist" = "Remove from playlist";
 
 /* Label used to display the number or archived episodes in a podcast. '%1$@' is a placeholder for the archived episode number. */
 "podcast_archived_count_format" = "%1$@ archived";
@@ -3346,6 +3361,9 @@
 
 /* Label in the Apple Watch app informing the user that they haven't configured any of their filters. */
 "watch_no_filters" = "No Filters";
+
+/* Label in the Apple Watch app informing the user that they haven't configured any playlists. */
+"watch_no_playlists" = "No Playlists";
 
 /* Label in the Apple Watch app informing the user that they haven't subscribed to podcasts. */
 "watch_no_podcasts" = "No Podcasts";
@@ -5419,13 +5437,25 @@
 "playlists_play_all" = "Play all";
 
 /* A common string used throughout the app. Often refers to the Smart Playlist. */
-"smart_playlist" = "Smart Playlist";
+"smart_playlist" = "Smart playlist";
 
 /* The title shown in a Tip View when the user hasn't yet added a smart playlist */
-"smart_playlists_tip_view_title" = "Smart Playlists, ready to go";
+"smart_playlists_tip_view_title" = "Smart playlists, ready to go";
 
 /* The description shown in a Tip View when the user hasn't yet added a smart playlist */
 "smart_playlists_tip_view_description" = "We made these to help you get started. They auto-update based on your listening.";
+
+/* The title shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_title" = "Build your own playlist or let us help";
+
+/* The description shown in a Tip View when the user opens the new Playlist creation view for the first time */
+"smart_playlists_tip_view_creation_description" = "Pick episodes yourself, or let Smart Playlist fill it automatically based on your Smart Rules.";
+
+/* The title shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_title" = "Reorder your playlists";
+
+/* The description shown in a Tip View when the user creates the first playlist */
+"playlists_tip_drag_and_drop_description" = "Press and hold a playlist to move it.";
 
 /* Playlists Onboarding screen: title for the smart playlist card */
 "playlists_onboarding_smart_title" = "Filters are now Smart Playlists";
@@ -5446,13 +5476,13 @@
 "playlists_empty_state_description" = "Playlists let you organize episodes manually or automatically with Smart Rules.";
 
 /* A placeholder title for a new playlist. */
-"playlists_default_new_playlist" = "New Playlist";
+"playlists_default_new_playlist" = "New playlist";
 
 /* Title of the save button dislayed in each smart rule */
-"playlist_smart_rule_save_button" = "Save Smart Rule";
+"playlist_smart_rule_save_button" = "Save smart rule";
 
 /* Header title for smart rule podcasts */
-"playlist_smart_rule_podcasts_header_title" = "All Followed Podcasts";
+"playlist_smart_rule_podcasts_header_title" = "All followed podcasts";
 
 /* Header subtitle for smart rule podcasts when select all is on */
 "playlist_smart_rule_podcasts_header_subtitle_auto_add" = "New podcasts you follow will be automatically added.";
@@ -5461,7 +5491,7 @@
 "playlist_smart_rule_podcasts_header_subtitle_manual_add" = "New podcasts you follow will not be automatically added.";
 
 /* Header title for smart rule starred  */
-"playlist_smart_rule_starred_header_title" = "Starred Episodes";
+"playlist_smart_rule_starred_header_title" = "Starred episodes";
 
 /* Header subtitle for smart rule starred when the toggle is on */
 "playlist_smart_rule_starred_header_subtitle_toggle_on" = "Only include starred episodes that match your other rules.";
@@ -5470,25 +5500,25 @@
 "playlist_smart_rule_starred_header_subtitle_toggle_off" = "Starred episodes can still appear if they match your other rules.";
 
 /* Title for the button used during the Playlist creation */
-"playlist_creation_create_playlist_button" = "Create Playlist";
+"playlist_creation_create_playlist_button" = "Create playlist";
 
 /* Title for the button used to open the rules during the Playlist creation */
-"playlist_creation_create_smart_playlist_button_title" = "Make into Smart Playlist";
+"playlist_creation_create_smart_playlist_button_title" = "Make into smart playlist";
 
 /* Subtitle for the button used to open the rules during the Playlist creation */
 "playlist_creation_create_smart_playlist_button_subtitle" = "Automatically add episodes based on rules.";
 
 /* Smart Playlist preview: description that appears when initially there are no rules set */
-"playlist_smart_preview_description" = "Set up Smart Rules to automatically add episodes to your Smart Playlist.";
+"playlist_smart_preview_description" = "Set up smart rules to automatically add episodes to your smart playlist.";
 
 /* Smart Playlist preview: title for the enabled rules section */
-"playlist_smart_preview_enabled_rules" = "Enabled Rules";
+"playlist_smart_preview_enabled_rules" = "Enabled rules";
 
 /* Smart Playlist preview: title for the available rules section */
-"playlist_smart_preview_other_rules" = "Other Options";
+"playlist_smart_preview_other_rules" = "Other options";
 
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
-"playlist_smart_rules_title" = "Smart Rules";
+"playlist_smart_rules_title" = "Smart rules";
 
 /* Message shown when you have no episodes in a playlist */
 "playlist_smart_no_episodes_msg" = "Either it’s time to celebrate completing this list, or edit your rules to get some more.";
@@ -5503,7 +5533,7 @@
 "playlist_episodes_count" = "%1$@ episodes";
 
 /* Manual Playlist: header button title to add new episodes to the playlist */
-"playlist_manual_add_episodes" = "Add Episodes";
+"playlist_manual_add_episodes" = "Add episodes";
 
 /* Search placeholder used in the add episode to manual playlist search from podcast and player */
 "playlist_search" = "Find playlist";
@@ -5533,13 +5563,13 @@
 "playlist_manual_browse_shows_title" = "Browse podcasts";
 
 /* Manual Playlist: manual episodes order option that appears when showing the options sheet */
-"playlist_manual_episodes_order_option" = "Reorder Episodes";
+"playlist_manual_episodes_order_option" = "Reorder episodes";
 
 /* Manual Playlist: when adding an episode to a manual playlist. It can appear as CTA or title */
 "playlist_manual_episode_add_to_playlist" = "Add to playlist";
 
 /* Toast message when the playlist is full */
-"playlist_manual_add_episode_full_playlist_toast" = "Playlist is full. Try creating a new one";
+"playlist_manual_add_episode_full_playlist_toast" = "This playlist is full. Remove a few episodes or start a new one.";
 
 /* Text of the placeholder used in the manual playlist detail screen when one episode is archived. */
 "playlist_manual_archived_episode_placeholder" = "Your episode in this playlist has been archived";
@@ -5549,6 +5579,33 @@
 
 /* Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes */
 "playlist_manual_archived_episodes_placeholder" = "All %1$@ episodes of this playlist have been archived";
+
+/* Toast message displayed in case something goes wrong with the manual creation */
+"playlist_manual_create_error_message" = "Sorry, something went wrong while creating your playlist.";
+
+/* Picker option showed when tapping Play all */
+"playlist_play_all_option_save_queue" = "Save current queue";
+
+/* Picker option showed when tapping Play all */
+"playlist_play_all_option_replace_queue" = "Replace and play";
+
+/* Picker title showed when tapping Play all */
+"playlist_play_all_picker_title" = "Save your Up Next queue?";
+
+/* Picker message showed when tapping Play all */
+"playlist_play_all_picker_message" = "Your current Up Next will be replaced when you play this playlist. Save it first to keep it.";
+
+/* Picker title showed when tapping replace after showing the first Play all picker */
+"playlist_play_all_replace_picker_title" = "Replace current Up Next?";
+
+/* Picker message showed when tapping replace after showing the first Play all picker */
+"playlist_play_all_replace_picker_message" = "This will clear your current Up Next queue and start playing this playlist.";
+
+/* Toast message displayed when the current Up Next is saved */
+"playlist_play_all_up_next_saved" = "Up Next saved as playlist";
+
+/* Toast message displayed when the current Up Next is saved in more than one playlists */
+"playlist_play_all_up_next_saved_plural" = "Up Next saved as playlists";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";
@@ -5614,7 +5671,73 @@
 "playback_2025_view_year" = "View My Playback 2025";
 
 /// Label of the Playback 2025 call to action buton
-"playback_2025_intro_message" = "Welcome to Playback!\n A celebration of your year in podcasts.";
+"playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";
+
+/// Text for playback 2025 listened to numbers story
+"playback_2025_listened_to_numbers" = "You tuned in to %1$@ podcasts and %2$@ episodes";
+
+/* Playback 2025: Title for the last story */
+"playback_2025_end_story_title" = "Thanks for spending your year with Pocket Casts";
+
+/* Playback 2025: Description for the last story */
+"playback_2025_end_story_description" = "Share your Playback with friends and show some love to the podcasters who kept you company all year";
+
+/// Text for playback 2025 listening time in minutes
+"playback_2025_listening_time" = "minutes listened";
+
+/// Text for playback 2025 top stop title
+"playback_2025_top_spot_title" = "Your top podcast of 2025";
+
+/// Text for playback 2025 top stop subtitle
+"playback_2025_top_spot_subtitle" = "It doesn’t get more “you” than this";
+
+/// Text for playback 2025 top description. %1$@ is the number of episodes and %1 is the listening time. Ex: 66 episodes, 2 days, and 3 hours. That’s commitment!
+"playback_2025_top_spot_description" = "%1$@ episodes, %2$@.\nThat’s commitment!";
+
+/* Playback 2025: Title for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_title" = "Your other go-to's";
+
+/* Playback 2025: Description for the top 5 podcasts story */
+"playback_2025_top_5_podcasts_message" = "More favorites, more play, more you";
+
+/* Playback 2025: Title for the longest episode story: %1$@ represent the time */
+"playback_2025_longest_episode_title" = "Your marathon listen: %1$@";
+
+/* Playback 2025: Description for the longest episode story */
+"playback_2025_longest_episode_message" = "Hope you stretched first!";
+
+/* Playback 2025: Footer description for the longest episode story: %1$@ represent the episode title and %2$@ the podcast title */
+"playback_2025_longest_episode_footer" = "The longest episode was “%1$@” from “%2$@”";
+
+/* Playback 2025: Title for the completion rate story: %1$@ represent the percentage of completion rate, like 10% */
+"playback_2025_completion_rate_title" = "Your completion rate was %1$@";
+
+/* Playback 2025: Description for the completion rate story: %1$@ represent the started episodes count and %2$@ the finished episodes count */
+"playback_2025_completion_rate_message" = "Out of %1$@ episodes started, you finished %2$@. A stronger follow‑through than most gym memberships";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is down compared to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_down_title" = "Your listening dipped %1$@ this year";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is down compared to the last year. */
+"playback_2025_year_over_year_comparison_down_message" = "But hey, quality over quantity";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is more than 500% compared to the last year. */
+"playback_2025_year_over_year_comparison_hero_title" = "From zero to hero!";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is more than 500% to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_hero_message" = "You listened %1$@ more this year — welcome to the club";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is up compared to the last year. %1$@ represent a placeholder for the formatted percentage. */
+"playback_2025_year_over_year_comparison_up_title" = "Compared to 2024, your listening time skyrocketed %1$@";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year. */
+"playback_2025_year_over_year_comparison_up_message" = "Hope you stretched first!";
+
+/* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
+"playback_2025_year_over_year_comparison_same_title" = "Your 2025 listening held steady";
+
+/* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
+"playback_2025_year_over_year_comparison_same_message" = "Consistent, dependable, like your coffee shop order";
 
 /// Search results screen: title for no results found
 "search_results_empty_title" = "No Results";
@@ -5627,6 +5750,15 @@
 
 /// Search results screen: action for doing full search on term. %1$@ argument is the term being searched. Ex: "View all results for "cautionary" "
 "search_results_view_all" = "View all results for \"%1$@\"";
+
+/* A title shown in the button on the upsell screen to get  Pocket Casts Plus */
+"playback_2025_plus_upsell_button_title" = "Get Pocket Casts Plus";
+
+/* A title shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2025_plus_upsell_title" = "Want the deep dive?";
+
+/* A description shown in the upsell screen for Pocket Casts Plus subscription */
+"playback_2025_plus_upsell_description" = "Subscribe to Pocket Casts Plus for extended stats, bookmarks, folders, chapter selection, and more ways to dig into your listening habits";
 
 
 /* MARK: - InfoPlist.strings */

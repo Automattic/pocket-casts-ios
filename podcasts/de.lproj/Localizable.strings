@@ -1951,9 +1951,6 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
     <key>playback_2025_feature_title</key>
     <string>Wiedergabeliste 2025</string>
-    <key>playback_2025_intro_message</key>
-    <string>Willkommen bei der Wiedergabe!
- Eine Feier deines Jahres in Podcasts.</string>
     <key>playback_2025_view_year</key>
     <string>Meine Wiedergabeliste 2025 anzeigen</string>
     <key>playback_effect_all_podcasts</key>
@@ -2058,8 +2055,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>%1$@ Folgen zu „%2$@“ hinzugefügt</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ Folgen</string>
-    <key>playlist_manual_add_episode_full_playlist_toast</key>
-    <string>Playlist ist voll. Versuche, eine neue zu erstellen.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Folgen hinzufügen</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2686,6 +2681,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Alle entfernen</string>
     <key>remove_download</key>
     <string>Download entfernen</string>
+    <key>remove_from_playlist</key>
+    <string>Aus Playlist entfernen</string>
     <key>remove_from_up_next</key>
     <string>Aus Warteschlange entfernen</string>
     <key>remove_up_next</key>

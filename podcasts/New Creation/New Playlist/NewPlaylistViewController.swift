@@ -188,10 +188,9 @@ class NewPlaylistViewController: PCViewController {
 
     private func addCloseButton() {
         let closeButton = createStandardCloseButton(imageName: "cancel")
-        closeButton.addTarget(self, action: #selector(closeTapped(_:)), for: .touchUpInside)
-
-        let backButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.leftBarButtonItem = backButtonItem
+        closeButton.target = self
+        closeButton.action = #selector(closeTapped)
+        navigationItem.leftBarButtonItem = closeButton
     }
 
     private func setupSaveButtonTitle() {
@@ -202,8 +201,12 @@ class NewPlaylistViewController: PCViewController {
     @objc private func createManualPlaylist() {
         delegate?.presentingPlaylistDetail = true
 
+        DataManager.sharedManager.bumpSortPositionForAllPlaylists()
+
         let playlistName = self.playlistName.isEmpty ? L10n.playlistsDefaultNewPlaylist : self.playlistName
         let playlist = PlaylistManager.createNewPlaylist()
+        let firstSortPosition = max(0, DataManager.sharedManager.firstSortPositionForPlaylist() - 1)
+        playlist.sortPosition = Int32(firstSortPosition)
         playlist.setTitle(playlistName, defaultTitle: L10n.playlistsDefaultNewPlaylist.localizedCapitalized)
         playlist.manual = true
         playlist.syncStatus = SyncStatus.notSynced.rawValue

@@ -144,6 +144,19 @@ final class LocalSearchCoordinator {
             return
         }
 
+        // For now let's track the event directly here to avoid swift concurrency warning using the PlaylistTypeTrackerProvider
+        Analytics.track(
+            .episodeAddedToList,
+            properties:
+                [
+                    "source": "playlist_editor",
+                    "playlist_name": playlist.playlistName,
+                    "playlist_uuid": playlist.uuid,
+                    "episode_uuid": episode.uuid,
+                    "podcast_uuid": episode.podcastUuid
+                ]
+        )
+
         playlistEpisodeUUIDs.insert(searchResult.uuid)
         episodes.removeAll { $0.uuid == searchResult.uuid }
         addedEpisodeCount += 1

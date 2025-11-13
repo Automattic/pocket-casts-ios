@@ -78,6 +78,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         }
     }
 
+    @IBOutlet weak var episodeImageLeadConstraint: NSLayoutConstraint!
+
     var hidesArtwork = false
 
     var playlist: AutoplayHelper.Playlist?
