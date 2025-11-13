@@ -373,7 +373,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
         removeLoadingIndicators()
-        
+
         if animated, contentChanged {
             do {
                 try SJCommonUtils.catchException { [weak self] in
