@@ -53,7 +53,7 @@ struct Ratings2025Story: ShareableStory {
                             endPoint: .top
                         )
                     )
-                    .frame(height: 120)
+                    .frame(height: 60)
             }
         }
     }
