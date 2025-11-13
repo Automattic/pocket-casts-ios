@@ -97,11 +97,11 @@ public class PlaylistQueryBuilder {
                     """
             case .firstDistinctEpisodes:
                 var sortBy = "ORDER BY playlist_position ASC"
-                if playlist.sortType != 4, let newSort = add(sortFor: playlist.sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                if playlist.sortType != 4, let newSort = add(sortFor: sortType?.rawValue ?? playlist.sortType)?.replacingOccurrences(of: "episode.", with: "") {
                     sortBy = newSort
                 }
                 var sortByd = "ORDER BY CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END, episode.id ASC"
-                if playlist.sortType != 4, let newSort = add(sortFor: playlist.sortType) {
+                if playlist.sortType != 4, let newSort = add(sortFor: sortType?.rawValue ?? playlist.sortType) {
                     sortByd = newSort
                 }
                 let distinctCTE =
@@ -150,7 +150,7 @@ public class PlaylistQueryBuilder {
                 SELECT *
                 FROM numbered_episodes
                 WHERE rn = 1
-                \(add(sortFor: playlist.sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+                \(add(sortFor: sortType?.rawValue ?? playlist.sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
                 LIMIT \(limit)
                 """
             }
