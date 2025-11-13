@@ -25,9 +25,9 @@ struct SmartPlaylistCreationView: View {
                         .font(size: 13.0, style: .body, weight: .regular)
                         .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(1)
                         .minimumScaleFactor(0.8)
                 }
+                .padding(.vertical, 2.0)
                 Spacer()
                 Image("cs-chevron")
                     .renderingMode(.template)

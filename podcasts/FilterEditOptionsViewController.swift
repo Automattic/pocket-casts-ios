@@ -204,7 +204,11 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             navigationController?.pushViewController(singleFilterVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: false)
         case .deletePlaylist:
-            showAlert()
+            if Self.playlistRebrandingIsEnabled {
+                showDeleteOptionPicker(for: filterToEdit)
+            } else {
+                showAlert()
+            }
 
             tableView.deselectRow(at: indexPath, animated: true)
         default:
@@ -332,5 +336,46 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
 extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
     var analyticsSourceType: String {
         filterToEdit.manual ? "manual" : "smart"
+    }
+}
+
+// MARK: - Delete
+
+extension FilterEditOptionsViewController {
+    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter) {
+        let playlistType = playlist.manual ? "manual" : "smart"
+        let analyticsProperties = ["filter_type": playlistType]
+        Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
+        let delete = OptionAction(
+            label: L10n.delete,
+            icon: nil,
+            action: { [weak self] in
+                self?.delete(playlist: playlist)
+            }
+        )
+        delete.destructive = true
+
+        let picker = OptionsPicker(title: "")
+        picker.addDescriptiveActions(
+            title: L10n.playlistsDeleteAlertTitle,
+            message: L10n.playlistsDeleteAlertMessage,
+            icon: "option-alert",
+            actions: [
+                delete
+            ]
+        )
+        picker.setNoActionCallback {
+            Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+        }
+        picker.show(statusBarStyle: .default)
+    }
+
+    fileprivate func delete(playlist: EpisodeFilter) {
+        PlaylistManager.delete(playlist: playlist, fireEvent: true)
+
+        var properties: [AnyHashable: Any]? = [:]
+        properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        Analytics.track(.filterDeleted, properties: properties)
+        navigationController?.popToRootViewController(animated: true)
     }
 }
