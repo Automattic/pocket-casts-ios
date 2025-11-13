@@ -99,15 +99,18 @@ public class PlaylistQueryBuilder {
                 if playlist.sortType != 4, let newSort = add(sortFor: playlist.sortType)?.replacingOccurrences(of: "episode.", with: "") {
                     sortBy = newSort
                 }
+                var sortByd = "ORDER BY CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END, episode.id ASC"
+                if playlist.sortType != 4, let newSort = add(sortFor: playlist.sortType) {
+                    sortByd = newSort
+                }
                 let distinctCTE =
                 """
                 WITH ordered_episodes AS (
                   SELECT episode.*,
+                        playlist.episodePosition AS playlist_position,
                          ROW_NUMBER() OVER (
                            PARTITION BY episode.podcast_id
-                           ORDER BY
-                             CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
-                             episode.id ASC
+                           \(sortByd)
                          ) AS rn
                   FROM \(DataManager.episodeTableName) episode
                   JOIN \(DataManager.playlistEpisodeTableName) playlist
