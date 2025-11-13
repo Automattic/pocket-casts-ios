@@ -96,12 +96,13 @@ public class PlaylistQueryBuilder {
                     \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
             case .firstDistinctEpisodes:
+                let sortType = sortType?.rawValue ?? playlist.sortType
                 var sortBy = "ORDER BY playlist_position ASC"
-                if playlist.sortType != 4, let newSort = add(sortFor: sortType?.rawValue ?? playlist.sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                if sortType != 4, let newSort = add(sortFor: sortType)?.replacingOccurrences(of: "episode.", with: "") {
                     sortBy = newSort
                 }
-                var sortByd = "ORDER BY CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END, episode.id ASC"
-                if playlist.sortType != 4, let newSort = add(sortFor: sortType?.rawValue ?? playlist.sortType) {
+                var sortByd = "ORDER BY playlist.episodePosition ASC"
+                if sortType != 4, let newSort = add(sortFor: sortType) {
                     sortByd = newSort
                 }
                 let distinctCTE =
