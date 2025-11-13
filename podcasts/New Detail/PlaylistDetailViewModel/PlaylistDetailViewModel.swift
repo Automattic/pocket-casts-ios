@@ -129,6 +129,8 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
+        addSentryBreadcrumb(spot: "reloadPlaylistAndEpisodes", animated: false)
+
         if isSearching {
             searchEpisodes(for: searchTerm)
             return
@@ -147,6 +149,8 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(animated: Bool = true) {
+        addSentryBreadcrumb(spot: "reloadEpisodeList", animated: animated)
+
         if isSearching {
             searchEpisodes(for: searchTerm)
             return
@@ -220,51 +224,71 @@ class PlaylistDetailViewModel: ObservableObject {
         source: [ListEpisode],
         newData: [ListEpisode]
     ) -> (Bool, StagedChangeset<DataSourceValue>) {
-        let oldData = dataSource
-        var finalData: [ArraySection<Section, ListItem>] = []
-        let contentChanged = !source.isContentEqual(to: newData)
-        let changedData = contentChanged ? newData : episodes
-        finalData.append(ArraySection(
-            model: .header,
-            elements: [
-                PlaylistHeaderViewCellPlaceholder()
-            ])
+        let oldSections = dataSource
+        var newSections: [ArraySection<Section, ListItem>] = []
+
+        // Header section (always included)
+        newSections.append(
+            ArraySection(
+                model: .header,
+                elements: [PlaylistHeaderViewCellPlaceholder()]
+            )
         )
+
+        // Archive section (only for manual playlists)
         if isManualPlaylist {
-            finalData.append(ArraySection(
-                model: .archive,
-                elements: [
-                    PlaylistArchiveViewCellPlaceholder(
-                        archived: archivedEpisodesCount,
-                        showArchived: shouldShowArchived
-                    )
-                ])
+            newSections.append(
+                ArraySection(
+                    model: .archive,
+                    elements: [
+                        PlaylistArchiveViewCellPlaceholder(
+                            archived: archivedEpisodesCount,
+                            showArchived: shouldShowArchived
+                        )
+                    ]
+                )
             )
         }
-        if newData.isEmpty, isSearching {
-            finalData.append(ArraySection(
-                model: .episodes,
-                elements: [
-                    NoSearchResultsPlaceholder()
-                ])
-            )
-        } else if newData.isEmpty, !shouldShowArchived {
-            finalData.append(ArraySection(
-                model: .episodes,
-                elements: [
+
+        // Episodes section (always included: it shows placeholder in case of empty episodes)
+        let contentChanged = !source.isContentEqual(to: newData)
+        let effectiveEpisodes = contentChanged ? newData : episodes
+
+        let episodeElements: [ListItem]
+
+        if newData.isEmpty {
+            if isSearching {
+                episodeElements = [NoSearchResultsPlaceholder()]
+            } else if isManualPlaylist, !shouldShowArchived {
+                episodeElements = [
                     AllArchivedPlaceholder(
                         archived: archivedEpisodesCount,
-                        message: archivedEpisodesCount == 1 ? L10n.playlistManualArchivedEpisodePlaceholder : L10n.playlistManualArchivedEpisodesPlaceholder(archivedEpisodesCount)
+                        message: archivedEpisodesCount == 1
+                            ? L10n.playlistManualArchivedEpisodePlaceholder
+                            : L10n.playlistManualArchivedEpisodesPlaceholder(archivedEpisodesCount)
                     )
-                ])
-            )
+                ]
+            } else {
+                episodeElements = []
+            }
         } else {
-            finalData.append(ArraySection(
-                model: .episodes,
-                elements: changedData)
-            )
+            episodeElements = effectiveEpisodes
         }
-        return (contentChanged, StagedChangeset(source: oldData, target: finalData))
+
+        newSections.append(
+            ArraySection(
+                model: .episodes,
+                elements: episodeElements
+            )
+        )
+
+        let changeset = StagedChangeset(
+            source: oldSections,
+            target: newSections
+        )
+
+        let contentHasChanged = !newSections.isContentEqual(to: oldSections) || contentChanged
+        return (contentHasChanged, changeset)
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
@@ -366,8 +390,19 @@ extension PlaylistDetailViewModel {
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
         let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
+        addSentryBreadcrumb(spot: "searchEpisodes", animated: false)
         DispatchQueue.main.async { [weak self] in
             self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
         }
+    }
+}
+
+extension PlaylistDetailViewModel {
+    func addSentryBreadcrumb(spot: String, animated: Bool) {
+        let crumb = Breadcrumb()
+        crumb.level = SentryLevel.info
+        crumb.category = "playlist"
+        crumb.message = "reload spot \(spot) - animated: \(animated)"
+        SentrySDK.addBreadcrumb(crumb)
     }
 }
