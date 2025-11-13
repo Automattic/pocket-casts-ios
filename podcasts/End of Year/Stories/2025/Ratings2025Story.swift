@@ -231,11 +231,11 @@ fileprivate class LottieFontProvider: AnimationFontProvider {
 }
 
 #Preview("Ratings 1-3") {
-    Ratings2025Story(ratings: [1: 100, 2: 50, 3: 30, 4: 15, 5: 5])
+    Ratings2025Story(ratings: [1: 100, 2: 50, 3: 30, 4: 15, 5: 0])
 }
 
 #Preview("Ratings 4-5") {
-    Ratings2025Story(ratings: [1: 5, 2: 20, 3: 30, 4: 40, 5: 80])
+    Ratings2025Story(ratings: [1: 0, 2: 20, 3: 30, 4: 40, 5: 80])
 }
 
 #Preview("No Ratings") {
