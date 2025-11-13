@@ -144,26 +144,37 @@ fileprivate struct ChartColumn: View {
     let index: Int
 
     var body: some View {
-        LottieView(animation: .named("2025_rating"))
-            .configure({ animationView in
-                animationView.contentMode = .scaleAspectFit
-#if DEBUG
-                animationView.logHierarchyKeypaths()
-#endif
-                animationView.textProvider = LottieTextProvider(index: index)
-                animationView.fontProvider = LottieFontProvider()
-                animationView.contentMode = .scaleAspectFit
-            })
-            .playbackMode(
-                .playing(
-                    .marker(marker(for: value, maxValue: maxValue),
-                            loopMode: .playOnce
-                           )
+        ZStack {
+            LottieView(animation: .named("2025_rating_bars"))
+                .configure({ animationView in
+                    animationView.contentMode = .scaleToFill
+                    animationView.textProvider = LottieTextProvider(index: index)
+                    animationView.fontProvider = LottieFontProvider()
+                })
+                .playbackMode(
+                    .playing(
+                        .marker(Self.marker(for: value, maxValue: maxValue),
+                                loopMode: .playOnce
+                               )
+                    )
                 )
-            )
+            LottieView(animation: .named("2025_rating_numbers"))
+                .configure({ animationView in
+                    animationView.contentMode = .scaleAspectFit
+                    animationView.textProvider = LottieTextProvider(index: index)
+                    animationView.fontProvider = LottieFontProvider()
+                })
+                .playbackMode(
+                    .playing(
+                        .marker(Self.marker(for: value, maxValue: maxValue),
+                                loopMode: .playOnce
+                               )
+                    )
+                )
+        }
     }
 
-    func marker(for value: Int, maxValue: Int, step: Int = 10) -> String {
+    static func marker(for value: Int, maxValue: Int, step: Int = 10) -> String {
         guard maxValue > 0 else { return "marker_10" }
 
         let percentage = Double(value) / Double(maxValue) * 100
@@ -176,7 +187,7 @@ fileprivate struct ChartColumn: View {
     }
 }
 
-final private class LottieTextProvider: AnimationTextProvider, Equatable {
+final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let index: Int
 
     private static func formatted(hours: Int) -> String {
