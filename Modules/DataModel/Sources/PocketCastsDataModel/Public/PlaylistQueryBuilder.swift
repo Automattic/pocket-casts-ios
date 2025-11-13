@@ -92,6 +92,7 @@ public class PlaylistQueryBuilder {
                     \(manualCTE)
                     SELECT COUNT(*)
                     \(manualJoin)
+                    \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)
