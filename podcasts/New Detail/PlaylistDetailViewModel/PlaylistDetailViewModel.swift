@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
+import Sentry
 
 class PlaylistDetailViewModel: ObservableObject {
     typealias DataSourceValue = [ArraySection<Section, ListItem>]
@@ -392,7 +393,8 @@ extension PlaylistDetailViewModel {
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         addSentryBreadcrumb(spot: "searchEpisodes", animated: false)
         DispatchQueue.main.async { [weak self] in
-            self?.onChange(changeSetTuple.1, true, changeSetTuple.0)
+            // Avoid animation as long we use the current diffable framework
+            self?.onChange(changeSetTuple.1, false, changeSetTuple.0)
         }
     }
 }
