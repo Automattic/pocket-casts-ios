@@ -21,6 +21,14 @@ actor PlaylistMetadataLoader {
         self.episodesDataManager = episodesDataManager
     }
 
+    func cachedCount(for playlistID: String) -> Int {
+        return counts[playlistID] ?? 0
+    }
+
+    func cachedImages(for playlistID: String) -> [PlaylistArtworkView.ImageItem] {
+        return images[playlistID] ?? []
+    }
+
     func loadMetadata(
         for playlist: EpisodeFilter,
         update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void,
