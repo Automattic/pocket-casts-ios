@@ -183,7 +183,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
             }
 
             var actions: [Toast.Action]? = nil
-            var title = L10n.playlistEpisodesAddedToMultiplePlaylists
+            var title = L10n.playlistEpisodesAddedToMultiplePlaylists(changedPlaylists.count)
             if changedPlaylists.count == 1 {
                 guard let playlist = (changedPlaylists.first { added.first == $0.uuid }) else { return }
                 title = L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName)

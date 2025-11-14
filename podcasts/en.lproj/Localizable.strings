@@ -5546,8 +5546,8 @@
 /* Toast message when an episode is added to a single playlist from the playlists chooser. %1$@ is the playlist name. */
 "playlist_episodes_added_to_single_playlist" = "Added to %1$@";
 
-/* Toast message when an episode is added to multiple playlists from the playlists chooser */
-"playlist_episodes_added_to_multiple_playlists" = "Added to playlists";
+/* Toast message when an episode is added to multiple playlists from the playlists chooser. %1$@ is the number of playlists added to. */
+"playlist_episodes_added_to_multiple_playlists" = "Added to %1$@ playlists";
 
 /* Title displayed above the user's subscribed podcasts list when no podcast is selected. */
 "user_episodes_search_podcasts_title" = "Your Podcasts";
