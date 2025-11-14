@@ -132,6 +132,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     var multiSelectAllBtn: UIButton! {
         didSet {
             multiSelectAllBtn.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectAllBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
             multiSelectAllBtn.addTarget(self, action: #selector(selectAllTapped), for: .touchUpInside)
         }
     }
@@ -139,6 +140,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     var multiSelectCancelBtn: UIButton! {
         didSet {
             multiSelectCancelBtn.translatesAutoresizingMaskIntoConstraints = false
+            multiSelectCancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
             multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
             multiSelectCancelBtn.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
         }
@@ -330,8 +332,8 @@ class PlaylistDetailViewController: FakeNavViewController {
             multiSelectCancelBtn.bottomAnchor.constraint(equalTo: multiSelectHeaderView.bottomAnchor),
             multiSelectCancelBtn.heightAnchor.constraint(equalToConstant: 44),
 
-            multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
-            multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
+            multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
+            multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0),
             multiSelectFooterBottomConstraint,
             multiSelectFooter.heightAnchor.constraint(equalToConstant: 64)
         ])
