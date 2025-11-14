@@ -26,12 +26,8 @@ struct LongestEpisode2025Story: ShareableStory {
             Spacer()
                 .frame(height: 80)
             PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
-                .frame(width: 196, height: 196)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-                .scaleEffect(renderForSharing ? 1 : imageScale)
-                .if(isAnimating) {
-                    $0.animation(scaleAnimation, value: imageScale)
-                }
+                .frame(width: 196 * imageScale, height: 196 * imageScale)
+                .cornerRadius(4)
             VStack {
                 Spacer()
                 footerView
@@ -51,12 +47,14 @@ struct LongestEpisode2025Story: ShareableStory {
         .background(backgroundColor)
         .foregroundStyle(foregroundColor)
         .onAppear {
-            self.isAnimating = true
-            self.imageScale = 1.0
+            withAnimation(scaleAnimation) {
+                self.imageScale = 1.0
+            }
         }
         .onDisappear {
-            self.isAnimating = false
-            self.imageScale = 1.1
+            withAnimation(scaleAnimation) {
+                self.imageScale = 1.1
+            }
         }
     }
 
