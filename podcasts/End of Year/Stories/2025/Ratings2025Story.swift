@@ -31,7 +31,12 @@ struct Ratings2025Story: ShareableStory {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(foregroundColor)
         .ignoresSafeArea()
-        .background(backgroundColor)
+        .background(
+            Rectangle()
+                .fill(backgroundColor)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+        )
     }
 
     @ViewBuilder func columnsView() -> some View {
