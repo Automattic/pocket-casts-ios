@@ -93,7 +93,7 @@ private final class CapturingDataManager: DataManager {
         storedPlaylists[uuid]
     }
 
-    public override func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil) -> [Episode] {
+    public override func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil, sortType: PlaylistSort? = nil) -> [Episode] {
         let episodes = stubbedPlaylistEpisodes[playlist.uuid] ?? []
         if let limit {
             return Array(episodes.prefix(limit))

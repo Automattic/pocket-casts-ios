@@ -2051,7 +2051,7 @@
 "podcasts_episode_sort_shortest_to_longest" = "Shortest to Longest";
 
 /* Episodes will be displayed in custom order by drag and drop */
-"podcasts_episode_sort_drag_and_drop" = "Drag and Drop";
+"podcasts_episode_sort_drag_and_drop" = "Custom order";
 
 /* Presents the podcasts with large podcast artwork tiles. */
 "podcasts_large_grid" = "Large Grid";
@@ -5546,6 +5546,12 @@
 
 /* Navigation title shown after adding multiple episodes to a playlist. %1$@ is the episode count. %2$@ is the playlist name. */
 "playlist_episodes_added_title" = "%1$@ episodes added to \"%2$@\"";
+
+/* Toast message when an episode is added to a single playlist from the playlists chooser. %1$@ is the playlist name. */
+"playlist_episodes_added_to_single_playlist" = "Added to %1$@";
+
+/* Toast message when an episode is added to multiple playlists from the playlists chooser. %1$@ is the number of playlists added to. */
+"playlist_episodes_added_to_multiple_playlists" = "Added to %1$@ playlists";
 
 /* Title displayed above the user's subscribed podcasts list when no podcast is selected. */
 "user_episodes_search_podcasts_title" = "Your Podcasts";

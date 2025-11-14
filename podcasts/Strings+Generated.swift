@@ -2425,6 +2425,14 @@ internal enum L10n {
   internal static func playlistEpisodesAddedTitle(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playlist_episodes_added_title", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes added to \"%2$@\"")
   }
+  /// Toast message when an episode is added to multiple playlists from the playlists chooser. %1$@ is the number of playlists added to.
+  internal static func playlistEpisodesAddedToMultiplePlaylists(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_added_to_multiple_playlists", String(describing: p1), fallback: "Added to %1$@ playlists")
+  }
+  /// Toast message when an episode is added to a single playlist from the playlists chooser. %1$@ is the playlist name.
+  internal static func playlistEpisodesAddedToSinglePlaylist(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_episodes_added_to_single_playlist", String(describing: p1), fallback: "Added to %1$@")
+  }
   /// Playlist cell subtitle. It appears in the manual playlist add episode from podcast detail or player
   internal static func playlistEpisodesCount(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_episodes_count", String(describing: p1), fallback: "%1$@ episodes")
@@ -2934,7 +2942,7 @@ internal enum L10n {
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
   /// Episodes will be displayed in custom order by drag and drop
-  internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Drag and Drop") }
+  internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Custom order") }
   /// Episodes will be displayed in order from the longest to the shortest.
   internal static var podcastsEpisodeSortLongestToShortest: String { return L10n.tr("Localizable", "podcasts_episode_sort_longest_to_shortest", fallback: "Longest to Shortest") }
   /// Episodes will be displayed in order from the most resent to the oldest.

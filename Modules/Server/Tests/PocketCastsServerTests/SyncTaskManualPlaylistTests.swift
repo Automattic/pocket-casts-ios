@@ -75,6 +75,49 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
         XCTAssertTrue(playlist.manual.value)
     }
 
+    func testManualPlaylistSyncOverridesSortTypeToDragAndDrop() {
+        // Seed episodes that would be sorted differently if playlist.sortType was honored
+        let older = Episode()
+        older.uuid = "manual-old"
+        older.podcastUuid = "pod-old"
+        older.podcast_id = 1
+        older.title = "Old Episode"
+        older.downloadUrl = "http://example.com/old.mp3"
+        older.addedDate = Date(timeIntervalSince1970: 1)
+        older.publishedDate = Date(timeIntervalSince1970: 1)
+        dataManager.save(episode: older)
+
+        let newer = Episode()
+        newer.uuid = "manual-new"
+        newer.podcastUuid = "pod-new"
+        newer.podcast_id = 2
+        newer.title = "New Episode"
+        newer.downloadUrl = "http://example.com/new.mp3"
+        newer.addedDate = Date(timeIntervalSince1970: 2)
+        newer.publishedDate = Date(timeIntervalSince1970: 2)
+        dataManager.save(episode: newer)
+
+        let playlist = EpisodeFilter()
+        playlist.uuid = "manual-sort-override"
+        playlist.playlistName = "Manual Needs Override"
+        playlist.manual = true
+        playlist.sortType = PlaylistSort.newestToOldest.rawValue
+        playlist.syncStatus = SyncStatus.notSynced.rawValue
+        dataManager.save(playlist: playlist)
+        dataManager.add(episodes: [older, newer], to: playlist)
+
+        let records = syncTask.changedPlaylists()
+        let playlistRecords = records?.compactMap { $0.record }.compactMap { record -> Api_SyncUserPlaylist? in
+            if case let .playlist(p) = record { return p }
+            return nil
+        }
+
+        let syncedPlaylist = try! XCTUnwrap(playlistRecords?.first)
+        XCTAssertEqual(syncedPlaylist.sortType.value, PlaylistSort.newestToOldest.rawValue)
+        XCTAssertEqual(syncedPlaylist.episodeOrder, [older.uuid, newer.uuid])
+        XCTAssertEqual(syncedPlaylist.episodes.map(\.episode), [older.uuid, newer.uuid])
+    }
+
     func testEpisodeFromServerPlaylistEpisodeCreatesEpisode() {
         // Prepare a proto playlist episode
         var proto = Api_SyncPlaylistEpisode()

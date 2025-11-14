@@ -53,6 +53,8 @@ public class UserSatisfactionSurveyManager: NSObject {
             return !isPlus ? .canShow : .wrongUserType // Free user events
         case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
             return isPlus ? .canShow : .wrongUserType // Plus user events
+        case .playbackShared:
+            return .canShow
         }
     }
 
@@ -190,6 +192,8 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
             return handlePlusUpgrade()
         case AnalyticsEvent.applicationOpened.eventName:
             return handleAppOpened()
+        case AnalyticsEvent.playbackShared.eventName:
+            return .playbackShared
         default:
             return nil
         }
@@ -275,4 +279,7 @@ enum SurveyTriggerEvent: String, CaseIterable {
     case bookmarkCreated = "bookmark_created"
     case customThemeSet = "custom_theme_set"
     case referralShared = "referral_shared"
+
+    // Shared events
+    case playbackShared = "playback_shared"
 }

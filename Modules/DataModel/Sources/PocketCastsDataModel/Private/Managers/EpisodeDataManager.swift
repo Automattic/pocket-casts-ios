@@ -224,7 +224,18 @@ class EpisodeDataManager {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let episodeTableName = DataManager.episodeTableName
 
-        return loadMultiple(query: "SELECT \(episodeTableName).* FROM \(upNextTableName) JOIN \(episodeTableName) ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+        return loadMultiple(
+            query: """
+            SELECT \(episodeTableName).*
+            FROM \(upNextTableName)
+            JOIN \(episodeTableName)
+            ON \(episodeTableName).uuid = \(upNextTableName).episodeUuid
+            WHERE \(upNextTableName).playlist_id = ?
+            ORDER BY \(upNextTableName).episodePosition ASC
+            """,
+            values: [UpNextDataManager.upNextPlaylistId],
+            dbQueue: dbQueue
+        )
     }
 
     func allUpNextEpisodes(from uuids: [String], dbQueue: PCDBQueue) -> [Episode] {

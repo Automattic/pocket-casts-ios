@@ -154,7 +154,7 @@ extension SyncTask {
         playlistRecord.manual.value = filter.manual
 
         if filter.manual {
-            let episodes = DataManager.sharedManager.playlistEpisodes(for: filter)
+            let episodes = DataManager.sharedManager.playlistEpisodes(for: filter, sortType: .dragAndDrop)
             playlistRecord.episodes = episodes.map { episode in
                 createSyncEpisode(from: episode)
             }
