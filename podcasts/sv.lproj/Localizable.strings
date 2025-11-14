@@ -1066,6 +1066,10 @@ du lyssnade på var
     <string>AVSNITT %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>Avsnitt %1$@</string>
+    <key>episode_unavailable_message</key>
+    <string>Podcastens skapare tog bort detta avsnitt. Det kommer att finnas kvar i din spellista tills du tar bort det.</string>
+    <key>episode_unavailable_title</key>
+    <string>Avsnitt ej tillgängligt</string>
     <key>episodes</key>
     <string>Avsnitt</string>
     <key>error</key>
@@ -1386,6 +1390,8 @@ du lyssnade på var
     <string>%1$@ timmar</string>
     <key>hours_saved</key>
     <string>Timmar sparade</string>
+    <key>hours_singular_format</key>
+    <string>1 timme</string>
     <key>how_to_upload_explanation</key>
     <string>Öppna först en app som har de ljudfiler du vill spara</string>
     <key>how_to_upload_share_action_image_center_text</key>
@@ -1947,12 +1953,65 @@ UPPDATERINGAR</string>
     <string>Jämfört med 2023 ökade din lyssningstid med hisnande %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Jämfört med 2023 ökade din lyssningstid med över %1$@</string>
+    <key>playback_2025_completion_rate_message</key>
+    <string>Av %1$@ startade avsnitt lyssnade du klart på %2$@. En starkare uppföljning än med de flesta gymmedlemskap</string>
+    <key>playback_2025_completion_rate_title</key>
+    <string>Din slutförandegrad var %1$@</string>
+    <key>playback_2025_end_story_description</key>
+    <string>Dela din uppspelning med vänner och ge lite kärlek till de podcasters som höll dig sällskap hela året</string>
+    <key>playback_2025_end_story_title</key>
+    <string>Tack för att du spenderar ditt år med Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Se din lyssningsstatistik, dina favoritpodcasts och mycket mer.</string>
     <key>playback_2025_feature_title</key>
     <string>Uppspelning 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>Ditt podcastår, inslaget och redo att återupplevas</string>
+    <key>playback_2025_listened_to_numbers</key>
+    <string>Du lyssnade på %1$@ olika podcasts och %2$@ avsnitt</string>
+    <key>playback_2025_listening_time</key>
+    <string>lyssnade minuter</string>
+    <key>playback_2025_longest_episode_footer</key>
+    <string>Det längsta avsnittet var “%1$@” från “%2$@”</string>
+    <key>playback_2025_longest_episode_message</key>
+    <string>Hoppas att du sträckte på dig först!</string>
+    <key>playback_2025_longest_episode_title</key>
+    <string>Din maratonlyssning: %1$@</string>
+    <key>playback_2025_plus_upsell_button_title</key>
+    <string>Skaffa Pocket Casts Plus</string>
+    <key>playback_2025_plus_upsell_description</key>
+    <string>Prenumerera på Pocket Casts Plus för utökad statistik, bokmärken, mappar, kapitelval och fler sätt att fördjupa dig i dina lyssningsvanor</string>
+    <key>playback_2025_plus_upsell_title</key>
+    <string>Vill du göra en djupdykning?</string>
+    <key>playback_2025_top_5_podcasts_message</key>
+    <string>Fler favoriter, mer uppspelning, mer du</string>
+    <key>playback_2025_top_5_podcasts_title</key>
+    <string>Dina andra favoriter</string>
+    <key>playback_2025_top_spot_description</key>
+    <string>%1$@ avsnitt, %2$@.
+Det är engagemang!</string>
+    <key>playback_2025_top_spot_subtitle</key>
+    <string>Det blir inte mer ”du” än så här</string>
+    <key>playback_2025_top_spot_title</key>
+    <string>Dina favoritpodcasts 2025</string>
     <key>playback_2025_view_year</key>
     <string>Visa Min uppspelning 2025</string>
+    <key>playback_2025_year_over_year_comparison_down_message</key>
+    <string>Men hej, kvalitet över kvantitet</string>
+    <key>playback_2025_year_over_year_comparison_down_title</key>
+    <string>Ditt lyssnande minskade med %1$@ i år</string>
+    <key>playback_2025_year_over_year_comparison_hero_message</key>
+    <string>Du lyssnade %1$@ mer i år – välkommen till klubben</string>
+    <key>playback_2025_year_over_year_comparison_hero_title</key>
+    <string>Från noll till hjälte!</string>
+    <key>playback_2025_year_over_year_comparison_same_message</key>
+    <string>Konsekvent, pålitligt, precis som din kafébeställning</string>
+    <key>playback_2025_year_over_year_comparison_same_title</key>
+    <string>Ditt lyssnande 2025 höll sig stabilt</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Hoppas att du sträckte på dig först!</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>Jämfört med 2024 har din lyssningstid skjutit i höjden med %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alla podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2055,6 +2114,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>%1$@ avsnitt tillagda i ”%2$@”</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ avsnitt</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Denna spellista är full. Ta bort några avsnitt eller starta en ny.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2063,6 +2124,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Alla %1$@ avsnitt av den här podcasten har arkiverats</string>
     <key>playlist_manual_browse_shows_title</key>
     <string>Bläddra bland podcasts</string>
+    <key>playlist_manual_create_error_message</key>
+    <string>Något gick fel när din spellista skapades.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Svep åt vänster på ett avsnitt för att lägga till det i din spellista.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2077,6 +2140,22 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Alla avsnitt arkiverade. Lägg till eller avarkivera för att spela upp.</string>
     <key>playlist_options</key>
     <string>Spellistealternativ</string>
+    <key>playlist_play_all_option_replace_queue</key>
+    <string>Ersätt och spela upp</string>
+    <key>playlist_play_all_option_save_queue</key>
+    <string>Spara nuvarande kö</string>
+    <key>playlist_play_all_picker_message</key>
+    <string>Din nuvarande Nästa kommer att ersättas när du spelar upp denna spellista. Spara den först för att behålla den.</string>
+    <key>playlist_play_all_picker_title</key>
+    <string>Spara din Nästa-kö?</string>
+    <key>playlist_play_all_replace_picker_message</key>
+    <string>Detta kommer att rensa din nuvarande Nästa-kö och börja spela upp denna spellista.</string>
+    <key>playlist_play_all_replace_picker_title</key>
+    <string>Ersätt nuvarande Nästa?</string>
+    <key>playlist_play_all_up_next_saved</key>
+    <string>Nästa sparad som spellista</string>
+    <key>playlist_play_all_up_next_saved_plural</key>
+    <string>Nästa sparad som spellistor</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Skapa smart spellista</string>
     <key>playlist_preview_title</key>
@@ -2131,6 +2210,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Filter är nu Smarta spellistor</string>
     <key>playlists_play_all</key>
     <string>Spela upp alla</string>
+    <key>playlists_tip_drag_and_drop_description</key>
+    <string>Tryck och håll ned på en spellista för att flytta den.</string>
+    <key>playlists_tip_drag_and_drop_title</key>
+    <string>Ändra ordning på dina spellistor</string>
     <key>please_try_again</key>
     <string>Vänligen försök igen</string>
     <key>please_try_again_later</key>
@@ -2456,6 +2539,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Imorgon</string>
     <key>podcast_unarchive_all</key>
     <string>Avarkivera alla</string>
+    <key>podcast_unavailable</key>
+    <string>Ej tillgängligt</string>
     <key>podcast_updates_ended</key>
     <string>Uppdateringar slutade: %1$@</string>
     <key>podcast_updates_ends</key>
@@ -3357,6 +3442,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Sovtimer på, %1$@ återstår</string>
     <key>smart_playlist</key>
     <string>Smart spellista</string>
+    <key>smart_playlists_tip_view_creation_description</key>
+    <string>Välj avsnitt själv eller låt Smart spellista fylla det automatiskt baserat på dina Smarta regler.</string>
+    <key>smart_playlists_tip_view_creation_title</key>
+    <string>Bygg din egen spellista eller låt oss hjälpa till</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Vi har skapat dessa för att hjälpa dig att komma igång. De uppdateras automatiskt baserat på ditt lyssnande.</string>
     <key>smart_playlists_tip_view_title</key>
@@ -3705,6 +3794,8 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Inga avsnitt</string>
     <key>watch_no_filters</key>
     <string>Inga filter</string>
+    <key>watch_no_playlists</key>
+    <string>Inga spellistor</string>
     <key>watch_no_podcasts</key>
     <string>Inga podcasts</string>
     <key>watch_nothing_playing_subtitle</key>
