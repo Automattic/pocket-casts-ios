@@ -2412,7 +2412,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "playlist_episodes_added_title", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes added to \"%2$@\"")
   }
   /// Toast message when an episode is added to multiple playlists from the playlists chooser
-  internal static var playlistEpisodesAddedToMultiplePlaylists: String { return L10n.tr("Localizable", "playlist_episodes_added_to_multiple_playlists", fallback: "Added to multiple playlists") }
+  internal static var playlistEpisodesAddedToMultiplePlaylists: String { return L10n.tr("Localizable", "playlist_episodes_added_to_multiple_playlists", fallback: "Added to playlists") }
   /// Toast message when an episode is added to a single playlist from the playlists chooser. %1$@ is the playlist name.
   internal static func playlistEpisodesAddedToSinglePlaylist(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_episodes_added_to_single_playlist", String(describing: p1), fallback: "Added to %1$@")
