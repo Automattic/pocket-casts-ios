@@ -26,6 +26,7 @@ struct NumberListened2025: ShareableStory {
         static let yOffset: CGFloat = 30
         static let xOffset: CGFloat = 26
         static let coverSize: CGFloat = 260
+        static let animationSize: CGFloat = Self.coverSize + (2 * Self.yOffset)
     }
 
     @Environment(\.renderForSharing) var renderForSharing: Bool
@@ -102,10 +103,10 @@ struct NumberListened2025: ShareableStory {
                     .frame(width: result.0 + (Constants.xOffset * result.3 * progress), height: result.0 + (Constants.xOffset * result.3 * progress))
                     .offset(x: 0, y: result.1 - (Constants.yOffset * progress))
                     .zIndex(result.2 + (index == 4 ? zChange : 0))
-                    .id(pos)
+                    .opacity((index == 0) ? 1 - progress : ((index == itemsCount - 1) ? progress : 1))
             }
         }
-        .frame(width: Constants.coverSize + (2 * Constants.yOffset), height: Constants.coverSize + (2 * Constants.yOffset))
+        .frame(width: Constants.animationSize, height: Constants.animationSize)
         .onAppear {
             if animated {
                 animationViewModel.play()
