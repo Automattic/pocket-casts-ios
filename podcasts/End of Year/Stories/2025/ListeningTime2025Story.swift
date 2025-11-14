@@ -57,12 +57,13 @@ struct ListeningTime2025Story: ShareableStory {
                             Spacer()
                         }
                     }
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 80)
+                    .border(.green)
+                    .padding(.horizontal, 30)                    
                     .border(.red)
                     .clipShape(GrowingParallelShape(growFactor: growFactor))
                 }
-                .padding(.bottom, geometry.size.height * 0.16)
+                .padding(.bottom, geometry.size.height * 0.23)
+                .border(.orange)
                 .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -71,11 +72,10 @@ struct ListeningTime2025Story: ShareableStory {
                     .animationDidFinish({ completed in
                     })
                     .configure({ animationView in
-                        animationView.contentMode = .scaleAspectFill
                     })
                     .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                    .scaledToFill()
                     .ignoresSafeArea()
+                    .scaleEffect(x: 1.2, y: 1)
             })
         }
         .foregroundStyle(foregroundColor)
@@ -147,10 +147,10 @@ struct GrowingParallelShape: Shape {
 
         var path = Path()
 
-        path.move(to: CGPoint(x: rect.minX, y: centerY + (rect.height / 2 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.maxX, y: centerY + (rect.height * 0.4 / 2 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.maxX, y: centerY - (rect.height * 0.4 / 2 * growFactor)))
-        path.addLine(to: CGPoint(x: rect.minX, y: centerY - (rect.height / 2 * growFactor)))
+        path.move(to: CGPoint(x: rect.minX, y: centerY + (rect.height * 0.78 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.maxX, y: centerY + (rect.height * 0.6 / 2 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.maxX, y: centerY - (rect.height * 0.9 / 2 * growFactor)))
+        path.addLine(to: CGPoint(x: rect.minX, y: centerY - (rect.height * 1 * growFactor)))
 
         path.closeSubpath()
         return path
