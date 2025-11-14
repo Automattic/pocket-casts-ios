@@ -131,8 +131,6 @@ class PlaylistCellViewModel: ObservableObject {
             guard let self else { return }
             do {
                 let list = await self.loadListEpisodes()
-//                print("• Playlist \(playlist.playlistName) has \(list.count) episodes")
-//                list.forEach { print("  \($0.episode.title)") }
                 let firstFourDistinct = self.firstDistinctPodcasts(from: list, limit: 4)
                 let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                 await MainActor.run {

@@ -3,8 +3,11 @@ import UIKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDependencyInjection
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
+    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()

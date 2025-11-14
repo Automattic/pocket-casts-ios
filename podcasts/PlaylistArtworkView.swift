@@ -2,7 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct PlaylistArtworkView: View {
-    struct ImageItem {
+    struct ImageItem: Equatable {
         let id: String
         let url: URL
     }
