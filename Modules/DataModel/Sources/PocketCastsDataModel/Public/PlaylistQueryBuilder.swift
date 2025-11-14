@@ -33,7 +33,8 @@ public class PlaylistQueryBuilder {
         episodeUuidToAdd: String? = nil,
         searchTerm: String? = nil,
         limit: Int = 0,
-        shouldShowArchived: Bool = false
+        shouldShowArchived: Bool = false,
+        sortType: PlaylistSort? = nil
     ) -> String {
 
         var queryString: String = ""
@@ -92,6 +93,7 @@ public class PlaylistQueryBuilder {
                     \(manualCTE)
                     SELECT COUNT(*)
                     \(manualJoin)
+                    \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
             case .podcast:
                 let select = manualSelect(clause: clause, for: playlist)
@@ -130,7 +132,7 @@ public class PlaylistQueryBuilder {
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: playlist.sortType), clause != .episodeCount, clause != .allEpisodeCount {
+        if let sort = add(sortFor: sortType?.rawValue ?? playlist.sortType), clause != .episodeCount, clause != .allEpisodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }

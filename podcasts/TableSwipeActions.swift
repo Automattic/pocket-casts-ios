@@ -44,6 +44,7 @@ class TableSwipeActions {
             if let image = tableAction.icon {
                 swipeAction.image = image
             }
+            swipeAction.hidesWhenSelected = tableAction.hidesWhenSelected
             swipeAction.accessibilityLabel = tableAction.title
             swipeActions.append(swipeAction)
         }
@@ -59,5 +60,26 @@ struct TableSwipeAction {
     let backgroundColor: UIColor
     let icon: UIImage?
     let tableView: UITableView
+    let hidesWhenSelected: Bool
     let handler: (IndexPath) -> Bool
+
+    init(
+        indexPath: IndexPath,
+        title: String?,
+        removesFromList: Bool,
+        backgroundColor: UIColor,
+        icon: UIImage?,
+        tableView: UITableView,
+        hidesWhenSelected: Bool = false,
+        handler: @escaping (IndexPath) -> Bool
+    ) {
+        self.indexPath = indexPath
+        self.title = title
+        self.removesFromList = removesFromList
+        self.backgroundColor = backgroundColor
+        self.icon = icon
+        self.tableView = tableView
+        self.hidesWhenSelected = hidesWhenSelected
+        self.handler = handler
+    }
 }

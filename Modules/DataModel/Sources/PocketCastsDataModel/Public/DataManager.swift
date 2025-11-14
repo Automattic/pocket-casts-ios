@@ -951,21 +951,26 @@ public class DataManager {
         }
     }
 
-    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, shouldShowArchived: Bool = false) -> Int {
-        playlistManager.playlistEpisodeCount(clause: .episodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: shouldShowArchived, dbQueue: dbQueue)
+    public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        playlistManager.playlistEpisodeCount(clause: .episodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: false, dbQueue: dbQueue)
     }
 
-    public func allPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        playlistManager.playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: true, dbQueue: dbQueue)
+    public func playlistArchivedEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
+        playlistManager.playlistEpisodeCount(clause: .episodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: true, dbQueue: dbQueue)
     }
 
-    public func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil) -> [Episode] {
+    public func allPlaylistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, includingArchivedEpisodes: Bool = false) -> Int {
+        playlistManager.playlistEpisodeCount(clause: .allEpisodeCount, playlist: playlist, episodeUuidToAdd: episodeUuidToAdd, shouldShowArchived: includingArchivedEpisodes, dbQueue: dbQueue)
+    }
+
+    public func playlistEpisodes(for playlist: EpisodeFilter, limit: Int? = nil, sortType: PlaylistSort? = nil) -> [Episode] {
         let limit = limit ?? EpisodeDataManager.Constants.Limits.maxPlaylistItems
         let query = PlaylistQueryBuilder.query(
             clause: .episode,
             for: playlist,
             episodeUuidToAdd: nil,
-            limit: limit
+            limit: limit,
+            sortType: sortType
         )
         return episodeManager.findPlaylistEpisodesWhere(query: query, arguments: nil, dbQueue: dbQueue)
     }

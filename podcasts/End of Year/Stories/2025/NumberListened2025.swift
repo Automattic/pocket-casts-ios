@@ -21,14 +21,20 @@ class StepCounter: ObservableObject {
 
 struct NumberListened2025: ShareableStory {
 
-    static let speed: Double = 1
+    private enum Constants {
+        static let speed: Double = 1.3
+        static let yOffset: CGFloat = 30
+        static let xOffset: CGFloat = 26
+        static let coverSize: CGFloat = 260
+        static let animationSize: CGFloat = Self.coverSize + (2 * Self.yOffset)
+    }
 
     @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: EndOfYear.defaultDuration)
 
-    @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
+    @StateObject private var stepCounter: StepCounter = .init(interval: Constants.speed)
 
     let listenedNumbers: ListenedNumbers
     let podcasts: [Podcast]
@@ -83,8 +89,8 @@ struct NumberListened2025: ShareableStory {
     func calculateDimensions(for index: Int) -> (CGFloat, CGFloat, Double, CGFloat) {
         let shift: CGFloat = CGFloat(index - 3)
         let direction: CGFloat = shift <= 0 ? -1 : 1
-        let size: CGFloat = CGFloat(260.0) - CGFloat(abs(shift) * CGFloat(20.0))
-        let offset: CGFloat = CGFloat(shift * 30)
+        let size: CGFloat = Constants.coverSize - CGFloat(abs(shift) * Constants.xOffset)
+        let offset: CGFloat = CGFloat(shift * Constants.yOffset)
         let zOffset: Double = Double(CGFloat(itemsCount) - abs(shift))
         return (size, offset, zOffset, direction)
     }
@@ -94,12 +100,13 @@ struct NumberListened2025: ShareableStory {
             ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
                 let result = calculateDimensions(for: index)
                 podcastCover(pos, shadow: true)
-                    .frame(width: result.0 + (20.0 * result.3 * progress), height: result.0 + (20.0 * result.3 * progress))
-                    .offset(x: 0, y: result.1 - (10.0 * progress))
+                    .frame(width: result.0 + (Constants.xOffset * result.3 * progress), height: result.0 + (Constants.xOffset * result.3 * progress))
+                    .offset(x: 0, y: result.1 - (Constants.yOffset * progress))
                     .zIndex(result.2 + (index == 4 ? zChange : 0))
+                    .opacity((index == 0) ? 1 - progress : ((index == itemsCount - 1) ? progress : 1))
             }
         }
-        .frame(width: 340, height: 340)
+        .frame(width: Constants.animationSize, height: Constants.animationSize)
         .onAppear {
             if animated {
                 animationViewModel.play()
@@ -114,11 +121,11 @@ struct NumberListened2025: ShareableStory {
     func startCoverAnimation() {
         progress = 0
         zChange = 0
-        withAnimation(.bouncy(duration: Self.speed)) {
+        withAnimation(.timingCurve(0.90, 0.00, 0.08, 1.00, duration: Constants.speed)) {
             progress = 1
         }
         // ZIndex changes cannot be animated so we are using this dispach to cause a change of Z index at the middle of the animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.speed / 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.speed / 2.0) {
             zChange = 2
         }
     }

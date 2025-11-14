@@ -142,7 +142,7 @@ enum SwipeActionsHelper {
 
             if FeatureFlag.playlistsRebranding.enabled {
                 if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
-                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, handler: { indexPath -> Bool in
+                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
                         swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
                         Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
                         return true

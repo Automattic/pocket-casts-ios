@@ -152,6 +152,7 @@ private extension LocalSearchView {
         SearchField(
             theme: LocalSearchFieldTheme(),
             text: $viewModel.searchText,
+            iconImageName: "search",
             showsCancelButton: false,
             placeholder: searchPromptString
         )
@@ -161,7 +162,7 @@ private extension LocalSearchView {
         .onSubmit {
             viewModel.triggerImmediateSearch()
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, idealHeight: 32)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
     }

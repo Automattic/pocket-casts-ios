@@ -195,8 +195,12 @@ struct EndOfYear {
             }
 
             if let activity, success {
-                Analytics.track(.endOfYearStoryShared, properties: ["activity": activity.rawValue, "story": storyIdentifier])
-                fakeViewController.dismiss(animated: false)
+                let properties = ["activity": activity.rawValue, "story": storyIdentifier]
+                Analytics.track(.endOfYearStoryShared, properties: properties)
+                DispatchQueue.main.async {
+                    model.recordPlaybackShare(properties: properties.merging(["source": "end_of_year"]) { $1 })
+                    fakeViewController.dismiss(animated: false)
+                }
             }
         }
 

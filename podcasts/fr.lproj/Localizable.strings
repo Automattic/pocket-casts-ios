@@ -1066,6 +1066,10 @@ que vous avez écouté était
     <string>ÉPISODE %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episode_unavailable_message</key>
+    <string>Le créateur du podcast a supprimé cet épisode. Il restera dans votre liste de lecture jusqu’à ce que vous le supprimiez.</string>
+    <key>episode_unavailable_title</key>
+    <string>Épisode non disponible</string>
     <key>episodes</key>
     <string>Épisodes</string>
     <key>error</key>
@@ -1386,6 +1390,8 @@ que vous avez écouté était
     <string>%1$@ heures</string>
     <key>hours_saved</key>
     <string>Heures économisées</string>
+    <key>hours_singular_format</key>
+    <string>1 heure</string>
     <key>how_to_upload_explanation</key>
     <string>Tout d’abord, ouvrez une application contenant les fichiers audio que vous souhaitez enregistrer</string>
     <key>how_to_upload_share_action_image_center_text</key>
@@ -1947,12 +1953,65 @@ MISES À JOUR</string>
     <string>Par rapport à 2023, votre temps d’écoute a explosé de %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Par rapport à 2023, votre temps d’écoute a augmenté de plus de %1$@</string>
+    <key>playback_2025_completion_rate_message</key>
+    <string>Sur %1$@ épisodes lancés, vous en avez terminé %2$@. Un suivi plus efficace que la plupart des adhésions à une salle de sport</string>
+    <key>playback_2025_completion_rate_title</key>
+    <string>Votre taux d’achèvement s’élève à %1$@</string>
+    <key>playback_2025_end_story_description</key>
+    <string>Partagez votre Rétrospective avec vos amis et montrez aux podcasteurs qui vous ont tenu compagnie toute l’année que vous les appréciez</string>
+    <key>playback_2025_end_story_title</key>
+    <string>Merci d’avoir passé votre année avec Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
     <key>playback_2025_feature_title</key>
     <string>Rétrospective 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>Votre année en podcasts, emballée et prête à être passée en revue</string>
+    <key>playback_2025_listened_to_numbers</key>
+    <string>Vous avez écouté %1$@ podcasts et %2$@ épisodes</string>
+    <key>playback_2025_listening_time</key>
+    <string>minutes écoutées</string>
+    <key>playback_2025_longest_episode_footer</key>
+    <string>L’épisode le plus long était « %1$@ » de « %2$@ »</string>
+    <key>playback_2025_longest_episode_message</key>
+    <string>On espère que vous avez commencé par vous étirer !</string>
+    <key>playback_2025_longest_episode_title</key>
+    <string>Votre marathon d’écoute : %1$@</string>
+    <key>playback_2025_plus_upsell_button_title</key>
+    <string>Obtenir Pocket Casts Plus</string>
+    <key>playback_2025_plus_upsell_description</key>
+    <string>Abonnez-vous à Pocket Casts Plus pour profiter de plus de statistiques, de signets, de dossiers, d’une sélection de chapitres et d’autres façons de découvrir vos habitudes d’écoute</string>
+    <key>playback_2025_plus_upsell_title</key>
+    <string>Vous voulez faire le grand saut ?</string>
+    <key>playback_2025_top_5_podcasts_message</key>
+    <string>Plus de favoris, plus de lecture, plus vous</string>
+    <key>playback_2025_top_5_podcasts_title</key>
+    <string>Vos autres rendez-vous</string>
+    <key>playback_2025_top_spot_description</key>
+    <string>%1$@ épisodes, %2$@.
+Ça, c’est de l’engagement !</string>
+    <key>playback_2025_top_spot_subtitle</key>
+    <string>Il n’y a pas plus « vous » que ça</string>
+    <key>playback_2025_top_spot_title</key>
+    <string>Vos meilleurs podcasts de 2025</string>
     <key>playback_2025_view_year</key>
     <string>Voir ma rétrospective 2025</string>
+    <key>playback_2025_year_over_year_comparison_down_message</key>
+    <string>Mais bon, la qualité plutôt que la quantité</string>
+    <key>playback_2025_year_over_year_comparison_down_title</key>
+    <string>Votre écoute a baissé de %1$@ cette année</string>
+    <key>playback_2025_year_over_year_comparison_hero_message</key>
+    <string>Vous avez écouté %1$@ de plus cette année – bienvenue au club</string>
+    <key>playback_2025_year_over_year_comparison_hero_title</key>
+    <string>De zéro à héros !</string>
+    <key>playback_2025_year_over_year_comparison_same_message</key>
+    <string>Cohérent, fiable, comme votre commande au café</string>
+    <key>playback_2025_year_over_year_comparison_same_title</key>
+    <string>Votre écoute est restée stable en 2025</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>On espère que vous avez commencé par vous étirer !</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>Par rapport à 2024, votre temps d’écoute a explosé de %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tous les podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2055,6 +2114,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>%1$@ épisodes ajoutés à « %2$@ »</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ épisodes</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Cette liste de lecture est pleine. Supprimez quelques épisodes ou démarrez-en un nouveau.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Ajouter des épisodes</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2063,6 +2124,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Les %1$@ épisodes de cette playlist ont tous été archivés.</string>
     <key>playlist_manual_browse_shows_title</key>
     <string>Parcourir les podcasts</string>
+    <key>playlist_manual_create_error_message</key>
+    <string>Toutes nos excuses, un problème est survenu lors de la création de votre liste de lecture.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Faites glisser un épisode vers la gauche pour l’ajouter à votre playlist.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2077,6 +2140,22 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Tous les épisodes archivés. Ajoutez ou désarchivez pour lire.</string>
     <key>playlist_options</key>
     <string>Options de la playlist</string>
+    <key>playlist_play_all_option_replace_queue</key>
+    <string>Remplacer et lire</string>
+    <key>playlist_play_all_option_save_queue</key>
+    <string>Enregistrer la file d’attente actuelle</string>
+    <key>playlist_play_all_picker_message</key>
+    <string>Votre file d’attente actuelle sera remplacée lorsque vous lirez cette liste de lecture. Enregistrez-la d’abord pour la conserver.</string>
+    <key>playlist_play_all_picker_title</key>
+    <string>Enregistrer votre file d’attente ?</string>
+    <key>playlist_play_all_replace_picker_message</key>
+    <string>Cela effacera votre file d’attente actuelle et commencera à lire cette liste de lecture.</string>
+    <key>playlist_play_all_replace_picker_title</key>
+    <string>Remplacer la file d’attente actuelle ?</string>
+    <key>playlist_play_all_up_next_saved</key>
+    <string>File d’attente enregistrée comme liste de lecture</string>
+    <key>playlist_play_all_up_next_saved_plural</key>
+    <string>File d’attente enregistrée comme listes de lecture</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Créer une playlist intelligente</string>
     <key>playlist_preview_title</key>
@@ -2131,6 +2210,10 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Les filtres sont désormais des playlists intelligentes</string>
     <key>playlists_play_all</key>
     <string>Tout lire</string>
+    <key>playlists_tip_drag_and_drop_description</key>
+    <string>Appuyez sur une liste de lecture et maintenez-la enfoncée pour la déplacer.</string>
+    <key>playlists_tip_drag_and_drop_title</key>
+    <string>Réorganiser vos listes de lecture</string>
     <key>please_try_again</key>
     <string>Veuillez réessayer</string>
     <key>please_try_again_later</key>
@@ -2456,6 +2539,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Demain</string>
     <key>podcast_unarchive_all</key>
     <string>Tout désarchiver</string>
+    <key>podcast_unavailable</key>
+    <string>Indisponible</string>
     <key>podcast_updates_ended</key>
     <string>Mises à jour terminées le %1$@</string>
     <key>podcast_updates_ends</key>
@@ -3357,6 +3442,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Mise en veille activée, temps restant : %1$@</string>
     <key>smart_playlist</key>
     <string>Playlist intelligente</string>
+    <key>smart_playlists_tip_view_creation_description</key>
+    <string>Choisissez les épisodes vous-même ou laissez la Liste de lecture intelligente les remplir automatiquement en fonction de vos règles intelligentes.</string>
+    <key>smart_playlists_tip_view_creation_title</key>
+    <string>Créez votre propre liste de lecture ou laissez-nous vous aider</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Nous les avons créés pour vous aider à vous lancer. Elles se mettent à jour automatiquement en fonction de votre écoute.</string>
     <key>smart_playlists_tip_view_title</key>
@@ -3705,6 +3794,8 @@ Usage simple ou complexe, cette application est telle que vous la souhaitez. Uti
     <string>Aucun épisode</string>
     <key>watch_no_filters</key>
     <string>Aucun filtre</string>
+    <key>watch_no_playlists</key>
+    <string>Aucune liste de lecture</string>
     <key>watch_no_podcasts</key>
     <string>Aucun Podcast</string>
     <key>watch_nothing_playing_subtitle</key>

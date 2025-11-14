@@ -4,11 +4,16 @@ import PocketCastsUtils
 import UIKit
 
 class PlaylistManager {
+    enum DefaultUUIDs {
+        static let newReleases = "2797DCF8-1C93-4999-B52A-D1849736FA2C"
+        static let inProgress = "D89A925C-5CE1-41A4-A879-2751838CE5CE"
+    }
+
     // MARK: - Default Playlists
 
     class func createDefaultPlaylists() {
         // new releases
-        var existingUuid = "2797DCF8-1C93-4999-B52A-D1849736FA2C"
+        var existingUuid = DefaultUUIDs.newReleases
         var existingFilter = DataManager.sharedManager.findPlaylist(uuid: existingUuid)
         if existingFilter == nil {
             let newReleases = EpisodeFilter()
@@ -36,7 +41,7 @@ class PlaylistManager {
         }
 
         // in progress
-        existingUuid = "D89A925C-5CE1-41A4-A879-2751838CE5CE"
+        existingUuid = DefaultUUIDs.inProgress
         existingFilter = DataManager.sharedManager.findPlaylist(uuid: existingUuid)
         if existingFilter == nil {
             let inProgress = EpisodeFilter()
