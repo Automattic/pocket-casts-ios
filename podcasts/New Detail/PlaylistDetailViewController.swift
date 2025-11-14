@@ -372,21 +372,24 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        loadingIndicator.stopAnimating()
-        refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.refreshControl?.alpha = 0
-            }, completion: { _ in
-                self?.refreshControl?.endRefreshing()
-            })
-        }
+        removeLoadingIndicators()
 
         if animated, contentChanged {
-            tableView.reload(using: data, with: .fade) { [weak self] newData in
-                self?.viewModel.update(data: newData) {
-                    self?.reloadRefreshControlColor()
+            do {
+                try SJCommonUtils.catchException { [weak self] in
+                    self?.tableView.reload(using: data, with: .fade) { [weak self] newData in
+                        self?.viewModel.update(data: newData) {
+                            self?.reloadRefreshControlColor()
+                        }
+                    }
                 }
+            } catch {
+                if let data = data.last?.data {
+                    viewModel.update(data: data) { [weak self] in
+                        self?.reloadRefreshControlColor()
+                    }
+                }
+                tableView.reloadData()
             }
         } else {
             if let data = data.last?.data {
@@ -399,6 +402,18 @@ class PlaylistDetailViewController: FakeNavViewController {
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+    }
+
+    private func removeLoadingIndicators() {
+        loadingIndicator.stopAnimating()
+        refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.refreshControl?.alpha = 0
+            }, completion: { _ in
+                self?.refreshControl?.endRefreshing()
+            })
+        }
     }
 
     private func reloadRefreshControlColor() {
