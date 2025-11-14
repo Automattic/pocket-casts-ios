@@ -117,7 +117,18 @@ class UserEpisodeDataManager {
     func allUpNextEpisodes(dbQueue: PCDBQueue) -> [UserEpisode] {
         let upNextTableName = DataManager.playlistEpisodeTableName
         let userEpisodeTableName = DataManager.userEpisodeTableName
-        return loadMultiple(query: "SELECT \(userEpisodeTableName).* FROM \(upNextTableName) JOIN \(userEpisodeTableName) ON \(userEpisodeTableName).uuid = \(upNextTableName).episodeUuid ORDER BY \(upNextTableName).episodePosition ASC", values: nil, dbQueue: dbQueue)
+        return loadMultiple(
+            query: """
+            SELECT \(userEpisodeTableName).*
+            FROM \(upNextTableName)
+            JOIN \(userEpisodeTableName)
+            ON \(userEpisodeTableName).uuid = \(upNextTableName).episodeUuid
+            WHERE \(upNextTableName).playlist_id = ?
+            ORDER BY \(upNextTableName).episodePosition ASC
+            """,
+            values: [UpNextDataManager.upNextPlaylistId],
+            dbQueue: dbQueue
+        )
     }
 
     private func loadSingle(query: String, values: [Any]?, dbQueue: PCDBQueue) -> UserEpisode? {

@@ -19,7 +19,7 @@ extension PlaylistTypeTrackerProvider {
 
     func track(episode: Episode, added: Bool, to playlist: EpisodeFilter, source: String? = nil) {
         let properties = [
-            "source": source ?? analyticsSourceType,
+            "source": finalSourceType(from: source, added: added),
             "playlist_name": playlist.playlistName,
             "playlist_uuid": playlist.uuid,
             "episode_uuid": episode.uuid,
@@ -31,6 +31,14 @@ extension PlaylistTypeTrackerProvider {
         } else {
             Analytics.track(.episodeRemovedFromList, properties: properties)
         }
+    }
+
+    private func finalSourceType(from source: String?, added: Bool) -> String {
+        let finalSource = source ?? analyticsSourceType
+        if finalSource == "swipe" {
+            return added ? "swipe_edit" : "swipe_remove"
+        }
+        return finalSource
     }
 }
 

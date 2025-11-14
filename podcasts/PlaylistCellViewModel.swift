@@ -186,7 +186,8 @@ class PlaylistCellViewModel: ObservableObject {
         return await Task.detached(priority: .userInitiated) {
             dataManager.allPlaylistEpisodeCount(
                 for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
+                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
+                includingArchivedEpisodes: playlist.manual
             )
         }.value
     }

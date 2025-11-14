@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import SwiftUI
@@ -207,19 +208,40 @@ extension PlaylistsViewController {
     }
 
     func showPlaylistsTipIfNeeded() {
-        if Settings.shouldShowNewFilterTip, newFilterTip == nil {
+        if !FeatureFlag.playlistsRebranding.enabled {
             showNewFilterTip()
             return
         }
 
-        if FeatureFlag.playlistsRebranding.enabled,
-           Settings.firstTimePlaylistCreated,
+        guard SyncManager.isUserLoggedIn() else { return }
+
+        if Settings.shouldShowNewFilterTip,
+           !hasPremadePlaylists(),
+           newFilterTip == nil {
+            showNewFilterTip()
+            return
+        }
+
+        if Settings.firstTimePlaylistCreated,
            Settings.shouldShowDragAndDropTip,
            !presentingPlaylistDetail,
            newFilterTip == nil {
             presentPlaylistsDragAndDropTip()
             return
         }
+    }
+
+    private func hasPremadePlaylists() -> Bool {
+        let premadePlaylistUuids: Set<String> = [
+            PlaylistManager.DefaultUUIDs.newReleases,
+            PlaylistManager.DefaultUUIDs.inProgress
+        ]
+        let playlistsUUID = playlists.map { $0.uuid }
+        let playlistsUUIDSet: Set<String> = Set(playlistsUUID)
+        if playlistsUUIDSet.count > premadePlaylistUuids.count || premadePlaylistUuids != playlistsUUIDSet {
+            return true
+        }
+        return false
     }
 
     private func filtersTip() -> UIHostingController<AnyView>? {
