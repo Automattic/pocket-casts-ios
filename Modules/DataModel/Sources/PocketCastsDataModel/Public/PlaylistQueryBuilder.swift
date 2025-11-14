@@ -37,6 +37,8 @@ public class PlaylistQueryBuilder {
         sortType: PlaylistSort? = nil
     ) -> String {
 
+        let sortType = sortType?.rawValue ?? playlist.sortType
+
         var queryString: String = ""
 
         if playlist.manual {
@@ -96,37 +98,12 @@ public class PlaylistQueryBuilder {
                     \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
             case .firstDistinctEpisodes:
-                let sortType = sortType?.rawValue ?? playlist.sortType
-                var sortBy = "ORDER BY playlist_position ASC"
-                if sortType != 4, let newSort = add(sortFor: sortType)?.replacingOccurrences(of: "episode.", with: "") {
-                    sortBy = newSort
-                }
-                var sortByd = "ORDER BY playlist.episodePosition ASC"
-                if sortType != 4, let newSort = add(sortFor: sortType) {
-                    sortByd = newSort
-                }
-                let distinctCTE =
-                """
-                WITH ordered_episodes AS (
-                  SELECT episode.*,
-                        playlist.episodePosition AS playlist_position,
-                         ROW_NUMBER() OVER (
-                           PARTITION BY episode.podcast_id
-                           \(sortByd)
-                         ) AS rn
-                  FROM \(DataManager.episodeTableName) episode
-                  JOIN \(DataManager.playlistEpisodeTableName) playlist
-                    ON episode.uuid = playlist.episodeUuid
-                  WHERE playlist.playlist_uuid = '\(playlist.uuid)'
-                  \(shouldShowArchived ? "" : "AND episode.archived = 0")
+                return manualPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    playlistUUID: playlist.uuid,
+                    shouldShowArchived: shouldShowArchived
                 )
-                SELECT *
-                FROM ordered_episodes
-                WHERE rn = 1
-                \(sortBy)
-                LIMIT \(limit)
-                """
-                return distinctCTE
             }
         } else {
             var queryValues = [QueryResult]()
@@ -136,24 +113,12 @@ public class PlaylistQueryBuilder {
             let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
 
             if clause == .firstDistinctEpisodes {
-                return """
-                WITH numbered_episodes AS (
-                    SELECT episode.*,
-                           ROW_NUMBER() OVER (
-                             PARTITION BY episode.podcast_id
-                            \(add(sortFor: playlist.sortType) ?? "")
-                           ) AS rn
-                    FROM \(DataManager.episodeTableName) episode
-                    LEFT JOIN \(DataManager.podcastTableName) podcast
-                      ON episode.podcast_id = podcast.id
-                    WHERE episode.archived = 0 \(stringifiedValues)\(addedUuid.boolValue ? ")" : ""))
+                return smartPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    values: stringifiedValues,
+                    addedUuid: addedUuid.boolValue
                 )
-                SELECT *
-                FROM numbered_episodes
-                WHERE rn = 1
-                \(add(sortFor: sortType?.rawValue ?? playlist.sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
-                LIMIT \(limit)
-                """
             }
 
             let select = select(clause: clause)
@@ -181,7 +146,7 @@ public class PlaylistQueryBuilder {
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: sortType?.rawValue ?? playlist.sortType), clause != .episodeCount, clause != .allEpisodeCount {
+        if let sort = add(sortFor: sortType), clause != .episodeCount, clause != .allEpisodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }
@@ -191,6 +156,74 @@ public class PlaylistQueryBuilder {
     public class func podcastExistsInPlaylistEpisodesQuery(includeDeleted: Bool = false) -> String {
         let deletedClause = includeDeleted ? "" : " AND wasDeleted = 0"
         return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"
+    }
+
+    private static func smartPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        values: String,
+        addedUuid: Bool
+    ) -> String {
+        return """
+        WITH numbered_episodes AS (
+            SELECT episode.*,
+                   ROW_NUMBER() OVER (
+                     PARTITION BY episode.podcast_id
+                    \(add(sortFor: sortType) ?? "")
+                   ) AS rn
+            FROM \(DataManager.episodeTableName) episode
+            LEFT JOIN \(DataManager.podcastTableName) podcast
+              ON episode.podcast_id = podcast.id
+            WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+        )
+        SELECT *
+        FROM numbered_episodes
+        WHERE rn = 1
+        \(add(sortFor: sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+        LIMIT \(limit)
+        """
+    }
+
+    private static func manualPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        playlistUUID: String,
+        shouldShowArchived: Bool
+    ) -> String {
+        let isCustomOrderSortType = sortType == 4
+
+        var playlistPositionOrderBy = "ORDER BY playlist_position ASC"
+        var episodePositionOrderBy = "ORDER BY playlist.episodePosition ASC"
+
+        if !isCustomOrderSortType {
+            if let sortByPlaylist = add(sortFor: sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                playlistPositionOrderBy = sortByPlaylist
+            }
+
+            if let sortByEpisode = add(sortFor: sortType) {
+                episodePositionOrderBy = sortByEpisode
+            }
+        }
+        return """
+        WITH ordered_episodes AS (
+          SELECT episode.*,
+                playlist.episodePosition AS playlist_position,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY episode.podcast_id
+                   \(episodePositionOrderBy)
+                 ) AS rn
+          FROM \(DataManager.episodeTableName) episode
+          JOIN \(DataManager.playlistEpisodeTableName) playlist
+            ON episode.uuid = playlist.episodeUuid
+          WHERE playlist.playlist_uuid = '\(playlistUUID)'
+          \(shouldShowArchived ? "" : "AND episode.archived = 0")
+        )
+        SELECT *
+        FROM ordered_episodes
+        WHERE rn = 1
+        \(playlistPositionOrderBy)
+        LIMIT \(limit)
+        """
     }
 
     private static func select(clause: SelectClause) -> String {
