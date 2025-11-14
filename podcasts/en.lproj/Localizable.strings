@@ -5762,3 +5762,19 @@
 /* A description shown in the upsell screen for Pocket Casts Plus subscription */
 "playback_2025_plus_upsell_description" = "Subscribe to Pocket Casts Plus for extended stats, bookmarks, folders, chapter selection, and more ways to dig into your listening habits";
 
+/* A title shown on the Ratings Playback 2025 screen showing a bar chart of your ratings */
+"playback_2025_ratings_description_4_to_5" = "Creators everywhere appreciate the love";
+
+"playback_2025_ratings_description_1_to_3" = "Reviews help great shows get found";
+
+/* A description shown in Playback 2025 when the user has made ratings of 4-5/5 for Podcasts */
+"playback_2025_ratings_title_4_to_5" = "You dropped %1$@-star ratings like confetti";
+
+/* A description shown in Playback 2025 when the user has only made ratings of 1-3/5 for Podcasts */
+"playback_2025_ratings_title_1_to_3" = "Thanks for sharing your feedback.";
+
+/* A title shown in Playback 2025 when the user has not made any ratings. */
+"playback_2025_ratings_empty_title" = "No ratings yet, but there's still time!";
+
+/* A description shown in Playback 2025 to describe the new Podcast Ratings feature */
+"playback_2025_ratings_empty_description" = "Help your favorite creators get discovered by sharing what you love";
