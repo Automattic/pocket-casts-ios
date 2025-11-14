@@ -23,8 +23,8 @@ actor PlaylistMetadataLoader {
 
     func loadMetadata(
         for playlist: EpisodeFilter,
-        update: @escaping (Int) -> Void,
-        items: @escaping ([PlaylistArtworkView.ImageItem]) -> Void
+        update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void,
+        items: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void
     ) async {
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
@@ -36,11 +36,12 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    func loadCount(for playlist: EpisodeFilter, update: @escaping (Int) -> Void) async {
+    func loadCount(for playlist: EpisodeFilter, update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void) async {
         // Return cached immediately (but don't skip re-fetch)
         let playlistID = playlist.uuid
         if let cached = counts[playlistID] {
-            Task { @MainActor in update(cached) }
+            let images = images[playlistID] ?? []
+            Task { @MainActor in update(cached, images) }
         }
 
         // Avoid duplicate fetches
@@ -59,8 +60,9 @@ actor PlaylistMetadataLoader {
 
             if shouldUpdate {
                 counts[playlistID] = newCount
+                let images = images[playlistID] ?? []
                 await MainActor.run {
-                    update(newCount)
+                    update(newCount, images)
                 }
             }
 
@@ -68,11 +70,12 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    func loadImages(for playlist: EpisodeFilter, update: @escaping ([PlaylistArtworkView.ImageItem]) -> Void) async {
+    func loadImages(for playlist: EpisodeFilter, update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void) async {
         // Return cached immediately (but don't skip re-fetch)
         let playlistID = playlist.uuid
         if let cached = images[playlistID] {
-            Task { @MainActor in update(cached) }
+            let count = counts[playlistID] ?? 0
+            Task { @MainActor in update(count, cached) }
         }
 
         // Avoid duplicate fetches
@@ -95,18 +98,20 @@ actor PlaylistMetadataLoader {
 
                 if shouldUpdate {
                     images[playlistID] = items
+                    let count = counts[playlistID] ?? 0
                     await MainActor.run {
-                        update(items)
+                        update(count, items)
                     }
                 }
             } catch {
                 let items = images[playlistID] ?? []
+                let count = counts[playlistID] ?? 0
                 await MainActor.run {
-                    update(items)
+                    update(count, items)
                 }
             }
 
-            countTasks[playlistID] = nil
+            imagesTasks[playlistID] = nil
         }
     }
 

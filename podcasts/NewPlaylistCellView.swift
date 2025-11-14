@@ -2,42 +2,29 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct NewPlaylistCellView: View {
-    enum DisplayType {
-        case count
-        case toggle
-        case check
-        case addNew
-        case plain
-    }
-
     @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: NewPlaylistCellViewModel
 
     @Binding private var isSelected: Bool
-
     @State private var refreshToken = UUID()
-    @State private var episodesCount: Int = 0
-    @State private var playlistName: String = ""
-    @State private var isSmartPlaylist: Bool = false
-
     private let canBeDisabled: Bool
     private let analyticsSource: String?
-    private let displayType: DisplayType
 
     private var title: String {
-        switch displayType {
+        switch viewModel.displayType {
         case .addNew:
             return L10n.playlistsDefaultNewPlaylist
         default:
-            return playlistName
+            return viewModel.playListName()
         }
     }
 
     private var subtitle: String? {
-        switch displayType {
+        switch viewModel.displayType {
         case .check:
-            return L10n.playlistEpisodesCount(episodesCount)
+            return L10n.playlistEpisodesCount(viewModel.episodesCount)
         case .toggle, .count, .plain:
-            if isSmartPlaylist {
+            if viewModel.isSmartPlaylist() {
                 return L10n.smartPlaylist
             }
             return nil
@@ -46,27 +33,19 @@ struct NewPlaylistCellView: View {
         }
     }
 
-    private var isBelowEpisodeLimit: Bool {
-#if DEBUG
-        episodesCount < Settings.debugPlaylistsLimit
-#else
-        episodesCount < Constants.Limits.maxFilterItems
-#endif
-    }
-
     var shouldDisableRow: Bool {
         canBeDisabled &&
         !isSelected &&
-        !isBelowEpisodeLimit
+        !viewModel.isBelowEpisodeLimit
     }
 
     init(
-        displayType: DisplayType,
+        viewModel: NewPlaylistCellViewModel,
         isSelected: Binding<Bool> = .constant(false),
         canBeDisabled: Bool = false,
         analyticsSource: String? = nil
     ) {
-        self.displayType = displayType
+        self.viewModel = viewModel
         self._isSelected = isSelected
         self.canBeDisabled = canBeDisabled
         self.analyticsSource = analyticsSource
@@ -119,7 +98,6 @@ struct NewPlaylistCellView: View {
                 }
         }
         .opacity(shouldDisableRow ? 0.45 : 1.0)
-        
     }
 
     private func subtitleView(text: String) -> some View {
@@ -129,7 +107,7 @@ struct NewPlaylistCellView: View {
     }
 
     @ViewBuilder private func accesoryView() -> some View {
-        switch displayType {
+        switch viewModel.displayType {
         case .count:
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
@@ -172,82 +150,82 @@ struct NewPlaylistCellView: View {
     }
 }
 
-#Preview {
-    struct PreviewWrapper: View {
-        @EnvironmentObject var theme: Theme
-
-        var body: some View {
-            List {
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model(),
-                        displayType: .plain
-                    ),
-                    isSelected: .constant(true)
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model(),
-                        displayType: .addNew
-                    ),
-                    isSelected: .constant(true)
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(playlist: model())
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model(),
-                        displayType: .toggle
-                    ),
-                    isSelected: .constant(true)
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model(),
-                        displayType: .check
-                    ),
-                    isSelected: .constant(true)
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-
-                PlaylistCellView(
-                    viewModel: PlaylistCellViewModel(
-                        playlist: model(),
-                        displayType: .check
-                    ),
-                    isSelected: .constant(false)
-                )
-                .frame(width: 350, height: 81)
-                .background(.white)
-                .listRowSeparator(.hidden)
-            }
-        }
-
-        private func model() -> EpisodeFilter {
-            let filter = EpisodeFilter()
-            filter.playlistName = "New Releases"
-            return filter
-        }
-    }
-    return PreviewWrapper()
-        .environmentObject(Theme.sharedTheme)
-}
+//#Preview {
+//    struct PreviewWrapper: View {
+//        @EnvironmentObject var theme: Theme
+//
+//        var body: some View {
+//            List {
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(
+//                        playlist: model(),
+//                        displayType: .plain
+//                    ),
+//                    isSelected: .constant(true)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(
+//                        playlist: model(),
+//                        displayType: .addNew
+//                    ),
+//                    isSelected: .constant(true)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(playlist: model(), displayType: .count)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(
+//                        playlist: model(),
+//                        displayType: .toggle
+//                    ),
+//                    isSelected: .constant(true)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(
+//                        playlist: model(),
+//                        displayType: .check
+//                    ),
+//                    isSelected: .constant(true)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//
+//                NewPlaylistCellView(
+//                    viewModel: NewPlaylistCellViewModel(
+//                        playlist: model(),
+//                        displayType: .check
+//                    ),
+//                    isSelected: .constant(false)
+//                )
+//                .frame(width: 350, height: 81)
+//                .background(.white)
+//                .listRowSeparator(.hidden)
+//            }
+//        }
+//
+//        private func model() -> EpisodeFilter {
+//            let filter = EpisodeFilter()
+//            filter.playlistName = "New Releases"
+//            return filter
+//        }
+//    }
+//    return PreviewWrapper()
+//        .environmentObject(Theme.sharedTheme)
+//}

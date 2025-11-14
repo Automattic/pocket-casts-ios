@@ -32,13 +32,13 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
                 Task {
-                    await playlistMetadataLoader.loadMetadata(for: playlist) { count in
-                        print("- Playlist count \(count)")
-                    } items: {  images in
-                        print("- Playlist images \(images.count)")
+                    await playlistMetadataLoader.loadMetadata(for: playlist) { count, images in
+
+                        cell.update(playlist: playlist, episodesCount: count, images: images, isLastRow: indexPath.row == self.playlists.count - 1)
+                    } items: { count, images in
+                        cell.update(playlist: playlist, episodesCount: count, images: images, isLastRow: indexPath.row == self.playlists.count - 1)
                     }
                 }
-                cell.configure(playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
             }
             return cell
         }
