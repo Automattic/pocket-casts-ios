@@ -106,7 +106,7 @@ class EndOfYear2025StoriesModel: StoryModel {
             case .top5Podcasts:
                 return true
             case .ratings:
-                return false
+                return data.ratings.isEmpty
             default:
                 return false
         }
