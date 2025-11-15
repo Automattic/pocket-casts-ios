@@ -84,9 +84,26 @@ extension PlaylistDetailViewController {
     }
 
     private func checkDifferencesWithUpNext() async -> Bool {
-        let episodesToPlay = viewModel.episodes.map { $0.episode.uuid }
-        let uuids = viewModel.dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
-        return Set(episodesToPlay) != Set(uuids)
+        let playlistEpisodeUuids = viewModel.episodes.map { $0.episode.uuid }
+        let upNextEpisodeUuids = viewModel.dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
+
+        if playlistEpisodeUuids.count != upNextEpisodeUuids.count {
+            return true
+        }
+
+        if playlistEpisodeUuids != upNextEpisodeUuids {
+            return true
+        }
+
+        guard let firstPlaylistUuid = playlistEpisodeUuids.first else {
+            return false
+        }
+
+        guard let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid else {
+            return true
+        }
+
+        return currentUuid != firstPlaylistUuid
     }
 
     // MARK: - Multiselect
