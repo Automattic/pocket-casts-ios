@@ -60,6 +60,108 @@ final class UpNextEpisodeFetchTests: XCTestCase {
         XCTAssertEqual(results.map(\.uuid), [upNextUserEpisode.uuid])
     }
 
+    func testSavingUpNextEpisodeDoesNotShiftManualPlaylistOrdering() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        let manualPlaylistUuid = "manual-playlist"
+        addManualPlaylistEntry(
+            queue: queue,
+            episodeUuid: "manual-episode-1",
+            playlistId: 42,
+            playlistUuid: manualPlaylistUuid,
+            position: 0,
+            title: "Manual Episode 1",
+            podcastUuid: "manual-podcast"
+        )
+        addManualPlaylistEntry(
+            queue: queue,
+            episodeUuid: "manual-episode-2",
+            playlistId: 42,
+            playlistUuid: manualPlaylistUuid,
+            position: 1,
+            title: "Manual Episode 2",
+            podcastUuid: "manual-podcast"
+        )
+
+        let playlistEpisode = PlaylistEpisode()
+        playlistEpisode.episodeUuid = "upnext-1"
+        playlistEpisode.title = "Up Next Episode"
+        playlistEpisode.podcastUuid = "upnext-podcast"
+        playlistEpisode.episodePosition = 0
+        upNextManager.save(playlistEpisode: playlistEpisode, dbQueue: queue)
+
+        XCTAssertEqual(fetchManualPlaylistOrder(queue: queue, playlistUuid: manualPlaylistUuid), ["manual-episode-1", "manual-episode-2"])
+    }
+
+    func testBulkSavingUpNextEpisodesDoesNotShiftManualPlaylistOrdering() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        let manualPlaylistUuid = "manual-playlist"
+        addManualPlaylistEntry(
+            queue: queue,
+            episodeUuid: "manual-episode-1",
+            playlistId: 42,
+            playlistUuid: manualPlaylistUuid,
+            position: 0,
+            title: "Manual Episode 1",
+            podcastUuid: "manual-podcast"
+        )
+        addManualPlaylistEntry(
+            queue: queue,
+            episodeUuid: "manual-episode-2",
+            playlistId: 42,
+            playlistUuid: manualPlaylistUuid,
+            position: 1,
+            title: "Manual Episode 2",
+            podcastUuid: "manual-podcast"
+        )
+
+        let bulkEpisodes = (0..<3).map { index -> PlaylistEpisode in
+            let episode = PlaylistEpisode()
+            episode.episodeUuid = "upnext-bulk-\(index)"
+            episode.title = "Up Next Bulk \(index)"
+            episode.podcastUuid = "upnext-podcast"
+            episode.episodePosition = Int32(index)
+            return episode
+        }
+        upNextManager.save(playlistEpisodes: bulkEpisodes, dbQueue: queue)
+
+        XCTAssertEqual(fetchManualPlaylistOrder(queue: queue, playlistUuid: manualPlaylistUuid), ["manual-episode-1", "manual-episode-2"])
+    }
+
+    func testDeletingUpNextEpisodesWithEmptyListDoesNotAffectManualPlaylist() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        let manualPlaylistUuid = "manual-playlist"
+        addManualPlaylistEntry(
+            queue: queue,
+            episodeUuid: "manual-episode-1",
+            playlistId: 42,
+            playlistUuid: manualPlaylistUuid,
+            position: 0,
+            title: "Manual Episode 1",
+            podcastUuid: "manual-podcast"
+        )
+
+        let upNextEpisode = PlaylistEpisode()
+        upNextEpisode.episodeUuid = "upnext-episode"
+        upNextEpisode.title = "Up Next Episode"
+        upNextEpisode.podcastUuid = "upnext-podcast"
+        upNextEpisode.episodePosition = 0
+        upNextManager.save(playlistEpisode: upNextEpisode, dbQueue: queue)
+
+        upNextManager.deleteAllUpNextEpisodesNotIn(uuids: [], dbQueue: queue)
+
+        XCTAssertEqual(fetchManualPlaylistOrder(queue: queue, playlistUuid: manualPlaylistUuid), ["manual-episode-1"])
+        XCTAssertTrue(upNextManager.allUpNextPlaylistEpisodes(dbQueue: queue).isEmpty)
+    }
+
     // MARK: - Helpers
 
     private func makeQueue() throws -> PCDBQueue {
@@ -101,5 +203,56 @@ final class UpNextEpisodeFetchTests: XCTestCase {
                 XCTFail("Failed to insert playlist entry: \(error)")
             }
         }
+    }
+
+    private func addManualPlaylistEntry(
+        queue: PCDBQueue,
+        episodeUuid: String,
+        playlistId: Int,
+        playlistUuid: String,
+        position: Int,
+        title: String,
+        podcastUuid: String
+    ) {
+        queue.write { db in
+            do {
+                try db.executeUpdate(
+                    """
+                    INSERT INTO \(DataManager.playlistEpisodeTableName)
+                    (episodePosition, episodeUuid, playlist_id, upcoming, wasDeleted, title, podcastUuid, playlist_uuid)
+                    VALUES (?, ?, ?, 0, 0, ?, ?, ?)
+                    """,
+                    values: [
+                        position,
+                        episodeUuid,
+                        playlistId,
+                        title,
+                        podcastUuid,
+                        playlistUuid
+                    ]
+                )
+            } catch {
+                XCTFail("Failed to insert manual playlist entry: \(error)")
+            }
+        }
+    }
+
+    private func fetchManualPlaylistOrder(queue: PCDBQueue, playlistUuid: String) -> [String] {
+        var order = [String]()
+        queue.read { db in
+            do {
+                let rs = try db.executeQuery(
+                    "SELECT episodeUuid FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_uuid = ? ORDER BY episodePosition ASC",
+                    values: [playlistUuid]
+                )
+                defer { rs.close() }
+                while rs.next() {
+                    order.append(DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "episodeUuid"))
+                }
+            } catch {
+                XCTFail("Failed to fetch manual playlist order: \(error)")
+            }
+        }
+        return order
     }
 }
