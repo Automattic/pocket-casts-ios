@@ -13,69 +13,58 @@ struct ListeningTime2025Story: ShareableStory {
 
     let identifier: String = "total_time"
 
-    private let startTime: Double
-    private let endTime: Double
-
-    private static let speed: Double = 0.01
+    private static let speed: Double = 0.04
 
     @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
-    @State private var currentTime: Double
+    @StateObject private var lottieTextProvider: LottieTextProvider
 
     init(listeningTime: Double) {
         self.listeningTime = listeningTime
-        startTime = listeningTime - (listeningTime * 0.1)
-        endTime = listeningTime
-        _currentTime = .init(initialValue: startTime)
+        _lottieTextProvider = .init(wrappedValue: LottieTextProvider(startTime: listeningTime - (listeningTime * 0.1), endTime: listeningTime))
     }
 
     var formattedMinutes: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
-        return formatter.string(for: Int(currentTime / 60.0)) ?? ""
+        return formatter.string(for: Int(listeningTime / 60.0)) ?? ""
     }
 
-    @State var growFactor: CGFloat = 0
+    @State private var playMode: LottiePlaybackMode = .paused(at: .progress(0))
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
-                    VStack(alignment: .leading) {
-                        let sizingFactor = 0.25
-                        let font = UIFont(name: "Humane-SemiBold", size: geometry.size.height * sizingFactor) ?? UIFont.systemFont(ofSize: geometry.size.height * sizingFactor)
-                        Text(formattedMinutes)
-                            .lineLimit(1)
-                            .font(Font(font as CTFont))
-                            .minimumScaleFactor(0.5)
-                        HStack {
-                            Text(L10n.playback2025ListeningTime)
-                                .font(.system(size: 18))
-                                .fontWeight(.semibold)
-                                .kerning(0.52)
-                            Spacer()
-                        }
-                    }
-                    .border(.green)
-                    .padding(.horizontal, 30)                    
-                    .border(.red)
-                    .clipShape(GrowingParallelShape(growFactor: growFactor))
                 }
-                .padding(.bottom, geometry.size.height * 0.23)
-                .border(.orange)
                 .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(content: {
-                LottieView(animation: .named("playback2025_listening_time"))
-                    .animationDidFinish({ completed in
-                    })
-                    .configure({ animationView in
-                    })
-                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                    .ignoresSafeArea()
-                    .scaleEffect(x: 1.2, y: 1)
+                ZStack {
+                    LottieView(animation: .named("playback2025_listening_time_numbers"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                            animationView.textProvider = self.lottieTextProvider
+                        })
+                        .playbackMode(playMode)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .zIndex(3)
+                    LottieView(animation: .named("playback2025_listening_time"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                        })
+                        .playbackMode(playMode)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .zIndex(2)
+                }
             })
         }
         .foregroundStyle(foregroundColor)
@@ -83,21 +72,22 @@ struct ListeningTime2025Story: ShareableStory {
         .onChange(of: stepCounter.counter) { value in
             stepNumberAnimation(value)
         }
-        .onAppear() {
-            withAnimation(.timingCurve(0.33, 0, 0, 1, duration: 1.5)) {
-                growFactor = 1
-            }
+        .onAppear {
+            playMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse))
+        }
+        .onDisappear {
+            playMode = .paused(at: .progress(0))
         }
     }
 
     func stepNumberAnimation(_ value: Int) {
-        if currentTime < endTime {
-            withAnimation(.easeIn(duration: Self.speed)) {
-                currentTime = listeningTime * 0.01 * Double(value)
-            }
-        } else {
-            currentTime = endTime
-        }
+//        if currentTime < endTime {
+//            withAnimation(.easeIn(duration: Self.speed)) {
+//                currentTime = listeningTime * 0.01 * Double(value)
+//            }
+//        } else {
+//            currentTime = endTime
+//        }
     }
 
     func onAppear() {
@@ -116,21 +106,45 @@ struct ListeningTime2025Story: ShareableStory {
     }
 }
 
-struct GrowingCenteredRect: Shape {
-    var currentHeight: CGFloat
+final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable, ObservableObject {
 
-    var animatableData: CGFloat {
-        get { currentHeight }
-        set { currentHeight = newValue }
+    private var startTime: Double
+    private var endTime: Double
+    var currentTime: Double
+
+    private static func formatted(hours: Int) -> String {
+        return hours == 1 ? L10n.hoursSingularFormat : L10n.hoursPluralFormat(hours)
     }
 
-    func path(in rect: CGRect) -> Path {
-        let halfHeight = min(currentHeight / 2, rect.height / 2)
-        let centerY = rect.midY
-        let top = centerY - halfHeight
-        let bottom = centerY + halfHeight
+    init(
+        startTime: Double,
+        endTime: Double
+    ) {
+        self.startTime = startTime
+        self.endTime = endTime
+        self.currentTime = startTime
+    }
 
-        return Path(CGRect(x: rect.minX, y: top, width: rect.width, height: bottom - top))
+    func textFor(keypathName: String, sourceText: String) -> String {
+        if keypathName == "minutes listened" {
+            return L10n.playback2025ListeningTime
+        } else {
+            if currentTime < endTime {
+                currentTime += endTime * 0.01 / 4
+            }
+            return formattedMinutes
+        }
+    }
+
+    var formattedMinutes: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ","
+        return formatter.string(for: Int(Double(currentTime) / 60.0)) ?? ""
+    }
+
+    static func == (lhs: LottieTextProvider, rhs: LottieTextProvider) -> Bool {
+        return lhs.startTime == rhs.startTime && lhs.endTime == lhs.endTime
     }
 }
 
