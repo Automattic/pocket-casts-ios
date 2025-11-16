@@ -4,7 +4,6 @@ import PocketCastsDataModel
 
 class PlaylistCell: ThemeableCell {
     typealias PlaylistCellType = PlaylistCellViewModel.DisplayType
-    typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
 
     static let reuseIdentifier = "PlaylistCell"
     static let cellHeight = 81.0
@@ -57,48 +56,6 @@ class PlaylistCell: ThemeableCell {
 
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func update(
-        cellType: NewPlaylistCellType = .count,
-        playlist: EpisodeFilter,
-        episodesCount: Int,
-        images: [PlaylistArtworkView.ImageItem],
-        isLastRow: Bool,
-        isSelected: Binding<Bool> = .constant(false),
-        canBeDisabled: Bool = false,
-        analyticsSource: String? = nil
-    ) {
-        print("- Playlist count \(episodesCount)")
-
-        switch cellType {
-        case .count, .plain:
-            accessoryType = .disclosureIndicator
-        default:
-            accessoryType = .none
-        }
-
-        contentConfiguration = UIHostingConfiguration {
-            NewPlaylistCellView(
-                viewModel: NewPlaylistCellViewModel(
-                    playlist: playlist,
-                    displayType: cellType,
-                    episodesCount: episodesCount,
-                    images: images
-                ),
-                isSelected: isSelected,
-                canBeDisabled: canBeDisabled,
-                analyticsSource: analyticsSource
-            )
-            .environmentObject(Theme.sharedTheme)
-            .frame(maxWidth: .infinity, minHeight: Self.cellHeight, alignment: .leading)
-        }
-        .margins(.horizontal, 0)
-        .margins(.vertical, 0)
-
-        separatorView.isHidden = isLastRow
-        separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
-        bringSubviewToFront(separatorView)
     }
 
     func configure(

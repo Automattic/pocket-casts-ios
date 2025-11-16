@@ -5,17 +5,14 @@ struct NewPlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: NewPlaylistCellViewModel
 
-    @Binding private var isSelected: Bool
     @State private var refreshToken = UUID()
-    private let canBeDisabled: Bool
-    private let analyticsSource: String?
 
     private var title: String {
         switch viewModel.displayType {
         case .addNew:
             return L10n.playlistsDefaultNewPlaylist
         default:
-            return viewModel.playListName()
+            return viewModel.playlistName
         }
     }
 
@@ -24,7 +21,7 @@ struct NewPlaylistCellView: View {
         case .check:
             return L10n.playlistEpisodesCount(viewModel.episodesCount)
         case .toggle, .count, .plain:
-            if viewModel.isSmartPlaylist() {
+            if viewModel.isSmartPlaylist {
                 return L10n.smartPlaylist
             }
             return nil
@@ -33,22 +30,10 @@ struct NewPlaylistCellView: View {
         }
     }
 
-    var shouldDisableRow: Bool {
-        canBeDisabled &&
-        !isSelected &&
-        !viewModel.isBelowEpisodeLimit
-    }
-
     init(
-        viewModel: NewPlaylistCellViewModel,
-        isSelected: Binding<Bool> = .constant(false),
-        canBeDisabled: Bool = false,
-        analyticsSource: String? = nil
+        viewModel: NewPlaylistCellViewModel
     ) {
         self.viewModel = viewModel
-        self._isSelected = isSelected
-        self.canBeDisabled = canBeDisabled
-        self.analyticsSource = analyticsSource
     }
 
     var body: some View {
@@ -82,22 +67,6 @@ struct NewPlaylistCellView: View {
             accesoryView()
         }
         .background(.clear)
-        .if(viewModel.displayType == .check) { view in
-            view
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    trackTapEvent()
-
-                    if !shouldDisableRow {
-                        isSelected.toggle()
-                        refreshToken = UUID()
-                    } else {
-                        let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
-                        Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
-                    }
-                }
-        }
-        .opacity(shouldDisableRow ? 0.45 : 1.0)
     }
 
     private func subtitleView(text: String) -> some View {
@@ -113,40 +82,9 @@ struct NewPlaylistCellView: View {
                 subtitleView(text: "\(viewModel.episodesCount)")
             }
             .padding(.trailing, 8.0)
-        case .toggle:
-            Toggle("", isOn: $isSelected)
-                .labelsHidden()
-                .tint(theme.primaryInteractive01)
-                .padding(.trailing, 16.0)
-        case .check:
-            ZStack {
-                let image = isSelected ? "checkbox-selected" : "checkbox-unselected"
-                let color = isSelected ? theme.primaryInteractive01 : theme.primaryIcon03
-                Image(image)
-                    .renderingMode(.template)
-                    .foregroundColor(color)
-                    .frame(width: 24, height: 24)
-                if isSelected {
-                    Image("tick")
-                        .renderingMode(.template)
-                        .foregroundColor(theme.primaryInteractive02)
-                        .frame(width: 24, height: 24)
-                }
-            }
-            .padding(.trailing, 16.0)
-            .id(refreshToken)
-        case .addNew, .plain:
+        default:
             EmptyView()
         }
-    }
-
-    private func trackTapEvent() {
-        let event: AnalyticsEvent = !isSelected ? .addToPlaylistsEpisodeAddTapped : .addToPlaylistsRemoveTapped
-        var properties = ["source": self.analyticsSource ?? "unknown"]
-        if !isSelected {
-            properties["is_playlist_full"] = shouldDisableRow ? "true" : "false"
-        }
-        Analytics.track(event, properties: properties)
     }
 }
 

@@ -11,6 +11,21 @@ actor PlaylistMetadataLoader {
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
 
+    static func gridArtworkItems<T>(
+        from episodes: [T],
+        limit: Int,
+        imageManager: ImageManager = .sharedManager,
+        podcastUuid: (T) -> String
+    ) -> [PlaylistArtworkView.ImageItem] {
+        let distinctEpisodes = distinctPodcasts(from: episodes, limit: limit, podcastUuid: podcastUuid)
+
+        return distinctEpisodes.map { episode in
+            let uuid = podcastUuid(episode)
+            let url = imageManager.podcastUrl(imageSize: .grid, uuid: uuid)
+            return PlaylistArtworkView.ImageItem(id: uuid, url: url)
+        }
+    }
+
     init(
         dataManager: DataManager = .sharedManager,
         imageManager: ImageManager = .sharedManager,
@@ -29,27 +44,11 @@ actor PlaylistMetadataLoader {
         return images[playlistID] ?? []
     }
 
-    func loadMetadata(
-        for playlist: EpisodeFilter,
-        update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void,
-        items: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void
-    ) async {
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.loadCount(for: playlist, update: update)
-            }
-            group.addTask {
-                await self.loadImages(for: playlist, update: items)
-            }
-        }
-    }
-
-    func loadCount(for playlist: EpisodeFilter, update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void) async {
+    func loadCount(for playlist: EpisodeFilter, update: @escaping (Int) -> Void) async {
         // Return cached immediately (but don't skip re-fetch)
         let playlistID = playlist.uuid
         if let cached = counts[playlistID] {
-            let images = images[playlistID] ?? []
-            Task { @MainActor in update(cached, images) }
+            Task { @MainActor in update(cached) }
         }
 
         // Avoid duplicate fetches
@@ -68,9 +67,8 @@ actor PlaylistMetadataLoader {
 
             if shouldUpdate {
                 counts[playlistID] = newCount
-                let images = images[playlistID] ?? []
                 await MainActor.run {
-                    update(newCount, images)
+                    update(newCount)
                 }
             }
 
@@ -78,12 +76,11 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    func loadImages(for playlist: EpisodeFilter, update: @escaping (Int, [PlaylistArtworkView.ImageItem]) -> Void) async {
+    func loadImages(for playlist: EpisodeFilter, update: @escaping ([PlaylistArtworkView.ImageItem]) -> Void) async {
         // Return cached immediately (but don't skip re-fetch)
         let playlistID = playlist.uuid
         if let cached = images[playlistID] {
-            let count = counts[playlistID] ?? 0
-            Task { @MainActor in update(count, cached) }
+            Task { @MainActor in update(cached) }
         }
 
         // Avoid duplicate fetches
@@ -106,16 +103,14 @@ actor PlaylistMetadataLoader {
 
                 if shouldUpdate {
                     images[playlistID] = items
-                    let count = counts[playlistID] ?? 0
                     await MainActor.run {
-                        update(count, items)
+                        update(items)
                     }
                 }
             } catch {
                 let items = images[playlistID] ?? []
-                let count = counts[playlistID] ?? 0
                 await MainActor.run {
-                    update(count, items)
+                    update(items)
                 }
             }
 

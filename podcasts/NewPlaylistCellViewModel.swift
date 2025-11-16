@@ -16,6 +16,9 @@ class NewPlaylistCellViewModel: ObservableObject {
 
     @Published var episodesCount: Int = 0
     @Published var images: [PlaylistArtworkView.ImageItem] = []
+    @Published var playlistName: String = ""
+    @Published var isSmartPlaylist: Bool = false
+    @Published var displayType: DisplayType = .count
 
     var isBelowEpisodeLimit: Bool {
 #if DEBUG
@@ -23,29 +26,5 @@ class NewPlaylistCellViewModel: ObservableObject {
 #else
         episodesCount < Constants.Limits.maxFilterItems
 #endif
-    }
-
-    private var playlist: EpisodeFilter
-
-    let displayType: DisplayType
-
-    init(
-        playlist: EpisodeFilter,
-        displayType: DisplayType,
-        episodesCount: Int,
-        images: [PlaylistArtworkView.ImageItem]
-    ) {
-        self.playlist = playlist
-        self.displayType = displayType
-        self.images = images
-        self.episodesCount = episodesCount
-    }
-
-    func playListName() -> String {
-        playlist.playlistName
-    }
-
-    func isSmartPlaylist() -> Bool {
-        playlist.manual == false
     }
 }

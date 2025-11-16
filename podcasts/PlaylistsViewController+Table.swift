@@ -9,7 +9,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func registerCells() {
         if FeatureFlag.playlistsRebranding.enabled {
-            filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+            filtersTable.register(NewPlaylistCell.self, forCellReuseIdentifier: NewPlaylistCell.reuseIdentifier)
         } else {
             filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
         }
@@ -24,19 +24,21 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FeatureFlag.playlistsRebranding.enabled ? PlaylistCell.cellHeight : FilterNameCell.cellHeight
+        return FeatureFlag.playlistsRebranding.enabled ? NewPlaylistCell.cellHeight : FilterNameCell.cellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if FeatureFlag.playlistsRebranding.enabled {
-            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
+            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! NewPlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
+                cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
                 Task {
-                    await playlistMetadataLoader.loadMetadata(for: playlist) { count, images in
+                    await playlistMetadataLoader.loadCount(for: playlist) { count in
+                        cell.set(count: count)
+                    }
 
-                        cell.update(playlist: playlist, episodesCount: count, images: images, isLastRow: indexPath.row == self.playlists.count - 1)
-                    } items: { count, images in
-                        cell.update(playlist: playlist, episodesCount: count, images: images, isLastRow: indexPath.row == self.playlists.count - 1)
+                    await playlistMetadataLoader.loadImages(for: playlist) { images in
+                        cell.set(images: images)
                     }
                 }
             }
@@ -70,10 +72,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     private func cell(_ tableView: UITableView, for identifier: String) -> ThemeableCell? {
         if FeatureFlag.playlistsRebranding.enabled {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PlaylistCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NewPlaylistCell {
                 return cell
             }
-            return PlaylistCell(style: .default, reuseIdentifier: identifier)
+            return NewPlaylistCell(style: .default, reuseIdentifier: identifier)
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? FilterNameCell {
                 return cell
