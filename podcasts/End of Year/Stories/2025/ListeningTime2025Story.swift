@@ -31,6 +31,7 @@ struct ListeningTime2025Story: ShareableStory {
     }
 
     @State private var playMode: LottiePlaybackMode = .paused(at: .progress(0))
+    @State private var playModeNumbers: LottiePlaybackMode = .paused(at: .progress(0))
 
     var body: some View {
         GeometryReader { geometry in
@@ -50,7 +51,7 @@ struct ListeningTime2025Story: ShareableStory {
                             animationView.contentMode = .scaleAspectFill
                             animationView.textProvider = self.lottieTextProvider
                         })
-                        .playbackMode(playMode)
+                        .playbackMode(playModeNumbers)
                         .scaledToFill()
                         .ignoresSafeArea()
                         .zIndex(3)
@@ -69,19 +70,14 @@ struct ListeningTime2025Story: ShareableStory {
         }
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
-        .onChange(of: stepCounter.counter) { value in
-            stepNumberAnimation(value)
-        }
         .onAppear {
-            playMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse))
+            playMode = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse))
+            playModeNumbers = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0.01, toProgress: 1, loopMode: .autoReverse))
+            stepCounter.start()
         }
         .onDisappear {
             playMode = .paused(at: .progress(0))
         }
-    }
-
-    func stepNumberAnimation(_ value: Int) {
-        lottieTextProvider.step()
     }
 
     func onAppear() {
