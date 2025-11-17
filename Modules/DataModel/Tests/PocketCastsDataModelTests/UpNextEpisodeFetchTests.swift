@@ -60,6 +60,65 @@ final class UpNextEpisodeFetchTests: XCTestCase {
         XCTAssertEqual(results.map(\.uuid), [upNextUserEpisode.uuid])
     }
 
+    func testSavingUpNextEpisodeShiftsExistingUpNextEntries() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "existing-0", title: "Existing 0", podcastUuid: "pod", position: 0)
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "existing-1", title: "Existing 1", podcastUuid: "pod", position: 1)
+
+        let newEpisode = PlaylistEpisode()
+        newEpisode.episodeUuid = "incoming-episode"
+        newEpisode.title = "Incoming Episode"
+        newEpisode.podcastUuid = "pod"
+        newEpisode.episodePosition = Int32(0)
+        upNextManager.save(playlistEpisode: newEpisode, dbQueue: queue)
+
+        let episodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: queue)
+        XCTAssertEqual(episodes.map(\.episodeUuid), ["incoming-episode", "existing-0", "existing-1"])
+        XCTAssertEqual(episodes.map { Int($0.episodePosition) }, [0, 1, 2])
+    }
+
+    func testBulkSavingUpNextEpisodesShiftsExistingEntries() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "existing-0", title: "Existing 0", podcastUuid: "pod", position: 0)
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "existing-1", title: "Existing 1", podcastUuid: "pod", position: 1)
+
+        let incomingEpisodes = (0..<2).map { index -> PlaylistEpisode in
+            let episode = PlaylistEpisode()
+            episode.episodeUuid = "incoming-\(index)"
+            episode.title = "Incoming \(index)"
+            episode.podcastUuid = "pod"
+            episode.episodePosition = Int32(index)
+            return episode
+        }
+        upNextManager.save(playlistEpisodes: incomingEpisodes, dbQueue: queue)
+
+        let episodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: queue)
+        XCTAssertEqual(episodes.map(\.episodeUuid), ["incoming-0", "incoming-1", "existing-0", "existing-1"])
+        XCTAssertEqual(episodes.map { Int($0.episodePosition) }, [0, 1, 2, 3])
+    }
+
+    func testDeleteAllUpNextEpisodesNotInKeepsSpecifiedUpNextEpisodes() throws {
+        let queue = try makeQueue()
+        let upNextManager = UpNextDataManager()
+        upNextManager.setup(dbQueue: queue)
+
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "to-keep", title: "Keep", podcastUuid: "pod", position: 0)
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "to-remove-1", title: "Remove 1", podcastUuid: "pod", position: 1)
+        addUpNextEntry(upNextManager: upNextManager, queue: queue, episodeUuid: "to-remove-2", title: "Remove 2", podcastUuid: "pod", position: 2)
+
+        upNextManager.deleteAllUpNextEpisodesNotIn(uuids: ["to-keep"], dbQueue: queue)
+
+        let episodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: queue)
+        XCTAssertEqual(episodes.map(\.episodeUuid), ["to-keep"])
+        XCTAssertEqual(episodes.map { Int($0.episodePosition) }, [0])
+    }
+
     func testSavingUpNextEpisodeDoesNotShiftManualPlaylistOrdering() throws {
         let queue = try makeQueue()
         let upNextManager = UpNextDataManager()
