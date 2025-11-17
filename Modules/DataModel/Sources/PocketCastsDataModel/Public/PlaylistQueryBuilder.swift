@@ -110,7 +110,8 @@ public class PlaylistQueryBuilder {
             let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
             queryValues.append(addedUuid)
             queryValues.append(add(smartRulesFor: playlist))
-            let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            var stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            PlaylistQueryBuilder.removeEmptyFilterGroups(from: &stringifiedValues)
 
             if clause == .firstDistinctEpisodes {
                 return smartPlaylistFirstDistinctEpisodes(
@@ -129,18 +130,7 @@ public class PlaylistQueryBuilder {
             }
         }
 
-        func emptyGroup(for keyword: String) -> Regex<Substring> {
-            Regex {
-                keyword
-                ZeroOrMore(.whitespace)
-                "("
-                ZeroOrMore(.whitespace)
-                ")"
-            }
-        }
-
-        queryString.replace(emptyGroup(for: "AND"), with: "")
-        queryString.replace(emptyGroup(for: "OR"), with: "OR (1)")
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &queryString)
         if let searchTerm {
             let searchClause = playlist.manual ? "WHERE" : "AND"
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
@@ -164,7 +154,7 @@ public class PlaylistQueryBuilder {
         values: String,
         addedUuid: Bool
     ) -> String {
-        return """
+        var query = """
         WITH numbered_episodes AS (
             SELECT episode.*,
                    ROW_NUMBER() OVER (
@@ -182,6 +172,9 @@ public class PlaylistQueryBuilder {
         \(add(sortFor: sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
         LIMIT \(limit)
         """
+
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
+        return query
     }
 
     private static func manualPlaylistFirstDistinctEpisodes(
@@ -613,6 +606,21 @@ public class PlaylistQueryBuilder {
         }
 
         return queryString
+    }
+
+    private class func removeEmptyFilterGroups(from string: inout String) {
+        func emptyGroup(for keyword: String) -> Regex<Substring> {
+            Regex {
+                keyword
+                ZeroOrMore(.whitespace)
+                "("
+                ZeroOrMore(.whitespace)
+                ")"
+            }
+        }
+
+        string.replace(emptyGroup(for: "AND"), with: "")
+        string.replace(emptyGroup(for: "OR"), with: "OR (1)")
     }
 
     private class func filterTimeFor(hours: Int32) -> TimeInterval {
