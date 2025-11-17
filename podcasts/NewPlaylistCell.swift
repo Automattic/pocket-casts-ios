@@ -5,6 +5,13 @@ import PocketCastsDataModel
 class NewPlaylistCell: ThemeableCell {
     typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
 
+    lazy var artworkImageSource: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
+
     static let reuseIdentifier = "PlaylistCell"
     static let cellHeight = 81.0
     static let emptyPlaylist = EpisodeFilter()
@@ -37,12 +44,18 @@ class NewPlaylistCell: ThemeableCell {
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingController.view)
 
+        addSubview(artworkImageSource)
         addSubview(separatorView)
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: topAnchor),
             hostingController.view.bottomAnchor.constraint(equalTo: bottomAnchor),
             hostingController.view.leadingAnchor.constraint(equalTo: leadingAnchor),
             hostingController.view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32.0),
+
+            artworkImageSource.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            artworkImageSource.widthAnchor.constraint(equalToConstant: 56.0),
+            artworkImageSource.heightAnchor.constraint(equalToConstant: 56.0),
+            artworkImageSource.centerYAnchor.constraint(equalTo: centerYAnchor),
 
             separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
             separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),

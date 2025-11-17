@@ -275,13 +275,14 @@ extension PlaylistsViewController {
     private func presentPlaylistsDragAndDropTip() {
         guard
             let indexPath = filtersTable.indexPathsForVisibleRows?.first,
+            let cell = filtersTable.cellForRow(at: indexPath) as? NewPlaylistCell,
             !playlists.isEmpty
         else { return }
         let tip = tip(
             title: L10n.playlistsTipDragAndDropTitle,
             message: L10n.playlistsTipDragAndDropDescription,
-            sourceView: filtersTable,
-            sourceRect: filtersTable.rectForRow(at: indexPath)
+            sourceView: cell.artworkImageSource,
+            sourceRect: cell.artworkImageSource.bounds
         )
         guard let tip = tip else { return }
         newFilterTip = tip
