@@ -88,82 +88,33 @@ struct NewPlaylistCellView: View {
     }
 }
 
-//#Preview {
-//    struct PreviewWrapper: View {
-//        @EnvironmentObject var theme: Theme
-//
-//        var body: some View {
-//            List {
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(
-//                        playlist: model(),
-//                        displayType: .plain
-//                    ),
-//                    isSelected: .constant(true)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(
-//                        playlist: model(),
-//                        displayType: .addNew
-//                    ),
-//                    isSelected: .constant(true)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(playlist: model(), displayType: .count)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(
-//                        playlist: model(),
-//                        displayType: .toggle
-//                    ),
-//                    isSelected: .constant(true)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(
-//                        playlist: model(),
-//                        displayType: .check
-//                    ),
-//                    isSelected: .constant(true)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//
-//                NewPlaylistCellView(
-//                    viewModel: NewPlaylistCellViewModel(
-//                        playlist: model(),
-//                        displayType: .check
-//                    ),
-//                    isSelected: .constant(false)
-//                )
-//                .frame(width: 350, height: 81)
-//                .background(.white)
-//                .listRowSeparator(.hidden)
-//            }
-//        }
-//
-//        private func model() -> EpisodeFilter {
-//            let filter = EpisodeFilter()
-//            filter.playlistName = "New Releases"
-//            return filter
-//        }
-//    }
-//    return PreviewWrapper()
-//        .environmentObject(Theme.sharedTheme)
-//}
+#Preview {
+    struct PreviewWrapper: View {
+        typealias DisplayType = NewPlaylistCellViewModel
+
+        @EnvironmentObject var theme: Theme
+
+        var body: some View {
+            List {
+                NewPlaylistCellView(
+                    viewModel: viewModel(modify: { vm in
+                        vm.playlistName = "Test"
+                        vm.isSmartPlaylist = true
+                        vm.episodesCount = 123
+                    })
+                )
+                .frame(width: 350, height: 81)
+                .background(.white)
+                .listRowSeparator(.hidden)
+            }
+        }
+
+        private func viewModel(modify: (NewPlaylistCellViewModel) -> Void) -> NewPlaylistCellViewModel {
+            let vm = NewPlaylistCellViewModel()
+            modify(vm)
+            return vm
+        }
+    }
+    return PreviewWrapper()
+        .environmentObject(Theme.sharedTheme)
+}
