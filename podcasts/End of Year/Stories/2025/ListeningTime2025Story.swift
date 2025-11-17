@@ -13,7 +13,7 @@ struct ListeningTime2025Story: ShareableStory {
 
     let identifier: String = "total_time"
 
-    private static let speed: Double = 0.04
+    private static let speed: Double = 0.05
 
     @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
     private var lottieTextProvider: LottieTextProvider
