@@ -25,9 +25,6 @@ struct YearOverYearCompare2025Story: ShareableStory {
         .background {
             LottieView(animation: .named(animationName))
                 .configure({ animationView in
-#if DEBUG
-                    animationView.logHierarchyKeypaths()
-#endif
                     animationView.contentMode = .scaleAspectFill
                     animationView.textProvider = LottieTextProvider(prevYear: listeningTime.totalPlayedTimeLastYear, currentYear: listeningTime.totalPlayedTimeThisYear)
                     animationView.fontProvider = MyFontProvider()
