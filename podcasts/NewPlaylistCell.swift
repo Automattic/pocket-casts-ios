@@ -111,14 +111,14 @@ class NewPlaylistCell: ThemeableCell {
     }
 
     func loadMetadata(for playlist: EpisodeFilter) {
-        if playlistID == playlist.uuid {
-            return
-        }
-
         playlistID = playlist.uuid
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
+            let loadingPlaylist = playlistID
             let count = await self.playlistMetadataLoader.loadCount(for: playlist)
+            if self.playlistID != loadingPlaylist {
+                return
+            }
             await MainActor.run {
                 if count != self.viewModel.episodesCount {
                     self.viewModel.episodesCount = count
@@ -127,7 +127,11 @@ class NewPlaylistCell: ThemeableCell {
         }
         playlistImageLoadTask = Task { [weak self] in
             guard let self else { return }
+            let loadingPlaylist = playlistID
             let images = await self.playlistMetadataLoader.loadImages(for: playlist)
+            if self.playlistID != loadingPlaylist {
+                return
+            }
             await MainActor.run {
                 if images != self.viewModel.images {
                     self.viewModel.images = images
