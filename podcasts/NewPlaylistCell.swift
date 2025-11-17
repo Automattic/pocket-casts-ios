@@ -84,6 +84,13 @@ class NewPlaylistCell: ThemeableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func resetAllMetadata() {
+        viewModel.playlistName = ""
+        viewModel.isSmartPlaylist = false
+        viewModel.episodesCount = 0
+        viewModel.images = []
+    }
+
     func set(playlistName: String, isManualPlaylist: Bool) {
         viewModel.playlistName = playlistName
         viewModel.isSmartPlaylist = !isManualPlaylist
