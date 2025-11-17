@@ -32,7 +32,7 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         filter.manual = true
         filter.uuid = "manual-podcast"
 
-        let query = PlaylistQueryBuilder.query(clause: .podcast, for: filter)
+        let query = PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: filter)
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
     }
