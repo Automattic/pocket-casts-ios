@@ -4,8 +4,8 @@ actor PlaylistMetadataLoader {
     private var counts: [String: Int] = [:]
     private var images: [String: [PlaylistArtworkView.ImageItem]] = [:]
 
-    private var countTasks: [String: Task<Void, Never>] = [:]
-    private var imagesTasks: [String: Task<Void, Never>] = [:]
+    private var countTasks: [String: Task<Int, Never>] = [:]
+    private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
     private let dataManager: DataManager
     private let imageManager: ImageManager
@@ -44,93 +44,77 @@ actor PlaylistMetadataLoader {
         return images[playlistID] ?? []
     }
 
-    func loadMetadata(
-        for playlist: EpisodeFilter,
-        update: @escaping (Int) -> Void,
-        images: @escaping ([PlaylistArtworkView.ImageItem]) -> Void
-    ) async {
-        await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.loadCount(for: playlist, update: update)
-            }
-            group.addTask {
-                await self.loadImages(for: playlist, update: images)
-            }
-        }
-    }
-
-    func loadCount(for playlist: EpisodeFilter, update: @escaping (Int) -> Void) async {
-        // Return cached immediately (but don't skip re-fetch)
+    func loadCount(for playlist: EpisodeFilter) async -> Int {
         let playlistID = playlist.uuid
         if let cached = counts[playlistID] {
-            Task { @MainActor in update(cached) }
+            return cached
         }
 
         // Avoid duplicate fetches
-        guard countTasks[playlistID] == nil else { return }
+        if let task = countTasks[playlistID] {
+            return await task.value
+        }
 
         // Start new fetch task
-        countTasks[playlistID] = Task {
+        let task = Task {
             let newCount = await getEpisodesCount(for: playlist)
 
-            let shouldUpdate: Bool
-            if let cached = counts[playlistID] {
-                shouldUpdate = (cached != newCount)
-            } else {
-                shouldUpdate = true
-            }
-
-            if shouldUpdate {
-                counts[playlistID] = newCount
-                await MainActor.run {
-                    update(newCount)
-                }
-            }
-
             countTasks[playlistID] = nil
+
+            if let cached = counts[playlistID], cached == newCount {
+                return cached
+            }
+
+            counts[playlistID] = newCount
+            return newCount
         }
+        countTasks[playlistID] = task
+        return await task.value
     }
 
-    func loadImages(for playlist: EpisodeFilter, update: @escaping ([PlaylistArtworkView.ImageItem]) -> Void) async {
-        // Return cached immediately (but don't skip re-fetch)
+    func loadImages(for playlist: EpisodeFilter) async -> [PlaylistArtworkView.ImageItem] {
         let playlistID = playlist.uuid
         if let cached = images[playlistID] {
-            Task { @MainActor in update(cached) }
+            return cached
         }
 
         // Avoid duplicate fetches
-        guard imagesTasks[playlistID] == nil else { return }
+        if let task = imagesTasks[playlistID] {
+            return await task.value
+        }
 
         // Start new fetch task
-        imagesTasks[playlistID] = Task {
+        let task = Task {
+            defer {
+                imagesTasks[playlistID] = nil
+            }
             let episodes = await loadListEpisodes(for: playlist)
             let distinctEpisodes = firstDistinctPodcasts(from: episodes)
 
             do {
                 let items = try await loadImagesURLs(episodes: distinctEpisodes)
 
-                let shouldUpdate: Bool
-                if let cached = images[playlistID] {
-                    shouldUpdate = (cached != items)
-                } else {
-                    shouldUpdate = true
+                if let cached = images[playlistID], cached == items {
+                    return cached
                 }
-
-                if shouldUpdate {
-                    images[playlistID] = items
-                    await MainActor.run {
-                        update(items)
-                    }
-                }
+                return items
             } catch {
-                let items = images[playlistID] ?? []
-                await MainActor.run {
-                    update(items)
-                }
+                return images[playlistID] ?? []
             }
 
-            imagesTasks[playlistID] = nil
         }
+        imagesTasks[playlistID] = task
+        return await task.value
+    }
+
+    func cancelLoadCount(for playlistID: String) {
+        countTasks[playlistID]?.cancel()
+        countTasks[playlistID] = nil
+    }
+
+    func cancelLoadImages(for playlistID: String) {
+        imagesTasks[playlistID]?.cancel()
+        imagesTasks[playlistID] = nil
     }
 
     private func getEpisodesCount(for playlist: EpisodeFilter) async -> Int {

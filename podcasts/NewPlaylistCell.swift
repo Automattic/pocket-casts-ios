@@ -1,9 +1,12 @@
 import UIKit
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsDependencyInjection
 
 class NewPlaylistCell: ThemeableCell {
     typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
+
+    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
 
     lazy var artworkImageSource: UIView = {
         let view = UIView()
@@ -26,6 +29,9 @@ class NewPlaylistCell: ThemeableCell {
     private lazy var hostingController = ThemedHostingController(
         rootView: NewPlaylistCellView(viewModel: viewModel)
     )
+    private var playlistCountLoadTask: Task<Void, Never>?
+    private var playlistImageLoadTask: Task<Void, Never>?
+    private var playlistID: String = ""
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -84,6 +90,19 @@ class NewPlaylistCell: ThemeableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetAllMetadata()
+        playlistCountLoadTask?.cancel()
+        playlistCountLoadTask = nil
+        playlistImageLoadTask?.cancel()
+        playlistImageLoadTask = nil
+        Task {
+            await playlistMetadataLoader.cancelLoadCount(for: playlistID)
+            await playlistMetadataLoader.cancelLoadImages(for: playlistID)
+        }
+    }
+
     func resetAllMetadata() {
         viewModel.playlistName = ""
         viewModel.isSmartPlaylist = false
@@ -96,11 +115,15 @@ class NewPlaylistCell: ThemeableCell {
         viewModel.isSmartPlaylist = !isManualPlaylist
     }
 
-    func set(count: Int) {
-        viewModel.episodesCount = count
-    }
-
-    func set(images: [PlaylistArtworkView.ImageItem]) {
-        viewModel.images = images
+    func loadMetadata(for playlist: EpisodeFilter) {
+        playlistID = playlist.uuid
+        playlistCountLoadTask = Task { [weak self] in
+            guard let self else { return }
+            self.viewModel.episodesCount = await self.playlistMetadataLoader.loadCount(for: playlist)
+        }
+        playlistImageLoadTask = Task { [weak self] in
+            guard let self else { return }
+            self.viewModel.images = await self.playlistMetadataLoader.loadImages(for: playlist)
+        }
     }
 }
