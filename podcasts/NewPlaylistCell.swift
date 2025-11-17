@@ -90,9 +90,11 @@ class NewPlaylistCell: ThemeableCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        resetAllMetadata()
+    func reset() {
+        viewModel.playlistName = ""
+        viewModel.isSmartPlaylist = false
+        viewModel.episodesCount = 0
+        viewModel.images = []
         playlistCountLoadTask?.cancel()
         playlistCountLoadTask = nil
         playlistImageLoadTask?.cancel()
@@ -103,27 +105,34 @@ class NewPlaylistCell: ThemeableCell {
         }
     }
 
-    func resetAllMetadata() {
-        viewModel.playlistName = ""
-        viewModel.isSmartPlaylist = false
-        viewModel.episodesCount = 0
-        viewModel.images = []
-    }
-
     func set(playlistName: String, isManualPlaylist: Bool) {
         viewModel.playlistName = playlistName
         viewModel.isSmartPlaylist = !isManualPlaylist
     }
 
     func loadMetadata(for playlist: EpisodeFilter) {
+        if playlistID == playlist.uuid {
+            return
+        }
+
         playlistID = playlist.uuid
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
-            self.viewModel.episodesCount = await self.playlistMetadataLoader.loadCount(for: playlist)
+            let count = await self.playlistMetadataLoader.loadCount(for: playlist)
+            await MainActor.run {
+                if count != self.viewModel.episodesCount {
+                    self.viewModel.episodesCount = count
+                }
+            }
         }
         playlistImageLoadTask = Task { [weak self] in
             guard let self else { return }
-            self.viewModel.images = await self.playlistMetadataLoader.loadImages(for: playlist)
+            let images = await self.playlistMetadataLoader.loadImages(for: playlist)
+            await MainActor.run {
+                if images != self.viewModel.images {
+                    self.viewModel.images = images
+                }
+            }
         }
     }
 }
