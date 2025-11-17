@@ -29,7 +29,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if FeatureFlag.playlistsRebranding.enabled {
-            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! NewPlaylistCell
+            let cell = cell(tableView, for: NewPlaylistCell.reuseIdentifier) as! NewPlaylistCell
             if let playlist = playlists[safe: indexPath.row] {
                 cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
                 Task {
