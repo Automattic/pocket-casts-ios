@@ -44,6 +44,21 @@ actor PlaylistMetadataLoader {
         return images[playlistID] ?? []
     }
 
+    func loadMetadata(
+        for playlist: EpisodeFilter,
+        update: @escaping (Int) -> Void,
+        images: @escaping ([PlaylistArtworkView.ImageItem]) -> Void
+    ) async {
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await self.loadCount(for: playlist, update: update)
+            }
+            group.addTask {
+                await self.loadImages(for: playlist, update: images)
+            }
+        }
+    }
+
     func loadCount(for playlist: EpisodeFilter, update: @escaping (Int) -> Void) async {
         // Return cached immediately (but don't skip re-fetch)
         let playlistID = playlist.uuid

@@ -33,11 +33,9 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             if let playlist = playlists[safe: indexPath.row] {
                 cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
                 Task {
-                    await playlistMetadataLoader.loadCount(for: playlist) { count in
+                    await playlistMetadataLoader.loadMetadata(for: playlist) { count in
                         cell.set(count: count)
-                    }
-
-                    await playlistMetadataLoader.loadImages(for: playlist) { images in
+                    } images: {  images in
                         cell.set(images: images)
                     }
                 }
