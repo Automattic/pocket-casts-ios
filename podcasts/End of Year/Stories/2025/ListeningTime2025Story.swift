@@ -81,13 +81,7 @@ struct ListeningTime2025Story: ShareableStory {
     }
 
     func stepNumberAnimation(_ value: Int) {
-//        if currentTime < endTime {
-//            withAnimation(.easeIn(duration: Self.speed)) {
-//                currentTime = listeningTime * 0.01 * Double(value)
-//            }
-//        } else {
-//            currentTime = endTime
-//        }
+        lottieTextProvider.step()
     }
 
     func onAppear() {
@@ -129,10 +123,13 @@ final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable, 
         if keypathName == "minutes listened" {
             return L10n.playback2025ListeningTime
         } else {
-            if currentTime < endTime {
-                currentTime += endTime * 0.01 / 4
-            }
             return formattedMinutes
+        }
+    }
+
+    func step() {
+        if currentTime < endTime {
+            currentTime += endTime * 0.01 / 4
         }
     }
 
