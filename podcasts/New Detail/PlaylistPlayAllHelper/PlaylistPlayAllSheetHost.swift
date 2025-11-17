@@ -8,7 +8,7 @@ class PlaylistPlayAllSheetHost: ThemedHostingController<PlaylistPlayAllSheet> {
     typealias Delegate = PlaylistPlayAllSheetHostDelegate & UISheetPresentationControllerDelegate
 
     private weak var delegate: Delegate?
-    
+
     init(delegate: Delegate?) {
         self.delegate = delegate
 
