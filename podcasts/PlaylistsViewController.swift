@@ -75,7 +75,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         if FeatureFlag.playlistsRebranding.enabled {
             let barButton = UIBarButtonItem(image: UIImage(named: "playlist_add_icon"), style: .plain, target: self, action: #selector(addNewFilter))
-            barButton.tintColor = ThemeColor.primaryIcon01()
+            barButton.tintColor = ThemeColor.secondaryIcon01()
             customRightBtn = barButton
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
@@ -192,7 +192,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
         if FeatureFlag.playlistsRebranding.enabled {
             view.backgroundColor = ThemeColor.primaryUi04()
-            customRightBtn?.tintColor = ThemeColor.primaryIcon01()
+            customRightBtn?.tintColor = ThemeColor.secondaryIcon01()
         }
     }
 
