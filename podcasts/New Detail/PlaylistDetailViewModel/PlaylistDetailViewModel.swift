@@ -100,16 +100,10 @@ class PlaylistDetailViewModel: ObservableObject {
         if isLoadingData { return }
         isLoadingData = true
 
-        let playlistID = playlist.uuid
-
         Task { [weak self] in
             guard let self else { return }
             do {
-                let cachedCount = await self.playlistMetadataLoader.cachedCount(for: playlistID)
-                await MainActor.run {
-                    self.playlistEpisodesCount = cachedCount
-                }
-                let count = await self.getPlaylistEpisodesCount()
+                let count = await self.playlistMetadataLoader.loadCount(for: self.playlist)
                 if self.isSearching {
                     await MainActor.run {
                         self.playlistEpisodesCount = count

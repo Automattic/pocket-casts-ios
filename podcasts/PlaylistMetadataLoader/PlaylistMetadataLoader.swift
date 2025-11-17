@@ -46,9 +46,6 @@ actor PlaylistMetadataLoader {
 
     func loadCount(for playlist: EpisodeFilter) async -> Int {
         let playlistID = playlist.uuid
-        if let cached = counts[playlistID] {
-            return cached
-        }
 
         // Avoid duplicate fetches
         if let task = countTasks[playlistID] {
@@ -74,9 +71,6 @@ actor PlaylistMetadataLoader {
 
     func loadImages(for playlist: EpisodeFilter) async -> [PlaylistArtworkView.ImageItem] {
         let playlistID = playlist.uuid
-        if let cached = images[playlistID] {
-            return cached
-        }
 
         // Avoid duplicate fetches
         if let task = imagesTasks[playlistID] {

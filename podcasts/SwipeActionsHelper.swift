@@ -173,7 +173,7 @@ enum SwipeActionsHelper {
             }
             if !playlistSourceType.isEmpty {
                 properties["filter_type"] = playlistSourceType
-            }
+            }            
         }
         Analytics.track(.episodeSwipeActionPerformed, properties: properties)
 

@@ -44,6 +44,7 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
         if willBeRemoved {
             viewModel.reloadEpisodeList()
         }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: viewModel.playlist)
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one
