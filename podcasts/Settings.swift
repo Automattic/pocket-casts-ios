@@ -1541,6 +1541,15 @@ class Settings: NSObject {
         }
     }
 
+    static var saveCurrentUpNextQueueIntoPlaylist: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.saveCurrentUpNextQueueIntoPlaylist) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.saveCurrentUpNextQueueIntoPlaylist)
+        }
+    }
+
     // MARK: - Debug IAP in TF builds
 
     static var shouldEnableIAPInTestFlightBuilds: Bool = false

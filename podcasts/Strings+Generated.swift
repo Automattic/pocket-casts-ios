@@ -2452,8 +2452,6 @@ internal enum L10n {
   /// Menu prompt to open the Playlist options. Also used for the title of the playlist options screen.
   internal static var playlistOptions: String { return L10n.tr("Localizable", "playlist_options", fallback: "Playlist Options") }
   /// Picker option showed when tapping Play all
-  internal static var playlistPlayAllOptionReplaceQueue: String { return L10n.tr("Localizable", "playlist_play_all_option_replace_queue", fallback: "Replace and play") }
-  /// Picker option showed when tapping Play all
   internal static var playlistPlayAllOptionSaveQueue: String { return L10n.tr("Localizable", "playlist_play_all_option_save_queue", fallback: "Save current queue") }
   /// Picker message showed when tapping Play all
   internal static var playlistPlayAllPickerMessage: String { return L10n.tr("Localizable", "playlist_play_all_picker_message", fallback: "Your current Up Next will be replaced when you play this playlist. Save it first to keep it.") }
@@ -2463,6 +2461,14 @@ internal enum L10n {
   internal static var playlistPlayAllReplacePickerMessage: String { return L10n.tr("Localizable", "playlist_play_all_replace_picker_message", fallback: "This will clear your current Up Next queue and start playing this playlist.") }
   /// Picker title showed when tapping replace after showing the first Play all picker
   internal static var playlistPlayAllReplacePickerTitle: String { return L10n.tr("Localizable", "playlist_play_all_replace_picker_title", fallback: "Replace current Up Next?") }
+  /// Play all sheet button title
+  internal static var playlistPlayAllSheetButtonTitle: String { return L10n.tr("Localizable", "playlist_play_all_sheet_button_title", fallback: "Replace and play") }
+  /// Play all sheet description
+  internal static var playlistPlayAllSheetDescription: String { return L10n.tr("Localizable", "playlist_play_all_sheet_description", fallback: "Playing this will replace your current Up Next.") }
+  /// Play all sheet title
+  internal static var playlistPlayAllSheetTitle: String { return L10n.tr("Localizable", "playlist_play_all_sheet_title", fallback: "Replace your Up Next?") }
+  /// Play all sheet toggle description
+  internal static var playlistPlayAllSheetToggle: String { return L10n.tr("Localizable", "playlist_play_all_sheet_toggle", fallback: "Save your current Up Next queue as a playlist.") }
   /// Toast message displayed when the current Up Next is saved
   internal static var playlistPlayAllUpNextSaved: String { return L10n.tr("Localizable", "playlist_play_all_up_next_saved", fallback: "Up Next saved as playlist") }
   /// Toast message displayed when the current Up Next is saved in more than one playlists
