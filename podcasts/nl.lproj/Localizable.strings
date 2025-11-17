@@ -1064,6 +1064,10 @@ waar je naar hebt geluisterd was
     <string>AFLEVERING %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>AFL. %1$@</string>
+    <key>episode_unavailable_message</key>
+    <string>De maker van de podcast heeft deze aflevering verwijderd. Het blijft in je afspeellijst staan totdat je het verwijdert.</string>
+    <key>episode_unavailable_title</key>
+    <string>Aflevering niet beschikbaar.</string>
     <key>episodes</key>
     <string>Afleveringen</string>
     <key>error</key>
@@ -1384,6 +1388,8 @@ waar je naar hebt geluisterd was
     <string>%1$@ uur</string>
     <key>hours_saved</key>
     <string>Uren opgeslagen</string>
+    <key>hours_singular_format</key>
+    <string>1 uur</string>
     <key>how_to_upload_explanation</key>
     <string>Hiervoor moet je eerst een app openen met audiobestanden die je wilt opslaan</string>
     <key>how_to_upload_share_action_image_center_text</key>
@@ -1945,12 +1951,63 @@ UPDATES</string>
     <string>Ten opzichte van 2023 is je luistertijd met maar liefst %1$@ gestegen</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Ten opzichte van 2023 is je luistertijd gestegen met meer %1$@</string>
+    <key>playback_2025_completion_rate_message</key>
+    <string>Van de %1$@ afleveringen die zijn gestart, heb je er %2$@ voltooid. Een sterkere follow‑through dan de meeste sportschoollidmaatschappen</string>
+    <key>playback_2025_completion_rate_title</key>
+    <string>Je afrondingspercentage dit jaar was %1$@</string>
+    <key>playback_2025_end_story_description</key>
+    <string>Deel je Playback met vrienden en toon wat liefde aan de podcasters die je het hele jaar gezelschap hielden</string>
+    <key>playback_2025_end_story_title</key>
+    <string>Bedankt dat je je jaar bij Pocket Casts hebt doorgebracht</string>
     <key>playback_2025_feature_description</key>
     <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
     <key>playback_2025_feature_title</key>
     <string>Afspelen 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>Je jaar in podcasts, verpakt en klaar om opnieuw te beleven</string>
+    <key>playback_2025_listened_to_numbers</key>
+    <string>Je hebt naar %1$@ verschillende podcasts en %2$@ afleveringen geluisterd</string>
+    <key>playback_2025_listening_time</key>
+    <string>minuten geluisterd</string>
+    <key>playback_2025_longest_episode_footer</key>
+    <string>De langste aflevering was '%1$@' van '%2$@'</string>
+    <key>playback_2025_longest_episode_message</key>
+    <string>Hopelijk heb je je eerst uitgestrekt!</string>
+    <key>playback_2025_longest_episode_title</key>
+    <string>Je langste luistermarathon: %1$@</string>
+    <key>playback_2025_plus_upsell_button_title</key>
+    <string>Neem Pocket Casts Plus</string>
+    <key>playback_2025_plus_upsell_description</key>
+    <string>Abonneer je op Pocket Casts Plus voor uitgebreide statistieken, bladwijzers, mappen, hoofdstukselectie en meer manieren om je luistergewoonten te leren kennen</string>
+    <key>playback_2025_plus_upsell_title</key>
+    <string>Wil je meer opties?</string>
+    <key>playback_2025_top_5_podcasts_message</key>
+    <string>Meer favorieten, meer afspelen, meer jij</string>
+    <key>playback_2025_top_5_podcasts_title</key>
+    <string>Je andere go-to's</string>
+    <key>playback_2025_top_spot_description</key>
+    <string>%1$@ afleveringen, %2$@
+Dat is waar we voor staan!</string>
+    <key>playback_2025_top_spot_subtitle</key>
+    <string>Het wordt niet meer "jij" dan dit</string>
+    <key>playback_2025_top_spot_title</key>
+    <string>Je beste podcasts van 2025</string>
     <key>playback_2025_view_year</key>
     <string>Mijn Playback van 2025 bekijken</string>
+    <key>playback_2025_year_over_year_comparison_down_message</key>
+    <string>Maar ja, kwaliteit gaat boven kwantiteit</string>
+    <key>playback_2025_year_over_year_comparison_down_title</key>
+    <string>Je hebt dit jaar %1$@ minder geluisterd</string>
+    <key>playback_2025_year_over_year_comparison_hero_message</key>
+    <string>Je hebt dit jaar %1$@ langer geluisterd — welkom bij de club</string>
+    <key>playback_2025_year_over_year_comparison_hero_title</key>
+    <string>Van nul naar held!</string>
+    <key>playback_2025_year_over_year_comparison_same_message</key>
+    <string>Consistent en betrouwbaar, net zoals je koffiebestelling</string>
+    <key>playback_2025_year_over_year_comparison_same_title</key>
+    <string>Je luisterervaring van 2025 is stabiel gebleven</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Hopelijk heb je je eerst uitgestrekt!</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2051,6 +2108,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>%1$@ afleveringen toegevoegd aan "%2$@"</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ afleveringen</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Deze afspeellijst is vol. Verwijder een paar afleveringen of start een nieuwe.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2059,6 +2118,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Alle %1$@ afleveringen van deze playlist zijn gearchiveerd</string>
     <key>playlist_manual_browse_shows_title</key>
     <string>Podcasts doorbladeren</string>
+    <key>playlist_manual_create_error_message</key>
+    <string>Er is iets fout gegaan bij het aanmaken van je afspeellijst.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Veeg een aflevering naar links om deze aan je playlist toe te voegen.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2073,6 +2134,22 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string> Alle afleveringen zijn gearchiveerd. Toevoegen of dearchiveren om af te spelen.</string>
     <key>playlist_options</key>
     <string>Opties voor playlists</string>
+    <key>playlist_play_all_option_replace_queue</key>
+    <string>Vervangen en afspelen</string>
+    <key>playlist_play_all_option_save_queue</key>
+    <string>Huidige wachtrij opslaan</string>
+    <key>playlist_play_all_picker_message</key>
+    <string>Je huidige Hierna wordt vervangen wanneer je deze afspeellijst afspeelt. Sla het eerst op om het te behouden.</string>
+    <key>playlist_play_all_picker_title</key>
+    <string>Je Hierna-wachtrij opslaan?</string>
+    <key>playlist_play_all_replace_picker_message</key>
+    <string>Hierdoor wordt je huidige wachtrij Hierna gewist en wordt deze afspeellijst afgespeeld.</string>
+    <key>playlist_play_all_replace_picker_title</key>
+    <string>Huidige Hierna vervangen?</string>
+    <key>playlist_play_all_up_next_saved</key>
+    <string>Hierna opgeslagen als afspeellijst</string>
+    <key>playlist_play_all_up_next_saved_plural</key>
+    <string>Hierna opgeslagen als afspeellijsten</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Intelligente playlist aanmaken</string>
     <key>playlist_preview_title</key>
@@ -2127,6 +2204,10 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Filters zijn nu intelligente playlists</string>
     <key>playlists_play_all</key>
     <string>Alles afspelen</string>
+    <key>playlists_tip_drag_and_drop_description</key>
+    <string>Houd een afspeellijst ingedrukt om deze te verplaatsen.</string>
+    <key>playlists_tip_drag_and_drop_title</key>
+    <string>Herschik je afspeellijsten</string>
     <key>please_try_again</key>
     <string>Probeer het nog eens</string>
     <key>please_try_again_later</key>
@@ -2452,6 +2533,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Morgen</string>
     <key>podcast_unarchive_all</key>
     <string>Alles dearchiveren</string>
+    <key>podcast_unavailable</key>
+    <string>Niet beschikbaar</string>
     <key>podcast_updates_ended</key>
     <string>Updates beëindigd: %1$@</string>
     <key>podcast_updates_ends</key>
@@ -3351,6 +3434,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Slaaptimer aan, %1$@ resterend</string>
     <key>smart_playlist</key>
     <string>Intelligente playlist</string>
+    <key>smart_playlists_tip_view_creation_description</key>
+    <string>Kies zelf afleveringen of laat Slimme afspeellijst deze automatisch invullen op basis van je Slimme regels.</string>
+    <key>smart_playlists_tip_view_creation_title</key>
+    <string>Bouw je eigen afspeellijst of laat ons je helpen</string>
     <key>smart_playlists_tip_view_description</key>
     <string>We hebben deze gemaakt om je op weg te helpen. Ze worden automatisch bijgewerkt op basis van je luistergedrag.</string>
     <key>smart_playlists_tip_view_title</key>
@@ -3699,6 +3786,8 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Geen afleveringen</string>
     <key>watch_no_filters</key>
     <string>Geen filters</string>
+    <key>watch_no_playlists</key>
+    <string>Geen afspeellijsten</string>
     <key>watch_no_podcasts</key>
     <string>Geen podcasts</string>
     <key>watch_nothing_playing_subtitle</key>
