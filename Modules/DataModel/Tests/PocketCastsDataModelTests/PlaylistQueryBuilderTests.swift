@@ -47,6 +47,26 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
     }
 
+    func testSmartPlaylistFirstDistinctEpisodesRemovesEmptyFilterGroups() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.uuid = "smart-playlist"
+        filter.filterUnplayed = true
+        filter.filterPartiallyPlayed = true
+        filter.filterFinished = true
+        filter.filterDownloaded = true
+        filter.filterNotDownloaded = true
+
+        let query = PlaylistQueryBuilder.query(
+            clause: .firstDistinctEpisodes,
+            for: filter,
+            limit: 10
+        )
+
+        XCTAssertFalse(query.contains("AND ()"), "Query should not contain empty AND group: \(query)")
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+    }
+
     func testPodcastExistsQueryExcludesDeletedByDefault() {
         let query = PlaylistQueryBuilder.podcastExistsInPlaylistEpisodesQuery()
 
