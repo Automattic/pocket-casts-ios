@@ -16,11 +16,11 @@ struct ListeningTime2025Story: ShareableStory {
     private static let speed: Double = 0.04
 
     @StateObject private var stepCounter: StepCounter = .init(interval: Self.speed)
-    @StateObject private var lottieTextProvider: LottieTextProvider
+    private var lottieTextProvider: LottieTextProvider
 
     init(listeningTime: Double) {
         self.listeningTime = listeningTime
-        _lottieTextProvider = .init(wrappedValue: LottieTextProvider(startTime: listeningTime - (listeningTime * 0.1), endTime: listeningTime))
+        lottieTextProvider = LottieTextProvider(startTime: listeningTime - (listeningTime * 0.1), endTime: listeningTime)
     }
 
     var formattedMinutes: String {
@@ -96,7 +96,7 @@ struct ListeningTime2025Story: ShareableStory {
     }
 }
 
-final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable, ObservableObject {
+final private class LottieTextProvider: AnimationKeypathTextProvider, Equatable {
 
     private var startTime: Double
     private var endTime: Double
@@ -115,8 +115,8 @@ final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable, 
         self.currentTime = startTime
     }
 
-    func textFor(keypathName: String, sourceText: String) -> String {
-        if keypathName == "minutes listened" {
+    func text(for keypath: Lottie.AnimationKeypath, sourceText: String) -> String? {
+        if keypath.string == "minutes listened" {
             return L10n.playback2025ListeningTime
         } else {
             step()
