@@ -81,7 +81,17 @@ class UpNextDataManager {
         dbQueue.write { db in
             do {
                 // move every episode after this one down one, if there are any
-                try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + 1 WHERE episodePosition >= ? AND episodeUuid != ? AND wasDeleted = 0", values: [playlistEpisode.episodePosition, playlistEpisode.episodeUuid])
+                try db.executeUpdate(
+                    """
+                    UPDATE \(DataManager.playlistEpisodeTableName)
+                    SET episodePosition = episodePosition + 1
+                    WHERE episodePosition >= ?
+                      AND episodeUuid != ?
+                      AND wasDeleted = 0
+                      AND playlist_id = ?
+                    """,
+                    values: [playlistEpisode.episodePosition, playlistEpisode.episodeUuid, UpNextDataManager.upNextPlaylistId]
+                )
 
                 if playlistEpisode.id == 0 {
                     playlistEpisode.id = DBUtils.generateUniqueId()
@@ -106,7 +116,17 @@ class UpNextDataManager {
                 // move every episode after this one down , if there are any
                 db.beginTransaction()
 
-                try db.executeUpdate("UPDATE \(DataManager.playlistEpisodeTableName) SET episodePosition = episodePosition + ? WHERE episodePosition >= ? AND wasDeleted = 0 AND episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))", values: [playlistEpisodes.count, topPosition])
+                try db.executeUpdate(
+                    """
+                    UPDATE \(DataManager.playlistEpisodeTableName)
+                    SET episodePosition = episodePosition + ?
+                    WHERE episodePosition >= ?
+                      AND wasDeleted = 0
+                      AND playlist_id = ?
+                      AND episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids)))
+                    """,
+                    values: [playlistEpisodes.count, topPosition, UpNextDataManager.upNextPlaylistId]
+                )
 
                 for playlistEpisode in playlistEpisodes {
                     if playlistEpisode.id == 0 {
@@ -167,7 +187,10 @@ class UpNextDataManager {
         dbQueue.write { db in
             do {
                 if uuids.count == 0 {
-                    try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName)", values: nil)
+                    try db.executeUpdate(
+                        "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ?",
+                        values: [UpNextDataManager.upNextPlaylistId]
+                    )
                 } else {
                     try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid NOT IN (\(DataHelper.convertArrayToInString(uuids))) AND playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])
                 }
