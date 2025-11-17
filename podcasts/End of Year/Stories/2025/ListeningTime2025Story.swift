@@ -96,15 +96,12 @@ struct ListeningTime2025Story: ShareableStory {
     }
 }
 
-final private class LottieTextProvider: AnimationKeypathTextProvider, Equatable {
+final private class LottieTextProvider: AnimationKeypathTextProvider {
 
     private var startTime: Double
     private var endTime: Double
     var currentTime: Double
-
-    private static func formatted(hours: Int) -> String {
-        return hours == 1 ? L10n.hoursSingularFormat : L10n.hoursPluralFormat(hours)
-    }
+    private var formatter: NumberFormatter
 
     init(
         startTime: Double,
@@ -113,6 +110,9 @@ final private class LottieTextProvider: AnimationKeypathTextProvider, Equatable 
         self.startTime = startTime
         self.endTime = endTime
         self.currentTime = startTime
+        self.formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ","
     }
 
     func text(for keypath: Lottie.AnimationKeypath, sourceText: String) -> String? {
@@ -131,14 +131,7 @@ final private class LottieTextProvider: AnimationKeypathTextProvider, Equatable 
     }
 
     var formattedMinutes: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.groupingSeparator = ","
-        return formatter.string(for: Int(Double(currentTime) / 60.0)) ?? ""
-    }
-
-    static func == (lhs: LottieTextProvider, rhs: LottieTextProvider) -> Bool {
-        return lhs.startTime == rhs.startTime && lhs.endTime == lhs.endTime
+        return formatter.string(for: Int(currentTime / 60.0)) ?? ""
     }
 }
 
