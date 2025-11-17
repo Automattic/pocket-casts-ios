@@ -121,7 +121,7 @@ actor PlaylistMetadataLoader {
         let playlist = playlist
         let dataManager = self.dataManager
 
-        return await Task.detached(priority: .userInitiated) {
+        return await Task(priority: .userInitiated) {
             dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
@@ -133,7 +133,7 @@ actor PlaylistMetadataLoader {
     private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode] {
         let playlist = playlist
         let episodesDataManager = self.episodesDataManager
-        return await Task.detached(priority: .userInitiated) {
+        return await Task(priority: .userInitiated) {
             episodesDataManager.playlistFirstDistinctEpisodes(
                 for: playlist,
                 shouldShowArchived: playlist.showArchivedEpisodes
