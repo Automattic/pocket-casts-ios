@@ -66,6 +66,8 @@ internal enum L10n {
   internal static func accessibilityPlayerEffectsPlaybackSpeed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_player_effects_playback_speed", String(describing: p1), fallback: "Playback speed %1$@ times")
   }
+  /// An accessibility label used for the add episode action for the Add Episodes search view
+  internal static var accessibilityPlaylistAddEpisode: String { return L10n.tr("Localizable", "accessibility_playlist_add_episode", fallback: "Add Episode") }
   /// Accessibility hint to inform the user which filter color flag is being used. '%1$@' is a placeholder for the filter color number.
   internal static func accessibilityPlaylistColor(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_playlist_color", String(describing: p1), fallback: "Playlist color %1$@")
