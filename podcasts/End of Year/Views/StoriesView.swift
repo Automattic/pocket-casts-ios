@@ -50,6 +50,7 @@ struct StoriesView: View {
                     }
                     .environment(\.animated, true)
                     .environment(\.pauseState, pauseState)
+                    .environmentObject(model)
 
                 if model.shouldShowUpsell() {
                     model.paywallView().zIndex(6).onAppear {

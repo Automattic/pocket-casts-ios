@@ -6,6 +6,9 @@ import PocketCastsUtils
 struct PaidStoryWallView2025: StoryView {
     let identifier = "plus_interstitial"
 
+    @Environment(\.pauseState) var pauseState: PauseState
+    @EnvironmentObject var storyModel: StoriesModel
+
     @StateObject private var model = PlusPricingInfoModel()
 
     let subscriptionTier: SubscriptionTier
@@ -53,7 +56,8 @@ struct PaidStoryWallView2025: StoryView {
 
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
-                        
+                        pauseState.togglePause()
+                        storyModel.next()
                     }
                 }
                 .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black, borderColor: .black))
@@ -72,6 +76,7 @@ struct PaidStoryWallView2025: StoryView {
         .onAppear {
             Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
             Analytics.track(.endOfYearStoryShown, story: identifier)
+            pauseState.togglePause()
         }
     }
 }
