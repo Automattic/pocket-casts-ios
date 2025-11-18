@@ -2,9 +2,12 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
+import PocketCastsDependencyInjection
 import Sentry
 
 class PlaylistDetailViewModel: ObservableObject {
+    @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
+
     typealias DataSourceValue = [ArraySection<Section, ListItem>]
 
     enum Section: String, ContentEquatable, ContentIdentifiable {
@@ -100,7 +103,7 @@ class PlaylistDetailViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             do {
-                let count = await self.getPlaylistEpisodesCount()
+                let count = await self.playlistMetadataLoader.loadCount(for: self.playlist)
                 if self.isSearching {
                     await MainActor.run {
                         self.playlistEpisodesCount = count

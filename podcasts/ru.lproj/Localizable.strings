@@ -2140,8 +2140,6 @@ Pocket Casts на полную мощность.</string>
     <string>Все выпуски архивированы. Чтобы начать воспроизведение, добавьте или распакуйте архив.</string>
     <key>playlist_options</key>
     <string>Настройки плейлиста</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Заменить и воспроизвести</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Сохранить текущий список</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Pocket Casts на полную мощность.</string>
     <string>Только последний выпуск</string>
     <key>podcasts_badges</key>
     <string>Значки</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>По выбору пользователя</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>От длинных к коротким</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

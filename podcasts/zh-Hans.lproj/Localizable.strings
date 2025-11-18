@@ -2140,8 +2140,6 @@ Pocket Casts。</string>
     <string>所有剧集已存档。 添加或取消存档即可播放。</string>
     <key>playlist_options</key>
     <string>播放列表选项</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>替换并播放</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>保存当前队列</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Pocket Casts。</string>
     <string>仅最新剧集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>拖放</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>最长到最短</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

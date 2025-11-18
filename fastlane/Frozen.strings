@@ -5592,9 +5592,6 @@
 /* Picker option showed when tapping Play all */
 "playlist_play_all_option_save_queue" = "Save current queue";
 
-/* Picker option showed when tapping Play all */
-"playlist_play_all_option_replace_queue" = "Replace and play";
-
 /* Picker title showed when tapping Play all */
 "playlist_play_all_picker_title" = "Save your Up Next queue?";
 
@@ -5612,6 +5609,18 @@
 
 /* Toast message displayed when the current Up Next is saved in more than one playlists */
 "playlist_play_all_up_next_saved_plural" = "Up Next saved as playlists";
+
+/* Play all sheet title */
+"playlist_play_all_sheet_title" = "Replace your Up Next?";
+
+/* Play all sheet description */
+"playlist_play_all_sheet_description" = "Playing this will replace your current Up Next.";
+
+/* Play all sheet toggle description */
+"playlist_play_all_sheet_toggle" = "Save your current Up Next queue as a playlist.";
+
+/* Play all sheet button title */
+"playlist_play_all_sheet_button_title" = "Replace and play";
 
 /* A title shown for the user satisfaction survey to ask whether a user enjoys the app */
 "user_satisfaction_survey_title" = "Enjoying Pocket Casts?";

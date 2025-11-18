@@ -2140,8 +2140,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Alle Folgen archiviert. Zum Abspielen hinzufügen oder wiederherstellen.</string>
     <key>playlist_options</key>
     <string>Playlist-Optionen</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Ersetzen und abspielen</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Aktuelle Warteschlange speichern</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Neue Folge</string>
     <key>podcasts_badges</key>
     <string>Kennzeichnung</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Drag-and-drop</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Lang nach kurz</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

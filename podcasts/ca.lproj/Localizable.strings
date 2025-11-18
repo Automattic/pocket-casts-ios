@@ -2471,8 +2471,6 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
     <string>Insígnia</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Arrossegar i deixar anar</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Del més llarg al més curt</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

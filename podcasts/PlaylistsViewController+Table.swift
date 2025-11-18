@@ -9,7 +9,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func registerCells() {
         if FeatureFlag.playlistsRebranding.enabled {
-            filtersTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
+            filtersTable.register(NewPlaylistCell.self, forCellReuseIdentifier: NewPlaylistCell.reuseIdentifier)
         } else {
             filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
         }
@@ -24,14 +24,17 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FeatureFlag.playlistsRebranding.enabled ? PlaylistCell.cellHeight : FilterNameCell.cellHeight
+        return FeatureFlag.playlistsRebranding.enabled ? NewPlaylistCell.cellHeight : FilterNameCell.cellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if FeatureFlag.playlistsRebranding.enabled {
-            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
+            let cell = cell(tableView, for: NewPlaylistCell.reuseIdentifier) as! NewPlaylistCell
+            if cell.tag != indexPath.row { cell.reset() }
+            cell.tag = indexPath.row
             if let playlist = playlists[safe: indexPath.row] {
-                cell.configure(playlist: playlist, isLastRow: indexPath.row == playlists.count - 1)
+                cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
+                cell.loadMetadata(for: playlist)
             }
             return cell
         }
@@ -63,10 +66,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     private func cell(_ tableView: UITableView, for identifier: String) -> ThemeableCell? {
         if FeatureFlag.playlistsRebranding.enabled {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PlaylistCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NewPlaylistCell {
                 return cell
             }
-            return PlaylistCell(style: .default, reuseIdentifier: identifier)
+            return NewPlaylistCell(style: .default, reuseIdentifier: identifier)
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? FilterNameCell {
                 return cell
@@ -266,13 +269,14 @@ extension PlaylistsViewController {
     private func presentPlaylistsDragAndDropTip() {
         guard
             let indexPath = filtersTable.indexPathsForVisibleRows?.first,
+            let cell = filtersTable.cellForRow(at: indexPath) as? NewPlaylistCell,
             !playlists.isEmpty
         else { return }
         let tip = tip(
             title: L10n.playlistsTipDragAndDropTitle,
             message: L10n.playlistsTipDragAndDropDescription,
-            sourceView: filtersTable,
-            sourceRect: filtersTable.rectForRow(at: indexPath)
+            sourceView: cell.artworkImageSource,
+            sourceRect: cell.artworkImageSource.bounds
         )
         guard let tip = tip else { return }
         newFilterTip = tip

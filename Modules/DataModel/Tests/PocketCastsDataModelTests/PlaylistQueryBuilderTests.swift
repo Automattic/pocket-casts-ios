@@ -32,7 +32,7 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         filter.manual = true
         filter.uuid = "manual-podcast"
 
-        let query = PlaylistQueryBuilder.query(clause: .podcast, for: filter)
+        let query = PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: filter)
 
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
     }
@@ -44,6 +44,26 @@ final class PlaylistQueryBuilderTests: XCTestCase {
 
         let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
 
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+    }
+
+    func testSmartPlaylistFirstDistinctEpisodesRemovesEmptyFilterGroups() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.uuid = "smart-playlist"
+        filter.filterUnplayed = true
+        filter.filterPartiallyPlayed = true
+        filter.filterFinished = true
+        filter.filterDownloaded = true
+        filter.filterNotDownloaded = true
+
+        let query = PlaylistQueryBuilder.query(
+            clause: .firstDistinctEpisodes,
+            for: filter,
+            limit: 10
+        )
+
+        XCTAssertFalse(query.contains("AND ()"), "Query should not contain empty AND group: \(query)")
         XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
     }
 

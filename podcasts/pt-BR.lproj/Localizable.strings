@@ -2140,8 +2140,6 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Todos os episódios arquivados. Adicione ou desarquive para reproduzir.</string>
     <key>playlist_options</key>
     <string>Opções da playlist</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Substituir e reproduzir</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Salvar fila atual</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Só episódios mais recentes</string>
     <key>podcasts_badges</key>
     <string>Selos</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Arrastar e soltar</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Mais longo para mais curto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

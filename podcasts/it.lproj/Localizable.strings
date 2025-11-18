@@ -2140,8 +2140,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Tutti gli episodi sono stati archiviati. Aggiungi o rimuovi l'archivio per riprodurre.</string>
     <key>playlist_options</key>
     <string>Opzioni della playlist</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Sostituisci e riproduci</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Salva la coda attuale</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Solo l'ultimo episodio</string>
     <key>podcasts_badges</key>
     <string>Badge</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Trascina e rilascia</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Dal più lungo al più corto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

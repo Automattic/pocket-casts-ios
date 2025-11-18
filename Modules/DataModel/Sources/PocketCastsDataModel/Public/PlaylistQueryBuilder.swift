@@ -6,7 +6,7 @@ public class PlaylistQueryBuilder {
         case episode
         case episodeCount
         case allEpisodeCount
-        case podcast
+        case firstDistinctEpisodes
     }
 
     private enum QueryResult {
@@ -36,6 +36,8 @@ public class PlaylistQueryBuilder {
         shouldShowArchived: Bool = false,
         sortType: PlaylistSort? = nil
     ) -> String {
+
+        let sortType = sortType?.rawValue ?? playlist.sortType
 
         var queryString: String = ""
 
@@ -95,19 +97,32 @@ public class PlaylistQueryBuilder {
                     \(manualJoin)
                     \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                     """
-            case .podcast:
-                let select = manualSelect(clause: clause, for: playlist)
-                queryString = "\(select)"
+            case .firstDistinctEpisodes:
+                return manualPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    playlistUUID: playlist.uuid,
+                    shouldShowArchived: shouldShowArchived
+                )
             }
         } else {
-            let select = select(clause: clause)
-
             var queryValues = [QueryResult]()
             let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
             queryValues.append(addedUuid)
             queryValues.append(add(smartRulesFor: playlist))
-            let stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            var stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            PlaylistQueryBuilder.removeEmptyFilterGroups(from: &stringifiedValues)
 
+            if clause == .firstDistinctEpisodes {
+                return smartPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    values: stringifiedValues,
+                    addedUuid: addedUuid.boolValue
+                )
+            }
+
+            let select = select(clause: clause)
             queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
             queryString += ")"
             if addedUuid.boolValue {
@@ -115,24 +130,13 @@ public class PlaylistQueryBuilder {
             }
         }
 
-        func emptyGroup(for keyword: String) -> Regex<Substring> {
-            Regex {
-                keyword
-                ZeroOrMore(.whitespace)
-                "("
-                ZeroOrMore(.whitespace)
-                ")"
-            }
-        }
-
-        queryString.replace(emptyGroup(for: "AND"), with: "")
-        queryString.replace(emptyGroup(for: "OR"), with: "OR (1)")
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &queryString)
         if let searchTerm {
             let searchClause = playlist.manual ? "WHERE" : "AND"
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
         }
-        if let sort = add(sortFor: sortType?.rawValue ?? playlist.sortType), clause != .episodeCount, clause != .allEpisodeCount {
+        if let sort = add(sortFor: sortType), clause != .episodeCount, clause != .allEpisodeCount {
             queryString += " \(sort) "
         }
         if limit > 0 { queryString += " LIMIT \(limit)" }
@@ -144,25 +148,85 @@ public class PlaylistQueryBuilder {
         return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"
     }
 
+    private static func smartPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        values: String,
+        addedUuid: Bool
+    ) -> String {
+        var query = """
+        WITH numbered_episodes AS (
+            SELECT episode.*,
+                   ROW_NUMBER() OVER (
+                     PARTITION BY episode.podcast_id
+                    \(add(sortFor: sortType) ?? "")
+                   ) AS rn
+            FROM \(DataManager.episodeTableName) episode
+            LEFT JOIN \(DataManager.podcastTableName) podcast
+              ON episode.podcast_id = podcast.id
+            WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+        )
+        SELECT *
+        FROM numbered_episodes
+        WHERE rn = 1
+        \(add(sortFor: sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+        LIMIT \(limit)
+        """
+
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
+        return query
+    }
+
+    private static func manualPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        playlistUUID: String,
+        shouldShowArchived: Bool
+    ) -> String {
+        let isCustomOrderSortType = sortType == 4
+
+        var playlistPositionOrderBy = "ORDER BY playlist_position ASC"
+        var episodePositionOrderBy = "ORDER BY playlist.episodePosition ASC"
+
+        if !isCustomOrderSortType {
+            if let sortByPlaylist = add(sortFor: sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                playlistPositionOrderBy = sortByPlaylist
+            }
+
+            if let sortByEpisode = add(sortFor: sortType) {
+                episodePositionOrderBy = sortByEpisode
+            }
+        }
+        return """
+        WITH ordered_episodes AS (
+          SELECT episode.*,
+                playlist.episodePosition AS playlist_position,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY episode.podcast_id
+                   \(episodePositionOrderBy)
+                 ) AS rn
+          FROM \(DataManager.episodeTableName) episode
+          JOIN \(DataManager.playlistEpisodeTableName) playlist
+            ON episode.uuid = playlist.episodeUuid
+          WHERE playlist.playlist_uuid = '\(playlistUUID)'
+          \(shouldShowArchived ? "" : "AND episode.archived = 0")
+        )
+        SELECT *
+        FROM ordered_episodes
+        WHERE rn = 1
+        \(playlistPositionOrderBy)
+        LIMIT \(limit)
+        """
+    }
+
     private static func select(clause: SelectClause) -> String {
         switch clause {
         case .episode:
             return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
         case .episodeCount, .allEpisodeCount:
             return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .podcast:
-            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        }
-    }
-
-    private static func manualSelect(clause: SelectClause, for playlist: EpisodeFilter) -> String {
-        switch clause {
-        case .episode:
-            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .episodeCount, .allEpisodeCount:
-            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
-        case .podcast:
-            return "SELECT DISTINCT podcast.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .firstDistinctEpisodes:
+            return ""
         }
     }
 
@@ -542,6 +606,21 @@ public class PlaylistQueryBuilder {
         }
 
         return queryString
+    }
+
+    private class func removeEmptyFilterGroups(from string: inout String) {
+        func emptyGroup(for keyword: String) -> Regex<Substring> {
+            Regex {
+                keyword
+                ZeroOrMore(.whitespace)
+                "("
+                ZeroOrMore(.whitespace)
+                ")"
+            }
+        }
+
+        string.replace(emptyGroup(for: "AND"), with: "")
+        string.replace(emptyGroup(for: "OR"), with: "OR (1)")
     }
 
     private class func filterTimeFor(hours: Int32) -> TimeInterval {

@@ -2140,8 +2140,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Tous les épisodes archivés. Ajoutez ou désarchivez pour lire.</string>
     <key>playlist_options</key>
     <string>Options de la playlist</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Remplacer et lire</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Enregistrer la file d’attente actuelle</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Seulement le dernier épisode</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Glisser-déposer</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Du plus long au plus court</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

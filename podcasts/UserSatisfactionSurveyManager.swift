@@ -113,6 +113,7 @@ public class UserSatisfactionSurveyManager: NSObject {
         }
 
         source.present(hostingController, animated: true)
+        currentEvent = event
         if !skipCheck {
             Settings.addSurveyPresented()
         }

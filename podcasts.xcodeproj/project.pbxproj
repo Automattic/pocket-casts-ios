@@ -712,7 +712,6 @@
 		9A4BB1F12D48F05400B68D94 /* PodcastFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */; };
 		9A4BB1F32D4A3F2A00B68D94 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */; };
 		9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */; };
-		9A57236F2EAF8E4400E0A733 /* PlaylistPlayAllHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */; };
 		9A5723712EAFBC5600E0A733 /* PlaylistDetailViewModel+PlayAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */; };
 		9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */; };
 		9A5D6B7E2EB8DB25006DA7D7 /* Top5Podcasts2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */; };
@@ -744,6 +743,14 @@
 		9AA14FAB2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */; };
 		9AA14FAD2E45023900464A5A /* NewPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
+		9AAF10802EC7545400511014 /* PlaylistMetadataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */; };
+		9AAF10832EC75AEA00511014 /* PlaylistMetadataLoader+Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */; };
+		9AB28FEE2EC79935006086F9 /* NewPlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */; };
+		9AB28FF02EC799DA006086F9 /* NewPlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */; };
+		9AB28FF42ECA133B006086F9 /* NewPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */; };
+		9AB2900A2ECB7EDB006086F9 /* PlaylistDetailViewController+PlayAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB290092ECB7ED4006086F9 /* PlaylistDetailViewController+PlayAll.swift */; };
+		9AB2900C2ECB7F81006086F9 /* PlaylistPlayAllSheetHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */; };
+		9AB2900E2ECB82F9006086F9 /* PlaylistPlayAllSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */; };
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
@@ -3091,7 +3098,6 @@
 		9A4BB1F02D48F05400B68D94 /* PodcastFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewModel.swift; sourceTree = "<group>"; };
 		9A4BB1F22D4A3F2A00B68D94 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
 		9A509DDF2D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionOfferSuccessView.swift; sourceTree = "<group>"; };
-		9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllHelper.swift; sourceTree = "<group>"; };
 		9A5723702EAFBC5200E0A733 /* PlaylistDetailViewModel+PlayAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewModel+PlayAll.swift"; sourceTree = "<group>"; };
 		9A5778112E969B4F0094B194 /* PlaylistArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArchiveView.swift; sourceTree = "<group>"; };
 		9A5D6B7D2EB8DB20006DA7D7 /* Top5Podcasts2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top5Podcasts2025Story.swift; sourceTree = "<group>"; };
@@ -3117,6 +3123,14 @@
 		9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartRuleToggleHeaderView.swift; sourceTree = "<group>"; };
 		9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistViewController.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
+		9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistMetadataLoader.swift; sourceTree = "<group>"; };
+		9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistMetadataLoader+Dependency.swift"; sourceTree = "<group>"; };
+		9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCellViewModel.swift; sourceTree = "<group>"; };
+		9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCellView.swift; sourceTree = "<group>"; };
+		9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCell.swift; sourceTree = "<group>"; };
+		9AB290092ECB7ED4006086F9 /* PlaylistDetailViewController+PlayAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+PlayAll.swift"; sourceTree = "<group>"; };
+		9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheetHost.swift; sourceTree = "<group>"; };
+		9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheet.swift; sourceTree = "<group>"; };
 		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
 		9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Analytics.swift"; sourceTree = "<group>"; };
 		9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailFetchOperation.swift; sourceTree = "<group>"; };
@@ -5718,6 +5732,7 @@
 				9AF646872E5B56E500627836 /* Playlist Header */,
 				9A57780E2E969B1C0094B194 /* PlaylistDetailViewModel */,
 				9A1A73E02E5623E700E9248C /* PlaylistDetailViewController.swift */,
+				9AB290092ECB7ED4006086F9 /* PlaylistDetailViewController+PlayAll.swift */,
 				9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */,
 				9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */,
 				9AF646962E5E0BB700627836 /* PlaylistDetailViewController+Search.swift */,
@@ -5778,7 +5793,8 @@
 		9A57236D2EAF8E2F00E0A733 /* PlaylistPlayAllHelper */ = {
 			isa = PBXGroup;
 			children = (
-				9A57236E2EAF8E4100E0A733 /* PlaylistPlayAllHelper.swift */,
+				9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */,
+				9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */,
 			);
 			path = PlaylistPlayAllHelper;
 			sourceTree = "<group>";
@@ -5822,6 +5838,15 @@
 				9A9B83BB2DCBC2A4002CE179 /* CancelSubscriptionSurveyViewModel.swift */,
 			);
 			path = Survey;
+			sourceTree = "<group>";
+		};
+		9AAF10812EC75AD400511014 /* PlaylistMetadataLoader */ = {
+			isa = PBXGroup;
+			children = (
+				9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */,
+				9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */,
+			);
+			path = PlaylistMetadataLoader;
 			sourceTree = "<group>";
 		};
 		9AD809AD2EA12D7B0050649B /* Operation */ = {
@@ -6695,6 +6720,7 @@
 		BD618BD91702BE9D00967A6B /* Playlists */ = {
 			isa = PBXGroup;
 			children = (
+				9AAF10812EC75AD400511014 /* PlaylistMetadataLoader */,
 				BD4FC1DC1FA6EB310013364F /* Edit */,
 				BD93FDB02015A25C00F6EF55 /* Single */,
 				BD93FDAF2015A24800F6EF55 /* List */,
@@ -7079,6 +7105,9 @@
 			children = (
 				BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */,
 				BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */,
+				9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */,
+				9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */,
+				9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */,
 				9A72B65F2E2115120078FC84 /* PlaylistCell.swift */,
 				9A72B6622E214C580078FC84 /* PlaylistCellView.swift */,
 				9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */,
@@ -10656,7 +10685,6 @@
 				BD93FDA120157B2000F6EF55 /* PodcastImageView.swift in Sources */,
 				F5F884652CCA86AE002BED2C /* LongestEpisode2024Story.swift in Sources */,
 				BDD5253A20477E4400AAD211 /* NSObject+AppDelegate.swift in Sources */,
-				9A57236F2EAF8E4400E0A733 /* PlaylistPlayAllHelper.swift in Sources */,
 				8B14E3B029B9159B0069B6F2 /* SearchHistoryModel.swift in Sources */,
 				C7080C5D2923070200D7A432 /* PlusAccountUpgradePrompt.swift in Sources */,
 				8B44446729785BD0007E0AA8 /* SocialLoginFactory.swift in Sources */,
@@ -10724,6 +10752,7 @@
 				10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				F53EFEEA2CD42AE400F4561B /* Ratings2024Story.swift in Sources */,
 				F5954D602C3F2864004A8C04 /* TrimHandle.swift in Sources */,
+				9AB2900E2ECB82F9006086F9 /* PlaylistPlayAllSheet.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
 				407B21E72231F6A300B4E492 /* UploadedSettingsViewController.swift in Sources */,
 				8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */,
@@ -10766,6 +10795,7 @@
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
+				9AB28FF02EC799DA006086F9 /* NewPlaylistCellView.swift in Sources */,
 				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				9AA14FAD2E45023900464A5A /* NewPlaylistViewController.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
@@ -10908,6 +10938,7 @@
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
 				FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */,
 				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
+				9AB28FEE2EC79935006086F9 /* NewPlaylistCellViewModel.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
 				F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */,
@@ -10954,6 +10985,7 @@
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
 				40542E2D2265604700046330 /* AccountViewController.swift in Sources */,
 				9A11FCBB2D9592B300A1EF3E /* PrivacySettingsDataSource.swift in Sources */,
+				9AB28FF42ECA133B006086F9 /* NewPlaylistCell.swift in Sources */,
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,
@@ -11038,6 +11070,7 @@
 				BDD62981200EEA6700168DF7 /* SimpleNotificationsViewController.swift in Sources */,
 				F5BF8F262E54273300C13B04 /* IntroCarouselDataSource.swift in Sources */,
 				BD4BBFA41D223AA9001BEE4D /* Settings.swift in Sources */,
+				9AB2900A2ECB7EDB006086F9 /* PlaylistDetailViewController+PlayAll.swift in Sources */,
 				9A1A73E12E5623EF00E9248C /* PlaylistDetailViewController.swift in Sources */,
 				FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */,
 				400AB2FD220BA3050003EE21 /* UploadedViewController.swift in Sources */,
@@ -11233,6 +11266,7 @@
 				C7B7123A29DC98BD00965BF7 /* SFSafariViewController+Creation.swift in Sources */,
 				BD1B70C72359765D004DDD44 /* ThemeAwareScrollView.swift in Sources */,
 				BDCD1E7C244D630700B83602 /* LenticularViewController.swift in Sources */,
+				9AAF10832EC75AEA00511014 /* PlaylistMetadataLoader+Dependency.swift in Sources */,
 				BDAE72D82138FB32002810A2 /* ActionIconButton.swift in Sources */,
 				BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */,
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
@@ -11284,6 +11318,7 @@
 				F53E13622E97018700B11BB0 /* HairlineSeparator.swift in Sources */,
 				BD7114BF20E224BF003DF634 /* AutoArchiveViewController.swift in Sources */,
 				C7D6551428E5153200AD7174 /* Debounce.swift in Sources */,
+				9AB2900C2ECB7F81006086F9 /* PlaylistPlayAllSheetHost.swift in Sources */,
 				FFBDF6FC2E5679E900A969B3 /* InterestButton.swift in Sources */,
 				9A991F842DB1362300B39FB8 /* BannerView.swift in Sources */,
 				FF1DF01A2C8A206E0028B8D8 /* ReferralCardAnimatedGradientView.swift in Sources */,
@@ -11552,6 +11587,7 @@
 				FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */,
 				8B723755291185B300FA8219 /* Analytics+story.swift in Sources */,
 				FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */,
+				9AAF10802EC7545400511014 /* PlaylistMetadataLoader.swift in Sources */,
 				9AF415042EB8FED8003D3677 /* EpilogueStory2025.swift in Sources */,
 				109446762CEB3A8100977161 /* CancelSubscriptionViewModel.swift in Sources */,
 				8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */,
