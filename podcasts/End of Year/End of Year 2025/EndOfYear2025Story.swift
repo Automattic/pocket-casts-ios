@@ -6,6 +6,7 @@ enum EndOfYear2025Story: CaseIterable {
     case ratings
     case listeningTime
     case longestEpisode
+    case plus
     case yearOverYearListeningTime
     case completionRate
     case epilogue

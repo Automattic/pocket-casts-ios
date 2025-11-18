@@ -3,7 +3,7 @@ import AVKit
 import PocketCastsServer
 import PocketCastsUtils
 
-struct PaidStoryWallView2025: View {
+struct PaidStoryWallView2025: StoryView {
     let identifier = "plus_interstitial"
 
     @StateObject private var model = PlusPricingInfoModel()
@@ -39,15 +39,22 @@ struct PaidStoryWallView2025: View {
                     }
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
-                StoryHeader2025(title: L10n.playback2025PlusUpsellTitle, description: L10n.playback2025PlusUpsellDescription, subscriptionTier: .plus, topPadding: 0)
-                Button(L10n.playback2025PlusUpsellButtonTitle) {
-                    guard let storiesViewController = SceneHelper.rootViewController() else {
-                        return
-                    }
+                StoryHeader2025(title: subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : "Thanks for supporting Pocket Casts!",
+                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : "Your Plus perks unlock extra stats and power features",
+                                subscriptionTier: subscriptionTier == .none ? .plus : subscriptionTier,
+                                topPadding: 0)
+                Button(subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
+                    if subscriptionTier == .none {
+                        guard let storiesViewController = SceneHelper.rootViewController() else {
+                            return
+                        }
 
-                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                    } else {
+                        
+                    }
                 }
-                .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+                .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black, borderColor: .black))
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .padding(.bottom, 4)
@@ -106,4 +113,8 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
 
 #Preview("Patron") {
     PaidStoryWallView2025(subscriptionTier: .patron)
+}
+
+#Preview("None") {
+    PaidStoryWallView2025(subscriptionTier: .none)
 }

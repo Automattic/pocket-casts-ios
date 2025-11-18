@@ -59,6 +59,8 @@ class EndOfYear2025StoriesModel: StoryModel {
             }
         }
 
+        stories.append(.plus)
+
         // Year over year listening time
         let yearOverYearListeningTime = dataManager.yearOverYearListeningTime(in: Self.year)
         if yearOverYearListeningTime.totalPlayedTimeThisYear != 0 ||
@@ -96,15 +98,15 @@ class EndOfYear2025StoriesModel: StoryModel {
                 return CompletionRate2025Story(subscriptionTier: SubscriptionHelper.activeTier, startedAndCompleted: data.episodesStartedAndCompleted)
             case .epilogue:
                 return EpilogueStory2025()
+            case .plus:
+                return PaidStoryWallView2025(subscriptionTier: SubscriptionHelper.activeTier)
         }
     }
 
     func isInteractiveView(for storyNumber: Int) -> Bool {
         switch stories[storyNumber] {
-            case .epilogue:
-                return true
-            case .top5Podcasts:
-                return true
+            case .epilogue, .plus, .top5Podcasts:
+                return true         
             case .ratings:
                 return data.ratings.isEmpty
             default:
