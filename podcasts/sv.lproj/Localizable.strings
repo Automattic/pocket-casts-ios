@@ -2140,8 +2140,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Alla avsnitt arkiverade. Lägg till eller avarkivera för att spela upp.</string>
     <key>playlist_options</key>
     <string>Spellistealternativ</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Ersätt och spela upp</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Spara nuvarande kö</string>
     <key>playlist_play_all_picker_message</key>
@@ -2563,8 +2561,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bara senaste avsnittet</string>
     <key>podcasts_badges</key>
     <string>Märken</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Dra och släpp</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Längsta till kortaste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

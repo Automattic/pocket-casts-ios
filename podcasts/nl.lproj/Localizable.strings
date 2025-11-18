@@ -2134,8 +2134,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string> Alle afleveringen zijn gearchiveerd. Toevoegen of dearchiveren om af te spelen.</string>
     <key>playlist_options</key>
     <string>Opties voor playlists</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>Vervangen en afspelen</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>Huidige wachtrij opslaan</string>
     <key>playlist_play_all_picker_message</key>
@@ -2557,8 +2555,6 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen nieuwste aflevering</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>Verslepen</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Langste naar kortste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

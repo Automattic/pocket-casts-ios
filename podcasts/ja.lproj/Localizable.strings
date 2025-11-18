@@ -2138,8 +2138,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>全エピソードをアーカイブしました。 再生するには、追加またはアーカイブを解除してください。</string>
     <key>playlist_options</key>
     <string>プレイリストのオプション</string>
-    <key>playlist_play_all_option_replace_queue</key>
-    <string>置き換えて再生</string>
     <key>playlist_play_all_option_save_queue</key>
     <string>現在のキューを保存</string>
     <key>playlist_play_all_picker_message</key>
@@ -2561,8 +2559,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードのみ</string>
     <key>podcasts_badges</key>
     <string>バッジ</string>
-    <key>podcasts_episode_sort_drag_and_drop</key>
-    <string>ドラッグ &amp; ドロップ</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>長い順</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
