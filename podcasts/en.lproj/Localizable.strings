@@ -5420,6 +5420,9 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* An accessibility label used for the playlist image */
+"accessibility_playlist_image" = "Playlist image";
+
 /* Option to delete the playlist. It appears in the edit panel from the playlist detail. */
 "playlists_delete" = "Delete Playlist";
 
