@@ -705,9 +705,6 @@
 		9A3050472EBE12D2002E64A1 /* YearOverYearCompare2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3050462EBE12CE002E64A1 /* YearOverYearCompare2025Story.swift */; };
 		9A3050512EBE1D0E002E64A1 /* img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A3050502EBE1D0E002E64A1 /* img_0.png */; };
 		9A32E0882E9569BF00D80860 /* PlaylistArchiveViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A32E0872E9569B300D80860 /* PlaylistArchiveViewCell.swift */; };
-		9A35DA8A2EBD08D800ACCACD /* test_05_mask.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A35DA892EBD08D800ACCACD /* test_05_mask.json */; };
-		9A35DA8B2EBD08D800ACCACD /* test_05.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A35DA882EBD08D800ACCACD /* test_05.json */; };
-		9A35DA8D2EBD1B2900ACCACD /* test_05_mask_02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A35DA8C2EBD1B2900ACCACD /* test_05_mask_02.json */; };
 		9A463F152E37E4B000D6887A /* PlaylistsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A463F142E37E4B000D6887A /* PlaylistsOnboardingView.swift */; };
 		9A466E402E8C26C1005D9E07 /* ManualPlaylistsChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A466E3F2E8C26B4005D9E07 /* ManualPlaylistsChooserViewController.swift */; };
 		9A4BB1E92D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */; };
@@ -3087,9 +3084,6 @@
 		9A3050462EBE12CE002E64A1 /* YearOverYearCompare2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearOverYearCompare2025Story.swift; sourceTree = "<group>"; };
 		9A3050502EBE1D0E002E64A1 /* img_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_0.png; sourceTree = "<group>"; };
 		9A32E0872E9569B300D80860 /* PlaylistArchiveViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArchiveViewCell.swift; sourceTree = "<group>"; };
-		9A35DA882EBD08D800ACCACD /* test_05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_05.json; sourceTree = "<group>"; };
-		9A35DA892EBD08D800ACCACD /* test_05_mask.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_05_mask.json; sourceTree = "<group>"; };
-		9A35DA8C2EBD1B2900ACCACD /* test_05_mask_02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_05_mask_02.json; sourceTree = "<group>"; };
 		9A463F142E37E4B000D6887A /* PlaylistsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsOnboardingView.swift; sourceTree = "<group>"; };
 		9A466E3F2E8C26B4005D9E07 /* ManualPlaylistsChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualPlaylistsChooserViewController.swift; sourceTree = "<group>"; };
 		9A4BB1E62D3AA4D600B68D94 /* AnalyticsAppThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsAppThemeProvider.swift; sourceTree = "<group>"; };
@@ -6885,9 +6879,6 @@
 			children = (
 				FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */,
 				FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */,
-				9A35DA882EBD08D800ACCACD /* test_05.json */,
-				9A35DA8C2EBD1B2900ACCACD /* test_05_mask_02.json */,
-				9A35DA892EBD08D800ACCACD /* test_05_mask.json */,
 				9A96E64C2EC4A24800472FB8 /* 2025_rating_bars.json */,
 				FF0A13722EC6168400857680 /* 2025_rating_numbers.json */,
 				9A3050502EBE1D0E002E64A1 /* img_0.png */,
@@ -10054,11 +10045,8 @@
 				40888F122563792300887D9A /* AppIcon-Round-Pink29x29@2x~ipad.png in Resources */,
 				BDBCE6CF244E7755004FFE13 /* AppIcon-Radioactive29x29@2x.png in Resources */,
 				BD6B6654245BC24C00CF5245 /* AppIcon-Pocket-Cats40x40@2x~ipad.png in Resources */,
-				9A35DA8A2EBD08D800ACCACD /* test_05_mask.json in Resources */,
-				9A35DA8B2EBD08D800ACCACD /* test_05.json in Resources */,
 				BDA002E71F7B318B00DCB4AE /* AppIcon-Round20x20@2x.png in Resources */,
 				404D74AE24809BC9009DF761 /* SupporterGratitudeViewController.xib in Resources */,
-				9A35DA8D2EBD1B2900ACCACD /* test_05_mask_02.json in Resources */,
 				BD1EBD6F1CB7770B004F83D6 /* AppearanceViewController.xib in Resources */,
 				BDAA3CFD2122A2DA00649F81 /* effects_button.json in Resources */,
 				40484F0222F26911007DBD55 /* ChangeEmailViewController.xib in Resources */,
