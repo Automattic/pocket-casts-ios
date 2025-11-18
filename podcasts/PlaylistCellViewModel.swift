@@ -42,7 +42,9 @@ class PlaylistCellViewModel: ObservableObject {
                 }
             }
         }
-
+        if !results.isEmpty, results.count < limit {
+            return Array(results.prefix(1))
+        }
         return results
     }
 
@@ -143,10 +145,10 @@ class PlaylistCellViewModel: ObservableObject {
         }
     }
 
-    private func loadListEpisodes(limit: Int = Constants.Limits.maxFilterItems) async -> [ListEpisode] {
+    private func loadListEpisodes() async -> [ListEpisode] {
         let playlist = self.playlist
         return await Task.detached(priority: .userInitiated) { [weak self] in
-            self?.episodesDataManager.playlistEpisodes(for: playlist, limit: limit, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
+            self?.episodesDataManager.playlistFirstDistinctEpisodes(for: playlist, shouldShowArchived: playlist.showArchivedEpisodes) ?? []
         }.value
     }
 

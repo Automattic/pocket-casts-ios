@@ -72,7 +72,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         if FeatureFlag.playlistsRebranding.enabled {
             let barButton = UIBarButtonItem(image: UIImage(named: "playlist_add_icon"), style: .plain, target: self, action: #selector(addNewFilter))
-            barButton.tintColor = ThemeColor.primaryIcon01()
+            barButton.tintColor = ThemeColor.secondaryIcon01()
             customRightBtn = barButton
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
@@ -121,14 +121,18 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadFilters()
+        if firstTimeLoading {
+            reloadFilters()
+        }
         setupInformationalBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateNavTintColors()
-        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
+        if !FeatureFlag.playlistsRebranding.enabled {
+            addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
+        }
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
         Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
@@ -189,7 +193,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
         if FeatureFlag.playlistsRebranding.enabled {
             view.backgroundColor = ThemeColor.primaryUi04()
-            customRightBtn?.tintColor = ThemeColor.primaryIcon01()
+            customRightBtn?.tintColor = ThemeColor.secondaryIcon01()
         }
     }
 
@@ -223,6 +227,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
             playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+            if FeatureFlag.playlistsRebranding.enabled {
+                addObserverIfNeeded()
+            }
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
@@ -230,6 +237,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self.filtersTable.reloadData()
             }
         }
+    }
+
+    private func addObserverIfNeeded() {
+        guard firstTimeLoading else { return }
+        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
     }
 
     private func setupInformationalBanner() {

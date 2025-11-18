@@ -740,6 +740,11 @@
 		9AA14FAB2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */; };
 		9AA14FAD2E45023900464A5A /* NewPlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */; };
 		9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */; };
+		9AAF10802EC7545400511014 /* PlaylistMetadataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */; };
+		9AAF10832EC75AEA00511014 /* PlaylistMetadataLoader+Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */; };
+		9AB28FEE2EC79935006086F9 /* NewPlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */; };
+		9AB28FF02EC799DA006086F9 /* NewPlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */; };
+		9AB28FF42ECA133B006086F9 /* NewPlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */; };
 		9AB2900A2ECB7EDB006086F9 /* PlaylistDetailViewController+PlayAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB290092ECB7ED4006086F9 /* PlaylistDetailViewController+PlayAll.swift */; };
 		9AB2900C2ECB7F81006086F9 /* PlaylistPlayAllSheetHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */; };
 		9AB2900E2ECB82F9006086F9 /* PlaylistPlayAllSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */; };
@@ -3110,6 +3115,11 @@
 		9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartRuleToggleHeaderView.swift; sourceTree = "<group>"; };
 		9AA14FAC2E45022200464A5A /* NewPlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistViewController.swift; sourceTree = "<group>"; };
 		9AA3B6302D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionPlansViewModel.swift; sourceTree = "<group>"; };
+		9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistMetadataLoader.swift; sourceTree = "<group>"; };
+		9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistMetadataLoader+Dependency.swift"; sourceTree = "<group>"; };
+		9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCellViewModel.swift; sourceTree = "<group>"; };
+		9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCellView.swift; sourceTree = "<group>"; };
+		9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaylistCell.swift; sourceTree = "<group>"; };
 		9AB290092ECB7ED4006086F9 /* PlaylistDetailViewController+PlayAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+PlayAll.swift"; sourceTree = "<group>"; };
 		9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheetHost.swift; sourceTree = "<group>"; };
 		9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheet.swift; sourceTree = "<group>"; };
@@ -5820,6 +5830,15 @@
 			path = Survey;
 			sourceTree = "<group>";
 		};
+		9AAF10812EC75AD400511014 /* PlaylistMetadataLoader */ = {
+			isa = PBXGroup;
+			children = (
+				9AAF107F2EC7544C00511014 /* PlaylistMetadataLoader.swift */,
+				9AAF10822EC75AE400511014 /* PlaylistMetadataLoader+Dependency.swift */,
+			);
+			path = PlaylistMetadataLoader;
+			sourceTree = "<group>";
+		};
 		9AD809AD2EA12D7B0050649B /* Operation */ = {
 			isa = PBXGroup;
 			children = (
@@ -6691,6 +6710,7 @@
 		BD618BD91702BE9D00967A6B /* Playlists */ = {
 			isa = PBXGroup;
 			children = (
+				9AAF10812EC75AD400511014 /* PlaylistMetadataLoader */,
 				BD4FC1DC1FA6EB310013364F /* Edit */,
 				BD93FDB02015A25C00F6EF55 /* Single */,
 				BD93FDAF2015A24800F6EF55 /* List */,
@@ -7072,6 +7092,9 @@
 			children = (
 				BD93FDAB20159CF600F6EF55 /* FilterNameCell.swift */,
 				BD93FDAC20159CF600F6EF55 /* FilterNameCell.xib */,
+				9AB28FF32ECA133B006086F9 /* NewPlaylistCell.swift */,
+				9AB28FEF2EC799DA006086F9 /* NewPlaylistCellView.swift */,
+				9AB28FED2EC79935006086F9 /* NewPlaylistCellViewModel.swift */,
 				9A72B65F2E2115120078FC84 /* PlaylistCell.swift */,
 				9A72B6622E214C580078FC84 /* PlaylistCellView.swift */,
 				9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */,
@@ -10754,6 +10777,7 @@
 				BD3C19301C27B4EC00B7847D /* PodcastListCell.swift in Sources */,
 				BD5AE6831FE0E9A20009B8A1 /* PodcastViewController+TableData.swift in Sources */,
 				BD2F5928204687BC00AD3767 /* BadgeHelper.swift in Sources */,
+				9AB28FF02EC799DA006086F9 /* NewPlaylistCellView.swift in Sources */,
 				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				9AA14FAD2E45023900464A5A /* NewPlaylistViewController.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
@@ -10895,6 +10919,7 @@
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
 				FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */,
 				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,
+				9AB28FEE2EC79935006086F9 /* NewPlaylistCellViewModel.swift in Sources */,
 				BDDE01991CC6130600C0B36B /* ThemeDividerView.swift in Sources */,
 				46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */,
 				F57BAC672C00CD9C007B24BD /* URLSession+Episode.swift in Sources */,
@@ -10941,6 +10966,7 @@
 				403946E72285231100F55162 /* AddCustomViewController+ImagePicker.swift in Sources */,
 				40542E2D2265604700046330 /* AccountViewController.swift in Sources */,
 				9A11FCBB2D9592B300A1EF3E /* PrivacySettingsDataSource.swift in Sources */,
+				9AB28FF42ECA133B006086F9 /* NewPlaylistCell.swift in Sources */,
 				8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */,
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,
@@ -11220,6 +11246,7 @@
 				C7B7123A29DC98BD00965BF7 /* SFSafariViewController+Creation.swift in Sources */,
 				BD1B70C72359765D004DDD44 /* ThemeAwareScrollView.swift in Sources */,
 				BDCD1E7C244D630700B83602 /* LenticularViewController.swift in Sources */,
+				9AAF10832EC75AEA00511014 /* PlaylistMetadataLoader+Dependency.swift in Sources */,
 				BDAE72D82138FB32002810A2 /* ActionIconButton.swift in Sources */,
 				BDB165DE20806F86007B57CD /* DownloadManager.swift in Sources */,
 				FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */,
@@ -11540,6 +11567,7 @@
 				FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */,
 				8B723755291185B300FA8219 /* Analytics+story.swift in Sources */,
 				FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */,
+				9AAF10802EC7545400511014 /* PlaylistMetadataLoader.swift in Sources */,
 				9AF415042EB8FED8003D3677 /* EpilogueStory2025.swift in Sources */,
 				109446762CEB3A8100977161 /* CancelSubscriptionViewModel.swift in Sources */,
 				8B44446429785947007E0AA8 /* SocialLogin.swift in Sources */,
