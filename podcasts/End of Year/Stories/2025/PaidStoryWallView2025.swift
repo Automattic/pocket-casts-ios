@@ -45,7 +45,7 @@ struct PaidStoryWallView2025: StoryView {
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
                 StoryHeader2025(title: subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
-                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription,
+                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionTier.displayName),
                                 subscriptionTier: subscriptionTier == .none ? .plus : subscriptionTier,
                                 topPadding: 0)
                 Button(subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
