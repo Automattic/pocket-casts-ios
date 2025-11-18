@@ -16,6 +16,8 @@ struct PaidStoryWallView2025: StoryView {
 
     private let videoAspectRatio = CGFloat(1.37)
 
+    let plusOnly = true
+
     init(subscriptionTier: SubscriptionTier) {
         self.subscriptionTier = subscriptionTier
     }
