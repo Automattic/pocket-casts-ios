@@ -303,11 +303,15 @@ private extension StoriesModel {
             switch controller {
             case .replay:
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    self?.replay()
+                    DispatchQueue.main.async {
+                        self?.replay()
+                    }
                 }
             case .share:
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    self?.share()
+                    DispatchQueue.main.async {
+                        self?.share()
+                    }
                 }
             }
         }
