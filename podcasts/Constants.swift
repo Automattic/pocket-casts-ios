@@ -186,6 +186,7 @@ struct Constants {
         static let playlistDragAndDropTip = "PlaylistDragAndDropTip"
         static let playlistsOnboarding = "NewPlaylistsOnboarding"
         static let firstTimePlaylistCreated = "FirstTimePlaylistCreated"
+        static let saveCurrentUpNextQueueIntoPlaylist = "SaveCurrentUpNextQueueIntoPlaylist"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",

@@ -327,9 +327,7 @@ enum AnalyticsEvent: String {
     case filterAddEpisodesTapped
 
     case filterPlayAllTapped
-    case filterPlayAllSaveUpNextTapped
     case filterPlayAllReplaceAndPlayTapped
-    case filterPlayAllReplaceAndPlayConfirmTapped
     case filterPlayAllDismissed
 
     case filterOptionsTapped
