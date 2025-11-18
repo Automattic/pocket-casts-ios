@@ -12,6 +12,13 @@ class StepCounter: ObservableObject {
 
     init(interval: TimeInterval) {
         self.interval = interval
+    }
+
+    deinit {
+        self.timer?.invalidate()
+    }
+
+    func start() {
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             guard let self else { return }
             counter = counter + 1
@@ -111,6 +118,7 @@ struct NumberListened2025: ShareableStory {
             if animated {
                 animationViewModel.play()
                 startCoverAnimation()
+                stepCounter.start()
             }
         }
         .onChange(of: stepCounter.counter) { value in

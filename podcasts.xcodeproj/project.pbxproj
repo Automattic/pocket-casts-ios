@@ -2076,6 +2076,7 @@
 		FF0998302CE79C8F00C1647B /* ManageDownloadsBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */; };
 		FF0998322CEC026D00C1647B /* ManageDownloadsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */; };
 		FF0A13732EC6168400857680 /* 2025_rating_numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = FF0A13722EC6168400857680 /* 2025_rating_numbers.json */; };
+		FF0A138D2EC64E7600857680 /* ListeningTime2025Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A138C2EC64E7600857680 /* ListeningTime2025Story.swift */; };
 		FF0A1D522C580CF5003931E6 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF0E95512E1C043300486A0D /* UpgradeTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0E95502E1C042E00486A0D /* UpgradeTier.swift */; };
 		FF0E95532E1D474700486A0D /* UpgradeTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0E95522E1D474000486A0D /* UpgradeTimelineView.swift */; };
@@ -2165,6 +2166,7 @@
 		FF9BCB2B2EA2A14100A25F12 /* NumberListened2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */; };
 		FF9BCB312EA64DB700A25F12 /* StoryHeader2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */; };
 		FF9BCB342EA659C900A25F12 /* playback_2025_listened.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */; };
+		FF9CBAF22EC9293000989151 /* playback2025_listening_time_numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */; };
 		FF9CD67F2D410E670046697B /* RichExpandableDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFAA063E2C086DEA00FBC38F /* InsetAdjuster.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */; };
@@ -2179,8 +2181,8 @@
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
-		FFEB45992EC2031600DF5E12 /* String+SentenceCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */; };
 		FFEB45852EBE4A0A00DF5E12 /* PaidStoryWallView2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */; };
+		FFEB45992EC2031600DF5E12 /* String+SentenceCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
 		FFEE59C42EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
@@ -4256,6 +4258,7 @@
 		FF09982F2CE79C7500C1647B /* ManageDownloadsBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsBannerView.swift; sourceTree = "<group>"; };
 		FF0998312CEC026D00C1647B /* ManageDownloadsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageDownloadsModalView.swift; sourceTree = "<group>"; };
 		FF0A13722EC6168400857680 /* 2025_rating_numbers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_rating_numbers.json; sourceTree = "<group>"; };
+		FF0A138C2EC64E7600857680 /* ListeningTime2025Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningTime2025Story.swift; sourceTree = "<group>"; };
 		FF0E95502E1C042E00486A0D /* UpgradeTier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeTier.swift; sourceTree = "<group>"; };
 		FF0E95522E1D474000486A0D /* UpgradeTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeTimelineView.swift; sourceTree = "<group>"; };
 		FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
@@ -4337,6 +4340,7 @@
 		FF9BCB2A2EA2A13500A25F12 /* NumberListened2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberListened2025.swift; sourceTree = "<group>"; };
 		FF9BCB302EA64DB000A25F12 /* StoryHeader2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHeader2025.swift; sourceTree = "<group>"; };
 		FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback_2025_listened.json; sourceTree = "<group>"; };
+		FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time_numbers.json; sourceTree = "<group>"; };
 		FF9CD67E2D410E480046697B /* RichExpandableDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichExpandableDescriptionView.swift; sourceTree = "<group>"; };
 		FF9ED3542C86010F00B6E630 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		FFAA063D2C086DEA00FBC38F /* InsetAdjuster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetAdjuster.swift; sourceTree = "<group>"; };
@@ -4350,8 +4354,8 @@
 		FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		FFDE41A22DD201A40065ADDE /* AppClipAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppClipAppDelegate.swift; sourceTree = "<group>"; };
 		FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCoordinator.swift; sourceTree = "<group>"; };
-		FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SentenceCase.swift"; sourceTree = "<group>"; };
 		FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidStoryWallView2025.swift; sourceTree = "<group>"; };
+		FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SentenceCase.swift"; sourceTree = "<group>"; };
 		FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Humane-SemiBold.otf"; sourceTree = "<group>"; };
 		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
 		FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSpotStory2025.swift; sourceTree = "<group>"; };
@@ -6873,6 +6877,8 @@
 		BD7EA4CE1E52C2800014EAC5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */,
+				FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */,
 				9A96E64C2EC4A24800472FB8 /* 2025_rating_bars.json */,
 				FF0A13722EC6168400857680 /* 2025_rating_numbers.json */,
 				9A3050502EBE1D0E002E64A1 /* img_0.png */,
@@ -6892,7 +6898,6 @@
 				9AF4152B2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json */,
 				9AF4152C2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json */,
 				FF9BCB322EA659B400A25F12 /* playback_2025_listened.json */,
-				FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */,
 				FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */,
 				F50D723B2E29F17800764D9B /* heart-eyes.json */,
 				F50D723D2E29F17F00764D9B /* pensive.json */,
@@ -9050,6 +9055,7 @@
 		FFB74B0A2E99363F00F16857 /* 2025 */ = {
 			isa = PBXGroup;
 			children = (
+				FF0A138C2EC64E7600857680 /* ListeningTime2025Story.swift */,
 				FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */,
 				FFEE59FD2EB5111100D4B145 /* TopSpotStory2025.swift */,
 				9AF4157D2EBA661F003D3677 /* SubscriptionBadge2025.swift */,
@@ -9714,6 +9720,7 @@
 				BD874EF81C9A428B00F5B2A5 /* GeneralSettingsViewController.xib in Resources */,
 				BD023C682251C192008A9C6F /* HeadingCell.xib in Resources */,
 				BD0D7AF41F6BC564006B673F /* AppIcon.xcassets in Resources */,
+				FF9CBAF22EC9293000989151 /* playback2025_listening_time_numbers.json in Resources */,
 				BDBCE6C8244E7755004FFE13 /* AppIcon-Radioactive60x60@3x.png in Resources */,
 				4041FE96218A828F0089D4A1 /* SiriShortcutSuggestedCell.xib in Resources */,
 				BD1292C522F7CD83004608A6 /* AppIcon-Plus29x29@3x.png in Resources */,
@@ -10897,6 +10904,7 @@
 				F5BDBF502DB9754900AD8DF1 /* PodcastTableCellView.swift in Sources */,
 				BD340FC821AF8A0F00EAB091 /* PodcastArchiveViewController+Table.swift in Sources */,
 				BD21D4A222DED42100D5888B /* ThemeableView.swift in Sources */,
+				FF0A138D2EC64E7600857680 /* ListeningTime2025Story.swift in Sources */,
 				405553D7244AD7A70048FE7A /* WatchSettingsViewController.swift in Sources */,
 				FF5A1DCC2E8D4CF100F36486 /* PredictiveList.swift in Sources */,
 				FF9295202E54E33E00FE847E /* InterestsView.swift in Sources */,

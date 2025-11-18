@@ -247,7 +247,8 @@ extension EndOfYear {
 class StoriesHostingController<ContentView: View>: UIHostingController<ContentView> {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         switch EndOfYear.currentYear {
-        case .y2024, .y2025: return .darkContent
+        case .y2025: return .default
+        case .y2024: return .darkContent
         default: return .lightContent
         }
     }
