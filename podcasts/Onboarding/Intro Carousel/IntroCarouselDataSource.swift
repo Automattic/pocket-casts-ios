@@ -47,11 +47,11 @@ class IntroCarouselDataSource: StoriesDataSource {
         nil
     }
 
-    var indicatorColor: Color {
+    func indicatorColor(for storyNumber: Int) -> Color {
         theme.primaryText01
     }
 
-    var indicatorStyle: StoryIndicatorStyle {
+    func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle {
         StoryIndicatorStyle(
             height: 4,
             borderRadius: 0, // Square corners for intro

@@ -52,8 +52,8 @@ class EndOfYearStoriesDataSource: StoriesDataSource {
         model.footerShareView()
     }
 
-    var indicatorColor: Color {
-        model.indicatorColor
+    func indicatorColor(for storyIndex: Int) -> Color {
+        model.indicatorColor(for: storyIndex)
     }
 
     var primaryBackgroundColor: Color {

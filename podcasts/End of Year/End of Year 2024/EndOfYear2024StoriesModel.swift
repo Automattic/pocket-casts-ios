@@ -7,7 +7,7 @@ class EndOfYear2024StoriesModel: StoryModel {
     var stories = [EndOfYear2024Story]()
     var data = EndOfYear2024StoriesData()
 
-    var indicatorColor: Color {
+    func indicatorColor(for storyNumber: Int) -> Color {
         .black
     }
 

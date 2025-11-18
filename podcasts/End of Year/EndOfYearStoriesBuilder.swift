@@ -62,7 +62,7 @@ protocol StoryModel {
     func overlaidShareView() -> AnyView?
     /// Shown at the bottom of the story as an additional safe area
     func footerShareView() -> AnyView?
-    var indicatorColor: Color { get }
+    func indicatorColor(for storyNumber: Int) -> Color
     var primaryBackgroundColor: Color { get }
     func sharingSnapshotModifier(_ view: AnyView) -> AnyView
 }

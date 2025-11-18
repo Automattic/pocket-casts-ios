@@ -272,12 +272,12 @@ class StoriesModel: ObservableObject {
         dataSource.footerShareView()
     }
 
-    var indicatorColor: Color {
-        dataSource.indicatorColor
+    func indicatorColor(for storyIndex: Int) -> Color {
+        dataSource.indicatorColor(for: storyIndex)
     }
 
-    var indicatorStyle: StoryIndicatorStyle {
-        dataSource.indicatorStyle
+    func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle {
+        dataSource.indicatorStyle(for: storyIndex)
     }
 
     var primaryBackgroundColor: Color {

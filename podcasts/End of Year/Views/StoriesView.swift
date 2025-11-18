@@ -66,7 +66,7 @@ struct StoriesView: View {
             }
 
             header
-                .foregroundStyle(model.indicatorColor)
+                .foregroundStyle(model.indicatorColor(for: model.currentStoryIndex))
 
             // Hide the share button if needed
             if model.showShareButton(index: model.currentStoryIndex) && !model.shouldShowUpsell(), let shareView = model.overlaidShareView() {
@@ -109,10 +109,10 @@ struct StoriesView: View {
 
             VStack(spacing: 15) {
                 let progress = syncProgressModel.progress
-                CircularProgressView(value: progress, stroke: model.indicatorColor, strokeWidth: 6)
+                CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
                     .frame(width: 40, height: 40)
                 Text(L10n.loading)
-                    .foregroundColor(model.indicatorColor)
+                    .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
                     .font(style: .body)
             }
 
@@ -127,7 +127,7 @@ struct StoriesView: View {
             Spacer()
 
             Text(L10n.eoyStoriesFailed)
-                .foregroundColor(model.indicatorColor)
+                .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
 
             storySwitcher
             header
@@ -138,13 +138,17 @@ struct StoriesView: View {
         }
     }
 
+    var indicatorStyle: StoryIndicatorStyle {
+        return StoryIndicatorStyle(backgroundColor: model.indicatorColor(for: model.currentStoryIndex), foregroundColor: model.indicatorColor(for: model.currentStoryIndex))
+    }
+
     // Header containing the close button and the rectangles
     var header: some View {
         ZStack {
             VStack {
                 HStack(spacing: model.indicatorSpacing) {
                     ForEach(0 ..< model.numberOfStories, id: \.self) { x in
-                        StoryIndicator(index: x, style: model.indicatorStyle, progressModel: model.progressPublisher)
+                        StoryIndicator(index: x, style: model.indicatorStyle(for: model.currentStoryIndex), progressModel: model.progressPublisher)
                     }
                 }
                 .frame(height: model.indicatorHeight)
@@ -156,7 +160,6 @@ struct StoriesView: View {
 
             if model.shouldShowDismissButton() {
                 closeButton
-                    .foregroundColor(model.indicatorColor)
             }
         }
         .padding(.top, Constants.headerTopPadding)

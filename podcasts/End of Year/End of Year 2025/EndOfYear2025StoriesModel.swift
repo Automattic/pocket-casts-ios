@@ -7,8 +7,16 @@ class EndOfYear2025StoriesModel: StoryModel {
     var stories = [EndOfYear2025Story]()
     var data = EndOfYear2025StoriesData()
 
-    var indicatorColor: Color {
-        .white
+    func indicatorColor(for storyNumber: Int) -> Color {
+        if stories.isEmpty || storyNumber >= stories.count || storyNumber < 0 {
+            return .white
+        }
+        switch stories[storyNumber] {
+        case .plus, .top5Podcasts:
+            return .black
+        default:
+            return .white
+        }
     }
 
     var primaryBackgroundColor: Color {
@@ -106,7 +114,7 @@ class EndOfYear2025StoriesModel: StoryModel {
     func isInteractiveView(for storyNumber: Int) -> Bool {
         switch stories[storyNumber] {
             case .epilogue, .plus, .top5Podcasts:
-                return true         
+                return true
             case .ratings:
                 return data.ratings.isEmpty
             default:
