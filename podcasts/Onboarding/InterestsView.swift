@@ -40,6 +40,17 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
         return categories.filter { selectedCategories.contains($0.id ?? -1) }
     }
 
+    var analyticsCategories: String {
+        let namesSelected: [String] = selectedCategories.compactMap { id in
+            if let category = categories.first(where: { $0.id == id }) {
+                return category.name
+            } else {
+                return "unknown"
+            }
+        }
+        return namesSelected.joined(separator: ",")
+    }
+
     func load() async {
         let page = await DiscoverServerHandler.shared.discoverPage()
         guard let layout = page.0 else {
@@ -225,7 +236,7 @@ struct InterestsView: View {
         VStack {
             Button(action: {
                 continueCallback?(viewModel.fullSelectedCategories)
-                OnboardingFlow.shared.track(.onboardingInterestsContinueTapped, properties: ["categories": Array(viewModel.selectedCategories)])
+                OnboardingFlow.shared.track(.onboardingInterestsContinueTapped, properties: ["categories": viewModel.analyticsCategories])
             }) {
                 Text(viewModel.isMinimumSelectionDone ? L10n.continue : L10n.interestsSelectAtLeast(viewModel.minimumSelectionCount))
                     .textStyle(RoundedButton())
