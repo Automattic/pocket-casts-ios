@@ -44,6 +44,15 @@ struct ListeningTime2025Story: ShareableStory {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(content: {
                 ZStack {
+                    LottieView(animation: .named("playback2025_listening_time"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                        })
+                        .playbackMode(playMode)
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     LottieView(animation: .named("playback2025_listening_time_numbers"))
                         .animationDidFinish({ completed in
                         })
@@ -54,17 +63,6 @@ struct ListeningTime2025Story: ShareableStory {
                         .playbackMode(playModeNumbers)
                         .scaledToFill()
                         .ignoresSafeArea()
-                        .zIndex(3)
-                    LottieView(animation: .named("playback2025_listening_time"))
-                        .animationDidFinish({ completed in
-                        })
-                        .configure({ animationView in
-                            animationView.contentMode = .scaleAspectFill
-                        })
-                        .playbackMode(playMode)
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .zIndex(2)
                 }
             })
         }
