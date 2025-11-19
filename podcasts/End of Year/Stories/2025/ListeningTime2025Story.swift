@@ -71,8 +71,8 @@ struct ListeningTime2025Story: ShareableStory {
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {
-            playMode = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
-            playModeNumbers = renderForSharing ? .playing(.fromProgress(0.5, toProgress: 1, loopMode: .playOnce)) : .playing(.fromProgress(0.015, toProgress: 1, loopMode: .playOnce))
+            playMode = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse))
+            playModeNumbers = renderForSharing ? .playing(.fromProgress(0.5, toProgress: 1, loopMode: .playOnce)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
             stepCounter.start()
         }
         .onDisappear {
