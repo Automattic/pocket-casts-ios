@@ -5438,6 +5438,12 @@
 /* Playlist Play all button */
 "playlists_play_all" = "Play all";
 
+/* Subtitle for the auto download setting. This is displayed when the option is turned off. */
+"playlists_auto_download_off_subtitle" = "Enable to auto download episodes in this playlist";
+
+/* Subtitle for the auto download setting. This is displayed when the option is turned on. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
+"playlists_auto_download_on_plural_format" = "The first %1$@ episodes in this playlist will be automatically downloaded";
+
 /* A common string used throughout the app. Often refers to the Smart Playlist. */
 "smart_playlist" = "Smart playlist";
 
