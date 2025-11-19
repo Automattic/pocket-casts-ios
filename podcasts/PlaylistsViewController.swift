@@ -35,7 +35,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var snapshot: UIView?
     var previouslyDisplayedDetail = false
     var presentingPlaylistDetail: Bool = false
-    var playlistsNeedReload: Bool = true
+
+    private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -126,7 +127,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         super.viewWillAppear(animated)
 
         if FeatureFlag.playlistsRebranding.enabled {
-            if playlistsNeedReload {
+            if firstTimeLoading {
                 reloadFilters()
             }
         } else {
@@ -172,7 +173,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @objc private func filtersUpdated() {
-        reloadFilters()
+        if FeatureFlag.playlistsRebranding.enabled, !firstTimeLoading {
+            debounce.call { [weak self] in
+                self?.reloadFilters()
+            }
+        } else {
+            reloadFilters()
+        }
     }
 
     @IBAction func addNewFilter() {
@@ -236,7 +243,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             guard let self else { return }
             playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
             firstTimeLoading = false
-            playlistsNeedReload = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
                 self.loadingIndicator.stopAnimating()
@@ -246,15 +252,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func addReloadPlaylistsObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(setPlaylistsToReload), name: Constants.Notifications.playlistChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setPlaylistsToReload), name: Constants.Notifications.playlistsNeedReload, object: nil)
-    }
-
-    @objc private func setPlaylistsToReload() {
-        if playlistsNeedReload {
-            return
-        }
-        playlistsNeedReload = true
+        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistsNeedReload, object: nil)
     }
 
     private func setupInformationalBanner() {
