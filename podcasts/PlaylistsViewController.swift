@@ -77,7 +77,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
-        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+        customRightBtn?.accessibilityLabel = L10n.playlistsDefaultNewPlaylist
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 

@@ -66,10 +66,14 @@ struct LocalSearchView: View {
 
     private var navigationContent: some View {
         NavigationStack(path: $navigationPath) {
+            let heightConstant: CGFloat = 44
             podcastsView
                 .navigationDestination(for: LocalSearchRoute.self) { route in
                     destinationView(for: route)
+                    .padding(.top, heightConstant)
                 }
+                .toolbar(.hidden, for: .navigationBar)
+                .padding(.top, heightConstant)
         }
     }
 
@@ -216,6 +220,7 @@ private extension LocalSearchView {
             .background(backgroundColor.ignoresSafeArea())
             .navigationTitle(viewModel.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
         case .podcast:
             LocalSearchEpisodeResultsView(
                 isLoading: viewModel.isEpisodeSearchInFlight,
@@ -235,6 +240,7 @@ private extension LocalSearchView {
             .background(backgroundColor.ignoresSafeArea())
             .navigationTitle(viewModel.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
         }
     }
 

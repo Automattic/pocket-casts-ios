@@ -97,6 +97,7 @@ struct PlaylistCellView: View {
                     }
                 }
         }
+        .accessibilityElement(children: .combine)
         .opacity(shouldDisableRow ? 0.45 : 1.0)
         .onAppear {
             viewModel.loadData()
@@ -114,6 +115,7 @@ struct PlaylistCellView: View {
         case .count:
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
+                    .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
             }
             .padding(.trailing, 8.0)
         case .toggle:
