@@ -44,6 +44,15 @@ struct ListeningTime2025Story: ShareableStory {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(content: {
                 ZStack {
+                    LottieView(animation: .named("playback2025_listening_time"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                        })
+                        .playbackMode(playMode)
+                        .scaledToFill()
+                        .ignoresSafeArea()
                     LottieView(animation: .named("playback2025_listening_time_numbers"))
                         .animationDidFinish({ completed in
                         })
@@ -54,25 +63,14 @@ struct ListeningTime2025Story: ShareableStory {
                         .playbackMode(playModeNumbers)
                         .scaledToFill()
                         .ignoresSafeArea()
-                        .zIndex(3)
-                    LottieView(animation: .named("playback2025_listening_time"))
-                        .animationDidFinish({ completed in
-                        })
-                        .configure({ animationView in
-                            animationView.contentMode = .scaleAspectFill
-                        })
-                        .playbackMode(playMode)
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .zIndex(2)
                 }
             })
         }
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {
-            playMode = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
-            playModeNumbers = renderForSharing ? .playing(.fromProgress(0.5, toProgress: 1, loopMode: .playOnce)) : .playing(.fromProgress(0.015, toProgress: 1, loopMode: .playOnce))
+            playMode = renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse))
+            playModeNumbers = renderForSharing ? .playing(.fromProgress(0.5, toProgress: 1, loopMode: .playOnce)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
             stepCounter.start()
         }
         .onDisappear {
