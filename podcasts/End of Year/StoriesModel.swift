@@ -317,6 +317,11 @@ private extension StoriesModel {
             .sink { [weak self] _ in
                 self?.pause()
                 self?.screenshotTaken = true
+
+                let year = EndOfYear.currentYear.literalValue
+                let story = self?.currentStoryIdentifier ?? "unknown"
+                let properties = ["story": story, "year": year, "from": "screenshot"]
+                Analytics.track(.endOfYearStoryShared, properties: properties)
             }
             .store(in: &cancellables)
 
