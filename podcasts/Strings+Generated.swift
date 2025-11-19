@@ -2249,6 +2249,12 @@ internal enum L10n {
   internal static func playback2025LongestEpisodeTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_longest_episode_title", String(describing: p1), fallback: "Your marathon listen: %1$@")
   }
+  /// A description shown in the Playback thanks screen for Pocket Casts Plus subscribers. %1$@ argument is your subscription Tier. Ex:  Your Plus perks unlock extra stats and power features"
+  internal static func playback2025PlusThanksDescription(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playback_2025_plus_thanks_description", String(describing: p1), fallback: "Your %1$@ perks unlock extra stats and power features")
+  }
+  /// A title shown in the Playback thanks screen for Pocket Casts Plus subscription
+  internal static var playback2025PlusThanksTitle: String { return L10n.tr("Localizable", "playback_2025_plus_thanks_title", fallback: "Thanks for supporting Pocket Casts!") }
   /// A title shown in the button on the upsell screen to get  Pocket Casts Plus
   internal static var playback2025PlusUpsellButtonTitle: String { return L10n.tr("Localizable", "playback_2025_plus_upsell_button_title", fallback: "Get Pocket Casts Plus") }
   /// A description shown in the upsell screen for Pocket Casts Plus subscription

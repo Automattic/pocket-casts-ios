@@ -5787,3 +5787,11 @@
 
 /* A description shown in Playback 2025 to describe the new Podcast Ratings feature */
 "playback_2025_ratings_empty_description" = "Help your favorite creators get discovered by sharing what you love";
+
+/* A title shown in the Playback thanks screen for Pocket Casts Plus subscription */
+"playback_2025_plus_thanks_title" = "Thanks for supporting Pocket Casts!";
+
+/* A description shown in the Playback thanks screen for Pocket Casts Plus subscribers. %1$@ argument is your subscription Tier. Ex:  Your Plus perks unlock extra stats and power features" */
+"playback_2025_plus_thanks_description" = "Your %1$@ perks unlock extra stats and power features";
+
+

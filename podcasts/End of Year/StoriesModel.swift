@@ -272,12 +272,12 @@ class StoriesModel: ObservableObject {
         dataSource.footerShareView()
     }
 
-    var indicatorColor: Color {
-        dataSource.indicatorColor
+    func indicatorColor(for storyIndex: Int) -> Color {
+        dataSource.indicatorColor(for: storyIndex)
     }
 
-    var indicatorStyle: StoryIndicatorStyle {
-        dataSource.indicatorStyle
+    func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle {
+        dataSource.indicatorStyle(for: storyIndex)
     }
 
     var primaryBackgroundColor: Color {
@@ -303,11 +303,15 @@ private extension StoriesModel {
             switch controller {
             case .replay:
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    self?.replay()
+                    DispatchQueue.main.async {
+                        self?.replay()
+                    }
                 }
             case .share:
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: controller.rawValue), object: nil, queue: .main) { [weak self] _ in
-                    self?.share()
+                    DispatchQueue.main.async {
+                        self?.share()
+                    }
                 }
             }
         }

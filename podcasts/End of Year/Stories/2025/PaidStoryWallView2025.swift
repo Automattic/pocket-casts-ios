@@ -3,8 +3,11 @@ import AVKit
 import PocketCastsServer
 import PocketCastsUtils
 
-struct PaidStoryWallView2025: View {
+struct PaidStoryWallView2025: StoryView {
     let identifier = "plus_interstitial"
+
+    @Environment(\.pauseState) var pauseState: PauseState
+    @EnvironmentObject var storyModel: StoriesModel
 
     @StateObject private var model = PlusPricingInfoModel()
 
@@ -15,6 +18,8 @@ struct PaidStoryWallView2025: View {
     private let backgroundColor = Color(hex: "#96BCD1")
 
     private let videoAspectRatio = CGFloat(1.37)
+
+    let plusOnly = true
 
     init(subscriptionTier: SubscriptionTier) {
         self.subscriptionTier = subscriptionTier
@@ -39,15 +44,23 @@ struct PaidStoryWallView2025: View {
                     }
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
-                StoryHeader2025(title: L10n.playback2025PlusUpsellTitle, description: L10n.playback2025PlusUpsellDescription, subscriptionTier: .plus, topPadding: 0)
-                Button(L10n.playback2025PlusUpsellButtonTitle) {
-                    guard let storiesViewController = SceneHelper.rootViewController() else {
-                        return
-                    }
+                StoryHeader2025(title: subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
+                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionTier.displayName),
+                                subscriptionTier: subscriptionTier == .none ? .plus : subscriptionTier,
+                                topPadding: 0)
+                Button(subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
+                    if subscriptionTier == .none {
+                        guard let storiesViewController = SceneHelper.rootViewController() else {
+                            return
+                        }
 
-                    NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                        NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
+                    } else {
+                        pauseState.togglePause()
+                        storyModel.next()
+                    }
                 }
-                .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
+                .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black, borderColor: .black))
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .padding(.bottom, 4)
@@ -63,6 +76,7 @@ struct PaidStoryWallView2025: View {
         .onAppear {
             Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
             Analytics.track(.endOfYearStoryShown, story: identifier)
+            pauseState.togglePause()
         }
     }
 }
@@ -106,4 +120,8 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
 
 #Preview("Patron") {
     PaidStoryWallView2025(subscriptionTier: .patron)
+}
+
+#Preview("None") {
+    PaidStoryWallView2025(subscriptionTier: .none)
 }

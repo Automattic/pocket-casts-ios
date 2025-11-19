@@ -151,7 +151,10 @@ class StoriesModelTests: XCTestCase {
 }
 
 class MockStoriesDataSource: StoriesDataSource {
-    var indicatorColor: Color = .white
+
+    func indicatorColor(for storyIndex: Int) -> Color {
+        return .white
+    }
 
     var primaryBackgroundColor: Color = .black
 
@@ -200,7 +203,10 @@ class MockStoriesDataSource: StoriesDataSource {
 }
 
 class MockStoriesWithPlusDataSource: StoriesDataSource {
-    var indicatorColor: Color = .white
+
+    func indicatorColor(for storyIndex: Int) -> Color {
+        return .white
+    }
 
     var primaryBackgroundColor: Color = .black
 

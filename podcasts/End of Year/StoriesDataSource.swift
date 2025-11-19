@@ -39,10 +39,10 @@ protocol StoriesDataSource {
     func footerShareView() -> AnyView?
 
     /// Color of the top Story progress indicator
-    var indicatorColor: Color { get }
+    func indicatorColor(for storyIndex: Int) -> Color
 
     /// Style configuration for the story indicators
-    var indicatorStyle: StoryIndicatorStyle { get }
+    func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle
 
     /// Color of the primary background
     var primaryBackgroundColor: Color { get }
@@ -64,8 +64,8 @@ extension StoriesDataSource {
 
     var indicatorHeight: CGFloat { 2 }
 
-    var indicatorStyle: StoryIndicatorStyle {
-        StoryIndicatorStyle(height: indicatorHeight)
+    func indicatorStyle(for storyIndex: Int) -> StoryIndicatorStyle {
+        StoryIndicatorStyle(height: indicatorHeight, backgroundColor: indicatorColor(for: storyIndex), foregroundColor: indicatorColor(for: storyIndex))
     }
 }
 
