@@ -466,7 +466,8 @@ class PlaylistDetailViewController: FakeNavViewController {
             playlist: viewModel.playlist,
             dismissAction: { [weak self] in
                 self?.dismiss(animated: true) {
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
+                    self?.viewModel.reloadPlaylistAndEpisodes()
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
                 }
             }
         )
