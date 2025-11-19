@@ -48,7 +48,7 @@ class InterestsViewModel: ObservableObject, @unchecked Sendable {
                 return "unknown"
             }
         }
-        return namesSelected.joined(separator: ",")
+        return namesSelected.joined(separator: ", ")
     }
 
     func load() async {
