@@ -145,6 +145,10 @@ private extension SearchResultCell {
         }
     }
 
+    var episodeIsAvailable: Bool {
+        model.episode != nil && model.episode?.state != .unavailable
+    }
+
     var rowContent: some View {
         HStack(spacing: 12) {
             (model.episode?.podcastUuid ?? model.podcastFolder?.uuid).map {
@@ -187,7 +191,7 @@ private extension SearchResultCell {
             }
             .allowsHitTesting(false)
             Spacer()
-            if model.episode != nil && model.episode?.state != .unavailable {
+            if episodeIsAvailable {
                 if played {
                     Image("list_played", bundle: nil)
                         .resizable()
@@ -209,9 +213,20 @@ private extension SearchResultCell {
                     .buttonStyle(.plain)
                     .frame(width: 32, height: 32)
                     .foregroundColor(theme.primaryInteractive01)
+                    .accessibilityHidden(true)
                 }
             } else if showPodcastSubscribeButton, let result = model.podcastFolder, result.kind == .podcast {
                 SubscribeButtonView(podcastUuid: result.uuid, source: searchAnalyticsHelper.source)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityActions {
+            if episodeIsAvailable {
+                if showEpisodeAddButton {
+                    Button(L10n.accessibilityPlaylistAddEpisode) {
+                        (episodeAddAction ?? action)?()
+                    }
+                }
             }
         }
         .opacity(played || model.episode?.state?.isNormal == false ? 0.5 : 1.0)

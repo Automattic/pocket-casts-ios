@@ -66,10 +66,14 @@ internal enum L10n {
   internal static func accessibilityPlayerEffectsPlaybackSpeed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_player_effects_playback_speed", String(describing: p1), fallback: "Playback speed %1$@ times")
   }
+  /// An accessibility label used for the add episode action for the Add Episodes search view
+  internal static var accessibilityPlaylistAddEpisode: String { return L10n.tr("Localizable", "accessibility_playlist_add_episode", fallback: "Add Episode") }
   /// Accessibility hint to inform the user which filter color flag is being used. '%1$@' is a placeholder for the filter color number.
   internal static func accessibilityPlaylistColor(_ p1: Any) -> String {
     return L10n.tr("Localizable", "accessibility_playlist_color", String(describing: p1), fallback: "Playlist color %1$@")
   }
+  /// An accessibility label used for the playlist image
+  internal static var accessibilityPlaylistImage: String { return L10n.tr("Localizable", "accessibility_playlist_image", fallback: "Playlist image") }
   /// A common string used throughout the app. An accessibility label to inform the user that the selected item is locked behind Pocket Casts Plus subscription.
   internal static var accessibilityPlusOnly: String { return L10n.tr("Localizable", "accessibility_plus_only", fallback: "Locked, Plus Feature") }
   /// Accessibility label fir the profile settings icon in the app. 'Pocket Casts' is treated as a proper noun and hasn't been localized in other places of the app.
@@ -2527,6 +2531,12 @@ internal enum L10n {
   internal static var playlistSmartRulesTitle: String { return L10n.tr("Localizable", "playlist_smart_rules_title", fallback: "Smart rules") }
   /// A common string used throughout the app. Often refers to the Playlists screen.
   internal static var playlists: String { return L10n.tr("Localizable", "playlists", fallback: "Playlists") }
+  /// Subtitle for the auto download setting. This is displayed when the option is turned off.
+  internal static var playlistsAutoDownloadOffSubtitle: String { return L10n.tr("Localizable", "playlists_auto_download_off_subtitle", fallback: "Enable to auto download episodes in this playlist") }
+  /// Subtitle for the auto download setting. This is displayed when the option is turned on. '%1$@' is a placeholder for the number of episodes, this will be more than one.
+  internal static func playlistsAutoDownloadOnPluralFormat(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlists_auto_download_on_plural_format", String(describing: p1), fallback: "The first %1$@ episodes in this playlist will be automatically downloaded")
+  }
   /// A placeholder title for a new playlist.
   internal static var playlistsDefaultNewPlaylist: String { return L10n.tr("Localizable", "playlists_default_new_playlist", fallback: "New playlist") }
   /// Option to delete the playlist. It appears in the edit panel from the playlist detail.

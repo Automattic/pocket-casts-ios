@@ -263,7 +263,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         reloadNavTitle()
         scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
 
-        addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.learnMore, action: #selector(moreTapped))
+        addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.accessibilityMoreActions, action: #selector(moreTapped))
 
         closeTapped = { [weak self] in
             _ = self?.navigationController?.popViewController(animated: true)
@@ -466,7 +466,8 @@ class PlaylistDetailViewController: FakeNavViewController {
             playlist: viewModel.playlist,
             dismissAction: { [weak self] in
                 self?.dismiss(animated: true) {
-                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
+                    self?.viewModel.reloadPlaylistAndEpisodes()
+                    NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
                 }
             }
         )

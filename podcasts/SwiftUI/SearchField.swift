@@ -57,6 +57,7 @@ struct SearchField: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: iconSize, height: iconSize)
                     .foregroundStyle(theme.icon)
+                    .accessibilityHidden(true)
 
                 let prompt = Text(placeholder).foregroundColor(theme.placeholder)
 
@@ -71,6 +72,7 @@ struct SearchField: View {
                         .buttonize {
                             text = ""
                         }
+                        .accessibilityLabel(L10n.clearSearch)
                 }
             }
             .padding(.horizontal, SearchFieldConstants.horizontalPadding)

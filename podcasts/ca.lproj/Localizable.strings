@@ -1062,6 +1062,10 @@ Ens veiem el 2024!</string>
     <string>EPISODI %1$@</string>
     <key>episode_shorthand_format_short</key>
     <string>EP %1$@</string>
+    <key>episode_unavailable_message</key>
+    <string>L'autor del pòdcast ha eliminat aquest episodi. Es quedarà a la teva llista de reproducció fins que l'esborris.</string>
+    <key>episode_unavailable_title</key>
+    <string>Episodi no disponible</string>
     <key>episodes</key>
     <string>Episodis</string>
     <key>error</key>
@@ -1382,6 +1386,8 @@ Ens veiem el 2024!</string>
     <string>%1$@ hores</string>
     <key>hours_saved</key>
     <string>Hores estalviades</string>
+    <key>hours_singular_format</key>
+    <string>1 hora</string>
     <key>how_to_upload_explanation</key>
     <string>Primer, obre una aplicació que tingui els arxius d'àudio que vols desar</string>
     <key>how_to_upload_share_action_image_center_text</key>
@@ -1941,12 +1947,65 @@ ACTUALITZACIONS</string>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat un impressionant %1$@</string>
     <key>playback_2024_year_over_year_compare_title_up_over_500</key>
     <string>Comparat amb el 2023, el teu temps d'escolta ha augmentat més d'un %1$@</string>
+    <key>playback_2025_completion_rate_message</key>
+    <string>De %1$@ episodis començats, n'has acabat %2$@. Un seguiment més fort que la majoria de les subscripcions al gimnàs.</string>
+    <key>playback_2025_completion_rate_title</key>
+    <string>La teva taxa de finalització va ser del %1$@</string>
+    <key>playback_2025_end_story_description</key>
+    <string>Comparteix la teva reproducció amb els amics i mostra afecte als podcasters que t’han acompanyat durant tot l’any</string>
+    <key>playback_2025_end_story_title</key>
+    <string>Gràcies per passar l'any amb Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Consulta les teves estadístiques d'escolta, els millors pòdcasts i molt més.</string>
     <key>playback_2025_feature_title</key>
     <string>El que has escoltat al 2025</string>
+    <key>playback_2025_intro_message</key>
+    <string>El teu any en pòdcasts, resumit i llest per reviure</string>
+    <key>playback_2025_listened_to_numbers</key>
+    <string>Has escoltat %1$@ pòdcasts i %2$@ episodis</string>
+    <key>playback_2025_listening_time</key>
+    <string>minuts escoltats</string>
+    <key>playback_2025_longest_episode_footer</key>
+    <string>L'episodi més llarg va ser “%1$@” de “%2$@”</string>
+    <key>playback_2025_longest_episode_message</key>
+    <string>Esperem que hagis estirat primer!</string>
+    <key>playback_2025_longest_episode_title</key>
+    <string>La teva escolta de marató: %1$@</string>
+    <key>playback_2025_plus_upsell_button_title</key>
+    <string>Aconsegueix Pocket Casts Plus</string>
+    <key>playback_2025_plus_upsell_description</key>
+    <string>Subscriu-te a Pocket Casts Plus per a estadístiques ampliades, marcadors, carpetes, selecció de capítols i més maneres d'aprofundir en els teus hàbits d'escolta</string>
+    <key>playback_2025_plus_upsell_title</key>
+    <string>Vols aprofundir més?</string>
+    <key>playback_2025_top_5_podcasts_message</key>
+    <string>Més favorits, més reproducció, més tu</string>
+    <key>playback_2025_top_5_podcasts_title</key>
+    <string>Els teus altres imprescindibles</string>
+    <key>playback_2025_top_spot_description</key>
+    <string>%1$@ episodis, %2$@.
+Això sí que és compromís!</string>
+    <key>playback_2025_top_spot_subtitle</key>
+    <string>No hi ha res que sigui més “tu” que això</string>
+    <key>playback_2025_top_spot_title</key>
+    <string>El teu millor pòdcasts de 2025</string>
     <key>playback_2025_view_year</key>
     <string>Veure el meu historial de reproducció de 2025</string>
+    <key>playback_2025_year_over_year_comparison_down_message</key>
+    <string>Però ei, qualitat abans que quantitat</string>
+    <key>playback_2025_year_over_year_comparison_down_title</key>
+    <string>La teva escolta ha baixat %1$@ enguany</string>
+    <key>playback_2025_year_over_year_comparison_hero_message</key>
+    <string>Has escoltat %1$@ més enguany: benvingut al club</string>
+    <key>playback_2025_year_over_year_comparison_hero_title</key>
+    <string>De zero a heroi!</string>
+    <key>playback_2025_year_over_year_comparison_same_message</key>
+    <string>Consistent i fiable, com el teu cafè preferit</string>
+    <key>playback_2025_year_over_year_comparison_same_title</key>
+    <string>La teva escolta de 2025 es va mantenir estable</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Esperem que hagis estirat primer!</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>Comparat amb el 2024, el teu temps d'escolta s'ha disparat un %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tots els pòdcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2047,8 +2106,14 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>1 episodi afegit a "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ episodis afegits a "%2$@"</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Afegit a %1$@ llistes de reproducció</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Afegit a %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodis</string>
+    <key>playlist_manual_add_episode_full_playlist_toast</key>
+    <string>Aquesta llista de reproducció està plena. Elimina alguns episodis o comença'n una de nova.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afegir episodis</string>
     <key>playlist_manual_archived_episode_placeholder</key>
@@ -2057,6 +2122,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Tots els %1$@ episodis d'aquesta llista de reproducció s'han arxivat</string>
     <key>playlist_manual_browse_shows_title</key>
     <string>Navega pels pòdcasts</string>
+    <key>playlist_manual_create_error_message</key>
+    <string>Ho sento, alguna cosa ha anat malament mentre es creava la teva llista de reproducció.</string>
     <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
     <string>Llisca cap a l’esquerra en un episodi per afegir-lo a la teva llista de reproducció.</string>
     <key>playlist_manual_empty_state_title</key>
@@ -2071,6 +2138,28 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Tots els episodis s'han arxivat. Afegeix o desarxiva per a reproduir.</string>
     <key>playlist_options</key>
     <string>Opcions de la llista de reproducció</string>
+    <key>playlist_play_all_option_save_queue</key>
+    <string>Desar la cua actual</string>
+    <key>playlist_play_all_picker_message</key>
+    <string>La llista actual de  'Tot seguit' es substituirà quan reprodueixis aquesta llista de reproducció.  Desa-ho primer per mantenir-ho.</string>
+    <key>playlist_play_all_picker_title</key>
+    <string>Desar la teva cua de «Tot seguit»?</string>
+    <key>playlist_play_all_replace_picker_message</key>
+    <string>Això esborrarà la teva cua actual de «Tot seguit» i començarà a reproduir aquesta llista de reproducció.</string>
+    <key>playlist_play_all_replace_picker_title</key>
+    <string>Substituir l'actual «Tot seguit»?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Substitueix i reprodueix</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Reproduir això substituirà la cua actual de Tot seguit.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Substituir «Tot seguit»?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Desa la cua de Tot Seguit com a llista de reproducció.</string>
+    <key>playlist_play_all_up_next_saved</key>
+    <string>La cua «Tot seguit» s'ha desat com una llista de reproducció</string>
+    <key>playlist_play_all_up_next_saved_plural</key>
+    <string>La cua «Tot seguit» s'ha desat com una llistes de reproduccions</string>
     <key>playlist_preview_create_smart_playlist</key>
     <string>Crear una llista de reproducció intel·ligent</string>
     <key>playlist_preview_title</key>
@@ -2125,6 +2214,10 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Els filtres ara són llistes intel·ligents</string>
     <key>playlists_play_all</key>
     <string>Reprodueix-ho tot</string>
+    <key>playlists_tip_drag_and_drop_description</key>
+    <string>Mantén premuda una llista de reproducció per moure-la.</string>
+    <key>playlists_tip_drag_and_drop_title</key>
+    <string>Reordena les teves llistes de reproducció</string>
     <key>please_try_again</key>
     <string>Per favor, torna-ho a intentar</string>
     <key>please_try_again_later</key>
@@ -2449,6 +2542,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Demà</string>
     <key>podcast_unarchive_all</key>
     <string>Desarxivar-ho tot</string>
+    <key>podcast_unavailable</key>
+    <string>No disponible</string>
     <key>podcast_updates_ended</key>
     <string>Actualitzacions finalitzades: %1$@</string>
     <key>podcast_updates_ends</key>
@@ -2471,6 +2566,8 @@ Si vols noves idees, ves a la pestanya Descobrir.</string>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
     <string>Insígnia</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Ordre personalitzat</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Del més llarg al més curt</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
@@ -3348,6 +3445,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Temporitzador activat, queden %1$@</string>
     <key>smart_playlist</key>
     <string>Llista intel·ligent</string>
+    <key>smart_playlists_tip_view_creation_description</key>
+    <string>Tria tu els episodis o deixa que Llistes Intel·ligents la completi automàticament en funció de les teves regles intel·ligents.</string>
+    <key>smart_playlists_tip_view_creation_title</key>
+    <string>Crea la teva pròpia llista de reproducció o deixa'ns ajudar</string>
     <key>smart_playlists_tip_view_description</key>
     <string>Ho hem fet per ajudar-te a començar. S'actualitzen automàticament segons la teva escolta.</string>
     <key>smart_playlists_tip_view_title</key>
@@ -3695,6 +3796,8 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>No hi ha episodis</string>
     <key>watch_no_filters</key>
     <string>Sense filtres</string>
+    <key>watch_no_playlists</key>
+    <string>No hi ha llistes de reproducció</string>
     <key>watch_no_podcasts</key>
     <string>No hi ha pòdcasts</string>
     <key>watch_nothing_playing_subtitle</key>

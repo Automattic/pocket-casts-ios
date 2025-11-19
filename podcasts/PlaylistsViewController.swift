@@ -36,6 +36,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var previouslyDisplayedDetail = false
     var presentingPlaylistDetail: Bool = false
 
+    private let debounce = Debounce(delay: Constants.defaultDebounceTime)
+
     @IBOutlet var footerView: ThemeableView! {
         didSet {
             footerView.style = .primaryUi04
@@ -77,7 +79,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         } else {
             customRightBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
         }
-        customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
+        customRightBtn?.accessibilityLabel = L10n.playlistsDefaultNewPlaylist
 
         title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
 
@@ -91,7 +93,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        if !FeatureFlag.playlistsRebranding.enabled {
+        if FeatureFlag.playlistsRebranding.enabled {
+            addReloadPlaylistsObservers()
+        } else {
             setupNewFilterButton()
         }
         handleThemeChanged()
@@ -121,7 +125,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if firstTimeLoading {
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            if firstTimeLoading {
+                reloadFilters()
+            }
+        } else {
             reloadFilters()
         }
         setupInformationalBanner()
@@ -164,7 +173,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     @objc private func filtersUpdated() {
-        reloadFilters()
+        if FeatureFlag.playlistsRebranding.enabled, !firstTimeLoading {
+            debounce.call { [weak self] in
+                self?.reloadFilters()
+            }
+        } else {
+            reloadFilters()
+        }
     }
 
     @IBAction func addNewFilter() {
@@ -227,9 +242,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
             playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-            if FeatureFlag.playlistsRebranding.enabled {
-                addObserverIfNeeded()
-            }
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
@@ -239,9 +251,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    private func addObserverIfNeeded() {
-        guard firstTimeLoading else { return }
+    private func addReloadPlaylistsObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistsNeedReload, object: nil)
     }
 
     private func setupInformationalBanner() {
