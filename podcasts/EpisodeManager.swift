@@ -33,6 +33,9 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
+            if FeatureFlag.playlistsRebranding.enabled {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+            }
         }
 
         if userInitiated {
@@ -99,6 +102,9 @@ class EpisodeManager: NSObject {
             markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+        if FeatureFlag.playlistsRebranding.enabled {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+        }
 
         analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
     }
@@ -143,6 +149,9 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
+            if FeatureFlag.playlistsRebranding.enabled {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+            }
         }
 
         if userInitiated {
@@ -153,6 +162,9 @@ class EpisodeManager: NSObject {
     class func bulkMarkAsUnPlayed(_ baseEpisodes: [BaseEpisode]) {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+        if FeatureFlag.playlistsRebranding.enabled {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+        }
 
         analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
     }
@@ -175,6 +187,9 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
+            if FeatureFlag.playlistsRebranding.enabled {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+            }
         }
 
         if userInitiated {
@@ -206,6 +221,9 @@ class EpisodeManager: NSObject {
             PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+        if FeatureFlag.playlistsRebranding.enabled {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+        }
 
         analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
     }
@@ -222,6 +240,9 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
+            if FeatureFlag.playlistsRebranding.enabled {
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+            }
         }
 
         if userInitiated {
@@ -233,6 +254,9 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
+        if FeatureFlag.playlistsRebranding.enabled {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
+        }
 
         if trackEvent {
             analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)

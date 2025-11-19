@@ -35,6 +35,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     var snapshot: UIView?
     var previouslyDisplayedDetail = false
     var presentingPlaylistDetail: Bool = false
+    var playlistsNeedReload: Bool = true
 
     @IBOutlet var footerView: ThemeableView! {
         didSet {
@@ -91,7 +92,9 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        if !FeatureFlag.playlistsRebranding.enabled {
+        if FeatureFlag.playlistsRebranding.enabled {
+            addReloadPlaylistsObservers()
+        } else {
             setupNewFilterButton()
         }
         handleThemeChanged()
@@ -121,7 +124,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if firstTimeLoading {
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            if playlistsNeedReload {
+                reloadFilters()
+            }
+        } else {
             reloadFilters()
         }
         setupInformationalBanner()
@@ -227,10 +235,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
             playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
-            if FeatureFlag.playlistsRebranding.enabled {
-                addObserverIfNeeded()
-            }
             firstTimeLoading = false
+            playlistsNeedReload = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
                 self.loadingIndicator.stopAnimating()
@@ -239,9 +245,16 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    private func addObserverIfNeeded() {
-        guard firstTimeLoading else { return }
-        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
+    private func addReloadPlaylistsObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setPlaylistsToReload), name: Constants.Notifications.playlistChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setPlaylistsToReload), name: Constants.Notifications.playlistsNeedReload, object: nil)
+    }
+
+    @objc private func setPlaylistsToReload() {
+        if playlistsNeedReload {
+            return
+        }
+        playlistsNeedReload = true
     }
 
     private func setupInformationalBanner() {
