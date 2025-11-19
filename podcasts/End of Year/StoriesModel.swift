@@ -16,7 +16,32 @@ class StoriesModel: ObservableObject {
 
     @Published var failed: Bool = false
 
-    @Published var screenshotTaken: Bool = false
+    @Published var screenshotTaken: Bool = false {
+        didSet {
+            guard screenshotTaken else {
+                if shareAlertPresented {
+                    shareAlertPresented = false
+                }
+                return
+            }
+
+            // Present share alert if the story is shareable
+            guard dataSource.shareableStory(for: currentStoryIndex) != nil else {
+                screenshotTaken = false
+                return
+            }
+
+            shareAlertPresented = true
+        }
+    }
+
+    @Published var shareAlertPresented: Bool = false {
+        didSet {
+            if !shareAlertPresented && screenshotTaken {
+                screenshotTaken = false
+            }
+        }
+    }
 
     let activeTier: () -> SubscriptionTier
 

@@ -86,7 +86,7 @@ struct StoriesView: View {
         }
         .background(Color.black)
         .alert(L10n.eoyShareThisStoryTitle,
-               isPresented: $model.screenshotTaken) {
+               isPresented: $model.shareAlertPresented) {
             Button(L10n.eoyNotNow) { model.start() }
             Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
         } message: {
