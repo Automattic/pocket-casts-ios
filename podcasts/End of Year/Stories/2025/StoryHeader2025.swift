@@ -35,7 +35,19 @@ struct StoryHeader2025: View {
             }
         }
         .padding(.horizontal, 24)
-        .padding(.top, topPadding ?? ((UIScreen.isSmallScreen || renderForSharing) ? 70 : 110))
+        .padding(.top, topPadding ?? defaultTopPadding)
+    }
+
+    var defaultTopPadding: CGFloat {
+        if renderForSharing {
+            24 // This matches the pill padding from StoryLogoView
+        }
+        else if UIScreen.isSmallScreen {
+            70
+        }
+        else {
+            110
+        }
     }
 }
 
