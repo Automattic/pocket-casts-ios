@@ -634,6 +634,8 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip", fallback: "Create clip") }
   /// Title for the screen where a user starts creating a filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter", fallback: "Create Filter") }
+  /// Create snapshot
+  internal static var createUpNextSnapshot: String { return L10n.tr("Localizable", "create_up_next_snapshot", fallback: "Create snapshot") }
   /// Description for modal explaining Creator Picks
   internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description", fallback: "Creator Picks are podcasts recommended by the show's creator using Podroll.") }
   /// Text used for the "Learn more" link in the modal explaining Creator Picks
