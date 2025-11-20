@@ -174,8 +174,8 @@ final private class LottieTextProvider: AnimationTextProvider, Equatable {
         prevYear: Double,
         currentYear: Double
     ) {
-        self.prevYear = Int(prevYear)
-        self.currentYear = Int(currentYear)
+        self.prevYear = Int(prevYear/3600)
+        self.currentYear = Int(currentYear/3600)
         dict = [
             "hours_2024": Self.formatted(hours: self.prevYear),
             "hours_2025": Self.formatted(hours: self.currentYear)
@@ -199,21 +199,21 @@ fileprivate class MyFontProvider: AnimationFontProvider {
 }
 
 #Preview("Down") {
-    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 20, totalPlayedTimeLastYear: 300))
+    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 72000, totalPlayedTimeLastYear: 300000))
         .body.environment(\.animated, false)
 }
 
 #Preview("Up") {
-    YearOverYearCompare2025Story(subscriptionTier: .patron, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 300, totalPlayedTimeLastYear: 200))
+    YearOverYearCompare2025Story(subscriptionTier: .patron, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 203360, totalPlayedTimeLastYear: 173734))
         .body.environment(\.animated, false)
 }
 
 #Preview("Up - Max") {
-    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 300, totalPlayedTimeLastYear: 20))
+    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 300000, totalPlayedTimeLastYear: 20000))
         .body.environment(\.animated, false)
 }
 
 #Preview("Same") {
-    YearOverYearCompare2025Story(subscriptionTier: .patron, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 30, totalPlayedTimeLastYear: 30))
+    YearOverYearCompare2025Story(subscriptionTier: .patron, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 30000, totalPlayedTimeLastYear: 30000))
         .body.environment(\.animated, false)
 }
