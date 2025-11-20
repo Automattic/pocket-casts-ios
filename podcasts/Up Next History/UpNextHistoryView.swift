@@ -41,7 +41,7 @@ struct UpNextHistoryView: View {
         .navigationTitle(L10n.upNextHistory)
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Create snapshot", systemImage: "plus") {
+                Button(L10n.createUpNextSnapshot, systemImage: "plus") {
                     model.createSnapshot()
                     model.loadEntries()
                 }
