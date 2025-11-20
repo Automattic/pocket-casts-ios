@@ -131,7 +131,7 @@ class StoriesModel: ObservableObject {
 
         // Only trigger onAppear if the story is not plus or user is paid
         // Otherwise, the paywall appears in front of the story
-        if !story.plusOnly || isPaidUser() {
+        if currentStory?.identifier != story.identifier, !story.plusOnly || isPaidUser() {
             story.onAppear()
         }
 
