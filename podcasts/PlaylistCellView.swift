@@ -69,6 +69,7 @@ struct PlaylistCellView: View {
                 PlaylistArtworkView(items: viewModel.images)
                     .frame(width: 56.0, height: 56.0)
                     .padding(.leading, 16.0)
+                    .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 2.0) {
                 Text(title)
