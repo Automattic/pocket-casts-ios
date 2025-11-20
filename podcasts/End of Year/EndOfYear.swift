@@ -125,7 +125,9 @@ struct EndOfYear {
             viewModel = .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-2025-featured")
         }
 
-        BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController)
+        BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController) {
+            Analytics.track(.endOfYearModalDismissed, properties: ["year": EndOfYear.currentYear.literalValue])
+        }
         Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
     }
 
