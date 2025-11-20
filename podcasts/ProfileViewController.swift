@@ -362,6 +362,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .referralsClaim {
             Analytics.track(.referralPassBannerShown)
         }
+        if row == .endOfYearPrompt {
+            Analytics.track(.endOfYearProfileCardShown, properties: ["year": EndOfYear.currentYear.literalValue])
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
