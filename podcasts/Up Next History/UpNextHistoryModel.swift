@@ -31,12 +31,10 @@ class UpNextHistoryModel: ObservableObject {
         Task {
             let episodesUuid = dataManager.upNextHistoryEpisodes(entry: entry)
             FileLog.shared.addMessage("UpNextHistory: Restoring entries from \(entry) with episodes: [\(episodesUuid.joined(separator: ","))]")
-            episodesUuid.forEach { episodeUuid in
-                if let episode = dataManager.findBaseEpisode(uuid: episodeUuid) {
-                    PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, userInitiated: false)
-                }
+            let baseEpisodes = episodesUuid.compactMap { episodeUuid in
+                dataManager.findBaseEpisode(uuid: episodeUuid)
             }
-            PlaybackManager.shared.queue.bulkOperationDidComplete()
+            PlaybackManager.shared.bulkAdd(baseEpisodes, toTop: false)
             PlaybackManager.shared.queue.refreshList(checkForAutoDownload: false)
 
             let upNextQueueCount = PlaybackManager.shared.upNextQueueCount()
