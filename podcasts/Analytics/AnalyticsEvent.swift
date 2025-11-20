@@ -798,6 +798,10 @@ enum AnalyticsEvent: String {
     case endOfYearProfileCardTapped
     case endOfYearUpsellShown
     case endOfYearLearnRatingsShown
+    case endOfYearProfileCardShown
+    case endOfYearModalTapped
+    case endOfYearModalDismissed
+    case endOfYearPlusContinued
 
     // MARK: - Welcome View
 
