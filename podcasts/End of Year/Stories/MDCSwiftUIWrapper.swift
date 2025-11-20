@@ -112,7 +112,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
         }
     }
 
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {                
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.dismissCallback?()
     }
 
