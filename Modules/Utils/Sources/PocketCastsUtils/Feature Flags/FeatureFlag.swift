@@ -428,6 +428,8 @@ public enum FeatureFlag: String, CaseIterable {
             shouldEnableSyncedSettings ? "settings_sync" : nil
         case .defaultPlayerFilterCallbackFix:
             "default_player_filter_callback_fix"
+        case .endOfYear2025:
+            "end_of_year_2025"
         default:
             rawValue.lowerSnakeCased()
         }
