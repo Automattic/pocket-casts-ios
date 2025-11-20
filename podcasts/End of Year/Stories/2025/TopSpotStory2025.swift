@@ -12,7 +12,7 @@ struct TopSpotStory2025: ShareableStory {
 
     private let foregroundColor = Color.white
     private let backgroundColor = Color(hex: "#17423B")
-    private var scaleFactor: Double = 0.72
+    private var scaleFactor: Double = UIScreen.isSmallScreen ? 0.57 : 0.72
 
     let identifier: String = "top_1_show"
 
@@ -73,7 +73,7 @@ struct TopSpotStory2025: ShareableStory {
                     })
                     .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
                     .frame(width: size.width, height: size.width)
-                    .scaleEffect(UIScreen.isSmallScreen ? 1.2 : 1.25)
+                    .scaleEffect(UIScreen.isSmallScreen ? 1.0 : 1.25)
                     .scaledToFill()
                 PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                     .frame(width: size.width * scaleFactor, height: size.width * scaleFactor)
