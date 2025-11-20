@@ -39,6 +39,13 @@ struct UpNextHistoryView: View {
             model.loadEntries()
         }
         .navigationTitle(L10n.upNextHistory)
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Create snapshot", systemImage: "plus") {
+                    model.createSnapshot()
+                }
+            }
+        })
         .applyDefaultThemeOptions()
     }
 }

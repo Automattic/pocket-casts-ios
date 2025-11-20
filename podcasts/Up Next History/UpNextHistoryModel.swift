@@ -43,4 +43,8 @@ class UpNextHistoryModel: ObservableObject {
             FileLog.shared.addMessage("UpNextHistory: Restored Up Next Queue to \(upNextQueueCount) episodes")
         }
     }
+
+    func createSnapshot() {
+        dataManager.snapshotUpNext()
+    }
 }
