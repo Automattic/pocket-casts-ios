@@ -43,6 +43,7 @@ struct UpNextHistoryView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Create snapshot", systemImage: "plus") {
                     model.createSnapshot()
+                    model.loadEntries()
                 }
             }
         })
