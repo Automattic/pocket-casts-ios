@@ -179,8 +179,12 @@ class StoriesModel: ObservableObject {
         guard isReady, numberOfStories > 0 else {
             return
         }
-
-        let nextNonPlus = currentStoryIsPlus ? Int(progress.rounded(.down)) + numberOfPlusStoriesAfterTheCurrentOne() + 1 : 0
+        let nextNonPlus: Int
+        if EndOfYear.Year.y2025 == EndOfYear.currentYear {
+            nextNonPlus = Int(progress.rounded(.down)) + numberOfPlusStoriesAfterTheCurrentOne() + 1
+        } else {
+            nextNonPlus = currentStoryIsPlus ? Int(progress.rounded(.down)) + numberOfPlusStoriesAfterTheCurrentOne() + 1: 0
+        }
 
         manuallyChanged = true
 
@@ -192,7 +196,12 @@ class StoriesModel: ObservableObject {
             return
         }
 
-        let previousNonPlus = currentStoryIndex - numberOfPlusStoriesBeforeTheCurrentOne()
+        let previousNonPlus: Int
+        if EndOfYear.Year.y2025 == EndOfYear.currentYear {
+            previousNonPlus = currentStoryIndex - numberOfPlusStoriesBeforeTheCurrentOne() - 1
+        } else {
+            previousNonPlus = currentStoryIndex - numberOfPlusStoriesBeforeTheCurrentOne()
+        }
 
         manuallyChanged = true
 
@@ -257,7 +266,10 @@ class StoriesModel: ObservableObject {
     }
 
     func shouldShowUpsell() -> Bool {
-        currentStoryIsPlus && activeTier() == .none
+        if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
+            return false
+        }
+        return currentStoryIsPlus && activeTier() == .none
     }
 
     func paywallView() -> some View {
