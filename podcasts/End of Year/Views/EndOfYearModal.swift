@@ -25,6 +25,7 @@ struct EndOfYearModal: View {
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .buttonize {
+                        Analytics.track(.endOfYearModalTapped, properties: ["year": EndOfYear.currentYear.literalValue])
                         NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
                     }
                 Text(model.description)
@@ -51,6 +52,7 @@ struct EndOfYearModal: View {
 
     var showStoriesButton: some View {
         Button(model.buttonTitle) {
+            Analytics.track(.endOfYearModalTapped, properties: ["year": EndOfYear.currentYear.literalValue])
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }
         .buttonStyle(RoundedDarkButton(theme: theme))

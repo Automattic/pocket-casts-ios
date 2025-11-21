@@ -19,7 +19,7 @@ struct PaidStoryWallView2025: StoryView {
 
     private let videoAspectRatio = CGFloat(1.37)
 
-    let plusOnly = true
+    let plusOnly = false
 
     init(subscriptionTier: SubscriptionTier) {
         self.subscriptionTier = subscriptionTier
@@ -53,9 +53,10 @@ struct PaidStoryWallView2025: StoryView {
                         guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
-
+                        Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
+                        Analytics.track(.endOfYearPlusContinued, properties: ["year": EndOfYear.currentYear.literalValue])
                         pauseState.togglePause()
                         storyModel.next()
                     }
@@ -73,11 +74,13 @@ struct PaidStoryWallView2025: StoryView {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .onAppear {
-            Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
-            Analytics.track(.endOfYearStoryShown, story: identifier)
+        .onAppear() {
             pauseState.togglePause()
         }
+    }
+
+    func onAppear() {
+        Analytics.track(.endOfYearStoryShown, story: identifier)
     }
 }
 
