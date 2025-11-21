@@ -58,10 +58,8 @@ struct TopSpotStory2025: ShareableStory {
             }
         }
         .onDisappear {
-            withAnimation(scaleAnimation) {
-                backgroundAnimationScale = 1.3
-                coverAnimationScale = 1.05
-            }
+            backgroundAnimationScale = 1.3
+            coverAnimationScale = 1.05
         }
     }
 

@@ -55,7 +55,8 @@ struct NumberListened2025: ShareableStory {
     let identifier: String = "number_of_shows"
 
     var body: some View {
-        ZStack {
+        GeometryReader { proxy in
+            let safeBottom = proxy.safeAreaInsets.bottom
             VStack(alignment: .center) {
                 headerView
                 Spacer()
@@ -63,8 +64,9 @@ struct NumberListened2025: ShareableStory {
                 Spacer()
             }
             .foregroundStyle(foregroundColor)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//            .padding(.bottom, safeBottom)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(content: {
             LottieView(animation: .named("playback_2025_listened"))
                 .animationDidFinish({ completed in
@@ -78,7 +80,7 @@ struct NumberListened2025: ShareableStory {
                 .ignoresSafeArea()
         }
         )
-        .ignoresSafeArea()
+        .ignoresSafeArea(.all, edges: [.top, .leading, .trailing])
         .background(backgroundColor)
     }
 
