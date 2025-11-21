@@ -114,7 +114,8 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         originalButtonConstant = nextButtonBottomConstraint.constant
 
         updateButtonState()
-        Analytics.track(.createAccountShown)
+
+        OnboardingFlow.shared.track(.createAccountShown)
     }
 
     override func viewDidAppear(_ animated: Bool) {
