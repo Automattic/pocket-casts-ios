@@ -13,6 +13,10 @@ struct TopSpotStory2025: ShareableStory {
     private let foregroundColor = Color.white
     private let backgroundColor = Color(hex: "#17423B")
     private var scaleFactor: Double = UIScreen.isSmallScreen ? 0.57 : 0.72
+    private var scaleAnimation: Animation = .timingCurve(0.33, 0.00, 0.00, 1.00, duration: 1)
+
+    @State private var backgroundAnimationScale = 1.3
+    @State private var coverAnimationScale = 1.05
 
     let identifier: String = "top_1_show"
 
@@ -44,6 +48,10 @@ struct TopSpotStory2025: ShareableStory {
         .ignoresSafeArea()
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
+        .onAppear {
+            backgroundAnimationScale = 1.0
+            coverAnimationScale = 1.0
+        }
     }
 
     func onAppear() {
@@ -65,20 +73,28 @@ struct TopSpotStory2025: ShareableStory {
         VStack(alignment: .center, spacing: 0) {
             Spacer()
             ZStack {
-                LottieView(animation: .named("playback_2025_top_spot_story"))
-                    .animationDidFinish({ completed in
-                    })
-                    .configure({ animationView in
-                        animationView.contentMode = .scaleToFill
-                    })
-                    .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                    .frame(width: size.width, height: size.width)
-                    .scaleEffect(UIScreen.isSmallScreen ? 1.0 : 1.25)
-                    .scaledToFill()
-                PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
-                    .frame(width: size.width * scaleFactor, height: size.width * scaleFactor)
-                    .cornerRadius(8)
-                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                Group {
+                    LottieView(animation: .named("playback_2025_top_spot_story"))
+                        .animationDidFinish({ completed in
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleToFill
+                        })
+                        .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                        .frame(width: size.width, height: size.width)
+                        .scaleEffect(UIScreen.isSmallScreen ? 1.0 : 1.25)
+                        .scaledToFill()
+                }
+                .scaleEffect(backgroundAnimationScale)
+                .animation(scaleAnimation, value: backgroundAnimationScale)
+                Group {
+                    PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
+                        .frame(width: size.width * scaleFactor, height: size.width * scaleFactor)
+                        .cornerRadius(8)
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                }
+                .scaleEffect(coverAnimationScale)
+                .animation(scaleAnimation, value: coverAnimationScale)
             }
             Spacer()
         }
