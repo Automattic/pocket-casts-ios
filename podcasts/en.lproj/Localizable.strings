@@ -5806,4 +5806,5 @@
 /* A description shown in the Playback thanks screen for Pocket Casts Plus subscribers. %1$@ argument is your subscription Tier. Ex:  Your Plus perks unlock extra stats and power features" */
 "playback_2025_plus_thanks_description" = "Your %1$@ perks unlock extra stats and power features";
 
-
+/* Message to shown when playback 2025 failed to load */
+"playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
