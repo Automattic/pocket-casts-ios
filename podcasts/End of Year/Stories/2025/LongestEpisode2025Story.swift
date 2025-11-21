@@ -119,6 +119,7 @@ extension LongestEpisode2025Story {
     fileprivate static func mockEpisode() -> Episode {
         let episode = Episode()
         episode.title = "Why Conservatives Can’t Stop Talking About Aristotle"
+        episode.playedUpTo = 300000
         return episode
     }
 
