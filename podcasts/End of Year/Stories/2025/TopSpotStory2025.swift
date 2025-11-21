@@ -47,8 +47,16 @@ struct TopSpotStory2025: ShareableStory {
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {
-            backgroundAnimationScale = 1.0
-            coverAnimationScale = 1.0
+            withAnimation(scaleAnimation) {
+                backgroundAnimationScale = 1.0
+                coverAnimationScale = 1.0
+            }
+        }
+        .onDisappear {
+            withAnimation(scaleAnimation) {
+                backgroundAnimationScale = 1.3
+                coverAnimationScale = 1.05
+            }
         }
     }
 
@@ -84,7 +92,6 @@ struct TopSpotStory2025: ShareableStory {
                         .scaledToFill()
                 }
                 .scaleEffect(backgroundAnimationScale)
-                .animation(scaleAnimation, value: backgroundAnimationScale)
                 Group {
                     PodcastImage(uuid: topPodcast.podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                         .frame(width: size.width * scaleFactor, height: size.width * scaleFactor)
@@ -92,7 +99,6 @@ struct TopSpotStory2025: ShareableStory {
                         .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
                 }
                 .scaleEffect(coverAnimationScale)
-                .animation(scaleAnimation, value: coverAnimationScale)
             }
             Spacer()
         }
