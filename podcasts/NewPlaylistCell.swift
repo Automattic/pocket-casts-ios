@@ -147,4 +147,8 @@ class NewPlaylistCell: ThemeableCell {
             }
         }
     }
+
+    func hideSeparator(_ hide: Bool) {
+        separatorView.alpha = hide ? 0 : 1
+    }
 }
