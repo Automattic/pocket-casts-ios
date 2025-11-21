@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import Lottie
 
 struct CompletionRate2025Story: ShareableStory {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
     @Environment(\.animated) var animated: Bool
 
     let plusOnly = true
@@ -41,7 +42,7 @@ struct CompletionRate2025Story: ShareableStory {
                 .configure({ animationView in
                     animationView.contentMode = .scaleAspectFill
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                 .scaledToFill()
                 .ignoresSafeArea()
                 .offset(y: UIScreen.isSmallScreen ? 60 : 0)
