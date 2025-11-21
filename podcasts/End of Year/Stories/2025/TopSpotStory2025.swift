@@ -47,9 +47,14 @@ struct TopSpotStory2025: ShareableStory {
         .foregroundStyle(foregroundColor)
         .background(backgroundColor)
         .onAppear {
-            withAnimation(scaleAnimation) {
+            if renderForSharing {
                 backgroundAnimationScale = 1.0
                 coverAnimationScale = 1.0
+            } else {
+                withAnimation(scaleAnimation) {
+                    backgroundAnimationScale = 1.0
+                    coverAnimationScale = 1.0
+                }
             }
         }
         .onDisappear {
