@@ -2311,7 +2311,7 @@ internal enum L10n {
   /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year.
   internal static var playback2025YearOverYearComparisonSameTitle: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_same_title", fallback: "Your 2025 listening held steady") }
   /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year.
-  internal static var playback2025YearOverYearComparisonUpMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_message", fallback: "Hope you stretched first!") }
+  internal static var playback2025YearOverYearComparisonUpMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_message", fallback: "More podcasts, more joy") }
   /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is up compared to the last year. %1$@ represent a placeholder for the formatted percentage.
   internal static func playback2025YearOverYearComparisonUpTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_title", String(describing: p1), fallback: "Compared to 2024, your listening time skyrocketed %1$@")

@@ -5754,7 +5754,7 @@
 "playback_2025_year_over_year_comparison_up_title" = "Compared to 2024, your listening time skyrocketed %1$@";
 
 /* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year. */
-"playback_2025_year_over_year_comparison_up_message" = "Hope you stretched first!";
+"playback_2025_year_over_year_comparison_up_message" = "More podcasts, more joy";
 
 /* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
 "playback_2025_year_over_year_comparison_same_title" = "Your 2025 listening held steady";
