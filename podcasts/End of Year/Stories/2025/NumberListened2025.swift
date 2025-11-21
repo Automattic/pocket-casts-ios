@@ -65,7 +65,6 @@ struct NumberListened2025: ShareableStory {
             }
             .foregroundStyle(foregroundColor)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .padding(.bottom, safeBottom)
         }
         .background(content: {
             LottieView(animation: .named("playback_2025_listened"))
