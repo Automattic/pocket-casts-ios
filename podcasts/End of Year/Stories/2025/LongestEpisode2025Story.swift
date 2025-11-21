@@ -15,6 +15,7 @@ struct LongestEpisode2025Story: ShareableStory {
     private let backgroundColor = Color(hex: "#17423B")
     private let foregroundColor = Color.white
     private let imageSize: CGFloat = UIScreen.isSmallScreen ? 180 : 196
+    private let portionFactor: CGFloat = UIScreen.isSmallScreen ? 3.5 : 3.0
 
     @State private var imageScale = CGFloat(1.1)
     @State private var isAnimating: Bool = true
@@ -38,7 +39,7 @@ struct LongestEpisode2025Story: ShareableStory {
                         footerView
                         Spacer()
                     }
-                    .frame(height: proxy.size.height / 3.5)
+                    .frame(height: proxy.size.height / portionFactor)
                 }
             }
         }

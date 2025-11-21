@@ -38,7 +38,7 @@ struct TopSpotStory2025: ShareableStory {
                         StoryFooter2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
                         Spacer()
                     }
-                    .frame(height: proxy.size.height / 3.5)
+                    .frame(height: proxy.size.height / 3)
                 }
             }
         }
