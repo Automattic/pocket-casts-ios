@@ -94,7 +94,7 @@ struct PredictiveList: View {
     func termRow(term: String) -> some View {
         let formattedText = highlightTerm(searchResults.currentPredictiveSearchTerm, on: term)
         Button(action: {
-            searchAnalyticsHelper.trackPredictiveTermTapped()
+            searchAnalyticsHelper.trackPredictiveTermTapped(term: term)
             searchResults.search(term: term)
             searchHistory.add(searchTerm: term)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastSearchRequest, object: term)
