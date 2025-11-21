@@ -3,7 +3,6 @@ import PocketCastsServer
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel
-
     @ObservedObject private var syncProgressModel: SyncYearListeningProgress
 
     @Environment(\.accessibilityShowButtonShapes) var showButtonShapes: Bool
@@ -13,7 +12,8 @@ struct StoriesView: View {
     private let maximumTapTime: Double = 0.35
 
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
-        model = StoriesModel(dataSource: dataSource, configuration: configuration)
+        let model = StoriesModel(dataSource: dataSource, configuration: configuration)
+        _model = ObservedObject(initialValue: model)
         self.syncProgressModel = syncProgressModel
     }
 
@@ -86,13 +86,13 @@ struct StoriesView: View {
             }
         }
         .background(Color.black)
-        .alert(L10n.eoyShareThisStoryTitle,
-               isPresented: $model.screenshotTaken) {
-            Button(L10n.eoyNotNow) { model.start() }
-            Button(L10n.share) { model.share() }.keyboardShortcut(.defaultAction)
-        } message: {
-            Text(L10n.eoyShareThisStoryMessage)
-        }
+        .modifier(
+            ShareAlertModifier(
+                state: model.shareAlertState,
+                shareAction: model.share,
+                notNowAction: model.start
+            )
+        )
         .onChange(of: pauseState.isPaused) { isPaused in
             if isPaused {
                 model.pause()
@@ -287,6 +287,23 @@ private struct CloseButtonStyle: ButtonStyle {
     private enum Constants {
         static let closeButtonPadding: CGFloat = 13
         static let closeButtonRadius: CGFloat = 5
+    }
+}
+
+private struct ShareAlertModifier: ViewModifier {
+    @ObservedObject var state: StoriesShareAlertState
+    let shareAction: () -> Void
+    let notNowAction: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .alert(L10n.eoyShareThisStoryTitle,
+                   isPresented: $state.isPresented) {
+                Button(L10n.eoyNotNow) { notNowAction() }
+                Button(L10n.share) { shareAction() }.keyboardShortcut(.defaultAction)
+            } message: {
+                Text(L10n.eoyShareThisStoryMessage)
+            }
     }
 }
 
