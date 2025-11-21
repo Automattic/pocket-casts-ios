@@ -85,6 +85,9 @@ struct NewSearchResultsView: View {
                     .listRowSeparatorTint(theme.primaryUi05)
                     .scrollContentBackground(.hidden)
                     .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .onAppear() {
+                        self.searchAnalyticsHelper.trackListShown(displayMode)
+                    }
                 }
             }
         }
