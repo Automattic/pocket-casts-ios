@@ -20,7 +20,7 @@ struct CompletionRate2025Story: ShareableStory {
     @State private var chartOpacity: Double = 1
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .center) {
             headerView
             Spacer()
             Rectangle()
