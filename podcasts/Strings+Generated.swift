@@ -2233,8 +2233,8 @@ internal enum L10n {
   internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
-  /// Playback 2025
-  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// Playback is here!
+  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback is here!") }
   /// Your year in podcasts, wrapped and ready to relive
   internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Your year in podcasts, wrapped and ready to relive") }
   /// You tuned in to %1$@ podcasts and %2$@ episodes
