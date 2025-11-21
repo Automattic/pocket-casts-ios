@@ -167,3 +167,16 @@ struct NumberListened2025: ShareableStory {
         ]
     }
 }
+
+#Preview {
+    NumberListened2025(
+        listenedNumbers:
+            ListenedNumbers(
+                numberOfPodcasts: 1,
+                numberOfEpisodes: 100
+            ),
+        podcasts: [
+            Podcast()
+        ]
+    )
+}
