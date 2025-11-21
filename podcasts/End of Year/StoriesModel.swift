@@ -16,11 +16,11 @@ class StoriesModel: ObservableObject {
 
     @Published var failed: Bool = false
 
-    @Published var screenshotTaken: Bool = false {
+    private var screenshotTaken: Bool = false {
         didSet {
             guard screenshotTaken else {
-                if shareAlertPresented {
-                    shareAlertPresented = false
+                if shareAlertState.isPresented {
+                    setShareAlertPresented(false)
                 }
                 return
             }
@@ -31,17 +31,11 @@ class StoriesModel: ObservableObject {
                 return
             }
 
-            shareAlertPresented = true
+            setShareAlertPresented(true)
         }
     }
 
-    @Published var shareAlertPresented: Bool = false {
-        didSet {
-            if !shareAlertPresented && screenshotTaken {
-                screenshotTaken = false
-            }
-        }
-    }
+    let shareAlertState: StoriesShareAlertState
 
     let activeTier: () -> SubscriptionTier
 
@@ -98,7 +92,12 @@ class StoriesModel: ObservableObject {
         self.progressModel = progressModel
         self.publisher = Timer.publish(every: 0.01, on: .main, in: .default)
         self.activeTier = activeTier
+        self.shareAlertState = StoriesShareAlertState()
         self.progressModel.progress = progress
+
+        self.shareAlertState.onVisibilityChanged = { [weak self] isPresented in
+            self?.shareAlertVisibilityChanged(isPresented)
+        }
 
         Task.init {
             await isReady = dataSource.isReady()
@@ -323,6 +322,17 @@ class StoriesModel: ObservableObject {
 }
 
 private extension StoriesModel {
+    func setShareAlertPresented(_ presented: Bool) {
+        guard shareAlertState.isPresented != presented else { return }
+        shareAlertState.isPresented = presented
+    }
+
+    func shareAlertVisibilityChanged(_ isPresented: Bool) {
+        if !isPresented && screenshotTaken {
+            screenshotTaken = false
+        }
+    }
+
     func subscribeToNotifications() {
         StoriesController.Notifications.allCases.forEach { [weak self] controller in
             switch controller {
@@ -387,4 +397,15 @@ private extension StoriesModel {
 
         pendingPlaybackShareEvents.removeAll()
     }
+}
+
+final class StoriesShareAlertState: ObservableObject {
+    @Published var isPresented: Bool = false {
+        didSet {
+            guard isPresented != oldValue else { return }
+            onVisibilityChanged?(isPresented)
+        }
+    }
+
+    var onVisibilityChanged: ((Bool) -> Void)?
 }
