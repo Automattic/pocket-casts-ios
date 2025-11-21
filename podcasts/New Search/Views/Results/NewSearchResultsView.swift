@@ -85,6 +85,9 @@ struct NewSearchResultsView: View {
                     .listRowSeparatorTint(theme.primaryUi05)
                     .scrollContentBackground(.hidden)
                     .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .onAppear() {
+                        self.searchAnalyticsHelper.trackListShown(displayMode)
+                    }
                 }
             }
         }
@@ -94,6 +97,7 @@ struct NewSearchResultsView: View {
     @ViewBuilder var showFullResultsButton: some View {
         Button(action: {
             searchResults.search(term: searchResults.currentSearchTerm)
+            searchAnalyticsHelper.trackPredictiveViewAllTapped(term: searchResults.currentPredictiveSearchTerm)
         }, label: {
             Text(L10n.searchResultsViewAll(searchResults.currentSearchTerm))
                 .font(style: .subheadline, weight: .medium)

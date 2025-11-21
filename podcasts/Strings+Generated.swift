@@ -163,7 +163,7 @@ internal enum L10n {
   /// A common string used throughout the app. Option that determines the behavior of the app after playing an item.
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing", fallback: "After Playing") }
   /// Search Results filter option
-  internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "All Results") }
+  internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "Top Results") }
   /// Autoplay feature announcement description
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description", fallback: "If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.") }
   /// Autoplay feature announcement title
@@ -634,6 +634,8 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip", fallback: "Create clip") }
   /// Title for the screen where a user starts creating a filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter", fallback: "Create Filter") }
+  /// Create snapshot
+  internal static var createUpNextSnapshot: String { return L10n.tr("Localizable", "create_up_next_snapshot", fallback: "Create snapshot") }
   /// Description for modal explaining Creator Picks
   internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description", fallback: "Creator Picks are podcasts recommended by the show's creator using Podroll.") }
   /// Text used for the "Learn more" link in the modal explaining Creator Picks

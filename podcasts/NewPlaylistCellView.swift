@@ -54,6 +54,7 @@ struct NewPlaylistCellView: View {
                 PlaylistArtworkView(items: viewModel.images)
                     .frame(width: 56.0, height: 56.0)
                     .padding(.leading, 16.0)
+                    .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 2.0) {
                 Text(title)
@@ -66,6 +67,7 @@ struct NewPlaylistCellView: View {
             Spacer()
             accesoryView()
         }
+        .accessibilityElement(children: .combine)
         .background(.clear)
     }
 
@@ -80,6 +82,7 @@ struct NewPlaylistCellView: View {
         case .count:
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
+                    .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
             }
             .padding(.trailing, 8.0)
         default:

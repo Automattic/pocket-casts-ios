@@ -4474,6 +4474,9 @@
 /* Title of a screen that display Up Next history */
 "up_next_history" = "Up Next History";
 
+/* Create snapshot */
+"create_up_next_snapshot" = "Create snapshot";
+
 /* A message explaining how to use the Up Next history */
 "up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
 
@@ -5679,7 +5682,7 @@
 "interests_select_at_least" = "Select at least %1$@";
 
 /* Search Results filter option */
-"all_results" = "All Results";
+"all_results" = "Top Results";
 
 /// A description of the Playback 2025 feature
 "playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";

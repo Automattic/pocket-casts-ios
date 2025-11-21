@@ -40,6 +40,7 @@ enum AnalyticsEvent: String {
     case plusPromotionPrivacyPolicyTapped
     case plusPromotionTermsAndConditionsTapped
     case plusPromotionDetailsTapped
+    case plusPromotionBannerButtonTapped
 
     // MARK: - Setup Account
 
@@ -763,6 +764,7 @@ enum AnalyticsEvent: String {
     case searchFilterTapped
     case searchPredictiveShown
     case searchPredictiveTermTapped
+    case searchPredictiveViewAllTapped
 
     // MARK: - Chromecast
 
