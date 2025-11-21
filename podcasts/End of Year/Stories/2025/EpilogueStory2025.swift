@@ -11,7 +11,7 @@ struct EpilogueStory2025: StoryView {
     private var opacityAnimation: Animation = .linear(duration: 0.34)
     private var moveAnimation: Animation = .timingCurve(0.40, 0.00, 0.00, 1.00, duration: 1.2)
 
-    @State private var offset: CGFloat = 80
+    @State private var offset: CGFloat = 30
     @State private var opacity: CGFloat = 0.0
     @State private var isAnimating: Bool = true
 
@@ -46,7 +46,7 @@ struct EpilogueStory2025: StoryView {
                     .offset(y: offset)
                     .if(isAnimating) {
                         $0.animation(moveAnimation.delay(assetDelay + assetDelay), value: offset)
-                        .animation(opacityAnimation.delay(startDelay + assetDelay + 0.02), value: opacity)
+                        .animation(opacityAnimation.delay(startDelay + assetDelay + assetDelay), value: opacity)
                     }
             }
             .padding(.horizontal, 24)
@@ -75,7 +75,7 @@ struct EpilogueStory2025: StoryView {
         }
         .onDisappear {
             self.isAnimating = false
-            self.offset = 100
+            self.offset = 30
             self.opacity = 0
         }
     }
