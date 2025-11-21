@@ -2231,7 +2231,7 @@ internal enum L10n {
   internal static var playback2025EndStoryDescription: String { return L10n.tr("Localizable", "playback_2025_end_story_description", fallback: "Share your Playback with friends and show some love to the podcasters who kept you company all year") }
   /// Playback 2025: Title for the last story
   internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
-  /// Sorry, we couldn’t load Playback
+  /// Message to shown when playback 2025 failed to load
   internal static var playback2025FailedToLoad: String { return L10n.tr("Localizable", "playback_2025_failed_to_load", fallback: "Sorry, we couldn’t load Playback") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
