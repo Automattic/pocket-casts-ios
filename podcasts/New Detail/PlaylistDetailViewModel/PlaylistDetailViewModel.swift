@@ -3,7 +3,6 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import DifferenceKit
 import PocketCastsDependencyInjection
-import Sentry
 
 class PlaylistDetailViewModel: ObservableObject {
     @Dependency(\.playlistMetadataLoader) var playlistMetadataLoader: PlaylistMetadataLoader
@@ -133,8 +132,6 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
-        addSentryBreadcrumb(spot: "reloadPlaylistAndEpisodes", animated: false)
-
         if isSearching {
             searchEpisodes(for: searchTerm)
             return
@@ -153,8 +150,6 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(animated: Bool = true) {
-        addSentryBreadcrumb(spot: "reloadEpisodeList", animated: animated)
-
         if isSearching {
             searchEpisodes(for: searchTerm)
             return
@@ -395,20 +390,9 @@ extension PlaylistDetailViewModel {
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
         let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
-        addSentryBreadcrumb(spot: "searchEpisodes", animated: false)
         DispatchQueue.main.async { [weak self] in
             // Avoid animation as long we use the current diffable framework
             self?.onChange(changeSetTuple.1, false, changeSetTuple.0)
         }
-    }
-}
-
-extension PlaylistDetailViewModel {
-    func addSentryBreadcrumb(spot: String, animated: Bool) {
-        let crumb = Breadcrumb()
-        crumb.level = SentryLevel.info
-        crumb.category = "playlist"
-        crumb.message = "reload spot \(spot) - animated: \(animated)"
-        SentrySDK.addBreadcrumb(crumb)
     }
 }
