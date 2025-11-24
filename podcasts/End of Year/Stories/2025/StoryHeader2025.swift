@@ -2,6 +2,8 @@ import SwiftUI
 import PocketCastsServer
 
 struct StoryHeader2025: View {
+    @Environment(\.renderForSharing) var renderForSharing: Bool
+
     let title: String?
     let description: String?
     let subscriptionTier: SubscriptionTier?
@@ -33,7 +35,19 @@ struct StoryHeader2025: View {
             }
         }
         .padding(.horizontal, 24)
-        .padding(.top, topPadding ?? (UIScreen.isSmallScreen ? 70 : 120))
+        .padding(.top, topPadding ?? defaultTopPadding)
+    }
+
+    var defaultTopPadding: CGFloat {
+        if renderForSharing {
+            StoryLogoView.Constants.paddingBottom
+        }
+        else if UIScreen.isSmallScreen {
+            70
+        }
+        else {
+            110
+        }
     }
 }
 
