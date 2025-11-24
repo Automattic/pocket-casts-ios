@@ -14,6 +14,8 @@ struct LongestEpisode2025Story: ShareableStory {
 
     private let backgroundColor = Color(hex: "#17423B")
     private let foregroundColor = Color.white
+    private let imageSize: CGFloat = UIScreen.isSmallScreen ? 180 : 196
+    private let portionFactor: CGFloat = UIScreen.isSmallScreen ? 3.5 : 3.0
 
     @State private var imageScale = CGFloat(1.1)
     @State private var isAnimating: Bool = true
@@ -21,31 +23,30 @@ struct LongestEpisode2025Story: ShareableStory {
     private let scaleAnimation: Animation = .timingCurve(0.18, 0.00, 0.08, 1.00, duration: 1.25)
 
     var body: some View {
-        VStack(alignment: .center) {
-            headerView
-            Spacer()
-                .frame(height: 80)
-            PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
-                .frame(width: 196 * imageScale, height: 196 * imageScale)
-                .cornerRadius(4)
-            VStack {
-                Spacer()
-                footerView
-                Spacer()
+        GeometryReader { proxy in
+            ZStack {
+                background(size: proxy.size)
+                VStack(alignment: .center, spacing: 0) {
+                    headerView
+                    Spacer()
+                        .frame(height: 80)
+                    PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
+                        .frame(width: imageSize * imageScale, height: imageSize * imageScale)
+                        .cornerRadius(4)
+                    Spacer()
+                    VStack {
+                        Spacer()
+                        footerView
+                        Spacer()
+                    }
+                    .frame(height: proxy.size.height / portionFactor)
+                }
             }
         }
-        .background {
-            LottieView(animation: .named("2025_longest_episode"))
-                .configure({ animationView in
-                    animationView.contentMode = .scaleAspectFill
-                })
-                .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                .scaledToFill()
-                .ignoresSafeArea()
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
-        .background(backgroundColor)
         .foregroundStyle(foregroundColor)
+        .background(backgroundColor)
         .onAppear {
             withAnimation(scaleAnimation) {
                 self.imageScale = 1.0
@@ -74,6 +75,24 @@ struct LongestEpisode2025Story: ShareableStory {
         )
     }
 
+    @ViewBuilder func background(size: CGSize) -> some View {
+        VStack(alignment: .center, spacing: 0) {
+            Spacer()
+            ZStack {
+                LottieView(animation: .named("2025_longest_episode"))
+                    .configure({ animationView in
+                        animationView.contentMode = .scaleAspectFill
+                    })
+                    .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+                    .frame(width: size.width, height: size.width)
+                    .scaleEffect(UIScreen.isSmallScreen ? 1.2 : 1.4)
+                    .scaledToFill()
+                    .padding(.top, 40.0)
+            }
+            Spacer()
+        }
+    }
+
     func onAppear() {
         Analytics.track(.endOfYearStoryShown, story: identifier)
     }
@@ -87,5 +106,27 @@ struct LongestEpisode2025Story: ShareableStory {
             StoryShareableProvider.new(AnyView(self)),
             StoryShareableText(L10n.eoyStoryLongestEpisodeShareText("%1$@"), episode: episode, year: .y2025)
         ]
+    }
+}
+
+#Preview {
+    LongestEpisode2025Story(
+        episode: LongestEpisode2025Story.mockEpisode(),
+        podcast: LongestEpisode2025Story.mockPodcast()
+    )
+}
+
+extension LongestEpisode2025Story {
+    fileprivate static func mockEpisode() -> Episode {
+        let episode = Episode()
+        episode.title = "Why Conservatives Can’t Stop Talking About Aristotle"
+        episode.playedUpTo = 300000
+        return episode
+    }
+
+    fileprivate static func mockPodcast() -> Podcast {
+        let podcast = Podcast()
+        podcast.title = "Radio Atlantic"
+        return podcast
     }
 }
