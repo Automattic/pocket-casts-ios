@@ -408,7 +408,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .enableLocalizationHeaders:
             true
         case .endOfYear2025:
-            false
+            true
         }
     }
 
