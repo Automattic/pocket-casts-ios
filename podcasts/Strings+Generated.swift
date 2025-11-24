@@ -163,7 +163,7 @@ internal enum L10n {
   /// A common string used throughout the app. Option that determines the behavior of the app after playing an item.
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing", fallback: "After Playing") }
   /// Search Results filter option
-  internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "All Results") }
+  internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "Top Results") }
   /// Autoplay feature announcement description
   internal static var announcementAutoplayDescription: String { return L10n.tr("Localizable", "announcement_autoplay_description", fallback: "If your Up Next queue is empty and you start listening to an episode, Autoplay will keep playing episodes from that show or list.") }
   /// Autoplay feature announcement title
@@ -634,6 +634,8 @@ internal enum L10n {
   internal static var createClip: String { return L10n.tr("Localizable", "create_clip", fallback: "Create clip") }
   /// Title for the screen where a user starts creating a filter
   internal static var createFilter: String { return L10n.tr("Localizable", "create_filter", fallback: "Create Filter") }
+  /// Create snapshot
+  internal static var createUpNextSnapshot: String { return L10n.tr("Localizable", "create_up_next_snapshot", fallback: "Create snapshot") }
   /// Description for modal explaining Creator Picks
   internal static var creatorPickModalDescription: String { return L10n.tr("Localizable", "creator_pick_modal_description", fallback: "Creator Picks are podcasts recommended by the show's creator using Podroll.") }
   /// Text used for the "Learn more" link in the modal explaining Creator Picks
@@ -2231,10 +2233,12 @@ internal enum L10n {
   internal static var playback2025EndStoryDescription: String { return L10n.tr("Localizable", "playback_2025_end_story_description", fallback: "Share your Playback with friends and show some love to the podcasters who kept you company all year") }
   /// Playback 2025: Title for the last story
   internal static var playback2025EndStoryTitle: String { return L10n.tr("Localizable", "playback_2025_end_story_title", fallback: "Thanks for spending your year with Pocket Casts") }
+  /// Message to shown when playback 2025 failed to load
+  internal static var playback2025FailedToLoad: String { return L10n.tr("Localizable", "playback_2025_failed_to_load", fallback: "Sorry, we couldn’t load Playback") }
   /// See your listening stats, top podcasts, and more.
   internal static var playback2025FeatureDescription: String { return L10n.tr("Localizable", "playback_2025_feature_description", fallback: "See your listening stats, top podcasts, and more.") }
-  /// Playback 2025
-  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback 2025") }
+  /// Playback is here!
+  internal static var playback2025FeatureTitle: String { return L10n.tr("Localizable", "playback_2025_feature_title", fallback: "Playback is here!") }
   /// Your year in podcasts, wrapped and ready to relive
   internal static var playback2025IntroMessage: String { return L10n.tr("Localizable", "playback_2025_intro_message", fallback: "Your year in podcasts, wrapped and ready to relive") }
   /// You tuned in to %1$@ podcasts and %2$@ episodes
@@ -2311,7 +2315,7 @@ internal enum L10n {
   /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year.
   internal static var playback2025YearOverYearComparisonSameTitle: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_same_title", fallback: "Your 2025 listening held steady") }
   /// Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year.
-  internal static var playback2025YearOverYearComparisonUpMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_message", fallback: "Hope you stretched first!") }
+  internal static var playback2025YearOverYearComparisonUpMessage: String { return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_message", fallback: "More podcasts, more joy") }
   /// Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is up compared to the last year. %1$@ represent a placeholder for the formatted percentage.
   internal static func playback2025YearOverYearComparisonUpTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_2025_year_over_year_comparison_up_title", String(describing: p1), fallback: "Compared to 2024, your listening time skyrocketed %1$@")

@@ -4474,6 +4474,9 @@
 /* Title of a screen that display Up Next history */
 "up_next_history" = "Up Next History";
 
+/* Create snapshot */
+"create_up_next_snapshot" = "Create snapshot";
+
 /* A message explaining how to use the Up Next history */
 "up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
 
@@ -5679,7 +5682,7 @@
 "interests_select_at_least" = "Select at least %1$@";
 
 /* Search Results filter option */
-"all_results" = "All Results";
+"all_results" = "Top Results";
 
 /// A description of the Playback 2025 feature
 "playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
@@ -5688,7 +5691,7 @@
 "playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
 
 /// Title for the Playback 2025 feature
-"playback_2025_feature_title" = "Playback 2025";
+"playback_2025_feature_title" = "Playback is here!";
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
@@ -5754,7 +5757,7 @@
 "playback_2025_year_over_year_comparison_up_title" = "Compared to 2024, your listening time skyrocketed %1$@";
 
 /* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year. */
-"playback_2025_year_over_year_comparison_up_message" = "Hope you stretched first!";
+"playback_2025_year_over_year_comparison_up_message" = "More podcasts, more joy";
 
 /* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
 "playback_2025_year_over_year_comparison_same_title" = "Your 2025 listening held steady";
@@ -5806,4 +5809,5 @@
 /* A description shown in the Playback thanks screen for Pocket Casts Plus subscribers. %1$@ argument is your subscription Tier. Ex:  Your Plus perks unlock extra stats and power features" */
 "playback_2025_plus_thanks_description" = "Your %1$@ perks unlock extra stats and power features";
 
-
+/* Message to shown when playback 2025 failed to load */
+"playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
