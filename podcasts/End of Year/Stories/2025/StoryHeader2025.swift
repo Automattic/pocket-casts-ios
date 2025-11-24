@@ -40,7 +40,7 @@ struct StoryHeader2025: View {
 
     var defaultTopPadding: CGFloat {
         if renderForSharing {
-            24 // This matches the pill padding from StoryLogoView
+            StoryLogoView.Constants.paddingBottom
         }
         else if UIScreen.isSmallScreen {
             70
