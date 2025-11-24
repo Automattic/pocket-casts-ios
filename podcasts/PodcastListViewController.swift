@@ -509,3 +509,11 @@ extension PodcastListViewController {
                                           source: .podcastsList)
     }
 }
+
+// MARK: - Podcast list
+
+extension PodcastListViewController: AnalyticsSourceProvider {
+    var analyticsSource: AnalyticsSource {
+        .podcastsList
+    }
+}
