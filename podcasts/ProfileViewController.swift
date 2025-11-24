@@ -362,6 +362,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .referralsClaim {
             Analytics.track(.referralPassBannerShown)
         }
+        if row == .endOfYearPrompt {
+            Analytics.track(.endOfYearProfileCardShown, properties: ["year": EndOfYear.currentYear.literalValue])
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -415,7 +418,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             dismiss(animated: true)
-            Analytics.track(.endOfYearProfileCardTapped)
+            Analytics.track(.endOfYearProfileCardTapped, properties: ["year": EndOfYear.currentYear.literalValue])
             if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
                 endOfYear.showStories(in: self, from: .profile)
             } else {

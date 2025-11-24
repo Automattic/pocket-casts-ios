@@ -220,6 +220,9 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let autoDownloadSection = Self.playlistRebrandingIsEnabled ? 1 : 2
         if section == autoDownloadSection {
+            if Self.playlistRebrandingIsEnabled {
+                return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.playlistsAutoDownloadOffSubtitle
+            }
             return filterToEdit.autoDownloadEpisodes ? L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized()) : L10n.autoDownloadOffSubtitle
         }
         return nil

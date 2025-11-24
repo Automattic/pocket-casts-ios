@@ -14,5 +14,6 @@ struct PlaylistBlurHeaderView: View {
                 Spacer()
             }
         }
+        .accessibilityHidden(true)
     }
 }

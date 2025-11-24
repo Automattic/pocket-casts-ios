@@ -11,6 +11,13 @@ extension PlaylistDetailViewController: UISheetPresentationControllerDelegate, P
             guard let self else { return }
             let hasDifferencesWithUpNext = await self.checkDifferencesWithUpNext()
             if hasDifferencesWithUpNext {
+                if PlaybackManager.shared.queue.upNextCount() == 0 {
+                    // there's nothing to over-write, so nothing to confirm either
+                    await MainActor.run {
+                        self.viewModel.playAllEpisodes()
+                    }
+                    return
+                }
                 await MainActor.run {
                     let sheet = PlaylistPlayAllSheetHost(delegate: self)
                     self.present(sheet, animated: true)
@@ -51,12 +58,6 @@ extension PlaylistDetailViewController: UISheetPresentationControllerDelegate, P
 
     func onTapSaveAndReplace() {
         presentedViewController?.dismiss(animated: true)
-
-        if PlaybackManager.shared.queue.upNextCount() == 0 {
-            // there's nothing to over-write, so nothing to confirm either
-            viewModel.playAllEpisodes()
-            return
-        }
 
         track(
             .filterPlayAllReplaceAndPlayTapped,

@@ -62,5 +62,7 @@ struct PlaylistArtworkView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(L10n.accessibilityPlaylistImage)
     }
 }

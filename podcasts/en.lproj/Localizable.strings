@@ -4474,6 +4474,9 @@
 /* Title of a screen that display Up Next history */
 "up_next_history" = "Up Next History";
 
+/* Create snapshot */
+"create_up_next_snapshot" = "Create snapshot";
+
 /* A message explaining how to use the Up Next history */
 "up_next_history_explanation" = "A list of recent updates to Up Next due to changes on other devices. To view the episodes and have the option to restore them, tap any entry.";
 
@@ -5420,6 +5423,12 @@
 /* A common string used throughout the app. Often refers to the Playlists screen. */
 "playlists" = "Playlists";
 
+/* An accessibility label used for the playlist image */
+"accessibility_playlist_image" = "Playlist image";
+
+/* An accessibility label used for the add episode action for the Add Episodes search view */
+"accessibility_playlist_add_episode" = "Add Episode";
+
 /* Option to delete the playlist. It appears in the edit panel from the playlist detail. */
 "playlists_delete" = "Delete Playlist";
 
@@ -5431,6 +5440,12 @@
 
 /* Playlist Play all button */
 "playlists_play_all" = "Play all";
+
+/* Subtitle for the auto download setting. This is displayed when the option is turned off. */
+"playlists_auto_download_off_subtitle" = "Enable to auto download episodes in this playlist";
+
+/* Subtitle for the auto download setting. This is displayed when the option is turned on. '%1$@' is a placeholder for the number of episodes, this will be more than one. */
+"playlists_auto_download_on_plural_format" = "The first %1$@ episodes in this playlist will be automatically downloaded";
 
 /* A common string used throughout the app. Often refers to the Smart Playlist. */
 "smart_playlist" = "Smart playlist";
@@ -5667,7 +5682,7 @@
 "interests_select_at_least" = "Select at least %1$@";
 
 /* Search Results filter option */
-"all_results" = "All Results";
+"all_results" = "Top Results";
 
 /// A description of the Playback 2025 feature
 "playback_2025_description" =  "See your top podcasts, categories, listening stats and more. Share with friends and shout out your favourite creators!";
@@ -5676,7 +5691,7 @@
 "playback_2025_feature_description" = "See your listening stats, top podcasts, and more.";
 
 /// Title for the Playback 2025 feature
-"playback_2025_feature_title" = "Playback 2025";
+"playback_2025_feature_title" = "Playback is here!";
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
@@ -5742,7 +5757,7 @@
 "playback_2025_year_over_year_comparison_up_title" = "Compared to 2024, your listening time skyrocketed %1$@";
 
 /* Playback 2025: Message showed in the Year Over Year Comparison story when the percentage is up compared to the last year. */
-"playback_2025_year_over_year_comparison_up_message" = "Hope you stretched first!";
+"playback_2025_year_over_year_comparison_up_message" = "More podcasts, more joy";
 
 /* Playback 2025: Title showed in the Year Over Year Comparison story when the percentage is the same compared to the last year. */
 "playback_2025_year_over_year_comparison_same_title" = "Your 2025 listening held steady";
@@ -5794,4 +5809,5 @@
 /* A description shown in the Playback thanks screen for Pocket Casts Plus subscribers. %1$@ argument is your subscription Tier. Ex:  Your Plus perks unlock extra stats and power features" */
 "playback_2025_plus_thanks_description" = "Your %1$@ perks unlock extra stats and power features";
 
-
+/* Message to shown when playback 2025 failed to load */
+"playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";

@@ -33,7 +33,7 @@ struct StoryHeader2025: View {
             }
         }
         .padding(.horizontal, 24)
-        .padding(.top, topPadding ?? (UIScreen.isSmallScreen ? 70 : 110))
+        .padding(.top, topPadding ?? (UIScreen.isSmallScreen ? 70 : 120))
     }
 }
 

@@ -43,6 +43,8 @@ class NewPlaylistCell: ThemeableCell {
 
         updateColor()
 
+        separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
+
         separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
         layoutMargins = .zero
         preservesSuperviewLayoutMargins = false
@@ -52,6 +54,7 @@ class NewPlaylistCell: ThemeableCell {
 
         addSubview(artworkImageSource)
         addSubview(separatorView)
+        bringSubviewToFront(separatorView)
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: topAnchor),
             hostingController.view.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -84,6 +87,11 @@ class NewPlaylistCell: ThemeableCell {
         let theme = themeOverride ?? Theme.sharedTheme.activeTheme
 
         overrideUserInterfaceStyle = theme.isDark ? .dark : .light
+    }
+
+    override func updateColor() {
+        super.updateColor()
+        separatorView.backgroundColor = AppTheme.colorForStyle(.primaryUi05)
     }
 
     @MainActor required init?(coder: NSCoder) {
@@ -138,5 +146,9 @@ class NewPlaylistCell: ThemeableCell {
                 }
             }
         }
+    }
+
+    func hideSeparator(_ hide: Bool) {
+        separatorView.alpha = hide ? 0 : 1
     }
 }

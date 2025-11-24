@@ -35,6 +35,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             if let playlist = playlists[safe: indexPath.row] {
                 cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
                 cell.loadMetadata(for: playlist)
+                cell.hideSeparator(indexPath.row == playlists.count - 1)
             }
             return cell
         }

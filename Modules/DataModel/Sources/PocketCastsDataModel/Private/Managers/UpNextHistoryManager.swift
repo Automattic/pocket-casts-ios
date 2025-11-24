@@ -2,6 +2,18 @@ import PocketCastsUtils
 import Foundation
 
 public class UpNextHistoryManager {
+    private let columnNames = [
+        "id",
+        "episodePosition",
+        "episodeUuid",
+        "playlist_id",
+        "upcoming",
+        "timeModified",
+        "wasDeleted",
+        "title",
+        "podcastUuid",
+    ]
+
     /// The number of days to keep the snapshots
     private let periodOfSnapshot: TimeInterval = 14.days
 
@@ -12,7 +24,7 @@ public class UpNextHistoryManager {
     func snapshot(dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT *, ? as 'date' FROM SJPlaylistEpisode", values: [Date()])
+                try db.executeUpdate("INSERT INTO PlaylistEpisodeHistory SELECT \(columnNames.joined(separator: ",")), ? as 'date' FROM SJPlaylistEpisode WHERE playlist_id = ?", values: [Date(), UpNextDataManager.upNextPlaylistId])
                 try db.executeUpdate("DELETE FROM PlaylistEpisodeHistory WHERE date <= ?", values: [Date().addingTimeInterval(-periodOfSnapshot)])
             } catch {
                 FileLog.shared.addMessage("UpNextHistoryManager.snapshot error: \(error)")

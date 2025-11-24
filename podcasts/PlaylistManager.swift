@@ -109,13 +109,15 @@ class PlaylistManager {
             guard playlist.autoDownloadEpisodes else { continue }
 
             let query: String
+            let episodes: [Episode]
             if FeatureFlag.playlistsRebranding.enabled {
                 query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
+                episodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
             } else {
                 query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: Int(playlist.maxAutoDownloadEpisodes()))
+                episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
             }
 
-            let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
             for episode in episodes {
                 if episode.downloaded(pathFinder: DownloadManager.shared) || episode.queued() { continue }
 
