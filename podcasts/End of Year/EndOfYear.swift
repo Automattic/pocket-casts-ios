@@ -108,7 +108,11 @@ struct EndOfYear {
 
 
     func showPrompt(in viewController: UIViewController) {
-        guard Self.isEligible, let storyModelType, !Settings.hasShownModalForEndOfYear(storyModelType.year) else {
+        guard Self.isEligible,
+              let storyModelType,
+              viewController.presentedViewController == nil,
+              !Settings.hasShownModalForEndOfYear(storyModelType.year)
+        else {
             return
         }
 
@@ -197,7 +201,7 @@ struct EndOfYear {
             }
 
             if let activity, success {
-                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button"]
+                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button", "year": EndOfYear.currentYear.literalValue]
                 Analytics.track(.endOfYearStoryShared, properties: properties)
                 DispatchQueue.main.async {
                     model.recordPlaybackShare(properties: properties.merging(["source": "end_of_year"]) { $1 })
