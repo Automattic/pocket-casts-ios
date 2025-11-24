@@ -76,6 +76,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func getStartedTapped() {
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "get_started"])
+        OnboardingFlow.shared.updateAnalyticsSource(.onboardingRecommendations)
         let hostingController: UIViewController
         if FeatureFlag.newOnboardingRecommendationChanges.enabled {
             let view = InterestsView(continueCallback: { categories in

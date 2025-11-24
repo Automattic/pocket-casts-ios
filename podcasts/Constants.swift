@@ -424,6 +424,7 @@ enum PlusUpgradeViewSource: String {
     case upNextShuffle
     case generatedTranscripts
     case onboarding
+    case onboardingRecommendations = "onboarding_recommendations"
     case suggestedFolders = "suggested_folders"
     case bannerAd = "banner_ad"
     case login
