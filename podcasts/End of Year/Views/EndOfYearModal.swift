@@ -55,7 +55,7 @@ struct EndOfYearModal: View {
             Analytics.track(.endOfYearModalTapped, properties: ["year": EndOfYear.currentYear.literalValue])
             NavigationManager.sharedManager.navigateTo(NavigationManager.endOfYearStories, data: nil)
         }
-        .buttonStyle(RoundedDarkButton(theme: theme))
+        .buttonStyle(RoundedButtonStyle(theme: theme))
         .frame(height: 44)
     }
 
@@ -76,9 +76,12 @@ struct EndOfYearModal: View {
     }
 }
 
-struct EndOfYearModal_Previews: PreviewProvider {
-    static var previews: some View {
-        EndOfYearModal(year: 2023, model: .init(buttonTitle: "View My Playback 2024", description: "See your playback for 2024", backgroundImageName: "modal_cover"))
-            .environmentObject(Theme(previewTheme: .light))
-    }
+#Preview("2025") {
+    EndOfYearModal(year: 2025, model: .init(buttonTitle: L10n.playback2025ViewYear, description: L10n.playback2025Description, backgroundImageName: "playback-2025-featured"))
+        .environmentObject(Theme(previewTheme: .light))
+}
+
+#Preview("2024") {
+    EndOfYearModal(year: 2024, model: .init(buttonTitle: "View My Playback 2024", description: "See your playback for 2024", backgroundImageName: "modal_cover"))
+        .environmentObject(Theme(previewTheme: .light))
 }
