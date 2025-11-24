@@ -197,7 +197,7 @@ struct EndOfYear {
             }
 
             if let activity, success {
-                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button"]
+                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button", "year": let year = EndOfYear.currentYear.literalValue]
                 Analytics.track(.endOfYearStoryShared, properties: properties)
                 DispatchQueue.main.async {
                     model.recordPlaybackShare(properties: properties.merging(["source": "end_of_year"]) { $1 })
