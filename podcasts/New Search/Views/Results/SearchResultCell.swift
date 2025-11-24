@@ -125,14 +125,15 @@ private extension SearchResultCell {
 
     @ViewBuilder
     var tappableContent: some View {
-        if isSelectionEnabled {
-            Button(action: triggerSelectionAction) {
-                rowContent
+        rowContent.background {
+            if isSelectionEnabled {
+                Button(action: triggerSelectionAction) {
+                    Color.clear
+                }
             }
-            .buttonStyle(cellStyle)
-        } else {
-            rowContent
-                .background(disabledBackgroundColor)
+            else {
+                disabledBackgroundColor
+            }
         }
     }
 
