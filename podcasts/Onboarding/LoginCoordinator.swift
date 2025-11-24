@@ -75,7 +75,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
     }
 
     func getStartedTapped() {
-        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "get_started"])
         OnboardingFlow.shared.updateAnalyticsSource(.onboardingRecommendations)
         let hostingController: UIViewController
         if FeatureFlag.newOnboardingRecommendationChanges.enabled {
@@ -108,7 +107,6 @@ class LoginCoordinator: NSObject, OnboardingModel {
 
     func recommendationsContinueTapped() {
         socialAuthProvider = nil
-        OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "recommendations_continue"])
         let view = LoginLandingView(coordinator: self, fullScreenMode: true)
         let hostingController = LoginLandingHostingController(rootView: view.setupDefaultEnvironment())
         hostingController.viewModel = self
