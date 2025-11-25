@@ -79,6 +79,6 @@ struct PodcastSubscribeButton: View {
 
         PodcastManager.shared.unsubscribe(podcast: podcast)
 
-        Analytics.track(.podcastUnsubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": podcast.uuid])
+        OnboardingFlow.shared.track(.podcastUnsubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": podcast.uuid])
     }
 }
