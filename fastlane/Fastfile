@@ -502,14 +502,27 @@ platform :ios do
 
     # Parse the provided version into an AppVersion object
     parsed_version = VERSION_FORMATTER.parse(version)
+    # Validate that this is a hotfix version (must have a patch component > 0)
+    UI.user_error!("Invalid hotfix version '#{version}'. Must include a patch number.") unless parsed_version.patch.to_i.positive?
     previous_version = VERSION_FORMATTER.release_version(VERSION_CALCULATOR.previous_patch_version(version: parsed_version))
 
     release_branch_name = "release/#{version}"
+    previous_release_branch = "release/#{previous_version}"
+
+    # Determine the base for the hotfix branch: either a tag or a release branch
+    base_ref_for_hotfix = if git_tag_exists(tag: previous_version, remote: true)
+                            previous_version
+                          elsif Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: previous_release_branch)
+                            UI.message("ℹ️  Tag '#{previous_version}' not found on the remote. Using release branch '#{previous_release_branch}' as the base for hotfix instead.")
+                            previous_release_branch
+                          else
+                            UI.user_error!("Neither tag '#{previous_version}' nor branch '#{previous_release_branch}' exists on the remote! A hotfix branch cannot be created.")
+                          end
 
     # Check versions
     message = <<-MESSAGE
 
-      New hotfix branch from tag #{previous_version}: #{release_branch_name}
+      New hotfix branch from #{base_ref_for_hotfix}: #{release_branch_name}
 
       Current release version: #{release_version_current}
       New hotfix version: #{version}
@@ -523,21 +536,25 @@ platform :ios do
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     # Check tags
-    UI.user_error!("Version #{version} already exists! Abort!") if git_tag_exists(tag: version)
-    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
+    UI.user_error!("Version '#{version}' already exists on the remote! Abort!") if git_tag_exists(tag: version, remote: true)
+
+    # Fetch the base ref to ensure it's available locally
+    sh('git', 'fetch', 'origin', base_ref_for_hotfix)
+
+    ensure_branch_does_not_exist!(release_branch_name)
 
     # Create the hotfix branch
-    UI.message 'Creating hotfix branch...'
-    Fastlane::Helper::GitHelper.create_branch(release_branch_name, from: previous_version)
-    UI.success "Done! New hotfix branch is: #{git_branch}"
+    UI.message("Creating hotfix branch from '#{base_ref_for_hotfix}'...")
+    Fastlane::Helper::GitHelper.create_branch(release_branch_name, from: base_ref_for_hotfix)
+    UI.success("Done! New hotfix branch is: '#{git_branch}'")
 
     # Bump the hotfix version and build code and write it to the `xcconfig` file
-    UI.message 'Bumping hotfix version and build code...'
+    UI.message('Bumping hotfix version and build code...')
     VERSION_FILE.write(
       version_short: version,
       version_long: build_code_hotfix
     )
-    UI.success "Done! New Release Version: #{release_version_current}. New Build Code: #{build_code_current}"
+    UI.success("Done! New Release Version: '#{release_version_current}'. New Build Code: '#{build_code_current}'")
 
     commit_version_bump
     push_to_git_remote(set_upstream: true, tags: false)
@@ -1356,15 +1373,15 @@ platform :ios do
     BUILD_CODE_FORMATTER.build_code(version: version)
   end
 
-  # Returns the build code of the app for the code freeze. It is the release version name plus sets the build number to 0
+  # Returns the initial build code for a code freeze (e.g., "1.2.3.0" for release version "1.2.3")
+  # Takes the release version and formats it as a four-part build code with the build number set to 0
   #
   def build_code_code_freeze(version_short: nil)
+    # Use provided version or read the current release version from the .xcconfig file
     version_short ||= VERSION_FILE.read_release_version
-    # Read the current build code from the .xcconfig file and parse it into an AppVersion object
-    # The AppVersion is used because Pocket Casts iOS uses the four part (1.2.3.4) build code format, so the version
-    # calculator can be used to calculate the next four-part version
+    # Parse the release version string (e.g., "1.2.3") into an AppVersion object
     release_version_current = VERSION_FORMATTER.parse(version_short)
-    # Return the formatted build code
+    # Format as four-part build code (e.g., "1.2.3.0")
     BUILD_CODE_FORMATTER.build_code(version: release_version_current)
   end
 
