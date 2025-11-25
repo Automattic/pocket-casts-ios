@@ -2,6 +2,10 @@
 -----
 - Add Playback 2025 [#3734](https://github.com/Automattic/pocket-casts-ios/issues?q=state%3Aclosed%20label%3A%22%5BProject%5D%20Playback%202025%22)
 
+8.0.1
+-----
+- Fix play/pause button action on search result cells [#3735](https://github.com/Automattic/pocket-casts-ios/pull/3735)
+
 8.0
 -----
 - Add support for Manual Playlists and rebrand Filters as Smart Playlists [#3670](https://github.com/Automattic/pocket-casts-ios/pull/3670)
