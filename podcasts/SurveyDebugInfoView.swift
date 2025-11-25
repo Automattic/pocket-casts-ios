@@ -26,8 +26,8 @@ struct SurveyDebugInfoView: View {
                     Text("Result")
                     Spacer()
                     Text(surveyCheckResult.displayReason)
-                        .foregroundColor(surveyCheckResult == .canShow ? .green : .red)
-                        .fontWeight(surveyCheckResult == .canShow ? .bold : .regular)
+                        .foregroundColor(surveyCheckResult.canShow ? .green : .red)
+                        .fontWeight(surveyCheckResult.canShow ? .bold : .regular)
                 }
             }
 
@@ -142,7 +142,7 @@ struct SurveyDebugInfoView: View {
 
         #if !os(watchOS) && !APPCLIP
         surveyCheckResult = UserSatisfactionSurveyManager.shared.checkSurveyEligibility(for: defaultEvent)
-        canShowSurvey = surveyCheckResult == .canShow
+        canShowSurvey = surveyCheckResult.canShow
         #else
         canShowSurvey = false
         #endif

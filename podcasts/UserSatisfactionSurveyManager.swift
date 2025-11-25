@@ -19,13 +19,16 @@ public class UserSatisfactionSurveyManager: NSObject {
         set { UserDefaults.standard.set(newValue, forKey: "surveyPlusUpgradeDate") }
     }
 
+    private var deferredSurveyEvents: [SurveyTriggerEvent: [AnyHashable: Any]?] = [:]
+    private var seenReleaseEvents = Set<String>()
+
     // MARK: - Survey Entry Points
 
     /// Checks if the survey should be shown based on the event and user context
     func shouldShowSurvey(for event: SurveyTriggerEvent) -> Bool {
         let result = checkSurveyEligibility(for: event)
         FileLog.shared.addMessage("UserSatisfactionSurveyManager: Should show survey for \(event.rawValue): \(result.displayReason)")
-        return result == .canShow
+        return result.canShow
     }
 
     /// Checks survey eligibility and returns the specific reason
@@ -159,15 +162,12 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
 
 extension UserSatisfactionSurveyManager: AnalyticsAdapter {
     public func track(name: String, properties: [AnyHashable: Any]?) {
+        handleDeferredSurveyReleaseIfNeeded(for: name)
+
         guard let analyticsEvent = mapAnalyticsEventToSurveyTrigger(name: name) else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self = self else { return }
-
-            if self.shouldShowSurvey(for: analyticsEvent) {
-                guard let topViewController = SceneHelper.rootViewController() else { return }
-                self.presentSurvey(from: topViewController, event: analyticsEvent)
-            }
+            self?.presentSurveyIfEligible(for: analyticsEvent, properties: properties)
         }
     }
 
@@ -197,6 +197,48 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
             return .playbackShared
         default:
             return nil
+        }
+    }
+
+    private func presentSurveyIfEligible(for event: SurveyTriggerEvent, properties: [AnyHashable: Any]? = nil, allowDeferral: Bool = true) {
+        if let releaseEventName = event.releaseAnalyticsEventName,
+           !seenReleaseEvents.contains(releaseEventName) {
+            if allowDeferral {
+                deferSurveyTrigger(event, properties: properties)
+            }
+            return
+        }
+
+        let result = checkSurveyEligibility(for: event)
+
+        switch result {
+        case .canShow:
+            guard let topViewController = SceneHelper.rootViewController() else { return }
+            presentSurvey(from: topViewController, event: event)
+        case .deferredEvent(let deferredEvent) where allowDeferral:
+            deferSurveyTrigger(deferredEvent, properties: properties)
+        default:
+            break
+        }
+    }
+
+    private func deferSurveyTrigger(_ event: SurveyTriggerEvent, properties: [AnyHashable: Any]?) {
+        deferredSurveyEvents[event] = properties
+    }
+
+    private func handleDeferredSurveyReleaseIfNeeded(for analyticsEventName: String) {
+        seenReleaseEvents.insert(analyticsEventName)
+
+        let readyEvents = deferredSurveyEvents
+            .filter { $0.key.releaseAnalyticsEventName == analyticsEventName }
+            .map { $0.key }
+
+        readyEvents.forEach { deferredSurveyEvents.removeValue(forKey: $0) }
+
+        readyEvents.forEach { event in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.presentSurveyIfEligible(for: event, allowDeferral: false)
+            }
         }
     }
 
@@ -248,6 +290,9 @@ enum SurveyCheckResult {
     case shownRecently
     case userDeclinedRecently
     case wrongUserType
+    case deferredEvent(SurveyTriggerEvent) // For event types that should be prompted later based on another event
+    case analyticsEventTracked(AnalyticsEvent)
+    case analyticsEventMissing(SurveyTriggerEvent)
 
     var displayReason: String {
         switch self {
@@ -261,6 +306,21 @@ enum SurveyCheckResult {
             return "User declined recently (within 60 days)"
         case .wrongUserType:
             return "Event not applicable for user type"
+        case .deferredEvent(let event):
+            return "Deferred waiting for \(event.rawValue)"
+        case .analyticsEventTracked(let event):
+            return "Tracked analytics event \(event.eventName)"
+        case .analyticsEventMissing(let event):
+            return "No analytics event configured for \(event.rawValue)"
+        }
+    }
+
+    var canShow: Bool {
+        switch self {
+        case .canShow:
+            true
+        default:
+            false
         }
     }
 }
@@ -283,4 +343,24 @@ enum SurveyTriggerEvent: String, CaseIterable {
 
     // Shared events
     case playbackShared = "playback_shared"
+}
+
+private extension SurveyTriggerEvent {
+    var analyticsEvent: AnalyticsEvent? {
+        switch self {
+        case .playbackShared:
+            return .playbackShared
+        default:
+            return nil
+        }
+    }
+
+    var releaseAnalyticsEventName: String? {
+        switch self {
+        case .playbackShared:
+            return AnalyticsEvent.endOfYearStoriesDismissed.eventName
+        default:
+            return nil
+        }
+    }
 }
