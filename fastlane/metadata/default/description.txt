@@ -4,6 +4,11 @@ Here's what the press has to say:
  • Wired: \"Pocket Casts Is the Podcast App Every iPhone User Needs\"
  • iMore: \"Pocket Casts is the best podcast app for iPhone\"
 
+NEW: PLAYLISTS
+Your listening, your way. Organize your episodes with our powerful new Playlists feature:
+- Playlists: Curate your perfect mix. Combine episodes from different podcasts, build collections around specific themes or guests, and even add episodes from podcasts you don't follow.
+- Smart Playlists: We’ve upgraded our famous Filters. Build lists that automatically update based on rules you set, like release date, duration, or download status.
+
 With a unique set of simple yet powerful features and a limitless podcast database, you're sure to find something you love.
 
 WE SWEAT THE DETAILS
@@ -32,8 +37,9 @@ SMART TOOLS
  • Refresh: Let our servers check for new episodes, so you can get on with your day.
  • Notifications: We'll let you know when new episodes arrive, if you like.
  • Auto download: Automatically download episodes for offline playback.
- • Filters: Custom filters will organize your episodes.
+ • Smart Playlists: Organize your episodes using custom rules.
  • Storage: All the tools you need to keep your podcasts tamed.
+ • Audible audiobooks podcasts.
 
 ALL YOUR FAVORITES
  • Discover: Subscribe to any podcast in iTunes and more. Browse by charts, networks and categories.
