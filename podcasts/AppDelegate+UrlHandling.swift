@@ -169,7 +169,13 @@ extension AppDelegate {
 
         // Support for subscribing to a feed URL
         JLRoutes.global().addRoute("/subscribe/*") { [weak self] parameters -> Bool in
-            guard let strongSelf = self, let controller = SceneHelper.rootViewController(), let subscribeUrl = (parameters[JLRouteURLKey] as? URL)?.absoluteString else { return false }
+            guard
+                let strongSelf = self,
+                let rootController = SceneHelper.rootViewController(includeTopMost: false), //I don't want to consider the top most presented but the main root instead
+                let subscribeUrl = (parameters[JLRouteURLKey] as? URL)?.absoluteString
+            else {
+                return false
+            }
 
             let prefix = "pktc://subscribe/"
             if prefix.count >= subscribeUrl.count { return true } // this request is missing a URL
@@ -179,8 +185,8 @@ extension AppDelegate {
             let searchTerm = !feedUrl.hasPrefix("http://") && !feedUrl.hasPrefix("https://") ? "http://\(feedUrl)" : feedUrl
 
             strongSelf.progressDialog = ShiftyLoadingAlert(title: L10n.podcastLoading)
-            controller.dismiss(animated: false, completion: nil)
-            strongSelf.progressDialog?.showAlert(controller, hasProgress: false, completion: {
+            rootController.dismiss(animated: false, completion: nil)
+            strongSelf.progressDialog?.showAlert(rootController, hasProgress: false, completion: {
                 MainServerHandler.shared.podcastSearch(searchTerm: searchTerm) { response in
                     guard let uuid = response?.result?.podcast?.uuid else {
                         DispatchQueue.main.async {
