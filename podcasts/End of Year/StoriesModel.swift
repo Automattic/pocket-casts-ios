@@ -131,6 +131,10 @@ class StoriesModel: ObservableObject {
                     newProgress = 0
                     self.currentStoryIndex = 0
                 }
+                else if self.configuration.closeAndDismissAfterFinished {
+                    Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "auto_progress"])
+                    self.stopAndDismiss()
+                }
                 else {
                     self.pause()
                 }

@@ -8,6 +8,12 @@ class StoriesConfiguration {
     /// Default value is `false`
     var startOverFromBeginningAfterFinished: Bool = false
 
+    // If set to `true` it will close the playback after the last one finished
+    /// Otherwise, it will just pause on the last one.
+    ///
+    /// Default value is `false`
+    var closeAndDismissAfterFinished: Bool = false
+
     /// The number of stories to preload
     ///
     /// When showing the story number zero, StoriesView will
