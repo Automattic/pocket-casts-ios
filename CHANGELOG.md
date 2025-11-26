@@ -1,3 +1,7 @@
+8.2
+-----
+
+
 8.1
 -----
 - Add Playback 2025 [#3734](https://github.com/Automattic/pocket-casts-ios/issues?q=state%3Aclosed%20label%3A%22%5BProject%5D%20Playback%202025%22)
