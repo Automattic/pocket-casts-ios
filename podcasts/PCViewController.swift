@@ -128,10 +128,6 @@ class PCViewController: SimpleNotificationsViewController {
         return closeButton
     }
 
-    func removeThemeChangedObserver() {
-        NotificationCenter.default.removeObserver(self, name: Constants.Notifications.themeChanged, object: nil)
-    }
-
     @objc private func themeDidChange() {
         setupNavBar(animated: false)
         handleThemeChanged()
