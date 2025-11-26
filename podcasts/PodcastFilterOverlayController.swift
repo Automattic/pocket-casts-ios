@@ -113,6 +113,11 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         updateRightBarBtn()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeThemeChangedObserver()
+    }
+
     func setupNavBar() {
         let backgroundColor: UIColor
         if playlistsRebrandingEnabled {
