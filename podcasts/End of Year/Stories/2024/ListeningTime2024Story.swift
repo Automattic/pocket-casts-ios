@@ -60,6 +60,10 @@ struct ListeningTime2024Story: ShareableStory {
             StoryShareableText(L10n.eoyStoryListenedToShareText(listeningTime.formattedTime() ?? ""), year: .y2024)
         ]
     }
+
+    static func formattedDayHours(time: Double) -> String {
+        return time.formattedTime() ?? ""
+    }
 }
 
 fileprivate extension Double {
