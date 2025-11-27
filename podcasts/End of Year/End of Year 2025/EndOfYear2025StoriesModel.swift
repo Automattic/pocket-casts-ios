@@ -84,10 +84,13 @@ class EndOfYear2025StoriesModel: StoryModel {
         self.stories = stories
     }
 
+    private var firstTime = true
+
     func story(for storyNumber: Int) -> any StoryView {
+        defer { firstTime = false }
         switch stories[storyNumber] {
             case .intro:
-                return IntroStory2025()
+                return IntroStory2025(afterLoading: firstTime)
             case .numberOfPodcastsAndEpisodesListened:
                 return NumberListened2025(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
             case .topSpot:

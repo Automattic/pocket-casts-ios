@@ -11,6 +11,8 @@ struct StoriesView: View {
     /// If it's longer than that, it's considered a gesture
     private let maximumTapTime: Double = 0.35
 
+    @State private var loadAnimationFinished: Bool = false
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         let model = StoriesModel(dataSource: dataSource, configuration: configuration)
         _model = ObservedObject(initialValue: model)
@@ -21,7 +23,7 @@ struct StoriesView: View {
 
     @ViewBuilder
     var body: some View {
-        if model.isReady {
+        if model.isReady, loadAnimationFinished {
             stories
             .onAppear {
                 model.start()
@@ -104,21 +106,21 @@ struct StoriesView: View {
     // View shown while data source is preparing
     var loading: some View {
         ZStack {
-            Spacer()
-
-            VStack(spacing: 15) {
-                let progress = syncProgressModel.progress
-                CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
-                    .frame(width: 40, height: 40)
-                if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
-                    EmptyView()
-                } else {
+            if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
+                IntroStory2025(afterLoading: false) {
+                    loadAnimationFinished = true
+                }
+            } else {
+                Spacer()
+                VStack(spacing: 15) {
+                    let progress = syncProgressModel.progress
+                    CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
+                        .frame(width: 40, height: 40)
                     Text(L10n.loading)
                         .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
                         .font(style: .body)
                 }
             }
-
             storySwitcher
             header
         }

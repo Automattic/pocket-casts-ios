@@ -17,6 +17,15 @@ struct IntroStory2025: StoryView {
 
     @State private var openCircle: Bool = false
 
+    private let afterLoading: Bool
+
+    let loadCallback: (() -> ())?
+
+    init(afterLoading: Bool, loadCallback: (() -> ())? = nil) {
+        self.loadCallback = loadCallback
+        self.afterLoading = afterLoading
+    }
+
     enum KeyFrames {
         static var circleOpen = CGFloat(110)
     }
@@ -33,23 +42,31 @@ struct IntroStory2025: StoryView {
                 .opacity(opacity)
         }
         .onChange(of: animationProgress) { position in
-            if position > KeyFrames.circleOpen, !openCircle {
-                openCircle = true
-                withAnimation(.easeInOut(duration: 0.005)) {
-                    self.opacity = 1
-                }
-                withAnimation(.easeInOut(duration: 1)) {
-                    self.scale = 10
+            if afterLoading {
+                self.opacity = 1
+                self.scale = 10
+            } else {
+                if position > KeyFrames.circleOpen, !openCircle {
+                    openCircle = true
+                    withAnimation(.easeInOut(duration: 0.005)) {
+                        self.opacity = 1
+                    }
+                    withAnimation(.easeInOut(duration: 1)) {
+                        self.scale = 10
+                    }
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             LottieView(animation: .named("end_of_year_2025_intro"))
+                .animationDidFinish({ completed in
+                    loadCallback?()
+                })
                 .configure({ animationView in
                     animationView.contentMode = .scaleAspectFill
                 })
-                .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                .playbackMode(afterLoading ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                 .getRealtimeAnimationFrame($animationProgress)
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -65,6 +82,6 @@ struct IntroStory2025: StoryView {
 
 struct IntroStory2025_Previews: PreviewProvider {
     static var previews: some View {
-        IntroStory2025()
+        IntroStory2025(afterLoading: false)
     }
 }
