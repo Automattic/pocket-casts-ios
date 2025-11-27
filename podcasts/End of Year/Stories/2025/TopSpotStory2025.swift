@@ -27,18 +27,18 @@ struct TopSpotStory2025: ShareableStory {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                background(size: proxy.size)
                 VStack(alignment: .center, spacing: 0) {
                     StoryHeader2025(title: L10n.playback2025TopSpotTitle, description: L10n.playback2025TopSpotSubtitle)
                     Spacer()
+                    background(size: proxy.size).border(.red)
+                    Spacer()
                     VStack {
-                        Spacer()
                         let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
                         let numberPlayed = topPodcast.numberOfPlayedEpisodes
                         StoryFooter2025(title: nil, description: L10n.playback2025TopSpotDescription(numberPlayed, timeString))
                         Spacer()
+                            .frame(height: proxy.size.height * 0.1)
                     }
-                    .frame(height: proxy.size.height / 3)
                 }
             }
         }
