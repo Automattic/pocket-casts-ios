@@ -30,7 +30,7 @@ struct TopSpotStory2025: ShareableStory {
                 VStack(alignment: .center, spacing: 0) {
                     StoryHeader2025(title: L10n.playback2025TopSpotTitle, description: L10n.playback2025TopSpotSubtitle)
                     Spacer()
-                    background(size: proxy.size).border(.red)
+                    background(size: proxy.size)
                     Spacer()
                     VStack {
                         let timeString = topPodcast.totalPlayedTime.storyTimeDescriptionForSharing
