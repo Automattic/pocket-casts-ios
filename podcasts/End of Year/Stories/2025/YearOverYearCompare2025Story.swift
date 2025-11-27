@@ -199,7 +199,7 @@ fileprivate class MyFontProvider: AnimationFontProvider {
 }
 
 #Preview("Down") {
-    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 968*60*60, totalPlayedTimeLastYear:  1191*60*60))
+    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 968*60*60, totalPlayedTimeLastYear: 1191*60*60))
         .body.environment(\.animated, false)
 }
 
