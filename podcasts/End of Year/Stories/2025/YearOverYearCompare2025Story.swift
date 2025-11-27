@@ -80,9 +80,9 @@ struct YearOverYearCompare2025Story: ShareableStory {
            if abs(1 - difference) <= 0.1 {
                 self = .same
             } else if difference > 1 {
-                self = .up(difference)
+                self = .up(difference - 1.0)
             } else {
-                self = .down(difference)
+                self = .down(1.0 - difference)
             }
         }
     }
@@ -161,7 +161,7 @@ struct YearOverYearCompare2025Story: ShareableStory {
     }
 }
 
-final private class LottieTextProvider: AnimationTextProvider, Equatable {
+final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let dict: [String: String]
     private let prevYear: Int
     private let currentYear: Int
@@ -199,7 +199,7 @@ fileprivate class MyFontProvider: AnimationFontProvider {
 }
 
 #Preview("Down") {
-    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 72000, totalPlayedTimeLastYear: 300000))
+    YearOverYearCompare2025Story(subscriptionTier: .plus, listeningTime: YearOverYearListeningTime(totalPlayedTimeThisYear: 968*60*60, totalPlayedTimeLastYear: 1191*60*60))
         .body.environment(\.animated, false)
 }
 

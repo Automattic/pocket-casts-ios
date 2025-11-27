@@ -84,4 +84,48 @@ struct YearOverYearCompareCalculator {
 
         #expect(isUp, "Comparison should be Up. Instead it's \(comparison)")
     }
+
+    @Test func testUptrend2025() async throws {
+
+        let listened2024: Double = 1000
+        let listened2025: Double = 1200
+
+        let comparison = YearOverYearCompare2025Story.Comparison(in2024: listened2024, in2025: listened2025)
+        let isUp: Bool
+
+        let difference: Double
+        switch comparison {
+            case .up(let diff):
+                isUp = true
+                difference = diff
+            default:
+                isUp = false
+                difference = 0
+        }
+
+        #expect(isUp, "Comparison should be Up")
+        #expect(abs(difference - 0.2) < 0.001, "Difference should be in percentage. Instead it's \(comparison)")
+    }
+
+    @Test func testDowntrend2025() async throws {
+
+        let listened2024: Double = 1000
+        let listened2025: Double = 800
+
+        let comparison = YearOverYearCompare2025Story.Comparison(in2024: listened2024, in2025: listened2025)
+        let isDown: Bool
+
+        let difference: Double
+        switch comparison {
+            case .down(let diff):
+                isDown = true
+                difference = diff
+            default:
+                isDown = false
+                difference = 0
+        }
+
+        #expect(isDown, "Comparison should be Down")
+        #expect(abs(difference - 0.2) < 0.001, "Difference should be in percentage. Instead it's \(comparison)")
+    }
 }
