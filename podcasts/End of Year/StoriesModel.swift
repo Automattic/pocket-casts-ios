@@ -41,7 +41,7 @@ class StoriesModel: ObservableObject {
 
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
-    private let configuration: StoriesConfiguration
+    let configuration: StoriesConfiguration
     private let progressModel: StoriesProgressModel
 
     private var cancellables = Set<AnyCancellable>()

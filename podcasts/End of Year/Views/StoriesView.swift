@@ -23,7 +23,7 @@ struct StoriesView: View {
 
     @ViewBuilder
     var body: some View {
-        if model.isReady, loadAnimationFinished {
+        if model.isReady, loadAnimationFinished || !model.configuration.loadingIsTheFirstStory {
             stories
             .onAppear {
                 model.start()
@@ -106,7 +106,7 @@ struct StoriesView: View {
     // View shown while data source is preparing
     var loading: some View {
         ZStack {
-            if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
+            if model.configuration.loadingIsTheFirstStory {
                 IntroStory2025(afterLoading: false) {
                     loadAnimationFinished = true
                     model.loadingEnded()
