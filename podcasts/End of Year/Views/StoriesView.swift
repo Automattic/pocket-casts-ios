@@ -109,6 +109,7 @@ struct StoriesView: View {
             if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
                 IntroStory2025(afterLoading: false) {
                     loadAnimationFinished = true
+                    model.loadingEnded()
                 }
             } else {
                 Spacer()
@@ -121,7 +122,6 @@ struct StoriesView: View {
                         .font(style: .body)
                 }
             }
-            storySwitcher
             header
         }
         .background(model.primaryBackgroundColor)

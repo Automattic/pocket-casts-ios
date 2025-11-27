@@ -27,4 +27,6 @@ class StoriesConfiguration {
     var indicatorHeight: CGFloat = 2
 
     var indicatorSpacing: CGFloat = 2
+
+    var loadingIsTheFirstStory: Bool = false
 }
