@@ -38,14 +38,15 @@ struct CompletionRate2025Story: ShareableStory {
                 .frame(height: 120)
         }
         .background {
-            LottieView(animation: .named(animationId(for: startedAndCompleted.percentage)))
-                .configure({ animationView in
-                    animationView.contentMode = .scaleAspectFill
-                })
-                .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-                .scaledToFill()
-                .ignoresSafeArea()
-                .offset(y: UIScreen.isSmallScreen ? 60 : 0)
+            VStack {
+                headerView.opacity(0)
+                LottieView(animation: .named(animationId(for: startedAndCompleted.percentage)))
+                    .configure({ animationView in
+                        animationView.contentMode = .scaleAspectFill
+                    })
+                    .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                    .scaledToFill()
+            }
         }
         .ignoresSafeArea()
         .background(backgroundColor)
