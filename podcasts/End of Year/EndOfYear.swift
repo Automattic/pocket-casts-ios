@@ -155,6 +155,15 @@ struct EndOfYear {
         }
     }
 
+    var configuration: StoriesConfiguration {
+        let configuration = StoriesConfiguration()
+        if EndOfYear.currentYear == .y2025 {
+            configuration.closeAndDismissAfterFinished = true
+            configuration.loadingIsTheFirstStory = true
+        }
+        return configuration
+    }
+
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
         guard let storyModelType else { return }
 
@@ -171,7 +180,7 @@ struct EndOfYear {
 
         let model = storyModelType.init()
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model)).padding(storiesPadding))
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model), configuration: configuration).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = presentationMode
 

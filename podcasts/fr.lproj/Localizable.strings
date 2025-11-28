@@ -55,8 +55,12 @@
     <string>%1$@ sur %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Vitesse de lecture %1$@ fois</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Ajouter l’épisode</string>
     <key>accessibility_playlist_color</key>
     <string>Couleur de la playlist %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Image de la liste de lecture</string>
     <key>accessibility_plus_only</key>
     <string>Verrouillé, fonctionnalité Plus</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Ajouter à la file d'attente</string>
     <key>after_playing</key>
     <string>Après la lecture</string>
-    <key>all_results</key>
-    <string>Tous les résultats</string>
     <key>announcement_autoplay_description</key>
     <string>Si votre file d’attente À écouter ensuite est vide et que vous commencez à écouter un épisode, l’option Lecture automatique continuera à lire les épisodes de cette émission ou de cette liste.</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ MISES À JOUR</string>
     <string>Merci d’avoir passé votre année avec Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Rétrospective 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Votre année en podcasts, emballée et prête à être passée en revue</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ MISES À JOUR</string>
     <string>Cohérent, fiable, comme votre commande au café</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Votre écoute est restée stable en 2025</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>On espère que vous avez commencé par vous étirer !</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Par rapport à 2024, votre temps d’écoute a explosé de %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>1 épisode ajouté à « %@ »</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ épisodes ajoutés à « %2$@ »</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Ajouté à %1$@ listes de lecture</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Ajouté à %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ épisodes</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Cela effacera votre file d’attente actuelle et commencera à lire cette liste de lecture.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Remplacer la file d’attente actuelle ?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Remplacer et lire</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Cette lecture remplacera votre file d’attente actuelle.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Remplacer votre file d’attente ?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Enregistrez votre file d’attente actuelle comme liste de lecture.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>File d’attente enregistrée comme liste de lecture</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2186,6 +2196,10 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Règles intelligentes</string>
     <key>playlists</key>
     <string>Playlists</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Activer pour télécharger automatiquement les épisodes de cette liste de lecture</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>Les %1$@ premiers épisodes de cette liste de lecture seront automatiquement téléchargés.</string>
     <key>playlists_default_new_playlist</key>
     <string>Nouvelle playlist</string>
     <key>playlists_delete</key>
@@ -2561,6 +2575,8 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Seulement le dernier épisode</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Tri personnalisé</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Du plus long au plus court</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

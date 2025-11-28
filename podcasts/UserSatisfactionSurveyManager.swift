@@ -19,13 +19,15 @@ public class UserSatisfactionSurveyManager: NSObject {
         set { UserDefaults.standard.set(newValue, forKey: "surveyPlusUpgradeDate") }
     }
 
+    private var deferredSurveyEvents: [SurveyTriggerEvent: [Date]] = [:]
+
     // MARK: - Survey Entry Points
 
     /// Checks if the survey should be shown based on the event and user context
     func shouldShowSurvey(for event: SurveyTriggerEvent) -> Bool {
         let result = checkSurveyEligibility(for: event)
         FileLog.shared.addMessage("UserSatisfactionSurveyManager: Should show survey for \(event.rawValue): \(result.displayReason)")
-        return result == .canShow
+        return result.canShow
     }
 
     /// Checks survey eligibility and returns the specific reason
@@ -53,14 +55,14 @@ public class UserSatisfactionSurveyManager: NSObject {
             return !isPlus ? .canShow : .wrongUserType // Free user events
         case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
             return isPlus ? .canShow : .wrongUserType // Plus user events
-        case .playbackShared:
-            return .canShow
+        case .endOfYearStoryShared, .endOfYearCompleted:
+            return .deferredEvent
         }
     }
 
     /// Presents the survey view
-    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent, skipCheck: Bool = false) {
-        guard shouldShowSurvey(for: event) || skipCheck else { return }
+    func presentSurvey(from viewController: UIViewController, event: SurveyTriggerEvent, skipEligibility: Bool = false) {
+        guard skipEligibility || shouldShowSurvey(for: event) else { return }
 
         guard let source = SceneHelper.rootViewController() else {
             assertionFailure("WARNING: Root View Controller not found so survey was not presented")
@@ -114,9 +116,7 @@ public class UserSatisfactionSurveyManager: NSObject {
 
         source.present(hostingController, animated: true)
         currentEvent = event
-        if !skipCheck {
-            Settings.addSurveyPresented()
-        }
+        Settings.addSurveyPresented()
         Analytics.track(.userSatisfactionSurveyShown, properties: [
             "trigger_event": event.rawValue,
             "user_type": SubscriptionHelper.hasActiveSubscription() ? "plus" : "free"
@@ -159,19 +159,21 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
 
 extension UserSatisfactionSurveyManager: AnalyticsAdapter {
     public func track(name: String, properties: [AnyHashable: Any]?) {
-        guard let analyticsEvent = mapAnalyticsEventToSurveyTrigger(name: name) else { return }
+        let handled = handleDeferredSurveyReleaseIfNeeded(for: name, properties: properties)
+
+        guard handled == false else {
+            // We already triggered a deferred event so skip this
+            return
+        }
+
+        guard let analyticsEvent = mapAnalyticsEventToSurveyTrigger(name: name, properties: properties) else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self = self else { return }
-
-            if self.shouldShowSurvey(for: analyticsEvent) {
-                guard let topViewController = SceneHelper.rootViewController() else { return }
-                self.presentSurvey(from: topViewController, event: analyticsEvent)
-            }
+            self?.presentSurveyIfEligible(for: analyticsEvent)
         }
     }
 
-    private func mapAnalyticsEventToSurveyTrigger(name: String) -> SurveyTriggerEvent? {
+    private func mapAnalyticsEventToSurveyTrigger(name: String, properties: [AnyHashable: Any]?) -> SurveyTriggerEvent? {
         switch name {
         case AnalyticsEvent.episodeStarred.eventName:
             return .episodeStarred
@@ -193,11 +195,51 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
             return handlePlusUpgrade()
         case AnalyticsEvent.applicationOpened.eventName:
             return handleAppOpened()
-        case AnalyticsEvent.playbackShared.eventName:
-            return .playbackShared
+        case AnalyticsEvent.endOfYearStoryShared.eventName:
+            return .endOfYearStoryShared
+        case AnalyticsEvent.endOfYearStoryShown.eventName:
+            if (properties as? [String: String])?["story"] == "ending" {
+                return .endOfYearCompleted
+            }
+            return nil
         default:
             return nil
         }
+    }
+
+    private func presentSurveyIfEligible(for event: SurveyTriggerEvent, allowDeferral: Bool = true) {
+        let result = allowDeferral ? checkSurveyEligibility(for: event) : .canShow
+
+        switch result {
+        case .canShow:
+            guard let topViewController = SceneHelper.rootViewController() else { return }
+            presentSurvey(from: topViewController, event: event, skipEligibility: !allowDeferral)
+        case .deferredEvent:
+            deferSurveyTrigger(event)
+        default:
+            break
+        }
+    }
+
+    private func deferSurveyTrigger(_ event: SurveyTriggerEvent, ) {
+        var dates: [Date] = deferredSurveyEvents[event] ?? []
+        dates.append(Date())
+        deferredSurveyEvents[event] = dates
+    }
+
+    private func handleDeferredSurveyReleaseIfNeeded(for analyticsEventName: String, properties: [AnyHashable: Any]?) -> Bool {
+        let readyEvents = deferredSurveyEvents
+            .filter { $0.key.shouldShowAnalytics(for: analyticsEventName, properties: properties) }
+
+        readyEvents.forEach { deferredSurveyEvents.removeValue(forKey: $0.key) }
+
+        guard let event = readyEvents.first else { return false }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.presentSurveyIfEligible(for: event.key, allowDeferral: false)
+        }
+
+        return true
     }
 
     private func handleEpisodeCompletion() -> SurveyTriggerEvent? {
@@ -248,6 +290,7 @@ enum SurveyCheckResult {
     case shownRecently
     case userDeclinedRecently
     case wrongUserType
+    case deferredEvent // For event types that should be prompted later based on another event
 
     var displayReason: String {
         switch self {
@@ -261,6 +304,17 @@ enum SurveyCheckResult {
             return "User declined recently (within 60 days)"
         case .wrongUserType:
             return "Event not applicable for user type"
+        case .deferredEvent:
+            return "Deferred waiting for future event"
+        }
+    }
+
+    var canShow: Bool {
+        switch self {
+        case .canShow:
+            true
+        default:
+            false
         }
     }
 }
@@ -282,5 +336,20 @@ enum SurveyTriggerEvent: String, CaseIterable {
     case referralShared = "referral_shared"
 
     // Shared events
-    case playbackShared = "playback_shared"
+    case endOfYearStoryShared = "end_of_year_story_shared"
+    case endOfYearCompleted = "end_of_year_completed"
+}
+
+private extension SurveyTriggerEvent {
+    func shouldShowAnalytics(for event: String, properties: [AnyHashable: Any]?) -> Bool {
+        switch self {
+        case .endOfYearStoryShared, .endOfYearCompleted:
+            if AnalyticsEvent.endOfYearStoriesDismissed.eventName == event {
+                return true
+            }
+            return false
+        default:
+            return false
+        }
+    }
 }

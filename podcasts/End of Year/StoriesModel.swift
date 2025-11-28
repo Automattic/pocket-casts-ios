@@ -41,7 +41,7 @@ class StoriesModel: ObservableObject {
 
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
-    private let configuration: StoriesConfiguration
+    let configuration: StoriesConfiguration
     private let progressModel: StoriesProgressModel
 
     private var cancellables = Set<AnyCancellable>()
@@ -51,6 +51,8 @@ class StoriesModel: ObservableObject {
         currentStory?.duration ?? 0
     }
 
+    private var loadingCancellable: Cancellable?
+
     private var currentStoryIdentifier: String = ""
 
     private var currentStoryIsPlus = false
@@ -58,8 +60,6 @@ class StoriesModel: ObservableObject {
     private var manuallyChanged = false
 
     private var currentStory: Story?
-
-    private var pendingPlaybackShareEvents: [[String: String]] = []
 
     var numberOfStories: Int {
         dataSource.numberOfStories
@@ -99,10 +99,7 @@ class StoriesModel: ObservableObject {
             self?.shareAlertVisibilityChanged(isPresented)
         }
 
-        Task.init {
-            await isReady = dataSource.isReady()
-            failed = !isReady
-        }
+        refresh()
 
         subscribeToNotifications()
     }
@@ -111,9 +108,23 @@ class StoriesModel: ObservableObject {
         isReady = false
 
         Task.init {
+            if self.configuration.loadingIsTheFirstStory {
+                loadingStart()
+            }
             await isReady = dataSource.refresh()
             failed = !isReady
         }
+    }
+
+    func loadingStart() {
+        loadingCancellable = publisher.autoconnect().sink(receiveValue: { _ in
+            let newProgress = self.progress + (0.01 / EndOfYear.defaultDuration)
+            self.progress = min(newProgress, 0.99)
+        })
+    }
+
+    func loadingEnded() {
+        loadingCancellable = nil
     }
 
     func start() {
@@ -130,6 +141,10 @@ class StoriesModel: ObservableObject {
                 if self.configuration.startOverFromBeginningAfterFinished {
                     newProgress = 0
                     self.currentStoryIndex = 0
+                }
+                else if self.configuration.closeAndDismissAfterFinished {
+                    Analytics.track(.endOfYearStoriesDismissed, properties: ["source": "auto_progress"])
+                    self.stopAndDismiss()
                 }
                 else {
                     self.pause()
@@ -285,7 +300,6 @@ class StoriesModel: ObservableObject {
 
     func stopAndDismiss() {
         pause()
-        trackPendingPlaybackSharesIfNeeded()
         NavigationManager.sharedManager.dismissPresentedViewController()
     }
 
@@ -329,7 +343,7 @@ class StoriesModel: ObservableObject {
     }
 
     func recordPlaybackShare(properties: [String: String]) {
-        pendingPlaybackShareEvents.append(properties)
+        Analytics.track(.playbackShared, properties: properties)
     }
 }
 
@@ -402,16 +416,6 @@ private extension StoriesModel {
     /// Whether some Plus stories should be skipped or not
     func shouldSkipPlusStories() -> Bool {
         !isPaidUser() && !manuallyChanged && currentStoryIsPlus && nextStoryIsPlus()
-    }
-
-    func trackPendingPlaybackSharesIfNeeded() {
-        guard !pendingPlaybackShareEvents.isEmpty else { return }
-
-        pendingPlaybackShareEvents.forEach {
-            Analytics.track(.playbackShared, properties: $0)
-        }
-
-        pendingPlaybackShareEvents.removeAll()
     }
 }
 
