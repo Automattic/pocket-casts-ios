@@ -26,8 +26,8 @@ struct SurveyDebugInfoView: View {
                     Text("Result")
                     Spacer()
                     Text(surveyCheckResult.displayReason)
-                        .foregroundColor(surveyCheckResult == .canShow ? .green : .red)
-                        .fontWeight(surveyCheckResult == .canShow ? .bold : .regular)
+                        .foregroundColor(surveyCheckResult.canShow ? .green : .red)
+                        .fontWeight(surveyCheckResult.canShow ? .bold : .regular)
                 }
             }
 
@@ -118,7 +118,7 @@ struct SurveyDebugInfoView: View {
     }
 
     private func presentSurveyWithAnimation(from rootViewController: UIViewController) {
-        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
+        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipEligibility: true)
     }
 
     private func loadDebugData() {
@@ -142,7 +142,7 @@ struct SurveyDebugInfoView: View {
 
         #if !os(watchOS) && !APPCLIP
         surveyCheckResult = UserSatisfactionSurveyManager.shared.checkSurveyEligibility(for: defaultEvent)
-        canShowSurvey = surveyCheckResult == .canShow
+        canShowSurvey = surveyCheckResult.canShow
         #else
         canShowSurvey = false
         #endif
