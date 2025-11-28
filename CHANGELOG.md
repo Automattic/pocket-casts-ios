@@ -1,6 +1,6 @@
 8.2
 -----
-
+- Fix WatchManager to only report unknown message if it was truly unknown / unprocessed [#3748](https://github.com/Automattic/pocket-casts-ios/issues/3748)
 
 8.1
 -----
