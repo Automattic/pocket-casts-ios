@@ -55,8 +55,12 @@
     <string>%1$@ de %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocidad de reproducción de %1$@ veces</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Añadir episodio</string>
     <key>accessibility_playlist_color</key>
     <string>La lista de reproducción de color %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Imagen de la playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloqueado, función Plus</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Toca el botón de abajo para volver a acceder a tu cuenta de Pocket Casts.</stri
     <string>Agregar a A continuación</string>
     <key>after_playing</key>
     <string>Después de reproducir</string>
-    <key>all_results</key>
-    <string>Todos los resultados</string>
     <key>announcement_autoplay_description</key>
     <string>Si empiezas a escuchar un episodio y no tienes más en cola, la reproducción automática seguirá reproduciendo episodios de ese programa o lista.</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ ACTUALIZACIONES</string>
     <string>Gracias por pasar el año con Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Consulta tus estadísticas de escuchas, los pódcasts principales y más.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Reproducción 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Tu año en pódcasts, concluido y listo para revivir</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ ACTUALIZACIONES</string>
     <string>Coherente y fiable, como tu café favorito</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Tu escucha de 2025 se mantuvo estable</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>¡Esperamos que primero hayas estirado!</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>En comparación con 2024, tu tiempo de escucha se ha disparado un %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Se ha añadido 1 episodio a  "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>Se han añadido %1$@ episodios a "%2$@"</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Añadido a %1$@ playlists</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Añadido a %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodios</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Esto borrará la cola actual de Up Next y empezará a reproducirse esta playlist.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>¿Reemplazar Up Next actual?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Reemplazar y reproducir</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Si reproduces esto, reemplazará a la cola Siguiente actual.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>¿Reemplazar la cola Siguiente?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Guardar tu cola Siguiente actual como playlist.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Up Next guardado como playlist</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2186,6 +2196,10 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Reglas inteligentes</string>
     <key>playlists</key>
     <string>Playlists</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Habilita la descarga automática de episodios en esta playlist</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>Se descargarán automáticamente los %1$@ primeros episodios de esta playlist</string>
     <key>playlists_default_new_playlist</key>
     <string>Nueva playlist</string>
     <key>playlists_delete</key>
@@ -2561,6 +2575,8 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Solo el episodio más reciente</string>
     <key>podcasts_badges</key>
     <string>Insignias</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Orden personalizado</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Del más largo al más corto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

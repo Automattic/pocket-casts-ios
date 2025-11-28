@@ -55,8 +55,12 @@
     <string>%1$@ von %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>%1$@-fache Wiedergabegeschwindigkeit</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Folge hinzufügen</string>
     <key>accessibility_playlist_color</key>
     <string>Playlist-Farbe %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Playlist-Bild</string>
     <key>accessibility_plus_only</key>
     <string>Gesperrt, Plus-Feature</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>
     <string>Nach der Wiedergabe</string>
-    <key>all_results</key>
-    <string>Alle Ergebnisse</string>
     <key>announcement_autoplay_description</key>
     <string>Wenn deine „Als Nächstes“-Warteschlange leer ist und du anfängst, eine Folge zu hören, spielt Autoplay weiter Folgen aus dieser Show oder Liste ab.</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Danke, dass du dein Jahr mit Pocket Casts verbracht hast</string>
     <key>playback_2025_feature_description</key>
     <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Wiedergabeliste 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Dein Jahr in Podcasts: kompakt verpackt und bereit für ein erneutes Durchleben</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Das ist Hingabe!</string>
     <string>Konsistent, zuverlässig, wie deine Coffeeshop-Bestellung</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Dein Audioerlebnis 2025 war stabil</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Wir hoffen, du hast dich zuerst gedehnt!</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Im Vergleich zu 2024 ist deine Audiozeit in die Höhe geschnellt – %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>1 Folge zu „%@“ hinzugefügt</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ Folgen zu „%2$@“ hinzugefügt</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Zu %1$@ Playlists hinzugefügt</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Zu %1$@ hinzugefügt</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ Folgen</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Dadurch wird deine aktuelle Warteschlange gelöscht und diese Playlist abgespielt.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Aktuelle Warteschlange ersetzen?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Ersetzen und abspielen</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Wenn du sie abspielst, wird deine aktuelle Warteschlange „Als Nächstes“ damit ersetzt.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Deine Warteschlange „Als Nächstes“ ersetzen?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Speichere deine aktuelle Warteschlange „Als Nächstes“ als Playlist.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Warteschlange als Playlist gespeichert</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2186,6 +2196,10 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Intelligente Regeln</string>
     <key>playlists</key>
     <string>Playlists</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Aktiviere diese Option, um Folgen in dieser Playlist automatisch herunterzuladen</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>Die ersten %1$@ Folgen in dieser Playlist werden automatisch heruntergeladen</string>
     <key>playlists_default_new_playlist</key>
     <string>Neue Playlist</string>
     <key>playlists_delete</key>
@@ -2561,6 +2575,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Neue Folge</string>
     <key>podcasts_badges</key>
     <string>Kennzeichnung</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Benutzerdefinierte Sortierung</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Lang nach kurz</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

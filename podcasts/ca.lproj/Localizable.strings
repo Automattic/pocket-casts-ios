@@ -55,8 +55,12 @@
     <string>%1$@ de %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocitat de reproducció  de %1$@ vegades</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Afegir episodi</string>
     <key>accessibility_playlist_color</key>
     <string>Color de la llista de reproducció %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Imatge de la llista de reproducció</string>
     <key>accessibility_plus_only</key>
     <string>Bloquejat, és una funció Plus</string>
     <key>accessibility_profile_settings</key>
@@ -144,7 +148,7 @@
     <key>after_playing</key>
     <string>Després de reproduir-lo</string>
     <key>all_results</key>
-    <string>Tots els resultats</string>
+    <string>Millors resultats</string>
     <key>announcement_autoplay_description</key>
     <string>Si comences a escoltar un episodi i no en tens més a la cua, la reproducció automàtica continuarà reproduint episodis d'aquest programa o llista.</string>
     <key>announcement_autoplay_title</key>
@@ -565,6 +569,8 @@ Deixa'ns ajudar-te primer</string>
     <string>Crear clip</string>
     <key>create_filter</key>
     <string>Crear un filtre</string>
+    <key>create_up_next_snapshot</key>
+    <string>Crear una instantània</string>
     <key>creator_pick_modal_description</key>
     <string>Les seleccions del creador són pòdcasts recomanats pel creador  mitjançant Podroll.</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1955,10 +1961,12 @@ ACTUALITZACIONS</string>
     <string>Comparteix la teva reproducció amb els amics i mostra afecte als podcasters que t’han acompanyat durant tot l’any</string>
     <key>playback_2025_end_story_title</key>
     <string>Gràcies per passar l'any amb Pocket Casts</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>Ho sento, no s'ha pogut carregar el repàs</string>
     <key>playback_2025_feature_description</key>
     <string>Consulta les teves estadístiques d'escolta, els millors pòdcasts i molt més.</string>
     <key>playback_2025_feature_title</key>
-    <string>El que has escoltat al 2025</string>
+    <string>El repàs de l'any ja és aquí!</string>
     <key>playback_2025_intro_message</key>
     <string>El teu any en pòdcasts, resumit i llest per reviure</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1971,12 +1979,28 @@ ACTUALITZACIONS</string>
     <string>Esperem que hagis estirat primer!</string>
     <key>playback_2025_longest_episode_title</key>
     <string>La teva escolta de marató: %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>Els teus avantatges de %1$@ activen estadístiques addicionals i funcions avançades</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Gràcies per donar suport a Pocket Casts!</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Aconsegueix Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
-    <string>Subscriu-te a Pocket Casts Plus per a estadístiques ampliades, marcadors, carpetes, selecció de capítols i més maneres d'aprofundir en els teus hàbits d'escolta</string>
+    <string>Subscriu-te a Pocket Casts Plus per a estadístiques ampliades, marcadors, carpetes, selecció de capítols i més maneres de millorar els teus hàbits d'escolta</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>Vols aprofundir més?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>Les ressenyes ajuden a trobar bons pòdcasts</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>Els creadors de tot arreu aprecien l'amor</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>Ajuda els teus creadors preferits a donar-se a conèixer compartint allò que t’agrada</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>Encara no hi ha valoracions, però encara hi ets a temps!</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>Gràcies per compartir els teus comentaris.</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>Has deixat valoracions de %1$@ estrelles com si fossin confeti</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Més favorits, més reproducció, més tu</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2003,7 +2027,7 @@ Això sí que és compromís!</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>La teva escolta de 2025 es va mantenir estable</string>
     <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Esperem que hagis estirat primer!</string>
+    <string>Més pòdcasts, més alegria</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Comparat amb el 2024, el teu temps d'escolta s'ha disparat un %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2191,7 +2215,11 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>playlist_smart_rules_title</key>
     <string>Regles intel·ligents</string>
     <key>playlists</key>
-    <string>Playlists</string>
+    <string>Llistes</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Activa la descàrrega automàtica d'episodis en aquesta llista</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>Els primers %1$@ episodis d'aquesta llista de reproducció es descarregaran automàticament</string>
     <key>playlists_default_new_playlist</key>
     <string>Nova llista de reproducció</string>
     <key>playlists_delete</key>

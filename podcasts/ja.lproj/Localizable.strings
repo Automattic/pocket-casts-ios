@@ -55,8 +55,12 @@
     <string>%1$@ / %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>再生速度%1$@倍</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>エピソードを追加</string>
     <key>accessibility_playlist_color</key>
     <string>プレイリストの色%1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>プレイリスト画像</string>
     <key>accessibility_plus_only</key>
     <string>ロック済み、Plus 機能</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
     <string>再生後</string>
-    <key>all_results</key>
-    <string>すべての結果</string>
     <key>announcement_autoplay_description</key>
     <string>「次のエピソード」の待機リストが空の場合にエピソードの視聴を開始すると、自動再生機能により表示またはリストされているエピソードの再生が続行します。</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1年間 Pocket Casts をご愛顧いただきありがとうございます</string>
     <key>playback_2025_feature_description</key>
     <string>聴取統計、人気のポッドキャストなどをご覧ください。</string>
-    <key>playback_2025_feature_title</key>
-    <string>プレイバック2025</string>
     <key>playback_2025_intro_message</key>
     <string>ポッドキャストで1年を振り返り、まとめて思い出に残す準備ができました</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>コーヒーショップでの注文のように、いつも変わらず、頼りになる存在です</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>2025年の聴取時間は変わりませんでした</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>ストレッチは済ませましたね ?</string>
     <key>playback_effect_all_podcasts</key>
     <string>すべてのポッドキャスト</string>
     <key>playback_effect_this_podcast</key>
@@ -2110,6 +2108,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>1件のエピソードを「%@」に追加しました</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@件のエピソードを「%2$@」に追加しました</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>%1$@件のプレイリストに追加しました</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>%1$@ に追加しました</string>
     <key>playlist_episodes_count</key>
     <string>%1$@件のエピソード</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2148,6 +2150,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>これにより、現在の「次のエピソード」待機リストがクリアされ、このプレイリストの再生が開始されます。</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>現在の「次のエピソード」を置き換えますか ?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>置換して再生</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>これを再生すると、現在の「次のエピソード」が置き換えられます。</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>「次のエピソード」を置き換えますか ?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>現在の「次のエピソード」待機リストをプレイリストとして保存します。</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>次のエピソードをプレイリストとして保存しました</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2184,6 +2194,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートルール</string>
     <key>playlists</key>
     <string>プレイリスト</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>有効化すると、このプレイリストのエピソードを自動ダウンロードできます</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>このプレイリストの最初の%1$@件のエピソードが自動的にダウンロードされます</string>
     <key>playlists_default_new_playlist</key>
     <string>新しいプレイリスト</string>
     <key>playlists_delete</key>
@@ -2559,6 +2573,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードのみ</string>
     <key>podcasts_badges</key>
     <string>バッジ</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>カスタム順序</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>長い順</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>
