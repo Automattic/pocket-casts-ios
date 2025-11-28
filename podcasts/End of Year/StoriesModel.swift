@@ -41,7 +41,7 @@ class StoriesModel: ObservableObject {
 
     private let dataSource: StoriesDataSource
     private let publisher: Timer.TimerPublisher
-    private let configuration: StoriesConfiguration
+    let configuration: StoriesConfiguration
     private let progressModel: StoriesProgressModel
 
     private var cancellables = Set<AnyCancellable>()
@@ -50,6 +50,8 @@ class StoriesModel: ObservableObject {
     private var interval: TimeInterval {
         currentStory?.duration ?? 0
     }
+
+    private var loadingCancellable: Cancellable?
 
     private var currentStoryIdentifier: String = ""
 
@@ -97,10 +99,7 @@ class StoriesModel: ObservableObject {
             self?.shareAlertVisibilityChanged(isPresented)
         }
 
-        Task.init {
-            await isReady = dataSource.isReady()
-            failed = !isReady
-        }
+        refresh()
 
         subscribeToNotifications()
     }
@@ -109,9 +108,23 @@ class StoriesModel: ObservableObject {
         isReady = false
 
         Task.init {
+            if self.configuration.loadingIsTheFirstStory {
+                loadingStart()
+            }
             await isReady = dataSource.refresh()
             failed = !isReady
         }
+    }
+
+    func loadingStart() {
+        loadingCancellable = publisher.autoconnect().sink(receiveValue: { _ in
+            let newProgress = self.progress + (0.01 / EndOfYear.defaultDuration)
+            self.progress = min(newProgress, 0.99)
+        })
+    }
+
+    func loadingEnded() {
+        loadingCancellable = nil
     }
 
     func start() {
