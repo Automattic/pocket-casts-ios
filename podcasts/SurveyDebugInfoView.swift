@@ -118,7 +118,7 @@ struct SurveyDebugInfoView: View {
     }
 
     private func presentSurveyWithAnimation(from rootViewController: UIViewController) {
-        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipCheck: true)
+        UserSatisfactionSurveyManager.shared.presentSurvey(from: rootViewController, event: defaultEvent, skipEligibility: true)
     }
 
     private func loadDebugData() {
