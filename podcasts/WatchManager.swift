@@ -228,11 +228,11 @@ class WatchManager: NSObject, WCSessionDelegate {
         } else if WatchConstants.Messages.LoginDetailsRequest.type == messageType {
             let response = handleLoginDetailsRequest()
             replyHandler(response)
+        } else {
+            // send blank response to messages we don't know about or for things we can't find info on
+            FileLog.shared.addMessage("WatchManager: Unknown message type: \(messageType)")
+            replyHandler([String: Any]())
         }
-
-        // send blank response to messages we don't know about or for things we can't find info on
-        FileLog.shared.addMessage("WatchManager: Unknown message type: \(messageType)")
-        replyHandler([String: Any]())
     }
 
     // MARK: Handler methods
