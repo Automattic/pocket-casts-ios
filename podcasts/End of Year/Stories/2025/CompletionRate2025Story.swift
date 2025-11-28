@@ -40,12 +40,18 @@ struct CompletionRate2025Story: ShareableStory {
         .background {
             VStack {
                 headerView.opacity(0)
-                LottieView(animation: .named(animationId(for: startedAndCompleted.percentage)))
-                    .configure({ animationView in
-                        animationView.contentMode = .scaleAspectFill
-                    })
-                    .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-                    .scaledToFill()
+                GeometryReader() { proxy in
+                    LottieView(animation: .named(animationId(for: startedAndCompleted.percentage)))
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleToFill
+                            animationView.maskAnimationToBounds = true
+                            animationView.clipsToBounds = false
+                        })
+                        .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .scaledToFill()
+                        .clipped()
+                }
             }
         }
         .ignoresSafeArea()
