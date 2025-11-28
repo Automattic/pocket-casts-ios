@@ -55,7 +55,7 @@ public class UserSatisfactionSurveyManager: NSObject {
             return !isPlus ? .canShow : .wrongUserType // Free user events
         case .plusUpgraded, .folderCreated, .bookmarkCreated, .customThemeSet, .referralShared:
             return isPlus ? .canShow : .wrongUserType // Plus user events
-        case .playbackShared, .playbackCompleted:
+        case .endOfYearStoryShared, .endOfYearCompleted:
             return .deferredEvent
         }
     }
@@ -195,11 +195,11 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
             return handlePlusUpgrade()
         case AnalyticsEvent.applicationOpened.eventName:
             return handleAppOpened()
-        case AnalyticsEvent.playbackShared.eventName:
-            return .playbackShared
+        case AnalyticsEvent.endOfYearStoryShared.eventName:
+            return .endOfYearStoryShared
         case AnalyticsEvent.endOfYearStoryShown.eventName:
             if (properties as? [String: String])?["story"] == "ending" {
-                return .playbackCompleted
+                return .endOfYearCompleted
             }
             return nil
         default:
@@ -336,14 +336,14 @@ enum SurveyTriggerEvent: String, CaseIterable {
     case referralShared = "referral_shared"
 
     // Shared events
-    case playbackShared = "playback_shared"
-    case playbackCompleted = "playback_completed"
+    case endOfYearStoryShared = "end_of_year_story_shared"
+    case endOfYearCompleted = "end_of_year_completed"
 }
 
 private extension SurveyTriggerEvent {
     func shouldShowAnalytics(for event: String, properties: [AnyHashable: Any]?) -> Bool {
         switch self {
-        case .playbackShared, .playbackCompleted:
+        case .endOfYearStoryShared, .endOfYearCompleted:
             if AnalyticsEvent.endOfYearStoriesDismissed.eventName == event {
                 return true
             }
