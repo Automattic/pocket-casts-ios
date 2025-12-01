@@ -85,7 +85,6 @@ struct LongestEpisode2025Story: ShareableStory {
             .frame(width: size.width, height: size.width)
             .scaleEffect(UIScreen.isSmallScreen ? 1.2 : 1.4)
             .scaledToFill()
-//            .padding(.top, 40.0)
     }
 
     func onAppear() {
