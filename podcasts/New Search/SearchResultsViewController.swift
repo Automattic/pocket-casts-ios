@@ -58,6 +58,9 @@ extension SearchResultsViewController: SearchResultsDelegate {
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {
         displaySearch.isSearching = true
+        if searchTerm.trim().isEmpty {
+            completion()
+        }
 
         if FeatureFlag.searchPredictive.enabled, triggeredByTimer {
             searchResults.predictiveSearch(term: searchTerm)
@@ -65,7 +68,7 @@ extension SearchResultsViewController: SearchResultsDelegate {
             searchResults.search(term: searchTerm)
         }
 
-        if !triggeredByTimer {
+        if !triggeredByTimer, !searchTerm.trim().isEmpty {
             searchHistoryModel.add(searchTerm: searchTerm)
         }
 
