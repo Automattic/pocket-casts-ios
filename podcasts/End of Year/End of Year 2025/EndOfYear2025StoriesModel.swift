@@ -167,7 +167,7 @@ class EndOfYear2025StoriesModel: StoryModel {
                     .resizable()
                     .frame(width: 153, height: 36)
                     .padding(.top, 16)
-                    .padding(.bottom, 26)
+                    .padding(.bottom, StoryLogoView.Constants.paddingBottom)
             })
     }
 
