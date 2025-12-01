@@ -93,8 +93,14 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
     init(urlString: String, backgroundColor: Color = .clear) {
         self.player = AVQueuePlayer()
         if let videoURL = Bundle.main.url(forResource: urlString, withExtension: "mp4") {
+            if !PlaybackManager.shared.isPlayingEpisode {
+                let session = AVAudioSession.sharedInstance()
+                try? session.setCategory(.ambient, mode: .default, policy: .default, options: [.mixWithOthers])
+                try? session.setActive(true, options: [])
+            }
             let item = AVPlayerItem(url: videoURL)
             self.looper = AVPlayerLooper(player: player, templateItem: item)
+            player.isMuted = true
             player.play()
         } else {
             self.looper = nil
@@ -114,8 +120,17 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
         // Handle updates if needed
     }
-}
 
+    static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: ()) {
+        if !PlaybackManager.shared.isPlayingEpisode {
+            do {
+                try AVAudioSession.sharedInstance().setActive(false)
+            } catch let error {
+                FileLog.shared.addMessage("Playback Video Audio Session error: \(error)")
+            }
+        }
+    }
+}
 
 #Preview("Plus") {
     PaidStoryWallView2025(subscriptionTier: .plus)
