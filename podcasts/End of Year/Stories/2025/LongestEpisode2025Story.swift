@@ -37,7 +37,7 @@ struct LongestEpisode2025Story: ShareableStory {
                                 background(size: proxy.size)
                                     .padding(.top, 20)
                             }
-                    }.border(.red)
+                    }
                     Spacer()
                     footerView
                     Spacer()
