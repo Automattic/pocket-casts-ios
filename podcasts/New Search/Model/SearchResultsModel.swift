@@ -70,7 +70,7 @@ class SearchResultsModel: ObservableObject {
         currentSearchTerm = term
         clearErrors()
 
-        guard term.trim().count > 1, !isTermAnURL(term) else {
+        guard !term.trim().isEmpty, !isTermAnURL(term) else {
             return
         }
 
