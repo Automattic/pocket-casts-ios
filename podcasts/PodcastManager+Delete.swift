@@ -8,6 +8,11 @@ extension PodcastManager {
         let savedFolderUuid = podcast.folderUuid
 
         if SyncManager.isUserLoggedIn() {
+            let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+            for episode in episodes {
+                EpisodeManager.deleteDownloadedFiles(episode: episode)
+            }
+
             // if the user has signed in, there's a cleanup task (PodcastManager.deletePodcastIfUnused) that will run later to remove episodes they haven't interacted but we do some basic cleanup here
             // eg: remove downloaded/queued episodes and remove any that are in Up Next
             podcast.folderUuid = nil
