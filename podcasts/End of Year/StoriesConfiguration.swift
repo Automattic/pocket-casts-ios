@@ -29,4 +29,6 @@ class StoriesConfiguration {
     var indicatorSpacing: CGFloat = 2
 
     var loadingIsTheFirstStory: Bool = false
+
+    var defaultStoriesCount: Int = 7
 }

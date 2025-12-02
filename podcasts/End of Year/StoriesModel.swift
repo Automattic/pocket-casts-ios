@@ -111,8 +111,7 @@ class StoriesModel: ObservableObject {
             if self.configuration.loadingIsTheFirstStory {
                 loadingStart()
             }
-            let isReady = await dataSource.refresh()
-            //try? await Task.sleep(for: .seconds(8))
+            let isReady = await dataSource.refresh()            
             if configuration.loadingIsTheFirstStory, progress >= 1 {
                 currentStoryIndex = 1
                 Analytics.track(.endOfYearStoryShown, story: "cover")

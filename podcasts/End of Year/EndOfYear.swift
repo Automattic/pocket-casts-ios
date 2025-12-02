@@ -160,6 +160,7 @@ struct EndOfYear {
         if EndOfYear.currentYear == .y2025 {
             configuration.closeAndDismissAfterFinished = true
             configuration.loadingIsTheFirstStory = true
+            configuration.defaultStoriesCount = 11
         }
         return configuration
     }
