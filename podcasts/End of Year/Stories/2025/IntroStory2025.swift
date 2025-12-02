@@ -1,5 +1,6 @@
 import SwiftUI
 import Lottie
+import PocketCastsServer
 
 extension Color {
     static let endOfYear2025Background = Color(hex: "28486A")
@@ -16,6 +17,8 @@ struct IntroStory2025: StoryView {
     @State private var animationProgress: AnimationProgressTime = .zero
 
     @State private var openCircle: Bool = false
+    @State private var animationFinished = false
+    @EnvironmentObject var syncProgressModel: SyncYearListeningProgress
 
     private let afterLoading: Bool
 
@@ -39,7 +42,7 @@ struct IntroStory2025: StoryView {
                 .mask(
                     Circle().scale(scale)
                 )
-                .opacity(opacity)
+                .opacity(animationFinished ? 0 : opacity)
         }
         .onChange(of: animationProgress) { position in
             if afterLoading {
@@ -59,17 +62,31 @@ struct IntroStory2025: StoryView {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
-            LottieView(animation: .named("end_of_year_2025_intro"))
-                .animationDidFinish({ completed in
-                    loadCallback?()
-                })
-                .configure({ animationView in
-                    animationView.contentMode = .scaleAspectFill
-                })
-                .playbackMode(afterLoading ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-                .getRealtimeAnimationFrame($animationProgress)
-                .scaledToFill()
-                .ignoresSafeArea()
+            ZStack {
+                if animationFinished {
+                    VStack(spacing: 15) {
+                        Spacer()
+                        CircularProgressView(value: syncProgressModel.progress, stroke: .white, strokeWidth: 6)
+                            .frame(width: 40, height: 40)
+                        Spacer()
+                    }
+                } else {
+                    LottieView(animation: .named("end_of_year_2025_intro"))
+                        .animationDidFinish({ completed in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                animationFinished = true
+                                loadCallback?()
+                            }
+                        })
+                        .configure({ animationView in
+                            animationView.contentMode = .scaleAspectFill
+                        })
+                        .playbackMode(afterLoading ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                        .getRealtimeAnimationFrame($animationProgress)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                }
+            }
         )
         .ignoresSafeArea()
         .background(backgroundColor)

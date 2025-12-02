@@ -53,6 +53,7 @@ struct StoriesView: View {
                     .environment(\.animated, true)
                     .environment(\.pauseState, pauseState)
                     .environmentObject(model)
+                    .environmentObject(syncProgressModel)
 
                 if model.shouldShowUpsell() {
                     model.paywallView().zIndex(6).onAppear {
@@ -111,6 +112,7 @@ struct StoriesView: View {
                     loadAnimationFinished = true
                     model.loadingEnded()
                 }
+                .environmentObject(syncProgressModel)
             } else {
                 Spacer()
                 VStack(spacing: 15) {
