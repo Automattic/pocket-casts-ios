@@ -41,7 +41,7 @@ struct StoryHeader2025: View {
 
     var defaultTopPadding: CGFloat {
         if renderForSharing {
-            StoryLogoView.Constants.paddingBottom
+            StoryLogoView.Constants.paddingBottom + 30
         }
         else if UIScreen.isSmallScreen {
             70
