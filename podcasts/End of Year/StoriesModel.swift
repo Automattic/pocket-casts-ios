@@ -111,7 +111,12 @@ class StoriesModel: ObservableObject {
             if self.configuration.loadingIsTheFirstStory {
                 loadingStart()
             }
-            await isReady = dataSource.refresh()
+            let isReady = await dataSource.refresh()
+            if configuration.loadingIsTheFirstStory, progress >= 1 {
+                currentStoryIndex = 1
+                Analytics.track(.endOfYearStoryShown, story: "cover")
+            }
+            self.isReady = isReady
             failed = !isReady
         }
     }
@@ -119,12 +124,17 @@ class StoriesModel: ObservableObject {
     func loadingStart() {
         loadingCancellable = publisher.autoconnect().sink(receiveValue: { _ in
             let newProgress = self.progress + (0.01 / EndOfYear.defaultDuration)
-            self.progress = min(newProgress, 0.99)
+            if newProgress < 1 {
+                self.progress = newProgress
+            } else {
+                self.progress = 1
+            }
         })
     }
 
     func loadingEnded() {
         loadingCancellable = nil
+        self.progress = 1.01
     }
 
     func start() {
