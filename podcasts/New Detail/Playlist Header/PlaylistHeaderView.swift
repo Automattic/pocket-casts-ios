@@ -101,6 +101,7 @@ struct PlaylistHeaderView: View {
                 Text(title)
                     .font(style: .subheadline, weight: .medium)
                     .foregroundStyle(color)
+                    .lineLimit(1)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
             }
