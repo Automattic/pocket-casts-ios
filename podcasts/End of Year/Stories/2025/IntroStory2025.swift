@@ -39,6 +39,7 @@ struct IntroStory2025: StoryView {
                 .multilineTextAlignment(.center)
                 .font(size: 25, style: .title, weight: .semibold)
                 .foregroundStyle(backgroundTextColor)
+                .padding(.horizontal, 24)
                 .mask(
                     Circle().scale(scale)
                 )
