@@ -1,7 +1,29 @@
 import SwiftUI
 import AVKit
+import Combine
+
 import PocketCastsServer
 import PocketCastsUtils
+
+fileprivate class SubscriptionModel: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+
+    @Published var subscriptionTier: SubscriptionTier
+
+    init(subscriptionTier: SubscriptionTier) {
+        self.subscriptionTier = subscriptionTier
+        ServerNotifications.iapPurchaseCompleted.publisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.refreshTier()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func refreshTier() {
+        subscriptionTier = SubscriptionHelper.activeTier
+    }
+}
 
 struct PaidStoryWallView2025: StoryView {
     let identifier = "plus_interstitial"
@@ -11,7 +33,7 @@ struct PaidStoryWallView2025: StoryView {
 
     @StateObject private var model = PlusPricingInfoModel()
 
-    let subscriptionTier: SubscriptionTier
+    @StateObject private var subscriptionModel: SubscriptionModel
 
     private let foregroundColor = Color.black
 
@@ -22,7 +44,7 @@ struct PaidStoryWallView2025: StoryView {
     let plusOnly = false
 
     init(subscriptionTier: SubscriptionTier) {
-        self.subscriptionTier = subscriptionTier
+        _subscriptionModel = StateObject(wrappedValue: SubscriptionModel(subscriptionTier: subscriptionTier))
     }
 
     var body: some View {
@@ -44,12 +66,11 @@ struct PaidStoryWallView2025: StoryView {
                     }
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
-                StoryHeader2025(title: subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
-                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionTier.displayName),
-                                subscriptionTier: subscriptionTier == .none ? .plus : subscriptionTier,
-                                topPadding: 0)
-                Button(subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
-                    if subscriptionTier == .none {
+                StoryFooter2025(title: subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
+                                description: subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionModel.subscriptionTier.displayNameShort),
+                                subscriptionTier: subscriptionModel.subscriptionTier == .none ? .plus : subscriptionModel.subscriptionTier)
+                Button(subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
+                    if subscriptionModel.subscriptionTier == .none {
                         guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
