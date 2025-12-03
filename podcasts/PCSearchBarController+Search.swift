@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension PCSearchBarController {
     func resetSearchTimer() {
@@ -18,14 +19,18 @@ extension PCSearchBarController {
     @objc private func searchTimerFired() {
         searchTimer = nil
 
-        guard let searchTerm = searchTextField.text else { return }
+        guard let searchTerm = searchTextField.text?.trim() else { return }
+        if FeatureFlag.searchImprovements.enabled {
+            if searchTerm.isEmpty { return }
+        } else {
+            let characterCount = searchTerm.count
+            if characterCount < 2 { return }
 
-        let characterCount = searchTerm.count
-        if characterCount < 2 { return }
+            let lowerCaseSearch = searchTerm.lowercased()
 
-        let lowerCaseSearch = searchTerm.lowercased()
-        if (characterCount == 2 && lowerCaseSearch.startsWith(string: "ht")) || (characterCount == 3 && lowerCaseSearch.startsWith(string: "htt")) || lowerCaseSearch.startsWith(string: "http") { return } // don't auto search for feed URLs
-
+            // don't auto search for feed URLs
+            if (characterCount == 2 && lowerCaseSearch.startsWith(string: "ht")) || (characterCount == 3 && lowerCaseSearch.startsWith(string: "htt")) || lowerCaseSearch.startsWith(string: "http") { return }
+        }
         search(searchTerm: searchTerm, triggerdByTimer: true)
     }
 
