@@ -858,6 +858,23 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 70 {
+            do {
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS idx_episode_podcast_published ON SJEpisode (podcast_id, publishedDate DESC, addedDate DESC);", values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS idx_episode_podcast_added ON SJEpisode (podcast_id, addedDate DESC, publishedDate DESC);", values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS idx_episode_podcast_duration ON SJEpisode (podcast_id, duration DESC, publishedDate DESC);", values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS idx_episode_podcast_playlist_pos ON SJEpisode (podcast_id, playlist_position ASC, publishedDate DESC);", values: nil)
+
+                schemaVersion = 70
+            } catch {
+                failedAt(70)
+                return
+            }
+        }
+
         db.commit()
     }
 }
