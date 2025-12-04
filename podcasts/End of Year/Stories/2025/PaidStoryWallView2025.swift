@@ -43,6 +43,8 @@ struct PaidStoryWallView2025: StoryView {
 
     private let videoAspectRatio = CGFloat(1.37)
 
+    var shouldPause: Bool = true
+
     let plusOnly = false
 
     init(subscriptionTier: SubscriptionTier) {
@@ -84,8 +86,7 @@ struct PaidStoryWallView2025: StoryView {
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
                         Analytics.track(.endOfYearPlusContinued, properties: ["year": EndOfYear.currentYear.literalValue])
-                        //pauseState.togglePause()
-                        storyModel.next()
+                        advanceToNextStory()
                     }
                 }
                 .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black, borderColor: .black))
@@ -101,15 +102,17 @@ struct PaidStoryWallView2025: StoryView {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        //.onAppear() {
-        //    pauseState.togglePause()
-        //}
         .onChange(of: subscriptionModel.subscriptionTier) { newValue in
-            if newValue != subscriptionTier {
-                pauseState.togglePause()
+            if newValue != subscriptionTier, newValue != .none {
+                pauseState.play()
                 storyModel.next()
             }
         }
+    }
+
+    private func advanceToNextStory() {
+        storyModel.start()
+        storyModel.next()
     }
 
     func onAppear() {

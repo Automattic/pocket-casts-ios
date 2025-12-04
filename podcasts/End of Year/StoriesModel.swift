@@ -182,6 +182,9 @@ class StoriesModel: ObservableObject {
         // Otherwise, the paywall appears in front of the story
         if currentStory?.identifier != story.identifier, !story.plusOnly || isPaidUser() {
             story.onAppear()
+            if story.shouldPause {
+                pause()
+            }
         }
 
         currentStory = story
