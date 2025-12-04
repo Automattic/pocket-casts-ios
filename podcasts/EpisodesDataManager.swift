@@ -127,7 +127,7 @@ class EpisodesDataManager {
         if !podcast.shouldShowArchived {
             whereClauses.append("archived = 0")
         }
-        if let uuids = uuidsToFilter, !uuids.isEmpty { // ignore uuid filtering if uuid list is empty or nil
+        if let uuids = uuidsToFilter { // ignore uuid filtering if uuid list is empty or nil
             whereClauses.append("uuid IN (\(uuids.map { "'\($0)'" }.joined(separator: ",")))")
         }
         let whereStr = whereClauses.joined(separator: " AND ")
