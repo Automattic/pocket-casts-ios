@@ -10,10 +10,9 @@ fileprivate class SubscriptionModel: ObservableObject {
 
     @Published var subscriptionTier: SubscriptionTier
 
-    init(subscriptionTier: SubscriptionTier) {
-        self.subscriptionTier = subscriptionTier
+    init() {
+        self.subscriptionTier = SubscriptionHelper.activeTier
         ServerNotifications.iapPurchaseCompleted.publisher()
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.refreshTier()
             }
@@ -21,7 +20,9 @@ fileprivate class SubscriptionModel: ObservableObject {
     }
 
     private func refreshTier() {
-        subscriptionTier = SubscriptionHelper.activeTier
+        DispatchQueue.main.async { [weak self] in
+            self?.subscriptionTier = SubscriptionHelper.activeTier
+        }
     }
 }
 
@@ -33,7 +34,8 @@ struct PaidStoryWallView2025: StoryView {
 
     @StateObject private var model = PlusPricingInfoModel()
 
-    @StateObject private var subscriptionModel: SubscriptionModel
+    @StateObject private var subscriptionModel =  SubscriptionModel()
+    private let subscriptionTier: SubscriptionTier
 
     private let foregroundColor = Color.black
 
@@ -44,7 +46,11 @@ struct PaidStoryWallView2025: StoryView {
     let plusOnly = false
 
     init(subscriptionTier: SubscriptionTier) {
-        _subscriptionModel = StateObject(wrappedValue: SubscriptionModel(subscriptionTier: subscriptionTier))
+        self.subscriptionTier = subscriptionTier
+    }
+
+    var tier: SubscriptionTier {
+        return subscriptionModel.subscriptionTier
     }
 
     var body: some View {
@@ -66,11 +72,11 @@ struct PaidStoryWallView2025: StoryView {
                     }
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
-                StoryFooter2025(title: subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
-                                description: subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionModel.subscriptionTier.displayNameShort),
-                                subscriptionTier: subscriptionModel.subscriptionTier == .none ? .plus : subscriptionModel.subscriptionTier)
-                Button(subscriptionModel.subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
-                    if subscriptionModel.subscriptionTier == .none {
+                StoryFooter2025(title: tier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
+                                description: tier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(tier.displayNameShort),
+                                subscriptionTier: tier == .none ? .plus : tier)
+                Button(tier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
+                    if tier == .none {
                         guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
@@ -78,7 +84,7 @@ struct PaidStoryWallView2025: StoryView {
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
                         Analytics.track(.endOfYearPlusContinued, properties: ["year": EndOfYear.currentYear.literalValue])
-                        pauseState.togglePause()
+                        //pauseState.togglePause()
                         storyModel.next()
                     }
                 }
@@ -95,8 +101,14 @@ struct PaidStoryWallView2025: StoryView {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .onAppear() {
-            pauseState.togglePause()
+        //.onAppear() {
+        //    pauseState.togglePause()
+        //}
+        .onChange(of: subscriptionModel.subscriptionTier) { newValue in
+            if newValue != subscriptionTier {
+                pauseState.togglePause()
+                storyModel.next()
+            }
         }
     }
 
@@ -140,6 +152,7 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
         // Handle updates if needed
+        controller.player?.play()
     }
 
     static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: ()) {
