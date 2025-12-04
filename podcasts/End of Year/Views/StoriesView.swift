@@ -53,6 +53,7 @@ struct StoriesView: View {
                     .environment(\.animated, true)
                     .environment(\.pauseState, pauseState)
                     .environmentObject(model)
+                    .environmentObject(syncProgressModel)
 
                 if model.shouldShowUpsell() {
                     model.paywallView().zIndex(6).onAppear {
@@ -111,15 +112,18 @@ struct StoriesView: View {
                     loadAnimationFinished = true
                     model.loadingEnded()
                 }
+                .environmentObject(syncProgressModel)
             } else {
                 Spacer()
                 VStack(spacing: 15) {
                     let progress = syncProgressModel.progress
                     CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
                         .frame(width: 40, height: 40)
-                    Text(L10n.loading)
-                        .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
-                        .font(style: .body)
+                    if EndOfYear.currentYear != .y2025 {
+                        Text(L10n.loading)
+                            .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
+                            .font(style: .body)
+                    }
                 }
             }
             header
@@ -158,7 +162,7 @@ struct StoriesView: View {
         ZStack {
             VStack {
                 HStack(spacing: model.indicatorSpacing) {
-                    ForEach(0 ..< (model.isReady ? model.numberOfStories : 7), id: \.self) { x in
+                    ForEach(0 ..< (model.isReady ? model.numberOfStories : model.configuration.defaultStoriesCount), id: \.self) { x in
                         StoryIndicator(index: x, style: model.indicatorStyle(for: model.currentStoryIndex), progressModel: model.progressPublisher)
                     }
                 }

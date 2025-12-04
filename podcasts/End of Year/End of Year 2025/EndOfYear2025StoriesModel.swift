@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 import SwiftUI
 
 class EndOfYear2025StoriesModel: StoryModel {
@@ -90,7 +91,7 @@ class EndOfYear2025StoriesModel: StoryModel {
         defer { firstTime = false }
         switch stories[storyNumber] {
             case .intro:
-                return IntroStory2025(afterLoading: firstTime)
+                return IntroStory2025(afterLoading: FeatureFlag.endOfYearLoadIsFirstStory.enabled && firstTime)
             case .numberOfPodcastsAndEpisodesListened:
                 return NumberListened2025(listenedNumbers: data.listenedNumbers, podcasts: data.top8Podcasts)
             case .topSpot:
@@ -167,7 +168,7 @@ class EndOfYear2025StoriesModel: StoryModel {
                     .resizable()
                     .frame(width: 153, height: 36)
                     .padding(.top, 16)
-                    .padding(.bottom, 26)
+                    .padding(.bottom, StoryLogoView.Constants.paddingBottom)
             })
     }
 

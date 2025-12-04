@@ -148,6 +148,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         showPlaylistsTipIfNeeded()
         showOnboardingScreenIfNeeded()
+
+        UserDefaults.standard.set(nil, forKey: Constants.UserDefaults.lastFilterShown)
     }
 
     override func viewDidDisappear(_ animated: Bool) {

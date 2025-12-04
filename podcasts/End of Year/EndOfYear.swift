@@ -159,7 +159,8 @@ struct EndOfYear {
         let configuration = StoriesConfiguration()
         if EndOfYear.currentYear == .y2025 {
             configuration.closeAndDismissAfterFinished = true
-            configuration.loadingIsTheFirstStory = true
+            configuration.loadingIsTheFirstStory = FeatureFlag.endOfYearLoadIsFirstStory.enabled
+            configuration.defaultStoriesCount = 11
         }
         return configuration
     }

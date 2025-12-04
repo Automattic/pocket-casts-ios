@@ -84,6 +84,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupRoutes()
 
+        if Settings.shouldResultEndOfYearSyncStatus {
+            Settings.setHasSyncedEpisodesForPlayback(false, year: 2025)
+            Settings.setHasSyncedEpisodesForPlaybackAsPlusUser(false, year: 2025)
+            Settings.shouldResultEndOfYearSyncStatus = false
+        }
+
+
         NotificationsHelper.shared.register(checkToken: false)
 
         DispatchQueue.global().async { [weak self] in
