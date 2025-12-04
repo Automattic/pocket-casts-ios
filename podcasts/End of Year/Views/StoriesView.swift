@@ -119,9 +119,11 @@ struct StoriesView: View {
                     let progress = syncProgressModel.progress
                     CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
                         .frame(width: 40, height: 40)
-                    Text(L10n.loading)
-                        .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
-                        .font(style: .body)
+                    if EndOfYear.currentYear != .y2025 {
+                        Text(L10n.loading)
+                            .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
+                            .font(style: .body)
+                    }
                 }
             }
             header
