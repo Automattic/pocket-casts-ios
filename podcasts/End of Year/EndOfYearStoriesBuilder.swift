@@ -11,9 +11,9 @@ class EndOfYearStoriesBuilder {
 
     private var hasActiveSubscription: () -> Bool
 
-    private let sync: (() -> Bool)?
+    private let sync: ((Int) -> Bool)?
 
-    init(dataManager: DataManager = DataManager.sharedManager, model: StoryModel, sync: (() -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
+    init(dataManager: DataManager = DataManager.sharedManager, model: StoryModel, sync: ((Int) -> Bool)? = YearListeningHistory.sync, hasActiveSubscription: @escaping () -> Bool = SubscriptionHelper.hasActiveSubscription) {
         self.dataManager = dataManager
         self.model = model
         self.sync = sync
@@ -30,7 +30,7 @@ class EndOfYearStoriesBuilder {
             if SyncManager.isUserLoggedIn(),
                !Settings.hasSyncedEpisodesForPlayback(year: modelType.year) ||
                 (Settings.hasSyncedEpisodesForPlayback(year: modelType.year) && Settings.hasSyncedEpisodesForPlaybackAsPlusUser(year: modelType.year) != hasActiveSubscription()) || model.shouldLoadData(in: dataManager) {
-                let syncedWithSuccess = sync?()
+                let syncedWithSuccess = sync?(modelType.year)
 
                 if syncedWithSuccess == true {
                     Settings.setHasSyncedEpisodesForPlayback(true, year: modelType.year)

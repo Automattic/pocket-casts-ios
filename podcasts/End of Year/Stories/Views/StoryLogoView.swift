@@ -14,6 +14,6 @@ struct StoryLogoView: View {
     }
 
     enum Constants {
-        static let paddingBottom = 29.0
+        static let paddingBottom = 49.0
     }
 }

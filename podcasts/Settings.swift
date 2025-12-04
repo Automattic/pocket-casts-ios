@@ -468,11 +468,11 @@ class Settings: NSObject {
     }
 
     class func displayableVersion() -> String {
-        #if STAGING
-            return L10n.appVersion(Settings.appVersion(), Settings.buildNumber()) + " - STAGING"
-        #else
-            return L10n.appVersion(Settings.appVersion(), Settings.buildNumber())
-        #endif
+#if STAGING
+        return L10n.appVersion(Settings.appVersion(), Settings.buildNumber()) + " - STAGING"
+#else
+        return L10n.appVersion(Settings.appVersion(), Settings.buildNumber())
+#endif
     }
 
     class func buildNumber() -> String {
@@ -802,10 +802,10 @@ class Settings: NSObject {
             playerActions = SettingsStore.appSettings.playerShelf
                 .compactMap { action in
                     switch action {
-                    case .known(let present):
-                        return present
-                    case .unknown:
-                        return nil
+                        case .known(let present):
+                            return present
+                        case .unknown:
+                            return nil
                     }
                 }
                 .filter { $0.isAvailable }
@@ -820,10 +820,10 @@ class Settings: NSObject {
         if FeatureFlag.newSettingsStorage.enabled {
             let unknowns = SettingsStore.appSettings.playerShelf.compactMap { action -> ActionOption? in
                 switch action {
-                case .known:
-                    return nil
-                case .unknown(let absent):
-                    return .unknown(absent)
+                    case .known:
+                        return nil
+                    case .unknown(let absent):
+                        return .unknown(absent)
                 }
             }
             SettingsStore.appSettings.playerShelf = actions.map({ .known($0) }) + unknowns
@@ -1547,6 +1547,15 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.saveCurrentUpNextQueueIntoPlaylist)
+        }
+    }
+
+    static var shouldResultEndOfYearSyncStatus: Bool {
+        get {
+            UserDefaults.standard.value(forKey: Constants.UserDefaults.shouldResultEndOfYearSyncStatus) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: Constants.UserDefaults.shouldResultEndOfYearSyncStatus)
         }
     }
 

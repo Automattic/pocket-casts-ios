@@ -190,9 +190,9 @@ class PodcastExistsHelper {
 }
 
 public class YearListeningHistory {
-    public static func sync() -> Bool {
+    public static func sync(_ year: Int) -> Bool {
         var syncResults: [Bool] = []
-        let yearsToSync: [Int32] = SubscriptionHelper.hasActiveSubscription() ? [2024, 2023, 2022] : [2024, 2023]
+        let yearsToSync: [Int32] = [Int32(year), Int32(year - 1)]
 
         let dispatchGroup = DispatchGroup()
         yearsToSync.forEach { yearToSync in
