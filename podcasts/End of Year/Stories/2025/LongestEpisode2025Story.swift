@@ -35,7 +35,7 @@ struct LongestEpisode2025Story: ShareableStory {
                             .cornerRadius(4)
                             .background {
                                 background(size: proxy.size)
-                                    .padding(.top, 20)
+                                    .padding(.top, 60)
                             }
                     }
                     Spacer()
