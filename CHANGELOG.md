@@ -6,6 +6,7 @@
 -----
 - Add Playback 2025 [#3734](https://github.com/Automattic/pocket-casts-ios/issues?q=state%3Aclosed%20label%3A%22%5BProject%5D%20Playback%202025%22)
 - Remove episode downloads on unsubscribe if an episode is not part of the a Manual playlist. [#3761](https://github.com/Automattic/pocket-casts-ios/pull/3761)
+- Fix display of empty results when searching for episodes in a Podcast [#3772](https://github.com/Automattic/pocket-casts-ios/pull/3772)
 
 8.0.1
 -----
