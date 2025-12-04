@@ -14,7 +14,7 @@ extension SubscriptionTier {
     var displayNameShort: String {
         switch self {
         case .patron: L10n.patron
-        case .plus: L10n.pocketCastsShort
+        case .plus: L10n.pocketCastsPlusShort
         case .none: L10n.pocketCastsShort
         }
     }

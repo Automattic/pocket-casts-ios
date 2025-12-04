@@ -182,6 +182,9 @@ class StoriesModel: ObservableObject {
         // Otherwise, the paywall appears in front of the story
         if currentStory?.identifier != story.identifier, !story.plusOnly || isPaidUser() {
             story.onAppear()
+            if story.shouldPause {
+                pause()
+            }
         }
 
         currentStory = story
@@ -403,12 +406,14 @@ private extension StoriesModel {
             }
             .store(in: &cancellables)
 
-        ServerNotifications.iapPurchaseCompleted.publisher()
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] _ in
-            self?.refresh()
+        if EndOfYear.currentYear != .y2025 {
+            ServerNotifications.iapPurchaseCompleted.publisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.refresh()
+            }
+            .store(in: &cancellables)
         }
-        .store(in: &cancellables)
     }
 
     func isPaidUser() -> Bool {

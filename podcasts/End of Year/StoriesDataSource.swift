@@ -82,6 +82,8 @@ protocol Story {
     /// If the story is available only for Plus users
     var plusOnly: Bool { get }
 
+    var shouldPause: Bool { get }
+
     /// Called when the story actually appears.
     ///
     /// If you use SwiftUI `onAppear` together with preload
@@ -109,6 +111,10 @@ extension Story {
         false
     }
 
+    var shouldPause: Bool {
+        false
+    }
+
     func onAppear() {}
     func onPause() {}
     func onResume() {}
@@ -132,6 +138,14 @@ class PauseState: ObservableObject {
 
     func togglePause() {
         isPaused.toggle()
+    }
+
+    func pause() {
+        isPaused = true
+    }
+
+    func play() {
+        isPaused = false
     }
 }
 
