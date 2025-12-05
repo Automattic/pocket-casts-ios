@@ -40,7 +40,15 @@ class AudioReadTask {
         self.bufferManager = bufferManager
         cachedFrameCount = frameCount
 
-        readQueue = DispatchQueue(label: "au.com.pocketcasts.ReadQueue", qos: .default, attributes: [], autoreleaseFrequency: .never, target: nil)
+        let qos: DispatchQoS
+
+        if FeatureFlag.effectsPlayerQOSUpgrade.enabled {
+            qos = .userInitiated
+        } else {
+            qos = .default
+        }
+
+        readQueue = DispatchQueue(label: "au.com.pocketcasts.ReadQueue", qos: qos, attributes: [], autoreleaseFrequency: .never, target: nil)
 
         updateRemoveSilenceNumbers()
 
