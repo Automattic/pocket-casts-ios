@@ -246,6 +246,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the End of Year to use first story as loading screen
     case endOfYearLoadIsFirstStory
 
+    /// Upgrades the Effects Player's AudioReadTask to a QOS level of "userInitiated" from "default"
+    case effectsPlayerQOSUpgrade
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -413,6 +416,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYear2025:
             true
         case .endOfYearLoadIsFirstStory:
+			true
+        case .effectsPlayerQOSUpgrade:
             true
         }
     }

@@ -67,8 +67,12 @@ struct IntroStory2025: StoryView {
                 if animationFinished {
                     VStack(spacing: 15) {
                         Spacer()
-                        CircularProgressView(value: syncProgressModel.progress, stroke: .white, strokeWidth: 6)
-                            .frame(width: 40, height: 40)
+                        ZStack {
+                            CircularProgressView(value: 1, stroke: .white.opacity(0.33), strokeWidth: 6)
+                                .frame(width: 40, height: 40)
+                            CircularProgressView(value: 0.5, stroke: .white, strokeWidth: 6)
+                                .frame(width: 40, height: 40)
+                        }
                         Spacer()
                     }
                 } else {
