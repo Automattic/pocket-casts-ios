@@ -25,8 +25,10 @@ struct ListeningTime2025Story: ShareableStory {
 
     var formattedMinutes: String {
         let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en-us")
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = ","
+        formatter.usesGroupingSeparator = true
         return formatter.string(for: Int(listeningTime / 60.0)) ?? ""
     }
 
