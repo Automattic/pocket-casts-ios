@@ -28,16 +28,14 @@ struct LongestEpisode2025Story: ShareableStory {
                 VStack(alignment: .center, spacing: 0) {
                     headerView
                     Spacer()
-                        .frame(height: 40)
-                    ZStack(alignment: .center) {
-                        PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
-                            .frame(width: imageSize * imageScale, height: imageSize * imageScale)
-                            .cornerRadius(4)
-                            .background {
-                                background(size: proxy.size)
-                                    .padding(.top, 90)
-                            }
-                    }
+                        .frame(maxHeight: 40)
+                    PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
+                        .frame(width: imageSize * imageScale, height: imageSize * imageScale)
+                        .cornerRadius(4)
+                        .background {
+                            background(size: proxy.size).offset(x: 0, y: proxy.size.width / 6)
+                        }
+                        .padding(.bottom, proxy.size.width / 6)
                     Spacer()
                     footerView
                     Spacer()
