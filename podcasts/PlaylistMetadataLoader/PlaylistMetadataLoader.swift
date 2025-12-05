@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 
 actor PlaylistMetadataLoader {
     private var counts: [String: Int] = [:]
@@ -118,7 +119,7 @@ actor PlaylistMetadataLoader {
         let playlist = playlist
         let dataManager = self.dataManager
 
-        return await Task(priority: .userInitiated) {
+        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
             dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
@@ -130,7 +131,7 @@ actor PlaylistMetadataLoader {
     private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode] {
         let playlist = playlist
         let episodesDataManager = self.episodesDataManager
-        return await Task(priority: .userInitiated) {
+        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
             episodesDataManager.playlistFirstDistinctEpisodes(
                 for: playlist,
                 shouldShowArchived: playlist.showArchivedEpisodes
