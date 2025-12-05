@@ -25,10 +25,8 @@ struct ListeningTime2025Story: ShareableStory {
 
     var formattedMinutes: String {
         let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "en-us")
+        formatter.locale = Locale.current
         formatter.numberStyle = .decimal
-        formatter.groupingSeparator = ","
-        formatter.usesGroupingSeparator = true
         return formatter.string(for: Int(listeningTime / 60.0)) ?? ""
     }
 
@@ -111,8 +109,8 @@ final private class LottieTextProvider: AnimationKeypathTextProvider {
         self.endTime = endTime
         self.currentTime = startTime
         self.formatter = NumberFormatter()
+        formatter.locale = Locale.current
         formatter.numberStyle = .decimal
-        formatter.groupingSeparator = ","
     }
 
     func text(for keypath: Lottie.AnimationKeypath, sourceText: String) -> String? {
