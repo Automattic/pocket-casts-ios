@@ -249,6 +249,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Upgrades the Effects Player's AudioReadTask to a QOS level of "userInitiated" from "default"
     case effectsPlayerQOSUpgrade
 
+    /// Refreshes by listening to notifications for podcast subscribe/unsubscribe
+    case refreshPlaylistOnSubscriptions
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -418,6 +421,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .endOfYearLoadIsFirstStory:
 			true
         case .effectsPlayerQOSUpgrade:
+            true
+        case .refreshPlaylistOnSubscriptions:
             true
         }
     }

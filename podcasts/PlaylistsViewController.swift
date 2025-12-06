@@ -3,6 +3,7 @@ import UIKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Combine
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
@@ -59,6 +60,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     var newFilterTip: UIViewController? = nil
+
+    private var cancellables: Set<AnyCancellable> = []
 
     private var firstTimeLoading = true
 
@@ -256,6 +259,16 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private func addReloadPlaylistsObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistsNeedReload, object: nil)
+
+        if FeatureFlag.refreshPlaylistOnSubscriptions.enabled {
+            let deleted = NotificationCenter.default.publisher(for: Constants.Notifications.podcastDeleted)
+            let added = NotificationCenter.default.publisher(for: Constants.Notifications.podcastAdded)
+
+            Publishers.Merge(deleted, added).debounce(for: 0.5, scheduler: DispatchQueue.main).sink { [weak self] _ in
+                self?.filtersUpdated()
+            }
+            .store(in: &cancellables)
+        }
     }
 
     private func setupInformationalBanner() {
