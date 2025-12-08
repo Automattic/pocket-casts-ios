@@ -1,4 +1,5 @@
 import PocketCastsUtils
+import Foundation
 
 class PlaylistDataManager {
     private let columnNames = [
@@ -26,7 +27,8 @@ class PlaylistDataManager {
         "longerThan",
         "shorterThan",
         "manual",
-        "showArchivedEpisodes"
+        "showArchivedEpisodes",
+        "playlistUpdateDate"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {
@@ -323,13 +325,27 @@ class PlaylistDataManager {
             do {
                 if playlist.id == 0 {
                     playlist.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.playlistsTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlist: playlist))
+                    try db.executeUpdate("INSERT INTO \(DataManager.playlistsTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlist: playlist, updateDate: .now))
                 } else {
                     let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(playlist: playlist, includeUuidForWhere: true))
+                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(playlist: playlist, includeUuidForWhere: true, updateDate: .now))
                 }
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
+            }
+        }
+    }
+
+    /// Update the playlistUpdateDate for a specific playlist to the given date (defaults to now)
+    func updatePlaylistUpdateDate(for playlist: EpisodeFilter, to date: Date, dbQueue: PCDBQueue) {
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(
+                    "UPDATE \(DataManager.playlistsTableName) SET playlistUpdateDate = ? WHERE uuid = ?",
+                    values: [date, playlist.uuid]
+                )
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.updatePlaylistUpdateDate error: \(error)")
             }
         }
     }
@@ -534,11 +550,12 @@ class PlaylistDataManager {
         playlist.shorterThan = rs.int(forColumn: "shorterThan")
         playlist.manual = rs.bool(forColumn: "manual")
         playlist.showArchivedEpisodes = rs.bool(forColumn: "showArchivedEpisodes")
+        playlist.playlistUpdateDate = DBUtils.convertDate(value: rs.double(forColumn: "playlistUpdateDate"))
 
         return playlist
     }
 
-    private func createValuesFrom(playlist: EpisodeFilter, includeUuidForWhere: Bool = false) -> [Any] {
+    private func createValuesFrom(playlist: EpisodeFilter, includeUuidForWhere: Bool = false, updateDate: Date? = nil) -> [Any] {
         var values = [Any]()
         values.append(playlist.id)
         values.append(playlist.autoDownloadEpisodes)
@@ -565,6 +582,7 @@ class PlaylistDataManager {
         values.append(playlist.shorterThan)
         values.append(playlist.manual)
         values.append(playlist.showArchivedEpisodes)
+        values.append(DBUtils.nullIfNil(value: updateDate ?? playlist.playlistUpdateDate))
 
         if includeUuidForWhere {
             values.append(playlist.uuid)
