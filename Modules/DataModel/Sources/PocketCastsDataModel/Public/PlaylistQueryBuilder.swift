@@ -160,7 +160,7 @@ public class PlaylistQueryBuilder {
         var sortClauseStripped = sortClause.replacingOccurrences(of: "ORDER BY", with: "")
         sortClauseStripped = sortClauseStripped.replacingOccurrences(of: "episode.", with: "")
 
-        return """
+        var query = """
         WITH limited_episodes AS (
             SELECT * FROM (
                 SELECT episode.*
@@ -186,6 +186,8 @@ public class PlaylistQueryBuilder {
         ORDER BY \(sortClauseStripped)
         LIMIT \(limit)
         """
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
+        return query
     }
 
     private static func manualPlaylistFirstDistinctEpisodes(
