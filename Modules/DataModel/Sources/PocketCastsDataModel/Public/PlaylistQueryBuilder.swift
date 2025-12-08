@@ -2,7 +2,7 @@ import Foundation
 import RegexBuilder
 
 public class PlaylistQueryBuilder {
-    static let episodeLimit: Int = 10000
+    static let episodeLimit: Int = 1000
 
     public enum SelectClause {
         case episode
