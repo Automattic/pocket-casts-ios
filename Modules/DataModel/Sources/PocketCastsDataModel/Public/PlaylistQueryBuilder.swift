@@ -154,27 +154,36 @@ public class PlaylistQueryBuilder {
         values: String,
         addedUuid: Bool
     ) -> String {
-        var query = """
-        WITH numbered_episodes AS (
-            SELECT episode.*,
+        let sortClause = add(sortFor: sortType) ?? ""
+        var sortClauseStripped = sortClause.replacingOccurrences(of: "ORDER BY", with: "")
+        sortClauseStripped = sortClauseStripped.replacingOccurrences(of: "episode.", with: "")
+
+        return """
+        WITH limited_episodes AS (
+            SELECT * FROM (
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                LEFT JOIN \(DataManager.podcastTableName) podcast
+                  ON episode.podcast_id = podcast.id
+                WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+                \(sortClause)
+                LIMIT 1000
+            )
+        ),
+        numbered_episodes AS (
+            SELECT *,
                    ROW_NUMBER() OVER (
-                     PARTITION BY episode.podcast_id
-                    \(add(sortFor: sortType) ?? "")
+                       PARTITION BY podcast_id
+                       ORDER BY \(sortClauseStripped)
                    ) AS rn
-            FROM \(DataManager.episodeTableName) episode
-            LEFT JOIN \(DataManager.podcastTableName) podcast
-              ON episode.podcast_id = podcast.id
-            WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+            FROM limited_episodes
         )
         SELECT *
         FROM numbered_episodes
         WHERE rn = 1
-        \(add(sortFor: sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+        ORDER BY \(sortClauseStripped)
         LIMIT \(limit)
         """
-
-        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
-        return query
     }
 
     private static func manualPlaylistFirstDistinctEpisodes(
