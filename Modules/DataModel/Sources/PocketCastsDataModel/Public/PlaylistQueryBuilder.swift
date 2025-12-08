@@ -2,6 +2,8 @@ import Foundation
 import RegexBuilder
 
 public class PlaylistQueryBuilder {
+    static let episodeLimit: Int = 10000
+
     public enum SelectClause {
         case episode
         case episodeCount
@@ -167,7 +169,7 @@ public class PlaylistQueryBuilder {
                   ON episode.podcast_id = podcast.id
                 WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
                 \(sortClause)
-                LIMIT 1000
+                LIMIT \(episodeLimit)
             )
         ),
         numbered_episodes AS (
@@ -219,6 +221,7 @@ public class PlaylistQueryBuilder {
             ON episode.uuid = playlist.episodeUuid
           WHERE playlist.playlist_uuid = '\(playlistUUID)'
           \(shouldShowArchived ? "" : "AND episode.archived = 0")
+          LIMIT \(episodeLimit)
         )
         SELECT *
         FROM ordered_episodes
