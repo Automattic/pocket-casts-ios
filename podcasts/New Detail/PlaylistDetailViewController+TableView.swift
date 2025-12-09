@@ -27,38 +27,15 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                   let episode = viewModel.episodes[safe: indexPath.row]?.episode,
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
-                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAreSelected = tableView.allAboveAreSelected(indexPath: indexPath) == true
-                let allBelowAreSelected = tableView.allBelowAreSelected(indexPath: indexPath) == true
-
-                let allAboveAction = OptionAction(
-                    label: allAboveAreSelected ? L10n.deselectAllAbove : L10n.selectAllAbove,
-                    icon: allAboveAreSelected ? "deselectall-up" : "selectall-up",
-                    action: { [weak self] in
-                        if allAboveAreSelected {
-                            self?.track(.filterDeselectAllAbove)
-                            self?.tableView.deselectAllAbove(indexPath: indexPath)
-                        } else {
-                            self?.track(.filterSelectAllAbove)
-                            self?.tableView.selectAllAbove(indexPath: indexPath)
-                        }
-                })
-
-                let allBelowAction = OptionAction(
-                    label: allBelowAreSelected ? L10n.deselectAllBelow : L10n.selectAllBelow,
-                    icon: allBelowAreSelected ? "deselectall-down" : "selectall-down",
-                    action: { [weak self] in
-                        if allBelowAreSelected {
-                            self?.track(.filterDeselectAllBelow)
-                            self?.tableView.deselectAllBelow(indexPath: indexPath)
-                        } else {
-                            self?.track(.filterSelectAllBelow)
-                            self?.tableView.selectAllBelow(indexPath: indexPath)
-                        }
-                })
-                optionPicker.addAction(action: allAboveAction)
-                optionPicker.addAction(action: allBelowAction)
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+                longPressSelectOptions(
+                    for: indexPath,
+                    in: tableView,
+                    statusBarStyle: preferredStatusBarStyle
+                ) { [weak self] allAboveAreSelected in
+                    self?.track(allAboveAreSelected ? .filterDeselectAllAbove : .filterSelectAllAbove)
+                } allBelowAction: { [weak self] allBelowAreSelected in
+                    self?.track(allBelowAreSelected ? .filterDeselectAllBelow : .filterSelectAllBelow)
+                }
             } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
