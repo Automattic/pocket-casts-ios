@@ -63,34 +63,11 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
             if isMultiSelectEnabled {
-                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAreSelected = episodesTable.allAboveAreSelected(indexPath: indexPath) == true
-                let allBelowAreSelected = episodesTable.allBelowAreSelected(indexPath: indexPath) == true
-
-                let allAboveAction = OptionAction(
-                    label: allAboveAreSelected ? L10n.deselectAllAbove : L10n.selectAllAbove,
-                    icon: allAboveAreSelected ? "deselectall-up" : "selectall-up",
-                    action: { [] in
-                        if allAboveAreSelected {
-                            self.episodesTable.deselectAllAbove(indexPath: indexPath)
-                        } else {
-                            self.episodesTable.selectAllFrom(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection), toIndexPath: indexPath)
-                        }
-                })
-
-                let allBelowAction = OptionAction(
-                    label: allBelowAreSelected ? L10n.deselectAllBelow : L10n.selectAllBelow,
-                    icon: allBelowAreSelected ? "deselectall-down" : "selectall-down",
-                    action: { [] in
-                        if allBelowAreSelected {
-                            self.episodesTable.deselectAllBelow(indexPath: indexPath)
-                        } else {
-                            self.episodesTable.selectAllBelow(indexPath: indexPath)
-                        }
-                })
-                optionPicker.addAction(action: allAboveAction)
-                optionPicker.addAction(action: allBelowAction)
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+                longPressSelectOptions(
+                    for: indexPath,
+                    in: episodesTable,
+                    statusBarStyle: preferredStatusBarStyle
+                )
             } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
