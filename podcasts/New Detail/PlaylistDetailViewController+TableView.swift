@@ -28,14 +28,33 @@ extension PlaylistDetailViewController: UITableViewDataSource {
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [weak self] in
-                    self?.track(.filterSelectAllAbove)
-                    self?.tableView.selectAllAbove(indexPath: indexPath)
+                let allAboveAreSelected = tableView.allAboveAreSelected(indexPath: indexPath) == true
+                let allBelowAreSelected = tableView.allBelowAreSelected(indexPath: indexPath) == true
+
+                let allAboveAction = OptionAction(
+                    label: allAboveAreSelected ? L10n.deselectAllAbove : L10n.selectAllAbove,
+                    icon: allAboveAreSelected ? "deselectall-up" : "selectall-up",
+                    action: { [weak self] in
+                        if allAboveAreSelected {
+                            self?.track(.filterDeselectAllAbove)
+                            self?.tableView.deselectAllAbove(indexPath: indexPath)
+                        } else {
+                            self?.track(.filterSelectAllAbove)
+                            self?.tableView.selectAllAbove(indexPath: indexPath)
+                        }
                 })
 
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [weak self] in
-                    self?.track(.filterSelectAllBelow)
-                    self?.tableView.selectAllBelow(indexPath: indexPath)
+                let allBelowAction = OptionAction(
+                    label: allBelowAreSelected ? L10n.deselectAllBelow : L10n.selectAllBelow,
+                    icon: allBelowAreSelected ? "deselectall-down" : "selectall-down",
+                    action: { [weak self] in
+                        if allBelowAreSelected {
+                            self?.track(.filterDeselectAllBelow)
+                            self?.tableView.deselectAllBelow(indexPath: indexPath)
+                        } else {
+                            self?.track(.filterSelectAllBelow)
+                            self?.tableView.selectAllBelow(indexPath: indexPath)
+                        }
                 })
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
