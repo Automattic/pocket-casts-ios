@@ -71,7 +71,7 @@ extension UITableView {
     }
 
     func allAboveAreSelected(indexPath: IndexPath) -> Bool {
-        areSelected(fromIndexPath: IndexPath(row: 0, section: 0), toIndexPath: indexPath)
+        areSelected(fromIndexPath: IndexPath(row: 0, section: indexPath.section), toIndexPath: indexPath)
     }
 
     func allBelowAreSelected(indexPath: IndexPath) -> Bool {
