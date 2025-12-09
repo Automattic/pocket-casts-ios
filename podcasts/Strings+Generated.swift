@@ -2516,7 +2516,7 @@ internal enum L10n {
   /// Smart Playlist preview: title for the enabled rules section
   internal static var playlistSmartPreviewEnabledRules: String { return L10n.tr("Localizable", "playlist_smart_preview_enabled_rules", fallback: "Enabled rules") }
   /// Smart Playlist preview: title for the available rules section
-  internal static var playlistSmartPreviewOtherRules: String { return L10n.tr("Localizable", "playlist_smart_preview_other_rules", fallback: "Other options") }
+  internal static var playlistSmartPreviewMoreRules: String { return L10n.tr("Localizable", "playlist_smart_preview_more_rules", fallback: "More rules") }
   /// Header subtitle for smart rule podcasts when select all is on
   internal static var playlistSmartRulePodcastsHeaderSubtitleAutoAdd: String { return L10n.tr("Localizable", "playlist_smart_rule_podcasts_header_subtitle_auto_add", fallback: "New podcasts you follow will be automatically added.") }
   /// Header subtitle for smart rule podcasts when select all is off
