@@ -34,18 +34,11 @@ extension UpNextViewController: MultiSelectActionDelegate {
     // MARK: - Long Press Multi Select Option Picker
 
     func showLongPressSelectOptions(indexPath: IndexPath) {
-        let optionPicker = OptionsPicker(title: nil, themeOverride: themeOverride, iconTintStyle: .primaryIcon02)
-
-        let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-            self.upNextTable.selectAllFrom(fromIndexPath: IndexPath(row: 0, section: UpNextViewController.upNextSection), toIndexPath: indexPath)
-
-        })
-        let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-            self.upNextTable.selectAllBelow(indexPath: indexPath)
-        })
-        optionPicker.addAction(action: allAboveAction)
-        optionPicker.addAction(action: allBelowAction)
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        longPressSelectOptions(
+            for: indexPath,
+            in: upNextTable,
+            themeOverride: themeOverride
+        )
     }
 
     // MARK: - Selected Episode
