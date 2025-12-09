@@ -70,7 +70,7 @@ struct IntroStory2025: StoryView {
                         ZStack {
                             CircularProgressView(value: 1, stroke: .white.opacity(0.33), strokeWidth: 6)
                                 .frame(width: 40, height: 40)
-                            CircularProgressView(value: 0.5, stroke: .white, strokeWidth: 6)
+                            CircularProgressView(value: self.syncProgressModel.progress, stroke: .white, strokeWidth: 6)
                                 .frame(width: 40, height: 40)
                         }
                         Spacer()
