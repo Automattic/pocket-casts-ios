@@ -26,7 +26,7 @@ class StoriesModel: ObservableObject {
             }
 
             // Present share alert if the story is shareable
-            guard dataSource.shareableStory(for: currentStoryIndex) != nil else {
+            guard dataSource.numberOfStories > 0, dataSource.shareableStory(for: currentStoryIndex) != nil else {
                 screenshotTaken = false
                 return
             }
@@ -397,7 +397,7 @@ private extension StoriesModel {
                 pause()
                 screenshotTaken = true
 
-                if dataSource.shareableStory(for: currentStoryIndex) != nil {
+                if dataSource.numberOfStories > 0, dataSource.shareableStory(for: currentStoryIndex) != nil {
                     let year = EndOfYear.currentYear.literalValue
                     let story = currentStoryIdentifier
                     let properties = ["story": story, "year": year, "from": "screenshot"]
