@@ -57,7 +57,7 @@ extension Podcast {
         podcast.usedCustomEffectsBefore = rs.bool(forColumn: "usedCustomEffectsBefore")
         podcast.isPrivate = rs.bool(forColumn: "isPrivate")
         podcast.fundingURL = rs.string(forColumn: "fundingURL")
-
+        podcast.episodesInfoCacheReloadPolicy = rs.int(forColumn: "episodesInfoCacheReloadPolicy")
         return podcast
     }
 }

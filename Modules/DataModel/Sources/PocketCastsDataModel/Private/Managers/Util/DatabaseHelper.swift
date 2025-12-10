@@ -868,6 +868,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 71 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN episodesInfoCacheReloadPolicy INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 71
+            } catch {
+                failedAt(71)
+                return
+            }
+        }
+
         db.commit()
     }
 }

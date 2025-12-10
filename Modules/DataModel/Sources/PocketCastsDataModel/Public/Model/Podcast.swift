@@ -55,6 +55,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var usedCustomEffectsBefore = false
     @objc public var isPrivate = false
     @objc public var fundingURL: String?
+    @objc public var episodesInfoCacheReloadPolicy: Int32 = 0
 
     public var settings: PodcastSettings = PodcastSettings.defaults
 
@@ -169,5 +170,49 @@ extension TrimSilence {
 extension Podcast {
     public override var debugDescription: String {
         "Podcast: \(uuid) - \(title ?? "missing title")"
+    }
+}
+
+extension Podcast {
+    public enum EpisodeInfoCacheReloadPolicy: Int32 {
+        case never = 0
+        case weekly = 7
+        case monthly = 1
+#if DEBUG
+        case debug = 30
+#endif
+    }
+
+    public var episodesInfoCacheReloadPolicyType: Podcast.EpisodeInfoCacheReloadPolicy {
+        .init(rawValue: episodesInfoCacheReloadPolicy) ?? .never
+    }
+
+    /// Returns true if the given date is considered stale based on the podcast's episodesInfoCacheReloadPolicyType.
+    /// - Parameter date: The date to evaluate. If `nil`, this returns true for policies other than `.never`.
+    /// - Returns: `true` if the date is older than the threshold for the current policy (week/month), otherwise `false`.
+    public func isEpisodesInfoCacheStale(
+        since date: Date?,
+        now: Date = .now
+    ) -> Bool {
+        guard let date else { return true }
+
+        let component: Calendar.Component
+
+        switch episodesInfoCacheReloadPolicyType {
+        case .never:
+            return false
+        case .weekly:
+            component = .day
+        case .monthly:
+            component = .month
+#if DEBUG
+        case .debug:
+            component = .second
+#endif
+        }
+        if let threshold = Calendar.current.date(byAdding: component, value: -Int(episodesInfoCacheReloadPolicyType.rawValue), to: now) {
+            return date < threshold
+        }
+        return false
     }
 }
