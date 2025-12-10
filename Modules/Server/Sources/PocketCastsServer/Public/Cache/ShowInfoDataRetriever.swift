@@ -17,16 +17,32 @@ public actor ShowInfoDataRetriever {
         for podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let request = URLRequest(url: url)
-
-        if let cachedResponse = cache.cachedResponse(for: request),
-            let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
+        if let cachedResponse = cachedResponse(for: podcastUuid, episodeUuid: episodeUuid),
+           let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
             FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
             return metadata
         }
 
         return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
+    }
+
+    public func cachedResponseDate(
+        for podcastUuid: String,
+        episodeUuid: String
+    ) async -> Date? {
+        if let cachedResponse = cachedResponse(for: podcastUuid, episodeUuid: episodeUuid),
+           let date = cachedResponse.response.date {
+           return date
+        }
+        return nil
+    }
+
+    public func deleteEpisodeDataFromCache(
+        for podcastUuid: String
+    ) async {
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+        let request = URLRequest(url: url)
+        cache.removeCachedResponse(for: request)
     }
 
     public func loadShowInfoData(
@@ -107,6 +123,19 @@ public actor ShowInfoDataRetriever {
             }
         }
 
+        return nil
+    }
+
+    private func cachedResponse(
+        for podcastUuid: String,
+        episodeUuid: String
+    ) -> CachedURLResponse? {
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+        let request = URLRequest(url: url)
+
+        if let cachedResponse = cache.cachedResponse(for: request) {
+            return cachedResponse
+        }
         return nil
     }
 }

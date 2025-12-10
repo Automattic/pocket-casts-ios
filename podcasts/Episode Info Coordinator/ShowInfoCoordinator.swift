@@ -36,6 +36,12 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return metadata?.showNotes ?? CacheServerHandler.noShowNotesMessage
     }
 
+    public func deleteShowNotes(
+        for podcastUuid: String
+    ) async {
+        await dataRetriever.deleteEpisodeDataFromCache(for: podcastUuid)
+    }
+
     func loadEpisodeArtworkUrl(
         podcastUuid: String,
         episodeUuid: String
@@ -99,6 +105,10 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             guard let self else { throw TaskError.nilSelf }
 
             do {
+                if FeatureFlag.reloadEpisodeInfoCachePolicy.enabled {
+                    await checkStaleCache(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                }
+
                 let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
                 await setRequestingShowInfoToNil(for: episodeUuid)
                 return await getShowInfo(for: data?.data(using: .utf8))
@@ -111,6 +121,19 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         requestingShowInfo[episodeUuid] = task
 
         return try await task.value
+    }
+
+    private func checkStaleCache(
+        podcastUuid: String,
+        episodeUuid: String
+    ) async {
+        if let date = await dataRetriever.cachedResponseDate(for: podcastUuid, episodeUuid: episodeUuid) {
+            let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+            if podcast?.isEpisodesInfoCacheStale(since: date) == true {
+                FileLog.shared.addMessage("Show Info: clearing cache for podcast \(podcastUuid)")
+                await dataRetriever.deleteEpisodeDataFromCache(for: podcastUuid)
+            }
+        }
     }
 
     private func setRequestingShowInfoToNil(for episodeUuid: String) {
