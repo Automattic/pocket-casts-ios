@@ -61,7 +61,28 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
+        #if DEBUG
+        if let properties {
+            validateProperties(properties)
+        }
+        #endif
         tracksService.trackEventName(name, withCustomProperties: properties)
+    }
+
+    private func validateProperties(_ properties: [AnyHashable: Any]) {
+        guard let castedProperties = properties as? [String: Any] else {
+            fatalError("Tracks event properties types keys must be a String")
+        }
+
+        for key in castedProperties.keys {
+            if Self.reservedPropertyNames.contains(key) {
+                fatalError("Tracks event properties key \(key) is reserved property name.")
+            }
+
+            if !(castedProperties[key] is Int || castedProperties[key] is String || castedProperties[key] is Bool) {
+                fatalError("Tracks event properties value for \(key) must be a valid type: Int, String or Bool.")
+            }
+        }
     }
 
     private var defaultProperties: [String: AnyHashable] {
@@ -103,6 +124,53 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
             self?.updateAuthenticationState()
         }
     }
+
+    private static let reservedPropertyNames = Set<String>([
+        "timestamp",
+        "year",
+        "month",
+        "day",
+        "dateymd",
+        "datetime",
+        "logdateymd",
+        "anonid",
+        "userid",
+        "useridtype",
+        "userlang",
+        "eventnamepartial",
+        "eventname",
+        "eventprops",
+        "eventsource",
+        "geoip",
+        "geocountrycode",
+        "geocountry",
+        "georegion",
+        "geocity",
+        "geolatitude",
+        "geolongitude",
+        "logdate",
+        "logtimestamp",
+        "logmethod",
+        "logreferrer",
+        "requesttimestamp",
+        "eventtimestamp",
+        "browserlang",
+        "browserfamilyversion",
+        "browserfamily",
+        "browserdocumentlocation",
+        "browserdocumentreferrer",
+        "useragent",
+        "devicefamily",
+        "deviceos",
+        "blogid",
+        "bloglang",
+        "blogtimezone",
+        "kafkatopic",
+        "processingtimestamp",
+        "etlmessage",
+        "eventmarker",
+        "record_ymdh"
+    ])
 }
 
 private extension TracksAdapter {
