@@ -755,6 +755,7 @@
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
+		9ACDEF332EE6F632001025B0 /* ListPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACDEF322EE6F62C001025B0 /* ListPlaylist.swift */; };
 		9AD41AC22EB4E0750048FB8B /* PlaylistDetailViewController+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */; };
 		9AD809AF2EA12D940050649B /* PlaylistDetailFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */; };
 		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
@@ -3132,6 +3133,7 @@
 		9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheetHost.swift; sourceTree = "<group>"; };
 		9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheet.swift; sourceTree = "<group>"; };
 		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
+		9ACDEF322EE6F62C001025B0 /* ListPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPlaylist.swift; sourceTree = "<group>"; };
 		9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Analytics.swift"; sourceTree = "<group>"; };
 		9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailFetchOperation.swift; sourceTree = "<group>"; };
 		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
@@ -6226,6 +6228,7 @@
 				BD1C46DF27B9E6F600B1D8BB /* HomeGridListItem.swift */,
 				BD74F15227F28F6F00222785 /* HomeGridItem.swift */,
 				BD9D923B21342CC50070D4FD /* ListEpisode.swift */,
+				9ACDEF322EE6F62C001025B0 /* ListPlaylist.swift */,
 				BD023C612251BB4E008A9C6F /* ListHeader.swift */,
 				BD0B68702203DC58002CCE3F /* EpisodeLimitPlaceholder.swift */,
 				409C7939223899A500386495 /* AllArchivedPlaceholder.swift */,
@@ -10697,6 +10700,7 @@
 				BD4FC1DB1FA6E21F0013364F /* PlaylistViewController.swift in Sources */,
 				F57D8F142C66CA230004C4DF /* UnsafeWait.swift in Sources */,
 				FF0F407A2D5E32920036FFE9 /* ThreadSafeDictionary.swift in Sources */,
+				9ACDEF332EE6F632001025B0 /* ListPlaylist.swift in Sources */,
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,
 				FF06AFA32CB6928B0099EC9B /* MediaExporterResourceLoaderDelegate.swift in Sources */,

@@ -2,6 +2,8 @@ import Foundation
 import RegexBuilder
 
 public class PlaylistQueryBuilder {
+    static let episodeLimit: Int = 1000
+
     public enum SelectClause {
         case episode
         case episodeCount
@@ -154,25 +156,36 @@ public class PlaylistQueryBuilder {
         values: String,
         addedUuid: Bool
     ) -> String {
+        let sortClause = add(sortFor: sortType) ?? ""
+        var sortClauseStripped = sortClause.replacingOccurrences(of: "ORDER BY", with: "")
+        sortClauseStripped = sortClauseStripped.replacingOccurrences(of: "episode.", with: "")
+
         var query = """
-        WITH numbered_episodes AS (
-            SELECT episode.*,
+        WITH limited_episodes AS (
+            SELECT * FROM (
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                LEFT JOIN \(DataManager.podcastTableName) podcast
+                  ON episode.podcast_id = podcast.id
+                WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+                \(sortClause)
+                LIMIT \(episodeLimit)
+            )
+        ),
+        numbered_episodes AS (
+            SELECT *,
                    ROW_NUMBER() OVER (
-                     PARTITION BY episode.podcast_id
-                    \(add(sortFor: sortType) ?? "")
+                       PARTITION BY podcast_id
+                       ORDER BY \(sortClauseStripped)
                    ) AS rn
-            FROM \(DataManager.episodeTableName) episode
-            LEFT JOIN \(DataManager.podcastTableName) podcast
-              ON episode.podcast_id = podcast.id
-            WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+            FROM limited_episodes
         )
         SELECT *
         FROM numbered_episodes
         WHERE rn = 1
-        \(add(sortFor: sortType)?.replacingOccurrences(of: "episode", with: "numbered_episodes") ?? "")
+        ORDER BY \(sortClauseStripped)
         LIMIT \(limit)
         """
-
         PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
         return query
     }
@@ -210,6 +223,7 @@ public class PlaylistQueryBuilder {
             ON episode.uuid = playlist.episodeUuid
           WHERE playlist.playlist_uuid = '\(playlistUUID)'
           \(shouldShowArchived ? "" : "AND episode.archived = 0")
+          LIMIT \(episodeLimit)
         )
         SELECT *
         FROM ordered_episodes
