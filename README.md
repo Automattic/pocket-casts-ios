@@ -12,7 +12,7 @@
     <!-- Badge: "platform: ios|watchos" -->
     <img src="https://img.shields.io/badge/platform-ios%20%7C%20watchos-lightgrey" />
     <!-- Badge: "Xcode: {version}+" -->
-    <img src="https://img.shields.io/badge/Xcode-v16.4%2B-informational" />
+    <img src="https://img.shields.io/badge/Xcode-v21.1.1%2B-informational" />
 </p>
 
 <p align="center">
