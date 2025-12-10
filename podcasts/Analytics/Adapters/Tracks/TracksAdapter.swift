@@ -125,6 +125,7 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
         }
     }
 
+    // List of reserved Property names that is defined here: https://github.com/Automattic/nosara/blob/master/ganymedes2/kafka_staging/src/main/scala/com/automattic/ganymedes2/streaming/tracks/schema/TracksEvent.scala
     private static let reservedPropertyNames = Set<String>([
         "timestamp",
         "year",
