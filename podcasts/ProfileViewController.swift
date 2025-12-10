@@ -448,7 +448,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
 
-        if EndOfYear.isEligible {
+        if EndOfYear.isEndOfYearActive, EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)
         }
 

@@ -49,6 +49,13 @@ struct EndOfYear {
 
     static var isEligible: Bool { eligibilityChecker?.isEligible ?? false }
 
+    static var isEndOfYearActive: Bool {
+        if FeatureFlag.endOfYear2025.enabled || FeatureFlag.endOfYear2024.enabled || FeatureFlag.endOfYear.enabled {
+            return true
+        }
+        return false
+    }
+
     static var shouldShowBadge: Bool {
         guard let year = currentYear.year else { return false }
         return Settings.showBadgeForEndOfYear(year)
@@ -108,7 +115,8 @@ struct EndOfYear {
 
 
     func showPrompt(in viewController: UIViewController) {
-        guard Self.isEligible,
+        guard Self.isEndOfYearActive,
+              Self.isEligible,
               let storyModelType,
               viewController.presentedViewController == nil,
               !Settings.hasShownModalForEndOfYear(storyModelType.year)
@@ -120,7 +128,11 @@ struct EndOfYear {
 
         switch Self.currentYear {
         case .y2022:
+        #if DEBUG
             fatalError("Shouldn't reach this")
+        #else
+            return
+        #endif
         case .y2023:
             viewModel = .init(buttonTitle: L10n.eoyViewYear, description: L10n.eoyDescription, backgroundImageName: "modal_cover")
         case .y2024:
