@@ -2,6 +2,7 @@ import UIKit
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsDependencyInjection
+import PocketCastsUtils
 
 class NewPlaylistCell: ThemeableCell {
     typealias NewPlaylistCellType = NewPlaylistCellViewModel.DisplayType
@@ -123,6 +124,15 @@ class NewPlaylistCell: ThemeableCell {
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
             let loadingPlaylist = playlistID
+
+            if FeatureFlag.playlistDataCacheBeforeQuery.enabled {
+                if let cachedCount = await self.playlistMetadataLoader.cachedCount(for: playlist.uuid) {
+                    await MainActor.run {
+                        self.viewModel.episodesCount = cachedCount
+                    }
+                }
+            }
+
             let count = await self.playlistMetadataLoader.loadCount(for: playlist)
             if self.playlistID != loadingPlaylist {
                 return
@@ -136,6 +146,13 @@ class NewPlaylistCell: ThemeableCell {
         playlistImageLoadTask = Task { [weak self] in
             guard let self else { return }
             let loadingPlaylist = playlistID
+
+            if FeatureFlag.playlistDataCacheBeforeQuery.enabled {
+                if let cachedImages = await self.playlistMetadataLoader.cachedImages(for: playlist.uuid) {
+                    self.viewModel.images = cachedImages
+                }
+            }
+
             let images = await self.playlistMetadataLoader.loadImages(for: playlist)
             if self.playlistID != loadingPlaylist {
                 return
