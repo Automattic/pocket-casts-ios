@@ -363,7 +363,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             Analytics.track(.referralPassBannerShown)
         }
         if row == .endOfYearPrompt {
-            Analytics.track(.endOfYearProfileCardShown, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearProfileCardShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
         }
     }
 
@@ -418,7 +418,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             dismiss(animated: true)
-            Analytics.track(.endOfYearProfileCardTapped, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearProfileCardTapped, properties: ["current_year": EndOfYear.currentYear.literalValue])
             if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
                 endOfYear.showStories(in: self, from: .profile)
             } else {

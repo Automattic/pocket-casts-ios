@@ -76,7 +76,7 @@ struct Ratings2025Story: ShareableStory {
             Button(L10n.learnAboutRatings) {
                 pauseState.togglePause()
                 openURL = true
-                Analytics.track(.endOfYearLearnRatingsShown, properties: ["year": "2025"])
+                Analytics.track(.endOfYearLearnRatingsShown, properties: ["current_year": "2025"])
             }
             .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.white, borderColor: .white))
             .allowsHitTesting(true)
