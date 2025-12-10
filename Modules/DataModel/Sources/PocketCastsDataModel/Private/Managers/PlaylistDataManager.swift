@@ -214,7 +214,7 @@ class PlaylistDataManager {
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET sortPosition = ?, syncStatus = ? WHERE uuid = ?", values: [playlist.sortPosition, playlist.syncStatus, playlist.uuid])
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET sortPosition = ?, syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.sortPosition, playlist.syncStatus, Date.now, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.updatePosition error: \(error)")
             }
@@ -250,7 +250,7 @@ class PlaylistDataManager {
                 }
 
                 playlist.syncStatus = SyncStatus.notSynced.rawValue
-                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.syncStatus, Date.now, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.moveEpisode error: \(error)")
             }
@@ -283,7 +283,7 @@ class PlaylistDataManager {
                 }
 
                 playlist.syncStatus = SyncStatus.notSynced.rawValue
-                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
+                try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.syncStatus, Date.now, playlist.uuid])
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.deleteEpisodes error: \(error)")
             }
@@ -312,7 +312,7 @@ class PlaylistDataManager {
                 let removedCount = db.changes
                 if removedCount > 0 {
                     playlist.syncStatus = SyncStatus.notSynced.rawValue
-                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ? WHERE uuid = ?", values: [playlist.syncStatus, playlist.uuid])
+                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET syncStatus = ?, playlistUpdateDate = ? WHERE uuid = ?", values: [playlist.syncStatus, Date.now, playlist.uuid])
                 }
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.deleteAllEpisodes error: \(error)")
