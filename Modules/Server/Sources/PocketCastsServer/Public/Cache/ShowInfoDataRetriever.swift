@@ -19,7 +19,7 @@ public actor ShowInfoDataRetriever {
     ) async throws -> String? {
         if let cachedResponse = cachedResponse(for: podcastUuid, episodeUuid: episodeUuid),
            let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
-            FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
+            FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid) - podcast \(podcastUuid)")
             return metadata
         }
 

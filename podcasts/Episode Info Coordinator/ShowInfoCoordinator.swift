@@ -105,11 +105,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             guard let self else { throw TaskError.nilSelf }
 
             do {
-                if FeatureFlag.reloadEpisodeInfoCachePolicy.enabled {
-                    await checkStaleCache(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-                }
-
-                let data = try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
+                let data = try await refreshAndLoadFromCache(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
                 await setRequestingShowInfoToNil(for: episodeUuid)
                 return await getShowInfo(for: data?.data(using: .utf8))
             } catch {
@@ -123,16 +119,28 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return try await task.value
     }
 
+    private func refreshAndLoadFromCache(podcastUuid: String, episodeUuid: String) async throws -> String? {
+        if FeatureFlag.reloadEpisodeInfoCachePolicy.enabled {
+            await checkStaleCache(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        }
+        return try await dataRetriever.loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid)
+    }
+
     private func checkStaleCache(
         podcastUuid: String,
         episodeUuid: String
     ) async {
-        if let date = await dataRetriever.cachedResponseDate(for: podcastUuid, episodeUuid: episodeUuid) {
-            let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
-            if podcast?.isEpisodesInfoCacheStale(since: date) == true {
-                FileLog.shared.addMessage("Show Info: clearing cache for podcast \(podcastUuid)")
-                await dataRetriever.deleteEpisodeDataFromCache(for: podcastUuid)
-            }
+        guard
+            NetworkUtils.shared.isConnected(),
+            let date = await dataRetriever.cachedResponseDate(for: podcastUuid, episodeUuid: episodeUuid)
+        else {
+            return
+        }
+
+        let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true)
+        if podcast?.isEpisodesInfoCacheStale(since: date) == true {
+            FileLog.shared.addMessage("Show Info: clearing cache for podcast \(podcastUuid)")
+            await dataRetriever.deleteEpisodeDataFromCache(for: podcastUuid)
         }
     }
 
