@@ -17,6 +17,9 @@ extension AppDelegate {
         // Only setup if protected data is available, the user hasn't opted out, and we aren't already registered
         if !Settings.analyticsOptOut() {
             adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
+#if DEBUG
+            adapters.append(MetricsAndChillListener())
+#endif
         }
 
         adapters.append(NotificationsCoordinator.shared)
