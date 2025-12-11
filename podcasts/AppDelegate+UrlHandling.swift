@@ -460,7 +460,8 @@ extension AppDelegate {
                   let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String],
                   let row = pathComponents.first
             else {
-                return false
+                NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [:])
+                return true
             }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsProfileKey, data: [NavigationManager.profileRowKey: row])
             return true

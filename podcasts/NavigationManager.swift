@@ -287,6 +287,7 @@ class NavigationManager {
 
     func navigateToProfile(data: NSDictionary?, animated: Bool) {
         guard let row = data?[NavigationManager.profileRowKey] as? String else {
+            mainController?.navigateToProfile(row: nil, animated: animated)
             return
         }
         if row == NavigationManager.profileRowDownloadsKey {
