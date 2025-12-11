@@ -635,6 +635,7 @@ enum AnalyticsEvent: String {
     case settingsGeneralAutoplayToggled
     case settingsGeneralAutoSleepTimerRestartToggled
     case settingsGeneralShakeToResetSleepTimerToggled
+    case settingsGeneralUseVoiceBoostNToggled
 
     // MARK: - Settings: Notifications
 
