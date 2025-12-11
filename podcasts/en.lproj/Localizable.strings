@@ -5811,3 +5811,9 @@
 
 /* Message to shown when playback 2025 failed to load */
 "playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
+
+/* Title for the Voice Boost N toggle in general settings */
+"settings_general_use_voice_boost_n" = "Use Voice Boost N";
+
+/* Subtitle explaining the Voice Boost N toggle */
+"settings_general_use_voice_boost_n_subtitle" = "Enhanced audio normalization that automatically adjusts volume levels. Replaces the standard Volume Boost when enabled.";

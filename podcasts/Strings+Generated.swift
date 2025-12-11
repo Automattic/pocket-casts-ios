@@ -3599,6 +3599,10 @@ internal enum L10n {
   internal static var settingsGeneralUpNextTapOffSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_off_subtitle", fallback: "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.") }
   /// Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is on.
   internal static var settingsGeneralUpNextTapOnSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_on_subtitle", fallback: "Tapping an episode in Up Next will play it. Long press shows episode options. Turn off to switch these around.") }
+  /// Title for the Voice Boost N toggle in general settings
+  internal static var settingsGeneralUseVoiceBoostN: String { return L10n.tr("Localizable", "settings_general_use_voice_boost_n", fallback: "Use Voice Boost N") }
+  /// Subtitle explaining the Voice Boost N toggle
+  internal static var settingsGeneralUseVoiceBoostNSubtitle: String { return L10n.tr("Localizable", "settings_general_use_voice_boost_n_subtitle", fallback: "Enhanced audio normalization that automatically adjusts volume levels. Replaces the standard Volume Boost when enabled.") }
   /// Title for the menu that takes you to the global up next queue settings
   internal static var settingsGlobalSettings: String { return L10n.tr("Localizable", "settings_global_settings", fallback: "Global Settings") }
   /// Label for a settings menu that allows the user to customize headphone action.

@@ -111,6 +111,7 @@ struct Constants {
         static let globalRemoveSilence = "GlobalRemSilenceSetting"
         static let globalVolumeBoost = "GlobalVolBoostSetting"
         static let globalPlaybackSpeed = "SJGlobalSpeedSetting"
+        static let useVoiceBoostN = "UseVoiceBoostN"
         static let episodeFinishedAction = "SJPodcastFinishedAction"
         static let appId = "SJUniqueAppId"
 

@@ -1167,6 +1167,31 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Voice Boost N
+
+    private static var useVoiceBoostNDefault: Bool {
+        BuildEnvironment.current != .appStore
+    }
+
+    static var useVoiceBoostN: Bool {
+        set {
+            if FeatureFlag.newSettingsStorage.enabled {
+                SettingsStore.appSettings.useVoiceBoostN = newValue
+            }
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.useVoiceBoostN)
+        }
+        get {
+            if FeatureFlag.newSettingsStorage.enabled {
+                return SettingsStore.appSettings.useVoiceBoostN
+            } else {
+                if UserDefaults.standard.object(forKey: Constants.UserDefaults.useVoiceBoostN) == nil {
+                    return useVoiceBoostNDefault
+                }
+                return UserDefaults.standard.bool(forKey: Constants.UserDefaults.useVoiceBoostN)
+            }
+        }
+    }
+
     // MARK: - Sleep Timer
 
     static var autoRestartSleepTimer: Bool {

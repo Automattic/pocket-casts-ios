@@ -41,6 +41,7 @@ public struct AppSettings: JSONCodable {
     @ModifiedDate public var volumeBoost: Bool
     @ModifiedDate public var trimSilence: TrimSilence
     @ModifiedDate public var playbackSpeed: Double
+    @ModifiedDate public var useVoiceBoostN: Bool
 
     @ModifiedDate public var playerBookmarksSortType: BookmarksSort = .newestToOldest
     @ModifiedDate public var episodeBookmarksSortType: BookmarksSort = .newestToOldest
@@ -102,7 +103,8 @@ public struct AppSettings: JSONCodable {
                            autoPlayEnabled: true,
                            volumeBoost: false,
                            trimSilence: .off,
-                           playbackSpeed: 0
+                           playbackSpeed: 0,
+                           useVoiceBoostN: false
         )
     }
 }
