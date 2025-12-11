@@ -197,6 +197,14 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.buttonTitle.text = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
             cell.buttonTitle.textColor = ThemeColor.support05()
             return cell
+        case .episodeInfoCachePolicy:
+            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
+            cell.cellLabel.text = L10n.episodesInfoCacheReloadTitle
+            cell.setImage(imageName: nil)
+
+            cell.cellSecondaryLabel.text = podcast.episodesInfoCacheReloadPolicyType.title
+
+            return cell
         }
     }
 
@@ -206,6 +214,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         let row = tableData()[indexPath.section][indexPath.row]
         if row == .upNextPosition {
             showAutoAddPositionSettings()
+        } else if row == .episodeInfoCachePolicy {
+            showEpisodeInfoCachePolicy()
         } else if row == .feedError {
             Analytics.track(.podcastSettingsFeedErrorTapped)
 
@@ -307,6 +317,8 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         } else if firstRow == .siriShortcut, let name = podcast.title {
             let format = existingShortcut != nil ? L10n.settingsSiriShortcutMsg : L10n.settingsCreateSiriShortcutMsg
             return format(name)
+        } else if firstRow == .episodeInfoCachePolicy {
+            return L10n.episodesInfoCacheReloadSubtitle
         }
 
         return nil
@@ -341,6 +353,29 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         settingsTable.reloadData()
 
         Analytics.track(.podcastSettingsAutoAddUpNextPositionOptionChanged, properties: ["value": setting])
+    }
+
+    // MARK: - Episode Info Cache Policy
+
+    private func showEpisodeInfoCachePolicy() {
+        let positionPicker = OptionsPicker(title: L10n.episodesInfoCacheReloadTitle.uppercased())
+#if DEBUG
+        let reloadPolicies: [Podcast.EpisodeInfoCacheReloadPolicy] = Podcast.EpisodeInfoCacheReloadPolicy.allCases
+#else
+        let reloadPolicies: [Podcast.EpisodeInfoCacheReloadPolicy] = [.never, .weekly, .monthly]
+#endif
+        reloadPolicies.forEach { policy in
+            let selected = policy == podcast.episodesInfoCacheReloadPolicyType
+            let action = OptionAction(label: policy.title.capitalized, icon: nil, selected: selected) { [weak self] in
+                guard let self else { return }
+                self.podcast.episodesInfoCacheReloadPolicy = policy.rawValue
+                self.settingsTable.reloadData()
+                DataManager.sharedManager.save(podcast: self.podcast)
+            }
+            positionPicker.addAction(action: action)
+        }
+
+        positionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     // MARK: - Settings changes
@@ -401,6 +436,11 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         if playlistsPodcastCanAppearIn().count > 0 {
             data.append([.inFilters])
         }
+
+        if FeatureFlag.reloadEpisodeInfoCachePolicy.enabled {
+            data.append([.episodeInfoCachePolicy])
+        }
+
         data.append([.siriShortcut])
         data.append([.unsubscribe])
 
@@ -427,5 +467,16 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         viewController.delegate = self
         present(viewController, animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
+    }
+}
+
+extension Podcast.EpisodeInfoCacheReloadPolicy {
+    public var title: String {
+        switch self {
+        case .never: return L10n.timeFormatNever
+        case .weekly: return L10n.releaseFrequencyWeekly
+        case .monthly: return L10n.releaseFrequencyMonthly
+        case .debug: return "Debug"
+        }
     }
 }

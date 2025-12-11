@@ -42,4 +42,41 @@ final class PodcastDataManagerTests: XCTestCase {
             }
         }
     }
+
+    func testEpisodesInfoCacheStaleNeverPolicyIsFalse() throws {
+        let podcast = Podcast()
+        podcast.episodesInfoCacheReloadPolicy = Podcast.EpisodeInfoCacheReloadPolicy.never.rawValue
+
+        let now = ISO8601DateFormatter().date(from: "2024-01-15T12:00:00Z")!
+
+        let oldDate = Calendar.current.date(byAdding: .year, value: -5, to: now)!
+
+        XCTAssertFalse(podcast.isEpisodesInfoCacheStale(since: oldDate, now: now))
+    }
+
+    func testEpisodesInfoCacheStaleWeeklyPolicyThresholds() throws {
+        let podcast = Podcast()
+        podcast.episodesInfoCacheReloadPolicy = Podcast.EpisodeInfoCacheReloadPolicy.weekly.rawValue
+
+        let now = ISO8601DateFormatter().date(from: "2024-01-15T12:00:00Z")!
+
+        let sixDaysAgo = Calendar.current.date(byAdding: .day, value: -6, to: now)!
+        let eightDaysAgo = Calendar.current.date(byAdding: .day, value: -8, to: now)!
+
+        XCTAssertFalse(podcast.isEpisodesInfoCacheStale(since: sixDaysAgo, now: now))
+        XCTAssertTrue(podcast.isEpisodesInfoCacheStale(since: eightDaysAgo, now: now))
+    }
+
+    func testEpisodesInfoCacheStaleMonthlyPolicyThresholds() throws {
+        let podcast = Podcast()
+        podcast.episodesInfoCacheReloadPolicy = Podcast.EpisodeInfoCacheReloadPolicy.monthly.rawValue
+
+        let now = ISO8601DateFormatter().date(from: "2024-03-31T12:00:00Z")!
+
+        let justUnderOneMonthAgo = Calendar.current.date(byAdding: .day, value: -29, to: now)!
+        let overOneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: now)!.addingTimeInterval(-3600) // 1 hour more than one month ago
+
+        XCTAssertFalse(podcast.isEpisodesInfoCacheStale(since: justUnderOneMonthAgo, now: now))
+        XCTAssertTrue(podcast.isEpisodesInfoCacheStale(since: overOneMonthAgo, now: now))
+    }
 }

@@ -174,13 +174,11 @@ extension Podcast {
 }
 
 extension Podcast {
-    public enum EpisodeInfoCacheReloadPolicy: Int32 {
+    public enum EpisodeInfoCacheReloadPolicy: Int32, CaseIterable {
         case never = 0
         case weekly = 7
         case monthly = 1
-#if DEBUG
-        case debug = 30
-#endif
+        case debug = 15
     }
 
     public var episodesInfoCacheReloadPolicyType: Podcast.EpisodeInfoCacheReloadPolicy {
@@ -205,13 +203,15 @@ extension Podcast {
             component = .day
         case .monthly:
             component = .month
-#if DEBUG
         case .debug:
             component = .second
-#endif
         }
-        if let threshold = Calendar.current.date(byAdding: component, value: -Int(episodesInfoCacheReloadPolicyType.rawValue), to: now) {
-            return date < threshold
+        if let expiry = Calendar.current.date(
+            byAdding: component,
+            value: Int(episodesInfoCacheReloadPolicyType.rawValue),
+            to: date
+        ) {
+            return now >= expiry
         }
         return false
     }

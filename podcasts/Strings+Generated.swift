@@ -1218,6 +1218,10 @@ internal enum L10n {
   internal static var episodeUnavailableTitle: String { return L10n.tr("Localizable", "episode_unavailable_title", fallback: "Episode Unavailable") }
   /// Refers to an Episode in the plural form.
   internal static var episodes: String { return L10n.tr("Localizable", "episodes", fallback: "Episodes") }
+  /// Podcast settings subtitle used to set the timing to reload the episodes info cache
+  internal static var episodesInfoCacheReloadSubtitle: String { return L10n.tr("Localizable", "episodes_info_cache_reload_subtitle", fallback: "Set how frequently episode info cache should be refreshed") }
+  /// Podcast settings title used to set the timing to reload the episodes info cache
+  internal static var episodesInfoCacheReloadTitle: String { return L10n.tr("Localizable", "episodes_info_cache_reload_title", fallback: "Episodes Info Refresh Time") }
   /// A common string used throughout the app. Generic title informing the user of an Error. Accompanied with an error message.
   internal static var error: String { return L10n.tr("Localizable", "error", fallback: "Error") }
   /// A common string used throughout the app. Generic title informing the user of an Error. General error message used when the app is unable to locate the podcast that was selected. This usually comes from a sharing or import feature.

@@ -5811,3 +5811,9 @@
 
 /* Message to shown when playback 2025 failed to load */
 "playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
+
+/* Podcast settings title used to set the timing to reload the episodes info cache */
+"episodes_info_cache_reload_title" = "Episodes Info Refresh Time";
+
+/* Podcast settings subtitle used to set the timing to reload the episodes info cache */
+"episodes_info_cache_reload_subtitle" = "Set how frequently episode info cache should be refreshed";
