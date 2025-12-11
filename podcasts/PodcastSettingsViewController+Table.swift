@@ -200,7 +200,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         case .episodeInfoCachePolicy:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.episodesInfoCacheReloadTitle
-            cell.setImage(imageName: nil)
+            cell.setImage(imageName: "eac_listening_history_banner", tintColor: podcast.iconTintColor())
 
             cell.cellSecondaryLabel.text = podcast.episodesInfoCacheReloadPolicyType.title
 
