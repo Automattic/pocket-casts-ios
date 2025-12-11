@@ -145,7 +145,7 @@ struct StoriesView: View {
         }
         .background(model.primaryBackgroundColor)
         .onAppear {
-            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["current_year": EndOfYear.currentYear.literalValue])
             if EndOfYear.currentYear == .y2025 {
                 model.stopAndDismiss()
                 Toast.show(L10n.playback2025FailedToLoad)
