@@ -48,6 +48,20 @@ final class PodcastManagerTests: DBTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
     }
 
+    func testCleanupKeepsDownloadsNotInPlaylist() async throws {
+        ServerSettings.setSyncingEmail(email: "test@example.com")
+        defer { ServerSettings.setSyncingEmail(email: nil) }
+
+        let (_, episode) = makeDownloadedPodcastAndEpisode()
+
+        let podcastManager = PodcastManager(dataManager: dataManager, downloadManager: downloadManager)
+        await podcastManager.checkForUnusedPodcasts()
+
+        let refreshedEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: episode.uuid))
+        XCTAssertEqual(refreshedEpisode.episodeStatus, DownloadStatus.downloaded.rawValue)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: DownloadManager.shared.pathForEpisode(refreshedEpisode)))
+    }
+
     func testUnsubscribeRemovesDownloadsInPlaylist() throws {
         ServerSettings.setSyncingEmail(email: "test@example.com")
         defer { ServerSettings.setSyncingEmail(email: nil) }
