@@ -202,7 +202,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellLabel.text = L10n.episodesInfoCacheReloadTitle
             cell.setImage(imageName: "eac_listening_history_banner", tintColor: podcast.iconTintColor())
 
-            cell.cellSecondaryLabel.text = podcast.episodesInfoCacheReloadPolicyType.title
+            cell.cellSecondaryLabel.text = podcast.episodesInfoCacheReloadPolicyType.title.capitalized
 
             return cell
         }
