@@ -62,6 +62,7 @@ class NavigationManager {
     static let settingsProfileKey = "profilePage"
     static let profileRowKey = "profileRow"
     static let profileRowDownloadsKey = "downloads"
+    static let profileRowEndOfYearKey = "playback"
     static let settingsHeadphoneKey = "headphoneSettings"
     static let settingsRedeemGuestPassKey = "redeemGuestPassPage"
     static let redeemGuestPassURLKey = "redeemGuestPassURLKey"
@@ -292,6 +293,9 @@ class NavigationManager {
         }
         if row == NavigationManager.profileRowDownloadsKey {
             mainController?.navigateToProfile(row: .downloaded, animated: animated)
+        }
+        if row == NavigationManager.profileRowEndOfYearKey {
+            mainController?.navigateToProfile(row: .endOfYearPrompt, animated: animated)
         }
     }
 

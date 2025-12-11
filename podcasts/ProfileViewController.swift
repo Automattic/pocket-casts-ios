@@ -422,7 +422,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
                 endOfYear.showStories(in: self, from: .profile)
             } else {
-                assertionFailure("End of Year should exist. Something is wrong with the tabBarController")
+                //Show warning that playback is not available
+                let alert = UIAlertController(title: "Playback unavailable", message: "Please try again later", preferredStyle: .alert)
+                present(alert, animated: true)
             }
         case .bookmarks:
             let bookmarksController = BookmarksProfileListController()
