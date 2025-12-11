@@ -22,6 +22,8 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                 longPressSelectOptions(
                     for: indexPath,
                     in: downloadsTable,
+                    firstSection: 0,
+                    lastSection: episodes.count - 1,
                     statusBarStyle: preferredStatusBarStyle
                 )
             } else {

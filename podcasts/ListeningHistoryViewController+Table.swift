@@ -22,6 +22,8 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
                 longPressSelectOptions(
                     for: indexPath,
                     in: listeningHistoryTable,
+                    firstSection: 0,
+                    lastSection: episodes.count - 1,
                     statusBarStyle: preferredStatusBarStyle
                 )
             } else {

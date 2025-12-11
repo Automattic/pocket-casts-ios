@@ -26,7 +26,7 @@ extension UITableView {
     }
 
     func selectAllAbove(indexPath: IndexPath) {
-        selectAllFrom(fromIndexPath: IndexPath(row: 0, section: indexPath.section), toIndexPath: indexPath)
+        selectAllFrom(fromIndexPath: IndexPath(row: 0, section: 0), toIndexPath: indexPath)
     }
 
     func selectAllBelow(indexPath: IndexPath) {
@@ -48,7 +48,7 @@ extension UITableView {
 
     func deselectAllAbove(indexPath: IndexPath) {
         let targetIndexPath = IndexPath(row: max(0, indexPath.row - 1), section: indexPath.section)
-        deselectAllFrom(fromIndexPath: IndexPath(row: 0, section: indexPath.section), toIndexPath: targetIndexPath)
+        deselectAllFrom(fromIndexPath: IndexPath(row: 0, section: 0), toIndexPath: targetIndexPath)
     }
 
     func deselectAllBelow(indexPath: IndexPath) {
