@@ -19,6 +19,9 @@ extension AppDelegate {
             adapters = [AnalyticsLoggingAdapter(), TracksAdapter(), CrashLoggingAdapter()]
         }
 
+        // LiveAnalyticsStreamer buffers events for all builds, sends when server enables liveAnalyticsUrl
+        adapters.append(LiveAnalyticsStreamer())
+
         adapters.append(NotificationsCoordinator.shared)
 
         if FeatureFlag.userSatisfactionSurvey.enabled {
