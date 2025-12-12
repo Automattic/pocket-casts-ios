@@ -123,4 +123,31 @@ final class PlaylistDataManagerTests: XCTestCase {
         let newAllPlaylists = dataManager.allPlaylists(includeDeleted: true)
         XCTAssertEqual(newAllPlaylists.map(\.sortPosition), [2, 3, 4, 5, 6])
     }
+
+    func testPlaylistUpdateDate() throws {
+        guard let dbPool = try DatabasePool.newTestDatabase() else {
+            throw SQLiteValidator.SQLiteError.failedNewTestDatabase
+        }
+        let queue = GRDBQueue(dbPool: dbPool)
+        DatabaseHelper.setup(queue: queue)
+        let dataManager = DataManager(dbQueue: queue)
+
+        let playlist = EpisodeFilter()
+        playlist.uuid = UUID().uuidString
+        playlist.playlistName = "Playlist 1"
+
+        dataManager.save(playlist: playlist)
+
+        let newPlaylist1 = try XCTUnwrap(dataManager.findPlaylist(uuid: playlist.uuid))
+
+        XCTAssertNotNil(newPlaylist1.playlistUpdateDate)
+
+        let date = Date.now
+
+        dataManager.updatePlaylistUpdateDate(for: newPlaylist1, to: date)
+
+        let newPlaylist2 = try XCTUnwrap(dataManager.findPlaylist(uuid: newPlaylist1.uuid))
+
+        XCTAssertTrue(newPlaylist2.playlistUpdateDate == date)
+    }
 }

@@ -30,6 +30,7 @@ public class EpisodeFilter: NSObject {
     @objc public var wasDeleted = false
     @objc public var manual: Bool = false
     @objc public var showArchivedEpisodes: Bool = false
+    @objc public var playlistUpdateDate: Date?
 
     // Internal tracking
     public var isNew: Bool = false
