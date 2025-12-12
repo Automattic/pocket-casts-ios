@@ -423,7 +423,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
                 endOfYear.showStories(in: self, from: .profile)
             } else {
                 //Show warning that playback is not available
-                let alert = UIAlertController(title: "Playback unavailable", message: "Please try again later", preferredStyle: .alert)
+                let alert = UIAlertController(title: L10n.playbackNotAvailable, message: L10n.pleaseTryAgainLater, preferredStyle: .alert)
                 present(alert, animated: true)
             }
         case .bookmarks:
