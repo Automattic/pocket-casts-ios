@@ -5526,7 +5526,7 @@
 "playlist_smart_preview_enabled_rules" = "Enabled rules";
 
 /* Smart Playlist preview: title for the available rules section */
-"playlist_smart_preview_other_rules" = "Other options";
+"playlist_smart_preview_more_rules" = "More rules";
 
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart rules";

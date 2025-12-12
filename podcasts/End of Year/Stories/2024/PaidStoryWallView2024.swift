@@ -64,7 +64,7 @@ struct PaidStoryWallView2024: View {
                 .allowsHitTesting(false)
         }
         .onAppear {
-            Analytics.track(.endOfYearUpsellShown, properties: ["year": "2024"])
+            Analytics.track(.endOfYearUpsellShown, properties: ["current_year": "2024"])
             Analytics.track(.endOfYearStoryShown, story: identifier)
         }
     }

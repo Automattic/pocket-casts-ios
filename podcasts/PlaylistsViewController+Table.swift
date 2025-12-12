@@ -217,9 +217,8 @@ extension PlaylistsViewController {
             return
         }
 
-        guard SyncManager.isUserLoggedIn() else { return }
-
-        if Settings.shouldShowNewFilterTip,
+        if SyncManager.isUserLoggedIn(),
+           Settings.shouldShowNewFilterTip,
            !hasPremadePlaylists(),
            newFilterTip == nil {
             showNewFilterTip()
