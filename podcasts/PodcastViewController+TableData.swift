@@ -66,6 +66,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 longPressSelectOptions(
                     for: indexPath,
                     in: episodesTable,
+                    firstSection: PodcastViewController.allEpisodesSection,
                     statusBarStyle: preferredStatusBarStyle
                 )
             } else {
