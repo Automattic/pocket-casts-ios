@@ -33,7 +33,6 @@ struct Constants {
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
-        static let playlistsNeedReload = NSNotification.Name(rawValue: "PlaylistsNeedReload")
         static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
@@ -425,6 +424,7 @@ enum PlusUpgradeViewSource: String {
     case upNextShuffle
     case generatedTranscripts
     case onboarding
+    case onboardingRecommendations = "onboarding_recommendations"
     case suggestedFolders = "suggested_folders"
     case bannerAd = "banner_ad"
     case login

@@ -67,7 +67,7 @@ struct PodcastSubscribeButton: View {
         HapticsHelper.triggerSubscribedHaptic()
 
         let analyticsUuid = podcast.uuid ?? podcast.iTunesId ?? "unknown"
-        Analytics.track(.podcastSubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": analyticsUuid])
+        OnboardingFlow.shared.track(.podcastSubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": analyticsUuid])
     }
 
     private func unsubscribe() {
@@ -79,6 +79,6 @@ struct PodcastSubscribeButton: View {
 
         PodcastManager.shared.unsubscribe(podcast: podcast)
 
-        Analytics.track(.podcastUnsubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": podcast.uuid])
+        OnboardingFlow.shared.track(.podcastUnsubscribed, properties: ["source": searchAnalyticsHelper.source, "uuid": podcast.uuid])
     }
 }

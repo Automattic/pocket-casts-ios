@@ -174,14 +174,6 @@ enum SwipeActionsHelper {
             if !playlistSourceType.isEmpty {
                 properties["filter_type"] = playlistSourceType
             }
-
-            switch action {
-            case .delete, .unarchive, .archive, .removeFromManualPlaylist:
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
-                break
-            default:
-                break
-            }
         }
         Analytics.track(.episodeSwipeActionPerformed, properties: properties)
 
