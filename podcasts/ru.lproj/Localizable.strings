@@ -2176,8 +2176,6 @@ Pocket Casts на полную мощность.</string>
     <string>Настройте умные правила, чтобы автоматически добавлять выпуски в свой умный плейлист.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Включённые правила</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Другие варианты</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Новые подкасты, на которые вы будете подписываться, станут добавляться автоматически.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

@@ -2176,8 +2176,6 @@ Pocket Casts。</string>
     <string>设置智能规则，自动将剧集添加到您的智能播放列表。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>已启用的规则</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>其他选项</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>您关注的新播客将会自动添加。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
