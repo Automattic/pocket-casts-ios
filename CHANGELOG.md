@@ -1,6 +1,9 @@
 8.2
 -----
 
+8.1.1
+-----
+- Keep episode downloads from missing podcasts during sync [#3799](https://github.com/Automattic/pocket-casts-ios/pull/3799)
 
 8.1
 -----
