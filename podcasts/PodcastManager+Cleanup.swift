@@ -8,14 +8,6 @@ extension PodcastManager {
         // we don't delete podcasts that haven't been synced or you're still subscribed to
         if podcast.syncStatus == SyncStatus.notSynced.rawValue || podcast.isSubscribed() { return }
 
-        let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
-
-        // Only delete episodes which aren't contained in a playlist.
-        // This is because episodes can be added to a playlist but not subscribed but we fetch the podcast info anyway for display
-        for episode in episodes where !dataManager.playlistContainsEpisode(episodeUuid: episode.uuid) {
-            EpisodeManager.deleteDownloadedFiles(episode: episode)
-        }
-
         // we don't delete podcasts added to the phone in the last week. This is to prevent stuff you just leave open in discover from being removed
         if let addedDate = podcast.addedDate, abs(addedDate.timeIntervalSinceNow) < 1.week { return }
 
