@@ -79,8 +79,11 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
                 fatalError("Tracks event properties key \(key) is reserved property name.")
             }
 
-            if !(castedProperties[key] is Int || castedProperties[key] is String || castedProperties[key] is Bool) {
-                fatalError("Tracks event properties value for \(key) must be a valid type: Int, String or Bool.")
+            //let validTypes: Array<Any.Type> = [Int.self, String.self, Bool.self, Double.self, Float.self]
+            let value = castedProperties[key]
+            //let t = type(of: value as Any)
+            if !(value is Int || value is String || value is Double || value is Bool || value is Float) {
+                fatalError("Tracks event properties value for `\(key)` must be a valid type: Int, String, Bool or Double.")
             }
         }
     }
