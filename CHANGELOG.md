@@ -3,6 +3,7 @@
 
 8.1.1
 -----
+- Playlists: fix drag and drop tip for logged out users [#3800](https://github.com/Automattic/pocket-casts-ios/pull/3800)
 - Keep episode downloads from missing podcasts during sync [#3799](https://github.com/Automattic/pocket-casts-ios/pull/3799)
 
 8.1
