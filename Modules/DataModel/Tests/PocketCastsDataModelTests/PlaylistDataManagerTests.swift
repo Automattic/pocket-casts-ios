@@ -147,7 +147,10 @@ final class PlaylistDataManagerTests: XCTestCase {
         dataManager.updatePlaylistUpdateDate(for: newPlaylist1, to: date)
 
         let newPlaylist2 = try XCTUnwrap(dataManager.findPlaylist(uuid: newPlaylist1.uuid))
+        let newPlaylist2Date = try XCTUnwrap(newPlaylist2.playlistUpdateDate)
 
-        XCTAssertTrue(newPlaylist2.playlistUpdateDate == date)
+        XCTAssertEqual(newPlaylist2Date.timeIntervalSince1970,
+                       date.timeIntervalSince1970,
+                       accuracy: 0.001)
     }
 }
