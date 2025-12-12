@@ -11,31 +11,40 @@ extension UIViewController {
         allAboveAction: ((Bool) -> Void)? = nil,
         allBelowAction: ((Bool) -> Void)? = nil
     ) {
-        let allAboveAreSelected = tableView.allAboveAreSelected(indexPath: indexPath) == true
+        let firstSectionIndex = firstSection ?? indexPath.section
+        let firstIndexPath = IndexPath(row: 0, section: firstSectionIndex)
+
+        let lastSectionIndex = lastSection ?? indexPath.section
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        let lastIndexPath = IndexPath(row: lastRowIndex, section: lastSectionIndex)
+
+        let allAboveAreSelected = tableView.allAboveAreSelected(fromIndexPath: firstIndexPath, to: indexPath) == true
         let allBelowAreSelected = tableView.allBelowAreSelected(indexPath: indexPath) == true
+
         let optionPicker = OptionsPicker(title: nil, themeOverride: themeOverride, iconTintStyle: .primaryIcon02)
 
-        let firstSectionIndex = firstSection ?? indexPath.section
-
-        if indexPath != IndexPath(row: 0, section: firstSectionIndex) {
+        if indexPath != firstIndexPath {
             let allAboveAction = OptionAction(
                 label: allAboveAreSelected ? L10n.deselectAllAbove : L10n.selectAllAbove,
                 icon: allAboveAreSelected ? "deselectall-up" : "selectall-up",
                 action: { [] in
                     allAboveAction?(allAboveAreSelected)
                     if allAboveAreSelected {
-                        tableView.deselectAllAbove(indexPath: indexPath)
+                        tableView.deselectAllAbove(
+                            fromIndexPath: firstIndexPath,
+                            to: indexPath
+                        )
                     } else {
-                        tableView.selectAllAbove(indexPath: indexPath)
+                        tableView.selectAllAbove(
+                            fromIndexPath: firstIndexPath,
+                            to: indexPath
+                        )
                     }
                 })
             optionPicker.addAction(action: allAboveAction)
         }
 
-        let lastSectionIndex = lastSection ?? indexPath.section
-        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-
-        if indexPath != IndexPath(row: lastRowIndex, section: lastSectionIndex) {
+        if indexPath != lastIndexPath {
             let allBelowAction = OptionAction(
                 label: allBelowAreSelected ? L10n.deselectAllBelow : L10n.selectAllBelow,
                 icon: allBelowAreSelected ? "deselectall-down" : "selectall-down",
@@ -44,7 +53,7 @@ extension UIViewController {
                     if allBelowAreSelected {
                         tableView.deselectAllBelow(indexPath: indexPath)
                     } else {
-                        tableView.selectAllBelow(indexPath: indexPath)
+                        tableView.selectAllBelow(fromIndexPath: indexPath)
                     }
             })
             optionPicker.addAction(action: allBelowAction)

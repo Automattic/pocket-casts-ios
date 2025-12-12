@@ -1,6 +1,63 @@
 import Foundation
 
 extension UITableView {
+    func previousIndexPath(from indexPath: IndexPath) -> IndexPath? {
+        // Case 1: There is a previous row in the same section
+        if indexPath.row > 0 {
+            return IndexPath(row: indexPath.row - 1, section: indexPath.section)
+        }
+
+        // Case 2: We’re at the first row of a section, try the previous section
+        let currentSection = indexPath.section
+        guard currentSection > 0 else {
+            // We’re at section 0, row 0 — no previous
+            return nil
+        }
+
+        // Find the last non-empty previous section
+        var previousSection = currentSection - 1
+        while previousSection >= 0 {
+            let rows = numberOfRows(inSection: previousSection)
+            if rows > 0 {
+                return IndexPath(row: rows - 1, section: previousSection)
+            }
+            previousSection -= 1
+        }
+
+        // No previous section with rows
+        return nil
+    }
+
+    func nextIndexPath(from indexPath: IndexPath) -> IndexPath? {
+        let currentSection = indexPath.section
+        let currentRow = indexPath.row
+
+        // Case 1: There is a next row in the same section
+        let rowsInCurrentSection = numberOfRows(inSection: currentSection)
+        if currentRow + 1 < rowsInCurrentSection {
+            return IndexPath(row: currentRow + 1, section: currentSection)
+        }
+
+        // Case 2: Move to the first row of the next non-empty section
+        let lastSectionIndex = numberOfSections - 1
+        guard currentSection < lastSectionIndex else {
+            // We’re at the last section already — no next
+            return nil
+        }
+
+        var nextSection = currentSection + 1
+        while nextSection <= lastSectionIndex {
+            let rows = numberOfRows(inSection: nextSection)
+            if rows > 0 {
+                return IndexPath(row: 0, section: nextSection)
+            }
+            nextSection += 1
+        }
+
+        // No subsequent section with rows
+        return nil
+    }
+
     func selectIndexPath(_ indexPath: IndexPath) {
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
         delegate?.tableView?(self, didSelectRowAt: indexPath)
@@ -25,14 +82,14 @@ extension UITableView {
         }
     }
 
-    func selectAllAbove(indexPath: IndexPath) {
-        selectAllFrom(fromIndexPath: IndexPath(row: 0, section: 0), toIndexPath: indexPath)
+    func selectAllAbove(fromIndexPath: IndexPath, to indexPath: IndexPath) {
+        selectAllFrom(fromIndexPath: fromIndexPath, toIndexPath: indexPath)
     }
 
-    func selectAllBelow(indexPath: IndexPath) {
+    func selectAllBelow(fromIndexPath: IndexPath) {
         guard numberOfSections > 0 else { return }
         let lastSection = numberOfSections - 1
-        selectAllFrom(fromIndexPath: indexPath, toIndexPath: IndexPath(row: numberOfRows(inSection: lastSection) - 1, section: lastSection))
+        selectAllFrom(fromIndexPath: fromIndexPath, toIndexPath: IndexPath(row: numberOfRows(inSection: lastSection) - 1, section: lastSection))
     }
 
     func selectAllFrom(fromIndexPath: IndexPath, toIndexPath: IndexPath) {
@@ -46,16 +103,16 @@ extension UITableView {
         }
     }
 
-    func deselectAllAbove(indexPath: IndexPath) {
-        let targetIndexPath = IndexPath(row: max(0, indexPath.row - 1), section: indexPath.section)
-        deselectAllFrom(fromIndexPath: IndexPath(row: 0, section: 0), toIndexPath: targetIndexPath)
+    func deselectAllAbove(fromIndexPath: IndexPath, to indexPath: IndexPath) {
+        let targetIndexPath = previousIndexPath(from: indexPath) ?? indexPath
+        deselectAllFrom(fromIndexPath: fromIndexPath, toIndexPath: targetIndexPath)
     }
 
     func deselectAllBelow(indexPath: IndexPath) {
         guard numberOfSections > 0 else { return }
         let lastSection = numberOfSections - 1
         let lastRow = numberOfRows(inSection: lastSection) - 1
-        let targetIndexPath = IndexPath(row: min(lastRow, indexPath.row + 1), section: indexPath.section)
+        let targetIndexPath = nextIndexPath(from: indexPath) ?? indexPath
         deselectAllFrom(fromIndexPath: targetIndexPath, toIndexPath: IndexPath(row: lastRow, section: lastSection))
     }
 
@@ -70,8 +127,8 @@ extension UITableView {
         }
     }
 
-    func allAboveAreSelected(indexPath: IndexPath) -> Bool {
-        areSelected(fromIndexPath: IndexPath(row: 0, section: indexPath.section), toIndexPath: indexPath)
+    func allAboveAreSelected(fromIndexPath: IndexPath, to indexPath: IndexPath) -> Bool {
+        areSelected(fromIndexPath: fromIndexPath, toIndexPath: indexPath)
     }
 
     func allBelowAreSelected(indexPath: IndexPath) -> Bool {
