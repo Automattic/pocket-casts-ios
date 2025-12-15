@@ -122,7 +122,8 @@ class StoriesModel: ObservableObject {
     }
 
     func loadingStart() {
-        loadingCancellable = publisher.autoconnect().sink(receiveValue: { _ in
+        loadingCancellable = publisher.autoconnect().sink(receiveValue: { [weak self] _ in
+            guard let self else { return }
             let newProgress = self.progress + (0.01 / EndOfYear.defaultDuration)
             if newProgress < 1 {
                 self.progress = newProgress
@@ -133,6 +134,7 @@ class StoriesModel: ObservableObject {
     }
 
     func loadingEnded() {
+        loadingCancellable?.cancel()
         loadingCancellable = nil
         self.progress = 1.01
     }
