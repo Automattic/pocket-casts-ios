@@ -5530,7 +5530,7 @@
 "playlist_smart_preview_enabled_rules" = "Enabled rules";
 
 /* Smart Playlist preview: title for the available rules section */
-"playlist_smart_preview_other_rules" = "Other options";
+"playlist_smart_preview_more_rules" = "More rules";
 
 /* Smart Playlist preview: title when editing the Smart Playlist rules */
 "playlist_smart_rules_title" = "Smart rules";
@@ -5815,6 +5815,11 @@
 
 /* Message to shown when playback 2025 failed to load */
 "playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
+
+/* Message to shown then trying to open playback from deep link but it's not available */
+"playback_not_available" = "Playback unavailable";
+
+
 
 /* MARK: - InfoPlist.strings */
 

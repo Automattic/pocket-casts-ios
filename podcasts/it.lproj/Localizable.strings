@@ -2176,8 +2176,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Configura regole intelligenti per aggiungere automaticamente episodi alla tua playlist intelligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regole abilitate</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Altre opzioni</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>I nuovi podcast che segui verranno aggiunti automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

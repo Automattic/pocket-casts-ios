@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 
 actor PlaylistMetadataLoader {
     private var counts: [String: Int] = [:]
@@ -36,12 +37,12 @@ actor PlaylistMetadataLoader {
         self.episodesDataManager = episodesDataManager
     }
 
-    func cachedCount(for playlistID: String) -> Int {
-        return counts[playlistID] ?? 0
+    func cachedCount(for playlistID: String) -> Int? {
+        return counts[playlistID]
     }
 
-    func cachedImages(for playlistID: String) -> [PlaylistArtworkView.ImageItem] {
-        return images[playlistID] ?? []
+    func cachedImages(for playlistID: String) -> [PlaylistArtworkView.ImageItem]? {
+        return images[playlistID]
     }
 
     func loadCount(for playlist: EpisodeFilter) async -> Int {
@@ -91,6 +92,9 @@ actor PlaylistMetadataLoader {
                 if let cached = images[playlistID], cached == items {
                     return cached
                 }
+
+                images[playlistID] = items
+
                 return items
             } catch {
                 return images[playlistID] ?? []
@@ -115,7 +119,7 @@ actor PlaylistMetadataLoader {
         let playlist = playlist
         let dataManager = self.dataManager
 
-        return await Task(priority: .userInitiated) {
+        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
             dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
@@ -127,7 +131,7 @@ actor PlaylistMetadataLoader {
     private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode] {
         let playlist = playlist
         let episodesDataManager = self.episodesDataManager
-        return await Task(priority: .userInitiated) {
+        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
             episodesDataManager.playlistFirstDistinctEpisodes(
                 for: playlist,
                 shouldShowArchived: playlist.showArchivedEpisodes

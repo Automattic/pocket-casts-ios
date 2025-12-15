@@ -2174,8 +2174,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートルールを設定して、スマートプレイリストにエピソードを自動的に追加します。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>有効なルール</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>その他のオプション</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>新たにフォローするポッドキャストは自動的に追加されます。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

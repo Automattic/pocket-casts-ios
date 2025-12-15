@@ -82,10 +82,10 @@ struct PaidStoryWallView2025: StoryView {
                         guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
-                        Analytics.track(.endOfYearUpsellShown, properties: ["year": EndOfYear.currentYear.literalValue])
+                        Analytics.track(.endOfYearUpsellShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
-                        Analytics.track(.endOfYearPlusContinued, properties: ["year": EndOfYear.currentYear.literalValue])
+                        Analytics.track(.endOfYearPlusContinued, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         advanceToNextStory()
                     }
                 }
