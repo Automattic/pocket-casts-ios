@@ -17,4 +17,4 @@ gem 'watchbuild'
 # relax its constraint.
 gem 'rake', '>= 12.0', '< 14.0'
 
-gem "openssl", "~> 4.0"
+gem 'openssl', '~> 4.0'
