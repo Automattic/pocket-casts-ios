@@ -7,7 +7,7 @@ gem 'danger-dangermattic', '~> 1.0'
 gem 'fastlane', '~> 2.216'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 0.10'
 gem 'fastlane-plugin-sentry', '~> 1.14'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 13.0'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 13.8'
 gem 'rubocop', '~> 1.60'
 gem 'watchbuild'
 
