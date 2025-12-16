@@ -4,7 +4,7 @@ import Combine
 
 class ShortcutManager: CustomObserver {
 
-    var cancelable: Cancellable?
+    private var cancelable: Cancellable?
 
     func listenForShortcutChanges() {
         //Cleans up existing observers
@@ -24,8 +24,9 @@ class ShortcutManager: CustomObserver {
         let mergedMany = notifications
             .map { NotificationCenter.default.publisher(for: $0) }
             .reduce(Empty<Notification, Never>().eraseToAnyPublisher()) { acc, pub in
-                acc.merge(with: pub).debounce(for: .seconds(3), scheduler: RunLoop.main).eraseToAnyPublisher()
+                acc.merge(with: pub).eraseToAnyPublisher()
             }
+            .debounce(for: .seconds(3), scheduler: RunLoop.main)
 
         cancelable = mergedMany.sink { [weak self] _ in
             self?.shortcutsRequireUpdate()
