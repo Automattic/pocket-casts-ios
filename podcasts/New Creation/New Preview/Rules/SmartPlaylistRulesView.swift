@@ -99,10 +99,6 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
     var body: some View {
         Group {
             if !enabledRules.isEmpty {
-                Text(L10n.playlistSmartPreviewEnabledRules)
-                    .font(size: 22.0, style: .body, weight: .bold)
-                    .foregroundStyle(theme.primaryText01)
-                    .listRowClearStyle()
                 SmartPlaylistRulesContainerView(
                     rules: enabledRules,
                     action: action
@@ -121,7 +117,7 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
                     .padding(.vertical, 16.0)
                     .padding(.leading, -18.0)
                 } label: {
-                    Text(L10n.playlistSmartPreviewOtherRules)
+                    Text(L10n.playlistSmartPreviewMoreRules)
                         .font(size: 22.0, style: .body, weight: .bold)
                         .foregroundStyle(theme.primaryText01)
                         .listRowClearStyle()

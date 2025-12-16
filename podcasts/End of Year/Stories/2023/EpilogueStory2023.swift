@@ -54,7 +54,7 @@ struct EpilogueStory2023: ShareableStory {
 
                     Button(L10n.eoyStoryReplay) {
                         StoriesController.shared.replay()
-                        Analytics.track(.endOfYearStoryReplayButtonTapped, properties: ["year": "2023"])
+                        Analytics.track(.endOfYearStoryReplayButtonTapped, properties: ["current_year": "2023"])
                     }
                     .buttonStyle(StoriesButtonStyle(color: Constants.backgroundColor, icon: Image("eoy-replay-icon")))
                     .opacity(renderForSharing ? 0 : 1)

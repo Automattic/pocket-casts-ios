@@ -363,7 +363,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             Analytics.track(.referralPassBannerShown)
         }
         if row == .endOfYearPrompt {
-            Analytics.track(.endOfYearProfileCardShown, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearProfileCardShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
         }
     }
 
@@ -418,11 +418,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             present(navController, animated: true, completion: nil)
         case .endOfYearPrompt:
             dismiss(animated: true)
-            Analytics.track(.endOfYearProfileCardTapped, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearProfileCardTapped, properties: ["current_year": EndOfYear.currentYear.literalValue])
             if let endOfYear = (tabBarController as? MainTabBarController)?.endOfYear {
                 endOfYear.showStories(in: self, from: .profile)
             } else {
-                assertionFailure("End of Year should exist. Something is wrong with the tabBarController")
+                //Show warning that playback is not available
+                let alert = UIAlertController(title: L10n.playbackNotAvailable, message: L10n.pleaseTryAgainLater, preferredStyle: .alert)
+                present(alert, animated: true)
             }
         case .bookmarks:
             let bookmarksController = BookmarksProfileListController()

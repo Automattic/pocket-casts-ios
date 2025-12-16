@@ -55,7 +55,7 @@ struct EpilogueStory2024: StoryView {
             StoryFooter2024(title: L10n.eoy2024EpilogueTitle, description: L10n.eoy2024EpilogueDescription)
             Button(L10n.eoyStoryReplay) {
                 StoriesController.shared.replay()
-                Analytics.track(.endOfYearStoryReplayButtonTapped, properties: ["year": "2024"])
+                Analytics.track(.endOfYearStoryReplayButtonTapped, properties: ["current_year": "2024"])
             }
             .buttonStyle(BasicButtonStyle(textColor: .black, backgroundColor: Color.clear, borderColor: .black))
             .allowsHitTesting(true)

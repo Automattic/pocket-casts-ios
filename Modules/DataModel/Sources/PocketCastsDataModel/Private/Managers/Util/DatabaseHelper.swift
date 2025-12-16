@@ -858,6 +858,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 70 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN playlistUpdateDate REAL;", values: nil)
+                schemaVersion = 70
+            } catch {
+                failedAt(70)
+                return
+            }
+        }
+
         db.commit()
     }
 }

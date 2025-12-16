@@ -169,7 +169,11 @@ class PlaylistDetailViewModel: ObservableObject {
                     self.firstTimeLoading.toggle()
                 }
                 let changeSetTuple = self.buildChangeSet(source: self.episodes, newData: newData)
-                self.onChange(changeSetTuple.1, animated, changeSetTuple.0)
+                let contentHasChanged = changeSetTuple.0
+                if contentHasChanged {
+                    self.dataManager.updatePlaylistUpdateDate(for: self.playlist)
+                }
+                self.onChange(changeSetTuple.1, animated, contentHasChanged)
             }
         }
         operationQueue.addOperation(refreshOperation)

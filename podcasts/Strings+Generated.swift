@@ -2338,6 +2338,8 @@ internal enum L10n {
   internal static var playbackEffects: String { return L10n.tr("Localizable", "playback_effects", fallback: "Playback effects") }
   /// A common string used throughout the app. Generic message informing the user that playback failed.
   internal static var playbackFailed: String { return L10n.tr("Localizable", "playback_failed", fallback: "Playback Failed") }
+  /// Message to shown then trying to open playback from deep link but it's not available
+  internal static var playbackNotAvailable: String { return L10n.tr("Localizable", "playback_not_available", fallback: "Playback unavailable") }
   /// Label indicating the current value for the playback speed. '%1$@' is a placeholder for the playback speed and 'x' is meant to read as 'times' as in '1.1 times' for '1.1x'
   internal static func playbackSpeed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_speed", String(describing: p1), fallback: "%1$@x")
@@ -2520,7 +2522,7 @@ internal enum L10n {
   /// Smart Playlist preview: title for the enabled rules section
   internal static var playlistSmartPreviewEnabledRules: String { return L10n.tr("Localizable", "playlist_smart_preview_enabled_rules", fallback: "Enabled rules") }
   /// Smart Playlist preview: title for the available rules section
-  internal static var playlistSmartPreviewOtherRules: String { return L10n.tr("Localizable", "playlist_smart_preview_other_rules", fallback: "Other options") }
+  internal static var playlistSmartPreviewMoreRules: String { return L10n.tr("Localizable", "playlist_smart_preview_more_rules", fallback: "More rules") }
   /// Header subtitle for smart rule podcasts when select all is on
   internal static var playlistSmartRulePodcastsHeaderSubtitleAutoAdd: String { return L10n.tr("Localizable", "playlist_smart_rule_podcasts_header_subtitle_auto_add", fallback: "New podcasts you follow will be automatically added.") }
   /// Header subtitle for smart rule podcasts when select all is off
