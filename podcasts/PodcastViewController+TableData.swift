@@ -67,7 +67,8 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     for: indexPath,
                     in: episodesTable,
                     firstSection: PodcastViewController.allEpisodesSection,
-                    statusBarStyle: preferredStatusBarStyle
+                    statusBarStyle: preferredStatusBarStyle,
+                    excludingCellTypes: [HeadingCell.self]
                 )
             } else {
                 longPressMultiSelectIndexPath = indexPath
@@ -286,7 +287,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let selectedEpisode = episodeInfo[indexPath.section].elements[safe: indexPath.row] as? ListEpisode {
             if selectedEpisodes.contains(selectedEpisode) {
-                tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
+                tableView.deselectIndexPath(indexPath)
                 return nil
             }
             return indexPath

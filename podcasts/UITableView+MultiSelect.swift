@@ -137,7 +137,10 @@ extension UITableView {
         return areSelected(fromIndexPath: indexPath, toIndexPath: IndexPath(row: numberOfRows(inSection: lastSection) - 1, section: lastSection))
     }
 
-    func areSelected(fromIndexPath: IndexPath, toIndexPath: IndexPath) -> Bool {
+    func areSelected(
+        fromIndexPath: IndexPath,
+        toIndexPath: IndexPath
+    ) -> Bool {
         for section in fromIndexPath.section ... toIndexPath.section {
             let startingRow = fromIndexPath.section == section ? fromIndexPath.row : 0
             let endingRow = toIndexPath.section == section ? toIndexPath.row : numberOfRows(inSection: section) - 1
@@ -149,5 +152,46 @@ extension UITableView {
             }
         }
         return true
+    }
+
+    // Returns the first index path in the table, excluding any cells matching the provided types
+    func firstIndexPath(
+        section: Int,
+        excludingCellTypes: [UITableViewCell.Type]? = nil
+    ) -> IndexPath? {
+        guard numberOfSections > 0 else { return nil }
+        return firstIndexPath(from: IndexPath(row: 0, section: section), excludingCellTypes: excludingCellTypes)
+    }
+
+    // Returns the first index path starting from a given index path (inclusive),
+    // excluding any cells matching the provided types
+    func firstIndexPath(
+        from startIndexPath: IndexPath,
+        excludingCellTypes: [UITableViewCell.Type]?
+    ) -> IndexPath? {
+        guard numberOfSections > 0 else { return nil }
+
+        let lastSection = numberOfSections - 1
+        var section = startIndexPath.section
+        while section <= lastSection {
+            let rows = numberOfRows(inSection: section)
+            if rows > 0 {
+                let startRow = (section == startIndexPath.section) ? startIndexPath.row : 0
+                var row = startRow
+                while row < rows {
+                    let path = IndexPath(row: row, section: section)
+                    if let types = excludingCellTypes, !types.isEmpty,
+                       let cell = self.cellForRow(at: path),
+                       types.contains(where: { cell.isKind(of: $0) }) {
+                        // skip excluded types
+                    } else {
+                        return path
+                    }
+                    row += 1
+                }
+            }
+            section += 1
+        }
+        return nil
     }
 }

@@ -8,11 +8,14 @@ extension UIViewController {
         lastSection: Int? = nil,
         themeOverride: Theme.ThemeType? = nil,
         statusBarStyle: UIStatusBarStyle? = nil,
+        excludingCellTypes: [UITableViewCell.Type]? = nil,
         allAboveAction: ((Bool) -> Void)? = nil,
         allBelowAction: ((Bool) -> Void)? = nil
     ) {
-        let firstSectionIndex = firstSection ?? indexPath.section
-        let firstIndexPath = IndexPath(row: 0, section: firstSectionIndex)
+        guard let firstIndexPath = tableView.firstIndexPath(
+            section: firstSection ?? indexPath.section,
+            excludingCellTypes: excludingCellTypes
+        ) else { return }
 
         let lastSectionIndex = lastSection ?? indexPath.section
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
