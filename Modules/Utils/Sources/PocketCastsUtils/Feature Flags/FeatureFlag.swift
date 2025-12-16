@@ -243,6 +243,18 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the End of Year 2025 recap
     case endOfYear2025
 
+    /// Enable the End of Year to use first story as loading screen
+    case endOfYearLoadIsFirstStory
+
+    /// Upgrades the Effects Player's AudioReadTask to a QOS level of "userInitiated" from "default"
+    case effectsPlayerQOSUpgrade
+
+    /// Refreshes by listening to notifications for podcast subscribe/unsubscribe
+    case refreshPlaylistOnSubscriptions
+
+    /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
+    case playlistDataCacheBeforeQuery
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -408,6 +420,14 @@ public enum FeatureFlag: String, CaseIterable {
         case .enableLocalizationHeaders:
             true
         case .endOfYear2025:
+            true
+        case .endOfYearLoadIsFirstStory:
+			true
+        case .effectsPlayerQOSUpgrade:
+            true
+        case .refreshPlaylistOnSubscriptions:
+            true
+        case .playlistDataCacheBeforeQuery:
             true
         }
     }

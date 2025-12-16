@@ -2,9 +2,19 @@
 -----
 - Fix WatchManager to only report unknown message if it was truly unknown / unprocessed [#3748](https://github.com/Automattic/pocket-casts-ios/issues/3748)
 
+8.2
+-----
+
+8.1.1
+-----
+- Playlists: fix drag and drop tip for logged out users [#3800](https://github.com/Automattic/pocket-casts-ios/pull/3800)
+- Keep episode downloads from missing podcasts during sync [#3799](https://github.com/Automattic/pocket-casts-ios/pull/3799)
+
 8.1
 -----
 - Add Playback 2025 [#3734](https://github.com/Automattic/pocket-casts-ios/issues?q=state%3Aclosed%20label%3A%22%5BProject%5D%20Playback%202025%22)
+- Remove episode downloads on unsubscribe if an episode is not part of the a Manual playlist. [#3761](https://github.com/Automattic/pocket-casts-ios/pull/3761)
+- Fix display of empty results when searching for episodes in a Podcast [#3772](https://github.com/Automattic/pocket-casts-ios/pull/3772)
 
 8.0.1
 -----

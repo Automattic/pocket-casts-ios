@@ -55,8 +55,12 @@
     <string>%1$@ av %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Uppspelningshastighet %1$@ gånger</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Lägg till avsnitt</string>
     <key>accessibility_playlist_color</key>
     <string>Spellistans färg %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Spellistebild</string>
     <key>accessibility_plus_only</key>
     <string>Låst Plus-funktion</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tryck på knappen nedan för att logga in på ditt Pocket Casts-konto igen.</str
     <string>Lägg till i Nästa</string>
     <key>after_playing</key>
     <string>Efter uppspelning</string>
-    <key>all_results</key>
-    <string>Alla resultat</string>
     <key>announcement_autoplay_description</key>
     <string>Om din Nästa-kö är tom och du börjar lyssna på ett avsnitt kommer Spela upp automatiskt att fortsätta spela upp avsnitt från den aktuella showen eller listan.</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ UPPDATERINGAR</string>
     <string>Tack för att du spenderar ditt år med Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Se din lyssningsstatistik, dina favoritpodcasts och mycket mer.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Uppspelning 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Ditt podcastår, inslaget och redo att återupplevas</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Det är engagemang!</string>
     <string>Konsekvent, pålitligt, precis som din kafébeställning</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Ditt lyssnande 2025 höll sig stabilt</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Hoppas att du sträckte på dig först!</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Jämfört med 2024 har din lyssningstid skjutit i höjden med %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>1 avsnitt tillagt i "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ avsnitt tillagda i ”%2$@”</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Tillagd till %1$@ spellistor</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Tillagd till %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ avsnitt</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Detta kommer att rensa din nuvarande Nästa-kö och börja spela upp denna spellista.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Ersätt nuvarande Nästa?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Byt ut och spela upp</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Om du spelar upp det här kommer din nuvarande Nästa att ersättas.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Byt ut din Nästa?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Spara din nuvarande Nästa-kö som en spellista.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Nästa sparad som spellista</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2166,8 +2176,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Konfigurera smarta regler för att automatiskt lägga till avsnitt i din smarta spellista.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Aktiverade regler</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Andra alternativ</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Nya podcasts som du följer kommer att läggas till automatiskt.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2186,6 +2194,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Smarta regler</string>
     <key>playlists</key>
     <string>Spellistor</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Aktivera för att automatiskt ladda ner avsnitt i den här spellistan.</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>De första %1$@ avsnitten i den här spellistan kommer att laddas ner automatiskt</string>
     <key>playlists_default_new_playlist</key>
     <string>Ny spellista</string>
     <key>playlists_delete</key>
@@ -2561,6 +2573,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bara senaste avsnittet</string>
     <key>podcasts_badges</key>
     <string>Märken</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Anpassad beställning</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Längsta till kortaste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

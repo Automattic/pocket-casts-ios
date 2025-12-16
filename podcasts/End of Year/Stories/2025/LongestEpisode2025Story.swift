@@ -14,7 +14,7 @@ struct LongestEpisode2025Story: ShareableStory {
 
     private let backgroundColor = Color(hex: "#17423B")
     private let foregroundColor = Color.white
-    private let imageSize: CGFloat = UIScreen.isSmallScreen ? 180 : 196
+    private let imageSize: CGFloat = UIScreen.isSmallScreen ? 190 : 206
     private let portionFactor: CGFloat = UIScreen.isSmallScreen ? 3.5 : 3.0
 
     @State private var imageScale = CGFloat(1.1)
@@ -25,21 +25,20 @@ struct LongestEpisode2025Story: ShareableStory {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                background(size: proxy.size)
                 VStack(alignment: .center, spacing: 0) {
                     headerView
                     Spacer()
-                        .frame(height: 80)
+                        .frame(maxHeight: 40)
                     PodcastImage(uuid: podcast.uuid, size: .page, aspectRatio: nil, contentMode: .fill)
                         .frame(width: imageSize * imageScale, height: imageSize * imageScale)
                         .cornerRadius(4)
+                        .background {
+                            background(size: proxy.size).offset(x: 0, y: proxy.size.width / 6)
+                        }
+                        .padding(.bottom, proxy.size.width / 6)
                     Spacer()
-                    VStack {
-                        Spacer()
-                        footerView
-                        Spacer()
-                    }
-                    .frame(height: proxy.size.height / portionFactor)
+                    footerView
+                    Spacer()
                 }
             }
         }
@@ -76,21 +75,14 @@ struct LongestEpisode2025Story: ShareableStory {
     }
 
     @ViewBuilder func background(size: CGSize) -> some View {
-        VStack(alignment: .center, spacing: 0) {
-            Spacer()
-            ZStack {
-                LottieView(animation: .named("2025_longest_episode"))
-                    .configure({ animationView in
-                        animationView.contentMode = .scaleAspectFill
-                    })
-                    .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
-                    .frame(width: size.width, height: size.width)
-                    .scaleEffect(UIScreen.isSmallScreen ? 1.2 : 1.4)
-                    .scaledToFill()
-                    .padding(.top, 40.0)
-            }
-            Spacer()
-        }
+        LottieView(animation: .named("2025_longest_episode"))
+            .configure({ animationView in
+                animationView.contentMode = .scaleAspectFill
+            })
+            .playbackMode(renderForSharing ? .paused(at: .progress(1)) : .playing(.fromProgress(0, toProgress: 1, loopMode: .autoReverse)))
+            .frame(width: size.width, height: size.width)
+            .scaleEffect(UIScreen.isSmallScreen ? 1.2 : 1.4)
+            .scaledToFill()
     }
 
     func onAppear() {

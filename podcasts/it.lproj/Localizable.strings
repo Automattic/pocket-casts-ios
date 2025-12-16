@@ -55,8 +55,12 @@
     <string>%1$@ di %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocità di riproduzione: %1$@ volte</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Aggiungi episodio</string>
     <key>accessibility_playlist_color</key>
     <string>Colore playlist: %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Immagine playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloccato, funzionalità Plus</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <string>Aggiungi a Successivo</string>
     <key>after_playing</key>
     <string>Dopo la riproduzione</string>
-    <key>all_results</key>
-    <string>Tutti i risultati</string>
     <key>announcement_autoplay_description</key>
     <string>Se la coda Successivo è vuota e inizi ad ascoltare un episodio, l'opzione Riproduzione automatica continuerà a riprodurre le puntate di quel programma o quell'elenco.</string>
     <key>announcement_autoplay_title</key>
@@ -812,7 +814,7 @@ Prima vorremmo aiutarti</string>
     <key>download_data_warning</key>
     <string>Il download utilizzerà i dati.</string>
     <key>download_data_warning_with_settings_link</key>
-    <string>Per questo download verranno utilizzati i dati mobili. Puoi disattivare questo avviso in [Impostazioni] (%@).</string>
+    <string>Per questo download verranno utilizzati i dati mobili. Puoi disattivare questo avviso in [Impostazioni](%@).</string>
     <key>download_episode_plural_format</key>
     <string>Scarica %1$@ episodi</string>
     <key>download_episode_singular</key>
@@ -1963,8 +1965,6 @@ AGGIORNAMENTI</string>
     <string>Grazie per aver trascorso l'anno con Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Visualizza le statistiche di ascolto, i migliori podcast e molto altro ancora.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Riproduzioni 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Il tuo anno in podcast, riassunto e pronto da rivivere</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Questa sì che è dedizione!</string>
     <string>Coerente, affidabile, come ordinare un caffè</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Il tuo ascolto nel 2025 è stato costante</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Spero tu abbia fatto stretching prima!</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Rispetto al 2024, il tuo tempo di ascolto è salito alle stelle %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>1 episodio aggiunto a "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ episodi aggiunti a "%2$@"</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Aggiunto a %1$@ playlist</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Aggiunto a %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episodi</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Questa azione cancellerà la coda Successivo attuale e inizierà a riprodurre questa playlist.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Sostituire l'attuale Successivo?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Sostituisci e riproduci</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Riproducendo questo brano, sostituirai la tua attuale coda Successivo.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Sostituire la tua coda Successivo?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Salva la tua coda Successivo attuale come playlist.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Successivo salvato come playlist</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2166,8 +2176,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Configura regole intelligenti per aggiungere automaticamente episodi alla tua playlist intelligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regole abilitate</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Altre opzioni</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>I nuovi podcast che segui verranno aggiunti automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2186,6 +2194,10 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Regole intelligenti</string>
     <key>playlists</key>
     <string>Playlist</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Abilita il download automatico degli episodi in questa playlist</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>I primi %1$@ episodi in questa playlist verranno scaricati automaticamente</string>
     <key>playlists_default_new_playlist</key>
     <string>Nuova playlist</string>
     <key>playlists_delete</key>
@@ -2561,6 +2573,8 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Solo l'ultimo episodio</string>
     <key>podcasts_badges</key>
     <string>Badge</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Ordine personalizzato</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Dal più lungo al più corto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

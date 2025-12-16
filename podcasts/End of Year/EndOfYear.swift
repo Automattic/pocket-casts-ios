@@ -130,7 +130,7 @@ struct EndOfYear {
         }
 
         BottomSheetSwiftUIWrapper.present(EndOfYearModal(year: storyModelType.year, model: viewModel), autoSize: true, in: viewController) {
-            Analytics.track(.endOfYearModalDismissed, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearModalDismissed, properties: ["current_year": EndOfYear.currentYear.literalValue])
         }
         Settings.setHasShownModalForEndOfYear(true, year: storyModelType.year)
     }
@@ -155,6 +155,16 @@ struct EndOfYear {
         }
     }
 
+    var configuration: StoriesConfiguration {
+        let configuration = StoriesConfiguration()
+        if EndOfYear.currentYear == .y2025 {
+            configuration.closeAndDismissAfterFinished = true
+            configuration.loadingIsTheFirstStory = FeatureFlag.endOfYearLoadIsFirstStory.enabled
+            configuration.defaultStoriesCount = 11
+        }
+        return configuration
+    }
+
     func showStories(in viewController: UIViewController, from source: EndOfYearPresentationSource) {
         guard let storyModelType else { return }
 
@@ -171,7 +181,7 @@ struct EndOfYear {
 
         let model = storyModelType.init()
 
-        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model)).padding(storiesPadding))
+        let storiesViewController = StoriesHostingController(rootView: StoriesView(dataSource: EndOfYearStoriesDataSource(model: model), configuration: configuration).padding(storiesPadding))
         storiesViewController.view.backgroundColor = .black
         storiesViewController.modalPresentationStyle = presentationMode
 
@@ -181,7 +191,7 @@ struct EndOfYear {
         }
 
         viewController.present(storiesViewController, animated: true, completion: nil)
-        Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue, "year": EndOfYear.currentYear.literalValue])
+        Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue, "current_year": EndOfYear.currentYear.literalValue])
     }
 
     static func share(assets: [Any], model: StoriesModel, storyIdentifier: String = "unknown", onDismiss: (() -> Void)? = nil) {
@@ -201,7 +211,7 @@ struct EndOfYear {
             }
 
             if let activity, success {
-                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button", "year": EndOfYear.currentYear.literalValue]
+                let properties = ["activity": activity.rawValue, "story": storyIdentifier, "from": "button", "current_year": EndOfYear.currentYear.literalValue]
                 Analytics.track(.endOfYearStoryShared, properties: properties)
                 DispatchQueue.main.async {
                     model.recordPlaybackShare(properties: properties.merging(["source": "end_of_year"]) { $1 })

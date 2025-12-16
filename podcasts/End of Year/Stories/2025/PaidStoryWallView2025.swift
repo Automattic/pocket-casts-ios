@@ -1,7 +1,30 @@
 import SwiftUI
 import AVKit
+import Combine
+
 import PocketCastsServer
 import PocketCastsUtils
+
+fileprivate class SubscriptionModel: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+
+    @Published var subscriptionTier: SubscriptionTier
+
+    init() {
+        self.subscriptionTier = SubscriptionHelper.activeTier
+        ServerNotifications.iapPurchaseCompleted.publisher()
+            .sink { [weak self] _ in
+                self?.refreshTier()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func refreshTier() {
+        DispatchQueue.main.async { [weak self] in
+            self?.subscriptionTier = SubscriptionHelper.activeTier
+        }
+    }
+}
 
 struct PaidStoryWallView2025: StoryView {
     let identifier = "plus_interstitial"
@@ -11,7 +34,8 @@ struct PaidStoryWallView2025: StoryView {
 
     @StateObject private var model = PlusPricingInfoModel()
 
-    let subscriptionTier: SubscriptionTier
+    @StateObject private var subscriptionModel =  SubscriptionModel()
+    private let subscriptionTier: SubscriptionTier
 
     private let foregroundColor = Color.black
 
@@ -19,10 +43,16 @@ struct PaidStoryWallView2025: StoryView {
 
     private let videoAspectRatio = CGFloat(1.37)
 
+    var shouldPause: Bool = true
+
     let plusOnly = false
 
     init(subscriptionTier: SubscriptionTier) {
         self.subscriptionTier = subscriptionTier
+    }
+
+    var tier: SubscriptionTier {
+        return subscriptionModel.subscriptionTier
     }
 
     var body: some View {
@@ -44,21 +74,19 @@ struct PaidStoryWallView2025: StoryView {
                     }
                     .padding(.top, UIScreen.isSmallScreen ? 80 : 110)
                     .allowsHitTesting(false)
-                StoryHeader2025(title: subscriptionTier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
-                                description: subscriptionTier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(subscriptionTier.displayName),
-                                subscriptionTier: subscriptionTier == .none ? .plus : subscriptionTier,
-                                topPadding: 0)
-                Button(subscriptionTier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
-                    if subscriptionTier == .none {
+                StoryFooter2025(title: tier == .none ?  L10n.playback2025PlusUpsellTitle : L10n.playback2025PlusThanksTitle,
+                                description: tier == .none ?  L10n.playback2025PlusUpsellDescription : L10n.playback2025PlusThanksDescription(tier.displayNameShort),
+                                subscriptionTier: tier == .none ? .plus : tier)
+                Button(tier == .none ?  L10n.playback2025PlusUpsellButtonTitle : L10n.continue) {
+                    if tier == .none {
                         guard let storiesViewController = SceneHelper.rootViewController() else {
                             return
                         }
-                        Analytics.track(.endOfYearUpsellShown, properties: ["year": "2025"])
+                        Analytics.track(.endOfYearUpsellShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
                         NavigationManager.sharedManager.showUpsellView(from: storiesViewController, source: .endOfYear, flow: SyncManager.isUserLoggedIn() ? .endOfYearUpsell : .endOfYear)
                     } else {
-                        Analytics.track(.endOfYearPlusContinued, properties: ["year": EndOfYear.currentYear.literalValue])
-                        pauseState.togglePause()
-                        storyModel.next()
+                        Analytics.track(.endOfYearPlusContinued, properties: ["current_year": EndOfYear.currentYear.literalValue])
+                        advanceToNextStory()
                     }
                 }
                 .buttonStyle(BasicButtonStyle(textColor: .white, backgroundColor: .black, borderColor: .black))
@@ -74,9 +102,17 @@ struct PaidStoryWallView2025: StoryView {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .onAppear() {
-            pauseState.togglePause()
+        .onChange(of: subscriptionModel.subscriptionTier) { newValue in
+            if newValue != subscriptionTier, newValue != .none {
+                pauseState.play()
+                storyModel.next()
+            }
         }
+    }
+
+    private func advanceToNextStory() {
+        storyModel.start()
+        storyModel.next()
     }
 
     func onAppear() {
@@ -93,8 +129,14 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
     init(urlString: String, backgroundColor: Color = .clear) {
         self.player = AVQueuePlayer()
         if let videoURL = Bundle.main.url(forResource: urlString, withExtension: "mp4") {
+            if !PlaybackManager.shared.isPlayingEpisode {
+                let session = AVAudioSession.sharedInstance()
+                try? session.setCategory(.ambient, mode: .default, policy: .default, options: [.mixWithOthers])
+                try? session.setActive(true, options: [])
+            }
             let item = AVPlayerItem(url: videoURL)
             self.looper = AVPlayerLooper(player: player, templateItem: item)
+            player.isMuted = true
             player.play()
         } else {
             self.looper = nil
@@ -113,9 +155,19 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
         // Handle updates if needed
+        controller.player?.play()
+    }
+
+    static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: ()) {
+        if !PlaybackManager.shared.isPlayingEpisode {
+            do {
+                try AVAudioSession.sharedInstance().setActive(false)
+            } catch let error {
+                FileLog.shared.addMessage("Playback Video Audio Session error: \(error)")
+            }
+        }
     }
 }
-
 
 #Preview("Plus") {
     PaidStoryWallView2025(subscriptionTier: .plus)

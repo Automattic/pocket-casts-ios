@@ -36,7 +36,7 @@ struct EndOfYearCard: View {
                 if FeatureFlag.endOfYear2025.enabled {
                     Spacer()
                     Rectangle()
-                        .frame(width: 100, height: 1)
+                        .frame(width: 125, height: 1)
                         .opacity(0)
                 } else {
                     Spacer()
@@ -47,8 +47,15 @@ struct EndOfYearCard: View {
             }
             .background {
                 if FeatureFlag.endOfYear2025.enabled {
-                    Image(viewModel.imageName)
-                        .resizable()
+                    VStack(alignment: .trailing) {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image(viewModel.imageName)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
                 } else {
                     ZStack(alignment: .trailing) {
                         HStack {

@@ -55,8 +55,12 @@
     <string>%1$@ van %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Afspeelsnelheid %1$@ keer</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Aflevering toevoegen</string>
     <key>accessibility_playlist_color</key>
     <string>Kleur van playlist %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Afbeelding van playlist</string>
     <key>accessibility_plus_only</key>
     <string>Vergrendeld, functie voor Plus</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>
     <string>Na het afspelen</string>
-    <key>all_results</key>
-    <string>Alle resultaten</string>
     <key>announcement_autoplay_description</key>
     <string>Als je Wachtrij Hierna leeg is en je begint naar een aflevering te luisteren, zal Automatisch afspelen afleveringen van die serie of lijst blijven afspelen.</string>
     <key>announcement_autoplay_title</key>
@@ -1961,8 +1963,6 @@ UPDATES</string>
     <string>Bedankt dat je je jaar bij Pocket Casts hebt doorgebracht</string>
     <key>playback_2025_feature_description</key>
     <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Afspelen 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Je jaar in podcasts, verpakt en klaar om opnieuw te beleven</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2006,8 +2006,6 @@ Dat is waar we voor staan!</string>
     <string>Consistent en betrouwbaar, net zoals je koffiebestelling</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Je luisterervaring van 2025 is stabiel gebleven</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Hopelijk heb je je eerst uitgestrekt!</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2106,6 +2104,10 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>1 aflevering toegevoegd aan "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ afleveringen toegevoegd aan "%2$@"</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Toegevoegd aan %1$@ playlists</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Toegevoegd aan %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ afleveringen</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2144,6 +2146,14 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Hierdoor wordt je huidige wachtrij Hierna gewist en wordt deze afspeellijst afgespeeld.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Huidige Hierna vervangen?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Vervangen en afspelen</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Als je dit afspeelt, wordt je huidige Hierna vervangen.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Je Hierna vervangen?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Sla je huidige wachtrij Hierna op als playlist.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Hierna opgeslagen als afspeellijst</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2160,8 +2170,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Stel slimme regels in om automatisch afleveringen aan je intelligente playlist toe te voegen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Ingeschakelde regels</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Overige opties</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2180,6 +2188,10 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Slimme regels</string>
     <key>playlists</key>
     <string>Playlists</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Schakel het automatisch downloaden van afleveringen in deze playlist in</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>De eerste %1$@ afleveringen in deze playlist worden automatisch gedownload</string>
     <key>playlists_default_new_playlist</key>
     <string>Nieuwe playlist</string>
     <key>playlists_delete</key>
@@ -2555,6 +2567,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen nieuwste aflevering</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Aangepaste volgorde</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Langste naar kortste</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

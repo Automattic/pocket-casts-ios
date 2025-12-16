@@ -55,8 +55,12 @@
     <string>第 %1$@ 集，共 %2$@ 集</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>%1$@ 倍速播放</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>新增單集</string>
     <key>accessibility_playlist_color</key>
     <string>播放清單顏色 %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>播放清單圖片</string>
     <key>accessibility_plus_only</key>
     <string>Plus 功能已解鎖</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>
     <string>播放後</string>
-    <key>all_results</key>
-    <string>所有結果</string>
     <key>announcement_autoplay_description</key>
     <string>如果「接下來播放」佇列是空的，而你開始聆聽某一單集，自動播放功能會繼續播放同一個節目或清單的單集。</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ Pocket Casts Plus</string>
     <string>感謝你這一年來持續使用 Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
-    <key>playback_2025_feature_title</key>
-    <string>2025 年度播放回顧</string>
     <key>playback_2025_intro_message</key>
     <string>你的 Podcast 年度回顧已整理完畢，可隨時重溫過往</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Pocket Casts Plus</string>
     <string>穩定可靠，堅若磐石</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>你的 2025 年收聽狀況維持穩定</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>不妨伸展一下！</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>比起 2024 年，你的收聽時間飆高了 %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Pocket Casts Plus</string>
     <string>已新增 1 個單集至「%@」</string>
     <key>playlist_episodes_added_title</key>
     <string>已新增 %1$@ 個單集至「%2$@」</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>已新增至 %1$@ 個播放清單</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>已新增至「%1$@」</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ 個單集</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Pocket Casts Plus</string>
     <string>這個動作會清除目前的「接下來播放」佇列，並開始播放此播放清單。</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>要取代目前的「接下來播放」嗎？</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>取代並播放</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>若播放此內容，將取代目前的「接下來播放」。</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>要取代「接下來播放」嗎？</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>將目前的「接下來播放」佇列儲存為播放清單。</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>已將「接下來播放」儲存為播放清單</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2166,8 +2176,6 @@ Pocket Casts Plus</string>
     <string>設定「智慧規則」，自動將單集新增至智慧播放清單。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>已啟用的規則</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>其他選項</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>系統會自動新增你追蹤的新 Podcast 節目。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2186,6 +2194,10 @@ Pocket Casts Plus</string>
     <string>智慧規則</string>
     <key>playlists</key>
     <string>播放清單</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>啟用即可自動下載此播放清單中的單集</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>系統會自動下載此播放清單的前 %1$@ 集內容</string>
     <key>playlists_default_new_playlist</key>
     <string>新播放清單</string>
     <key>playlists_delete</key>
@@ -2561,6 +2573,8 @@ Pocket Casts Plus</string>
     <string>僅最新單集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>自訂排序</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>從最長到最短</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

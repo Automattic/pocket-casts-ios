@@ -33,7 +33,6 @@ struct Constants {
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
-        static let playlistsNeedReload = NSNotification.Name(rawValue: "PlaylistsNeedReload")
         static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
@@ -188,6 +187,7 @@ struct Constants {
         static let playlistsOnboarding = "NewPlaylistsOnboarding"
         static let firstTimePlaylistCreated = "FirstTimePlaylistCreated"
         static let saveCurrentUpNextQueueIntoPlaylist = "SaveCurrentUpNextQueueIntoPlaylist"
+        static let shouldResultEndOfYearSyncStatus = "ShouldResultEndOfYearSyncStatus"
 
         enum headphones {
             static let previousAction = SettingValue("headphones.previousAction",

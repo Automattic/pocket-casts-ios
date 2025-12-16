@@ -11,6 +11,8 @@ struct StoriesView: View {
     /// If it's longer than that, it's considered a gesture
     private let maximumTapTime: Double = 0.35
 
+    @State private var loadAnimationFinished: Bool = false
+
     init(dataSource: StoriesDataSource, configuration: StoriesConfiguration = StoriesConfiguration(), syncProgressModel: SyncYearListeningProgress = .shared) {
         let model = StoriesModel(dataSource: dataSource, configuration: configuration)
         _model = ObservedObject(initialValue: model)
@@ -21,7 +23,7 @@ struct StoriesView: View {
 
     @ViewBuilder
     var body: some View {
-        if model.isReady {
+        if model.isReady, loadAnimationFinished || !model.configuration.loadingIsTheFirstStory {
             stories
             .onAppear {
                 model.start()
@@ -51,6 +53,7 @@ struct StoriesView: View {
                     .environment(\.animated, true)
                     .environment(\.pauseState, pauseState)
                     .environmentObject(model)
+                    .environmentObject(syncProgressModel)
 
                 if model.shouldShowUpsell() {
                     model.paywallView().zIndex(6).onAppear {
@@ -104,22 +107,25 @@ struct StoriesView: View {
     // View shown while data source is preparing
     var loading: some View {
         ZStack {
-            Spacer()
-
-            VStack(spacing: 15) {
-                let progress = syncProgressModel.progress
-                CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
-                    .frame(width: 40, height: 40)
-                if case EndOfYear.Year.y2025 = EndOfYear.currentYear {
-                    EmptyView()
-                } else {
-                    Text(L10n.loading)
-                        .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
-                        .font(style: .body)
+            if model.configuration.loadingIsTheFirstStory {
+                IntroStory2025(afterLoading: false) {
+                    loadAnimationFinished = true
+                    model.loadingEnded()
+                }
+                .environmentObject(syncProgressModel)
+            } else {
+                Spacer()
+                VStack(spacing: 15) {
+                    let progress = syncProgressModel.progress
+                    CircularProgressView(value: progress, stroke: model.indicatorColor(for: model.currentStoryIndex), strokeWidth: 6)
+                        .frame(width: 40, height: 40)
+                    if EndOfYear.currentYear != .y2025 {
+                        Text(L10n.loading)
+                            .foregroundColor(model.indicatorColor(for: model.currentStoryIndex))
+                            .font(style: .body)
+                    }
                 }
             }
-
-            storySwitcher
             header
         }
         .background(model.primaryBackgroundColor)
@@ -139,7 +145,7 @@ struct StoriesView: View {
         }
         .background(model.primaryBackgroundColor)
         .onAppear {
-            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["year": EndOfYear.currentYear.literalValue])
+            Analytics.track(.endOfYearStoriesFailedToLoad, properties: ["current_year": EndOfYear.currentYear.literalValue])
             if EndOfYear.currentYear == .y2025 {
                 model.stopAndDismiss()
                 Toast.show(L10n.playback2025FailedToLoad)
@@ -156,7 +162,7 @@ struct StoriesView: View {
         ZStack {
             VStack {
                 HStack(spacing: model.indicatorSpacing) {
-                    ForEach(0 ..< model.numberOfStories, id: \.self) { x in
+                    ForEach(0 ..< (model.isReady ? model.numberOfStories : model.configuration.defaultStoriesCount), id: \.self) { x in
                         StoryIndicator(index: x, style: model.indicatorStyle(for: model.currentStoryIndex), progressModel: model.progressPublisher)
                     }
                 }

@@ -441,8 +441,12 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func handleThemeChanged() {
         super.handleThemeChanged()
         footerView.backgroundColor = AppTheme.viewBackgroundColor()
-        saveButton.backgroundColor = filterToEdit.playlistColor()
-        selectAllSwitch.onTintColor = filterToEdit.playlistColor()
+        if playlistsRebrandingEnabled {
+            saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
+        } else {
+            saveButton.backgroundColor = filterToEdit.playlistColor()
+            selectAllSwitch.onTintColor = filterToEdit.playlistColor()
+        }
         podcastTable.reloadData()
         setupNavBar()
         setupSaveButtonTitle()

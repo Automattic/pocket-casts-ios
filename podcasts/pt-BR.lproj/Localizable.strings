@@ -55,8 +55,12 @@
     <string>%1$@ de %2$@</string>
     <key>accessibility_player_effects_playback_speed</key>
     <string>Velocidade da reprodução: %1$@x</string>
+    <key>accessibility_playlist_add_episode</key>
+    <string>Adicionar episódio</string>
     <key>accessibility_playlist_color</key>
     <string>Cor da playlist: %1$@</string>
+    <key>accessibility_playlist_image</key>
+    <string>Imagem da playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloqueado: recurso Plus</string>
     <key>accessibility_profile_settings</key>
@@ -143,8 +147,6 @@ Toque no botão abaixo para entrar novamente na sua conta do Pocket Casts.</stri
     <string>Adicionar aos Próximos</string>
     <key>after_playing</key>
     <string>Depois de reproduzir</string>
-    <key>all_results</key>
-    <string>Todos os resultados</string>
     <key>announcement_autoplay_description</key>
     <string>Se você começar a ouvir um episódio e a fila de Próximos estiver vazia, os episódios desse programa ou lista vão ser reproduzidos automaticamente.</string>
     <key>announcement_autoplay_title</key>
@@ -1963,8 +1965,6 @@ ATUALIZAÇÕES</string>
     <string>Obrigado por passar o ano com o Pocket Casts</string>
     <key>playback_2025_feature_description</key>
     <string>Veja suas estatísticas, principais podcasts e muito mais.</string>
-    <key>playback_2025_feature_title</key>
-    <string>Retrospectiva de 2025</string>
     <key>playback_2025_intro_message</key>
     <string>Seu ano em podcasts porque recordar é viver</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -2008,8 +2008,6 @@ Isso que é compromisso!</string>
     <string>Consistente e confiável, como o seu pedido na cafeteria.</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Suas reproduções em 2025 permaneceram estáveis</string>
-    <key>playback_2025_year_over_year_comparison_up_message</key>
-    <string>Espero que tenha feito um aquecimento!</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Em comparação com 2024, seu tempo de streaming disparou %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2112,6 +2110,10 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>1 episódio adicionado a "%@"</string>
     <key>playlist_episodes_added_title</key>
     <string>%1$@ episódios adicionados a "%2$@"</string>
+    <key>playlist_episodes_added_to_multiple_playlists</key>
+    <string>Adicionado a %1$@ playlists</string>
+    <key>playlist_episodes_added_to_single_playlist</key>
+    <string>Adicionado a %1$@</string>
     <key>playlist_episodes_count</key>
     <string>%1$@ episódios</string>
     <key>playlist_manual_add_episode_full_playlist_toast</key>
@@ -2150,6 +2152,14 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Isso limpará sua lista de Próximos atual e começará a reproduzir esta playlist.</string>
     <key>playlist_play_all_replace_picker_title</key>
     <string>Substituir Próximos atuais?</string>
+    <key>playlist_play_all_sheet_button_title</key>
+    <string>Substituir e reproduzir</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Reproduzir isto substituirá sua lista de Próximos atual.</string>
+    <key>playlist_play_all_sheet_title</key>
+    <string>Substituir lista de Próximos?</string>
+    <key>playlist_play_all_sheet_toggle</key>
+    <string>Salve sua lista de Próximos atual como uma playlist.</string>
     <key>playlist_play_all_up_next_saved</key>
     <string>Próximos salvos como playlist</string>
     <key>playlist_play_all_up_next_saved_plural</key>
@@ -2166,8 +2176,6 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Configure regras Inteligentes para adicionar episódios automaticamente à sua playlist inteligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regras ativadas</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Outras opções</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Os novos podcasts que você seguir serão adicionados automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
@@ -2186,6 +2194,10 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Regras inteligentes</string>
     <key>playlists</key>
     <string>Playlists</string>
+    <key>playlists_auto_download_off_subtitle</key>
+    <string>Ative o download automático dos episódios nesta playlist.</string>
+    <key>playlists_auto_download_on_plural_format</key>
+    <string>Os primeiros %1$@ episódios nesta playlist serão baixados automaticamente</string>
     <key>playlists_default_new_playlist</key>
     <string>Nova playlist</string>
     <key>playlists_delete</key>
@@ -2561,6 +2573,8 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Só episódios mais recentes</string>
     <key>podcasts_badges</key>
     <string>Selos</string>
+    <key>podcasts_episode_sort_drag_and_drop</key>
+    <string>Ordem personalizada</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
     <string>Mais longo para mais curto</string>
     <key>podcasts_episode_sort_newest_to_oldest</key>

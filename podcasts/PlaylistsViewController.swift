@@ -1,8 +1,10 @@
 import SwiftUI
+import DifferenceKit
 import UIKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import Combine
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
@@ -21,7 +23,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
     }
 
-    var playlists = [EpisodeFilter]() {
+    var listPlaylistItems: [ListPlaylist] = [] {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 DispatchQueue.main.async { [weak self] in
@@ -93,9 +95,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         loadingIndicator = ThemeLoadingIndicator()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: filtersTable)
-        if FeatureFlag.playlistsRebranding.enabled {
-            addReloadPlaylistsObservers()
-        } else {
+        if !FeatureFlag.playlistsRebranding.enabled {
             setupNewFilterButton()
         }
         handleThemeChanged()
@@ -126,28 +126,22 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if FeatureFlag.playlistsRebranding.enabled {
-            if firstTimeLoading {
-                reloadFilters()
-            }
-        } else {
-            reloadFilters()
-        }
+        reloadFilters()
         setupInformationalBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateNavTintColors()
-        if !FeatureFlag.playlistsRebranding.enabled {
-            addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
-        }
+        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(filtersUpdated))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        Analytics.track(.filterListShown, properties: ["filter_count": playlists.count])
+        Analytics.track(.filterListShown, properties: ["filter_count": listPlaylistItems.count])
 
         showPlaylistsTipIfNeeded()
         showOnboardingScreenIfNeeded()
+
+        UserDefaults.standard.set(nil, forKey: Constants.UserDefaults.lastFilterShown)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -241,7 +235,41 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
-            playlists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+
+            let newData = DataManager.sharedManager.allPlaylists(includeDeleted: false).map { ListPlaylist(playlist: $0) }
+
+            if FeatureFlag.playlistsRebranding.enabled {
+                let oldData = self.listPlaylistItems
+
+                let changeSet = StagedChangeset(source: oldData, target: newData)
+
+                if oldData.isContentEqual(to: newData) {
+                    DispatchQueue.main.async {
+                        self.newFilterButton.isHidden = false
+                        self.loadingIndicator.stopAnimating()
+                    }
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self.newFilterButton.isHidden = false
+                    self.loadingIndicator.stopAnimating()
+                    do {
+                        try SJCommonUtils.catchException { [weak self] in
+                            self?.filtersTable.reload(using: changeSet, with: .fade) { [weak self] newData in
+                                self?.listPlaylistItems = newData
+                            }
+                        }
+                    } catch {
+                        if let data = changeSet.last?.data {
+                            self.listPlaylistItems = data
+                        }
+                        self.filtersTable.reloadData()
+                    }
+                }
+                return
+            }
+
             firstTimeLoading = false
             DispatchQueue.main.async {
                 self.newFilterButton.isHidden = false
@@ -249,11 +277,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self.filtersTable.reloadData()
             }
         }
-    }
-
-    private func addReloadPlaylistsObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(filtersUpdated), name: Constants.Notifications.playlistsNeedReload, object: nil)
     }
 
     private func setupInformationalBanner() {
@@ -294,11 +317,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             return
         }
 
-        customRightBtn?.isHidden = playlists.isEmpty
+        customRightBtn?.isHidden = listPlaylistItems.isEmpty
 
         var config: UIContentConfiguration?
 
-        if playlists.isEmpty {
+        if listPlaylistItems.isEmpty {
             // Empty State when playlists is empty
             let title = L10n.playlistsEmptyStateTitle
             let message = L10n.playlistsEmptyStateDescription
