@@ -1,30 +1,44 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import Combine
 
 class BadgeHelper {
     deinit {
         teardown()
     }
 
+    private var cancelable: Cancellable?
+
     func setup() {
-        let notCenter = NotificationCenter.default
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.playlistChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodePlayStatusChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeArchiveStatusChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeStarredChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.manyEpisodesChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: ServerNotifications.podcastsRefreshed, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.opmlImportCompleted, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.episodeDownloaded, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.playbackTrackChanged, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.playbackEnded, object: nil)
-        notCenter.addObserver(self, selector: #selector(updateBadge), name: Constants.Notifications.playbackStarted, object: nil)
+        let notifications: [NSNotification.Name] = [Constants.Notifications.playlistChanged,
+                                                    Constants.Notifications.episodePlayStatusChanged,
+                                                    Constants.Notifications.episodeArchiveStatusChanged,
+                                                    Constants.Notifications.episodeStarredChanged,
+                                                    Constants.Notifications.episodeDownloadStatusChanged,
+                                                    Constants.Notifications.manyEpisodesChanged,
+                                                    ServerNotifications.podcastsRefreshed,
+                                                    Constants.Notifications.opmlImportCompleted,
+                                                    Constants.Notifications.episodeDownloaded,
+                                                    Constants.Notifications.playbackTrackChanged,
+                                                    Constants.Notifications.playbackEnded,
+                                                    Constants.Notifications.playbackStarted]
+
+        let mergedMany = notifications
+            .map { NotificationCenter.default.publisher(for: $0) }
+            .reduce(Empty<Notification, Never>().eraseToAnyPublisher()) { acc, pub in
+                acc.merge(with: pub).eraseToAnyPublisher()
+            }
+            .debounce(for: .seconds(3), scheduler: RunLoop.main)
+
+        cancelable = mergedMany.sink { [weak self] _ in
+            self?.updateBadge()
+        }
     }
 
     func teardown() {
-        NotificationCenter.default.removeObserver(self)
+        cancelable?.cancel()
+        cancelable = nil
     }
 
     @objc func updateBadge() {
