@@ -2334,6 +2334,8 @@ internal enum L10n {
   internal static var playbackEffects: String { return L10n.tr("Localizable", "playback_effects", fallback: "Playback effects") }
   /// A common string used throughout the app. Generic message informing the user that playback failed.
   internal static var playbackFailed: String { return L10n.tr("Localizable", "playback_failed", fallback: "Playback Failed") }
+  /// Message to shown then trying to open playback from deep link but it's not available
+  internal static var playbackNotAvailable: String { return L10n.tr("Localizable", "playback_not_available", fallback: "Playback unavailable") }
   /// Label indicating the current value for the playback speed. '%1$@' is a placeholder for the playback speed and 'x' is meant to read as 'times' as in '1.1 times' for '1.1x'
   internal static func playbackSpeed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playback_speed", String(describing: p1), fallback: "%1$@x")

@@ -235,6 +235,7 @@ class NewPlaylistViewController: PCViewController {
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
         }
 
+        Analytics.track(.filterCreated)
         Analytics.track(.filterCreateAsManualPlaylistTapped)
 
         if Settings.firstTimePlaylistCreated {

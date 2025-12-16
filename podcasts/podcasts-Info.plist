@@ -1088,6 +1088,8 @@
 	</array>
 	<key>UIBrowsableContentSupportsSectionedBrowsing</key>
 	<false/>
+	<key>UIDesignRequiresCompatibility</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>

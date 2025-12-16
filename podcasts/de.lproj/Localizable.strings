@@ -2176,8 +2176,6 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Playlist hinzuzufügen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Aktivierte Regeln</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Weitere Optionen</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Neu abonnierte Podcasts werden automatisch hinzugefügt.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

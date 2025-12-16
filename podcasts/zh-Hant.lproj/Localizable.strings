@@ -2176,8 +2176,6 @@ Pocket Casts Plus</string>
     <string>設定「智慧規則」，自動將單集新增至智慧播放清單。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>已啟用的規則</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>其他選項</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>系統會自動新增你追蹤的新 Podcast 節目。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
