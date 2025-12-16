@@ -163,11 +163,15 @@ public class PlaylistQueryBuilder {
         var query = """
         WITH limited_episodes AS (
             SELECT * FROM (
-                SELECT episode.*
+                SELECT episode.id,
+                       episode.podcast_id,
+                       episode.publishedDate,
+                       episode.addedDate,
+                       episode.duration
                 FROM \(DataManager.episodeTableName) episode
                 LEFT JOIN \(DataManager.podcastTableName) podcast
                   ON episode.podcast_id = podcast.id
-                WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ""))
+                WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ")")
                 \(sortClause)
                 LIMIT \(episodeLimit)
             )
@@ -180,9 +184,11 @@ public class PlaylistQueryBuilder {
                    ) AS rn
             FROM limited_episodes
         )
-        SELECT *
-        FROM numbered_episodes
-        WHERE rn = 1
+        SELECT episode.*
+        FROM numbered_episodes ne
+        JOIN \(DataManager.episodeTableName) episode
+          ON episode.id = ne.id
+        WHERE ne.rn = 1
         ORDER BY \(sortClauseStripped)
         LIMIT \(limit)
         """
@@ -210,24 +216,72 @@ public class PlaylistQueryBuilder {
                 episodePositionOrderBy = sortByEpisode
             }
         }
+
+        let archivedPredicate = shouldShowArchived ? "" : "AND episode.archived = 0"
+
+        let episodePositionOrderByStripped = episodePositionOrderBy.replacingOccurrences(of: "episode.", with: "")
+
+        if isCustomOrderSortType {
+            return """
+            WITH playlist_rows AS (
+              SELECT episode.id,
+                     episode.podcast_id,
+                     playlist.episodePosition AS playlist_position
+              FROM \(DataManager.episodeTableName) episode
+              JOIN \(DataManager.playlistEpisodeTableName) playlist
+                ON episode.uuid = playlist.episodeUuid
+              WHERE playlist.playlist_uuid = '\(playlistUUID)'
+              \(archivedPredicate)
+              LIMIT \(episodeLimit)
+            ),
+            first_per_podcast AS (
+              SELECT podcast_id, MIN(playlist_position) AS min_pos
+              FROM playlist_rows
+              GROUP BY podcast_id
+            ),
+            chosen_ids AS (
+              SELECT pr.id, pr.playlist_position
+              FROM playlist_rows pr
+              JOIN first_per_podcast f
+                ON pr.podcast_id = f.podcast_id
+               AND pr.playlist_position = f.min_pos
+            )
+            SELECT episode.*
+            FROM \(DataManager.episodeTableName) episode
+            JOIN chosen_ids c
+              ON episode.id = c.id
+            ORDER BY c.playlist_position ASC
+            LIMIT \(limit)
+            """
+        }
         return """
         WITH ordered_episodes AS (
-          SELECT episode.*,
-                playlist.episodePosition AS playlist_position,
-                 ROW_NUMBER() OVER (
-                   PARTITION BY episode.podcast_id
-                   \(episodePositionOrderBy)
-                 ) AS rn
+          SELECT episode.id,
+                 episode.podcast_id,
+                 playlist.episodePosition AS playlist_position,
+                 episode.publishedDate,
+                 episode.addedDate,
+                 episode.duration
           FROM \(DataManager.episodeTableName) episode
           JOIN \(DataManager.playlistEpisodeTableName) playlist
             ON episode.uuid = playlist.episodeUuid
           WHERE playlist.playlist_uuid = '\(playlistUUID)'
-          \(shouldShowArchived ? "" : "AND episode.archived = 0")
+          \(archivedPredicate)
           LIMIT \(episodeLimit)
+        ),
+        numbered AS (
+          SELECT *,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY podcast_id
+                   \(episodePositionOrderByStripped)
+                 ) AS rn
+          FROM ordered_episodes
         )
-        SELECT *
-        FROM ordered_episodes
-        WHERE rn = 1
+        SELECT episode.*
+        FROM numbered n
+        JOIN \(DataManager.episodeTableName) episode
+          ON episode.id = n.id
+        WHERE n.rn = 1
         \(playlistPositionOrderBy)
         LIMIT \(limit)
         """
@@ -643,3 +697,4 @@ public class PlaylistQueryBuilder {
         return changedTime.timeIntervalSince1970
     }
 }
+
