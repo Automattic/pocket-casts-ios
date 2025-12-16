@@ -13,6 +13,15 @@ class Settings: NSObject {
     static var debugPlaylistsLimit = Constants.Limits.maxFilterItems
 #endif
 
+    static var diffbotApiKey: String {
+        get {
+            UserDefaults.standard.string(forKey: Constants.UserDefaults.diffbotApiKey) ?? ""
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.diffbotApiKey)
+        }
+    }
+
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)

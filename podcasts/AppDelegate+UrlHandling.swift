@@ -63,6 +63,10 @@ extension AppDelegate {
             if let scheme = url.scheme, scheme == "pktc" {
                 JLRoutes.routeURL(url)
             }
+
+            Task {
+                await WebURLHandler.handle(url: url)
+            }
         }
         return true
     }

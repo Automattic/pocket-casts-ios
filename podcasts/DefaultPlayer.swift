@@ -60,6 +60,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player = nil
         }
 
+        let url = EpisodeManager.urlForEpisode(episode)
+        FileLog.shared.addMessage("[DefaultPlayer] loadEpisode uuid=\(episode.uuid) url=\(url?.absoluteString ?? "nil")")
+
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
             handlePlaybackError("Unable to create playback item")
             return
@@ -116,6 +119,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         jumpToStartingPosition()
 
         player?.volume = 1
+        FileLog.shared.addMessage("[DefaultPlayer] play() rate=\(player?.rate ?? 0) status=\(player?.currentItem?.status.rawValue ?? -1) duration=\(player?.currentItem?.duration.seconds ?? -1)")
 
         completion?()
     }
@@ -235,6 +239,15 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     private func playerStatusDidChange() {
+        let statusDesc: String
+        switch player?.currentItem?.status {
+        case .unknown: statusDesc = "unknown"
+        case .readyToPlay: statusDesc = "readyToPlay"
+        case .failed: statusDesc = "failed"
+        default: statusDesc = "nil"
+        }
+        FileLog.shared.addMessage("[DefaultPlayer] status=\(statusDesc) timeControl=\(player?.timeControlStatus.rawValue ?? -1) duration=\(player?.currentItem?.duration.seconds ?? -1) currentTime=\(player?.currentTime().seconds ?? -1)")
+
         if player?.currentItem?.status == .failed {
 
             if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
@@ -637,11 +650,57 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         //
         // This should fix: https://github.com/Automattic/pocket-casts-ios/issues/47
         timeControlStatusObserver = player?.observe(\.timeControlStatus) { [weak self] player, _ in
+            guard let self else { return }
+
+            #if !APPCLIP && !os(watchOS)
+            // Handle TTS streaming episodes that pause when reaching the end of buffered data
+            if player.timeControlStatus == .paused,
+               self.shouldKeepPlaying,
+               let currentEpisode = PlaybackManager.shared.currentEpisode(),
+               let currentItem = player.currentItem,
+               currentItem.currentTime().seconds.isFinite {
+
+                let currentTime = currentItem.currentTime().seconds
+
+                let episodeDuration = currentEpisode.duration
+                let playerDuration = currentItem.duration.seconds
+
+                // If episode duration is significantly longer than player duration and we're near the player's duration,
+                // the file is still growing - we need to reload the player item to pick up the new duration
+                if episodeDuration > playerDuration + 10,
+                   currentTime >= playerDuration - 2 {
+                    FileLog.shared.addMessage("[DefaultPlayer] TTS streaming: reloading player item at \(currentTime)s, episode duration \(episodeDuration)s, player duration \(playerDuration)s")
+
+                    // Get the current asset URL and create a new player item
+                    if let urlAsset = currentItem.asset as? AVURLAsset {
+                        let newItem = AVPlayerItem(url: urlAsset.url)
+
+                        // Replace the current item with the new one
+                        player.replaceCurrentItem(with: newItem)
+
+                        // Seek to where we left off and resume playback
+                        player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 600)) { [weak self] _ in
+                            self?.performSetPlaybackRate()
+                        }
+
+                        // Re-configure the player observers for the new item
+                        self.durationObserver = player.currentItem?.observe(\.duration) { _, _ in
+                            PlaybackManager.shared.playerDidCalculateDuration()
+                        }
+                        self.playerItemStatusObserver = player.currentItem?.observe(\.status) { [weak self] _, _ in
+                            self?.playerStatusDidChange()
+                        }
+                    }
+                    return
+                }
+            }
+            #endif
+
             #if !os(watchOS)
             // We're going to be very explicit about the trigger for this to prevent triggering it when we don't want to
 
             // Only apply the logic when playing over AirPlay
-            guard PlaybackManager.shared.playingOverAirplay(), let self else { return }
+            guard PlaybackManager.shared.playingOverAirplay() else { return }
 
             // We'll keep track of the previous statuses and compare against them in the check below
             defer {
@@ -700,6 +759,29 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         let nc = NotificationCenter.default
         playToEndObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
             guard let self = self else { return }
+
+            // Ignore end-of-file notifications for temporary episodes that are still being written
+            #if !APPCLIP && !os(watchOS)
+            if PlaybackManager.shared.currentEpisode() is TTSTemporaryEpisode {
+                FileLog.shared.addMessage("[DefaultPlayer] Ignoring AVPlayerItemDidPlayToEndTime for TTSTemporaryEpisode (still streaming)")
+                return
+            }
+            #endif
+
+            // Also check if the episode's duration is significantly longer than the player item's duration
+            // This indicates a streaming file (like TTS) where the file is still growing
+            if let episode = PlaybackManager.shared.currentEpisode(),
+               let item = notification.object as? AVPlayerItem {
+                let episodeDuration = episode.duration
+                let playerDuration = CMTimeGetSeconds(item.duration)
+
+                // If episode duration is more than 10 seconds longer than player duration,
+                // the file is still being written
+                if episodeDuration > playerDuration + 10 {
+                    FileLog.shared.addMessage("[DefaultPlayer] Ignoring AVPlayerItemDidPlayToEndTime - episode duration (\(episodeDuration)s) >> player duration (\(playerDuration)s), file still growing")
+                    return
+                }
+            }
 
             self.shouldKeepPlaying = false
 

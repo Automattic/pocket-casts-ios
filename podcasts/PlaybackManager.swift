@@ -95,6 +95,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRemoteCommands), name: Constants.Notifications.remoteCommandSettingsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.episodeDurationChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateAllNowPlayingData), name: .episodeEmbeddedArtworkLoaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleCurrentlyPlayingEpisodeUpdated), name: Constants.Notifications.currentlyPlayingEpisodeUpdated, object: nil)
 
@@ -157,7 +158,16 @@ class PlaybackManager: ServerPlaybackDelegate {
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 
+        #if !APPCLIP && !os(watchOS)
+        if episode is TTSTemporaryEpisode {
+            queue.registerTemporaryEpisode(episode)
+        } else if queue.hasTemporaryEpisode(uuid: episode.uuid) {
+            queue.replaceTemporaryEpisode(with: episode)
+        }
+        #endif
+
         let episodeIsChanging = episode.uuid != currentEpisode()?.uuid
+        FileLog.shared.addMessage("PlaybackManager: episodeIsChanging=\(episodeIsChanging) current=\(currentEpisode()?.uuid ?? "nil") incoming=\(episode.uuid)")
 
         // if the user has built an Up Next list, preserve that but make this the currently playing episode
         if !overrideUpNext && !switchingToDifferentUpNextEpisode && queue.upNextCount() > 0 {
@@ -515,6 +525,15 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func duration() -> TimeInterval {
         guard let currentEpisode = currentEpisode() else { return 0 }
+
+        // For temporary episodes (like TTS streaming), always use the episode's duration
+        // since the file is being written incrementally and the player's cached duration
+        // from the file header won't reflect the growing audio
+        #if !APPCLIP && !os(watchOS)
+        if currentEpisode is TTSTemporaryEpisode {
+            return currentEpisode.duration
+        }
+        #endif
 
         if let player = player, !aboutToPlay.value, !buffering() {
             let episodeDuration = currentEpisode.duration
@@ -1271,15 +1290,21 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let currEpisode = currentEpisode() else { return possiblePlayers }
 
         #if !os(watchOS) && !APPCLIP
-            if let fallbackToPlayer {
-                return [fallbackToPlayer]
-            }
+        // For in-progress TTS temp episodes, prefer the default AVPlayer-based pipeline to avoid file-length assumptions in the effects player.
+        if currEpisode is TTSTemporaryEpisode {
+            possiblePlayers.append(DefaultPlayer.self)
+            return possiblePlayers
+        }
 
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-                possiblePlayers.append(GoogleCastPlayer.self)
+        if let fallbackToPlayer {
+            return [fallbackToPlayer]
+        }
 
-                return possiblePlayers // for Google Cast, only the Google Cast player is allowed
-            }
+        if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
+            possiblePlayers.append(GoogleCastPlayer.self)
+
+            return possiblePlayers // for Google Cast, only the Google Cast player is allowed
+        }
         #endif
 
         #if !os(watchOS)

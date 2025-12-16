@@ -14,6 +14,7 @@ struct DeveloperMenu: View {
     @State var showIntroCarousel = false
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
+    @State var diffbotApiKey = Settings.diffbotApiKey
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -57,6 +58,20 @@ struct DeveloperMenu: View {
                         Text("Reset Database + Settings")
                     })
                 }
+            }
+            Section {
+                SecureField("Diffbot API Key", text: $diffbotApiKey)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                Button("Save Diffbot API Key") {
+                    Settings.diffbotApiKey = diffbotApiKey
+                }
+                Button("Clear Diffbot API Key") {
+                    diffbotApiKey = ""
+                    Settings.diffbotApiKey = ""
+                }
+            } header: {
+                Text("Diffbot")
             }
             Section {
                 Button(action: {
@@ -418,6 +433,9 @@ struct DeveloperMenu: View {
             } header: {
                 Text("Bundle ID")
             }
+        }
+        .onAppear {
+            diffbotApiKey = Settings.diffbotApiKey
         }
         .miniPlayerSafeAreaInset()
     }

@@ -1,0 +1,3 @@
+[submodule "podcasts/Text to Speech/supertonic"]
+	path = podcasts/Text to Speech/supertonic
+	url = https://huggingface.co/Supertone/supertonic

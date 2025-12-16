@@ -13,7 +13,7 @@ class ShareViewController: UIViewController {
             return
         }
 
-        let acceptedTypes: [UTType] = [.audio, .movie, .data]
+        let acceptedTypes: [UTType] = [.audio, .movie, .url, .data]
 
         if let type = acceptedTypes.first(where: { attachment.hasItemConformingToTypeIdentifier($0.identifier) }) {
             loadFile(from: attachment, identifier: type.identifier)
@@ -40,6 +40,14 @@ class ShareViewController: UIViewController {
     private func loadFile(from attachment: NSItemProvider, identifier: String) {
         attachment.loadItem(forTypeIdentifier: identifier, options: nil) { [weak self] data, error in
             guard let url = data as? URL else {
+                return
+            }
+
+            guard url.isFileURL else {
+                self?.close()
+
+                //TODO: Search for podcasts and present list to select from
+                self?.redirectToHostApp(url.absoluteString)
                 return
             }
 

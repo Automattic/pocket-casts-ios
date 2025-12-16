@@ -9,6 +9,7 @@ class PlaybackQueue: NSObject {
 
     private let syncTimerDelay: TimeInterval = 5
     private var syncTimer: Timer?
+    private var temporaryEpisodes: [String: BaseEpisode] = [:]
 
     // MARK: - Editing
 
@@ -24,6 +25,34 @@ class PlaybackQueue: NSObject {
         }
 
         refreshAppFiring(notificationName: fireNotification ? Constants.Notifications.upNextEpisodeRemoved : nil, notificationObject: episode.uuid)
+    }
+
+    func registerTemporaryEpisode(_ episode: BaseEpisode) {
+        temporaryEpisodes.removeAll()
+        temporaryEpisodes[episode.uuid] = episode
+        topEpisode = episode
+    }
+
+    func replaceTemporaryEpisode(with episode: BaseEpisode) {
+        temporaryEpisodes.removeAll()
+        temporaryEpisodes[episode.uuid] = episode
+        topEpisode = episode
+    }
+
+    func clearTemporaryEpisode(uuid: String? = nil) {
+        if let uuid {
+            temporaryEpisodes.removeValue(forKey: uuid)
+            if topEpisode?.uuid == uuid {
+                cacheTopEpisode()
+            }
+        } else {
+            temporaryEpisodes.removeAll()
+            cacheTopEpisode()
+        }
+    }
+
+    func hasTemporaryEpisode(uuid: String) -> Bool {
+        temporaryEpisodes[uuid] != nil
     }
 
     func remove(uuid: String, fireNotification: Bool) {
@@ -290,7 +319,10 @@ class PlaybackQueue: NSObject {
     }
 
     func currentEpisode() -> BaseEpisode? {
-        topEpisode
+        if let temp = topEpisode, temporaryEpisodes[temp.uuid] != nil {
+            return temp
+        }
+        return topEpisode
     }
 
     func upNextCount() -> Int {
@@ -299,6 +331,10 @@ class PlaybackQueue: NSObject {
     }
 
     func episodeAt(index: Int) -> BaseEpisode? {
+        if index <= 0, let temp = temporaryEpisodes.values.first {
+            return temp
+        }
+
         let actualIndex = index + 1 // the rest of the app doesn't treat the current episode as being at position 0
         if actualIndex < 0 { return nil }
 
@@ -307,6 +343,10 @@ class PlaybackQueue: NSObject {
         }
 
         guard let playlistEpisode = DataManager.sharedManager.playlistEpisodeAt(index: actualIndex) else { return nil }
+
+        if let tempEpisode = temporaryEpisodes[playlistEpisode.episodeUuid] {
+            return tempEpisode
+        }
 
         let missingEpisode = UserEpisode()
         missingEpisode.title = playlistEpisode.title
@@ -362,6 +402,11 @@ class PlaybackQueue: NSObject {
     #endif
 
     private func cacheTopEpisode() {
+        if let temp = temporaryEpisodes.values.first {
+            topEpisode = temp
+            return
+        }
+
         topEpisode = episodeAt(index: -1)
     }
 
