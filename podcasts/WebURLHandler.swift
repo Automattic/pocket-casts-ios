@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import UIKit
 
 struct WebURLHandler {
     private static let defaultVoice: TTSService.Voice = .male
@@ -17,21 +18,33 @@ struct WebURLHandler {
             let feed = try await findFeed(for: url)
 
             if feed == nil {
-            let (text, iconURL) = try await fetchTextFromDiffbot(for: url)
-            print("Found Text: \(text?.prefix(500) ?? "None")")
-            guard let text, !text.isEmpty else {
-                print("No article text available for \(url)")
-                return
-            }
+                // Show loading alert
+                await TTSLoadingAlert.show(message: "Loading Article...")
 
-            do {
-                try await synthesizeAndPlay(text: text, articleURL: url, iconURL: iconURL)
-            } catch {
-                print("Failed to generate or play TTS for \(url): \(error)")
+                let (text, iconURL) = try await fetchTextFromDiffbot(for: url)
+                print("Found Text: \(text?.prefix(500) ?? "None")")
+                guard let text, !text.isEmpty else {
+                    print("No article text available for \(url)")
+                    await TTSLoadingAlert.dismiss()
+                    return
+                }
+
+                // Update loading message
+                await TTSLoadingAlert.update(message: "Starting Synthesis...")
+
+                do {
+                    try await synthesizeAndPlay(text: text, articleURL: url, iconURL: iconURL)
+                    // Dismiss after playback starts
+                    await TTSLoadingAlert.dismiss()
+                } catch {
+                    print("Failed to generate or play TTS for \(url): \(error)")
+                    await TTSLoadingAlert.dismiss()
+                }
             }
         } catch {
             // Silently fail if search or parsing fails
             print("WebURLHandler failed: \(error)")
+            await TTSLoadingAlert.dismiss()
             return
         }
     }

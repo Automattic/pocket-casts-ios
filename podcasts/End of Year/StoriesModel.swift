@@ -110,6 +110,9 @@ class StoriesModel: ObservableObject {
         Task.init {
             if self.configuration.loadingIsTheFirstStory {
                 loadingStart()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                    self?.loadingStart()
+                }
             }
             let isReady = await dataSource.refresh()
             if configuration.loadingIsTheFirstStory, progress >= 1 {

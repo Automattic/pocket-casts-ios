@@ -5,6 +5,54 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
 
+@MainActor
+enum TTSLoadingAlert {
+    private static var alert: ShiftyLoadingAlert?
+
+    static func show(message: String) {
+        guard alert == nil else {
+            update(message: message)
+            return
+        }
+
+        guard let presenter = SceneHelper.rootViewController() else { return }
+        let alert = ShiftyLoadingAlert(title: message)
+        alert.showAlert(presenter, hasProgress: false, completion: nil)
+
+        if let tabBar = SceneHelper.rootViewController(includeTopMost: false) as? MainTabBarController {
+            tabBar.alert = alert
+        }
+
+        self.alert = alert
+    }
+
+    static func update(message: String) {
+        if let tabBar = SceneHelper.rootViewController(includeTopMost: false) as? MainTabBarController {
+            tabBar.alert?.title = message
+            alert = tabBar.alert
+        } else {
+            alert?.title = message
+        }
+    }
+
+    static func dismiss() {
+        if let tabBar = SceneHelper.rootViewController(includeTopMost: false) as? MainTabBarController {
+            if let tabAlert = tabBar.alert {
+                tabAlert.hideAlert(true)
+                if tabAlert === alert {
+                    alert = nil
+                    tabBar.alert = nil
+                    return
+                }
+            }
+            tabBar.alert = nil
+        }
+
+        alert?.hideAlert(true)
+        alert = nil
+    }
+}
+
 struct WordTiming {
     let word: String
     let start: Double
@@ -153,6 +201,7 @@ final class TTSService {
         var startedPlayback = false
         var chunksBeforePlayback = 0
         let minChunksBeforePlayback = 1
+        var dismissedLoadingAlert = false
 
         let result = try textToSpeech.call(text, style, nfe, onChunk: { chunk in
             do {
@@ -173,6 +222,10 @@ final class TTSService {
                     PlaybackManager.shared.load(episode: tempEpisode, autoPlay: true, overrideUpNext: false)
                     // Notify initial duration is set
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDurationChanged, object: tempEpisode.uuid)
+                    if !dismissedLoadingAlert {
+                        dismissedLoadingAlert = true
+                        TTSLoadingAlert.dismiss()
+                    }
                 }
             } else if startedPlayback {
                 tempEpisode.duration = audioSeconds
