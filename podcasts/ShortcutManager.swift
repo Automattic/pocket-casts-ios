@@ -1,25 +1,42 @@
 import PocketCastsDataModel
 import UIKit
+import Combine
 
 class ShortcutManager: CustomObserver {
-    func listenForShortcutChanges() {
-        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.playlistChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(shortcutsRequireUpdate))
 
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(shortcutsRequireUpdate))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(shortcutsRequireUpdate))
+    var cancelable: Cancellable?
+
+    func listenForShortcutChanges() {
+        //Cleans up existing observers
+        stopListeningForShortcutChanges()
+
+        let notifications: [NSNotification.Name] = [Constants.Notifications.playbackStarted,
+                                                     Constants.Notifications.playbackPaused,
+                                                     Constants.Notifications.playbackEnded,
+                                                     Constants.Notifications.playlistChanged,
+                                                     Constants.Notifications.podcastAdded,
+                                                     Constants.Notifications.episodePlayStatusChanged,
+                                                     Constants.Notifications.episodeArchiveStatusChanged,
+                                                     Constants.Notifications.episodeStarredChanged,
+                                                     Constants.Notifications.episodeDownloadStatusChanged,
+                                                     Constants.Notifications.manyEpisodesChanged]
+
+        let mergedMany = notifications
+            .map { NotificationCenter.default.publisher(for: $0) }
+            .reduce(Empty<Notification, Never>().eraseToAnyPublisher()) { acc, pub in
+                acc.merge(with: pub).debounce(for: .seconds(3), scheduler: RunLoop.main).eraseToAnyPublisher()
+            }
+
+        cancelable = mergedMany.sink { [weak self] _ in
+            self?.shortcutsRequireUpdate()
+        }
 
         shortcutsRequireUpdate()
     }
 
     func stopListeningForShortcutChanges() {
-        removeAllCustomObservers()
+        cancelable?.cancel()
+        cancelable = nil
     }
 
     @objc private func shortcutsRequireUpdate() {
