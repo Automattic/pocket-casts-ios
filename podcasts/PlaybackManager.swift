@@ -154,6 +154,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         player?.futureBufferAvailable() ?? 0
     }
 
+    func recordUpNextUserInteraction() {
+        queue.recordUpNextUserInteraction()
+    }
+
     func load(episode: BaseEpisode, autoPlay: Bool, overrideUpNext: Bool, saveCurrentEpisode: Bool = true, completion: (() -> Void)? = nil) {
         FileLog.shared.addMessage("Loading \(episode.displayableTitle()) with UUID \(episode.uuid) autoPlay \(autoPlay) overrideUpNext: \(overrideUpNext)")
 

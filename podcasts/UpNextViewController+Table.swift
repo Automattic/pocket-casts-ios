@@ -212,7 +212,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         let toSection = tableData[proposedDestinationIndexPath.section]
 
-        if toSection == .upNextSection { return proposedDestinationIndexPath }
+        if toSection == .upNextSection {
+            return proposedDestinationIndexPath
+        }
 
         return IndexPath(row: 0, section: sourceIndexPath.section)
     }

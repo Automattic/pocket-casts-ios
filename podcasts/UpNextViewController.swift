@@ -401,6 +401,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 extension UpNextViewController {
     @objc func reorderingDidBegin() {
         isReorderInProgress = true
+        PlaybackManager.shared.recordUpNextUserInteraction()
     }
 
     @objc func reorderingDidEnd() {

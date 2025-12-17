@@ -8,7 +8,28 @@ class PlaybackQueue: NSObject {
     private var topEpisode: BaseEpisode?
 
     private let syncTimerDelay: TimeInterval = 5
+    private let interactionGracePeriod: TimeInterval = 10
     private var syncTimer: Timer?
+    private var lastUserInteractionTime: Date?
+
+    // MARK: - User Interaction Tracking
+
+    func recordUpNextUserInteraction(at date: Date = Date()) {
+        lastUserInteractionTime = date
+    }
+
+    func recentUserInteraction(now: Date = Date()) -> Bool {
+        remainingInteractionDelay(now: now) != nil
+    }
+
+    private func remainingInteractionDelay(now: Date = Date()) -> TimeInterval? {
+        guard let lastUserInteractionTime else { return nil }
+
+        let elapsed = now.timeIntervalSince(lastUserInteractionTime)
+        let remaining = interactionGracePeriod - elapsed
+
+        return remaining > 0 ? remaining : nil
+    }
 
     // MARK: - Editing
 
@@ -400,27 +421,40 @@ class PlaybackQueue: NSObject {
 
     // MARK: - Sync Timer
 
-    private func startSyncTimer() {
-        cancelSyncTimer()
-
-        // schedule the timer on a thread that has a run loop, the main thread being a good option
-        if Thread.isMainThread {
-            syncTimer = Timer.scheduledTimer(timeInterval: syncTimerDelay, target: self, selector: #selector(syncTimerFired), userInfo: nil, repeats: false)
-        } else {
-            DispatchQueue.main.sync { [weak self] () in
-                guard let self else { return }
-
-                self.syncTimer = Timer.scheduledTimer(timeInterval: self.syncTimerDelay, target: self, selector: #selector(self.syncTimerFired), userInfo: nil, repeats: false)
-            }
-        }
-    }
-
     private func cancelSyncTimer() {
         syncTimer?.invalidate()
         syncTimer = nil
     }
 
+    private func startSyncTimer(after delay: TimeInterval? = nil) {
+        cancelSyncTimer()
+        scheduleSyncTimer(after: delay ?? syncTimerDelay)
+    }
+
+    private func scheduleSyncTimer(after delay: TimeInterval) {
+        let scheduleTimer: () -> Void = { [weak self] in
+            guard let self else { return }
+
+            self.syncTimer = Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(self.syncTimerFired), userInfo: nil, repeats: false)
+        }
+
+        // schedule the timer on a thread that has a run loop, the main thread being a good option
+        if Thread.isMainThread {
+            scheduleTimer()
+        } else {
+            DispatchQueue.main.sync {
+                scheduleTimer()
+            }
+        }
+    }
+
     @objc private func syncTimerFired() {
+        if let remainingDelay = remainingInteractionDelay() {
+            FileLog.shared.addMessage("PlaybackQueue: Delaying Up Next sync for \(Int(remainingDelay.rounded(.up))) seconds due to recent interaction")
+            startSyncTimer(after: remainingDelay)
+            return
+        }
+
         RefreshManager.shared.syncUpNext()
     }
 }
