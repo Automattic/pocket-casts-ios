@@ -60,7 +60,30 @@ struct WordTiming {
 }
 
 final class TTSService {
-    enum Voice { case male, female }
+    enum Voice: String, CaseIterable, Identifiable {
+        case m1 = "M1"
+        case m2 = "M2"
+        case m3 = "M3"
+        case m4 = "M4"
+        case m5 = "M5"
+        case f1 = "F1"
+        case f2 = "F2"
+        case f3 = "F3"
+        case f4 = "F4"
+        case f5 = "F5"
+
+        static var defaultVoice: Voice { .m3 }
+
+        var id: String { rawValue }
+
+        var displayName: String {
+            let prefix = rawValue.hasPrefix("M") ? "Male" : "Female"
+            let number = rawValue.dropFirst()
+            return "\(prefix) \(number)"
+        }
+
+        var fileName: String { rawValue }
+    }
 
     private let env: ORTEnv
     private let textToSpeech: TextToSpeech
@@ -347,8 +370,7 @@ final class TTSService {
     }
 
     private static func locateVoiceStyleURL(voice: Voice) throws -> URL {
-        // Prefer M1/F1 defaults; search common subdirectories
-        let fileName = (voice == .male) ? "M3" : "F3"
+        let fileName = voice.fileName
         let bundle = Bundle.main
         let candidates: [URL?] = [
             bundle.url(forResource: fileName, withExtension: "json", subdirectory: "voice_styles"),

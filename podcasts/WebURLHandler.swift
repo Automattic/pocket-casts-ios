@@ -3,7 +3,7 @@ import PocketCastsServer
 import UIKit
 
 struct WebURLHandler {
-    private static let defaultVoice: TTSService.Voice = .male
+    private static var defaultVoice: TTSService.Voice { Settings.ttsVoice }
     private static let defaultNfe: Int = 5
 
     static func handle(url: URL) async {

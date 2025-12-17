@@ -22,6 +22,21 @@ class Settings: NSObject {
         }
     }
 
+    #if !APPCLIP && !os(watchOS)
+    static var ttsVoice: TTSService.Voice {
+        get {
+            guard let stored = UserDefaults.standard.string(forKey: Constants.UserDefaults.ttsVoice),
+                  let voice = TTSService.Voice(rawValue: stored) else {
+                return TTSService.Voice.defaultVoice
+            }
+            return voice
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.UserDefaults.ttsVoice)
+        }
+    }
+    #endif
+
     static var isLockScreenScrubbingDisabled: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.isLockScreenScrubbingDisabled)

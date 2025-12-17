@@ -15,6 +15,7 @@ struct DeveloperMenu: View {
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
     @State var diffbotApiKey = Settings.diffbotApiKey
+    @State var selectedTTSVoice = Settings.ttsVoice
 
     @StateObject var recommendationsViewModel = RecommendationsViewModel(configuration: .all)
 
@@ -72,6 +73,18 @@ struct DeveloperMenu: View {
                 }
             } header: {
                 Text("Diffbot")
+            }
+            Section {
+                Picker("Voice", selection: $selectedTTSVoice) {
+                    ForEach(TTSService.Voice.allCases) { voice in
+                        Text("\(voice.displayName) (\(voice.rawValue))").tag(voice)
+                    }
+                }
+                .onChange(of: selectedTTSVoice) { newValue in
+                    Settings.ttsVoice = newValue
+                }
+            } header: {
+                Text("Text to Speech")
             }
             Section {
                 Button(action: {
@@ -436,6 +449,7 @@ struct DeveloperMenu: View {
         }
         .onAppear {
             diffbotApiKey = Settings.diffbotApiKey
+            selectedTTSVoice = Settings.ttsVoice
         }
         .miniPlayerSafeAreaInset()
     }

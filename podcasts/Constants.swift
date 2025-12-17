@@ -123,6 +123,7 @@ struct Constants {
         static let globalEpisodesToKeep = "SJPodcastsToKeep"
         static let openLinksInExternalBrowser = "SJOpenLinksInExternalBrowser"
         static let diffbotApiKey = "DiffbotApiKey"
+        static let ttsVoice = "TTSVoice"
 
         static let appBadgeFilterUuid = "SJEppBadgeFilterId"
         static let lastAppCloseDate = "SJLastAppCloseDate"
