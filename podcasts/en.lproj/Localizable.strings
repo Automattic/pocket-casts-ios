@@ -4887,7 +4887,7 @@
 "cancel_subscription_title" = "Thinking of leaving?\nLet us help first";
 
 /* Title for the continue button */
-"cancel_subscription_continue_button" = "Continue to Cancellation";
+"cancel_subscription_continue_button" = "Continue with cancellation";
 
 /* Generic error if the product loading fails */
 "cancel_subscription_generic_error" = "An error occurred. Please try again later.";
