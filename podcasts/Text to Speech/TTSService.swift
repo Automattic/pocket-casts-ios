@@ -172,6 +172,7 @@ final class TTSService {
     func synthesizeStreaming(text: String, nfe: Int, voice: Voice, title: String, url: String, iconURL: String?) async throws -> (episode: UserEpisode, timings: [WordTiming], duration: Double) {
         let styleURL = try Self.locateVoiceStyleURL(voice: voice)
         let style = try loadVoiceStyle([styleURL.path], verbose: false)
+        let artworkTask = Task { await fetchIcon(iconURL: iconURL, fallbackURL: url) }
 
         let uuid = UUID().uuidString
         let outputPath = DownloadManager.shared.pathForUrl(fileUrl: URL(fileURLWithPath: "tts.caf"), uuid: uuid)
@@ -195,6 +196,15 @@ final class TTSService {
         let writer = try AVAudioFile(forWriting: outputURL, settings: wavSettings, commonFormat: .pcmFormatFloat32, interleaved: false)
         FileLog.shared.addMessage("TTSService: opened writer at \(outputURL.path)")
         let tempEpisode = TTSTemporaryEpisode(uuid: uuid, title: title, fileURL: outputURL, duration: 0, fileType: "audio/caf")
+        Task {
+            guard let artwork = await artworkTask.value else { return }
+            await MainActor.run {
+                tempEpisode.artwork = artwork
+                if PlaybackManager.shared.queue.hasTemporaryEpisode(uuid: tempEpisode.uuid) {
+                    PlaybackManager.shared.queue.nowPlayingEpisodeChanged()
+                }
+            }
+        }
 
         var audioSeconds: Double = 0
         var chunkOutputs: [TextToSpeech.ChunkedAudio] = []
@@ -244,7 +254,7 @@ final class TTSService {
         let fileSize = (try? outputURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
 
         // Fetch icon for artwork - prefer Diffbot icon if available, fallback to favicon
-        let artwork = await fetchIcon(iconURL: iconURL, fallbackURL: url)
+        let artwork = await artworkTask.value
 
         let episode = try await MainActor.run {
             try UserEpisodeManager.addUserEpisode(

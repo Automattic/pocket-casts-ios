@@ -123,6 +123,13 @@ class ImageManager {
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
+        #if !APPCLIP && !os(watchOS)
+        if let tempEpisode = episode as? TTSTemporaryEpisode, let artwork = tempEpisode.artwork {
+            imageView.image = artwork
+            return
+        }
+        #endif
+
         if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
         }
@@ -191,6 +198,13 @@ class ImageManager {
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
+        #if !APPCLIP && !os(watchOS)
+        if let tempEpisode = episode as? TTSTemporaryEpisode, let artwork = tempEpisode.artwork {
+            completionHandler(artwork)
+            return
+        }
+        #endif
+
         if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
         }) {

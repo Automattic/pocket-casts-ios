@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
 final class TTSTemporaryEpisode: NSObject, BaseEpisode {
     var uuid: String
@@ -28,6 +29,8 @@ final class TTSTemporaryEpisode: NSObject, BaseEpisode {
 
     var playedUpTo: Double = 0
     var duration: Double
+
+    var artwork: UIImage?
 
     var deselectedChapters: String?
     var deselectedChaptersModified: Int64 = 0
