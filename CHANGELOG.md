@@ -4,6 +4,7 @@
 
 8.2
 -----
+- Improve app performance when trigering multiple downloads [#3809](https://github.com/Automattic/pocket-casts-ios/pull/3809)
 
 8.1.1
 -----
