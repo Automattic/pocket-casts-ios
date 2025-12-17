@@ -697,4 +697,3 @@ public class PlaylistQueryBuilder {
         return changedTime.timeIntervalSince1970
     }
 }
-
