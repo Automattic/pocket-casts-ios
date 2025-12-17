@@ -24,14 +24,14 @@ class BadgeHelper {
                                                     Constants.Notifications.playbackEnded,
                                                     Constants.Notifications.playbackStarted]
 
-        let mergedMany = notifications
+        let mergedNotifications = notifications
             .map { NotificationCenter.default.publisher(for: $0) }
             .reduce(Empty<Notification, Never>().eraseToAnyPublisher()) { acc, pub in
                 acc.merge(with: pub).eraseToAnyPublisher()
             }
             .debounce(for: .seconds(3), scheduler: RunLoop.main)
 
-        cancelable = mergedMany.sink { [weak self] _ in
+        cancelable = mergedNotifications.sink { [weak self] _ in
             self?.updateBadge()
         }
     }
