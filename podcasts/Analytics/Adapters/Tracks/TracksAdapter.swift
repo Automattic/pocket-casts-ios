@@ -71,17 +71,20 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
 
     private func validateProperties(_ properties: [AnyHashable: Any]) {
         guard let castedProperties = properties as? [String: Any] else {
-            fatalError("Tracks event properties types keys must be a String")
+            assertionFailure("Tracks event properties types keys must be a String")
+            return
         }
 
         for key in castedProperties.keys {
             if Self.reservedPropertyNames.contains(key) {
-                fatalError("Tracks event properties key \(key) is reserved property name.")
+                assertionFailure("Tracks event properties key `\(key)` is reserved property name.")
+                return
             }
 
             let value = castedProperties[key]
             if !(value is Int || value is String || value is Double || value is Bool || value is Float) {
-                fatalError("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
+                assertionFailure("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
+                return
             }
         }
     }
