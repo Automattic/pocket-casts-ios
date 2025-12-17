@@ -13,7 +13,7 @@ if [[ ! -s "$XCODE_VERSION_FILE" ]]; then
 fi
 XCODE_VERSION=$(sed -E 's/^~> ?//' "$XCODE_VERSION_FILE")
 
-CI_TOOLKIT_PLUGIN_VERSION="5.3.1"
+CI_TOOLKIT_PLUGIN_VERSION="6.0.0"
 
 export IMAGE_ID="xcode-$XCODE_VERSION"
 export CI_TOOLKIT="automattic/a8c-ci-toolkit#$CI_TOOLKIT_PLUGIN_VERSION"
