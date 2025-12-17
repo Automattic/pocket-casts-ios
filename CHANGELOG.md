@@ -1,9 +1,11 @@
 8.3
 -----
-
+- Add Deselect action from long press [#3786](https://github.com/Automattic/pocket-casts-ios/pull/3786)
 
 8.2
 -----
+- Playlists: introduce DiffableKit to handle cell reloading [#3784](https://github.com/Automattic/pocket-casts-ios/pull/3784)
+- Playlists: improve artwork and counts queries [#3783](https://github.com/Automattic/pocket-casts-ios/pull/3783), [#3807](https://github.com/Automattic/pocket-casts-ios/pull/3807)
 
 8.1.1
 -----
