@@ -63,17 +63,13 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             guard let indexPath = episodesTable.indexPathForRow(at: touchPoint), episodeAtIndexPath(indexPath) != nil else { return }
 
             if isMultiSelectEnabled {
-                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    self.episodesTable.selectAllFrom(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection), toIndexPath: indexPath)
-                })
-
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    self.episodesTable.selectAllBelow(indexPath: indexPath)
-                })
-                optionPicker.addAction(action: allAboveAction)
-                optionPicker.addAction(action: allBelowAction)
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+                longPressSelectOptions(
+                    for: indexPath,
+                    in: episodesTable,
+                    firstSection: PodcastViewController.allEpisodesSection,
+                    statusBarStyle: preferredStatusBarStyle,
+                    excludingCellTypes: [HeadingCell.self]
+                )
             } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
@@ -291,7 +287,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let selectedEpisode = episodeInfo[indexPath.section].elements[safe: indexPath.row] as? ListEpisode {
             if selectedEpisodes.contains(selectedEpisode) {
-                tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
+                tableView.deselectIndexPath(indexPath)
                 return nil
             }
             return indexPath
