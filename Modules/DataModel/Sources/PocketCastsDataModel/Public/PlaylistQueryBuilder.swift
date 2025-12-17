@@ -111,6 +111,13 @@ public class PlaylistQueryBuilder {
                     addedUuid: addedUuid.boolValue
                 )
             }
+            if clause == .episodeCount || clause == .allEpisodeCount {
+                return smartPlaylistEpisodesCount(
+                    shouldShowArchived: shouldShowArchived,
+                    allEpisodesCount: clause == .allEpisodeCount,
+                    values: stringifiedValues
+                )
+            }
 
             let select = select(clause: clause)
             queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
@@ -222,6 +229,55 @@ public class PlaylistQueryBuilder {
             JOIN deduped_uuid d
               ON d.uuid = p.episodeUuid
             """
+    }
+
+    private static func smartPlaylistEpisodesCount(
+        shouldShowArchived: Bool,
+        allEpisodesCount: Bool,
+        values: String
+    ) -> String {
+        let archivedEquality = "AND episode.archived = \(shouldShowArchived ? 1 : 0)"
+        let archivedOptional = shouldShowArchived ? "" : "AND episode.archived = 0"
+        let whereArchived = allEpisodesCount ? archivedOptional : archivedEquality
+
+        var trimmedValues = values.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedValues.hasSuffix(",") {
+            trimmedValues.removeLast()
+        }
+        let openCount = trimmedValues.filter { $0 == "(" }.count
+        let closeCount = trimmedValues.filter { $0 == ")" }.count
+        if openCount > closeCount {
+            trimmedValues.append(String(repeating: ")", count: openCount - closeCount))
+        }
+        let whereTail = trimmedValues.isEmpty ? "" : " \(trimmedValues)"
+
+        return """
+        WITH filtered AS (
+          SELECT episode.uuid,
+                 episode.archived,
+                 episode.episodeStatus,
+                 episode.id
+          FROM \(DataManager.episodeTableName) episode
+          LEFT JOIN \(DataManager.podcastTableName) podcast
+            ON episode.podcast_id = podcast.id
+          WHERE 1 = 1 \(whereArchived)\(whereTail)
+        ),
+        deduped AS (
+          SELECT uuid
+          FROM (
+            SELECT f.uuid,
+                   ROW_NUMBER() OVER (
+                     PARTITION BY f.uuid
+                     ORDER BY
+                       CASE WHEN f.episodeStatus = 1 THEN 0 ELSE 1 END,
+                       f.id ASC
+                   ) AS rn
+            FROM filtered f
+          ) t
+          WHERE rn = 1
+        )
+        SELECT COUNT(*) FROM deduped
+        """
     }
 
     private static func manualPlaylistFirstDistinctEpisodes(
@@ -717,6 +773,7 @@ public class PlaylistQueryBuilder {
 
         string.replace(emptyGroup(for: "AND"), with: "")
         string.replace(emptyGroup(for: "OR"), with: "OR (1)")
+        string = string.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private class func filterTimeFor(hours: Int32) -> TimeInterval {
@@ -725,4 +782,3 @@ public class PlaylistQueryBuilder {
         return changedTime.timeIntervalSince1970
     }
 }
-
