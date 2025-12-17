@@ -15,31 +15,27 @@ struct WebURLHandler {
                 return
             }
 
-            let feed = try await findFeed(for: url)
+            // Show loading alert
+            await TTSLoadingAlert.show(message: "Loading Article...")
 
-            if feed == nil {
-                // Show loading alert
-                await TTSLoadingAlert.show(message: "Loading Article...")
+            let (text, iconURL) = try await fetchTextFromDiffbot(for: url)
+            print("Found Text: \(text?.prefix(500) ?? "None")")
+            guard let text, !text.isEmpty else {
+                print("No article text available for \(url)")
+                await TTSLoadingAlert.dismiss()
+                return
+            }
 
-                let (text, iconURL) = try await fetchTextFromDiffbot(for: url)
-                print("Found Text: \(text?.prefix(500) ?? "None")")
-                guard let text, !text.isEmpty else {
-                    print("No article text available for \(url)")
-                    await TTSLoadingAlert.dismiss()
-                    return
-                }
+            // Update loading message
+            await TTSLoadingAlert.update(message: "Starting Synthesis...")
 
-                // Update loading message
-                await TTSLoadingAlert.update(message: "Starting Synthesis...")
-
-                do {
-                    try await synthesizeAndPlay(text: text, articleURL: url, iconURL: iconURL)
-                    // Dismiss after playback starts
-                    await TTSLoadingAlert.dismiss()
-                } catch {
-                    print("Failed to generate or play TTS for \(url): \(error)")
-                    await TTSLoadingAlert.dismiss()
-                }
+            do {
+                try await synthesizeAndPlay(text: text, articleURL: url, iconURL: iconURL)
+                // Dismiss after playback starts
+                await TTSLoadingAlert.dismiss()
+            } catch {
+                print("Failed to generate or play TTS for \(url): \(error)")
+                await TTSLoadingAlert.dismiss()
             }
         } catch {
             // Silently fail if search or parsing fails
@@ -47,30 +43,6 @@ struct WebURLHandler {
             await TTSLoadingAlert.dismiss()
             return
         }
-    }
-
-    static func findFeed(for url: URL) async throws -> URL? {
-        let data = try await DiscoverServerHandler.shared.search(term: url.absoluteString)
-
-        // Decode the search response
-        let decoder = JSONDecoder()
-        print("Output: \(data)")
-        let response = try decoder.decode(PodcastSearchResponse.self, from: data)
-
-        // Check if the response was successful
-        guard response.success(),
-              let result = response.result,
-              let searchResults = result.searchResults,
-              let firstResult = searchResults.first,
-              let uuid = firstResult.uuid else {
-            return nil
-        }
-
-        // Subscribe to the podcast using the UUID from the first result
-//            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
-        print("Would subscribe to: \(firstResult.title)")
-
-        return nil
     }
 
     /// Fetches readable text and icon for a URL using the Diffbot Article API.
