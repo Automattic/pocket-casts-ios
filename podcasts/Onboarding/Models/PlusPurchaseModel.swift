@@ -52,8 +52,6 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
             return
         }
 
-        OnboardingFlow.shared.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": product.rawValue])
-
         purchasedProduct = product
         state = .purchasing
     }
