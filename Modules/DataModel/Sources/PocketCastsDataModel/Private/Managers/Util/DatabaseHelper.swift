@@ -875,11 +875,6 @@ class DatabaseHelper {
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_uuid_pos ON SJPlaylistEpisode (playlist_uuid, episodePosition);", values: nil)
                 try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_uuid_episode ON SJPlaylistEpisode (playlist_uuid, episodeUuid);", values: nil)
 
-                // Optional: indexes to speed up archived filtering combined with date sorts in smart playlists
-                // Uncomment if desired after measuring size/perf trade-offs
-                // try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived_published ON SJEpisode (archived, publishedDate);", values: nil)
-                // try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_archived_added ON SJEpisode (archived, addedDate);", values: nil)
-
                 schemaVersion = 71
             } catch {
                 failedAt(71)
