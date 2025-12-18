@@ -147,6 +147,8 @@
     <string>添加到“接下来播放”</string>
     <key>after_playing</key>
     <string>播放后</string>
+    <key>all_results</key>
+    <string>热门结果</string>
     <key>announcement_autoplay_description</key>
     <string>如果您的“接下来播放”队列为空，在您开始听节目时，自动播放会继续播放该节目或列表中的剧集。</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Pocket Casts Plus</string>
     <string>创建片段</string>
     <key>create_filter</key>
     <string>创建过滤器</string>
+    <key>create_up_next_snapshot</key>
+    <string>创建快照</string>
     <key>creator_pick_modal_description</key>
     <string>“创作者精选”是节目创作者使用 Podroll 推荐的播客。</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ Pocket Casts。</string>
     <string>与朋友分享您的播放记录，并向陪伴您度过一整年的播主表达谢意</string>
     <key>playback_2025_end_story_title</key>
     <string>感谢您这一年与 Pocket Casts 相伴同行</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>很抱歉，我们无法加载播放记录</string>
     <key>playback_2025_feature_description</key>
     <string>查看您的收听统计数据、热门播客等。</string>
+    <key>playback_2025_feature_title</key>
+    <string>播放记录现已上线！</string>
     <key>playback_2025_intro_message</key>
     <string>您的年度播客盘点已打包就绪，随时可供重温</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ Pocket Casts。</string>
     <string>先热身，准备好了吗！</string>
     <key>playback_2025_longest_episode_title</key>
     <string>您的马拉松级长篇收听：%1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>您的 %1$@ 福利可解锁额外统计信息和强大功能</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>感谢支持 Pocket Casts！</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>获取 Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>订阅 Pocket Casts Plus，解锁更详尽的统计信息、书签、文件夹、章节选择等功能，并运用更多方式深度探索您的收听习惯</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>想要深入探索？</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>评论能让精彩的节目获得关注</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>世界各地的创作者都感激这份喜爱</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>分享您所喜爱的内容，助力心仪创作者获得关注</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>暂无评分，但还有时间！</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>感谢分享您的反馈。</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>您像抛撒彩纸一样随意给出 %1$@ 星评价</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>更多心仪之选、更多畅玩时光、更多精彩自我</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ Pocket Casts。</string>
     <string>始终如一，值得信赖，如同您咖啡店的固定订单</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>您的 2025 年收听量保持稳定</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>更多精彩播客，更多欢乐时光</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>相比于 2024 年，您的收听时长飙升 %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2024,6 +2050,8 @@ Pocket Casts。</string>
     <string>播放效果</string>
     <key>playback_failed</key>
     <string>播放失败</string>
+    <key>playback_not_available</key>
+    <string>播放记录不可用</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2176,8 +2204,8 @@ Pocket Casts。</string>
     <string>设置智能规则，自动将剧集添加到您的智能播放列表。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>已启用的规则</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>其他选项</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>更多规则</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>您关注的新播客将会自动添加。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

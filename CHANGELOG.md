@@ -1,10 +1,17 @@
 8.3
 -----
-
+- Add Deselect action from long press [#3786](https://github.com/Automattic/pocket-casts-ios/pull/3786)
 
 8.2
 -----
+- Playlists: introduce DiffableKit to handle cell reloading [#3784](https://github.com/Automattic/pocket-casts-ios/pull/3784)
+- Playlists: improve artwork and counts queries [#3783](https://github.com/Automattic/pocket-casts-ios/pull/3783), [#3807](https://github.com/Automattic/pocket-casts-ios/pull/3807)
+- Improve app performance when trigering multiple downloads [#3809](https://github.com/Automattic/pocket-casts-ios/pull/3809)
 
+8.1.1
+-----
+- Playlists: fix drag and drop tip for logged out users [#3800](https://github.com/Automattic/pocket-casts-ios/pull/3800)
+- Keep episode downloads from missing podcasts during sync [#3799](https://github.com/Automattic/pocket-casts-ios/pull/3799)
 
 8.1
 -----
