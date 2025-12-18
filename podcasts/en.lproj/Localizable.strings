@@ -5811,3 +5811,8 @@
 
 /* Message to shown when playback 2025 failed to load */
 "playback_2025_failed_to_load" = "Sorry, we couldn’t load Playback";
+
+/* Message to shown then trying to open playback from deep link but it's not available */
+"playback_not_available" = "Playback unavailable";
+
+

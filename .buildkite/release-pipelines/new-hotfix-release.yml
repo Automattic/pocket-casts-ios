@@ -25,5 +25,5 @@ steps:
       queue: "mac"
     retry:
       manual:
+        reason: If release jobs fail, you should always re-trigger the task from Releases V2 rather than retrying the individual job from Buildkite
         allowed: false
-        reason: "If this job fails, please trigger a new build from ReleasesV2 instead of retrying this step"

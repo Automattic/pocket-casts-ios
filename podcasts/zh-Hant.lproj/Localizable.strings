@@ -147,6 +147,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>新增到「接下來播放」</string>
     <key>after_playing</key>
     <string>播放後</string>
+    <key>all_results</key>
+    <string>熱門結果</string>
     <key>announcement_autoplay_description</key>
     <string>如果「接下來播放」佇列是空的，而你開始聆聽某一單集，自動播放功能會繼續播放同一個節目或清單的單集。</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Pocket Casts Plus</string>
     <string>建立片段</string>
     <key>create_filter</key>
     <string>建立篩選器</string>
+    <key>create_up_next_snapshot</key>
+    <string>建立快照</string>
     <key>creator_pick_modal_description</key>
     <string>「創作者精選」列出由節目創作者使用 Podroll 推薦的 Podcast。</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ Pocket Casts Plus</string>
     <string>與好友分享年度播放回顧，向陪伴你一整年的 Podcast 主講人表達心意</string>
     <key>playback_2025_end_story_title</key>
     <string>感謝你這一年來持續使用 Pocket Casts</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>很抱歉，我們無法載入播放功能</string>
     <key>playback_2025_feature_description</key>
     <string>看看你的收聽統計和最愛 Podcast 等資料吧。</string>
+    <key>playback_2025_feature_title</key>
+    <string>就在這裡用播放功能！</string>
     <key>playback_2025_intro_message</key>
     <string>你的 Podcast 年度回顧已整理完畢，可隨時重溫過往</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ Pocket Casts Plus</string>
     <string>不妨伸展一下！</string>
     <key>playback_2025_longest_episode_title</key>
     <string>你的聆聽馬拉松：%1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>只要使用「%1$@」好康，即可解鎖額外的統計工具和強大功能</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>感謝你助 Pocket Casts 一臂之力！</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>取得 Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>訂閱 Pocket Casts Plus，即可享有更深入的統計資料、書籤、資料夾、預先選取章節功能，並透過更多方式深入探索個人收聽習慣</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>想深入探索嗎？</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>你的評論能讓更多人聽見超讚節目</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>世界各地的創作者對這樣的心意都心懷感激</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>分享你喜愛的內容，讓更多人聽見你最愛的創作者</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>還沒有評分，不過還有時間！</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>歡迎與我們分享意見。</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>你留下 %1$@ 星級評分，為創作者大力喝采</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>更多最愛項目、播放資訊以及自我回顧</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ Pocket Casts Plus</string>
     <string>穩定可靠，堅若磐石</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>你的 2025 年收聽狀況維持穩定</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>更多 Podcast 節目，更多歡樂</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>比起 2024 年，你的收聽時間飆高了 %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2024,6 +2050,8 @@ Pocket Casts Plus</string>
     <string>播放效果</string>
     <key>playback_failed</key>
     <string>播放失敗</string>
+    <key>playback_not_available</key>
+    <string>無法播放</string>
     <key>playback_speed</key>
     <string>%1$@ 倍速</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2176,8 +2204,8 @@ Pocket Casts Plus</string>
     <string>設定「智慧規則」，自動將單集新增至智慧播放清單。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>已啟用的規則</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>其他選項</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>更多規則</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>系統會自動新增你追蹤的新 Podcast 節目。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

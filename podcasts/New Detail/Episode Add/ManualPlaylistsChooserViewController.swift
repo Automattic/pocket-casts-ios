@@ -176,10 +176,6 @@ class ManualPlaylistsChooserViewController: PCViewController {
             dataManager.save(playlist: playlist)
         }
 
-        if !added.isEmpty || !removed.isEmpty {
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistsNeedReload)
-        }
-
         dismiss(animated: true) {
             if added.isEmpty {
                 return

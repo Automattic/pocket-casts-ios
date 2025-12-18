@@ -1,24 +1,20 @@
+import Foundation
+
 class ThreadSafeDictionary<Key: Hashable, Value> {
 
-    private let queue: DispatchQueue
+    private let tableLock = NSLock()
     private var table: [Key: Value] = [:]
 
-    init(label: String = "au.com.shiftyjelly.podcasts.SyncHashTable") {
-        queue = DispatchQueue(label: label, attributes: .concurrent)
-    }
-
     func value(forKey key: Key) -> Value? {
-        var value: Value?
-        queue.sync { [weak self] in
-            value = self?.table[key]
-        }
-        return value
+        tableLock.lock()
+        defer { tableLock.unlock() }
+        return table[key]
     }
 
     func updateValue(_ value: Value?, forKey key: Key) {
-        queue.async(flags: .barrier) { [weak self] in
-            self?.table[key] = value
-        }
+        tableLock.lock()
+        defer { tableLock.unlock() }
+        table[key] = value
     }
 
     subscript(index: Key) -> Value? {
@@ -35,16 +31,14 @@ class ThreadSafeDictionary<Key: Hashable, Value> {
     }
 
     func removeAll() {
-        queue.async(flags: .barrier) { [weak self] in
-            self?.table.removeAll()
-        }
+        tableLock.lock()
+        defer { tableLock.unlock() }
+        table.removeAll()
     }
 
     func contains(where predicate: ((key: Key, value: Value)) throws -> Bool) rethrows -> Bool {
-        var result = false
-        try queue.sync { [weak self] in
-            result = try self?.table.contains(where: predicate) ?? false
-        }
-        return result
+        tableLock.lock()
+        defer { tableLock.unlock() }
+        return try table.contains(where: predicate)
     }
 }

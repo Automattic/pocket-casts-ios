@@ -20,7 +20,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        playlists.count
+        listPlaylistItems.count
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -32,17 +32,17 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = cell(tableView, for: NewPlaylistCell.reuseIdentifier) as! NewPlaylistCell
             if cell.tag != indexPath.row { cell.reset() }
             cell.tag = indexPath.row
-            if let playlist = playlists[safe: indexPath.row] {
+            if let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
                 cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
                 cell.loadMetadata(for: playlist)
-                cell.hideSeparator(indexPath.row == playlists.count - 1)
+                cell.hideSeparator(indexPath.row == listPlaylistItems.count - 1)
             }
             return cell
         }
 
         let cell = cell(tableView, for: PlaylistsViewController.playlistCellId) as! FilterNameCell
 
-        if let filter = playlists[safe: indexPath.row] {
+        if let filter = listPlaylistItems[safe: indexPath.row]?.playlist {
             cell.filterName.text = filter.playlistName
             cell.filterImage.image = filter.iconImage()
             cell.filterImage.tintColor = filter.playlistColor()
@@ -91,7 +91,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if let filter = playlists[safe: indexPath.row] {
+        if let filter = listPlaylistItems[safe: indexPath.row]?.playlist {
             showFilter(filter)
         }
     }
@@ -111,7 +111,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete, let playlist = playlists[safe: indexPath.row] {
+        if editingStyle == .delete, let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
             if FeatureFlag.playlistsRebranding.enabled {
                 showDeleteOptionPicker(for: playlist, at: indexPath, in: tableView)
             } else {
@@ -125,13 +125,13 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if sourceIndexPath == destinationIndexPath { return }
 
-        let movedObject = playlists[sourceIndexPath.row]
-        playlists.remove(at: sourceIndexPath.row)
-        playlists.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = listPlaylistItems[sourceIndexPath.row]
+        listPlaylistItems.remove(at: sourceIndexPath.row)
+        listPlaylistItems.insert(movedObject, at: destinationIndexPath.row)
 
         // ok, we've now sorted the list that needed sorting, update the sort positions in the DB and mark that list as not synced
-        for (index, filter) in playlists.enumerated() {
-            DataManager.sharedManager.updatePosition(playlist: filter, newPosition: Int32(index))
+        for (index, filter) in listPlaylistItems.enumerated() {
+            DataManager.sharedManager.updatePosition(playlist: filter.playlist, newPosition: Int32(index))
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)
@@ -173,7 +173,7 @@ extension PlaylistsViewController {
 
     fileprivate func delete(playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
         PlaylistManager.delete(playlist: playlist, fireEvent: false)
-        playlists.remove(at: indexPath.row)
+        listPlaylistItems.remove(at: indexPath.row)
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .top)
         tableView.endUpdates()
@@ -239,7 +239,7 @@ extension PlaylistsViewController {
             PlaylistManager.DefaultUUIDs.newReleases,
             PlaylistManager.DefaultUUIDs.inProgress
         ]
-        let playlistsUUID = playlists.map { $0.uuid }
+        let playlistsUUID = listPlaylistItems.map { $0.playlist.uuid }
         let playlistsUUIDSet: Set<String> = Set(playlistsUUID)
         if playlistsUUIDSet.count > premadePlaylistUuids.count || premadePlaylistUuids != playlistsUUIDSet {
             return true
@@ -257,7 +257,7 @@ extension PlaylistsViewController {
     }
 
     private func smartPlaylistsTip() -> UIHostingController<AnyView>? {
-        guard let indexPath = filtersTable.indexPathsForVisibleRows?.last, !playlists.isEmpty else { return nil }
+        guard let indexPath = filtersTable.indexPathsForVisibleRows?.last, !listPlaylistItems.isEmpty else { return nil }
         return tip(
             title: L10n.smartPlaylistsTipViewTitle,
             message: L10n.smartPlaylistsTipViewDescription,
@@ -270,7 +270,7 @@ extension PlaylistsViewController {
         guard
             let indexPath = filtersTable.indexPathsForVisibleRows?.first,
             let cell = filtersTable.cellForRow(at: indexPath) as? NewPlaylistCell,
-            !playlists.isEmpty
+            !listPlaylistItems.isEmpty
         else { return }
         let tip = tip(
             title: L10n.playlistsTipDragAndDropTitle,
@@ -334,7 +334,7 @@ extension PlaylistsViewController: UIPopoverPresentationControllerDelegate {
 
 extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDelegate {
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let movedObject = playlists[indexPath.row]
+        let movedObject = listPlaylistItems[indexPath.row]
         let itemProvider = NSItemProvider(object: "\(movedObject.id)" as NSString)
         return [UIDragItem(itemProvider: itemProvider)]
     }
@@ -345,16 +345,16 @@ extension PlaylistsViewController: UITableViewDragDelegate, UITableViewDropDeleg
         coordinator.items.forEach { item in
             if let sourceIndexPath = item.sourceIndexPath {
                 tableView.performBatchUpdates {
-                    let movedItem = playlists.remove(at: sourceIndexPath.row)
-                    playlists.insert(movedItem, at: destinationIndexPath.row)
+                    let movedItem = listPlaylistItems.remove(at: sourceIndexPath.row)
+                    listPlaylistItems.insert(movedItem, at: destinationIndexPath.row)
                     tableView.moveRow(at: sourceIndexPath, to: destinationIndexPath)
                 }
                 coordinator.drop(item.dragItem, toRowAt: destinationIndexPath)
             }
         }
 
-        for (index, playlist) in playlists.enumerated() {
-            DataManager.sharedManager.updatePosition(playlist: playlist, newPosition: Int32(index))
+        for (index, playlist) in listPlaylistItems.enumerated() {
+            DataManager.sharedManager.updatePosition(playlist: playlist.playlist, newPosition: Int32(index))
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged)

@@ -400,7 +400,7 @@ private extension StoriesModel {
                 if dataSource.numberOfStories > 0, dataSource.shareableStory(for: currentStoryIndex) != nil {
                     let year = EndOfYear.currentYear.literalValue
                     let story = currentStoryIdentifier
-                    let properties = ["story": story, "year": year, "from": "screenshot"]
+                    let properties = ["story": story, "current_year": year, "from": "screenshot"]
                     Analytics.track(.endOfYearStoryShared, properties: properties)
                 }
             }

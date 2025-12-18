@@ -2044,6 +2044,8 @@ Això sí que és compromís!</string>
     <string>Efectes de reproducció</string>
     <key>playback_failed</key>
     <string>Error en reproduir</string>
+    <key>playback_not_available</key>
+    <string>Reproducció no disponible</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2196,8 +2198,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Configura regles intel·ligents per afegir automàticament episodis a la teva llista de reproducció intel·ligent.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regles activades</string>
-    <key>playlist_smart_preview_other_rules</key>
-    <string>Altres opcions</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>Més regles</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Els nous pòdcasts que segueixis s'afegiran automàticament.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
