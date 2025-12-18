@@ -147,6 +147,8 @@ Tippe auf den Button unten, um dich erneut in deinem Pocket Casts-Konto anzumeld
     <string>Zur Warteschlange hinzufügen</string>
     <key>after_playing</key>
     <string>Nach der Wiedergabe</string>
+    <key>all_results</key>
+    <string>Top-Ergebnisse</string>
     <key>announcement_autoplay_description</key>
     <string>Wenn deine „Als Nächstes“-Warteschlange leer ist und du anfängst, eine Folge zu hören, spielt Autoplay weiter Folgen aus dieser Show oder Liste ab.</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Lass uns dir zuerst helfen</string>
     <string>Clip erstellen</string>
     <key>create_filter</key>
     <string>Filter erstellen</string>
+    <key>create_up_next_snapshot</key>
+    <string>Momentaufnahme erstellen</string>
     <key>creator_pick_modal_description</key>
     <string>Ersteller-Empfehlungen sind Podcasts, die vom Ersteller der Show mithilfe von PodRoll empfohlen werden.</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Teile deine Wiedergabeliste mit Freunden und zeige Podcastern, die dich das ganze Jahr über begleitet haben, etwas Anerkennung</string>
     <key>playback_2025_end_story_title</key>
     <string>Danke, dass du dein Jahr mit Pocket Casts verbracht hast</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>Leider konnten wir die Wiedergabe nicht laden</string>
     <key>playback_2025_feature_description</key>
     <string>Schau dir deine Audiostatistiken, Top-Podcasts und mehr an.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Wiedergabe ist da!</string>
     <key>playback_2025_intro_message</key>
     <string>Dein Jahr in Podcasts: kompakt verpackt und bereit für ein erneutes Durchleben</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Wir hoffen, du hast dich zuerst gedehnt!</string>
     <key>playback_2025_longest_episode_title</key>
     <string>Dauer einer längsten Episode: %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>Mit deinen %1$@-Vorteilen erhältst du zusätzliche Statistiken und leistungsstarke Funktionen</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Vielen Dank, dass du Pocket Casts unterstützt!</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Pocket Casts Plus holen</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>Abonniere Pocket Casts Plus für erweiterte Statistiken, Lesezeichen, Ordner, Kapitelauswahl und weitere Möglichkeiten, deine Audiogewohnheiten zu analysieren</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>Möchtest du tief eintauchen?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>Bewertungen helfen dabei, tolle Shows zu finden</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>Ersteller überall schätzen die Liebe</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>Hilf deinen Lieblingserstellern, entdeckt zu werden, indem du teilst, was du liebst</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>Noch keine Bewertungen, aber es ist noch Zeit!</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>Vielen Dank für dein Feedback.</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>Du hast %1$@-Sterne-Bewertungen wie Konfetti verteilt</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Mehr Favoriten, mehr Wiedergaben, mehr du</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ Das ist Hingabe!</string>
     <string>Konsistent, zuverlässig, wie deine Coffeeshop-Bestellung</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Dein Audioerlebnis 2025 war stabil</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Mehr Podcasts, mehr Freude</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Im Vergleich zu 2024 ist deine Audiozeit in die Höhe geschnellt – %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2024,6 +2050,8 @@ Das ist Hingabe!</string>
     <string>Wiedergabeoptionen</string>
     <key>playback_failed</key>
     <string>Wiedergabe fehlgeschlagen</string>
+    <key>playback_not_available</key>
+    <string>Wiedergabe nicht verfügbar</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2176,6 +2204,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Richte intelligente Regeln ein, um Folgen automatisch zu deiner intelligenten Playlist hinzuzufügen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Aktivierte Regeln</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>Weitere Regeln</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Neu abonnierte Podcasts werden automatisch hinzugefügt.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>
