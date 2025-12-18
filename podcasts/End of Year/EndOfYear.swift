@@ -129,10 +129,9 @@ struct EndOfYear {
         switch Self.currentYear {
         case .y2022:
         #if DEBUG
-            fatalError("Shouldn't reach this")
-        #else
-            return
+            assertionFailure("Shouldn't reach this")
         #endif
+            return
         case .y2023:
             viewModel = .init(buttonTitle: L10n.eoyViewYear, description: L10n.eoyDescription, backgroundImageName: "modal_cover")
         case .y2024:
