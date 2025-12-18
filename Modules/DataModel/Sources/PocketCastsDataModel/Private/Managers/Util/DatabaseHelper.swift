@@ -868,6 +868,20 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 71 {
+            do {
+                // Indexes to optimize manual playlist queries by playlist_uuid and ordering by episodePosition
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_uuid ON SJPlaylistEpisode (playlist_uuid);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_uuid_pos ON SJPlaylistEpisode (playlist_uuid, episodePosition);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS playlist_episode_playlist_uuid_episode ON SJPlaylistEpisode (playlist_uuid, episodeUuid);", values: nil)
+
+                schemaVersion = 71
+            } catch {
+                failedAt(71)
+                return
+            }
+        }
+
         db.commit()
     }
 }
