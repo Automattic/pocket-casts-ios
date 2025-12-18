@@ -17,13 +17,15 @@ public actor ShowInfoDataRetriever {
         for podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let request = URLRequest(url: url)
+        if !FeatureFlag.episodesInfoCahceReloadPolicy.enabled || !NetworkUtils.shared.isConnected() {
+            let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+            let request = URLRequest(url: url)
 
-        if let cachedResponse = cache.cachedResponse(for: request),
-            let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
-            FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
-            return metadata
+            if let cachedResponse = cache.cachedResponse(for: request),
+                let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
+                FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
+                return metadata
+            }
         }
 
         return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
@@ -37,7 +39,8 @@ public actor ShowInfoDataRetriever {
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+        let cachePolicy: URLRequest.CachePolicy = FeatureFlag.episodesInfoCahceReloadPolicy.enabled ? .reloadRevalidatingCacheData : .reloadIgnoringLocalAndRemoteCacheData
+        var request = URLRequest(url: url, cachePolicy: cachePolicy)
         request.addLocalizationHeaders()
 
         if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
