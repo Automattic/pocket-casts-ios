@@ -19,17 +19,13 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
             let touchPoint = sender.location(in: listeningHistoryTable)
             guard let indexPath = listeningHistoryTable.indexPathForRow(at: touchPoint) else { return }
             if isMultiSelectEnabled {
-                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    self.listeningHistoryTable.selectAllAbove(indexPath: indexPath)
-                })
-
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    self.listeningHistoryTable.selectAllBelow(indexPath: indexPath)
-                })
-                optionPicker.addAction(action: allAboveAction)
-                optionPicker.addAction(action: allBelowAction)
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+                longPressSelectOptions(
+                    for: indexPath,
+                    in: listeningHistoryTable,
+                    firstSection: 0,
+                    lastSection: episodes.count - 1,
+                    statusBarStyle: preferredStatusBarStyle
+                )
             } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true
