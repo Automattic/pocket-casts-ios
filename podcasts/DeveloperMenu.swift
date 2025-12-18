@@ -354,26 +354,12 @@ struct DeveloperMenu: View {
             }
 
             Section {
-                Button("Show Playlists Onboarding") {
-                    showingPlaylistsOnboarding = true
-                }
-                .sheet(isPresented: $showingPlaylistsOnboarding) {
-                    PlaylistsOnboardingView(onClose: {
-                        showingPlaylistsOnboarding = false
-                    })
-                }
-
                 Button("Show Intro Carousel") {
                     showIntroCarousel = true
                 }
                 .sheet(isPresented: $showIntroCarousel) {
                     IntroCarouselView(coordinator: LoginCoordinator())
                 }
-            } header: {
-                Text("Onboarding")
-            }
-
-            Section {
                 Button("Show Onboarding Recommendations") {
                     showingRecommendationsOnboarding = true
                 }
@@ -409,10 +395,24 @@ struct DeveloperMenu: View {
                 .onChange(of: enableDebugPlaylistLimit) { newValue in
                     Settings.debugPlaylistsLimit = newValue ? 6 : Constants.Limits.maxFilterItems
                 }
+                Button("Show Playlists Onboarding") {
+                    showingPlaylistsOnboarding = true
+                }
+                .sheet(isPresented: $showingPlaylistsOnboarding) {
+                    PlaylistsOnboardingView(onClose: {
+                        showingPlaylistsOnboarding = false
+                    })
+                }
             } header: {
                 Text("Playlist Rebranding")
             }
-
+            Section {
+                Button("Reset Referrals Tip") {
+                    Settings.shouldShowReferralsTip = true
+                }
+            } header: {
+                Text("Playlist Rebranding")
+            }
             Section {
                 Text(Bundle.main.identifier)
             } header: {

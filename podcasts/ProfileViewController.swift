@@ -93,7 +93,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
-        updateReferrals()
         setupRefreshControl()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: profileTable)
     }
@@ -163,7 +162,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     override func handleThemeChanged() {
         updateRefreshFooterColors()
-        updateReferralsColors()
     }
 
     private func updateRefreshFooterColors() {
@@ -232,8 +230,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func updateLastRefreshDetails() {
         if ReferralsCoordinator.shared.areReferralsAvailableToSend {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: referralsButton)
-            updateReferralsColors()
+            navigationItem.leftBarButtonItem = referralsButton
         } else {
             navigationItem.leftBarButtonItem = nil
         }
@@ -504,50 +501,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         updateDisplayedData()
     }
 
-    private lazy var referralsBadge: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 1
-        label.text = nil
-        label.textAlignment = .center
-        label.layer.borderWidth = 1
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 8
-        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        return label
-    }()
-
-    private lazy var referralsButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: ReferralsConstants.giftIcon), for: .normal)
-        button.addTarget(self, action: #selector(referralsTapped), for: .touchUpInside)
-        button.addSubview(referralsBadge)
-        NSLayoutConstraint.activate(
-            [
-                button.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
-                button.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftSize),
-                referralsBadge.widthAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
-                referralsBadge.heightAnchor.constraint(equalToConstant: ReferralsConstants.giftBadgeSize),
-                referralsBadge.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -ReferralsConstants.giftBadgeSize / 2),
-                referralsBadge.topAnchor.constraint(equalTo: button.topAnchor, constant: -ReferralsConstants.giftBadgeSize / 4)
-            ]
-        )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.clipsToBounds = false
-        button.bringSubviewToFront(referralsBadge)
+    private lazy var referralsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: ReferralsConstants.giftIcon), style: .plain, target: self, action: #selector(referralsTapped))
         return button
     }()
-
-    private func updateReferrals() {
-        referralsBadge.text = ""
-        referralsBadge.isHidden = true
-    }
-
-    private func updateReferralsColors() {
-        referralsBadge.backgroundColor = ThemeColor.secondaryIcon01()
-        referralsBadge.textColor = ThemeColor.secondaryUi01()
-        referralsBadge.layer.borderColor = ThemeColor.secondaryUi01().cgColor
-    }
 
     @objc private func referralsTapped() {
         guard let referralsOfferInfo = ReferralsCoordinator.shared.referralsOfferInfo else {
@@ -614,10 +571,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if let popoverPresentationController = vc.popoverPresentationController {
             popoverPresentationController.delegate = self
             popoverPresentationController.permittedArrowDirections = .up
-            popoverPresentationController.sourceView = referralsButton
-            popoverPresentationController.sourceRect = referralsButton.bounds
+            popoverPresentationController.sourceItem = referralsButton
             popoverPresentationController.backgroundColor = ThemeColor.primaryUi01()
-            popoverPresentationController.passthroughViews = [NavigationManager.sharedManager.miniPlayer?.view, referralsButton, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
+            popoverPresentationController.passthroughViews = [NavigationManager.sharedManager.miniPlayer?.view, navigationController?.navigationBar, tabBarController?.tabBar, view].compactMap({$0})
         }
         return vc
     }
