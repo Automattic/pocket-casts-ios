@@ -153,8 +153,9 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
     }
 
     // MARK: - Retry Integration Tests
-    // Test was having flaky results when calling the test url
-    func disabled_testRetryWithoutUserAgent_ResetsStateAndRetries() {
+    func testRetryWithoutUserAgent_ResetsStateAndRetries() {
+        XCTExpectFailure("Test is flaky due to async timing issues", strict: false)
+
         delegate.response = HTTPURLResponse(url: testURL, statusCode: 403, httpVersion: nil, headerFields: nil)
         delegate.hasRetriedWithoutUserAgent = false
 
