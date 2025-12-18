@@ -18,6 +18,8 @@ struct OnboardingFlow {
 
         let navigationController = controller as? UINavigationController
 
+        AnalyticsEpisodeHelper.shared.currentSource = .onboarding
+
         let flowController: UIViewController
         switch flow {
         case .plusUpsell, .endOfYearUpsell, .suggestedFolderUpsell:
@@ -101,6 +103,9 @@ struct OnboardingFlow {
         }
         source = .unknown
         currentFlow = .none
+        if AnalyticsEpisodeHelper.shared.currentSource == .onboarding {
+            AnalyticsEpisodeHelper.shared.currentSource = nil
+        }
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }

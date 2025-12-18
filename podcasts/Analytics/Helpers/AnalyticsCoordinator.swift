@@ -33,6 +33,7 @@ enum AnalyticsSource: String, AnalyticsDescribable {
     case noFilters = "no_filters"
     case notifications
     case nowPlayingWidget = "now_playing_widget"
+    case onboarding
     case player
     case playerPlaybackEffects = "player_playback_effects"
     case playerSkipForwardLongPress = "player_skip_forward_long_press"
@@ -72,16 +73,20 @@ class AnalyticsCoordinator {
         PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
     }
 
-    #if !os(watchOS) && !APPCLIP
-        var currentAnalyticsSource: AnalyticsSource {
-            if let currentSource = currentSource {
-                self.currentSource = nil
-                return currentSource
-            }
-
-            return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? .unknown
+    var currentAnalyticsSource: AnalyticsSource {
+        if let currentSource = currentSource {
+            self.currentSource = nil
+            return currentSource
         }
 
+        #if !os(watchOS) && !APPCLIP
+        return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? .unknown
+        #else
+        return .unknown
+        #endif
+    }
+
+#if !os(watchOS) && !APPCLIP
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
             // Only dispatch async on the main thread if needed
             guard Thread.isMainThread else {
