@@ -2233,6 +2233,12 @@
 /* A common string used throughout the app. Prompt to select all items below the currently selected item. */
 "select_all_below" = "Select all below";
 
+/* A common string used throughout the app. Prompt to deselect all items above the currently selected item. */
+"deselect_all_above" = "Deselect all above";
+
+/* A common string used throughout the app. Prompt to deselect all items below the currently selected item. */
+"deselect_all_below" = "Deselect all below";
+
 /* A common string used throughout the app. Prompt to select episodes in the presented list. */
 "select_episodes" = "Select Episodes";
 
