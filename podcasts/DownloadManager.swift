@@ -365,7 +365,10 @@ class DownloadManager: NSObject, FilePathProtocol {
         var downloadError: Error?
         var reportedContentType: String?
         let originalSizeInBytes = episode.sizeInBytes
-        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { status, contentType, bytesDownloaded, bytesExpected in
+        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { [weak self] status, contentType, bytesDownloaded, bytesExpected in
+            guard let self else {
+                return
+            }
             reportedContentType = contentType
             let size = max(100, max(bytesExpected, originalSizeInBytes))
             switch status {
