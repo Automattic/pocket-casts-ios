@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-struct OnboardingFlow {
+struct OnboardingFlow: AnalyticsSourceProvider {
     typealias Context = [String: Any]
 
     static var shared = OnboardingFlow()
@@ -18,7 +18,7 @@ struct OnboardingFlow {
 
         let navigationController = controller as? UINavigationController
 
-        AnalyticsEpisodeHelper.shared.currentSource = .onboarding
+        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         let flowController: UIViewController
         switch flow {
@@ -103,9 +103,6 @@ struct OnboardingFlow {
         }
         source = .unknown
         currentFlow = .none
-        if AnalyticsEpisodeHelper.shared.currentSource == .onboarding {
-            AnalyticsEpisodeHelper.shared.currentSource = nil
-        }
 
         NotificationCenter.default.post(name: .onboardingFlowDidDismiss, object: nil)
     }
@@ -200,5 +197,9 @@ struct OnboardingFlow {
                 false
             }
         }
+    }
+
+    var analyticsSource: AnalyticsSource {
+        .onboarding
     }
 }

@@ -146,7 +146,8 @@ extension ImportViewModel {
         guard let navigationController else { return }
         OnboardingFlow.shared.track(.onboardingImportAppSelected, properties: ["app": importsource.id])
 
-        let controller = UIHostingController(rootView: ImportDetailsView(importSource: importsource, viewModel: self).setupDefaultEnvironment())
+        let controller = ImportHostingController(rootView: ImportDetailsView(importSource: importsource, viewModel: self).setupDefaultEnvironment())
+        controller.viewModel = self
 
         navigationController.pushViewController(controller, animated: true)
     }

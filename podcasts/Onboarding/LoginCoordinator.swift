@@ -57,7 +57,8 @@ class LoginCoordinator: NSObject, OnboardingModel {
         socialAuthProvider = nil
         OnboardingFlow.shared.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
         if FeatureFlag.newOnboardingAccountCreation.enabled {
-            let vc = UIHostingController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
+            let vc = OnboardingHostingViewController(rootView: SyncSigninView(coordinator: self, loginAgain: false, onCompleted: { self.navigationController?.presentingViewController?.dismiss(animated: true) }).environmentObject(Theme.sharedTheme))
+            vc.viewModel = self
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let controller = SyncSigninViewController()
@@ -83,9 +84,13 @@ class LoginCoordinator: NSObject, OnboardingModel {
             }) {
                 self.interestsContinueTapped(categories: nil)
             }
-            hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+            let controller = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
+            controller.viewModel = self
+            hostingController = controller
         } else {
-            hostingController = UIHostingController(rootView: OnboardingRecommendationsView(coordinator: self).setupDefaultEnvironment())
+            let controller = OnboardingHostingViewController(rootView: OnboardingRecommendationsView(coordinator: self).setupDefaultEnvironment())
+            controller.viewModel = self
+            hostingController = controller
         }
 
         hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -100,7 +105,8 @@ class LoginCoordinator: NSObject, OnboardingModel {
             configuration = .all
         }
         let view = OnboardingRecommendationsView(coordinator: self, viewModel: RecommendationsViewModel(configuration: configuration))
-        let hostingController = UIHostingController(rootView: view.setupDefaultEnvironment())
+        let hostingController = OnboardingHostingViewController(rootView: view.setupDefaultEnvironment())
+        hostingController.viewModel = self
         hostingController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.pushViewController(hostingController, animated: true)
     }
