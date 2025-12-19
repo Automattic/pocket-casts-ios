@@ -249,6 +249,10 @@ public class PlaylistQueryBuilder {
         if openCount > closeCount {
             trimmedValues.append(String(repeating: ")", count: openCount - closeCount))
         }
+
+        // Clean up any empty filter groups that may have been created
+        removeEmptyFilterGroups(from: &trimmedValues)
+
         let whereTail = trimmedValues.isEmpty ? "" : " \(trimmedValues)"
 
         return """
