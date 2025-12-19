@@ -686,6 +686,10 @@ internal enum L10n {
   internal static var deleteFromDeviceOnly: String { return L10n.tr("Localizable", "delete_from_device_only", fallback: "Delete From Device Only") }
   /// A common string used throughout the app. Prompt to deselect all items in the presented list.
   internal static var deselectAll: String { return L10n.tr("Localizable", "deselect_all", fallback: "Deselect All") }
+  /// A common string used throughout the app. Prompt to deselect all items above the currently selected item.
+  internal static var deselectAllAbove: String { return L10n.tr("Localizable", "deselect_all_above", fallback: "Deselect all above") }
+  /// A common string used throughout the app. Prompt to deselect all items below the currently selected item.
+  internal static var deselectAllBelow: String { return L10n.tr("Localizable", "deselect_all_below", fallback: "Deselect all below") }
   /// Message explaining why the sleep timer was restarted after the user shook the device
   internal static var deviceShakeSleepTimer: String { return L10n.tr("Localizable", "device_shake_sleep_timer", fallback: "Sleep timer restarted due to device shake") }
   /// A common string used throughout the app. Refers to the Discover tab.

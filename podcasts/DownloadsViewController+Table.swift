@@ -19,17 +19,13 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             let touchPoint = sender.location(in: downloadsTable)
             guard let indexPath = downloadsTable.indexPathForRow(at: touchPoint) else { return }
             if isMultiSelectEnabled {
-                let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
-                let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
-                    self.downloadsTable.selectAllAbove(indexPath: indexPath)
-                })
-
-                let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
-                    self.downloadsTable.selectAllBelow(indexPath: indexPath)
-                })
-                optionPicker.addAction(action: allAboveAction)
-                optionPicker.addAction(action: allBelowAction)
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+                longPressSelectOptions(
+                    for: indexPath,
+                    in: downloadsTable,
+                    firstSection: 0,
+                    lastSection: episodes.count - 1,
+                    statusBarStyle: preferredStatusBarStyle
+                )
             } else {
                 longPressMultiSelectIndexPath = indexPath
                 isMultiSelectEnabled = true

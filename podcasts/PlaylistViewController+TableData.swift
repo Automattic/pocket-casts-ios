@@ -21,12 +21,12 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
                 let optionPicker = OptionsPicker(title: nil, iconTintStyle: .primaryInteractive01)
                 let allAboveAction = OptionAction(label: L10n.selectAllAbove, icon: "selectall-up", action: { [] in
                     Analytics.track(.filterSelectAllAbove)
-                    self.tableView.selectAllAbove(indexPath: indexPath)
+                    self.tableView.selectAllAbove(fromIndexPath: IndexPath(row: 0, section: 0), to: indexPath)
                 })
 
                 let allBelowAction = OptionAction(label: L10n.selectAllBelow, icon: "selectall-down", action: { [] in
                     Analytics.track(.filterSelectAllBelow)
-                    self.tableView.selectAllBelow(indexPath: indexPath)
+                    self.tableView.selectAllBelow(fromIndexPath: indexPath)
                 })
                 optionPicker.addAction(action: allAboveAction)
                 optionPicker.addAction(action: allBelowAction)
