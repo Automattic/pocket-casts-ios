@@ -6,7 +6,7 @@ struct NowPlayingControls: View {
     @Binding var presentView: WatchInterfaceType?
 
     var body: some View {
-        ScrollView([], showsIndicators: false) {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack {
                 progressGroup
                     .frame(maxHeight: .infinity)
@@ -17,8 +17,18 @@ struct NowPlayingControls: View {
                 // To take into account the page indicator view
                 Spacer().frame(height: Constants.pagingIndicatorHeight)
             }
+            .modify { content in
+                if #available(watchOS 10.0, *) {
+                    content.containerRelativeFrame(.vertical)
+                }
+            }
         }
-        .edgesIgnoringSafeArea(.bottom)
+        .modify { content in
+            if #available(watchOS 9.4, *) {
+                content.scrollBounceBehavior(.basedOnSize)
+            }
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
     }
 
     private var progressGroup: some View {
