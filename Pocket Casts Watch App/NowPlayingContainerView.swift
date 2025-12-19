@@ -20,7 +20,7 @@ struct NowPlayingContainerView: View {
                             .tag(2)
                             .animation(.none, value: selection)
                     }
-                    .animation(.easeInOut, value: selection)                    
+                    .animation(.easeInOut, value: selection)
                 }
             } else {
                 NowPlayingEmptyView()
