@@ -433,7 +433,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistDataCacheBeforeQuery:
             true
         case .episodesInfoCacheReloadPolicy:
-            false
+            true
         }
     }
 
