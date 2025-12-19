@@ -80,7 +80,7 @@ class AnalyticsCoordinator {
         }
 
         #if !os(watchOS) && !APPCLIP
-        return (getTopViewController() as? AnalyticsSourceProvider)?.analyticsSource ?? .unknown
+        return topAnalyticsSourceProvider()?.analyticsSource ?? .unknown
         #else
         return .unknown
         #endif
@@ -115,6 +115,20 @@ class AnalyticsCoordinator {
             }
             return base
         }
+
+    func topAnalyticsSourceProvider() -> AnalyticsSourceProvider? {
+        guard let topViewController = getTopViewController() else { return nil }
+
+        var candidate: UIViewController? = topViewController
+        while let viewController = candidate {
+            if let provider = viewController as? AnalyticsSourceProvider {
+                return provider
+            }
+            candidate = viewController.parent ?? viewController.presentingViewController
+        }
+
+        return nil
+    }
     #else
         /// NOOP track event to preventing needing to wrap all the events in #if checks
         func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {}
