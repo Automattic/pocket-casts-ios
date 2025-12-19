@@ -48,7 +48,7 @@ struct CancelSubscriptionPlanRow: View {
         if selected {
             ZStack {
                 Circle()
-                    .fill(theme.primaryField03Active)
+                    .fill(theme.primaryInteractive01)
                 Image("small-tick")
                     .resizable()
                     .foregroundColor(theme.primaryInteractive02)
