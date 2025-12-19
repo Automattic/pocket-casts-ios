@@ -17,6 +17,11 @@ struct NowPlayingControls: View {
                 // To take into account the page indicator view
                 Spacer().frame(height: Constants.pagingIndicatorHeight)
             }
+            .modify { content in
+                if #available(watchOS 10.0, *) {
+                    content.containerRelativeFrame(.vertical)
+                }
+            }
         }
         .modify { content in
             if #available(watchOS 9.4, *) {
