@@ -23,6 +23,7 @@ struct CancelSubscriptionView: View {
                                 .foregroundStyle(theme.primaryText01)
                                 .multilineTextAlignment(.center)
                                 .padding(.top, 48.0)
+                                .padding(.bottom, 24.0)
                                 .padding(.horizontal, 34.0)
 
                             ForEach(rows, id: \.id) { option in
@@ -37,12 +38,13 @@ struct CancelSubscriptionView: View {
                     }, label: {
                         Text(L10n.cancelSubscriptionContinueButton)
                             .font(size: 18.0, style: .body, weight: .bold)
-                            .foregroundStyle(theme.primaryText01)
+                            .foregroundStyle(theme.primaryInteractive01)
                             .multilineTextAlignment(.center)
                     })
-                    .padding(.horizontal, 34.0)
+                    .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryInteractive01))
+                    .padding(.horizontal, 16.0)
                     .padding(.top, 10.0)
-                    .padding(.bottom, 58.0)
+                    .padding(.bottom, 10.0)
                 case (.failed, _):
                     Text(L10n.cancelSubscriptionGenericError)
                         .font(size: 18.0, style: .body, weight: .bold)
