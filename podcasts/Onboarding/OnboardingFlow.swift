@@ -18,8 +18,6 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
         let navigationController = controller as? UINavigationController
 
-        AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
-
         let flowController: UIViewController
         switch flow {
         case .plusUpsell, .endOfYearUpsell, .suggestedFolderUpsell:
