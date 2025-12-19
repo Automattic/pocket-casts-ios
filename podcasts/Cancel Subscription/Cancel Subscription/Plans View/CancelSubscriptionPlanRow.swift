@@ -23,7 +23,7 @@ struct CancelSubscriptionPlanRow: View {
                             cornerRadius: 12.0,
                             style: .continuous
                         )
-                        .fill(theme.primaryField03Active)
+                        .fill(theme.primaryInteractive01)
                     )
                     .background(
                         GeometryReader { proxy in
@@ -72,7 +72,7 @@ struct CancelSubscriptionPlanRow: View {
                 .frame(minHeight: 64)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8.0)
-                        .stroke(theme.primaryField03Active,
+                        .stroke(theme.primaryInteractive01,
                                 lineWidth: selected ? 2 : 0)
                 )
             HStack(spacing: 16.0) {
