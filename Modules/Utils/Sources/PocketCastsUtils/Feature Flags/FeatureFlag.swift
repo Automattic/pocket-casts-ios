@@ -256,7 +256,7 @@ public enum FeatureFlag: String, CaseIterable {
     case playlistDataCacheBeforeQuery
 
     /// Avoid returning cached episode early and use policy instead
-    case episodesInfoCahceReloadPolicy
+    case episodesInfoCacheReloadPolicy
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -432,7 +432,7 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .playlistDataCacheBeforeQuery:
             true
-        case .episodesInfoCahceReloadPolicy:
+        case .episodesInfoCacheReloadPolicy:
             false
         }
     }

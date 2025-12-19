@@ -17,7 +17,7 @@ public actor ShowInfoDataRetriever {
         for podcastUuid: String,
         episodeUuid: String
     ) async throws -> String? {
-        if !FeatureFlag.episodesInfoCahceReloadPolicy.enabled || !NetworkUtils.shared.isConnected() {
+        if !FeatureFlag.episodesInfoCacheReloadPolicy.enabled || !NetworkUtils.shared.isConnected() {
             let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
             let request = URLRequest(url: url)
 
@@ -39,7 +39,7 @@ public actor ShowInfoDataRetriever {
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let cachePolicy: URLRequest.CachePolicy = FeatureFlag.episodesInfoCahceReloadPolicy.enabled ? .reloadRevalidatingCacheData : .reloadIgnoringLocalAndRemoteCacheData
+        let cachePolicy: URLRequest.CachePolicy = FeatureFlag.episodesInfoCacheReloadPolicy.enabled ? .reloadRevalidatingCacheData : .reloadIgnoringLocalAndRemoteCacheData
         var request = URLRequest(url: url, cachePolicy: cachePolicy)
         request.addLocalizationHeaders()
 
