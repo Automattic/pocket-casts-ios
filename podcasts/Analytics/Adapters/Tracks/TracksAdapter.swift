@@ -61,7 +61,32 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     }
 
     func track(name: String, properties: [AnyHashable: Any]?) {
+        #if DEBUG
+        if let properties {
+            validateProperties(properties)
+        }
+        #endif
         tracksService.trackEventName(name, withCustomProperties: properties)
+    }
+
+    private func validateProperties(_ properties: [AnyHashable: Any]) {
+        guard let castedProperties = properties as? [String: Any] else {
+            assertionFailure("Tracks event properties types keys must be a String")
+            return
+        }
+
+        for key in castedProperties.keys {
+            if Self.reservedPropertyNames.contains(key) {
+                assertionFailure("Tracks event properties key `\(key)` is reserved property name.")
+                return
+            }
+
+            let value = castedProperties[key]
+            if !(value is Int || value is String || value is Double || value is Bool || value is Float) {
+                assertionFailure("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
+                return
+            }
+        }
     }
 
     private var defaultProperties: [String: AnyHashable] {
@@ -103,6 +128,54 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
             self?.updateAuthenticationState()
         }
     }
+
+    // List of reserved Property names that is defined here: https://github.com/Automattic/nosara/blob/master/ganymedes2/kafka_staging/src/main/scala/com/automattic/ganymedes2/streaming/tracks/schema/TracksEvent.scala
+    private static let reservedPropertyNames = Set<String>([
+        "timestamp",
+        "year",
+        "month",
+        "day",
+        "dateymd",
+        "datetime",
+        "logdateymd",
+        "anonid",
+        "userid",
+        "useridtype",
+        "userlang",
+        "eventnamepartial",
+        "eventname",
+        "eventprops",
+        "eventsource",
+        "geoip",
+        "geocountrycode",
+        "geocountry",
+        "georegion",
+        "geocity",
+        "geolatitude",
+        "geolongitude",
+        "logdate",
+        "logtimestamp",
+        "logmethod",
+        "logreferrer",
+        "requesttimestamp",
+        "eventtimestamp",
+        "browserlang",
+        "browserfamilyversion",
+        "browserfamily",
+        "browserdocumentlocation",
+        "browserdocumentreferrer",
+        "useragent",
+        "devicefamily",
+        "deviceos",
+        "blogid",
+        "bloglang",
+        "blogtimezone",
+        "kafkatopic",
+        "processingtimestamp",
+        "etlmessage",
+        "eventmarker",
+        "record_ymdh"
+    ])
 }
 
 private extension TracksAdapter {
