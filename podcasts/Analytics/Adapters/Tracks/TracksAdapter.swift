@@ -82,7 +82,7 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
             }
 
             let value = castedProperties[key]
-            if !(value is Int || value is String || value is Double || value is Bool || value is Float) {
+            if !(value is Int || value is Int32 || value is Int64 || value is String || value is Double || value is Bool || value is Float) {
                 assertionFailure("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
                 return
             }
