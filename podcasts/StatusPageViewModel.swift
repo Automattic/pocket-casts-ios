@@ -11,13 +11,15 @@ class StatusPageViewModel: ObservableObject {
         let description: String
         let failureMessage: String
         let urls: [String]
+        let customTest: (() -> Bool)?
         var status: Result = .idle
 
-        init(title: String, description: String, failureMessage: String, urls: [String] = []) {
+        init(title: String, description: String, failureMessage: String, urls: [String] = [], customTest: (() -> Bool)? = nil) {
             self.title = title
             self.description = description
             self.failureMessage = failureMessage
             self.urls = urls
+            self.customTest = customTest
         }
 
         enum Result {
@@ -30,6 +32,14 @@ class StatusPageViewModel: ObservableObject {
             title: L10n.settingsStatusInternet,
             description: L10n.settingsStatusInternetDescription,
             failureMessage: L10n.settingsStatusInternetFailureMessage
+        ),
+        Service(
+            title: L10n.settingsStatusExpensiveNetwork,
+            description: L10n.settingsStatusExpensiveNetworkDescription,
+            failureMessage: L10n.settingsStatusExpensiveNetworkFailureMessage,
+            customTest: {
+                NetworkUtils.shared.isConnectedToUnexpensiveConnection()
+            }
         ),
         Service(
             title: L10n.settingsStatusRefreshService,
@@ -85,7 +95,9 @@ class StatusPageViewModel: ObservableObject {
 
     @MainActor
     private func test(service: Service) async {
-        if service.urls.isEmpty {
+        if let customTest = service.customTest {
+            service.status = customTest() ? .success : .failure
+        } else if service.urls.isEmpty {
             service.status = .success
         } else {
             var responseCodes = [Int?]()
