@@ -147,6 +147,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>Ajouter à la file d’attente Prochains épisodes</string>
     <key>after_playing</key>
     <string>Après la lecture</string>
+    <key>all_results</key>
+    <string>Meilleurs résultats</string>
     <key>announcement_autoplay_description</key>
     <string>Si votre file d’attente À écouter ensuite est vide et que vous commencez à écouter un épisode, l’option Lecture automatique continuera à lire les épisodes de cette émission ou de cette liste.</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Laissez-nous d’abord vous aider</string>
     <string>Créer un clip</string>
     <key>create_filter</key>
     <string>Créer un filtre</string>
+    <key>create_up_next_snapshot</key>
+    <string>Créer un instantané</string>
     <key>creator_pick_modal_description</key>
     <string>Les choix du créateur sont des podcasts recommandés par le créateur de l’émission à l’aide de PodRoll.</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ MISES À JOUR</string>
     <string>Partagez votre Rétrospective avec vos amis et montrez aux podcasteurs qui vous ont tenu compagnie toute l’année que vous les appréciez</string>
     <key>playback_2025_end_story_title</key>
     <string>Merci d’avoir passé votre année avec Pocket Casts</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>Impossible de charger la lecture</string>
     <key>playback_2025_feature_description</key>
     <string>Retrouvez vos statistiques d’écoute, vos meilleurs podcasts et plus encore.</string>
+    <key>playback_2025_feature_title</key>
+    <string>La lecture est disponible !</string>
     <key>playback_2025_intro_message</key>
     <string>Votre année en podcasts, emballée et prête à être passée en revue</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ MISES À JOUR</string>
     <string>On espère que vous avez commencé par vous étirer !</string>
     <key>playback_2025_longest_episode_title</key>
     <string>Votre marathon d’écoute : %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>Vos avantages %1$@ vous permettent d’accéder à des statistiques supplémentaires et des fonctionnalités avancées</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Merci de soutenir Pocket Casts !</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Obtenir Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>Abonnez-vous à Pocket Casts Plus pour profiter de plus de statistiques, de signets, de dossiers, d’une sélection de chapitres et d’autres façons de découvrir vos habitudes d’écoute</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>Vous voulez faire le grand saut ?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>Les avis contribuent à la visibilité des contenus d’excellente qualité</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>Les créateurs, où qu’ils soient, apprécient les marques de sympathie</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>Aidez vos créateurs préférés à se faire connaître en partageant ce que vous aimez</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>Pas encore d’évaluations, mais il est encore temps !</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>Merci pour votre retour.</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>Vous avez fait tomber une pluie d’évaluations %1$@ étoiles !</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Plus de favoris, plus de lecture, plus vous</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ MISES À JOUR</string>
     <string>Cohérent, fiable, comme votre commande au café</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Votre écoute est restée stable en 2025</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Plus de podcasts, plus de joie</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Par rapport à 2024, votre temps d’écoute a explosé de %1$@</string>
     <key>playback_effect_all_podcasts</key>
@@ -2024,6 +2050,8 @@ MISES À JOUR</string>
     <string>Effets de lecture</string>
     <key>playback_failed</key>
     <string>Échec de la lecture</string>
+    <key>playback_not_available</key>
+    <string>Lecture indisponible</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2176,6 +2204,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Configurez des règles intelligentes pour ajouter automatiquement des épisodes à votre playlist intelligente.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Règles activées</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>Plus de règles</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Les nouveaux podcasts auxquels vous vous abonnez seront ajoutés automatiquement.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

@@ -148,7 +148,7 @@ Tocca il pulsante in basso per accedere nuovamente al tuo account Pocket Casts.<
     <key>after_playing</key>
     <string>Dopo la riproduzione</string>
     <key>all_results</key>
-    <string>Risultati principali</string>
+    <string>Risultati migliori</string>
     <key>announcement_autoplay_description</key>
     <string>Se la coda Successivo è vuota e inizi ad ascoltare un episodio, l'opzione Riproduzione automatica continuerà a riprodurre le puntate di quel programma o quell'elenco.</string>
     <key>announcement_autoplay_title</key>
@@ -1968,11 +1968,11 @@ AGGIORNAMENTI</string>
     <key>playback_2025_end_story_title</key>
     <string>Grazie per aver trascorso l'anno con Pocket Casts</string>
     <key>playback_2025_failed_to_load</key>
-    <string>Siamo spiacenti, non è stato possibile caricare la riproduzione</string>
+    <string>Impossibile caricare la riproduzione</string>
     <key>playback_2025_feature_description</key>
     <string>Visualizza le statistiche di ascolto, i migliori podcast e molto altro ancora.</string>
     <key>playback_2025_feature_title</key>
-    <string>La riproduzione è arrivata.</string>
+    <string>La riproduzione è arrivata!</string>
     <key>playback_2025_intro_message</key>
     <string>Il tuo anno in podcast, riassunto e pronto da rivivere</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1986,9 +1986,9 @@ AGGIORNAMENTI</string>
     <key>playback_2025_longest_episode_title</key>
     <string>La tua maratona di ascolto: %1$@</string>
     <key>playback_2025_plus_thanks_description</key>
-    <string>I tuoi %1$@ vantaggi sbloccano statistiche extra e funzionalità avanzate</string>
+    <string>I tuoi vantaggi %1$@ sbloccano statistiche extra e funzionalità avanzate</string>
     <key>playback_2025_plus_thanks_title</key>
-    <string>Grazie per il supporto a Pocket Casts.</string>
+    <string>Grazie per il supporto a Pocket Casts!</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Ottieni Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
@@ -1998,15 +1998,15 @@ AGGIORNAMENTI</string>
     <key>playback_2025_ratings_description_1_to_3</key>
     <string>Le recensioni aiutano i grandi programmi a farsi trovare</string>
     <key>playback_2025_ratings_description_4_to_5</key>
-    <string>I creatori di tutto il mondo apprezzano l'amore</string>
+    <string>I creatori di tutto il mondo apprezzano il supporto</string>
     <key>playback_2025_ratings_empty_description</key>
     <string>Aiuta i tuoi creatori preferiti a farsi scoprire condividendo ciò che ami</string>
     <key>playback_2025_ratings_empty_title</key>
     <string>Ancora nessuna valutazione, ma c'è ancora tempo!</string>
     <key>playback_2025_ratings_title_1_to_3</key>
-    <string>condividi il tuo feedback</string>
+    <string>Grazie per aver condiviso il tuo feedback.</string>
     <key>playback_2025_ratings_title_4_to_5</key>
-    <string>Hai perso le valutazioni di %1$@-star come i coriandoli</string>
+    <string>Hai lanciato valutazioni a %1$@ stelle come coriandoli!</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Più preferiti, più ascolti, più te</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2205,7 +2205,7 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Regole abilitate</string>
     <key>playlist_smart_preview_more_rules</key>
-    <string>More rules</string>
+    <string>Altre regole</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>I nuovi podcast che segui verranno aggiunti automaticamente.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

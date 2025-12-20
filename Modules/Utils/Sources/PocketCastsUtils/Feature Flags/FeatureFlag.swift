@@ -255,6 +255,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
+    /// Avoid returning cached episode early and use policy instead
+    case episodesInfoCacheReloadPolicy
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -428,6 +431,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .refreshPlaylistOnSubscriptions:
             true
         case .playlistDataCacheBeforeQuery:
+            true
+        case .episodesInfoCacheReloadPolicy:
             true
         }
     }

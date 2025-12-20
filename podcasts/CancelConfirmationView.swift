@@ -25,7 +25,7 @@ struct CancelConfirmationView: View {
     var body: some View {
         ScrollViewIfNeeded {
             VStack(spacing: Constants.padding.vertical) {
-                let bottomPadding = FeatureFlag.winback.enabled ? 20.0 : 0.0
+                let bottomPadding = FeatureFlag.winback.enabled ? 22.0 : 0.0
                 header
                     .padding(.bottom, bottomPadding)
 
@@ -64,8 +64,8 @@ struct CancelConfirmationView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 100)
             }
-            let topPadding = FeatureFlag.winback.enabled ? 44.0 : 0.0
-            let bottomPadding = FeatureFlag.winback.enabled ? 4.0 : 5.0
+            let topPadding = FeatureFlag.winback.enabled ? 48.0 : 0.0
+            let bottomPadding = FeatureFlag.winback.enabled ? 12.0 : 5.0
             Text(L10n.cancelConfirmTitle)
                 .font(style: .title, weight: .bold)
                 .multilineTextAlignment(.center)
@@ -91,15 +91,22 @@ struct CancelConfirmationView: View {
         }
         .buttonStyle(RoundedButtonStyle(theme: theme))
 
-        let topPadding = FeatureFlag.winback.enabled ? 15.0 : -5
-        let bottomPadding = FeatureFlag.winback.enabled ? 0.0 : -5
-        Button(L10n.cancelConfirmCancelButtonTitle) {
-            viewModel.cancelTapped()
+        if FeatureFlag.winback.enabled {
+            Button(L10n.cancelConfirmCancelButtonTitle) {
+                viewModel.cancelTapped()
+            }
+            .buttonStyle(BasicButtonStyle(textColor: theme.support05, backgroundColor: theme.primaryUi01, borderColor: theme.support05))
+            // Reduce the padding a bit to make it look more visually centered
+            .padding(.top, 15.0)
+            .padding(.bottom, 8.0)
+        } else {
+            Button(L10n.cancelConfirmCancelButtonTitle) {
+                viewModel.cancelTapped()
+            }
+            .buttonStyle(SimpleTextButtonStyle(theme: theme, textColor: .cancelButton))
+            // Reduce the padding a bit to make it look more visually centered
+            .padding(.horizontal, -5)
         }
-        .buttonStyle(SimpleTextButtonStyle(theme: theme, textColor: .cancelButton))
-        // Reduce the padding a bit to make it look more visually centered
-        .padding(.top, topPadding)
-        .padding(.bottom, bottomPadding)
     }
 
     private var shadowDivider: some View {
