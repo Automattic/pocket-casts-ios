@@ -147,6 +147,8 @@
     <string>Добавить в «Следующие»</string>
     <key>after_playing</key>
     <string>После прослушивания</string>
+    <key>all_results</key>
+    <string>Лучшие результаты</string>
     <key>announcement_autoplay_description</key>
     <string>Если в очереди «Следующие» ничего нет, после выпуска, который вы слушаете, автоматически запустится другой из этого шоу или списка.</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Pocket Casts Plus</string>
     <string>Создать клип</string>
     <key>create_filter</key>
     <string>Создать фильтр</string>
+    <key>create_up_next_snapshot</key>
+    <string>Создать моментальный снимок</string>
     <key>creator_pick_modal_description</key>
     <string>Creator Picks — это подкасты, рекомендованные создателем шоу с помощью Podroll.</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ Pocket Casts на полную мощность.</string>
     <string>Поделитесь своей статистикой с друзьями и покажите подкастерам, с которыми вы провели весь этот год, как вы их любите</string>
     <key>playback_2025_end_story_title</key>
     <string>Спасибо, что провели весь год с Pocket Casts</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>Не удалось загрузить ваш год в подкастах</string>
     <key>playback_2025_feature_description</key>
     <string>Просмотрите свой топ подкастов, статистику прослушивания и другие показатели.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Ваш год в подкастах уже здесь!</string>
     <key>playback_2025_intro_message</key>
     <string>Ваш год в подкастах, уже под ёлкой в подарочной обёртке</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ Pocket Casts на полную мощность.</string>
     <string>Готовьтесь узнать новости!</string>
     <key>playback_2025_longest_episode_title</key>
     <string>Ваш марафон прослушивания: %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>Преимущества %1$@ дают возможность пользоваться дополнительной статистикой и возможностями</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Благодарим за поддержку Pocket Casts!</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Приобретайте Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>Подписывайтесь на Pocket Casts Plus и пользуйтесь расширенной статистикой, закладками, папками, выбором глав и множеством других инструментов для прослушивания</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>Хотите больше возможностей?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>Отзывы помогают лучшим шоу завоевать популярность</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>Все авторы ценят признание</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>Помогите любимым авторам завоевать популярность — делитесь тем, что вы любите</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>Оценок пока нет, но всё ещё впереди!</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>Благодарим за то, что поделились мнением.</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>%1$@-звёздный рейтинг посыпался, как конфетти!</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Больше любимых подкастов, больше удовольствия, больше индивидуальности</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ Pocket Casts на полную мощность.</string>
     <string>Верный и надёжный, как кофе, который вы всегда заказываете</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>В 2025 году вы посвятили прослушиванию столько же времени, сколько и в предыдущем.</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Больше подкастов, больше радости</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>По сравнению с 2024 годом вы посвятили прослушиванию на %1$@ больше времени!</string>
     <key>playback_effect_all_podcasts</key>
@@ -2024,6 +2050,8 @@ Pocket Casts на полную мощность.</string>
     <string>Эффекты воспроизведения</string>
     <key>playback_failed</key>
     <string>Не удалось воспроизвести</string>
+    <key>playback_not_available</key>
+    <string>Ваш год в подкастах недоступен</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2176,6 +2204,8 @@ Pocket Casts на полную мощность.</string>
     <string>Настройте умные правила, чтобы автоматически добавлять выпуски в свой умный плейлист.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Включённые правила</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>Другие правила</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Новые подкасты, на которые вы будете подписываться, станут добавляться автоматически.</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

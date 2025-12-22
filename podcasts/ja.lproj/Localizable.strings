@@ -147,6 +147,8 @@
     <string>次のエピソードに追加</string>
     <key>after_playing</key>
     <string>再生後</string>
+    <key>all_results</key>
+    <string>上位の結果</string>
     <key>announcement_autoplay_description</key>
     <string>「次のエピソード」の待機リストが空の場合にエピソードの視聴を開始すると、自動再生機能により表示またはリストされているエピソードの再生が続行します。</string>
     <key>announcement_autoplay_title</key>
@@ -567,6 +569,8 @@ Pocket Casts Plus</string>
     <string>クリップを作成</string>
     <key>create_filter</key>
     <string>フィルターを作成</string>
+    <key>create_up_next_snapshot</key>
+    <string>スナップショットを作成</string>
     <key>creator_pick_modal_description</key>
     <string>Creator Picks は、番組のクリエイターが Podroll を使用しておすすめするポッドキャストです。</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1963,8 +1967,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>プレイバックを友達と共有しましょう。1年間あなたを盛り上げてくれたポッドキャスターたちに感謝の気持ちを伝えましょう</string>
     <key>playback_2025_end_story_title</key>
     <string>1年間 Pocket Casts をご愛顧いただきありがとうございます</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>振り返りを読み込めませんでした</string>
     <key>playback_2025_feature_description</key>
     <string>聴取統計、人気のポッドキャストなどをご覧ください。</string>
+    <key>playback_2025_feature_title</key>
+    <string>振り返りが到着 !</string>
     <key>playback_2025_intro_message</key>
     <string>ポッドキャストで1年を振り返り、まとめて思い出に残す準備ができました</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1977,12 +1985,28 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ストレッチは済ませましたね ?</string>
     <key>playback_2025_longest_episode_title</key>
     <string>マラソン聴取時間: %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>%1$@ の特典でさらなる統計情報やパワフルな機能を利用できます</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Pocket Casts をご利用いただきありがとうございます。</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Pocket Casts Plus を入手</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>Pocket Casts Plus に登録すると、詳細な統計情報、ブックマーク、フォルダー、チャプターの選択などの機能で、聴取習慣を詳しく知ることができます</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>詳しく知りたいですか ?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>レビューによって魅力的な番組が広まります</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>世界中のクリエイターが愛に感謝しています</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>何が好きかを共有して、お気に入りのクリエイターを見つけてもらいましょう</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>まだ評価はありませんが、まだ時間はあります !</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>フィードバックを共有していただきありがとうございます。</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>まるで紙吹雪のように%1$@つ星評価をつけました !</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>お気に入りを増やし、再生時間を増やして、よりあなたらしく</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2008,6 +2032,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>コーヒーショップでの注文のように、いつも変わらず、頼りになる存在です</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>2025年の聴取時間は変わりませんでした</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>より多くのポッドキャスト、より多くの喜び</string>
     <key>playback_effect_all_podcasts</key>
     <string>すべてのポッドキャスト</string>
     <key>playback_effect_this_podcast</key>
@@ -2022,6 +2048,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>再生エフェクト</string>
     <key>playback_failed</key>
     <string>再生に失敗</string>
+    <key>playback_not_available</key>
+    <string>振り返りを利用できません</string>
     <key>playback_speed</key>
     <string>%1$@倍</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2174,6 +2202,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>スマートルールを設定して、スマートプレイリストにエピソードを自動的に追加します。</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>有効なルール</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>その他のルール</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>新たにフォローするポッドキャストは自動的に追加されます。</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

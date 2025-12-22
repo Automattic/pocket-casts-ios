@@ -54,9 +54,9 @@ struct CancelSubscriptionWinbackOfferView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(theme.primaryText01)
                         .padding(.horizontal, 18.0)
-                        .padding(.bottom, 8.0)
+                        .padding(.bottom, 12.0)
                     Text(description)
-                        .font(size: 18.0, style: .body, weight: .regular)
+                        .font(size: 15.0, style: .body, weight: .regular)
                         .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
@@ -79,12 +79,12 @@ struct CancelSubscriptionWinbackOfferView: View {
                 Button(action: showManageSubscriptions) {
                     Text(L10n.cancelSubscriptionWinbackViewContinueCancellationButton)
                 }
-                .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryInteractive01))
+                .buttonStyle(BasicButtonStyle(textColor: theme.support05, backgroundColor: theme.primaryUi01, borderColor: theme.support05))
                 .disabled(isLoading)
                 .frame(minHeight: 56.0)
             }
             .padding(.horizontal, 16.0)
-            .padding(.bottom, 2.0)
+            .padding(.bottom, 5.0)
         }
         .background(
             AppTheme.color(for: .primaryUi01, theme: theme)
