@@ -8,6 +8,8 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     // Internally track the episode UUIDs that the user is downloading or uploadiung
     private var episodeDownloadQueue: Set<String> = []
     private var episodeUploadQueue: Set<String> = []
+    // Keep track of where a download was initiated so completion/failure logs use the same source
+    private let episodeDownloadSources = ThreadSafeDictionary<String, AnalyticsSource>()
 
     override init() {
         super.init()
@@ -40,21 +42,32 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
     // MARK: - Download
 
     func downloadCancelled(episodeUUID: String) {
+        clearDownloadSource(for: episodeUUID)
         episodeEvent(.episodeDownloadCancelled, uuid: episodeUUID)
     }
 
     func downloaded(episodeUUID: String) {
+        let source = cacheDownloadSource(for: episodeUUID)
         episodeDownloadQueue.insert(episodeUUID)
+        currentSource = source
         episodeEvent(.episodeDownloadQueued, uuid: episodeUUID)
     }
 
     func downloadFinished(episodeUUID: String) {
+        let source = consumeDownloadSource(for: episodeUUID)
+        if let source {
+            currentSource = source
+        }
         episodeEvent(.episodeDownloadFinished, uuid: episodeUUID)
     }
 
     func downloadFailed(episodeUUID: String,
                         podcastUUID: String,
                         extraProperties: [String: Any]) {
+        let source = consumeDownloadSource(for: episodeUUID)
+        if let source {
+            currentSource = source
+        }
         track(.episodeDownloadFailed, properties: ["episode_uuid": episodeUUID,
                                                    "podcast_uuid": podcastUUID,
                                                   ].merging(extraProperties, uniquingKeysWith: { (current, _) in return current }))
@@ -62,7 +75,9 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
 
     func bulkDownloadEpisodes(episodes: [BaseEpisode]) {
         let uuids = episodes.map { $0.uuid }
+        let source = cacheDownloadSource(for: uuids)
         episodeDownloadQueue.formUnion(uuids)
+        currentSource = source
         bulkEvent(.episodeBulkDownloadQueued, count: episodes.count)
     }
 
@@ -153,6 +168,28 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
 }
 
 private extension AnalyticsEpisodeHelper {
+    func cacheDownloadSource(for episodeUUID: String) -> AnalyticsSource {
+        let source = currentAnalyticsSource
+        episodeDownloadSources[episodeUUID] = source
+        return source
+    }
+
+    func cacheDownloadSource(for episodeUUIDs: [String]) -> AnalyticsSource {
+        let source = currentAnalyticsSource
+        episodeUUIDs.forEach { episodeDownloadSources[$0] = source }
+        return source
+    }
+
+    func consumeDownloadSource(for episodeUUID: String) -> AnalyticsSource? {
+        let source = episodeDownloadSources[episodeUUID]
+        episodeDownloadSources[episodeUUID] = nil
+        return source
+    }
+
+    func clearDownloadSource(for episodeUUID: String) {
+        episodeDownloadSources.removeValue(forKey: episodeUUID)
+    }
+
     func episodeEvent(_ event: AnalyticsEvent, episode: BaseEpisode? = nil, uuid: String? = nil) {
         let episodeUUID: String
         if let episode {

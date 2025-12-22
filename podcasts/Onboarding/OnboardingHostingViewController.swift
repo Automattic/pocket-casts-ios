@@ -1,7 +1,8 @@
 import Foundation
 import SwiftUI
 
-class OnboardingHostingViewController<Content>: UIHostingController<Content>, UIAdaptivePresentationControllerDelegate where Content: View {
+class OnboardingHostingViewController<Content>: UIHostingController<Content>, UIAdaptivePresentationControllerDelegate, AnalyticsSourceProvider where Content: View {
+    var analyticsSource: AnalyticsSource { .onboarding }
     var navBarIsHidden: Bool = false
     var iconTintColor: UIColor = AppTheme.colorForStyle(.primaryInteractive01)
 
@@ -91,7 +92,8 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
     }
 }
 
-class OnboardingModalHostingViewController<Content>: BottomSheetSwiftUIWrapper<Content> where Content: View {
+class OnboardingModalHostingViewController<Content>: BottomSheetSwiftUIWrapper<Content>, AnalyticsSourceProvider where Content: View {
+    var analyticsSource: AnalyticsSource { .onboarding }
     var viewModel: OnboardingModel?
 
     override func viewDidAppear(_ animated: Bool) {
