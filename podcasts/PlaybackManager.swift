@@ -1356,7 +1356,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                     completion?(false)
                     return
                 }
-                
+
                 do {
                     try self.setAudioSessionProperties()
                     try AVAudioSession.sharedInstance().setActive(true)
