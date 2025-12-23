@@ -15,12 +15,12 @@ struct NowPlayingContainerView: View {
                     TabView(selection: $selection) {
                         NowPlayingOptions(viewModel: viewModel, presentView: $presentedView, optionSelected: $optionSelected)
                             .tag(1)
-                            .animation(.none)
+                            .animation(.none, value: selection)
                         NowPlayingControls(viewModel: viewModel, presentView: $presentedView)
                             .tag(2)
-                            .animation(.none)
+                            .animation(.none, value: selection)
                     }
-                    .animation(.easeInOut)
+                    .animation(.easeInOut, value: selection)
                 }
             } else {
                 NowPlayingEmptyView()

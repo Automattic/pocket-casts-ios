@@ -33,7 +33,7 @@ struct CancelSubscriptionPlansView: View {
                     .font(size: 28.0, style: .body, weight: .bold)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(theme.primaryText01)
-                    .padding(.bottom, 28.0)
+                    .padding(.bottom, 24.0)
                 ForEach(viewModel.getOrderedProducts(), id: \.id) { product in
                     CancelSubscriptionPlanRow(product: product,
                                               selected: product.identifier == viewModel.currentPricingProduct?.identifier) { selectedProduct in

@@ -427,7 +427,7 @@ internal enum L10n {
   /// Title for the claim offer button
   internal static var cancelSubscriptionClaimOfferButton: String { return L10n.tr("Localizable", "cancel_subscription_claim_offer_button", fallback: "Claim offer") }
   /// Title for the continue button
-  internal static var cancelSubscriptionContinueButton: String { return L10n.tr("Localizable", "cancel_subscription_continue_button", fallback: "Continue to Cancellation") }
+  internal static var cancelSubscriptionContinueButton: String { return L10n.tr("Localizable", "cancel_subscription_continue_button", fallback: "Continue with cancellation") }
   /// Generic error if the product loading fails
   internal static var cancelSubscriptionGenericError: String { return L10n.tr("Localizable", "cancel_subscription_generic_error", fallback: "An error occurred. Please try again later.") }
   /// Cancel subscription: description for the help row

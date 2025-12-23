@@ -147,6 +147,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Toevoegen aan Hierna</string>
     <key>after_playing</key>
     <string>Na het afspelen</string>
+    <key>all_results</key>
+    <string>Topresultaten</string>
     <key>announcement_autoplay_description</key>
     <string>Als je Wachtrij Hierna leeg is en je begint naar een aflevering te luisteren, zal Automatisch afspelen afleveringen van die serie of lijst blijven afspelen.</string>
     <key>announcement_autoplay_title</key>
@@ -565,6 +567,8 @@ Laat ons eerst helpen</string>
     <string>Clip maken</string>
     <key>create_filter</key>
     <string>Filter aanmaken</string>
+    <key>create_up_next_snapshot</key>
+    <string>Snapshot maken</string>
     <key>creator_pick_modal_description</key>
     <string>Creator Picks zijn podcasts die door de maker van de show worden aanbevolen met behulp van Podroll.</string>
     <key>creator_pick_modal_learn_more</key>
@@ -1961,8 +1965,12 @@ UPDATES</string>
     <string>Deel je Playback met vrienden en toon wat liefde aan de podcasters die je het hele jaar gezelschap hielden</string>
     <key>playback_2025_end_story_title</key>
     <string>Bedankt dat je je jaar bij Pocket Casts hebt doorgebracht</string>
+    <key>playback_2025_failed_to_load</key>
+    <string>Sorry, we konden het afspelen niet laden</string>
     <key>playback_2025_feature_description</key>
     <string>Bekijk je luisterstatistieken, meest beluisterde podcasts en meer.</string>
+    <key>playback_2025_feature_title</key>
+    <string>Afspelen is hier!</string>
     <key>playback_2025_intro_message</key>
     <string>Je jaar in podcasts, verpakt en klaar om opnieuw te beleven</string>
     <key>playback_2025_listened_to_numbers</key>
@@ -1975,12 +1983,28 @@ UPDATES</string>
     <string>Hopelijk heb je je eerst uitgestrekt!</string>
     <key>playback_2025_longest_episode_title</key>
     <string>Je langste luistermarathon: %1$@</string>
+    <key>playback_2025_plus_thanks_description</key>
+    <string>Je %1$@ extraatjes ontgrendelen meer statistieken en krachtige functies</string>
+    <key>playback_2025_plus_thanks_title</key>
+    <string>Bedankt voor je steun aan Pocket Casts!</string>
     <key>playback_2025_plus_upsell_button_title</key>
     <string>Neem Pocket Casts Plus</string>
     <key>playback_2025_plus_upsell_description</key>
     <string>Abonneer je op Pocket Casts Plus voor uitgebreide statistieken, bladwijzers, mappen, hoofdstukselectie en meer manieren om je luistergewoonten te leren kennen</string>
     <key>playback_2025_plus_upsell_title</key>
     <string>Wil je meer opties?</string>
+    <key>playback_2025_ratings_description_1_to_3</key>
+    <string>Beoordelingen helpen geweldige shows gevonden te worden</string>
+    <key>playback_2025_ratings_description_4_to_5</key>
+    <string>Overal waarderen makers de liefde</string>
+    <key>playback_2025_ratings_empty_description</key>
+    <string>Help je favoriete makers ontdekt te worden door te delen waar je van houdt</string>
+    <key>playback_2025_ratings_empty_title</key>
+    <string>Nog geen beoordelingen, maar er is nog tijd!</string>
+    <key>playback_2025_ratings_title_1_to_3</key>
+    <string>Bedankt dat je je feedback hebt gedeeld.</string>
+    <key>playback_2025_ratings_title_4_to_5</key>
+    <string>Je hebt het %1$@-sterrenbeoordelingen laten regenen</string>
     <key>playback_2025_top_5_podcasts_message</key>
     <string>Meer favorieten, meer afspelen, meer jij</string>
     <key>playback_2025_top_5_podcasts_title</key>
@@ -2006,6 +2030,8 @@ Dat is waar we voor staan!</string>
     <string>Consistent en betrouwbaar, net zoals je koffiebestelling</string>
     <key>playback_2025_year_over_year_comparison_same_title</key>
     <string>Je luisterervaring van 2025 is stabiel gebleven</string>
+    <key>playback_2025_year_over_year_comparison_up_message</key>
+    <string>Meer podcasts, meer plezier</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2020,6 +2046,8 @@ Dat is waar we voor staan!</string>
     <string>Afspeeleffecten</string>
     <key>playback_failed</key>
     <string>Afspelen mislukt</string>
+    <key>playback_not_available</key>
+    <string>Afspelen niet beschikbaar</string>
     <key>playback_speed</key>
     <string>%1$@x</string>
     <key>player_accessibility_sleep_timer_on</key>
@@ -2170,6 +2198,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Stel slimme regels in om automatisch afleveringen aan je intelligente playlist toe te voegen.</string>
     <key>playlist_smart_preview_enabled_rules</key>
     <string>Ingeschakelde regels</string>
+    <key>playlist_smart_preview_more_rules</key>
+    <string>Meer regels</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_auto_add</key>
     <string>Nieuwe podcasts die je volgt, worden automatisch toegevoegd</string>
     <key>playlist_smart_rule_podcasts_header_subtitle_manual_add</key>

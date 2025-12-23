@@ -109,6 +109,7 @@ struct OnboardingRecommendationsView: View {
 
     @State var searchResults = [PodcastFolderSearchResult]()
     @State var searchTask: Task<Void, Never>?
+    @State private var didTapContinue = false
 
     init(coordinator: LoginCoordinator, viewModel: RecommendationsViewModel = RecommendationsViewModel(configuration: .all)) {
         self.coordinator = coordinator
@@ -158,6 +159,7 @@ struct OnboardingRecommendationsView: View {
 
                     VStack {
                         Button(action: {
+                            didTapContinue = true
                             OnboardingFlow.shared.track(.recommendationsContinueTapped, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
                             coordinator.recommendationsContinueTapped()
                         }) {
@@ -192,7 +194,9 @@ struct OnboardingRecommendationsView: View {
         .background(theme.primaryUi01)
         .environmentObject(SearchAnalyticsHelper(source: .recommendations))
         .onDisappear {
-            Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
+            if didTapContinue == false {
+                Analytics.track(.recommendationsDismissed, properties: ["subscriptions": DataManager.sharedManager.podcastCount()])
+            }
         }
     }
 

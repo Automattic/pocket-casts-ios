@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-struct OnboardingFlow {
+struct OnboardingFlow: AnalyticsSourceProvider {
     typealias Context = [String: Any]
 
     static var shared = OnboardingFlow()
@@ -195,5 +195,9 @@ struct OnboardingFlow {
                 false
             }
         }
+    }
+
+    var analyticsSource: AnalyticsSource {
+        .onboarding
     }
 }
