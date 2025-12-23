@@ -166,6 +166,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     @objc func startDataRequest(with url: URL, retryWithoutUserAgent: Bool) {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Start data request for \(url)")
         guard session == nil else { return }
 
         let configuration = URLSessionConfiguration.default
@@ -331,6 +332,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadFailed(with error: Error) {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
         invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
         DispatchQueue.main.async { [weak self] in
