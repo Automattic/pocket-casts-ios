@@ -381,8 +381,6 @@
     <string>Доступные тарифные планы</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Воспользоваться предложением</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Продолжить отмену</string>
     <key>cancel_subscription_generic_error</key>
     <string>Произошла ошибка. Повторите попытку позже.</string>
     <key>cancel_subscription_help_description</key>

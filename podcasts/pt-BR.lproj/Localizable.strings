@@ -381,8 +381,6 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Planos disponíveis</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Resgatar oferta</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Continuar com o cancelamento</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ocorreu um erro. Tente novamente mais tarde.</string>
     <key>cancel_subscription_help_description</key>
