@@ -261,6 +261,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
+    /// Read streaming data from memory buffer it's available
+    case streamAndDownloadReadFromMemoryBuffer
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -438,6 +441,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .episodesInfoCacheReloadPolicy:
 			true
         case .ignorePlayWithOtherAudio:
+            true
+        case .streamAndDownloadReadFromMemoryBuffer:
             true
         }
     }

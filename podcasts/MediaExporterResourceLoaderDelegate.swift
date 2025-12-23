@@ -8,7 +8,7 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = 16.KB
+    public static var downloadBufferLimit: Int = FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
 
     /// How much data is allowed to be read in memory at a time.
     public static var readDataLimit: Int = 10.MB
@@ -166,6 +166,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     @objc func startDataRequest(with url: URL, retryWithoutUserAgent: Bool) {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Start data request for \(url)")
         guard session == nil else { return }
 
         let configuration = URLSessionConfiguration.default
@@ -251,7 +252,16 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let bytesCached = fileHandle.fileSize
 
         // Is there enough data cached to fulfill the request?
-        guard bytesCached > currentOffset else { return false }
+        guard bytesCached > currentOffset else {
+            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
+                let start = currentOffset - bytesCached
+                let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
+                let dataRequested = bufferData.subdata(in: start..<end)
+                dataRequest.respond(with: dataRequested)
+                return end - start >= requestedLength
+            }
+            return false
+        }
 
         // Data length to be loaded into memory with maximum size of readDataLimit.
         let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
@@ -331,6 +341,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadFailed(with error: Error) {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
         invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
         DispatchQueue.main.async { [weak self] in
