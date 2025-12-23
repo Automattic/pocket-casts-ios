@@ -381,8 +381,6 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Planes disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Reclamar oferta</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Ir a Cancelación</string>
     <key>cancel_subscription_generic_error</key>
     <string>Se ha producido un error. Inténtalo de nuevo más tarde.</string>
     <key>cancel_subscription_help_description</key>

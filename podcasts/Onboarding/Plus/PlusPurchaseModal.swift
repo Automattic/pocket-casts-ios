@@ -95,6 +95,7 @@ struct PlusPurchaseModal: View {
                     let isLoading = (coordinator.state == .purchasing)
                     Button(subscribeButton) {
                         guard !isLoading else { return }
+                        OnboardingFlow.shared.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": selectedOption.rawValue])
                         coordinator.purchase(product: selectedOption)
                     }.buttonStyle(PlusGradientFilledButtonStyle(isLoading: isLoading, plan: coordinator.plan)).disabled(isLoading)
 

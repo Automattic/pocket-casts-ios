@@ -381,8 +381,6 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>可供取消的方案</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>領取優惠</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>繼續取消</string>
     <key>cancel_subscription_generic_error</key>
     <string>發生錯誤， 請稍後再試。</string>
     <key>cancel_subscription_help_description</key>

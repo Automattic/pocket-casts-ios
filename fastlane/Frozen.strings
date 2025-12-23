@@ -2867,6 +2867,15 @@
 /* Failure message for the Internet check. */
 "settings_status_internet_failure_message" = "Unable to connect to the internet. Try connecting on a different network (e.g. mobile data).";
 
+/* Title for the service being checked, in this case, whether the network is considered expensive. */
+"settings_status_expensive_network" = "Unmetered Wifi";
+
+/* Description for the expensive network check. */
+"settings_status_expensive_network_description" = "If successful, this network will be used for downloads on Unmetered Wifi.";
+
+/* Failure message for the expensive network check. */
+"settings_status_expensive_network_failure_message" = "Your current network is marked as expensive. Try switching to Wi-Fi or disabling Low Data Mode.";
+
 /* Title for the service being checked, in this case, the Pocket Cast's Refresh Service. */
 "settings_status_refresh_service" = "Refresh Service";
 
@@ -5818,8 +5827,6 @@
 
 /* Message to shown then trying to open playback from deep link but it's not available */
 "playback_not_available" = "Playback unavailable";
-
-
 
 /* MARK: - InfoPlist.strings */
 

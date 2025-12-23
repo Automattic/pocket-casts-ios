@@ -381,8 +381,6 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Verfügbare Tarife</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Angebot nutzen</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Weiter zur Kündigung</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</string>
     <key>cancel_subscription_help_description</key>

@@ -381,8 +381,6 @@
     <string>可用套餐</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>领取优惠</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>继续取消</string>
     <key>cancel_subscription_generic_error</key>
     <string>发生错误。 请稍后重试。</string>
     <key>cancel_subscription_help_description</key>

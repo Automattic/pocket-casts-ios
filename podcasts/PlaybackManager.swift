@@ -1338,17 +1338,39 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         shouldDeactivateSession.value = false
-        do {
-            try setAudioSessionProperties()
-            #if os(watchOS)
+
+        #if os(watchOS)
+            do {
+                try setAudioSessionProperties()
                 AVAudioSession.sharedInstance().activate(options: []) { activated, _ in
                     completion?(activated)
                 }
-            #else
-                try AVAudioSession.sharedInstance().setActive(true)
-                FileLog.shared.addMessage("activating audio session succeeded")
-                completion?(true)
-            #endif
+            } catch {
+                FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
+                completion?(false)
+            }
+        #else
+        if FeatureFlag.activateAudioSessionInBackground.enabled {
+            // Perform audio session activation on a background queue to avoid blocking the main thread
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let self = self else {
+                    completion?(false)
+                    return
+                }
+                self.activateSession(completion: completion)
+            }
+        } else {
+            self.activateSession(completion: completion)
+        }
+        #endif
+    }
+
+    private func activateSession(completion: ((Bool) -> Void)?) {
+        do {
+            try self.setAudioSessionProperties()
+            try AVAudioSession.sharedInstance().setActive(true)
+            FileLog.shared.addMessage("activating audio session succeeded")
+            completion?(true)
         } catch {
             FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
             completion?(false)
@@ -1681,6 +1703,12 @@ class PlaybackManager: ServerPlaybackDelegate {
                     FileLog.shared.addMessage("Remote control: playCommand, treating as play because playing over AirPlay")
                     if !strongSelf.playing() { strongSelf.play() }
                 } else {
+                    if FeatureFlag.ignorePlayWithOtherAudio.enabled {
+                        if AVAudioSession.sharedInstance().isOtherAudioPlaying {
+                            FileLog.shared.addMessage("Remote control: playCommand, ignored because other audio is playing")
+                            return .commandFailed
+                        }
+                    }
                     // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
                     FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
                     strongSelf.playPause()

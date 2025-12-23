@@ -3715,6 +3715,12 @@ internal enum L10n {
   internal static var settingsStatusDiscover: String { return L10n.tr("Localizable", "settings_status_discover", fallback: "Discover & Search") }
   /// Description for the Discover & Search check.
   internal static var settingsStatusDiscoverDescription: String { return L10n.tr("Localizable", "settings_status_discover_description", fallback: "The discover section of the app, including podcast search.") }
+  /// Title for the service being checked, in this case, whether the network is considered expensive.
+  internal static var settingsStatusExpensiveNetwork: String { return L10n.tr("Localizable", "settings_status_expensive_network", fallback: "Unmetered Wifi") }
+  /// Description for the expensive network check.
+  internal static var settingsStatusExpensiveNetworkDescription: String { return L10n.tr("Localizable", "settings_status_expensive_network_description", fallback: "If successful, this network will be used for downloads on Unmetered Wifi.") }
+  /// Failure message for the expensive network check.
+  internal static var settingsStatusExpensiveNetworkFailureMessage: String { return L10n.tr("Localizable", "settings_status_expensive_network_failure_message", fallback: "Your current network is marked as expensive. Try switching to Wi-Fi or disabling Low Data Mode.") }
   /// Title for the service being checked, in this case, a podcast host URL.
   internal static var settingsStatusHost: String { return L10n.tr("Localizable", "settings_status_host", fallback: "Common Podcast Hosts") }
   /// Description for the podcast host check.

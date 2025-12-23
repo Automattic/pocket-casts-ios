@@ -381,8 +381,6 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Utnyttja erbjudande</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Fortsätt till annullering</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ett fel uppstod. Försök igen senare.</string>
     <key>cancel_subscription_help_description</key>

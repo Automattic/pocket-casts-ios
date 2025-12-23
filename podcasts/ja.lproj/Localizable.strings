@@ -381,8 +381,6 @@
     <string>利用可能なプラン</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>オファーを獲得</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>キャンセルに進む</string>
     <key>cancel_subscription_generic_error</key>
     <string>エラーが発生しました。 後でもう一度お試しください。</string>
     <key>cancel_subscription_help_description</key>

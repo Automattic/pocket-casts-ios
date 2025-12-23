@@ -8,6 +8,9 @@
 - Playlists: introduce DiffableKit to handle cell reloading [#3784](https://github.com/Automattic/pocket-casts-ios/pull/3784)
 - Playlists: improve artwork and counts queries [#3783](https://github.com/Automattic/pocket-casts-ios/pull/3783), [#3807](https://github.com/Automattic/pocket-casts-ios/pull/3807)
 - Improve app performance when trigering multiple downloads [#3809](https://github.com/Automattic/pocket-casts-ios/pull/3809)
+- Add Unmetered Wifi test in Connection Status page [#3825](https://github.com/Automattic/pocket-casts-ios/pull/3825)
+- Activate audio session in background to avoid main thread hangs [#3826](https://github.com/Automattic/pocket-casts-ios/pull/3826)
+- Use in-memory streaming buffer to reply to media requests [#3829](https://github.com/Automattic/pocket-casts-ios/pull/3829)
 
 8.1.1
 -----

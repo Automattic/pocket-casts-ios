@@ -381,8 +381,6 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Piani disponibili</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Riscatta l'offerta</string>
-    <key>cancel_subscription_continue_button</key>
-    <string>Continua a Annullamento</string>
     <key>cancel_subscription_generic_error</key>
     <string>Si è verificato un errore. Riprova più tardi.</string>
     <key>cancel_subscription_help_description</key>
