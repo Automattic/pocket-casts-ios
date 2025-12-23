@@ -258,6 +258,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid returning cached episode early and use policy instead
     case episodesInfoCacheReloadPolicy
 
+    /// Read streaming data from memory buffer it's available
+    case streamAndDownloadReadFromMemoryBuffer
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -433,6 +436,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistDataCacheBeforeQuery:
             true
         case .episodesInfoCacheReloadPolicy:
+            true
+        case .streamAndDownloadReadFromMemoryBuffer:
             true
         }
     }
