@@ -264,6 +264,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Read streaming data from memory buffer it's available
     case streamAndDownloadReadFromMemoryBuffer
 
+    /// activates the audio session in the background to avoid locks in the main thread
+    case activateAudioSessionInBackground
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -443,6 +446,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .ignorePlayWithOtherAudio:
             true
         case .streamAndDownloadReadFromMemoryBuffer:
+            true
+        case .activateAudioSessionInBackground:
             true
         }
     }

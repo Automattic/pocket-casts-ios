@@ -1338,17 +1338,39 @@ class PlaybackManager: ServerPlaybackDelegate {
         #endif
 
         shouldDeactivateSession.value = false
-        do {
-            try setAudioSessionProperties()
-            #if os(watchOS)
+
+        #if os(watchOS)
+            do {
+                try setAudioSessionProperties()
                 AVAudioSession.sharedInstance().activate(options: []) { activated, _ in
                     completion?(activated)
                 }
-            #else
-                try AVAudioSession.sharedInstance().setActive(true)
-                FileLog.shared.addMessage("activating audio session succeeded")
-                completion?(true)
-            #endif
+            } catch {
+                FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
+                completion?(false)
+            }
+        #else
+        if FeatureFlag.activateAudioSessionInBackground.enabled {
+            // Perform audio session activation on a background queue to avoid blocking the main thread
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let self = self else {
+                    completion?(false)
+                    return
+                }
+                self.activateSession(completion: completion)
+            }
+        } else {
+            self.activateSession(completion: completion)
+        }
+        #endif
+    }
+
+    private func activateSession(completion: ((Bool) -> Void)?) {
+        do {
+            try self.setAudioSessionProperties()
+            try AVAudioSession.sharedInstance().setActive(true)
+            FileLog.shared.addMessage("activating audio session succeeded")
+            completion?(true)
         } catch {
             FileLog.shared.addMessage("activating audio session failed \(error.localizedDescription)")
             completion?(false)
