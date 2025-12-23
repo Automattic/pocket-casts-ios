@@ -8,7 +8,7 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = 256.KB
+    public static var downloadBufferLimit: Int = FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
 
     /// How much data is allowed to be read in memory at a time.
     public static var readDataLimit: Int = 10.MB
