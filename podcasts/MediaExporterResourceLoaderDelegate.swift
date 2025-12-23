@@ -253,7 +253,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {
-            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {                
+            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
                 let start = currentOffset - bytesCached
                 let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
                 let dataRequested = bufferData.subdata(in: start..<end)
