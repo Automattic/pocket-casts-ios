@@ -258,6 +258,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Avoid returning cached episode early and use policy instead
     case episodesInfoCacheReloadPolicy
 
+    /// activates the audio session in the background to avoid locks in the main thread
+    case activateAudioSessionInBackground
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -433,6 +436,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistDataCacheBeforeQuery:
             true
         case .episodesInfoCacheReloadPolicy:
+            true
+        case .activateAudioSessionInBackground:
             true
         }
     }
