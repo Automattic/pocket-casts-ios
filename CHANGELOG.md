@@ -10,6 +10,7 @@
 - Add Unmetered Wifi test in Connection Status page [#3825](https://github.com/Automattic/pocket-casts-ios/pull/3825)
 - Activate audio session in background to avoid main thread hangs [#3826](https://github.com/Automattic/pocket-casts-ios/pull/3826)
 - Use in-memory streaming buffer to reply to media requests [#3829](https://github.com/Automattic/pocket-casts-ios/pull/3829)
+- Switch to allowsCellularAccess from allowsExpensiveNetworkAccess to improve cellular download handling [#3833](https://github.com/Automattic/pocket-casts-ios/pull/3833)
 
 8.1.1
 -----
