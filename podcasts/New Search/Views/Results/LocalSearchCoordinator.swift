@@ -110,19 +110,21 @@ final class LocalSearchCoordinator {
         preloadTask = Task { [weak self] in
             guard let self else { return }
 
-            let results = await Task.detached { [dataManager] in
+            let playlistUUIDs = await MainActor.run { self.playlistEpisodeUUIDs }
+
+            let episodeResults = await Task.detached { [dataManager] in
                 let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
                 let sortedEpisodes = podcastEpisodes.sorted { lhs, rhs in
                     let lhsDate = lhs.publishedDate ?? lhs.addedDate ?? .distantPast
                     let rhsDate = rhs.publishedDate ?? rhs.addedDate ?? .distantPast
                     return lhsDate > rhsDate
                 }
-                return sortedEpisodes
+                let availableEpisodes = sortedEpisodes.filter { !playlistUUIDs.contains($0.uuid) }
+                return availableEpisodes.map { EpisodeSearchResult(episode: $0) }
             }.value
 
             await MainActor.run {
-                let availableEpisodes = results.filter { !self.playlistEpisodeUUIDs.contains($0.uuid) }
-                self.episodes = availableEpisodes.map { EpisodeSearchResult(episode: $0) }
+                self.episodes = episodeResults
                 self.isSearchInFlight = false
             }
         }
@@ -190,8 +192,9 @@ final class LocalSearchCoordinator {
             self.episodes = []
         }
 
-        let matchedEpisodes = await Task.detached {
-            DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+        let episodeResults = await Task.detached {
+            let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+            return matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
         }.value
 
         guard !Task.isCancelled else {
@@ -209,7 +212,7 @@ final class LocalSearchCoordinator {
                 return
             }
 
-            self.episodes = matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
+            self.episodes = episodeResults
             self.isSearchInFlight = false
         }
     }

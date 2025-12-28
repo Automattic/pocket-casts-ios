@@ -17,6 +17,9 @@ final class LocalSearchViewModel: ObservableObject {
     @Published private(set) var searchResultsPodcasts: [PodcastFolderSearchResult] = []
     @Published private(set) var disableLibraryAnimation = false
     @Published private(set) var defaultLibraryItems: [PodcastFolderSearchResult] = []
+    @Published private(set) var isLoadingDefaultLibrary = false
+    @Published private(set) var isLoadingFolderPodcasts = false
+    @Published private(set) var isLoadingPlaylistEpisodes = false
 
     let playlist: EpisodeFilter
 
@@ -67,6 +70,10 @@ final class LocalSearchViewModel: ObservableObject {
     }
 
     private func loadDefaultLibraryItems() async {
+        await MainActor.run {
+            self.isLoadingDefaultLibrary = true
+        }
+
         let items = await Task.detached {
             let sortOrder = Settings.homeFolderSortOrder()
             let items = HomeGridDataHelper.gridItems(orderedBy: sortOrder)
@@ -83,6 +90,7 @@ final class LocalSearchViewModel: ObservableObject {
 
         await MainActor.run {
             self.defaultLibraryItems = items
+            self.isLoadingDefaultLibrary = false
         }
     }
 
@@ -92,6 +100,17 @@ final class LocalSearchViewModel: ObservableObject {
 
     var hasAnyPodcastsInFolder: Bool {
         !folderPodcasts.isEmpty
+    }
+
+    var isPodcastListLoading: Bool {
+        switch podcastListMode {
+        case .library:
+            return isLoadingDefaultLibrary
+        case .folder:
+            return isLoadingFolderPodcasts
+        case .search:
+            return false // Search results use the searchResultsModel which handles its own loading
+        }
     }
 
     var navigationTitle: String {
@@ -139,10 +158,10 @@ final class LocalSearchViewModel: ObservableObject {
         selectedPodcast = podcast
         searchText = ""
 
+        episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
+
         Task {
-            episodeCoordinator?.clearResults()
             await episodeCoordinator?.refreshPlaylistEpisodes()
-            episodeCoordinator?.preloadEpisodes(for: selectedPodcast)
         }
     }
 
@@ -311,6 +330,10 @@ final class LocalSearchViewModel: ObservableObject {
     }
 
     private func loadPodcastsForSelectedFolder(_ folder: Folder) async {
+        await MainActor.run {
+            self.isLoadingFolderPodcasts = true
+        }
+
         let sorted = await Task.detached {
             let podcasts = DataManager.sharedManager.allPodcastsInFolder(folder: folder)
             return podcasts.sorted { lhs, rhs in
@@ -323,11 +346,14 @@ final class LocalSearchViewModel: ObservableObject {
         await MainActor.run {
             self.folderPodcasts = sorted
             self.filteredFolderPodcasts = sorted
+            self.isLoadingFolderPodcasts = false
         }
     }
 
     private func refreshPlaylistEpisodes() async {
+        isLoadingPlaylistEpisodes = true
         await episodeCoordinator?.refreshPlaylistEpisodes()
+        isLoadingPlaylistEpisodes = false
     }
 
     private func handleSearchTextChange(_ newValue: String) {
