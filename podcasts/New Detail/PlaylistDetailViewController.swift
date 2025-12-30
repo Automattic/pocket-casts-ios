@@ -61,6 +61,23 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
 
+    private lazy var emptyStateNavTitle: UILabel! = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private(set) lazy var emptyStateNavView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.isHidden = true
+        view.addSubview(emptyStateNavTitle)
+        return view
+    }()
+
     private var refreshControl: CustomRefreshControl?
 
     var isMultiSelectEnabled = false {
@@ -303,6 +320,8 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
+        view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
+
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -335,7 +354,16 @@ class PlaylistDetailViewController: FakeNavViewController {
             multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
             multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0),
             multiSelectFooterBottomConstraint,
-            multiSelectFooter.heightAnchor.constraint(equalToConstant: 64)
+            multiSelectFooter.heightAnchor.constraint(equalToConstant: 64),
+
+            emptyStateNavView.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor),
+            emptyStateNavView.trailingAnchor.constraint(equalTo: fakeNavView.trailingAnchor),
+            emptyStateNavView.topAnchor.constraint(equalTo: fakeNavView.topAnchor),
+            emptyStateNavView.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor),
+            emptyStateNavTitle.centerXAnchor.constraint(equalTo: emptyStateNavView.centerXAnchor),
+            emptyStateNavTitle.widthAnchor.constraint(lessThanOrEqualToConstant: 200),
+            emptyStateNavTitle.heightAnchor.constraint(equalTo: backBtn.heightAnchor),
+            emptyStateNavView.bottomAnchor.constraint(equalTo: emptyStateNavTitle.bottomAnchor)
         ])
 
         view.layoutSubviews()
@@ -345,6 +373,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         tableView.reloadData()
 
         updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
+
+        emptyStateNavTitle.textColor = ThemeColor.primaryText01()
 
         multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
         multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
@@ -428,6 +458,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func reloadNavTitle() {
         navTitle = viewModel.playlist.playlistName
+        emptyStateNavTitle.text = viewModel.playlist.playlistName
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
