@@ -36,6 +36,8 @@ extension PlaylistDetailViewController {
             self.tableView.isHidden = self.viewModel.shouldShowEmptyPlaceholder
         }
 
+        self.emptyStateNavView.isHidden = !viewModel.shouldShowEmptyPlaceholder
+
         if viewModel.shouldShowEmptyPlaceholder {
             // Empty State when playlists is empty
             config = ContentUnavailableConfiguration.emptyState(
