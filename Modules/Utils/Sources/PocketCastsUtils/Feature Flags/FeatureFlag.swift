@@ -267,6 +267,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// activates the audio session in the background to avoid locks in the main thread
     case activateAudioSessionInBackground
 
+    /// Use cellular-specific network APIs instead of expensive network APIs
+    case useCellularNetworkApis
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -448,6 +451,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .streamAndDownloadReadFromMemoryBuffer:
             true
         case .activateAudioSessionInBackground:
+            true
+        case .useCellularNetworkApis:
             true
         }
     }
