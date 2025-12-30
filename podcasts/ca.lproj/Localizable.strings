@@ -3257,6 +3257,12 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Descobrir i cercar</string>
     <key>settings_status_discover_description</key>
     <string>La secció Descobrir l'aplicació i la cerca de pòdcast.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Wi-Fi sense límit de dades</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Si té èxit, aquesta xarxa s’utilitzarà per a les descàrregues en Wi-Fi sense límit de dades.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>La teva xarxa actual està marcada com a cara. Prova de canviar a Wi-Fi o de desactivar el mode de baix consum de dades.</string>
     <key>settings_status_host</key>
     <string>Proveïdors d'allotjament més comuns de pòdcasts</string>
     <key>settings_status_host_description</key>
