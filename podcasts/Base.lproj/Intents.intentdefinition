@@ -53,11 +53,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>DOik2X</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21A559</string>
+	<string>25C56</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13A1030d</string>
+	<string>17B55</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.1</string>
+	<string>26.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
