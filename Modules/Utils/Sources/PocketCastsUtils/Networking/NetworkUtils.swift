@@ -30,7 +30,7 @@ public class NetworkUtils {
     // MARK: - Connectivity
 
     public func isConnectedToUnexpensiveConnection() -> Bool {
-        if FeatureFlag.useCellularNetworkAPIs.enabled {
+        if FeatureFlag.useCellularNetworkApis.enabled {
             return !monitor.currentPath.usesInterfaceType(.cellular)
         } else {
             return !monitor.currentPath.isExpensive
