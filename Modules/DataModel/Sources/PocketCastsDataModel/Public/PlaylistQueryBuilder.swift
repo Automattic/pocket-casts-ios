@@ -62,9 +62,9 @@ public class PlaylistQueryBuilder {
                                  ROW_NUMBER() OVER (
                                    PARTITION BY episode.uuid
                                    ORDER BY
-                                     CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                                     CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0
                                           WHEN episode.archived = \(archivedPreference) THEN 1
-                                          WHEN episode.episodeStatus = 1 THEN 2
+                                          WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 2
                                           ELSE 3 END,
                                      episode.id ASC
                                  ) AS rn
@@ -141,7 +141,7 @@ public class PlaylistQueryBuilder {
                                  ROW_NUMBER() OVER (
                                    PARTITION BY episode.uuid
                                    ORDER BY
-                                     CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                                     CASE WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0 ELSE 1 END,
                                      episode.id ASC
                                  ) AS rn
                           FROM \(DataManager.episodeTableName) episode
@@ -186,7 +186,7 @@ public class PlaylistQueryBuilder {
                                  ROW_NUMBER() OVER (
                                    PARTITION BY episode.uuid
                                    ORDER BY
-                                     CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                                     CASE WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0 ELSE 1 END,
                                      episode.id ASC
                                  ) AS rn
                           FROM \(DataManager.episodeTableName) episode
@@ -454,9 +454,9 @@ public class PlaylistQueryBuilder {
                          ROW_NUMBER() OVER (
                            PARTITION BY episode.uuid
                            ORDER BY
-                             CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                             CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0
                                   WHEN episode.archived = \(archivedPreference) THEN 1
-                                  WHEN episode.episodeStatus = 1 THEN 2
+                                  WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 2
                                   ELSE 3 END,
                              episode.id ASC
                          ) AS uuid_rn
