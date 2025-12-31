@@ -47,48 +47,49 @@ public class PlaylistQueryBuilder {
         if playlist.manual {
             switch clause {
             case .episode:
-                // Optimization: Filter episodes before deduplication to reduce window function processing
-                let episodeFilter = FeatureFlag.optimizeManualPlaylistQueries.enabled ?
-                    "INNER JOIN playlist p ON episode.uuid = p.episodeUuid" : ""
-                let manualCTE =
-                    """
-                    WITH playlist AS (
-                      SELECT episodeUuid, MIN(episodePosition) AS pos
-                      FROM \(DataManager.playlistEpisodeTableName)
-                      WHERE playlist_uuid = '\(playlist.uuid)'
-                      GROUP BY episodeUuid
-                    ),
-                    deduped_episode AS (
-                      SELECT episode.*,
-                             ROW_NUMBER() OVER (
-                               PARTITION BY episode.uuid
-                               ORDER BY
-                                 CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
-                                 episode.id ASC
-                             ) AS rn
-                      FROM \(DataManager.episodeTableName) episode
-                      \(episodeFilter)
-                    )
-                    """
-                let manualJoin =
-                    """
-                    FROM playlist p
-                    JOIN deduped_episode episode
-                      ON episode.uuid = p.episodeUuid
-                      AND episode.rn = 1
-                    LEFT JOIN \(DataManager.podcastTableName) podcast
-                      ON episode.podcast_id = podcast.id
-                    """
-                queryString =
-                    """
-                    \(manualCTE)
-                    SELECT episode.*
-                    \(manualJoin)
-                    \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
-                    """
-            case .episodeCount:
                 if FeatureFlag.optimizeManualPlaylistQueries.enabled {
-                    let episodeFilter = "INNER JOIN playlist p ON episode.uuid = p.episodeUuid"
+                    let archivedPreference = shouldShowArchived ? "1" : "0"
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                                          WHEN episode.archived = \(archivedPreference) THEN 1
+                                          WHEN episode.episodeStatus = 1 THEN 2
+                                          ELSE 3 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT episode.*
+                        \(manualJoin)
+                        \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
+                        """
+                } else {
+                    // Original query without optimization
                     let manualCTE =
                         """
                         WITH playlist AS (
@@ -106,7 +107,45 @@ public class PlaylistQueryBuilder {
                                      episode.id ASC
                                  ) AS rn
                           FROM \(DataManager.episodeTableName) episode
-                          \(episodeFilter)
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT episode.*
+                        \(manualJoin)
+                        \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
+                        """
+                }
+            case .episodeCount:
+                if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
                         )
                         """
                     let manualJoin =
@@ -134,7 +173,6 @@ public class PlaylistQueryBuilder {
                 }
             case .allEpisodeCount:
                 if FeatureFlag.optimizeManualPlaylistQueries.enabled {
-                    let episodeFilter = "INNER JOIN playlist p ON episode.uuid = p.episodeUuid"
                     let manualCTE =
                         """
                         WITH playlist AS (
@@ -152,7 +190,7 @@ public class PlaylistQueryBuilder {
                                      episode.id ASC
                                  ) AS rn
                           FROM \(DataManager.episodeTableName) episode
-                          \(episodeFilter)
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
                         )
                         """
                     let manualJoin =
@@ -396,66 +434,144 @@ public class PlaylistQueryBuilder {
             }
         }
 
+        let archivedPredicateForDeduped = shouldShowArchived ? "" : "AND de.archived = 0"
+        let archivedPredicateForEpisode = shouldShowArchived ? "" : "AND episode.archived = 0"
+        let archivedPreference = shouldShowArchived ? "1" : "0"
         let archivedPredicate = shouldShowArchived ? "" : "AND episode.archived = 0"
         let episodePositionOrderByStripped = episodePositionOrderBy.replacingOccurrences(of: "episode.", with: "")
 
         if isCustomOrderSortType {
-            return """
-            WITH playlist_rows AS (
-              SELECT episode.id,
-                     episode.podcast_id,
-                     playlist.episodePosition AS playlist_position
-              FROM \(DataManager.episodeTableName) episode
-              JOIN \(DataManager.playlistEpisodeTableName) playlist
-                ON episode.uuid = playlist.episodeUuid
-              WHERE playlist.playlist_uuid = '\(playlistUUID)'
-              \(archivedPredicate)
-              LIMIT \(episodeLimit)
-            ),
-            first_per_podcast AS (
-              SELECT podcast_id, MIN(playlist_position) AS min_pos
-              FROM playlist_rows
-              GROUP BY podcast_id
-            ),
-            chosen_ids AS (
-              SELECT pr.id, pr.playlist_position
-              FROM playlist_rows pr
-              JOIN first_per_podcast f
-                ON pr.podcast_id = f.podcast_id
-               AND pr.playlist_position = f.min_pos
-            )
-            SELECT episode.*
-            FROM \(DataManager.episodeTableName) episode
-            JOIN chosen_ids c
-              ON episode.id = c.id
-            ORDER BY c.playlist_position ASC
-            LIMIT \(limit)
-            """
+            if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                return """
+                WITH playlist AS (
+                  SELECT episodeUuid, MIN(episodePosition) AS episodePosition
+                  FROM \(DataManager.playlistEpisodeTableName)
+                  WHERE playlist_uuid = '\(playlistUUID)'
+                  GROUP BY episodeUuid
+                ),
+                deduped_episode AS (
+                  SELECT episode.*,
+                         ROW_NUMBER() OVER (
+                           PARTITION BY episode.uuid
+                           ORDER BY
+                             CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                                  WHEN episode.archived = \(archivedPreference) THEN 1
+                                  WHEN episode.episodeStatus = 1 THEN 2
+                                  ELSE 3 END,
+                             episode.id ASC
+                         ) AS uuid_rn
+                  FROM \(DataManager.episodeTableName) episode
+                  WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                ),
+                playlist_rows AS (
+                  SELECT de.id,
+                         de.podcast_id,
+                         p.episodePosition AS playlist_position
+                  FROM deduped_episode de
+                  JOIN playlist p
+                    ON de.uuid = p.episodeUuid
+                  WHERE de.uuid_rn = 1
+                  \(archivedPredicateForDeduped)
+                  LIMIT \(episodeLimit)
+                ),
+                first_per_podcast AS (
+                  SELECT podcast_id, MIN(playlist_position) AS min_pos
+                  FROM playlist_rows
+                  GROUP BY podcast_id
+                ),
+                chosen_ids AS (
+                  SELECT pr.id, pr.playlist_position
+                  FROM playlist_rows pr
+                  JOIN first_per_podcast f
+                    ON pr.podcast_id = f.podcast_id
+                   AND pr.playlist_position = f.min_pos
+                )
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                JOIN chosen_ids c
+                  ON episode.id = c.id
+                ORDER BY c.playlist_position ASC
+                LIMIT \(limit)
+                """
+            } else {
+                // Original query without deduplication
+                return """
+                WITH playlist_rows AS (
+                  SELECT episode.id,
+                         episode.podcast_id,
+                         playlist.episodePosition AS playlist_position
+                  FROM \(DataManager.episodeTableName) episode
+                  JOIN \(DataManager.playlistEpisodeTableName) playlist
+                    ON episode.uuid = playlist.episodeUuid
+                  WHERE playlist.playlist_uuid = '\(playlistUUID)'
+                  \(archivedPredicate)
+                  LIMIT \(episodeLimit)
+                ),
+                first_per_podcast AS (
+                  SELECT podcast_id, MIN(playlist_position) AS min_pos
+                  FROM playlist_rows
+                  GROUP BY podcast_id
+                ),
+                chosen_ids AS (
+                  SELECT pr.id, pr.playlist_position
+                  FROM playlist_rows pr
+                  JOIN first_per_podcast f
+                    ON pr.podcast_id = f.podcast_id
+                   AND pr.playlist_position = f.min_pos
+                )
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                JOIN chosen_ids c
+                  ON episode.id = c.id
+                ORDER BY c.playlist_position ASC
+                LIMIT \(limit)
+                """
+            }
         }
 
         if FeatureFlag.optimizeManualPlaylistQueries.enabled {
-            // Optimized version: removes episodeLimit and simplifies query structure
+            // Optimized version: deduplicates by UUID first, then partitions by podcast
             return """
-            WITH ordered_episodes AS (
-              SELECT episode.id,
-                     episode.podcast_id,
-                     playlist.episodePosition AS playlist_position,
+            WITH playlist AS (
+              SELECT episodeUuid, MIN(episodePosition) AS episodePosition
+              FROM \(DataManager.playlistEpisodeTableName)
+              WHERE playlist_uuid = '\(playlistUUID)'
+              GROUP BY episodeUuid
+            ),
+            deduped_episode AS (
+              SELECT episode.*,
                      ROW_NUMBER() OVER (
-                       PARTITION BY episode.podcast_id
-                       \(episodePositionOrderByStripped)
-                     ) AS rn
+                       PARTITION BY episode.uuid
+                       ORDER BY
+                         CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                              WHEN episode.archived = \(archivedPreference) THEN 1
+                              WHEN episode.episodeStatus = 1 THEN 2
+                              ELSE 3 END,
+                         episode.id ASC
+                     ) AS uuid_rn
               FROM \(DataManager.episodeTableName) episode
-              JOIN \(DataManager.playlistEpisodeTableName) playlist
-                ON episode.uuid = playlist.episodeUuid
-              WHERE playlist.playlist_uuid = '\(playlistUUID)'
-              \(archivedPredicate)
+              WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+            ),
+            ordered_episodes AS (
+              SELECT de.id,
+                     de.podcast_id,
+                     p.episodePosition AS playlist_position,
+                     ROW_NUMBER() OVER (
+                       PARTITION BY de.podcast_id
+                       \(episodePositionOrderByStripped)
+                     ) AS podcast_rn
+              FROM deduped_episode de
+              JOIN playlist p
+                ON de.uuid = p.episodeUuid
+              WHERE de.uuid_rn = 1
+              \(archivedPredicateForDeduped)
               LIMIT \(episodeLimit)
             )
             SELECT episode.*
             FROM ordered_episodes oe
             JOIN \(DataManager.episodeTableName) episode
               ON episode.id = oe.id
-            WHERE oe.rn = 1
+            WHERE oe.podcast_rn = 1
             \(playlistPositionOrderBy)
             LIMIT \(limit)
             """
@@ -473,7 +589,7 @@ public class PlaylistQueryBuilder {
           JOIN \(DataManager.playlistEpisodeTableName) playlist
             ON episode.uuid = playlist.episodeUuid
           WHERE playlist.playlist_uuid = '\(playlistUUID)'
-          \(archivedPredicate)
+          \(archivedPredicateForEpisode)
           LIMIT \(episodeLimit)
         ),
         numbered AS (

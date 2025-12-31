@@ -99,6 +99,9 @@ class PlaylistDetailViewModel: ObservableObject {
         if isLoadingData { return }
         isLoadingData = true
 
+        // Capture the newly updated episodes on the main thread before entering the async task
+        let currentEpisodes = self.episodes
+
         Task { [weak self] in
             guard let self else { return }
             do {
@@ -109,7 +112,7 @@ class PlaylistDetailViewModel: ObservableObject {
                         self.isLoadingData = false
                     }
                 } else {
-                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: self.artworkImagesLimit)
+                    let firstFourDistinct = self.firstDistinctPodcasts(from: currentEpisodes, limit: self.artworkImagesLimit)
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
                     await MainActor.run {
                         self.images = images
