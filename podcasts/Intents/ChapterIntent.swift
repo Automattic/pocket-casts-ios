@@ -8,16 +8,8 @@ struct ChapterIntent: AppIntent, CustomIntentMigratedAppIntent, PredictableInten
     static var title: LocalizedStringResource = "Skip chapter"
     static var description = IntentDescription("Skip chapter")
 
-    @Parameter(title: "Skip chapter")
-    var skipForward: NextPrevious?
-
-    init() {
-
-    }
-
-    init(defaultSkip: NextPrevious) {
-        self.skipForward = defaultSkip
-    }
+    @Parameter(title: "Skip chapter", default: .next)
+    var skipForward: NextPrevious
 
     static var parameterSummary: some ParameterSummary {
         Summary("Skip to \(\.$skipForward) chapter")
@@ -26,16 +18,13 @@ struct ChapterIntent: AppIntent, CustomIntentMigratedAppIntent, PredictableInten
     static var predictionConfiguration: some IntentPredictionConfiguration {
         IntentPrediction(parameters: (\.$skipForward)) { skipForward in
             DisplayRepresentation(
-                title: "\(skipForward ?? .next) Chapter",
+                title: "\(skipForward) chapter",
                 subtitle: ""
             )
         }
     }
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        guard let skipForward else {
-            return .result(dialog: .responseFailure)
-        }
         switch skipForward {
             case .next:
                 let _ = SiriShortcutsManager.shared.skipToNextChapter()
