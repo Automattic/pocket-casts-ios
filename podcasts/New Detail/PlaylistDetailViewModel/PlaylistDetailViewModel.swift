@@ -65,7 +65,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private(set) var archivedEpisodesCount: Int = 0
 
     private var searchTerm: String = ""
-    private var isLoadingData: Bool = false
+    private var artworkLoadingTask: Task<Void, Never>?
     private let imageManager: ImageManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private var tempEpisodes: [ListEpisode] = []
@@ -96,31 +96,34 @@ class PlaylistDetailViewModel: ObservableObject {
     func update(data: DataSourceValue, then block: (() -> Void)? = nil) {
         self.dataSource = data
 
-        if isLoadingData { return }
-        isLoadingData = true
+        artworkLoadingTask?.cancel()
 
-        Task { [weak self] in
+        // Capture the newly updated episodes on the main thread before entering the async task
+        let currentEpisodes = self.episodes
+
+        artworkLoadingTask = Task { [weak self] in
             guard let self else { return }
             do {
                 let count = await self.playlistMetadataLoader.loadCount(for: self.playlist)
                 if self.isSearching {
                     await MainActor.run {
                         self.playlistEpisodesCount = count
-                        self.isLoadingData = false
                     }
                 } else {
-                    let firstFourDistinct = self.firstDistinctPodcasts(from: self.episodes, limit: self.artworkImagesLimit)
+                    let firstFourDistinct = self.firstDistinctPodcasts(from: currentEpisodes, limit: self.artworkImagesLimit)
                     let images = try await self.loadImagesURLs(episodes: firstFourDistinct)
+
+                    guard !Task.isCancelled else { return }
+
                     await MainActor.run {
                         self.images = images
                         self.playlistEpisodesCount = count
-                        self.isLoadingData = false
                         block?()
                     }
                 }
             } catch {
+                guard !Task.isCancelled else { return }
                 await MainActor.run {
-                    self.isLoadingData = false
                     block?()
                 }
             }

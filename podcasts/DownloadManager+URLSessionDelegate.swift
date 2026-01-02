@@ -91,11 +91,17 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
         removeEpisodeFromCache(episode)
 
+        let sessionType = session === wifiOnlyBackgroundSession ? "wifi-only" : (session === cellularBackgroundSession ? "cellular" : "foreground")
+        let isOnUnexpensiveConnection = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
+        let networkDescription = isOnUnexpensiveConnection ? "unexpensive" : "expensive"
+
         switch error.code {
         case NSURLErrorCancelled:
+            let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
+            FileLog.shared.addMessage("DownloadManager: Download cancelled for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription), reason: \(reason ?? -1)")
+
             if !episode.downloadFailed() {
                 // we already handled this error, since we failed the download ourselves
-                let reason = error.userInfo[NSURLErrorBackgroundTaskCancelledReasonKey] as? Int
                 switch reason {
                 case NSURLErrorCancelledReasonUserForceQuitApplication, NSURLErrorCancelledReasonInsufficientSystemResources:
                     dataManager.saveEpisode(downloadStatus: .queued, downloadTaskId: nil, episode: episode)
@@ -109,11 +115,15 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             return
         case NSURLErrorTimedOut:
+            FileLog.shared.addMessage("DownloadManager: Download timed out for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription)")
             taskFailure[episode.uuid] = .connectionTimeout
         case NSURLErrorCannotConnectToHost:
+            FileLog.shared.addMessage("DownloadManager: Cannot connect to host for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription)")
             taskFailure[episode.uuid] = .unknownHost
+        case NSURLErrorNotConnectedToInternet:
+            FileLog.shared.addMessage("DownloadManager: Not connected to internet for episode \(episode.displayableTitle()), session: \(sessionType)")
         default:
-            ()
+            FileLog.shared.addMessage("DownloadManager: Download error for episode \(episode.displayableTitle()), session: \(sessionType), network: \(networkDescription), error code: \(error.code), description: \(error.localizedDescription)")
         }
 
         downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)

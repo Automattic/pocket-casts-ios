@@ -269,6 +269,8 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use cellular-specific network APIs instead of expensive network APIs
     case useCellularNetworkApis
+    /// Optimizes manual playlist queries with improved deduplication
+    case optimizeManualPlaylistQueries
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -453,6 +455,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .activateAudioSessionInBackground:
             true
         case .useCellularNetworkApis:
+			true
+        case .optimizeManualPlaylistQueries:
             true
         }
     }

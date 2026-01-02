@@ -221,7 +221,8 @@ class DownloadManager: NSObject, FilePathProtocol {
         markUnplayedAndUnarchiveIfRequired(episode: episode, saveChanges: true)
         dataManager.saveEpisode(downloadStatus: .waitingForWifi, lastDownloadAttemptDate: Date(), autoDownloadStatus: autoDownloadStatus, episode: episode)
 
-        FileLog.shared.addMessage("Queued episode \(episode.displayableTitle()) for later download, autoDownloadStatus: \(autoDownloadStatus)")
+        let networkState = NetworkUtils.shared.isConnectedToUnexpensiveConnection() ? "on unexpensive connection" : "on expensive connection"
+        FileLog.shared.addMessage("DownloadManager: Queued episode \(episode.displayableTitle()) for later download (waitingForWifi), autoDownloadStatus: \(autoDownloadStatus), currently \(networkState)")
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
@@ -502,13 +503,16 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         if FeatureFlag.downloadFixes.enabled {
             if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
-                FileLog.shared.addMessage("Download: skipped task for episode: \(episode.uuid)")
+                FileLog.shared.addMessage("DownloadManager: Download skipped task for episode: \(episode.uuid)")
                 return
             }
         }
 
         let userAgentDescription = retryWithoutUserAgent ? "without User-Agent" : "with User-Agent"
-        FileLog.shared.addMessage("Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed), \(userAgentDescription)")
+        let sessionDescription = useCellularSession ? "cellular (allowsExpensiveNetworkAccess=true)" : "wifi-only (allowsExpensiveNetworkAccess=false)"
+        let isOnUnexpensiveConnection = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
+        let networkDescription = isOnUnexpensiveConnection ? "unexpensive connection" : "expensive connection"
+        FileLog.shared.addMessage("DownloadManager: Downloading episode \(episode.displayableTitle()), autoDownloadStatus: \(autoDownloadStatus), previousDownloadFailed: \(previousDownloadFailed), \(userAgentDescription), session: \(sessionDescription), network: \(networkDescription)")
         resumeDownload(tempFilePath: tempFilePath, session: sessionToUse, request: request, previousDownloadFailed: previousDownloadFailed, taskId: episode.uuid, estimatedBytes: episode.sizeInBytes, retryWithoutUserAgent: retryWithoutUserAgent)
 
         if fireNotification { NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid) }
