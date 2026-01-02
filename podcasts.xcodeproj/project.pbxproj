@@ -2168,6 +2168,7 @@
 		FF89C0982D81A2D000BC5104 /* PodcastHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */; };
 		FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */; };
 		FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */; };
+		FF90946D2F06ECAD003137B6 /* OpenFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D82F02FE9A0086F773 /* OpenFilterIntent.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
@@ -11126,6 +11127,7 @@
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
 				F57498D12DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift in Sources */,
+				FF90946D2F06ECAD003137B6 /* OpenFilterIntent.swift in Sources */,
 				9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */,
 				C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */,
 				C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */,

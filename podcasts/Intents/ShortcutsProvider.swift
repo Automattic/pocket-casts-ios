@@ -30,5 +30,11 @@ struct ShortcutsProvider: AppShortcutsProvider {
             shortTitle: "Extend sleep timer",
             systemImageName: ""
         )
+        AppShortcut(
+            intent: PlayEpisodeIntent(),
+            phrases: ["Play in \(.applicationName)"],
+            shortTitle: "Play podcast",
+            systemImageName: ""
+        )
     }
 }
