@@ -63,7 +63,7 @@ extension MediaFileHandle {
         guard let writeHandle = writeHandle else { return }
 
         try writeHandle.seekToEnd()
-        
+
         try writeHandle.write(contentsOf: data)
     }
 
@@ -73,7 +73,7 @@ extension MediaFileHandle {
 
         guard let writeHandle = writeHandle else { return }
 
-        writeHandle.synchronizeFile()
+        try? writeHandle.synchronize()
     }
 
     func close() {
