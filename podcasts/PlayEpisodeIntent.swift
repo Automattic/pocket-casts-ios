@@ -15,6 +15,11 @@ struct PlayEpisodeIntent: AudioPlaybackIntent {
 
     init() {}
 
+    static var openAppWhenRun: Bool { return false }
+
+    @available(iOS 26.0, *)
+    static var supportedModes: IntentModes { return [.background] }
+
     @MainActor
     func perform() async throws -> some IntentResult {
 
