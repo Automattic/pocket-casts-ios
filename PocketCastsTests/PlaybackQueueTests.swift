@@ -34,6 +34,36 @@ final class PlaybackQueueTests: XCTestCase {
                        "Should not include stale episode UUID in replacement list")
     }
 
+    func testRecentUserInteractionReturnsFalseWhenNoPreviousInteraction() {
+        let playbackQueue = PlaybackQueue()
+
+        XCTAssertFalse(playbackQueue.recentUserInteraction(now: Date(timeIntervalSince1970: 15)))
+    }
+
+    func testRecentUserInteractionReturnsTrueWithinGracePeriod() {
+        let playbackQueue = PlaybackQueue()
+        let interactionTime = Date(timeIntervalSince1970: 1_000)
+        playbackQueue.recordUpNextUserInteraction(at: interactionTime)
+
+        XCTAssertTrue(playbackQueue.recentUserInteraction(now: interactionTime.addingTimeInterval(3)))
+    }
+
+    func testRecentUserInteractionReturnsFalseAtGracePeriodBoundary() {
+        let playbackQueue = PlaybackQueue()
+        let interactionTime = Date(timeIntervalSince1970: 1_000)
+        playbackQueue.recordUpNextUserInteraction(at: interactionTime)
+
+        XCTAssertFalse(playbackQueue.recentUserInteraction(now: interactionTime.addingTimeInterval(10)))
+    }
+
+    func testRecentUserInteractionReturnsFalseOutsideGracePeriod() {
+        let playbackQueue = PlaybackQueue()
+        let interactionTime = Date(timeIntervalSince1970: 1_000)
+        playbackQueue.recordUpNextUserInteraction(at: interactionTime)
+
+        XCTAssertFalse(playbackQueue.recentUserInteraction(now: interactionTime.addingTimeInterval(11)))
+    }
+
     override func tearDown() {
         featureFlagMock.reset()
     }
