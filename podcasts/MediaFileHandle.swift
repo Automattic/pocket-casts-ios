@@ -46,7 +46,12 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        readHandle?.seek(toFileOffset: UInt64(offset))
+        do {
+            try readHandle?.seek(toOffset: UInt64(offset))
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File seek error: \(error)")
+            return nil
+        }
         return readHandle?.readData(ofLength: length)
     }
 
@@ -56,7 +61,8 @@ extension MediaFileHandle {
 
         guard let writeHandle = writeHandle else { return }
 
-        writeHandle.seekToEndOfFile()
+        try writeHandle.seekToEnd()
+        
         try writeHandle.write(contentsOf: data)
     }
 
