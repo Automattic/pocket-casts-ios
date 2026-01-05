@@ -54,9 +54,6 @@ actor LogBuffer {
     }
 
     private func appendStringToLog(_ logUpdate: String) {
-        let trace = TraceManager.shared.beginTracing(eventName: "FILE_LOG_WRITE_MESSAGE_TO_FILE")
-        defer { TraceManager.shared.endTracing(trace: trace) }
-
         logRotator.rotateFile(ifSizeExceeds: maxFileSize)
         logPersistence.write(logUpdate)
     }
