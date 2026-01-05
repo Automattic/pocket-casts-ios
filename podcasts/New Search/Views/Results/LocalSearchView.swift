@@ -132,7 +132,8 @@ private extension LocalSearchView {
             hasAnyPodcastsInFolder: viewModel.hasAnyPodcastsInFolder,
             searchResults: viewModel.searchResultsPodcasts,
             onSelectResult: { handleSelection(for: $0) },
-            disableLibraryAnimation: viewModel.disableLibraryAnimation
+            disableLibraryAnimation: viewModel.disableLibraryAnimation,
+            isLoading: viewModel.isPodcastListLoading
         )
         .background(backgroundColor.ignoresSafeArea())
         .navigationTitle(viewModel.navigationTitle)
@@ -211,7 +212,8 @@ private extension LocalSearchView {
                 hasAnyPodcastsInFolder: viewModel.hasAnyPodcastsInFolder,
                 searchResults: viewModel.searchResultsPodcasts,
                 onSelectResult: { handleSelection(for: $0) },
-                disableLibraryAnimation: viewModel.disableLibraryAnimation
+                disableLibraryAnimation: viewModel.disableLibraryAnimation,
+                isLoading: viewModel.isPodcastListLoading
             )
             .background(backgroundColor.ignoresSafeArea())
             .navigationTitle(viewModel.navigationTitle)
