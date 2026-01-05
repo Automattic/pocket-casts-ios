@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// File handle for local file operations.
 final class MediaFileHandle {
@@ -14,7 +15,7 @@ final class MediaFileHandle {
         self.filePath = filePath
 
         if FileManager.default.fileExists(atPath: filePath) {
-            print("MediaFileHandle warning: File already exists at \(filePath). A non empty file can cause unexpected behavior so we are overwriting it.")
+            FileLog.shared.addMessage("MediaFileHandle: File already exists at \(filePath). A non empty file can cause unexpected behavior so we are overwriting it.")
         }
         FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
     }
@@ -33,7 +34,7 @@ extension MediaFileHandle {
         do {
             return try FileManager.default.attributesOfItem(atPath: filePath)
         } catch let error as NSError {
-            print("FileAttribute error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: FileAttribute error: \(error)")
         }
         return nil
     }
@@ -84,7 +85,7 @@ extension MediaFileHandle {
         do {
             try FileManager.default.removeItem(atPath: filePath)
         } catch let error {
-            print("File deletion error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File deletion error: \(error)")
         }
     }
 }
