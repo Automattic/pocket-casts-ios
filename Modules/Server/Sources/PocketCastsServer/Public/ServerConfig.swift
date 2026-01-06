@@ -3,8 +3,6 @@ import Foundation
 public class ServerConfig {
     public static let shared = ServerConfig()
 
-    public static var avoidLogoutOnError = false
-
     private var backgroundSessionHandler: (() -> Void)?
 
     // MARK: - App values required for Server communication

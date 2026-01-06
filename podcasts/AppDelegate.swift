@@ -325,17 +325,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseManager.refreshRemoteConfig() { [weak self] status in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
         }
     }
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
-
-        if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            try? FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
-        }
 
         if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
             if FeatureFlag.newSettingsStorage.enabled {
