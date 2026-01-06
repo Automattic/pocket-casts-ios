@@ -50,7 +50,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
     private lazy var callbackQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate.callback", qos: .default, attributes: [])
+        let queue: DispatchQueue
+        if FeatureFlag.useBackgroundQueueForStreamingCallback.enabled {
+            queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate.callback", qos: .default, attributes: [])
+        } else {
+            queue = DispatchQueue.main
+        }
         return queue
     }()
 
