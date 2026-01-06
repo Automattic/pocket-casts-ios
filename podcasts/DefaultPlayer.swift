@@ -701,7 +701,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playToEndObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
             guard let self = self else { return }
 
-            self.shouldKeepPlaying = false
+            if !FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
+                self.shouldKeepPlaying = false
+            }
 
             if let itemThatFinished = notification.object as? AVPlayerItem {
                 let duration = CMTimeGetSeconds(itemThatFinished.duration)
@@ -710,6 +712,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     FileLog.shared.addMessage("Item didn't actually finish got to \(upTo) of \(duration)")
                     return
                 }
+            }
+
+            if FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
+                self.shouldKeepPlaying = false
             }
 
             PlaybackManager.shared.playerDidFinishPlayingEpisode()
