@@ -106,7 +106,7 @@ class TokenHelper {
             ServerSettings.setRefreshToken(refreshedRefreshToken)
         }
         else {
-            if isApplicationBackgrounded() && ServerConfig.avoidLogoutInBackground {
+            if isApplicationBackgrounded() {
                 FileLog.shared.addMessage("TokenHelper: Skipped logout in background due to error: \(String(describing: error))")
             } else {
                 if ServerConfig.avoidLogoutOnError {
