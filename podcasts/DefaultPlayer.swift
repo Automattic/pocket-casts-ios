@@ -708,8 +708,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             if let itemThatFinished = notification.object as? AVPlayerItem {
                 let duration = CMTimeGetSeconds(itemThatFinished.duration)
                 let upTo = CMTimeGetSeconds(itemThatFinished.currentTime())
+
+                let buffered = self.futureBufferAvailable()
+                let isBuffering = self.buffering()
+
                 if duration > upTo + (duration * 0.05) {
-                    FileLog.shared.addMessage("Item didn't actually finish got to \(upTo) of \(duration)")
+                    FileLog.shared.addMessage("Item didn't actually finish got to \(upTo) of \(duration). Buffered: \(buffered)s, isBuffering: \(isBuffering), loadedTimeRanges: \(itemThatFinished.loadedTimeRanges)")
                     return
                 }
             }
