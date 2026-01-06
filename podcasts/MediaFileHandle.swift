@@ -47,13 +47,24 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
+        guard let readHandle else {
+            FileLog.shared.addMessage("MediaFileHandle: read handle is nil")
+            return nil
+        }
+
         do {
-            try readHandle?.seek(toOffset: UInt64(offset))
+            try readHandle.seek(toOffset: UInt64(offset))
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: File seek error: \(error)")
             return nil
         }
-        return readHandle?.readData(ofLength: length)
+
+        do {
+            return try readHandle.read(upToCount: length)
+        }  catch {
+            FileLog.shared.addMessage("MediaFileHandle: File read error: \(error)")
+            return nil
+        }
     }
 
     func append(data: Data) throws {
@@ -73,7 +84,11 @@ extension MediaFileHandle {
 
         guard let writeHandle = writeHandle else { return }
 
-        try? writeHandle.synchronize()
+        do {
+            try writeHandle.synchronize()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: synchronize error at path \(filePath): \(error)")
+        }
     }
 
     func close() {
