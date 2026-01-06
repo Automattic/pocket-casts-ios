@@ -117,7 +117,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         writeBufferDataToFileIfNeeded()
         processPendingRequests()
         let contentType = response?.mimeType
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self else { return }
             self.callback?(.downloading, contentType, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
         }
