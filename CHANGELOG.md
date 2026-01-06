@@ -1,3 +1,7 @@
+8.4
+-----
+
+
 8.3
 -----
 - Add Deselect action from long press [#3786](https://github.com/Automattic/pocket-casts-ios/pull/3786)
