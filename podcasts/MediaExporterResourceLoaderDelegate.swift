@@ -256,6 +256,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
                 let start = currentOffset - bytesCached
                 let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
+                if start >= end {
+                    return false
+                }
                 let dataRequested = bufferData.subdata(in: start..<end)
                 dataRequest.respond(with: dataRequested)
                 return end - start >= requestedLength
