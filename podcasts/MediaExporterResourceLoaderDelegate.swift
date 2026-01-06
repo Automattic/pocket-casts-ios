@@ -49,6 +49,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
+    private lazy var callbackQueue: DispatchQueue = {
+        let queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate.callback", qos: .default, attributes: [])
+        return queue
+    }()
 
     enum FileExportStatus {
         case downloading
@@ -117,7 +121,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         writeBufferDataToFileIfNeeded()
         processPendingRequests()
         let contentType = response?.mimeType
-        DispatchQueue.global(qos: .default).async { [weak self] in
+        callbackQueue.async { [weak self] in
             guard let self else { return }
             self.callback?(.downloading, contentType, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
         }
@@ -295,7 +299,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         isDownloadComplete = true
         let contentType = self.response?.mimeType
-        DispatchQueue.main.async {
+        callbackQueue.async {
             self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
         }
     }
@@ -347,7 +351,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
         invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
-        DispatchQueue.main.async { [weak self] in
+        callbackQueue.async { [weak self] in
             guard let self else { return }
             self.callback?(.failed(error), contentType, 0, 0)
         }
