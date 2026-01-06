@@ -283,7 +283,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             try fileHandle.append(data: bufferData)
             bufferData = Data()
         } catch {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write date to file:\(error)")
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file:\(error)")
             invalidateAndCancelSession()
         }
     }
