@@ -501,11 +501,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             return
         }
 
-        if FeatureFlag.downloadFixes.enabled {
-            if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
-                FileLog.shared.addMessage("DownloadManager: Download skipped task for episode: \(episode.uuid)")
-                return
-            }
+        if await shouldSkipExistingTask(for: episode, in: sessionToUse, matching: request) {
+            FileLog.shared.addMessage("DownloadManager: Download skipped task for episode: \(episode.uuid)")
+            return
         }
 
         let userAgentDescription = retryWithoutUserAgent ? "without User-Agent" : "with User-Agent"
