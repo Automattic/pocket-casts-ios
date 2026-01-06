@@ -276,6 +276,7 @@ extension SharingModal.Option {
     }
 
     var shareURL: String {
+        let formatter = SignificantDigitsFormatStyle(significantDigits: 4)
         switch self {
         case .episode(let episode):
             return episode.shareURL
@@ -288,7 +289,7 @@ extension SharingModal.Option {
         case .clip(let episode, let timeInterval):
             return episode.shareURL + "?t=\(round(timeInterval))"
         case .clipShare(let episode, let clipTime, _):
-            return episode.shareURL + "?t=\(clipTime.start),\(clipTime.end)"
+            return episode.shareURL + "?t=\(clipTime.start.formatted(formatter)),\(clipTime.end.formatted(formatter))"
         }
     }
 }

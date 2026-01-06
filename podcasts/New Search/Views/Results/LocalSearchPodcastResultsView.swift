@@ -16,13 +16,18 @@ struct LocalSearchPodcastResultsView: View {
     let searchResults: [PodcastFolderSearchResult]
     let onSelectResult: (PodcastFolderSearchResult) -> Void
     let disableLibraryAnimation: Bool
+    let isLoading: Bool
 
     var body: some View {
-        Group {
-            if currentResults.isEmpty {
-                emptyStateView
-            } else {
+        ZStack {
+            if !currentResults.isEmpty {
                 resultsList
+            }
+
+            if isLoading {
+                loadingOverlay
+            } else if currentResults.isEmpty {
+                emptyStateView
             }
         }
     }
@@ -64,6 +69,12 @@ struct LocalSearchPodcastResultsView: View {
                 .listRowSeparator(.hidden)
                 .listRowBackground(theme.primaryUi01)
         }
+    }
+
+    private var loadingOverlay: some View {
+        ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .tint(AppTheme.loadingActivityColor().color)
     }
 
     private var emptyStateView: some View {

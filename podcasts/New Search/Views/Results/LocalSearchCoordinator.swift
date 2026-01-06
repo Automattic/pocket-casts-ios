@@ -31,9 +31,15 @@ final class LocalSearchCoordinator {
         searchTask?.cancel()
     }
 
-    func refreshPlaylistEpisodes() {
-        let playlistEpisodes = dataManager.playlistEpisodes(for: playlist)
-        playlistEpisodeUUIDs = Set(playlistEpisodes.map { $0.uuid })
+    func refreshPlaylistEpisodes() async {
+        let uuids = await Task.detached { [dataManager, playlist] in
+            let playlistEpisodes = dataManager.playlistEpisodes(for: playlist)
+            return Set(playlistEpisodes.map { $0.uuid })
+        }.value
+
+        await MainActor.run {
+            self.playlistEpisodeUUIDs = uuids
+        }
     }
 
     func scheduleSearch(for trimmedTerm: String, podcastUuid: String?) {
@@ -104,16 +110,23 @@ final class LocalSearchCoordinator {
         preloadTask = Task { [weak self] in
             guard let self else { return }
 
-            let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
-            let sortedEpisodes = podcastEpisodes.sorted { lhs, rhs in
-                let lhsDate = lhs.publishedDate ?? lhs.addedDate ?? .distantPast
-                let rhsDate = rhs.publishedDate ?? rhs.addedDate ?? .distantPast
-                return lhsDate > rhsDate
-            }
+            let playlistUUIDs = await MainActor.run { self.playlistEpisodeUUIDs }
 
-            let availableEpisodes = sortedEpisodes.filter { !self.playlistEpisodeUUIDs.contains($0.uuid) }
-            self.episodes = availableEpisodes.map { EpisodeSearchResult(episode: $0) }
-            self.isSearchInFlight = false
+            let episodeResults = await Task.detached { [dataManager] in
+                let podcastEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id)
+                let sortedEpisodes = podcastEpisodes.sorted { lhs, rhs in
+                    let lhsDate = lhs.publishedDate ?? lhs.addedDate ?? .distantPast
+                    let rhsDate = rhs.publishedDate ?? rhs.addedDate ?? .distantPast
+                    return lhsDate > rhsDate
+                }
+                let availableEpisodes = sortedEpisodes.filter { !playlistUUIDs.contains($0.uuid) }
+                return availableEpisodes.map { EpisodeSearchResult(episode: $0) }
+            }.value
+
+            await MainActor.run {
+                self.episodes = episodeResults
+                self.isSearchInFlight = false
+            }
         }
     }
 
@@ -124,63 +137,83 @@ final class LocalSearchCoordinator {
     }
 
     func handleAddEpisode(_ searchResult: EpisodeSearchResult) {
-        guard let episode = dataManager.findEpisode(uuid: searchResult.uuid) else {
-            assertionFailure("Episode should exist")
-            return
+        Task {
+            let result = await Task.detached { [dataManager, playlist] in
+                guard let episode = dataManager.findEpisode(uuid: searchResult.uuid) else {
+                    return (didAdd: false, episode: nil as Episode?, isFull: false)
+                }
+
+                let didAdd = dataManager.add(episodes: [episode], to: playlist)
+                playlist.syncStatus = SyncStatus.notSynced.rawValue
+                dataManager.save(playlist: playlist)
+
+                let isFull = !didAdd
+                return (didAdd: didAdd, episode: episode, isFull: isFull)
+            }.value
+
+            guard let episode = result.episode else {
+                assertionFailure("Episode should exist")
+                return
+            }
+
+            Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": result.isFull])
+
+            guard result.didAdd else {
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
+                return
+            }
+
+            // For now let's track the event directly here to avoid swift concurrency warning using the PlaylistTypeTrackerProvider
+            Analytics.track(
+                .episodeAddedToList,
+                properties:
+                    [
+                        "source": "playlist_editor",
+                        "playlist_name": playlist.playlistName,
+                        "playlist_uuid": playlist.uuid,
+                        "episode_uuid": episode.uuid,
+                        "podcast_uuid": episode.podcastUuid
+                    ]
+            )
+
+            await MainActor.run {
+                self.playlistEpisodeUUIDs.insert(searchResult.uuid)
+                self.episodes.removeAll { $0.uuid == searchResult.uuid }
+                self.addedEpisodeCount += 1
+            }
         }
-
-
-        let didAdd = dataManager.add(episodes: [episode], to: playlist)
-        playlist.syncStatus = SyncStatus.notSynced.rawValue
-        dataManager.save(playlist: playlist)
-
-        let isFull = !didAdd
-
-        Analytics.track(.filterAddEpisodesEpisodeTapped, properties: ["is_playlist_full": isFull])
-
-        guard didAdd else {
-            let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
-            Toast.show(L10n.playlistManualAddEpisodeFullPlaylistToast, theme: theme)
-            return
-        }
-
-        // For now let's track the event directly here to avoid swift concurrency warning using the PlaylistTypeTrackerProvider
-        Analytics.track(
-            .episodeAddedToList,
-            properties:
-                [
-                    "source": "playlist_editor",
-                    "playlist_name": playlist.playlistName,
-                    "playlist_uuid": playlist.uuid,
-                    "episode_uuid": episode.uuid,
-                    "podcast_uuid": episode.podcastUuid
-                ]
-        )
-
-        playlistEpisodeUUIDs.insert(searchResult.uuid)
-        episodes.removeAll { $0.uuid == searchResult.uuid }
-        addedEpisodeCount += 1
     }
 
     private func performSearch(term: String, podcastUuid: String) async {
-        currentEpisodeSearchTerm = term
-        currentSearchPodcastUUID = podcastUuid
-        episodes = []
-        let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+        await MainActor.run {
+            self.currentEpisodeSearchTerm = term
+            self.currentSearchPodcastUUID = podcastUuid
+            self.episodes = []
+        }
+
+        let episodeResults = await Task.detached {
+            let matchedEpisodes = DataManager.sharedManager.findEpisodes(with: term, podcastUUID: podcastUuid)
+            return matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
+        }.value
 
         guard !Task.isCancelled else {
-            if currentEpisodeSearchTerm == term, currentSearchPodcastUUID == podcastUuid {
-                isSearchInFlight = false
+            await MainActor.run {
+                if self.currentEpisodeSearchTerm == term, self.currentSearchPodcastUUID == podcastUuid {
+                    self.isSearchInFlight = false
+                }
             }
             return
         }
 
-        guard currentEpisodeSearchTerm == term,
-              currentSearchPodcastUUID == podcastUuid else {
-            return
-        }
+        await MainActor.run {
+            guard self.currentEpisodeSearchTerm == term,
+                  self.currentSearchPodcastUUID == podcastUuid else {
+                return
+            }
 
-        episodes = matchedEpisodes.map { EpisodeSearchResult(episode: $0) }
-        isSearchInFlight = false
+            self.episodes = episodeResults
+            self.isSearchInFlight = false
+        }
     }
 }

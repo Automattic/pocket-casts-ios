@@ -344,7 +344,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc func selectAllTapped() {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
-        upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
+        upNextTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
         track(.upNextSelectAllButtonTapped, properties: ["select_all": true])
         updateNavBarButtons()
@@ -401,6 +401,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 extension UpNextViewController {
     @objc func reorderingDidBegin() {
         isReorderInProgress = true
+        PlaybackManager.shared.recordUpNextUserInteraction()
     }
 
     @objc func reorderingDidEnd() {
