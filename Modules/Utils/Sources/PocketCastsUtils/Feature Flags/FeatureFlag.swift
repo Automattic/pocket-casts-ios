@@ -272,6 +272,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Optimizes manual playlist queries with improved deduplication
     case optimizeManualPlaylistQueries
 
+    /// Moves the shouldKeepPlaying after we check that the episode is over
+    case checkFinishedTimeBeforeShouldKeepPlaying
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -457,6 +460,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useCellularNetworkApis:
 			true
         case .optimizeManualPlaylistQueries:
+            true
+        case .checkFinishedTimeBeforeShouldKeepPlaying:
             true
         }
     }
