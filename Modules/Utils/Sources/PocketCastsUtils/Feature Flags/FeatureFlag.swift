@@ -113,8 +113,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show Manage Downloaded episode banner/modal when running in low space in the device
     case manageDownloadedEpisodes
 
-    case disablePrivateFeedSharing
-
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
 
@@ -336,8 +334,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .manageDownloadedEpisodes:
 			true
-        case .disablePrivateFeedSharing:
-            true
         case .podcastFeedUpdate:
             true
         case .downloadsThreadSafeCache:
