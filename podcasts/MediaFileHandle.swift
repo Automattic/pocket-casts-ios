@@ -15,7 +15,7 @@ final class MediaFileHandle {
         self.filePath = filePath
 
         if FileManager.default.fileExists(atPath: filePath) {
-            FileLog.shared.addMessage("MediaFileHandle: File already exists at \(filePath). A non empty file can cause unexpected behavior so we are overwriting it.")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] already exists. A non empty file can cause unexpected behavior so we are overwriting it.")
         }
         FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
     }
@@ -34,7 +34,7 @@ extension MediaFileHandle {
         do {
             return try FileManager.default.attributesOfItem(atPath: filePath)
         } catch let error as NSError {
-            FileLog.shared.addMessage("MediaFileHandle: FileAttribute error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] attribute error: \(error)")
         }
         return nil
     }
@@ -48,21 +48,21 @@ extension MediaFileHandle {
         defer { lock.unlock() }
 
         guard let readHandle else {
-            FileLog.shared.addMessage("MediaFileHandle: read handle is nil")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle is nil")
             return nil
         }
 
         do {
             try readHandle.seek(toOffset: UInt64(offset))
         } catch {
-            FileLog.shared.addMessage("MediaFileHandle: File seek error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] seek error: \(error)")
             return nil
         }
 
         do {
             return try readHandle.read(upToCount: length)
         }  catch {
-            FileLog.shared.addMessage("MediaFileHandle: File read error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
             return nil
         }
     }
@@ -87,7 +87,7 @@ extension MediaFileHandle {
         do {
             try writeHandle.synchronize()
         } catch {
-            FileLog.shared.addMessage("MediaFileHandle: synchronize error at path \(filePath): \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] synchronize error: \(error)")
         }
     }
 
@@ -100,7 +100,7 @@ extension MediaFileHandle {
         do {
             try FileManager.default.removeItem(atPath: filePath)
         } catch let error {
-            FileLog.shared.addMessage("MediaFileHandle: File deletion error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] deletion error: \(error)")
         }
     }
 }
