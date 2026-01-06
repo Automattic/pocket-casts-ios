@@ -35,9 +35,7 @@ extension SyncTask {
             }
         }
 
-        if FeatureFlag.useSyncResponseEpisodeIDs.enabled {
-            DataManager.sharedManager.markAllSynced(episodeIDs: episodesToImport.map({ $0.uuid }))
-        }
+        DataManager.sharedManager.markAllSynced(episodeIDs: episodesToImport.map({ $0.uuid }))
 
         totalToImport = podcastsToImport.count
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)

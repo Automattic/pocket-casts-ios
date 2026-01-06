@@ -211,9 +211,6 @@ class SyncTask: ApiBaseTask {
 
         do {
             DataManager.sharedManager.markAllPodcastsSynced()
-            if !FeatureFlag.useSyncResponseEpisodeIDs.enabled {
-                DataManager.sharedManager.markAllSynced(episodes: episodesToSync)
-            }
             DataManager.sharedManager.markAllPlaylistsSynced()
             DataManager.sharedManager.markAllFoldersSynced()
 
