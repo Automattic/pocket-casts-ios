@@ -1,8 +1,16 @@
+8.4
+-----
+
+
 8.3
 -----
 - Add Deselect action from long press [#3786](https://github.com/Automattic/pocket-casts-ios/pull/3786)
 - Fix WatchManager to only report unknown message if it was truly unknown / unprocessed [#3748](https://github.com/Automattic/pocket-casts-ios/issues/3748)
 - Improves Add Episode performance [#3842](https://github.com/Automattic/pocket-casts-ios/pull/3842)
+
+8.2.1
+-----
+- Fix memory release issue [#3847](https://github.com/Automattic/pocket-casts-ios/pull/3847)
 
 8.2
 -----
