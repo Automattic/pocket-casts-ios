@@ -61,7 +61,7 @@ extension MediaFileHandle {
 
         do {
             return try readHandle.read(upToCount: length)
-        }  catch {
+        } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
             return nil
         }
@@ -92,8 +92,18 @@ extension MediaFileHandle {
     }
 
     func close() {
-        readHandle?.closeFile()
-        writeHandle?.closeFile()
+        do {
+            try readHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle closing error: \(error)")
+        }
+        readHandle = nil
+        do {
+            try writeHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] write handle closing error: \(error)")
+        }
+        writeHandle = nil
     }
 
     func deleteFile() {
