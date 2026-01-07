@@ -309,8 +309,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         callbackQueue.async {
             self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
         }
-        session?.invalidateAndCancel()
-        session = nil
+        invalidateAndCancelSession(shouldResetData: false)
     }
 
     private func verifyResponse() -> NSError? {
