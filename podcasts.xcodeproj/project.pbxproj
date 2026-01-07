@@ -466,6 +466,13 @@
 		46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; };
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		46FBD8B7276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
+		8A0EA3DD2F1001EA0029B838 /* Fingerprint in Frameworks */ = {isa = PBXBuildFile; productRef = 8A0EA3DC2F1001EA0029B838 /* Fingerprint */; };
+		8A2A0E4D2F0EA094005B7B75 /* Fingerprint in Frameworks */ = {isa = PBXBuildFile; productRef = 8A2A0E4C2F0EA094005B7B75 /* Fingerprint */; };
+		8A3C0A202F12936000CD4A9D /* Fingerprint in Frameworks */ = {isa = PBXBuildFile; productRef = 8A3C0A1F2F12936000CD4A9D /* Fingerprint */; };
+		8AF1DA112F101630000F2271 /* FingerprintMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1DA072F101630000F2271 /* FingerprintMatcher.swift */; };
+		8AF1DA122F101630000F2271 /* TimestampMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1DA0A2F101630000F2271 /* TimestampMapper.swift */; };
+		8AF1DA142F101630000F2271 /* FingerprintService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1DA082F101630000F2271 /* FingerprintService.swift */; };
+		8AF1DA152F101630000F2271 /* FingerprintData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1DA062F101630000F2271 /* FingerprintData.swift */; };
 		8B0125682912A7AB00EC427A /* StoryShareableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0125672912A7AB00EC427A /* StoryShareableText.swift */; };
 		8B0845932A66C86C00742C2F /* Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F90990B2A4F88B00044FC55 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B087FC929DC976F0027EAE5 /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
@@ -755,8 +762,8 @@
 		9AB645182D5138B200A842C8 /* Pocket Casts App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
 		9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */; };
-		9ACDEF512EE85B52001025B0 /* UIViewController+MultiSelectActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACDEF502EE85B38001025B0 /* UIViewController+MultiSelectActions.swift */; };
 		9ACDEF332EE6F632001025B0 /* ListPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACDEF322EE6F62C001025B0 /* ListPlaylist.swift */; };
+		9ACDEF512EE85B52001025B0 /* UIViewController+MultiSelectActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACDEF502EE85B38001025B0 /* UIViewController+MultiSelectActions.swift */; };
 		9AD41AC22EB4E0750048FB8B /* PlaylistDetailViewController+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */; };
 		9AD809AF2EA12D940050649B /* PlaylistDetailFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */; };
 		9AE5043C2DEDF2030027A4AE /* TranscriptContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */; };
@@ -2887,6 +2894,10 @@
 		46FBD8CD276A876900867746 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8CF276A876B00867746 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8D1276A876D00867746 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Intents.strings; sourceTree = "<group>"; };
+		8AF1DA062F101630000F2271 /* FingerprintData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintData.swift; sourceTree = "<group>"; };
+		8AF1DA072F101630000F2271 /* FingerprintMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintMatcher.swift; sourceTree = "<group>"; };
+		8AF1DA082F101630000F2271 /* FingerprintService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintService.swift; sourceTree = "<group>"; };
+		8AF1DA0A2F101630000F2271 /* TimestampMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampMapper.swift; sourceTree = "<group>"; };
 		8B0125672912A7AB00EC427A /* StoryShareableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryShareableText.swift; sourceTree = "<group>"; };
 		8B087FC829DC976F0027EAE5 /* PodcastImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImage.swift; sourceTree = "<group>"; };
 		8B087FCA29DE08460027EAE5 /* UpgradeLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeLandingView.swift; sourceTree = "<group>"; };
@@ -3134,8 +3145,8 @@
 		9AB2900B2ECB7F75006086F9 /* PlaylistPlayAllSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheetHost.swift; sourceTree = "<group>"; };
 		9AB2900D2ECB82F6006086F9 /* PlaylistPlayAllSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlayAllSheet.swift; sourceTree = "<group>"; };
 		9ACB950A2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveActionAttributedTextView.swift; sourceTree = "<group>"; };
-		9ACDEF502EE85B38001025B0 /* UIViewController+MultiSelectActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MultiSelectActions.swift"; sourceTree = "<group>"; };
 		9ACDEF322EE6F62C001025B0 /* ListPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPlaylist.swift; sourceTree = "<group>"; };
+		9ACDEF502EE85B38001025B0 /* UIViewController+MultiSelectActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MultiSelectActions.swift"; sourceTree = "<group>"; };
 		9AD41AC12EB4E0700048FB8B /* PlaylistDetailViewController+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Analytics.swift"; sourceTree = "<group>"; };
 		9AD809AE2EA12D850050649B /* PlaylistDetailFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDetailFetchOperation.swift; sourceTree = "<group>"; };
 		9AE5043B2DEDF1F80027A4AE /* TranscriptContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptContainerViewController.swift; sourceTree = "<group>"; };
@@ -4493,11 +4504,14 @@
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
 				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
+				8A3C0A202F12936000CD4A9D /* Fingerprint in Frameworks */,
 				9A9004C62E2E62EA005879CB /* (null) in Frameworks */,
 				9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */,
 				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
+				8A2A0E4D2F0EA094005B7B75 /* Fingerprint in Frameworks */,
+				8A0EA3DD2F1001EA0029B838 /* Fingerprint in Frameworks */,
 				FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5273,6 +5287,17 @@
 				46E905A627E285F20039558C /* UpNextViewModel.swift */,
 			);
 			name = "Up Next";
+			sourceTree = "<group>";
+		};
+		8AF1DA0B2F101630000F2271 /* Fingerprinting */ = {
+			isa = PBXGroup;
+			children = (
+				8AF1DA062F101630000F2271 /* FingerprintData.swift */,
+				8AF1DA072F101630000F2271 /* FingerprintMatcher.swift */,
+				8AF1DA082F101630000F2271 /* FingerprintService.swift */,
+				8AF1DA0A2F101630000F2271 /* TimestampMapper.swift */,
+			);
+			path = Fingerprinting;
 			sourceTree = "<group>";
 		};
 		8B14E3AA29B773EB0069B6F2 /* Model */ = {
@@ -7384,6 +7409,7 @@
 				BD40D7BC19C1A08D00FB8023 /* Launch Screen.xib */,
 				460C375026D83171008B3609 /* Resources */,
 				BDBD53F817019B2A0048C8C5 /* Supporting Files */,
+				8AF1DA0B2F101630000F2271 /* Fingerprinting */,
 			);
 			name = "Pocket Casts";
 			path = podcasts;
@@ -9370,6 +9396,9 @@
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
 				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
+				8A2A0E4C2F0EA094005B7B75 /* Fingerprint */,
+				8A0EA3DC2F1001EA0029B838 /* Fingerprint */,
+				8A3C0A1F2F12936000CD4A9D /* Fingerprint */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -9560,6 +9589,7 @@
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+				8A3C0A1E2F12936000CD4A9D /* XCLocalSwiftPackageReference "../pocket-casts-fingerprint/bindings/swift" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
 			projectDirPath = "";
@@ -11474,6 +11504,10 @@
 				8B633D2F2A57294E00526AF0 /* AutoplayWhatsNewHeader.swift in Sources */,
 				F581ED442CC6F3A900A19860 /* Top5Podcasts2024Story.swift in Sources */,
 				FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */,
+				8AF1DA112F101630000F2271 /* FingerprintMatcher.swift in Sources */,
+				8AF1DA122F101630000F2271 /* TimestampMapper.swift in Sources */,
+				8AF1DA142F101630000F2271 /* FingerprintService.swift in Sources */,
+				8AF1DA152F101630000F2271 /* FingerprintData.swift in Sources */,
 				C73215FB291EA13400AB1FE5 /* PlusPurchaseModal.swift in Sources */,
 				F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
@@ -12295,6 +12329,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -12329,6 +12364,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
 				ENABLE_BITCODE = NO;
+				FINGERPRINT_ENABLED = true;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -12340,6 +12376,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
@@ -13388,6 +13425,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -13422,6 +13460,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.prototype.entitlements;
 				ENABLE_BITCODE = NO;
+				FINGERPRINT_ENABLED = true;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -13433,6 +13472,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
@@ -13623,6 +13663,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -13681,6 +13722,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -13708,6 +13750,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcastsDebug.entitlements;
 				ENABLE_BITCODE = NO;
+				FINGERPRINT_ENABLED = true;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -13719,6 +13762,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Pocket Casts Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
@@ -13733,6 +13777,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = podcasts/podcasts.entitlements;
 				ENABLE_BITCODE = NO;
+				FINGERPRINT_ENABLED = true;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -13744,6 +13789,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
@@ -14248,6 +14294,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		8A3C0A1E2F12936000CD4A9D /* XCLocalSwiftPackageReference "../pocket-casts-fingerprint/bindings/swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../pocket-casts-fingerprint/bindings/swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		3FB8642E28896539003A86BE /* XCRemoteSwiftPackageReference "test-collector-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -14388,6 +14441,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		8A0EA3DC2F1001EA0029B838 /* Fingerprint */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Fingerprint;
+		};
+		8A2A0E4C2F0EA094005B7B75 /* Fingerprint */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Fingerprint;
+		};
+		8A3C0A1F2F12936000CD4A9D /* Fingerprint */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Fingerprint;
 		};
 		8B1762762B6808F700F44450 /* JLRoutes */ = {
 			isa = XCSwiftPackageProductDependency;

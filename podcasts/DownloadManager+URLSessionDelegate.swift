@@ -198,6 +198,14 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             dataManager.saveEpisode(downloadStatus: newDownloadStatus, lastDownloadAttemptDate: Date.now, autoDownloadStatus: autoDownloadStatus, episode: episode)
             EpisodeFileSizeUpdater.updateEpisodeDuration(episode: episode)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloaded, object: episode.uuid)
+
+            #if !os(watchOS) && !APPCLIP
+            if newDownloadStatus == .downloaded {
+                Task.detached(priority: .utility) {
+                    await FingerprintService.shared.generateClientFingerprints(for: episode)
+                }
+            }
+            #endif
         } catch {
             FileLog.shared.addMessage("DownloadManager: Failed to copy downloaded file from location: \(location.absoluteString) to destination:  \(destinationPath) error: \(error)")
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)

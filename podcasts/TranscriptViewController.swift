@@ -23,6 +23,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    // MARK: - Fingerprint Timestamp Mapping
+
+    #if os(iOS)
+    private let timestampMapper = TimestampMapper()
+    private var fingerprintMatchTimer: Timer?
+    private var isFingerprintMatchingEnabled = false
+    #endif
+
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
     private var topGradientHeightConstraint: NSLayoutConstraint?
@@ -412,12 +420,23 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     override func willBeAddedToPlayer() {
         updateColors()
         loadTranscript()
+        #if os(iOS)
+        loadFingerprints()
+        #endif
         addObservers()
+        #if os(iOS)
+        if playbackManager.isPlayingEpisode {
+            startFingerprintMatching()
+        }
+        #endif
         (transcriptView as UIScrollView).delegate = self
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        #if os(iOS)
+        stopFingerprintMatching()
+        #endif
     }
 
     override func themeDidChange() {
@@ -452,6 +471,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
+        #if os(iOS)
+        loadFingerprints()
+        timestampMapper.resetMatchState()
+        #endif
     }
 
     @objc private func closeTapped() {
@@ -680,25 +703,42 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //We disabled the method bellow until we find a way to resync/shift transcript positions
-        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+
+        #if os(iOS)
+        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(playbackDidStart))
+        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(playbackDidStop))
+        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackDidStop))
+        #endif
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
-        guard let transcript else {
+        let clientPosition = playbackManager.currentTime()
+        let position: Double?
+
+        #if os(iOS)
+        if isFingerprintMatchingEnabled {
+            position = timestampMapper.mapClientTimestamp(clientPosition)
+        } else {
             return
         }
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+        #else
+        position = clientPosition
+        #endif
+
+        guard let transcript, let currentPos = position else {
+            // Keep existing highlight if we don't have a valid mapped position (e.g. inside an ad)
+            return
+        }
+
+        if let cue = transcript.firstCue(containing: currentPos), cue.characterRange != previousRange {
             let range = cue.characterRange
-            //Comment this line out if you want to check the player position and cues in range
-            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
             previousRange = range
-            transcriptView.attributedText = styleText(transcript: transcript, position: position)
+            transcriptView.attributedText = styleText(transcript: transcript, position: currentPos)
             // adjusting the scroll to range so it shows more text
             let scrollRange = NSRange(location: range.location, length: range.length * 2)
             transcriptView.scrollRangeToVisible(scrollRange)
-        } else if let startTime = transcript.cues.first?.startTime, position < startTime {
+        } else if let startTime = transcript.cues.first?.startTime, currentPos < startTime {
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
@@ -809,6 +849,82 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         Analytics.track(event, properties: properties)
     }
+
+    // MARK: - Fingerprint Timestamp Mapping
+
+    #if os(iOS)
+    private func loadFingerprints() {
+        guard let episodeUUID = playbackManager.episodeUUID,
+              let podcastUUID = playbackManager.podcastUUID else {
+            return
+        }
+
+        Task.detached { [weak self] in
+            guard let self else { return }
+
+            // Fetch reference fingerprints from server
+            let referenceFingerprints = try? await FingerprintService.shared.fetchReferenceFingerprints(
+                podcastUuid: podcastUUID,
+                episodeUuid: episodeUUID
+            )
+
+            // Get client fingerprints (already generated during download)
+            let clientFingerprints = await FingerprintService.shared.getCachedClientFingerprints(episodeUuid: episodeUUID)
+
+            // Update timestamp mapper
+            await MainActor.run {
+                self.timestampMapper.updateFingerprints(
+                    reference: referenceFingerprints,
+                    client: clientFingerprints
+                )
+
+                self.isFingerprintMatchingEnabled = referenceFingerprints != nil && clientFingerprints != nil
+
+                if self.isFingerprintMatchingEnabled {
+                    FileLog.shared.addMessage("TranscriptViewController: Fingerprint matching enabled for episode \(episodeUUID)")
+                } else {
+                    FileLog.shared.addMessage("TranscriptViewController: Fingerprint matching disabled for episode \(episodeUUID) \(referenceFingerprints != nil ? "no reference fingerprints" : "no client fingerprints")")
+                    FileLog.shared.addMessage("TranscriptViewController: Reference fingerprints: \(referenceFingerprints != nil ? referenceFingerprints?.checkpoints.count ?? 0 : 0)")
+                    FileLog.shared.addMessage("TranscriptViewController: Client fingerprints: \(clientFingerprints != nil ? clientFingerprints?.count ?? 0 : 0)")
+                }
+            }
+        }
+    }
+
+    /// Start the fingerprint matching timer (500ms interval).
+    private func startFingerprintMatching() {
+        stopFingerprintMatching()
+
+        fingerprintMatchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.performFingerprintMatch()
+        }
+    }
+
+    /// Stop the fingerprint matching timer.
+    private func stopFingerprintMatching() {
+        fingerprintMatchTimer?.invalidate()
+        fingerprintMatchTimer = nil
+    }
+
+    @objc private func playbackDidStart() {
+        startFingerprintMatching()
+    }
+
+    @objc private func playbackDidStop() {
+        stopFingerprintMatching()
+    }
+
+    /// Perform a fingerprint match at the current playback position.
+    private func performFingerprintMatch() {
+        guard isFingerprintMatchingEnabled else { return }
+
+        let clientPosition = playbackManager.currentTime()
+
+        // The actual matching is done in mapClientTimestamp, which is called from updateTranscriptPosition
+        // This method just ensures the matching happens periodically
+        _ = timestampMapper.mapClientTimestamp(clientPosition)
+    }
+    #endif
 
     // MARK: - Constants
 
