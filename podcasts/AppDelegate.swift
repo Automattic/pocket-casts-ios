@@ -111,9 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
 
-            if FeatureFlag.downloadFixes.enabled {
-                DownloadManager.shared.startAllQueued()
-            }
+            DownloadManager.shared.startAllQueued()
 
             if FeatureFlag.enableLocalizationHeaders.enabled {
                 LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())

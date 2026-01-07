@@ -53,9 +53,6 @@ extension DownloadManager {
 
     func clearStuckDownloads() async {
         let episodesWithDownloadIds = dataManager.findEpisodesWhereNotNull(propertyName: "downloadTaskId")
-        if !FeatureFlag.downloadFixes.enabled {
-            if episodesWithDownloadIds.count == 0 { return }
-        }
 
         var episodeUuids = episodesWithDownloadIds.map { $0.uuid }
 
@@ -66,14 +63,10 @@ extension DownloadManager {
                 if let episode = dataManager.findBaseEpisode(downloadTaskId: taskDescription), let index = episodeUuids.firstIndex(of: episode.uuid) {
                     episodeUuids.remove(at: index)
                 } else {
-                    if FeatureFlag.downloadFixes.enabled {
-                        task.cancel()
-                    }
-                }
-            } else {
-                if FeatureFlag.downloadFixes.enabled {
                     task.cancel()
                 }
+            } else {
+                task.cancel()
             }
         }
 
