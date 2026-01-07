@@ -77,6 +77,11 @@ class DatabaseExport {
                 try moveFile(watchLogFile, exportDirectory: exportDirectory, exportFileName: "watchos-logs.txt")
             }
 
+            let widgetLogFile = await FileLog.shared.widgetLogFileForUpload().awaitFirstValue(in: &cancellables)
+            if let widgetLogFile {
+                try moveFile(widgetLogFile, exportDirectory: exportDirectory, exportFileName: "widget-logs.txt")
+            }
+
             // Write the bundle document
             let exportFile = exportDirectory.appendingPathComponent("export", conformingTo: .pcasts)
             let wrapper = try PCBundleDoc().fileWrapper()

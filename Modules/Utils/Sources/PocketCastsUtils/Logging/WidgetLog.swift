@@ -104,4 +104,19 @@ public final class WidgetLog {
         fileManager.createFile(atPath: logFilePath, contents: nil, attributes: nil)
         logger.info("Widget logs cleared")
     }
+
+    /// Creates a merged widget log file for upload (similar to watchUploadLog)
+    /// Returns the path to the upload file
+    public func logFileForUpload() -> String? {
+        let uploadFile = LogFilePaths.widgetUploadLog
+
+        do {
+            let logs = readLog()
+            try logs.write(toFile: uploadFile, atomically: true, encoding: .utf8)
+            return uploadFile
+        } catch {
+            logger.error("Failed to create widget upload log: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }

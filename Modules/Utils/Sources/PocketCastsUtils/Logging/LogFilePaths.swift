@@ -6,6 +6,8 @@ public enum LogFilePaths {
 
     public static var debugUploadLog: String { logDirectory + "/uploadDebug.log" }
 
+    public static var widgetUploadLog: String { logDirectory + "/uploadWidgetDebug.log" }
+
     static var mainLogFilePath: String { logDirectory + "/main.log" }
 
     static var backupLogFilePath: String { logDirectory + "/old.log" }

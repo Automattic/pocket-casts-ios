@@ -82,21 +82,7 @@ actor LogBuffer {
             secondaryFileContents = ""
         }
 
-        // Include widget logs if available
-        let widgetLogContents: String
-        do {
-            widgetLogContents = try String(contentsOfFile: LogFilePaths.widgetLogFilePath)
-        } catch {
-            widgetLogContents = ""
-        }
-
-        var combinedLog = "\(secondaryFileContents)\n\(mainFileContents)"
-
-        if !widgetLogContents.isEmpty {
-            combinedLog += "\n\n=== WIDGET EXTENSION LOGS ===\n\(widgetLogContents)"
-        }
-
-        return combinedLog
+        return "\(secondaryFileContents)\n\(mainFileContents)"
     }
 }
 
