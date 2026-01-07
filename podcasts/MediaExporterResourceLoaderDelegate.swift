@@ -266,6 +266,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                 let start = currentOffset - bytesCached
                 let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
                 if start >= end {
+                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
                     return false
                 }
                 let dataRequested = bufferData.subdata(in: start..<end)
@@ -295,7 +296,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             try fileHandle.append(data: bufferData)
             bufferData = Data()
         } catch {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file:\(error)")
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             invalidateAndCancelSession()
         }
     }
