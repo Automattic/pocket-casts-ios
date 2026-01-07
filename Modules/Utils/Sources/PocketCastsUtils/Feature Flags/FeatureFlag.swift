@@ -440,7 +440,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .enableLocalizationHeaders:
             true
         case .endOfYear2025:
-            true
+            false
         case .endOfYearLoadIsFirstStory:
 			true
         case .effectsPlayerQOSUpgrade:
