@@ -259,8 +259,9 @@ public class PlaylistQueryBuilder {
         PlaylistQueryBuilder.removeEmptyFilterGroups(from: &queryString)
         if let searchTerm {
             let searchClause = playlist.manual ? "WHERE" : "AND"
-            queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
-            queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
+            let lowerSearch = searchTerm.lowercased()
+            queryString += " \(searchClause) (episode.title LIKE '%\(lowerSearch)%' ESCAPE '\\' COLLATE NOCASE"
+            queryString += " OR podcast.title LIKE '%\(lowerSearch)%' ESCAPE '\\' COLLATE NOCASE)"
         }
         if let sort = add(sortFor: sortType), clause != .episodeCount, clause != .allEpisodeCount {
             queryString += " \(sort) "
