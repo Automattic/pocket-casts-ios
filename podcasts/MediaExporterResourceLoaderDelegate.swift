@@ -8,10 +8,12 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    public static var downloadBufferLimit: Int {
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    }
 
     /// How much data is allowed to be read in memory at a time.
-    public static var readDataLimit: Int = 10.MB
+    public static var readDataLimit: Int = 5.MB
 
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
@@ -266,11 +268,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                 let start = currentOffset - bytesCached
                 let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
                 if start >= end {
+                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
                     return false
                 }
                 let dataRequested = bufferData.subdata(in: start..<end)
                 dataRequest.respond(with: dataRequested)
-                return end - start >= requestedLength
+                return dataRequest.currentOffset >= requestedLength + requestedOffset
             }
             return false
         }
@@ -282,7 +285,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
         dataRequest.respond(with: data)
 
-        return bytesCached >= requestedLength + requestedOffset
+        return dataRequest.currentOffset >= requestedLength + requestedOffset
     }
 
     private func writeBufferDataToFileIfNeeded() {
@@ -295,6 +298,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             try fileHandle.append(data: bufferData)
             bufferData = Data()
         } catch {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             invalidateAndCancelSession()
         }
     }

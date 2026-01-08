@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 /// File handle for local file operations.
 final class MediaFileHandle {
@@ -14,7 +15,7 @@ final class MediaFileHandle {
         self.filePath = filePath
 
         if FileManager.default.fileExists(atPath: filePath) {
-            print("MediaFileHandle warning: File already exists at \(filePath). A non empty file can cause unexpected behavior so we are overwriting it.")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] already exists. A non empty file can cause unexpected behavior so we are overwriting it.")
         }
         FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
     }
@@ -33,7 +34,7 @@ extension MediaFileHandle {
         do {
             return try FileManager.default.attributesOfItem(atPath: filePath)
         } catch let error as NSError {
-            print("FileAttribute error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] attribute error: \(error)")
         }
         return nil
     }
@@ -46,8 +47,24 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        readHandle?.seek(toFileOffset: UInt64(offset))
-        return readHandle?.readData(ofLength: length)
+        guard let readHandle else {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle is nil")
+            return nil
+        }
+
+        do {
+            try readHandle.seek(toOffset: UInt64(offset))
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] seek error: \(error)")
+            return nil
+        }
+
+        do {
+            return try readHandle.read(upToCount: length)
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
+            return nil
+        }
     }
 
     func append(data: Data) throws {
@@ -56,7 +73,8 @@ extension MediaFileHandle {
 
         guard let writeHandle = writeHandle else { return }
 
-        writeHandle.seekToEndOfFile()
+        try writeHandle.seekToEnd()
+
         try writeHandle.write(contentsOf: data)
     }
 
@@ -66,19 +84,33 @@ extension MediaFileHandle {
 
         guard let writeHandle = writeHandle else { return }
 
-        writeHandle.synchronizeFile()
+        do {
+            try writeHandle.synchronize()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] synchronize error: \(error)")
+        }
     }
 
     func close() {
-        readHandle?.closeFile()
-        writeHandle?.closeFile()
+        do {
+            try readHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle closing error: \(error)")
+        }
+        readHandle = nil
+        do {
+            try writeHandle?.close()
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] write handle closing error: \(error)")
+        }
+        writeHandle = nil
     }
 
     func deleteFile() {
         do {
             try FileManager.default.removeItem(atPath: filePath)
         } catch let error {
-            print("File deletion error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] deletion error: \(error)")
         }
     }
 }
