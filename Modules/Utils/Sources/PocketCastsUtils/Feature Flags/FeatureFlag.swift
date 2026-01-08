@@ -116,9 +116,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show Manage Downloaded episode banner/modal when running in low space in the device
     case manageDownloadedEpisodes
 
-    /// Uses the episode IDs from the server's response rather than our local database IDs
-    case useSyncResponseEpisodeIDs
-
     /// Disables logout / keychain clearing when errors occur in the background
     case avoidLogoutInBackground
 
@@ -347,8 +344,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .manageDownloadedEpisodes:
 			true
-        case .useSyncResponseEpisodeIDs:
-            true
         case .avoidLogoutInBackground:
             true
         case .disablePrivateFeedSharing:
