@@ -21,6 +21,7 @@ class WatchSyncManager {
     }
 
     deinit {
+        contextUpdateTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -75,7 +76,19 @@ class WatchSyncManager {
         UserDefaults.standard.set(true, forKey: updateKey)
     }
 
+    private var contextUpdateTimer: Timer?
+
     @objc func handleContextUpdate() {
+        // Debounce context updates to allow watch to fully process phone's changes
+        // before deciding whether to sync. This prevents the watch from sending
+        // stale Up Next data that could overwrite recent phone changes.
+        contextUpdateTimer?.invalidate()
+        contextUpdateTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { [weak self] _ in
+            self?.processContextUpdate()
+        }
+    }
+
+    private func processContextUpdate() {
         if updateLoginDetailsIfRequired() {
             return
         } else {
@@ -326,13 +339,25 @@ class WatchSyncManager {
         }
 
         guard let lastServerRefresh = ServerSettings.lastRefreshStartTime() else {
-            return .watchNeedsUpdate
+            // If we don't have a timestamp, we can't determine which is newer.
+            // Return .notEnoughInformation rather than defaulting to .watchNeedsUpdate
+            // to prevent the watch from sending stale data to the server.
+            FileLog.shared.addMessage("WatchSyncManager: No lastServerRefresh timestamp, returning .notEnoughInformation")
+            return .notEnoughInformation
         }
 
         if lastServerRefresh > WatchDataManager.lastDataTime() {
+            FileLog.shared.addMessage("WatchSyncManager: Phone data is newer (lastServerRefresh: \(lastServerRefresh) > lastDataTime: \(WatchDataManager.lastDataTime())), returning .phoneNeedsUpdate")
             return .phoneNeedsUpdate
-        } else {
+        } else if lastServerRefresh < WatchDataManager.lastDataTime() {
+            // Only return .watchNeedsUpdate if the watch data is definitively newer
+            FileLog.shared.addMessage("WatchSyncManager: Watch data is newer (lastServerRefresh: \(lastServerRefresh) < lastDataTime: \(WatchDataManager.lastDataTime())), returning .watchNeedsUpdate")
             return .watchNeedsUpdate
+        } else {
+            // If timestamps are equal, consider them the same rather than triggering a sync
+            // This prevents unnecessary syncs that could overwrite data
+            FileLog.shared.addMessage("WatchSyncManager: Timestamps are equal, returning .same")
+            return .same
         }
     }
 
