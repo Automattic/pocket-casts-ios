@@ -8,7 +8,9 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    public static var downloadBufferLimit: Int {
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    }
 
     /// How much data is allowed to be read in memory at a time.
     public static var readDataLimit: Int = 5.MB
@@ -308,7 +310,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let contentType = self.response?.mimeType
         callbackQueue.async {
             self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
-        }        
+        }
     }
 
     private func verifyResponse() -> NSError? {
