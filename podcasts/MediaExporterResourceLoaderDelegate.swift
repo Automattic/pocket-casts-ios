@@ -80,6 +80,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     deinit {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Releasing loader for \(saveFilePath)")
         invalidateAndCancelSession(shouldResetData: false)
     }
 
@@ -300,6 +301,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             invalidateAndCancelSession()
+        }
+    }
+
+    func markToRelease() {
+        if isDownloadComplete {
+            invalidateAndCancelSession(shouldResetData: false)
         }
     }
 

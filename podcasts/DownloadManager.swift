@@ -325,6 +325,8 @@ class DownloadManager: NSObject, FilePathProtocol {
         var error: Error?
     }
 
+    private var activeLoaderDelegate: AVAssetResourceLoaderDelegate?
+
     func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
         guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
             return nil
@@ -349,6 +351,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
             newItem = AVPlayerItem(asset: newAsset)
+            activeLoaderDelegate = customDelegate
             return newItem
         }
         var wasDownloadingBefore = false
@@ -401,6 +404,10 @@ class DownloadManager: NSObject, FilePathProtocol {
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
         newItem = AVPlayerItem(asset: newAsset)
+        if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+            activeMediaExporterDelegate.markToRelease()
+        }
+        activeLoaderDelegate = customLoaderDelegate
         Task {
             while !exportStatus.completed {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
