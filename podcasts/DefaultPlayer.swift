@@ -701,15 +701,42 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         playToEndObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
             guard let self = self else { return }
 
-            self.shouldKeepPlaying = false
+            if !FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
+                self.shouldKeepPlaying = false
+            }
 
             if let itemThatFinished = notification.object as? AVPlayerItem {
                 let duration = CMTimeGetSeconds(itemThatFinished.duration)
                 let upTo = CMTimeGetSeconds(itemThatFinished.currentTime())
+
+                let buffered = self.futureBufferAvailable()
+                let isBuffering = self.buffering()
+
+                // Check if this is a spurious notification (more than 5% away from end)
+                // If it is, we do not want to reset shouldKeepPlaying and will let the player continue on its way
                 if duration > upTo + (duration * 0.05) {
-                    FileLog.shared.addMessage("Item didn't actually finish got to \(upTo) of \(duration)")
+                    FileLog.shared.addMessage("Item didn't actually finish got to \(upTo) of \(duration). Buffered: \(buffered)s, isBuffering: \(isBuffering), loadedTimeRanges: \(itemThatFinished.loadedTimeRanges)")
+
+                    // If buffer is empty, this is likely a streaming issue - let the stall handler deal with it
+                    if itemThatFinished.isPlaybackBufferEmpty {
+                        FileLog.shared.addMessage("Spurious end notification detected: buffer empty, treating as playback stall")
+                    }
+
                     return
                 }
+
+                if FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
+                    // Additional safeguard: check if buffer is empty (shouldn't be if truly finished)
+                    // A truly finished item should have reached the end naturally, not due to buffer exhaustion
+                    if itemThatFinished.isPlaybackBufferEmpty && !itemThatFinished.isPlaybackLikelyToKeepUp {
+                        FileLog.shared.addMessage("Item reports finished but buffer is empty and playback unlikely to keep up - ignoring")
+                        return
+                    }
+                }
+            }
+
+            if FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
+                self.shouldKeepPlaying = false
             }
 
             PlaybackManager.shared.playerDidFinishPlayingEpisode()

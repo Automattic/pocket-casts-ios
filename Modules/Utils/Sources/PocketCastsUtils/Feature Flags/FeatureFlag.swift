@@ -275,6 +275,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use a background queue for streaming callbacks
     case useBackgroundQueueForStreamingCallback
 
+    /// Moves the shouldKeepPlaying after we check that the episode is over
+    case checkFinishedTimeBeforeShouldKeepPlaying
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -462,6 +465,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .optimizeManualPlaylistQueries:
             true
         case .useBackgroundQueueForStreamingCallback:
+			true
+        case .checkFinishedTimeBeforeShouldKeepPlaying:
             true
         }
     }
