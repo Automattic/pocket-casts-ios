@@ -14,9 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Avoid logging out user on non-authorization HTTP errors
-    case errorLogoutHandling
-
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
 
@@ -282,8 +279,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .firebaseLogging:
             false
         case .endOfYear:
-            false
-        case .errorLogoutHandling:
             false
         case .newSettingsStorage:
             shouldEnableSyncedSettings

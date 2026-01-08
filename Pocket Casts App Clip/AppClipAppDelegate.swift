@@ -36,17 +36,11 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
         FirebaseManager.refreshRemoteConfig() { [weak self] status in
             self?.updateRemoteFeatureFlags()
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
         }
     }
 
     private func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
-
-        if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            try? FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
-        }
 
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
