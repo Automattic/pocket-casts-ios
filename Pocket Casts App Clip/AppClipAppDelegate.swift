@@ -37,7 +37,6 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         FirebaseManager.refreshRemoteConfig() { [weak self] status in
             self?.updateRemoteFeatureFlags()
             ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            ServerConfig.avoidLogoutInBackground = FeatureFlag.avoidLogoutInBackground.enabled
         }
     }
 
