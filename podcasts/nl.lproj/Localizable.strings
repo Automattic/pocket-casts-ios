@@ -617,6 +617,10 @@ Laat ons eerst helpen</string>
     <string>Alleen uit apparaat verwijderen</string>
     <key>deselect_all</key>
     <string>Alles deselecteren</string>
+    <key>deselect_all_above</key>
+    <string>Alles hierboven deselecteren</string>
+    <key>deselect_all_below</key>
+    <string>Alles hieronder deselecteren</string>
     <key>device_shake_sleep_timer</key>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>

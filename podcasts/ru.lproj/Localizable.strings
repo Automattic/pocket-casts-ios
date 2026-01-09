@@ -619,6 +619,10 @@ Pocket Casts Plus</string>
     <string>Удалить только с устройства</string>
     <key>deselect_all</key>
     <string>ОЧИСТИТЬ ВСЕ</string>
+    <key>deselect_all_above</key>
+    <string>Отменить выбор всех выше</string>
+    <key>deselect_all_below</key>
+    <string>Отменить выбор всех ниже</string>
     <key>device_shake_sleep_timer</key>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
     <key>discover</key>

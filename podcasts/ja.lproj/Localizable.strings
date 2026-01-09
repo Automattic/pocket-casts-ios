@@ -619,6 +619,10 @@ Pocket Casts Plus</string>
     <string>端末からのみ削除</string>
     <key>deselect_all</key>
     <string>すべて選択解除</string>
+    <key>deselect_all_above</key>
+    <string>以上すべての選択を解除</string>
+    <key>deselect_all_below</key>
+    <string>以下すべての選択を解除</string>
     <key>device_shake_sleep_timer</key>
     <string>端末がシェイクされたためスリープタイマーが再開しました</string>
     <key>discover</key>

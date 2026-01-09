@@ -619,6 +619,10 @@ Laissez-nous d’abord vous aider</string>
     <string>Supprimer de l’appareil uniquement</string>
     <key>deselect_all</key>
     <string>Désélectionner tout</string>
+    <key>deselect_all_above</key>
+    <string>Désélectionner tous les éléments ci-dessus</string>
+    <key>deselect_all_below</key>
+    <string>Désélectionner tous les éléments ci-dessous</string>
     <key>device_shake_sleep_timer</key>
     <string>La mise en veille a été redémarrée en raison d’une secousse de l’appareil</string>
     <key>discover</key>
