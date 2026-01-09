@@ -352,6 +352,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
             newItem = AVPlayerItem(asset: newAsset)
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
+                if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                    activeMediaExporterDelegate.releaseIfDownloadComplete()
+                }
                 activeLoaderDelegate = customDelegate
             }
             return newItem
@@ -408,7 +411,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         newItem = AVPlayerItem(asset: newAsset)
         if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
             if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
-                activeMediaExporterDelegate.markToRelease()
+                activeMediaExporterDelegate.releaseIfDownloadComplete()
             }
             activeLoaderDelegate = customLoaderDelegate
         }
@@ -421,7 +424,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,
                let mediaExporterDelegate = downloadAndStreamEpisodes[downloadTaskUUID] as? MediaExporterResourceLoaderDelegate,
                mediaExporterDelegate != activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
-                mediaExporterDelegate.markToRelease()
+                mediaExporterDelegate.releaseIfDownloadComplete()
             }
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {

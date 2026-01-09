@@ -304,7 +304,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
     }
 
-    func markToRelease() {
+    func releaseIfDownloadComplete() {
         if isDownloadComplete {
             invalidateAndCancelSession(shouldResetData: false)
         }
