@@ -8,10 +8,12 @@ import PocketCastsUtils
 /// MediaExporterItemConfiguration global configuration.
 private enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int = FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    public static var downloadBufferLimit: Int {
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+    }
 
     /// How much data is allowed to be read in memory at a time.
-    public static var readDataLimit: Int = 10.MB
+    public static var readDataLimit: Int = 5.MB
 
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
@@ -49,6 +51,15 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
+    private lazy var callbackQueue: DispatchQueue = {
+        let queue: DispatchQueue
+        if FeatureFlag.useBackgroundQueueForStreamingCallback.enabled {
+            queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate.callback", qos: .default, attributes: [])
+        } else {
+            queue = DispatchQueue.main
+        }
+        return queue
+    }()
 
     enum FileExportStatus {
         case downloading
@@ -117,7 +128,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         writeBufferDataToFileIfNeeded()
         processPendingRequests()
         let contentType = response?.mimeType
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        callbackQueue.async { [weak self] in
             guard let self else { return }
             self.callback?(.downloading, contentType, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
         }
@@ -256,9 +267,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
                 let start = currentOffset - bytesCached
                 let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
+                if start >= end {
+                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
+                    return false
+                }
                 let dataRequested = bufferData.subdata(in: start..<end)
                 dataRequest.respond(with: dataRequested)
-                return end - start >= requestedLength
+                return dataRequest.currentOffset >= requestedLength + requestedOffset
             }
             return false
         }
@@ -270,7 +285,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
         dataRequest.respond(with: data)
 
-        return bytesCached >= requestedLength + requestedOffset
+        return dataRequest.currentOffset >= requestedLength + requestedOffset
     }
 
     private func writeBufferDataToFileIfNeeded() {
@@ -283,6 +298,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             try fileHandle.append(data: bufferData)
             bufferData = Data()
         } catch {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             invalidateAndCancelSession()
         }
     }
@@ -292,7 +308,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         isDownloadComplete = true
         let contentType = self.response?.mimeType
-        DispatchQueue.main.async {
+        callbackQueue.async {
             self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
         }
     }
@@ -344,7 +360,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
         invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
-        DispatchQueue.main.async { [weak self] in
+        callbackQueue.async { [weak self] in
             guard let self else { return }
             self.callback?(.failed(error), contentType, 0, 0)
         }

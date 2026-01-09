@@ -619,6 +619,10 @@ Lass uns dir zuerst helfen</string>
     <string>Nur vom Gerät löschen</string>
     <key>deselect_all</key>
     <string>Alle abwählen</string>
+    <key>deselect_all_above</key>
+    <string>Alle oben angezeigten abwählen</string>
+    <key>deselect_all_below</key>
+    <string>Alle unten angezeigten abwählen</string>
     <key>device_shake_sleep_timer</key>
     <string>Die Schlummerfunktion wurde durch das Schütteln des Geräts neu gestartet</string>
     <key>discover</key>

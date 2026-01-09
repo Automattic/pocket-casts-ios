@@ -619,6 +619,10 @@ Låt oss hjälpa dig först</string>
     <string>Ta endast bort från enheten</string>
     <key>deselect_all</key>
     <string>Avmarkera alla</string>
+    <key>deselect_all_above</key>
+    <string>Avmarkera alla ovan</string>
+    <key>deselect_all_below</key>
+    <string>Avmarkera alla nedan</string>
     <key>device_shake_sleep_timer</key>
     <string>Vilolägestimern återstartades när enheten skakades</string>
     <key>discover</key>

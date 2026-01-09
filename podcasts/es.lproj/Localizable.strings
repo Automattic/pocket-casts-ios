@@ -619,6 +619,10 @@ Deja que te ayudemos</string>
     <string>Borrar solo del dispositivo</string>
     <key>deselect_all</key>
     <string>Anular todas las selecciones</string>
+    <key>deselect_all_above</key>
+    <string>Anular la selección de todo lo anterior</string>
+    <key>deselect_all_below</key>
+    <string>Anular la selección de todo lo que aparece a continuación</string>
     <key>device_shake_sleep_timer</key>
     <string>El temporizador de suspensión se reinició porque se agitó el dispositivo</string>
     <key>discover</key>

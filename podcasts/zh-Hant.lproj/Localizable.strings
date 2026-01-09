@@ -619,6 +619,10 @@ Pocket Casts Plus</string>
     <string>只從裝置刪除</string>
     <key>deselect_all</key>
     <string>取消全選</string>
+    <key>deselect_all_above</key>
+    <string>取消選取上方所有項目</string>
+    <key>deselect_all_below</key>
+    <string>取消選取下方所有項目</string>
     <key>device_shake_sleep_timer</key>
     <string>由於裝置晃動，故睡眠計時器已重新啟動</string>
     <key>discover</key>

@@ -619,6 +619,10 @@ Prima vorremmo aiutarti</string>
     <string>Elimina solo dal dispositivo</string>
     <key>deselect_all</key>
     <string>Deseleziona tutto</string>
+    <key>deselect_all_above</key>
+    <string>Deseleziona tutti gli elementi in alto</string>
+    <key>deselect_all_below</key>
+    <string>Deseleziona tutti gli elementi di seguito</string>
     <key>device_shake_sleep_timer</key>
     <string>Autospegnimento riavviato a causa di un movimento del dispositivo</string>
     <key>discover</key>

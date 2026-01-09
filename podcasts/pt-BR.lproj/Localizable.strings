@@ -619,6 +619,10 @@ Deixe a gente ajudar você primeiro</string>
     <string>Excluir apenas do dispositivo</string>
     <key>deselect_all</key>
     <string>Desmarcar tudo</string>
+    <key>deselect_all_above</key>
+    <string>Desmarcar tudo acima</string>
+    <key>deselect_all_below</key>
+    <string>Desmarcar tudo abaixo</string>
     <key>device_shake_sleep_timer</key>
     <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
     <key>discover</key>

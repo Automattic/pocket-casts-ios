@@ -621,6 +621,10 @@ Deixa'ns ajudar-te primer</string>
     <string>Esborrar només del dispositiu</string>
     <key>deselect_all</key>
     <string>Anul·lar totes les seleccions</string>
+    <key>deselect_all_above</key>
+    <string>Desseleccionar tot l'anterior</string>
+    <key>deselect_all_below</key>
+    <string>Desselecciona tot el que apareix a continuació</string>
     <key>device_shake_sleep_timer</key>
     <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
     <key>discover</key>
