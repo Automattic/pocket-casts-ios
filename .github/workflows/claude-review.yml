@@ -9,14 +9,13 @@ jobs:
     # Run only when:
     # - The comment is on a PR
     # - The comment contains "@claude"
-    # - The commenter is trusted (owner, member, collaborator)
+    # - The commenter is an organization member
     if: |
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '@claude') &&
       (
         github.event.comment.author_association == 'OWNER' ||
-        github.event.comment.author_association == 'MEMBER' ||
-        github.event.comment.author_association == 'COLLABORATOR'
+        github.event.comment.author_association == 'MEMBER'
       )
     runs-on: ubuntu-latest
 
