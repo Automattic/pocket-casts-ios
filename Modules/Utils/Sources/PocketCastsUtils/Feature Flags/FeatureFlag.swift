@@ -278,6 +278,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Moves the shouldKeepPlaying after we check that the episode is over
     case checkFinishedTimeBeforeShouldKeepPlaying
 
+    /// Allow the release of the Media Exporter when is no longer being used by the player
+    case releaseMediaExporterWhenNoLongerActive
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -467,6 +470,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .useBackgroundQueueForStreamingCallback:
 			true
         case .checkFinishedTimeBeforeShouldKeepPlaying:
+            true
+        case .releaseMediaExporterWhenNoLongerActive:
             true
         }
     }

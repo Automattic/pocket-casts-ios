@@ -351,7 +351,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
             newItem = AVPlayerItem(asset: newAsset)
-            activeLoaderDelegate = customDelegate
+            if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
+                activeLoaderDelegate = customDelegate
+            }
             return newItem
         }
         var wasDownloadingBefore = false
@@ -404,17 +406,20 @@ class DownloadManager: NSObject, FilePathProtocol {
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
         newItem = AVPlayerItem(asset: newAsset)
-        if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
-            activeMediaExporterDelegate.markToRelease()
+        if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
+            if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                activeMediaExporterDelegate.markToRelease()
+            }
+            activeLoaderDelegate = customLoaderDelegate
         }
-        activeLoaderDelegate = customLoaderDelegate
         Task {
             while !exportStatus.completed {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
-            if let mediaExporterDelegate = downloadAndStreamEpisodes[downloadTaskUUID] as? MediaExporterResourceLoaderDelegate,
+            if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,
+               let mediaExporterDelegate = downloadAndStreamEpisodes[downloadTaskUUID] as? MediaExporterResourceLoaderDelegate,
                mediaExporterDelegate != activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
                 mediaExporterDelegate.markToRelease()
             }
