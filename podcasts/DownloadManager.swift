@@ -414,6 +414,10 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
+            if let mediaExporterDelegate = downloadAndStreamEpisodes[downloadTaskUUID] as? MediaExporterResourceLoaderDelegate,
+               mediaExporterDelegate != activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                mediaExporterDelegate.markToRelease()
+            }
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
