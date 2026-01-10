@@ -105,11 +105,12 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         // everything below here is expensive to do every single update, so limit it to when the episode changes
         if lastEpisodeUuidRendered == episode.uuid { return }
-        lastEpisodeUuidRendered = episode.uuid
         updateColors()
         episodeTitle.text = episode.displayableTitle()
 
         loadShowNotes()
+
+        lastEpisodeUuidRendered = episode.uuid
     }
 
     private func updateColors() {
@@ -130,10 +131,12 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         loadingIndicator.startAnimating()
 
-        Task { [weak self] in
+        Task { [lastEpisodeUuidRendered, weak self] in
             if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                 self?.downloadingShowNotes = false
-                self?.displayShowNotes(showNotes)
+
+                let shouldResetScrollOffset = lastEpisodeUuidRendered != episode.uuid && lastEpisodeUuidRendered != ""
+                self?.displayShowNotes(showNotes, shouldResetScrollOffset: shouldResetScrollOffset)
 
                 // if we get back the no show notes available message, make sure next update we try again
                 if showNotes == CacheServerHandler.noShowNotesMessage {
@@ -147,7 +150,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         PlayerColorHelper.playerHighlightColor01(for: Theme.ThemeType.dark)
     }
 
-    private func displayShowNotes(_ showNotes: String?) {
+    private func displayShowNotes(_ showNotes: String?, shouldResetScrollOffset: Bool = true) {
         guard let episode = episode else { return }
 
         DispatchQueue.main.async { [weak self] in
@@ -162,7 +165,10 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 // We need to ensure that the scroll view offset is back at 0,0 to cater for instances
                 // where the user scrolled the previous show notes
                 // See https://github.com/Automattic/pocket-casts-ios/issues/651
-                strongSelf.showNotesScrollView.setContentOffset(CGPointZero, animated: false)
+
+                if shouldResetScrollOffset {
+                    strongSelf.showNotesScrollView.setContentOffset(CGPointZero, animated: false)
+                }
             }
         }
     }
