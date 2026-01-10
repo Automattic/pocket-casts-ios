@@ -212,6 +212,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
+
         #endif
     }
 
