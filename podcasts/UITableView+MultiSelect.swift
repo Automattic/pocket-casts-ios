@@ -104,8 +104,7 @@ extension UITableView {
     }
 
     func deselectAllAbove(fromIndexPath: IndexPath, to indexPath: IndexPath) {
-        let targetIndexPath = previousIndexPath(from: indexPath) ?? indexPath
-        deselectAllFrom(fromIndexPath: fromIndexPath, toIndexPath: targetIndexPath)
+        deselectAllFrom(fromIndexPath: fromIndexPath, toIndexPath: indexPath)
     }
 
     func deselectAllBelow(indexPath: IndexPath) {
