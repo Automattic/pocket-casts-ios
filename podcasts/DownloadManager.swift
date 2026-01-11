@@ -325,7 +325,20 @@ class DownloadManager: NSObject, FilePathProtocol {
         var error: Error?
     }
 
-    private var activeLoaderDelegate: AVAssetResourceLoaderDelegate?
+    private let activeLoaderLock = NSLock()
+    private var _activeLoaderDelegate: AVAssetResourceLoaderDelegate?
+    private var activeLoaderDelegate: AVAssetResourceLoaderDelegate? {
+        get {
+            activeLoaderLock.lock()
+            defer { activeLoaderLock.unlock() }
+            return _activeLoaderDelegate
+        }
+        set {
+            activeLoaderLock.lock()
+            defer { activeLoaderLock.unlock() }
+            _activeLoaderDelegate = newValue
+        }
+    }
 
     func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
         guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
