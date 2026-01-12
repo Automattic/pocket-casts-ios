@@ -43,9 +43,6 @@ struct BannerView: View {
 
     private var backgroundColor: Color {
         if model.invertedColor {
-            if case .radioactive = theme.activeTheme {
-                return theme.primaryUi06
-            }
             return theme.primaryUi02Active
         }
         switch theme.activeTheme {

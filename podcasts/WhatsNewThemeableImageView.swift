@@ -23,8 +23,6 @@ class WhatsNewThemeableImageView: ThemeableImageView {
             return originalName + "_electricity"
         case .indigo:
             return originalName + "_indigo"
-        case .radioactive:
-            return originalName + "_radioactive"
         case .rosé:
             return originalName + "_rose"
         case .contrastDark:

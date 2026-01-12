@@ -26,9 +26,6 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         appDelegate()?.handleBecomeActive()
-        if Theme.sharedTheme.activeTheme == .radioactive {
-            appDelegate()?.lenticularFilter.show()
-        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

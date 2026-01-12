@@ -4,12 +4,12 @@ import PocketCastsUtils
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {
-        [.light, .dark, .rosé, .extraDark, .indigo, .contrastDark, .contrastLight, .electric, .classic, .radioactive]
+        [.light, .dark, .rosé, .extraDark, .indigo, .contrastDark, .contrastLight, .electric, .classic]
     }
 
     var isDark: Bool {
         switch self {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return true
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return false
@@ -18,7 +18,7 @@ extension ThemeType: AnalyticsDescribable {
 
     var isPlusOnly: Bool {
         switch self {
-        case .electric, .classic, .radioactive:
+        case .electric, .classic:
             return true
         default:
             return false
@@ -39,8 +39,6 @@ extension ThemeType: AnalyticsDescribable {
             return L10n.themeClassic
         case .indigo:
             return L10n.themeIndigo
-        case .radioactive:
-            return L10n.themeRadioactivity
         case .rosé:
             return L10n.themeRose
         case .contrastLight:
@@ -68,8 +66,6 @@ extension ThemeType: AnalyticsDescribable {
             return "classicThemeAbstract"
         case .indigo:
             return "indigoThemeAbstract"
-        case .radioactive:
-            return "radioactiveThemeAbstract"
         case .rosé:
             return "roseThemeAbstract"
         case .contrastLight:
@@ -92,9 +88,7 @@ extension ThemeType: AnalyticsDescribable {
         case .classic:
             return "classic"
         case .indigo:
-            return "indigo"
-        case .radioactive:
-            return "radioactive"
+            return "indigo"        
         case .rosé:
             return "rose"
         case .contrastLight:
@@ -128,9 +122,7 @@ class Theme: ObservableObject {
             UserDefaults.standard.set(activeTheme.old.rawValue, forKey: Theme.themeKey)
 
             // if the user is changing from or to the radioactive theme, we need to clear our memory cache because processing is applied to these images
-            if oldValue == .radioactive || activeTheme == .radioactive {
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastImageReCacheRequired)
-            }
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastImageReCacheRequired)
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.themeChanged)
         }

@@ -264,28 +264,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Event Handling
-
-    private var overlayShouldBeHidden = false
+    
     @objc private func hideOverlays() {
-        overlayShouldBeHidden = true
-        if lenticularFilter.isShowing() {
-            lenticularFilter.hide()
-        }
     }
 
     @objc private func showOverlays() {
-        overlayShouldBeHidden = false
-        if Theme.sharedTheme.activeTheme == .radioactive {
-            lenticularFilter.show()
-        }
     }
 
     @objc private func handleThemeChanged() {
-        if Theme.sharedTheme.activeTheme == .radioactive, !overlayShouldBeHidden {
-            lenticularFilter.show()
-        } else {
-            lenticularFilter.hide()
-        }
+
     }
 
     private func setupBackgroundRefresh() {
