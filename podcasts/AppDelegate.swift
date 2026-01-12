@@ -126,10 +126,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         IAPHelper.shared.setup(hasSubscription: SubscriptionHelper.hasActiveSubscription())
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
-
         setupSignOutListener()
 
         if FeatureFlag.earlyReloadSubscriptionStatus.enabled,
@@ -263,17 +259,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
-    // MARK: - Event Handling
-    
-    @objc private func hideOverlays() {
-    }
-
-    @objc private func showOverlays() {
-    }
-
-    @objc private func handleThemeChanged() {
-
-    }
 
     private func setupBackgroundRefresh() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: Constants.Values.refreshTaskId, using: nil) { task in

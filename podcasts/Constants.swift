@@ -81,8 +81,6 @@ struct Constants {
         static let searchRequested = NSNotification.Name(rawValue: "SJTriggerSearch")
 
         // modal popups
-        static let openingNonOverlayableWindow = NSNotification.Name(rawValue: "SJPresentingNonOverlayableWindow")
-        static let closedNonOverlayableWindow = NSNotification.Name(rawValue: "SJClosedNonOverlayableWindow")
 
         static let opmlImportCompleted = NSNotification.Name(rawValue: "SJOpmlImportCompleted")
         static let opmlImportFailed = NSNotification.Name(rawValue: "SJOpmlImportFailed")

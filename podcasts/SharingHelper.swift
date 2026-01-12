@@ -24,13 +24,9 @@ class SharingHelper: NSObject {
         activityController = UIActivityViewController(activityItems: [L10n.appShareText, sharingUrl], applicationActivities: nil)
         guard let activityController = activityController else { return }
 
-        activityController.completionWithItemsHandler = { _, _, _, _ in
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        }
+        activityController.completionWithItemsHandler = nil
 
-        fromController.present(activityController, animated: true, completion: {
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
-        })
+        fromController.present(activityController, animated: true)
 
         activityController.popoverPresentationController?.sourceView = fromController.view
 
@@ -48,15 +44,12 @@ class SharingHelper: NSObject {
         AnalyticsHelper.sharedPodcastList()
 
         activityController = UIActivityViewController(activityItems: [URL(string: url)!], applicationActivities: nil)
-        activityController?.completionWithItemsHandler = { _, _, _, _ in
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        }
+        activityController?.completionWithItemsHandler = nil
 
         guard let activityController = activityController else { return }
 
         fromController.present(activityController, animated: true) {
             completionHandler?()
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
         }
         activityController.popoverPresentationController?.barButtonItem = barButtonItem
     }
@@ -81,9 +74,7 @@ class SharingHelper: NSObject {
         }
 
         let activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
-        activityController.completionWithItemsHandler = { _, _, _, _ in
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        }
+        activityController.completionWithItemsHandler = nil
         return activityController
     }
 }

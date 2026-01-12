@@ -144,8 +144,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         if PlaybackManager.shared.playing() {
             startHideControlsTimer()
         }
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -159,8 +157,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
 
         videoPlayerView.player = nil
         removeAllCustomObservers()
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     // MARK: - Actions

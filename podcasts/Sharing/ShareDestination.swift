@@ -76,10 +76,8 @@ enum ShareDestination: Hashable {
                 activityViewController.popoverPresentationController?.sourceRect = rect
             }
             activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
-                NotificationCenter.postOnMainThread(notification: podcasts.Constants.Notifications.closedNonOverlayableWindow)
                 receiver.cancel()
             }
-            NotificationCenter.postOnMainThread(notification: podcasts.Constants.Notifications.openingNonOverlayableWindow)
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {
                 ShareDestination.logClipShared(option: option, style: style, clipUUID: clipUUID, source: source)
                 ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)

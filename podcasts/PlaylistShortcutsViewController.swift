@@ -119,7 +119,6 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
             let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: enabledShortcuts[indexPath.row])
             viewController.modalPresentationStyle = .formSheet
             viewController.delegate = self
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true, completion: nil)
         case .availableSection:
             let thisRow = availableRows[indexPath.row]
@@ -136,7 +135,6 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
             let viewController = INUIAddVoiceShortcutViewController(shortcut: newShortcut)
             viewController.modalPresentationStyle = .formSheet
             viewController.delegate = self
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true, completion: nil)
         }
         tableView.deselectRow(at: indexPath, animated: false)
@@ -221,13 +219,11 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
         getEnabledShortcuts()
         reloadData()
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         track(.filterSiriShortcutAdded)
     }
 
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     // MARK: INUIEditVoiceShortcutViewControllerDelegate
@@ -236,20 +232,17 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
         getEnabledShortcuts()
         reloadData()
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
         getEnabledShortcuts()
         reloadData()
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         track(.filterSiriShortcutRemoved)
     }
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     @IBAction func tryAgainTapped() {

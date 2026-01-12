@@ -88,7 +88,7 @@ extension ThemeType: AnalyticsDescribable {
         case .classic:
             return "classic"
         case .indigo:
-            return "indigo"        
+            return "indigo"
         case .rosé:
             return "rose"
         case .contrastLight:
