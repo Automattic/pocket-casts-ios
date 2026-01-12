@@ -262,6 +262,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Moves the shouldKeepPlaying after we check that the episode is over
     case checkFinishedTimeBeforeShouldKeepPlaying
 
+    /// Activate audio session to enable multi-speaker selection in route picker
+    case activateAudioSessionForRoutePicker
+
+    /// Don't autoplay when route changes
+    case dontAutoplayOnRouteChange
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -439,6 +445,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .useBackgroundQueueForStreamingCallback:
 			true
         case .checkFinishedTimeBeforeShouldKeepPlaying:
+            true
+        case .activateAudioSessionForRoutePicker:
+            true
+        case .dontAutoplayOnRouteChange:
             true
         }
     }
