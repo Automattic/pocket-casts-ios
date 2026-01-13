@@ -205,7 +205,7 @@ all_token_names.each do |token|
             return ThemeColor.#{token}ContrastDark(podcastColor: podcastColor)
         }
     }\n\n"
-      elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
+            elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
         "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
@@ -229,7 +229,7 @@ all_token_names.each do |token|
             return ThemeColor.#{token}ContrastDark(filterColor: filterColor)
         }
     }\n\n"
-      else
+            else
         "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
