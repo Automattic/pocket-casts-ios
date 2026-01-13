@@ -111,9 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
 
-            if FeatureFlag.downloadFixes.enabled {
-                DownloadManager.shared.startAllQueued()
-            }
+            DownloadManager.shared.startAllQueued()
 
             if FeatureFlag.enableLocalizationHeaders.enabled {
                 LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
@@ -327,18 +325,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseManager.refreshRemoteConfig() { [weak self] status in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            ServerConfig.avoidLogoutInBackground = FeatureFlag.avoidLogoutInBackground.enabled
         }
     }
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
         guard BuildEnvironment.current != .debug || forceReload else { return }
-
-        if FeatureFlag.errorLogoutHandling.enabled != Settings.errorLogoutHandling {
-            ServerConfig.avoidLogoutOnError = FeatureFlag.errorLogoutHandling.enabled
-            try? FeatureFlagOverrideStore().override(FeatureFlag.errorLogoutHandling, withValue: Settings.errorLogoutHandling)
-        }
 
         if FeatureFlag.newSettingsStorage.enabled != Settings.newSettingsStorage {
             if FeatureFlag.newSettingsStorage.enabled {

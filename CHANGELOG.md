@@ -1,6 +1,6 @@
 8.4
 -----
-
+- Maintain Show Notes scroll position when app is opened [#3863](https://github.com/Automattic/pocket-casts-ios/pull/3863)
 
 8.3
 -----

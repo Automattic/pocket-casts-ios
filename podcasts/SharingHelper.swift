@@ -8,11 +8,9 @@ class SharingHelper: NSObject {
     var activityController: UIActivityViewController?
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, fromSource: AnalyticsSource, sourceRect: CGRect, sourceView: UIView) {
 
-        if FeatureFlag.disablePrivateFeedSharing.enabled {
-            guard !podcast.isPrivate else {
-                Toast.show(L10n.sharePodcastPrivateNotAvailable)
-                return
-            }
+        guard !podcast.isPrivate else {
+            Toast.show(L10n.sharePodcastPrivateNotAvailable)
+            return
         }
 
         AnalyticsHelper.sharedPodcast()

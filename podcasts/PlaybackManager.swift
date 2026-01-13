@@ -1968,7 +1968,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
-            load(episode: currEpisode, autoPlay: true, overrideUpNext: false)
+            let autoPlay = FeatureFlag.dontAutoplayOnRouteChange.enabled ? false : true
+            load(episode: currEpisode, autoPlay: autoPlay, overrideUpNext: false)
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {

@@ -14,9 +14,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Whether End Of Year feature is enabled
     case endOfYear
 
-    /// Avoid logging out user on non-authorization HTTP errors
-    case errorLogoutHandling
-
     /// Store settings as JSON in User Defaults (global) or SQLite (podcast)
     case newSettingsStorage
 
@@ -36,8 +33,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// This is to fix this: https://a8c.sentry.io/share/issue/39a6d2958b674ec3b7a4d9248b4b5ffa/
     case defaultPlayerFilterCallbackFix
 
-    case downloadFixes
-
     /// When a user sign in, we always mark ALL podcasts as unsynced
     /// This recently caused issues, syncing changes that shouldn't have been synced
     /// When `true`, we only mark podcasts as unsynced if the user never signed in before
@@ -47,9 +42,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// If set to `false`, it will use the previous mechanism that always update
     /// but can lead to a bigger time between tapping play and actually playing it
     case whenPlayingOnlyUpdateEpisodeIfPlaybackFails
-
-    /// Use the Accelerate framework to speed up custom effects
-    case accelerateEffects
 
     /// Enables the Kids banner
     case kidsProfile
@@ -120,14 +112,6 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Show Manage Downloaded episode banner/modal when running in low space in the device
     case manageDownloadedEpisodes
-
-    /// Uses the episode IDs from the server's response rather than our local database IDs
-    case useSyncResponseEpisodeIDs
-
-    /// Disables logout / keychain clearing when errors occur in the background
-    case avoidLogoutInBackground
-
-    case disablePrivateFeedSharing
 
     /// Enable/Disable the podcast feed reload feature
     case podcastFeedUpdate
@@ -278,6 +262,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Moves the shouldKeepPlaying after we check that the episode is over
     case checkFinishedTimeBeforeShouldKeepPlaying
 
+    /// Activate audio session to enable multi-speaker selection in route picker
+    case activateAudioSessionForRoutePicker
+
+    /// Don't autoplay when route changes
+    case dontAutoplayOnRouteChange
+
     /// Allow the release of the Media Exporter when is no longer being used by the player
     case releaseMediaExporterWhenNoLongerActive
 
@@ -303,8 +293,6 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .endOfYear:
             false
-        case .errorLogoutHandling:
-            false
         case .newSettingsStorage:
             shouldEnableSyncedSettings
         case .settingsSync:
@@ -317,13 +305,9 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .defaultPlayerFilterCallbackFix:
             true
-        case .downloadFixes:
-            true
         case .onlyMarkPodcastsUnsyncedForNewUsers:
             true
         case .whenPlayingOnlyUpdateEpisodeIfPlaybackFails:
-            true
-        case .accelerateEffects:
             true
         case .kidsProfile:
             false
@@ -365,12 +349,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .manageDownloadedEpisodes:
 			true
-        case .useSyncResponseEpisodeIDs:
-            true
-        case .avoidLogoutInBackground:
-            true
-        case .disablePrivateFeedSharing:
-            true
         case .podcastFeedUpdate:
             true
         case .downloadsThreadSafeCache:
@@ -470,6 +448,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .useBackgroundQueueForStreamingCallback:
 			true
         case .checkFinishedTimeBeforeShouldKeepPlaying:
+            true
+        case .activateAudioSessionForRoutePicker:
+            true
+        case .dontAutoplayOnRouteChange:
             true
         case .releaseMediaExporterWhenNoLongerActive:
             true

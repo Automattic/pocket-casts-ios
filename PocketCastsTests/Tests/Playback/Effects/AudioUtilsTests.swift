@@ -75,7 +75,7 @@ final class AudioUtilsTests: XCTestCase {
     }
 
     func testNewRms() throws {
-        let result = AudioUtils.newCalculateRms(audioBuffer)
+        let result = AudioUtils.calculateRms(audioBuffer)
         XCTAssertEqual(result, 5.228129, "Result of Root Mean Square should be 5.228129")
     }
 
@@ -90,7 +90,7 @@ final class AudioUtilsTests: XCTestCase {
     func testNewRmsPerformance() throws {
         self.measure {
             (0...1000000).forEach { _ in
-                _ = AudioUtils.newCalculateRms(audioBuffer)
+                _ = AudioUtils.calculateRms(audioBuffer)
             }
         }
     }
@@ -101,7 +101,7 @@ final class AudioUtilsTests: XCTestCase {
         let expected: [Float32] = [1.0, 0.8, 0.6, 0.4, 0.2, 0.0]
 
         data.withUnsafeMutableBufferPointer { bufferPointer in
-            AudioUtils.oldPerformFade(true, length: length, data: bufferPointer.baseAddress)
+            AudioUtils.performFade(true, length: vDSP_Length(length), data: bufferPointer.baseAddress)
         }
 
         let roundedData = data.map { round($0 * 10) / 10 }
@@ -114,7 +114,7 @@ final class AudioUtilsTests: XCTestCase {
         let expected: [Float32] = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
         data.withUnsafeMutableBufferPointer { bufferPointer in
-            AudioUtils.oldPerformFade(false, length: length, data: bufferPointer.baseAddress)
+            AudioUtils.performFade(false, length: vDSP_Length(length), data: bufferPointer.baseAddress)
         }
 
         let roundedData = data.map { round($0 * 10) / 10 }
@@ -127,7 +127,7 @@ final class AudioUtilsTests: XCTestCase {
         let expected: [Float32] = [1.0, 0.8, 0.6, 0.4, 0.2, 0.0]
 
         data.withUnsafeMutableBufferPointer { bufferPointer in
-            AudioUtils.newPerformFade(true, length: length, data: bufferPointer.baseAddress)
+            AudioUtils.performFade(true, length: length, data: bufferPointer.baseAddress)
         }
 
         let roundedData = data.map { round($0 * 10) / 10 }
@@ -140,7 +140,7 @@ final class AudioUtilsTests: XCTestCase {
         let expected: [Float32] = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
         data.withUnsafeMutableBufferPointer { bufferPointer in
-            AudioUtils.newPerformFade(false, length: length, data: bufferPointer.baseAddress)
+            AudioUtils.performFade(false, length: length, data: bufferPointer.baseAddress)
         }
 
         let roundedData = data.map { round($0 * 10) / 10 }
@@ -153,7 +153,7 @@ final class AudioUtilsTests: XCTestCase {
         let channelCount: UInt32 = 1
         self.measure {
             (0...1000000).forEach { _ in
-                AudioUtils.oldFadeAudio(buffer, fadeOut: true, channelCount: channelCount)
+                AudioUtils.fadeAudio(buffer, fadeOut: true, channelCount: channelCount)
             }
         }
     }
@@ -164,7 +164,7 @@ final class AudioUtilsTests: XCTestCase {
         let channelCount: UInt32 = 1
         self.measure {
             (0...1000000).forEach { _ in
-                AudioUtils.newFadeAudio(buffer, fadeOut: true, channelCount: channelCount)
+                AudioUtils.fadeAudio(buffer, fadeOut: true, channelCount: channelCount)
             }
         }
     }

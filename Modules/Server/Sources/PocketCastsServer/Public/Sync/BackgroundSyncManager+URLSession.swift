@@ -105,11 +105,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
             // this is slightly problematic because this might not return the list that was originally synced, but also we can't store that in memory because the app can be killed between start and finish
             // if this turns out to be an issue we could perhaps persist the UUIDs to UserDefaults, or come up with some other solution to this
             let episodesSynced: [Episode]
-            if FeatureFlag.useSyncResponseEpisodeIDs.enabled {
-                episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
-            } else {
-                episodesSynced = []
-            }
+            episodesSynced = DataManager.sharedManager.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
             _ = syncTask.processSyncData(data, httpStatus: httpCode, episodesToSync: episodesSynced)
         }
     }
