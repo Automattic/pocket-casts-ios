@@ -408,6 +408,7 @@ struct ThemeColor {
     private static let secondaryInteractive01ActiveRosé = UIColor(hex: "#e8415f")
     private static let secondaryInteractive01ActiveContrastLight = UIColor(hex: "#404040")
     private static let secondaryInteractive01ActiveContrastDark = UIColor(hex: "#c0c0c0")
+
     static func podcastUi01Light(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastUi01Dark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#292B2E") }
@@ -1435,7 +1436,6 @@ struct ThemeColor {
     static func filterInteractive06ContrastLight(filterColor: UIColor) -> UIColor { UIColor(hex: "#000001") }
 
     static func filterInteractive06ContrastDark(filterColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
-
     private static let support01Light = UIColor(hex: "#03A9F4")
     private static let support01Dark = UIColor(hex: "#33B8F4")
     private static let support01ExtraDark = UIColor(hex: "#50D0F1")
@@ -1526,6 +1526,7 @@ struct ThemeColor {
     private static let support10Rosé = UIColor(hex: "#FF4FE2")
     private static let support10ContrastLight = UIColor(hex: "#FEB700")
     private static let support10ContrastDark = UIColor(hex: "#F5CA5B")
+
     static func playerBackground01Light(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#000000"), overlayColor: podcastColor.withAlphaComponent(0.2))
     }
@@ -1833,7 +1834,6 @@ struct ThemeColor {
     static func playerHighlight07ContrastDark(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.2)
     }
-
     private static let playerContrast01Light = UIColor(hex: "#FFFFFF")
     private static let playerContrast01Dark = UIColor(hex: "#FFFFFF")
     private static let playerContrast01ExtraDark = UIColor(hex: "#FFFFFF")

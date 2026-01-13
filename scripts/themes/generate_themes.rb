@@ -20,7 +20,10 @@ def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
     if ['filter', '$filter', '#filter'].include?(hex_val)
       # the ones without any custom opacity are easy
       if opacity == '100%' || opacity.nil? || opacity.empty?
-        str = "    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {\n        filterColor\n    }\n\n"
+        str = "
+    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {
+        filterColor
+    }\n"
       else
         # tokenize the filter colour to figure out what it should be
         # example string: filter 15% on white
@@ -36,11 +39,15 @@ def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
                          end
         overlay_color = "filterColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
 
-        str = "    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {\n        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})\n    }\n\n"
+        str = "
+    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor {
+        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})
+    }\n"
       end
 
     else
-      str = "    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n\n"
+      str = "
+    static func #{token_name}#{theme_name}(filterColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n"
     end
 
     File.write(file_path, str, mode: 'a')
@@ -51,10 +58,14 @@ def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
     if ['podcast', '$podcast', '#podcast'].include?(hex_val)
       # the ones without any custom opacity are easy
       if opacity == '100%' || opacity.nil? || opacity.empty?
-        str = "    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        podcastColor\n    }\n\n"
+        str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        podcastColor\n    }\n"
       elsif opacity.split.size == 1
         opacity = opacity.gsub('%', '')
-        str = "    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        podcastColor.withAlphaComponent(#{opacity.to_f / 100.0})\n    }\n\n"
+        str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
+        podcastColor.withAlphaComponent(#{opacity.to_f / 100.0})
+    }\n"
       else
         # tokenize the podcast colour to figure out what it should be
         # example string: podcast 15% on #3D3D3D
@@ -64,13 +75,20 @@ def write_theme_value(hex_val, opacity, token_name, file_path, theme_name)
         original_color = "UIColor(hex: \"#{words[3]}\")"
         overlay_color = "podcastColor.withAlphaComponent(#{actual_opacity.to_f / 100.0})"
 
-        str = "    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})\n    }\n\n"
+        str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
+        UIColor.calculateColor(orgColor: #{original_color}, overlayColor: #{overlay_color})
+    }\n"
       end
     elsif opacity == '100%' || opacity.nil? || opacity.empty?
-      str = "    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n\n"
+      str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor { UIColor(hex: \"#{hex_val}\") }\n"
     elsif opacity.split.size == 1
       opacity = opacity.gsub('%', '')
-      str = "    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {\n        UIColor(hex: \"#{hex_val}\").withAlphaComponent(#{opacity.to_f / 100.0})\n    }\n\n"
+      str = "
+    static func #{token_name}#{theme_name}(podcastColor: UIColor) -> UIColor {
+        UIColor(hex: \"#{hex_val}\").withAlphaComponent(#{opacity.to_f / 100.0})
+    }\n"
     end
 
     File.write(file_path, str, mode: 'a')
@@ -126,9 +144,6 @@ CSV.foreach(ARGV[0]) do |row|
   indigo_hex_value = row[14]
   indigo_opacity = row[15]
 
-  # radioactive_hex_value = row[16]
-  # radioactive_opacity = row[17]
-
   rosé_hex_value = row[16]
   rosé_opacity = row[17]
 
@@ -154,7 +169,6 @@ CSV.foreach(ARGV[0]) do |row|
     write_theme_value(classic_light_hex_value, classic_light_opacity, token_name, file_path_colors, 'ClassicLight')
     write_theme_value(electric_hex_value, electric_opacity, token_name, file_path_colors, 'Electric')
     write_theme_value(indigo_hex_value, indigo_opacity, token_name, file_path_colors, 'Indigo')
-    # write_theme_value(radioactive_hex_value, radioactive_opacity, token_name, file_path_colors, 'Radioactive')
     write_theme_value(rosé_hex_value, rosé_opacity, token_name, file_path_colors, 'Rosé')
     write_theme_value(high_contrast_light_hex_value, high_contrast_light_opacity, token_name, file_path_colors,
                       'ContrastLight')
