@@ -42,7 +42,7 @@ test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
 	    -scheme pocketcasts \
         -only-testing:PocketCastsTests
 
-format:
+format: ## Lint and autocorrect linter errors
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 
 upload_dsyms: ## Upload dSYMs
