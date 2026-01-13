@@ -182,7 +182,7 @@ end
 File.write(file_path_colors, "\n\n", mode: 'a')
 all_token_names.each do |token|
   token_str = if token.start_with?('podcast') || token.start_with?('playerBackground') || token.start_with?('playerHighlight')
-              "    static func #{token}(podcastColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
+                "    static func #{token}(podcastColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
@@ -206,7 +206,7 @@ all_token_names.each do |token|
         }
     }\n\n"
               elsif token.start_with?('filterU') || token.start_with?('filterI') || token.start_with?('filterT')
-        "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
+                "    static func #{token}(filterColor: UIColor, for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
@@ -230,7 +230,7 @@ all_token_names.each do |token|
         }
     }\n\n"
               else
-        "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
+                "    static func #{token}(for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
         switch theme {
         case .light:
