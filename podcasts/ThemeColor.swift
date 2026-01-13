@@ -1996,6 +1996,42 @@ struct ThemeColor {
     private static let filter08Rosé = UIColor(hex: "#b8b8d8")
     private static let filter08ContrastLight = UIColor(hex: "#8C9499")
     private static let filter08ContrastDark = UIColor(hex: "#B8C3C9")
+    private static let filter09Light = UIColor(hex: "#A177D9")
+    private static let filter09Dark = UIColor(hex: "#FAA5C1")
+    private static let filter09ExtraDark = UIColor(hex: "#FAA5C1")
+    private static let filter09ClassicLight = UIColor(hex: "#A177D9")
+    private static let filter09Electric = UIColor(hex: "#FF94F1")
+    private static let filter09Indigo = UIColor(hex: "#998A9E")
+    private static let filter09Rosé = UIColor(hex: "#6883BA")
+    private static let filter09ContrastLight = UIColor(hex: "#A177D9")
+    private static let filter09ContrastDark = UIColor(hex: "#9BA2FF")
+    private static let filter10Light = UIColor(hex: "#3DAD88")
+    private static let filter10Dark = UIColor(hex: "#03CEA4")
+    private static let filter10ExtraDark = UIColor(hex: "#03CEA4")
+    private static let filter10ClassicLight = UIColor(hex: "#3DAD88")
+    private static let filter10Electric = UIColor(hex: "#58EDAC")
+    private static let filter10Indigo = UIColor(hex: "#A4B391")
+    private static let filter10Rosé = UIColor(hex: "#546A76")
+    private static let filter10ContrastLight = UIColor(hex: "#3DAD88")
+    private static let filter10ContrastDark = UIColor(hex: "#32D9A9")
+    private static let filter11Light = UIColor(hex: "#2555CF")
+    private static let filter11Dark = UIColor(hex: "#5584FA")
+    private static let filter11ExtraDark = UIColor(hex: "#5584FA")
+    private static let filter11ClassicLight = UIColor(hex: "#2555CF")
+    private static let filter11Electric = UIColor(hex: "#0A9AFA")
+    private static let filter11Indigo = UIColor(hex: "#84A0B0")
+    private static let filter11Rosé = UIColor(hex: "#998E87")
+    private static let filter11ContrastLight = UIColor(hex: "#2555CF")
+    private static let filter11ContrastDark = UIColor(hex: "#21E6ED")
+    private static let filter12Light = UIColor(hex: "#945712")
+    private static let filter12Dark = UIColor(hex: "#A3863B")
+    private static let filter12ExtraDark = UIColor(hex: "#A3863B")
+    private static let filter12ClassicLight = UIColor(hex: "#945712")
+    private static let filter12Electric = UIColor(hex: "#CCA083")
+    private static let filter12Indigo = UIColor(hex: "#8C8C80")
+    private static let filter12Rosé = UIColor(hex: "#997F7F")
+    private static let filter12ContrastLight = UIColor(hex: "#945712")
+    private static let filter12ContrastDark = UIColor(hex: "#AD753D")
     private static let veilLight = UIColor(hex: "#000000").withAlphaComponent(0.3)
     private static let veilDark = UIColor(hex: "#000000").withAlphaComponent(0.5)
     private static let veilExtraDark = UIColor(hex: "#000000").withAlphaComponent(0.5)
@@ -5133,6 +5169,102 @@ struct ThemeColor {
             return ThemeColor.filter08ContrastLight
         case .contrastDark:
             return ThemeColor.filter08ContrastDark
+        }
+    }
+
+    static func filter09(for theme: Theme.ThemeType? = nil) -> UIColor {
+        let theme = theme ?? Theme.sharedTheme.activeTheme
+        switch theme {
+        case .light:
+            return ThemeColor.filter09Light
+        case .dark:
+            return ThemeColor.filter09Dark
+        case .extraDark:
+            return ThemeColor.filter09ExtraDark
+        case .electric:
+            return ThemeColor.filter09Electric
+        case .classic:
+            return ThemeColor.filter09ClassicLight
+        case .indigo:
+            return ThemeColor.filter09Indigo
+        case .rosé:
+            return ThemeColor.filter09Rosé
+        case .contrastLight:
+            return ThemeColor.filter09ContrastLight
+        case .contrastDark:
+            return ThemeColor.filter09ContrastDark
+        }
+    }
+
+    static func filter10(for theme: Theme.ThemeType? = nil) -> UIColor {
+        let theme = theme ?? Theme.sharedTheme.activeTheme
+        switch theme {
+        case .light:
+            return ThemeColor.filter10Light
+        case .dark:
+            return ThemeColor.filter10Dark
+        case .extraDark:
+            return ThemeColor.filter10ExtraDark
+        case .electric:
+            return ThemeColor.filter10Electric
+        case .classic:
+            return ThemeColor.filter10ClassicLight
+        case .indigo:
+            return ThemeColor.filter10Indigo
+        case .rosé:
+            return ThemeColor.filter10Rosé
+        case .contrastLight:
+            return ThemeColor.filter10ContrastLight
+        case .contrastDark:
+            return ThemeColor.filter10ContrastDark
+        }
+    }
+
+    static func filter11(for theme: Theme.ThemeType? = nil) -> UIColor {
+        let theme = theme ?? Theme.sharedTheme.activeTheme
+        switch theme {
+        case .light:
+            return ThemeColor.filter11Light
+        case .dark:
+            return ThemeColor.filter11Dark
+        case .extraDark:
+            return ThemeColor.filter11ExtraDark
+        case .electric:
+            return ThemeColor.filter11Electric
+        case .classic:
+            return ThemeColor.filter11ClassicLight
+        case .indigo:
+            return ThemeColor.filter11Indigo
+        case .rosé:
+            return ThemeColor.filter11Rosé
+        case .contrastLight:
+            return ThemeColor.filter11ContrastLight
+        case .contrastDark:
+            return ThemeColor.filter11ContrastDark
+        }
+    }
+
+    static func filter12(for theme: Theme.ThemeType? = nil) -> UIColor {
+        let theme = theme ?? Theme.sharedTheme.activeTheme
+        switch theme {
+        case .light:
+            return ThemeColor.filter12Light
+        case .dark:
+            return ThemeColor.filter12Dark
+        case .extraDark:
+            return ThemeColor.filter12ExtraDark
+        case .electric:
+            return ThemeColor.filter12Electric
+        case .classic:
+            return ThemeColor.filter12ClassicLight
+        case .indigo:
+            return ThemeColor.filter12Indigo
+        case .rosé:
+            return ThemeColor.filter12Rosé
+        case .contrastLight:
+            return ThemeColor.filter12ContrastLight
+        case .contrastDark:
+            return ThemeColor.filter12ContrastDark
         }
     }
 
