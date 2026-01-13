@@ -268,6 +268,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Don't autoplay when route changes
     case dontAutoplayOnRouteChange
 
+    /// Allow the release of the Media Exporter when is no longer being used by the player
+    case releaseMediaExporterWhenNoLongerActive
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -449,6 +452,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .activateAudioSessionForRoutePicker:
             true
         case .dontAutoplayOnRouteChange:
+            true
+        case .releaseMediaExporterWhenNoLongerActive:
             true
         }
     }

@@ -325,6 +325,21 @@ class DownloadManager: NSObject, FilePathProtocol {
         var error: Error?
     }
 
+    private let activeLoaderLock = NSLock()
+    private var _activeLoaderDelegate: AVAssetResourceLoaderDelegate?
+    private var activeLoaderDelegate: AVAssetResourceLoaderDelegate? {
+        get {
+            activeLoaderLock.lock()
+            defer { activeLoaderLock.unlock() }
+            return _activeLoaderDelegate
+        }
+        set {
+            activeLoaderLock.lock()
+            defer { activeLoaderLock.unlock() }
+            _activeLoaderDelegate = newValue
+        }
+    }
+
     func downloadParallelToStream(of episode: BaseEpisode) -> AVPlayerItem? {
         guard let playbackItem = PlaybackItem(episode: episode).createPlayerItem() else {
             return nil
@@ -349,6 +364,12 @@ class DownloadManager: NSObject, FilePathProtocol {
             let newAsset = AVURLAsset(url: customURL)
             newAsset.resourceLoader.setDelegate(customDelegate, queue: .global(qos: .default))
             newItem = AVPlayerItem(asset: newAsset)
+            if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
+                if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                    activeMediaExporterDelegate.releaseIfDownloadComplete()
+                }
+                activeLoaderDelegate = customDelegate
+            }
             return newItem
         }
         var wasDownloadingBefore = false
@@ -401,12 +422,23 @@ class DownloadManager: NSObject, FilePathProtocol {
         let newAsset = AVURLAsset(url: customURL)
         newAsset.resourceLoader.setDelegate(customLoaderDelegate, queue: .global(qos: .default))
         newItem = AVPlayerItem(asset: newAsset)
+        if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled {
+            if let activeMediaExporterDelegate = activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                activeMediaExporterDelegate.releaseIfDownloadComplete()
+            }
+            activeLoaderDelegate = customLoaderDelegate
+        }
         Task {
             while !exportStatus.completed {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
             }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
+            if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,
+               let mediaExporterDelegate = downloadAndStreamEpisodes[downloadTaskUUID] as? MediaExporterResourceLoaderDelegate,
+               mediaExporterDelegate != activeLoaderDelegate as? MediaExporterResourceLoaderDelegate {
+                mediaExporterDelegate.releaseIfDownloadComplete()
+            }
             downloadAndStreamEpisodes[downloadTaskUUID] = nil
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
