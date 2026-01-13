@@ -25,7 +25,7 @@ generate_colors: ## Generate colors and themes based on themes.csv
 generate_code:
 	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
 
-lint:
+lint: ## Lint the codebase
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
 
 lint_lenient:
