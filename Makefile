@@ -31,6 +31,17 @@ lint:
 lint_lenient:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --lenient)
 
+build: ## Builds the Debug configuration using Xcode
+	xcodebuild -project podcasts.xcodeproj \
+       -scheme pocketcasts \
+       -configuration Debug \
+       build
+
+test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
+	xcodebuild test -project podcasts.xcodeproj \
+	    -scheme pocketcasts \
+        -only-testing:PocketCastsTests
+
 format:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 
