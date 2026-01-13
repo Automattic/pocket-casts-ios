@@ -829,7 +829,7 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.65))
     }
 
-    static func podcastInteractive03ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
+    static func podcastInteractive03ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastInteractive03ContrastDark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
 
@@ -881,7 +881,7 @@ struct ThemeColor {
 
     static func podcastInteractive04Rosé(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
 
-    static func podcastInteractive04ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
+    static func podcastInteractive04ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
 
     static func podcastInteractive04ContrastDark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
 
@@ -911,7 +911,7 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#4D262C"), overlayColor: podcastColor.withAlphaComponent(0.3))
     }
 
-    static func podcastInteractive05ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
+    static func podcastInteractive05ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastInteractive05ContrastDark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
 
