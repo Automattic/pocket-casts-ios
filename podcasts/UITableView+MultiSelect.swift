@@ -111,8 +111,7 @@ extension UITableView {
         guard numberOfSections > 0 else { return }
         let lastSection = numberOfSections - 1
         let lastRow = numberOfRows(inSection: lastSection) - 1
-        let targetIndexPath = nextIndexPath(from: indexPath) ?? indexPath
-        deselectAllFrom(fromIndexPath: targetIndexPath, toIndexPath: IndexPath(row: lastRow, section: lastSection))
+        deselectAllFrom(fromIndexPath: indexPath, toIndexPath: IndexPath(row: lastRow, section: lastSection))
     }
 
     func deselectAllFrom(fromIndexPath: IndexPath, toIndexPath: IndexPath) {
