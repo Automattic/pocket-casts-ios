@@ -6,7 +6,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
     @IBOutlet var episodeImage: PodcastImageView!
-    @IBOutlet var episodeTitle: ThemeableLabel!
+    @IBOutlet var episodeTitle: ThemeableLabel! {
+        didSet {
+            let baseFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+            episodeTitle.font = UIFontMetrics(forTextStyle: .subheadline).scaledFont(for: baseFont)
+        }
+    }
     @IBOutlet var statusIndicator: UIImageView!
     @IBOutlet var uploadStatusIndicator: UIImageView!
 
@@ -27,7 +32,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var informationLabel: ThemeableLabel! {
         didSet {
             informationLabel.style = .primaryText02
-            informationLabel.font = informationLabel.font.monospaced()
+            let baseFont = informationLabel.font.monospaced()
+            informationLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: baseFont)
         }
     }
 
@@ -41,6 +47,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
+            let baseFont = UIFont.systemFont(ofSize: 11, weight: .semibold)
+            dayName.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: baseFont)
         }
     }
 
