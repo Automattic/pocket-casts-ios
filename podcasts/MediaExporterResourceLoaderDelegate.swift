@@ -81,7 +81,8 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     deinit {
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Releasing loader for \(saveFilePath)")
-        invalidateAndCancelSession(shouldResetData: false)
+        session?.invalidateAndCancel()
+        session = nil
     }
 
     static let schemePrefix = "custom-"
