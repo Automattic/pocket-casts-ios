@@ -432,7 +432,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .doNotSwitchToDownloadedFile:
             true
         case .newOnboardingUpgradeTrialTimeline:
-            false
+            true
         case .newOnboardingRecommendationChanges:
             true
         case .searchImprovements:
