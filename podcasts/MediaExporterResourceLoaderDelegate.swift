@@ -188,7 +188,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             configuration.networkServiceType = .avStreaming
             configuration.allowsCellularAccess = true
             configuration.timeoutIntervalForRequest = 60 // seconds
-            configuration.timeoutIntervalForResource = 3600 // seconds
+            configuration.timeoutIntervalForResource = 3600 * 2 // seconds
 #if !APPCLIP
             configuration.waitsForConnectivity = true
             configuration.multipathServiceType = .handover // allows switching between celular/wifi
