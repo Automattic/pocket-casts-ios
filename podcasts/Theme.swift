@@ -198,7 +198,7 @@ class Theme: ObservableObject {
 
         let savedType = UserDefaults.standard.integer(forKey: preferredLightThemeKey)
 
-        guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .dark }
+        guard let oldTheme = ThemeType.Old(rawValue: savedType) else { return .light }
 
         let themeType = ThemeType(old: oldTheme)
 
