@@ -21,7 +21,6 @@ class WatchSyncManager {
     }
 
     deinit {
-        contextUpdateTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -76,15 +75,18 @@ class WatchSyncManager {
         UserDefaults.standard.set(true, forKey: updateKey)
     }
 
-    private var contextUpdateTimer: Timer?
+    private lazy var contextUpdateDebouncer = ContextUpdateDebouncer(interval: 2.0) { [weak self] in
+        self?.processContextUpdate()
+    }
 
     @objc func handleContextUpdate() {
-        // Debounce context updates to allow watch to fully process phone's changes
-        // before deciding whether to sync. This prevents the watch from sending
-        // stale Up Next data that could overwrite recent phone changes.
-        contextUpdateTimer?.invalidate()
-        contextUpdateTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { [weak self] _ in
-            self?.processContextUpdate()
+        if FeatureFlag.watchUpNextSyncFix.enabled {
+            // Debounce context updates to allow watch to fully process phone's changes
+            // before deciding whether to sync. This prevents the watch from sending
+            // stale Up Next data that could overwrite recent phone changes.
+            contextUpdateDebouncer.call()
+        } else {
+            processContextUpdate()
         }
     }
 
@@ -92,10 +94,12 @@ class WatchSyncManager {
         if updateLoginDetailsIfRequired() {
             return
         } else {
-            if isPlusUser(),
-               WKApplication.shared().applicationState == .background,
-               compareUpNextLists() == .watchNeedsUpdate,
-               !SyncManager.isFirstSyncInProgress() {
+            if WatchSyncDecision.shouldPerformBackgroundRefresh(
+                isPlusUser: isPlusUser(),
+                isAppInBackground: WKApplication.shared().applicationState == .background,
+                comparisonResult: compareUpNextLists(),
+                isFirstSyncInProgress: SyncManager.isFirstSyncInProgress()
+            ) {
                let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
             } else {
@@ -300,65 +304,15 @@ class WatchSyncManager {
         pendingChangeNotification = .none
     }
 
-    enum upNextComparisonResult: Int {
-        case same, phoneNeedsUpdate, watchNeedsUpdate, notEnoughInformation
-    }
-
-    private func compareUpNextLists() -> upNextComparisonResult {
-        let watchEpisodeCount = PlaybackManager.shared.queue.upNextCount()
-
-        guard let phoneEpisodes = WatchDataManager.upNextEpisodes(), phoneEpisodes.count > 0 else {
-            if watchEpisodeCount == 0 {
-                return .same
-            } else {
-                return .phoneNeedsUpdate
-            }
-        }
-
-        let phoneUpNextCount = WatchDataManager.upNextCount()
-        // The phone sends us a truncated list, and if the total count is higher than that we can't determine which list is newer because we're missing info
-        if phoneUpNextCount > phoneEpisodes.count { return .notEnoughInformation }
-
-        let watchEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
-        if phoneEpisodes.count == watchEpisodes.count {
-            // if they are both 0, nothing to do
-            if watchEpisodes.count == 0 {
-                return .same
-            }
-
-            var allMatch = true
-            for (index, episode) in watchEpisodes.enumerated() {
-                if episode.uuid != phoneEpisodes[index].uuid {
-                    allMatch = false
-                    break
-                }
-            }
-            if allMatch {
-                return .same
-            }
-        }
-
-        guard let lastServerRefresh = ServerSettings.lastRefreshStartTime() else {
-            // If we don't have a timestamp, we can't determine which is newer.
-            // Return .notEnoughInformation rather than defaulting to .watchNeedsUpdate
-            // to prevent the watch from sending stale data to the server.
-            FileLog.shared.addMessage("WatchSyncManager: No lastServerRefresh timestamp, returning .notEnoughInformation")
-            return .notEnoughInformation
-        }
-
-        if lastServerRefresh > WatchDataManager.lastDataTime() {
-            FileLog.shared.addMessage("WatchSyncManager: Phone data is newer (lastServerRefresh: \(lastServerRefresh) > lastDataTime: \(WatchDataManager.lastDataTime())), returning .phoneNeedsUpdate")
-            return .phoneNeedsUpdate
-        } else if lastServerRefresh < WatchDataManager.lastDataTime() {
-            // Only return .watchNeedsUpdate if the watch data is definitively newer
-            FileLog.shared.addMessage("WatchSyncManager: Watch data is newer (lastServerRefresh: \(lastServerRefresh) < lastDataTime: \(WatchDataManager.lastDataTime())), returning .watchNeedsUpdate")
-            return .watchNeedsUpdate
-        } else {
-            // If timestamps are equal, consider them the same rather than triggering a sync
-            // This prevents unnecessary syncs that could overwrite data
-            FileLog.shared.addMessage("WatchSyncManager: Timestamps are equal, returning .same")
-            return .same
-        }
+    private func compareUpNextLists() -> UpNextComparisonResult {
+        UpNextListComparator.compare(
+            phoneEpisodes: WatchDataManager.upNextEpisodes(),
+            phoneUpNextCount: WatchDataManager.upNextCount(),
+            watchEpisodes: PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false),
+            watchEpisodeCount: PlaybackManager.shared.queue.upNextCount(),
+            lastServerRefresh: ServerSettings.lastRefreshStartTime(),
+            lastWatchDataTime: WatchDataManager.lastDataTime()
+        )
     }
 
     func isPlusUser() -> Bool {
