@@ -14,7 +14,8 @@ public struct UpNextListComparator {
                                watchEpisodes: [BaseEpisode],
                                watchEpisodeCount: Int,
                                lastServerRefresh: Date?,
-                               lastWatchDataTime: Date) -> UpNextComparisonResult {
+                               lastWatchDataTime: Date,
+                               useConservativeComparison: Bool = true) -> UpNextComparisonResult {
         guard let phoneEpisodes = phoneEpisodes, phoneEpisodes.count > 0 else {
             if watchEpisodeCount == 0 {
                 return .same
@@ -46,8 +47,12 @@ public struct UpNextListComparator {
         }
 
         guard let lastServerRefresh = lastServerRefresh else {
-            FileLog.shared.addMessage("WatchSyncManager: No lastServerRefresh timestamp, returning .notEnoughInformation")
-            return .notEnoughInformation
+            if useConservativeComparison {
+                FileLog.shared.addMessage("WatchSyncManager: No lastServerRefresh timestamp, returning .notEnoughInformation")
+                return .notEnoughInformation
+            } else {
+                return .watchNeedsUpdate
+            }
         }
 
         if lastServerRefresh > lastWatchDataTime {
@@ -57,8 +62,12 @@ public struct UpNextListComparator {
             FileLog.shared.addMessage("WatchSyncManager: Watch data is newer (lastServerRefresh: \(lastServerRefresh) < lastDataTime: \(lastWatchDataTime)), returning .watchNeedsUpdate")
             return .watchNeedsUpdate
         } else {
-            FileLog.shared.addMessage("WatchSyncManager: Timestamps are equal, returning .same")
-            return .same
+            if useConservativeComparison {
+                FileLog.shared.addMessage("WatchSyncManager: Timestamps are equal, returning .same")
+                return .same
+            } else {
+                return .watchNeedsUpdate
+            }
         }
     }
 }

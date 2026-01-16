@@ -18,14 +18,16 @@ final class WatchSyncManagerTests: XCTestCase {
                          watchEpisodes: [BaseEpisode] = [],
                          watchEpisodeCount: Int? = nil,
                          lastServerRefresh: Date? = Date(timeIntervalSince1970: 0),
-                         lastWatchDataTime: Date = Date(timeIntervalSince1970: 0)) -> UpNextComparisonResult {
+                         lastWatchDataTime: Date = Date(timeIntervalSince1970: 0),
+                         useConservativeComparison: Bool = true) -> UpNextComparisonResult {
         UpNextListComparator.compare(
             phoneEpisodes: phoneEpisodes,
             phoneUpNextCount: phoneUpNextCount ?? (phoneEpisodes?.count ?? 0),
             watchEpisodes: watchEpisodes,
             watchEpisodeCount: watchEpisodeCount ?? watchEpisodes.count,
             lastServerRefresh: lastServerRefresh,
-            lastWatchDataTime: lastWatchDataTime
+            lastWatchDataTime: lastWatchDataTime,
+            useConservativeComparison: useConservativeComparison
         )
     }
 
