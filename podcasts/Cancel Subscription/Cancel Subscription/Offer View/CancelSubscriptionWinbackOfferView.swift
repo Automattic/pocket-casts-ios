@@ -107,8 +107,6 @@ struct CancelSubscriptionWinbackOfferView: View {
             name = "cs-sparkle-red"
         case .indigo:
             name = "cs-sparkle-indigo"
-        case .radioactive:
-            name = "cs-sparkle-green"
         case .contrastLight:
             name = "cs-sparkle-black"
         case .contrastDark:

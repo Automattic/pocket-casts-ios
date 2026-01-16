@@ -268,7 +268,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: voiceShortcut)
                 viewController.modalPresentationStyle = .formSheet
                 viewController.delegate = self
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(viewController, animated: true, completion: nil)
             } else {
                 showINAddVoiceShortcutVC()
@@ -426,6 +425,5 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         viewController.modalPresentationStyle = .formSheet
         viewController.delegate = self
         present(viewController, animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
     }
 }

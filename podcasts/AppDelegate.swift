@@ -126,10 +126,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         IAPHelper.shared.setup(hasSubscription: SubscriptionHelper.hasActiveSubscription())
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
-
         setupSignOutListener()
 
         if FeatureFlag.earlyReloadSubscriptionStatus.enabled,
@@ -263,30 +259,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
-    // MARK: - Event Handling
-
-    private var overlayShouldBeHidden = false
-    @objc private func hideOverlays() {
-        overlayShouldBeHidden = true
-        if lenticularFilter.isShowing() {
-            lenticularFilter.hide()
-        }
-    }
-
-    @objc private func showOverlays() {
-        overlayShouldBeHidden = false
-        if Theme.sharedTheme.activeTheme == .radioactive {
-            lenticularFilter.show()
-        }
-    }
-
-    @objc private func handleThemeChanged() {
-        if Theme.sharedTheme.activeTheme == .radioactive, !overlayShouldBeHidden {
-            lenticularFilter.show()
-        } else {
-            lenticularFilter.hide()
-        }
-    }
 
     private func setupBackgroundRefresh() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: Constants.Values.refreshTaskId, using: nil) { task in

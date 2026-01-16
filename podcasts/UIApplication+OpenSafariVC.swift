@@ -11,7 +11,6 @@ extension UIApplication {
 
         let safariViewController = SFSafariViewController(with: url)
 
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
         SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
     }
 }

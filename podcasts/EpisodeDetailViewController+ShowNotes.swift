@@ -126,7 +126,6 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
 
                 safariViewController?.delegate = self
 
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 present(safariViewController!, animated: true, completion: nil)
 
                 Analytics.track(.episodeDetailShowNotesLinkTapped, properties: ["episode_uuid": episode.uuid, "source": viewSource])
@@ -142,7 +141,6 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
     }
 
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         safariViewController?.delegate = nil
         safariViewController = nil
     }
