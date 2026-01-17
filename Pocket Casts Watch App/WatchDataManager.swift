@@ -1,5 +1,6 @@
 import PocketCastsDataModel
 import WatchKit
+import PocketCastsUtils
 
 class WatchDataManager {
     class func playlists() -> [WatchPlaylist]? {
@@ -173,6 +174,12 @@ class WatchDataManager {
             return 25
         }
         return deleteCount
+    }
+
+    class func updateLastDataTime(to date: Date = Date()) {
+        if FeatureFlag.watchUpNextSyncFix.enabled {
+            UserDefaults.standard.set(date, forKey: WatchConstants.UserDefaults.lastDataTime)
+        }
     }
 
     class func lastDataTime() -> Date {
