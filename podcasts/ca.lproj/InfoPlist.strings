@@ -15,7 +15,5 @@
     <string>Pocket Casts necessita permís per a desar aquesta imatge a la teva biblioteca de fotos.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts necessita permís per a desar aquesta imatge a la teva biblioteca de fotos.</string>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>Fem servir analítiques per millorar l'app i mesurar si les nostres campanyes publicitàries són exitoses.</string>
   </dict>
 </plist>
