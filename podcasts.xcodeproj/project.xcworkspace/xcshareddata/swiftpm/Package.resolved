@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
-        "revision" : "048f3c469f4c82d636da380a5766a8b1c5982238",
-        "version" : "3.5.4"
+        "revision" : "32f03d5af3625585b9f6da1d4cc1756d77b63aa1",
+        "version" : "4.0.0"
       }
     },
     {
