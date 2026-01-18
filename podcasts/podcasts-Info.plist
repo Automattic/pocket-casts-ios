@@ -1039,8 +1039,6 @@
 		<string>SJOpenFilterIntent</string>
 		<string>SJSleepTimerIntent</string>
 	</array>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We use analytics to make the app better and to measure if our ad campaigns are successful.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans.ttf</string>
