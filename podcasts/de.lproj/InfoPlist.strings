@@ -15,5 +15,7 @@
     <string>Pocket Casts benötigt die Berechtigung, um dieses Bild in deiner Foto-Bibliothek zu speichern.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts benötigt die Berechtigung, um dieses Bild in deiner Foto-Bibliothek zu speichern.</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Wir nutzen Analysen, um unsere App zu verbessern und zu messen, ob unsere Werbekampagnen erfolgreich sind.</string>
   </dict>
 </plist>
