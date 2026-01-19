@@ -320,7 +320,24 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     private class ExportStatus {
-        var completed: Bool = false
+        private var continuation: CheckedContinuation<Void, Never>?
+
+        func waitCompletion() async {
+            guard !completed else { return }
+            await withCheckedContinuation { continuation in
+                self.continuation = continuation
+            }
+        }
+
+        var completed: Bool = false {
+            didSet {
+                if completed {
+                    continuation?.resume()
+                    continuation = nil
+                }
+            }
+        }
+
         var reportedType: String?
         var error: Error?
     }
@@ -429,9 +446,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             activeLoaderDelegate = customLoaderDelegate
         }
         Task {
-            while !exportStatus.completed {
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-            }
+            await exportStatus.waitCompletion()
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,
