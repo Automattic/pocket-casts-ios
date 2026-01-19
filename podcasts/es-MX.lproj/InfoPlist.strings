@@ -15,5 +15,7 @@
     <string>Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts necesita permiso para guardar esta imagen en tu biblioteca de fotos.</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Utilizamos los análisis para mejorar la aplicación y medir si nuestras campañas publicitarias tienen éxito.</string>
   </dict>
 </plist>

@@ -128,6 +128,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         showInitialOnboardingIfNeeded()
 
+        if AppTrackingTransparencyController.shared.shouldShowPrompt() {
+            Task {
+                await AppTrackingTransparencyController.shared.promptConsentAlert()
+            }
+        }
+
         updateDatabaseIndexes()
         optimizeDatabaseIfNeeded()
 

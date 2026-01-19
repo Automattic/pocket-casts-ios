@@ -15,5 +15,7 @@
     <string>Pocket Casts でこの画像をフォトライブラリに保存するには権限が必要です。</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pocket Casts でこの画像をフォトライブラリに保存するには権限が必要です。</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>当社ではアナリティクスを使用して、アプリの改良や、広告キャンペーンが成功したかどうかの測定を行っています。</string>
   </dict>
 </plist>
