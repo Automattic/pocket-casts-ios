@@ -15,7 +15,5 @@
     <string>O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>O Pocket Casts precisa de permissão para salvar essa imagem em sua biblioteca de fotos.</string>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>Usamos análises para melhorar o aplicativo e avaliar se nossas campanhas publicitárias estão se saindo bem.</string>
   </dict>
 </plist>
