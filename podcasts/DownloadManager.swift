@@ -446,7 +446,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             activeLoaderDelegate = customLoaderDelegate
         }
         Task {
-            await exportStatus.waitCompletion()
+            if FeatureFlag.streamAndCacheWaitWithContinuation.enabled {
+                await exportStatus.waitCompletion()
+            } else {
+                while !exportStatus.completed {
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                }
+            }
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,

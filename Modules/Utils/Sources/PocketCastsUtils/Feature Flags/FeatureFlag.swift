@@ -271,6 +271,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Allow the release of the Media Exporter when is no longer being used by the player
     case releaseMediaExporterWhenNoLongerActive
 
+    /// Use continuation approach to wait for exporter to finish
+    case streamAndCacheWaitWithContinuation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -454,6 +457,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .dontAutoplayOnRouteChange:
             true
         case .releaseMediaExporterWhenNoLongerActive:
+            true
+        case .streamAndCacheWaitWithContinuation:
             true
         }
     }
