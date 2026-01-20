@@ -1,3 +1,2 @@
-- Add Deselect action from long press [#3786](https://github.com/Automattic/pocket-casts-ios/pull/3786)
-- Fix WatchManager to only report unknown message if it was truly unknown / unprocessed [#3748](https://github.com/Automattic/pocket-casts-ios/issues/3748)
-- Improves Add Episode performance [#3842](https://github.com/Automattic/pocket-casts-ios/pull/3842)
+- Maintain Show Notes scroll position when app is opened [#3863](https://github.com/Automattic/pocket-casts-ios/pull/3863)
+- Remove support for Radioactive theme [#3865](https://github.com/Automattic/pocket-casts-ios/pull/3865)
