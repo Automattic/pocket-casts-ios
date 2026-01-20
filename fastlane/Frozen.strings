@@ -5854,9 +5854,6 @@
 /* A message that tells the user why the app is requesting add-only access to the user’s photo library. */
 "infoplist_NSPhotoLibraryAddUsageDescription" = "Pocket Casts needs permission to save this image to your photo library.";
 
-/* A message that tells the users we want to collect data to be shared with 3rd party libraries */
-"infoplist_NSUserTrackingUsageDescription" = "We use analytics to make the app better and to measure if our ad campaigns are successful.";
-
 /* MARK: - Intents.strings */
 
 "siri_intent_definition_key_0EmR82" = "Open ${filterName} Filter";
