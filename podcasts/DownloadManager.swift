@@ -319,7 +319,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         return
     }
 
-    private class ExportStatus {
+    private actor ExportStatus {
         private var continuation: CheckedContinuation<Void, Never>?
 
         func waitCompletion() async {
@@ -329,7 +329,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
 
-        var completed: Bool = false {
+        func updateStatus(completed: Bool, reportedType: String?, error: Error?) {
+            self.reportedType = reportedType
+            self.error = error
+            self.completed = completed
+        }
+
+        private(set) var completed: Bool = false {
             didSet {
                 if completed {
                     continuation?.resume()
@@ -338,8 +344,8 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         }
 
-        var reportedType: String?
-        var error: Error?
+        private(set) var reportedType: String?
+        private(set) var error: Error?
     }
 
     private let activeLoaderLock = NSLock()
@@ -417,19 +423,19 @@ class DownloadManager: NSObject, FilePathProtocol {
         let exportStatus =  ExportStatus()
         let originalSizeInBytes = episode.sizeInBytes
         let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { [weak self, exportStatus] status, contentType, bytesDownloaded, bytesExpected in
-            guard let self else {
-                return
-            }
-            exportStatus.reportedType = contentType
-            let size = max(100, max(bytesExpected, originalSizeInBytes))
-            switch status {
-            case .downloading:
-                self.reportProgress(episodeUUID: downloadTaskUUID, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
-            case .failed(let error):
-                exportStatus.error = error
-                exportStatus.completed = true
-            case .completed:
-                exportStatus.completed = true
+            Task {
+                guard let self else {
+                    return
+                }
+                let size = max(100, max(bytesExpected, originalSizeInBytes))
+                switch status {
+                case .downloading:
+                    self.reportProgress(episodeUUID: downloadTaskUUID, totalBytesWritten: bytesDownloaded, totalBytesExpectedToWrite: size)
+                case .failed(let error):
+                    await exportStatus.updateStatus(completed: true, reportedType: contentType, error: error)
+                case .completed:
+                    await exportStatus.updateStatus(completed: true, reportedType: contentType, error: nil)
+                }
             }
         }
         guard let customURL = MediaExporterResourceLoaderDelegate.makeCustomURL(urlAsset.url) else {
@@ -449,10 +455,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             if FeatureFlag.streamAndCacheWaitWithContinuation.enabled {
                 await exportStatus.waitCompletion()
             } else {
-                while !exportStatus.completed {
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                while await !exportStatus.completed {
+                    try? await Task.sleep(for: .seconds(1))
                 }
             }
+            let exportError = await exportStatus.error
+            let exportReportedType = await exportStatus.reportedType
+
             downloadingEpisodesCache[downloadTaskUUID] = nil
             removeEpisodeFromCache(episode)
             if FeatureFlag.releaseMediaExporterWhenNoLongerActive.enabled,
@@ -464,13 +473,13 @@ class DownloadManager: NSObject, FilePathProtocol {
             guard let episode = dataManager.findBaseEpisode(uuid: downloadTaskUUID) else {
                 return
             }
-            if exportStatus.error == nil {
+            if exportError == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
-                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType)
+                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportReportedType)
             } else {
-                FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
+                FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportError?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
-                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportStatus.error?.localizedDescription, downloadTaskId: nil, episode: episode)
+                DataManager.sharedManager.saveEpisode(downloadStatus: .notDownloaded, downloadError: exportError?.localizedDescription, downloadTaskId: nil, episode: episode)
                 DataManager.sharedManager.saveEpisode(autoDownloadStatus: .notSpecified, episode: episode)
                 if wasDownloadingBefore {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, autoDownloadStatus: .autoDownloaded)
