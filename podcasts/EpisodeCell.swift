@@ -8,8 +8,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var episodeImage: PodcastImageView!
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
-            let baseFont = UIFont.systemFont(ofSize: 15, weight: .medium)
-            episodeTitle.font = UIFontMetrics(forTextStyle: .subheadline).scaledFont(for: baseFont)
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
     @IBOutlet var statusIndicator: UIImageView!
@@ -47,8 +46,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
-            let baseFont = UIFont.systemFont(ofSize: 11, weight: .semibold)
-            dayName.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: baseFont)
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
