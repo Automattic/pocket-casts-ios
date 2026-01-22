@@ -26,7 +26,31 @@ class AnimatedImageButton: UIView {
 
     @IBInspectable var cornerRadius: CGFloat = 8
 
-    private let imageSize: CGFloat = 23
+    private let baseImageSize: CGFloat = 23
+    private let baseHorizontalPadding: CGFloat = 38
+    private let baseVerticalPadding: CGFloat = 20
+    private let baseImageLeadingPadding: CGFloat = 15
+
+    private var scalingMetrics: UIFontMetrics {
+        UIFontMetrics(forTextStyle: .subheadline)
+    }
+
+    private var imageSize: CGFloat {
+        scalingMetrics.scaledValue(for: baseImageSize)
+    }
+
+    private var horizontalPadding: CGFloat {
+        scalingMetrics.scaledValue(for: baseHorizontalPadding)
+    }
+
+    private var verticalPadding: CGFloat {
+        scalingMetrics.scaledValue(for: baseVerticalPadding)
+    }
+
+    private var imageLeadingPadding: CGFloat {
+        scalingMetrics.scaledValue(for: baseImageLeadingPadding)
+    }
+
     var buttonImage: UIImageView? {
         didSet {
             if let buttonImage = buttonImage {
@@ -50,9 +74,9 @@ class AnimatedImageButton: UIView {
 
     override var intrinsicContentSize: CGSize {
         let labelSize = (buttonTitle as NSString).size(withAttributes: [.font: textFont])
-        let imageWidth = buttonImage?.frame.width ?? 0
-        let width = labelSize.width + imageWidth + 38 // Margins and spacing
-        let height = max(40, ceil(textFont.lineHeight) + 20) // Minimum height of 40, padding of 20
+        let scaledImageWidth = buttonImage != nil ? imageSize : 0
+        let width = labelSize.width + scaledImageWidth + horizontalPadding
+        let height = max(40, ceil(textFont.lineHeight) + verticalPadding)
         return CGSize(width: width, height: height)
     }
 
@@ -113,8 +137,20 @@ class AnimatedImageButton: UIView {
 
         if let buttonImage = buttonImage {
             let imageY = (alteredRect.height - imageSize) / 2
-            textLayer.frame = CGRect(x: imageSize, y: textY, width: alteredRect.width - (imageSize / 2), height: textHeight)
-            buttonImage.frame = CGRect(x: 15, y: imageY, width: imageSize, height: imageSize)
+            let textWidth = (buttonTitle as NSString).size(withAttributes: [.font: textFont]).width
+            let spacing: CGFloat = 8
+            let totalContentWidth = imageSize + spacing + textWidth
+
+            // Center the combined content (image + spacing + text) within the altered rect
+            let contentStartX = (alteredRect.width - totalContentWidth) / 2
+
+            // Position image (relative to view, so add alteredRect.origin.x)
+            let imageX = alteredRect.origin.x + contentStartX
+            buttonImage.frame = CGRect(x: imageX, y: alteredRect.origin.y + imageY, width: imageSize, height: imageSize)
+
+            // Position text layer (relative to shapeLayer, so just use contentStartX offset)
+            let textX = contentStartX + imageSize + spacing
+            textLayer.frame = CGRect(x: textX, y: textY, width: textWidth, height: textHeight)
         } else {
             textLayer.frame = CGRect(x: 0, y: textY, width: alteredRect.width, height: textHeight)
         }

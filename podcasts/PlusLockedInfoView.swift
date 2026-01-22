@@ -36,9 +36,7 @@ class PlusLockedInfoView: ThemeableView {
 
     @IBOutlet var closeButton: TintableImageButton! {
         didSet {
-            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-            let closeImage = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
-            closeButton.setImage(closeImage, for: .normal)
+            updateCloseButtonImage()
             closeButton.tintColor = ThemeColor.primaryIcon02()
         }
     }
@@ -68,6 +66,18 @@ class PlusLockedInfoView: ThemeableView {
         Bundle.main.loadNibNamed("PlusLockedInfoView", owner: self, options: nil)
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc private func contentSizeCategoryDidChange() {
+        updateCloseButtonImage()
+    }
+
+    private func updateCloseButtonImage() {
+        let symbolConfig = UIImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+        let closeImage = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
+        closeButton?.setImage(closeImage, for: .normal)
     }
 
     @IBAction func closeTapped() {
