@@ -28,17 +28,17 @@
                         <constraint firstAttribute="height" constant="32" id="Olb-UY-Wam"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Pocket Casts Plus to unlock this feature, plus lots more!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbT-qC-8H3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Pocket Casts Plus to unlock this feature, plus lots more!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DbT-qC-8H3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="46" y="71" width="308" height="36"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubheadline"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBz-4T-Gr5" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="KBz-4T-Gr5" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="161" y="121" width="78" height="18"/>
                     <accessibility key="accessibilityConfiguration" label="Learn More"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="18" id="KYJ-cn-slt"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="KYJ-cn-slt"/>
                     </constraints>
                     <state key="normal" title="Learn More"/>
                     <connections>
@@ -48,8 +48,8 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iCq-f6-WDO" customClass="TintableImageButton" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="364" y="20" width="20" height="20"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="20" id="dMv-wE-AIM"/>
-                        <constraint firstAttribute="width" constant="20" id="tOG-8T-LeW"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="dMv-wE-AIM"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="tOG-8T-LeW"/>
                     </constraints>
                     <color key="tintColor" systemColor="scrollViewTexturedBackgroundColor"/>
                     <state key="normal" image="close"/>
@@ -74,6 +74,9 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DbT-qC-8H3" secondAttribute="trailing" constant="40" id="jTw-fZ-IWV"/>
                 <constraint firstItem="DbT-qC-8H3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pVH-ei-ik0" secondAttribute="leading" constant="40" id="rfW-Bz-ZyJ"/>
                 <constraint firstAttribute="trailing" secondItem="iCq-f6-WDO" secondAttribute="trailing" constant="16" id="rlq-hg-bDN"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="KBz-4T-Gr5" secondAttribute="bottom" constant="22" id="btm-Yz-KZB"/>
+                <constraint firstItem="KBz-4T-Gr5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pVH-ei-ik0" secondAttribute="leading" constant="40" id="lmb-Ld-9X1"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KBz-4T-Gr5" secondAttribute="trailing" constant="40" id="tmb-Tr-2X2"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="132" y="120"/>

@@ -44,24 +44,45 @@ class AnimatedImageButton: UIView {
 
     private var lastCGRectRendered = CGRect.zero
 
-    private let textFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    private var textFont: UIFont {
+        UIFont.font(with: .subheadline, weight: .medium)
+    }
 
     override var intrinsicContentSize: CGSize {
-        var labelSize = (buttonTitle as NSString).size(withAttributes: [.font: textFont])
-        labelSize.width += buttonImage?.frame.width ?? 0
-        labelSize.width += 38 // Margins and spacing
-        return labelSize
+        let labelSize = (buttonTitle as NSString).size(withAttributes: [.font: textFont])
+        let imageWidth = buttonImage?.frame.width ?? 0
+        let width = labelSize.width + imageWidth + 38 // Margins and spacing
+        let height = max(40, ceil(textFont.lineHeight) + 20) // Minimum height of 40, padding of 20
+        return CGSize(width: width, height: height)
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         enablePointerInteraction()
+        registerForContentSizeCategoryChanges()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         enablePointerInteraction()
+        registerForContentSizeCategoryChanges()
+    }
+
+    private func registerForContentSizeCategoryChanges() {
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc private func contentSizeCategoryDidChange() {
+        updateTextLayerFont()
+        lastCGRectRendered = .zero
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
+    }
+
+    private func updateTextLayerFont() {
+        textLayer.fontSize = textFont.pointSize
+        textLayer.font = CGFont(textFont.fontName as CFString)
     }
 
     override func prepareForInterfaceBuilder() {
@@ -87,11 +108,15 @@ class AnimatedImageButton: UIView {
         shapeLayer.frame = alteredRect
         shapeLayer.path = UIBezierPath(roundedRect: alteredRect, cornerRadius: cornerRadius).cgPath
 
+        let textHeight = ceil(textFont.lineHeight)
+        let textY = (alteredRect.height - textHeight) / 2
+
         if let buttonImage = buttonImage {
-            textLayer.frame = CGRect(x: imageSize, y: (alteredRect.height / 2) - 7, width: alteredRect.width - (imageSize / 2), height: 18)
-            buttonImage.frame = CGRect(x: 15, y: (alteredRect.height / 2) - 7, width: imageSize, height: imageSize)
+            let imageY = (alteredRect.height - imageSize) / 2
+            textLayer.frame = CGRect(x: imageSize, y: textY, width: alteredRect.width - (imageSize / 2), height: textHeight)
+            buttonImage.frame = CGRect(x: 15, y: imageY, width: imageSize, height: imageSize)
         } else {
-            textLayer.frame = CGRect(x: 0, y: (alteredRect.height / 2) - 7, width: alteredRect.width, height: 18)
+            textLayer.frame = CGRect(x: 0, y: textY, width: alteredRect.width, height: textHeight)
         }
 
         invalidateIntrinsicContentSize()

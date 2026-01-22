@@ -11,7 +11,13 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
-    @IBOutlet var lastRefreshTime: UILabel!
+    @IBOutlet var lastRefreshTime: ThemeableLabel! {
+        didSet {
+            lastRefreshTime.style = .primaryText02
+            lastRefreshTime.font = UIFont.font(with: .subheadline)
+            lastRefreshTime.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var refreshBtn: AnimatedImageButton! {
         didSet {
             refreshBtn.mainColor = ThemeColor.primaryText02()
@@ -166,7 +172,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     private func updateRefreshFooterColors() {
         refreshBtn.mainColor = ThemeColor.primaryText02()
-        lastRefreshTime.textColor = ThemeColor.primaryText02()
         alertIcon.tintColor = ThemeColor.primaryIcon02()
     }
 

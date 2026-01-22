@@ -28,13 +28,17 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText02
+            infoLabel.font = UIFont.font(with: .subheadline)
+            infoLabel.adjustsFontForContentSizeCategory = true
             setInfoLabelText()
         }
     }
 
     @IBOutlet var closeButton: TintableImageButton! {
         didSet {
-            closeButton.setImage(UIImage(named: "close"), for: .normal)
+            let symbolConfig = UIImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+            let closeImage = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
+            closeButton.setImage(closeImage, for: .normal)
             closeButton.tintColor = ThemeColor.primaryIcon02()
         }
     }
@@ -43,6 +47,10 @@ class PlusLockedInfoView: ThemeableView {
         didSet {
             learnMoreButton.style = .primaryInteractive01
             learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
+            learnMoreButton.titleLabel?.font = UIFont.font(with: .subheadline)
+            learnMoreButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            learnMoreButton.titleLabel?.numberOfLines = 0
+            learnMoreButton.titleLabel?.textAlignment = .center
         }
     }
 
