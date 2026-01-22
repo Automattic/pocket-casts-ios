@@ -28,7 +28,7 @@
                         <constraint firstAttribute="height" constant="32" id="Olb-UY-Wam"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Pocket Casts Plus to unlock this feature, plus lots more!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DbT-qC-8H3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Pocket Casts Plus to unlock this feature, plus lots more!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DbT-qC-8H3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="46" y="71" width="308" height="36"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubheadline"/>
                     <nil key="textColor"/>

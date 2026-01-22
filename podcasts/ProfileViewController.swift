@@ -14,7 +14,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     @IBOutlet var lastRefreshTime: ThemeableLabel! {
         didSet {
             lastRefreshTime.style = .primaryText02
-            lastRefreshTime.font = UIFont.font(with: .subheadline)
+            lastRefreshTime.font = UIFont.font(with: .subheadline, maxSizeCategory: .accessibilityMedium)
             lastRefreshTime.adjustsFontForContentSizeCategory = true
         }
     }

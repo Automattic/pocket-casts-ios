@@ -28,7 +28,7 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText02
-            infoLabel.font = UIFont.font(with: .subheadline)
+            infoLabel.font = UIFont.font(with: .subheadline, maxSizeCategory: .accessibilityMedium)
             infoLabel.adjustsFontForContentSizeCategory = true
             setInfoLabelText()
         }
@@ -47,7 +47,7 @@ class PlusLockedInfoView: ThemeableView {
         didSet {
             learnMoreButton.style = .primaryInteractive01
             learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
-            learnMoreButton.titleLabel?.font = UIFont.font(with: .subheadline)
+            learnMoreButton.titleLabel?.font = UIFont.font(with: .subheadline, maxSizeCategory: .accessibilityMedium)
             learnMoreButton.titleLabel?.adjustsFontForContentSizeCategory = true
             learnMoreButton.titleLabel?.numberOfLines = 0
             learnMoreButton.titleLabel?.textAlignment = .center
