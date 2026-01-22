@@ -381,6 +381,8 @@
     <string>可用套餐</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>领取优惠</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>继续取消</string>
     <key>cancel_subscription_generic_error</key>
     <string>发生错误。 请稍后重试。</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Pocket Casts。</string>
     <string>发现和搜索</string>
     <key>settings_status_discover_description</key>
     <string>应用程序的“发现”部分，包括播客搜索。</string>
+    <key>settings_status_expensive_network</key>
+    <string>不计量的 Wifi</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>如果成功，此网络将用于通过不计量的 Wifi 进行的下载。</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>您当前使用的网络被标记为资费较高。 请尝试切换至 Wi-Fi 网络或禁用低数据模式。</string>
     <key>settings_status_host</key>
     <string>常见播客主机</string>
     <key>settings_status_host_description</key>

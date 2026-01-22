@@ -381,6 +381,8 @@
     <string>Доступные тарифные планы</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Воспользоваться предложением</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Отменить и продолжить</string>
     <key>cancel_subscription_generic_error</key>
     <string>Произошла ошибка. Повторите попытку позже.</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Pocket Casts на полную мощность.</string>
     <string>Поиск</string>
     <key>settings_status_discover_description</key>
     <string>Поисковый раздел приложения, включая поиск подкастов.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Безлимитный Wi-Fi</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>В случае успеха эта сеть будет использоваться для загрузок по безлимитному Wi-Fi.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Ваше текущее подключение помечено как дорогое. Попробуйте переключиться на Wi-Fi или отключить режим экономии трафика.</string>
     <key>settings_status_host</key>
     <string>Распространённые хостинги подкастов</string>
     <key>settings_status_host_description</key>

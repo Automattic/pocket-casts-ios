@@ -379,6 +379,8 @@ Download de app voor de volledige ervaring!</string>
     <string>Beschikbare abonnementen</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Aanbieding claimen</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Doorgaan met annuleren</string>
     <key>cancel_subscription_generic_error</key>
     <string>Er is een fout opgetreden. Probeer het later opnieuw.</string>
     <key>cancel_subscription_help_description</key>
@@ -3258,6 +3260,12 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Ontdekken en zoeken</string>
     <key>settings_status_discover_description</key>
     <string>Het gedeelte Ontdekken van de app, waaronder podcasts zoeken.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Alleen wifi zonder limiet</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Als dit lukt, wordt dit netwerk gebruikt voor downloads op Onbeperkte wifi.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Je huidige netwerk is gemarkeerd als duur. Probeer over te schakelen naar Wi-Fi of schakel de Low Data-modus uit.</string>
     <key>settings_status_host</key>
     <string>Veelgebruikte Podcast-hosts</string>
     <key>settings_status_host_description</key>

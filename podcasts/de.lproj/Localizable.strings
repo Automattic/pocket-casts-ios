@@ -381,6 +381,8 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Verfügbare Tarife</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Angebot nutzen</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Mit Kündigung fortfahren</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ein Fehler ist aufgetreten. Bitte versuche es später erneut.</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Entdecken und suchen</string>
     <key>settings_status_discover_description</key>
     <string>Der Abschnitt „Entdecken“ der App, einschließlich Podcast-Suche.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Nicht getaktetes WLAN</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Wenn das funktioniert, wird dieses Netzwerk für Downloads über nicht getaktetes WLAN verwendet.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Dein aktuelles Netzwerk ist als teuer markiert. Wechsle zu WLAN oder deaktiviere den Datensparmodus.</string>
     <key>settings_status_host</key>
     <string>Gängige Podcast-Hosts</string>
     <key>settings_status_host_description</key>
