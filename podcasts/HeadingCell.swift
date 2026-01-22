@@ -1,7 +1,11 @@
 import UIKit
 
 class HeadingCell: ThemeableCell {
-    @IBOutlet var heading: UILabel!
+    @IBOutlet var heading: UILabel! {
+        didSet {
+            heading.font = UIFont.font(ofSize: 22, weight: .medium, scalingWith: .title2)
+        }
+    }
     @IBOutlet var button: UIButton!
 
     var action: (() -> Void)?
