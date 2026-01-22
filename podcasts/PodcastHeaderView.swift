@@ -33,7 +33,7 @@ struct PodcastHeaderView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer().frame(height: 16)
+            Spacer().frame(height: titleBottomMargin)
             HStack(alignment: .top) {
                 Spacer()
                 PodcastImageViewWrapper(podcastUUID: viewModel.podcast.uuid, size: .detail)
@@ -49,7 +49,7 @@ struct PodcastHeaderView: View {
                 Spacer()
             }
             VStack(spacing: 0) {
-                Spacer().frame(height: 24)
+                Spacer().frame(height: itemMargin)
                 podcastCategory
             }
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
@@ -57,16 +57,16 @@ struct PodcastHeaderView: View {
                 .clipped()
             Spacer().frame(height: topMarginForTitle)
             podcastTitle
-            Spacer().frame(height: 16 - bottomMarginAdjustmentForTitle)
+            Spacer().frame(height: titleBottomMargin - bottomMarginAdjustmentForTitle)
             StarRatingView(viewModel: viewModel.podcastRatingViewModel,
                            style: .short,
                            onRate: {
                 viewModel.podcastRatingViewModel.update(podcast: viewModel.podcast, ignoringCache: true)
             })
-            Spacer().frame(height: 16)
+            Spacer().frame(height: titleBottomMargin)
             podcastActions
             Spacer().frame(height: 24)
-            VStack(spacing: 16) {
+            VStack(spacing: titleBottomMargin) {
                 podcastDescription
                 podcastDetails
                 Spacer().frame(height: 24)
@@ -105,14 +105,18 @@ struct PodcastHeaderView: View {
         return -font.descender
     }
 
+    @ScaledMetric(relativeTo: .body) private var titleBottomMargin = 16
+    @ScaledMetric(relativeTo: .title2) private var itemMargin = 24
+
     private var podcastTitle: some View {
         HStack(spacing: 0) {
             Text(viewModel.podcast.title ?? "")
                 .font(.title2).bold()
                 .fixedSize(horizontal: false, vertical: true)
             Image("chevron-small-down")
+                .resizable()
                 .renderingMode(.template)
-                .frame(width: 24, height: 24)
+                .frame(width: itemMargin, height: itemMargin)
                 .padding(.horizontal, 4)
                 .rotationEffect(.degrees(viewModel.isExpanded ? 180 : 0))
                 .contentShape(Rectangle())
