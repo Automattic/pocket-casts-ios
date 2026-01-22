@@ -23,12 +23,14 @@ class SimpleActionView: UIView {
 
     func actionWasAdded() {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 2
         label.text = action.label
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        label.topAnchor.constraint(equalToSystemSpacingBelow: self.layoutMarginsGuide.topAnchor, multiplier: 1).isActive = true
 
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
 
@@ -60,7 +62,8 @@ class SimpleActionView: UIView {
 
         if let secondaryText = action.secondaryLabel {
             let secondaryLabel = UILabel()
-            secondaryLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+            secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
+            secondaryLabel.adjustsFontForContentSizeCategory = true
             secondaryLabel.numberOfLines = 2
             secondaryLabel.text = secondaryText
             // swiftlint:disable:next inverse_text_alignment
@@ -150,4 +153,8 @@ class SimpleActionView: UIView {
             delegate?.animateOut(optionChosen: true)
         }
     }
+
+//    override var intrinsicContentSize: CGSize {
+//        return titleLabel?.textRect(forBounds: self.bounds, limitedToNumberOfLines: 2).size ?? .zero
+//    }
 }
