@@ -43,6 +43,7 @@ class TimeStepperCell: ThemeableCell {
         cellTextToImageConstraint.isActive = true
         cellImage.tintColor = tintColor
         cellImage.image = UIImage(named: imageName)
+        updateSize()
     }
 
     func configureAccessibilityLabel(text: String, time: Int) {
@@ -57,4 +58,17 @@ class TimeStepperCell: ThemeableCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+
+    private func updateSize() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+
+        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        updateSize()
+    }
 }

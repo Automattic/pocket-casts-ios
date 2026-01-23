@@ -16,8 +16,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SOQ-VW-YTk">
-                        <rect key="frame" x="16" y="10" width="24" height="24"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SOQ-VW-YTk">
+                        <rect key="frame" x="16" y="20" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="Gg3-l0-aGr"/>
                             <constraint firstAttribute="width" constant="24" id="hea-T1-u6c"/>
@@ -36,11 +36,12 @@
                 <constraints>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6N7-rg-IqN"/>
                     <constraint firstAttribute="trailing" secondItem="7R8-mL-FCf" secondAttribute="trailing" constant="5" id="9V9-27-d2T"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="height" relation="greaterThanOrEqual" secondItem="SOQ-VW-YTk" secondAttribute="height" id="9sS-RV-TvM"/>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="10" id="CL0-C3-qSk"/>
                     <constraint firstAttribute="bottom" secondItem="7R8-mL-FCf" secondAttribute="bottom" id="FXr-HC-OBf"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fnJ-O2-KwA"/>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="gMv-6M-2OZ"/>
-                    <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="u75-d4-sat"/>
+                    <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="7R8-mL-FCf" secondAttribute="centerY" id="u75-d4-sat"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

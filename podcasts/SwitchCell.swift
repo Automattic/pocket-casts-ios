@@ -45,6 +45,7 @@ class SwitchCell: ThemeableCell {
         cellTextToImageConstraint.isActive = true
         cellImage.tintColor = cellSwitch.onTintColor
         cellImage.image = UIImage(named: imageName)
+        updateSize()
     }
 
     func setNoImage() {
@@ -58,12 +59,17 @@ class SwitchCell: ThemeableCell {
     override func accessibilityActivate() -> Bool {
         return isLocked
     }
-    
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        // Ensure the label's preferredMaxLayoutWidth is set for proper wrapping
-        cellLabel.preferredMaxLayoutWidth = cellLabel.bounds.width
-        layoutIfNeeded()
-        
-        return super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+
+    private func updateSize() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+
+        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        updateSize()
     }
 }
