@@ -75,14 +75,31 @@ class WatchSyncManager {
         UserDefaults.standard.set(true, forKey: updateKey)
     }
 
+    private lazy var contextUpdateDebouncer = ContextUpdateDebouncer(interval: 2.0) { [weak self] in
+        self?.processContextUpdate()
+    }
+
     @objc func handleContextUpdate() {
+        if FeatureFlag.watchUpNextSyncFix.enabled {
+            // Debounce context updates to allow watch to fully process phone's changes
+            // before deciding whether to sync. This prevents the watch from sending
+            // stale Up Next data that could overwrite recent phone changes.
+            contextUpdateDebouncer.call()
+        } else {
+            processContextUpdate()
+        }
+    }
+
+    private func processContextUpdate() {
         if updateLoginDetailsIfRequired() {
             return
         } else {
-            if isPlusUser(),
-               WKApplication.shared().applicationState == .background,
-               compareUpNextLists() == .watchNeedsUpdate,
-               !SyncManager.isFirstSyncInProgress() {
+            if WatchSyncDecision.shouldPerformBackgroundRefresh(
+                isPlusUser: isPlusUser(),
+                isAppInBackground: WKApplication.shared().applicationState == .background,
+                comparisonResult: compareUpNextLists(),
+                isFirstSyncInProgress: SyncManager.isFirstSyncInProgress()
+            ) {
                let subscribedPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
                BackgroundSyncManager.shared.performBackgroundRefresh(subscribedPodcasts: subscribedPodcasts)
             } else {
@@ -287,53 +304,16 @@ class WatchSyncManager {
         pendingChangeNotification = .none
     }
 
-    enum upNextComparisonResult: Int {
-        case same, phoneNeedsUpdate, watchNeedsUpdate, notEnoughInformation
-    }
-
-    private func compareUpNextLists() -> upNextComparisonResult {
-        let watchEpisodeCount = PlaybackManager.shared.queue.upNextCount()
-
-        guard let phoneEpisodes = WatchDataManager.upNextEpisodes(), phoneEpisodes.count > 0 else {
-            if watchEpisodeCount == 0 {
-                return .same
-            } else {
-                return .phoneNeedsUpdate
-            }
-        }
-
-        let phoneUpNextCount = WatchDataManager.upNextCount()
-        // The phone sends us a truncated list, and if the total count is higher than that we can't determine which list is newer because we're missing info
-        if phoneUpNextCount > phoneEpisodes.count { return .notEnoughInformation }
-
-        let watchEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
-        if phoneEpisodes.count == watchEpisodes.count {
-            // if they are both 0, nothing to do
-            if watchEpisodes.count == 0 {
-                return .same
-            }
-
-            var allMatch = true
-            for (index, episode) in watchEpisodes.enumerated() {
-                if episode.uuid != phoneEpisodes[index].uuid {
-                    allMatch = false
-                    break
-                }
-            }
-            if allMatch {
-                return .same
-            }
-        }
-
-        guard let lastServerRefresh = ServerSettings.lastRefreshStartTime() else {
-            return .watchNeedsUpdate
-        }
-
-        if lastServerRefresh > WatchDataManager.lastDataTime() {
-            return .phoneNeedsUpdate
-        } else {
-            return .watchNeedsUpdate
-        }
+    private func compareUpNextLists() -> UpNextComparisonResult {
+        UpNextListComparator.compare(
+            phoneEpisodes: WatchDataManager.upNextEpisodes(),
+            phoneUpNextCount: WatchDataManager.upNextCount(),
+            watchEpisodes: PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false),
+            watchEpisodeCount: PlaybackManager.shared.queue.upNextCount(),
+            lastServerRefresh: ServerSettings.lastRefreshStartTime(),
+            lastWatchDataTime: WatchDataManager.lastDataTime(),
+            useConservativeComparison: FeatureFlag.watchUpNextSyncFix.enabled
+        )
     }
 
     func isPlusUser() -> Bool {
