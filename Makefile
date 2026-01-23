@@ -25,13 +25,24 @@ generate_colors: ## Generate colors and themes based on themes.csv
 generate_code:
 	$(call run_in_buildtools,generate-code-for-resources --config ../swiftgen.yml)
 
-lint:
+lint: ## Lint the codebase
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS))
 
 lint_lenient:
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --lenient)
 
-format:
+build: ## Builds the Debug configuration using Xcode
+	xcodebuild -project podcasts.xcodeproj \
+       -scheme pocketcasts \
+       -configuration Debug \
+       build
+
+test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
+	xcodebuild test -project podcasts.xcodeproj \
+	    -scheme pocketcasts \
+        -only-testing:PocketCastsTests
+
+format: ## Lint and autocorrect linter errors
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 
 upload_dsyms: ## Upload dSYMs

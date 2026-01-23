@@ -1,7 +1,17 @@
+import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 
 struct DebugInfo {
+    private static func formattedFreeDiskSpace() -> String {
+        guard let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let values = try? documentURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]),
+              let capacity = values.volumeAvailableCapacityForImportantUsage else {
+            return "Unknown"
+        }
+        return capacity.formatted(.byteCount(style: .file))
+    }
+
     static func string(optOut: Bool) -> String {
         let syncEmail: String
         if SyncManager.isUserLoggedIn(), let email = ServerSettings.syncingEmail() {
@@ -20,7 +30,8 @@ struct DebugInfo {
         OS: \(DeviceUtil.systemVersion ?? "Unknown")
         Local Time: \(localTime)
         UTC Time: \(gmtTime)
-        Watch App Installed: \(WatchManager.shared.isWatchAppInstalled ? "yes" : "no")\n
+        Watch App Installed: \(WatchManager.shared.isWatchAppInstalled ? "yes" : "no")
+        Free Disk Space: \(formattedFreeDiskSpace())\n
         """
 
         guard !optOut else { return debugString }

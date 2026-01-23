@@ -39,7 +39,6 @@ class PodcastShortcutsViewController: PCViewController, UITableViewDelegate, UIT
         let viewController = INUIAddVoiceShortcutViewController(shortcut: newShortcut)
         viewController.modalPresentationStyle = .formSheet
         viewController.delegate = delegate
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
         present(viewController, animated: true, completion: nil)
     }
 }

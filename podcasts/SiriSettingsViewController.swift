@@ -120,14 +120,12 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             let viewController = INUIEditVoiceShortcutViewController(voiceShortcut: enabledShortcuts[indexPath.row])
             viewController.modalPresentationStyle = .formSheet
             viewController.delegate = self
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true, completion: nil)
 
         case .suggestedSection:
             let viewController = INUIAddVoiceShortcutViewController(shortcut: suggestedShortcuts[indexPath.row])
             viewController.modalPresentationStyle = .formSheet
             viewController.delegate = self
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
             present(viewController, animated: true, completion: nil)
         case .playSection:
             let row = playRows[indexPath.row]
@@ -262,7 +260,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         tableView.reloadData()
         navigationController?.popToViewController(self, animated: false)
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
 
         reloadData()
 
@@ -271,7 +268,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     // MARK: INUIEditVoiceShortcutViewControllerDelegate
@@ -281,7 +277,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         reloadData()
         navigationController?.popToViewController(self, animated: false)
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
@@ -291,14 +286,12 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         }
         navigationController?.popToViewController(self, animated: false)
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
 
         Analytics.track(.settingsSiriShortcutRemoved)
     }
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
     }
 
     @IBAction func tryAgainTapped() {

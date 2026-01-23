@@ -9,7 +9,6 @@ struct ThemeColor {
     private static let primaryUi01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let primaryUi01Electric = UIColor(hex: "#19232B")
     private static let primaryUi01Indigo = UIColor(hex: "#ECEDE6")
-    private static let primaryUi01Radioactive = UIColor(hex: "#162F1E")
     private static let primaryUi01Rosé = UIColor(hex: "#fff0eb")
     private static let primaryUi01ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryUi01ContrastDark = UIColor(hex: "#000000")
@@ -19,7 +18,6 @@ struct ThemeColor {
     private static let primaryUi01ActiveClassicLight = UIColor(hex: "#F7F9FA")
     private static let primaryUi01ActiveElectric = UIColor(hex: "#171C24")
     private static let primaryUi01ActiveIndigo = UIColor(hex: "#F1F2EF")
-    private static let primaryUi01ActiveRadioactive = UIColor(hex: "#193D25")
     private static let primaryUi01ActiveRosé = UIColor(hex: "#fff9f7")
     private static let primaryUi01ActiveContrastLight = UIColor(hex: "#f7f9fa")
     private static let primaryUi01ActiveContrastDark = UIColor(hex: "#1b1b1b")
@@ -29,7 +27,6 @@ struct ThemeColor {
     private static let primaryUi02ClassicLight = UIColor(hex: "#FFFFFF")
     private static let primaryUi02Electric = UIColor(hex: "#161A20")
     private static let primaryUi02Indigo = UIColor(hex: "#F4F5F2")
-    private static let primaryUi02Radioactive = UIColor(hex: "#0d1b11")
     private static let primaryUi02Rosé = UIColor(hex: "#FFEEED")
     private static let primaryUi02ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryUi02ContrastDark = UIColor(hex: "#000000")
@@ -39,7 +36,6 @@ struct ThemeColor {
     private static let primaryUi02SelectedClassicLight = UIColor(hex: "#FEECEB")
     private static let primaryUi02SelectedElectric = UIColor(hex: "#1A2C34")
     private static let primaryUi02SelectedIndigo = UIColor(hex: "#E2E4E5")
-    private static let primaryUi02SelectedRadioactive = UIColor(hex: "#173119")
     private static let primaryUi02SelectedRosé = UIColor(hex: "#f7caca")
     private static let primaryUi02SelectedContrastLight = UIColor(hex: "#e5e5e5")
     private static let primaryUi02SelectedContrastDark = UIColor(hex: "#262626")
@@ -49,7 +45,6 @@ struct ThemeColor {
     private static let primaryUi02ActiveClassicLight = UIColor(hex: "#F7F9FA")
     private static let primaryUi02ActiveElectric = UIColor(hex: "#1B212A")
     private static let primaryUi02ActiveIndigo = UIColor(hex: "#F7F9FA")
-    private static let primaryUi02ActiveRadioactive = UIColor(hex: "#0d1b11")
     private static let primaryUi02ActiveRosé = UIColor(hex: "#fce2de")
     private static let primaryUi02ActiveContrastLight = UIColor(hex: "#f2f2f2")
     private static let primaryUi02ActiveContrastDark = UIColor(hex: "#1b1b1b")
@@ -59,7 +54,6 @@ struct ThemeColor {
     private static let primaryUi03ClassicLight = UIColor(hex: "#FAFAF9")
     private static let primaryUi03Electric = UIColor(hex: "#171C25")
     private static let primaryUi03Indigo = UIColor(hex: "#EFEFEF")
-    private static let primaryUi03Radioactive = UIColor(hex: "#162f1e")
     private static let primaryUi03Rosé = UIColor(hex: "#F7E2E2")
     private static let primaryUi03ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryUi03ContrastDark = UIColor(hex: "#000000")
@@ -69,7 +63,6 @@ struct ThemeColor {
     private static let primaryUi04ClassicLight = UIColor(hex: "#F7F9FA")
     private static let primaryUi04Electric = UIColor(hex: "#111419")
     private static let primaryUi04Indigo = UIColor(hex: "#ECEDE6")
-    private static let primaryUi04Radioactive = UIColor(hex: "#111419")
     private static let primaryUi04Rosé = UIColor(hex: "#FCE6E6")
     private static let primaryUi04ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryUi04ContrastDark = UIColor(hex: "#000000")
@@ -79,7 +72,6 @@ struct ThemeColor {
     private static let primaryUi05ClassicLight = UIColor(hex: "#E0E6EA")
     private static let primaryUi05Electric = UIColor(hex: "#1E3C4A")
     private static let primaryUi05Indigo = UIColor(hex: "#D8DCDC")
-    private static let primaryUi05Radioactive = UIColor(hex: "#27591a")
     private static let primaryUi05Rosé = UIColor(hex: "#f5d1c4")
     private static let primaryUi05ContrastLight = UIColor(hex: "#e4e4e4")
     private static let primaryUi05ContrastDark = UIColor(hex: "#333333")
@@ -89,7 +81,6 @@ struct ThemeColor {
     private static let primaryUi05SelectedClassicLight = UIColor(hex: "#8F97A4")
     private static let primaryUi05SelectedElectric = UIColor(hex: "#3FD2E6")
     private static let primaryUi05SelectedIndigo = UIColor(hex: "#556675")
-    private static let primaryUi05SelectedRadioactive = UIColor(hex: "#70e84e")
     private static let primaryUi05SelectedRosé = UIColor(hex: "#e53958")
     private static let primaryUi05SelectedContrastLight = UIColor(hex: "#000000")
     private static let primaryUi05SelectedContrastDark = UIColor(hex: "#ffffff")
@@ -99,7 +90,6 @@ struct ThemeColor {
     private static let primaryUi06ClassicLight = UIColor(hex: "#F7F9FA")
     private static let primaryUi06Electric = UIColor(hex: "#1B2933")
     private static let primaryUi06Indigo = UIColor(hex: "#E8E8DF")
-    private static let primaryUi06Radioactive = UIColor(hex: "#1a3e11")
     private static let primaryUi06Rosé = UIColor(hex: "#fff8f7")
     private static let primaryUi06ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryUi06ContrastDark = UIColor(hex: "#000000")
@@ -109,7 +99,6 @@ struct ThemeColor {
     private static let primaryIcon01ClassicLight = UIColor(hex: "#F43E37")
     private static let primaryIcon01Electric = UIColor(hex: "#3FD2E6")
     private static let primaryIcon01Indigo = UIColor(hex: "#3D4E70")
-    private static let primaryIcon01Radioactive = UIColor(hex: "#74f864")
     private static let primaryIcon01Rosé = UIColor(hex: "#f05d54")
     private static let primaryIcon01ContrastLight = UIColor(hex: "#000000")
     private static let primaryIcon01ContrastDark = UIColor(hex: "#ffffff")
@@ -119,7 +108,6 @@ struct ThemeColor {
     private static let primaryIcon01ActiveClassicLight = UIColor(hex: "#F49D9A")
     private static let primaryIcon01ActiveElectric = UIColor(hex: "#8AE9FF")
     private static let primaryIcon01ActiveIndigo = UIColor(hex: "#586784")
-    private static let primaryIcon01ActiveRadioactive = UIColor(hex: "#70e84e")
     private static let primaryIcon01ActiveRosé = UIColor(hex: "#ff6f66")
     private static let primaryIcon01ActiveContrastLight = UIColor(hex: "#3f3f3f")
     private static let primaryIcon01ActiveContrastDark = UIColor(hex: "#bebebe")
@@ -129,7 +117,6 @@ struct ThemeColor {
     private static let primaryIcon02ClassicLight = UIColor(hex: "#B8C3C9")
     private static let primaryIcon02Electric = UIColor(hex: "#16698C")
     private static let primaryIcon02Indigo = UIColor(hex: "#9DA7B5")
-    private static let primaryIcon02Radioactive = UIColor(hex: "#59bc3d")
     private static let primaryIcon02Rosé = UIColor(hex: "#F58C87")
     private static let primaryIcon02ContrastLight = UIColor(hex: "#808080")
     private static let primaryIcon02ContrastDark = UIColor(hex: "#b2b2b2")
@@ -139,7 +126,6 @@ struct ThemeColor {
     private static let primaryIcon02SelectedClassicLight = UIColor(hex: "#F43E37")
     private static let primaryIcon02SelectedElectric = UIColor(hex: "#3FD2E6")
     private static let primaryIcon02SelectedIndigo = UIColor(hex: "#3F4B6A")
-    private static let primaryIcon02SelectedRadioactive = UIColor(hex: "#9FF2B1")
     private static let primaryIcon02SelectedRosé = UIColor(hex: "#f22469")
     private static let primaryIcon02SelectedContrastLight = UIColor(hex: "#0225C2")
     private static let primaryIcon02SelectedContrastDark = UIColor(hex: "#ffffff")
@@ -149,7 +135,6 @@ struct ThemeColor {
     private static let primaryIcon02ActiveClassicLight = UIColor(hex: "#8F97A4")
     private static let primaryIcon02ActiveElectric = UIColor(hex: "#3FD2E6")
     private static let primaryIcon02ActiveIndigo = UIColor(hex: "#8F97A4")
-    private static let primaryIcon02ActiveRadioactive = UIColor(hex: "#70e84e")
     private static let primaryIcon02ActiveRosé = UIColor(hex: "#f55c53")
     private static let primaryIcon02ActiveContrastLight = UIColor(hex: "#000000").withAlphaComponent(0.75)
     private static let primaryIcon02ActiveContrastDark = UIColor(hex: "#000000").withAlphaComponent(0.75)
@@ -159,7 +144,6 @@ struct ThemeColor {
     private static let primaryIcon03ClassicLight = UIColor(hex: "#8F97A4")
     private static let primaryIcon03Electric = UIColor(hex: "#2A7683")
     private static let primaryIcon03Indigo = UIColor(hex: "#6D7B87")
-    private static let primaryIcon03Radioactive = UIColor(hex: "#70e84e")
     private static let primaryIcon03Rosé = UIColor(hex: "#e54558")
     private static let primaryIcon03ContrastLight = UIColor(hex: "#656565")
     private static let primaryIcon03ContrastDark = UIColor(hex: "#656565")
@@ -169,7 +153,6 @@ struct ThemeColor {
     private static let primaryIcon03ActiveClassicLight = UIColor(hex: "#03A9F4")
     private static let primaryIcon03ActiveElectric = UIColor(hex: "#8AE9FF")
     private static let primaryIcon03ActiveIndigo = UIColor(hex: "#70ADD1")
-    private static let primaryIcon03ActiveRadioactive = UIColor(hex: "#70e84e")
     private static let primaryIcon03ActiveRosé = UIColor(hex: "#ff7373")
     private static let primaryIcon03ActiveContrastLight = UIColor(hex: "#000000")
     private static let primaryIcon03ActiveContrastDark = UIColor(hex: "#ffffff")
@@ -179,7 +162,6 @@ struct ThemeColor {
     private static let primaryText01ClassicLight = UIColor(hex: "#292B2E")
     private static let primaryText01Electric = UIColor(hex: "#FFFFFF")
     private static let primaryText01Indigo = UIColor(hex: "#323E5C")
-    private static let primaryText01Radioactive = UIColor(hex: "#74f864")
     private static let primaryText01Rosé = UIColor(hex: "#990038")
     private static let primaryText01ContrastLight = UIColor(hex: "#000000")
     private static let primaryText01ContrastDark = UIColor(hex: "#ffffff")
@@ -189,7 +171,6 @@ struct ThemeColor {
     private static let primaryText02ClassicLight = UIColor(hex: "#8F97A4")
     private static let primaryText02Electric = UIColor(hex: "#21ADDB")
     private static let primaryText02Indigo = UIColor(hex: "#7E8999")
-    private static let primaryText02Radioactive = UIColor(hex: "#469431")
     private static let primaryText02Rosé = UIColor(hex: "#E52535")
     private static let primaryText02ContrastLight = UIColor(hex: "#595959")
     private static let primaryText02ContrastDark = UIColor(hex: "#d9d9d9")
@@ -199,7 +180,6 @@ struct ThemeColor {
     private static let primaryText02SelectedClassicLight = UIColor(hex: "#F43E37")
     private static let primaryText02SelectedElectric = UIColor(hex: "#3FD2E6")
     private static let primaryText02SelectedIndigo = UIColor(hex: "#333D58")
-    private static let primaryText02SelectedRadioactive = UIColor(hex: "#9FF2B1")
     private static let primaryText02SelectedRosé = UIColor(hex: "#d90048")
     private static let primaryText02SelectedContrastLight = UIColor(hex: "#023087")
     private static let primaryText02SelectedContrastDark = UIColor(hex: "#ffffff")
@@ -209,7 +189,6 @@ struct ThemeColor {
     private static let primaryField01ClassicLight = UIColor(hex: "#EFF3F5")
     private static let primaryField01Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.09)
     private static let primaryField01Indigo = UIColor(hex: "#E7E8E1")
-    private static let primaryField01Radioactive = UIColor(hex: "#1a3e11")
     private static let primaryField01Rosé = UIColor(hex: "#fffdfc")
     private static let primaryField01ContrastLight = UIColor(hex: "#f1f1f1")
     private static let primaryField01ContrastDark = UIColor(hex: "#272727")
@@ -219,7 +198,6 @@ struct ThemeColor {
     private static let primaryField01ActiveClassicLight = UIColor(hex: "#E0E6EA")
     private static let primaryField01ActiveElectric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.14)
     private static let primaryField01ActiveIndigo = UIColor(hex: "#EBEADA")
-    private static let primaryField01ActiveRadioactive = UIColor(hex: "#27591a")
     private static let primaryField01ActiveRosé = UIColor(hex: "#ffffff")
     private static let primaryField01ActiveContrastLight = UIColor(hex: "#e4e4e4")
     private static let primaryField01ActiveContrastDark = UIColor(hex: "#181818")
@@ -229,7 +207,6 @@ struct ThemeColor {
     private static let primaryField02ClassicLight = UIColor(hex: "#FBFBFC")
     private static let primaryField02Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.09)
     private static let primaryField02Indigo = UIColor(hex: "#FBFBFC")
-    private static let primaryField02Radioactive = UIColor(hex: "#1a3e11")
     private static let primaryField02Rosé = UIColor(hex: "#fffbfa")
     private static let primaryField02ContrastLight = UIColor(hex: "#fbfbfc")
     private static let primaryField02ContrastDark = UIColor(hex: "#1a1a1a")
@@ -239,7 +216,6 @@ struct ThemeColor {
     private static let primaryField02ActiveClassicLight = UIColor(hex: "#FFFFFF")
     private static let primaryField02ActiveElectric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.14)
     private static let primaryField02ActiveIndigo = UIColor(hex: "#FFFFFF")
-    private static let primaryField02ActiveRadioactive = UIColor(hex: "#27591a")
     private static let primaryField02ActiveRosé = UIColor(hex: "#ffffff")
     private static let primaryField02ActiveContrastLight = UIColor(hex: "#ffffff")
     private static let primaryField02ActiveContrastDark = UIColor(hex: "#0c0c0c")
@@ -249,7 +225,6 @@ struct ThemeColor {
     private static let primaryField03ClassicLight = UIColor(hex: "#B8C3C9")
     private static let primaryField03Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.18)
     private static let primaryField03Indigo = UIColor(hex: "#B8C3C9")
-    private static let primaryField03Radioactive = UIColor(hex: "#257111")
     private static let primaryField03Rosé = UIColor(hex: "#f7caca")
     private static let primaryField03ContrastLight = UIColor(hex: "#7e7e7e")
     private static let primaryField03ContrastDark = UIColor(hex: "#808080")
@@ -259,7 +234,6 @@ struct ThemeColor {
     private static let primaryField03ActiveClassicLight = UIColor(hex: "#03A9F4")
     private static let primaryField03ActiveElectric = UIColor(hex: "#3FD2E6")
     private static let primaryField03ActiveIndigo = UIColor(hex: "#70ADD1")
-    private static let primaryField03ActiveRadioactive = UIColor(hex: "#70e84e")
     private static let primaryField03ActiveRosé = UIColor(hex: "#ffaebd")
     private static let primaryField03ActiveContrastLight = UIColor(hex: "#000000")
     private static let primaryField03ActiveContrastDark = UIColor(hex: "#ffffff")
@@ -269,7 +243,6 @@ struct ThemeColor {
     private static let primaryInteractive01ClassicLight = UIColor(hex: "#F43E37")
     private static let primaryInteractive01Electric = UIColor(hex: "#3FD2E6")
     private static let primaryInteractive01Indigo = UIColor(hex: "#639ED6")
-    private static let primaryInteractive01Radioactive = UIColor(hex: "#88FF66")
     private static let primaryInteractive01Rosé = UIColor(hex: "#ff7978")
     private static let primaryInteractive01ContrastLight = UIColor(hex: "#000000")
     private static let primaryInteractive01ContrastDark = UIColor(hex: "#ffffff")
@@ -279,7 +252,6 @@ struct ThemeColor {
     private static let primaryInteractive01HoverClassicLight = UIColor(hex: "#03A9F4")
     private static let primaryInteractive01HoverElectric = UIColor(hex: "#64DDF2")
     private static let primaryInteractive01HoverIndigo = UIColor(hex: "#AECBE5")
-    private static let primaryInteractive01HoverRadioactive = UIColor(hex: "#87ED7F")
     private static let primaryInteractive01HoverRosé = UIColor(hex: "#ff9f9e")
     private static let primaryInteractive01HoverContrastLight = UIColor(hex: "#212121")
     private static let primaryInteractive01HoverContrastDark = UIColor(hex: "#212121")
@@ -289,7 +261,6 @@ struct ThemeColor {
     private static let primaryInteractive01ActiveClassicLight = UIColor(hex: "#F43E37")
     private static let primaryInteractive01ActiveElectric = UIColor(hex: "#3FD2E6")
     private static let primaryInteractive01ActiveIndigo = UIColor(hex: "#94B4D1")
-    private static let primaryInteractive01ActiveRadioactive = UIColor(hex: "#9FF2B1")
     private static let primaryInteractive01ActiveRosé = UIColor(hex: "#ffc5c4")
     private static let primaryInteractive01ActiveContrastLight = UIColor(hex: "#404040")
     private static let primaryInteractive01ActiveContrastDark = UIColor(hex: "#404040")
@@ -299,7 +270,6 @@ struct ThemeColor {
     private static let primaryInteractive01DisabledClassicLight = UIColor(hex: "#F43E37").withAlphaComponent(0.25)
     private static let primaryInteractive01DisabledElectric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.25)
     private static let primaryInteractive01DisabledIndigo = UIColor(hex: "#8395A7").withAlphaComponent(0.25)
-    private static let primaryInteractive01DisabledRadioactive = UIColor(hex: "#59bc3d")
     private static let primaryInteractive01DisabledRosé = UIColor(hex: "#997272").withAlphaComponent(0.25)
     private static let primaryInteractive01DisabledContrastLight = UIColor(hex: "#F43E37").withAlphaComponent(0.25)
     private static let primaryInteractive01DisabledContrastDark = UIColor(hex: "#FB5146").withAlphaComponent(0.25)
@@ -309,7 +279,6 @@ struct ThemeColor {
     private static let primaryInteractive02ClassicLight = UIColor(hex: "#FFFFFF")
     private static let primaryInteractive02Electric = UIColor(hex: "#13171C")
     private static let primaryInteractive02Indigo = UIColor(hex: "#F8FAF2")
-    private static let primaryInteractive02Radioactive = UIColor(hex: "#131711")
     private static let primaryInteractive02Rosé = UIColor(hex: "#fdfaf9")
     private static let primaryInteractive02ContrastLight = UIColor(hex: "#ffffff")
     private static let primaryInteractive02ContrastDark = UIColor(hex: "#000000")
@@ -319,7 +288,6 @@ struct ThemeColor {
     private static let primaryInteractive02HoverClassicLight = UIColor(hex: "#03A9F4").withAlphaComponent(0.1)
     private static let primaryInteractive02HoverElectric = UIColor(hex: "#03A9F4").withAlphaComponent(0.1)
     private static let primaryInteractive02HoverIndigo = UIColor(hex: "#03A9F4").withAlphaComponent(0.1)
-    private static let primaryInteractive02HoverRadioactive = UIColor(hex: "#59BC3D").withAlphaComponent(0.1)
     private static let primaryInteractive02HoverRosé = UIColor(hex: "#f4032b").withAlphaComponent(0.1)
     private static let primaryInteractive02HoverContrastLight = UIColor(hex: "#cccccc")
     private static let primaryInteractive02HoverContrastDark = UIColor(hex: "#cccccc")
@@ -329,7 +297,6 @@ struct ThemeColor {
     private static let primaryInteractive02ActiveClassicLight = UIColor(hex: "#F43E37").withAlphaComponent(0.1)
     private static let primaryInteractive02ActiveElectric = UIColor(hex: "#9FE8F2").withAlphaComponent(0.1)
     private static let primaryInteractive02ActiveIndigo = UIColor(hex: "#94A6B4").withAlphaComponent(0.2)
-    private static let primaryInteractive02ActiveRadioactive = UIColor(hex: "#9FF2B1").withAlphaComponent(0.2)
     private static let primaryInteractive02ActiveRosé = UIColor(hex: "#ffffff").withAlphaComponent(0.8)
     private static let primaryInteractive02ActiveContrastLight = UIColor(hex: "#000000").withAlphaComponent(0.1)
     private static let primaryInteractive02ActiveContrastDark = UIColor(hex: "#000000").withAlphaComponent(0.1)
@@ -339,7 +306,6 @@ struct ThemeColor {
     private static let primaryInteractive03ClassicLight = UIColor(hex: "#D9D9D9")
     private static let primaryInteractive03Electric = UIColor(hex: "#284D5C")
     private static let primaryInteractive03Indigo = UIColor(hex: "#D1D8DE")
-    private static let primaryInteractive03Radioactive = UIColor(hex: "#1F5014")
     private static let primaryInteractive03Rosé = UIColor(hex: "#E0CED1")
     private static let primaryInteractive03ContrastLight = UIColor(hex: "#D9D9D9")
     private static let primaryInteractive03ContrastDark = UIColor(hex: "#595959")
@@ -349,7 +315,6 @@ struct ThemeColor {
     private static let secondaryUi01ClassicLight = UIColor(hex: "#F43E37")
     private static let secondaryUi01Electric = UIColor(hex: "#212835")
     private static let secondaryUi01Indigo = UIColor(hex: "#32364F")
-    private static let secondaryUi01Radioactive = UIColor(hex: "#162f1e")
     private static let secondaryUi01Rosé = UIColor(hex: "#FFC2C0")
     private static let secondaryUi01ContrastLight = UIColor(hex: "#ffffff")
     private static let secondaryUi01ContrastDark = UIColor(hex: "#000000")
@@ -359,7 +324,6 @@ struct ThemeColor {
     private static let secondaryUi02ClassicLight = UIColor(hex: "#F43E37")
     private static let secondaryUi02Electric = UIColor(hex: "#2C384B")
     private static let secondaryUi02Indigo = UIColor(hex: "#32364F")
-    private static let secondaryUi02Radioactive = UIColor(hex: "#162f1e")
     private static let secondaryUi02Rosé = UIColor(hex: "#FCB3B1")
     private static let secondaryUi02ContrastLight = UIColor(hex: "#bfbfbf")
     private static let secondaryUi02ContrastDark = UIColor(hex: "#333333")
@@ -369,7 +333,6 @@ struct ThemeColor {
     private static let secondaryIcon01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let secondaryIcon01Electric = UIColor(hex: "#3FD2E6")
     private static let secondaryIcon01Indigo = UIColor(hex: "#F3F1E4")
-    private static let secondaryIcon01Radioactive = UIColor(hex: "#70e84e")
     private static let secondaryIcon01Rosé = UIColor(hex: "#d40019")
     private static let secondaryIcon01ContrastLight = UIColor(hex: "#000000")
     private static let secondaryIcon01ContrastDark = UIColor(hex: "#ffffff")
@@ -379,7 +342,6 @@ struct ThemeColor {
     private static let secondaryIcon02ClassicLight = UIColor(hex: "#FFFFFF")
     private static let secondaryIcon02Electric = UIColor(hex: "#16698C")
     private static let secondaryIcon02Indigo = UIColor(hex: "#DEDEDE")
-    private static let secondaryIcon02Radioactive = UIColor(hex: "#70e84e")
     private static let secondaryIcon02Rosé = UIColor(hex: "#de3e59")
     private static let secondaryIcon02ContrastLight = UIColor(hex: "#000000")
     private static let secondaryIcon02ContrastDark = UIColor(hex: "#cdcdcd")
@@ -389,7 +351,6 @@ struct ThemeColor {
     private static let secondaryText01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let secondaryText01Electric = UIColor(hex: "#3FD2E6")
     private static let secondaryText01Indigo = UIColor(hex: "#EAE8DC")
-    private static let secondaryText01Radioactive = UIColor(hex: "#70e84e")
     private static let secondaryText01Rosé = UIColor(hex: "#990059")
     private static let secondaryText01ContrastLight = UIColor(hex: "#000000")
     private static let secondaryText01ContrastDark = UIColor(hex: "#ffffff")
@@ -399,7 +360,6 @@ struct ThemeColor {
     private static let secondaryText02ClassicLight = UIColor(hex: "#FFFFFF")
     private static let secondaryText02Electric = UIColor(hex: "#16698C")
     private static let secondaryText02Indigo = UIColor(hex: "#DEDEDE")
-    private static let secondaryText02Radioactive = UIColor(hex: "#70e84e")
     private static let secondaryText02Rosé = UIColor(hex: "#ab494d")
     private static let secondaryText02ContrastLight = UIColor(hex: "#000000").withAlphaComponent(0.8)
     private static let secondaryText02ContrastDark = UIColor(hex: "#d9d9d9")
@@ -409,7 +369,6 @@ struct ThemeColor {
     private static let secondaryField01ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.2)
     private static let secondaryField01Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.09)
     private static let secondaryField01Indigo = UIColor(hex: "#EFF3F5").withAlphaComponent(0.15)
-    private static let secondaryField01Radioactive = UIColor(hex: "#1a3e11")
     private static let secondaryField01Rosé = UIColor(hex: "#fbf0ef").withAlphaComponent(0.5)
     private static let secondaryField01ContrastLight = UIColor(hex: "#f2f2f2")
     private static let secondaryField01ContrastDark = UIColor(hex: "#252525")
@@ -419,7 +378,6 @@ struct ThemeColor {
     private static let secondaryField01ActiveClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.3)
     private static let secondaryField01ActiveElectric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.14)
     private static let secondaryField01ActiveIndigo = UIColor(hex: "#FFFFFF").withAlphaComponent(0.3)
-    private static let secondaryField01ActiveRadioactive = UIColor(hex: "#27591a")
     private static let secondaryField01ActiveRosé = UIColor(hex: "#fbf0ef")
     private static let secondaryField01ActiveContrastLight = UIColor(hex: "#f8f8f8")
     private static let secondaryField01ActiveContrastDark = UIColor(hex: "#1a1a1a")
@@ -429,7 +387,6 @@ struct ThemeColor {
     private static let secondaryInteractive01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let secondaryInteractive01Electric = UIColor(hex: "#3FD2E6")
     private static let secondaryInteractive01Indigo = UIColor(hex: "#FFFFFF")
-    private static let secondaryInteractive01Radioactive = UIColor(hex: "#88FF66")
     private static let secondaryInteractive01Rosé = UIColor(hex: "#cf1133")
     private static let secondaryInteractive01ContrastLight = UIColor(hex: "#000000")
     private static let secondaryInteractive01ContrastDark = UIColor(hex: "#ffffff")
@@ -439,7 +396,6 @@ struct ThemeColor {
     private static let secondaryInteractive01HoverClassicLight = UIColor(hex: "#50D0F1")
     private static let secondaryInteractive01HoverElectric = UIColor(hex: "#64DDF2")
     private static let secondaryInteractive01HoverIndigo = UIColor(hex: "#C9CFDA")
-    private static let secondaryInteractive01HoverRadioactive = UIColor(hex: "#70e84e")
     private static let secondaryInteractive01HoverRosé = UIColor(hex: "#c9cfda")
     private static let secondaryInteractive01HoverContrastLight = UIColor(hex: "#212121")
     private static let secondaryInteractive01HoverContrastDark = UIColor(hex: "#212121")
@@ -449,10 +405,10 @@ struct ThemeColor {
     private static let secondaryInteractive01ActiveClassicLight = UIColor(hex: "#F99F9B")
     private static let secondaryInteractive01ActiveElectric = UIColor(hex: "#9FE8F2")
     private static let secondaryInteractive01ActiveIndigo = UIColor(hex: "#949FB5")
-    private static let secondaryInteractive01ActiveRadioactive = UIColor(hex: "#59bc3d")
     private static let secondaryInteractive01ActiveRosé = UIColor(hex: "#e8415f")
     private static let secondaryInteractive01ActiveContrastLight = UIColor(hex: "#404040")
     private static let secondaryInteractive01ActiveContrastDark = UIColor(hex: "#c0c0c0")
+
     static func podcastUi01Light(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastUi01Dark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#292B2E") }
@@ -468,8 +424,6 @@ struct ThemeColor {
     static func podcastUi01Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#737B80"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
-
-    static func podcastUi01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#162f1e") }
 
     static func podcastUi01Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FBE2DD"), overlayColor: podcastColor.withAlphaComponent(0.1))
@@ -500,8 +454,6 @@ struct ThemeColor {
     static func podcastUi02Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#DBDBD5"), overlayColor: podcastColor.withAlphaComponent(0.05))
     }
-
-    static func podcastUi02Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#162F1E") }
 
     static func podcastUi02Rosé(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFD9D9") }
 
@@ -535,8 +487,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#17181F"), overlayColor: podcastColor.withAlphaComponent(0.2))
     }
 
-    static func podcastUi03Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#112417") }
-
     static func podcastUi03Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#996B72"), overlayColor: podcastColor.withAlphaComponent(0.4))
     }
@@ -560,8 +510,6 @@ struct ThemeColor {
     static func podcastUi04Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#737B80"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
-
-    static func podcastUi04Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#27591a") }
 
     static func podcastUi04Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#EBD3CE"), overlayColor: podcastColor.withAlphaComponent(0.15))
@@ -592,8 +540,6 @@ struct ThemeColor {
     static func podcastUi05Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#272938"), overlayColor: podcastColor.withAlphaComponent(0.3))
     }
-
-    static func podcastUi05Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#1D3D27") }
 
     static func podcastUi05Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#B27982"), overlayColor: podcastColor.withAlphaComponent(0.4))
@@ -629,8 +575,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#343852"), overlayColor: podcastColor.withAlphaComponent(0.4))
     }
 
-    static func podcastUi06Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#254B31") }
-
     static func podcastUi06Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#CC8F98"), overlayColor: podcastColor.withAlphaComponent(0.45))
     }
@@ -663,8 +607,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#F3F1E4"), overlayColor: podcastColor.withAlphaComponent(0.15))
     }
 
-    static func podcastIcon01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#70e84e") }
-
     static func podcastIcon01Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#B2365F"), overlayColor: podcastColor.withAlphaComponent(0.45))
     }
@@ -695,8 +637,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#919CB2"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
 
-    static func podcastIcon02Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
-
     static func podcastIcon02Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
@@ -723,8 +663,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#45516E"), overlayColor: podcastColor.withAlphaComponent(0.2))
     }
 
-    static func podcastIcon03Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#70e84e") }
-
     static func podcastIcon03Rosé(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FF737E") }
 
     static func podcastIcon03ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
@@ -748,8 +686,6 @@ struct ThemeColor {
     static func podcastText01Electric(podcastColor: UIColor) -> UIColor { UIColor(hex: "#3FD2E6") }
 
     static func podcastText01Indigo(podcastColor: UIColor) -> UIColor { UIColor(hex: "#EAE8DD") }
-
-    static func podcastText01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
 
     static func podcastText01Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#4D262C"), overlayColor: podcastColor.withAlphaComponent(0.3))
@@ -781,8 +717,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#919CB2"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
 
-    static func podcastText02Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#59bc3d") }
-
     static func podcastText02Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
@@ -812,8 +746,6 @@ struct ThemeColor {
     static func podcastInteractive01Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#919CB2"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
-
-    static func podcastInteractive01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
 
     static func podcastInteractive01Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.35))
@@ -845,8 +777,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#91A5CC"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
 
-    static func podcastInteractive01ActiveRadioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#9FF2B1") }
-
     static func podcastInteractive01ActiveRosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.3))
     }
@@ -866,8 +796,6 @@ struct ThemeColor {
     static func podcastInteractive02Electric(podcastColor: UIColor) -> UIColor { UIColor(hex: "#212835") }
 
     static func podcastInteractive02Indigo(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
-
-    static func podcastInteractive02Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#0B0D0F") }
 
     static func podcastInteractive02Rosé(podcastColor: UIColor) -> UIColor { UIColor(hex: "#F8EDED") }
 
@@ -897,13 +825,11 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#807D73"), overlayColor: podcastColor.withAlphaComponent(0.65))
     }
 
-    static func podcastInteractive03Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
-
     static func podcastInteractive03Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.65))
     }
 
-    static func podcastInteractive03ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
+    static func podcastInteractive03ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastInteractive03ContrastDark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
 
@@ -929,8 +855,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#807D74"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
 
-    static func podcastInteractive03ActiveRadioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#9FF2B1") }
-
     static func podcastInteractive03ActiveRosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#A66C7F"), overlayColor: podcastColor.withAlphaComponent(0.35))
     }
@@ -954,8 +878,6 @@ struct ThemeColor {
     static func podcastInteractive04Electric(podcastColor: UIColor) -> UIColor { UIColor(hex: "#212835") }
 
     static func podcastInteractive04Indigo(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
-
-    static func podcastInteractive04Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#0B0D0F") }
 
     static func podcastInteractive04Rosé(podcastColor: UIColor) -> UIColor { UIColor(hex: "#000000") }
 
@@ -985,13 +907,11 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#807D74"), overlayColor: podcastColor.withAlphaComponent(0.45))
     }
 
-    static func podcastInteractive05Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
-
     static func podcastInteractive05Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#4D262C"), overlayColor: podcastColor.withAlphaComponent(0.3))
     }
 
-    static func podcastInteractive05ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
+    static func podcastInteractive05ContrastLight(podcastColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
 
     static func podcastInteractive05ContrastDark(podcastColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
 
@@ -1018,8 +938,6 @@ struct ThemeColor {
     static func podcastOndarkIndigo(podcastColor: UIColor) -> UIColor {
         podcastColor
     }
-
-    static func podcastOndarkRadioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#428C2E") }
 
     static func podcastOndarkRosé(podcastColor: UIColor) -> UIColor {
         podcastColor
@@ -1057,8 +975,6 @@ struct ThemeColor {
         podcastColor
     }
 
-    static func podcastOnlightRadioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#27591A") }
-
     static func podcastOnlightRosé(podcastColor: UIColor) -> UIColor {
         podcastColor
     }
@@ -1086,8 +1002,6 @@ struct ThemeColor {
     static func filterUi01Indigo(filterColor: UIColor) -> UIColor {
         filterColor
     }
-
-    static func filterUi01Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#162f1e") }
 
     static func filterUi01Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FCEEEB"), overlayColor: filterColor.withAlphaComponent(0.3))
@@ -1117,8 +1031,6 @@ struct ThemeColor {
 
     static func filterUi02Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#F19D38") }
 
-    static func filterUi02Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#162F1E") }
-
     static func filterUi02Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FBEBE8"), overlayColor: filterColor.withAlphaComponent(0.2))
     }
@@ -1147,8 +1059,6 @@ struct ThemeColor {
 
     static func filterUi03Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#F19D38") }
 
-    static func filterUi03Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#112417") }
-
     static func filterUi03Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#261316"), overlayColor: filterColor.withAlphaComponent(0.35))
     }
@@ -1172,8 +1082,6 @@ struct ThemeColor {
     static func filterUi04Indigo(filterColor: UIColor) -> UIColor {
         filterColor
     }
-
-    static func filterUi04Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#27591a") }
 
     static func filterUi04Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FCEEEB"), overlayColor: filterColor.withAlphaComponent(0.5))
@@ -1202,8 +1110,6 @@ struct ThemeColor {
     }
 
     static func filterIcon01Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#F4F5F2") }
-
-    static func filterIcon01Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#3fe664") }
 
     static func filterIcon01Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#401920"), overlayColor: filterColor.withAlphaComponent(0.6))
@@ -1241,8 +1147,6 @@ struct ThemeColor {
         filterColor
     }
 
-    static func filterIcon02Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#3fe664") }
-
     static func filterIcon02Rosé(filterColor: UIColor) -> UIColor {
         filterColor
     }
@@ -1275,8 +1179,6 @@ struct ThemeColor {
 
     static func filterText01Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#E9EAE5") }
 
-    static func filterText01Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#3fe664") }
-
     static func filterText01Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#591F2A"), overlayColor: filterColor.withAlphaComponent(0.4))
     }
@@ -1306,8 +1208,6 @@ struct ThemeColor {
     }
 
     static func filterText02Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
-
-    static func filterText02Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#3fe664") }
 
     static func filterText02Rosé(filterColor: UIColor) -> UIColor {
         filterColor
@@ -1340,8 +1240,6 @@ struct ThemeColor {
     static func filterInteractive01Indigo(filterColor: UIColor) -> UIColor {
         filterColor
     }
-
-    static func filterInteractive01Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#74f864") }
 
     static func filterInteractive01Rosé(filterColor: UIColor) -> UIColor {
         filterColor
@@ -1379,8 +1277,6 @@ struct ThemeColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FFFFFF"), overlayColor: filterColor.withAlphaComponent(0.75))
     }
 
-    static func filterInteractive01ActiveRadioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#9FF2B1") }
-
     static func filterInteractive01ActiveRosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FBEBE8"), overlayColor: filterColor.withAlphaComponent(0.6))
     }
@@ -1404,8 +1300,6 @@ struct ThemeColor {
     static func filterInteractive02Electric(filterColor: UIColor) -> UIColor { UIColor(hex: "#212835") }
 
     static func filterInteractive02Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#FFFFFF") }
-
-    static func filterInteractive02Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#0B0D0F") }
 
     static func filterInteractive02Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FCF3F0"), overlayColor: filterColor.withAlphaComponent(0.1))
@@ -1435,8 +1329,6 @@ struct ThemeColor {
 
     static func filterInteractive03Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#F3F1E4") }
 
-    static func filterInteractive03Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#70e84e") }
-
     static func filterInteractive03Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#732836"), overlayColor: filterColor.withAlphaComponent(0.6))
     }
@@ -1464,8 +1356,6 @@ struct ThemeColor {
     }
 
     static func filterInteractive03ActiveIndigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#F3F1E4") }
-
-    static func filterInteractive03ActiveRadioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#9ff2b1") }
 
     static func filterInteractive03ActiveRosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#401920"), overlayColor: filterColor.withAlphaComponent(0.9))
@@ -1495,8 +1385,6 @@ struct ThemeColor {
         filterColor
     }
 
-    static func filterInteractive04Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#0B0D0F") }
-
     static func filterInteractive04Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#FBEBE8"), overlayColor: filterColor.withAlphaComponent(0.2))
     }
@@ -1518,8 +1406,6 @@ struct ThemeColor {
     }
 
     static func filterInteractive05Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#ECEDE6") }
-
-    static func filterInteractive05Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#70e84e") }
 
     static func filterInteractive05Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#401920"), overlayColor: filterColor.withAlphaComponent(0.3))
@@ -1543,8 +1429,6 @@ struct ThemeColor {
 
     static func filterInteractive06Indigo(filterColor: UIColor) -> UIColor { UIColor(hex: "#7C839E") }
 
-    static func filterInteractive06Radioactive(filterColor: UIColor) -> UIColor { UIColor(hex: "#70e84e") }
-
     static func filterInteractive06Rosé(filterColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#401920"), overlayColor: filterColor.withAlphaComponent(0.9))
     }
@@ -1552,14 +1436,12 @@ struct ThemeColor {
     static func filterInteractive06ContrastLight(filterColor: UIColor) -> UIColor { UIColor(hex: "#000001") }
 
     static func filterInteractive06ContrastDark(filterColor: UIColor) -> UIColor { UIColor(hex: "#ffffff") }
-
     private static let support01Light = UIColor(hex: "#03A9F4")
     private static let support01Dark = UIColor(hex: "#33B8F4")
     private static let support01ExtraDark = UIColor(hex: "#50D0F1")
     private static let support01ClassicLight = UIColor(hex: "#03A9F4")
     private static let support01Electric = UIColor(hex: "#3FD2E6")
     private static let support01Indigo = UIColor(hex: "#4BA1D6")
-    private static let support01Radioactive = UIColor(hex: "#74f864")
     private static let support01Rosé = UIColor(hex: "#D93F99")
     private static let support01ContrastLight = UIColor(hex: "#03a9f4")
     private static let support01ContrastDark = UIColor(hex: "#03a9f4")
@@ -1569,7 +1451,6 @@ struct ThemeColor {
     private static let support02ClassicLight = UIColor(hex: "#78D549")
     private static let support02Electric = UIColor(hex: "#3FE664")
     private static let support02Indigo = UIColor(hex: "#54C483")
-    private static let support02Radioactive = UIColor(hex: "#70e84e")
     private static let support02Rosé = UIColor(hex: "#899c12")
     private static let support02ContrastLight = UIColor(hex: "#78d549")
     private static let support02ContrastDark = UIColor(hex: "#78d549")
@@ -1579,7 +1460,6 @@ struct ThemeColor {
     private static let support03ClassicLight = UIColor(hex: "#03A9F4")
     private static let support03Electric = UIColor(hex: "#0B3C50")
     private static let support03Indigo = UIColor(hex: "#3D4363")
-    private static let support03Radioactive = UIColor(hex: "#27591a")
     private static let support03Rosé = UIColor(hex: "#bf3950")
     private static let support03ContrastLight = UIColor(hex: "#343434")
     private static let support03ContrastDark = UIColor(hex: "#333333")
@@ -1589,7 +1469,6 @@ struct ThemeColor {
     private static let support04ClassicLight = UIColor(hex: "#187ADC")
     private static let support04Electric = UIColor(hex: "#093243")
     private static let support04Indigo = UIColor(hex: "#25273E")
-    private static let support04Radioactive = UIColor(hex: "#162f1e")
     private static let support04Rosé = UIColor(hex: "#991f3d")
     private static let support04ContrastLight = UIColor(hex: "#000000")
     private static let support04ContrastDark = UIColor(hex: "#262626")
@@ -1599,7 +1478,6 @@ struct ThemeColor {
     private static let support05ClassicLight = UIColor(hex: "#F43E37")
     private static let support05Electric = UIColor(hex: "#F84F44")
     private static let support05Indigo = UIColor(hex: "#D44A5A")
-    private static let support05Radioactive = UIColor(hex: "#489848")
     private static let support05Rosé = UIColor(hex: "#d44a5a")
     private static let support05ContrastLight = UIColor(hex: "#f43e37")
     private static let support05ContrastDark = UIColor(hex: "#FF6557")
@@ -1609,7 +1487,6 @@ struct ThemeColor {
     private static let support06ClassicLight = UIColor(hex: "#686C74")
     private static let support06Electric = UIColor(hex: "#093243")
     private static let support06Indigo = UIColor(hex: "#90A5B8")
-    private static let support06Radioactive = UIColor(hex: "#162f1e")
     private static let support06Rosé = UIColor(hex: "#ad86a0")
     private static let support06ContrastLight = UIColor(hex: "#1a1a1a")
     private static let support06ContrastDark = UIColor(hex: "#262626")
@@ -1619,7 +1496,6 @@ struct ThemeColor {
     private static let support07ClassicLight = UIColor(hex: "#FFFFFF")
     private static let support07Electric = UIColor(hex: "#FFFFFF")
     private static let support07Indigo = UIColor(hex: "#FFFFFF")
-    private static let support07Radioactive = UIColor(hex: "#70e84e")
     private static let support07Rosé = UIColor(hex: "#ffffff")
     private static let support07ContrastLight = UIColor(hex: "#ffffff")
     private static let support07ContrastDark = UIColor(hex: "#ffffff")
@@ -1629,7 +1505,6 @@ struct ThemeColor {
     private static let support08ClassicLight = UIColor(hex: "#FF9D3B")
     private static let support08Electric = UIColor(hex: "#F6A935")
     private static let support08Indigo = UIColor(hex: "#B26428")
-    private static let support08Radioactive = UIColor(hex: "#70e84e")
     private static let support08Rosé = UIColor(hex: "#b26428")
     private static let support08ContrastLight = UIColor(hex: "#ff9d3b")
     private static let support08ContrastDark = UIColor(hex: "#ff9d3b")
@@ -1639,7 +1514,6 @@ struct ThemeColor {
     private static let support09ClassicLight = UIColor(hex: "#080808")
     private static let support09Electric = UIColor(hex: "#212835")
     private static let support09Indigo = UIColor(hex: "#232637")
-    private static let support09Radioactive = UIColor(hex: "#111419")
     private static let support09Rosé = UIColor(hex: "#FD4D90")
     private static let support09ContrastLight = UIColor(hex: "#000000")
     private static let support09ContrastDark = UIColor(hex: "#000000")
@@ -1649,10 +1523,10 @@ struct ThemeColor {
     private static let support10ClassicLight = UIColor(hex: "#FEB700")
     private static let support10Electric = UIColor(hex: "#FEEC4C")
     private static let support10Indigo = UIColor(hex: "#F5C167")
-    private static let support10Radioactive = UIColor(hex: "#8DFF80")
     private static let support10Rosé = UIColor(hex: "#FF4FE2")
     private static let support10ContrastLight = UIColor(hex: "#FEB700")
     private static let support10ContrastDark = UIColor(hex: "#F5CA5B")
+
     static func playerBackground01Light(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#000000"), overlayColor: podcastColor.withAlphaComponent(0.2))
     }
@@ -1672,8 +1546,6 @@ struct ThemeColor {
     static func playerBackground01Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#17181F"), overlayColor: podcastColor.withAlphaComponent(0.08))
     }
-
-    static func playerBackground01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#162f1e") }
 
     static func playerBackground01Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#260006"), overlayColor: podcastColor.withAlphaComponent(0.15))
@@ -1702,8 +1574,6 @@ struct ThemeColor {
     static func playerBackground02Indigo(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#17181F"), overlayColor: podcastColor.withAlphaComponent(0.16))
     }
-
-    static func playerBackground02Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#19451F") }
 
     static func playerBackground02Rosé(podcastColor: UIColor) -> UIColor {
         UIColor.calculateColor(orgColor: UIColor(hex: "#3B060E"), overlayColor: podcastColor.withAlphaComponent(0.22))
@@ -1736,8 +1606,6 @@ struct ThemeColor {
     static func playerHighlight01Indigo(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.8)
     }
-
-    static func playerHighlight01Radioactive(podcastColor: UIColor) -> UIColor { UIColor(hex: "#A5FF8C") }
 
     static func playerHighlight01Rosé(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.93)
@@ -1773,10 +1641,6 @@ struct ThemeColor {
 
     static func playerHighlight02Indigo(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.6)
-    }
-
-    static func playerHighlight02Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#9BFF80").withAlphaComponent(0.75)
     }
 
     static func playerHighlight02Rosé(podcastColor: UIColor) -> UIColor {
@@ -1815,10 +1679,6 @@ struct ThemeColor {
         podcastColor.withAlphaComponent(0.5)
     }
 
-    static func playerHighlight03Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#91FF73").withAlphaComponent(0.6)
-    }
-
     static func playerHighlight03Rosé(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.67)
     }
@@ -1853,10 +1713,6 @@ struct ThemeColor {
 
     static func playerHighlight04Indigo(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.4)
-    }
-
-    static func playerHighlight04Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#87FF66").withAlphaComponent(0.5)
     }
 
     static func playerHighlight04Rosé(podcastColor: UIColor) -> UIColor {
@@ -1895,10 +1751,6 @@ struct ThemeColor {
         podcastColor.withAlphaComponent(0.3)
     }
 
-    static func playerHighlight05Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#7DFF59").withAlphaComponent(0.4)
-    }
-
     static func playerHighlight05Rosé(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.41)
     }
@@ -1933,10 +1785,6 @@ struct ThemeColor {
 
     static func playerHighlight06Indigo(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.2)
-    }
-
-    static func playerHighlight06Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#73FF4D").withAlphaComponent(0.3)
     }
 
     static func playerHighlight06Rosé(podcastColor: UIColor) -> UIColor {
@@ -1975,10 +1823,6 @@ struct ThemeColor {
         podcastColor.withAlphaComponent(0.1)
     }
 
-    static func playerHighlight07Radioactive(podcastColor: UIColor) -> UIColor {
-        UIColor(hex: "#69FF40").withAlphaComponent(0.2)
-    }
-
     static func playerHighlight07Rosé(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.15)
     }
@@ -1990,14 +1834,12 @@ struct ThemeColor {
     static func playerHighlight07ContrastDark(podcastColor: UIColor) -> UIColor {
         podcastColor.withAlphaComponent(0.2)
     }
-
     private static let playerContrast01Light = UIColor(hex: "#FFFFFF")
     private static let playerContrast01Dark = UIColor(hex: "#FFFFFF")
     private static let playerContrast01ExtraDark = UIColor(hex: "#FFFFFF")
     private static let playerContrast01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let playerContrast01Electric = UIColor(hex: "#FFFFFF")
     private static let playerContrast01Indigo = UIColor(hex: "#C1C2BC")
-    private static let playerContrast01Radioactive = UIColor(hex: "#70e84e")
     private static let playerContrast01Rosé = UIColor(hex: "#ffd9d9")
     private static let playerContrast01ContrastLight = UIColor(hex: "#ffffff")
     private static let playerContrast01ContrastDark = UIColor(hex: "#ffffff")
@@ -2007,7 +1849,6 @@ struct ThemeColor {
     private static let playerContrast02ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.5)
     private static let playerContrast02Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.7)
     private static let playerContrast02Indigo = UIColor(hex: "#DBDBCE").withAlphaComponent(0.5)
-    private static let playerContrast02Radioactive = UIColor(hex: "#70e84e").withAlphaComponent(0.8)
     private static let playerContrast02Rosé = UIColor(hex: "#FFDCD6").withAlphaComponent(0.6)
     private static let playerContrast02ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.8)
     private static let playerContrast02ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.8)
@@ -2017,7 +1858,6 @@ struct ThemeColor {
     private static let playerContrast03ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.4)
     private static let playerContrast03Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.55)
     private static let playerContrast03Indigo = UIColor(hex: "#CFCCBE").withAlphaComponent(0.4)
-    private static let playerContrast03Radioactive = UIColor(hex: "#70e84e").withAlphaComponent(0.7)
     private static let playerContrast03Rosé = UIColor(hex: "#ffdcd6").withAlphaComponent(0.5)
     private static let playerContrast03ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.65)
     private static let playerContrast03ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.65)
@@ -2027,7 +1867,6 @@ struct ThemeColor {
     private static let playerContrast04ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.3)
     private static let playerContrast04Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.3)
     private static let playerContrast04Indigo = UIColor(hex: "#DADBD7").withAlphaComponent(0.3)
-    private static let playerContrast04Radioactive = UIColor(hex: "#56E52E").withAlphaComponent(0.32)
     private static let playerContrast04Rosé = UIColor(hex: "#ffe0db").withAlphaComponent(0.4)
     private static let playerContrast04ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.5)
     private static let playerContrast04ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.5)
@@ -2037,7 +1876,6 @@ struct ThemeColor {
     private static let playerContrast05ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.2)
     private static let playerContrast05Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.2)
     private static let playerContrast05Indigo = UIColor(hex: "#B1B5AA").withAlphaComponent(0.2)
-    private static let playerContrast05Radioactive = UIColor(hex: "#56E52E").withAlphaComponent(0.24)
     private static let playerContrast05Rosé = UIColor(hex: "#FFDCD6").withAlphaComponent(0.25)
     private static let playerContrast05ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.2)
     private static let playerContrast05ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.2)
@@ -2047,7 +1885,6 @@ struct ThemeColor {
     private static let playerContrast06ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.1)
     private static let playerContrast06Electric = UIColor(hex: "#3FD2E6").withAlphaComponent(0.1)
     private static let playerContrast06Indigo = UIColor(hex: "#C2C0B6").withAlphaComponent(0.1)
-    private static let playerContrast06Radioactive = UIColor(hex: "#56E52E").withAlphaComponent(0.18)
     private static let playerContrast06Rosé = UIColor(hex: "#ffdcd6").withAlphaComponent(0.1)
     private static let playerContrast06ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.1)
     private static let playerContrast06ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.1)
@@ -2057,7 +1894,6 @@ struct ThemeColor {
     private static let contrast01ClassicLight = UIColor(hex: "#FFFFFF")
     private static let contrast01Electric = UIColor(hex: "#FFFFFF")
     private static let contrast01Indigo = UIColor(hex: "#E2E3DC")
-    private static let contrast01Radioactive = UIColor(hex: "#70E84E")
     private static let contrast01Rosé = UIColor(hex: "#ffffff")
     private static let contrast01ContrastLight = UIColor(hex: "#ffffff")
     private static let contrast01ContrastDark = UIColor(hex: "#ffffff")
@@ -2067,7 +1903,6 @@ struct ThemeColor {
     private static let contrast02ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.7)
     private static let contrast02Electric = UIColor(hex: "#B2F6FF").withAlphaComponent(0.8)
     private static let contrast02Indigo = UIColor(hex: "#DBDBCE").withAlphaComponent(0.7)
-    private static let contrast02Radioactive = UIColor(hex: "#70e84e").withAlphaComponent(0.8)
     private static let contrast02Rosé = UIColor(hex: "#ffffff").withAlphaComponent(0.85)
     private static let contrast02ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.85)
     private static let contrast02ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.8)
@@ -2077,7 +1912,6 @@ struct ThemeColor {
     private static let contrast03ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.5)
     private static let contrast03Electric = UIColor(hex: "#B2F6FF").withAlphaComponent(0.6)
     private static let contrast03Indigo = UIColor(hex: "#DBDBCE").withAlphaComponent(0.5)
-    private static let contrast03Radioactive = UIColor(hex: "#70E84E").withAlphaComponent(0.7)
     private static let contrast03Rosé = UIColor(hex: "#ffffff").withAlphaComponent(0.7)
     private static let contrast03ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.7)
     private static let contrast03ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.6)
@@ -2087,7 +1921,6 @@ struct ThemeColor {
     private static let contrast04ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.1)
     private static let contrast04Electric = UIColor(hex: "#B2F6FF").withAlphaComponent(0.2)
     private static let contrast04Indigo = UIColor(hex: "#DBDBCE").withAlphaComponent(0.1)
-    private static let contrast04Radioactive = UIColor(hex: "#70E84E").withAlphaComponent(0.25)
     private static let contrast04Rosé = UIColor(hex: "#ffffff").withAlphaComponent(0.2)
     private static let contrast04ContrastLight = UIColor(hex: "#ffffff").withAlphaComponent(0.2)
     private static let contrast04ContrastDark = UIColor(hex: "#ffffff").withAlphaComponent(0.2)
@@ -2097,7 +1930,6 @@ struct ThemeColor {
     private static let filter01ClassicLight = UIColor(hex: "#F43E37")
     private static let filter01Electric = UIColor(hex: "#F84F44")
     private static let filter01Indigo = UIColor(hex: "#8E656B")
-    private static let filter01Radioactive = UIColor(hex: "#74f864")
     private static let filter01Rosé = UIColor(hex: "#d66e6c")
     private static let filter01ContrastLight = UIColor(hex: "#F43E37")
     private static let filter01ContrastDark = UIColor(hex: "#FF6557")
@@ -2107,7 +1939,6 @@ struct ThemeColor {
     private static let filter02ClassicLight = UIColor(hex: "#FF9D3B")
     private static let filter02Electric = UIColor(hex: "#F6A935")
     private static let filter02Indigo = UIColor(hex: "#A08B7B")
-    private static let filter02Radioactive = UIColor(hex: "#74f864")
     private static let filter02Rosé = UIColor(hex: "#dfa280")
     private static let filter02ContrastLight = UIColor(hex: "#E87400")
     private static let filter02ContrastDark = UIColor(hex: "#EB8118")
@@ -2117,7 +1948,6 @@ struct ThemeColor {
     private static let filter03ClassicLight = UIColor(hex: "#FEC635")
     private static let filter03Electric = UIColor(hex: "#CFE63F")
     private static let filter03Indigo = UIColor(hex: "#A59C80")
-    private static let filter03Radioactive = UIColor(hex: "#74f864")
     private static let filter03Rosé = UIColor(hex: "#e0b985")
     private static let filter03ContrastLight = UIColor(hex: "#BF8C00")
     private static let filter03ContrastDark = UIColor(hex: "#FFBF1A")
@@ -2127,7 +1957,6 @@ struct ThemeColor {
     private static let filter04ClassicLight = UIColor(hex: "#78D549")
     private static let filter04Electric = UIColor(hex: "#3FE664")
     private static let filter04Indigo = UIColor(hex: "#7C987D")
-    private static let filter04Radioactive = UIColor(hex: "#74f864")
     private static let filter04Rosé = UIColor(hex: "#b1b676")
     private static let filter04ContrastLight = UIColor(hex: "#39A800")
     private static let filter04ContrastDark = UIColor(hex: "#99FF66")
@@ -2137,7 +1966,6 @@ struct ThemeColor {
     private static let filter05ClassicLight = UIColor(hex: "#03A9F4")
     private static let filter05Electric = UIColor(hex: "#3FD2E6")
     private static let filter05Indigo = UIColor(hex: "#54829D")
-    private static let filter05Radioactive = UIColor(hex: "#74f864")
     private static let filter05Rosé = UIColor(hex: "#8196bc")
     private static let filter05ContrastLight = UIColor(hex: "#039DE3")
     private static let filter05ContrastDark = UIColor(hex: "#1AB8FF")
@@ -2147,7 +1975,6 @@ struct ThemeColor {
     private static let filter06ClassicLight = UIColor(hex: "#5D31C4")
     private static let filter06Electric = UIColor(hex: "#B65BFD")
     private static let filter06Indigo = UIColor(hex: "#5F5885")
-    private static let filter06Radioactive = UIColor(hex: "#74f864")
     private static let filter06Rosé = UIColor(hex: "#9b5c9e")
     private static let filter06ContrastLight = UIColor(hex: "#5D31C4")
     private static let filter06ContrastDark = UIColor(hex: "#CC73FF")
@@ -2157,7 +1984,6 @@ struct ThemeColor {
     private static let filter07ClassicLight = UIColor(hex: "#E93673")
     private static let filter07Electric = UIColor(hex: "#FF4BB7")
     private static let filter07Indigo = UIColor(hex: "#8B637A")
-    private static let filter07Radioactive = UIColor(hex: "#74f864")
     private static let filter07Rosé = UIColor(hex: "#d26c80")
     private static let filter07ContrastLight = UIColor(hex: "#E93673")
     private static let filter07ContrastDark = UIColor(hex: "#FF6680")
@@ -2167,7 +1993,6 @@ struct ThemeColor {
     private static let filter08ClassicLight = UIColor(hex: "#B8C3C9")
     private static let filter08Electric = UIColor(hex: "#BFBFBF")
     private static let filter08Indigo = UIColor(hex: "#9299A2")
-    private static let filter08Radioactive = UIColor(hex: "#74f864")
     private static let filter08Rosé = UIColor(hex: "#b8b8d8")
     private static let filter08ContrastLight = UIColor(hex: "#8C9499")
     private static let filter08ContrastDark = UIColor(hex: "#B8C3C9")
@@ -2177,7 +2002,6 @@ struct ThemeColor {
     private static let filter09ClassicLight = UIColor(hex: "#A177D9")
     private static let filter09Electric = UIColor(hex: "#FF94F1")
     private static let filter09Indigo = UIColor(hex: "#998A9E")
-    private static let filter09Radioactive = UIColor(hex: "#74f864")
     private static let filter09Rosé = UIColor(hex: "#6883BA")
     private static let filter09ContrastLight = UIColor(hex: "#A177D9")
     private static let filter09ContrastDark = UIColor(hex: "#9BA2FF")
@@ -2187,7 +2011,6 @@ struct ThemeColor {
     private static let filter10ClassicLight = UIColor(hex: "#3DAD88")
     private static let filter10Electric = UIColor(hex: "#58EDAC")
     private static let filter10Indigo = UIColor(hex: "#A4B391")
-    private static let filter10Radioactive = UIColor(hex: "#74f864")
     private static let filter10Rosé = UIColor(hex: "#546A76")
     private static let filter10ContrastLight = UIColor(hex: "#3DAD88")
     private static let filter10ContrastDark = UIColor(hex: "#32D9A9")
@@ -2197,7 +2020,6 @@ struct ThemeColor {
     private static let filter11ClassicLight = UIColor(hex: "#2555CF")
     private static let filter11Electric = UIColor(hex: "#0A9AFA")
     private static let filter11Indigo = UIColor(hex: "#84A0B0")
-    private static let filter11Radioactive = UIColor(hex: "#74f864")
     private static let filter11Rosé = UIColor(hex: "#998E87")
     private static let filter11ContrastLight = UIColor(hex: "#2555CF")
     private static let filter11ContrastDark = UIColor(hex: "#21E6ED")
@@ -2207,7 +2029,6 @@ struct ThemeColor {
     private static let filter12ClassicLight = UIColor(hex: "#945712")
     private static let filter12Electric = UIColor(hex: "#CCA083")
     private static let filter12Indigo = UIColor(hex: "#8C8C80")
-    private static let filter12Radioactive = UIColor(hex: "#74f864")
     private static let filter12Rosé = UIColor(hex: "#997F7F")
     private static let filter12ContrastLight = UIColor(hex: "#945712")
     private static let filter12ContrastDark = UIColor(hex: "#AD753D")
@@ -2217,7 +2038,6 @@ struct ThemeColor {
     private static let veilClassicLight = UIColor(hex: "#000000").withAlphaComponent(0.3)
     private static let veilElectric = UIColor(hex: "#000000").withAlphaComponent(0.5)
     private static let veilIndigo = UIColor(hex: "#25273E").withAlphaComponent(0.3)
-    private static let veilRadioactive = UIColor(hex: "#173d17").withAlphaComponent(0.75)
     private static let veilRosé = UIColor(hex: "#f2ccc7").withAlphaComponent(0.75)
     private static let veilContrastLight = UIColor(hex: "#000000").withAlphaComponent(0.3)
     private static let veilContrastDark = UIColor(hex: "#000000").withAlphaComponent(0.6)
@@ -2227,7 +2047,6 @@ struct ThemeColor {
     private static let gradient01AClassicLight = UIColor(hex: "#FED745")
     private static let gradient01AElectric = UIColor(hex: "#D7B32E")
     private static let gradient01AIndigo = UIColor(hex: "#F2D672")
-    private static let gradient01ARadioactive = UIColor(hex: "#948a00")
     private static let gradient01ARosé = UIColor(hex: "#ffcb78")
     private static let gradient01AContrastLight = UIColor(hex: "#FED745")
     private static let gradient01AContrastDark = UIColor(hex: "#D7B32E")
@@ -2237,7 +2056,6 @@ struct ThemeColor {
     private static let gradient01EClassicLight = UIColor(hex: "#FEB525")
     private static let gradient01EElectric = UIColor(hex: "#C18000")
     private static let gradient01EIndigo = UIColor(hex: "#F2B03D")
-    private static let gradient01ERadioactive = UIColor(hex: "#eeff00")
     private static let gradient01ERosé = UIColor(hex: "#ffaf4d")
     private static let gradient01EContrastLight = UIColor(hex: "#FEB525")
     private static let gradient01EContrastDark = UIColor(hex: "#C18000")
@@ -2247,7 +2065,6 @@ struct ThemeColor {
     private static let gradient02AClassicLight = UIColor(hex: "#03A9F4")
     private static let gradient02AElectric = UIColor(hex: "#54B29E")
     private static let gradient02AIndigo = UIColor(hex: "#5C8BCC")
-    private static let gradient02ARadioactive = UIColor(hex: "#3dbd4c")
     private static let gradient02ARosé = UIColor(hex: "#f0546e")
     private static let gradient02AContrastLight = UIColor(hex: "#03A9F4")
     private static let gradient02AContrastDark = UIColor(hex: "#3993AA")
@@ -2257,7 +2074,6 @@ struct ThemeColor {
     private static let gradient02EClassicLight = UIColor(hex: "#50D0F1")
     private static let gradient02EElectric = UIColor(hex: "#3FB7E6")
     private static let gradient02EIndigo = UIColor(hex: "#95B0E5")
-    private static let gradient02ERadioactive = UIColor(hex: "#a4f864")
     private static let gradient02ERosé = UIColor(hex: "#ff938c")
     private static let gradient02EContrastLight = UIColor(hex: "#50D0F1")
     private static let gradient02EContrastDark = UIColor(hex: "#008CCB")
@@ -2267,7 +2083,6 @@ struct ThemeColor {
     private static let gradient03AClassicLight = UIColor(hex: "#F43769")
     private static let gradient03AElectric = UIColor(hex: "#DE4010")
     private static let gradient03AIndigo = UIColor(hex: "#D96F8B")
-    private static let gradient03ARadioactive = UIColor(hex: "#538a11")
     private static let gradient03ARosé = UIColor(hex: "#c4459a")
     private static let gradient03AContrastLight = UIColor(hex: "#F43769")
     private static let gradient03AContrastDark = UIColor(hex: "#C9522E")
@@ -2277,7 +2092,6 @@ struct ThemeColor {
     private static let gradient03EClassicLight = UIColor(hex: "#FB5246")
     private static let gradient03EElectric = UIColor(hex: "#AB5068")
     private static let gradient03EIndigo = UIColor(hex: "#D94860")
-    private static let gradient03ERadioactive = UIColor(hex: "#f8e963")
     private static let gradient03ERosé = UIColor(hex: "#de435c")
     private static let gradient03EContrastLight = UIColor(hex: "#FB5246")
     private static let gradient03EContrastDark = UIColor(hex: "#B82E3C")
@@ -2287,7 +2101,6 @@ struct ThemeColor {
     private static let gradient04AClassicLight = UIColor(hex: "#78D549")
     private static let gradient04AElectric = UIColor(hex: "#38CC71")
     private static let gradient04AIndigo = UIColor(hex: "#66CC91")
-    private static let gradient04ARadioactive = UIColor(hex: "#579986")
     private static let gradient04ARosé = UIColor(hex: "#c1c917")
     private static let gradient04AContrastLight = UIColor(hex: "#78D549")
     private static let gradient04AContrastDark = UIColor(hex: "#7FB74F")
@@ -2297,7 +2110,6 @@ struct ThemeColor {
     private static let gradient04EClassicLight = UIColor(hex: "#9BE45E")
     private static let gradient04EElectric = UIColor(hex: "#519948")
     private static let gradient04EIndigo = UIColor(hex: "#90D977")
-    private static let gradient04ERadioactive = UIColor(hex: "#0ecc77")
     private static let gradient04ERosé = UIColor(hex: "#bbde47")
     private static let gradient04EContrastLight = UIColor(hex: "#9BE45E")
     private static let gradient04EContrastDark = UIColor(hex: "#508D32")
@@ -2307,7 +2119,6 @@ struct ThemeColor {
     private static let gradient05AClassicLight = UIColor(hex: "#E74B8A")
     private static let gradient05AElectric = UIColor(hex: "#CC3C92")
     private static let gradient05AIndigo = UIColor(hex: "#CC70A4")
-    private static let gradient05ARadioactive = UIColor(hex: "#53a26a")
     private static let gradient05ARosé = UIColor(hex: "#e5679a")
     private static let gradient05AContrastLight = UIColor(hex: "#E74B8A")
     private static let gradient05AContrastDark = UIColor(hex: "#BC4E7B")
@@ -2317,7 +2128,6 @@ struct ThemeColor {
     private static let gradient05EClassicLight = UIColor(hex: "#6046E9")
     private static let gradient05EElectric = UIColor(hex: "#8163B0")
     private static let gradient05EIndigo = UIColor(hex: "#7B73BF")
-    private static let gradient05ERadioactive = UIColor(hex: "#b0c073")
     private static let gradient05ERosé = UIColor(hex: "#af73bf")
     private static let gradient05EContrastLight = UIColor(hex: "#6046E9")
     private static let gradient05EContrastDark = UIColor(hex: "#6B59C7")
@@ -2327,7 +2137,6 @@ struct ThemeColor {
     private static let imageFilter01ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter01Electric = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter01Indigo = UIColor(hex: "#FFFFFF")
-    private static let imageFilter01Radioactive = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter01Rosé = UIColor(hex: "#FFFFFF")
     private static let imageFilter01ContrastLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter01ContrastDark = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
@@ -2337,7 +2146,6 @@ struct ThemeColor {
     private static let imageFilter02ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter02Electric = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter02Indigo = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
-    private static let imageFilter02Radioactive = UIColor(hex: "#FFFFFF").withAlphaComponent(0.15)
     private static let imageFilter02Rosé = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter02ContrastLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter02ContrastDark = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
@@ -2347,7 +2155,6 @@ struct ThemeColor {
     private static let imageFilter03ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter03Electric = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter03Indigo = UIColor(hex: "#FFFFFF")
-    private static let imageFilter03Radioactive = UIColor(hex: "#70E84E")
     private static let imageFilter03Rosé = UIColor(hex: "#FFFFFF")
     private static let imageFilter03ContrastLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter03ContrastDark = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
@@ -2357,7 +2164,6 @@ struct ThemeColor {
     private static let imageFilter04ClassicLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter04Electric = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter04Indigo = UIColor(hex: "#FFFFFF")
-    private static let imageFilter04Radioactive = UIColor(hex: "#70E84E").withAlphaComponent(0.5)
     private static let imageFilter04Rosé = UIColor(hex: "#FFFFFF")
     private static let imageFilter04ContrastLight = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
     private static let imageFilter04ContrastDark = UIColor(hex: "#FFFFFF").withAlphaComponent(0.0)
@@ -2367,7 +2173,6 @@ struct ThemeColor {
     private static let category01ClassicLight = UIColor(hex: "#F43E37")
     private static let category01Electric = UIColor(hex: "#3FD2E6")
     private static let category01Indigo = UIColor(hex: "#CE4A4E")
-    private static let category01Radioactive = UIColor(hex: "#74f864")
     private static let category01Rosé = UIColor(hex: "#CE4A4E")
     private static let category01ContrastLight = UIColor(hex: "#F43E37")
     private static let category01ContrastDark = UIColor(hex: "#F8574D")
@@ -2377,7 +2182,6 @@ struct ThemeColor {
     private static let category02ClassicLight = UIColor(hex: "#03A9F4")
     private static let category02Electric = UIColor(hex: "#3FD2E6")
     private static let category02Indigo = UIColor(hex: "#2998D0")
-    private static let category02Radioactive = UIColor(hex: "#74f864")
     private static let category02Rosé = UIColor(hex: "#2998D0")
     private static let category02ContrastLight = UIColor(hex: "#03A9F4")
     private static let category02ContrastDark = UIColor(hex: "#09B7DF")
@@ -2387,7 +2191,6 @@ struct ThemeColor {
     private static let category03ClassicLight = UIColor(hex: "#FEC635")
     private static let category03Electric = UIColor(hex: "#3FD2E6")
     private static let category03Indigo = UIColor(hex: "#EEC465")
-    private static let category03Radioactive = UIColor(hex: "#74f864")
     private static let category03Rosé = UIColor(hex: "#EEC465")
     private static let category03ContrastLight = UIColor(hex: "#FEC635")
     private static let category03ContrastDark = UIColor(hex: "#FEDD4A")
@@ -2397,7 +2200,6 @@ struct ThemeColor {
     private static let category04ClassicLight = UIColor(hex: "#187ADC")
     private static let category04Electric = UIColor(hex: "#3FD2E6")
     private static let category04Indigo = UIColor(hex: "#2C6EBC")
-    private static let category04Radioactive = UIColor(hex: "#74f864")
     private static let category04Rosé = UIColor(hex: "#2C6EBC")
     private static let category04ContrastLight = UIColor(hex: "#187ADC")
     private static let category04ContrastDark = UIColor(hex: "#22ABEA")
@@ -2407,7 +2209,6 @@ struct ThemeColor {
     private static let category05ClassicLight = UIColor(hex: "#3B862D")
     private static let category05Electric = UIColor(hex: "#3FD2E6")
     private static let category05Indigo = UIColor(hex: "#397B39")
-    private static let category05Radioactive = UIColor(hex: "#74f864")
     private static let category05Rosé = UIColor(hex: "#397B39")
     private static let category05ContrastLight = UIColor(hex: "#3B862D")
     private static let category05ContrastDark = UIColor(hex: "#53B63F")
@@ -2417,7 +2218,6 @@ struct ThemeColor {
     private static let category06ClassicLight = UIColor(hex: "#8F97A4")
     private static let category06Electric = UIColor(hex: "#3FD2E6")
     private static let category06Indigo = UIColor(hex: "#8091B3")
-    private static let category06Radioactive = UIColor(hex: "#74f864")
     private static let category06Rosé = UIColor(hex: "#8091B3")
     private static let category06ContrastLight = UIColor(hex: "#8F97A4")
     private static let category06ContrastDark = UIColor(hex: "#BCC0C8")
@@ -2427,7 +2227,6 @@ struct ThemeColor {
     private static let category07ClassicLight = UIColor(hex: "#B25900")
     private static let category07Electric = UIColor(hex: "#3FD2E6")
     private static let category07Indigo = UIColor(hex: "#96581C")
-    private static let category07Radioactive = UIColor(hex: "#74f864")
     private static let category07Rosé = UIColor(hex: "#96581C")
     private static let category07ContrastLight = UIColor(hex: "#B25900")
     private static let category07ContrastDark = UIColor(hex: "#D17D00")
@@ -2437,7 +2236,6 @@ struct ThemeColor {
     private static let category08ClassicLight = UIColor(hex: "#78D549")
     private static let category08Electric = UIColor(hex: "#3FD2E6")
     private static let category08Indigo = UIColor(hex: "#77C868")
-    private static let category08Radioactive = UIColor(hex: "#74f864")
     private static let category08Rosé = UIColor(hex: "#77C868")
     private static let category08ContrastLight = UIColor(hex: "#78D549")
     private static let category08ContrastDark = UIColor(hex: "#A8E666")
@@ -2447,7 +2245,6 @@ struct ThemeColor {
     private static let category09ClassicLight = UIColor(hex: "#FB8ECE")
     private static let category09Electric = UIColor(hex: "#3FD2E6")
     private static let category09Indigo = UIColor(hex: "#EA90CE")
-    private static let category09Radioactive = UIColor(hex: "#74f864")
     private static let category09Rosé = UIColor(hex: "#EA90CE")
     private static let category09ContrastLight = UIColor(hex: "#FB8ECE")
     private static let category09ContrastDark = UIColor(hex: "#FDBBE1")
@@ -2457,7 +2254,6 @@ struct ThemeColor {
     private static let category10ClassicLight = UIColor(hex: "#A866DB")
     private static let category10Electric = UIColor(hex: "#3FD2E6")
     private static let category10Indigo = UIColor(hex: "#9668CA")
-    private static let category10Radioactive = UIColor(hex: "#74f864")
     private static let category10Rosé = UIColor(hex: "#9668CA")
     private static let category10ContrastLight = UIColor(hex: "#A866DB")
     private static let category10ContrastDark = UIColor(hex: "#CB8FE9")
@@ -2467,7 +2263,6 @@ struct ThemeColor {
     private static let category11ClassicLight = UIColor(hex: "#D61F59")
     private static let category11Electric = UIColor(hex: "#3FD2E6")
     private static let category11Indigo = UIColor(hex: "#B02F64")
-    private static let category11Radioactive = UIColor(hex: "#74f864")
     private static let category11Rosé = UIColor(hex: "#B02F64")
     private static let category11ContrastLight = UIColor(hex: "#D61F59")
     private static let category11ContrastDark = UIColor(hex: "#E62B7D")
@@ -2477,7 +2272,6 @@ struct ThemeColor {
     private static let category12ClassicLight = UIColor(hex: "#686C74")
     private static let category12Electric = UIColor(hex: "#3FD2E6")
     private static let category12Indigo = UIColor(hex: "#5A6689")
-    private static let category12Radioactive = UIColor(hex: "#74f864")
     private static let category12Rosé = UIColor(hex: "#5A6689")
     private static let category12ContrastLight = UIColor(hex: "#686C74")
     private static let category12ContrastDark = UIColor(hex: "#9297A2")
@@ -2487,7 +2281,6 @@ struct ThemeColor {
     private static let category13ClassicLight = UIColor(hex: "#FF9D3B")
     private static let category13Electric = UIColor(hex: "#3FD2E6")
     private static let category13Indigo = UIColor(hex: "#E79D62")
-    private static let category13Radioactive = UIColor(hex: "#74f864")
     private static let category13Rosé = UIColor(hex: "#E79D62")
     private static let category13ContrastLight = UIColor(hex: "#FF9D3B")
     private static let category13ContrastDark = UIColor(hex: "#FFC453")
@@ -2497,7 +2290,6 @@ struct ThemeColor {
     private static let category14ClassicLight = UIColor(hex: "#50D0F1")
     private static let category14Electric = UIColor(hex: "#3FD2E6")
     private static let category14Indigo = UIColor(hex: "#61C3DE")
-    private static let category14Radioactive = UIColor(hex: "#74f864")
     private static let category14Rosé = UIColor(hex: "#61C3DE")
     private static let category14ContrastLight = UIColor(hex: "#50D0F1")
     private static let category14ContrastDark = UIColor(hex: "#70E3F7")
@@ -2507,7 +2299,6 @@ struct ThemeColor {
     private static let category15ClassicLight = UIColor(hex: "#E93673")
     private static let category15Electric = UIColor(hex: "#3FD2E6")
     private static let category15Indigo = UIColor(hex: "#B02F64")
-    private static let category15Radioactive = UIColor(hex: "#74f864")
     private static let category15Rosé = UIColor(hex: "#B02F64")
     private static let category15ContrastLight = UIColor(hex: "#E93673")
     private static let category15ContrastDark = UIColor(hex: "#E62B7D")
@@ -2517,7 +2308,6 @@ struct ThemeColor {
     private static let category16ClassicLight = UIColor(hex: "#0059B2")
     private static let category16Electric = UIColor(hex: "#3FD2E6")
     private static let category16Indigo = UIColor(hex: "#14509C")
-    private static let category16Radioactive = UIColor(hex: "#74f864")
     private static let category16Rosé = UIColor(hex: "#14509C")
     private static let category16ContrastLight = UIColor(hex: "#0059B2")
     private static let category16ContrastDark = UIColor(hex: "#007DD1")
@@ -2527,7 +2317,6 @@ struct ThemeColor {
     private static let category17ClassicLight = UIColor(hex: "#CC98F0")
     private static let category17Electric = UIColor(hex: "#3FD2E6")
     private static let category17Indigo = UIColor(hex: "#C197E5")
-    private static let category17Radioactive = UIColor(hex: "#74f864")
     private static let category17Rosé = UIColor(hex: "#C197E5")
     private static let category17ContrastLight = UIColor(hex: "#CC98F0")
     private static let category17ContrastDark = UIColor(hex: "#E0C1F6")
@@ -2537,7 +2326,6 @@ struct ThemeColor {
     private static let category18ClassicLight = UIColor(hex: "#D9201C")
     private static let category18Electric = UIColor(hex: "#3FD2E6")
     private static let category18Indigo = UIColor(hex: "#B02E2F")
-    private static let category18Radioactive = UIColor(hex: "#74f864")
     private static let category18Rosé = UIColor(hex: "#B02E2F")
     private static let category18ContrastLight = UIColor(hex: "#D9201C")
     private static let category18ContrastDark = UIColor(hex: "#E82D27")
@@ -2547,10 +2335,10 @@ struct ThemeColor {
     private static let category19ClassicLight = UIColor(hex: "#5D31C4")
     private static let category19Electric = UIColor(hex: "#3FD2E6")
     private static let category19Indigo = UIColor(hex: "#5036AA")
-    private static let category19Radioactive = UIColor(hex: "#74f864")
     private static let category19Rosé = UIColor(hex: "#5036AA")
     private static let category19ContrastLight = UIColor(hex: "#5D31C4")
     private static let category19ContrastDark = UIColor(hex: "#8245DC")
+
 
     static func primaryUi01(for theme: Theme.ThemeType? = nil) -> UIColor {
         let theme = theme ?? Theme.sharedTheme.activeTheme
@@ -2567,8 +2355,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi01ClassicLight
         case .indigo:
             return ThemeColor.primaryUi01Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi01Radioactive
         case .rosé:
             return ThemeColor.primaryUi01Rosé
         case .contrastLight:
@@ -2593,8 +2379,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi01ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryUi01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryUi01ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryUi01ActiveRosé
         case .contrastLight:
@@ -2619,8 +2403,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi02ClassicLight
         case .indigo:
             return ThemeColor.primaryUi02Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi02Radioactive
         case .rosé:
             return ThemeColor.primaryUi02Rosé
         case .contrastLight:
@@ -2645,8 +2427,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi02SelectedClassicLight
         case .indigo:
             return ThemeColor.primaryUi02SelectedIndigo
-        case .radioactive:
-            return ThemeColor.primaryUi02SelectedRadioactive
         case .rosé:
             return ThemeColor.primaryUi02SelectedRosé
         case .contrastLight:
@@ -2671,8 +2451,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi02ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryUi02ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryUi02ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryUi02ActiveRosé
         case .contrastLight:
@@ -2697,8 +2475,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi03ClassicLight
         case .indigo:
             return ThemeColor.primaryUi03Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi03Radioactive
         case .rosé:
             return ThemeColor.primaryUi03Rosé
         case .contrastLight:
@@ -2723,8 +2499,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi04ClassicLight
         case .indigo:
             return ThemeColor.primaryUi04Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi04Radioactive
         case .rosé:
             return ThemeColor.primaryUi04Rosé
         case .contrastLight:
@@ -2749,8 +2523,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi05ClassicLight
         case .indigo:
             return ThemeColor.primaryUi05Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi05Radioactive
         case .rosé:
             return ThemeColor.primaryUi05Rosé
         case .contrastLight:
@@ -2775,8 +2547,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi05SelectedClassicLight
         case .indigo:
             return ThemeColor.primaryUi05SelectedIndigo
-        case .radioactive:
-            return ThemeColor.primaryUi05SelectedRadioactive
         case .rosé:
             return ThemeColor.primaryUi05SelectedRosé
         case .contrastLight:
@@ -2801,8 +2571,6 @@ struct ThemeColor {
             return ThemeColor.primaryUi06ClassicLight
         case .indigo:
             return ThemeColor.primaryUi06Indigo
-        case .radioactive:
-            return ThemeColor.primaryUi06Radioactive
         case .rosé:
             return ThemeColor.primaryUi06Rosé
         case .contrastLight:
@@ -2827,8 +2595,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon01ClassicLight
         case .indigo:
             return ThemeColor.primaryIcon01Indigo
-        case .radioactive:
-            return ThemeColor.primaryIcon01Radioactive
         case .rosé:
             return ThemeColor.primaryIcon01Rosé
         case .contrastLight:
@@ -2853,8 +2619,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon01ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryIcon01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryIcon01ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryIcon01ActiveRosé
         case .contrastLight:
@@ -2879,8 +2643,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon02ClassicLight
         case .indigo:
             return ThemeColor.primaryIcon02Indigo
-        case .radioactive:
-            return ThemeColor.primaryIcon02Radioactive
         case .rosé:
             return ThemeColor.primaryIcon02Rosé
         case .contrastLight:
@@ -2905,8 +2667,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon02SelectedClassicLight
         case .indigo:
             return ThemeColor.primaryIcon02SelectedIndigo
-        case .radioactive:
-            return ThemeColor.primaryIcon02SelectedRadioactive
         case .rosé:
             return ThemeColor.primaryIcon02SelectedRosé
         case .contrastLight:
@@ -2931,8 +2691,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon02ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryIcon02ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryIcon02ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryIcon02ActiveRosé
         case .contrastLight:
@@ -2957,8 +2715,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon03ClassicLight
         case .indigo:
             return ThemeColor.primaryIcon03Indigo
-        case .radioactive:
-            return ThemeColor.primaryIcon03Radioactive
         case .rosé:
             return ThemeColor.primaryIcon03Rosé
         case .contrastLight:
@@ -2983,8 +2739,6 @@ struct ThemeColor {
             return ThemeColor.primaryIcon03ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryIcon03ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryIcon03ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryIcon03ActiveRosé
         case .contrastLight:
@@ -3009,8 +2763,6 @@ struct ThemeColor {
             return ThemeColor.primaryText01ClassicLight
         case .indigo:
             return ThemeColor.primaryText01Indigo
-        case .radioactive:
-            return ThemeColor.primaryText01Radioactive
         case .rosé:
             return ThemeColor.primaryText01Rosé
         case .contrastLight:
@@ -3035,8 +2787,6 @@ struct ThemeColor {
             return ThemeColor.primaryText02ClassicLight
         case .indigo:
             return ThemeColor.primaryText02Indigo
-        case .radioactive:
-            return ThemeColor.primaryText02Radioactive
         case .rosé:
             return ThemeColor.primaryText02Rosé
         case .contrastLight:
@@ -3061,8 +2811,6 @@ struct ThemeColor {
             return ThemeColor.primaryText02SelectedClassicLight
         case .indigo:
             return ThemeColor.primaryText02SelectedIndigo
-        case .radioactive:
-            return ThemeColor.primaryText02SelectedRadioactive
         case .rosé:
             return ThemeColor.primaryText02SelectedRosé
         case .contrastLight:
@@ -3087,8 +2835,6 @@ struct ThemeColor {
             return ThemeColor.primaryField01ClassicLight
         case .indigo:
             return ThemeColor.primaryField01Indigo
-        case .radioactive:
-            return ThemeColor.primaryField01Radioactive
         case .rosé:
             return ThemeColor.primaryField01Rosé
         case .contrastLight:
@@ -3113,8 +2859,6 @@ struct ThemeColor {
             return ThemeColor.primaryField01ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryField01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryField01ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryField01ActiveRosé
         case .contrastLight:
@@ -3139,8 +2883,6 @@ struct ThemeColor {
             return ThemeColor.primaryField02ClassicLight
         case .indigo:
             return ThemeColor.primaryField02Indigo
-        case .radioactive:
-            return ThemeColor.primaryField02Radioactive
         case .rosé:
             return ThemeColor.primaryField02Rosé
         case .contrastLight:
@@ -3165,8 +2907,6 @@ struct ThemeColor {
             return ThemeColor.primaryField02ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryField02ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryField02ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryField02ActiveRosé
         case .contrastLight:
@@ -3191,8 +2931,6 @@ struct ThemeColor {
             return ThemeColor.primaryField03ClassicLight
         case .indigo:
             return ThemeColor.primaryField03Indigo
-        case .radioactive:
-            return ThemeColor.primaryField03Radioactive
         case .rosé:
             return ThemeColor.primaryField03Rosé
         case .contrastLight:
@@ -3217,8 +2955,6 @@ struct ThemeColor {
             return ThemeColor.primaryField03ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryField03ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryField03ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryField03ActiveRosé
         case .contrastLight:
@@ -3243,8 +2979,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive01ClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive01Indigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive01Radioactive
         case .rosé:
             return ThemeColor.primaryInteractive01Rosé
         case .contrastLight:
@@ -3269,8 +3003,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive01HoverClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive01HoverIndigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive01HoverRadioactive
         case .rosé:
             return ThemeColor.primaryInteractive01HoverRosé
         case .contrastLight:
@@ -3295,8 +3027,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive01ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive01ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryInteractive01ActiveRosé
         case .contrastLight:
@@ -3321,8 +3051,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive01DisabledClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive01DisabledIndigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive01DisabledRadioactive
         case .rosé:
             return ThemeColor.primaryInteractive01DisabledRosé
         case .contrastLight:
@@ -3347,8 +3075,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive02ClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive02Indigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive02Radioactive
         case .rosé:
             return ThemeColor.primaryInteractive02Rosé
         case .contrastLight:
@@ -3373,8 +3099,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive02HoverClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive02HoverIndigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive02HoverRadioactive
         case .rosé:
             return ThemeColor.primaryInteractive02HoverRosé
         case .contrastLight:
@@ -3399,8 +3123,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive02ActiveClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive02ActiveIndigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive02ActiveRadioactive
         case .rosé:
             return ThemeColor.primaryInteractive02ActiveRosé
         case .contrastLight:
@@ -3425,8 +3147,6 @@ struct ThemeColor {
             return ThemeColor.primaryInteractive03ClassicLight
         case .indigo:
             return ThemeColor.primaryInteractive03Indigo
-        case .radioactive:
-            return ThemeColor.primaryInteractive03Radioactive
         case .rosé:
             return ThemeColor.primaryInteractive03Rosé
         case .contrastLight:
@@ -3451,8 +3171,6 @@ struct ThemeColor {
             return ThemeColor.secondaryUi01ClassicLight
         case .indigo:
             return ThemeColor.secondaryUi01Indigo
-        case .radioactive:
-            return ThemeColor.secondaryUi01Radioactive
         case .rosé:
             return ThemeColor.secondaryUi01Rosé
         case .contrastLight:
@@ -3477,8 +3195,6 @@ struct ThemeColor {
             return ThemeColor.secondaryUi02ClassicLight
         case .indigo:
             return ThemeColor.secondaryUi02Indigo
-        case .radioactive:
-            return ThemeColor.secondaryUi02Radioactive
         case .rosé:
             return ThemeColor.secondaryUi02Rosé
         case .contrastLight:
@@ -3503,8 +3219,6 @@ struct ThemeColor {
             return ThemeColor.secondaryIcon01ClassicLight
         case .indigo:
             return ThemeColor.secondaryIcon01Indigo
-        case .radioactive:
-            return ThemeColor.secondaryIcon01Radioactive
         case .rosé:
             return ThemeColor.secondaryIcon01Rosé
         case .contrastLight:
@@ -3529,8 +3243,6 @@ struct ThemeColor {
             return ThemeColor.secondaryIcon02ClassicLight
         case .indigo:
             return ThemeColor.secondaryIcon02Indigo
-        case .radioactive:
-            return ThemeColor.secondaryIcon02Radioactive
         case .rosé:
             return ThemeColor.secondaryIcon02Rosé
         case .contrastLight:
@@ -3555,8 +3267,6 @@ struct ThemeColor {
             return ThemeColor.secondaryText01ClassicLight
         case .indigo:
             return ThemeColor.secondaryText01Indigo
-        case .radioactive:
-            return ThemeColor.secondaryText01Radioactive
         case .rosé:
             return ThemeColor.secondaryText01Rosé
         case .contrastLight:
@@ -3581,8 +3291,6 @@ struct ThemeColor {
             return ThemeColor.secondaryText02ClassicLight
         case .indigo:
             return ThemeColor.secondaryText02Indigo
-        case .radioactive:
-            return ThemeColor.secondaryText02Radioactive
         case .rosé:
             return ThemeColor.secondaryText02Rosé
         case .contrastLight:
@@ -3607,8 +3315,6 @@ struct ThemeColor {
             return ThemeColor.secondaryField01ClassicLight
         case .indigo:
             return ThemeColor.secondaryField01Indigo
-        case .radioactive:
-            return ThemeColor.secondaryField01Radioactive
         case .rosé:
             return ThemeColor.secondaryField01Rosé
         case .contrastLight:
@@ -3633,8 +3339,6 @@ struct ThemeColor {
             return ThemeColor.secondaryField01ActiveClassicLight
         case .indigo:
             return ThemeColor.secondaryField01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.secondaryField01ActiveRadioactive
         case .rosé:
             return ThemeColor.secondaryField01ActiveRosé
         case .contrastLight:
@@ -3659,8 +3363,6 @@ struct ThemeColor {
             return ThemeColor.secondaryInteractive01ClassicLight
         case .indigo:
             return ThemeColor.secondaryInteractive01Indigo
-        case .radioactive:
-            return ThemeColor.secondaryInteractive01Radioactive
         case .rosé:
             return ThemeColor.secondaryInteractive01Rosé
         case .contrastLight:
@@ -3685,8 +3387,6 @@ struct ThemeColor {
             return ThemeColor.secondaryInteractive01HoverClassicLight
         case .indigo:
             return ThemeColor.secondaryInteractive01HoverIndigo
-        case .radioactive:
-            return ThemeColor.secondaryInteractive01HoverRadioactive
         case .rosé:
             return ThemeColor.secondaryInteractive01HoverRosé
         case .contrastLight:
@@ -3711,8 +3411,6 @@ struct ThemeColor {
             return ThemeColor.secondaryInteractive01ActiveClassicLight
         case .indigo:
             return ThemeColor.secondaryInteractive01ActiveIndigo
-        case .radioactive:
-            return ThemeColor.secondaryInteractive01ActiveRadioactive
         case .rosé:
             return ThemeColor.secondaryInteractive01ActiveRosé
         case .contrastLight:
@@ -3737,8 +3435,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3763,8 +3459,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3789,8 +3483,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi03ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi03Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi03Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi03Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3815,8 +3507,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi04ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi04Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi04Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi04Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3841,8 +3531,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi05ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi05Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi05Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi05Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3867,8 +3555,6 @@ struct ThemeColor {
             return ThemeColor.podcastUi06ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastUi06Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastUi06Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastUi06Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3893,8 +3579,6 @@ struct ThemeColor {
             return ThemeColor.podcastIcon01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastIcon01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastIcon01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastIcon01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3919,8 +3603,6 @@ struct ThemeColor {
             return ThemeColor.podcastIcon02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastIcon02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastIcon02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastIcon02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3945,8 +3627,6 @@ struct ThemeColor {
             return ThemeColor.podcastIcon03ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastIcon03Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastIcon03Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastIcon03Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3971,8 +3651,6 @@ struct ThemeColor {
             return ThemeColor.podcastText01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastText01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastText01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastText01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -3997,8 +3675,6 @@ struct ThemeColor {
             return ThemeColor.podcastText02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastText02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastText02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastText02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4023,8 +3699,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4049,8 +3723,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive01ActiveClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive01ActiveIndigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive01ActiveRadioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive01ActiveRosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4075,8 +3747,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4101,8 +3771,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive03ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive03Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive03Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive03Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4127,8 +3795,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive03ActiveClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive03ActiveIndigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive03ActiveRadioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive03ActiveRosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4153,8 +3819,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive04ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive04Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive04Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive04Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4179,8 +3843,6 @@ struct ThemeColor {
             return ThemeColor.podcastInteractive05ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastInteractive05Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastInteractive05Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastInteractive05Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4205,8 +3867,6 @@ struct ThemeColor {
             return ThemeColor.podcastOndarkClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastOndarkIndigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastOndarkRadioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastOndarkRosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4231,8 +3891,6 @@ struct ThemeColor {
             return ThemeColor.podcastOnlightClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.podcastOnlightIndigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.podcastOnlightRadioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.podcastOnlightRosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4257,8 +3915,6 @@ struct ThemeColor {
             return ThemeColor.filterUi01ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterUi01Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterUi01Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterUi01Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4283,8 +3939,6 @@ struct ThemeColor {
             return ThemeColor.filterUi02ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterUi02Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterUi02Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterUi02Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4309,8 +3963,6 @@ struct ThemeColor {
             return ThemeColor.filterUi03ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterUi03Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterUi03Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterUi03Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4335,8 +3987,6 @@ struct ThemeColor {
             return ThemeColor.filterUi04ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterUi04Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterUi04Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterUi04Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4361,8 +4011,6 @@ struct ThemeColor {
             return ThemeColor.filterIcon01ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterIcon01Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterIcon01Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterIcon01Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4387,8 +4035,6 @@ struct ThemeColor {
             return ThemeColor.filterIcon02ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterIcon02Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterIcon02Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterIcon02Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4413,8 +4059,6 @@ struct ThemeColor {
             return ThemeColor.filterText01ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterText01Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterText01Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterText01Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4439,8 +4083,6 @@ struct ThemeColor {
             return ThemeColor.filterText02ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterText02Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterText02Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterText02Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4465,8 +4107,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive01ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive01Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive01Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive01Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4491,8 +4131,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive01ActiveClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive01ActiveIndigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive01ActiveRadioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive01ActiveRosé(filterColor: filterColor)
         case .contrastLight:
@@ -4517,8 +4155,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive02ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive02Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive02Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive02Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4543,8 +4179,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive03ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive03Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive03Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive03Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4569,8 +4203,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive03ActiveClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive03ActiveIndigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive03ActiveRadioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive03ActiveRosé(filterColor: filterColor)
         case .contrastLight:
@@ -4595,8 +4227,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive04ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive04Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive04Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive04Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4621,8 +4251,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive05ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive05Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive05Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive05Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4647,8 +4275,6 @@ struct ThemeColor {
             return ThemeColor.filterInteractive06ClassicLight(filterColor: filterColor)
         case .indigo:
             return ThemeColor.filterInteractive06Indigo(filterColor: filterColor)
-        case .radioactive:
-            return ThemeColor.filterInteractive06Radioactive(filterColor: filterColor)
         case .rosé:
             return ThemeColor.filterInteractive06Rosé(filterColor: filterColor)
         case .contrastLight:
@@ -4673,8 +4299,6 @@ struct ThemeColor {
             return ThemeColor.support01ClassicLight
         case .indigo:
             return ThemeColor.support01Indigo
-        case .radioactive:
-            return ThemeColor.support01Radioactive
         case .rosé:
             return ThemeColor.support01Rosé
         case .contrastLight:
@@ -4699,8 +4323,6 @@ struct ThemeColor {
             return ThemeColor.support02ClassicLight
         case .indigo:
             return ThemeColor.support02Indigo
-        case .radioactive:
-            return ThemeColor.support02Radioactive
         case .rosé:
             return ThemeColor.support02Rosé
         case .contrastLight:
@@ -4725,8 +4347,6 @@ struct ThemeColor {
             return ThemeColor.support03ClassicLight
         case .indigo:
             return ThemeColor.support03Indigo
-        case .radioactive:
-            return ThemeColor.support03Radioactive
         case .rosé:
             return ThemeColor.support03Rosé
         case .contrastLight:
@@ -4751,8 +4371,6 @@ struct ThemeColor {
             return ThemeColor.support04ClassicLight
         case .indigo:
             return ThemeColor.support04Indigo
-        case .radioactive:
-            return ThemeColor.support04Radioactive
         case .rosé:
             return ThemeColor.support04Rosé
         case .contrastLight:
@@ -4777,8 +4395,6 @@ struct ThemeColor {
             return ThemeColor.support05ClassicLight
         case .indigo:
             return ThemeColor.support05Indigo
-        case .radioactive:
-            return ThemeColor.support05Radioactive
         case .rosé:
             return ThemeColor.support05Rosé
         case .contrastLight:
@@ -4803,8 +4419,6 @@ struct ThemeColor {
             return ThemeColor.support06ClassicLight
         case .indigo:
             return ThemeColor.support06Indigo
-        case .radioactive:
-            return ThemeColor.support06Radioactive
         case .rosé:
             return ThemeColor.support06Rosé
         case .contrastLight:
@@ -4829,8 +4443,6 @@ struct ThemeColor {
             return ThemeColor.support07ClassicLight
         case .indigo:
             return ThemeColor.support07Indigo
-        case .radioactive:
-            return ThemeColor.support07Radioactive
         case .rosé:
             return ThemeColor.support07Rosé
         case .contrastLight:
@@ -4855,8 +4467,6 @@ struct ThemeColor {
             return ThemeColor.support08ClassicLight
         case .indigo:
             return ThemeColor.support08Indigo
-        case .radioactive:
-            return ThemeColor.support08Radioactive
         case .rosé:
             return ThemeColor.support08Rosé
         case .contrastLight:
@@ -4881,8 +4491,6 @@ struct ThemeColor {
             return ThemeColor.support09ClassicLight
         case .indigo:
             return ThemeColor.support09Indigo
-        case .radioactive:
-            return ThemeColor.support09Radioactive
         case .rosé:
             return ThemeColor.support09Rosé
         case .contrastLight:
@@ -4907,8 +4515,6 @@ struct ThemeColor {
             return ThemeColor.support10ClassicLight
         case .indigo:
             return ThemeColor.support10Indigo
-        case .radioactive:
-            return ThemeColor.support10Radioactive
         case .rosé:
             return ThemeColor.support10Rosé
         case .contrastLight:
@@ -4933,8 +4539,6 @@ struct ThemeColor {
             return ThemeColor.playerBackground01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerBackground01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerBackground01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerBackground01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4959,8 +4563,6 @@ struct ThemeColor {
             return ThemeColor.playerBackground02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerBackground02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerBackground02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerBackground02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -4985,8 +4587,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight01ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight01Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight01Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight01Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5011,8 +4611,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight02ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight02Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight02Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight02Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5037,8 +4635,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight03ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight03Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight03Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight03Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5063,8 +4659,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight04ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight04Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight04Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight04Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5089,8 +4683,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight05ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight05Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight05Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight05Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5115,8 +4707,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight06ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight06Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight06Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight06Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5141,8 +4731,6 @@ struct ThemeColor {
             return ThemeColor.playerHighlight07ClassicLight(podcastColor: podcastColor)
         case .indigo:
             return ThemeColor.playerHighlight07Indigo(podcastColor: podcastColor)
-        case .radioactive:
-            return ThemeColor.playerHighlight07Radioactive(podcastColor: podcastColor)
         case .rosé:
             return ThemeColor.playerHighlight07Rosé(podcastColor: podcastColor)
         case .contrastLight:
@@ -5167,8 +4755,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast01ClassicLight
         case .indigo:
             return ThemeColor.playerContrast01Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast01Radioactive
         case .rosé:
             return ThemeColor.playerContrast01Rosé
         case .contrastLight:
@@ -5193,8 +4779,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast02ClassicLight
         case .indigo:
             return ThemeColor.playerContrast02Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast02Radioactive
         case .rosé:
             return ThemeColor.playerContrast02Rosé
         case .contrastLight:
@@ -5219,8 +4803,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast03ClassicLight
         case .indigo:
             return ThemeColor.playerContrast03Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast03Radioactive
         case .rosé:
             return ThemeColor.playerContrast03Rosé
         case .contrastLight:
@@ -5245,8 +4827,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast04ClassicLight
         case .indigo:
             return ThemeColor.playerContrast04Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast04Radioactive
         case .rosé:
             return ThemeColor.playerContrast04Rosé
         case .contrastLight:
@@ -5271,8 +4851,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast05ClassicLight
         case .indigo:
             return ThemeColor.playerContrast05Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast05Radioactive
         case .rosé:
             return ThemeColor.playerContrast05Rosé
         case .contrastLight:
@@ -5297,8 +4875,6 @@ struct ThemeColor {
             return ThemeColor.playerContrast06ClassicLight
         case .indigo:
             return ThemeColor.playerContrast06Indigo
-        case .radioactive:
-            return ThemeColor.playerContrast06Radioactive
         case .rosé:
             return ThemeColor.playerContrast06Rosé
         case .contrastLight:
@@ -5323,8 +4899,6 @@ struct ThemeColor {
             return ThemeColor.contrast01ClassicLight
         case .indigo:
             return ThemeColor.contrast01Indigo
-        case .radioactive:
-            return ThemeColor.contrast01Radioactive
         case .rosé:
             return ThemeColor.contrast01Rosé
         case .contrastLight:
@@ -5349,8 +4923,6 @@ struct ThemeColor {
             return ThemeColor.contrast02ClassicLight
         case .indigo:
             return ThemeColor.contrast02Indigo
-        case .radioactive:
-            return ThemeColor.contrast02Radioactive
         case .rosé:
             return ThemeColor.contrast02Rosé
         case .contrastLight:
@@ -5375,8 +4947,6 @@ struct ThemeColor {
             return ThemeColor.contrast03ClassicLight
         case .indigo:
             return ThemeColor.contrast03Indigo
-        case .radioactive:
-            return ThemeColor.contrast03Radioactive
         case .rosé:
             return ThemeColor.contrast03Rosé
         case .contrastLight:
@@ -5401,8 +4971,6 @@ struct ThemeColor {
             return ThemeColor.contrast04ClassicLight
         case .indigo:
             return ThemeColor.contrast04Indigo
-        case .radioactive:
-            return ThemeColor.contrast04Radioactive
         case .rosé:
             return ThemeColor.contrast04Rosé
         case .contrastLight:
@@ -5427,8 +4995,6 @@ struct ThemeColor {
             return ThemeColor.filter01ClassicLight
         case .indigo:
             return ThemeColor.filter01Indigo
-        case .radioactive:
-            return ThemeColor.filter01Radioactive
         case .rosé:
             return ThemeColor.filter01Rosé
         case .contrastLight:
@@ -5453,8 +5019,6 @@ struct ThemeColor {
             return ThemeColor.filter02ClassicLight
         case .indigo:
             return ThemeColor.filter02Indigo
-        case .radioactive:
-            return ThemeColor.filter02Radioactive
         case .rosé:
             return ThemeColor.filter02Rosé
         case .contrastLight:
@@ -5479,8 +5043,6 @@ struct ThemeColor {
             return ThemeColor.filter03ClassicLight
         case .indigo:
             return ThemeColor.filter03Indigo
-        case .radioactive:
-            return ThemeColor.filter03Radioactive
         case .rosé:
             return ThemeColor.filter03Rosé
         case .contrastLight:
@@ -5505,8 +5067,6 @@ struct ThemeColor {
             return ThemeColor.filter04ClassicLight
         case .indigo:
             return ThemeColor.filter04Indigo
-        case .radioactive:
-            return ThemeColor.filter04Radioactive
         case .rosé:
             return ThemeColor.filter04Rosé
         case .contrastLight:
@@ -5531,8 +5091,6 @@ struct ThemeColor {
             return ThemeColor.filter05ClassicLight
         case .indigo:
             return ThemeColor.filter05Indigo
-        case .radioactive:
-            return ThemeColor.filter05Radioactive
         case .rosé:
             return ThemeColor.filter05Rosé
         case .contrastLight:
@@ -5557,8 +5115,6 @@ struct ThemeColor {
             return ThemeColor.filter06ClassicLight
         case .indigo:
             return ThemeColor.filter06Indigo
-        case .radioactive:
-            return ThemeColor.filter06Radioactive
         case .rosé:
             return ThemeColor.filter06Rosé
         case .contrastLight:
@@ -5583,8 +5139,6 @@ struct ThemeColor {
             return ThemeColor.filter07ClassicLight
         case .indigo:
             return ThemeColor.filter07Indigo
-        case .radioactive:
-            return ThemeColor.filter07Radioactive
         case .rosé:
             return ThemeColor.filter07Rosé
         case .contrastLight:
@@ -5609,8 +5163,6 @@ struct ThemeColor {
             return ThemeColor.filter08ClassicLight
         case .indigo:
             return ThemeColor.filter08Indigo
-        case .radioactive:
-            return ThemeColor.filter08Radioactive
         case .rosé:
             return ThemeColor.filter08Rosé
         case .contrastLight:
@@ -5635,8 +5187,6 @@ struct ThemeColor {
             return ThemeColor.filter09ClassicLight
         case .indigo:
             return ThemeColor.filter09Indigo
-        case .radioactive:
-            return ThemeColor.filter09Radioactive
         case .rosé:
             return ThemeColor.filter09Rosé
         case .contrastLight:
@@ -5661,8 +5211,6 @@ struct ThemeColor {
             return ThemeColor.filter10ClassicLight
         case .indigo:
             return ThemeColor.filter10Indigo
-        case .radioactive:
-            return ThemeColor.filter10Radioactive
         case .rosé:
             return ThemeColor.filter10Rosé
         case .contrastLight:
@@ -5687,8 +5235,6 @@ struct ThemeColor {
             return ThemeColor.filter11ClassicLight
         case .indigo:
             return ThemeColor.filter11Indigo
-        case .radioactive:
-            return ThemeColor.filter11Radioactive
         case .rosé:
             return ThemeColor.filter11Rosé
         case .contrastLight:
@@ -5713,8 +5259,6 @@ struct ThemeColor {
             return ThemeColor.filter12ClassicLight
         case .indigo:
             return ThemeColor.filter12Indigo
-        case .radioactive:
-            return ThemeColor.filter12Radioactive
         case .rosé:
             return ThemeColor.filter12Rosé
         case .contrastLight:
@@ -5739,8 +5283,6 @@ struct ThemeColor {
             return ThemeColor.veilClassicLight
         case .indigo:
             return ThemeColor.veilIndigo
-        case .radioactive:
-            return ThemeColor.veilRadioactive
         case .rosé:
             return ThemeColor.veilRosé
         case .contrastLight:
@@ -5765,8 +5307,6 @@ struct ThemeColor {
             return ThemeColor.gradient01AClassicLight
         case .indigo:
             return ThemeColor.gradient01AIndigo
-        case .radioactive:
-            return ThemeColor.gradient01ARadioactive
         case .rosé:
             return ThemeColor.gradient01ARosé
         case .contrastLight:
@@ -5791,8 +5331,6 @@ struct ThemeColor {
             return ThemeColor.gradient01EClassicLight
         case .indigo:
             return ThemeColor.gradient01EIndigo
-        case .radioactive:
-            return ThemeColor.gradient01ERadioactive
         case .rosé:
             return ThemeColor.gradient01ERosé
         case .contrastLight:
@@ -5817,8 +5355,6 @@ struct ThemeColor {
             return ThemeColor.gradient02AClassicLight
         case .indigo:
             return ThemeColor.gradient02AIndigo
-        case .radioactive:
-            return ThemeColor.gradient02ARadioactive
         case .rosé:
             return ThemeColor.gradient02ARosé
         case .contrastLight:
@@ -5843,8 +5379,6 @@ struct ThemeColor {
             return ThemeColor.gradient02EClassicLight
         case .indigo:
             return ThemeColor.gradient02EIndigo
-        case .radioactive:
-            return ThemeColor.gradient02ERadioactive
         case .rosé:
             return ThemeColor.gradient02ERosé
         case .contrastLight:
@@ -5869,8 +5403,6 @@ struct ThemeColor {
             return ThemeColor.gradient03AClassicLight
         case .indigo:
             return ThemeColor.gradient03AIndigo
-        case .radioactive:
-            return ThemeColor.gradient03ARadioactive
         case .rosé:
             return ThemeColor.gradient03ARosé
         case .contrastLight:
@@ -5895,8 +5427,6 @@ struct ThemeColor {
             return ThemeColor.gradient03EClassicLight
         case .indigo:
             return ThemeColor.gradient03EIndigo
-        case .radioactive:
-            return ThemeColor.gradient03ERadioactive
         case .rosé:
             return ThemeColor.gradient03ERosé
         case .contrastLight:
@@ -5921,8 +5451,6 @@ struct ThemeColor {
             return ThemeColor.gradient04AClassicLight
         case .indigo:
             return ThemeColor.gradient04AIndigo
-        case .radioactive:
-            return ThemeColor.gradient04ARadioactive
         case .rosé:
             return ThemeColor.gradient04ARosé
         case .contrastLight:
@@ -5947,8 +5475,6 @@ struct ThemeColor {
             return ThemeColor.gradient04EClassicLight
         case .indigo:
             return ThemeColor.gradient04EIndigo
-        case .radioactive:
-            return ThemeColor.gradient04ERadioactive
         case .rosé:
             return ThemeColor.gradient04ERosé
         case .contrastLight:
@@ -5973,8 +5499,6 @@ struct ThemeColor {
             return ThemeColor.gradient05AClassicLight
         case .indigo:
             return ThemeColor.gradient05AIndigo
-        case .radioactive:
-            return ThemeColor.gradient05ARadioactive
         case .rosé:
             return ThemeColor.gradient05ARosé
         case .contrastLight:
@@ -5999,8 +5523,6 @@ struct ThemeColor {
             return ThemeColor.gradient05EClassicLight
         case .indigo:
             return ThemeColor.gradient05EIndigo
-        case .radioactive:
-            return ThemeColor.gradient05ERadioactive
         case .rosé:
             return ThemeColor.gradient05ERosé
         case .contrastLight:
@@ -6025,8 +5547,6 @@ struct ThemeColor {
             return ThemeColor.imageFilter01ClassicLight
         case .indigo:
             return ThemeColor.imageFilter01Indigo
-        case .radioactive:
-            return ThemeColor.imageFilter01Radioactive
         case .rosé:
             return ThemeColor.imageFilter01Rosé
         case .contrastLight:
@@ -6051,8 +5571,6 @@ struct ThemeColor {
             return ThemeColor.imageFilter02ClassicLight
         case .indigo:
             return ThemeColor.imageFilter02Indigo
-        case .radioactive:
-            return ThemeColor.imageFilter02Radioactive
         case .rosé:
             return ThemeColor.imageFilter02Rosé
         case .contrastLight:
@@ -6077,8 +5595,6 @@ struct ThemeColor {
             return ThemeColor.imageFilter03ClassicLight
         case .indigo:
             return ThemeColor.imageFilter03Indigo
-        case .radioactive:
-            return ThemeColor.imageFilter03Radioactive
         case .rosé:
             return ThemeColor.imageFilter03Rosé
         case .contrastLight:
@@ -6103,8 +5619,6 @@ struct ThemeColor {
             return ThemeColor.imageFilter04ClassicLight
         case .indigo:
             return ThemeColor.imageFilter04Indigo
-        case .radioactive:
-            return ThemeColor.imageFilter04Radioactive
         case .rosé:
             return ThemeColor.imageFilter04Rosé
         case .contrastLight:
@@ -6129,8 +5643,6 @@ struct ThemeColor {
             return ThemeColor.category01ClassicLight
         case .indigo:
             return ThemeColor.category01Indigo
-        case .radioactive:
-            return ThemeColor.category01Radioactive
         case .rosé:
             return ThemeColor.category01Rosé
         case .contrastLight:
@@ -6155,8 +5667,6 @@ struct ThemeColor {
             return ThemeColor.category02ClassicLight
         case .indigo:
             return ThemeColor.category02Indigo
-        case .radioactive:
-            return ThemeColor.category02Radioactive
         case .rosé:
             return ThemeColor.category02Rosé
         case .contrastLight:
@@ -6181,8 +5691,6 @@ struct ThemeColor {
             return ThemeColor.category03ClassicLight
         case .indigo:
             return ThemeColor.category03Indigo
-        case .radioactive:
-            return ThemeColor.category03Radioactive
         case .rosé:
             return ThemeColor.category03Rosé
         case .contrastLight:
@@ -6207,8 +5715,6 @@ struct ThemeColor {
             return ThemeColor.category04ClassicLight
         case .indigo:
             return ThemeColor.category04Indigo
-        case .radioactive:
-            return ThemeColor.category04Radioactive
         case .rosé:
             return ThemeColor.category04Rosé
         case .contrastLight:
@@ -6233,8 +5739,6 @@ struct ThemeColor {
             return ThemeColor.category05ClassicLight
         case .indigo:
             return ThemeColor.category05Indigo
-        case .radioactive:
-            return ThemeColor.category05Radioactive
         case .rosé:
             return ThemeColor.category05Rosé
         case .contrastLight:
@@ -6259,8 +5763,6 @@ struct ThemeColor {
             return ThemeColor.category06ClassicLight
         case .indigo:
             return ThemeColor.category06Indigo
-        case .radioactive:
-            return ThemeColor.category06Radioactive
         case .rosé:
             return ThemeColor.category06Rosé
         case .contrastLight:
@@ -6285,8 +5787,6 @@ struct ThemeColor {
             return ThemeColor.category07ClassicLight
         case .indigo:
             return ThemeColor.category07Indigo
-        case .radioactive:
-            return ThemeColor.category07Radioactive
         case .rosé:
             return ThemeColor.category07Rosé
         case .contrastLight:
@@ -6311,8 +5811,6 @@ struct ThemeColor {
             return ThemeColor.category08ClassicLight
         case .indigo:
             return ThemeColor.category08Indigo
-        case .radioactive:
-            return ThemeColor.category08Radioactive
         case .rosé:
             return ThemeColor.category08Rosé
         case .contrastLight:
@@ -6337,8 +5835,6 @@ struct ThemeColor {
             return ThemeColor.category09ClassicLight
         case .indigo:
             return ThemeColor.category09Indigo
-        case .radioactive:
-            return ThemeColor.category09Radioactive
         case .rosé:
             return ThemeColor.category09Rosé
         case .contrastLight:
@@ -6363,8 +5859,6 @@ struct ThemeColor {
             return ThemeColor.category10ClassicLight
         case .indigo:
             return ThemeColor.category10Indigo
-        case .radioactive:
-            return ThemeColor.category10Radioactive
         case .rosé:
             return ThemeColor.category10Rosé
         case .contrastLight:
@@ -6389,8 +5883,6 @@ struct ThemeColor {
             return ThemeColor.category11ClassicLight
         case .indigo:
             return ThemeColor.category11Indigo
-        case .radioactive:
-            return ThemeColor.category11Radioactive
         case .rosé:
             return ThemeColor.category11Rosé
         case .contrastLight:
@@ -6415,8 +5907,6 @@ struct ThemeColor {
             return ThemeColor.category12ClassicLight
         case .indigo:
             return ThemeColor.category12Indigo
-        case .radioactive:
-            return ThemeColor.category12Radioactive
         case .rosé:
             return ThemeColor.category12Rosé
         case .contrastLight:
@@ -6441,8 +5931,6 @@ struct ThemeColor {
             return ThemeColor.category13ClassicLight
         case .indigo:
             return ThemeColor.category13Indigo
-        case .radioactive:
-            return ThemeColor.category13Radioactive
         case .rosé:
             return ThemeColor.category13Rosé
         case .contrastLight:
@@ -6467,8 +5955,6 @@ struct ThemeColor {
             return ThemeColor.category14ClassicLight
         case .indigo:
             return ThemeColor.category14Indigo
-        case .radioactive:
-            return ThemeColor.category14Radioactive
         case .rosé:
             return ThemeColor.category14Rosé
         case .contrastLight:
@@ -6493,8 +5979,6 @@ struct ThemeColor {
             return ThemeColor.category15ClassicLight
         case .indigo:
             return ThemeColor.category15Indigo
-        case .radioactive:
-            return ThemeColor.category15Radioactive
         case .rosé:
             return ThemeColor.category15Rosé
         case .contrastLight:
@@ -6519,8 +6003,6 @@ struct ThemeColor {
             return ThemeColor.category16ClassicLight
         case .indigo:
             return ThemeColor.category16Indigo
-        case .radioactive:
-            return ThemeColor.category16Radioactive
         case .rosé:
             return ThemeColor.category16Rosé
         case .contrastLight:
@@ -6545,8 +6027,6 @@ struct ThemeColor {
             return ThemeColor.category17ClassicLight
         case .indigo:
             return ThemeColor.category17Indigo
-        case .radioactive:
-            return ThemeColor.category17Radioactive
         case .rosé:
             return ThemeColor.category17Rosé
         case .contrastLight:
@@ -6571,8 +6051,6 @@ struct ThemeColor {
             return ThemeColor.category18ClassicLight
         case .indigo:
             return ThemeColor.category18Indigo
-        case .radioactive:
-            return ThemeColor.category18Radioactive
         case .rosé:
             return ThemeColor.category18Rosé
         case .contrastLight:
@@ -6597,8 +6075,6 @@ struct ThemeColor {
             return ThemeColor.category19ClassicLight
         case .indigo:
             return ThemeColor.category19Indigo
-        case .radioactive:
-            return ThemeColor.category19Radioactive
         case .rosé:
             return ThemeColor.category19Rosé
         case .contrastLight:
@@ -6607,4 +6083,5 @@ struct ThemeColor {
             return ThemeColor.category19ContrastDark
         }
     }
+
 }

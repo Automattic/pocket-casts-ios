@@ -1423,7 +1423,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 let safariViewController = SFSafariViewController(with: url)
                 safariViewController.delegate = self
 
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 SceneHelper.rootViewController()?.present(safariViewController, animated: true, completion: nil)
             } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -1697,7 +1696,6 @@ extension PodcastViewController: UIPopoverPresentationControllerDelegate {
 
 extension PodcastViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         controller.delegate = nil
     }
 }

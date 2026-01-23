@@ -207,7 +207,6 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 safariViewController = SFSafariViewController(with: url)
                 safariViewController?.delegate = self
 
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 SceneHelper.rootViewController()?.present(safariViewController!, animated: true, completion: nil)
 
                 Analytics.track(.playerShowNotesLinkTapped, properties: ["episode_uuid": lastEpisodeUuidRendered])
@@ -241,7 +240,6 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
         safariViewController?.delegate = nil
         safariViewController = nil
     }

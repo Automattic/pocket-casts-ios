@@ -87,7 +87,6 @@ public enum ThemeType: Int32, CaseIterable, Codable {
     case electric = 7
     case classic = 8
     case indigo = 4
-    case radioactive = 9
     case rosé = 3
     case contrastLight = 6
     case contrastDark = 5
@@ -106,8 +105,6 @@ public enum ThemeType: Int32, CaseIterable, Codable {
             self = .classic
         case .indigo:
             self = .indigo
-        case .radioactive:
-            self = .radioactive
         case .rosé:
             self = .rosé
         case .contrastLight:
@@ -131,8 +128,6 @@ public enum ThemeType: Int32, CaseIterable, Codable {
             return .classic
         case .indigo:
             return .indigo
-        case .radioactive:
-            return .radioactive
         case .rosé:
             return .rosé
         case .contrastLight:
@@ -144,7 +139,7 @@ public enum ThemeType: Int32, CaseIterable, Codable {
 
     /// This Old enum provides the original Int values so we can restore and continue to save the original values.
     public enum Old: Int {
-        case light = 0, dark, extraDark, electric, classic, indigo, radioactive, rosé, contrastLight, contrastDark
+        case light = 0, dark = 1, extraDark = 2, electric = 3, classic = 4, indigo = 5, rosé = 7, contrastLight = 8, contrastDark = 9
     }
 }
 

@@ -96,7 +96,7 @@ class AppTheme {
 
     class func podcastSearchBarStyle() -> UIBarStyle {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return UIBarStyle.black
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return UIBarStyle.default
@@ -137,8 +137,6 @@ class AppTheme {
             return "no-files-electric"
         case .indigo:
             return "no-files-indigo"
-        case .radioactive:
-            return "no-files-radioactive"
         case .rosé:
             return "no-files-rose"
         case .contrastLight:
@@ -156,8 +154,6 @@ class AppTheme {
             return "no-connection"
         case .electric:
             return "no-connection-electricity"
-        case .radioactive:
-            return "no-connection-radioactive"
         case .rosé:
             return "no-connection-rose"
         case .contrastLight:
@@ -177,8 +173,6 @@ class AppTheme {
             return "setup-new-account-electricity"
         case .indigo:
             return "setup-new-account-indigo"
-        case .radioactive:
-            return "setup-new-account-radioactive"
         case .rosé:
             return "setup-new-account-rose"
         case .contrastLight:
@@ -198,8 +192,6 @@ class AppTheme {
             return "setup-new-account-gold"
         case .indigo:
             return "setup-new-account-gold-indigo"
-        case .radioactive:
-            return "setup-new-account-radioactive"
         case .rosé:
             return "setup-new-account-gold-rose"
         case .contrastLight:
@@ -219,8 +211,6 @@ class AppTheme {
             return "payment-failed-electricity"
         case .indigo:
             return "payment-failed-indigo"
-        case .radioactive:
-            return "payment-failed-radioactive"
         case .rosé:
             return "payment-failed-rose"
         case .contrastLight:
@@ -240,8 +230,6 @@ class AppTheme {
             return "key-stars-electricity"
         case .indigo:
             return "key-stars-indigo"
-        case .radioactive:
-            return "key-stars-radioactive"
         case .rosé:
             return "key-stars-rose"
         case .contrastLight:
@@ -261,8 +249,6 @@ class AppTheme {
             return "payment-pending-electricity"
         case .indigo:
             return "payment-pending-indigo"
-        case .radioactive:
-            return "payment-pending-radioactive"
         case .rosé:
             return "payment-pending-rose"
         case .contrastLight:
@@ -282,8 +268,6 @@ class AppTheme {
             return "avatar-plus-gold-electricity"
         case .indigo:
             return "avatar-plus-gold-indigo"
-        case .radioactive:
-            return "avatar-plus-gold-radioactive"
         case .rosé:
             return "avatar-plus-gold-rose"
         case .contrastLight:
@@ -303,8 +287,6 @@ class AppTheme {
             return "avatar-tick-gold-electricity"
         case .indigo:
             return "avatar-tick-gold-indigo"
-        case .radioactive:
-            return "avatar-tick-gold-radioactive"
         case .rosé:
             return "avatar-tick-gold-rose"
         case .contrastLight:
@@ -324,8 +306,6 @@ class AppTheme {
             return "avatar-tick-electricity"
         case .indigo:
             return "avatar-tick-indigo"
-        case .radioactive:
-            return "avatar-tick-radioactive"
         case .rosé:
             return "avatar-tick-rose"
         case .contrastLight:
@@ -345,8 +325,6 @@ class AppTheme {
             return "avatar-cancelled-electricity"
         case .indigo:
             return "avatar-cancelled-indigo"
-        case .radioactive:
-            return "avatar-cancelled-radioactive"
         case .rosé:
             return "avatar-cancelled-rose"
         case .contrastLight:
@@ -366,8 +344,6 @@ class AppTheme {
             return "avatar-cancelled-gold-electricity"
         case .indigo:
             return "avatar-cancelled-gold-indigo"
-        case .radioactive:
-            return "avatar-cancelled-radioactive"
         case .rosé:
             return "avatar-cancelled-gold-rose"
         case .contrastLight:
@@ -387,8 +363,6 @@ class AppTheme {
             return "email-stars-electricity"
         case .indigo:
             return "email-stars-indigo"
-        case .radioactive:
-            return "email-stars-radioactive"
         case .rosé:
             return "email-stars-rose"
         case .contrastLight:
@@ -408,8 +382,6 @@ class AppTheme {
             return "dollar-recycle-electricity"
         case .indigo:
             return "dollar-recycle-indigo"
-        case .radioactive:
-            return "dollar-recycle-radioactive"
         case .rosé:
             return "dollar-recycle-rose"
         case .contrastLight:
@@ -429,8 +401,6 @@ class AppTheme {
             return "folder-locked-electricity"
         case .indigo:
             return "folder-locked-indigo"
-        case .radioactive:
-            return "folder-locked-radioactive"
         case .rosé:
             return "folder-locked-rose"
         case .contrastLight:
@@ -442,7 +412,7 @@ class AppTheme {
 
     class func pcPlusLogoHorizontalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "PCPlusHorizontal-Dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "PCPlusHorizontal"
@@ -451,7 +421,7 @@ class AppTheme {
 
     class func pcLogoHorizontalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "horizontal-logo-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "horizontal-logo"
@@ -460,7 +430,7 @@ class AppTheme {
 
     static func pcLogoSmallHorizontalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark, .indigo, .classic:
+        case .dark, .extraDark, .electric, .contrastDark, .indigo, .classic:
             return "small-horizontal-logo-dark"
         case .light, .rosé, .contrastLight:
             return "small-horizontal-logo"
@@ -469,7 +439,7 @@ class AppTheme {
 
     static func pcLogoSmallHorizontalForBackgroundImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "small-horizontal-logo-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "small-horizontal-logo"
@@ -478,7 +448,7 @@ class AppTheme {
 
     static func socialIconAppleImageName(theme: Theme = .sharedTheme) -> String {
         switch theme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "sso-icon-apple-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "sso-icon-apple"
@@ -491,7 +461,7 @@ class AppTheme {
 
     class func pcPlusLogoVerticalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "verticalLogoDark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "verticalLogo"
@@ -500,7 +470,7 @@ class AppTheme {
 
     class func pcLogoVerticalImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return "pc-logo-vertical-dark"
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return "pc-logo-vertical"
@@ -509,7 +479,7 @@ class AppTheme {
 
     class func fileErrorImageName() -> String {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .radioactive:
+        case .dark, .extraDark:
             return "fileError-dark"
         case .light, .classic:
             return "fileError"
@@ -536,8 +506,6 @@ class AppTheme {
             return "clipboard-electricity"
         case .indigo:
             return "clipboard-indigo"
-        case .radioactive:
-            return "clipboard-radioactive"
         case .rosé:
             return "clipboard-rose"
         case .contrastLight:
@@ -557,8 +525,6 @@ class AppTheme {
             return "promo-error-electricity"
         case .indigo:
             return "promo-error-indigo"
-        case .radioactive:
-            return "promo-error-radioactive"
         case .rosé:
             return "promo-error-rose"
         case .contrastLight:
@@ -578,8 +544,6 @@ class AppTheme {
             return "empty-filter-electricity"
         case .indigo:
             return "empty-filter-indigo"
-        case .radioactive:
-            return "empty-filter-radioactive"
         case .rosé:
             return "empty-filter-rose"
         case .contrastLight:
@@ -601,7 +565,7 @@ class AppTheme {
 
     class func defaultStatusBarStyle() -> UIStatusBarStyle {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .classic, .indigo, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .classic, .indigo, .contrastDark:
             return UIStatusBarStyle.lightContent
         case .light, .rosé, .contrastLight:
             return UIStatusBarStyle.darkContent
@@ -610,7 +574,7 @@ class AppTheme {
 
     class func popupStatusBarStyle(themeOverride: Theme.ThemeType? = nil) -> UIStatusBarStyle {
         switch themeOverride ?? Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .radioactive, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
         case .light, .classic, .indigo, .rosé, .contrastLight:
             return UIStatusBarStyle.darkContent
@@ -729,10 +693,6 @@ class AppTheme {
         case 5: return ThemeColor.filter06()
         case 6: return ThemeColor.filter07()
         case 7: return ThemeColor.filter08()
-        case 8: return ThemeColor.filter09()
-        case 9: return ThemeColor.filter10()
-        case 10: return ThemeColor.filter11()
-        case 11: return ThemeColor.filter12()
         default: return ThemeColor.filter08()
         }
     }
@@ -840,6 +800,10 @@ class AppTheme {
         case .filter06: return ThemeColor.filter06(for: themeOverride)
         case .filter07: return ThemeColor.filter07(for: themeOverride)
         case .filter08: return ThemeColor.filter08(for: themeOverride)
+        case .filter09: return ThemeColor.filter09(for: themeOverride)
+        case .filter10: return ThemeColor.filter10(for: themeOverride)
+        case .filter11: return ThemeColor.filter11(for: themeOverride)
+        case .filter12: return ThemeColor.filter12(for: themeOverride)
         case .veil: return ThemeColor.veil()
         case .gradient01A: return ThemeColor.gradient01A()
         case .gradient01E: return ThemeColor.gradient01E()

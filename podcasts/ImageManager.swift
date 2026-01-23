@@ -64,7 +64,7 @@ class ImageManager {
     func loadDiscoverImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize? = nil) {
         if let url = URL(string: imageUrl) {
             let image = (placeholderSize == nil) ? nil : placeHolderImage(placeholderSize!)
-            let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
+            let processor = DefaultImageProcessor.default
             imageView.kf.setImage(with: url, placeholder: image, options: [.processor(processor), .targetCache(discoverCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
@@ -100,7 +100,7 @@ class ImageManager {
 
     func loadSearchImage(imageUrl: String, imageView: UIImageView, placeHolderImage: UIImage? = nil) {
         if let url = URL(string: imageUrl) {
-            let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
+            let processor = DefaultImageProcessor.default
             imageView.kf.setImage(with: url, placeholder: placeHolderImage, options: [.processor(processor), .targetCache(searchImageCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
@@ -108,7 +108,7 @@ class ImageManager {
     func loadSearchImage(imageUrl: String, imageView: UIImageView, placeholderSize: PodcastThumbnailSize) {
         if let url = URL(string: imageUrl) {
             let image = placeHolderImage(placeholderSize)
-            let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
+            let processor = DefaultImageProcessor.default
             imageView.kf.setImage(with: url, placeholder: image, options: [.processor(processor), .targetCache(searchImageCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
         }
     }
@@ -118,7 +118,7 @@ class ImageManager {
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
+        let processor = DefaultImageProcessor.default
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
     }
 
@@ -134,7 +134,7 @@ class ImageManager {
             let url = podcastUrl(imageSize: size, uuid: episode.parentIdentifier())
             // for larger images, avoid really obvious reload flashes by keeping whatever image is there currently while loading a new one
             let placeholder = (imageView.image != nil && size == .page) ? imageView.image : placeHolderImage(size)
-            let processor = Theme.sharedTheme.activeTheme == .radioactive ? radioactiveProcessor() : DefaultImageProcessor.default
+            let processor = DefaultImageProcessor.default
             imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
                 switch result {
                 case .failure:
