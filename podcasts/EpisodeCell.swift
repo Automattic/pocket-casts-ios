@@ -130,6 +130,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: ServerNotifications.userEpisodeUploadStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(uploadProgressDidUpdate), name: ServerNotifications.userEpisodeUploadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadArtwork(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
+
+        updateSize()
     }
 
     deinit {
@@ -181,6 +183,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         mainTintColor = tintColor ?? ThemeColor.primaryIcon01()
 
         populate(progressOnly: false)
+        updateSize()
     }
 
 
@@ -529,6 +532,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         showTick = false
         shouldShowSelect = false
         actionButton.isHidden = false
+
+        updateSize()
     }
 
     // MARK: - Multi Select icons
@@ -570,5 +575,44 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
         selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
         starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .body)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        updateSizeConstraints(of: episodeImage, to: imageSize)
+
+        let buttonSize = max(44, metric.scaledValue(for: 44))
+        updateSizeConstraints(of: actionButton, to: buttonSize)
+        actionButton.enlargementScale = buttonSize / 44
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        updateSizeConstraints(of: statusIndicator, to: iconSize)
+        updateSizeConstraints(of: uploadStatusIndicator, to: iconSize)
+        updateSizeConstraints(of: upNextIndicator, to: iconSize)
+        updateSizeConstraints(of: bookmarkIcon, to: iconSize)
+        updateSizeConstraints(of: starIndicator, to: iconSize)
+        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+    }
+
+    private func updateSizeConstraints(of view: UIView, to value: CGFloat) {
+        for constraint in view.constraints {
+            if constraint.secondItem != nil {
+                continue
+            }
+            switch constraint.firstAttribute {
+            case .width:
+                constraint.constant = value
+            case .height:
+                constraint.constant = value
+            default:
+                continue
+            }
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateSize()
     }
 }
