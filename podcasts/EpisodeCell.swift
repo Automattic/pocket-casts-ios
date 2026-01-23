@@ -59,7 +59,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var videoIndicator: UIImageView!
     @IBOutlet var actionButton: MainEpisodeActionView! {
         didSet {
-            actionButton.bottomPadding = 5
             actionButton.delegate = self
         }
     }
@@ -585,6 +584,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         let buttonSize = max(44, metric.scaledValue(for: 44))
         updateSizeConstraints(of: actionButton, to: buttonSize)
         actionButton.enlargementScale = buttonSize / 44
+        updateSizeConstraints(of: selectView, to: buttonSize)
 
         let iconSize = max(16, metric.scaledValue(for: 16))
         updateSizeConstraints(of: statusIndicator, to: iconSize)
@@ -593,6 +593,12 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         updateSizeConstraints(of: bookmarkIcon, to: iconSize)
         updateSizeConstraints(of: starIndicator, to: iconSize)
         updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+
+        let tickSize = max(24, metric.scaledValue(for: 24))
+        updateSizeConstraints(of: selectTickImageView, to: tickSize)
+        updateSizeConstraints(of: selectCircleView, to: tickSize)
+        selectTickImageView.layer.cornerRadius = tickSize / 2
+        selectCircleView.layer.cornerRadius = tickSize / 2
     }
 
     private func updateSizeConstraints(of view: UIView, to value: CGFloat) {

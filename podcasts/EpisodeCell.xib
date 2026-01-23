@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -172,6 +173,7 @@
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxw-Qx-pW3" userLabel="One Butten" customClass="MainEpisodeActionView" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="288" y="10" width="44" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBrownColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="VHU-JA-EPG"/>
                                     <constraint firstAttribute="height" constant="44" id="oDl-RQ-A3W"/>
@@ -234,5 +236,8 @@
         <image name="list_starred" width="16" height="16"/>
         <image name="list_upnext" width="16" height="16"/>
         <image name="list_video" width="16" height="16"/>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

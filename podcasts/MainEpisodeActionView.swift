@@ -339,7 +339,7 @@ extension MainEpisodeActionView {
 
         let radius = (MainEpisodeActionView.circleRadius * enlargementScale) + 1
         let drawPoint = CGPoint(x: circleCenter.x - radius, y: circleCenter.y - radius)
-        image?.draw(at: drawPoint)
+        image?.draw(in: CGRect(origin: drawPoint, size: CGSizeMake(radius * 2, radius * 2)))
     }
 
     private func drawEmptyCircle(context: CGContext, color: UIColor) {
