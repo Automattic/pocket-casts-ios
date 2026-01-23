@@ -2,11 +2,16 @@ import UIKit
 
 class DisclosureCell: ThemeableCell {
     @IBOutlet var cellImage: UIImageView!
-    @IBOutlet var cellLabel: UILabel!
+    @IBOutlet var cellLabel: UILabel! {
+        didSet {
+            cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+        }
+    }
     @IBOutlet var disclosureImage: UIImageView!
     @IBOutlet var cellSecondaryLabel: ThemeableLabel! {
         didSet {
             cellSecondaryLabel.style = .primaryText02
+            cellSecondaryLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
         }
     }
 

@@ -6,7 +6,16 @@ class SwitchCell: ThemeableCell {
         cellSwitch.isAccessibilityElement = false
         return cellSwitch
     }()
-    @IBOutlet var cellLabel: UILabel!
+    @IBOutlet var cellLabel: UILabel! {
+        didSet {
+            cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.numberOfLines = 0
+            cellLabel.adjustsFontForContentSizeCategory = true
+            // Ensure label can expand vertically
+            cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        }
+    }
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
 
@@ -48,5 +57,13 @@ class SwitchCell: ThemeableCell {
 
     override func accessibilityActivate() -> Bool {
         return isLocked
+    }
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        // Ensure the label's preferredMaxLayoutWidth is set for proper wrapping
+        cellLabel.preferredMaxLayoutWidth = cellLabel.bounds.width
+        layoutIfNeeded()
+        
+        return super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
     }
 }
