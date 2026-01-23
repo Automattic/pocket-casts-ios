@@ -132,7 +132,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.referralURLChanged, selector: #selector(refreshReferrals))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
-        addCustomObserver(UIContentSizeCategory.didChangeNotification, selector: #selector(contentSizeCategoryDidChange))
         if promoRedeemedMessage != nil {
             updateDisplayedData()
             showPromotionRedeemedAcknowledgement()
@@ -484,8 +483,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         profileTable.tableFooterView = footerView
     }
 
-    @objc private func contentSizeCategoryDidChange() {
-        updateFooterFrame()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateFooterFrame()
+        }
     }
 
     // MARK: - What's New Autoplay flow

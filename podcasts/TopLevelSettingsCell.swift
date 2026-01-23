@@ -46,8 +46,7 @@ class TopLevelSettingsCell: ThemeableCell {
     }
 
     private func updateDisclosureScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
         disclosureImageView?.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 
@@ -56,9 +55,7 @@ class TopLevelSettingsCell: ThemeableCell {
     }
 
     func updateImageScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
-
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
         settingsImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }

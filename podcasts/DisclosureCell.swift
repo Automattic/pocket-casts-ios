@@ -28,8 +28,7 @@ class DisclosureCell: ThemeableCell {
     }
 
     private func updateDisclosureScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
         disclosureImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 

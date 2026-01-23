@@ -66,12 +66,14 @@ class PlusLockedInfoView: ThemeableView {
         Bundle.main.loadNibNamed("PlusLockedInfoView", owner: self, options: nil)
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    @objc private func contentSizeCategoryDidChange() {
-        updateCloseButtonImage()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateCloseButtonImage()
+        }
     }
 
     private func updateCloseButtonImage() {

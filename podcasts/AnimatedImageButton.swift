@@ -84,24 +84,22 @@ class AnimatedImageButton: UIView {
         super.init(frame: frame)
 
         enablePointerInteraction()
-        registerForContentSizeCategoryChanges()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         enablePointerInteraction()
-        registerForContentSizeCategoryChanges()
     }
 
-    private func registerForContentSizeCategoryChanges() {
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
-    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
 
-    @objc private func contentSizeCategoryDidChange() {
-        updateTextLayerFont()
-        lastCGRectRendered = .zero
-        setNeedsLayout()
-        invalidateIntrinsicContentSize()
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateTextLayerFont()
+            lastCGRectRendered = .zero
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
     }
 
     private func updateTextLayerFont() {
