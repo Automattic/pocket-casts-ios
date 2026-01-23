@@ -9,11 +9,17 @@ class TopLevelSettingsCell: ThemeableCell {
     }
     @IBOutlet var plusIndicator: UIImageView!
 
+    private var disclosureImageView: TintableImageView?
+
     var showsDisclosureIndicator = true {
         didSet {
             if showsDisclosureIndicator {
-                accessoryView = TintableImageView(image: UIImage(named: "chevron"))
+                let imageView = TintableImageView(image: UIImage(named: "chevron"))
+                disclosureImageView = imageView
+                accessoryView = imageView
+                updateDisclosureScale()
             } else {
+                disclosureImageView = nil
                 accessoryView = nil
             }
         }
@@ -22,9 +28,25 @@ class TopLevelSettingsCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        accessoryView = TintableImageView(image: UIImage(named: "chevron"))
+        let imageView = TintableImageView(image: UIImage(named: "chevron"))
+        disclosureImageView = imageView
+        accessoryView = imageView
         settingsLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         updateColor()
+        updateDisclosureScale()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc private func contentSizeCategoryDidChange() {
+        updateImageScale()
+        updateDisclosureScale()
+    }
+
+    private func updateDisclosureScale() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        disclosureImageView?.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 
     override func handleThemeDidChange() {

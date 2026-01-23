@@ -16,6 +16,19 @@ class DisclosureCell: ThemeableCell {
         super.awakeFromNib()
 
         cellTextToImageConstraint.isActive = false
+        updateDisclosureScale()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    @objc private func contentSizeCategoryDidChange() {
+        updateDisclosureScale()
+    }
+
+    private func updateDisclosureScale() {
+        let category = UIApplication.shared.preferredContentSizeCategory
+        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        disclosureImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
