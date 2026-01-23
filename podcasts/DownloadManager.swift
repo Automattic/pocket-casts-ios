@@ -43,7 +43,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     var progressManager = DownloadProgressManager()
 
-    lazy var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
+    var downloadingEpisodesCache: DownloadManagerEpisodesCache = {
         if FeatureFlag.downloadsThreadSafeCache.enabled {
             ThreadSafeDictionary<String, BaseEpisode>()
         } else {
@@ -51,7 +51,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
     }()
 
-    lazy var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
+    var downloadAndStreamEpisodes: DownloadManagerStreamAndDownloadCache = {
         if FeatureFlag.downloadsThreadSafeCache.enabled {
             ThreadSafeDictionary<String, AVAssetResourceLoaderDelegate>()
         } else {
