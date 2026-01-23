@@ -34,13 +34,15 @@ class TopLevelSettingsCell: ThemeableCell {
         settingsLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         updateColor()
         updateDisclosureScale()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    @objc private func contentSizeCategoryDidChange() {
-        updateImageScale()
-        updateDisclosureScale()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateImageScale()
+            updateDisclosureScale()
+        }
     }
 
     private func updateDisclosureScale() {

@@ -17,12 +17,14 @@ class DisclosureCell: ThemeableCell {
 
         cellTextToImageConstraint.isActive = false
         updateDisclosureScale()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
-    @objc private func contentSizeCategoryDidChange() {
-        updateDisclosureScale()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateDisclosureScale()
+        }
     }
 
     private func updateDisclosureScale() {
