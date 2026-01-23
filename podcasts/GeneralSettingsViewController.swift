@@ -20,7 +20,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             settingsTable.register(UINib(nibName: "TimeStepperCell", bundle: nil), forCellReuseIdentifier: timeStepperCellId)
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
-            
+
             // Enable automatic row height for dynamic content
             settingsTable.rowHeight = UITableView.automaticDimension
             settingsTable.estimatedRowHeight = 44
