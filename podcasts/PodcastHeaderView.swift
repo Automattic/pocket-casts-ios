@@ -65,11 +65,11 @@ struct PodcastHeaderView: View {
             })
             Spacer().frame(height: titleBottomMargin)
             podcastActions
-            Spacer().frame(height: 24)
+            Spacer().frame(height: itemMargin)
             VStack(spacing: titleBottomMargin) {
                 podcastDescription
                 podcastDetails
-                Spacer().frame(height: 24)
+                Spacer().frame(height: itemMargin)
             }
                 .frame(maxHeight: viewModel.isExpanded ? .infinity : 0)
                 .opacity(viewModel.isExpanded ? 1 : 0)
@@ -107,6 +107,8 @@ struct PodcastHeaderView: View {
 
     @ScaledMetric(relativeTo: .body) private var titleBottomMargin = 16
     @ScaledMetric(relativeTo: .title2) private var itemMargin = 24
+    @ScaledMetric(relativeTo: .title2) private var iconSize = 24
+    @ScaledMetric(relativeTo: .title2) private var iconRounding = 32
 
     private var podcastTitle: some View {
         HStack(spacing: 0) {
@@ -140,20 +142,20 @@ struct PodcastHeaderView: View {
                 .font(.body).bold()
                 .foregroundStyle(theme.primaryText01)
                 .padding()
-                .cornerRadius(viewModel.isSubscribed ? 8 : 32)
-                .frame(minWidth: viewModel.isSubscribed ? 32 : viewModel.podcast.fundingURL != nil ? 118 : 150, maxWidth: viewModel.isSubscribed ? 32 : nil, minHeight: viewModel.isSubscribed ? 32 : 40, maxHeight: viewModel.isSubscribed ? 32 : 40)
+                .cornerRadius(viewModel.isSubscribed ? 8 : iconRounding)
+                .frame(minWidth: viewModel.isSubscribed ? iconRounding : viewModel.podcast.fundingURL != nil ? 118 : 150, maxWidth: viewModel.isSubscribed ? iconRounding : nil, minHeight: viewModel.isSubscribed ? iconRounding : iconRounding + 2, maxHeight: viewModel.isSubscribed ? iconRounding : iconRounding + 2)
                 .background {
                     Image("discover_tick")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background(theme.support02)
                         .tint(theme.primaryUi01)
-                        .frame(width: 24, height: 24)
+                        .frame(width: iconSize, height: iconSize)
                         .clipShape(Circle())
                         .opacity(viewModel.isSubscribed ? 1 : 0)
                 }
                 .overlay(
-                    RoundedRectangle(cornerRadius: viewModel.isSubscribed ? 32 : 8)
+                    RoundedRectangle(cornerRadius: viewModel.isSubscribed ? iconRounding : 8)
                     .inset(by: 0.5)
                     .stroke(theme.primaryUi05, lineWidth: 1)
                     .opacity(viewModel.isSubscribed ? 0 : 1)
@@ -169,8 +171,8 @@ struct PodcastHeaderView: View {
         } label: {
             if !viewModel.isSubscribed {
                 // Unsubscribed state - larger button next to Follow
-                fundingImage(width: 20.0, height: 20.0, padding: 10.0)
-                    .frame(width: 40, height: 40)
+                fundingImage(width: iconSize, height: iconSize, padding: 10.0)
+                    .frame(width: iconRounding + 2, height: iconRounding + 2)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .inset(by: 0.5)
@@ -179,7 +181,7 @@ struct PodcastHeaderView: View {
 
             } else {
                 // Subscribed state - compact button with other actions
-                fundingImage(width: 24.0, height: 24.0, padding: 8.0)
+                fundingImage(width: iconSize, height: iconSize, padding: 8.0)
             }
         }
         .accessibilityLabel(L10n.funding)
@@ -228,7 +230,7 @@ struct PodcastHeaderView: View {
             Image(imageName)
                 .renderingMode(.template)
                 .resizable()
-                .frame(width: 24, height: 24)
+                .frame(width: iconSize, height: iconSize)
                 .padding(8)
                 .foregroundStyle(theme.primaryIcon03)
         }
