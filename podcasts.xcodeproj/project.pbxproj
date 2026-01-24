@@ -2161,6 +2161,8 @@
 		FF7F89F12C2C0FD600FC0ED5 /* TranscriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */; };
 		FF8660AB2E82E27200731A87 /* SearchResultCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8660AA2E82E27200731A87 /* SearchResultCellModel.swift */; };
 		FF8660AD2E84381500731A87 /* PillSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8660AC2E84380900731A87 /* PillSegmentControl.swift */; };
+		FF86A3E72F24EB2800CF77E7 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF86A3E62F24EB1500CF77E7 /* UIView+Constraints.swift */; };
+		FF86A3E82F24EB8A00CF77E7 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF86A3E62F24EB1500CF77E7 /* UIView+Constraints.swift */; };
 		FF8970762B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */; };
 		FF89C0962D807B4000BC5104 /* PodcastHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */; };
 		FF89C0982D81A2D000BC5104 /* PodcastHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */; };
@@ -4343,6 +4345,7 @@
 		FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptModel.swift; sourceTree = "<group>"; };
 		FF8660AA2E82E27200731A87 /* SearchResultCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellModel.swift; sourceTree = "<group>"; };
 		FF8660AC2E84380900731A87 /* PillSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillSegmentControl.swift; sourceTree = "<group>"; };
+		FF86A3E62F24EB1500CF77E7 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		FF8970752B5FFC5E004ADB23 /* SubscriptionPriceAndOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPriceAndOfferView.swift; sourceTree = "<group>"; };
 		FF89C0952D807B2B00BC5104 /* PodcastHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderCell.swift; sourceTree = "<group>"; };
 		FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastHeaderModel.swift; sourceTree = "<group>"; };
@@ -7858,6 +7861,7 @@
 		BDF9DDDC1B8AE9B900E77B35 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FF86A3E62F24EB1500CF77E7 /* UIView+Constraints.swift */,
 				FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */,
 				FF4D65D32DAFF0BC003DC1F0 /* UIApplication+OpenStandardURLs.swift */,
 				F5A4299D2E2DF108004035AE /* UIApplication+OpenSafariVC.swift */,
@@ -11257,6 +11261,7 @@
 				8B3DF0CE2BE5683700EE4CA8 /* MainTabBarController+Alert.swift in Sources */,
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
 				C7D5E7F12A8BF3150039F4A1 /* UIViewController+Presenting.swift in Sources */,
+				FF86A3E72F24EB2800CF77E7 /* UIView+Constraints.swift in Sources */,
 				102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */,
 				FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
@@ -11914,6 +11919,7 @@
 				F5F509122CEBEBD6007D6E39 /* AnalyticsPlaybackHelper.swift in Sources */,
 				F5F509452CEBF2E2007D6E39 /* ShelfLoadState.swift in Sources */,
 				FFDE41A32DD201AE0065ADDE /* AppClipAppDelegate.swift in Sources */,
+				FF86A3E82F24EB8A00CF77E7 /* UIView+Constraints.swift in Sources */,
 				F5F508F12CEBE955007D6E39 /* RegionCancellingScrollView.swift in Sources */,
 				F5F5091D2CEBECB2007D6E39 /* EpisodeManager.swift in Sources */,
 				9ACB950B2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,

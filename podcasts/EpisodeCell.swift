@@ -601,22 +601,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         selectCircleView.layer.cornerRadius = tickSize / 2
     }
 
-    private func updateSizeConstraints(of view: UIView, to value: CGFloat) {
-        for constraint in view.constraints {
-            if constraint.secondItem != nil {
-                continue
-            }
-            switch constraint.firstAttribute {
-            case .width:
-                constraint.constant = value
-            case .height:
-                constraint.constant = value
-            default:
-                continue
-            }
-        }
-    }
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateSize()

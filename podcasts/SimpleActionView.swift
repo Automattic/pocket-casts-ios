@@ -7,6 +7,7 @@ class SimpleActionView: UIView {
 
     private weak var delegate: OptionsPickerRootController?
     private var onOffSwitch: UISwitch?
+    private var imageView: UIImageView?
 
     init(frame: CGRect, action: OptionAction, delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.action = action
@@ -53,6 +54,7 @@ class SimpleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+            self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -154,7 +156,17 @@ class SimpleActionView: UIView {
         }
     }
 
-//    override var intrinsicContentSize: CGSize {
-//        return titleLabel?.textRect(forBounds: self.bounds, limitedToNumberOfLines: 2).size ?? .zero
-//    }
+    private func updateSize() {
+        if let imageView {
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            let imageSize = max(24, metric.scaledValue(for: 24))
+            updateSizeConstraints(of: imageView, to: imageSize)
+        }
+    }
+
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateSize()
+    }
 }
