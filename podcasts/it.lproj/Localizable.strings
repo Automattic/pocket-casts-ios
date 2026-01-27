@@ -381,6 +381,8 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Piani disponibili</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Riscatta l'offerta</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Continua con l'annullamento</string>
     <key>cancel_subscription_generic_error</key>
     <string>Si è verificato un errore. Riprova più tardi.</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Scopri e cerca</string>
     <key>settings_status_discover_description</key>
     <string>La sezione Scopri dell'app, che include la ricerca di podcast.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Solo su Wi-Fi non a consumo</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Se l'operazione ha esito positivo, il network verrà utilizzato per i download su Wi-Fi illimitato.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Il tuo network attuale è contrassegnato come costoso. Prova a passare al Wi-Fi o a disabilitare la Modalità dati in esaurimento.</string>
     <key>settings_status_host</key>
     <string>Fornitori di hosting di podcast comuni</string>
     <key>settings_status_host_description</key>

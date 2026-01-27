@@ -381,6 +381,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Utnyttja erbjudande</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Fortsätt med annullering</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ett fel uppstod. Försök igen senare.</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Upptäck och sök</string>
     <key>settings_status_discover_description</key>
     <string>Upptäck-sektionen i appen, med podcastsökning.</string>
+    <key>settings_status_expensive_network</key>
+    <string>WiFi utan datapriser</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Om detta lyckas kommer det här nätverket att användas för nedladdningar på WiFi utan datapriser.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Ditt nuvarande nätverk är markerat som dyrt. Prova att byta till Wi-Fi eller att inaktivera lågdataläge.</string>
     <key>settings_status_host</key>
     <string>Vanliga podcastvärdar</string>
     <key>settings_status_host_description</key>
