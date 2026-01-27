@@ -667,7 +667,7 @@ class PodcastDataManager {
 
         dbQueue.read { db in
             do {
-                let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName) ORDER BY sortOrder ASC", values: nil)
+                let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName)", values: nil)
                 defer { resultSet.close() }
 
                 var newPodcasts = [String: Podcast]()
