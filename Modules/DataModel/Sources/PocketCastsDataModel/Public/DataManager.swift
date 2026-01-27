@@ -27,7 +27,7 @@ public class DataManager {
     public let bookmarks: BookmarkDataManager
     public let ratings: RatingsDataManager
 
-    private let dbQueue: PCDBQueue
+    let dbQueue: PCDBQueue
 
     public static internal(set) var sharedManager = DataManager()
 
