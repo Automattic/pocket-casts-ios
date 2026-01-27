@@ -614,4 +614,299 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - saveEpisode(playingStatus:) Tests
+
+    func testSaveEpisodePlayingStatusUpdatesStatus() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            dataManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: false)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Playing status should be updated")
+        }
+    }
+
+    func testSaveEpisodePlayingStatusUpdatesSyncFlag() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            dataManager.saveEpisode(playingStatus: .completed, episode: episode, updateSyncFlag: true)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            // playingStatusModified stores a timestamp when modified, not just a flag
+            XCTAssertNotEqual(found?.playingStatusModified, 0, "\(impl): Modified timestamp should be set")
+        }
+    }
+
+    // MARK: - saveEpisode(archived:) Tests
+
+    func testSaveEpisodeArchivedUpdatesArchiveStatus() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: false, dataManager: dataManager)
+
+            dataManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: false)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertTrue(found?.archived ?? false, "\(impl): Archived status should be updated")
+        }
+    }
+
+    func testSaveEpisodeArchivedUpdatesSyncFlag() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: false, dataManager: dataManager)
+
+            dataManager.saveEpisode(archived: true, episode: episode, updateSyncFlag: true)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            // archivedModified stores a timestamp when modified, not just a flag
+            XCTAssertNotEqual(found?.archivedModified, 0, "\(impl): Modified timestamp should be set")
+        }
+    }
+
+    // MARK: - saveEpisode(playedUpTo:) Tests
+
+    func testSaveEpisodePlayedUpToUpdatesPosition() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playedUpTo: 0, dataManager: dataManager)
+
+            dataManager.saveEpisode(playedUpTo: 300.5, episode: episode, updateSyncFlag: false)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.playedUpTo ?? 0, 300.5, accuracy: 0.01, "\(impl): PlayedUpTo should be updated")
+        }
+    }
+
+    func testSaveEpisodePlayedUpToUpdatesSyncFlag() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playedUpTo: 0, dataManager: dataManager)
+
+            dataManager.saveEpisode(playedUpTo: 300.5, episode: episode, updateSyncFlag: true)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            // playedUpToModified stores a timestamp when modified, not just a flag
+            XCTAssertNotEqual(found?.playedUpToModified, 0, "\(impl): Modified timestamp should be set")
+        }
+    }
+
+    // MARK: - saveEpisode(excludeFromEpisodeLimit:) Tests
+
+    func testSaveEpisodeExcludeFromEpisodeLimitUpdatesFlag() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            dataManager.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertTrue(found?.excludeFromEpisodeLimit ?? false, "\(impl): excludeFromEpisodeLimit should be updated")
+        }
+    }
+
+    // MARK: - bulkSetStarred Tests
+
+    func testBulkSetStarredSetsStarredOnEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode1 = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+            let episode2 = self.createTestEpisode(uuid: "ep-2", podcast: podcast, dataManager: dataManager)
+
+            dataManager.bulkSetStarred(starred: true, episodes: [episode1, episode2], updateSyncStatus: false)
+
+            let found1 = dataManager.findEpisode(uuid: episode1.uuid)
+            let found2 = dataManager.findEpisode(uuid: episode2.uuid)
+
+            XCTAssertTrue(found1?.keepEpisode ?? false, "\(impl): Episode 1 should be starred")
+            XCTAssertTrue(found2?.keepEpisode ?? false, "\(impl): Episode 2 should be starred")
+        }
+    }
+
+    func testBulkSetStarredUnsetsStarred() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, keepEpisode: true, dataManager: dataManager)
+
+            dataManager.bulkSetStarred(starred: false, episodes: [episode], updateSyncStatus: false)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertFalse(found?.keepEpisode ?? true, "\(impl): Episode should be unstarred")
+        }
+    }
+
+    // MARK: - saveFrameCount/findFrameCount Tests
+
+    func testSaveAndFindFrameCount() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            dataManager.saveFrameCount(episode: episode, frameCount: 12345)
+
+            let frameCount = dataManager.findFrameCount(episode: episode)
+            XCTAssertEqual(frameCount, 12345, "\(impl): Frame count should be saved and retrieved")
+        }
+    }
+
+    func testFindFrameCountReturnsZeroForUnset() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            let frameCount = dataManager.findFrameCount(episode: episode)
+            XCTAssertEqual(frameCount, 0, "\(impl): Frame count should be 0 when not set")
+        }
+    }
+
+    // MARK: - clearEpisodePlaybackInteractionDate Tests
+
+    func testClearEpisodePlaybackInteractionDateClearsDate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, lastPlaybackInteractionDate: Date(), dataManager: dataManager)
+
+            dataManager.clearEpisodePlaybackInteractionDate(episodeUuid: episode.uuid)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertNil(found?.lastPlaybackInteractionDate, "\(impl): Interaction date should be cleared")
+        }
+    }
+
+    // MARK: - setEpisodePlaybackInteractionDate Tests
+
+    func testSetEpisodePlaybackInteractionDateSetsDate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, lastPlaybackInteractionDate: nil, dataManager: dataManager)
+            let interactionDate = Date()
+
+            dataManager.setEpisodePlaybackInteractionDate(interactionDate: interactionDate, episodeUuid: episode.uuid)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertNotNil(found?.lastPlaybackInteractionDate, "\(impl): Interaction date should be set")
+        }
+    }
+
+    // MARK: - saveIfNotModified Tests
+
+    func testSaveIfNotModifiedStarredUpdatesWhenNotModified() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, keepEpisode: false, dataManager: dataManager)
+
+            _ = dataManager.saveIfNotModified(starred: true, episodeUuid: episode.uuid)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertTrue(found?.keepEpisode ?? false, "\(impl): Starred should be updated when not modified")
+        }
+    }
+
+    func testSaveIfNotModifiedArchivedUpdatesWhenNotModified() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: false, dataManager: dataManager)
+
+            _ = dataManager.saveIfNotModified(archived: true, episodeUuid: episode.uuid)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertTrue(found?.archived ?? false, "\(impl): Archived should be updated when not modified")
+        }
+    }
+
+    func testSaveIfNotModifiedPlayingStatusUpdatesWhenNotModified() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            _ = dataManager.saveIfNotModified(playingStatus: .completed, episodeUuid: episode.uuid)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Playing status should be updated when not modified")
+        }
+    }
+
+    // MARK: - saveEpisode(contentType:) Tests
+
+    func testSaveContentTypeUpdatesEpisode() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            dataManager.saveEpisode(contentType: "audio/mpeg", episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.contentType, "audio/mpeg", "\(impl): Content type should be updated")
+        }
+    }
+
+    // MARK: - saveEpisode(fileType:) Tests
+
+    func testSaveFileTypeUpdatesEpisode() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            dataManager.saveEpisode(fileType: "mp3", episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.fileType, "mp3", "\(impl): File type should be updated")
+        }
+    }
+
+    // MARK: - saveEpisode(fileSize:) Tests
+
+    func testSaveFileSizeUpdatesEpisode() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            dataManager.saveEpisode(fileSize: 1024000, episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertEqual(found?.sizeInBytes, 1024000, "\(impl): File size should be updated")
+        }
+    }
+
+    // MARK: - Helper method override for additional properties
+
+    @discardableResult
+    func createTestEpisode(
+        uuid: String = UUID().uuidString,
+        podcast: Podcast,
+        title: String = "Test Episode",
+        publishedDate: Date = Date(),
+        episodeStatus: Int32 = DownloadStatus.notDownloaded.rawValue,
+        playingStatus: Int32 = PlayingStatus.notPlayed.rawValue,
+        playedUpTo: Double = 0,
+        archived: Bool = false,
+        wasDeleted: Bool = false,
+        lastPlaybackInteractionDate: Date? = nil,
+        keepEpisode: Bool = false,
+        lastDownloadAttemptDate: Date? = nil,
+        dataManager: DataManager
+    ) -> Episode {
+        let episode = Episode()
+        episode.uuid = uuid
+        episode.podcastUuid = podcast.uuid
+        episode.podcast_id = podcast.id
+        episode.title = title
+        episode.publishedDate = publishedDate
+        episode.episodeStatus = episodeStatus
+        episode.playingStatus = playingStatus
+        episode.playedUpTo = playedUpTo
+        episode.archived = archived
+        episode.wasDeleted = wasDeleted
+        episode.addedDate = Date()
+        episode.lastPlaybackInteractionDate = lastPlaybackInteractionDate
+        episode.keepEpisode = keepEpisode
+        episode.lastDownloadAttemptDate = lastDownloadAttemptDate
+        dataManager.save(episode: episode)
+        return episode
+    }
+
 }

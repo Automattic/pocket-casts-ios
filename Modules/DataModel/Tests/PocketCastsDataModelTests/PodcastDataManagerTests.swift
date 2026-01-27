@@ -647,6 +647,237 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - savePushSetting Tests
+
+    func testSavePushSettingUpdatesPodcastPushEnabled() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", pushEnabled: false, dataManager: dataManager)
+
+            dataManager.savePushSetting(podcast: podcast, pushEnabled: true)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertTrue(found?.pushEnabled ?? false, "\(impl): Push should be enabled")
+        }
+    }
+
+    func testSavePushSettingByUuidUpdatesPodcastPushEnabled() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", pushEnabled: false, dataManager: dataManager)
+
+            dataManager.savePushSetting(podcastUuid: podcast.uuid, pushEnabled: true)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertTrue(found?.pushEnabled ?? false, "\(impl): Push should be enabled")
+        }
+    }
+
+    // MARK: - setPushForAllPodcasts Tests
+
+    func testSetPushForAllPodcastsEnablesPushForAll() throws {
+        try runWithBothImplementations { dataManager, impl in
+            _ = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", pushEnabled: false, dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", pushEnabled: false, dataManager: dataManager)
+
+            dataManager.setPushForAllPodcasts(pushEnabled: true)
+
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
+            XCTAssertTrue(podcasts.allSatisfy { $0.pushEnabled }, "\(impl): All podcasts should have push enabled")
+        }
+    }
+
+    func testSetPushForAllPodcastsDisablesPushForAll() throws {
+        try runWithBothImplementations { dataManager, impl in
+            _ = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", pushEnabled: true, dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", pushEnabled: true, dataManager: dataManager)
+
+            dataManager.setPushForAllPodcasts(pushEnabled: false)
+
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
+            XCTAssertTrue(podcasts.allSatisfy { !$0.pushEnabled }, "\(impl): All podcasts should have push disabled")
+        }
+    }
+
+    // MARK: - saveAutoAddToUpNext Tests
+
+    func testSaveAutoAddToUpNextUpdatesPodcast() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+
+            dataManager.saveAutoAddToUpNext(podcastUuid: podcast.uuid, autoAddToUpNext: AutoAddToUpNextSetting.addFirst.rawValue)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertEqual(found?.autoAddToUpNext, AutoAddToUpNextSetting.addFirst.rawValue, "\(impl): Auto add to up next should be updated")
+        }
+    }
+
+    // MARK: - saveAutoAddToUpNextForAllPodcasts Tests
+
+    func testSaveAutoAddToUpNextForAllPodcastsUpdatesAll() throws {
+        try runWithBothImplementations { dataManager, impl in
+            _ = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", autoAddToUpNext: AutoAddToUpNextSetting.off.rawValue, dataManager: dataManager)
+
+            dataManager.saveAutoAddToUpNextForAllPodcasts(autoAddToUpNext: AutoAddToUpNextSetting.addLast.rawValue)
+
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
+            XCTAssertTrue(podcasts.allSatisfy { $0.autoAddToUpNext == AutoAddToUpNextSetting.addLast.rawValue }, "\(impl): All podcasts should have auto add to up next set")
+        }
+    }
+
+    // MARK: - setDownloadSettingForAllPodcasts Tests
+
+    func testSetDownloadSettingForAllPodcastsUpdatesAll() throws {
+        try runWithBothImplementations { dataManager, impl in
+            _ = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", autoDownloadSetting: AutoDownloadSetting.off.rawValue, dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", autoDownloadSetting: AutoDownloadSetting.off.rawValue, dataManager: dataManager)
+
+            dataManager.setDownloadSettingForAllPodcasts(setting: .latest)
+
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
+            XCTAssertTrue(podcasts.allSatisfy { $0.autoDownloadSetting == AutoDownloadSetting.latest.rawValue }, "\(impl): All podcasts should have download setting updated")
+        }
+    }
+
+    // MARK: - savePodcastDownloadSetting Tests
+
+    func testSavePodcastDownloadSettingUpdatesPodcast() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", autoDownloadSetting: AutoDownloadSetting.off.rawValue, dataManager: dataManager)
+
+            dataManager.savePodcastDownloadSetting(.latest, podcastUuid: podcast.uuid)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertEqual(found?.autoDownloadSetting, AutoDownloadSetting.latest.rawValue, "\(impl): Download setting should be updated")
+        }
+    }
+
+    // MARK: - saveAutoArchiveLimit Tests
+
+    func testSaveAutoArchiveLimitUpdatesPodcast() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", autoArchiveEpisodeLimit: 0, dataManager: dataManager)
+
+            dataManager.saveAutoArchiveLimit(podcast: podcast, limit: 10)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertEqual(found?.autoArchiveEpisodeLimit, 10, "\(impl): Auto archive limit should be updated")
+        }
+    }
+
+    // MARK: - setPodcastImageVersion Tests
+
+    func testSetPodcastImageVersionDoesNotCrash() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", dataManager: dataManager)
+
+            // setPodcastImageVersion updates an internal field, verify it doesn't crash
+            dataManager.setPodcastImageVersion(podcastUuid: podcast.uuid, version: 5)
+
+            // Verify podcast still exists after update
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertNotNil(found, "\(impl): Podcast should still exist after image version update")
+        }
+    }
+
+    // MARK: - updatePodcastFolder Tests
+
+    func testUpdatePodcastFolderUpdatesFolderAndSortOrder() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = self.createTestFolder(uuid: "test-folder", name: "Test Folder", dataManager: dataManager)
+            let podcast = self.createTestPodcast(uuid: "podcast-1", title: "Podcast", sortOrder: 0, dataManager: dataManager)
+
+            dataManager.updatePodcastFolder(podcastUuid: podcast.uuid, to: folder.uuid, sortOrder: 5)
+
+            let found = dataManager.findPodcast(uuid: podcast.uuid)
+            XCTAssertEqual(found?.folderUuid, folder.uuid, "\(impl): Folder UUID should be updated")
+            XCTAssertEqual(found?.sortOrder, 5, "\(impl): Sort order should be updated")
+        }
+    }
+
+    // MARK: - markAllPodcastsUnsyncedWhereLastSyncAtNot Tests
+
+    func testMarkAllPodcastsUnsyncedWhereLastSyncAtNotDoesNotCrash() throws {
+        try runWithBothImplementations { dataManager, impl in
+            // Create some synced podcasts
+            _ = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", syncStatus: SyncStatus.synced.rawValue, dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", syncStatus: SyncStatus.synced.rawValue, dataManager: dataManager)
+
+            // Call the method with a sync time - it should not crash
+            dataManager.markAllPodcastsUnsyncedWhereLastSyncAtNot("1000")
+
+            // Verify podcasts still exist
+            let found1 = dataManager.findPodcast(uuid: "podcast-1")
+            let found2 = dataManager.findPodcast(uuid: "podcast-2")
+
+            XCTAssertNotNil(found1, "\(impl): Podcast 1 should still exist")
+            XCTAssertNotNil(found2, "\(impl): Podcast 2 should still exist")
+        }
+    }
+
+    // MARK: - allPodcastsOrderedByNewestEpisodes Tests
+
+    func testAllPodcastsOrderedByNewestEpisodesReturnsSortedByLatestRelease() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast1 = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", dataManager: dataManager)
+            let podcast2 = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", dataManager: dataManager)
+            let podcast3 = self.createTestPodcast(uuid: "podcast-3", title: "Podcast 3", dataManager: dataManager)
+
+            // Add episodes with different release dates
+            _ = self.createTestEpisode(podcast: podcast1, publishedDate: Date(timeIntervalSinceNow: -86400 * 3), dataManager: dataManager) // 3 days ago
+            _ = self.createTestEpisode(podcast: podcast2, publishedDate: Date(), dataManager: dataManager) // Today
+            _ = self.createTestEpisode(podcast: podcast3, publishedDate: Date(timeIntervalSinceNow: -86400), dataManager: dataManager) // 1 day ago
+
+            let podcasts = dataManager.allPodcastsOrderedByNewestEpisodes()
+
+            XCTAssertGreaterThanOrEqual(podcasts.count, 3, "\(impl): Should return all podcasts")
+            // The podcast with the newest episode should be first
+            XCTAssertEqual(podcasts.first?.uuid, podcast2.uuid, "\(impl): Podcast with newest episode should be first")
+        }
+    }
+
+    // MARK: - allPodcastsOrderedByLastPlayedEpisodes Tests
+
+    func testAllPodcastsOrderedByLastPlayedEpisodesReturnsSortedByLastPlayed() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast1 = self.createTestPodcast(uuid: "podcast-1", title: "Podcast 1", dataManager: dataManager)
+            let podcast2 = self.createTestPodcast(uuid: "podcast-2", title: "Podcast 2", dataManager: dataManager)
+            let podcast3 = self.createTestPodcast(uuid: "podcast-3", title: "Podcast 3", dataManager: dataManager)
+
+            // Add episodes with different last playback interaction dates
+            _ = self.createTestEpisode(podcast: podcast1, lastPlaybackInteractionDate: Date(timeIntervalSinceNow: -86400 * 3), dataManager: dataManager)
+            _ = self.createTestEpisode(podcast: podcast2, lastPlaybackInteractionDate: Date(), dataManager: dataManager)
+            _ = self.createTestEpisode(podcast: podcast3, lastPlaybackInteractionDate: Date(timeIntervalSinceNow: -86400), dataManager: dataManager)
+
+            let podcasts = dataManager.allPodcastsOrderedByLastPlayedEpisodes()
+
+            XCTAssertGreaterThanOrEqual(podcasts.count, 3, "\(impl): Should return all podcasts")
+            // The podcast with the most recently played episode should be first
+            XCTAssertEqual(podcasts.first?.uuid, podcast2.uuid, "\(impl): Podcast with most recently played episode should be first")
+        }
+    }
+
+    // MARK: - Helper to create episode for podcast tests
+
+    @discardableResult
+    func createTestEpisode(
+        uuid: String = UUID().uuidString,
+        podcast: Podcast,
+        publishedDate: Date = Date(),
+        lastPlaybackInteractionDate: Date? = nil,
+        dataManager: DataManager
+    ) -> Episode {
+        let episode = Episode()
+        episode.uuid = uuid
+        episode.podcastUuid = podcast.uuid
+        episode.podcast_id = podcast.id
+        episode.title = "Test Episode"
+        episode.publishedDate = publishedDate
+        episode.addedDate = Date()
+        episode.lastPlaybackInteractionDate = lastPlaybackInteractionDate
+        dataManager.save(episode: episode)
+        return episode
+    }
+
     // MARK: - Helper to create podcast with additional properties
 
     func createTestPodcast(
@@ -662,6 +893,10 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         isPaid: Bool = false,
         overrideGlobalArchive: Bool = false,
         addedDate: Date = Date(),
+        pushEnabled: Bool = false,
+        autoAddToUpNext: Int32 = AutoAddToUpNextSetting.off.rawValue,
+        autoDownloadSetting: Int32 = AutoDownloadSetting.off.rawValue,
+        autoArchiveEpisodeLimit: Int32 = 0,
         dataManager: DataManager
     ) -> Podcast {
         let podcast = Podcast()
@@ -677,6 +912,10 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         podcast.isPaid = isPaid
         podcast.overrideGlobalArchive = overrideGlobalArchive
         podcast.addedDate = addedDate
+        podcast.pushEnabled = pushEnabled
+        podcast.autoAddToUpNext = autoAddToUpNext
+        podcast.autoDownloadSetting = autoDownloadSetting
+        podcast.autoArchiveEpisodeLimit = autoArchiveEpisodeLimit
         dataManager.save(podcast: podcast)
         return podcast
     }
