@@ -1,6 +1,6 @@
 8.5
 -----
-
+- Fix removal of User Episode Files when selecting multiple episodes [#3898](https://github.com/Automattic/pocket-casts-ios/pull/3898)
 
 8.4
 -----

@@ -505,9 +505,10 @@ class UserEpisodeDataManager {
     }
 
     func delete(userEpisodeUuids: [String], dbQueue: PCDBQueue) {
+        guard !userEpisodeUuids.isEmpty else { return }
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: userEpisodeUuids)
+                try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid IN (\(DataHelper.convertArrayToInString(userEpisodeUuids)))", values: nil)
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.delete many error: \(error)")
             }
