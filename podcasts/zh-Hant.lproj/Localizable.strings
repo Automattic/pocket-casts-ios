@@ -381,6 +381,8 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>可供取消的方案</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>領取優惠</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>繼續取消作業</string>
     <key>cancel_subscription_generic_error</key>
     <string>發生錯誤， 請稍後再試。</string>
     <key>cancel_subscription_help_description</key>
@@ -3266,6 +3268,12 @@ Pocket Casts Plus</string>
     <string>探索和搜尋</string>
     <key>settings_status_discover_description</key>
     <string>應用程式的探索區段，包括 Podcast 搜尋。</string>
+    <key>settings_status_expensive_network</key>
+    <string>非計量付費 WiFi</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>如果成功，將透過此網路用於非計量付費 Wifi 的下載作業。</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>目前的網路已標示為昂貴。 嘗試改用 Wi-Fi 或停用低數據模式。</string>
     <key>settings_status_host</key>
     <string>Podcast 常見託管服務商</string>
     <key>settings_status_host_description</key>
