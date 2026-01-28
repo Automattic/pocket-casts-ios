@@ -553,7 +553,7 @@ public class DataManager {
 
     public func findDownloadedEpisodes() -> [BaseEpisode] {
         let query = "episodeStatus = \(DownloadStatus.downloaded.rawValue)"
-        let downloadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        let downloadedEpisodes = findEpisodesWhere(customWhere: query, arguments: nil)
 
         let downloadedUserEpisodes = userEpisodeManager.findAllDownloaded(sortedBy: .newestToOldest, dbQueue: dbQueue)
         var allEpisodes: [BaseEpisode] = downloadedEpisodes + downloadedUserEpisodes
