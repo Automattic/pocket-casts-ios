@@ -16,7 +16,7 @@
                 <outlet property="lastRefreshTime" destination="VB8-yk-sc5" id="TNW-Qn-8ZM"/>
                 <outlet property="plusInfoView" destination="HPJ-89-MbZ" id="98u-FG-OHC"/>
                 <outlet property="profileTable" destination="O6Y-M5-xeo" id="H0S-9j-I26"/>
-                <outlet property="refreshBtn" destination="p8e-4a-Gv8" id="RyB-fn-9Ka"/>
+                <outlet property="refreshButtonContainer" destination="p8e-4a-Gv8" id="RyB-fn-9Ka"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -66,20 +66,12 @@
                                 </label>
                             </subviews>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8e-4a-Gv8" customClass="AnimatedImageButton" customModule="podcasts" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8e-4a-Gv8">
                             <rect key="frame" x="126" y="17" width="127" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="pLP-KQ-QGL"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="mainColor">
-                                    <color key="value" red="0.1137254902" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="Refresh Now"/>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="8"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPJ-89-MbZ" customClass="PlusLockedInfoView" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="67" width="379" height="161"/>
