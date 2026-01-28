@@ -62,5 +62,25 @@
                 subview.removeFromSuperview()
             }
         }
+
+        func updateSizeConstraints(of view: UIView, to value: CGFloat) {
+            updateSizeConstraints(of: view, toWidth: value, height: value)
+        }
+
+        func updateSizeConstraints(of view: UIView, toWidth width: CGFloat, height: CGFloat) {
+            for constraint in view.constraints {
+                if constraint.secondItem != nil {
+                    continue
+                }
+                switch constraint.firstAttribute {
+                case .width:
+                    constraint.constant = width
+                case .height:
+                    constraint.constant = height
+                default:
+                    continue
+                }
+            }
+        }
     }
 #endif

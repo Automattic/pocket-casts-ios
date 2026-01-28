@@ -313,7 +313,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         cell.settingsImage.tintColor = ThemeColor.primaryIcon01()
         cell.settingsLabel.setLetterSpacing(-0.01)
-        cell.updateImageScale()
         cell.separatorInset = .zero
 
         switch row {
