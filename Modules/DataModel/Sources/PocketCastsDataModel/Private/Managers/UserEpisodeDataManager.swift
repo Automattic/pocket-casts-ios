@@ -477,7 +477,7 @@ class UserEpisodeDataManager {
                     values.append(episode.uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
             } catch {
