@@ -362,8 +362,9 @@ final class PodcastDataManagerTests: DataManagerTestCase {
             let podcasts = dataManager.allPodcastsOrderedByAddedDate()
 
             XCTAssertEqual(podcasts.count, 3, "\(impl): Should return all podcasts")
-            XCTAssertEqual(podcasts.first?.title, "Newest", "\(impl): Newest should be first")
-            XCTAssertEqual(podcasts.last?.title, "Oldest", "\(impl): Oldest should be last")
+            // Sorted by added date ascending (oldest first)
+            XCTAssertEqual(podcasts.first?.title, "Oldest", "\(impl): Oldest should be first")
+            XCTAssertEqual(podcasts.last?.title, "Newest", "\(impl): Newest should be last")
         }
     }
 

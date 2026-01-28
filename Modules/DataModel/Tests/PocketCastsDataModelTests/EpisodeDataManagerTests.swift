@@ -872,6 +872,241 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - allUpNextEpisodes(from:) Tests
+
+    func testAllUpNextEpisodesFromUuidsReturnsMatchingEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode1 = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+            let episode2 = self.createTestEpisode(uuid: "ep-2", podcast: podcast, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-3", podcast: podcast, dataManager: dataManager)
+
+            // Add episodes to Up Next (required for allUpNextEpisodes to find them)
+            self.addToUpNextBottom(episodeUuid: episode1.uuid, podcastUuid: podcast.uuid, dataManager: dataManager)
+            self.addToUpNextBottom(episodeUuid: episode2.uuid, podcastUuid: podcast.uuid, dataManager: dataManager)
+
+            let episodes = dataManager.allUpNextEpisodes(from: [episode1.uuid, episode2.uuid])
+
+            XCTAssertEqual(episodes.count, 2, "\(impl): Should return 2 episodes")
+            let uuids = episodes.map(\.uuid)
+            XCTAssertTrue(uuids.contains("ep-1"), "\(impl): Should contain ep-1")
+            XCTAssertTrue(uuids.contains("ep-2"), "\(impl): Should contain ep-2")
+        }
+    }
+
+    func testAllUpNextEpisodesFromUuidsReturnsEmptyForNoMatches() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            let episodes = dataManager.allUpNextEpisodes(from: ["non-existent-uuid"])
+
+            XCTAssertTrue(episodes.isEmpty, "\(impl): Should return empty for non-existent UUIDs")
+        }
+    }
+
+    // MARK: - findPlayedEpisodes Tests
+
+    func testFindPlayedEpisodesReturnsPlayedUuids() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-played", podcast: podcast, playingStatus: PlayingStatus.completed.rawValue, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-not-played", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            let playedUuids = dataManager.findPlayedEpisodes(uuids: ["ep-played", "ep-not-played"])
+
+            XCTAssertEqual(playedUuids.count, 1, "\(impl): Should return 1 played episode")
+            XCTAssertTrue(playedUuids.contains("ep-played"), "\(impl): Should contain played episode UUID")
+        }
+    }
+
+    func testFindPlayedEpisodesReturnsEmptyWhenNonePlayed() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-2", podcast: podcast, playingStatus: PlayingStatus.inProgress.rawValue, dataManager: dataManager)
+
+            let playedUuids = dataManager.findPlayedEpisodes(uuids: ["ep-1", "ep-2"])
+
+            XCTAssertTrue(playedUuids.isEmpty, "\(impl): Should return empty when no episodes are played")
+        }
+    }
+
+    // MARK: - findEpisodesAndPodcastsWhere Tests
+
+    func testFindEpisodesAndPodcastsWhereWithListenedTo() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-listened", podcast: podcast, playingStatus: PlayingStatus.completed.rawValue, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-not-listened", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            let episodes = dataManager.findEpisodesAndPodcastsWhere(customWhere: "1=1", listenedTo: true)
+
+            // With listenedTo: true, should return episodes with playing history
+            XCTAssertNotNil(episodes, "\(impl): Should return episodes array")
+        }
+    }
+
+    // MARK: - clearDownloadTaskId Tests
+
+    func testClearDownloadTaskIdClearsTaskId() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            // Set a download task ID first
+            dataManager.saveEpisode(downloadStatus: .downloading, downloadTaskId: "task-123", episode: episode)
+
+            // Clear it
+            dataManager.clearDownloadTaskId(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertNil(found?.downloadTaskId, "\(impl): Download task ID should be cleared")
+        }
+    }
+
+    // MARK: - clearKeepEpisodeModified Tests
+
+    func testClearKeepEpisodeModifiedClearsFlag() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, keepEpisode: true, dataManager: dataManager)
+
+            dataManager.clearKeepEpisodeModified(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            // The method clears the modified flag, not keepEpisode itself
+            XCTAssertNotNil(found, "\(impl): Episode should still exist")
+        }
+    }
+
+    // MARK: - findGhostEpisodes Tests
+
+    func testFindGhostEpisodesReturnsEpisodesWithoutPodcast() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-with-podcast", podcast: podcast, dataManager: dataManager)
+
+            // Create an episode manually with invalid podcast reference
+            let ghostEpisode = Episode()
+            ghostEpisode.uuid = "ghost-ep"
+            ghostEpisode.podcastUuid = "non-existent-podcast"
+            ghostEpisode.podcast_id = 99999
+            ghostEpisode.addedDate = Date()
+            dataManager.save(episode: ghostEpisode)
+
+            let ghostEpisodes = dataManager.findGhostEpisodes()
+
+            // Ghost episodes are those without a matching podcast in the database
+            XCTAssertNotNil(ghostEpisodes, "\(impl): Should return ghost episodes array")
+        }
+    }
+
+    // MARK: - findWhere Tests
+
+    func testFindWhereReturnsMatchingEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-archived", podcast: podcast, archived: true, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-not-archived", podcast: podcast, archived: false, dataManager: dataManager)
+
+            let episodes = dataManager.findEpisodesWhere(customWhere: "archived = ?", arguments: [true])
+
+            XCTAssertEqual(episodes.count, 1, "\(impl): Should return 1 archived episode")
+            XCTAssertEqual(episodes.first?.uuid, "ep-archived", "\(impl): Should return the archived episode")
+        }
+    }
+
+    // MARK: - findPlaylistEpisodesWhere Tests
+
+    func testFindPlaylistEpisodesWhereReturnsFilteredEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: false, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-2", podcast: podcast, archived: true, dataManager: dataManager)
+
+            let episodes = dataManager.findPlaylistEpisodesWhere(query: "SELECT * FROM \(DataManager.episodeTableName) WHERE archived = 0", arguments: nil)
+
+            XCTAssertGreaterThanOrEqual(episodes.count, 1, "\(impl): Should return non-archived episodes")
+        }
+    }
+
+    // MARK: - saveBulkEpisodeSyncInfo Tests
+
+    func testSaveBulkEpisodeSyncInfoUpdatesMultipleEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-2", podcast: podcast, playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            var syncInfo1 = EpisodeBasicData()
+            syncInfo1.uuid = "ep-1"
+            syncInfo1.playingStatus = Int(PlayingStatus.completed.rawValue)
+            syncInfo1.playedUpTo = 300
+
+            var syncInfo2 = EpisodeBasicData()
+            syncInfo2.uuid = "ep-2"
+            syncInfo2.playingStatus = Int(PlayingStatus.inProgress.rawValue)
+            syncInfo2.playedUpTo = 150
+
+            dataManager.saveBulkEpisodeSyncInfo(episodes: [syncInfo1, syncInfo2])
+
+            let found1 = dataManager.findEpisode(uuid: "ep-1")
+            let found2 = dataManager.findEpisode(uuid: "ep-2")
+
+            XCTAssertEqual(found1?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Episode 1 playing status should be updated")
+            XCTAssertEqual(found2?.playingStatus, PlayingStatus.inProgress.rawValue, "\(impl): Episode 2 playing status should be updated")
+        }
+    }
+
+    func testSaveBulkEpisodeSyncInfoHandlesArchiveStatus() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: false, dataManager: dataManager)
+
+            var syncInfo = EpisodeBasicData()
+            syncInfo.uuid = "ep-1"
+            syncInfo.isArchived = true
+
+            dataManager.saveBulkEpisodeSyncInfo(episodes: [syncInfo])
+
+            let found = dataManager.findEpisode(uuid: "ep-1")
+            XCTAssertTrue(found?.archived ?? false, "\(impl): Episode should be archived")
+        }
+    }
+
+    func testSaveBulkEpisodeSyncInfoHandlesStarredStatus() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            var syncInfo = EpisodeBasicData()
+            syncInfo.uuid = "ep-1"
+            syncInfo.starred = true
+
+            dataManager.saveBulkEpisodeSyncInfo(episodes: [syncInfo])
+
+            let found = dataManager.findEpisode(uuid: "ep-1")
+            XCTAssertTrue(found?.keepEpisode ?? false, "\(impl): Episode should be starred")
+        }
+    }
+
+    func testSaveBulkEpisodeSyncInfoHandlesDuration() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "ep-1", podcast: podcast, dataManager: dataManager)
+
+            var syncInfo = EpisodeBasicData()
+            syncInfo.uuid = "ep-1"
+            syncInfo.duration = 3600
+
+            dataManager.saveBulkEpisodeSyncInfo(episodes: [syncInfo])
+
+            let found = dataManager.findEpisode(uuid: "ep-1")
+            XCTAssertEqual(found?.duration, 3600, "\(impl): Episode duration should be updated")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult

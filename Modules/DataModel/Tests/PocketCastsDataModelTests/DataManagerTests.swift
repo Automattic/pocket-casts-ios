@@ -377,7 +377,7 @@ final class DataManagerTests: DataManagerTestCase {
             addToUpNextBottom(episodeUuid: episode.uuid, podcastUuid: podcast.uuid, dataManager: dataManager)
 
             let position = dataManager.positionForPlaylistEpisode(bottomOfList: false)
-            XCTAssertEqual(position, 0, "\(impl): should return position 0 for top of list")
+            XCTAssertEqual(position, 1, "\(impl): should return position 1 for top of list. Currently playing is 0")
         }
     }
 

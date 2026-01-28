@@ -236,10 +236,10 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             dataManager.saveUpNextAddToTop(episodeUuid: episode1.uuid)
             dataManager.saveUpNextAddToBottom(episodeUuid: episode2.uuid)
 
-            // Get current time and delete changes older than future time (should delete all)
-            let futureTime = Int64(Date().timeIntervalSince1970 + 1000)
+            // Get current time in milliseconds and delete changes older than future time (should delete all)
+            let futureTimeMillis = Int64((Date().timeIntervalSince1970 + 1000) * 1000)
 
-            dataManager.deleteChangesOlderThan(utcTime: futureTime)
+            dataManager.deleteChangesOlderThan(utcTime: futureTimeMillis)
 
             let updateActions = dataManager.findUpdateActions()
             let replaceAction = dataManager.findReplaceAction()
@@ -254,10 +254,10 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
 
-            // Use a past time so current changes are "newer"
-            let pastTime = Int64(Date().timeIntervalSince1970 - 1000)
+            // Use a past time in milliseconds so current changes are "newer"
+            let pastTimeMillis = Int64((Date().timeIntervalSince1970 - 1000) * 1000)
 
-            dataManager.deleteChangesOlderThan(utcTime: pastTime)
+            dataManager.deleteChangesOlderThan(utcTime: pastTimeMillis)
 
             // Now add a change - this should still exist
             dataManager.saveUpNextAddToTop(episodeUuid: episode.uuid)
