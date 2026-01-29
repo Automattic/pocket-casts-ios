@@ -4,7 +4,7 @@ import GRDB
 @testable import PocketCastsUtils
 
 /// Base test class for DataManager tests that automatically runs tests with both
-/// GRDB and SQL implementations
+/// GRDB API and raw SQL implementations
 ///
 /// Subclasses should:
 /// 1. Override `setUpWithDataManager(_:)` to set up test data
@@ -40,12 +40,12 @@ class DataManagerTestCase: XCTestCase {
         try await super.tearDown()
     }
 
-    /// Runs the provided test block with both SQL and GRDB implementations.
+    /// Runs the provided test block with both SQL and GRDB API implementations.
     ///
     /// - Parameter testBlock: A closure that receives a DataManager and the implementation name.
-    ///                        The implementation name is either "SQL" or "GRDB".
+    ///                        The implementation name is either "" or "GRDB".
     func runWithBothImplementations(_ testBlock: (DataManager, String) throws -> Void) throws {
-        // Test with SQL implementation
+        // Test with raw SQL query
         let sqlDataManager = DataManager.newTestDataManager()
         try testBlock(sqlDataManager, "SQL")
 
@@ -58,7 +58,7 @@ class DataManagerTestCase: XCTestCase {
         let sqlDataManager = DataManager.newTestDataManager()
         try await testBlock(sqlDataManager, "SQL")
 
-        // TODO: Test with GRDB implementation
+        // TODO: Test with GRDB API
     }
 
     // MARK: - Common Test Helpers
