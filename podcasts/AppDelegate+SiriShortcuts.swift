@@ -37,6 +37,14 @@ extension AppDelegate {
                 handleReferralsDeepLink(url: incomingURL)
                 return
             }
+
+            if path == "/discover" || path.startsWith(string: "/discover/") {
+                if let url = URL(string: "pktc:/\(path)") {
+                    JLRoutes.routeURL(url)
+                }
+                return
+            }
+
             // Also pass any query params from the share URL to the server to allow support for episode position handling
             // Ex: ?t=123
             let query = components.query.map { "?\($0)" } ?? ""
