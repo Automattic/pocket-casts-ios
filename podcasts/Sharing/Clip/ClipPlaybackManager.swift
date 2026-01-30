@@ -54,11 +54,7 @@ class ClipPlaybackManager: ObservableObject {
         isPlaying = true
         duration = endTime - startTime
 
-        observePlaybackEnd()
-
         self._clipTime = clipTime
-
-        setupTimeObserver()
 
         $currentTime.sink(receiveValue: { currentTime in
             if let currentTime, currentTime > 0 {
@@ -70,6 +66,8 @@ class ClipPlaybackManager: ObservableObject {
     func startPlayer(at playbackCMTime: CMTime) {
         avPlayer?.seek(to: playbackCMTime)
         avPlayer?.play()
+        setupTimeObserver()
+        observePlaybackEnd()
     }
 
     func seek(to time: CMTime) {
