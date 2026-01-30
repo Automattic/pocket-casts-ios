@@ -25,12 +25,20 @@ struct LogFileWriter: PersistentTextWriting {
     }
 
     func write(_ text: String) {
+        write(text, hasRetriedDirectoryCreation: false)
+    }
+
+    private func write(_ text: String, hasRetriedDirectoryCreation: Bool) {
         guard let fileHandle = FileHandle(forWritingAtPath: targetFilePath) else {
             do {
                 try text.write(toFile: targetFilePath, atomically: true, encoding: encoding)
             }
             catch {
-                handle(fileHandleWriteError: error, encounteredWriting: text)
+                handle(
+                    fileHandleWriteError: error,
+                    encounteredWriting: text,
+                    hasRetriedDirectoryCreation: hasRetriedDirectoryCreation
+                )
             }
             return
         }
@@ -43,7 +51,11 @@ struct LogFileWriter: PersistentTextWriting {
             try fileHandle.seekToEnd()
             try fileHandle.write(contentsOf: encodedText)
         } catch {
-            handle(fileHandleWriteError: error, encounteredWriting: text)
+            handle(
+                fileHandleWriteError: error,
+                encounteredWriting: text,
+                hasRetriedDirectoryCreation: hasRetriedDirectoryCreation
+            )
         }
 
         do {
@@ -53,7 +65,11 @@ struct LogFileWriter: PersistentTextWriting {
         }
     }
 
-    private func handle(fileHandleWriteError: any Error, encounteredWriting textToWrite: String) {
+    private func handle(
+        fileHandleWriteError: any Error,
+        encounteredWriting textToWrite: String,
+        hasRetriedDirectoryCreation: Bool
+    ) {
         let fileHandleWriteError = fileHandleWriteError as NSError
 
         guard fileHandleWriteError.domain == NSCocoaErrorDomain else {
@@ -64,9 +80,14 @@ struct LogFileWriter: PersistentTextWriting {
         switch fileHandleWriteError.code {
         case NSFileNoSuchFileError:
             logger?.debug("Attempted to write to log file but directory structure for <\(targetFilePath)> appears not to exist. Creating it.")
+            guard hasRetriedDirectoryCreation == false else {
+                logger?.error("Directory creation for <\(targetFilePath)> already attempted; aborting to avoid recursion.")
+                return
+            }
+
             do {
                 try createDirectoryStructure(for: targetFilePath)
-                write(textToWrite) // Error successfully addressed, retry the log write.
+                write(textToWrite, hasRetriedDirectoryCreation: true) // Error successfully addressed, retry the log write once.
             } catch {
                 logger?.error("Failed to create directory structure for logs at <\(targetFilePath)>. Error: \(error)")
             }

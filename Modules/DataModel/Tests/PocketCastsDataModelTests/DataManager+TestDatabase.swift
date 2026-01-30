@@ -62,4 +62,9 @@ extension DataManager {
     static func newTestDataManager() -> DataManager {
         try! DataManager(dbQueue: GRDBQueue(dbPool: DatabasePool.newTestDatabase()!))
     }
+
+    /// Test-only accessor for the database queue. Used for low-level GRDB Record type tests.
+    var testDbQueue: GRDBQueue {
+        dbQueue as! GRDBQueue
+    }
 }
