@@ -262,18 +262,14 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = bookmarkDataManager.bookmarkCount(forEpisode: "episode-uuid", includeDeleted: false)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query (for count, we use the filter part)
+        // Build the equivalent GRDB query and extract COUNT SQL
         let grdbRequest = BookmarkRecord
             .filter(BookmarkRecord.Columns.episode_uuid == "episode-uuid")
             .filter(BookmarkRecord.Columns.deleted == false)
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractCountSQL(grdbRequest)
 
-        // GRDB parameterizes episode_uuid and deleted
-        let grdbValues: [Any] = ["episode-uuid", false]
-
-        // Compare the SQL (note: SQL uses COUNT(*), GRDB uses fetchCount internally)
+        // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
     }
 
@@ -281,15 +277,11 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = bookmarkDataManager.bookmarkCount(forEpisode: "episode-uuid", includeDeleted: true)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
+        // Build the equivalent GRDB query and extract COUNT SQL
         let grdbRequest = BookmarkRecord
             .filter(BookmarkRecord.Columns.episode_uuid == "episode-uuid")
-        let grdbSQL = try extractSQL(grdbRequest)
-
-        // GRDB parameterizes episode_uuid
-        let grdbValues: [Any] = ["episode-uuid"]
+        let grdbSQL = try extractCountSQL(grdbRequest)
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)

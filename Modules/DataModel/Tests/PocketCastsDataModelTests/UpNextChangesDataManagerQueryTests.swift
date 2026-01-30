@@ -95,7 +95,9 @@ final class UpNextChangesDataManagerQueryTests: SQLQueryComparisonTestCase {
         upNextChangesDataManager.saveUpNextRemove(episodeUuid: "episode-uuid", dbQueue: sqlCapturingQueue)
 
         // The first query should be the DELETE, second is the INSERT
-        let capturedSQL = sqlCapturingQueue.capturedQueries.first!.sql
+        // Expand placeholders for comparison
+        let deleteQuery = sqlCapturingQueue.capturedQueries.first!
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery.sql, values: deleteQuery.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = UpNextChangesRecord

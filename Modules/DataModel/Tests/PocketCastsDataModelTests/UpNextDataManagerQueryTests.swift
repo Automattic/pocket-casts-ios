@@ -53,19 +53,15 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         upNextDataManager.delete(playlistEpisode: playlistEpisode, dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query (it's the first one before the ordering queries)
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(PlaylistEpisodeRecord.Columns.id == Int64(123))
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes id and playlist_id
-        let grdbValues: [Any] = [Int64(123), upNextPlaylistId]
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -77,18 +73,14 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         upNextDataManager.deleteAllUpNextEpisodes(dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes playlist_id
-        let grdbValues: [Any] = [upNextPlaylistId]
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -100,19 +92,15 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         upNextDataManager.deleteAllUpNextEpisodesExcept(episodeUuid: "keep-episode-uuid", dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(PlaylistEpisodeRecord.Columns.episodeUuid != "keep-episode-uuid")
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes episodeUuid and playlist_id
-        let grdbValues: [Any] = ["keep-episode-uuid", upNextPlaylistId]
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -124,18 +112,14 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // When uuids is empty, delete all episodes for the playlist
         upNextDataManager.deleteAllUpNextEpisodesNotIn(uuids: [], dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes playlist_id
-        let grdbValues: [Any] = [upNextPlaylistId]
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -147,20 +131,15 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         upNextDataManager.deleteAllUpNextEpisodesNotIn(uuids: uuids, dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(!uuids.contains(PlaylistEpisodeRecord.Columns.episodeUuid))
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes the NOT IN clause and playlist_id
-        var grdbValues: [Any] = uuids
-        grdbValues.append(upNextPlaylistId)
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -174,20 +153,15 @@ final class UpNextDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         upNextDataManager.deleteAllUpNextEpisodesIn(uuids: uuids, dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
-        let capturedValues = deleteQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = PlaylistEpisodeRecord
             .filter(uuids.contains(PlaylistEpisodeRecord.Columns.episodeUuid))
             .filter(PlaylistEpisodeRecord.Columns.playlist_id == upNextPlaylistId)
         let grdbSQL = try extractDeleteSQL(grdbRequest)
-
-        // GRDB parameterizes the IN clause and playlist_id
-        var grdbValues: [Any] = uuids
-        grdbValues.append(upNextPlaylistId)
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)

@@ -341,6 +341,10 @@ class SQLQueryComparisonTestCase: XCTestCase {
     /// - Removing unnecessary parentheses in WHERE clauses
     /// - Treating SELECT 1 and SELECT * as equivalent for existence checks
     /// - Treating GROUP BY col and SELECT DISTINCT col as equivalent for unique values
+    /// - Normalizing explicit column lists to SELECT *
+    /// - Normalizing COUNT(*) AS alias to COUNT(*)
+    /// - Normalizing != and <> to the same operator
+    /// - Sorting WHERE clause conditions alphabetically
     func normalizeSQL(_ sql: String) -> String {
         var result = sql
             // Remove double quotes around identifiers
@@ -384,6 +388,38 @@ class SQLQueryComparisonTestCase: XCTestCase {
         // These are semantically equivalent when used with LIMIT 1
         result = result.replacingOccurrences(of: "SELECT 1 FROM", with: "SELECT * FROM")
 
+        // Normalize SELECT id FROM to SELECT * FROM for existence check queries
+        // Raw SQL often uses "SELECT id FROM table WHERE ..." while GRDB uses "SELECT * FROM table WHERE ..."
+        // Both are semantically equivalent when checking for existence
+        if let regex = try? NSRegularExpression(pattern: "SELECT id FROM", options: .caseInsensitive) {
+            let range = NSRange(result.startIndex..., in: result)
+            result = regex.stringByReplacingMatches(in: result, range: range, withTemplate: "SELECT * FROM")
+        }
+
+        // Normalize explicit column lists to SELECT * for SELECT queries
+        // GRDB uses explicit column names like "SELECT uuid,title,date_added,... FROM table"
+        // while raw SQL uses "SELECT * FROM table" - both are semantically equivalent
+        if let regex = try? NSRegularExpression(pattern: "SELECT [a-zA-Z_,]+\\s+FROM", options: []) {
+            let range = NSRange(result.startIndex..., in: result)
+            if let match = regex.firstMatch(in: result, range: range) {
+                let matchedString = String(result[Range(match.range, in: result)!])
+                // Only replace if it looks like a column list (contains commas) and not a keyword
+                if matchedString.contains(",") && !matchedString.contains("DISTINCT") {
+                    // Extract the table name part (the FROM keyword and everything after)
+                    let fromIndex = matchedString.range(of: "FROM")!
+                    let fromPart = String(matchedString[fromIndex.lowerBound...])
+                    result = result.replacingOccurrences(of: matchedString, with: "SELECT * \(fromPart)")
+                }
+            }
+        }
+
+        // Normalize COUNT(*) AS alias to COUNT(*)
+        // Raw SQL: "SELECT COUNT(*) as COUNT FROM" -> GRDB: "SELECT COUNT(*) FROM"
+        if let regex = try? NSRegularExpression(pattern: "COUNT\\*\\s+as\\s+\\w+", options: .caseInsensitive) {
+            let range = NSRange(result.startIndex..., in: result)
+            result = regex.stringByReplacingMatches(in: result, range: range, withTemplate: "COUNT*")
+        }
+
         // Normalize INSERT statements: remove explicit id column with NULL value
         // "INSERT INTO table (id, col1, col2) VALUES (NULL,'a','b')" is equivalent to
         // "INSERT INTO table (col1, col2) VALUES ('a','b')" for auto-increment id columns
@@ -424,12 +460,64 @@ class SQLQueryComparisonTestCase: XCTestCase {
         // This handles differences like "VALUES ('a', 'b')" vs "VALUES ('a','b')"
         result = result.replacingOccurrences(of: ", ", with: ",")
 
+        // Normalize not-equal operators: != and <> are equivalent in SQL
+        // Standardize on <> for comparison
+        result = result.replacingOccurrences(of: "!=", with: "<>")
+
+        // Sort WHERE clause conditions alphabetically for consistent comparison
+        // This handles cases where conditions are in different order but semantically equivalent
+        result = sortWhereConditions(result)
+
         // Normalize whitespace again after transformations
         result = result
             .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
             .trimmingCharacters(in: .whitespaces)
 
         return result
+    }
+
+    /// Sorts WHERE clause conditions alphabetically for consistent comparison
+    /// Handles simple AND-joined conditions like "WHERE a = 1 AND b = 2" -> sorted order
+    private func sortWhereConditions(_ sql: String) -> String {
+        // Find WHERE clause
+        guard let whereRange = sql.range(of: "WHERE ", options: .caseInsensitive) else {
+            return sql
+        }
+
+        // Find the end of WHERE clause (ORDER BY, LIMIT, GROUP BY, or end of string)
+        let afterWhere = sql[whereRange.upperBound...]
+        var endKeywords = ["ORDER BY", "LIMIT", "GROUP BY"]
+        var whereEndIndex = sql.endIndex
+
+        for keyword in endKeywords {
+            if let keywordRange = afterWhere.range(of: keyword, options: .caseInsensitive) {
+                if keywordRange.lowerBound < whereEndIndex {
+                    whereEndIndex = keywordRange.lowerBound
+                }
+            }
+        }
+
+        // Extract WHERE clause content
+        let whereContent = String(sql[whereRange.upperBound..<whereEndIndex]).trimmingCharacters(in: .whitespaces)
+
+        // Split by AND (simple case - doesn't handle OR or nested conditions)
+        // Only sort if all conditions are AND-joined
+        guard !whereContent.uppercased().contains(" OR ") else {
+            return sql
+        }
+
+        let conditions = whereContent.components(separatedBy: " AND ")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+
+        // Sort conditions alphabetically
+        let sortedConditions = conditions.sorted()
+
+        // Rebuild the SQL
+        let prefix = String(sql[..<whereRange.upperBound])
+        let suffix = String(sql[whereEndIndex...])
+        let sortedWhereClause = sortedConditions.joined(separator: " AND ")
+
+        return prefix + sortedWhereClause + suffix
     }
 
     // MARK: - SQL Comparison

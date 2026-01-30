@@ -46,9 +46,9 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.delete(folderUuid: "folder-uuid", dbQueue: sqlCapturingQueue)
 
-        // Find the DELETE query
+        // Find the DELETE query and expand placeholders
         let deleteQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "DELETE") }
-        let capturedSQL = deleteQuery!.sql
+        let capturedSQL = sqlCapturingQueue.expandSQL(deleteQuery!.sql, values: deleteQuery?.values)
 
         // Build the equivalent GRDB query
         let grdbRequest = FolderRecord
@@ -81,20 +81,19 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.updateFolderColor(folderUuid: "folder-uuid", color: 5, syncModified: 12345, dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query for the WHERE clause
+        // Build the equivalent GRDB UPDATE query
         let grdbRequest = FolderRecord
             .filter(FolderRecord.Columns.uuid == "folder-uuid")
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.color.set(to: 5),
+            FolderRecord.Columns.syncModified.set(to: 12345)
+        ])
 
-        // The SQL update has values [color, syncModified, folderUuid] but we only compare WHERE clause
-        let grdbValues: [Any] = ["folder-uuid"]
-
-        // Compare the SQL WHERE clause
+        // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
     }
 
@@ -104,18 +103,18 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.updateFolderSyncModified(folderUuid: "folder-uuid", syncModified: 12345, dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query for the WHERE clause
+        // Build the equivalent GRDB UPDATE query
         let grdbRequest = FolderRecord
             .filter(FolderRecord.Columns.uuid == "folder-uuid")
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.syncModified.set(to: 12345)
+        ])
 
-        // Compare the WHERE clause portion
-        let grdbValues: [Any] = ["folder-uuid"]
+        // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
     }
 
@@ -127,18 +126,18 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.bulkSetSyncModified(12345, onFolders: folderUuids, dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query for the WHERE clause
+        // Build the equivalent GRDB UPDATE query
         let grdbRequest = FolderRecord
             .filter(folderUuids.contains(FolderRecord.Columns.uuid))
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.syncModified.set(to: 12345)
+        ])
 
-        // The SQL implementation uses inline IN clause values, GRDB parameterizes them
-        let grdbValues: [Any] = folderUuids
+        // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
     }
 
@@ -148,14 +147,15 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.markAllFoldersSynced(dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query (no WHERE clause for this one)
+        // Build the equivalent GRDB UPDATE query (no WHERE clause)
         let grdbRequest = FolderRecord.all()
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.syncModified.set(to: 0)
+        ])
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -167,18 +167,19 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.markFolderAsDeleted(folderUuid: "folder-uuid", syncModified: 12345, dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query for the WHERE clause
+        // Build the equivalent GRDB UPDATE query
         let grdbRequest = FolderRecord
             .filter(FolderRecord.Columns.uuid == "folder-uuid")
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.syncModified.set(to: 12345),
+            FolderRecord.Columns.wasDeleted.set(to: true)
+        ])
 
-        // Compare the WHERE clause portion
-        let grdbValues: [Any] = ["folder-uuid"]
+        // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
     }
 
@@ -188,14 +189,16 @@ final class FolderDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         folderDataManager.markAllFolderAsDeleted(syncModified: 12345, dbQueue: sqlCapturingQueue)
 
-        // Find the UPDATE query
+        // Find the UPDATE query and expand placeholders
         let updateQuery = sqlCapturingQueue.capturedQueries.first { $0.sql.uppercased().starts(with: "UPDATE") }
-        let capturedSQL = updateQuery!.sql
-        let capturedValues = updateQuery?.values
+        let capturedSQL = sqlCapturingQueue.expandSQL(updateQuery!.sql, values: updateQuery?.values)
 
-        // Build the equivalent GRDB query (no WHERE clause for this one)
+        // Build the equivalent GRDB UPDATE query (no WHERE clause)
         let grdbRequest = FolderRecord.all()
-        let grdbSQL = try extractSQL(grdbRequest)
+        let grdbSQL = try extractUpdateSQL(grdbRequest, assignments: [
+            FolderRecord.Columns.syncModified.set(to: 12345),
+            FolderRecord.Columns.wasDeleted.set(to: true)
+        ])
 
         // Compare the SQL
         assertSQLEquivalent(capturedSQL, grdbSQL)
