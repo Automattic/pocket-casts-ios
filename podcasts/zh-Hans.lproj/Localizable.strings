@@ -2757,11 +2757,6 @@ Pocket Casts。</string>
     <string>感谢您共享 Pocket Casts！ 我们会在您有更多可共享的通行证时通知您。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>您已共享您的所有访客通行证！</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>您好！
-
-这是一张 %1$@ 的 Pocket Casts Plus 访客通行证，Pocket Casts Plus 是我最喜欢的播客播放器。 它拥有您在别处享受不到的独特功能，如书签、文件夹等。 我想您也会喜欢！
-</string>
     <key>referrals_share_pass_message</key>
     <string>您好！ 点击下方链接领取 %1$@ 的 Pocket Casts Plus 访客通行证，即可在所有设备上收听播客！</string>
     <key>referrals_share_pass_subject</key>

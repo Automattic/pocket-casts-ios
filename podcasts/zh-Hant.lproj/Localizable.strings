@@ -2757,11 +2757,6 @@ Pocket Casts Plus</string>
     <string>感謝你不吝分享 Pocket Casts 體驗！ 若有更多體驗券可使用，我們會再另行通知。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>你已分享完所有的訪客體驗券！</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>你好！
-
-在此送上 Pocket Casts Plus 的 %1$@訪客體驗券，這是我最愛的 Podcast 播放器。 Pocket Casts Plus 提供書籤、資料夾等獨特功能，其他播放器找不到。 我相信你也會愛上這項工具！
-</string>
     <key>referrals_share_pass_message</key>
     <string>嗨！ 使用下方連結領取你的 %1$@ Pocket Casts Plus 訪客體驗券，在所有裝置上盡情暢聽 Podcast！</string>
     <key>referrals_share_pass_subject</key>

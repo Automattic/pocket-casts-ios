@@ -271,6 +271,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Allow the release of the Media Exporter when is no longer being used by the player
     case releaseMediaExporterWhenNoLongerActive
 
+    /// Fix Watch app overwriting phone's Up Next queue by adding debouncing and fixing timestamp comparison logic
+    case watchUpNextSyncFix
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -454,6 +457,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .dontAutoplayOnRouteChange:
             true
         case .releaseMediaExporterWhenNoLongerActive:
+            true
+        case .watchUpNextSyncFix:
             true
         }
     }
