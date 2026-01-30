@@ -42,24 +42,32 @@ class ClipPlaybackManager: ObservableObject {
         let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: .audio)
 
         normalPlaybackManager.activateAudioSession(completion: { [weak self] activated in
-            self?.avPlayer?.seek(to: playbackCMTime)
-            self?.avPlayer?.play()
+            if Thread.current.isMainThread {
+                self?.startPlayer(at: playbackCMTime)
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.startPlayer(at: playbackCMTime)
+                }
+            }
         })
 
         isPlaying = true
         duration = endTime - startTime
 
-        observePlaybackEnd()
-
         self._clipTime = clipTime
-
-        setupTimeObserver()
 
         $currentTime.sink(receiveValue: { currentTime in
             if let currentTime, currentTime > 0 {
                 clipTime.wrappedValue.playback = currentTime
             }
         }).store(in: &cancellables)
+    }
+
+    func startPlayer(at playbackCMTime: CMTime) {
+        avPlayer?.seek(to: playbackCMTime)
+        avPlayer?.play()
+        setupTimeObserver()
+        observePlaybackEnd()
     }
 
     func seek(to time: CMTime) {
