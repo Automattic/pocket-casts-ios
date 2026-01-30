@@ -2757,11 +2757,6 @@ Si vous cherchez de l’inspiration, consultez l’onglet Découvrir.</string>
     <string>Merci de partager Pocket Casts ! Nous vous ferons savoir quand nous aurons d’autres passes à donner.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Vous avez partagé tous vos passes invité !</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>Bonjour !
-
-Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préféré. Il regorge de fonctionnalités uniques comme les signets, les dossiers et d’autres choses que tu ne trouveras nulle part ailleurs. Je pense que tu l’aimeras aussi !
-</string>
     <key>referrals_share_pass_message</key>
     <string>Salut ! Utilisez le lien ci-dessous pour demander votre passe invité %1$@ de Pocket Casts Plus et profitez de podcasts sur tous vos appareils !</string>
     <key>referrals_share_pass_subject</key>

@@ -2757,11 +2757,6 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Agradecemos por compartilhar o Pocket Casts! Avisaremos quando você tiver mais passes para dar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Você já compartilhou todos os seus passes de convidado!</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>Olá!
-
-Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reprodutor de podcast favorito. Ele tem funcionalidades exclusivas, como favoritos, pastas, entre outras que você não encontra em nenhum outro lugar. Acho que você também vai amar!
-</string>
     <key>referrals_share_pass_message</key>
     <string>Olá! Use o link abaixo para resgatar seu passe de convidado %1$@ para o Pocket Casts Plus e curta podcasts em todos os seus dispositivos.</string>
     <key>referrals_share_pass_subject</key>
