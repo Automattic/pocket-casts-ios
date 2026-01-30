@@ -42,8 +42,10 @@ class ClipPlaybackManager: ObservableObject {
         let playbackCMTime = CMTime(seconds: playbackTime, preferredTimescale: .audio)
 
         normalPlaybackManager.activateAudioSession(completion: { [weak self] activated in
-            self?.avPlayer?.seek(to: playbackCMTime)
-            self?.avPlayer?.play()
+            DispatchQueue.main.async { [weak self] in
+                self?.avPlayer?.seek(to: playbackCMTime)
+                self?.avPlayer?.play()
+            }
         })
 
         isPlaying = true
