@@ -1,6 +1,9 @@
 import Foundation
+import GRDB
+import GRDBMacros
 import PocketCastsUtils
 
+@GRDBRecord(table: "SJEpisode")
 public class Episode: NSObject, BaseEpisode {
     private static let bonusType = "bonus"
     private static let trailerType = "trailer"
@@ -218,4 +221,11 @@ public class Episode: NSObject, BaseEpisode {
             public let language: String?
         }
     }
+}
+
+// MARK: - GRDB Associations
+
+extension Episode {
+    /// Foreign key to the podcast this episode belongs to
+    public static let podcastForeignKey = ForeignKey(["podcast_id"])
 }

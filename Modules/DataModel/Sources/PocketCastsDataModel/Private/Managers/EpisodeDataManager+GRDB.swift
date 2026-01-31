@@ -11,90 +11,75 @@ extension EpisodeDataManager {
 
     /// Find an episode by UUID using GRDB QueryInterface
     func findByUuidGRDB(uuid: String, grdbQueue: GRDBQueue) -> Episode? {
-        let record: EpisodeRecord? = grdbQueue.read { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.uuid == uuid)
+        return grdbQueue.read { db in
+            try? Episode
+                .filter(Episode.Columns.uuid == uuid)
                 .fetchOne(db)
         } ?? nil
-
-        guard let record = record else { return nil }
-        return episodeFromRecord(record)
     }
 
     /// Find an episode by download task ID using GRDB QueryInterface
     func findByDownloadTaskIdGRDB(downloadTaskId: String, grdbQueue: GRDBQueue) -> Episode? {
-        let record: EpisodeRecord? = grdbQueue.read { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.downloadTaskId == downloadTaskId)
+        return grdbQueue.read { db in
+            try? Episode
+                .filter(Episode.Columns.downloadTaskId == downloadTaskId)
                 .fetchOne(db)
         } ?? nil
-
-        guard let record = record else { return nil }
-        return episodeFromRecord(record)
     }
 
     /// Find all episodes for a podcast using GRDB QueryInterface
     func allEpisodesForPodcastGRDB(id: Int64, grdbQueue: GRDBQueue) -> [Episode] {
-        let records: [EpisodeRecord] = grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.podcast_id == id)
-                .filter(EpisodeRecord.Columns.wasDeleted == false)
+        return grdbQueue.read { db in
+            (try? Episode
+                .filter(Episode.Columns.podcast_id == id)
+                .filter(Episode.Columns.wasDeleted == false)
                 .fetchAll(db)) ?? []
         } ?? []
-
-        return records.compactMap { episodeFromRecord($0) }
     }
 
     /// Find the latest episode for a podcast using GRDB QueryInterface
     func findLatestEpisodeGRDB(podcast: Podcast, grdbQueue: GRDBQueue) -> Episode? {
-        let record: EpisodeRecord? = grdbQueue.read { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.podcast_id == podcast.id)
-                .filter(EpisodeRecord.Columns.wasDeleted == false)
-                .order(EpisodeRecord.Columns.publishedDate.desc)
-                .order(EpisodeRecord.Columns.addedDate.desc)
+        return grdbQueue.read { db in
+            try? Episode
+                .filter(Episode.Columns.podcast_id == podcast.id)
+                .filter(Episode.Columns.wasDeleted == false)
+                .order(Episode.Columns.publishedDate.desc)
+                .order(Episode.Columns.addedDate.desc)
                 .limit(1)
                 .fetchOne(db)
         } ?? nil
-
-        guard let record = record else { return nil }
-        return episodeFromRecord(record)
     }
 
     /// Find latest episodes for a podcast using GRDB QueryInterface
     func findLatestEpisodesGRDB(podcast: Podcast, limit: Int, grdbQueue: GRDBQueue) -> [Episode] {
-        let records: [EpisodeRecord] = grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.podcast_id == podcast.id)
-                .filter(EpisodeRecord.Columns.wasDeleted == false)
-                .order(EpisodeRecord.Columns.publishedDate.desc)
-                .order(EpisodeRecord.Columns.addedDate.desc)
+        return grdbQueue.read { db in
+            (try? Episode
+                .filter(Episode.Columns.podcast_id == podcast.id)
+                .filter(Episode.Columns.wasDeleted == false)
+                .order(Episode.Columns.publishedDate.desc)
+                .order(Episode.Columns.addedDate.desc)
                 .limit(limit)
                 .fetchAll(db)) ?? []
         } ?? []
-
-        return records.compactMap { episodeFromRecord($0) }
     }
 
     /// Find episodes with listen history using GRDB QueryInterface
     func episodesWithListenHistoryGRDB(limit: Int, grdbQueue: GRDBQueue) -> [Episode] {
-        let records: [EpisodeRecord] = grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.lastPlaybackInteractionDate != nil)
-                .filter(EpisodeRecord.Columns.lastPlaybackInteractionDate > 0)
-                .order(EpisodeRecord.Columns.lastPlaybackInteractionDate.desc)
+        return grdbQueue.read { db in
+            (try? Episode
+                .filter(Episode.Columns.lastPlaybackInteractionDate != nil)
+                .filter(Episode.Columns.lastPlaybackInteractionDate > 0)
+                .order(Episode.Columns.lastPlaybackInteractionDate.desc)
                 .limit(limit)
                 .fetchAll(db)) ?? []
         } ?? []
-
-        return records.compactMap { episodeFromRecord($0) }
     }
 
     /// Count downloaded episodes using GRDB QueryInterface
     func downloadedEpisodeCountGRDB(grdbQueue: GRDBQueue) -> Int {
         return grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
+            (try? Episode
+                .filter(Episode.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
                 .fetchCount(db)) ?? 0
         } ?? 0
     }
@@ -102,8 +87,8 @@ extension EpisodeDataManager {
     /// Count failed download episodes using GRDB QueryInterface
     func failedDownloadEpisodeCountGRDB(grdbQueue: GRDBQueue) -> Int {
         return grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.episodeStatus == DownloadStatus.downloadFailed.rawValue)
+            (try? Episode
+                .filter(Episode.Columns.episodeStatus == DownloadStatus.downloadFailed.rawValue)
                 .fetchCount(db)) ?? 0
         } ?? 0
     }
@@ -111,9 +96,9 @@ extension EpisodeDataManager {
     /// Check if a downloaded episode exists using GRDB QueryInterface
     func downloadedEpisodeExistsGRDB(uuid: String, grdbQueue: GRDBQueue) -> Bool {
         let count: Int = grdbQueue.read { db in
-            (try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.uuid == uuid)
-                .filter(EpisodeRecord.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
+            (try? Episode
+                .filter(Episode.Columns.uuid == uuid)
+                .filter(Episode.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
                 .fetchCount(db)) ?? 0
         } ?? 0
 
@@ -122,23 +107,21 @@ extension EpisodeDataManager {
 
     /// Find unsynced episodes using GRDB QueryInterface
     func unsyncedEpisodesGRDB(limit: Int, grdbQueue: GRDBQueue) -> [Episode] {
-        let records: [EpisodeRecord] = grdbQueue.read { db in
-            let playingStatusFilter = EpisodeRecord.Columns.playingStatusModified > 0
-            let playedUpToFilter = EpisodeRecord.Columns.playedUpToModified > 0
-            let durationFilter = EpisodeRecord.Columns.durationModified > 0
-            let keepEpisodeFilter = EpisodeRecord.Columns.keepEpisodeModified > 0
-            let archivedFilter = EpisodeRecord.Columns.archivedModified > 0
+        return grdbQueue.read { db in
+            let playingStatusFilter = Episode.Columns.playingStatusModified > 0
+            let playedUpToFilter = Episode.Columns.playedUpToModified > 0
+            let durationFilter = Episode.Columns.durationModified > 0
+            let keepEpisodeFilter = Episode.Columns.keepEpisodeModified > 0
+            let archivedFilter = Episode.Columns.archivedModified > 0
             let combinedFilter = playingStatusFilter || playedUpToFilter || durationFilter || keepEpisodeFilter || archivedFilter
 
-            return (try? EpisodeRecord
+            return (try? Episode
                 .filter(combinedFilter)
-                .order(EpisodeRecord.Columns.publishedDate.desc)
-                .order(EpisodeRecord.Columns.addedDate.desc)
+                .order(Episode.Columns.publishedDate.desc)
+                .order(Episode.Columns.addedDate.desc)
                 .limit(limit)
                 .fetchAll(db)) ?? []
         } ?? []
-
-        return records.compactMap { episodeFromRecord($0) }
     }
 
     // MARK: - Update Methods using GRDB QueryInterface
@@ -146,8 +129,8 @@ extension EpisodeDataManager {
     /// Delete an episode by UUID using GRDB QueryInterface
     func deleteGRDB(episodeUuid: String, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.uuid == episodeUuid)
+            try? Episode
+                .filter(Episode.Columns.uuid == episodeUuid)
                 .deleteAll(db)
         }
     }
@@ -155,8 +138,8 @@ extension EpisodeDataManager {
     /// Delete all episodes for a podcast using GRDB QueryInterface
     func deleteAllEpisodesInPodcastGRDB(podcastId: Int64, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.podcast_id == podcastId)
+            try? Episode
+                .filter(Episode.Columns.podcast_id == podcastId)
                 .deleteAll(db)
         }
     }
@@ -164,9 +147,9 @@ extension EpisodeDataManager {
     /// Mark all episodes as having playback history synced using GRDB QueryInterface
     func markAllEpisodePlaybackHistorySyncedGRDB(grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord.updateAll(
+            try? Episode.updateAll(
                 db,
-                EpisodeRecord.Columns.lastPlaybackInteractionSyncStatus.set(to: SyncStatus.synced.rawValue)
+                Episode.Columns.lastPlaybackInteractionSyncStatus.set(to: SyncStatus.synced.rawValue)
             )
         }
     }
@@ -174,76 +157,27 @@ extension EpisodeDataManager {
     /// Clear all episode playback interactions using GRDB QueryInterface
     func clearAllEpisodePlaybackInteractionsGRDB(grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.lastPlaybackInteractionDate > 0)
-                .updateAll(db, EpisodeRecord.Columns.lastPlaybackInteractionDate.set(to: nil))
+            try? Episode
+                .filter(Episode.Columns.lastPlaybackInteractionDate > 0)
+                .updateAll(db, Episode.Columns.lastPlaybackInteractionDate.set(to: nil))
         }
     }
 
     /// Clear episode playback interactions before a date using GRDB QueryInterface
     func clearEpisodePlaybackInteractionDatesBeforeGRDB(date: Date, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.lastPlaybackInteractionDate <= date.timeIntervalSince1970)
-                .updateAll(db, EpisodeRecord.Columns.lastPlaybackInteractionDate.set(to: nil))
+            try? Episode
+                .filter(Episode.Columns.lastPlaybackInteractionDate <= date.timeIntervalSince1970)
+                .updateAll(db, Episode.Columns.lastPlaybackInteractionDate.set(to: nil))
         }
     }
 
     /// Mark all episodes as unarchived for a podcast using GRDB QueryInterface
     func markAllUnarchivedForPodcastGRDB(id: Int64, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? EpisodeRecord
-                .filter(EpisodeRecord.Columns.podcast_id == id)
-                .updateAll(db, EpisodeRecord.Columns.archived.set(to: false))
+            try? Episode
+                .filter(Episode.Columns.podcast_id == id)
+                .updateAll(db, Episode.Columns.archived.set(to: false))
         }
-    }
-
-    // MARK: - Helper Methods
-
-    /// Convert an EpisodeRecord to an Episode model object
-    private func episodeFromRecord(_ record: EpisodeRecord) -> Episode? {
-        let episode = Episode()
-        episode.id = record.id ?? 0
-        episode.addedDate = record.addedDate.flatMap { DBUtils.convertDate(value: $0) }
-        episode.lastDownloadAttemptDate = record.lastDownloadAttemptDate.flatMap { DBUtils.convertDate(value: $0) }
-        episode.detailedDescription = record.detailedDescription
-        episode.downloadErrorDetails = record.downloadErrorDetails
-        episode.downloadTaskId = record.downloadTaskId
-        episode.downloadUrl = record.downloadUrl
-        episode.episodeDescription = record.episodeDescription
-        episode.episodeStatus = record.episodeStatus
-        episode.fileType = record.fileType
-        episode.contentType = record.contentType
-        episode.keepEpisode = record.keepEpisode
-        episode.playedUpTo = record.playedUpTo
-        episode.duration = record.duration
-        episode.playingStatus = record.playingStatus
-        episode.autoDownloadStatus = record.autoDownloadStatus
-        episode.publishedDate = record.publishedDate.flatMap { DBUtils.convertDate(value: $0) }
-        episode.sizeInBytes = record.sizeInBytes
-        episode.playingStatusModified = record.playingStatusModified
-        episode.playedUpToModified = record.playedUpToModified
-        episode.durationModified = record.durationModified
-        episode.keepEpisodeModified = record.keepEpisodeModified
-        episode.title = record.title
-        episode.uuid = record.uuid
-        episode.podcastUuid = record.podcastUuid
-        episode.playbackErrorDetails = record.playbackErrorDetails
-        episode.cachedFrameCount = record.cachedFrameCount
-        episode.lastPlaybackInteractionDate = record.lastPlaybackInteractionDate.flatMap { DBUtils.convertDate(value: $0) }
-        episode.lastPlaybackInteractionSyncStatus = record.lastPlaybackInteractionSyncStatus
-        episode.podcast_id = record.podcast_id
-        episode.episodeNumber = record.episodeNumber
-        episode.seasonNumber = record.seasonNumber
-        episode.episodeType = record.episodeType
-        episode.archived = record.archived
-        episode.archivedModified = record.archivedModified
-        episode.lastArchiveInteractionDate = record.lastArchiveInteractionDate.flatMap { DBUtils.convertDate(value: $0) }
-        episode.excludeFromEpisodeLimit = record.excludeFromEpisodeLimit
-        episode.starredModified = record.starredModified
-        episode.deselectedChapters = record.deselectedChapters
-        episode.deselectedChaptersModified = record.deselectedChaptersModified
-        episode.wasDeleted = record.wasDeleted
-        return episode
     }
 }

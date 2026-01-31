@@ -1,5 +1,8 @@
 import Foundation
+import GRDB
+import GRDBMacros
 
+@GRDBRecord(table: "SJFilteredPlaylist")
 public class EpisodeFilter: NSObject {
     @objc public static let iconTypeCount = 8
     @objc public static let iconsPerType = 5
@@ -39,6 +42,8 @@ public class EpisodeFilter: NSObject {
     public var releaseDateSmartRuleApplied: Bool = false
     public var mediaTypeSmartRuleApplied: Bool = false
     public var downloadStatusSmartRuleApplied: Bool = false
+
+    override public init() {}
 
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {

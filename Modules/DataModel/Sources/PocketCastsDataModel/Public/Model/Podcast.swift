@@ -1,11 +1,15 @@
 import Foundation
+import GRDB
+import GRDBMacros
 import PocketCastsUtils
 
+@GRDBRecord(table: "SJPodcast")
 public class Podcast: NSObject, Identifiable {
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
     @objc public var autoDownloadSetting = 0 as Int32
     @objc public var autoAddToUpNext = 0 as Int32
+    @GRDBColumn("episodeKeepSetting")
     @objc public var autoArchiveEpisodeLimit = 0 as Int32
     @objc public var backgroundColor: String?
     @objc public var detailColor: String? // dark artwork overlay
@@ -60,6 +64,10 @@ public class Podcast: NSObject, Identifiable {
 
     // transient not saved to database
     public var cachedUnreadCount = 0
+
+    override public init() {
+        super.init()
+    }
 
     // if set to an episode UUID, all podcast episodes after the given
     // UUID will be updated

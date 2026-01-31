@@ -12,9 +12,9 @@ extension UpNextDataManager {
     /// Delete a playlist episode using GRDB QueryInterface
     func deleteGRDB(playlistEpisode: PlaylistEpisode, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? PlaylistEpisodeRecord
-                .filter(PlaylistEpisodeRecord.Columns.id == playlistEpisode.id)
-                .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+            try? PlaylistEpisode
+                .filter(PlaylistEpisode.Columns.id == playlistEpisode.id)
+                .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                 .deleteAll(db)
         }
     }
@@ -22,8 +22,8 @@ extension UpNextDataManager {
     /// Delete all up next episodes using GRDB QueryInterface
     func deleteAllUpNextEpisodesGRDB(grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? PlaylistEpisodeRecord
-                .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+            try? PlaylistEpisode
+                .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                 .deleteAll(db)
         }
     }
@@ -31,9 +31,9 @@ extension UpNextDataManager {
     /// Delete all up next episodes except one using GRDB QueryInterface
     func deleteAllUpNextEpisodesExceptGRDB(episodeUuid: String, grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
-            try? PlaylistEpisodeRecord
-                .filter(PlaylistEpisodeRecord.Columns.episodeUuid != episodeUuid)
-                .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+            try? PlaylistEpisode
+                .filter(PlaylistEpisode.Columns.episodeUuid != episodeUuid)
+                .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                 .deleteAll(db)
         }
     }
@@ -42,13 +42,13 @@ extension UpNextDataManager {
     func deleteAllUpNextEpisodesNotInGRDB(uuids: [String], grdbQueue: GRDBQueue) {
         _ = grdbQueue.write { db in
             if uuids.isEmpty {
-                try? PlaylistEpisodeRecord
-                    .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+                try? PlaylistEpisode
+                    .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                     .deleteAll(db)
             } else {
-                try? PlaylistEpisodeRecord
-                    .filter(!uuids.contains(PlaylistEpisodeRecord.Columns.episodeUuid))
-                    .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+                try? PlaylistEpisode
+                    .filter(!uuids.contains(PlaylistEpisode.Columns.episodeUuid))
+                    .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                     .deleteAll(db)
             }
         }
@@ -59,9 +59,9 @@ extension UpNextDataManager {
         guard !uuids.isEmpty else { return }
 
         _ = grdbQueue.write { db in
-            try? PlaylistEpisodeRecord
-                .filter(uuids.contains(PlaylistEpisodeRecord.Columns.episodeUuid))
-                .filter(PlaylistEpisodeRecord.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
+            try? PlaylistEpisode
+                .filter(uuids.contains(PlaylistEpisode.Columns.episodeUuid))
+                .filter(PlaylistEpisode.Columns.playlist_id == Int64(UpNextDataManager.upNextPlaylistId))
                 .deleteAll(db)
         }
     }

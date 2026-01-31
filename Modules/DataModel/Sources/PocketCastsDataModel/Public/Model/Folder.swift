@@ -1,5 +1,8 @@
 import Foundation
+import GRDB
+import GRDBMacros
 
+@GRDBRecord(table: "Folder")
 public class Folder: NSObject, Identifiable {
     @objc public var uuid = ""
     @objc public var name = ""
@@ -12,6 +15,8 @@ public class Folder: NSObject, Identifiable {
 
     // transient not saved to database
     public var cachedUnreadCount = 0
+
+    override public init() {}
 
     func folderSort() -> FolderSort {
         FolderSort(rawValue: sortType) ?? .dateAddedNewestToOldest

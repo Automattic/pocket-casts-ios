@@ -1,5 +1,8 @@
 import Foundation
+import GRDB
+import GRDBMacros
 
+@GRDBRecord(table: "SJUserEpisode")
 public class UserEpisode: NSObject, BaseEpisode {
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
