@@ -308,7 +308,7 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
 }
 
 /// Marker macro for custom column name mapping.
-/// The actual work is done by @GRDBRecord which reads this attribute.
+/// The actual work is done by @GRDBRecord/@GRDBColumns which reads this attribute.
 public struct GRDBColumnMacro: PeerMacro {
     public static func expansion(
         of node: AttributeSyntax,
@@ -316,8 +316,95 @@ public struct GRDBColumnMacro: PeerMacro {
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
         // This macro doesn't generate any code - it's just a marker attribute
-        // that @GRDBRecord reads to determine custom column names
+        // that @GRDBRecord/@GRDBColumns reads to determine custom column names
         return []
+    }
+}
+
+/// Generates only the Columns enum for Codable types that already have GRDB conformance.
+/// This is a simpler alternative to @GRDBRecord for types that use native Codable.
+public struct GRDBColumnsMacro: MemberMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingMembersOf declaration: some DeclGroupSyntax,
+        conformingTo protocols: [TypeSyntax],
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // Extract all stored properties
+        let properties = extractAllStoredProperties(from: declaration)
+
+        // Determine access level from the type declaration
+        let isPublic = declaration.modifiers.contains { modifier in
+            modifier.name.tokenKind == .keyword(.public)
+        }
+        let accessModifier = isPublic ? "public " : ""
+
+        // Generate Columns enum with string-based column names
+        let columns = properties.map { prop -> String in
+            "\(accessModifier)static let \(prop.name) = Column(\"\(prop.databaseColumnName)\")"
+        }.joined(separator: "\n        ")
+
+        return ["""
+            \(raw: accessModifier)enum Columns {
+                \(raw: columns)
+            }
+            """]
+    }
+
+    /// Extract all stored properties from a declaration
+    private static func extractAllStoredProperties(from declaration: some DeclGroupSyntax) -> [PropertyInfo] {
+        var properties: [PropertyInfo] = []
+
+        for member in declaration.memberBlock.members {
+            guard let varDecl = member.decl.as(VariableDeclSyntax.self),
+                  varDecl.bindingSpecifier.tokenKind == .keyword(.var) ||
+                  varDecl.bindingSpecifier.tokenKind == .keyword(.let) else {
+                continue
+            }
+
+            for binding in varDecl.bindings {
+                guard let identifier = binding.pattern.as(IdentifierPatternSyntax.self) else {
+                    continue
+                }
+
+                // Skip computed properties (those with accessors but no initializer)
+                if binding.accessorBlock != nil && binding.initializer == nil {
+                    continue
+                }
+
+                let name = identifier.identifier.text
+
+                // Check for @GRDBColumn attribute
+                let columnName = extractGRDBColumnName(from: varDecl)
+
+                properties.append(PropertyInfo(
+                    name: name,
+                    type: "Any", // Not needed for Columns generation
+                    isOptional: false,
+                    isDate: false,
+                    defaultValue: nil,
+                    columnName: columnName
+                ))
+            }
+        }
+
+        return properties
+    }
+
+    /// Extract the column name from @GRDBColumn attribute if present
+    private static func extractGRDBColumnName(from varDecl: VariableDeclSyntax) -> String? {
+        for attr in varDecl.attributes {
+            guard case .attribute(let attributeSyntax) = attr,
+                  attributeSyntax.attributeName.trimmedDescription == "GRDBColumn",
+                  let arguments = attributeSyntax.arguments?.as(LabeledExprListSyntax.self),
+                  let firstArg = arguments.first,
+                  let stringLiteral = firstArg.expression.as(StringLiteralExprSyntax.self),
+                  let segment = stringLiteral.segments.first?.as(StringSegmentSyntax.self) else {
+                continue
+            }
+            return segment.content.text
+        }
+        return nil
     }
 }
 
@@ -339,6 +426,7 @@ enum MacroError: Error, CustomStringConvertible {
 struct GRDBMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         GRDBRecordMacro.self,
-        GRDBColumnMacro.self
+        GRDBColumnMacro.self,
+        GRDBColumnsMacro.self
     ]
 }

@@ -1,6 +1,8 @@
 import Foundation
 import GRDB
+import GRDBMacros
 
+@GRDBColumns
 public class PlaylistEpisode: Equatable, Hashable, Codable, FetchableRecord, MutablePersistableRecord {
     public static let databaseTableName = "SJPlaylistEpisode"
 
@@ -31,19 +33,6 @@ public class PlaylistEpisode: Equatable, Hashable, Codable, FetchableRecord, Mut
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(episodeUuid)
-    }
-
-    /// Column definitions for type-safe query building
-    public enum Columns {
-        public static let id = Column("id")
-        public static let episodePosition = Column("episodePosition")
-        public static let episodeUuid = Column("episodeUuid")
-        public static let playlist_id = Column("playlist_id")
-        public static let playlist_uuid = Column("playlist_uuid")
-        public static let timeModified = Column("timeModified")
-        public static let wasDeleted = Column("wasDeleted")
-        public static let title = Column("title")
-        public static let podcastUuid = Column("podcastUuid")
     }
 }
 

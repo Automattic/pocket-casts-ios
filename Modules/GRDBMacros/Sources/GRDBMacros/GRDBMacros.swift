@@ -44,3 +44,30 @@ public macro GRDBRecord(table: String) = #externalMacro(module: "GRDBMacrosPlugi
 /// ```
 @attached(peer)
 public macro GRDBColumn(_ columnName: String) = #externalMacro(module: "GRDBMacrosPlugin", type: "GRDBColumnMacro")
+
+/// Generates a `Columns` enum for GRDB type-safe query building.
+///
+/// Use this for Codable structs/classes that already conform to FetchableRecord/PersistableRecord.
+/// This macro only generates the `Columns` enum, unlike `@GRDBRecord` which generates full conformance.
+///
+/// Usage:
+/// ```swift
+/// @GRDBColumns
+/// public struct Bookmark: Codable, FetchableRecord, PersistableRecord {
+///     public static let databaseTableName = "Bookmark"
+///     public let uuid: String
+///     public var title: String
+///     // ...
+/// }
+/// ```
+///
+/// For properties with different database column names, use @GRDBColumn:
+/// ```swift
+/// @GRDBColumns
+/// public struct Bookmark: Codable, FetchableRecord, PersistableRecord {
+///     @GRDBColumn("date_added")
+///     public let created: Date
+/// }
+/// ```
+@attached(member, names: named(Columns))
+public macro GRDBColumns() = #externalMacro(module: "GRDBMacrosPlugin", type: "GRDBColumnsMacro")
