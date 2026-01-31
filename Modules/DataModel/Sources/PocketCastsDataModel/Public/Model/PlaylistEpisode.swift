@@ -2,11 +2,11 @@ import Foundation
 import GRDB
 import GRDBMacros
 
-@GRDBColumns
+@GRDBRecord
 public class PlaylistEpisode: Equatable, Hashable, Codable, FetchableRecord, MutablePersistableRecord {
     public static let databaseTableName = "SJPlaylistEpisode"
 
-    public var id: Int64?
+    public var id: Int64? = 0
     public var episodePosition = 0 as Int32
     public var episodeUuid = ""
     public var playlist_id = 0 as Int64

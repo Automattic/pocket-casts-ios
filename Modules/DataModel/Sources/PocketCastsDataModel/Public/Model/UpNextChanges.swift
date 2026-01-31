@@ -2,7 +2,7 @@ import Foundation
 import GRDB
 import GRDBMacros
 
-@GRDBColumns
+@GRDBRecord
 public class UpNextChanges: Codable, FetchableRecord, MutablePersistableRecord {
     public static let databaseTableName = "UpNextChanges"
 

@@ -29,15 +29,13 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         conformingTo protocols: [TypeSyntax],
         in context: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
-        // For classes, add FetchableRecord, TableRecord, Decodable
-        // For structs (already Codable), add TableRecord only (FetchableRecord comes from Codable)
-        let isClass = declaration.is(ClassDeclSyntax.self)
-
-        if isClass {
+        if isNSObjectSubclass(declaration) {
+            // For NSObject subclasses: add full GRDB conformances
             let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): FetchableRecord, TableRecord, Decodable {}")
             return [extensionDecl]
         } else {
-            // Structs - just add TableRecord (FetchableRecord/PersistableRecord come from Codable)
+            // For Codable types: add TableRecord conformance (required for MutablePersistableRecord)
+            // This is harmless if already declared, as Swift allows redundant conformance declarations
             let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): TableRecord {}")
             return [extensionDecl]
         }
@@ -51,28 +49,31 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         conformingTo protocols: [TypeSyntax],
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
-        // Extract table name from macro argument
-        guard let tableName = extractTableName(from: node) else {
-            throw MacroError.missingTableName
+        // Extract table name from macro argument (optional)
+        let tableName = extractTableName(from: node)
+
+        let isNSObject = isNSObjectSubclass(declaration)
+
+        // Determine access level from the type declaration
+        let isPublic = declaration.modifiers.contains { modifier in
+            modifier.name.tokenKind == .keyword(.public)
         }
-
-        let isClass = declaration.is(ClassDeclSyntax.self)
-
-        // Extract properties - different logic for classes vs structs
-        let properties = isClass
-            ? extractObjcProperties(from: declaration)
-            : extractAllProperties(from: declaration)
+        let accessModifier = isPublic ? "public " : ""
 
         // Generate the members
         var members: [DeclSyntax] = []
 
-        // 1. Generate databaseTableName
-        members.append("""
-            public static let databaseTableName = "\(raw: tableName)"
-            """)
+        // 1. Generate databaseTableName if table parameter provided
+        if let tableName = tableName {
+            members.append("""
+                \(raw: accessModifier)static let databaseTableName = "\(raw: tableName)"
+                """)
+        }
 
-        if isClass {
-            // For classes: generate CodingKeys, init(from decoder:), and Columns
+        if isNSObject {
+            // For NSObject subclasses: generate CodingKeys, init(from decoder:), and Columns
+            let properties = extractObjcProperties(from: declaration)
+
             // 2. Generate CodingKeys enum
             members.append(generateCodingKeys(properties: properties))
 
@@ -82,11 +83,42 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             // 4. Generate Columns enum
             members.append(generateColumns(properties: properties))
         } else {
-            // For structs: only generate Columns (CodingKeys auto-synthesized by Codable)
-            members.append(generateColumnsForStruct(properties: properties))
+            // For Codable structs/classes: only generate Columns enum
+            let properties = extractAllStoredProperties(from: declaration)
+
+            // Generate Columns enum with string-based column names
+            let columns = properties.map { prop -> String in
+                "\(accessModifier)static let \(prop.name) = Column(\"\(prop.databaseColumnName)\")"
+            }.joined(separator: "\n        ")
+
+            members.append("""
+                \(raw: accessModifier)enum Columns {
+                    \(raw: columns)
+                }
+                """)
         }
 
         return members
+    }
+
+    // MARK: - NSObject Detection
+
+    /// Check if the declaration inherits from NSObject
+    private static func isNSObjectSubclass(_ declaration: some DeclGroupSyntax) -> Bool {
+        guard let classDecl = declaration.as(ClassDeclSyntax.self),
+              let inheritanceClause = classDecl.inheritanceClause else {
+            return false
+        }
+
+        // Check inheritance list for NSObject
+        for inheritedType in inheritanceClause.inheritedTypes {
+            let typeName = inheritedType.type.trimmedDescription
+            if typeName == "NSObject" {
+                return true
+            }
+        }
+
+        return false
     }
 
     // MARK: - Helpers
@@ -101,6 +133,16 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         return segment.content.text
     }
 
+    /// Check if a property has @GRDBIgnore attribute
+    private static func hasGRDBIgnore(_ varDecl: VariableDeclSyntax) -> Bool {
+        varDecl.attributes.contains { attr in
+            if case .attribute(let attributeSyntax) = attr {
+                return attributeSyntax.attributeName.trimmedDescription == "GRDBIgnore"
+            }
+            return false
+        }
+    }
+
     /// Extract properties with @objc attribute (for classes/NSObject subclasses)
     private static func extractObjcProperties(from declaration: some DeclGroupSyntax) -> [PropertyInfo] {
         var properties: [PropertyInfo] = []
@@ -110,6 +152,9 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
                   varDecl.bindingSpecifier.tokenKind == .keyword(.var) else {
                 continue
             }
+
+            // Skip properties marked with @GRDBIgnore
+            guard !hasGRDBIgnore(varDecl) else { continue }
 
             // Only include properties with @objc attribute (database-stored properties)
             let hasObjc = varDecl.attributes.contains { attr in
@@ -305,53 +350,8 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             }
             """
     }
-}
 
-/// Marker macro for custom column name mapping.
-/// The actual work is done by @GRDBRecord/@GRDBColumns which reads this attribute.
-public struct GRDBColumnMacro: PeerMacro {
-    public static func expansion(
-        of node: AttributeSyntax,
-        providingPeersOf declaration: some DeclSyntaxProtocol,
-        in context: some MacroExpansionContext
-    ) throws -> [DeclSyntax] {
-        // This macro doesn't generate any code - it's just a marker attribute
-        // that @GRDBRecord/@GRDBColumns reads to determine custom column names
-        return []
-    }
-}
-
-/// Generates only the Columns enum for Codable types that already have GRDB conformance.
-/// This is a simpler alternative to @GRDBRecord for types that use native Codable.
-public struct GRDBColumnsMacro: MemberMacro {
-    public static func expansion(
-        of node: AttributeSyntax,
-        providingMembersOf declaration: some DeclGroupSyntax,
-        conformingTo protocols: [TypeSyntax],
-        in context: some MacroExpansionContext
-    ) throws -> [DeclSyntax] {
-        // Extract all stored properties
-        let properties = extractAllStoredProperties(from: declaration)
-
-        // Determine access level from the type declaration
-        let isPublic = declaration.modifiers.contains { modifier in
-            modifier.name.tokenKind == .keyword(.public)
-        }
-        let accessModifier = isPublic ? "public " : ""
-
-        // Generate Columns enum with string-based column names
-        let columns = properties.map { prop -> String in
-            "\(accessModifier)static let \(prop.name) = Column(\"\(prop.databaseColumnName)\")"
-        }.joined(separator: "\n        ")
-
-        return ["""
-            \(raw: accessModifier)enum Columns {
-                \(raw: columns)
-            }
-            """]
-    }
-
-    /// Extract all stored properties from a declaration
+    /// Extract all stored properties from a declaration (for Codable types)
     private static func extractAllStoredProperties(from declaration: some DeclGroupSyntax) -> [PropertyInfo] {
         var properties: [PropertyInfo] = []
 
@@ -361,6 +361,9 @@ public struct GRDBColumnsMacro: MemberMacro {
                   varDecl.bindingSpecifier.tokenKind == .keyword(.let) else {
                 continue
             }
+
+            // Skip properties marked with @GRDBIgnore
+            guard !hasGRDBIgnore(varDecl) else { continue }
 
             for binding in varDecl.bindings {
                 guard let identifier = binding.pattern.as(IdentifierPatternSyntax.self) else {
@@ -390,35 +393,33 @@ public struct GRDBColumnsMacro: MemberMacro {
 
         return properties
     }
+}
 
-    /// Extract the column name from @GRDBColumn attribute if present
-    private static func extractGRDBColumnName(from varDecl: VariableDeclSyntax) -> String? {
-        for attr in varDecl.attributes {
-            guard case .attribute(let attributeSyntax) = attr,
-                  attributeSyntax.attributeName.trimmedDescription == "GRDBColumn",
-                  let arguments = attributeSyntax.arguments?.as(LabeledExprListSyntax.self),
-                  let firstArg = arguments.first,
-                  let stringLiteral = firstArg.expression.as(StringLiteralExprSyntax.self),
-                  let segment = stringLiteral.segments.first?.as(StringSegmentSyntax.self) else {
-                continue
-            }
-            return segment.content.text
-        }
-        return nil
+/// Marker macro for custom column name mapping.
+/// The actual work is done by @GRDBRecord which reads this attribute.
+public struct GRDBColumnMacro: PeerMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingPeersOf declaration: some DeclSyntaxProtocol,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // This macro doesn't generate any code - it's just a marker attribute
+        // that @GRDBRecord reads to determine custom column names
+        return []
     }
 }
 
-enum MacroError: Error, CustomStringConvertible {
-    case missingTableName
-    case notAClass
-
-    var description: String {
-        switch self {
-        case .missingTableName:
-            return "@GRDBRecord requires a table name: @GRDBRecord(table: \"TableName\")"
-        case .notAClass:
-            return "@GRDBRecord can only be applied to classes"
-        }
+/// Marker macro to exclude a property from @GRDBRecord processing.
+/// The actual work is done by @GRDBRecord which checks for this attribute.
+public struct GRDBIgnoreMacro: PeerMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingPeersOf declaration: some DeclSyntaxProtocol,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // This macro doesn't generate any code - it's just a marker attribute
+        // that @GRDBRecord reads to determine which properties to skip
+        return []
     }
 }
 
@@ -427,6 +428,6 @@ struct GRDBMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         GRDBRecordMacro.self,
         GRDBColumnMacro.self,
-        GRDBColumnsMacro.self
+        GRDBIgnoreMacro.self
     ]
 }

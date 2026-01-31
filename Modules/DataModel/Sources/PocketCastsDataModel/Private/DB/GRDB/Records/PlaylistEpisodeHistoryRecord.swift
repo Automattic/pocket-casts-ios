@@ -1,8 +1,10 @@
 import Foundation
 import GRDB
+import GRDBMacros
 
 /// GRDB Record type representing the PlaylistEpisodeHistory table.
 /// Used for strongly-typed query building with GRDB's QueryInterface.
+@GRDBRecord
 struct PlaylistEpisodeHistoryRecord: Codable, Identifiable, FetchableRecord, MutablePersistableRecord {
     static let databaseTableName = "PlaylistEpisodeHistory"
 
@@ -20,19 +22,5 @@ struct PlaylistEpisodeHistoryRecord: Codable, Identifiable, FetchableRecord, Mut
     /// Updates the record's id after it has been inserted in the database.
     mutating func didInsert(_ inserted: InsertionSuccess) {
         id = inserted.rowID
-    }
-
-    /// Column definitions for type-safe query building
-    enum Columns {
-        static let id = Column("id")
-        static let episodePosition = Column("episodePosition")
-        static let episodeUuid = Column("episodeUuid")
-        static let playlist_id = Column("playlist_id")
-        static let upcoming = Column("upcoming")
-        static let timeModified = Column("timeModified")
-        static let wasDeleted = Column("wasDeleted")
-        static let title = Column("title")
-        static let podcastUuid = Column("podcastUuid")
-        static let date = Column("date")
     }
 }
