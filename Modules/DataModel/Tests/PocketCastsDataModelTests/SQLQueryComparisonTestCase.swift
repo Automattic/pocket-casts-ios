@@ -372,6 +372,10 @@ class SQLQueryComparisonTestCase: XCTestCase {
             result = regex.stringByReplacingMatches(in: result, range: range, withTemplate: "COUNT(*)")
         }
 
+        // Preserve COUNT(*) by temporarily replacing it before parentheses removal
+        let countPlaceholder = "__COUNT_STAR__"
+        result = result.replacingOccurrences(of: "COUNT(*)", with: countPlaceholder)
+
         // Remove parentheses around simple conditions in WHERE clauses
         // This handles cases like "WHERE (col = 1) AND (col2 = 2)" -> "WHERE col = 1 AND col2 = 2"
         // Only apply to SELECT/UPDATE/DELETE statements, not INSERT (which requires parentheses)
@@ -386,6 +390,18 @@ class SQLQueryComparisonTestCase: XCTestCase {
                 }
                 result = newResult
             }
+        }
+
+        // Restore COUNT(*) after parentheses removal
+        result = result.replacingOccurrences(of: countPlaceholder, with: "COUNT(*)")
+
+        // Normalize explicit column lists to SELECT *
+        // "SELECT col1,col2,col3,... FROM Table" -> "SELECT * FROM Table"
+        // GRDB uses SELECT * while raw SQL often lists columns explicitly
+        // Pattern matches: SELECT followed by comma-separated identifiers (no spaces after comma normalization)
+        if let regex = try? NSRegularExpression(pattern: "SELECT\\s+\\w+(,\\w+)+\\s+FROM", options: []) {
+            let range = NSRange(result.startIndex..., in: result)
+            result = regex.stringByReplacingMatches(in: result, range: range, withTemplate: "SELECT * FROM")
         }
 
         // Normalize SELECT 1 to SELECT * for existence check queries
@@ -441,7 +457,52 @@ class SQLQueryComparisonTestCase: XCTestCase {
             .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
             .trimmingCharacters(in: .whitespaces)
 
+        // Sort AND conditions in WHERE clause alphabetically
+        // This handles cases where conditions appear in different orders but are semantically equivalent
+        // "WHERE deleted = 0 AND episode_uuid = 'x'" and "WHERE episode_uuid = 'x' AND deleted = 0"
+        result = sortWhereConditions(result)
+
         return result
+    }
+
+    /// Sorts AND conditions within a WHERE clause alphabetically for consistent comparison
+    /// Handles queries like "SELECT * FROM Table WHERE b = 1 AND a = 2" -> "SELECT * FROM Table WHERE a = 2 AND b = 1"
+    private func sortWhereConditions(_ sql: String) -> String {
+        // Find WHERE clause
+        guard let whereRange = sql.range(of: "WHERE ", options: .caseInsensitive) else {
+            return sql
+        }
+
+        let beforeWhere = String(sql[..<whereRange.lowerBound])
+        let afterWhere = String(sql[whereRange.upperBound...])
+
+        // Find where the WHERE clause ends (ORDER BY, LIMIT, GROUP BY, or end of string)
+        let terminators = ["ORDER BY", "LIMIT", "GROUP BY"]
+        var whereClause = afterWhere
+        var afterWhereClause = ""
+
+        for terminator in terminators {
+            if let terminatorRange = afterWhere.range(of: terminator, options: .caseInsensitive) {
+                whereClause = String(afterWhere[..<terminatorRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                afterWhereClause = String(afterWhere[terminatorRange.lowerBound...])
+                break
+            }
+        }
+
+        // Split by AND (but not OR - those have different semantics)
+        // Only sort if there are no OR conditions (mixing AND/OR has precedence issues)
+        guard !whereClause.uppercased().contains(" OR ") else {
+            return sql
+        }
+
+        let conditions = whereClause
+            .components(separatedBy: " AND ")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .sorted()
+
+        let sortedWhereClause = conditions.joined(separator: " AND ")
+
+        return beforeWhere + "WHERE " + sortedWhereClause + (afterWhereClause.isEmpty ? "" : " " + afterWhereClause)
     }
 
     // MARK: - SQL Comparison

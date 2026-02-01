@@ -1,24 +1,37 @@
 import Foundation
+import GRDB
+import GRDBMacros
 import SwiftUI
 
 /// A bookmark that represents a position in time within an episode
+@GRDBRecord
 public struct Bookmark: Hashable {
     public let uuid: String
-    public let title: String
+    public var title: String
     public let time: TimeInterval
 
+    @GRDBColumn("date_added")
     public let created: Date
 
+    @GRDBColumn("episode_uuid")
     public let episodeUuid: String
+    @GRDBColumn("podcast_uuid")
     public let podcastUuid: String?
 
+    // Transient - not stored in database
+    @GRDBIgnore
     public var episode: BaseEpisode? = nil
+    @GRDBIgnore
     public var podcast: Podcast? = nil
 
     // For syncing
+    @GRDBColumn("title_modified_date")
     public var titleModified: Date? = nil
+    @GRDBColumn("deleted_modified_date")
     public var deletedModified: Date? = nil
     public var deleted: Bool = false
+    @GRDBColumn("sync_status")
+    public var syncStatus: Int32 = SyncStatus.notSynced.rawValue
 
     // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
     public func hash(into hasher: inout Hasher) {
@@ -34,6 +47,26 @@ public struct Bookmark: Hashable {
 
     public static func == (lhs: Bookmark, rhs: Bookmark) -> Bool {
         lhs.uuid == rhs.uuid
+    }
+}
+
+// MARK: - GRDB Codable Support
+
+extension Bookmark: Codable, FetchableRecord, PersistableRecord {
+    public static let databaseTableName = "Bookmark"
+
+    /// Maps Swift property names to database column names
+    enum CodingKeys: String, CodingKey {
+        case uuid
+        case title
+        case time
+        case created = "date_added"
+        case episodeUuid = "episode_uuid"
+        case podcastUuid = "podcast_uuid"
+        case titleModified = "title_modified_date"
+        case deletedModified = "deleted_modified_date"
+        case deleted
+        case syncStatus = "sync_status"
     }
 }
 
