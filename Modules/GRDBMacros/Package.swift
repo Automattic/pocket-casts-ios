@@ -38,5 +38,14 @@ let package = Package(
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ]
         ),
+
+        // Tests for the macros
+        .testTarget(
+            name: "GRDBMacrosTests",
+            dependencies: [
+                "GRDBMacrosPlugin",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+            ]
+        ),
     ]
 )
