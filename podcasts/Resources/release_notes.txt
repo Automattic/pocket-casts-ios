@@ -1,2 +1,1 @@
-- Maintain Show Notes scroll position when app is opened [#3863](https://github.com/Automattic/pocket-casts-ios/pull/3863)
-- Remove support for Radioactive theme [#3865](https://github.com/Automattic/pocket-casts-ios/pull/3865)
+- Fix removal of User Episode Files when selecting multiple episodes [#3898](https://github.com/Automattic/pocket-casts-ios/pull/3898)
