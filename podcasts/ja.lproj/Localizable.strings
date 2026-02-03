@@ -381,6 +381,8 @@
     <string>利用可能なプラン</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>オファーを獲得</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>キャンセルを続行</string>
     <key>cancel_subscription_generic_error</key>
     <string>エラーが発生しました。 後でもう一度お試しください。</string>
     <key>cancel_subscription_help_description</key>
@@ -2753,11 +2755,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>Pocket Casts を共有いただきありがとうございます。 プレゼントできるパスが増えたらお知らせします。</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>ゲストパスをすべて共有しました !</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>こんにちは。
-
-こちらは、私のお気に入りのポッドキャストプレイヤー、Pocket Casts Plus を利用できる%1$@のゲストパスです。 ブックマークやフォルダーなど、他にはないユニークな機能が満載です。 きっと気に入ってもらえると思います。
-</string>
     <key>referrals_share_pass_message</key>
     <string>こんにちは。 以下のリンクを使用して Pocket Casts Plus の%1$@のゲストパスを取得し、お使いの全端末でポッドキャストをお楽しみください !</string>
     <key>referrals_share_pass_subject</key>
@@ -3264,6 +3261,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>検出と検索</string>
     <key>settings_status_discover_description</key>
     <string>ポッドキャスト検索を含む、アプリの検出セクション。</string>
+    <key>settings_status_expensive_network</key>
+    <string>従量制課金でない Wi-Fi</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>成功した場合、このネットワークは従量制課金でない Wi-Fi でダウンロードに使用されます。</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>現在のネットワークは費用が高くつくと判定されています。 Wi-Fi に切り替えるか、低データモードを無効にしてみてください。</string>
     <key>settings_status_host</key>
     <string>一般的なポッドキャストホスト</string>
     <key>settings_status_host_description</key>

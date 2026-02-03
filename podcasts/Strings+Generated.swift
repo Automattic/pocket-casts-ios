@@ -3157,7 +3157,7 @@ internal enum L10n {
   internal static var referralsShareNoGuestPassTitle: String { return L10n.tr("Localizable", "referrals_share_no_guest_pass_title", fallback: "You've shared all yours guest passes!") }
   /// Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription
   internal static func referralsSharePassLongMessage(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "referrals_share_pass_long_message", String(describing: p1), fallback: "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n")
+    return L10n.tr("Localizable", "referrals_share_pass_long_message", String(describing: p1), fallback: "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus - my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n")
   }
   /// Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription
   internal static func referralsSharePassMessage(_ p1: Any) -> String {

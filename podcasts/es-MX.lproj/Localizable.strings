@@ -381,6 +381,8 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Planes disponibles</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Reclamar oferta</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Continuar con la cancelación</string>
     <key>cancel_subscription_generic_error</key>
     <string>Se ha producido un error. Inténtalo de nuevo más tarde.</string>
     <key>cancel_subscription_help_description</key>
@@ -2755,11 +2757,6 @@ Si buscas inspiración, prueba la pestaña Descubrir.</string>
     <string>Muchas gracias por compartir Pocket Casts. Te avisaremos cuando tengas más pases para regalar.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Has compartido todos tus pases de invitado.</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>Hola:
-
-Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor de podcast favorito. Cuenta con funciones únicas como los marcadores, las carpetas y muchas más que no encontrarás en otras plataformas. Creemos que a ti también te encantará.
-</string>
     <key>referrals_share_pass_message</key>
     <string>¡Hola! Utiliza el siguiente enlace para solicitar tu pase de invitado de %1$@ para Pocket Casts Plus y disfrutar de podcasts en todos tus dispositivos.</string>
     <key>referrals_share_pass_subject</key>
@@ -3266,6 +3263,12 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Descubrir y buscar</string>
     <key>settings_status_discover_description</key>
     <string>La sección Descubrir de la aplicación y la búsqueda de pódscast.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Wi-Fi sin restricciones de datos</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Si se conecta correctamente, esta red se utilizará para las descargas en el Wi-Fi sin restricciones de datos.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Tu red actual está marcada como cara. Prueba a cambiar a una red Wi-Fi o a inhabilitar el Modo de bajo consumo de datos.</string>
     <key>settings_status_host</key>
     <string>Proveedores de alojamiento más frecuentes de pódscast</string>
     <key>settings_status_host_description</key>

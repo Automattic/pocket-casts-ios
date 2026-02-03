@@ -381,6 +381,8 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Tillgängliga paket</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Utnyttja erbjudande</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Fortsätt med annullering</string>
     <key>cancel_subscription_generic_error</key>
     <string>Ett fel uppstod. Försök igen senare.</string>
     <key>cancel_subscription_help_description</key>
@@ -2755,11 +2757,6 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Tack för att du delar Pocket Casts! Vi meddelar dig när du har fler gästpass att ge bort.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du har delat ut alla dina gästpass.</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>Hej där!
-
-Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare. Den är fullspäckad med unika funktioner som bokmärken, mappar och annat som du inte hittar någon annanstans. Jag tror att du också kommer att älska den!
-</string>
     <key>referrals_share_pass_message</key>
     <string>Hej! Använd länken nedan för att göra anspråk på ditt %1$@ gästpass för Pocket Casts Plus och ta del av podcasts på alla dina enheter.</string>
     <key>referrals_share_pass_subject</key>
@@ -3266,6 +3263,12 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Upptäck och sök</string>
     <key>settings_status_discover_description</key>
     <string>Upptäck-sektionen i appen, med podcastsökning.</string>
+    <key>settings_status_expensive_network</key>
+    <string>WiFi utan datapriser</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>Om detta lyckas kommer det här nätverket att användas för nedladdningar på WiFi utan datapriser.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Ditt nuvarande nätverk är markerat som dyrt. Prova att byta till Wi-Fi eller att inaktivera lågdataläge.</string>
     <key>settings_status_host</key>
     <string>Vanliga podcastvärdar</string>
     <key>settings_status_host_description</key>

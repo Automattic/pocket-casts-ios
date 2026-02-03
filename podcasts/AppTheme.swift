@@ -693,6 +693,10 @@ class AppTheme {
         case 5: return ThemeColor.filter06()
         case 6: return ThemeColor.filter07()
         case 7: return ThemeColor.filter08()
+        case 8: return ThemeColor.filter09()
+        case 9: return ThemeColor.filter10()
+        case 10: return ThemeColor.filter11()
+        case 11: return ThemeColor.filter12()
         default: return ThemeColor.filter08()
         }
     }

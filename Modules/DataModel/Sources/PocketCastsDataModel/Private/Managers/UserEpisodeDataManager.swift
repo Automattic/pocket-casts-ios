@@ -292,7 +292,7 @@ class UserEpisodeDataManager {
 
     func saveEpisode(autoDownloadStatus: AutoDownloadStatus, episode: UserEpisode, dbQueue: PCDBQueue) {
         episode.autoDownloadStatus = autoDownloadStatus.rawValue
-        save(fieldName: "autoDownloadStatus", value: autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
+        save(fieldName: "autoDownloadStatus", value: episode.autoDownloadStatus, episodeId: episode.id, dbQueue: dbQueue)
     }
 
     func saveEpisode(downloadStatus: DownloadStatus, downloadTaskId: String?, episode: UserEpisode, dbQueue: PCDBQueue) {
@@ -477,7 +477,7 @@ class UserEpisodeDataManager {
                     values.append(episode.uuid)
 
                     let setStatement = "SET \(fields.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) \(setStatement) WHERE uuid = ?", values: values)
+                    try db.executeUpdate("UPDATE \(DataManager.userEpisodeTableName) \(setStatement) WHERE uuid = ?", values: values)
                 }
                 db.commit()
             } catch {
@@ -505,9 +505,10 @@ class UserEpisodeDataManager {
     }
 
     func delete(userEpisodeUuids: [String], dbQueue: PCDBQueue) {
+        guard !userEpisodeUuids.isEmpty else { return }
         dbQueue.write { db in
             do {
-                try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid = ?", values: userEpisodeUuids)
+                try db.executeUpdate("DELETE FROM \(DataManager.userEpisodeTableName) WHERE uuid IN (\(DataHelper.convertArrayToInString(userEpisodeUuids)))", values: nil)
             } catch {
                 FileLog.shared.addMessage("UserEpisodeDataManager.delete many error: \(error)")
             }

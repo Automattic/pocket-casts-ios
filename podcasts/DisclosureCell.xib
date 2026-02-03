@@ -42,6 +42,7 @@
                         <rect key="frame" x="284" y="-6.5" width="32" height="32.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="X3U-XS-fFt"/>
+                            <constraint firstAttribute="height" constant="32" id="hgt-DC-fFt"/>
                         </constraints>
                     </imageView>
                 </subviews>

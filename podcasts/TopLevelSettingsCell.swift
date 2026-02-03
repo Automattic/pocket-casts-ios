@@ -9,11 +9,17 @@ class TopLevelSettingsCell: ThemeableCell {
     }
     @IBOutlet var plusIndicator: UIImageView!
 
+    private var disclosureImageView: TintableImageView?
+
+    private let baseSettingsImageSize: CGFloat = 24
+    private let baseDisclosureSize: CGFloat = 32
+
     var showsDisclosureIndicator = true {
         didSet {
             if showsDisclosureIndicator {
-                accessoryView = TintableImageView(image: UIImage(named: "chevron"))
+                setupDisclosureImageView()
             } else {
+                disclosureImageView = nil
                 accessoryView = nil
             }
         }
@@ -22,19 +28,42 @@ class TopLevelSettingsCell: ThemeableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        accessoryView = TintableImageView(image: UIImage(named: "chevron"))
+        setupDisclosureImageView()
         settingsLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         updateColor()
+        updateSize()
+    }
+
+    private func setupDisclosureImageView() {
+        let imageView = TintableImageView(image: UIImage(named: "chevron"))
+        disclosureImageView = imageView
+
+        let metric = UIFontMetrics(forTextStyle: .body)
+        let size = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
+        imageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+
+        accessoryView = imageView
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .body)
+
+        let settingsSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
+        updateSizeConstraints(of: settingsImage, to: settingsSize)
+
+        let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
+        disclosureImageView?.frame.size = CGSize(width: disclosureSize, height: disclosureSize)
     }
 
     override func handleThemeDidChange() {
         settingsImage.tintColor = ThemeColor.primaryIcon01()
-    }
-
-    func updateImageScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
-
-        settingsImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }

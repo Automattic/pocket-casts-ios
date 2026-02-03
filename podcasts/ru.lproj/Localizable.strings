@@ -381,6 +381,8 @@
     <string>Доступные тарифные планы</string>
     <key>cancel_subscription_claim_offer_button</key>
     <string>Воспользоваться предложением</string>
+    <key>cancel_subscription_continue_button</key>
+    <string>Отменить и продолжить</string>
     <key>cancel_subscription_generic_error</key>
     <string>Произошла ошибка. Повторите попытку позже.</string>
     <key>cancel_subscription_help_description</key>
@@ -2755,11 +2757,6 @@ Pocket Casts на полную мощность.</string>
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
-    <key>referrals_share_pass_long_message</key>
-    <string>Здравствуйте!
-
-Это %1$@ гостевой пропуск в Pocket Casts Plus — мой любимый плеер подкастов. В нём есть множество уникальных функций, которых больше нет нигде: закладки, папки и многое другое. Надеюсь, вам он тоже понравится!
-</string>
     <key>referrals_share_pass_message</key>
     <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
     <key>referrals_share_pass_subject</key>
@@ -3266,6 +3263,12 @@ Pocket Casts на полную мощность.</string>
     <string>Поиск</string>
     <key>settings_status_discover_description</key>
     <string>Поисковый раздел приложения, включая поиск подкастов.</string>
+    <key>settings_status_expensive_network</key>
+    <string>Безлимитный Wi-Fi</string>
+    <key>settings_status_expensive_network_description</key>
+    <string>В случае успеха эта сеть будет использоваться для загрузок по безлимитному Wi-Fi.</string>
+    <key>settings_status_expensive_network_failure_message</key>
+    <string>Ваше текущее подключение помечено как дорогое. Попробуйте переключиться на Wi-Fi или отключить режим экономии трафика.</string>
     <key>settings_status_host</key>
     <string>Распространённые хостинги подкастов</string>
     <key>settings_status_host_description</key>

@@ -5013,7 +5013,7 @@
 "cancel_subscription_offer_yearly_success_view_description" = "Thanks for choosing Pocket Casts. Your discounted year begins after your current plan ends.";
 
 /* Referrals - Share Pass message. `%1$@' is a placeholder for the duration of free period offered on the Plus subscription*/
-"referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus–my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
+"referrals_share_pass_long_message" = "Hi there!\n\nHere is a %1$@ guest pass for Pocket Casts Plus - my favorite podcast player. It's packed with unique features like bookmarks, folders, and more that you won't find anywhere else. I think you'll love it too!\n";
 
 /* Auto Downloads Setting - Auto download on follow of a blog*/
 "settings_auto_downloads_on_follow" = "On Follow";

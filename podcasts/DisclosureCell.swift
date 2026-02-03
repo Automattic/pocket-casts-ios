@@ -17,10 +17,27 @@ class DisclosureCell: ThemeableCell {
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
 
+    private let baseDisclosureSize: CGFloat = 32
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         cellTextToImageConstraint.isActive = false
+        updateSize()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .body)
+        let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
+        updateSizeConstraints(of: disclosureImage, to: disclosureSize)
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
