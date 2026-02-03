@@ -33,12 +33,19 @@ class AudioReadTask {
     private var currentFramePosition: AVAudioFramePosition = 0
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
-    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64) {
+    private var voiceBoostNState: OpaquePointer?
+
+    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, voiceBoostNState: OpaquePointer? = nil) {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
         self.outputFormat = outputFormat
         self.bufferManager = bufferManager
         cachedFrameCount = frameCount
+        self.voiceBoostNState = voiceBoostNState
+
+        if voiceBoostNState != nil {
+            FileLog.shared.addMessage("[AudioReadTask] Initialized with VoiceBoostN processing enabled")
+        }
 
         let qos: DispatchQoS
 
@@ -148,6 +155,11 @@ class AudioReadTask {
             buffersSavedDuringGap.removeAll()
             fadeInNextFrame = true
 
+            if let vbnState = voiceBoostNState {
+                VBN_Reset(vbnState)
+                FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN state reset after seek")
+            }
+
             // if we've finished reading this file, wake the reading thread back up
             if bufferManager.readToEOFSuccessfully.value {
                 endOfFileSemaphore.signal()
@@ -190,6 +202,22 @@ class AudioReadTask {
             handleReachedEndOfFile()
 
             return nil
+        }
+
+        // Process through VoiceBoostN if enabled
+        if let vbnState = voiceBoostNState, let buffer = audioPCMBuffer,
+           let channelData = buffer.floatChannelData {
+            let frameCount = Int32(buffer.frameLength)
+            let bufferChannelCount = Int32(buffer.format.channelCount)
+
+            var channelPointers: [UnsafeMutablePointer<Float>?] = []
+            for i in 0..<Int(bufferChannelCount) {
+                channelPointers.append(channelData[i])
+            }
+
+            channelPointers.withUnsafeMutableBufferPointer { ptr in
+                VBN_Process(vbnState, ptr.baseAddress, frameCount, bufferChannelCount)
+            }
         }
 
         currentFramePosition = audioFile.framePosition
