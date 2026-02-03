@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,8 +30,8 @@
                             <constraint firstAttribute="width" constant="24" id="Z2h-Nv-QlU"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc4-2q-Zaq" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="54" y="13" width="98" height="44"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc4-2q-Zaq" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="54" y="0.0" width="98" height="70"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -45,14 +45,13 @@
                     <constraint firstItem="Bu8-m3-deB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="41c-cR-5s0"/>
                     <constraint firstItem="fcQ-1B-5Kn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4A3-Ui-SfV"/>
                     <constraint firstItem="Gc4-2q-Zaq" firstAttribute="leading" secondItem="Bu8-m3-deB" secondAttribute="trailing" constant="15" id="6rR-QV-HTU"/>
-                    <constraint firstAttribute="bottom" secondItem="Gc4-2q-Zaq" secondAttribute="bottom" constant="13" id="9Mm-lJ-caw"/>
                     <constraint firstAttribute="bottom" secondItem="07R-8n-qje" secondAttribute="bottom" id="Ab8-2W-bPI"/>
                     <constraint firstItem="Bu8-m3-deB" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="axs-Xy-XYF"/>
                     <constraint firstItem="07R-8n-qje" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="b2p-CS-WFD"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gc4-2q-Zaq" secondAttribute="trailing" constant="10" id="dI3-Yl-AS2"/>
                     <constraint firstItem="07R-8n-qje" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="kdf-w2-SO4"/>
-                    <constraint firstItem="Gc4-2q-Zaq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="nix-Ef-RdR"/>
-                    <constraint firstItem="Gc4-2q-Zaq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sYS-uL-8JJ"/>
+                    <constraint firstItem="Gc4-2q-Zaq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nix-Ef-RdR"/>
+                    <constraint firstItem="Gc4-2q-Zaq" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="sYS-uL-8JJ"/>
                     <constraint firstItem="fcQ-1B-5Kn" firstAttribute="leading" secondItem="Gc4-2q-Zaq" secondAttribute="trailing" constant="9" id="xNd-yM-1dI"/>
                 </constraints>
             </tableViewCellContentView>
