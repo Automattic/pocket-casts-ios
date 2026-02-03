@@ -24,7 +24,7 @@ class MainEpisodeActionView: UIView {
     var enlargementScale: CGFloat = 1 {
         didSet {
             setCenterPoint()
-            setNeedsDisplay()
+            setNeedsLayout()
         }
     }
 
@@ -184,9 +184,13 @@ class MainEpisodeActionView: UIView {
         }
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setCenterPoint()
+    }
+
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        setCenterPoint()
         drawInContext(context, rect: rect)
     }
 }
