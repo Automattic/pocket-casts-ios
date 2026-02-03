@@ -1600,6 +1600,15 @@
 /* A short description of what the Volume Boost feature does */
 "volume_boost_description" = "Voices sound louder";
 
+/* A short description of what the VoiceBoostN feature does */
+"volume_boost_n_description" = "Voice levels are more consistent";
+
+/* Title for the VoiceBoostN setting in Settings > General */
+"settings_general_voice_boost_n" = "VoiceBoostN";
+
+/* Subtitle for the VoiceBoostN setting in Settings > General */
+"settings_general_voice_boost_n_subtitle" = "Use updated Volume Boost with more consistent voice levels.";
+
 /* A common string used throughout the app. Catch all prompt to suggest to the user to try the task again. */
 "please_try_again" = "Please try again";
 
