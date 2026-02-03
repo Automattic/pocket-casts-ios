@@ -52,12 +52,18 @@ class AccountActionCell: ThemeableCell {
         cellLabel.textColor = imageAndTextColor
     }
 
+    private var disclosureImageView: TintableImageView?
+
     var showsDisclosureIndicator = false {
         didSet {
             if showsDisclosureIndicator {
-                accessoryView = TintableImageView(image: UIImage(named: "chevron"))
+                let imageView = TintableImageView(image: UIImage(named: "chevron"))
+                disclosureImageView = imageView
+                accessoryView = imageView
                 updateColor()
+                updateDisclosureScale()
             } else {
+                disclosureImageView = nil
                 accessoryView = nil
             }
         }
@@ -71,10 +77,22 @@ class AccountActionCell: ThemeableCell {
         updateImageScale()
     }
 
-    func updateImageScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
 
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateImageScale()
+            updateDisclosureScale()
+        }
+    }
+
+    func updateImageScale() {
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
         cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    }
+
+    private func updateDisclosureScale() {
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
+        disclosureImageView?.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }
