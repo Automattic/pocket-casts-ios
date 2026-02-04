@@ -85,6 +85,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.effects = PlaybackManager.shared.effects()
             strongSelf.playBufferManager = PlayBufferManager()
 
+            // Set useVoiceBoostN before setVolumeBoostSettings so bypass is configured correctly
+            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
+
             strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
             strongSelf.engine?.attach(strongSelf.audioMixerNode!)
 
@@ -147,9 +150,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
             strongSelf.engine?.connect(strongSelf.peakLimiter!, to: strongSelf.engine!.outputNode, format: format)
 
-            // Store sample rate and set VoiceBoostN flag for AudioReadTask
+            // Store sample rate for AudioReadTask (useVoiceBoostN already set above)
             strongSelf.audioFileSampleRate = strongSelf.audioFile!.fileFormat.sampleRate
-            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
 
             strongSelf.startReadAndPlayThreads()
             do {
