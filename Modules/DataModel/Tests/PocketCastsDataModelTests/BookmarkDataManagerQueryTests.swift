@@ -8,25 +8,42 @@ import GRDB
 ///
 /// These tests work by:
 /// 1. Calling the SQL implementation method with a capturing database queue
-/// 2. Extracting the SQL from the equivalent GRDB QueryInterface request
+/// 2. Calling the actual GRDB implementation method with a SQL-capturing GRDBQueue
 /// 3. Comparing both:
 ///    - SQL structure (after normalization) to catch structural differences
 ///    - Execution plans (via EXPLAIN QUERY PLAN) to ensure SQLite treats them equivalently
 ///
-/// This dual approach validates both that the queries are structurally equivalent
-/// and that any superficial differences (like clause ordering) don't affect performance.
+/// This approach validates the actual production GRDB code, not manual query recreations.
 final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
 
     // MARK: - Test Setup
 
     private var bookmarkDataManager: BookmarkDataManager!
+    private var grdbCapturingQueue: SQLCapturingGRDBQueue!
 
     override func setUp() async throws {
         try await super.setUp()
         bookmarkDataManager = BookmarkDataManager(dbQueue: sqlCapturingQueue)
+        grdbCapturingQueue = try SQLCapturingGRDBQueue()
 
-        // Create the schema in GRDB for SQL extraction
+        // Create the schema in both GRDB queues for SQL extraction and execution
         try await grdbQueue.write { db in
+            try db.create(table: Bookmark.databaseTableName, ifNotExists: true) { t in
+                t.column("uuid", .text).notNull().primaryKey()
+                t.column("title", .text).notNull().defaults(to: "")
+                t.column("time", .double).notNull().defaults(to: 0)
+                t.column("date_added", .double).notNull().defaults(to: 0)
+                t.column("title_modified_date", .double)
+                t.column("episode_uuid", .text).notNull().defaults(to: "")
+                t.column("podcast_uuid", .text)
+                t.column("sync_status", .integer).notNull().defaults(to: 0)
+                t.column("deleted", .boolean).notNull().defaults(to: false)
+                t.column("deleted_modified_date", .double)
+            }
+        }
+
+        // Create the same schema in the capturing GRDB queue
+        _ = grdbCapturingQueue.write { db in
             try db.create(table: Bookmark.databaseTableName, ifNotExists: true) { t in
                 t.column("uuid", .text).notNull().primaryKey()
                 t.column("title", .text).notNull().defaults(to: "")
@@ -44,6 +61,7 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
 
     override func tearDown() async throws {
         bookmarkDataManager = nil
+        grdbCapturingQueue = nil
         try await super.tearDown()
     }
 
@@ -54,13 +72,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmark(for: "test-uuid", allowDeleted: true)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        // Note: selectBookmarks uses default sort (newestToOldest = date_added DESC) and limit 1
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.uuid == "test-uuid")
-            .order(Bookmark.Columns.created.desc)
-            .limit(1)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarkGRDB(for: "test-uuid", allowDeleted: true, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -72,14 +87,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmark(for: "test-uuid", allowDeleted: false)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        // Note: selectBookmarks uses default sort (newestToOldest = date_added DESC) and limit 1
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.uuid == "test-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-            .limit(1)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarkGRDB(for: "test-uuid", allowDeleted: false, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -93,15 +104,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.existingBookmark(forEpisode: "episode-uuid", time: 120.5)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        // Note: selectBookmarks uses default sort (newestToOldest = date_added DESC) and limit 1
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.time == 120.5)
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-            .limit(1)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.existingBookmarkGRDB(forEpisode: "episode-uuid", time: 120.5, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -115,12 +121,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarks(forEpisode: "episode-uuid", sorted: .newestToOldest)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksGRDB(forEpisode: "episode-uuid", sorted: .newestToOldest, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -132,12 +136,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarks(forEpisode: "episode-uuid", sorted: .oldestToNewest)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.asc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksGRDB(forEpisode: "episode-uuid", sorted: .oldestToNewest, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -149,12 +151,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarks(forEpisode: "episode-uuid", sorted: .timestamp)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.time.asc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksGRDB(forEpisode: "episode-uuid", sorted: .timestamp, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -168,12 +168,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarks(forPodcast: "podcast-uuid")
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.podcastUuid == "podcast-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksGRDB(forPodcast: "podcast-uuid", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -185,13 +183,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarks(forPodcast: "podcast-uuid", episodeUuid: "episode-uuid")
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.podcastUuid == "podcast-uuid")
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksGRDB(forPodcast: "podcast-uuid", episodeUuid: "episode-uuid", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -205,11 +200,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.allBookmarks(includeDeleted: false)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.deleted == false)
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.allBookmarksGRDB(includeDeleted: false, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -221,10 +215,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.allBookmarks(includeDeleted: true)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = Bookmark
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.allBookmarksGRDB(includeDeleted: true, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -238,11 +232,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarkCount(forEpisode: "episode-uuid", includeDeleted: false)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query (for count, we use extractCountSQL)
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-            .filter(Bookmark.Columns.deleted == false)
-        let grdbSQL = try extractCountSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarkCountGRDB(forEpisode: "episode-uuid", includeDeleted: false, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -254,10 +247,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarkCount(forEpisode: "episode-uuid", includeDeleted: true)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query (for count, we use extractCountSQL)
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.episodeUuid == "episode-uuid")
-        let grdbSQL = try extractCountSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarkCountGRDB(forEpisode: "episode-uuid", includeDeleted: true, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
@@ -271,12 +264,10 @@ final class BookmarkDataManagerQueryTests: SQLQueryComparisonTestCase {
         _ = bookmarkDataManager.bookmarksToSync()
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        // Note: selectBookmarks uses default sort (newestToOldest = date_added DESC) and allowDeleted: true
-        let grdbRequest = Bookmark
-            .filter(Bookmark.Columns.syncStatus == SyncStatus.notSynced.rawValue)
-            .order(Bookmark.Columns.created.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = bookmarkDataManager.bookmarksToSyncGRDB(grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
         // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
