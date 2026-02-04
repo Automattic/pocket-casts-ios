@@ -274,6 +274,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Fix Watch app overwriting phone's Up Next queue by adding debouncing and fixing timestamp comparison logic
     case watchUpNextSyncFix
 
+    /// Enable VoiceBoostN with updated description copy (TestFlight only)
+    case voiceBoostN
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -460,6 +463,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .watchUpNextSyncFix:
             true
+        case .voiceBoostN:
+            BuildEnvironment.current == .testFlight || BuildEnvironment.current == .debug
         }
     }
 
