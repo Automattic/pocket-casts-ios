@@ -32,6 +32,11 @@ class UnplayedBadge: UIView {
         updateColors()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2
+    }
+
     func updateColors() {
         backgroundColor = ThemeColor.primaryInteractive01()
         unplayedLabel.textColor = ThemeColor.primaryInteractive02()

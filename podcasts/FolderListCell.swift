@@ -26,6 +26,8 @@ class FolderListCell: ThemeableCollectionCell {
     @IBOutlet var unplayedBadge: UnplayedBadge!
     @IBOutlet var unplayedHeight: NSLayoutConstraint!
 
+    private var badgeType: BadgeType = .off
+
     override func awakeFromNib() {
         super.awakeFromNib()
         isAccessibilityElement = true
@@ -33,6 +35,7 @@ class FolderListCell: ThemeableCollectionCell {
     }
 
     func populateFrom(folder: Folder, badgeType: BadgeType) {
+        self.badgeType = badgeType
         folderName.text = folder.name
         folderPreview.populateFromAsync(folder: folder)
         folderPreview.backgroundColor = AppTheme.folderColor(colorInt: folder.color)
@@ -68,6 +71,17 @@ class FolderListCell: ThemeableCollectionCell {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
         updateSizeConstraints(of: folderPreview, to: imageSize)
+
+        let badgeMetric = UIFontMetrics(forTextStyle: .footnote)
+        switch badgeType {
+            case .allUnplayed:
+                unplayedHeight.constant = max(28, badgeMetric.scaledValue(for: 28))
+            case .latestEpisode:
+                unplayedHeight.constant = max(12, badgeMetric.scaledValue(for: 12))
+            case .off:
+                break
+        }
+        unplayedBadge.layoutIfNeeded()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
