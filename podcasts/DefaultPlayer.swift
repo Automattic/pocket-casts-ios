@@ -46,6 +46,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         private var sampleCount: Float64 = 0
         private var backgroundTaskId: UIBackgroundTaskIdentifier
         private var voiceBoostNState: OpaquePointer?
+        private var cachedSampleRate: Double = 0
     #endif
 
     init() {
@@ -379,13 +380,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             }
             referenceToSelf.peakLimiter = limiter
 
-            if Settings.isVoiceBoostNEnabled {
-                let sampleRate = Double(processingFormat.pointee.mSampleRate)
-                referenceToSelf.voiceBoostNState = VBN_Create(sampleRate)
-                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN enabled - created state at \(sampleRate) Hz")
-            } else {
-                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN disabled - using legacy AudioUnit chain")
-            }
+            // Store sample rate for dynamic VoiceBoostN creation
+            referenceToSelf.cachedSampleRate = Double(processingFormat.pointee.mSampleRate)
         }
 
         let tapUnprepare: MTAudioProcessingTapUnprepareCallback = { tap in
@@ -426,6 +422,23 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     return
                 }
                 return
+            }
+
+            let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled
+
+            // Handle dynamic state creation/destruction
+            if shouldUseVoiceBoostN && referenceToSelf.voiceBoostNState == nil {
+                let isInitial = referenceToSelf.sampleCount == Float64(numberFrames) // First buffer
+                referenceToSelf.voiceBoostNState = VBN_Create(referenceToSelf.cachedSampleRate)
+                if isInitial {
+                    FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN enabled - created state at \(referenceToSelf.cachedSampleRate) Hz")
+                } else {
+                    FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN enabled mid-playback - created state at \(referenceToSelf.cachedSampleRate) Hz")
+                }
+            } else if !shouldUseVoiceBoostN && referenceToSelf.voiceBoostNState != nil {
+                VBN_Destroy(referenceToSelf.voiceBoostNState)
+                referenceToSelf.voiceBoostNState = nil
+                FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN disabled mid-playback - switching to previous voice boost")
             }
 
             if let vbnState = referenceToSelf.voiceBoostNState {

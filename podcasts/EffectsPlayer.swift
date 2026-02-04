@@ -19,7 +19,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
     private var peakLimiter: AVAudioUnitEffect?
-    private var voiceBoostNState: OpaquePointer?
+    private let useVoiceBoostN = AtomicBool()
+    private var audioFileSampleRate: Double = 0
 
     private var playBufferManager: PlayBufferManager?
     private var audioReadTask: AudioReadTask?
@@ -146,14 +147,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
             strongSelf.engine?.connect(strongSelf.peakLimiter!, to: strongSelf.engine!.outputNode, format: format)
 
-            // Create VoiceBoostN state if enabled
-            if Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost {
-                let sampleRate = strongSelf.audioFile!.fileFormat.sampleRate
-                strongSelf.voiceBoostNState = VBN_Create(sampleRate)
-                FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN enabled - created state at \(sampleRate) Hz")
-            } else if strongSelf.effects.volumeBoost {
-                FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN disabled - using legacy AudioUnit chain")
-            }
+            // Store sample rate and set VoiceBoostN flag for AudioReadTask
+            strongSelf.audioFileSampleRate = strongSelf.audioFile!.fileFormat.sampleRate
+            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
 
             strongSelf.startReadAndPlayThreads()
             do {
@@ -278,6 +274,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         playbackSpeed = effects.playbackSpeed
         timePitch?.rate = Float(playbackSpeed)
 
+        // Update VoiceBoostN flag for dynamic switching
+        let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled && effects.volumeBoost
+        if shouldUseVoiceBoostN != useVoiceBoostN.value {
+            useVoiceBoostN.value = shouldUseVoiceBoostN
+            FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN flag changed to \(shouldUseVoiceBoostN)")
+        }
+
         setVolumeBoostSettings()
     }
 
@@ -299,12 +302,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         player?.stop()
 
         engine?.stop()
-
-        if let vbnState = voiceBoostNState {
-            VBN_Destroy(vbnState)
-            voiceBoostNState = nil
-            FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN state destroyed")
-        }
     }
 
     func supportsSilenceRemoval() -> Bool {
@@ -373,7 +370,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, voiceBoostNState: voiceBoostNState)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()
@@ -383,13 +380,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func setVolumeBoostSettings() {
-        let useVoiceBoostN = voiceBoostNState != nil
-        if !effects.volumeBoost || useVoiceBoostN {
+        let shouldBypassLegacy = !effects.volumeBoost || useVoiceBoostN.value
+        if shouldBypassLegacy {
             // Bypass existing effects when VoiceBoostN handles it or volumeBoost off
             peakLimiter?.bypass = true
             highPassFilter?.bypass = true
             dynamicsProcessor?.bypass = true
-            if effects.volumeBoost && useVoiceBoostN {
+            if effects.volumeBoost && useVoiceBoostN.value {
                 FileLog.shared.addMessage("[EffectsPlayer] Volume boost enabled with VoiceBoostN - bypassing legacy AudioUnit chain")
             } else if !effects.volumeBoost {
                 FileLog.shared.addMessage("[EffectsPlayer] Volume boost disabled - bypassing all effects")
