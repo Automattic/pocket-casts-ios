@@ -1,6 +1,6 @@
 8.6
 -----
-
+- [TestFlight only] Add a new VoiceBoost solution designed to maintain more consistent audio levels. [#3915](https://github.com/Automattic/pocket-casts-ios/pull/3915)
 
 8.5
 -----
