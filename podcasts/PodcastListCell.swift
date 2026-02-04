@@ -3,10 +3,18 @@ import UIKit
 
 class PodcastListCell: ThemeableCollectionCell {
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var podcastInfo: ThemeableLabel! {
         didSet {
             podcastInfo.style = .primaryText02
+            podcastInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            podcastInfo.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -50,5 +58,19 @@ class PodcastListCell: ThemeableCollectionCell {
             supporterHeart.setPodcastColor(podcast: podcast)
             supporterHeart.isShadowHidden = true
         }
+
+        updateSize()
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        updateSizeConstraints(of: podcastImage, to: imageSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
