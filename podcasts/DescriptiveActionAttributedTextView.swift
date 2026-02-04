@@ -25,7 +25,7 @@ struct DescriptiveActionAttributedTextView: View {
 
     private func makeAttributedString() -> AttributedString {
         var attributed = (try? AttributedString(markdown: text)) ?? AttributedString(text)
-        attributed.font = .systemFont(ofSize: 15.0)
+        attributed.font = .subheadline
         for run in attributed.runs {
             if let _ = run.link {
                 attributed[run.range].foregroundColor = theme.secondaryInteractive01

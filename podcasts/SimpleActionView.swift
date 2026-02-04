@@ -7,6 +7,7 @@ class SimpleActionView: UIView {
 
     private weak var delegate: OptionsPickerRootController?
     private var onOffSwitch: UISwitch?
+    private var imageView: UIImageView?
 
     init(frame: CGRect, action: OptionAction, delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.action = action
@@ -23,12 +24,14 @@ class SimpleActionView: UIView {
 
     func actionWasAdded() {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 2
         label.text = action.label
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        label.topAnchor.constraint(equalToSystemSpacingBelow: self.layoutMarginsGuide.topAnchor, multiplier: 1).isActive = true
 
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
 
@@ -51,6 +54,7 @@ class SimpleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+            self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -60,7 +64,8 @@ class SimpleActionView: UIView {
 
         if let secondaryText = action.secondaryLabel {
             let secondaryLabel = UILabel()
-            secondaryLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+            secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
+            secondaryLabel.adjustsFontForContentSizeCategory = true
             secondaryLabel.numberOfLines = 2
             secondaryLabel.text = secondaryText
             // swiftlint:disable:next inverse_text_alignment
@@ -149,5 +154,20 @@ class SimpleActionView: UIView {
         } else {
             delegate?.animateOut(optionChosen: true)
         }
+    }
+
+    private func updateSize() {
+        if let imageView {
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            let imageSize = max(24, metric.scaledValue(for: 24))
+            updateSizeConstraints(of: imageView, to: imageSize)
+        }
+    }
+
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
