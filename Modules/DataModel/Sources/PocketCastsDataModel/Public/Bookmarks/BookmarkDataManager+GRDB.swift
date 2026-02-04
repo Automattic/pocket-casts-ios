@@ -19,7 +19,10 @@ extension BookmarkDataManager {
                 request = request.filter(Bookmark.Columns.deleted == false)
             }
 
-            return try? request.fetchOne(db)
+            return try? request
+                .order(Bookmark.Columns.created.desc)
+                .limit(1)
+                .fetchOne(db)
         } ?? nil
     }
 
@@ -30,6 +33,7 @@ extension BookmarkDataManager {
                 .filter(Bookmark.Columns.episodeUuid == episodeUuid)
                 .filter(Bookmark.Columns.time == time)
                 .filter(Bookmark.Columns.deleted == false)
+                .order(Bookmark.Columns.created.desc)
                 .limit(1)
                 .fetchOne(db)
         } ?? nil
@@ -53,11 +57,13 @@ extension BookmarkDataManager {
         grdbQueue.read { db in
             var request = Bookmark
                 .filter(Bookmark.Columns.podcastUuid == podcastUuid)
-                .filter(Bookmark.Columns.deleted == false)
 
             if let episodeUuid = episodeUuid {
                 request = request.filter(Bookmark.Columns.episodeUuid == episodeUuid)
             }
+
+            // deleted filter comes last to match raw SQL order
+            request = request.filter(Bookmark.Columns.deleted == false)
 
             request = applySortOrder(request, sorted: sorted)
 
@@ -83,12 +89,13 @@ extension BookmarkDataManager {
     /// Count bookmarks for an episode using GRDB QueryInterface
     func bookmarkCountGRDB(forEpisode episodeUuid: String, includeDeleted: Bool = false, grdbQueue: GRDBQueue) -> Int {
         grdbQueue.read { db in
-            var request = Bookmark
-                .filter(Bookmark.Columns.episodeUuid == episodeUuid)
+            var request = Bookmark.all()
 
             if !includeDeleted {
                 request = request.filter(Bookmark.Columns.deleted == false)
             }
+
+            request = request.filter(Bookmark.Columns.episodeUuid == episodeUuid)
 
             return (try? request.fetchCount(db)) ?? 0
         } ?? 0
@@ -99,6 +106,7 @@ extension BookmarkDataManager {
         grdbQueue.read { db in
             (try? Bookmark
                 .filter(Bookmark.Columns.syncStatus == SyncStatus.notSynced.rawValue)
+                .order(Bookmark.Columns.created.desc)
                 .fetchAll(db)) ?? []
         } ?? []
     }
