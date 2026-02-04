@@ -505,6 +505,39 @@ class SQLQueryComparisonTestCase: XCTestCase {
         return beforeWhere + "WHERE " + sortedWhereClause + (afterWhereClause.isEmpty ? "" : " " + afterWhereClause)
     }
 
+    // MARK: - Execution Plan Extraction
+
+    /// Extracts the execution plan for a SQL query using EXPLAIN QUERY PLAN
+    /// Returns a normalized string representation of the plan
+    func extractQueryPlan(_ sql: String) throws -> [String] {
+        var planRows: [String] = []
+
+        try grdbQueue.read { db in
+            let rows = try Row.fetchAll(db, sql: "EXPLAIN QUERY PLAN \(sql)")
+            for row in rows {
+                // EXPLAIN QUERY PLAN returns columns: id, parent, notused, detail
+                // The 'detail' column contains the execution plan description
+                if let detail: String = row["detail"] {
+                    planRows.append(detail)
+                }
+            }
+        }
+
+        return planRows
+    }
+
+    /// Extracts the execution plan for a GRDB QueryInterface request
+    func extractQueryPlan<T: FetchableRecord>(_ request: QueryInterfaceRequest<T>) throws -> [String] {
+        let sql = try extractSQL(request)
+        return try extractQueryPlan(sql)
+    }
+
+    /// Extracts the execution plan for a COUNT query
+    func extractCountQueryPlan<T: FetchableRecord & TableRecord>(_ request: QueryInterfaceRequest<T>) throws -> [String] {
+        let sql = try extractCountSQL(request)
+        return try extractQueryPlan(sql)
+    }
+
     // MARK: - SQL Comparison
 
     /// Asserts that two SQL strings are exactly equivalent after basic normalization
@@ -550,6 +583,81 @@ class SQLQueryComparisonTestCase: XCTestCase {
 
         assertSQLEquivalent(
             captured.sql,
+            grdbSQL,
+            file: file,
+            line: line
+        )
+    }
+
+    // MARK: - Execution Plan Comparison
+
+    /// Asserts that two SQL queries produce the same execution plan
+    /// This validates that SQLite's query optimizer treats both queries equivalently,
+    /// regardless of differences in clause ordering or formatting
+    func assertExecutionPlanEquivalent(
+        _ sql1: String,
+        _ sql2: String,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) throws {
+        let plan1 = try extractQueryPlan(sql1)
+        let plan2 = try extractQueryPlan(sql2)
+
+        XCTAssertEqual(
+            plan1,
+            plan2,
+            """
+            Execution plans do not match.
+
+            SQL 1:
+            \(sql1)
+            Plan: \(plan1.joined(separator: "\n"))
+
+            SQL 2:
+            \(sql2)
+            Plan: \(plan2.joined(separator: "\n"))
+            """,
+            file: file,
+            line: line
+        )
+    }
+
+    /// Asserts that the captured SQL from the SQL implementation has the same execution plan as the GRDB query
+    func assertExecutionPlanMatchesGRDB<T: FetchableRecord>(
+        _ grdbRequest: QueryInterfaceRequest<T>,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) throws {
+        guard let captured = sqlCapturingQueue.lastCapturedSQL else {
+            XCTFail("No SQL was captured from the SQL implementation", file: file, line: line)
+            return
+        }
+
+        let grdbSQL = try extractSQL(grdbRequest)
+
+        try assertExecutionPlanEquivalent(
+            captured,
+            grdbSQL,
+            file: file,
+            line: line
+        )
+    }
+
+    /// Asserts that the captured SQL from the SQL implementation has the same execution plan as the GRDB count query
+    func assertExecutionPlanMatchesGRDBCount<T: FetchableRecord & TableRecord>(
+        _ grdbRequest: QueryInterfaceRequest<T>,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) throws {
+        guard let captured = sqlCapturingQueue.lastCapturedSQL else {
+            XCTFail("No SQL was captured from the SQL implementation", file: file, line: line)
+            return
+        }
+
+        let grdbSQL = try extractCountSQL(grdbRequest)
+
+        try assertExecutionPlanEquivalent(
+            captured,
             grdbSQL,
             file: file,
             line: line
