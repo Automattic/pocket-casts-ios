@@ -21,6 +21,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var dateLabel: ThemeableLabel! {
         didSet {
             dateLabel.style = .primaryText02
+            dateLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
         }
     }
 
@@ -34,12 +35,14 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var timeRemainingLabel: ThemeableLabel! {
         didSet {
             timeRemainingLabel.style = .primaryText02
+            timeRemainingLabel.font = UIFont.font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
+            episodeTitle.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .callout)
         }
     }
 
@@ -61,6 +64,8 @@ class UpNextNowPlayingCell: ThemeableCell {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
+
+        updateSize()
     }
 
     deinit {
@@ -165,8 +170,6 @@ class UpNextNowPlayingCell: ThemeableCell {
             disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         }
 
-        disclosureImageView.layer.cornerRadius = 12
-
         playingAnimationView.setFillColor(AppTheme.colorForStyle(.primaryText01, themeOverride: themeOverride))
     }
 
@@ -221,5 +224,29 @@ class UpNextNowPlayingCell: ThemeableCell {
         episode = DataManager.sharedManager.findBaseEpisode(uuid: ourEpisode.uuid)
 
         updateDownloadStatus()
+    }
+
+    // MARK: - Dynamic Type Support
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(48, metric.scaledValue(for: 48))
+        updateSizeConstraints(of: podcastImage, to: imageSize)
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        updateSizeConstraints(of: downloadedIndicator, to: iconSize)
+        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+
+        let buttonSize = max(24, metric.scaledValue(for: 24))
+        updateSizeConstraints(of: disclosureImageView, to: buttonSize)
+        disclosureImageView.layer.cornerRadius = buttonSize / 2
+
+        updateSizeConstraints(of: playingAnimationView, to: buttonSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }

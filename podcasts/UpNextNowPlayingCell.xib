@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,26 +41,20 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MONDAY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFH-le-6i7" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="70" y="12" width="178" height="14"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="Udy-Lu-5uw"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="MONDAY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFH-le-6i7" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="70" y="12" width="178" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Episode Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhM-ON-FAA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="70" y="28" width="178" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="7bz-De-u8S"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Episode Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhM-ON-FAA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="70" y="28.5" width="178" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1fL-ql-Hfg">
-                                <rect key="frame" x="70" y="47" width="178" height="16"/>
+                                <rect key="frame" x="70" y="50" width="178" height="16"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="OzR-Qq-DsV" userLabel="Downloading Indicator">
                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -76,18 +70,15 @@
                                             <constraint firstAttribute="width" constant="16" id="U0t-bh-rkL"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="53 Minutes remaining" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TpI-i7-PDk" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="53 Minutes remaining" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TpI-i7-PDk" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                         <rect key="frame" x="48" y="0.0" width="130" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="16" id="HfN-UG-pkl"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron-small-right" translatesAutoresizingMaskIntoConstraints="NO" id="t5J-xk-yXq">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron-small-right" translatesAutoresizingMaskIntoConstraints="NO" id="t5J-xk-yXq">
                                 <rect key="frame" x="280" y="24" width="24" height="24"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.19793450342465754" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -112,7 +103,7 @@
                             <constraint firstItem="mhM-ON-FAA" firstAttribute="top" secondItem="uFH-le-6i7" secondAttribute="bottom" constant="2" id="FDE-I4-Ijn"/>
                             <constraint firstItem="mhM-ON-FAA" firstAttribute="trailing" secondItem="uFH-le-6i7" secondAttribute="trailing" id="FSB-nj-2a9"/>
                             <constraint firstItem="Drj-gb-CmX" firstAttribute="top" secondItem="lof-Ey-IPR" secondAttribute="top" id="IGm-mv-RZ3"/>
-                            <constraint firstItem="uFH-le-6i7" firstAttribute="top" secondItem="oXa-LZ-pvj" secondAttribute="top" id="JoR-VQ-h4V"/>
+                            <constraint firstItem="uFH-le-6i7" firstAttribute="top" secondItem="lof-Ey-IPR" secondAttribute="top" constant="12" id="JoR-VQ-h4V"/>
                             <constraint firstItem="oXa-LZ-pvj" firstAttribute="centerY" secondItem="lof-Ey-IPR" secondAttribute="centerY" id="O7c-cP-oFm"/>
                             <constraint firstItem="t5J-xk-yXq" firstAttribute="centerY" secondItem="lV7-rK-gas" secondAttribute="centerY" id="Pr0-ss-PCS"/>
                             <constraint firstAttribute="bottom" secondItem="Drj-gb-CmX" secondAttribute="bottom" id="ZAC-8g-I6v"/>
@@ -123,6 +114,7 @@
                             <constraint firstItem="1fL-ql-Hfg" firstAttribute="leading" secondItem="mhM-ON-FAA" secondAttribute="leading" id="gen-LZ-yzj"/>
                             <constraint firstItem="uFH-le-6i7" firstAttribute="leading" secondItem="oXa-LZ-pvj" secondAttribute="trailing" constant="10" id="iPt-2Y-afY"/>
                             <constraint firstAttribute="trailing" secondItem="t5J-xk-yXq" secondAttribute="trailing" constant="12" id="izN-PH-Mb2"/>
+                            <constraint firstItem="1fL-ql-Hfg" firstAttribute="bottom" secondItem="lof-Ey-IPR" secondAttribute="bottom" constant="-6" id="kUL-3d-eNZ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
