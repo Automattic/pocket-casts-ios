@@ -259,9 +259,6 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             upNextTable.backgroundColor = UIColor(Theme.sharedTheme.primaryUi02)
         }
         tableData = sections
-
-        upNextTable.sectionHeaderHeight = UITableView.automaticDimension
-        upNextTable.estimatedSectionHeaderHeight = 48
     }
 
     @objc func reloadTable() {
