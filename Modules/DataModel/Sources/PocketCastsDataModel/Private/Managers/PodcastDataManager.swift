@@ -1,5 +1,6 @@
 import PocketCastsUtils
 import Foundation
+import GRDB
 
 extension Podcast: Sortable {
     public var itemUUID: String {
@@ -19,6 +20,7 @@ class PodcastDataManager {
         return queue
     }()
 
+    /// Legacy column names for non-GRDB code path.
     private let columnNames = [
         "id",
         "addedDate",
@@ -386,17 +388,33 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
+        let isInsert = podcast.id == 0
+        if isInsert {
+            podcast.id = DBUtils.generateUniqueId()
+        }
+
+        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
+            // GRDB path using PersistableRecord
             do {
-                if podcast.id == 0 {
-                    podcast.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.podcastTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(podcast: podcast))
-                } else {
-                    let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
+                try grdbQueue.dbPool.write { db in
+                    try podcast.save(db)
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
+            }
+        } else {
+            // Legacy path
+            dbQueue.write { db in
+                do {
+                    if isInsert {
+                        try db.executeUpdate("INSERT INTO \(DataManager.podcastTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(podcast: podcast))
+                    } else {
+                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
+                        try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(podcast: podcast, includeIdForWhere: true))
+                    }
+                } catch {
+                    FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
+                }
             }
         }
         cachePodcasts(dbQueue: dbQueue)
