@@ -43,17 +43,11 @@ class FolderDataManager {
             folder.uuid = UUID().uuidString.lowercased()
         }
 
-        let isUpdate = cachedFolders.contains(where: { $0.uuid == folder.uuid })
-
         if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
             // GRDB path using PersistableRecord
             do {
                 try grdbQueue.dbPool.write { db in
-                    if isUpdate {
-                        try folder.update(db)
-                    } else {
-                        try folder.insert(db)
-                    }
+                    try folder.save(db)
                 }
             } catch {
                 FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
@@ -62,7 +56,7 @@ class FolderDataManager {
             // Legacy path
             dbQueue.write { db in
                 do {
-                    if isUpdate {
+                    if self.cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                         try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
                     } else {

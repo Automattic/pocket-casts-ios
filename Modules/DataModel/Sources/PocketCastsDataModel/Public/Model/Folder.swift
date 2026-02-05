@@ -17,9 +17,7 @@ public class Folder: NSObject, Identifiable {
     @GRDBIgnore
     public var cachedUnreadCount = 0
 
-    override public init() {
-        super.init()
-    }
+    override public init() {}
 
     func folderSort() -> FolderSort {
         FolderSort(rawValue: sortType) ?? .dateAddedNewestToOldest
