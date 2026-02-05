@@ -7,11 +7,11 @@ import GRDB
 class SQLCaptureContainer {
     var capturedSQL: [String] = []
 
-    /// Returns the last SELECT or COUNT query captured
+    /// Returns the last SELECT, DELETE, or UPDATE query captured (ignores transaction statements)
     var lastQuerySQL: String? {
         capturedSQL.last { sql in
             let upper = sql.uppercased()
-            return upper.hasPrefix("SELECT")
+            return upper.hasPrefix("SELECT") || upper.hasPrefix("DELETE") || upper.hasPrefix("UPDATE")
         }
     }
 

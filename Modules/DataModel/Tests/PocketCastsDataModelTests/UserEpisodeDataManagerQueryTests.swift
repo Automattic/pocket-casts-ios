@@ -8,20 +8,62 @@ import GRDB
 ///
 /// These tests work by:
 /// 1. Calling the SQL implementation method with a capturing database queue
-/// 2. Extracting the SQL from the equivalent GRDB QueryInterface request
-/// 3. Comparing the two SQL strings to ensure they match
+/// 2. Calling the actual GRDB implementation method with a SQL-capturing GRDBQueue
+/// 3. Comparing both:
+///    - SQL structure (after normalization) to catch structural differences
+///    - Execution plans (via EXPLAIN QUERY PLAN) to ensure SQLite treats them equivalently
+///
+/// This approach validates the actual production GRDB code, not manual query recreations.
 final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
 
     // MARK: - Test Setup
 
     private var userEpisodeDataManager: UserEpisodeDataManager!
+    private var grdbCapturingQueue: SQLCapturingGRDBQueue!
 
     override func setUp() async throws {
         try await super.setUp()
         userEpisodeDataManager = UserEpisodeDataManager()
+        grdbCapturingQueue = try SQLCapturingGRDBQueue()
 
-        // Create the schema in GRDB for SQL extraction
+        // Create the schema in both GRDB queues for SQL extraction and execution
         try await grdbQueue.write { db in
+            try db.create(table: UserEpisode.databaseTableName, ifNotExists: true) { t in
+                t.autoIncrementedPrimaryKey("id")
+                t.column("addedDate", .double)
+                t.column("lastDownloadAttemptDate", .double)
+                t.column("downloadErrorDetails", .text)
+                t.column("downloadTaskId", .text)
+                t.column("downloadUrl", .text)
+                t.column("episodeStatus", .integer).notNull().defaults(to: 0)
+                t.column("fileType", .text)
+                t.column("contentType", .text)
+                t.column("playedUpTo", .double).notNull().defaults(to: 0)
+                t.column("duration", .double).notNull().defaults(to: 0)
+                t.column("playingStatus", .integer).notNull().defaults(to: 0)
+                t.column("autoDownloadStatus", .integer).notNull().defaults(to: 0)
+                t.column("publishedDate", .double)
+                t.column("sizeInBytes", .integer).notNull().defaults(to: 0)
+                t.column("playingStatusModified", .integer).notNull().defaults(to: 0)
+                t.column("playedUpToModified", .integer).notNull().defaults(to: 0)
+                t.column("title", .text)
+                t.column("uuid", .text).notNull().defaults(to: "")
+                t.column("playbackErrorDetails", .text)
+                t.column("cachedFrameCount", .integer).notNull().defaults(to: 0)
+                t.column("imageUrl", .text)
+                t.column("uploadStatus", .integer).notNull().defaults(to: 0)
+                t.column("uploadTaskId", .text)
+                t.column("imageColor", .integer).notNull().defaults(to: 0)
+                t.column("titleModified", .integer).notNull().defaults(to: 0)
+                t.column("imageColorModified", .integer).notNull().defaults(to: 0)
+                t.column("imageModified", .integer).notNull().defaults(to: 0)
+                t.column("durationModified", .integer).notNull().defaults(to: 0)
+                t.column("hasCustomImage", .boolean).notNull().defaults(to: false)
+            }
+        }
+
+        // Create the same schema in the capturing GRDB queue
+        _ = grdbCapturingQueue.write { db in
             try db.create(table: UserEpisode.databaseTableName, ifNotExists: true) { t in
                 t.autoIncrementedPrimaryKey("id")
                 t.column("addedDate", .double)
@@ -59,6 +101,7 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
 
     override func tearDown() async throws {
         userEpisodeDataManager = nil
+        grdbCapturingQueue = nil
         try await super.tearDown()
     }
 
@@ -68,18 +111,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findBy(uuid: "test-uuid", dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uuid == "test-uuid")
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findByUuidGRDB(uuid: "test-uuid", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes uuid
-        let grdbValues: [Any] = ["test-uuid"]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Find By Download Task ID Query Tests
@@ -88,18 +128,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findBy(downloadTaskId: "task-123", dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.downloadTaskId == "task-123")
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findByDownloadTaskIdGRDB(downloadTaskId: "task-123", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes downloadTaskId
-        let grdbValues: [Any] = ["task-123"]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Find By Upload Task ID Query Tests
@@ -108,18 +145,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findBy(uploadTaskId: "upload-task-123", dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uploadTaskId == "upload-task-123")
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findByUploadTaskIdGRDB(uploadTaskId: "upload-task-123", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes uploadTaskId
-        let grdbValues: [Any] = ["upload-task-123"]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Find All Query Tests
@@ -128,41 +162,30 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findAll(sortedBy: .newestToOldest, dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uploadStatus != UploadStatus.deleteFromCloudPending.rawValue)
-            .filter(UserEpisode.Columns.uploadStatus != UploadStatus.deleteFromCloudAndLocalPending.rawValue)
-            .order(UserEpisode.Columns.addedDate.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findAllGRDB(sortedBy: .newestToOldest, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes uploadStatus values
-        let grdbValues: [Any] = [UploadStatus.deleteFromCloudPending.rawValue, UploadStatus.deleteFromCloudAndLocalPending.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     func testFindAllOldestToNewestWithLimitQuery() throws {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findAll(sortedBy: .oldestToNewest, limit: 10, dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uploadStatus != UploadStatus.deleteFromCloudPending.rawValue)
-            .filter(UserEpisode.Columns.uploadStatus != UploadStatus.deleteFromCloudAndLocalPending.rawValue)
-            .order(UserEpisode.Columns.addedDate.asc)
-            .limit(10)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findAllGRDB(sortedBy: .oldestToNewest, limit: 10, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes uploadStatus values
-        let grdbValues: [Any] = [UploadStatus.deleteFromCloudPending.rawValue, UploadStatus.deleteFromCloudAndLocalPending.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Find All Downloaded Query Tests
@@ -171,19 +194,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findAllDownloaded(sortedBy: .newestToOldest, dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
-            .order(UserEpisode.Columns.addedDate.desc)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findAllDownloadedGRDB(sortedBy: .newestToOldest, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes episodeStatus
-        let grdbValues: [Any] = [DownloadStatus.downloaded.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Find All With Upload Status Query Tests
@@ -192,18 +211,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.findAllWithUploadStatus(.uploaded, dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uploadStatus == UploadStatus.uploaded.rawValue)
-        let grdbSQL = try extractSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findAllWithUploadStatusGRDB(.uploaded, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes uploadStatus
-        let grdbValues: [Any] = [UploadStatus.uploaded.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Unsynced Episodes Query Tests
@@ -212,25 +228,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.unsyncedEpisodes(dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let titleModFilter = UserEpisode.Columns.titleModified > 0
-        let imageColorModFilter = UserEpisode.Columns.imageColorModified > 0
-        let playingStatusModFilter = UserEpisode.Columns.playingStatusModified > 0
-        let playedUpToModFilter = UserEpisode.Columns.playedUpToModified > 0
-        let durationModFilter = UserEpisode.Columns.durationModified > 0
-        let combinedFilter = titleModFilter || imageColorModFilter || playingStatusModFilter || playedUpToModFilter || durationModFilter
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.unsyncedEpisodesGRDB(grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        let grdbRequest = UserEpisode
-            .filter(combinedFilter)
-        let grdbSQL = try extractSQL(grdbRequest)
-
-        // GRDB parameterizes the > 0 comparisons
-        let grdbValues: [Any] = [0, 0, 0, 0, 0]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Downloaded Episode Count Query Tests
@@ -239,18 +245,15 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         // Call the SQL implementation to capture the query
         _ = userEpisodeDataManager.downloadedEpisodeCount(dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
-        let capturedValues = sqlCapturingQueue.capturedQueries.last?.values
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.episodeStatus == DownloadStatus.downloaded.rawValue)
-        let grdbSQL = try extractCountSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.downloadedEpisodeCountGRDB(grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes episodeStatus
-        let grdbValues: [Any] = [DownloadStatus.downloaded.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Remove Orphaned Query Tests
@@ -260,20 +263,14 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         userEpisodeDataManager.removeOrphaned(dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uploadStatus == UploadStatus.notUploaded.rawValue)
-            .filter(
-                UserEpisode.Columns.episodeStatus == DownloadStatus.notDownloaded.rawValue ||
-                UserEpisode.Columns.episodeStatus == DownloadStatus.downloadFailed.rawValue
-            )
-        let grdbSQL = try extractDeleteSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.removeOrphanedGRDB(grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // GRDB parameterizes the values
-        let grdbValues: [Any] = [UploadStatus.notUploaded.rawValue, DownloadStatus.notDownloaded.rawValue, DownloadStatus.downloadFailed.rawValue]
-
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     // MARK: - Delete Query Tests
@@ -283,13 +280,14 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         userEpisodeDataManager.delete(userEpisodeUuid: "test-uuid", dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(UserEpisode.Columns.uuid == "test-uuid")
-        let grdbSQL = try extractDeleteSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.deleteGRDB(userEpisodeUuid: "test-uuid", grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 
     func testDeleteByMultipleUuidsQuery() throws {
@@ -299,12 +297,87 @@ final class UserEpisodeDataManagerQueryTests: SQLQueryComparisonTestCase {
         userEpisodeDataManager.delete(userEpisodeUuids: uuids, dbQueue: sqlCapturingQueue)
         let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
 
-        // Build the equivalent GRDB query
-        let grdbRequest = UserEpisode
-            .filter(uuids.contains(UserEpisode.Columns.uuid))
-        let grdbSQL = try extractDeleteSQL(grdbRequest)
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.deleteGRDB(userEpisodeUuids: uuids, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
 
-        // Compare the SQL
+        // Validate both SQL structure and execution plan equivalence
         assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
+    }
+
+    // MARK: - Find Frame Count Query Tests
+
+    func testFindFrameCountQuery() throws {
+        // Call the SQL implementation to capture the query
+        _ = userEpisodeDataManager.findFrameCount(episodeId: 123, dbQueue: sqlCapturingQueue)
+        let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
+
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        _ = userEpisodeDataManager.findFrameCountGRDB(episodeId: 123, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
+
+        // Validate both SQL structure and execution plan equivalence
+        assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
+    }
+
+    // MARK: - Clear Task ID Query Tests
+
+    func testClearDownloadTaskIdQuery() throws {
+        // Create a test episode with an ID
+        let episode = UserEpisode()
+        episode.id = 456
+
+        // Call the SQL implementation to capture the query
+        userEpisodeDataManager.clearDownloadTaskId(episode: episode, dbQueue: sqlCapturingQueue)
+        let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
+
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.clearDownloadTaskIdGRDB(episode: episode, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
+
+        // Validate both SQL structure and execution plan equivalence
+        assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
+    }
+
+    func testClearUploadTaskIdQuery() throws {
+        // Create a test episode with an ID
+        let episode = UserEpisode()
+        episode.id = 789
+
+        // Call the SQL implementation to capture the query
+        userEpisodeDataManager.clearUploadTaskId(episode: episode, dbQueue: sqlCapturingQueue)
+        let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
+
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.clearUploadTaskIdGRDB(episode: episode, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
+
+        // Validate both SQL structure and execution plan equivalence
+        assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
+    }
+
+    // MARK: - Save Frame Count Query Tests
+
+    func testSaveFrameCountQuery() throws {
+        // Call the SQL implementation to capture the query
+        userEpisodeDataManager.saveFrameCount(episodeId: 321, frameCount: 1000, dbQueue: sqlCapturingQueue)
+        let capturedSQL = sqlCapturingQueue.lastCapturedSQL!
+
+        // Call the actual GRDB implementation to capture its query
+        grdbCapturingQueue.clearCapturedSQL()
+        userEpisodeDataManager.saveFrameCountGRDB(episodeId: 321, frameCount: 1000, grdbQueue: grdbCapturingQueue)
+        let grdbSQL = grdbCapturingQueue.lastCapturedSQL!
+
+        // Validate both SQL structure and execution plan equivalence
+        assertSQLEquivalent(capturedSQL, grdbSQL)
+        try assertExecutionPlanEquivalent(capturedSQL, grdbSQL)
     }
 }
