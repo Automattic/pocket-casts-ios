@@ -72,9 +72,7 @@ public class Podcast: NSObject, Identifiable {
     @GRDBIgnore
     public var forceRefreshEpisodeFrom: String? = nil
 
-    override public init() {
-        super.init()
-    }
+    override public init() {}
 
     public func autoDownloadOn() -> Bool {
         autoDownloadSetting == AutoDownloadSetting.latest.rawValue
