@@ -8,17 +8,11 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     static let nowPlayingCell = "UpNextNowPlayingCell"
     static let emptyStateCell = "EmptyStateCell"
     static let upNextSection = 1
-    static var upNextRowHeight: CGFloat {
-        return UITableView.automaticDimension
-    }
+    static var upNextRowHeight: CGFloat = UITableView.automaticDimension
 
-    static var nowPlayingRowHeight: CGFloat {
-        return UITableView.automaticDimension
-    }
+    static let nowPlayingRowHeight: CGFloat = UITableView.automaticDimension
 
-    static var emptyStateRowHeight: CGFloat {
-        return UITableView.automaticDimension
-    }
+    static var emptyStateRowHeight: CGFloat = UITableView.automaticDimension
 
     static let rearrangeWidth: CGFloat = 60
     static let bottomMargin: CGFloat = 8

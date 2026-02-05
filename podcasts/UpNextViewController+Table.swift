@@ -46,7 +46,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         case .nowPlayingSection:
             return 16
         case .upNextSection:
-            return UITableView.automaticDimension
+            return 48
         }
     }
 

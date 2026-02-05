@@ -32,7 +32,7 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
-            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .callout)
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
@@ -247,7 +247,7 @@ class PlayerCell: ThemeableSwipeCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
-        updateSizeConstraints(of: podcastImage, to: imageSize)        
+        updateSizeConstraints(of: podcastImage, to: imageSize)
 
         let iconSize = max(16, metric.scaledValue(for: 16))
         updateSizeConstraints(of: downloadedIndicator, to: iconSize)
@@ -255,7 +255,7 @@ class PlayerCell: ThemeableSwipeCell {
 
         let tickSize = max(24, metric.scaledValue(for: 24))
         updateSizeConstraints(of: selectTickImageView, to: tickSize)
-        selectTickImageView.layer.cornerRadius = tickSize / 2        
+        selectTickImageView.layer.cornerRadius = tickSize / 2
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
