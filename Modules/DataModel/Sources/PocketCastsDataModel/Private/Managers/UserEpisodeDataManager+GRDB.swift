@@ -185,9 +185,9 @@ extension UserEpisodeDataManager {
         case .oldestToNewest:
             return request.order(UserEpisode.Columns.addedDate.asc)
         case .titleAtoZ:
-            return request.order(UserEpisode.Columns.title.collating(.localizedCaseInsensitiveCompare).asc)
+            return request.order(UserEpisode.Columns.title.collating(.nocase).asc)
         case .titleZtoA:
-            return request.order(UserEpisode.Columns.title.collating(.localizedCaseInsensitiveCompare).desc)
+            return request.order(UserEpisode.Columns.title.collating(.nocase).desc)
         case .shortestToLongest:
             return request.order(UserEpisode.Columns.duration.asc)
         case .longestToShortest:
