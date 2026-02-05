@@ -25,10 +25,16 @@ class UnplayedBadge: UIView {
         unplayedLabel = UILabel(frame: bounds)
         addSubview(unplayedLabel)
         unplayedLabel.anchorToAllSidesOf(view: self)
-        unplayedLabel.font = UIFont.systemFont(ofSize: 13)
+        unplayedLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+        unplayedLabel.adjustsFontForContentSizeCategory = true
         unplayedLabel.textAlignment = .center
 
         updateColors()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2
     }
 
     func updateColors() {
