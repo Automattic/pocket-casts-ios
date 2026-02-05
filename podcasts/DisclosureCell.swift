@@ -37,7 +37,7 @@ class DisclosureCell: ThemeableCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .body)
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
-        updateSizeConstraints(of: disclosureImage, to: disclosureSize)
+        disclosureImage.updateSizeConstraints(to: disclosureSize)
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {

@@ -63,12 +63,12 @@
             }
         }
 
-        func updateSizeConstraints(of view: UIView, to value: CGFloat) {
-            updateSizeConstraints(of: view, toWidth: value, height: value)
+        func updateSizeConstraints(to value: CGFloat) {
+            updateSizeConstraints(width: value, height: value)
         }
 
-        func updateSizeConstraints(of view: UIView, toWidth width: CGFloat, height: CGFloat) {
-            for constraint in view.constraints {
+        func updateSizeConstraints(width: CGFloat, height: CGFloat) {
+            for constraint in self.constraints {
                 if constraint.secondItem != nil {
                     continue
                 }
