@@ -12,10 +12,11 @@ import GRDB
 /// - `Columns` enum for type-safe query building
 /// - Adds conformances: `FetchableRecord`, `TableRecord`, `Decodable`
 ///
-/// **For Codable structs/classes** (e.g., PlaylistEpisode, UpNextChanges):
+/// **For structs/classes** (e.g., Bookmark, PlaylistEpisode):
 /// - `databaseTableName` (if table parameter provided)
+/// - `CodingKeys` enum with custom column name mappings via @GRDBColumn
 /// - `Columns` enum for type-safe query building
-/// - Adds conformance: `TableRecord`
+/// - Adds conformances: `Codable`, `FetchableRecord`, `PersistableRecord`
 ///
 /// Usage for NSObject classes:
 /// ```swift
@@ -26,21 +27,18 @@ import GRDB
 /// }
 /// ```
 ///
-/// Usage for Codable types:
+/// Usage for structs (all GRDB boilerplate generated automatically):
 /// ```swift
-/// @GRDBRecord(table: "SJPlaylistEpisode")
-/// public class PlaylistEpisode: Codable, FetchableRecord, MutablePersistableRecord {
-///     public var id: Int64?
-///     public var episodeUuid = ""
-/// }
-/// ```
+/// @GRDBRecord(table: "Bookmark")
+/// public struct Bookmark: Hashable {
+///     public let uuid: String
+///     public var title: String
 ///
-/// Usage for Codable types that already have databaseTableName:
-/// ```swift
-/// @GRDBRecord
-/// public class UpNextChanges: Codable, FetchableRecord, MutablePersistableRecord {
-///     public static let databaseTableName = "UpNextChanges"
-///     public var id: Int64?
+///     @GRDBColumn("date_added")
+///     public let created: Date
+///
+///     @GRDBIgnore
+///     public var episode: BaseEpisode? = nil
 /// }
 /// ```
 ///
@@ -50,7 +48,7 @@ import GRDB
 /// @objc public var autoArchiveEpisodeLimit = 0 as Int32
 /// ```
 @attached(member, names: named(CodingKeys), named(init(from:)), named(Columns), named(databaseTableName))
-@attached(extension, conformances: FetchableRecord, TableRecord, Decodable)
+@attached(extension, conformances: Codable, FetchableRecord, PersistableRecord, TableRecord, Decodable)
 public macro GRDBRecord(table: String? = nil) = #externalMacro(module: "GRDBMacrosPlugin", type: "GRDBRecordMacro")
 
 /// Specifies a custom database column name for a property.

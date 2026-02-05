@@ -398,25 +398,30 @@ final class GRDBRecordCodableClassTests: XCTestCase {
         assertMacroExpansion(
             """
             @GRDBRecord(table: "SJPlaylistEpisode")
-            public class PlaylistEpisode: Codable, FetchableRecord, MutablePersistableRecord {
+            public class PlaylistEpisode {
                 public var id: Int64?
                 public var episodeUuid = ""
             }
             """,
             expandedSource: """
-            public class PlaylistEpisode: Codable, FetchableRecord, MutablePersistableRecord {
+            public class PlaylistEpisode {
                 public var id: Int64?
                 public var episodeUuid = ""
 
                 public static let databaseTableName = "SJPlaylistEpisode"
 
+                enum CodingKeys: String, CodingKey {
+                    case id
+                        case episodeUuid
+                }
+
                 public enum Columns {
-                    public static let id = Column("id")
-                        public static let episodeUuid = Column("episodeUuid")
+                    public static let id = Column(CodingKeys.id)
+                        public static let episodeUuid = Column(CodingKeys.episodeUuid)
                 }
             }
 
-            extension PlaylistEpisode: TableRecord {
+            extension PlaylistEpisode: Codable, FetchableRecord, PersistableRecord, TableRecord {
             }
             """,
             macros: testMacros
@@ -526,25 +531,30 @@ final class GRDBRecordAccessLevelTests: XCTestCase {
         assertMacroExpansion(
             """
             @GRDBRecord(table: "TestTable")
-            class InternalCodable: Codable {
+            class InternalCodable {
                 var id: Int64?
                 var name = ""
             }
             """,
             expandedSource: """
-            class InternalCodable: Codable {
+            class InternalCodable {
                 var id: Int64?
                 var name = ""
 
                 static let databaseTableName = "TestTable"
 
+                enum CodingKeys: String, CodingKey {
+                    case id
+                        case name
+                }
+
                 enum Columns {
-                    static let id = Column("id")
-                        static let name = Column("name")
+                    static let id = Column(CodingKeys.id)
+                        static let name = Column(CodingKeys.name)
                 }
             }
 
-            extension InternalCodable: TableRecord {
+            extension InternalCodable: Codable, FetchableRecord, PersistableRecord, TableRecord {
             }
             """,
             macros: testMacros
@@ -567,25 +577,30 @@ final class GRDBRecordStaticPropertyTests: XCTestCase {
         assertMacroExpansion(
             """
             @GRDBRecord
-            public class PlaylistEpisode: Codable {
+            public class PlaylistEpisode {
                 public static let databaseTableName = "SJPlaylistEpisode"
                 public var id: Int64?
                 public var episodeUuid = ""
             }
             """,
             expandedSource: """
-            public class PlaylistEpisode: Codable {
+            public class PlaylistEpisode {
                 public static let databaseTableName = "SJPlaylistEpisode"
                 public var id: Int64?
                 public var episodeUuid = ""
 
+                enum CodingKeys: String, CodingKey {
+                    case id
+                        case episodeUuid
+                }
+
                 public enum Columns {
-                    public static let id = Column("id")
-                        public static let episodeUuid = Column("episodeUuid")
+                    public static let id = Column(CodingKeys.id)
+                        public static let episodeUuid = Column(CodingKeys.episodeUuid)
                 }
             }
 
-            extension PlaylistEpisode: TableRecord {
+            extension PlaylistEpisode: Codable, FetchableRecord, PersistableRecord, TableRecord {
             }
             """,
             macros: testMacros
@@ -602,7 +617,7 @@ final class GRDBRecordStaticPropertyTests: XCTestCase {
         assertMacroExpansion(
             """
             @GRDBRecord(table: "Bookmarks")
-            public struct Bookmark: Codable {
+            public struct Bookmark {
                 public static let defaultTitle = "Untitled"
                 public static var counter = 0
                 public var id: Int64?
@@ -610,7 +625,7 @@ final class GRDBRecordStaticPropertyTests: XCTestCase {
             }
             """,
             expandedSource: """
-            public struct Bookmark: Codable {
+            public struct Bookmark {
                 public static let defaultTitle = "Untitled"
                 public static var counter = 0
                 public var id: Int64?
@@ -618,13 +633,179 @@ final class GRDBRecordStaticPropertyTests: XCTestCase {
 
                 public static let databaseTableName = "Bookmarks"
 
+                enum CodingKeys: String, CodingKey {
+                    case id
+                        case title
+                }
+
                 public enum Columns {
-                    public static let id = Column("id")
-                        public static let title = Column("title")
+                    public static let id = Column(CodingKeys.id)
+                        public static let title = Column(CodingKeys.title)
                 }
             }
 
-            extension Bookmark: TableRecord {
+            extension Bookmark: Codable, FetchableRecord, PersistableRecord, TableRecord {
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+}
+
+// MARK: - Codable Struct Tests
+
+/// Tests for @GRDBRecord applied to Codable structs (like Bookmark).
+final class GRDBRecordCodableStructTests: XCTestCase {
+
+    // MARK: - Struct with @GRDBColumn for custom column names
+
+    func testStructWithGRDBColumn() throws {
+        #if canImport(GRDBMacrosPlugin)
+        assertMacroExpansion(
+            """
+            @GRDBRecord(table: "Bookmark")
+            public struct Bookmark: Hashable {
+                public let uuid: String
+                public var title: String
+
+                @GRDBColumn("date_added")
+                public let created: Date
+
+                @GRDBColumn("episode_uuid")
+                public let episodeUuid: String
+            }
+            """,
+            expandedSource: """
+            public struct Bookmark: Hashable {
+                public let uuid: String
+                public var title: String
+                public let created: Date
+                public let episodeUuid: String
+
+                public static let databaseTableName = "Bookmark"
+
+                enum CodingKeys: String, CodingKey {
+                    case uuid
+                        case title
+                        case created = "date_added"
+                        case episodeUuid = "episode_uuid"
+                }
+
+                public enum Columns {
+                    public static let uuid = Column(CodingKeys.uuid)
+                        public static let title = Column(CodingKeys.title)
+                        public static let created = Column(CodingKeys.created)
+                        public static let episodeUuid = Column(CodingKeys.episodeUuid)
+                }
+            }
+
+            extension Bookmark: Codable, FetchableRecord, PersistableRecord, TableRecord {
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
+    // MARK: - Struct with @GRDBIgnore for transient properties
+
+    func testStructWithGRDBIgnore() throws {
+        #if canImport(GRDBMacrosPlugin)
+        assertMacroExpansion(
+            """
+            @GRDBRecord(table: "Bookmark")
+            public struct Bookmark {
+                public let uuid: String
+                public var title: String
+
+                @GRDBIgnore
+                public var episode: String? = nil
+                @GRDBIgnore
+                public var podcast: String? = nil
+            }
+            """,
+            expandedSource: """
+            public struct Bookmark {
+                public let uuid: String
+                public var title: String
+                public var episode: String? = nil
+                public var podcast: String? = nil
+
+                public static let databaseTableName = "Bookmark"
+
+                enum CodingKeys: String, CodingKey {
+                    case uuid
+                        case title
+                }
+
+                public enum Columns {
+                    public static let uuid = Column(CodingKeys.uuid)
+                        public static let title = Column(CodingKeys.title)
+                }
+            }
+
+            extension Bookmark: Codable, FetchableRecord, PersistableRecord, TableRecord {
+            }
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
+    // MARK: - Struct with both @GRDBColumn and @GRDBIgnore (Bookmark-like)
+
+    func testStructWithGRDBColumnAndIgnore() throws {
+        #if canImport(GRDBMacrosPlugin)
+        assertMacroExpansion(
+            """
+            @GRDBRecord(table: "Bookmark")
+            public struct Bookmark: Hashable {
+                public let uuid: String
+                public var title: String
+
+                @GRDBColumn("date_added")
+                public let created: Date
+
+                @GRDBColumn("episode_uuid")
+                public let episodeUuid: String
+
+                @GRDBIgnore
+                public var episode: String? = nil
+            }
+            """,
+            expandedSource: """
+            public struct Bookmark: Hashable {
+                public let uuid: String
+                public var title: String
+                public let created: Date
+                public let episodeUuid: String
+                public var episode: String? = nil
+
+                public static let databaseTableName = "Bookmark"
+
+                enum CodingKeys: String, CodingKey {
+                    case uuid
+                        case title
+                        case created = "date_added"
+                        case episodeUuid = "episode_uuid"
+                }
+
+                public enum Columns {
+                    public static let uuid = Column(CodingKeys.uuid)
+                        public static let title = Column(CodingKeys.title)
+                        public static let created = Column(CodingKeys.created)
+                        public static let episodeUuid = Column(CodingKeys.episodeUuid)
+                }
+            }
+
+            extension Bookmark: Codable, FetchableRecord, PersistableRecord, TableRecord {
             }
             """,
             macros: testMacros

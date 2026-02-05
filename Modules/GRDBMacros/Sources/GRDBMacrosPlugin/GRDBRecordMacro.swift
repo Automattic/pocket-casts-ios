@@ -34,9 +34,10 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): FetchableRecord, TableRecord, Decodable {}")
             return [extensionDecl]
         } else {
-            // For Codable types: add TableRecord conformance (required for MutablePersistableRecord)
+            // For Codable structs/classes: add Codable, FetchableRecord, PersistableRecord, TableRecord conformances
+            // TableRecord is required by PersistableRecord
             // This is harmless if already declared, as Swift allows redundant conformance declarations
-            let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): TableRecord {}")
+            let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): Codable, FetchableRecord, PersistableRecord, TableRecord {}")
             return [extensionDecl]
         }
     }
@@ -83,19 +84,14 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             // 4. Generate Columns enum
             members.append(generateColumns(properties: properties, accessModifier: accessModifier))
         } else {
-            // For Codable structs/classes: only generate Columns enum
+            // For Codable structs/classes: generate CodingKeys and Columns
             let properties = extractAllStoredProperties(from: declaration)
 
-            // Generate Columns enum with string-based column names
-            let columns = properties.map { prop -> String in
-                "\(accessModifier)static let \(prop.name) = Column(\"\(prop.databaseColumnName)\")"
-            }.joined(separator: "\n        ")
+            // 2. Generate CodingKeys enum (needed for custom column names)
+            members.append(generateCodingKeys(properties: properties))
 
-            members.append("""
-                \(raw: accessModifier)enum Columns {
-                    \(raw: columns)
-                }
-                """)
+            // 3. Generate Columns enum referencing CodingKeys
+            members.append(generateColumns(properties: properties, accessModifier: accessModifier))
         }
 
         return members
