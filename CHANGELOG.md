@@ -1,6 +1,7 @@
 8.6
 -----
 
+- [Dynamic Type] Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
 
 8.5
 -----
