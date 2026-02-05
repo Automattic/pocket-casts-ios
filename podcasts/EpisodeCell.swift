@@ -6,7 +6,11 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
     @IBOutlet var episodeImage: PodcastImageView!
-    @IBOutlet var episodeTitle: ThemeableLabel!
+    @IBOutlet var episodeTitle: ThemeableLabel! {
+        didSet {
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+        }
+    }
     @IBOutlet var statusIndicator: UIImageView!
     @IBOutlet var uploadStatusIndicator: UIImageView!
 
@@ -27,7 +31,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var informationLabel: ThemeableLabel! {
         didSet {
             informationLabel.style = .primaryText02
-            informationLabel.font = informationLabel.font.monospaced()
+            let baseFont = informationLabel.font.monospaced()
+            informationLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: baseFont)
         }
     }
 
@@ -41,6 +46,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
@@ -53,7 +59,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var videoIndicator: UIImageView!
     @IBOutlet var actionButton: MainEpisodeActionView! {
         didSet {
-            actionButton.bottomPadding = 5
             actionButton.delegate = self
         }
     }
@@ -124,6 +129,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: ServerNotifications.userEpisodeUploadStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(uploadProgressDidUpdate), name: ServerNotifications.userEpisodeUploadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadArtwork(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
+
+        updateSize()
     }
 
     deinit {
@@ -175,6 +182,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         mainTintColor = tintColor ?? ThemeColor.primaryIcon01()
 
         populate(progressOnly: false)
+        updateSize()
     }
 
 
@@ -523,6 +531,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         showTick = false
         shouldShowSelect = false
         actionButton.isHidden = false
+
+        updateSize()
     }
 
     // MARK: - Multi Select icons
@@ -564,5 +574,36 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
         selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
         starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        updateSizeConstraints(of: episodeImage, to: imageSize)
+
+        let buttonSize = max(44, metric.scaledValue(for: 44))
+        updateSizeConstraints(of: actionButton, to: buttonSize)
+        actionButton.enlargementScale = buttonSize / 44
+        updateSizeConstraints(of: selectView, to: buttonSize)
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        updateSizeConstraints(of: statusIndicator, to: iconSize)
+        updateSizeConstraints(of: uploadStatusIndicator, to: iconSize)
+        updateSizeConstraints(of: upNextIndicator, to: iconSize)
+        updateSizeConstraints(of: bookmarkIcon, to: iconSize)
+        updateSizeConstraints(of: starIndicator, to: iconSize)
+        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+
+        let tickSize = max(24, metric.scaledValue(for: 24))
+        updateSizeConstraints(of: selectTickImageView, to: tickSize)
+        updateSizeConstraints(of: selectCircleView, to: tickSize)
+        selectTickImageView.layer.cornerRadius = tickSize / 2
+        selectCircleView.layer.cornerRadius = tickSize / 2
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }

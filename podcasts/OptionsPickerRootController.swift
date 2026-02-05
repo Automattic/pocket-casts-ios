@@ -111,9 +111,9 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     func addAction(action: OptionAction) {
         if actionsAdded > 0 { addDivider() }
 
-        let actionView = SimpleActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), action: action, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
+        let actionView = SimpleActionView(frame: .zero, action: action, delegate: self, themeOverride: themeOverride, iconTintStyle: iconTintStyle)
         NSLayoutConstraint.activate([
-            actionView.heightAnchor.constraint(equalToConstant: actionHeight)
+            actionView.heightAnchor.constraint(greaterThanOrEqualToConstant: actionHeight)
         ])
         stackView.addArrangedSubview(actionView)
         NSLayoutConstraint.activate([
@@ -226,7 +226,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         stackView.addArrangedSubview(containerView)
 
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        label.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .footnote)
+        label.adjustsFontForContentSizeCategory = true
         label.text = title
         label.textColor = titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
