@@ -77,8 +77,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-            remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 16),
-            remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -16)
+            remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
+            remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
         ])
 
         headerView.addSubview(shuffleButton)
