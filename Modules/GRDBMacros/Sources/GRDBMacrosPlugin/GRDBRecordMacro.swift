@@ -11,6 +11,8 @@ struct PropertyInfo {
     let defaultValue: String?
     /// Custom column name from @GRDBColumn attribute, if specified
     let columnName: String?
+    /// Whether to encode nil Date values as epoch (for NOT NULL DEFAULT 0 columns)
+    let nullDateAsEpoch: Bool
 
     /// The name to use for the database column (columnName if specified, otherwise name)
     var databaseColumnName: String {
@@ -30,8 +32,9 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         in context: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
         if isNSObjectSubclass(declaration) {
-            // For NSObject subclasses: add full GRDB conformances
-            let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): FetchableRecord, TableRecord, Decodable {}")
+            // For NSObject subclasses: add GRDB conformances including PersistableRecord
+            // The MemberMacro generates encode(to:) to satisfy PersistableRecord requirements
+            let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): FetchableRecord, PersistableRecord, TableRecord, Decodable {}")
             return [extensionDecl]
         } else {
             // For Codable structs/classes: add Codable, FetchableRecord, PersistableRecord, TableRecord conformances
@@ -72,7 +75,7 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         }
 
         if isNSObject {
-            // For NSObject subclasses: generate CodingKeys, init(from decoder:), and Columns
+            // For NSObject subclasses: generate CodingKeys, init(from decoder:), encode(to:), and Columns
             let properties = extractObjcProperties(from: declaration)
 
             // 2. Generate CodingKeys enum
@@ -81,7 +84,10 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             // 3. Generate init(from decoder:)
             members.append(generateDecodableInit(properties: properties, accessModifier: accessModifier))
 
-            // 4. Generate Columns enum
+            // 4. Generate encode(to:) for PersistableRecord
+            members.append(generateEncodableEncode(properties: properties, accessModifier: accessModifier))
+
+            // 5. Generate Columns enum
             members.append(generateColumns(properties: properties, accessModifier: accessModifier))
         } else {
             // For Codable structs/classes: generate CodingKeys and Columns
@@ -134,6 +140,18 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         varDecl.attributes.contains { attr in
             if case .attribute(let attributeSyntax) = attr {
                 return attributeSyntax.attributeName.trimmedDescription == "GRDBIgnore"
+            }
+            return false
+        }
+    }
+
+    /// Check if a property has @GRDBNullDateAsEpoch attribute
+    /// Properties with this attribute will encode nil Date values as Date(timeIntervalSince1970: 0)
+    /// instead of NULL. Use this for database columns with NOT NULL DEFAULT 0 constraint.
+    private static func hasGRDBNullDateAsEpoch(_ varDecl: VariableDeclSyntax) -> Bool {
+        varDecl.attributes.contains { attr in
+            if case .attribute(let attributeSyntax) = attr {
+                return attributeSyntax.attributeName.trimmedDescription == "GRDBNullDateAsEpoch"
             }
             return false
         }
@@ -204,6 +222,9 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
             // Check for @GRDBColumn attribute
             let columnName = extractGRDBColumnName(from: varDecl)
 
+            // Check for @GRDBNullDateAsEpoch attribute
+            let nullDateAsEpoch = hasGRDBNullDateAsEpoch(varDecl)
+
             // Get type info
             var typeString = "Any"
             var isOptional = false
@@ -259,7 +280,8 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
                 isOptional: isOptional,
                 isDate: isDate,
                 defaultValue: defaultValue,
-                columnName: columnName
+                columnName: columnName,
+                nullDateAsEpoch: nullDateAsEpoch
             )
         }
 
@@ -321,6 +343,32 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
                 super.init()
                 let container = try decoder.container(keyedBy: CodingKeys.self)
                 \(raw: assignmentsCode)
+            }
+            """
+    }
+
+    /// Generate encode(to:) for EncodableRecord conformance (GRDB-specific)
+    private static func generateEncodableEncode(properties: [PropertyInfo], accessModifier: String) -> DeclSyntax {
+        var encodes: [String] = []
+
+        for prop in properties {
+            // Use the database column name (from @GRDBColumn if present, otherwise property name)
+            let columnName = prop.columnName ?? prop.name
+
+            // For properties marked with @GRDBNullDateAsEpoch, use epoch time as default
+            // to match legacy SQL behavior for NOT NULL DEFAULT 0 columns.
+            if prop.nullDateAsEpoch {
+                encodes.append("container[\"\(columnName)\"] = \(prop.name) ?? Date(timeIntervalSince1970: 0)")
+            } else {
+                encodes.append("container[\"\(columnName)\"] = \(prop.name)")
+            }
+        }
+
+        let encodesCode = encodes.joined(separator: "\n        ")
+
+        return """
+            \(raw: accessModifier)func encode(to container: inout PersistenceContainer) {
+                \(raw: encodesCode)
             }
             """
     }
@@ -388,7 +436,8 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
                     isOptional: false,
                     isDate: false,
                     defaultValue: nil,
-                    columnName: columnName
+                    columnName: columnName,
+                    nullDateAsEpoch: false
                 ))
             }
         }
@@ -425,11 +474,27 @@ public struct GRDBIgnoreMacro: PeerMacro {
     }
 }
 
+/// Marker macro for optional Date properties that should encode nil as epoch time.
+/// Use this for database columns with NOT NULL DEFAULT 0 constraint.
+/// The actual work is done by @GRDBRecord which reads this attribute.
+public struct GRDBNullDateAsEpochMacro: PeerMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingPeersOf declaration: some DeclSyntaxProtocol,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // This macro doesn't generate any code - it's just a marker attribute
+        // that @GRDBRecord reads to determine encoding behavior for nil dates
+        return []
+    }
+}
+
 @main
 struct GRDBMacrosPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         GRDBRecordMacro.self,
         GRDBColumnMacro.self,
-        GRDBIgnoreMacro.self
+        GRDBIgnoreMacro.self,
+        GRDBNullDateAsEpochMacro.self
     ]
 }
