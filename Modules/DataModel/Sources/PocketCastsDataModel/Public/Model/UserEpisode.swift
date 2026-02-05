@@ -1,14 +1,21 @@
 import Foundation
+import GRDB
+import GRDBMacros
 
+@GRDBRecord(table: "SJUserEpisode")
 public class UserEpisode: NSObject, BaseEpisode {
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
+    @GRDBNullDateAsEpoch
     @objc public var lastDownloadAttemptDate: Date?
     @objc public var downloadErrorDetails: String?
     @objc public var downloadTaskId: String?
     @objc public var downloadUrl: String?
     @objc public var episodeStatus = 0 as Int32
     @objc public var fileType: String?
+    // Note: contentType is saved separately via saveContentType() method.
+    // The legacy SQL code doesn't include it in columnNames, so we ignore it for GRDB compatibility.
+    @GRDBIgnore
     @objc public var contentType: String?
     @objc public var playedUpTo: Double = 0
     @objc public var duration: Double = 0
@@ -31,13 +38,21 @@ public class UserEpisode: NSObject, BaseEpisode {
     @objc public var imageColor = 0 as Int32
     @objc public var imageColorModified = 0 as Int64
     @objc public var hasCustomImage = false
+    @GRDBIgnore
     @objc public var hasOnlyUuid = false
+    // Note: These properties exist on the model but were never added to the SJUserEpisode table.
+    // The legacy SQL code doesn't persist them, so we ignore them for GRDB compatibility.
+    @GRDBIgnore
     @objc public var deselectedChapters: String?
+    @GRDBIgnore
     @objc public var deselectedChaptersModified = 0 as Int64
 
     // UserEpisode's are never archived or starred
+    @GRDBIgnore
     public var archived = false
+    @GRDBIgnore
     public var keepEpisode = false
+    @GRDBIgnore
     public var wasDeleted = false
 
     public var hasBookmarks: Bool {
