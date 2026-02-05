@@ -75,6 +75,49 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
+    lazy var headerView: UIView = {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 48))
+
+        updateTimeRemainingLabel()
+        headerView.addSubview(remainingLabel)
+        remainingLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
+            remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 16),
+            remainingLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -16)
+        ])
+
+        headerView.addSubview(shuffleButton)
+        shuffleButton.translatesAutoresizingMaskIntoConstraints = false
+        shuffleButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        NSLayoutConstraint.activate([
+            shuffleButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+            shuffleButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            shuffleButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10),
+            shuffleButton.widthAnchor.constraint(equalToConstant: 24),
+            shuffleButton.heightAnchor.constraint(equalToConstant: 24)
+        ])
+
+        headerView.addSubview(clearQueueButton)
+        clearQueueButton.translatesAutoresizingMaskIntoConstraints = false
+        clearQueueButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        NSLayoutConstraint.activate([
+            clearQueueButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
+            clearQueueButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            clearQueueButton.leadingAnchor.constraint(greaterThanOrEqualTo: remainingLabel.trailingAnchor, constant: 10)
+        ])
+
+        if FeatureFlag.upNextShuffle.enabled {
+            clearQueueButton.isHidden = true
+            shuffleButton.isHidden = PlaybackManager.shared.queue.upNextCount() == 0
+        } else {
+            shuffleButton.isHidden = true
+            clearQueueButton.isEnabled = PlaybackManager.shared.queue.upNextCount() > 0
+        }
+        updateSize()
+        return headerView
+    }()
+
     var multiSelectGestureInProgress = false
     var isReorderInProgress = false
 
@@ -147,8 +190,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             NotificationCenter.default.addObserver(self, selector: #selector(updateShuffleButtonState), name: Constants.Notifications.upNextShuffleToggle, object: nil)
         }
 
-        remainingLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        remainingLabel.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .footnote)
         remainingLabel.adjustsFontSizeToFitWidth = true
+        remainingLabel.adjustsFontForContentSizeCategory = true
         remainingLabel.minimumScaleFactor = 0.8
         remainingLabel.numberOfLines = 2
         remainingLabel.style = .primaryText02
@@ -255,6 +299,9 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             shuffleButton.setImage(selected, for: .selected)
             updateShuffleButtonState()
         }
+        shuffleButton.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        shuffleButton.imageView?.contentMode = .scaleAspectFit
+        shuffleButton.imageView?.translatesAutoresizingMaskIntoConstraints = false
     }
 
     @objc private func subscriptionStatusDidChange() {
@@ -284,7 +331,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             clearQueueButton.setTitle(L10n.queueClearQueue, for: .normal)
             clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride), for: .normal)
             clearQueueButton.setTitleColor(AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride).withAlphaComponent(0.5), for: .disabled)
-            clearQueueButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+            clearQueueButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .footnote)
+            clearQueueButton.titleLabel?.adjustsFontForContentSizeCategory = true
             clearQueueButton.addTarget(self, action: #selector(clearQueueTapped), for: .touchUpInside)
         }
     }
@@ -443,5 +491,21 @@ enum UpNextViewSource: String, AnalyticsDescribable {
 extension UpNextViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .upNext
+    }
+}
+
+// MARK: - Dynamic Type support
+extension UpNextViewController {
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let buttonSize = max(24, metric.scaledValue(for: 24))
+        view.updateSizeConstraints(of: shuffleButton, to: buttonSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
