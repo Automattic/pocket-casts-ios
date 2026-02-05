@@ -87,7 +87,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks, youtubeFeeds }
 
     lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -174,6 +174,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.referralURLChanged, selector: #selector(refreshReferrals))
 
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
+        addCustomObserver(.youTubeFeedAdded, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.youTubeFeedRemoved, selector: #selector(handleDataChangedNotification))
         if promoRedeemedMessage != nil {
             updateDisplayedData()
             showPromotionRedeemedAcknowledgement()
@@ -386,6 +388,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .bookmarks:
             cell.settingsImage.image = UIImage(named: "bookmarks-profile")
             cell.settingsLabel.text = L10n.bookmarks
+        case .youtubeFeeds:
+            cell.settingsImage.image = UIImage(systemName: "play.rectangle.on.rectangle")
+            cell.settingsLabel.text = "My YouTube Feeds"
         }
 
         return cell
@@ -471,6 +476,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .bookmarks:
             let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
+        case .youtubeFeeds:
+            let youtubeController = MyYouTubeFeedsListViewController()
+            navigationController?.pushViewController(youtubeController, animated: true)
         }
     }
 
@@ -491,6 +499,12 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private func refreshTableData() {
         var data: [[ProfileViewController.TableRow]]
         data = [[.allStats, .downloaded, .uploadedFiles, .starred, .bookmarks, .listeningHistory, .help]]
+
+        // Add YouTube Feeds row if user has any feeds
+        if YouTubeFeedManager.shared.feedCount > 0 {
+            // Insert after bookmarks (index 4)
+            data[0].insert(.youtubeFeeds, at: 5)
+        }
 
         if EndOfYear.isEndOfYearActive, EndOfYear.isEligible {
             data[0].insert(.endOfYearPrompt, at: 0)

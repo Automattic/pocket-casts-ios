@@ -26,7 +26,10 @@ struct SearchResultsView: View {
                 EmptyView()
             }
 
-            if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
+            // YouTube URL detected
+            if searchResults.isYouTubeURL, let youtubeURL = searchResults.detectedYouTubeURL {
+                YouTubeSearchResultInlineView(urlString: youtubeURL)
+            } else if searchResults.episodeSearchError != nil && searchResults.podcastSearchError != nil {
                 HStack(alignment: .center) {
                     EmptyStateView(
                         title: L10n.discoverSearchFailed,

@@ -13,10 +13,14 @@ struct NewSearchResultsView: View {
 
     @State var showInlineResults = false
     @State var displayMode: SearchResultsListView.DisplayMode = .allResults
+    @State private var showYouTubeFeedSheet = false
 
     var body: some View {
         Group {
-            if (searchResults.podcastSearchError != nil || searchResults.predictiveSearchError != nil) && !searchResults.resultsContainLocalPodcasts {
+            // YouTube URL detected
+            if searchResults.isYouTubeURL, let youtubeURL = searchResults.detectedYouTubeURL {
+                YouTubeSearchResultInlineView(urlString: youtubeURL)
+            } else if (searchResults.podcastSearchError != nil || searchResults.predictiveSearchError != nil) && !searchResults.resultsContainLocalPodcasts {
                 HStack(alignment: .center) {
                     EmptyStateView(
                         title: L10n.discoverSearchFailed,

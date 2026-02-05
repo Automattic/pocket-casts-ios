@@ -1012,4 +1012,14 @@ enum AnalyticsEvent: String {
     case bannerAdImpression
     case bannerAdTapped
     case bannerAdReport
+
+    // MARK: - YouTube Feeds
+    case youTubeURLDetected
+    case youTubeFeedLoaded
+    case youTubeFeedLoadFailed
+    case youTubeFeedSubscribed
+    case youTubeFeedUnsubscribed
+    case youTubeFeedShown
+    case youTubeVideoOpened
+    case myYouTubeFeedsShown
 }
