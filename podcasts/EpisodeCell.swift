@@ -593,6 +593,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         bookmarkIcon.updateSizeConstraints(to: iconSize)
         starIndicator.updateSizeConstraints(to: iconSize)
         downloadingIndicator.updateSizeConstraints(to: iconSize)
+        videoIndicator.updateSizeConstraints(to: iconSize)
 
         let tickSize = max(24, metric.scaledValue(for: 24))
         selectTickImageView.updateSizeConstraints(to: tickSize)
