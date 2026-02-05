@@ -21,6 +21,7 @@ class PCSearchBarController: UIViewController {
     @IBOutlet var cancelButton: UIButton! {
         didSet {
             cancelButton.setTitle(L10n.cancel, for: .normal)
+            cancelButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -35,7 +36,11 @@ class PCSearchBarController: UIViewController {
 
     @IBOutlet var clearSearchBtn: UIButton!
 
-    static let defaultHeight: CGFloat = 54
+    static var defaultHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        return max(54, metric.scaledValue(for: 54))
+    }
+
     static let peekAmountBeforeAutoOpen: CGFloat = 20
 
     var shouldShowCancelButton = true
@@ -65,6 +70,7 @@ class PCSearchBarController: UIViewController {
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
+        updateSize()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -125,5 +131,22 @@ class PCSearchBarController: UIViewController {
         clearSearchBtn.isHidden = true
 
         searchDelegate?.searchWasCleared()
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(16, metric.scaledValue(for: 16))
+        self.view.updateSizeConstraints(of: searchIcon, to: imageSize)
+
+        let clearSearchSize = max(22, metric.scaledValue(for: 22))
+        self.view.updateSizeConstraints(of: clearSearchBtn, to: clearSearchSize)
+
+        self.view.updateSizeConstraints(of: view, to: Self.defaultHeight)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
