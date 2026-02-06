@@ -57,6 +57,7 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.title, original.title, "\(implementationName): title should match")
             XCTAssertEqual(loaded.author, original.author, "\(implementationName): author should match")
             XCTAssertEqual(loaded.podcastDescription, original.podcastDescription, "\(implementationName): podcastDescription should match")
+            XCTAssertEqual(loaded.podcastHTMLDescription, original.podcastHTMLDescription, "\(implementationName): podcastHTMLDescription should match")
             XCTAssertEqual(loaded.podcastUrl, original.podcastUrl, "\(implementationName): podcastUrl should match")
             XCTAssertEqual(loaded.imageURL, original.imageURL, "\(implementationName): imageURL should match")
             XCTAssertEqual(loaded.mediaType, original.mediaType, "\(implementationName): mediaType should match")
@@ -88,6 +89,25 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.usedCustomEffectsBefore, original.usedCustomEffectsBefore, "\(implementationName): usedCustomEffectsBefore should match")
             XCTAssertEqual(loaded.isPrivate, original.isPrivate, "\(implementationName): isPrivate should match")
             XCTAssertEqual(loaded.fundingURL, original.fundingURL, "\(implementationName): fundingURL should match")
+            // Color fields
+            XCTAssertEqual(loaded.backgroundColor, original.backgroundColor, "\(implementationName): backgroundColor should match")
+            XCTAssertEqual(loaded.detailColor, original.detailColor, "\(implementationName): detailColor should match")
+            XCTAssertEqual(loaded.primaryColor, original.primaryColor, "\(implementationName): primaryColor should match")
+            XCTAssertEqual(loaded.secondaryColor, original.secondaryColor, "\(implementationName): secondaryColor should match")
+            XCTAssertEqual(loaded.lastColorDownloadDate, original.lastColorDownloadDate, "\(implementationName): lastColorDownloadDate should match")
+            // Episode metadata fields
+            XCTAssertEqual(loaded.latestEpisodeUuid, original.latestEpisodeUuid, "\(implementationName): latestEpisodeUuid should match")
+            XCTAssertEqual(loaded.latestEpisodeDate, original.latestEpisodeDate, "\(implementationName): latestEpisodeDate should match")
+            XCTAssertEqual(loaded.estimatedNextEpisode, original.estimatedNextEpisode, "\(implementationName): estimatedNextEpisode should match")
+            XCTAssertEqual(loaded.episodeFrequency, original.episodeFrequency, "\(implementationName): episodeFrequency should match")
+            // Thumbnail fields
+            XCTAssertEqual(loaded.lastThumbnailDownloadDate, original.lastThumbnailDownloadDate, "\(implementationName): lastThumbnailDownloadDate should match")
+            XCTAssertEqual(loaded.thumbnailStatus, original.thumbnailStatus, "\(implementationName): thumbnailStatus should match")
+            // Other fields
+            XCTAssertEqual(loaded.podcastCategory, original.podcastCategory, "\(implementationName): podcastCategory should match")
+            XCTAssertEqual(loaded.lastUpdatedAt, original.lastUpdatedAt, "\(implementationName): lastUpdatedAt should match")
+            XCTAssertEqual(loaded.excludeFromAutoArchive, original.excludeFromAutoArchive, "\(implementationName): excludeFromAutoArchive should match")
+            XCTAssertEqual(loaded.fullSyncLastSyncAt, original.fullSyncLastSyncAt, "\(implementationName): fullSyncLastSyncAt should match")
         }
     }
 
@@ -178,6 +198,25 @@ final class PodcastColumnConsistencyTests: DataManagerTestCase {
         podcast.usedCustomEffectsBefore = true
         podcast.isPrivate = false
         podcast.fundingURL = "https://example.com/support"
+        // Color fields
+        podcast.backgroundColor = "#FFFFFF"
+        podcast.detailColor = "#000000"
+        podcast.primaryColor = "#FF0000"
+        podcast.secondaryColor = "#00FF00"
+        podcast.lastColorDownloadDate = Date(timeIntervalSince1970: 1700000000)
+        // Episode metadata fields
+        podcast.latestEpisodeUuid = "latest-episode-uuid-123"
+        podcast.latestEpisodeDate = Date(timeIntervalSince1970: 1700000000)
+        podcast.estimatedNextEpisode = Date(timeIntervalSince1970: 1700100000)
+        podcast.episodeFrequency = "weekly"
+        // Thumbnail fields
+        podcast.lastThumbnailDownloadDate = Date(timeIntervalSince1970: 1700000000)
+        podcast.thumbnailStatus = 2
+        // Other fields
+        podcast.podcastCategory = "Technology"
+        podcast.lastUpdatedAt = "2024-01-01T00:00:00Z"
+        podcast.excludeFromAutoArchive = true
+        podcast.fullSyncLastSyncAt = "2024-01-01T00:00:00Z"
         return podcast
     }
 }
