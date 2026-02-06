@@ -357,8 +357,15 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
 
             // For properties marked with @GRDBNullDateAsEpoch, use epoch time as default
             // to match legacy SQL behavior for NOT NULL DEFAULT 0 columns.
+            // For Date properties, convert to timeIntervalSince1970 to match raw SQL behavior.
             if prop.nullDateAsEpoch {
-                encodes.append("container[\"\(columnName)\"] = \(prop.name) ?? Date(timeIntervalSince1970: 0)")
+                encodes.append("container[\"\(columnName)\"] = (\(prop.name) ?? Date(timeIntervalSince1970: 0)).timeIntervalSince1970")
+            } else if prop.isDate {
+                if prop.isOptional {
+                    encodes.append("container[\"\(columnName)\"] = \(prop.name)?.timeIntervalSince1970")
+                } else {
+                    encodes.append("container[\"\(columnName)\"] = \(prop.name).timeIntervalSince1970")
+                }
             } else {
                 encodes.append("container[\"\(columnName)\"] = \(prop.name)")
             }
