@@ -21,7 +21,7 @@ class PodcastDataManager {
     }()
 
     /// Legacy column names for non-GRDB code path.
-    private let columnNames = [
+    let columnNames = [
         "id",
         "addedDate",
         "autoDownloadSetting",
