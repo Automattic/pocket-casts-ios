@@ -21,13 +21,18 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }()
 
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var episodeName: ThemeableLabel!
+    @IBOutlet var episodeName: ThemeableLabel! {
+        didSet {
+            episodeName.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+        }
+    }
 
     @IBOutlet var podcastName: UILabel! {
         didSet {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
             podcastName.isUserInteractionEnabled = true
+            podcastName.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
         }
     }
 
@@ -59,21 +64,51 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     @IBOutlet var buttonsStackView: UIStackView!
-    @IBOutlet var downloadBtn: UIButton!
-    @IBOutlet var upNextBtn: UIButton!
+    @IBOutlet var downloadBtn: UIButton! {
+        didSet {
+            downloadBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            downloadBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            downloadBtn.titleLabel?.numberOfLines = 2
+        }
+    }
+
+    @IBOutlet var upNextBtn: UIButton! {
+        didSet {
+            upNextBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            upNextBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            upNextBtn.titleLabel?.numberOfLines = 2
+        }
+    }
+
     @IBOutlet var playPauseBtn: PlayPauseButton!
-    @IBOutlet var playStatusButton: UIButton!
-    @IBOutlet var archiveButton: UIButton!
+
+    @IBOutlet var playStatusButton: UIButton! {
+        didSet {
+            playStatusButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            playStatusButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            playStatusButton.titleLabel?.numberOfLines = 2
+        }
+    }
+
+    @IBOutlet var archiveButton: UIButton! {
+        didSet {
+            archiveButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            archiveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            archiveButton.titleLabel?.numberOfLines = 2
+        }
+    }
 
     @IBOutlet var episodeDate: ThemeableLabel! {
         didSet {
             episodeDate.style = .primaryText02
+            episodeDate.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
         }
     }
 
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
             episodeInfo.style = .primaryText02
+            episodeInfo.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
         }
     }
 

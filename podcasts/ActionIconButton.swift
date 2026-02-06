@@ -26,7 +26,7 @@ class ActionIconButton: UIButton {
 
         let height: CGFloat
         if let text = title(for: .normal) {
-            let size = (text as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 13)])
+            let size = (text as NSString).size(withAttributes: [.font: UIFont.font(ofSize: 13, scalingWith: .footnote)])
             let lines = size.width / contentRect.width
             height = ceil(lines) * size.height
         } else {
