@@ -494,7 +494,7 @@ extension UpNextViewController {
     func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let buttonSize = max(24, metric.scaledValue(for: 24))
-        view.updateSizeConstraints(of: shuffleButton, to: buttonSize)
+        shuffleButton.updateSizeConstraints(to: buttonSize)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

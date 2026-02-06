@@ -231,17 +231,17 @@ class UpNextNowPlayingCell: ThemeableCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(48, metric.scaledValue(for: 48))
-        updateSizeConstraints(of: podcastImage, to: imageSize)
+        podcastImage.updateSizeConstraints(to: imageSize)
 
         let iconSize = max(16, metric.scaledValue(for: 16))
-        updateSizeConstraints(of: downloadedIndicator, to: iconSize)
-        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+        downloadedIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
 
         let buttonSize = max(24, metric.scaledValue(for: 24))
-        updateSizeConstraints(of: disclosureImageView, to: buttonSize)
+        disclosureImageView.updateSizeConstraints(to: buttonSize)
         disclosureImageView.layer.cornerRadius = buttonSize / 2
 
-        updateSizeConstraints(of: playingAnimationView, to: buttonSize)
+        playingAnimationView.updateSizeConstraints(to: buttonSize)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

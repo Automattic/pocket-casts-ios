@@ -247,14 +247,14 @@ class PlayerCell: ThemeableSwipeCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
-        updateSizeConstraints(of: podcastImage, to: imageSize)
+        podcastImage.updateSizeConstraints(to: imageSize)
 
         let iconSize = max(16, metric.scaledValue(for: 16))
-        updateSizeConstraints(of: downloadedIndicator, to: iconSize)
-        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+        downloadedIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
 
         let tickSize = max(24, metric.scaledValue(for: 24))
-        updateSizeConstraints(of: selectTickImageView, to: tickSize)
+        selectTickImageView.updateSizeConstraints(to: tickSize)
         selectTickImageView.layer.cornerRadius = tickSize / 2
     }
 
