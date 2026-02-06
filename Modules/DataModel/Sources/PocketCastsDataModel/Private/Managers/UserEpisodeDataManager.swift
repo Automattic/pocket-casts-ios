@@ -4,7 +4,7 @@ import GRDB
 
 class UserEpisodeDataManager {
     /// Legacy column names for non-GRDB code path.
-    private let columnNames = [
+    let columnNames = [
         "id",
         "addedDate",
         "lastDownloadAttemptDate",
