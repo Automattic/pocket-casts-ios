@@ -9,7 +9,7 @@ class PCRefreshControl: UIView {
     private var refreshOuterImage = UIImageView()
 
     private var pullDownAmountForRefresh = RefreshDefaults.pullDownAmount
-    private var viewHeight = RefreshDefaults.viewHeight
+    private var viewHeight: CGFloat = RefreshDefaults.viewHeight
 
     private let innerStartingAngle = -90 as CGFloat
     private let innerEndingAngle = 90 as CGFloat
@@ -53,7 +53,9 @@ class PCRefreshControl: UIView {
         // refresh label
         refreshLabel.text = L10n.refreshControlPullToRefresh
         refreshLabel.textAlignment = NSTextAlignment.center
-        refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
+        refreshLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+        refreshLabel.adjustsFontForContentSizeCategory = true
+        refreshLabel.numberOfLines = 0
         refreshLabel.textColor = UIColor(hex: "#B8C3C9")
         addSubview(refreshLabel)
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -66,12 +68,14 @@ class PCRefreshControl: UIView {
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        //refreshInnerImage.adjustsImageSizeForAccessibilityContentSizeCategory = true
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")
         addSubview(refreshOuterImage)
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        //refreshOuterImage.adjustsImageSizeForAccessibilityContentSizeCategory = true
 
         // Recalculate some values
         // We recalculate the view height after we set the constraints so the UI gets pinned to the bottom of the view
@@ -280,11 +284,22 @@ class PCRefreshControl: UIView {
 
     @objc func refreshEndTimerFired() {
         endRefreshing(parentViewVisible)
+
     }
 
     private enum RefreshDefaults {
-        static let viewHeight: CGFloat = 80
+        static var viewHeight: CGFloat {
+            let metric = UIFontMetrics(forTextStyle: .caption1)
+            return metric.scaledValue(for: 80)
+        }
+
         static let pullDownAmount: CGFloat = 80
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory else { return }
+        self.calculateViewHeight()
     }
 }
 
