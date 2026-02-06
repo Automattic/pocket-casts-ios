@@ -68,7 +68,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             downloadBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             downloadBtn.titleLabel?.adjustsFontForContentSizeCategory = true
-            downloadBtn.titleLabel?.numberOfLines = 2
+            downloadBtn.titleLabel?.numberOfLines = 3
+            downloadBtn.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         }
     }
 
@@ -76,7 +77,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             upNextBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             upNextBtn.titleLabel?.adjustsFontForContentSizeCategory = true
-            upNextBtn.titleLabel?.numberOfLines = 2
+            upNextBtn.titleLabel?.numberOfLines = 3
         }
     }
 
@@ -86,7 +87,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             playStatusButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             playStatusButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            playStatusButton.titleLabel?.numberOfLines = 2
+            playStatusButton.titleLabel?.numberOfLines = 3
         }
     }
 
@@ -94,7 +95,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         didSet {
             archiveButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             archiveButton.titleLabel?.adjustsFontForContentSizeCategory = true
-            archiveButton.titleLabel?.numberOfLines = 2
+            archiveButton.titleLabel?.numberOfLines = 3
         }
     }
 
