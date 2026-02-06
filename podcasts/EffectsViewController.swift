@@ -81,7 +81,9 @@ class EffectsViewController: SimpleNotificationsViewController {
     @IBOutlet var volumeDescription: ThemeableLabel! {
         didSet {
             volumeDescription.style = .playerContrast02
-            volumeDescription.text = L10n.volumeBoostDescription
+            volumeDescription.text = Settings.isVoiceBoostNEnabled
+                ? L10n.volumeBoostNDescription
+                : L10n.volumeBoostDescription
         }
     }
 
@@ -523,7 +525,9 @@ class EffectsViewController: SimpleNotificationsViewController {
 
         // Set accessibility hints
         trimSilenceSwitch.accessibilityHint = L10n.playerEffectsTrimSilenceDetails
-        volumeBoostSwitch.accessibilityHint = L10n.volumeBoostDescription
+        volumeBoostSwitch.accessibilityHint = Settings.isVoiceBoostNEnabled
+            ? L10n.volumeBoostNDescription
+            : L10n.volumeBoostDescription
 
         // Configure view to allow VoiceOver navigation
         view.accessibilityViewIsModal = true

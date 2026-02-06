@@ -24,6 +24,7 @@ class MainEpisodeActionView: UIView {
     var enlargementScale: CGFloat = 1 {
         didSet {
             setCenterPoint()
+            setNeedsLayout()
         }
     }
 
@@ -183,9 +184,13 @@ class MainEpisodeActionView: UIView {
         }
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setCenterPoint()
+    }
+
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-
         drawInContext(context, rect: rect)
     }
 }
@@ -338,7 +343,7 @@ extension MainEpisodeActionView {
 
         let radius = (MainEpisodeActionView.circleRadius * enlargementScale) + 1
         let drawPoint = CGPoint(x: circleCenter.x - radius, y: circleCenter.y - radius)
-        image?.draw(at: drawPoint)
+        image?.draw(in: CGRect(origin: drawPoint, size: CGSizeMake(radius * 2, radius * 2)))
     }
 
     private func drawEmptyCircle(context: CGContext, color: UIColor) {

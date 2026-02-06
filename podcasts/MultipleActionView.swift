@@ -5,7 +5,7 @@ class MultipleActionView: UIView {
     private let icon: String?
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
-
+    private var imageView: UIImageView?
     private let iconActionWidth: CGFloat = 45
     private let componentHeight: CGFloat = 44
 
@@ -25,7 +25,9 @@ class MultipleActionView: UIView {
 
     func actionWasAdded() {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 2
         label.text = name
         label.textColor = AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +46,7 @@ class MultipleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
                 label.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+            self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -81,5 +84,19 @@ class MultipleActionView: UIView {
         if let action = actions[safe: sender.selectedIndex] {
             action.action()
         }
+    }
+
+    private func updateSize() {
+        if let imageView {
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            let imageSize = max(24, metric.scaledValue(for: 24))
+            imageView.updateSizeConstraints(to: imageSize)
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }

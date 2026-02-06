@@ -59,7 +59,7 @@ class ShiftyRoundButton: UIView {
 
     var fontSize: CGFloat = 15 {
         didSet {
-            textLayer.fontSize = fontSize
+            updateTextLayerFont()
         }
     }
 
@@ -89,7 +89,17 @@ class ShiftyRoundButton: UIView {
         shapeLayer.frame = alteredRect
         shapeLayer.path = UIBezierPath(roundedRect: alteredRect, cornerRadius: cornerRadius).cgPath
 
-        textLayer.frame = CGRect(x: 0, y: (alteredRect.height / 2) - (fontSize / 2), width: alteredRect.width, height: alteredRect.height)
+        textLayer.frame = CGRect(x: 0, y: (alteredRect.height / 2) - (textLayer.fontSize / 2), width: alteredRect.width, height: alteredRect.height)
+    }
+
+    private func updateTextLayerFont() {
+        let uiFont = UIFont.font(ofSize: fontSize, weight: .semibold, scalingWith: .subheadline)
+        textLayer.string = buttonTitle
+        textLayer.foregroundColor = textColor.cgColor
+        textLayer.fontSize = uiFont.pointSize
+        textLayer.contentsScale = UIScreen.main.scale
+        textLayer.font = CGFont(uiFont.fontName as CFString)
+        textLayer.alignmentMode = CATextLayerAlignmentMode.center
     }
 
     func setup() {
@@ -103,13 +113,7 @@ class ShiftyRoundButton: UIView {
         shapeLayer.lineWidth = 2.0
         layer.insertSublayer(shapeLayer, at: 0)
 
-        let uiFont = UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.semibold)
-        textLayer.string = buttonTitle
-        textLayer.foregroundColor = textColor.cgColor
-        textLayer.fontSize = fontSize
-        textLayer.contentsScale = UIScreen.main.scale
-        textLayer.font = CGFont(uiFont.fontName as CFString)
-        textLayer.alignmentMode = CATextLayerAlignmentMode.center
+        updateTextLayerFont()
         shapeLayer.addSublayer(textLayer)
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
@@ -153,5 +157,12 @@ class ShiftyRoundButton: UIView {
         if !enabled { return }
 
         shapeLayer.transform = CATransform3DIdentity
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateTextLayerFont()
+        setNeedsLayout()
     }
 }

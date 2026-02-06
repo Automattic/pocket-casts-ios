@@ -247,6 +247,8 @@ struct Constants {
         enum informationalModal {
             static let hasShownViewModal = "hasShownViewModal"
         }
+
+        static let voiceBoostNEnabled = "VoiceBoostNEnabled"
     }
 
     enum Values {

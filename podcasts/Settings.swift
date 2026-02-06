@@ -1640,6 +1640,22 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - VoiceBoostN
+
+    static var isVoiceBoostNEnabled: Bool {
+        get {
+            guard FeatureFlag.voiceBoostN.enabled else { return false }
+            if UserDefaults.standard.object(forKey: Constants.UserDefaults.voiceBoostNEnabled) == nil {
+                return true
+            }
+            return UserDefaults.standard.bool(forKey: Constants.UserDefaults.voiceBoostNEnabled)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.voiceBoostNEnabled)
+            FileLog.shared.addMessage("[Settings] VoiceBoostN \(newValue ? "enabled" : "disabled")")
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

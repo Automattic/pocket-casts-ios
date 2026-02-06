@@ -34,6 +34,9 @@ class PodcastSettingsViewController: PCViewController {
         updateExistingSortcutData()
         title = L10n.settingsTitle
 
+        settingsTable.rowHeight = UITableView.automaticDimension
+        settingsTable.estimatedRowHeight = UITableView.automaticDimension
+
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
