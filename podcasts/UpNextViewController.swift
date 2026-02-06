@@ -74,7 +74,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
         updateTimeRemainingLabel()
         headerView.addSubview(remainingLabel)
-        remainingLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             remainingLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
             remainingLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
@@ -188,9 +187,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.adjustsFontSizeToFitWidth = true
         remainingLabel.adjustsFontForContentSizeCategory = true
         remainingLabel.minimumScaleFactor = 0.8
-        remainingLabel.numberOfLines = 2
+        remainingLabel.numberOfLines = 3
         remainingLabel.style = .primaryText02
         remainingLabel.themeOverride = themeOverride
+        remainingLabel.translatesAutoresizingMaskIntoConstraints = false
 
         setupActionButtonsIfNecessary()
 

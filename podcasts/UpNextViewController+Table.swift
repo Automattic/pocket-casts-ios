@@ -46,7 +46,8 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         case .nowPlayingSection:
             return 16
         case .upNextSection:
-            return 48
+            let metrics = UIFontMetrics(forTextStyle: .footnote)
+            return metrics.scaledValue(for: 48)
         }
     }
 
