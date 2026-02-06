@@ -4,7 +4,7 @@ import GRDB
 
 class FolderDataManager {
     /// Legacy column names for non-GRDB code path.
-    private let columnNames = [
+    let columnNames = [
         "uuid",
         "name",
         "color",
