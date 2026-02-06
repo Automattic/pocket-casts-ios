@@ -41,10 +41,16 @@ class NewsletterCell: ThemeableCell {
         updateImageScale()
     }
 
-    func updateImageScale() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
 
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateImageScale()
+        }
+    }
+
+    func updateImageScale() {
+        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
         cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }

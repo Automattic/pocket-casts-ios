@@ -45,7 +45,8 @@ class DescriptiveActionView: UIView {
 
         // add title
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.font = UIFont.font(ofSize: 20, weight: .bold, scalingWith: .title3)
+        titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.text = title
         titleLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +79,8 @@ class DescriptiveActionView: UIView {
             messageBottomAnchor = messageView.bottomAnchor
         } else {
             let messageLabel = UILabel()
-            messageLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+            messageLabel.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            messageLabel.adjustsFontForContentSizeCategory = true
             messageLabel.text = message
             messageLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
             messageLabel.translatesAutoresizingMaskIntoConstraints = false

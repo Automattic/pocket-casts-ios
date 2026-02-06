@@ -37,12 +37,14 @@ struct StarRatingView: View {
         starsAndRate
     }
 
+    @ScaledMetric(relativeTo: .callout) private var starSize = 16
+
     /// A view that returns stars and the "Rate" button
     var starsAndRate: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
                 ratingView(rating: viewModel.rating)
-                    .frame(height: 16)
+                    .frame(height: starSize)
                     .animation(.easeIn(duration: Constants.animationDuration), value: shouldAnimate)
                     .onTapGesture {
                         viewModel.didTapRating(source: .stars)

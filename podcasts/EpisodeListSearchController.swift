@@ -11,6 +11,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     @IBOutlet var searchTextField: UITextField! {
         didSet {
             searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+            searchTextField.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -24,28 +25,37 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     @IBOutlet var episodeInfoLabel: ThemeableLabel! {
         didSet {
             episodeInfoLabel.style = .primaryText02
+            episodeInfoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var archivedInfoLabel: ThemeableLabel! {
         didSet {
             archivedInfoLabel.style = .primaryText02
+            archivedInfoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var episodeInfoSeparatorLabel: ThemeableLabel! {
         didSet {
             episodeInfoSeparatorLabel.style = .primaryText02
+            episodeInfoSeparatorLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var limitLabel: ThemeableLabel! {
         didSet {
             limitLabel.style = .support08
+            limitLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
         }
     }
 
-    @IBOutlet var showHideArchiveBtn: UIButton!
+    @IBOutlet var showHideArchiveBtn: UIButton! {
+        didSet {
+            showHideArchiveBtn.titleLabel?.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .footnote)
+            showHideArchiveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var overflowButton: ThemeSecondaryButton!
     var isOverflowButtonEnabled = true {
         didSet {
@@ -87,7 +97,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.textColor = ThemeColor.primaryText02()
-        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.searchEpisodes, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()])
+        searchTextField.attributedPlaceholder = NSAttributedString(string: L10n.searchEpisodes, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02(), .font: UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)])
         searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
         roundedBackgroundView.backgroundColor = ThemeColor.primaryField01()
         searchIcon.tintColor = ThemeColor.primaryIcon02()

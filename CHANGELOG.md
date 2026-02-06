@@ -1,6 +1,10 @@
 8.6
 -----
 - [TestFlight only] Add a new VoiceBoost solution designed to maintain more consistent audio levels. [#3915](https://github.com/Automattic/pocket-casts-ios/pull/3915)
+- Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
+- Dynamic Type: Update Podcast detail [#3892](https://github.com/Automattic/pocket-casts-ios/pull/3892)
+- Dynamic Type: Update Settings [#3896](https://github.com/Automattic/pocket-casts-ios/pull/3896)
+- Dynamic Type: Update Profile View [#3894](https://github.com/Automattic/pocket-casts-ios/pull/3894)
 
 8.5
 -----

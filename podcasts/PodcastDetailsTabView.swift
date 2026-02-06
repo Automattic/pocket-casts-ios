@@ -74,7 +74,6 @@ struct PodcastDetailsTabView: View {
             Spacer()
         }
         .font(.subheadline.weight(.medium))
-        .environment(\.dynamicTypeSize, .large)
     }
 }
 

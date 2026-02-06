@@ -10,6 +10,7 @@ class RichExpandableLabel: WKWebView {
     private var contentHeight: CGFloat = 0
     private var htmlReady: Bool = false
     private(set) var previousHTML: String = ""
+    private(set) var originalHTML: String = ""
     private var isFirstTime = true
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {
@@ -74,6 +75,7 @@ class RichExpandableLabel: WKWebView {
     }
 
     func setRichText(html: String) {
+        originalHTML = html
         let styledHTML = style(html: html)
         guard previousHTML != styledHTML else {
             if htmlReady {
@@ -85,6 +87,16 @@ class RichExpandableLabel: WKWebView {
         previousHTML = styledHTML
         self.loadHTMLString(styledHTML, baseURL: nil)
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            // Check if content size category specifically changed
+            if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+                reset()
+                setRichText(html: originalHTML)
+            }
+        }
 
     private func style(html: String) -> String {
         let  backgroundColor: UIColor = ThemeColor.primaryUi02()

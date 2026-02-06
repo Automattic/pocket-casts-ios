@@ -30,7 +30,7 @@ class SettingsTableHeader: ThemeableView {
 
         titleLabel.style = .primaryText02
         titleLabel.themeOverride = themeOverride
-        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        titleLabel.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
         titleLabel.text = title.uppercased()
 
         addSubview(titleLabel)

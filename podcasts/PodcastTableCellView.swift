@@ -24,11 +24,11 @@ struct PodcastTableCellView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(viewModel.title ?? "")
                     .lineLimit(1)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(size: 16, style: .callout, weight: .medium)
                     .foregroundStyle(theme.primaryText01)
                 Text(viewModel.author ?? "")
                     .lineLimit(1)
-                    .font(.system(size: 14, weight: .regular))
+                    .font(size: 14, style: .subheadline, weight: .regular)
                     .foregroundStyle(theme.primaryText02)
             }
 

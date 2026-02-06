@@ -47,7 +47,9 @@ class GridHelper {
         let viewHeight = collectionView.bounds.height
 
         if gridType == .list {
-            return CGSize(width: viewWidth, height: 65)
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            let imageSize = max(65, metric.scaledValue(for: 65))
+            return CGSize(width: viewWidth, height: imageSize)
         }
 
         var divideBy: CGFloat

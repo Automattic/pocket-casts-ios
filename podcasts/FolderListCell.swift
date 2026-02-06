@@ -8,22 +8,34 @@ class FolderListCell: ThemeableCollectionCell {
         }
     }
 
-    @IBOutlet var folderName: ThemeableLabel!
+    @IBOutlet var folderName: ThemeableLabel! {
+        didSet {
+            folderName.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+            folderName.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var folderInfo: ThemeableLabel! {
         didSet {
             folderInfo.style = .primaryText02
+            folderInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            folderInfo.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var unplayedBadge: UnplayedBadge!
     @IBOutlet var unplayedHeight: NSLayoutConstraint!
 
+    private var badgeType: BadgeType = .off
+
     override func awakeFromNib() {
         super.awakeFromNib()
         isAccessibilityElement = true
+        updateSize()
     }
 
     func populateFrom(folder: Folder, badgeType: BadgeType) {
+        self.badgeType = badgeType
         folderName.text = folder.name
         folderPreview.populateFromAsync(folder: folder)
         folderPreview.backgroundColor = AppTheme.folderColor(colorInt: folder.color)
@@ -34,14 +46,16 @@ class FolderListCell: ThemeableCollectionCell {
         folderInfo.text = L10n.podcastCount(count)
 
         if badgeType == .allUnplayed {
-            unplayedHeight.constant = 28
+            let metric = UIFontMetrics(forTextStyle: .footnote)
+            unplayedHeight.constant = max(28, metric.scaledValue(for: 28))
             unplayedBadge.layoutIfNeeded()
 
             unplayedBadge.showsNumber = true
             unplayedBadge.unplayedCount = folder.cachedUnreadCount > 99 ? 99 : folder.cachedUnreadCount
             unplayedBadge.isHidden = folder.cachedUnreadCount == 0
         } else if badgeType == .latestEpisode {
-            unplayedHeight.constant = 12
+            let metric = UIFontMetrics(forTextStyle: .footnote)
+            unplayedHeight.constant = max(12, metric.scaledValue(for: 12))
             unplayedBadge.layoutIfNeeded()
 
             unplayedBadge.showsNumber = false
@@ -51,5 +65,28 @@ class FolderListCell: ThemeableCollectionCell {
         }
 
         unplayedBadge.updateColors()
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        folderPreview.updateSizeConstraints(to: imageSize)
+
+        let badgeMetric = UIFontMetrics(forTextStyle: .footnote)
+        switch badgeType {
+            case .allUnplayed:
+                unplayedHeight.constant = max(28, badgeMetric.scaledValue(for: 28))
+            case .latestEpisode:
+                unplayedHeight.constant = max(12, badgeMetric.scaledValue(for: 12))
+            case .off:
+                break
+        }
+        unplayedBadge.layoutIfNeeded()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
