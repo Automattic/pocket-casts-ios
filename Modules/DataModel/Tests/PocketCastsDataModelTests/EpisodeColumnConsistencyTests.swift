@@ -48,7 +48,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             podcast.addedDate = Date()
             dataManager.save(podcast: podcast)
 
-            let original = self.createFullyPopulatedEpisode(podcastUuid: podcast.uuid)
+            let original = self.createFullyPopulatedEpisode(podcastUuid: podcast.uuid, podcastId: podcast.id)
 
             // Save using the current implementation (respects feature flag)
             dataManager.save(episode: original)
@@ -93,6 +93,13 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "\(implementationName): deselectedChapters should match")
             XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "\(implementationName): deselectedChaptersModified should match")
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
+            XCTAssertEqual(loaded.podcast_id, original.podcast_id, "\(implementationName): podcast_id should match")
+            self.assertDatesEqual(loaded.addedDate, original.addedDate, "\(implementationName): addedDate should match")
+            self.assertDatesEqual(loaded.publishedDate, original.publishedDate, "\(implementationName): publishedDate should match")
+            self.assertDatesEqual(loaded.lastDownloadAttemptDate, original.lastDownloadAttemptDate, "\(implementationName): lastDownloadAttemptDate should match")
+            self.assertDatesEqual(loaded.lastPlaybackInteractionDate, original.lastPlaybackInteractionDate, "\(implementationName): lastPlaybackInteractionDate should match")
+            XCTAssertEqual(loaded.lastPlaybackInteractionSyncStatus, original.lastPlaybackInteractionSyncStatus, "\(implementationName): lastPlaybackInteractionSyncStatus should match")
+            self.assertDatesEqual(loaded.lastArchiveInteractionDate, original.lastArchiveInteractionDate, "\(implementationName): lastArchiveInteractionDate should match")
         }
     }
 
@@ -130,10 +137,23 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
 
     // MARK: - Helpers
 
-    private func createFullyPopulatedEpisode(podcastUuid: String) -> Episode {
+    private func assertDatesEqual(_ date1: Date?, _ date2: Date?, _ message: String, file: StaticString = #file, line: UInt = #line) {
+        switch (date1, date2) {
+        case (nil, nil):
+            // Both nil - equal
+            break
+        case (nil, _), (_, nil):
+            XCTFail("\(message) - one date is nil and the other is not", file: file, line: line)
+        case let (d1?, d2?):
+            XCTAssertEqual(d1.timeIntervalSince1970, d2.timeIntervalSince1970, accuracy: 0.001, message, file: file, line: line)
+        }
+    }
+
+    private func createFullyPopulatedEpisode(podcastUuid: String, podcastId: Int64) -> Episode {
         let episode = Episode()
         episode.uuid = UUID().uuidString.lowercased()
         episode.podcastUuid = podcastUuid
+        episode.podcast_id = podcastId
         episode.title = "Test Episode Title"
         episode.episodeDescription = "Short description"
         episode.detailedDescription = "Detailed description of the episode"
@@ -168,6 +188,9 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.deselectedChapters = "1,3,5"
         episode.deselectedChaptersModified = 777
         episode.wasDeleted = false
+        episode.lastPlaybackInteractionDate = Date()
+        episode.lastPlaybackInteractionSyncStatus = 1
+        episode.lastArchiveInteractionDate = Date()
         return episode
     }
 }
