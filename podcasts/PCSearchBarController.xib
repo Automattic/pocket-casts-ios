@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -38,19 +38,23 @@
                                 <constraint firstAttribute="width" constant="16" id="Kuy-BP-CkB"/>
                             </constraints>
                         </imageView>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRc-ea-EJF">
-                            <rect key="frame" x="36" y="6.5" width="442" height="19.5"/>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QRc-ea-EJF">
+                            <rect key="frame" x="36" y="5" width="442" height="22"/>
                             <color key="backgroundColor" red="0.035672488410000001" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <accessibility key="accessibilityConfiguration" identifier="Search"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="HcU-76-yqi"/>
                             </connections>
                         </textField>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lc3-E3-LOP" userLabel="Clear Search">
-                            <rect key="frame" x="482" y="5" width="16" height="22"/>
+                            <rect key="frame" x="476" y="5" width="22" height="22"/>
                             <accessibility key="accessibilityConfiguration" label="Clear search"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="1zv-BE-dnF"/>
+                                <constraint firstAttribute="width" constant="22" id="dZc-Gq-bVZ"/>
+                            </constraints>
                             <color key="tintColor" red="0.60835868120000003" green="0.8194983602" blue="0.82352894539999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <state key="normal" image="search_cancel"/>
                             <connections>
@@ -67,7 +71,7 @@
                         <constraint firstItem="QRc-ea-EJF" firstAttribute="leading" secondItem="10s-RN-5J0" secondAttribute="trailing" constant="10" id="LvC-ZN-ICe"/>
                         <constraint firstItem="lc3-E3-LOP" firstAttribute="centerY" secondItem="QRc-ea-EJF" secondAttribute="centerY" id="QKK-8O-dMA"/>
                         <constraint firstItem="QRc-ea-EJF" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="ejX-m0-uF4"/>
-                        <constraint firstAttribute="height" constant="32" id="fuQ-8X-1eF"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="fuQ-8X-1eF"/>
                         <constraint firstItem="gMz-BX-N8B" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="gvc-GU-aik"/>
                         <constraint firstItem="10s-RN-5J0" firstAttribute="leading" secondItem="iXt-pK-0hH" secondAttribute="leading" constant="10" id="j5w-Xu-14M"/>
                         <constraint firstItem="10s-RN-5J0" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="su5-gy-6fw"/>
@@ -80,6 +84,7 @@
                 </view>
                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpm-2R-PJM">
                     <rect key="frame" x="528" y="12" width="48" height="30"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <state key="normal" title="Cancel"/>
                     <connections>
                         <action selector="cancelTapped:" destination="-1" eventType="touchUpInside" id="H0m-Pk-yA0"/>
@@ -94,6 +99,7 @@
                 <constraint firstAttribute="bottom" secondItem="iXt-pK-0hH" secondAttribute="bottom" constant="15" id="XAU-gT-LsF"/>
                 <constraint firstItem="iXt-pK-0hH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="bqj-xC-Ccd"/>
                 <constraint firstAttribute="trailing" secondItem="Cpm-2R-PJM" secondAttribute="trailing" constant="10" id="fku-Ku-xaI"/>
+                <constraint firstItem="Cpm-2R-PJM" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="y39-ab-DF6"/>
             </constraints>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

@@ -160,7 +160,7 @@ class SimpleActionView: UIView {
         if let imageView {
             let metric = UIFontMetrics(forTextStyle: .largeTitle)
             let imageSize = max(24, metric.scaledValue(for: 24))
-            updateSizeConstraints(of: imageView, to: imageSize)
+            imageView.updateSizeConstraints(to: imageSize)
         }
     }
 

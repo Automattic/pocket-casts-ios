@@ -579,24 +579,25 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
-        updateSizeConstraints(of: episodeImage, to: imageSize)
+        episodeImage.updateSizeConstraints(to: imageSize)
 
         let buttonSize = max(44, metric.scaledValue(for: 44))
-        updateSizeConstraints(of: actionButton, to: buttonSize)
+        actionButton.updateSizeConstraints(to: buttonSize)
         actionButton.enlargementScale = buttonSize / 44
-        updateSizeConstraints(of: selectView, to: buttonSize)
+        selectView.updateSizeConstraints(to: buttonSize)
 
         let iconSize = max(16, metric.scaledValue(for: 16))
-        updateSizeConstraints(of: statusIndicator, to: iconSize)
-        updateSizeConstraints(of: uploadStatusIndicator, to: iconSize)
-        updateSizeConstraints(of: upNextIndicator, to: iconSize)
-        updateSizeConstraints(of: bookmarkIcon, to: iconSize)
-        updateSizeConstraints(of: starIndicator, to: iconSize)
-        updateSizeConstraints(of: downloadingIndicator, to: iconSize)
+        statusIndicator.updateSizeConstraints(to: iconSize)
+        uploadStatusIndicator.updateSizeConstraints(to: iconSize)
+        upNextIndicator.updateSizeConstraints(to: iconSize)
+        bookmarkIcon.updateSizeConstraints(to: iconSize)
+        starIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
+        videoIndicator.updateSizeConstraints(to: iconSize)
 
         let tickSize = max(24, metric.scaledValue(for: 24))
-        updateSizeConstraints(of: selectTickImageView, to: tickSize)
-        updateSizeConstraints(of: selectCircleView, to: tickSize)
+        selectTickImageView.updateSizeConstraints(to: tickSize)
+        selectCircleView.updateSizeConstraints(to: tickSize)
         selectTickImageView.layer.cornerRadius = tickSize / 2
         selectCircleView.layer.cornerRadius = tickSize / 2
     }
