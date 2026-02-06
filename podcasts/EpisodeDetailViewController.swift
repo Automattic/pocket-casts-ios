@@ -137,19 +137,31 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var messageTitle: ThemeableLabel! {
         didSet {
             messageTitle.style = .primaryText01
+            messageTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
         }
     }
 
     @IBOutlet var messageDetails: ThemeableLabel! {
         didSet {
             messageDetails.style = .primaryText02
+            messageDetails.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
         }
     }
 
     @IBOutlet var buttonBottomOffsetConstraint: NSLayoutConstraint!
 
-    @IBOutlet var failedToLoadLabel: UILabel!
-    @IBOutlet var tryAgainButton: UIButton!
+    @IBOutlet var failedToLoadLabel: ThemeableLabel! {
+        didSet {
+            failedToLoadLabel.font = UIFont.font(ofSize: 16, weight: .regular, scalingWith: .callout)
+        }
+    }
+
+    @IBOutlet var tryAgainButton: UIButton! {
+        didSet {
+            tryAgainButton.titleLabel?.font = UIFont.font(ofSize: 14, weight: .semibold, scalingWith: .subheadline)
+            tryAgainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
+    }
 
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
