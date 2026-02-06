@@ -274,6 +274,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Fix Watch app overwriting phone's Up Next queue by adding debouncing and fixing timestamp comparison logic
     case watchUpNextSyncFix
 
+    /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
+    case playlistCacheInvalidation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -459,6 +462,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .releaseMediaExporterWhenNoLongerActive:
             true
         case .watchUpNextSyncFix:
+            true
+        case .playlistCacheInvalidation:
             true
         }
     }
