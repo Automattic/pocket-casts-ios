@@ -3593,6 +3593,10 @@ internal enum L10n {
   }
   /// Setting option to choose to show archived episodes.
   internal static var settingsGeneralShow: String { return L10n.tr("Localizable", "settings_general_show", fallback: "Show") }
+  /// Title for the show audio waveform setting in Settings > General
+  internal static var settingsGeneralShowAudioWaveform: String { return L10n.tr("Localizable", "settings_general_show_audio_waveform", fallback: "Show Audio Waveform") }
+  /// Subtitle for the show audio waveform setting in Settings > General
+  internal static var settingsGeneralShowAudioWaveformSubtitle: String { return L10n.tr("Localizable", "settings_general_show_audio_waveform_subtitle", fallback: "Display an animated waveform visualization instead of artwork while playing.") }
   /// Setting toggle to enable the feature that adjusts the playback position when resuming.
   internal static var settingsGeneralSmartPlayback: String { return L10n.tr("Localizable", "settings_general_smart_playback", fallback: "Intelligent Playback Resumption") }
   /// Subtitle explaining the feature that adjusts the playback position when resuming.

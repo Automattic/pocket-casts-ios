@@ -249,6 +249,8 @@ struct Constants {
         }
 
         static let voiceBoostNEnabled = "VoiceBoostNEnabled"
+
+        static let showAudioWaveformInPlayer = "ShowAudioWaveformInPlayer"
     }
 
     enum Values {

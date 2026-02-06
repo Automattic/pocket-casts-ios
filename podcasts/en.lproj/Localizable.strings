@@ -1609,6 +1609,12 @@
 /* Subtitle for the VoiceBoostN setting in Settings > General */
 "settings_general_voice_boost_n_subtitle" = "Use updated Volume Boost with more consistent voice levels.";
 
+/* Title for the show audio waveform setting in Settings > General */
+"settings_general_show_audio_waveform" = "Show Audio Waveform";
+
+/* Subtitle for the show audio waveform setting in Settings > General */
+"settings_general_show_audio_waveform_subtitle" = "Display an animated waveform visualization instead of artwork while playing.";
+
 /* A common string used throughout the app. Catch all prompt to suggest to the user to try the task again. */
 "please_try_again" = "Please try again";
 

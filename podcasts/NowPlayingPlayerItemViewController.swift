@@ -22,6 +22,24 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var videoViewController: VideoViewController?
 
+    // Audio waveform visualization
+    lazy var audioWaveformView: AudioWaveformHostingView = {
+        let view = AudioWaveformHostingView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+    
+    // Blur overlay for artwork when waveform is showing
+    lazy var artworkBlurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        view.alpha = 0.7
+        return view
+    }()
+
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
@@ -214,6 +232,43 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         routePicker.delegate = self
 
         #endif
+        
+        setupAudioWaveformView()
+    }
+    
+    private func setupAudioWaveformView() {
+        // Add blur overlay and waveform view as siblings to episodeImage
+        if let imageSuperview = episodeImage.superview {
+            // Add blur view first (behind waveform)
+            imageSuperview.addSubview(artworkBlurView)
+            NSLayoutConstraint.activate([
+                artworkBlurView.topAnchor.constraint(equalTo: episodeImage.topAnchor),
+                artworkBlurView.leadingAnchor.constraint(equalTo: episodeImage.leadingAnchor),
+                artworkBlurView.trailingAnchor.constraint(equalTo: episodeImage.trailingAnchor),
+                artworkBlurView.bottomAnchor.constraint(equalTo: episodeImage.bottomAnchor)
+            ])
+            
+            // Add tap gesture to blur view
+            let blurTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+            blurTapGesture.numberOfTapsRequired = 1
+            artworkBlurView.addGestureRecognizer(blurTapGesture)
+            artworkBlurView.isUserInteractionEnabled = true
+            
+            // Add waveform view on top of blur
+            imageSuperview.addSubview(audioWaveformView)
+            NSLayoutConstraint.activate([
+                audioWaveformView.centerXAnchor.constraint(equalTo: episodeImage.centerXAnchor),
+                audioWaveformView.centerYAnchor.constraint(equalTo: episodeImage.centerYAnchor),
+                audioWaveformView.widthAnchor.constraint(equalTo: episodeImage.widthAnchor, multiplier: 0.8),
+                audioWaveformView.heightAnchor.constraint(equalTo: episodeImage.heightAnchor, multiplier: 0.5)
+            ])
+            
+            // Add tap gesture to waveform view
+            let waveformTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+            waveformTapGesture.numberOfTapsRequired = 1
+            audioWaveformView.addGestureRecognizer(waveformTapGesture)
+            audioWaveformView.isUserInteractionEnabled = true
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -401,8 +456,14 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #if !APPCLIP
         guard let artwork = episodeImage.image else { return }
 
-        let agrume = Agrume(image: artwork, background: .blurred(.regular))
-        agrume.show(from: self)
+        // Show full-screen waveform if setting is enabled and audio is playing
+        if Settings.showAudioWaveformInPlayer && PlaybackManager.shared.playing() {
+            let waveformVC = FullScreenWaveformViewController(artwork: artwork)
+            present(waveformVC, animated: true)
+        } else {
+            let agrume = Agrume(image: artwork, background: .blurred(.regular))
+            agrume.show(from: self)
+        }
 #endif
     }
 

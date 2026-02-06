@@ -38,16 +38,24 @@ extension NowPlayingPlayerItemViewController {
     @objc func update() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
+        let isPlaying = PlaybackManager.shared.playing()
+        let showWaveform = Settings.showAudioWaveformInPlayer && !playingEpisode.videoPodcast() && isPlaying
+        
         if playingEpisode.videoPodcast() {
             if floatingVideoView.isHidden {
                 floatingVideoView.isHidden = false
                 floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
                 episodeImage.alpha = CGFloat.leastNonzeroMagnitude
             }
+            // Hide waveform for video podcasts
+            updateAudioWaveformVisibility(show: false)
         } else {
             floatingVideoView.player = nil
             floatingVideoView.isHidden = true
+            
+            // Show waveform or artwork based on setting and playback state
             episodeImage.alpha = 1.0
+            updateAudioWaveformVisibility(show: showWaveform)
         }
 
         let skipBackAmount = Settings.skipBackTime
@@ -56,7 +64,7 @@ extension NowPlayingPlayerItemViewController {
         let skipFwdAmount = Settings.skipForwardTime
         skipFwdBtn.skipAmount = skipFwdAmount
 
-        updatePlayPauseButton(isPlaying: PlaybackManager.shared.playing())
+        updatePlayPauseButton(isPlaying: isPlaying)
         updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
         reloadShelfActions()
         updateChaptersControls()
@@ -66,6 +74,23 @@ extension NowPlayingPlayerItemViewController {
 
         if !showingCustomImage {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
+        }
+    }
+    
+    /// Update audio waveform visibility and animation state
+    func updateAudioWaveformVisibility(show: Bool) {
+        audioWaveformView.isHidden = !show
+        artworkBlurView.isHidden = !show
+        
+        if show {
+            // Use player contrast colors for visibility that matches podcast theme
+            let primaryColor = ThemeColor.playerContrast01()
+            let highlightColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
+            audioWaveformView.primaryColor = primaryColor
+            audioWaveformView.secondaryColor = highlightColor
+            audioWaveformView.startWaveform()
+        } else {
+            audioWaveformView.stopWaveform()
         }
     }
 

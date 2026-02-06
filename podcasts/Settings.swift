@@ -1655,6 +1655,18 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Audio Waveform Visualization
+
+    /// Whether to show audio waveform visualization in the player instead of artwork
+    static var showAudioWaveformInPlayer: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Constants.UserDefaults.showAudioWaveformInPlayer)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.showAudioWaveformInPlayer)
+        }
+    }
+
     // MARK: - Database (internal)
 
     class var upgradedIndexes: Bool {

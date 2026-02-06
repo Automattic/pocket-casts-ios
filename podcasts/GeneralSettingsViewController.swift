@@ -12,9 +12,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN }
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN, showAudioWaveform }
     private var tableData: [[TableRow]] {
-        var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+        var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption, .showAudioWaveform], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
         if FeatureFlag.voiceBoostN.enabled {
             data.append([.voiceBoostN])
         }
@@ -322,6 +322,17 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(voiceBoostNToggled(_:)), for: .valueChanged)
 
             return cell
+
+        case .showAudioWaveform:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralShowAudioWaveform
+            cell.cellSwitch.isOn = Settings.showAudioWaveformInPlayer
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(showAudioWaveformToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -471,6 +482,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.shakeToRestartSleepTimerDescription
         case .voiceBoostN:
             return L10n.settingsGeneralVoiceBoostNSubtitle
+        case .showAudioWaveform:
+            return L10n.settingsGeneralShowAudioWaveformSubtitle
         default:
             return nil
         }
@@ -599,6 +612,11 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     @objc private func voiceBoostNToggled(_ sender: UISwitch) {
         Settings.isVoiceBoostNEnabled = sender.isOn
+    }
+
+    @objc private func showAudioWaveformToggled(_ sender: UISwitch) {
+        Settings.showAudioWaveformInPlayer = sender.isOn
+        Settings.trackValueToggled(.settingsGeneralShowAudioWaveformToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

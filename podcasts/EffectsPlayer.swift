@@ -145,6 +145,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
             strongSelf.engine?.connect(strongSelf.peakLimiter!, to: strongSelf.engine!.outputNode, format: format)
 
+            // Install audio tap for waveform visualization if enabled
+            strongSelf.installAudioMeteringTap(format: format)
+
             strongSelf.startReadAndPlayThreads()
             do {
                 strongSelf.engine?.prepare()
@@ -281,6 +284,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         audioReadTask?.shutdown()
         audioPlayTask?.shutdown()
         playBufferManager?.removeAll()
+
+        // Remove audio metering tap
+        removeAudioMeteringTap()
 
         if playing() {
             player?.pause()
@@ -464,5 +470,33 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
     func setVolume(_ volume: Float) {
         audioMixerNode?.outputVolume = volume
+    }
+
+    // MARK: - Audio Metering for Waveform Visualization
+
+    private var audioMeteringTapInstalled = false
+
+    /// Install a tap on the audio mixer node to capture audio levels for visualization
+    private func installAudioMeteringTap(format: AVAudioFormat) {
+        guard Settings.showAudioWaveformInPlayer else { return }
+        guard let mixerNode = audioMixerNode else { return }
+        guard !audioMeteringTapInstalled else { return }
+
+        let bufferSize: AVAudioFrameCount = 1024
+
+        mixerNode.installTap(onBus: 0, bufferSize: bufferSize, format: format) { buffer, _ in
+            let rms = AudioMeterManager.calculateRMS(from: buffer)
+            AudioMeterManager.shared.updateWithRMSLevel(rms)
+        }
+
+        audioMeteringTapInstalled = true
+    }
+
+    /// Remove the audio metering tap
+    private func removeAudioMeteringTap() {
+        guard audioMeteringTapInstalled else { return }
+
+        audioMixerNode?.removeTap(onBus: 0)
+        audioMeteringTapInstalled = false
     }
 }
