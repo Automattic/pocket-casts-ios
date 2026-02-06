@@ -70,7 +70,7 @@ class FolderListCell: ThemeableCollectionCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
-        updateSizeConstraints(of: folderPreview, to: imageSize)
+        folderPreview.updateSizeConstraints(to: imageSize)
 
         let badgeMetric = UIFontMetrics(forTextStyle: .footnote)
         switch badgeType {

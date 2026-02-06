@@ -89,10 +89,10 @@ class PlusLockedInfoView: ThemeableView {
 
         let logoWidth = max(232.5, metric.scaledValue(for: 232.5))
         let logoHeight = max(32, metric.scaledValue(for: 32))
-        updateSizeConstraints(of: logoImageView, toWidth: logoWidth, height: logoHeight)
+        logoImageView.updateSizeConstraints(width: logoWidth, height: logoHeight)
 
         let closeButtonSize = max(20, metric.scaledValue(for: 20))
-        updateSizeConstraints(of: closeButton, to: closeButtonSize)
+        closeButton.updateSizeConstraints(to: closeButtonSize)
     }
 
     @IBAction func closeTapped() {
