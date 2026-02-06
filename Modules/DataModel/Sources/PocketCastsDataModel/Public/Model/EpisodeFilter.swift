@@ -40,8 +40,6 @@ public class EpisodeFilter: NSObject {
     public var mediaTypeSmartRuleApplied: Bool = false
     public var downloadStatusSmartRuleApplied: Bool = false
 
-    override public init() {}
-
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {
             playlistName = defaultTitle
