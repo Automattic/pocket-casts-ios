@@ -1,8 +1,10 @@
 import PocketCastsUtils
 import Foundation
+import GRDB
 
 class FolderDataManager {
-    private let columnNames = [
+    /// Legacy column names for non-GRDB code path.
+    let columnNames = [
         "uuid",
         "name",
         "color",
@@ -37,20 +39,32 @@ class FolderDataManager {
     }
 
     func save(folder: Folder, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
-            do {
-                if folder.uuid.isEmpty {
-                    folder.uuid = UUID().uuidString.lowercased()
-                }
+        if folder.uuid.isEmpty {
+            folder.uuid = UUID().uuidString.lowercased()
+        }
 
-                if cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
-                    let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
-                } else {
-                    try db.executeUpdate("INSERT INTO \(DataManager.folderTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(folder))
+        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
+            // GRDB path using PersistableRecord
+            do {
+                try grdbQueue.dbPool.write { db in
+                    try folder.save(db)
                 }
             } catch {
                 FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
+            }
+        } else {
+            // Legacy path
+            dbQueue.write { db in
+                do {
+                    if self.cachedFolders.contains(where: { $0.uuid == folder.uuid }) {
+                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
+                        try db.executeUpdate("UPDATE \(DataManager.folderTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(folder, includeUuidForWhere: true))
+                    } else {
+                        try db.executeUpdate("INSERT INTO \(DataManager.folderTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(folder))
+                    }
+                } catch {
+                    FileLog.shared.addMessage("FolderDataManager.save error: \(error)")
+                }
             }
         }
         cacheFolders(dbQueue: dbQueue)
