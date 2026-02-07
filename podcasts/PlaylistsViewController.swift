@@ -2,13 +2,17 @@ import SwiftUI
 import DifferenceKit
 import UIKit
 import PocketCastsDataModel
+import PocketCastsDependencyInjection
 import PocketCastsServer
 import PocketCastsUtils
-import PocketCastsDependencyInjection
 import Combine
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
+
     @Dependency(\.playlistMetadataLoader) private var playlistMetadataLoader: PlaylistMetadataLoader
+    @Dependency(\.playlistCacheInvalidationCoordinator) private var cacheInvalidationCoordinator: PlaylistCacheInvalidationCoordinator
+
+    private var staleCancellable: AnyCancellable?
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
@@ -101,6 +105,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             setupNewFilterButton()
         }
         handleThemeChanged()
+
+        // Start cache invalidation coordinator and subscribe to stale updates
+        if FeatureFlag.playlistsRebranding.enabled {
+            cacheInvalidationCoordinator.startObserving()
+            subscribeToStaleUpdates()
+        }
     }
 
     func autoPushPlaylist() {
@@ -235,12 +245,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             loadingIndicator.startAnimating()
         }
 
-        // Invalidate stale playlist metadata cache (>30s) to ensure fresh data on screen entry.
-        // This is lightweight and won't block - just clears dictionaries if threshold exceeded.
-        Task {
-            await playlistMetadataLoader.invalidateCacheIfStale()
-        }
-
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
@@ -356,6 +360,40 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
             self.contentUnavailableConfiguration = configuration
         } else {
             self.setContentUnavailableConfiguration(configuration)
+        }
+    }
+
+    // MARK: - Stale Cache Handling
+
+    private func subscribeToStaleUpdates() {
+        staleCancellable = playlistMetadataLoader.stalePlaylistsPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] stalePlaylistIDs in
+                self?.refreshStaleCells(playlistIDs: stalePlaylistIDs)
+            }
+    }
+
+    /// Refreshes visible cells for playlists that have become stale.
+    /// Only triggers reload for cells that are currently visible.
+    private func refreshStaleCells(playlistIDs: Set<String>) {
+        guard !playlistIDs.isEmpty else { return }
+
+        // Get visible cells and their index paths
+        guard let visibleIndexPaths = filtersTable.indexPathsForVisibleRows else { return }
+
+        var indexPathsToRefresh: [IndexPath] = []
+
+        for indexPath in visibleIndexPaths {
+            guard indexPath.row < listPlaylistItems.count else { continue }
+            let playlist = listPlaylistItems[indexPath.row]
+            if playlistIDs.contains(playlist.playlist.uuid) {
+                indexPathsToRefresh.append(indexPath)
+            }
+        }
+
+        // Reload only the affected visible cells
+        if !indexPathsToRefresh.isEmpty {
+            filtersTable.reloadRows(at: indexPathsToRefresh, with: .none)
         }
     }
 
