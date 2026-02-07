@@ -4,9 +4,11 @@ import UIKit
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDependencyInjection
 import Combine
 
 class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
+    @Dependency(\.playlistMetadataLoader) private var playlistMetadataLoader: PlaylistMetadataLoader
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
@@ -231,6 +233,12 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     private func reloadFilters() {
         if firstTimeLoading {
             loadingIndicator.startAnimating()
+        }
+
+        // Invalidate stale playlist metadata cache (>30s) to ensure fresh data on screen entry.
+        // This is lightweight and won't block - just clears dictionaries if threshold exceeded.
+        Task {
+            await playlistMetadataLoader.invalidateCacheIfStale()
         }
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in

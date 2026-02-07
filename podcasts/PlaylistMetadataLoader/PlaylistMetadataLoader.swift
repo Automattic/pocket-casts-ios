@@ -2,8 +2,29 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 actor PlaylistMetadataLoader {
-    private var counts: [String: Int] = [:]
-    private var images: [String: [PlaylistArtworkView.ImageItem]] = [:]
+
+    private struct Cache {
+        var counts: [String: Int] = [:] {
+            didSet {
+                lastUpdate = Date()
+            }
+        }
+
+        var images: [String: [PlaylistArtworkView.ImageItem]] = [:] {
+            didSet {
+                lastUpdate = Date()
+            }
+        }
+        var lastUpdate: Date?
+
+        mutating func clear() {
+            counts.removeAll()
+            images.removeAll()
+            lastUpdate = nil
+        }
+    }
+
+    private var cache = Cache()
 
     private var countTasks: [String: Task<Int, Never>] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
@@ -38,11 +59,11 @@ actor PlaylistMetadataLoader {
     }
 
     func cachedCount(for playlistID: String) -> Int? {
-        return counts[playlistID]
+        return cache.counts[playlistID]
     }
 
     func cachedImages(for playlistID: String) -> [PlaylistArtworkView.ImageItem]? {
-        return images[playlistID]
+        return cache.images[playlistID]
     }
 
     func loadCount(for playlist: EpisodeFilter) async -> Int {
@@ -59,11 +80,11 @@ actor PlaylistMetadataLoader {
 
             countTasks[playlistID] = nil
 
-            if let cached = counts[playlistID], cached == newCount {
+            if let cached = cache.counts[playlistID], cached == newCount {
                 return cached
             }
 
-            counts[playlistID] = newCount
+            cache.counts[playlistID] = newCount
             return newCount
         }
         countTasks[playlistID] = task
@@ -89,15 +110,15 @@ actor PlaylistMetadataLoader {
             do {
                 let items = try await loadImagesURLs(episodes: distinctEpisodes)
 
-                if let cached = images[playlistID], cached == items {
+                if let cached = cache.images[playlistID], cached == items {
                     return cached
                 }
 
-                images[playlistID] = items
+                cache.images[playlistID] = items
 
                 return items
             } catch {
-                return images[playlistID] ?? []
+                return cache.images[playlistID] ?? []
             }
 
         }
@@ -113,6 +134,25 @@ actor PlaylistMetadataLoader {
     func cancelLoadImages(for playlistID: String) {
         imagesTasks[playlistID]?.cancel()
         imagesTasks[playlistID] = nil
+    }
+
+    /// Invalidates the cache if it's older than the specified threshold.
+    /// Call this when the view appears to ensure fresh data after the threshold.
+    /// - Parameter threshold: Time interval after which cache is considered stale. Defaults to 30 seconds.
+    /// - Returns: Whether the cache was invalidated.
+    @discardableResult
+    func invalidateCacheIfStale(threshold: TimeInterval = 30) -> Bool {
+        guard let lastUpdate = cache.lastUpdate else {
+            // No cache yet, nothing to invalidate
+            return false
+        }
+
+        let elapsed = Date().timeIntervalSince(lastUpdate)
+        if elapsed > threshold {
+            cache.clear()
+            return true
+        }
+        return false
     }
 
     private func getEpisodesCount(for playlist: EpisodeFilter) async -> Int {
