@@ -266,6 +266,88 @@ final class FolderDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - save Tests (PersistableRecord API)
+
+    func testSaveInsertsNewFolderWithAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = Folder()
+            folder.uuid = "save-test-uuid"
+            folder.name = "Save Test Folder"
+            folder.color = 5
+            folder.addedDate = Date(timeIntervalSince1970: 1000000)
+            folder.sortOrder = 10
+            folder.sortType = 2
+            folder.wasDeleted = false
+            folder.syncModified = 12345
+
+            dataManager.save(folder: folder)
+
+            let found = dataManager.findFolder(uuid: "save-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find saved folder")
+            XCTAssertEqual(found?.uuid, "save-test-uuid", "\(impl): UUID should match")
+            XCTAssertEqual(found?.name, "Save Test Folder", "\(impl): Name should match")
+            XCTAssertEqual(found?.color, 5, "\(impl): Color should match")
+            XCTAssertEqual(found?.sortOrder, 10, "\(impl): Sort order should match")
+            XCTAssertEqual(found?.sortType, 2, "\(impl): Sort type should match")
+            XCTAssertEqual(found?.wasDeleted, false, "\(impl): wasDeleted should match")
+            XCTAssertEqual(found?.syncModified, 12345, "\(impl): syncModified should match")
+        }
+    }
+
+    func testSaveUpdatesExistingFolder() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = self.createTestFolder(uuid: "update-test-uuid", name: "Original Name", color: 1, dataManager: dataManager)
+
+            // Update fields
+            folder.name = "Updated Name"
+            folder.color = 9
+            folder.sortOrder = 99
+            folder.syncModified = 99999
+            dataManager.save(folder: folder)
+
+            let found = dataManager.findFolder(uuid: "update-test-uuid")
+            XCTAssertEqual(found?.name, "Updated Name", "\(impl): Name should be updated")
+            XCTAssertEqual(found?.color, 9, "\(impl): Color should be updated")
+            XCTAssertEqual(found?.sortOrder, 99, "\(impl): Sort order should be updated")
+            XCTAssertEqual(found?.syncModified, 99999, "\(impl): syncModified should be updated")
+        }
+    }
+
+    func testSaveGeneratesUuidIfEmpty() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = Folder()
+            folder.uuid = "" // Empty UUID
+            folder.name = "Auto UUID Folder"
+            folder.addedDate = Date()
+
+            dataManager.save(folder: folder)
+
+            XCTAssertFalse(folder.uuid.isEmpty, "\(impl): UUID should be generated")
+
+            let found = dataManager.findFolder(uuid: folder.uuid)
+            XCTAssertNotNil(found, "\(impl): Should find folder with generated UUID")
+        }
+    }
+
+    func testSavePreservesAddedDate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = Folder()
+            folder.uuid = "date-test-uuid"
+            folder.name = "Date Test Folder"
+            let originalDate = Date(timeIntervalSince1970: 500000)
+            folder.addedDate = originalDate
+
+            dataManager.save(folder: folder)
+
+            let found = dataManager.findFolder(uuid: "date-test-uuid")
+            XCTAssertNotNil(found?.addedDate, "\(impl): addedDate should be set")
+            // Compare timestamps (allow small variance for floating point)
+            if let foundDate = found?.addedDate {
+                XCTAssertEqual(foundDate.timeIntervalSince1970, originalDate.timeIntervalSince1970, accuracy: 1.0, "\(impl): addedDate should match")
+            }
+        }
+    }
+
     // MARK: - Helper Methods
 
     private func createTestFolder(
