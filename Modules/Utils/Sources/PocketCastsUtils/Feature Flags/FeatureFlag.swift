@@ -276,7 +276,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Enable VoiceBoostN with updated description copy (TestFlight only)
     case voiceBoostN
-  
+
     /// Use GRDB QueryInterface for database queries instead of raw SQL
     case grdbQueryInterface
 
