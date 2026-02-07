@@ -33,12 +33,19 @@ class AudioReadTask {
     private var currentFramePosition: AVAudioFramePosition = 0
     private let endOfFileSemaphore = DispatchSemaphore(value: 0)
 
-    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64) {
+    private var voiceBoostNState: OpaquePointer?
+    private var useVoiceBoostN: AtomicBool?
+    private var voiceBoostNSampleRate: Double = 0
+    private var hasProcessedFirstBuffer = false
+
+    init(trimSilence: TrimSilenceAmount, audioFile: AVAudioFile, outputFormat: AVAudioFormat, bufferManager: PlayBufferManager, playPositionHint: TimeInterval, frameCount: Int64, useVoiceBoostN: AtomicBool? = nil, sampleRate: Double = 0) {
         self.trimSilence = trimSilence
         self.audioFile = audioFile
         self.outputFormat = outputFormat
         self.bufferManager = bufferManager
         cachedFrameCount = frameCount
+        self.useVoiceBoostN = useVoiceBoostN
+        voiceBoostNSampleRate = sampleRate
 
         let qos: DispatchQoS
 
@@ -102,6 +109,12 @@ class AudioReadTask {
         cancelled.value = true
         bufferManager.bufferSemaphore.signal()
         endOfFileSemaphore.signal()
+
+        if let vbnState = voiceBoostNState {
+            VBN_Destroy(vbnState)
+            voiceBoostNState = nil
+            FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN state destroyed on shutdown")
+        }
     }
 
     func setTrimSilence(_ trimSilence: TrimSilenceAmount) {
@@ -148,6 +161,11 @@ class AudioReadTask {
             buffersSavedDuringGap.removeAll()
             fadeInNextFrame = true
 
+            if let vbnState = voiceBoostNState {
+                VBN_Reset(vbnState)
+                FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN state reset after seek")
+            }
+
             // if we've finished reading this file, wake the reading thread back up
             if bufferManager.readToEOFSuccessfully.value {
                 endOfFileSemaphore.signal()
@@ -190,6 +208,38 @@ class AudioReadTask {
             handleReachedEndOfFile()
 
             return nil
+        }
+
+        // Handle dynamic VoiceBoostN state creation/destruction
+        let shouldUseVoiceBoostN = useVoiceBoostN?.value == true
+        if shouldUseVoiceBoostN && voiceBoostNState == nil {
+            voiceBoostNState = VBN_Create(voiceBoostNSampleRate)
+            if hasProcessedFirstBuffer {
+                FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN enabled mid-playback - created state at \(voiceBoostNSampleRate) Hz")
+            } else {
+                FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN enabled - created state at \(voiceBoostNSampleRate) Hz")
+            }
+        } else if !shouldUseVoiceBoostN && voiceBoostNState != nil {
+            VBN_Destroy(voiceBoostNState)
+            voiceBoostNState = nil
+            FileLog.shared.addMessage("[AudioReadTask] VoiceBoostN disabled mid-playback - switching to previous voice boost")
+        }
+        hasProcessedFirstBuffer = true
+
+        // Process through VoiceBoostN if enabled
+        if let vbnState = voiceBoostNState, let buffer = audioPCMBuffer,
+           let channelData = buffer.floatChannelData {
+            let frameCount = Int32(buffer.frameLength)
+            let bufferChannelCount = Int32(buffer.format.channelCount)
+
+            var channelPointers: [UnsafeMutablePointer<Float>?] = []
+            for i in 0..<Int(bufferChannelCount) {
+                channelPointers.append(channelData[i])
+            }
+
+            channelPointers.withUnsafeMutableBufferPointer { ptr in
+                VBN_Process(vbnState, ptr.baseAddress, frameCount, bufferChannelCount)
+            }
         }
 
         currentFramePosition = audioFile.framePosition

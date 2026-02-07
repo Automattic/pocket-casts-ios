@@ -1,8 +1,10 @@
 import PocketCastsUtils
 import Foundation
+import GRDB
 
 class PlaylistDataManager {
-    private let columnNames = [
+    /// Legacy column names for non-GRDB code path.
+    let columnNames = [
         "id",
         "autoDownloadEpisodes",
         "customIcon",
@@ -321,17 +323,34 @@ class PlaylistDataManager {
     }
 
     func save(playlist: EpisodeFilter, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
+        let isInsert = playlist.id == 0
+        if isInsert {
+            playlist.id = DBUtils.generateUniqueId()
+        }
+        playlist.playlistUpdateDate = .now
+
+        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
+            // GRDB path using PersistableRecord
             do {
-                if playlist.id == 0 {
-                    playlist.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.playlistsTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlist: playlist, updateDate: .now))
-                } else {
-                    let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(playlist: playlist, includeUuidForWhere: true, updateDate: .now))
+                try grdbQueue.dbPool.write { db in
+                    try playlist.save(db)
                 }
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
+            }
+        } else {
+            // Legacy path
+            dbQueue.write { db in
+                do {
+                    if isInsert {
+                        try db.executeUpdate("INSERT INTO \(DataManager.playlistsTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(playlist: playlist, updateDate: .now))
+                    } else {
+                        let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
+                        try db.executeUpdate("UPDATE \(DataManager.playlistsTableName) SET \(setStatement) WHERE uuid = ?", values: self.createValuesFrom(playlist: playlist, includeUuidForWhere: true, updateDate: .now))
+                    }
+                } catch {
+                    FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
+                }
             }
         }
     }

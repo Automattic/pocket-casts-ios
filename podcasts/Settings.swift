@@ -1652,6 +1652,7 @@ class Settings: NSObject {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UserDefaults.voiceBoostNEnabled)
+            FileLog.shared.addMessage("[Settings] VoiceBoostN \(newValue ? "enabled" : "disabled")")
         }
     }
 
