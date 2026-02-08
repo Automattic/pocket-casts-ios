@@ -3,17 +3,18 @@ import PocketCastsDataModel
 extension EpisodeFilter {
 
     /// Determines if this playlist could be affected by the given change type.
-    /// For manual playlists, only bulk changes matter (full refresh).
+    /// For manual playlists, bulk changes and archiving matter
+    /// (since archived episodes are removed from the list).
     /// For smart playlists, checks if the change type matches any active filter criteria.
     ///
     /// - Parameter changeType: The type of episode change that occurred
     /// - Returns: true if the playlist might be affected by this change type
     func isAffected(by changeType: EpisodeChangeType) -> Bool {
-        // Manual playlists are affected by bulk changes, deletions, and archiving
-        // (since archived/deleted episodes are removed from the list)
+        // Manual playlists are affected by bulk changes and archiving
+        // (since archived episodes are removed from the list)
         if manual {
             switch changeType {
-            case .bulkChange, .deleted, .archived:
+            case .bulkChange, .archived:
                 return true
             case .playStatus, .downloadStatus, .starred:
                 return false
@@ -38,7 +39,7 @@ extension EpisodeFilter {
             // All playlists have some archive behavior
             return true
 
-        case .deleted, .bulkChange:
+        case .bulkChange:
             // Always affects all playlists
             return true
         }

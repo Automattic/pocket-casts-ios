@@ -130,14 +130,11 @@ final class PlaylistCacheInvalidationCoordinator {
 
         // Check if any change is a bulk change - if so, mark all stale
         if changes.contains(where: { $0.changeType == .bulkChange }) {
-            Task {
+            Task { [playlistMetadataLoader] in
                 await playlistMetadataLoader.markAllStale()
             }
             return
         }
-
-        // Fetch all playlists to check against
-        let playlists = dataManager.allPlaylists(includeDeleted: false)
 
         // Group changes by type and collect unique podcast UUIDs
         var changesByType: [EpisodeChangeType: Set<String>] = [:]
@@ -150,8 +147,11 @@ final class PlaylistCacheInvalidationCoordinator {
             }
         }
 
-        // Process each change type
-        Task {
+        // Process each change type off the main thread
+        Task.detached { [dataManager, playlistMetadataLoader] in
+            // Fetch all playlists on background thread to avoid blocking main
+            let playlists = dataManager.allPlaylists(includeDeleted: false)
+
             for (changeType, podcastUuids) in changesByType {
                 if podcastUuids.isEmpty {
                     // No specific podcast, check all
@@ -175,17 +175,19 @@ final class PlaylistCacheInvalidationCoordinator {
     }
 
     /// Extracts the podcast UUID from an episode notification.
-    /// Notifications typically pass the episode UUID as the object.
+    /// Prefer using data directly from the notification payload to avoid DB lookups.
     private func extractPodcastUuid(from notification: Notification) -> String? {
-        guard let episodeUuid = notification.object as? String else {
-            return nil
+        // First, try to read the podcast UUID from userInfo, if provided.
+        if let podcastUuid = notification.userInfo?["podcastUuid"] as? String {
+            return podcastUuid
         }
 
-        // Look up the episode to get its podcast UUID
-        guard let episode = dataManager.findEpisode(uuid: episodeUuid) else {
-            return nil
+        // Next, if the object is an Episode, use its podcast UUID directly.
+        if let episode = notification.object as? Episode {
+            return episode.podcastUuid
         }
 
-        return episode.podcastUuid
+        // If we don't have a podcast UUID in the payload, avoid a DB lookup here.
+        return nil
     }
 }
