@@ -99,23 +99,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
     }
 
-    @IBOutlet var episodeDate: ThemeableLabel! {
-        didSet {
-            episodeDate.style = .primaryText02
-            episodeDate.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
-        }
-    }
-
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
             episodeInfo.style = .primaryText02
             episodeInfo.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
-        }
-    }
-
-    @IBOutlet var episodeSpacer: ThemeableLabel! {
-        didSet {
-            episodeSpacer.style = .primaryText02
         }
     }
 
@@ -425,8 +412,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             podcastImage.setPodcast(uuid: uuid, size: .page)
         }
 
-        episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
-        episodeInfo.text = episode.displayableTimeLeft()
+        episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
         updateStar()
 
@@ -454,8 +440,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     func updateColors() {
-        episodeDate.themeOverride = themeOverride
-        episodeSpacer.themeOverride = themeOverride
         episodeInfo.themeOverride = themeOverride
         topDivider.themeOverride = themeOverride
         bottomDivider.themeOverride = themeOverride

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <accessibilityOverrides isEnabled="YES" dynamicTypePreference="3"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
@@ -17,10 +18,8 @@
                 <outlet property="downloadBtn" destination="1NQ-ec-77c" id="Aua-2A-MsN"/>
                 <outlet property="downloadIndicator" destination="xIt-Zj-tav" id="QHD-Gx-8fk"/>
                 <outlet property="episodeChevron" destination="sEv-1n-DxV" id="CDD-a6-kNC"/>
-                <outlet property="episodeDate" destination="ytP-Wg-gNG" id="RHp-pu-2AQ"/>
                 <outlet property="episodeInfo" destination="i6O-79-oUy" id="L5o-Hb-L6r"/>
                 <outlet property="episodeName" destination="dsg-ff-pnB" id="21O-XU-QDv"/>
-                <outlet property="episodeSpacer" destination="bui-ho-GkT" id="I3V-fJ-25T"/>
                 <outlet property="failedToLoadLabel" destination="Gye-vZ-4Rq" id="7lV-t8-PgR"/>
                 <outlet property="loadingIndicator" destination="bTC-FT-bUv" id="BUh-qL-mST"/>
                 <outlet property="mainScrollView" destination="Ffa-0D-OU4" id="fdv-nX-GrV"/>
@@ -68,36 +67,19 @@
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="175" id="mbB-ao-L3L"/>
                                             </constraints>
                                         </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" ambiguous="YES" text="50 mins" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6O-79-oUy" userLabel="Episode Info" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                            <rect key="frame" x="16" y="255" width="388" height="36"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Episode Name" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="18" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dsg-ff-pnB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                             <rect key="frame" x="16" y="231" width="388" height="26.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" ambiguous="YES" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="akC-zS-r4u">
-                                            <rect key="frame" x="114" y="203" width="192" height="18"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 December 2019" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytP-Wg-gNG" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="122.5" height="18"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="·" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bui-ho-GkT" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                    <rect key="frame" x="127.5" y="0.0" width="4.5" height="18"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 mins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6O-79-oUy" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                                    <rect key="frame" x="137" y="0.0" width="55" height="18"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" ambiguous="YES" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqv-46-8ea" userLabel="Podcast Name">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" ambiguous="YES" text="Loading..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqv-46-8ea" userLabel="Podcast Name">
                                             <rect key="frame" x="168.5" y="265.5" width="73.5" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <nil key="textColor"/>
@@ -308,15 +290,16 @@
                                         <constraint firstAttribute="trailing" secondItem="uIZ-vc-g2f" secondAttribute="trailing" id="46b-xB-DYg"/>
                                         <constraint firstItem="dsg-ff-pnB" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="16" id="68d-Oz-Mgl"/>
                                         <constraint firstItem="sEv-1n-DxV" firstAttribute="centerY" secondItem="mqv-46-8ea" secondAttribute="centerY" id="8FF-D7-oYB"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mqv-46-8ea" secondAttribute="trailing" constant="40" id="Cu8-Sf-4MD"/>
-                                        <constraint firstItem="dsg-ff-pnB" firstAttribute="top" secondItem="akC-zS-r4u" secondAttribute="bottom" constant="10" id="GLy-9A-UJJ"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mqv-46-8ea" secondAttribute="trailing" constant="32" id="Cu8-Sf-4MD"/>
+                                        <constraint firstItem="dsg-ff-pnB" firstAttribute="top" secondItem="i6O-79-oUy" secondAttribute="bottom" constant="10" id="GLy-9A-UJJ"/>
+                                        <constraint firstItem="i6O-79-oUy" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="16" id="Str-sk-zh9"/>
                                         <constraint firstAttribute="trailing" secondItem="dsg-ff-pnB" secondAttribute="trailing" constant="16" id="UjW-5V-YVv"/>
-                                        <constraint firstItem="akC-zS-r4u" firstAttribute="centerX" secondItem="SYi-ag-GDK" secondAttribute="centerX" id="VoY-ug-v6h"/>
-                                        <constraint firstItem="akC-zS-r4u" firstAttribute="top" secondItem="4IP-4N-SIa" secondAttribute="bottom" constant="16" id="Wzy-w9-Ed9"/>
+                                        <constraint firstItem="i6O-79-oUy" firstAttribute="top" secondItem="4IP-4N-SIa" secondAttribute="bottom" constant="16" id="YKm-qK-46i"/>
                                         <constraint firstItem="sEv-1n-DxV" firstAttribute="leading" secondItem="mqv-46-8ea" secondAttribute="trailing" constant="2" id="Zso-1u-hEY"/>
+                                        <constraint firstItem="i6O-79-oUy" firstAttribute="trailing" secondItem="SYi-ag-GDK" secondAttribute="trailing" constant="-16" id="aUY-6G-f7j"/>
                                         <constraint firstItem="uIZ-vc-g2f" firstAttribute="top" secondItem="mqv-46-8ea" secondAttribute="bottom" constant="20" id="hTM-25-yKG"/>
                                         <constraint firstItem="mqv-46-8ea" firstAttribute="top" secondItem="dsg-ff-pnB" secondAttribute="bottom" constant="8" id="nLo-3O-J0B"/>
-                                        <constraint firstItem="mqv-46-8ea" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="40" id="oVa-1E-U1g"/>
+                                        <constraint firstItem="mqv-46-8ea" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SYi-ag-GDK" secondAttribute="leading" constant="32" id="oVa-1E-U1g"/>
                                         <constraint firstItem="uIZ-vc-g2f" firstAttribute="leading" secondItem="SYi-ag-GDK" secondAttribute="leading" id="p4S-eZ-Avc"/>
                                         <constraint firstAttribute="bottom" secondItem="uIZ-vc-g2f" secondAttribute="bottom" constant="-7" id="q61-58-SZm"/>
                                         <constraint firstItem="4IP-4N-SIa" firstAttribute="centerX" secondItem="SYi-ag-GDK" secondAttribute="centerX" id="sbJ-eu-q46"/>
