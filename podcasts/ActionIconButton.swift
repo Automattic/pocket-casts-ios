@@ -32,15 +32,19 @@ class ActionIconButton: UIButton {
         } else {
             height = rect.height
         }
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize: CGFloat = imageView?.image?.size.height ?? 24
-        return CGRect(x: 0, y: imageSize + 10, width: contentRect.width, height: height)
+        let scaledHeight = metrics.scaledValue(for: imageSize)
+        return CGRect(x: 0, y: scaledHeight + 10, width: contentRect.width, height: height)
     }
 
     private var calculatedImageFrame: CGRect? {
-        guard let rect = imageView?.frame else { return nil }
+        guard let baseSize = imageView?.image?.size else { return nil }
         let contentRect = bounds
-
-        return CGRect(x: contentRect.width / 2.0 - rect.width / 2.0, y: 0, width: rect.width, height: rect.height)
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+        let scaledWidth = metrics.scaledValue(for: baseSize.width)
+        let scaledHeight = metrics.scaledValue(for: baseSize.height)
+        return CGRect(x: contentRect.width / 2.0 - scaledWidth / 2.0, y: 0, width: scaledWidth, height: scaledHeight)
     }
 
     override var intrinsicContentSize: CGSize {

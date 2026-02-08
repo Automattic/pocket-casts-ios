@@ -776,6 +776,7 @@ extension EpisodeDetailViewController {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let iconSize = max(24, metric.scaledValue(for: 24))
         messageIcon.updateSizeConstraints(to: iconSize)
+        downloadIndicator.updateSizeConstraints(to: iconSize)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
