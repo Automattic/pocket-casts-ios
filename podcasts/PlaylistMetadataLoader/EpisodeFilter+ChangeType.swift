@@ -9,9 +9,15 @@ extension EpisodeFilter {
     /// - Parameter changeType: The type of episode change that occurred
     /// - Returns: true if the playlist might be affected by this change type
     func isAffected(by changeType: EpisodeChangeType) -> Bool {
-        // Manual playlists are only affected by bulk changes or specific episode operations
+        // Manual playlists are affected by bulk changes, deletions, and archiving
+        // (since archived/deleted episodes are removed from the list)
         if manual {
-            return changeType == .bulkChange
+            switch changeType {
+            case .bulkChange, .deleted, .archived:
+                return true
+            case .playStatus, .downloadStatus, .starred:
+                return false
+            }
         }
 
         switch changeType {
