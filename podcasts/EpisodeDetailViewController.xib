@@ -39,6 +39,7 @@
                 <outlet property="showNotesHolderView" destination="XID-El-uKH" id="56g-88-xn8"/>
                 <outlet property="showNotesHolderViewHeight" destination="mcc-50-BWR" id="qDt-pl-cxZ"/>
                 <outlet property="topDivider" destination="qhA-bj-I2z" id="crr-zD-Bi0"/>
+                <outlet property="transcriptExcerpt" destination="84p-ph-k8a" id="mFq-IO-gUl"/>
                 <outlet property="tryAgainButton" destination="X1H-6J-Cmx" id="YBC-c4-Ei8"/>
                 <outlet property="upNextBtn" destination="v4S-Or-iDs" id="ADZ-Da-7g4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -229,10 +230,10 @@
                                                         <constraint firstAttribute="trailing" secondItem="19d-9v-ihd" secondAttribute="trailing" id="zFa-Ji-Z7t"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-9S-AJu" userLabel="Message Container View">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-9S-AJu" userLabel="Message Container View">
                                                     <rect key="frame" x="0.0" y="130" width="420" height="130"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="21U-r9-JP1" userLabel="Message View" customClass="RoundedBorderView" customModule="podcasts" customModuleProvider="target">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21U-r9-JP1" userLabel="Message View" customClass="RoundedBorderView" customModule="podcasts" customModuleProvider="target">
                                                             <rect key="frame" x="12" y="12" width="396" height="106"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="episode-archive" translatesAutoresizingMaskIntoConstraints="NO" id="IaZ-ts-eDq" userLabel="message icon">
@@ -283,6 +284,12 @@
                                                         <constraint firstAttribute="bottom" secondItem="21U-r9-JP1" secondAttribute="bottom" constant="12" id="Mfn-NY-K4a" userLabel="bottom = Message View.bottom + 8"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" id="84p-ph-k8a" userLabel="Excerpt">
+                                                    <rect key="frame" x="0.0" y="260" width="420" height="0.0"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <viewLayoutGuide key="safeArea" id="RyT-mf-9hU"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
                                             </subviews>
                                         </stackView>
                                     </subviews>
@@ -307,7 +314,7 @@
                                         <constraint firstItem="4IP-4N-SIa" firstAttribute="top" secondItem="SYi-ag-GDK" secondAttribute="top" constant="12" id="zTA-af-M9q"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XID-El-uKH">
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XID-El-uKH" userLabel="ShowNotesHolderView">
                                     <rect key="frame" x="0.0" y="546" width="420" height="334"/>
                                     <subviews>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-FT-bUv">

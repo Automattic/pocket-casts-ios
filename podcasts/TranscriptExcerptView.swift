@@ -111,6 +111,7 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
                 }
                 Text(L10n.viewTranscript)
                     .font(size: 15.0, style: .body, weight: .medium)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText01)
                     .redacted(if: viewModel.loadingState == .loading)
                 Spacer()
