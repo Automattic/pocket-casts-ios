@@ -126,6 +126,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var playPauseBtnWidth: NSLayoutConstraint!
 
+    @IBOutlet var messageContainerView: UIView!
+
     @IBOutlet var messageView: RoundedBorderView! {
         didSet {
             messageView.getBorderColor = { AppTheme.episodeMessageBorderColor(for: self.themeOverride) }
@@ -147,8 +149,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             messageDetails.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
         }
     }
-
-    @IBOutlet var buttonBottomOffsetConstraint: NSLayoutConstraint!
 
     @IBOutlet var failedToLoadLabel: ThemeableLabel! {
         didSet {
