@@ -110,7 +110,9 @@ class NewPlaylistCell: ThemeableCell {
         playlistCountLoadTask = nil
         playlistImageLoadTask?.cancel()
         playlistImageLoadTask = nil
-        cancellables.removeAll()
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+        }
         Task {
             await playlistMetadataLoader.cancelLoadCount(for: playlistID)
             await playlistMetadataLoader.cancelLoadImages(for: playlistID)
@@ -126,8 +128,10 @@ class NewPlaylistCell: ThemeableCell {
         playlistID = playlist.uuid
 
         // Cancel previous subscriptions and set up new ones for this playlist
-        cancellables.removeAll()
-        subscribeToUpdates(for: playlist.uuid)
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+            subscribeToUpdates(for: playlist.uuid)
+        }
 
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
