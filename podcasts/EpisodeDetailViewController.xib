@@ -35,7 +35,7 @@
                 <outlet property="podcastImage" destination="4IP-4N-SIa" id="phy-x9-5Dr"/>
                 <outlet property="podcastName" destination="mqv-46-8ea" id="6DY-6X-3xx"/>
                 <outlet property="progressView" destination="Fv5-YL-ggw" id="7Dg-UW-H6k"/>
-                <outlet property="progressWidthConstraint" destination="d8U-cF-JMd" id="22P-XZ-AUe"/>
+                <outlet property="progressWidthConstraint" destination="oaa-jj-uX6" id="Rkn-On-NEi"/>
                 <outlet property="showNotesHolderTopAnchor" destination="pxO-ez-3HU" id="omX-Dn-6PE"/>
                 <outlet property="showNotesHolderView" destination="XID-El-uKH" id="56g-88-xn8"/>
                 <outlet property="showNotesHolderViewHeight" destination="mcc-50-BWR" id="qDt-pl-cxZ"/>
@@ -217,11 +217,10 @@
                                                             </constraints>
                                                         </view>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fv5-YL-ggw" userLabel="Progress">
-                                                            <rect key="frame" x="0.0" y="128" width="3.5" height="2"/>
+                                                            <rect key="frame" x="0.0" y="128" width="4" height="2"/>
                                                             <color key="backgroundColor" red="1" green="0.2780970982" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="2" id="ciz-Wn-nb7"/>
-                                                                <constraint firstAttribute="width" constant="3.5" id="d8U-cF-JMd"/>
                                                             </constraints>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -232,10 +231,10 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="pbD-yD-5ea" secondAttribute="trailing" id="59e-Nk-C1p"/>
+                                                        <constraint firstItem="Fv5-YL-ggw" firstAttribute="leading" secondItem="mhS-eS-X3U" secondAttribute="leading" id="97y-Tu-X0q"/>
                                                         <constraint firstItem="pbD-yD-5ea" firstAttribute="leading" secondItem="mhS-eS-X3U" secondAttribute="leading" id="BWX-ex-wdL"/>
                                                         <constraint firstItem="x4a-0Q-f1h" firstAttribute="top" secondItem="mhS-eS-X3U" secondAttribute="top" id="D60-kc-yRD"/>
                                                         <constraint firstAttribute="bottom" secondItem="pbD-yD-5ea" secondAttribute="bottom" constant="20" id="G4Y-eX-Otg" userLabel="bottom = Stack View.bottom + 20"/>
-                                                        <constraint firstItem="Fv5-YL-ggw" firstAttribute="leading" secondItem="mhS-eS-X3U" secondAttribute="leading" id="KKj-1M-omY"/>
                                                         <constraint firstItem="19d-9v-ihd" firstAttribute="leading" secondItem="mhS-eS-X3U" secondAttribute="leading" id="QZ7-mh-1AT"/>
                                                         <constraint firstItem="qhA-bj-I2z" firstAttribute="top" secondItem="mhS-eS-X3U" secondAttribute="top" constant="40" id="RkJ-cV-O2z"/>
                                                         <constraint firstAttribute="bottom" secondItem="Fv5-YL-ggw" secondAttribute="bottom" id="YtV-Z3-RMP"/>
@@ -243,6 +242,7 @@
                                                         <constraint firstItem="qhA-bj-I2z" firstAttribute="leading" secondItem="mhS-eS-X3U" secondAttribute="leading" id="m2o-6F-gLu"/>
                                                         <constraint firstAttribute="trailing" secondItem="qhA-bj-I2z" secondAttribute="trailing" id="mTn-W5-lEe"/>
                                                         <constraint firstItem="x4a-0Q-f1h" firstAttribute="centerX" secondItem="mhS-eS-X3U" secondAttribute="centerX" id="mxC-Dg-F4B"/>
+                                                        <constraint firstItem="Fv5-YL-ggw" firstAttribute="width" secondItem="mhS-eS-X3U" secondAttribute="width" multiplier="0.01" id="oaa-jj-uX6"/>
                                                         <constraint firstItem="pbD-yD-5ea" firstAttribute="top" secondItem="mhS-eS-X3U" secondAttribute="top" constant="55" id="qFE-BS-LnB"/>
                                                         <constraint firstAttribute="trailing" secondItem="19d-9v-ihd" secondAttribute="trailing" id="zFa-Ji-Z7t"/>
                                                     </constraints>
