@@ -254,6 +254,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
 
         didSwitchToTab(.details, animated: false)
+
+        updateSize()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -782,3 +784,20 @@ private enum EpisodeDetailConstants {
     /// This allows it to clear the fake nav bar
     static let topPadding = 56.0
 }
+
+// MARK: - Dynamic Type support
+extension EpisodeDetailViewController {
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        messageIcon.updateSizeConstraints(to: iconSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
+    }
+}
+

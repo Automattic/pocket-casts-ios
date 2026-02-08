@@ -253,7 +253,7 @@
                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="21U-r9-JP1" userLabel="Message View" customClass="RoundedBorderView" customModule="podcasts" customModuleProvider="target">
                                                             <rect key="frame" x="12" y="12" width="396" height="106"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="episode-archive" translatesAutoresizingMaskIntoConstraints="NO" id="IaZ-ts-eDq">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="episode-archive" translatesAutoresizingMaskIntoConstraints="NO" id="IaZ-ts-eDq" userLabel="message icon">
                                                                     <rect key="frame" x="13" y="13" width="24" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="24" id="A1U-2a-GAB"/>

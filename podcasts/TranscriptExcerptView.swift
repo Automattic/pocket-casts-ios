@@ -88,6 +88,8 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
         self.viewModel = viewModel
     }
 
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = 16
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -102,9 +104,10 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
             HStack(spacing: 12.0) {
                 if viewModel.isGeneratedTranscript {
                     Image("generated_transcript")
+                        .resizable()
                         .renderingMode(.template)
                         .foregroundStyle(theme.primaryIcon02)
-                        .frame(width: 16, height: 16)
+                        .frame(width: iconSize, height: iconSize)
                 }
                 Text(L10n.viewTranscript)
                     .font(size: 15.0, style: .body, weight: .medium)
@@ -112,8 +115,10 @@ struct TranscriptExcerptView<ViewModel: TranscriptExcerptViewModeling>: View {
                     .redacted(if: viewModel.loadingState == .loading)
                 Spacer()
                 Image("listview_arrow")
+                    .resizable()
                     .renderingMode(.template)
                     .foregroundStyle(theme.primaryIcon02)
+                    .frame(width: iconSize/2, height: iconSize)
             }
             .padding(.horizontal, 16.0)
         }
