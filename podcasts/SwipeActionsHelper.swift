@@ -112,7 +112,7 @@ enum SwipeActionsHelper {
             let willBeRemoved = FeatureFlag.playlistsRebranding.enabled
             let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
-                    EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: false)
+                    EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: true)
                     Self.performAction(.unarchive, handler: swipeHandler, willBeRemoved: willBeRemoved)
                 }
 
@@ -123,7 +123,7 @@ enum SwipeActionsHelper {
             let willBeRemoved = swipeHandler.archivingRemovesFromList()
             let archiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.archive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_archive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
-                    EpisodeManager.archiveEpisode(episode: loadedEpisode, fireNotification: false)
+                    EpisodeManager.archiveEpisode(episode: loadedEpisode, fireNotification: true)
                     Self.performAction(.archive, handler: swipeHandler, willBeRemoved: willBeRemoved)
                 }
 
