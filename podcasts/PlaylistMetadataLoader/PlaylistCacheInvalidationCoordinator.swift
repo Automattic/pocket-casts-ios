@@ -1,3 +1,4 @@
+import Combine
 import PocketCastsDataModel
 
 /// Coordinates playlist cache invalidation in response to episode changes.
@@ -7,8 +8,11 @@ final class PlaylistCacheInvalidationCoordinator {
 
     private let playlistMetadataLoader: PlaylistMetadataLoader
     private let dataManager: DataManager
-    private let debounce: Debounce
     private var notificationObservers: [NSObjectProtocol] = []
+
+    /// Subject for debouncing change processing
+    private let changeSubject = PassthroughSubject<Void, Never>()
+    private var debounceCancellable: AnyCancellable?
 
     /// Pending changes to coalesce before processing
     private var pendingChanges: [(changeType: EpisodeChangeType, podcastUuid: String?)] = []
@@ -21,7 +25,12 @@ final class PlaylistCacheInvalidationCoordinator {
     ) {
         self.playlistMetadataLoader = playlistMetadataLoader
         self.dataManager = dataManager
-        self.debounce = Debounce(delay: debounceDelay)
+
+        debounceCancellable = changeSubject
+            .debounce(for: .seconds(debounceDelay), scheduler: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.processPendingChanges()
+            }
     }
 
     deinit {
@@ -108,9 +117,7 @@ final class PlaylistCacheInvalidationCoordinator {
         pendingChanges.append((changeType, podcastUuid))
         pendingChangesLock.unlock()
 
-        debounce.call { [weak self] in
-            self?.processPendingChanges()
-        }
+        changeSubject.send()
     }
 
     private func processPendingChanges() {
