@@ -56,8 +56,10 @@ class TopLevelSettingsCell: ThemeableCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        let settingsSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
-        settingsImage.updateSizeConstraints(to: settingsSize)
+        let iconSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
+        settingsImage.updateSizeConstraints(to: iconSize)
+
+        plusIndicator.updateSizeConstraints(to: iconSize)
 
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImageView?.frame.size = CGSize(width: disclosureSize, height: disclosureSize)
