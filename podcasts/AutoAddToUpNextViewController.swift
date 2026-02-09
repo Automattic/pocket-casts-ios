@@ -15,6 +15,10 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
         didSet {
             mainTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
             mainTable.register(UINib(nibName: "PodcastDisclosureCell", bundle: nil), forCellReuseIdentifier: podcastDisclosureCellId)
+            mainTable.rowHeight = UITableView.automaticDimension
+            mainTable.estimatedRowHeight = UITableView.automaticDimension
+            mainTable.sectionHeaderHeight = UITableView.automaticDimension
+            mainTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
@@ -104,15 +108,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
 
             options.show(statusBarStyle: preferredStatusBarStyle)
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        indexPath.section == 0 ? 54 : 72
-    }
-
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        indexPath.section == 0 ? 54 : 72
-    }
+    }    
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? nil : L10n.settingsAutoAddPodcasts
