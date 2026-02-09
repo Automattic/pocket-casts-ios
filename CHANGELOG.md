@@ -1,6 +1,6 @@
 8.6
 -----
-
+- Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
 
 8.5
 -----
