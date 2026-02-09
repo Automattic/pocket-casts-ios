@@ -32,6 +32,7 @@ class SettingsTableHeader: ThemeableView {
         titleLabel.themeOverride = themeOverride
         titleLabel.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
         titleLabel.text = title.uppercased()
 
         addSubview(titleLabel)
@@ -40,7 +41,8 @@ class SettingsTableHeader: ThemeableView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight)
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         ])
 
         if showLockedImage {
