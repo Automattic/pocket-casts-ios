@@ -13,6 +13,10 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     @IBOutlet var optionsTable: UITableView! {
         didSet {
             optionsTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: cellId)
+            optionsTable.rowHeight = UITableView.automaticDimension
+            optionsTable.estimatedRowHeight = UITableView.automaticDimension
+            optionsTable.sectionHeaderHeight = UITableView.automaticDimension
+            optionsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -45,10 +49,6 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             frame: headerFrame,
             title: FeatureFlag.playlistsRebranding.enabled ? L10n.settingsBadgeSmartPlaylistHeader : L10n.settingsBadgeFilterHeader
         )
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
