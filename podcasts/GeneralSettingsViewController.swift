@@ -29,7 +29,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
             // Enable automatic row height for dynamic content
             settingsTable.rowHeight = UITableView.automaticDimension
-            settingsTable.estimatedRowHeight = 44
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -441,10 +443,6 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         }
 
         return nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
