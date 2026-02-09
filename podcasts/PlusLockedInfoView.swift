@@ -79,13 +79,13 @@ class PlusLockedInfoView: ThemeableView {
     }
 
     private func updateCloseButtonImage() {
-        let symbolConfig = UIImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+        let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle, scale: .medium)
         let closeImage = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
         closeButton?.setImage(closeImage, for: .normal)
     }
 
     private func updateSize() {
-        let metric = UIFontMetrics(forTextStyle: .body)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
         let logoWidth = max(232.5, metric.scaledValue(for: 232.5))
         let logoHeight = max(32, metric.scaledValue(for: 32))
