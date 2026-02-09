@@ -31,13 +31,16 @@ class SettingsTableHeader: ThemeableView {
         titleLabel.style = .primaryText02
         titleLabel.themeOverride = themeOverride
         titleLabel.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+        titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.text = title.uppercased()
 
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8)
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight)
         ])
 
         if showLockedImage {
@@ -59,6 +62,7 @@ class SettingsTableHeader: ThemeableView {
             let rightBtn = ThemeableUIButton()
             rightBtn.setTitle(rightBtnTitle, for: .normal)
             rightBtn.titleLabel?.font = titleLabel.font
+            rightBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             rightBtn.translatesAutoresizingMaskIntoConstraints = false
             rightBtn.style = rightBtnThemeStyle
             rightBtn.addTarget(rightBtnTarget, action: rightBtnSelector, for: .touchUpInside)
