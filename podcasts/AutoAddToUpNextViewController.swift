@@ -108,7 +108,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
 
             options.show(statusBarStyle: preferredStatusBarStyle)
         }
-    }    
+    }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? nil : L10n.settingsAutoAddPodcasts

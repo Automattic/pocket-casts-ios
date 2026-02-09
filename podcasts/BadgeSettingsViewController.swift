@@ -52,7 +52,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ButtonCell        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ButtonCell
 
         if indexPath.section == optionsSection {
             if indexPath.row == 0 {
