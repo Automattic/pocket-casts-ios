@@ -22,6 +22,11 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
             settingsTable.register(UINib(nibName: "CheckboxSubtitleCell", bundle: nil), forCellReuseIdentifier: checkboxCellId)
             settingsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             settingsTable.register(UINib(nibName: "DestructiveButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
