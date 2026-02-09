@@ -22,6 +22,11 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             settingsTable.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
             settingsTable.register(UINib(nibName: "IconSelectorCell", bundle: nil), forCellReuseIdentifier: iconSelectorCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: plusLockedInfoCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -71,14 +76,14 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let rowType = tableData[indexPath.section][indexPath.row]
-
         if rowType == .appIcon {
-            return 188
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            return metric.scaledValue(for: 188)
         } else if rowType == .plusCallout {
             return 161
         }
 
-        return 44
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -200,10 +205,6 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         default:
             return nil
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
