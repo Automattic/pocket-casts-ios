@@ -16,16 +16,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmm-bn-D5q" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="16" y="11.5" width="39" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmm-bn-D5q" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="37" height="44"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" red="0.071303531527519226" green="0.58265018463134766" blue="0.95908880233764648" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="cmm-bn-D5q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ahh-V2-AjA"/>
-                    <constraint firstItem="cmm-bn-D5q" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="tD3-xe-Qc1"/>
+                    <constraint firstItem="cmm-bn-D5q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ahh-V2-AjA"/>
+                    <constraint firstItem="cmm-bn-D5q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tD3-xe-Qc1"/>
+                    <constraint firstAttribute="bottom" secondItem="cmm-bn-D5q" secondAttribute="bottom" id="xaI-zP-wdE"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

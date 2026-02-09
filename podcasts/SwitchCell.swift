@@ -61,15 +61,16 @@ class SwitchCell: ThemeableCell {
     }
 
     private func updateSize() {
-        let category = UIApplication.shared.preferredContentSizeCategory
-        let scale = ScaleFactorModifier.scaleFactor(for: category)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+        let settingsSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: settingsSize)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
-        updateSize()
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

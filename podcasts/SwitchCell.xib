@@ -24,11 +24,11 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label is really long and longer than you'd expect so let's see" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7R8-mL-FCf" userLabel="Cell Text" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="50" y="0.0" width="265" height="64"/>
+                        <rect key="frame" x="48" y="0.0" width="267" height="64"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="Rgl-tz-td9"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -37,10 +37,10 @@
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6N7-rg-IqN"/>
                     <constraint firstAttribute="trailing" secondItem="7R8-mL-FCf" secondAttribute="trailing" constant="5" id="9V9-27-d2T"/>
                     <constraint firstItem="7R8-mL-FCf" firstAttribute="height" relation="greaterThanOrEqual" secondItem="SOQ-VW-YTk" secondAttribute="height" id="9sS-RV-TvM"/>
-                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="10" id="CL0-C3-qSk"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="8" id="CL0-C3-qSk"/>
                     <constraint firstAttribute="bottom" secondItem="7R8-mL-FCf" secondAttribute="bottom" id="FXr-HC-OBf"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fnJ-O2-KwA"/>
-                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="gMv-6M-2OZ"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" priority="750" id="gMv-6M-2OZ"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="7R8-mL-FCf" secondAttribute="centerY" id="u75-d4-sat"/>
                 </constraints>
             </tableViewCellContentView>

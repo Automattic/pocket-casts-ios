@@ -10,22 +10,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="TimeStepperCell" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="66" id="KGk-i7-Jjw" customClass="TimeStepperCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KNT-iD-vFj">
-                        <rect key="frame" x="16" y="10" width="24" height="24"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNT-iD-vFj">
+                        <rect key="frame" x="-16" y="21" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="irP-cR-v8k"/>
                             <constraint firstAttribute="height" constant="24" id="mpO-kU-UDK"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Skip First" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="06e-3Z-E2J" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="50" y="0.0" width="67.5" height="64"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Skip First" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="06e-3Z-E2J" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="148.5" height="66"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="rmM-57-yPt"/>
                         </constraints>
@@ -33,32 +33,33 @@
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="45 sec" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5Q-aR-hdK" userLabel="Second Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="168.5" y="12.5" width="49.5" height="19.5"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45 sec" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5Q-aR-hdK" userLabel="Second Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="168.5" y="0.0" width="49.5" height="66"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hII-1o-P5c" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="222" y="0.0" width="90" height="44"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hII-1o-P5c" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="222" y="0.0" width="90" height="66"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="90" id="6PI-pL-yQV"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="L5Q-aR-hdK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BoX-uy-x5a"/>
+                    <constraint firstItem="L5Q-aR-hdK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BoX-uy-x5a"/>
                     <constraint firstAttribute="bottom" secondItem="hII-1o-P5c" secondAttribute="bottom" id="C7N-sw-pCr"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ETk-sO-HNJ"/>
                     <constraint firstItem="L5Q-aR-hdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="06e-3Z-E2J" secondAttribute="trailing" constant="4" id="RKy-VE-koV"/>
-                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="U0p-Xm-Rhu"/>
+                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="U0p-Xm-Rhu"/>
                     <constraint firstAttribute="trailing" secondItem="hII-1o-P5c" secondAttribute="trailing" constant="8" id="UXv-qg-eP5"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Y7x-zG-bw0"/>
+                    <constraint firstAttribute="bottom" secondItem="L5Q-aR-hdK" secondAttribute="bottom" id="ZsP-xT-Xsx"/>
                     <constraint firstItem="06e-3Z-E2J" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="aSO-Jy-mVz"/>
                     <constraint firstItem="hII-1o-P5c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="b98-rh-wpP"/>
                     <constraint firstItem="hII-1o-P5c" firstAttribute="leading" secondItem="L5Q-aR-hdK" secondAttribute="trailing" constant="4" id="c63-Rl-Wa9"/>
                     <constraint firstItem="06e-3Z-E2J" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="dzJ-P5-p4A"/>
-                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="KNT-iD-vFj" secondAttribute="trailing" constant="10" id="y2Q-iu-QBp"/>
+                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="KNT-iD-vFj" secondAttribute="trailing" constant="8" id="y2Q-iu-QBp"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -67,9 +68,10 @@
                 <outlet property="cellLabel" destination="06e-3Z-E2J" id="4Hb-qD-Y2N"/>
                 <outlet property="cellSecondaryLabel" destination="L5Q-aR-hdK" id="de0-hj-2mS"/>
                 <outlet property="cellTextToImageConstraint" destination="y2Q-iu-QBp" id="DVz-9j-FF5"/>
+                <outlet property="cellTextToMarginConstraint" destination="U0p-Xm-Rhu" id="HX4-3w-ejf"/>
                 <outlet property="timeStepper" destination="hII-1o-P5c" id="oPH-eS-25e"/>
             </connections>
-            <point key="canvasLocation" x="131.8840579710145" y="123.88392857142857"/>
+            <point key="canvasLocation" x="131.8840579710145" y="131.25"/>
         </tableViewCell>
     </objects>
 </document>

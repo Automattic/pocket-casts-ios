@@ -16,13 +16,17 @@ class DisclosureCell: ThemeableCell {
     }
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
+    @IBOutlet var cellTextToMarginConstraint: NSLayoutConstraint!
 
     private let baseDisclosureSize: CGFloat = 32
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        // Ensure label can expand vertically
+        cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         cellTextToImageConstraint.isActive = false
+        cellTextToMarginConstraint.isActive = true
         updateSize()
     }
 
@@ -38,15 +42,21 @@ class DisclosureCell: ThemeableCell {
         let metric = UIFontMetrics(forTextStyle: .body)
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImage.updateSizeConstraints(to: disclosureSize)
+
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: iconSize)
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
         if let imageName = imageName {
             cellTextToImageConstraint.isActive = true
+            cellTextToMarginConstraint.isActive = false
             cellImage.tintColor = tintColor
             cellImage.image = UIImage(named: imageName)
         } else {
             cellTextToImageConstraint.isActive = false
+            cellTextToMarginConstraint.isActive = true
             cellImage.image = nil
         }
     }
