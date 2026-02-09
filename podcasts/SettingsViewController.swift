@@ -105,6 +105,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             settingsTable.estimatedRowHeight = UITableView.automaticDimension
             settingsTable.sectionHeaderHeight = UITableView.automaticDimension
             settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
+            settingsTable.sectionFooterHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionFooterHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
