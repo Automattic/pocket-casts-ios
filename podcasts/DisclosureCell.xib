@@ -32,8 +32,8 @@
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Last 2" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgf-R5-2DR" userLabel="Second Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="278.5" y="0.0" width="44.5" height="85"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last 2" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgf-R5-2DR" userLabel="Second Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="215.5" y="0.0" width="107.5" height="85"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -55,6 +55,7 @@
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="HBo-FJ-5ey"/>
                     <constraint firstItem="lSX-TP-Y9A" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="SLF-VR-511"/>
                     <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="NcG-Z0-Cy6" secondAttribute="trailing" constant="8" id="TgX-Qi-oyK"/>
+                    <constraint firstItem="Fgf-R5-2DR" firstAttribute="width" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.3" id="YE8-Xd-Oza"/>
                     <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="eb2-Lh-TLP"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lSX-TP-Y9A" secondAttribute="trailing" constant="8" id="k9B-Hd-zcM"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="kH5-eG-zXo"/>
