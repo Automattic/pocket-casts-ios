@@ -25,6 +25,8 @@ class SettingsTableHeader: ThemeableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private var lockImage: UIView?
+
     private func setupView(title: String, showLockedImage: Bool = false, lockedSelector: Selector? = nil, lockedTarget: Any? = nil, rightBtnTitle: String? = nil, rightBtnSelector: Selector? = nil, rightBtnTarget: Any? = nil, rightBtnThemeStyle: ThemeStyle = .primaryInteractive01, themeStyle: ThemeStyle) {
         style = themeStyle
 
@@ -58,6 +60,7 @@ class SettingsTableHeader: ThemeableView {
             ])
             let tapGesture = UITapGestureRecognizer(target: lockedTarget, action: lockedSelector)
             addGestureRecognizer(tapGesture)
+            self.lockImage = lockImage
         }
 
         if let rightBtnTitle = rightBtnTitle, let rightBtnSelector = rightBtnSelector, let rightBtnTarget = rightBtnTarget {
@@ -75,11 +78,27 @@ class SettingsTableHeader: ThemeableView {
                 rightBtn.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor, constant: 0)
             ])
         }
+
+        updateSize()
     }
 
     override func handleThemeDidChange() {
         if clearBackground {
             backgroundColor = .clear
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        lockImage?.updateSizeConstraints(to: iconSize)
     }
 }
