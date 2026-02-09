@@ -18,7 +18,7 @@ class FolderListCell: ThemeableCollectionCell {
     @IBOutlet var folderInfo: ThemeableLabel! {
         didSet {
             folderInfo.style = .primaryText02
-            folderInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            folderInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
             folderInfo.adjustsFontForContentSizeCategory = true
         }
     }
@@ -46,7 +46,7 @@ class FolderListCell: ThemeableCollectionCell {
         folderInfo.text = L10n.podcastCount(count)
 
         if badgeType == .allUnplayed {
-            let metric = UIFontMetrics(forTextStyle: .footnote)
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
             unplayedHeight.constant = max(28, metric.scaledValue(for: 28))
             unplayedBadge.layoutIfNeeded()
 
@@ -54,7 +54,7 @@ class FolderListCell: ThemeableCollectionCell {
             unplayedBadge.unplayedCount = folder.cachedUnreadCount > 99 ? 99 : folder.cachedUnreadCount
             unplayedBadge.isHidden = folder.cachedUnreadCount == 0
         } else if badgeType == .latestEpisode {
-            let metric = UIFontMetrics(forTextStyle: .footnote)
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
             unplayedHeight.constant = max(12, metric.scaledValue(for: 12))
             unplayedBadge.layoutIfNeeded()
 
@@ -72,7 +72,7 @@ class FolderListCell: ThemeableCollectionCell {
         let imageSize = max(56, metric.scaledValue(for: 56))
         folderPreview.updateSizeConstraints(to: imageSize)
 
-        let badgeMetric = UIFontMetrics(forTextStyle: .footnote)
+        let badgeMetric = UIFontMetrics(forTextStyle: .largeTitle)
         switch badgeType {
             case .allUnplayed:
                 unplayedHeight.constant = max(28, badgeMetric.scaledValue(for: 28))
