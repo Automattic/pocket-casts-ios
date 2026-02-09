@@ -72,12 +72,16 @@ struct EpisodeDetailTabView: View {
 
     @ViewBuilder
     func wrapperView<Content: View>(_ content: () -> Content) -> some View {
-        if isSmallScreen {
-            ScrollView(.horizontal, showsIndicators: false) {
-                content()
-            }
-        } else {
+        ScrollView(.horizontal, showsIndicators: false) {
             content()
+        }
+        .modify { view in
+            if #available(iOS 16.4, *) {
+                view.scrollIndicators(.never)
+                    .scrollBounceBehavior(.basedOnSize, axes: [.horizontal])
+            } else {
+                view
+            }
         }
     }
 }

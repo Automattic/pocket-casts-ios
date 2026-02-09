@@ -29,25 +29,6 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
         showNotesWebView.scrollView.isScrollEnabled = false
 
         showNotesWebView.scrollView.showsVerticalScrollIndicator = false
-
-        setupTranscriptExcerptView()
-    }
-
-    func setupTranscriptExcerptView() {
-        let transcriptExcerpt = UIView()
-        transcriptExcerpt.backgroundColor = .clear
-        transcriptExcerpt.translatesAutoresizingMaskIntoConstraints = false
-        transcriptExcerpt.isHidden = true
-        mainScrollView.insertSubview(transcriptExcerpt, aboveSubview: showNotesHolderView)
-
-        NSLayoutConstraint.activate([
-            transcriptExcerpt.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
-            transcriptExcerpt.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
-            transcriptExcerpt.bottomAnchor.constraint(equalTo: showNotesHolderView.topAnchor),
-            transcriptExcerpt.heightAnchor.constraint(equalToConstant: 78)
-        ])
-
-        self.transcriptExcerpt = transcriptExcerpt
     }
 
     func loadShowNotes() {
@@ -81,12 +62,15 @@ extension EpisodeDetailViewController: WKNavigationDelegate, SFSafariViewControl
                         }
                     }
                     await MainActor.run { [weak self] in
-                        let view = TranscriptExcerptView(viewModel: viewModel).themedUIView
+                        let vc = ThemedHostingController(rootView: TranscriptExcerptView(viewModel: viewModel))
+                        vc.sizingOptions = [.intrinsicContentSize, .preferredContentSize]
+                        let view = vc.view!
                         view.translatesAutoresizingMaskIntoConstraints = false
+                        self?.addChild(vc)
                         self?.transcriptExcerpt?.addSubview(view)
+                        vc.didMove(toParent: self)
                         view.anchorToAllSidesOf(view: self?.transcriptExcerpt)
                         self?.transcriptExcerpt?.isHidden = false
-                        self?.showNotesHolderTopAnchor?.constant = 78.0
                         self?.showNotesWebViewTopConstraint?.constant = 0.0
                     }
                 } else {
