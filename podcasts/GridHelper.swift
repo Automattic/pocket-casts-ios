@@ -48,7 +48,11 @@ class GridHelper {
 
         if gridType == .list {
             let metric = UIFontMetrics(forTextStyle: .callout)
-            let imageSize = max(65, metric.scaledValue(for: 65))
+            var baseSize = CGFloat(65)
+            if  collectionView.traitCollection.preferredContentSizeCategory.isAccessibilityCategory {
+                baseSize = 85
+            }
+            let imageSize = max(baseSize, metric.scaledValue(for: baseSize))
             return CGSize(width: viewWidth, height: imageSize)
         }
 

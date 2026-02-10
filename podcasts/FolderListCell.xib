@@ -36,13 +36,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NW5-Bm-0Hu">
                                 <rect key="frame" x="0.0" y="0.0" width="180" height="65"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="Really really long name for a podcast isn't it, I know it's kinda weird" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUK-31-pbr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" ambiguous="YES" text="Really really long name for a podcast isn't it, I know it's kinda weird" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUK-31-pbr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="-20.5" width="180" height="57.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="21 Podcasts" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Kb-x3A" userLabel="Podcast Info" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" ambiguous="YES" text="21 Podcasts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9M-Kb-x3A" userLabel="Podcast Info" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="42" width="180" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.72156862749999995" green="0.76470588240000004" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -56,8 +56,8 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="b9M-Kb-x3A" secondAttribute="bottom" constant="4" id="8wR-sI-UYc"/>
                                     <constraint firstAttribute="trailing" secondItem="QUK-31-pbr" secondAttribute="trailing" id="NzL-dC-G7U"/>
-                                    <constraint firstItem="b9M-Kb-x3A" firstAttribute="top" secondItem="QUK-31-pbr" secondAttribute="bottom" constant="5" id="X3y-j8-4ax"/>
-                                    <constraint firstItem="QUK-31-pbr" firstAttribute="baseline" secondItem="NW5-Bm-0Hu" secondAttribute="centerY" id="ko0-nw-3yf"/>
+                                    <constraint firstItem="b9M-Kb-x3A" firstAttribute="top" secondItem="QUK-31-pbr" secondAttribute="bottom" constant="4" id="X3y-j8-4ax"/>
+                                    <constraint firstItem="QUK-31-pbr" firstAttribute="top" secondItem="NW5-Bm-0Hu" secondAttribute="top" constant="4" id="ko0-nw-3yf"/>
                                     <constraint firstItem="QUK-31-pbr" firstAttribute="leading" secondItem="NW5-Bm-0Hu" secondAttribute="leading" id="qyd-w6-ihi"/>
                                     <constraint firstItem="b9M-Kb-x3A" firstAttribute="leading" secondItem="NW5-Bm-0Hu" secondAttribute="leading" id="vDx-eh-VI6"/>
                                     <constraint firstAttribute="trailing" secondItem="b9M-Kb-x3A" secondAttribute="trailing" id="zPh-ea-hMJ"/>
