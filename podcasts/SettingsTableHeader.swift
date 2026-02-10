@@ -25,19 +25,26 @@ class SettingsTableHeader: ThemeableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private var lockImage: UIView?
+
     private func setupView(title: String, showLockedImage: Bool = false, lockedSelector: Selector? = nil, lockedTarget: Any? = nil, rightBtnTitle: String? = nil, rightBtnSelector: Selector? = nil, rightBtnTarget: Any? = nil, rightBtnThemeStyle: ThemeStyle = .primaryInteractive01, themeStyle: ThemeStyle) {
         style = themeStyle
 
         titleLabel.style = .primaryText02
         titleLabel.themeOverride = themeOverride
         titleLabel.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
         titleLabel.text = title.uppercased()
 
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8)
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
         ])
 
         if showLockedImage {
@@ -53,12 +60,14 @@ class SettingsTableHeader: ThemeableView {
             ])
             let tapGesture = UITapGestureRecognizer(target: lockedTarget, action: lockedSelector)
             addGestureRecognizer(tapGesture)
+            self.lockImage = lockImage
         }
 
         if let rightBtnTitle = rightBtnTitle, let rightBtnSelector = rightBtnSelector, let rightBtnTarget = rightBtnTarget {
             let rightBtn = ThemeableUIButton()
             rightBtn.setTitle(rightBtnTitle, for: .normal)
             rightBtn.titleLabel?.font = titleLabel.font
+            rightBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             rightBtn.translatesAutoresizingMaskIntoConstraints = false
             rightBtn.style = rightBtnThemeStyle
             rightBtn.addTarget(rightBtnTarget, action: rightBtnSelector, for: .touchUpInside)
@@ -69,11 +78,27 @@ class SettingsTableHeader: ThemeableView {
                 rightBtn.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor, constant: 0)
             ])
         }
+
+        updateSize()
     }
 
     override func handleThemeDidChange() {
         if clearBackground {
             backgroundColor = .clear
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        lockImage?.updateSizeConstraints(to: iconSize)
     }
 }

@@ -6,6 +6,11 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
@@ -44,10 +49,6 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         }
 
         return SettingsTableHeader(frame: headerFrame, title: L10n.settingsStorageMobileData)
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

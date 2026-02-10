@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,31 +17,31 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rxL-bl-LLe">
-                        <rect key="frame" x="15" y="10" width="24" height="24"/>
+                        <rect key="frame" x="16" y="10" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="let-aA-zzL"/>
                             <constraint firstAttribute="height" constant="24" id="pIJ-Tq-cyw"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Variable Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgC-Gc-Ci6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="49" y="12.5" width="109" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Variable Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgC-Gc-Ci6" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="50" y="12" width="114.5" height="20.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 hours 33 mins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc6-2g-Ue0" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="178.5" y="12.5" width="126.5" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 hours 33 mins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc6-2g-Ue0" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="179" y="12" width="133" height="20.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="pc6-2g-Ue0" secondAttribute="trailing" constant="15" id="39f-Xy-2HI"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pc6-2g-Ue0" secondAttribute="trailingMargin" id="39f-Xy-2HI"/>
                     <constraint firstItem="VgC-Gc-Ci6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3cb-f4-Fce"/>
                     <constraint firstItem="pc6-2g-Ue0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Gwo-Kz-jMX"/>
                     <constraint firstItem="VgC-Gc-Ci6" firstAttribute="leading" secondItem="rxL-bl-LLe" secondAttribute="trailing" constant="10" id="LFj-gf-0Tf"/>
-                    <constraint firstItem="rxL-bl-LLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="fxQ-Rl-ZZy"/>
+                    <constraint firstItem="rxL-bl-LLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fxQ-Rl-ZZy"/>
                     <constraint firstItem="pc6-2g-Ue0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VgC-Gc-Ci6" secondAttribute="trailing" constant="10" id="ywk-LY-Pa8"/>
                     <constraint firstItem="rxL-bl-LLe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="z9n-gd-6m6"/>
                 </constraints>

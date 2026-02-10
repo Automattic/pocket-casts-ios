@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,23 +17,24 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4od-O5-pR3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="16" y="13" width="200" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4od-O5-pR3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="200" height="64"/>
                         <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="87Z-P0-xoS"/>
                             <constraint firstAttribute="width" constant="200" id="wFZ-c9-nyx"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tw-4S-rIg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="264" y="22" width="0.0" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tw-4S-rIg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="224" y="0.0" width="40" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHf-M2-0dl" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="280" y="10" width="24" height="24"/>
+                        <rect key="frame" x="280" y="-12" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="8k8-z7-cbs"/>
                             <constraint firstAttribute="height" constant="24" id="JGY-mR-2Q5"/>
@@ -41,12 +42,15 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="9Tw-4S-rIg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0ra-yY-O7q"/>
+                    <constraint firstItem="9Tw-4S-rIg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0ra-yY-O7q"/>
                     <constraint firstItem="iHf-M2-0dl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6ND-uD-502"/>
-                    <constraint firstItem="4od-O5-pR3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="EIN-H1-gCU"/>
-                    <constraint firstItem="4od-O5-pR3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ac7-fB-VDt"/>
+                    <constraint firstItem="4od-O5-pR3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EIN-H1-gCU"/>
+                    <constraint firstItem="4od-O5-pR3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ac7-fB-VDt"/>
+                    <constraint firstAttribute="bottom" secondItem="4od-O5-pR3" secondAttribute="bottom" id="axz-tS-GHs"/>
                     <constraint firstItem="iHf-M2-0dl" firstAttribute="leading" secondItem="9Tw-4S-rIg" secondAttribute="trailing" constant="16" id="hMh-Pa-xzH"/>
+                    <constraint firstAttribute="bottom" secondItem="9Tw-4S-rIg" secondAttribute="bottom" id="lNE-ID-C5f"/>
                     <constraint firstAttribute="trailing" secondItem="iHf-M2-0dl" secondAttribute="trailing" constant="16" id="mXA-I5-wxm"/>
+                    <constraint firstItem="9Tw-4S-rIg" firstAttribute="leading" secondItem="4od-O5-pR3" secondAttribute="trailing" constant="8" id="vFr-88-sgU"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

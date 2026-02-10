@@ -23,6 +23,10 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     @IBOutlet var podcastTable: UITableView! {
         didSet {
             podcastTable.register(UINib(nibName: "PodcastChooserCell", bundle: nil), forCellReuseIdentifier: cellId)
+            podcastTable.rowHeight = UITableView.automaticDimension
+            podcastTable.estimatedRowHeight = UITableView.automaticDimension
+            podcastTable.sectionHeaderHeight = 1
+            podcastTable.estimatedSectionHeaderHeight = 1
         }
     }
     @IBOutlet weak var podcastTableBottomConstraint: NSLayoutConstraint!
@@ -69,17 +73,19 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let podcastCell = cell as! PodcastChooserCell
-
+        let podcastCell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PodcastChooserCell
         let podcast = allPodcasts[indexPath.row]
         podcastCell.podcastName.text = podcast.title
         podcastCell.setIsSelected(selectedUuids.contains(podcast.uuid))
         podcastCell.podcastImage.setPodcast(uuid: podcast.uuid, size: .list)
+        return podcastCell
     }
+
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        let podcastCell = cell as! PodcastChooserCell
+//
+//
+//    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

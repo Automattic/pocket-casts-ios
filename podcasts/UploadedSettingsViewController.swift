@@ -11,6 +11,13 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: lockInfoCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
+            settingsTable.sectionFooterHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionFooterHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -119,14 +126,6 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
         return cell
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = tableSections()[indexPath.section]
-        if section == .lockedInfo {
-            return 161
-        }
-        return 56
-    }
-
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let section = tableSections()[section]
         switch section {
@@ -169,18 +168,6 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
             return fadedFooter
         }
         return nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let section = tableSections()[section]
-        if section == .autoSync, !SubscriptionHelper.hasActiveSubscription() {
-            return 60
-        }
-        return UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
