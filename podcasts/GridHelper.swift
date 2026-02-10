@@ -47,7 +47,7 @@ class GridHelper {
         let viewHeight = collectionView.bounds.height
 
         if gridType == .list {
-            let metric = UIFontMetrics(forTextStyle: .callout)
+            let metric = UIFontMetrics(forTextStyle: .title3)
             var baseSize = CGFloat(65)
             if  collectionView.traitCollection.preferredContentSizeCategory.isAccessibilityCategory {
                 baseSize = 85
