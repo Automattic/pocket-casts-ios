@@ -64,7 +64,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerFrame = CGRect(x: 0, y: 0, width: 0, height: UITableView.automaticDimension)
+        let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
         let section = tableData[section]
         switch section {
@@ -289,6 +289,12 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
+    }
+
+    @IBOutlet var tryAgainButton: UIButton! {
+        didSet {
+            tryAgainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
     }
 
     @IBAction func tryAgainTapped() {
