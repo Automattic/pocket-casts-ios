@@ -45,10 +45,11 @@ class GridBadgeView: UIView {
             simpleBadge.isHidden = true
             badgeLabel.isHidden = false
             badgeLabel.text = count < 99 ? "\(count)" : "99"
+            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
             if count > 9 {
-                labelWidthConstraint.constant = 34
+                labelWidthConstraint.constant = max(34, metrics.scaledValue(for: 34))
             } else {
-                labelWidthConstraint.constant = 25
+                labelWidthConstraint.constant = max(25, metrics.scaledValue(for: 25))
             }
         case .off:
             simpleBadge.isHidden = true
@@ -57,7 +58,8 @@ class GridBadgeView: UIView {
     }
 
     private func setup() {
-        badgeLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        badgeLabel.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .largeTitle)
+        badgeLabel.adjustsFontForContentSizeCategory = true
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeLabel.textAlignment = .center
         badgeLabel.layer.borderWidth = 3
@@ -99,5 +101,25 @@ class GridBadgeView: UIView {
         simpleBadge.borderColor = ThemeColor.primaryUi02()
         simpleBadge.centerColor = ThemeColor.primaryInteractive01()
         simpleBadge.backgroundColor = .clear
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        guard let text = badgeLabel.text else {
+            return
+        }
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+        if text.count > 1 {
+            labelWidthConstraint.constant = max(34, metrics.scaledValue(for: 34))
+        } else {
+            labelWidthConstraint.constant = max(25, metrics.scaledValue(for: 25))
+        }
     }
 }
