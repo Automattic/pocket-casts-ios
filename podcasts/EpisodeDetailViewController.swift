@@ -21,13 +21,18 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }()
 
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var episodeName: ThemeableLabel!
+    @IBOutlet var episodeName: ThemeableLabel! {
+        didSet {
+            episodeName.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+        }
+    }
 
     @IBOutlet var podcastName: UILabel! {
         didSet {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
             podcastName.isUserInteractionEnabled = true
+            podcastName.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
         }
     }
 
@@ -49,7 +54,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var showNotesHolderTopAnchor: NSLayoutConstraint!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     var showNotesWebViewTopConstraint: NSLayoutConstraint?
-    var transcriptExcerpt: UIView?
+    @IBOutlet var transcriptExcerpt: UIView?
 
     @IBOutlet var mainScrollView: UIScrollView! {
         didSet {
@@ -59,27 +64,45 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     @IBOutlet var buttonsStackView: UIStackView!
-    @IBOutlet var downloadBtn: UIButton!
-    @IBOutlet var upNextBtn: UIButton!
-    @IBOutlet var playPauseBtn: PlayPauseButton!
-    @IBOutlet var playStatusButton: UIButton!
-    @IBOutlet var archiveButton: UIButton!
-
-    @IBOutlet var episodeDate: ThemeableLabel! {
+    @IBOutlet var downloadBtn: UIButton! {
         didSet {
-            episodeDate.style = .primaryText02
+            downloadBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            downloadBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            downloadBtn.titleLabel?.numberOfLines = 3
+            downloadBtn.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
+        }
+    }
+
+    @IBOutlet var upNextBtn: UIButton! {
+        didSet {
+            upNextBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            upNextBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            upNextBtn.titleLabel?.numberOfLines = 3
+        }
+    }
+
+    @IBOutlet var playPauseBtn: PlayPauseButton!
+
+    @IBOutlet var playStatusButton: UIButton! {
+        didSet {
+            playStatusButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            playStatusButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            playStatusButton.titleLabel?.numberOfLines = 3
+        }
+    }
+
+    @IBOutlet var archiveButton: UIButton! {
+        didSet {
+            archiveButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            archiveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            archiveButton.titleLabel?.numberOfLines = 3
         }
     }
 
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
             episodeInfo.style = .primaryText02
-        }
-    }
-
-    @IBOutlet var episodeSpacer: ThemeableLabel! {
-        didSet {
-            episodeSpacer.style = .primaryText02
+            episodeInfo.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -89,6 +112,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var progressWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet var playPauseBtnWidth: NSLayoutConstraint!
+
+    @IBOutlet var messageContainerView: UIView!
 
     @IBOutlet var messageView: RoundedBorderView! {
         didSet {
@@ -101,19 +126,29 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var messageTitle: ThemeableLabel! {
         didSet {
             messageTitle.style = .primaryText01
+            messageTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
         }
     }
 
     @IBOutlet var messageDetails: ThemeableLabel! {
         didSet {
             messageDetails.style = .primaryText02
+            messageDetails.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
         }
     }
 
-    @IBOutlet var buttonBottomOffsetConstraint: NSLayoutConstraint!
+    @IBOutlet var failedToLoadLabel: ThemeableLabel! {
+        didSet {
+            failedToLoadLabel.font = UIFont.font(ofSize: 16, weight: .regular, scalingWith: .callout)
+        }
+    }
 
-    @IBOutlet var failedToLoadLabel: UILabel!
-    @IBOutlet var tryAgainButton: UIButton!
+    @IBOutlet var tryAgainButton: UIButton! {
+        didSet {
+            tryAgainButton.titleLabel?.font = UIFont.font(ofSize: 14, weight: .semibold, scalingWith: .subheadline)
+            tryAgainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
+    }
 
     private var docController: UIDocumentInteractionController?
     private var starButton: UIButton?
@@ -206,6 +241,8 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
 
         didSwitchToTab(.details, animated: false)
+
+        updateSize()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -375,8 +412,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             podcastImage.setPodcast(uuid: uuid, size: .page)
         }
 
-        episodeDate.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate)
-        episodeInfo.text = episode.displayableTimeLeft()
+        episodeInfo.text = DateFormatHelper.sharedHelper.longLocalizedFormat(episode.publishedDate) + " · " + episode.displayableTimeLeft()
 
         updateStar()
 
@@ -404,8 +440,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     }
 
     func updateColors() {
-        episodeDate.themeOverride = themeOverride
-        episodeSpacer.themeOverride = themeOverride
         episodeInfo.themeOverride = themeOverride
         topDivider.themeOverride = themeOverride
         bottomDivider.themeOverride = themeOverride
@@ -733,4 +767,21 @@ private enum EpisodeDetailConstants {
     /// The amount of padding to apply to the top of the view
     /// This allows it to clear the fake nav bar
     static let topPadding = 56.0
+}
+
+// MARK: - Dynamic Type support
+extension EpisodeDetailViewController {
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        messageIcon.updateSizeConstraints(to: iconSize)
+        downloadIndicator.updateSizeConstraints(to: iconSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
+    }
 }

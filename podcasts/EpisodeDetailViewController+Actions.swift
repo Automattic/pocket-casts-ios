@@ -181,9 +181,8 @@ extension EpisodeDetailViewController {
             setMessage(title: L10n.podcastDetailsManualUnarchiveTitle,
                        details: L10n.podcastDetailsManualUnarchiveMsg(podcast.autoArchiveEpisodeLimitCount.localized()),
                        imageName: "episode-archive")
-        } else if buttonBottomOffsetConstraint.constant != 20 {
-            messageView.isHidden = true
-            buttonBottomOffsetConstraint.constant = 20
+        } else {
+            messageContainerView.isHidden = true
         }
     }
 
@@ -192,8 +191,7 @@ extension EpisodeDetailViewController {
         messageDetails.text = details
         messageIcon.image = UIImage(named: imageName)
 
-        messageView.isHidden = false
-        buttonBottomOffsetConstraint.constant = messageView.bounds.height + 40
+        messageContainerView.isHidden = false
     }
 
     // MARK: - Helpers

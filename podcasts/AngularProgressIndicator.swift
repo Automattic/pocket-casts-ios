@@ -47,4 +47,11 @@ class AngularProgressIndicator: UIView {
         addSubview(contentView)
         contentView.layer.insertSublayer(shapeLayer, at: 0)
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        shapeLayer.frame = bounds
+        let radius = frame.width / 2
+        shapeLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2 * radius, height: 2 * radius), cornerRadius: radius).cgPath
+    }
 }

@@ -19,14 +19,15 @@ class ShowNotesFormatter {
             "<meta http-equiv='Content-Type' content='text/html; charset=utf-16le'>" +
             "<meta name='viewport' content='initial-scale=1.0' />" +
             "<style type='text/css'>" +
-            "body { font-family: '-apple-system'; font-size: 16px; line-height: 22px; letter-spacing: -0.1px;" +
+            ":root { font: -apple-system-body; } " +
+            "body { " +
             "background-color: \(cssBgColor);" +
             "color: \(textColor.hexString());" +
             "margin: 8px 16px; word-wrap: break-word; } " +
             "pre { white-space: pre-wrap; } " +
-            "a { color:\(tintColor.hexString()); font-family:'-apple-system'; text-decoration:underline; } " +
-            "h1,h2,h3,h4,h5,h6 { font-family: '-apple-system'; font-weight: normal; font-size: 16px; padding: 0; } " +
-            "customTitle { font-family: '-apple-system'; font-weight: 500; font-size: 20px; padding: 0; }" +
+            "a { color:\(tintColor.hexString()); text-decoration:underline; } " +
+            "h1,h2,h3,h4,h5,h6 { font-weight: normal; padding: 0; } " +
+            "customTitle { font-size: 1.25rem; font-weight: 500; padding: 0; }" +
             imageTag() +
             "</style>"
 
