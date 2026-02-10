@@ -274,12 +274,16 @@ struct PodcastHeaderView: View {
     private func infoLabel(_ label: String, imageName: String, isLink: Bool = false, action: @escaping ()->()) -> some View {
         HStack {
             Image(imageName)
+                .resizable()
+                .frame(width: iconSize, height: iconSize)
                 .foregroundStyle(theme.primaryIcon02)
             Text(label)
                 .foregroundStyle(isLink ? theme.support05 : theme.primaryText01)
                 .onTapGesture {
                     action()
                 }
+                .font(.subheadline)
+                .fixedSize(horizontal: false, vertical: true)
             Spacer()
         }
     }
