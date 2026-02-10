@@ -9,6 +9,11 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
             tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
             tableView.register(UINib(nibName: "SiriShortcutDisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCelld)
+
+            tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = Constants.Values.tableRowHeaderHeight
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
+            tableView.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -59,7 +64,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
+        let headerFrame = CGRect(x: 0, y: 0, width: 0, height: UITableView.automaticDimension)
 
         let section = tableData[section]
         switch section {
@@ -70,14 +75,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         case .playSection:
             return nil
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        64
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

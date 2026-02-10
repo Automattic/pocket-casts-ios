@@ -14,6 +14,10 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
             if playlistsRebrandingEnabled {
                 tableView.separatorStyle = .none
             }
+            tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = playlistsRebrandingEnabled ? PlaylistCell.cellHeight : Constants.Values.tableRowHeaderHeight
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
+            tableView.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -44,10 +48,6 @@ class PlaylistsShortcutsViewController: PCViewController, UITableViewDelegate, U
         cell.addIcon.isHidden = true
         cell.accessoryType = .disclosureIndicator
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return playlistsRebrandingEnabled ? PlaylistCell.cellHeight : 64
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
