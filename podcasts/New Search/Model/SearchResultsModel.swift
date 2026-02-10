@@ -31,6 +31,10 @@ class SearchResultsModel: ObservableObject {
 
     @Published var hideEpisodes = false
 
+    // YouTube feed detection
+    @Published var detectedYouTubeURL: String?
+    @Published var isYouTubeURL = false
+
     private(set) var currentSearchTerm: String = ""
     private(set) var currentPredictiveSearchTerm: String = ""
 
@@ -47,6 +51,10 @@ class SearchResultsModel: ObservableObject {
     }
 
     var noResults: Bool {
+        // Don't show "no results" when a YouTube URL is detected
+        if isYouTubeURL {
+            return false
+        }
         return podcasts.isEmpty && episodes.isEmpty && predictive.isEmpty && combinedResults.isEmpty
     }
 
@@ -57,6 +65,8 @@ class SearchResultsModel: ObservableObject {
         playedEpisodesUUIDs = []
         resultsContainLocalPodcasts = false
         currentSearchTerm = ""
+        detectedYouTubeURL = nil
+        isYouTubeURL = false
     }
 
     func clearErrors() {
@@ -70,7 +80,24 @@ class SearchResultsModel: ObservableObject {
         currentSearchTerm = term
         clearErrors()
 
-        guard !term.trim().isEmpty, !isTermAnURL(term) else {
+        guard !term.trim().isEmpty else {
+            return
+        }
+
+        // Check for YouTube URL
+        if isYouTubeURLTerm(term) && canAddYouTubeURLAsFeed(term) {
+            isYouTubeURL = true
+            detectedYouTubeURL = term
+            hideEpisodes = true
+            return
+        }
+
+        // Reset YouTube state for non-YouTube URLs
+        isYouTubeURL = false
+        detectedYouTubeURL = nil
+
+        // Don't do predictive search for URLs
+        guard !isTermAnURL(term) else {
             return
         }
 
@@ -94,8 +121,34 @@ class SearchResultsModel: ObservableObject {
         return term.lowercased().startsWith(string: "http://") || term.lowercased().startsWith(string: "https://")
     }
 
+    /// Check if the term is a YouTube URL that we can handle
+    private func isYouTubeURLTerm(_ term: String) -> Bool {
+        guard isTermAnURL(term) else { return false }
+        return YouTubeURLDetector.isYouTubeURL(term)
+    }
+
+    /// Check if the YouTube URL can be added as a feed
+    private func canAddYouTubeURLAsFeed(_ term: String) -> Bool {
+        let urlType = YouTubeURLDetector.parseURL(term)
+        return YouTubeURLDetector.canAddAsFeed(urlType)
+    }
+
     @MainActor
     func search(term: String) {
+        // Check for YouTube URL first
+        if isYouTubeURLTerm(term) && canAddYouTubeURLAsFeed(term) {
+            currentSearchTerm = term
+            isYouTubeURL = true
+            detectedYouTubeURL = term
+            hideEpisodes = true
+            Analytics.track(.youTubeURLDetected)
+            return
+        }
+
+        // Reset YouTube state
+        isYouTubeURL = false
+        detectedYouTubeURL = nil
+
         if FeatureFlag.searchImprovements.enabled, !isTermAnURL(term) {
             combinedSearch(term: term)
             return

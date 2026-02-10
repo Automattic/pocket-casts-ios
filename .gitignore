@@ -29,6 +29,9 @@ fastlane/app-localization-downloads/*.lproj
 # Do not commit ApiCredentials.swift
 podcasts/Credentials/LocalApiCredentials.swift
 
+# YouTube API key configuration (contains secrets)
+podcasts/YouTube/YouTubeAPI.plist
+
 # SwiftLint Remote Config Cache
 .swiftlint/RemoteConfigCache
 

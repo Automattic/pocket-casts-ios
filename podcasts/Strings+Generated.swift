@@ -160,6 +160,8 @@ internal enum L10n {
   internal static var addBookmarkSubtitle: String { return L10n.tr("Localizable", "add_bookmark_subtitle", fallback: "Add an optional title to identify this bookmark") }
   /// A common string used throughout the app. Title for the prompt to add an episode to the up next queue.
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next", fallback: "Add to Up Next") }
+  /// Add to My YouTube Feeds
+  internal static var addToYoutubeFeeds: String { return L10n.tr("Localizable", "add_to_youtube_feeds", fallback: "Add to My YouTube Feeds") }
   /// A common string used throughout the app. Option that determines the behavior of the app after playing an item.
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing", fallback: "After Playing") }
   /// Search Results filter option
@@ -1702,6 +1704,8 @@ internal enum L10n {
   internal static var kidsProfileThankyouText: String { return L10n.tr("Localizable", "kids_profile_thankyou_text", fallback: "You’ll get a notification via the app when the new Kids profile is ready! Want to let us know what you’d like to see?") }
   /// Kids Profile Thank You screen title
   internal static var kidsProfileThankyouTitle: String { return L10n.tr("Localizable", "kids_profile_thankyou_title", fallback: "Thank you for your interest") }
+  /// Latest Videos
+  internal static var latestVideos: String { return L10n.tr("Localizable", "latest_videos", fallback: "Latest Videos") }
   /// A title shown on a button to open information about the Podcast Ratings feature
   internal static var learnAboutRatings: String { return L10n.tr("Localizable", "learn_about_ratings", fallback: "Learn about ratings") }
   /// Text for a button where you learn more about a feature
@@ -1716,6 +1720,8 @@ internal enum L10n {
   internal static var listeningHistorySearchNoEpisodesTitle: String { return L10n.tr("Localizable", "listening_history_search_no_episodes_title", fallback: "No episodes found") }
   /// Progress indicator informing the user that the selected item is still loading.
   internal static var loading: String { return L10n.tr("Localizable", "loading", fallback: "Loading...") }
+  /// Loading YouTube feed...
+  internal static var loadingYoutubeFeed: String { return L10n.tr("Localizable", "loading_youtube_feed", fallback: "Loading YouTube feed...") }
   /// Subtitle of the login view
   internal static var loginLandingSubtitle: String { return L10n.tr("Localizable", "login_landing_subtitle", fallback: "Your podcasts, always in sync. Keep your library safe, and enjoy Pocket Casts on web and desktop.") }
   /// Title of the login view
@@ -1848,6 +1854,8 @@ internal enum L10n {
   }
   /// Multi-select status message for marking one episode as not favorited (un-starred).
   internal static var multiSelectUnstarringEpisodesSingular: String { return L10n.tr("Localizable", "multi_select_unstarring_episodes_singular", fallback: "Unstarring 1 episode") }
+  /// YouTube Feeds
+  internal static var myYoutubeFeeds: String { return L10n.tr("Localizable", "my_youtube_feeds", fallback: "My YouTube Feeds") }
   /// Common word used as a title when asking the user to name something
   internal static var name: String { return L10n.tr("Localizable", "name", fallback: "Name") }
   /// Email change form new email address field prompt
@@ -1874,6 +1882,10 @@ internal enum L10n {
   internal static var noBookmarksMessage: String { return L10n.tr("Localizable", "no_bookmarks_message", fallback: "You can save timestamps of episodes from the actions menu in the player or by configuring an action with your headphones.") }
   /// Title of a message informing the user they don't have any bookmarks yet
   internal static var noBookmarksTitle: String { return L10n.tr("Localizable", "no_bookmarks_title", fallback: "Bookmark that moment") }
+  /// No YouTube Feeds
+  internal static var noYoutubeFeeds: String { return L10n.tr("Localizable", "no_youtube_feeds", fallback: "No YouTube Feeds") }
+  /// Add YouTube channels by pasting their URL in the search bar.
+  internal static var noYoutubeFeedsMessage: String { return L10n.tr("Localizable", "no_youtube_feeds_message", fallback: "Add YouTube channels by pasting their URL in the search bar.") }
   /// A common string used throughout the app. Default 'not set' option mostly used with group settings.
   internal static var `none`: String { return L10n.tr("Localizable", "none", fallback: "None") }
   /// A common string used throughout the app. Informs the user that they are not on WiFi and the action they're about to take will use data. Used for downloads and uploads.
@@ -4437,6 +4449,12 @@ internal enum L10n {
   internal static var yearly: String { return L10n.tr("Localizable", "yearly", fallback: "Yearly") }
   /// Title for the You Might Like tab showing related podcasts in a Podcast
   internal static var youMightLike: String { return L10n.tr("Localizable", "you_might_like", fallback: "You might like") }
+  /// Added
+  internal static var youtubeFeedAdded: String { return L10n.tr("Localizable", "youtube_feed_added", fallback: "Added") }
+  /// %d videos
+  internal static func youtubeVideosCount(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "youtube_videos_count", p1, fallback: "%d videos")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

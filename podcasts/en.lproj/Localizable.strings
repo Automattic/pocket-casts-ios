@@ -5838,3 +5838,13 @@
 
 /* Message to shown then trying to open playback from deep link but it's not available */
 "playback_not_available" = "Playback unavailable";
+
+/* YouTube Feeds */
+"my_youtube_feeds" = "My YouTube Feeds";
+"no_youtube_feeds" = "No YouTube Feeds";
+"no_youtube_feeds_message" = "Add YouTube channels by pasting their URL in the search bar.";
+"loading_youtube_feed" = "Loading YouTube feed...";
+"add_to_youtube_feeds" = "Add to My YouTube Feeds";
+"youtube_feed_added" = "Added";
+"youtube_videos_count" = "%d videos";
+"latest_videos" = "Latest Videos";
