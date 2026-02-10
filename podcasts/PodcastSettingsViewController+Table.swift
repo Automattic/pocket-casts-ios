@@ -97,7 +97,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let imageName = podcast.isEffectsOverridden ? "podcast-effects-on" : "podcast-effects-off"
             cell.setImage(imageName: imageName, tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
-
+            cell.showSecondaryLabel = false
             return cell
         case .skipFirst:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.timeStepperCellId, for: indexPath) as! TimeStepperCell
@@ -156,12 +156,13 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellLabel.text = L10n.settingsAutoArchive
             cell.setImage(imageName: "list_archive", tintColor: podcast.iconTintColor())
             cell.cellSecondaryLabel.text = nil
-
+            cell.showSecondaryLabel = false
             return cell
         case .inFilters:
             let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellSecondaryLabel.text = nil
+            cell.showSecondaryLabel = false
             cell.setImage(
                 imageName: playlistRebrandingEnabled ? "playlists_tab" : "settings_filter",
                 tintColor: podcast.iconTintColor()

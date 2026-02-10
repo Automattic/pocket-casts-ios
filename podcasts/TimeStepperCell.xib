@@ -18,14 +18,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNT-iD-vFj">
-                        <rect key="frame" x="-16" y="21" width="24" height="24"/>
+                        <rect key="frame" x="16" y="21" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="irP-cR-v8k"/>
                             <constraint firstAttribute="height" constant="24" id="mpO-kU-UDK"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Skip First" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="06e-3Z-E2J" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="16" y="0.0" width="148.5" height="66"/>
+                        <rect key="frame" x="48" y="0.0" width="116.5" height="66"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="rmM-57-yPt"/>
                         </constraints>
@@ -51,7 +51,7 @@
                     <constraint firstAttribute="bottom" secondItem="hII-1o-P5c" secondAttribute="bottom" id="C7N-sw-pCr"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ETk-sO-HNJ"/>
                     <constraint firstItem="L5Q-aR-hdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="06e-3Z-E2J" secondAttribute="trailing" constant="4" id="RKy-VE-koV"/>
-                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="U0p-Xm-Rhu"/>
+                    <constraint firstItem="06e-3Z-E2J" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" priority="750" id="U0p-Xm-Rhu"/>
                     <constraint firstAttribute="trailing" secondItem="hII-1o-P5c" secondAttribute="trailing" constant="8" id="UXv-qg-eP5"/>
                     <constraint firstItem="KNT-iD-vFj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Y7x-zG-bw0"/>
                     <constraint firstAttribute="bottom" secondItem="L5Q-aR-hdK" secondAttribute="bottom" id="ZsP-xT-Xsx"/>

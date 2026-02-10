@@ -17,6 +17,7 @@ class DisclosureCell: ThemeableCell {
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
     @IBOutlet var cellTextToMarginConstraint: NSLayoutConstraint!
+    @IBOutlet var cellSecondaryTextWidthConstraint: NSLayoutConstraint!
 
     private let baseDisclosureSize: CGFloat = 32
 
@@ -25,9 +26,13 @@ class DisclosureCell: ThemeableCell {
         // Ensure label can expand vertically
         cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        cellTextToImageConstraint.isActive = false
-        cellTextToMarginConstraint.isActive = true
+        setImage(imageName: nil)
         updateSize()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setImage(imageName: nil)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -52,11 +57,15 @@ class DisclosureCell: ThemeableCell {
         if let imageName = imageName {
             cellTextToImageConstraint.isActive = true
             cellTextToMarginConstraint.isActive = false
+            cellTextToImageConstraint.priority = .required
+            cellTextToMarginConstraint.priority = .defaultHigh
             cellImage.tintColor = tintColor
             cellImage.image = UIImage(named: imageName)
         } else {
             cellTextToImageConstraint.isActive = false
             cellTextToMarginConstraint.isActive = true
+            cellTextToImageConstraint.priority = .defaultHigh
+            cellTextToMarginConstraint.priority = .required
             cellImage.image = nil
         }
     }
@@ -69,6 +78,13 @@ class DisclosureCell: ThemeableCell {
         didSet {
             contentView.isUserInteractionEnabled = isLocked
             contentView.alpha = isLocked ? 1 : 0.3
+        }
+    }
+
+    var showSecondaryLabel: Bool = true {
+        didSet {
+            cellSecondaryLabel.isHidden = !showSecondaryLabel
+            cellSecondaryTextWidthConstraint.isActive = showSecondaryLabel
         }
     }
 }

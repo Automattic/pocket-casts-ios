@@ -17,14 +17,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NcG-Z0-Cy6">
-                        <rect key="frame" x="-16" y="30.5" width="24" height="24"/>
+                        <rect key="frame" x="16" y="30.5" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="Weg-o6-4La"/>
                             <constraint firstAttribute="width" secondItem="NcG-Z0-Cy6" secondAttribute="height" multiplier="1:1" id="rrx-oh-NC7"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSX-TP-Y9A" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="16" y="0.0" width="35" height="85"/>
+                        <rect key="frame" x="49" y="0.0" width="35" height="85"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="l5p-hP-ulO"/>
                         </constraints>
@@ -54,9 +54,9 @@
                     <constraint firstItem="NcG-Z0-Cy6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="E3H-s4-jw0"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="HBo-FJ-5ey"/>
                     <constraint firstItem="lSX-TP-Y9A" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="SLF-VR-511"/>
-                    <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="NcG-Z0-Cy6" secondAttribute="trailing" constant="8" id="TgX-Qi-oyK"/>
+                    <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="NcG-Z0-Cy6" secondAttribute="trailing" constant="9" id="TgX-Qi-oyK"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="width" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.3" id="YE8-Xd-Oza"/>
-                    <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="eb2-Lh-TLP"/>
+                    <constraint firstItem="lSX-TP-Y9A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" priority="750" id="eb2-Lh-TLP"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lSX-TP-Y9A" secondAttribute="trailing" constant="8" id="k9B-Hd-zcM"/>
                     <constraint firstItem="Fgf-R5-2DR" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="kH5-eG-zXo"/>
                     <constraint firstItem="CEs-uM-u1I" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="oxn-Ly-O1R"/>
@@ -67,6 +67,7 @@
                 <outlet property="cellImage" destination="NcG-Z0-Cy6" id="nr9-B2-a3f"/>
                 <outlet property="cellLabel" destination="lSX-TP-Y9A" id="6qX-Gn-uCZ"/>
                 <outlet property="cellSecondaryLabel" destination="Fgf-R5-2DR" id="Nee-c9-au1"/>
+                <outlet property="cellSecondaryTextWidthConstraint" destination="YE8-Xd-Oza" id="zCF-O0-n4Q"/>
                 <outlet property="cellTextToImageConstraint" destination="TgX-Qi-oyK" id="wmC-L4-1vN"/>
                 <outlet property="cellTextToMarginConstraint" destination="eb2-Lh-TLP" id="3BQ-8F-zPk"/>
                 <outlet property="disclosureImage" destination="CEs-uM-u1I" id="tZI-xm-DoZ"/>
