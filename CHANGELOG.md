@@ -8,6 +8,7 @@
 - Dynamic Type: Update Settings [#3896](https://github.com/Automattic/pocket-casts-ios/pull/3896)
 - Dynamic Type: Update Profile View [#3894](https://github.com/Automattic/pocket-casts-ios/pull/3894)
 - Dynamic Type: Update Episode Detail View [#3926](https://github.com/Automattic/pocket-casts-ios/pull/3926)
+- Dynamic Type: Update Episode Detail View [#3931](https://github.com/Automattic/pocket-casts-ios/pull/3931)
 
 8.5
 -----
