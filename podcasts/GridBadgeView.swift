@@ -6,6 +6,7 @@ class GridBadgeView: UIView {
     private let simpleBadge = CircleView()
 
     private var labelWidthConstraint: NSLayoutConstraint!
+    private var labelHeightConstraint: NSLayoutConstraint!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,16 +46,12 @@ class GridBadgeView: UIView {
             simpleBadge.isHidden = true
             badgeLabel.isHidden = false
             badgeLabel.text = count < 99 ? "\(count)" : "99"
-            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
-            if count > 9 {
-                labelWidthConstraint.constant = max(34, metrics.scaledValue(for: 34))
-            } else {
-                labelWidthConstraint.constant = max(25, metrics.scaledValue(for: 25))
-            }
         case .off:
             simpleBadge.isHidden = true
             badgeLabel.isHidden = true
         }
+
+        updateSize()
     }
 
     private func setup() {
@@ -66,8 +63,9 @@ class GridBadgeView: UIView {
         badgeLabel.layer.cornerRadius = 12
         addSubview(badgeLabel)
         labelWidthConstraint = badgeLabel.widthAnchor.constraint(equalToConstant: 25)
+        labelHeightConstraint = badgeLabel.heightAnchor.constraint(equalToConstant: 25)
         NSLayoutConstraint.activate([
-            badgeLabel.heightAnchor.constraint(equalToConstant: 25),
+            labelHeightConstraint,
             labelWidthConstraint,
             badgeLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -85,6 +83,7 @@ class GridBadgeView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
 
         updateBadgeColors()
+        updateSize()
     }
 
     @objc private func themeDidChange() {
@@ -112,14 +111,18 @@ class GridBadgeView: UIView {
     }
 
     private func updateSize() {
-        guard let text = badgeLabel.text else {
-            return
-        }
         let metrics = UIFontMetrics(forTextStyle: .largeTitle)
-        if text.count > 1 {
+        simpleBadge.updateSizeConstraints(to: max(15, metrics.scaledValue(for: 15)))
+
+        if let text = badgeLabel.text, text.count > 1 {
             labelWidthConstraint.constant = max(34, metrics.scaledValue(for: 34))
         } else {
             labelWidthConstraint.constant = max(25, metrics.scaledValue(for: 25))
         }
+
+        let heightConstraint = max(25, metrics.scaledValue(for: 25))
+        labelHeightConstraint.constant = heightConstraint
+
+        badgeLabel.layer.cornerRadius = heightConstraint / 2
     }
 }
