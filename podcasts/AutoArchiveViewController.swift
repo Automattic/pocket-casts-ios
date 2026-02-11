@@ -11,6 +11,11 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
         didSet {
             archiveTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             archiveTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            archiveTable.rowHeight = UITableView.automaticDimension
+            archiveTable.estimatedRowHeight = UITableView.automaticDimension
+            archiveTable.sectionHeaderHeight = UITableView.automaticDimension
+            archiveTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 

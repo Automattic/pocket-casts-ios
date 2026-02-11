@@ -1,8 +1,10 @@
 import PocketCastsUtils
 import Foundation
+import GRDB
 
 class EpisodeDataManager {
-    private let columnNames = [
+    /// Legacy column names for non-GRDB code path.
+    let columnNames = [
         "id",
         "addedDate",
         "lastDownloadAttemptDate",
@@ -378,39 +380,76 @@ class EpisodeDataManager {
     }
 
     func save(episode: Episode, dbQueue: PCDBQueue) {
-        dbQueue.write { db in
+        let isInsert = episode.id == 0
+        if isInsert {
+            episode.id = DBUtils.generateUniqueId()
+        }
+
+        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
+            // GRDB path using PersistableRecord
             do {
-                if episode.id == 0 {
-                    episode.id = DBUtils.generateUniqueId()
-                    try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
-                } else {
-                    let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
+                try grdbQueue.dbPool.write { db in
+                    try episode.save(db)
                 }
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
             }
-        }
-    }
-
-    func bulkSave(episodes: [Episode], dbQueue: PCDBQueue) {
-        dbQueue.write { db in
-            do {
-                db.beginTransaction()
-
-                for episode in episodes {
-                    if episode.id == 0 {
-                        episode.id = DBUtils.generateUniqueId()
+        } else {
+            // Legacy path
+            dbQueue.write { db in
+                do {
+                    if isInsert {
                         try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
                     } else {
                         let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
                         try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
                     }
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
                 }
+            }
+        }
+    }
 
-                db.commit()
+    func bulkSave(episodes: [Episode], dbQueue: PCDBQueue) {
+        if FeatureFlag.grdbQueryInterface.enabled, let grdbQueue = dbQueue as? GRDBQueue {
+            // GRDB path using PersistableRecord
+            do {
+                try grdbQueue.dbPool.write { db in
+                    for episode in episodes {
+                        if episode.id == 0 {
+                            episode.id = DBUtils.generateUniqueId()
+                        }
+                        try episode.save(db)
+                    }
+                }
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+            }
+        } else {
+            // Legacy path
+            dbQueue.write { db in
+                do {
+                    db.beginTransaction()
+
+                    for episode in episodes {
+                        let isInsert = episode.id == 0
+                        if isInsert {
+                            episode.id = DBUtils.generateUniqueId()
+                        }
+
+                        if isInsert {
+                            try db.executeUpdate("INSERT INTO \(DataManager.episodeTableName) (\(self.columnNames.joined(separator: ","))) VALUES \(DBUtils.valuesQuestionMarks(amount: self.columnNames.count))", values: self.createValuesFrom(episode: episode))
+                        } else {
+                            let setStatement = "\(self.columnNames.joined(separator: " = ?, ")) = ?"
+                            try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setStatement) WHERE id = ?", values: self.createValuesFrom(episode: episode, includeIdForWhere: true))
+                        }
+                    }
+
+                    db.commit()
+                } catch {
+                    FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+                }
             }
         }
     }

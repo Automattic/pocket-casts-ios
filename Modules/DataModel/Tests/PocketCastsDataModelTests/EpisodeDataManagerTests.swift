@@ -1107,6 +1107,248 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - save Tests (PersistableRecord API)
+
+    func testSaveInsertsNewEpisodeWithAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.uuid = "save-test-uuid"
+            episode.title = "Save Test Episode"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.publishedDate = Date(timeIntervalSince1970: 1000000)
+            episode.addedDate = Date(timeIntervalSince1970: 2000000)
+            episode.duration = 3600
+            episode.sizeInBytes = 50000000
+            episode.downloadUrl = "https://example.com/episode.mp3"
+            episode.episodeStatus = DownloadStatus.downloaded.rawValue
+            episode.playingStatus = PlayingStatus.inProgress.rawValue
+            episode.playedUpTo = 1800.5
+            episode.archived = false
+            episode.keepEpisode = true
+            episode.episodeDescription = "This is a test episode description"
+            episode.fileType = "mp3"
+            episode.contentType = "audio/mpeg"
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: "save-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find saved episode")
+            XCTAssertEqual(found?.uuid, "save-test-uuid", "\(impl): UUID should match")
+            XCTAssertEqual(found?.title, "Save Test Episode", "\(impl): Title should match")
+            XCTAssertEqual(found?.podcastUuid, podcast.uuid, "\(impl): Podcast UUID should match")
+            XCTAssertEqual(found?.podcast_id, podcast.id, "\(impl): Podcast ID should match")
+            XCTAssertEqual(found?.duration, 3600, "\(impl): Duration should match")
+            XCTAssertEqual(found?.sizeInBytes, 50000000, "\(impl): Size should match")
+            XCTAssertEqual(found?.downloadUrl, "https://example.com/episode.mp3", "\(impl): Download URL should match")
+            XCTAssertEqual(found?.episodeStatus, DownloadStatus.downloaded.rawValue, "\(impl): Episode status should match")
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.inProgress.rawValue, "\(impl): Playing status should match")
+            XCTAssertEqual(found?.playedUpTo ?? 0, 1800.5, accuracy: 0.01, "\(impl): Played up to should match")
+            XCTAssertEqual(found?.archived, false, "\(impl): Archived should match")
+            XCTAssertEqual(found?.keepEpisode, true, "\(impl): Keep episode should match")
+            XCTAssertEqual(found?.episodeDescription, "This is a test episode description", "\(impl): Description should match")
+            XCTAssertEqual(found?.fileType, "mp3", "\(impl): File type should match")
+            XCTAssertEqual(found?.contentType, "audio/mpeg", "\(impl): Content type should match")
+        }
+    }
+
+    func testSaveUpdatesExistingEpisode() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "update-test-uuid", podcast: podcast, title: "Original Title", dataManager: dataManager)
+
+            // Update fields
+            episode.title = "Updated Title"
+            episode.playingStatus = PlayingStatus.completed.rawValue
+            episode.playedUpTo = 3600.0
+            episode.archived = true
+            episode.keepEpisode = true
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: "update-test-uuid")
+            XCTAssertEqual(found?.title, "Updated Title", "\(impl): Title should be updated")
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Playing status should be updated")
+            XCTAssertEqual(found?.playedUpTo ?? 0, 3600.0, accuracy: 0.01, "\(impl): Played up to should be updated")
+            XCTAssertEqual(found?.archived, true, "\(impl): Archived should be updated")
+            XCTAssertEqual(found?.keepEpisode, true, "\(impl): Keep episode should be updated")
+        }
+    }
+
+    func testSaveGeneratesIdIfZero() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.id = 0 // Zero ID
+            episode.uuid = "auto-id-episode"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.title = "Auto ID Episode"
+            episode.addedDate = Date()
+
+            dataManager.save(episode: episode)
+
+            XCTAssertNotEqual(episode.id, 0, "\(impl): ID should be generated")
+
+            let found = dataManager.findEpisode(uuid: "auto-id-episode")
+            XCTAssertNotNil(found, "\(impl): Should find episode with generated ID")
+            XCTAssertEqual(found?.id, episode.id, "\(impl): ID should match")
+        }
+    }
+
+    func testSavePreservesModifiedFlags() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.uuid = "modified-flags-episode"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.title = "Modified Flags Episode"
+            episode.addedDate = Date()
+            episode.playingStatusModified = 12345
+            episode.playedUpToModified = 23456
+            episode.durationModified = 34567
+            episode.archivedModified = 45678
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: "modified-flags-episode")
+            XCTAssertEqual(found?.playingStatusModified, 12345, "\(impl): playingStatusModified should be preserved")
+            XCTAssertEqual(found?.playedUpToModified, 23456, "\(impl): playedUpToModified should be preserved")
+            XCTAssertEqual(found?.durationModified, 34567, "\(impl): durationModified should be preserved")
+            XCTAssertEqual(found?.archivedModified, 45678, "\(impl): archivedModified should be preserved")
+        }
+    }
+
+    func testSavePreservesOptionalStrings() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.uuid = "optional-strings-episode"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.title = "Optional Strings Episode"
+            episode.addedDate = Date()
+            episode.episodeDescription = "A detailed description"
+            episode.downloadUrl = "https://example.com/download.mp3"
+            episode.downloadTaskId = "task-123"
+            episode.cachedFrameCount = 1000
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findEpisode(uuid: "optional-strings-episode")
+            XCTAssertEqual(found?.episodeDescription, "A detailed description", "\(impl): Description should be preserved")
+            XCTAssertEqual(found?.downloadUrl, "https://example.com/download.mp3", "\(impl): Download URL should be preserved")
+            XCTAssertEqual(found?.downloadTaskId, "task-123", "\(impl): Download task ID should be preserved")
+            XCTAssertEqual(found?.cachedFrameCount, 1000, "\(impl): Cached frame count should be preserved")
+        }
+    }
+
+    // MARK: - bulkSave Tests (PersistableRecord API)
+
+    func testBulkSaveUpdatesExistingEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            // Create initial episodes
+            let episode1 = self.createTestEpisode(uuid: "bulk-update-1", podcast: podcast, title: "Original 1", playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+            let episode2 = self.createTestEpisode(uuid: "bulk-update-2", podcast: podcast, title: "Original 2", playingStatus: PlayingStatus.notPlayed.rawValue, dataManager: dataManager)
+
+            // Modify episodes
+            episode1.title = "Updated 1"
+            episode1.playingStatus = PlayingStatus.completed.rawValue
+            episode2.title = "Updated 2"
+            episode2.playingStatus = PlayingStatus.inProgress.rawValue
+
+            dataManager.bulkSave(episodes: [episode1, episode2])
+
+            let found1 = dataManager.findEpisode(uuid: "bulk-update-1")
+            let found2 = dataManager.findEpisode(uuid: "bulk-update-2")
+
+            XCTAssertEqual(found1?.title, "Updated 1", "\(impl): Episode 1 title should be updated")
+            XCTAssertEqual(found1?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Episode 1 playing status should be updated")
+            XCTAssertEqual(found2?.title, "Updated 2", "\(impl): Episode 2 title should be updated")
+            XCTAssertEqual(found2?.playingStatus, PlayingStatus.inProgress.rawValue, "\(impl): Episode 2 playing status should be updated")
+        }
+    }
+
+    func testBulkSaveMixedInsertAndUpdate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            // Create existing episode
+            let existingEpisode = self.createTestEpisode(uuid: "existing-bulk", podcast: podcast, title: "Existing Episode", dataManager: dataManager)
+
+            // Create new episode to insert
+            let newEpisode = Episode()
+            newEpisode.uuid = "new-bulk"
+            newEpisode.podcastUuid = podcast.uuid
+            newEpisode.podcast_id = podcast.id
+            newEpisode.title = "New Bulk Episode"
+            newEpisode.addedDate = Date()
+
+            // Update existing episode
+            existingEpisode.title = "Updated Existing Episode"
+
+            dataManager.bulkSave(episodes: [existingEpisode, newEpisode])
+
+            let foundExisting = dataManager.findEpisode(uuid: "existing-bulk")
+            let foundNew = dataManager.findEpisode(uuid: "new-bulk")
+
+            XCTAssertEqual(foundExisting?.title, "Updated Existing Episode", "\(impl): Existing episode should be updated")
+            XCTAssertNotNil(foundNew, "\(impl): New episode should be inserted")
+            XCTAssertEqual(foundNew?.title, "New Bulk Episode", "\(impl): New episode title should match")
+        }
+    }
+
+    func testBulkSavePreservesAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            var episodes = [Episode]()
+            for i in 0..<3 {
+                let episode = Episode()
+                episode.uuid = "bulk-fields-\(i)"
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.title = "Bulk Episode \(i)"
+                episode.addedDate = Date()
+                episode.duration = Double(i * 1000)
+                episode.playedUpTo = Double(i * 100)
+                episode.playingStatus = Int32(i)
+                episode.archived = i % 2 == 0
+                episode.keepEpisode = i % 2 == 1
+                episodes.append(episode)
+            }
+
+            dataManager.bulkSave(episodes: episodes)
+
+            for i in 0..<3 {
+                let found = dataManager.findEpisode(uuid: "bulk-fields-\(i)")
+                XCTAssertNotNil(found, "\(impl): Should find bulk saved episode \(i)")
+                XCTAssertEqual(found?.title, "Bulk Episode \(i)", "\(impl): Title should match for episode \(i)")
+                XCTAssertEqual(found?.duration, Double(i * 1000), "\(impl): Duration should match for episode \(i)")
+                XCTAssertEqual(found?.playedUpTo ?? 0, Double(i * 100), accuracy: 0.01, "\(impl): Played up to should match for episode \(i)")
+                XCTAssertEqual(found?.playingStatus, Int32(i), "\(impl): Playing status should match for episode \(i)")
+                XCTAssertEqual(found?.archived, i % 2 == 0, "\(impl): Archived should match for episode \(i)")
+                XCTAssertEqual(found?.keepEpisode, i % 2 == 1, "\(impl): Keep episode should match for episode \(i)")
+            }
+        }
+    }
+
+    func testBulkSaveWithEmptyArrayDoesNotCrash() throws {
+        try runWithBothImplementations { dataManager, impl in
+            // Should not throw or crash
+            dataManager.bulkSave(episodes: [Episode]())
+
+            XCTAssertTrue(true, "\(impl): Should not crash with empty array")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult

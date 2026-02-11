@@ -29,20 +29,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         }
     }
 
-    @IBOutlet var archivedInfoLabel: ThemeableLabel! {
-        didSet {
-            archivedInfoLabel.style = .primaryText02
-            archivedInfoLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
-        }
-    }
-
-    @IBOutlet var episodeInfoSeparatorLabel: ThemeableLabel! {
-        didSet {
-            episodeInfoSeparatorLabel.style = .primaryText02
-            episodeInfoSeparatorLabel.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
-        }
-    }
-
     @IBOutlet var limitLabel: ThemeableLabel! {
         didSet {
             limitLabel.style = .support08
@@ -54,6 +40,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         didSet {
             showHideArchiveBtn.titleLabel?.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .footnote)
             showHideArchiveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            showHideArchiveBtn.titleLabel?.numberOfLines = 0
         }
     }
     @IBOutlet var overflowButton: ThemeSecondaryButton!
@@ -112,13 +99,16 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let archivedCount = delegate.archivedEpisodeCount()
         let hasEpisodeLimit = (podcast.autoArchiveEpisodeLimitCount > 0 && podcast.isAutoArchiveOverridden)
 
-        episodeInfoLabel?.text = episodeCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodeCount.localized())
-
-        limitLabel?.text = L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimitCount.localized())
-        archivedInfoLabel?.text = L10n.podcastArchivedCountFormat(archivedCount.localized())
-
-        limitLabel?.isHidden = !hasEpisodeLimit
-        archivedInfoLabel?.isHidden = hasEpisodeLimit
+        var infoText: String = ""
+        infoText = episodeCount == 1 ? L10n.podcastEpisodeCountSingular : L10n.podcastEpisodeCountPluralFormat(episodeCount.localized())
+        infoText += " • "
+        let attributedText = NSMutableAttributedString(string: infoText, attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)])
+        if !hasEpisodeLimit {
+            attributedText.append(NSAttributedString(string: L10n.podcastArchivedCountFormat(archivedCount.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.primaryText02)]))
+        } else {
+            attributedText.append(NSAttributedString(string: L10n.podcastEpisodeLimitCountFormat(podcast.autoArchiveEpisodeLimitCount.localized()), attributes: [.foregroundColor: AppTheme.colorForStyle(.support08)]))
+        }
+        episodeInfoLabel?.attributedText = attributedText
 
         let archivedTitle = delegate.showingArchived() ? L10n.podcastHideArchived : L10n.podcastShowArchived
         if let showHideBtn = showHideArchiveBtn {

@@ -9,6 +9,11 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             tableView.register(UINib(nibName: "SiriShortcutEnabledCell", bundle: nil), forCellReuseIdentifier: enabledCellId)
             tableView.register(UINib(nibName: "SiriShortcutSuggestedCell", bundle: nil), forCellReuseIdentifier: suggestedCellId)
             tableView.register(UINib(nibName: "SiriShortcutDisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCelld)
+
+            tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = Constants.Values.tableRowHeaderHeight
+            tableView.sectionHeaderHeight = UITableView.automaticDimension
+            tableView.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -70,14 +75,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         case .playSection:
             return nil
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        64
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -292,6 +289,12 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
         controller.dismiss(animated: true, completion: nil)
+    }
+
+    @IBOutlet var tryAgainButton: UIButton! {
+        didSet {
+            tryAgainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
     }
 
     @IBAction func tryAgainTapped() {

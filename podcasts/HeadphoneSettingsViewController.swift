@@ -96,7 +96,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        Constants.rowHeight
+        UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

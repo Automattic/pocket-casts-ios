@@ -16,14 +16,23 @@ class DisclosureCell: ThemeableCell {
     }
 
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
+    @IBOutlet var cellTextToMarginConstraint: NSLayoutConstraint!
+    @IBOutlet var cellSecondaryTextWidthConstraint: NSLayoutConstraint!
 
     private let baseDisclosureSize: CGFloat = 32
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        cellTextToImageConstraint.isActive = false
+        // Ensure label can expand vertically
+        cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        setImage(imageName: nil)
         updateSize()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setImage(imageName: nil)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -38,15 +47,25 @@ class DisclosureCell: ThemeableCell {
         let metric = UIFontMetrics(forTextStyle: .body)
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImage.updateSizeConstraints(to: disclosureSize)
+
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: iconSize)
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
         if let imageName = imageName {
             cellTextToImageConstraint.isActive = true
+            cellTextToMarginConstraint.isActive = false
+            cellTextToImageConstraint.priority = .required
+            cellTextToMarginConstraint.priority = .defaultHigh
             cellImage.tintColor = tintColor
             cellImage.image = UIImage(named: imageName)
         } else {
             cellTextToImageConstraint.isActive = false
+            cellTextToMarginConstraint.isActive = true
+            cellTextToImageConstraint.priority = .defaultHigh
+            cellTextToMarginConstraint.priority = .required
             cellImage.image = nil
         }
     }
@@ -59,6 +78,13 @@ class DisclosureCell: ThemeableCell {
         didSet {
             contentView.isUserInteractionEnabled = isLocked
             contentView.alpha = isLocked ? 1 : 0.3
+        }
+    }
+
+    var showSecondaryLabel: Bool = true {
+        didSet {
+            cellSecondaryLabel.isHidden = !showSecondaryLabel
+            cellSecondaryTextWidthConstraint.isActive = showSecondaryLabel
         }
     }
 }

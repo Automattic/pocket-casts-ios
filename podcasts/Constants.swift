@@ -265,6 +265,7 @@ struct Constants {
 
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
+        static let tableRowHeaderHeight: CGFloat = 64
 
         static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
 

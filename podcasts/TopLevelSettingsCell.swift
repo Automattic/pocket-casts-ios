@@ -4,7 +4,7 @@ class TopLevelSettingsCell: ThemeableCell {
     @IBOutlet var settingsImage: UIImageView!
     @IBOutlet var settingsLabel: UILabel! {
         didSet {
-            settingsLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .body)
+            settingsLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
         }
     }
     @IBOutlet var plusIndicator: UIImageView!
@@ -54,10 +54,12 @@ class TopLevelSettingsCell: ThemeableCell {
     }
 
     private func updateSize() {
-        let metric = UIFontMetrics(forTextStyle: .body)
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-        let settingsSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
-        settingsImage.updateSizeConstraints(to: settingsSize)
+        let iconSize = max(baseSettingsImageSize, metric.scaledValue(for: baseSettingsImageSize))
+        settingsImage.updateSizeConstraints(to: iconSize)
+
+        plusIndicator.updateSizeConstraints(to: iconSize)
 
         let disclosureSize = max(baseDisclosureSize, metric.scaledValue(for: baseDisclosureSize))
         disclosureImageView?.frame.size = CGSize(width: disclosureSize, height: disclosureSize)

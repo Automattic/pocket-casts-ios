@@ -382,7 +382,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if playlistsRebrandingEnabled {
             if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
                 return
@@ -391,7 +391,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         super.tableView(tableView, didSelectRowAt: indexPath)
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if playlistsRebrandingEnabled {
             if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
                 return
