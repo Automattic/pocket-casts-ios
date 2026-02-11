@@ -25,7 +25,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     private let buttonCornerRadius: CGFloat = 8
     private var actionHeight: CGFloat = 72
-
+    private let layoutHorizontalMargin = CGFloat(20)
     private var actionsAdded = 0
 
     private var themeOverride: Theme.ThemeType?
@@ -188,7 +188,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
         let actionView = MultipleActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), name: name, icon: icon, actions: actions, themeOverride: themeOverride)
         NSLayoutConstraint.activate([
-            actionView.heightAnchor.constraint(equalToConstant: actionHeight)
+            actionView.heightAnchor.constraint(greaterThanOrEqualToConstant: actionHeight)
         ])
         stackView.addArrangedSubview(actionView)
         NSLayoutConstraint.activate([
@@ -253,7 +253,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            containerView.heightAnchor.constraint(equalToConstant: 40)
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40)
         ])
         stackView.addArrangedSubview(containerView)
 
@@ -265,10 +265,12 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         label.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(label)
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20)
+            containerView.leadingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.trailingAnchor),
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: layoutHorizontalMargin),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -layoutHorizontalMargin),
+            label.topAnchor.constraint(equalTo: containerView.topAnchor),
+            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
         ])
     }
 
@@ -288,8 +290,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            dividerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            containerView.trailingAnchor.constraint(equalTo: dividerView.trailingAnchor, constant: 20),
+            dividerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: layoutHorizontalMargin),
+            containerView.trailingAnchor.constraint(equalTo: dividerView.trailingAnchor, constant: -layoutHorizontalMargin),
             dividerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             dividerView.topAnchor.constraint(equalTo: containerView.topAnchor)
         ])
