@@ -39,6 +39,7 @@ class DescriptiveActionView: UIView {
         addSubview(iconView)
 
         NSLayoutConstraint.activate([
+            iconView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
             iconView.heightAnchor.constraint(equalToConstant: 39),
             iconView.widthAnchor.constraint(equalToConstant: 39)
@@ -75,7 +76,7 @@ class DescriptiveActionView: UIView {
 
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                messageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
+                messageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
                 messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: 20)
             ])
@@ -99,8 +100,8 @@ class DescriptiveActionView: UIView {
             ])
             messageBottomAnchor = messageLabel.bottomAnchor
         }
+        var previousBottomAnchor = messageBottomAnchor
 
-        var previousButton: ShiftyRoundButton?
         for (index, action) in actions.enumerated() {
             let actionButton = ShiftyRoundButton()
             actionButton.fontSize = 18
@@ -122,22 +123,19 @@ class DescriptiveActionView: UIView {
             actionButton.translatesAutoresizingMaskIntoConstraints = false
             addSubview(actionButton)
 
-            let previousBottomAnchor = previousButton == nil ? messageBottomAnchor : previousButton!.bottomAnchor
             NSLayoutConstraint.activate([
                 actionButton.topAnchor.constraint(equalTo: previousBottomAnchor, constant: 20),
                 actionButton.centerXAnchor.constraint(equalTo: centerXAnchor),
                 actionButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: actionButton.trailingAnchor, constant: 20),
-                actionButton.heightAnchor.constraint(equalToConstant: 56)
-            ])
-            previousButton = actionButton
+                actionButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
+            ])            
+            previousBottomAnchor = actionButton.bottomAnchor
         }
 
-        if let lastButton = previousButton {
-            NSLayoutConstraint.activate([
-                bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 20)
-            ])
-        }
+        NSLayoutConstraint.activate([
+            bottomAnchor.constraint(equalTo: previousBottomAnchor, constant: 20)
+        ])
 
         updateSize()
     }
