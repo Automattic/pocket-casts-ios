@@ -1022,4 +1022,6 @@ enum AnalyticsEvent: String {
     case youTubeFeedShown
     case youTubeVideoOpened
     case myYouTubeFeedsShown
+    case youTubePlaylistItemTapped
+    case youTubeSubscriptionAdded
 }

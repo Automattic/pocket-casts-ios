@@ -958,11 +958,17 @@
 			<key>CFBundleURLName</key>
 			<string>GoogleSignIn</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>com.googleusercontent.apps.910146533958-eavd44vcqprqucskdr2l46pvrbk54bsl</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>YouTubeOAuthClientID</key>
+	<string>910146533958-eavd44vcqprqucskdr2l46pvrbk54bsl.apps.googleusercontent.com</string>
+	<key>YouTubeOAuthRedirectURI</key>
+	<string>com.googleusercontent.apps.910146533958-eavd44vcqprqucskdr2l46pvrbk54bsl:/oauth2redirect/google</string>
 	<key>FirebaseScreenReportingEnabled</key>
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
