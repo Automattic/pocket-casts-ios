@@ -55,7 +55,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceVertical = false
         scrollView.layer.cornerRadius = 6
         scrollView.clipsToBounds = true
         view.addSubview(scrollView)
@@ -81,7 +81,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
         // The scroll view height matches its content height when possible,
         // but is capped at the available vertical space so it never overflows.
-        let maxHeightConstraint = scrollView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, constant: -100)
+        let maxHeightConstraint = scrollView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, constant: -75)
         maxHeightConstraint.priority = .required
 
         // A lower-priority constraint makes the scroll view shrink-wrap its content
