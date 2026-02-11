@@ -55,11 +55,13 @@ class DescriptiveActionView: UIView {
         titleLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+
         addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 20)
         ])
@@ -72,8 +74,7 @@ class DescriptiveActionView: UIView {
                 onLinkTap: onLinkTap
             ).themedUIView
             messageView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(messageView)
-
+            addSubview(messageView)            
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
                 messageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
@@ -81,6 +82,8 @@ class DescriptiveActionView: UIView {
                 trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: 20)
             ])
             messageBottomAnchor = messageView.bottomAnchor
+            messageView.setContentHuggingPriority(.defaultLow, for: .vertical)
+            messageView.setContentCompressionResistancePriority(.required, for: .vertical)
         } else {
             let messageLabel = UILabel()
             messageLabel.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
@@ -99,6 +102,8 @@ class DescriptiveActionView: UIView {
                 trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 20)
             ])
             messageBottomAnchor = messageLabel.bottomAnchor
+            messageLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+            messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         }
         var previousBottomAnchor = messageBottomAnchor
 
