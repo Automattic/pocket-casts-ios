@@ -280,6 +280,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use GRDB QueryInterface for database queries instead of raw SQL
     case grdbQueryInterface
 
+    /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
+    case playlistCacheInvalidation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -470,6 +473,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .testFlight || BuildEnvironment.current == .debug
         case .grdbQueryInterface:
             false
+        case .playlistCacheInvalidation:
+            true
         }
     }
 
