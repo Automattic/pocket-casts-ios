@@ -19,6 +19,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     @objc var overrideStatusBarStyle = AppTheme.defaultStatusBarStyle()
 
+    private var scrollView: UIScrollView!
     private var stackView: UIStackView!
     private var stackBgView: UIView!
 
@@ -34,8 +35,9 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     var portraitOnly = true
 
-    private var stackViewBottomAnchor: NSLayoutConstraint?
-    private var stackViewTopAnchor: NSLayoutConstraint?
+    private var scrollViewBottomAnchor: NSLayoutConstraint?
+    private var scrollViewTopAnchor: NSLayoutConstraint?
+    private var scrollViewHeightConstraint: NSLayoutConstraint?
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle
@@ -48,6 +50,15 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         view.layer.cornerRadius = 6
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
+
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = false
+        scrollView.layer.cornerRadius = 6
+        scrollView.clipsToBounds = true
+        view.addSubview(scrollView)
 
         stackView = UIStackView()
         stackView.axis = .vertical
@@ -62,7 +73,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
         stackBgView.backgroundColor = colors.background
 
-        view.addSubview(stackView)
+        scrollView.addSubview(stackView)
 
         stackBgView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
         stackBgView.layer.shadowOffset = CGSize(width: 0, height: -1)
@@ -71,12 +82,33 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         stackBgView.layer.cornerRadius = 6
         stackBgView.layer.shadowPath = UIBezierPath(rect: stackBgView.layer.bounds).cgPath
 
-        stackViewTopAnchor = view.bottomAnchor.constraint(equalTo: stackView.topAnchor)
-        stackViewBottomAnchor = view.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
+        // Stack view fills the scroll view's content area at full width
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackViewTopAnchor!
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        ])
+
+        // The scroll view height matches its content height when possible,
+        // but is capped at the available vertical space so it never overflows.
+        let maxHeightConstraint = scrollView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, constant: -100)
+        maxHeightConstraint.priority = .required
+
+        // A lower-priority constraint makes the scroll view shrink-wrap its content
+        // so it doesn't scroll when all content fits on screen.
+        scrollViewHeightConstraint = scrollView.heightAnchor.constraint(equalTo: stackView.heightAnchor)
+        scrollViewHeightConstraint?.priority = .defaultHigh
+
+        scrollViewTopAnchor = view.bottomAnchor.constraint(equalTo: scrollView.topAnchor)
+        scrollViewBottomAnchor = view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            maxHeightConstraint,
+            scrollViewHeightConstraint!,
+            scrollViewTopAnchor!
         ])
 
         let dismissView = UIView()
@@ -91,7 +123,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             dismissView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             dismissView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             dismissView.topAnchor.constraint(equalTo: view.topAnchor),
-            dismissView.bottomAnchor.constraint(equalTo: stackView.topAnchor)
+            dismissView.bottomAnchor.constraint(equalTo: scrollView.topAnchor)
         ])
 
         let dismissGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
@@ -183,8 +215,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         view.backgroundColor = UIColor.black.withAlphaComponent(0)
         view.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, delay: 0, options: .curveEaseOut, animations: { [weak self] in
-            self?.stackViewTopAnchor?.isActive = false
-            self?.stackViewBottomAnchor?.isActive = true
+            self?.scrollViewTopAnchor?.isActive = false
+            self?.scrollViewBottomAnchor?.isActive = true
             self?.view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
 
             self?.view?.layoutIfNeeded()
@@ -194,8 +226,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     func animateOut(optionChosen: Bool) {
         view?.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, animations: { [weak self] in
-            self?.stackViewBottomAnchor?.isActive = false
-            self?.stackViewTopAnchor?.isActive = true
+            self?.scrollViewBottomAnchor?.isActive = false
+            self?.scrollViewTopAnchor?.isActive = true
 
             self?.view.backgroundColor = UIColor.clear
 
@@ -212,7 +244,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     // MARK: - UIGestureRecognizerDelegate
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        touch.view?.isDescendant(of: stackView) == false
+        touch.view?.isDescendant(of: scrollView) == false
     }
 
     // MARK: - Drawing Helpers
