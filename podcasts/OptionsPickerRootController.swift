@@ -55,7 +55,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.alwaysBounceVertical = false
+        scrollView.alwaysBounceVertical = true
         scrollView.layer.cornerRadius = 6
         scrollView.clipsToBounds = true
         view.addSubview(scrollView)
@@ -72,7 +72,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
         // Stack view fills the scroll view's content area at full width
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
