@@ -71,8 +71,9 @@ class SimpleActionView: UIView {
             secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
             secondaryLabel.adjustsFontForContentSizeCategory = true
             secondaryLabel.numberOfLines = 0
-            secondaryLabel.text = secondaryText            
-            secondaryLabel.contentMode = .right
+            secondaryLabel.text = secondaryText
+            // swiftlint:disable:next inverse_text_alignment
+            secondaryLabel.textAlignment = .right
             secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
             secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
             addSubview(secondaryLabel)
