@@ -10,6 +10,8 @@ class DescriptiveActionView: UIView {
     private let iconTintStyle: ThemeStyle
     private let onLinkTap: (() -> Void)?
 
+    private weak var iconView: UIImageView?
+
     private weak var delegate: OptionsPickerRootController?
 
     init(frame: CGRect, title: String, message: String?, icon: String, actions: [OptionAction], delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, onLinkTap: (() -> Void)? = nil) {
@@ -37,16 +39,17 @@ class DescriptiveActionView: UIView {
         addSubview(iconView)
 
         NSLayoutConstraint.activate([
-            iconView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
             iconView.heightAnchor.constraint(equalToConstant: 39),
             iconView.widthAnchor.constraint(equalToConstant: 39)
         ])
+        self.iconView = iconView
 
         // add title
         let titleLabel = UILabel()
         titleLabel.font = UIFont.font(ofSize: 20, weight: .bold, scalingWith: .title3)
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
         titleLabel.text = title
         titleLabel.textColor = AppTheme.mainTextColor(for: themeOverride)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +75,7 @@ class DescriptiveActionView: UIView {
 
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-                messageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                messageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
                 messageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
                 trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: 20)
             ])
@@ -135,5 +138,21 @@ class DescriptiveActionView: UIView {
                 bottomAnchor.constraint(equalTo: lastButton.bottomAnchor, constant: 20)
             ])
         }
+
+        updateSize()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(39, iconMetric.scaledValue(for: 39))
+        iconView?.updateSizeConstraints(to: iconSize)
     }
 }

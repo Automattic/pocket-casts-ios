@@ -26,7 +26,7 @@ class SimpleActionView: UIView {
         let label = UILabel()
         label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.text = action.label
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +66,7 @@ class SimpleActionView: UIView {
             let secondaryLabel = UILabel()
             secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
             secondaryLabel.adjustsFontForContentSizeCategory = true
-            secondaryLabel.numberOfLines = 2
+            secondaryLabel.numberOfLines = 0
             secondaryLabel.text = secondaryText
             // swiftlint:disable:next inverse_text_alignment
             secondaryLabel.textAlignment = .right
@@ -78,7 +78,8 @@ class SimpleActionView: UIView {
             NSLayoutConstraint.activate([
                 secondaryLabel.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10),
                 trailingAnchor.constraint(equalTo: secondaryLabel.trailingAnchor, constant: 20),
-                secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+                secondaryLabel.topAnchor.constraint(equalTo: topAnchor),
+                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         } else {
             trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 20).isActive = true
@@ -118,6 +119,8 @@ class SimpleActionView: UIView {
         accessibilityLabel = action.label
         isUserInteractionEnabled = true
         accessibilityTraits = [.button]
+
+        updateSize()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
