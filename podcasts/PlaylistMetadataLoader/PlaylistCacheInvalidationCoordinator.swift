@@ -27,7 +27,7 @@ final class PlaylistCacheInvalidationCoordinator {
         self.dataManager = dataManager
 
         debounceCancellable = changeSubject
-            .debounce(for: .seconds(debounceDelay), scheduler: DispatchQueue.main)
+            .debounce(for: .seconds(debounceDelay), scheduler: DispatchQueue.global(qos: .userInitiated))
             .sink { [weak self] in
                 self?.processPendingChanges()
             }
