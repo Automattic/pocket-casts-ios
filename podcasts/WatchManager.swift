@@ -92,6 +92,12 @@ class WatchManager: NSObject, WCSessionDelegate {
         updateWatchData()
     }
 
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        if session.isReachable {
+            updateWatchData()
+        }
+    }
+
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else {
             FileLog.shared.addMessage("WatchManager: Received message without messageType")
@@ -473,7 +479,6 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         let session = WCSession.default
 
-        // only send data when we have a valid connection
         guard session.activationState == .activated,
               session.isPaired,
               session.isWatchAppInstalled
@@ -481,8 +486,12 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
 
+        let timestamp = Date().timeIntervalSince1970
+
         var applicationDict = [String: Any]()
+        applicationDict[WatchConstants.Messages.messageType] = WatchConstants.Messages.StateUpdate.type
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion
+        applicationDict[WatchConstants.Keys.lastUpdateTime] = timestamp
         let featureFlags: [String: Bool] = FeatureFlag.allCases.reduce(into: [:]) { dict, feature in
             dict[feature.rawValue] = feature.enabled
         }
@@ -503,10 +512,19 @@ class WatchManager: NSObject, WCSessionDelegate {
         applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 0
         applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
 
-        do {
-            try session.updateApplicationContext(applicationDict)
-        } catch {
-            FileLog.shared.addMessage("WatchManager sendStateToWatch failed \(error.localizedDescription)")
+        if session.isReachable {
+            // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext
+            // See: https://linear.app/a8c/issue/PCIOS-504
+            session.sendMessage(applicationDict, replyHandler: nil) { error in
+                FileLog.shared.addMessage("WatchManager sendStateToWatch via sendMessage failed \(error.localizedDescription)")
+            }
+        } else {
+            // When not reachable, fall back to updateApplicationContext for eventual delivery
+            do {
+                try session.updateApplicationContext(applicationDict)
+            } catch {
+                FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
+            }
         }
     }
 

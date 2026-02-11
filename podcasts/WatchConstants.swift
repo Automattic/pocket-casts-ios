@@ -233,5 +233,9 @@ public enum WatchConstants {
             public static let password = "password"
             public static let refreshToken = "refreshToken"
         }
+
+        enum StateUpdate {
+            public static let type = "stateUpdate"
+        }
     }
 }
