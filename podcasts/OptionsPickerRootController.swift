@@ -59,28 +59,16 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         scrollView.layer.cornerRadius = 6
         scrollView.clipsToBounds = true
         view.addSubview(scrollView)
+        scrollView.backgroundColor = colors.background
 
         stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.distribution = .fill
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        stackBgView = UIView()
-        stackView.insertSubview(stackBgView, at: 0)
-        stackBgView.anchorToAllSidesOf(view: stackView)
-
-        stackBgView.backgroundColor = colors.background
-
         scrollView.addSubview(stackView)
-
-        stackBgView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
-        stackBgView.layer.shadowOffset = CGSize(width: 0, height: -1)
-        stackBgView.layer.shadowOpacity = 0.2
-        stackBgView.layer.shadowRadius = 10
-        stackBgView.layer.cornerRadius = 6
-        stackBgView.layer.shadowPath = UIBezierPath(rect: stackBgView.layer.bounds).cgPath
 
         // Stack view fills the scroll view's content area at full width
         NSLayoutConstraint.activate([
@@ -202,11 +190,14 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     func aboutToPresentOptions(bottomPadding: CGFloat) {
         let bottomPaddingView = UIView()
+        bottomPaddingView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             bottomPaddingView.heightAnchor.constraint(equalToConstant: bottomPadding),
-            bottomPaddingView.widthAnchor.constraint(equalToConstant: 280)
         ])
         stackView.addArrangedSubview(bottomPaddingView)
+        NSLayoutConstraint.activate([
+            bottomPaddingView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+        ])
     }
 
     // MARK: - Animate in/out
