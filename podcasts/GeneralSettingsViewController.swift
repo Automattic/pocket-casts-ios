@@ -12,14 +12,26 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled }
-    private var tableData: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+    enum TableRow { case skipForward, skipBack, keepScreenAwake, openPlayer, intelligentPlaybackResumption, defaultRowAction, extraMediaActions, defaultAddToUpNextSwipe, defaultGrouping, defaultArchive, playUpNextOnTap, legacyBluetooth, multiSelectGesture, openLinksInBrowser, publishChapterTitles, autoplay, autoRestartSleepTimer, shakeToRestartSleepTimer, isLockScreenScrubberDisabled, voiceBoostN }
+    private var tableData: [[TableRow]] {
+        var data: [[TableRow]] = [[.defaultRowAction, .defaultGrouping, .defaultArchive, .defaultAddToUpNextSwipe, .openLinksInBrowser], [.skipForward, .skipBack, .keepScreenAwake, .openPlayer, .isLockScreenScrubberDisabled, .intelligentPlaybackResumption], [.autoRestartSleepTimer], [.shakeToRestartSleepTimer], [.playUpNextOnTap], [.extraMediaActions], [.legacyBluetooth], [.multiSelectGesture], [.publishChapterTitles], [.autoplay]]
+        if FeatureFlag.voiceBoostN.enabled {
+            data.append([.voiceBoostN])
+        }
+        return data
+    }
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
             settingsTable.register(UINib(nibName: "TimeStepperCell", bundle: nil), forCellReuseIdentifier: timeStepperCellId)
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            // Enable automatic row height for dynamic content
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -302,6 +314,16 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             cell.cellSwitch.addTarget(self, action: #selector(disableLockScreenScrubberToggled(_:)), for: .valueChanged)
 
             return cell
+        case .voiceBoostN:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+
+            cell.cellLabel.text = L10n.settingsGeneralVoiceBoostN
+            cell.cellSwitch.isOn = Settings.isVoiceBoostNEnabled
+
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(voiceBoostNToggled(_:)), for: .valueChanged)
+
+            return cell
         }
     }
 
@@ -423,10 +445,6 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         return nil
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        Constants.Values.tableSectionHeaderHeight
-    }
-
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let lastSectionItem = tableData[safe: section]?.last
 
@@ -449,6 +467,8 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             return L10n.autoRestartSleepTimerDescription
         case .shakeToRestartSleepTimer:
             return L10n.shakeToRestartSleepTimerDescription
+        case .voiceBoostN:
+            return L10n.settingsGeneralVoiceBoostNSubtitle
         default:
             return nil
         }
@@ -573,6 +593,10 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         Settings.isLockScreenScrubbingDisabled = !sender.isOn
 
         Settings.trackValueToggled(.settingsGeneralDisableLockScreenScrubberToggled, enabled: !sender.isOn)
+    }
+
+    @objc private func voiceBoostNToggled(_ sender: UISwitch) {
+        Settings.isVoiceBoostNEnabled = sender.isOn
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

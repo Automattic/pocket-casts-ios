@@ -8,6 +8,7 @@ excluded:
   - fastlane
   # Enumerate without pattern because it makes SwiftLint resolved faster
   - Modules/DataModel/.build
+  - Modules/GRDBMacros/.build
   - Modules/Server/.build
   - Modules/Utils/.build
   - Pods

@@ -6,7 +6,16 @@ class SwitchCell: ThemeableCell {
         cellSwitch.isAccessibilityElement = false
         return cellSwitch
     }()
-    @IBOutlet var cellLabel: UILabel!
+    @IBOutlet var cellLabel: UILabel! {
+        didSet {
+            cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
+            cellLabel.numberOfLines = 0
+            cellLabel.adjustsFontForContentSizeCategory = true
+            // Ensure label can expand vertically
+            cellLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            cellLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        }
+    }
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var cellTextToImageConstraint: NSLayoutConstraint!
 
@@ -36,6 +45,7 @@ class SwitchCell: ThemeableCell {
         cellTextToImageConstraint.isActive = true
         cellImage.tintColor = cellSwitch.onTintColor
         cellImage.image = UIImage(named: imageName)
+        updateSize()
     }
 
     func setNoImage() {
@@ -48,5 +58,19 @@ class SwitchCell: ThemeableCell {
 
     override func accessibilityActivate() -> Bool {
         return isLocked
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let settingsSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: settingsSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

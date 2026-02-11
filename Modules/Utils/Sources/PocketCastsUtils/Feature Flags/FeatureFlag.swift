@@ -274,6 +274,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Fix Watch app overwriting phone's Up Next queue by adding debouncing and fixing timestamp comparison logic
     case watchUpNextSyncFix
 
+    /// Enable VoiceBoostN with updated description copy (TestFlight only)
+    case voiceBoostN
+
+    /// Use GRDB QueryInterface for database queries instead of raw SQL
+    case grdbQueryInterface
+
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
 
@@ -463,6 +469,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .watchUpNextSyncFix:
             true
+        case .voiceBoostN:
+            BuildEnvironment.current == .testFlight || BuildEnvironment.current == .debug
+        case .grdbQueryInterface:
+            false
         case .playlistCacheInvalidation:
             true
         }

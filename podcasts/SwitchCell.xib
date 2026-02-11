@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,31 +12,36 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SwitchCell" customModule="podcasts" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SOQ-VW-YTk">
-                        <rect key="frame" x="16" y="10" width="24" height="24"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SOQ-VW-YTk">
+                        <rect key="frame" x="16" y="20" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="Gg3-l0-aGr"/>
                             <constraint firstAttribute="width" constant="24" id="hea-T1-u6c"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label is really long and longer than you'd expect so let's see" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7R8-mL-FCf" userLabel="Cell Text" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="50" y="3" width="265" height="38.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label is really long and longer than you'd expect so let's see" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7R8-mL-FCf" userLabel="Cell Text" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="48" y="0.0" width="267" height="64"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="Rgl-tz-td9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7R8-mL-FCf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6N7-rg-IqN"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6N7-rg-IqN"/>
                     <constraint firstAttribute="trailing" secondItem="7R8-mL-FCf" secondAttribute="trailing" constant="5" id="9V9-27-d2T"/>
-                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="10" id="CL0-C3-qSk"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="height" relation="greaterThanOrEqual" secondItem="SOQ-VW-YTk" secondAttribute="height" id="9sS-RV-TvM"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="SOQ-VW-YTk" secondAttribute="trailing" constant="8" id="CL0-C3-qSk"/>
+                    <constraint firstAttribute="bottom" secondItem="7R8-mL-FCf" secondAttribute="bottom" id="FXr-HC-OBf"/>
                     <constraint firstItem="SOQ-VW-YTk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fnJ-O2-KwA"/>
-                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="16" id="gMv-6M-2OZ"/>
-                    <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="u75-d4-sat"/>
+                    <constraint firstItem="7R8-mL-FCf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" priority="750" id="gMv-6M-2OZ"/>
+                    <constraint firstItem="SOQ-VW-YTk" firstAttribute="centerY" secondItem="7R8-mL-FCf" secondAttribute="centerY" id="u75-d4-sat"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

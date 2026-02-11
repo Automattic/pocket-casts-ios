@@ -14,6 +14,13 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "PlusLockedInfoCell", bundle: nil), forCellReuseIdentifier: lockInfoCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
+            settingsTable.sectionFooterHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionFooterHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -105,14 +112,6 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         }
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = tableSections()[indexPath.section]
-        if section == .lockedInfo {
-            return 161
-        }
-        return 56
-    }
-
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = tableSections()[section]
         if section == .upNext {
@@ -120,13 +119,10 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
             let footer = UIView(frame: CGRect(x: 0, y: 0, width: settingsTable.bounds.width, height: footerHeight))
             let infoLabel = ThemeableLabel()
             infoLabel.style = .primaryText02
-
             let numEpisodes = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 5
 
             var infoText: String
-            var useSmallTextBox = true
             if Settings.watchAutoDownloadUpNextEnabled() {
-                useSmallTextBox = false
                 infoText = L10n.settingsWatchEpisodeLimitSubtitle(numEpisodes.localized())
 
                 let secondInfoTextLine: String
@@ -143,36 +139,20 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
             infoLabel.text = infoText
             infoLabel.numberOfLines = 0
-            infoLabel.font = UIFont.systemFont(ofSize: 13)
+            infoLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
+            infoLabel.adjustsFontForContentSizeCategory = true
             infoLabel.translatesAutoresizingMaskIntoConstraints = false
             footer.addSubview(infoLabel)
-            let bottomContraintConstant: CGFloat = useSmallTextBox ? -50 : 0
             NSLayoutConstraint.activate([
-                infoLabel.topAnchor.constraint(equalTo: footer.topAnchor, constant: 6),
+                infoLabel.topAnchor.constraint(equalTo: footer.topAnchor, constant: 8),
                 infoLabel.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: 16),
                 infoLabel.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -16),
-                infoLabel.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: bottomContraintConstant)
+                infoLabel.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: 8)
             ])
 
             return footer
         }
         return nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let section = tableSections()[section]
-        if section == .upNext {
-            return UIScreen.main.bounds.width > 350 ? 130 : 170
-        }
-        return UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let thisSection = tableSections()[section]
-        if thisSection == .upNext {
-            return Constants.Values.tableSectionHeaderHeight
-        }
-        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

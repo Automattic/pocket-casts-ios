@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,9 +26,12 @@
                             <constraint firstAttribute="width" constant="56" id="MDK-wp-KSR"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Name Is Very Long Isn't It?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI1-hI-3Bc" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="82" y="17" width="186" height="38.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Podcast Name Is Very Long Isn't It?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI1-hI-3Bc" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="82" y="0.0" width="186" height="72"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="72" id="7md-47-8N3"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -47,9 +50,11 @@
                 <constraints>
                     <constraint firstItem="adL-Rt-KMT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8s2-J0-hn0"/>
                     <constraint firstItem="4v7-ir-rc1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="A7o-8j-t3T"/>
-                    <constraint firstItem="iI1-hI-3Bc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BbY-ZO-M5J"/>
+                    <constraint firstItem="iI1-hI-3Bc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BOh-B9-jMg"/>
                     <constraint firstItem="adL-Rt-KMT" firstAttribute="leading" secondItem="iI1-hI-3Bc" secondAttribute="trailing" constant="12" id="MBB-38-AUU"/>
                     <constraint firstItem="4v7-ir-rc1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RoP-CG-Ruo"/>
+                    <constraint firstItem="iI1-hI-3Bc" firstAttribute="height" relation="greaterThanOrEqual" secondItem="4v7-ir-rc1" secondAttribute="height" id="SE3-to-5Ts"/>
+                    <constraint firstAttribute="bottom" secondItem="iI1-hI-3Bc" secondAttribute="bottom" id="YPv-Bn-wxB"/>
                     <constraint firstItem="hlm-b8-EZu" firstAttribute="centerY" secondItem="adL-Rt-KMT" secondAttribute="centerY" id="mga-aY-E46"/>
                     <constraint firstItem="iI1-hI-3Bc" firstAttribute="leading" secondItem="4v7-ir-rc1" secondAttribute="trailing" constant="10" id="mwc-Mi-f2q"/>
                     <constraint firstAttribute="trailing" secondItem="adL-Rt-KMT" secondAttribute="trailing" constant="16" id="npN-bh-MCX"/>

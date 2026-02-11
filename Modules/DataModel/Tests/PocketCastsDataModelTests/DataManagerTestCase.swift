@@ -43,13 +43,17 @@ class DataManagerTestCase: XCTestCase {
     /// Runs the provided test block with both SQL and GRDB API implementations.
     ///
     /// - Parameter testBlock: A closure that receives a DataManager and the implementation name.
-    ///                        The implementation name is either "" or "GRDB".
+    ///                        The implementation name is either "SQL" or "GRDB".
     func runWithBothImplementations(_ testBlock: (DataManager, String) throws -> Void) throws {
         // Test with raw SQL query
         let sqlDataManager = DataManager.newTestDataManager()
         try testBlock(sqlDataManager, "SQL")
 
-        // TODO: Test with GRDB implementation
+        // Test with GRDB implementation
+        try featureFlagStore.override(FeatureFlag.grdbQueryInterface, withValue: true)
+        let grdbDataManager = DataManager.newTestDataManager()
+        try testBlock(grdbDataManager, "GRDB")
+        featureFlagStore.resetOverrides()
     }
 
     /// Async version of runWithBothImplementations
@@ -58,7 +62,11 @@ class DataManagerTestCase: XCTestCase {
         let sqlDataManager = DataManager.newTestDataManager()
         try await testBlock(sqlDataManager, "SQL")
 
-        // TODO: Test with GRDB API
+        // Test with GRDB implementation
+        try featureFlagStore.override(FeatureFlag.grdbQueryInterface, withValue: true)
+        let grdbDataManager = DataManager.newTestDataManager()
+        try await testBlock(grdbDataManager, "GRDB")
+        featureFlagStore.resetOverrides()
     }
 
     // MARK: - Common Test Helpers

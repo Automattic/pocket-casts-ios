@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <accessibility key="accessibilityConfiguration" label="Select Episode">
                             <accessibilityTraits key="traits" button="YES"/>
                             <bool key="isElement" value="YES"/>
@@ -45,23 +46,20 @@
                             <constraint firstAttribute="height" constant="56" id="Ohc-ER-Sk3"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="6" width="59" height="17"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="17" id="c1B-4L-ETj"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="84" y="6" width="228" height="13.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                         <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Glow In The Dark Sharks can be real snarks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE1-9S-69I" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="25" width="228" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="749" text="Glow In The Dark Sharks can be real snarks" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE1-9S-69I" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="84" y="21.5" width="212" height="24.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oRM-hc-IES">
-                        <rect key="frame" x="84" y="48.5" width="236" height="16"/>
+                        <rect key="frame" x="84" y="50" width="236" height="16"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="5GB-f2-YaE">
                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -77,9 +75,9 @@
                                     <constraint firstAttribute="width" constant="16" id="Y3Q-rK-Oi7"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 minutes left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-dn-LHr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32 minutes left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-dn-LHr" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="48" y="0.0" width="188" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -87,7 +85,7 @@
                     </stackView>
                     <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPL-EK-QpB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="75" width="320" height="1"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Yg3-Y0-GSr"/>
                         </constraints>
@@ -100,6 +98,7 @@
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7mz-gA-2Vu"/>
                     <constraint firstItem="wE1-9S-69I" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="8aj-Ja-L8V"/>
                     <constraint firstAttribute="trailing" secondItem="SPL-EK-QpB" secondAttribute="trailing" id="FRd-Je-Vth"/>
+                    <constraint firstItem="SPL-EK-QpB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OJf-Is-8tF" secondAttribute="bottom" constant="6" id="FT0-GR-4aw"/>
                     <constraint firstItem="SPL-EK-QpB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="THB-Gv-8b2"/>
                     <constraint firstItem="oRM-hc-IES" firstAttribute="top" secondItem="wE1-9S-69I" secondAttribute="bottom" constant="4" id="Tna-d1-ajw"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-24" id="W6l-JH-2df"/>
@@ -107,8 +106,10 @@
                     <constraint firstItem="vxd-V8-but" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="aTa-Qw-wZX"/>
                     <constraint firstItem="oRM-hc-IES" firstAttribute="leading" secondItem="wE1-9S-69I" secondAttribute="leading" id="bI8-92-Yir"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-20" id="dAg-4g-2db"/>
+                    <constraint firstAttribute="trailing" secondItem="vxd-V8-but" secondAttribute="trailing" constant="8" id="dsp-Ea-A98"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wE1-9S-69I" secondAttribute="trailing" constant="8" id="eja-el-zCZ"/>
-                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="OJf-Is-8tF" secondAttribute="bottom" constant="8" id="ixX-SD-QBc"/>
+                    <constraint firstItem="oRM-hc-IES" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-14" id="gys-zy-Lhp"/>
+                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-4" id="ixX-SD-QBc"/>
                     <constraint firstItem="wE1-9S-69I" firstAttribute="top" secondItem="vxd-V8-but" secondAttribute="bottom" constant="2" id="tXG-hc-RAK"/>
                 </constraints>
             </tableViewCellContentView>
@@ -132,5 +133,8 @@
     <resources>
         <image name="discover_tick" width="24" height="24"/>
         <image name="list_downloaded" width="16" height="16"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

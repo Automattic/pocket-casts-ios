@@ -28,13 +28,15 @@ class PlusLockedInfoView: ThemeableView {
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
             infoLabel.style = .primaryText02
+            infoLabel.font = UIFont.font(with: .subheadline, maxSizeCategory: .accessibilityMedium)
+            infoLabel.adjustsFontForContentSizeCategory = true
             setInfoLabelText()
         }
     }
 
     @IBOutlet var closeButton: TintableImageButton! {
         didSet {
-            closeButton.setImage(UIImage(named: "close"), for: .normal)
+            updateCloseButtonImage()
             closeButton.tintColor = ThemeColor.primaryIcon02()
         }
     }
@@ -43,6 +45,10 @@ class PlusLockedInfoView: ThemeableView {
         didSet {
             learnMoreButton.style = .primaryInteractive01
             learnMoreButton.setTitle(L10n.plusMarketingLearnMoreButton, for: .normal)
+            learnMoreButton.titleLabel?.font = UIFont.font(with: .subheadline, maxSizeCategory: .accessibilityMedium)
+            learnMoreButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            learnMoreButton.titleLabel?.numberOfLines = 0
+            learnMoreButton.titleLabel?.textAlignment = .center
         }
     }
 
@@ -60,6 +66,33 @@ class PlusLockedInfoView: ThemeableView {
         Bundle.main.loadNibNamed("PlusLockedInfoView", owner: self, options: nil)
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
+        updateSize()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateCloseButtonImage()
+            updateSize()
+        }
+    }
+
+    private func updateCloseButtonImage() {
+        let symbolConfig = UIImage.SymbolConfiguration(textStyle: .largeTitle, scale: .medium)
+        let closeImage = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
+        closeButton?.setImage(closeImage, for: .normal)
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let logoWidth = max(232.5, metric.scaledValue(for: 232.5))
+        let logoHeight = max(32, metric.scaledValue(for: 32))
+        logoImageView.updateSizeConstraints(width: logoWidth, height: logoHeight)
+
+        let closeButtonSize = max(20, metric.scaledValue(for: 20))
+        closeButton.updateSizeConstraints(to: closeButtonSize)
     }
 
     @IBAction func closeTapped() {

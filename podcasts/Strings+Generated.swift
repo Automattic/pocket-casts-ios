@@ -3605,6 +3605,10 @@ internal enum L10n {
   internal static var settingsGeneralUpNextTapOffSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_off_subtitle", fallback: "Tapping an episode in Up Next shows the actions page. Long press plays the episode. Turn on to switch these around.") }
   /// Subtitle explaining the toggle to modify how a tap is handled in the up next queue. This is used when the toggle is on.
   internal static var settingsGeneralUpNextTapOnSubtitle: String { return L10n.tr("Localizable", "settings_general_up_next_tap_on_subtitle", fallback: "Tapping an episode in Up Next will play it. Long press shows episode options. Turn off to switch these around.") }
+  /// Title for the VoiceBoostN setting in Settings > General
+  internal static var settingsGeneralVoiceBoostN: String { return L10n.tr("Localizable", "settings_general_voice_boost_n", fallback: "VoiceBoostN") }
+  /// Subtitle for the VoiceBoostN setting in Settings > General
+  internal static var settingsGeneralVoiceBoostNSubtitle: String { return L10n.tr("Localizable", "settings_general_voice_boost_n_subtitle", fallback: "Use updated Volume Boost with more consistent voice levels.") }
   /// Title for the menu that takes you to the global up next queue settings
   internal static var settingsGlobalSettings: String { return L10n.tr("Localizable", "settings_global_settings", fallback: "Global Settings") }
   /// Label for a settings menu that allows the user to customize headphone action.
@@ -4321,6 +4325,8 @@ internal enum L10n {
   internal static var volumeBoost: String { return L10n.tr("Localizable", "volume_boost", fallback: "Volume Boost") }
   /// A short description of what the Volume Boost feature does
   internal static var volumeBoostDescription: String { return L10n.tr("Localizable", "volume_boost_description", fallback: "Voices sound louder") }
+  /// A short description of what the VoiceBoostN feature does
+  internal static var volumeBoostNDescription: String { return L10n.tr("Localizable", "volume_boost_n_description", fallback: "Voice levels are more consistent") }
   /// A common string used throughout the app. Informs the user that the app is waiting for wifi to reconnect.
   internal static var waitForWifi: String { return L10n.tr("Localizable", "wait_for_wifi", fallback: "Waiting for WiFi") }
   /// A common string used throughout the app. Used to reference the Watch as the playing source with in the Apple Watch App (Phone is the other option for this use case)

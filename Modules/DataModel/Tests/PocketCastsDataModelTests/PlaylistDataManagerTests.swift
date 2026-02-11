@@ -374,4 +374,122 @@ final class PlaylistDataManagerTests: DataManagerTestCase {
             XCTAssertNotNil(found?.playlistUpdateDate, "\(impl): Should have update date")
         }
     }
+
+    // MARK: - save Tests (PersistableRecord API)
+
+    func testSaveInsertsNewPlaylistWithAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let playlist = EpisodeFilter()
+            playlist.uuid = "save-test-uuid"
+            playlist.playlistName = "Save Test Playlist"
+            playlist.manual = true
+            playlist.sortPosition = 99
+            playlist.syncStatus = SyncStatus.notSynced.rawValue
+            playlist.wasDeleted = false
+            playlist.autoDownloadEpisodes = true
+            playlist.filterHours = 48
+            playlist.filterDuration = true
+            playlist.filterUnplayed = true
+            playlist.filterPartiallyPlayed = true
+            playlist.filterFinished = false
+            playlist.filterStarred = true
+            playlist.filterAllPodcasts = true
+
+            dataManager.save(playlist: playlist)
+
+            let found = dataManager.findPlaylist(uuid: "save-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find saved playlist")
+            XCTAssertEqual(found?.uuid, "save-test-uuid", "\(impl): UUID should match")
+            XCTAssertEqual(found?.playlistName, "Save Test Playlist", "\(impl): Name should match")
+            XCTAssertEqual(found?.manual, true, "\(impl): manual should match")
+            XCTAssertEqual(found?.sortPosition, 99, "\(impl): sortPosition should match")
+            XCTAssertEqual(found?.syncStatus, SyncStatus.notSynced.rawValue, "\(impl): syncStatus should match")
+            XCTAssertEqual(found?.wasDeleted, false, "\(impl): wasDeleted should match")
+            XCTAssertEqual(found?.autoDownloadEpisodes, true, "\(impl): autoDownloadEpisodes should match")
+            XCTAssertEqual(found?.filterHours, 48, "\(impl): filterHours should match")
+            XCTAssertEqual(found?.filterDuration, true, "\(impl): filterDuration should match")
+            XCTAssertEqual(found?.filterUnplayed, true, "\(impl): filterUnplayed should match")
+            XCTAssertEqual(found?.filterPartiallyPlayed, true, "\(impl): filterPartiallyPlayed should match")
+            XCTAssertEqual(found?.filterFinished, false, "\(impl): filterFinished should match")
+            XCTAssertEqual(found?.filterStarred, true, "\(impl): filterStarred should match")
+            XCTAssertEqual(found?.filterAllPodcasts, true, "\(impl): filterAllPodcasts should match")
+        }
+    }
+
+    func testSaveUpdatesExistingPlaylist() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let playlist = self.createTestPlaylist(uuid: "update-test-uuid", name: "Original Name", manual: false, dataManager: dataManager)
+
+            // Update fields
+            playlist.playlistName = "Updated Name"
+            playlist.manual = true
+            playlist.autoDownloadEpisodes = true
+            playlist.filterHours = 72
+            playlist.syncStatus = SyncStatus.synced.rawValue
+            dataManager.save(playlist: playlist)
+
+            let found = dataManager.findPlaylist(uuid: "update-test-uuid")
+            XCTAssertEqual(found?.playlistName, "Updated Name", "\(impl): Name should be updated")
+            XCTAssertEqual(found?.manual, true, "\(impl): manual should be updated")
+            XCTAssertEqual(found?.autoDownloadEpisodes, true, "\(impl): autoDownloadEpisodes should be updated")
+            XCTAssertEqual(found?.filterHours, 72, "\(impl): filterHours should be updated")
+            XCTAssertEqual(found?.syncStatus, SyncStatus.synced.rawValue, "\(impl): syncStatus should be updated")
+        }
+    }
+
+    func testSaveGeneratesIdIfZero() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let playlist = EpisodeFilter()
+            playlist.uuid = "id-test-uuid"
+            playlist.playlistName = "ID Test Playlist"
+            playlist.id = 0
+
+            dataManager.save(playlist: playlist)
+
+            XCTAssertNotEqual(playlist.id, 0, "\(impl): ID should be generated")
+
+            let found = dataManager.findPlaylist(uuid: "id-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find playlist with generated ID")
+            XCTAssertNotEqual(found?.id, 0, "\(impl): Found playlist should have non-zero ID")
+        }
+    }
+
+    func testSaveUpdatesPlaylistUpdateDate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let playlist = EpisodeFilter()
+            playlist.uuid = "date-test-uuid"
+            playlist.playlistName = "Date Test Playlist"
+
+            let beforeSave = Date()
+            dataManager.save(playlist: playlist)
+
+            let found = dataManager.findPlaylist(uuid: "date-test-uuid")
+            XCTAssertNotNil(found?.playlistUpdateDate, "\(impl): playlistUpdateDate should be set")
+            if let updateDate = found?.playlistUpdateDate {
+                XCTAssertGreaterThanOrEqual(updateDate, beforeSave.addingTimeInterval(-1), "\(impl): playlistUpdateDate should be recent")
+            }
+        }
+    }
+
+    func testSavePreservesFilterSettings() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let playlist = EpisodeFilter()
+            playlist.uuid = "filter-test-uuid"
+            playlist.playlistName = "Filter Test Playlist"
+            playlist.filterAudioVideoType = 2
+            playlist.filterDownloaded = true
+            playlist.filterNotDownloaded = true
+            playlist.sortType = 3
+            playlist.podcastUuids = "podcast-1,podcast-2,podcast-3"
+
+            dataManager.save(playlist: playlist)
+
+            let found = dataManager.findPlaylist(uuid: "filter-test-uuid")
+            XCTAssertEqual(found?.filterAudioVideoType, 2, "\(impl): filterAudioVideoType should be preserved")
+            XCTAssertEqual(found?.filterDownloaded, true, "\(impl): filterDownloaded should be preserved")
+            XCTAssertEqual(found?.filterNotDownloaded, true, "\(impl): filterNotDownloaded should be preserved")
+            XCTAssertEqual(found?.sortType, 3, "\(impl): sortType should be preserved")
+            XCTAssertEqual(found?.podcastUuids, "podcast-1,podcast-2,podcast-3", "\(impl): podcastUuids should be preserved")
+        }
+    }
 }

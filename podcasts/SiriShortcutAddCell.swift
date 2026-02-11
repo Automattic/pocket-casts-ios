@@ -4,7 +4,12 @@ import UIKit
 class SiriShortcutAddCell: ThemeableCell {
     @IBOutlet var iconView: UIImageView!
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel! {
+        didSet {
+            titleLabel.font = UIFont.font(ofSize: 16.0, weight: .medium, scalingWith: .callout)
+        }
+    }
+
     @IBOutlet var addIcon: TintableImageView! {
         didSet {
             addIcon.tintColor = ThemeColor.primaryInteractive01()

@@ -114,6 +114,11 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         didSet {
             settingsTable.register(UINib(nibName: "SwitchCell", bundle: nil), forCellReuseIdentifier: switchCellId)
             settingsTable.register(UINib(nibName: "DisclosureCell", bundle: nil), forCellReuseIdentifier: disclosureCellId)
+
+            settingsTable.rowHeight = UITableView.automaticDimension
+            settingsTable.estimatedRowHeight = UITableView.automaticDimension
+            settingsTable.sectionHeaderHeight = UITableView.automaticDimension
+            settingsTable.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
         }
     }
 
@@ -125,10 +130,10 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
         Analytics.track(.settingsNotificationsShown)
 
-        settingsTable.estimatedSectionHeaderHeight = UITableView.automaticDimension
-
         checkNotificationsPermissionBanner()
         addCustomObserver(UIApplication.didBecomeActiveNotification, selector: #selector(checkNotificationsPermissionBanner))
+
+        insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -217,10 +222,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             return
         }
 
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

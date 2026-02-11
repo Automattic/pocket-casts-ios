@@ -17,12 +17,14 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
+            episodeTitle.font = UIFont.font(ofSize: 16, scalingWith: .callout)
         }
     }
 
     @IBOutlet var episodeInfo: ThemeableLabel! {
         didSet {
             episodeInfo.style = .primaryText02
+            episodeInfo.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
         }
     }
 
@@ -30,6 +32,7 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
+            dayName.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
         }
     }
 
@@ -75,6 +78,8 @@ class PlayerCell: ThemeableSwipeCell {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadProgressChange), name: Constants.Notifications.downloadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellForDownloadStatusChange(_:)), name: Constants.Notifications.episodeDownloadStatusChanged, object: nil)
+
+        updateSize()
     }
 
     override func addSubview(_ view: UIView) {
@@ -237,6 +242,26 @@ class PlayerCell: ThemeableSwipeCell {
         // Update the reorder control color
         let activeTheme = themeOverride ?? Theme.sharedTheme.activeTheme
         overrideUserInterfaceStyle = activeTheme.isDark ? .dark : .light
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(56, metric.scaledValue(for: 56))
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let iconSize = max(16, metric.scaledValue(for: 16))
+        downloadedIndicator.updateSizeConstraints(to: iconSize)
+        downloadingIndicator.updateSizeConstraints(to: iconSize)
+
+        let tickSize = max(24, metric.scaledValue(for: 24))
+        selectTickImageView.updateSizeConstraints(to: tickSize)
+        selectTickImageView.layer.cornerRadius = tickSize / 2
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        updateSize()
     }
 }
 

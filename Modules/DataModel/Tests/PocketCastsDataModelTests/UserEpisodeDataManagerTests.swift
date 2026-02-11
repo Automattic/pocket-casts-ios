@@ -401,7 +401,182 @@ final class UserEpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
-    // MARK: - bulkSave Tests
+    // MARK: - save Tests (PersistableRecord API)
+
+    func testSaveInsertsNewUserEpisodeWithAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode = UserEpisode()
+            episode.uuid = "save-test-uuid"
+            episode.title = "Save Test Episode"
+            episode.addedDate = Date(timeIntervalSince1970: 1000000)
+            episode.duration = 7200
+            episode.playedUpTo = 300.5
+            episode.playingStatus = PlayingStatus.inProgress.rawValue
+            episode.episodeStatus = DownloadStatus.downloaded.rawValue
+            episode.uploadStatus = UploadStatus.uploaded.rawValue
+            episode.autoDownloadStatus = AutoDownloadStatus.autoDownloaded.rawValue
+            episode.sizeInBytes = 1024000
+            episode.fileType = "audio/mpeg"
+            episode.hasCustomImage = true
+            episode.imageColor = 5
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findUserEpisode(uuid: "save-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find saved user episode")
+            XCTAssertEqual(found?.uuid, "save-test-uuid", "\(impl): UUID should match")
+            XCTAssertEqual(found?.title, "Save Test Episode", "\(impl): Title should match")
+            XCTAssertEqual(found?.duration, 7200, "\(impl): Duration should match")
+            XCTAssertEqual(found?.playedUpTo, 300.5, "\(impl): playedUpTo should match")
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.inProgress.rawValue, "\(impl): playingStatus should match")
+            XCTAssertEqual(found?.episodeStatus, DownloadStatus.downloaded.rawValue, "\(impl): episodeStatus should match")
+            XCTAssertEqual(found?.uploadStatus, UploadStatus.uploaded.rawValue, "\(impl): uploadStatus should match")
+            XCTAssertEqual(found?.autoDownloadStatus, AutoDownloadStatus.autoDownloaded.rawValue, "\(impl): autoDownloadStatus should match")
+            XCTAssertEqual(found?.sizeInBytes, 1024000, "\(impl): sizeInBytes should match")
+            XCTAssertEqual(found?.fileType, "audio/mpeg", "\(impl): fileType should match")
+            XCTAssertEqual(found?.hasCustomImage, true, "\(impl): hasCustomImage should match")
+            XCTAssertEqual(found?.imageColor, 5, "\(impl): imageColor should match")
+        }
+    }
+
+    func testSaveUpdatesExistingUserEpisode() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode = self.createTestUserEpisode(uuid: "update-test-uuid", title: "Original Title", duration: 3600, dataManager: dataManager)
+
+            // Update fields
+            episode.title = "Updated Title"
+            episode.duration = 7200
+            episode.playedUpTo = 500.0
+            episode.playingStatus = PlayingStatus.completed.rawValue
+            episode.episodeStatus = DownloadStatus.downloaded.rawValue
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findUserEpisode(uuid: "update-test-uuid")
+            XCTAssertEqual(found?.title, "Updated Title", "\(impl): Title should be updated")
+            XCTAssertEqual(found?.duration, 7200, "\(impl): Duration should be updated")
+            XCTAssertEqual(found?.playedUpTo, 500.0, "\(impl): playedUpTo should be updated")
+            XCTAssertEqual(found?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): playingStatus should be updated")
+            XCTAssertEqual(found?.episodeStatus, DownloadStatus.downloaded.rawValue, "\(impl): episodeStatus should be updated")
+        }
+    }
+
+    func testSaveGeneratesIdIfZero() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode = UserEpisode()
+            episode.uuid = "id-test-uuid"
+            episode.title = "ID Test Episode"
+            episode.addedDate = Date()
+            episode.id = 0
+
+            dataManager.save(episode: episode)
+
+            XCTAssertNotEqual(episode.id, 0, "\(impl): ID should be generated")
+
+            let found = dataManager.findUserEpisode(uuid: "id-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find episode with generated ID")
+            XCTAssertNotEqual(found?.id, 0, "\(impl): Found episode should have non-zero ID")
+        }
+    }
+
+    func testSavePreservesModifiedFlags() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode = UserEpisode()
+            episode.uuid = "modified-test-uuid"
+            episode.title = "Modified Flags Test"
+            episode.addedDate = Date()
+            episode.playingStatusModified = 12345
+            episode.playedUpToModified = 67890
+            episode.titleModified = 11111
+            episode.durationModified = 22222
+            episode.imageModified = 33333
+            episode.imageColorModified = 44444
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findUserEpisode(uuid: "modified-test-uuid")
+            XCTAssertEqual(found?.playingStatusModified, 12345, "\(impl): playingStatusModified should be preserved")
+            XCTAssertEqual(found?.playedUpToModified, 67890, "\(impl): playedUpToModified should be preserved")
+            XCTAssertEqual(found?.titleModified, 11111, "\(impl): titleModified should be preserved")
+            XCTAssertEqual(found?.durationModified, 22222, "\(impl): durationModified should be preserved")
+            XCTAssertEqual(found?.imageModified, 33333, "\(impl): imageModified should be preserved")
+            XCTAssertEqual(found?.imageColorModified, 44444, "\(impl): imageColorModified should be preserved")
+        }
+    }
+
+    func testSavePreservesOptionalStrings() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode = UserEpisode()
+            episode.uuid = "optional-test-uuid"
+            episode.title = "Optional Strings Test"
+            episode.addedDate = Date()
+            episode.downloadUrl = "https://example.com/episode.mp3"
+            episode.downloadTaskId = "download-task-123"
+            episode.uploadTaskId = "upload-task-456"
+            episode.imageUrl = "https://example.com/image.jpg"
+            episode.downloadErrorDetails = "Test error"
+            episode.playbackErrorDetails = "Playback error"
+
+            dataManager.save(episode: episode)
+
+            let found = dataManager.findUserEpisode(uuid: "optional-test-uuid")
+            XCTAssertEqual(found?.downloadUrl, "https://example.com/episode.mp3", "\(impl): downloadUrl should be preserved")
+            XCTAssertEqual(found?.downloadTaskId, "download-task-123", "\(impl): downloadTaskId should be preserved")
+            XCTAssertEqual(found?.uploadTaskId, "upload-task-456", "\(impl): uploadTaskId should be preserved")
+            XCTAssertEqual(found?.imageUrl, "https://example.com/image.jpg", "\(impl): imageUrl should be preserved")
+            XCTAssertEqual(found?.downloadErrorDetails, "Test error", "\(impl): downloadErrorDetails should be preserved")
+            XCTAssertEqual(found?.playbackErrorDetails, "Playback error", "\(impl): playbackErrorDetails should be preserved")
+        }
+    }
+
+    // MARK: - bulkSave Tests (PersistableRecord API)
+
+    func testBulkSaveUpdatesExistingUserEpisodes() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let episode1 = self.createTestUserEpisode(uuid: "bulk-update-1", title: "Episode 1", dataManager: dataManager)
+            let episode2 = self.createTestUserEpisode(uuid: "bulk-update-2", title: "Episode 2", dataManager: dataManager)
+
+            // Update the episodes
+            episode1.title = "Episode 1 Updated"
+            episode1.playingStatus = PlayingStatus.completed.rawValue
+            episode2.title = "Episode 2 Updated"
+            episode2.playingStatus = PlayingStatus.inProgress.rawValue
+
+            dataManager.bulkSave(episodes: [episode1, episode2])
+
+            let found1 = dataManager.findUserEpisode(uuid: "bulk-update-1")
+            let found2 = dataManager.findUserEpisode(uuid: "bulk-update-2")
+
+            XCTAssertEqual(found1?.title, "Episode 1 Updated", "\(impl): Episode 1 title should be updated")
+            XCTAssertEqual(found1?.playingStatus, PlayingStatus.completed.rawValue, "\(impl): Episode 1 playingStatus should be updated")
+            XCTAssertEqual(found2?.title, "Episode 2 Updated", "\(impl): Episode 2 title should be updated")
+            XCTAssertEqual(found2?.playingStatus, PlayingStatus.inProgress.rawValue, "\(impl): Episode 2 playingStatus should be updated")
+        }
+    }
+
+    func testBulkSaveMixedInsertAndUpdate() throws {
+        try runWithBothImplementations { dataManager, impl in
+            // Create one existing episode
+            let existingEpisode = self.createTestUserEpisode(uuid: "existing-uuid", title: "Existing Episode", dataManager: dataManager)
+
+            // Create a new episode
+            let newEpisode = UserEpisode()
+            newEpisode.uuid = "new-uuid"
+            newEpisode.title = "New Episode"
+            newEpisode.addedDate = Date()
+
+            // Update existing episode
+            existingEpisode.title = "Existing Episode Updated"
+
+            dataManager.bulkSave(episodes: [existingEpisode, newEpisode])
+
+            let foundExisting = dataManager.findUserEpisode(uuid: "existing-uuid")
+            let foundNew = dataManager.findUserEpisode(uuid: "new-uuid")
+
+            XCTAssertEqual(foundExisting?.title, "Existing Episode Updated", "\(impl): Existing episode should be updated")
+            XCTAssertNotNil(foundNew, "\(impl): New episode should be inserted")
+            XCTAssertEqual(foundNew?.title, "New Episode", "\(impl): New episode title should match")
+        }
+    }
 
     func testBulkSaveSavesMultipleUserEpisodes() throws {
         try runWithBothImplementations { dataManager, impl in
