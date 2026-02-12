@@ -70,6 +70,9 @@ class GridHelper {
                 divideBy = gridType == .threeByThree ? 3 : 4
             }
         }
+        if  collectionView.traitCollection.preferredContentSizeCategory.isAccessibilityCategory {
+            divideBy = floor(divideBy / 2)
+        }
 
         let availableWidth = viewWidth - (spacing * (divideBy-1))
         let cellWidth =  availableWidth / divideBy
