@@ -1192,6 +1192,8 @@ internal enum L10n {
   }
   /// Title of the Episode description
   internal static var episodeDescriptionTitle: String { return L10n.tr("Localizable", "episode_description_title", fallback: "Episode Description") }
+  /// Label for the Add button on the episode detail page. Opens a bottom sheet with options to add to Up Next or playlist.
+  internal static var episodeDetailAdd: String { return L10n.tr("Localizable", "episode_detail_add", fallback: "Add") }
   /// Title of a button the clears the current search text
   internal static var episodeDetailsTitle: String { return L10n.tr("Localizable", "episode_details_title", fallback: "Details") }
   /// Label for adding duration filtering to an episode filter, eg: filter by the duration of an episode
@@ -2137,8 +2139,12 @@ internal enum L10n {
   internal static var playAll: String { return L10n.tr("Localizable", "play_all", fallback: "Play All") }
   /// A common string used throughout the app. Prompt to add the selected item(s) to the end of the queue.
   internal static var playLast: String { return L10n.tr("Localizable", "play_last", fallback: "Play Last") }
+  /// Prompt to add an episode to the end of the Up Next queue. Shown in the episode detail bottom sheet.
+  internal static var playLastInUpNext: String { return L10n.tr("Localizable", "play_last_in_up_next", fallback: "Play last in Up Next") }
   /// A common string used throughout the app. Prompt to add the selected item(s) to the top of the queue.
   internal static var playNext: String { return L10n.tr("Localizable", "play_next", fallback: "Play Next") }
+  /// Prompt to add an episode to the top of the Up Next queue. Shown in the episode detail bottom sheet.
+  internal static var playNextInUpNext: String { return L10n.tr("Localizable", "play_next_in_up_next", fallback: "Play next in Up Next") }
   /// A description shown in the Completion Rate screen for Playback 2024
   internal static func playback2024CompletionRateDescription(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "playback_2024_completion_rate_description", String(describing: p1), String(describing: p2), fallback: "From the %1$@ episodes you started you listened fully to a total of %2$@.")

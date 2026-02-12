@@ -1465,8 +1465,14 @@
 /* A common string used throughout the app. Prompt to add the selected item(s) to the end of the queue. */
 "play_last" = "Play Last";
 
+/* Prompt to add an episode to the end of the Up Next queue. Shown in the episode detail bottom sheet. */
+"play_last_in_up_next" = "Play last in Up Next";
+
 /* A common string used throughout the app. Prompt to add the selected item(s) to the top of the queue. */
 "play_next" = "Play Next";
+
+/* Prompt to add an episode to the top of the Up Next queue. Shown in the episode detail bottom sheet. */
+"play_next_in_up_next" = "Play next in Up Next";
 
 /* One of the options for how aggressive to be in trimming silence. Sets it to max the highest setting. */
 "playback_effect_trim_silence_max" = "Mad Max";
@@ -4344,6 +4350,9 @@
 
 /* Title of a button the clears the current search text */
 "episode_details_title" = "Details";
+
+/* Label for the Add button on the episode detail page. Opens a bottom sheet with options to add to Up Next or playlist. */
+"episode_detail_add" = "Add";
 
 /* Title of the Episode description */
 "episode_description_title" = "Episode Description";

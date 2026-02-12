@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EpisodeDetailViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
+                <outlet property="addButton" destination="v4S-Or-iDs" id="IvB-FL-0LM"/>
                 <outlet property="archiveButton" destination="1WD-bM-NYS" id="1bI-du-Jpj"/>
                 <outlet property="bottomDivider" destination="19d-9v-ihd" id="Z47-BQ-LmZ"/>
                 <outlet property="buttonsStackView" destination="pbD-yD-5ea" id="cKC-D5-c24"/>
@@ -41,7 +42,6 @@
                 <outlet property="topDivider" destination="qhA-bj-I2z" id="crr-zD-Bi0"/>
                 <outlet property="transcriptExcerpt" destination="84p-ph-k8a" id="mFq-IO-gUl"/>
                 <outlet property="tryAgainButton" destination="X1H-6J-Cmx" id="YBC-c4-Ei8"/>
-                <outlet property="upNextBtn" destination="v4S-Or-iDs" id="ADZ-Da-7g4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -141,11 +141,11 @@
                                                                         <constraint firstAttribute="width" constant="95" id="9rn-On-cdD"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                    <state key="normal" image="episode-playnext">
+                                                                    <state key="normal" image="episode-add">
                                                                         <color key="titleColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </state>
                                                                     <connections>
-                                                                        <action selector="upNextTapped:" destination="-1" eventType="touchUpInside" id="Wn4-2e-SFL"/>
+                                                                        <action selector="addTapped:" destination="-1" eventType="touchUpInside" id="Wn4-2e-SFL"/>
                                                                     </connections>
                                                                 </button>
                                                                 <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HUn-8V-DZb" userLabel="Spacer View">
@@ -382,10 +382,10 @@
         </view>
     </objects>
     <resources>
+        <image name="episode-add" width="24" height="24"/>
         <image name="episode-archive" width="24" height="24"/>
         <image name="episode-chevron" width="16" height="16"/>
         <image name="episode-download" width="24" height="24"/>
         <image name="episode-markasplayed" width="24" height="24"/>
-        <image name="episode-playnext" width="24" height="24"/>
     </resources>
 </document>
