@@ -104,11 +104,19 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
 
+        handleWatchAction(messageType: messageType, payload: message)
+    }
+
+    // MARK: - Watch Action Handler
+
+    /// Handles actions from the Watch, whether received via sendMessage or transferUserInfo.
+    /// This unified handler ensures consistent behavior for both delivery mechanisms.
+    private func handleWatchAction(messageType: String, payload: [String: Any]) {
         if WatchConstants.Messages.DataRequest.type == messageType {
             updateWatchData()
         } else if WatchConstants.Messages.PlayEpisodeRequest.type == messageType {
-            if let episodeUuid = message[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
-                let playlist = getPlaylist(from: message)
+            if let episodeUuid = payload[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
+                let playlist = getPlaylist(from: payload)
 
                 handlePlayRequest(episodeUuid: episodeUuid, playlist: playlist)
             }
@@ -128,49 +136,49 @@ class WatchManager: NSObject, WCSessionDelegate {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
             PlaybackManager.shared.skipForward()
         } else if WatchConstants.Messages.StarRequest.type == messageType {
-            if let starred = message[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = message[WatchConstants.Messages.StarRequest.episodeUuid] as? String {
+            if let starred = payload[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = payload[WatchConstants.Messages.StarRequest.episodeUuid] as? String {
                 handleStarRequest(starred: starred, episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.AddToUpNextRequest.type == messageType {
-            if let toTop = message[WatchConstants.Messages.AddToUpNextRequest.toTop] as? Bool, let uuid = message[WatchConstants.Messages.AddToUpNextRequest.episodeUuid] as? String {
+            if let toTop = payload[WatchConstants.Messages.AddToUpNextRequest.toTop] as? Bool, let uuid = payload[WatchConstants.Messages.AddToUpNextRequest.episodeUuid] as? String {
                 handleAddToUpnext(episodeUuid: uuid, toTop: toTop)
             }
         } else if WatchConstants.Messages.RemoveFromUpNextRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid] as? String {
                 handleRemoveFromUpnext(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.MarkPlayedRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.MarkPlayedRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.MarkPlayedRequest.episodeUuid] as? String {
                 handleMarkPlayed(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.MarkUnplayedRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.MarkUnplayedRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.MarkUnplayedRequest.episodeUuid] as? String {
                 handleMarkUnplayed(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.DownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.DownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.DownloadRequest.episodeUuid] as? String {
                 handleDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.StopDownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.StopDownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.StopDownloadRequest.episodeUuid] as? String {
                 handleStopDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.DeleteDownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.DeleteDownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.DeleteDownloadRequest.episodeUuid] as? String {
                 handleDeleteDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.ArchiveRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.ArchiveRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.ArchiveRequest.episodeUuid] as? String {
                 handleArchive(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.UnarchiveRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.UnarchiveRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.UnarchiveRequest.episodeUuid] as? String {
                 handleUnarchive(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.ClearUpNextRequest.type == messageType {
             PlaybackManager.shared.queue.clearUpNextList()
         } else if WatchConstants.Messages.ChangeChapterRequest.type == messageType {
-            if let nextChapter = message[WatchConstants.Messages.ChangeChapterRequest.nextChapter] as? Bool {
+            if let nextChapter = payload[WatchConstants.Messages.ChangeChapterRequest.nextChapter] as? Bool {
                 handleChangeChapter(next: nextChapter)
             }
         } else if WatchConstants.Messages.IncreaseSpeedRequest.type == messageType {
@@ -188,13 +196,13 @@ class WatchManager: NSObject, WCSessionDelegate {
                 PlaybackManager.shared.changeEffects(effects)
             }
         } else if WatchConstants.Messages.TrimSilenceRequest.type == messageType {
-            guard let enabled = message[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
+            guard let enabled = payload[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
 
             let effects = PlaybackManager.shared.effects()
             effects.trimSilence = enabled ? .low : .off
             PlaybackManager.shared.changeEffects(effects)
         } else if WatchConstants.Messages.VolumeBoostRequest.type == messageType {
-            guard let enabled = message[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
+            guard let enabled = payload[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
 
             let effects = PlaybackManager.shared.effects()
             effects.volumeBoost = enabled
@@ -217,6 +225,17 @@ class WatchManager: NSObject, WCSessionDelegate {
             FileLog.shared.addMessage("WatchManager: loginDetailsRequest received without reply handler, pushing data to watch")
             updateWatchData()
         }
+    }
+
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        // Handle actions transferred via transferUserInfo for guaranteed delivery
+        // These are the same message types as didReceiveMessage but with guaranteed delivery
+        guard let messageType = userInfo[WatchConstants.Messages.messageType] as? String else {
+            FileLog.shared.addMessage("WatchManager: Received userInfo without messageType")
+            return
+        }
+
+        handleWatchAction(messageType: messageType, payload: userInfo)
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {

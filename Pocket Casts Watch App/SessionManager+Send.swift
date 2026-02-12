@@ -33,7 +33,7 @@ extension SessionManager {
     }
 
     func clearUpNext() {
-        sendResponseless(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
+        transferAction(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
     }
 
     func setEpisodeStarred(starred: Bool, episodeUuid: String) {
@@ -42,7 +42,7 @@ extension SessionManager {
             WatchConstants.Messages.StarRequest.star: starred,
             WatchConstants.Messages.StarRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(starRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(starRequest)
     }
 
     func deleteDownload(episodeUuid: String) {
@@ -74,7 +74,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.ArchiveRequest.type,
             WatchConstants.Messages.ArchiveRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(archiveRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(archiveRequest)
     }
 
     func unarchiveEpisode(episodeUuid: String) {
@@ -82,7 +82,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.UnarchiveRequest.type,
             WatchConstants.Messages.UnarchiveRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(unarchiveRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(unarchiveRequest)
     }
 
     func markPlayed(episodeUuid: String) {
@@ -90,7 +90,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkPlayedRequest.type,
             WatchConstants.Messages.MarkPlayedRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(markPlayedRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(markPlayedRequest)
     }
 
     func markUnplayed(episodeUuid: String) {
@@ -98,7 +98,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkUnplayedRequest.type,
             WatchConstants.Messages.MarkUnplayedRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(markUnplayedRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(markUnplayedRequest)
     }
 
     func changeChapter(next: Bool) {
@@ -146,15 +146,15 @@ extension SessionManager {
             WatchConstants.Messages.AddToUpNextRequest.episodeUuid: episodeUuid,
             WatchConstants.Messages.AddToUpNextRequest.toTop: toTop
         ] as [String: Any]
-        WCSession.default.sendMessage(addToUpNextRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(addToUpNextRequest)
     }
 
     func removeFromUpNext(episodeUuid: String) {
-        let addToUpNextRequest = [
+        let removeFromUpNextRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.RemoveFromUpNextRequest.type,
             WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        WCSession.default.sendMessage(addToUpNextRequest, replyHandler: nil)
+        WCSession.default.transferUserInfo(removeFromUpNextRequest)
     }
 
     func requestEpisode(uuid: String, onReply: @escaping ((BaseEpisode?) -> Void), onError: (() -> Void)? = nil) {
@@ -222,5 +222,12 @@ extension SessionManager {
 
         let message = [WatchConstants.Messages.messageType: messageType]
         WCSession.default.sendMessage(message, replyHandler: nil)
+    }
+
+    /// Transfers an action to the iPhone with guaranteed delivery.
+    /// Uses transferUserInfo which queues the action until the iPhone is available.
+    private func transferAction(messageType: String) {
+        let message = [WatchConstants.Messages.messageType: messageType]
+        WCSession.default.transferUserInfo(message)
     }
 }
