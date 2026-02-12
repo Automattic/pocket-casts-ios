@@ -8,17 +8,27 @@ extension EpisodeDetailViewController {
     @IBAction func addTapped(_ sender: UIButton) {
         let addPicker = OptionsPicker(title: nil)
 
-        let playNextAction = OptionAction(label: L10n.playNextInUpNext, icon: "list_playnext") { [weak self] in
-            guard let self else { return }
-            PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
-        }
-        addPicker.addAction(action: playNextAction)
+        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
 
-        let playLastAction = OptionAction(label: L10n.playLastInUpNext, icon: "list_playlast") { [weak self] in
-            guard let self else { return }
-            PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+        if isInUpNext {
+            let removeFromUpNextAction = OptionAction(label: L10n.removeFromUpNext, icon: "episode-removenext") { [weak self] in
+                guard let self else { return }
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: self.episode, fireNotification: true, userInitiated: true)
+            }
+            addPicker.addAction(action: removeFromUpNextAction)
+        } else {
+            let playNextAction = OptionAction(label: L10n.playNextInUpNext, icon: "list_playnext") { [weak self] in
+                guard let self else { return }
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+            }
+            addPicker.addAction(action: playNextAction)
+
+            let playLastAction = OptionAction(label: L10n.playLastInUpNext, icon: "list_playlast") { [weak self] in
+                guard let self else { return }
+                PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+            }
+            addPicker.addAction(action: playLastAction)
         }
-        addPicker.addAction(action: playLastAction)
 
         let addToPlaylistAction = OptionAction(label: L10n.playlistManualEpisodeAddToPlaylist, icon: "plus-circle") { [weak self] in
             guard let self else { return }
