@@ -38,8 +38,7 @@ class PCRefreshControl: UIView {
         super.init(frame: CGRect.zero)
 
         clipsToBounds = true
-        backgroundColor = UIColor.clear
-
+        backgroundColor = UIColor.clear        
         self.scrollView = scrollView
         self.navBar = navBar
         self.searchBar = searchBar
@@ -52,7 +51,7 @@ class PCRefreshControl: UIView {
         heightConstraint = heightAnchor.constraint(equalToConstant: viewHeight)
         heightConstraint?.isActive = true
         widthAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.widthAnchor).isActive = true
-        topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -viewHeight).isActive = true
+        bottomAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
         alpha = 0
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")
@@ -161,7 +160,9 @@ class PCRefreshControl: UIView {
 
     func offsetToPullDown() {
         if let scrollView = scrollView {
-            scrollView.contentInset = UIEdgeInsets(top: pullDownAmountForRefresh, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
+            let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
+            let offset = searchHeight + viewHeight
+            scrollView.contentInset = UIEdgeInsets(top: offset, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
         }
     }
 
@@ -316,8 +317,7 @@ class PCRefreshControl: UIView {
 
 private extension PCRefreshControl {
     func calculateViewHeight() {
-        let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
-        viewHeight = RefreshDefaults.viewHeight + searchHeight
+        viewHeight = RefreshDefaults.viewHeight
         heightConstraint?.constant = viewHeight
     }
 
