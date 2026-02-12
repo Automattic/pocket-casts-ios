@@ -40,6 +40,7 @@ extension AppDelegate {
 
             if path == "/discover" || path.startsWith(string: "/discover/") {
                 if let url = URL(string: "pktc:/\(path)") {
+                    NavigationManager.sharedManager.dismissPresentedViewController()
                     JLRoutes.routeURL(url)
                 }
                 return
