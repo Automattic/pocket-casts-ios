@@ -53,7 +53,6 @@ class SimpleActionView: UIView {
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-                label.widthAnchor.constraint(greaterThanOrEqualTo: self.widthAnchor, multiplier: 0.5)
             ])
             self.imageView = imageView
         } else {
@@ -81,7 +80,8 @@ class SimpleActionView: UIView {
 
             NSLayoutConstraint.activate([
                 secondaryLabel.topAnchor.constraint(equalTo: topAnchor),
-                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+                label.widthAnchor.constraint(greaterThanOrEqualTo: secondaryLabel.widthAnchor, multiplier: 1),
             ])
             previousView = secondaryLabel
         }
