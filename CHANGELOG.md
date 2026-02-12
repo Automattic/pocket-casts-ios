@@ -13,6 +13,7 @@
 8.5
 -----
 - Fix removal of User Episode Files when selecting multiple episodes [#3898](https://github.com/Automattic/pocket-casts-ios/pull/3898)
+- Fix URL handling from iMessage [#3937](https://github.com/Automattic/pocket-casts-ios/pull/3937)
 
 8.4
 -----

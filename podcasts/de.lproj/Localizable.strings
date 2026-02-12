@@ -2757,6 +2757,11 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Vielen Dank, dass du Pocket Casts teilst! Wir informieren dich, wenn dir weitere Pässe zum Teilen zur Verfügung stehen.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Du hast alle deine Gastpässe geteilt!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Hallo!
+
+Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Podcast Player. Er bietet eine Vielzahl einzigartiger Funktionen, die du sonst bei keinem anderen Podcast Player finden wirst, wie Lesezeichen, Ordner und vieles mehr. Ich bin mir sicher, er wird dir auch gefallen!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Hallo! Über den unten stehenden Link kannst du deinen Gastpass (Zeitraum: %1$@) für Pocket Casts Plus anfordern und dir auf all deinen Geräten Podcasts anhören!</string>
     <key>referrals_share_pass_subject</key>

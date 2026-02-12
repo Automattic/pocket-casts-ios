@@ -471,11 +471,38 @@ extension AppDelegate {
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
         progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)
         progressDialog?.showAlert(controller, hasProgress: false) {
+            // Parse the URL into path and query components so that any query parameters
+            // (e.g. ?t=123) do not interfere with UUID extraction.
+            let urlComponents = URLComponents(string: path)
+            let cleanPath = urlComponents?.path.isEmpty == false ? urlComponents!.path : path
+            let timestamp: Double? = {
+                guard let queryItems = urlComponents?.queryItems else { return nil }
+                guard let tItem = queryItems.first(where: { $0.name == "t" }) else { return nil }
+                guard let value = tItem.value, let doubleValue = Double(value) else { return nil }
+                return doubleValue
+            }()
+
             // URLs that are already in the format https://pca.st/podcast/da3271a0-69e7-0132-d9fd-5f4c86fd3263 (or /private/) have the podcast UUID in them already so no need to ask the refresh server for it
-            if path.contains("/podcast/") || path.contains("/private/") {
-                if let lastSlashIndex = path.lastIndex(of: "/") {
-                    let startIndex = path.index(lastSlashIndex, offsetBy: 1)
-                    let uuid = path.suffix(from: startIndex)
+            // Also handles new format: /podcast/{podcastSlug}/{podcastUuid}/{episodeSlug}/{episodeUuid}
+            if cleanPath.contains("/podcast/") || cleanPath.contains("/private/") {
+                // Check for new format with episode: /podcast/{slug}/{podcastUuid}/{episodeSlug}/{episodeUuid}
+                if let podcastRange = cleanPath.range(of: "/podcast/") ?? cleanPath.range(of: "/private/") {
+                    let afterPodcast = String(cleanPath[podcastRange.upperBound...])
+                    let components = afterPodcast.split(separator: "/").map(String.init)
+
+                    // New format: 4 components = podcastSlug, podcastUuid, episodeSlug, episodeUuid
+                    if components.count == 4 {
+                        let podcastUuid = components[1]
+                        let episodeUuid = components[3]
+                        self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid, timestamp: timestamp)
+                        return
+                    }
+                }
+
+                // Original format: just podcast UUID as last component
+                if let lastSlashIndex = cleanPath.lastIndex(of: "/") {
+                    let startIndex = cleanPath.index(lastSlashIndex, offsetBy: 1)
+                    let uuid = cleanPath.suffix(from: startIndex)
                     let podcastHeader = PodcastHeader(uuid: String(uuid))
                     DispatchQueue.main.async {
                         self.hideProgressDialog()
