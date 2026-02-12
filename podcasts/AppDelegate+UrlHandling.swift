@@ -472,7 +472,23 @@ extension AppDelegate {
         progressDialog = ShiftyLoadingAlert(title: L10n.sharedItemLoading)
         progressDialog?.showAlert(controller, hasProgress: false) {
             // URLs that are already in the format https://pca.st/podcast/da3271a0-69e7-0132-d9fd-5f4c86fd3263 (or /private/) have the podcast UUID in them already so no need to ask the refresh server for it
+            // Also handles new format: /podcast/{podcastSlug}/{podcastUuid}/{episodeSlug}/{episodeUuid}
             if path.contains("/podcast/") || path.contains("/private/") {
+                // Check for new format with episode: /podcast/{slug}/{podcastUuid}/{episodeSlug}/{episodeUuid}
+                if let podcastRange = path.range(of: "/podcast/") ?? path.range(of: "/private/") {
+                    let afterPodcast = String(path[podcastRange.upperBound...])
+                    let components = afterPodcast.split(separator: "/").map(String.init)
+
+                    // New format: 4 components = podcastSlug, podcastUuid, episodeSlug, episodeUuid
+                    if components.count == 4 {
+                        let podcastUuid = components[1]
+                        let episodeUuid = components[3]
+                        self.loadAndShowEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid, timestamp: nil)
+                        return
+                    }
+                }
+
+                // Original format: just podcast UUID as last component
                 if let lastSlashIndex = path.lastIndex(of: "/") {
                     let startIndex = path.index(lastSlashIndex, offsetBy: 1)
                     let uuid = path.suffix(from: startIndex)
