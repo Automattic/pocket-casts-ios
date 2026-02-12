@@ -299,9 +299,7 @@ class PCRefreshControl: UIView {
             return metric.scaledValue(for: 80)
         }
 
-        static var pullDownAmount: CGFloat {
-            80
-        }
+        static let pullDownAmount: CGFloat = 80
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
