@@ -251,6 +251,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         let label = UILabel()
         label.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .footnote)
         label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         label.text = title
         label.textColor = titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -263,6 +264,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             label.topAnchor.constraint(equalTo: containerView.topAnchor),
             label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
         ])
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
     }
 
     private func addDivider() {
