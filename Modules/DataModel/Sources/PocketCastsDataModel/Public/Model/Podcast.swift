@@ -1,11 +1,15 @@
 import Foundation
+import GRDB
+import GRDBMacros
 import PocketCastsUtils
 
+@GRDBRecord(table: "SJPodcast")
 public class Podcast: NSObject, Identifiable {
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
     @objc public var autoDownloadSetting = 0 as Int32
     @objc public var autoAddToUpNext = 0 as Int32
+    @GRDBColumn("episodeKeepSetting")
     @objc public var autoArchiveEpisodeLimit = 0 as Int32
     @objc public var backgroundColor: String?
     @objc public var detailColor: String? // dark artwork overlay
@@ -56,14 +60,19 @@ public class Podcast: NSObject, Identifiable {
     @objc public var isPrivate = false
     @objc public var fundingURL: String?
 
+    @GRDBIgnore
     public var settings: PodcastSettings = PodcastSettings.defaults
 
     // transient not saved to database
+    @GRDBIgnore
     public var cachedUnreadCount = 0
 
     // if set to an episode UUID, all podcast episodes after the given
     // UUID will be updated
+    @GRDBIgnore
     public var forceRefreshEpisodeFrom: String? = nil
+
+    override public init() {}
 
     public func autoDownloadOn() -> Bool {
         autoDownloadSetting == AutoDownloadSetting.latest.rawValue

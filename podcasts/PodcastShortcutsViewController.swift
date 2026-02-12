@@ -12,6 +12,10 @@ class PodcastShortcutsViewController: PCViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         title = L10n.siriShortcutToPodcast.localizedCapitalized
         tableView.register(UINib(nibName: "SiriShortcutAddCell", bundle: nil), forCellReuseIdentifier: addCellId)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = Constants.Values.tableRowHeaderHeight
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
+        tableView.estimatedSectionHeaderHeight = Constants.Values.tableSectionHeaderHeight
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -23,10 +27,6 @@ class PodcastShortcutsViewController: PCViewController, UITableViewDelegate, UIT
         let podcast = podcasts[indexPath.row]
         cell.populateFrom(podcast: podcast)
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        64
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -125,7 +125,8 @@ class FolderPreviewView: UIView {
                 label.numberOfLines = 1
                 label.textColor = UIColor.white
                 label.textAlignment = .center
-                label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+                label.font = UIFont.font(ofSize: 11, weight: .semibold, scalingWith: .caption2)
+                label.adjustsFontForContentSizeCategory = true
                 addSubview(label)
 
                 nameLabelVerticalPositionConstraint = label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelBottomMargin)

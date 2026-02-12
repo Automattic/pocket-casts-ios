@@ -1,12 +1,16 @@
 import Foundation
+import GRDB
+import GRDBMacros
 import PocketCastsUtils
 
+@GRDBRecord(table: "SJEpisode")
 public class Episode: NSObject, BaseEpisode {
     private static let bonusType = "bonus"
     private static let trailerType = "trailer"
 
     @objc public var id = 0 as Int64
     @objc public var addedDate: Date?
+    @GRDBNullDateAsEpoch
     @objc public var lastDownloadAttemptDate: Date?
     @objc public var detailedDescription: String?
     @objc public var downloadErrorDetails: String?
@@ -41,8 +45,10 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var episodeType: String?
     @objc public var archived = false
     @objc public var archivedModified = 0 as Int64
+    @GRDBNullDateAsEpoch
     @objc public var lastArchiveInteractionDate: Date?
     @objc public var excludeFromEpisodeLimit = false
+    @GRDBIgnore
     @objc public var hasOnlyUuid = false
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64

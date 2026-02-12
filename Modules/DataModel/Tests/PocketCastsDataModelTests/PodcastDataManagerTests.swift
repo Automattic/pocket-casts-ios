@@ -857,6 +857,126 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - save Tests (PersistableRecord API)
+
+    func testSaveInsertsNewPodcastWithAllFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = Podcast()
+            podcast.uuid = "save-test-uuid"
+            podcast.title = "Save Test Podcast"
+            podcast.author = "Test Author"
+            podcast.addedDate = Date()
+            podcast.subscribed = 1
+            podcast.sortOrder = 5
+            podcast.folderUuid = nil
+            podcast.syncStatus = SyncStatus.notSynced.rawValue
+            podcast.showArchived = true
+            podcast.episodeGrouping = PodcastGrouping.season.rawValue
+            podcast.isPaid = true
+            podcast.overrideGlobalArchive = true
+            podcast.pushEnabled = true
+            podcast.autoAddToUpNext = AutoAddToUpNextSetting.addFirst.rawValue
+            podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
+            podcast.autoArchiveEpisodeLimit = 5
+
+            dataManager.save(podcast: podcast)
+
+            let found = dataManager.findPodcast(uuid: "save-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find saved podcast")
+            XCTAssertEqual(found?.uuid, "save-test-uuid", "\(impl): UUID should match")
+            XCTAssertEqual(found?.title, "Save Test Podcast", "\(impl): Title should match")
+            XCTAssertEqual(found?.author, "Test Author", "\(impl): Author should match")
+            XCTAssertEqual(found?.subscribed, 1, "\(impl): subscribed should match")
+            XCTAssertEqual(found?.sortOrder, 5, "\(impl): sortOrder should match")
+            XCTAssertEqual(found?.syncStatus, SyncStatus.notSynced.rawValue, "\(impl): syncStatus should match")
+            XCTAssertEqual(found?.showArchived, true, "\(impl): showArchived should match")
+            XCTAssertEqual(found?.episodeGrouping, PodcastGrouping.season.rawValue, "\(impl): episodeGrouping should match")
+            XCTAssertEqual(found?.isPaid, true, "\(impl): isPaid should match")
+            XCTAssertEqual(found?.isAutoArchiveOverridden, true, "\(impl): overrideGlobalArchive should match")
+            XCTAssertEqual(found?.pushEnabled, true, "\(impl): pushEnabled should match")
+            XCTAssertEqual(found?.autoAddToUpNext, AutoAddToUpNextSetting.addFirst.rawValue, "\(impl): autoAddToUpNext should match")
+            XCTAssertEqual(found?.autoDownloadSetting, AutoDownloadSetting.latest.rawValue, "\(impl): autoDownloadSetting should match")
+            XCTAssertEqual(found?.autoArchiveEpisodeLimit, 5, "\(impl): autoArchiveEpisodeLimit should match")
+        }
+    }
+
+    func testSaveUpdatesExistingPodcast() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(uuid: "update-test-uuid", title: "Original Title", author: "Original Author", dataManager: dataManager)
+
+            // Update fields
+            podcast.title = "Updated Title"
+            podcast.author = "Updated Author"
+            podcast.showArchived = true
+            podcast.episodeGrouping = PodcastGrouping.season.rawValue
+            podcast.syncStatus = SyncStatus.synced.rawValue
+            dataManager.save(podcast: podcast)
+
+            let found = dataManager.findPodcast(uuid: "update-test-uuid")
+            XCTAssertEqual(found?.title, "Updated Title", "\(impl): Title should be updated")
+            XCTAssertEqual(found?.author, "Updated Author", "\(impl): Author should be updated")
+            XCTAssertEqual(found?.showArchived, true, "\(impl): showArchived should be updated")
+            XCTAssertEqual(found?.episodeGrouping, PodcastGrouping.season.rawValue, "\(impl): episodeGrouping should be updated")
+            XCTAssertEqual(found?.syncStatus, SyncStatus.synced.rawValue, "\(impl): syncStatus should be updated")
+        }
+    }
+
+    func testSaveGeneratesIdIfZero() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = Podcast()
+            podcast.uuid = "id-test-uuid"
+            podcast.title = "ID Test Podcast"
+            podcast.addedDate = Date()
+            podcast.id = 0
+
+            dataManager.save(podcast: podcast)
+
+            XCTAssertNotEqual(podcast.id, 0, "\(impl): ID should be generated")
+
+            let found = dataManager.findPodcast(uuid: "id-test-uuid")
+            XCTAssertNotNil(found, "\(impl): Should find podcast with generated ID")
+            XCTAssertNotEqual(found?.id, 0, "\(impl): Found podcast should have non-zero ID")
+        }
+    }
+
+    func testSavePreservesOptionalFields() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = Podcast()
+            podcast.uuid = "optional-test-uuid"
+            podcast.title = "Optional Fields Test"
+            podcast.addedDate = Date()
+            podcast.podcastDescription = "Test description"
+            podcast.podcastUrl = "https://example.com/feed.xml"
+            podcast.podcastCategory = "Technology"
+            podcast.episodeSortOrder = 2
+
+            dataManager.save(podcast: podcast)
+
+            let found = dataManager.findPodcast(uuid: "optional-test-uuid")
+            XCTAssertEqual(found?.podcastDescription, "Test description", "\(impl): description should be preserved")
+            XCTAssertEqual(found?.podcastUrl, "https://example.com/feed.xml", "\(impl): podcastUrl should be preserved")
+            XCTAssertEqual(found?.podcastCategory, "Technology", "\(impl): podcastCategory should be preserved")
+            XCTAssertEqual(found?.episodeSortOrder, 2, "\(impl): episodeSortOrder should be preserved")
+        }
+    }
+
+    func testSaveWithFolderUuid() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let folder = self.createTestFolder(uuid: "folder-for-podcast", name: "Test Folder", dataManager: dataManager)
+
+            let podcast = Podcast()
+            podcast.uuid = "folder-podcast-uuid"
+            podcast.title = "Podcast in Folder"
+            podcast.addedDate = Date()
+            podcast.folderUuid = folder.uuid
+
+            dataManager.save(podcast: podcast)
+
+            let found = dataManager.findPodcast(uuid: "folder-podcast-uuid")
+            XCTAssertEqual(found?.folderUuid, folder.uuid, "\(impl): folderUuid should be preserved")
+        }
+    }
+
     // MARK: - Helper to create episode for podcast tests
 
     @discardableResult

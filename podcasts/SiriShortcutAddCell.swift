@@ -24,6 +24,7 @@ class SiriShortcutAddCell: ThemeableCell {
 
         podcastImage.isHidden = false
         iconView.isHidden = true
+        updateSize()
     }
 
     func populateFrom(filter: EpisodeFilter) {
@@ -32,5 +33,26 @@ class SiriShortcutAddCell: ThemeableCell {
         iconView.tintColor = filter.playlistColor()
         podcastImage.isHidden = true
         iconView.isHidden = false
+        updateSize()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        addIcon.updateSizeConstraints(to: iconSize)
+
+        let imageSize = max(44, iconMetric.scaledValue(for: 44))
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let filterImageSize = max(32, iconMetric.scaledValue(for: 32))
+        iconView.updateSizeConstraints(to: filterImageSize)
     }
 }
