@@ -13,7 +13,7 @@ class PodcastListCell: ThemeableCollectionCell {
     @IBOutlet var podcastInfo: ThemeableLabel! {
         didSet {
             podcastInfo.style = .primaryText02
-            podcastInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            podcastInfo.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .footnote)
             podcastInfo.adjustsFontForContentSizeCategory = true
         }
     }
@@ -70,9 +70,9 @@ class PodcastListCell: ThemeableCollectionCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
-        updateSizeConstraints(of: podcastImage, to: imageSize)
+        podcastImage.updateSizeConstraints(to: imageSize)
 
-        let badgeMetric = UIFontMetrics(forTextStyle: .footnote)
+        let badgeMetric = UIFontMetrics(forTextStyle: .largeTitle)
         switch badgeType {
             case .allUnplayed:
                 unplayedHeight.constant = max(28, badgeMetric.scaledValue(for: 28))

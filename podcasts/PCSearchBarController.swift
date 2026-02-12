@@ -136,12 +136,12 @@ class PCSearchBarController: UIViewController {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(16, metric.scaledValue(for: 16))
-        self.view.updateSizeConstraints(of: searchIcon, to: imageSize)
+        searchIcon.updateSizeConstraints(to: imageSize)
 
         let clearSearchSize = max(22, metric.scaledValue(for: 22))
-        self.view.updateSizeConstraints(of: clearSearchBtn, to: clearSearchSize)
+        clearSearchBtn.updateSizeConstraints(to: clearSearchSize)
 
-        self.view.updateSizeConstraints(of: view, to: Self.defaultHeight)
+        view.updateSizeConstraints(to: Self.defaultHeight)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

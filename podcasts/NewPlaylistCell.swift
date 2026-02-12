@@ -1,3 +1,4 @@
+import Combine
 import UIKit
 import SwiftUI
 import PocketCastsDataModel
@@ -33,6 +34,7 @@ class NewPlaylistCell: ThemeableCell {
     private var playlistCountLoadTask: Task<Void, Never>?
     private var playlistImageLoadTask: Task<Void, Never>?
     private var playlistID: String = ""
+    private var cancellables = Set<AnyCancellable>()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -108,6 +110,9 @@ class NewPlaylistCell: ThemeableCell {
         playlistCountLoadTask = nil
         playlistImageLoadTask?.cancel()
         playlistImageLoadTask = nil
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+        }
         Task {
             await playlistMetadataLoader.cancelLoadCount(for: playlistID)
             await playlistMetadataLoader.cancelLoadImages(for: playlistID)
@@ -121,6 +126,13 @@ class NewPlaylistCell: ThemeableCell {
 
     func loadMetadata(for playlist: EpisodeFilter) {
         playlistID = playlist.uuid
+
+        // Cancel previous subscriptions and set up new ones for this playlist
+        if FeatureFlag.playlistCacheInvalidation.enabled {
+            cancellables.removeAll()
+            subscribeToUpdates(for: playlist.uuid)
+        }
+
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
             let loadingPlaylist = playlistID
@@ -163,6 +175,34 @@ class NewPlaylistCell: ThemeableCell {
                 }
             }
         }
+    }
+
+    /// Subscribe to metadata updates for the specified playlist.
+    /// This enables reactive updates when counts or images change from other sources.
+    private func subscribeToUpdates(for playlistID: String) {
+        // Subscribe to count updates
+        playlistMetadataLoader.countUpdatesPublisher
+            .filter { $0.playlistID == playlistID }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] update in
+                guard let self, self.playlistID == playlistID else { return }
+                if update.count != self.viewModel.episodesCount {
+                    self.viewModel.episodesCount = update.count
+                }
+            }
+            .store(in: &cancellables)
+
+        // Subscribe to image updates
+        playlistMetadataLoader.imageUpdatesPublisher
+            .filter { $0.playlistID == playlistID }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] update in
+                guard let self, self.playlistID == playlistID else { return }
+                if update.images != self.viewModel.images {
+                    self.viewModel.images = update.images
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func hideSeparator(_ hide: Bool) {

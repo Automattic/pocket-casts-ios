@@ -4,7 +4,7 @@ import Foundation
 
 class GRDBQueue: PCDBQueue {
     public let dbPool: DatabasePool
-    private let logger: ErrorLogger?
+    let logger: ErrorLogger?
 
     init(dbPool: DatabasePool, logger: ErrorLogger? = nil) {
         self.dbPool = dbPool

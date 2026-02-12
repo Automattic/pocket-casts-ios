@@ -10,11 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EpisodeListSearchController" customModule="podcasts" customModuleProvider="target">
             <connections>
-                <outlet property="archivedInfoLabel" destination="J57-7s-Hfz" id="hMQ-By-QpB"/>
                 <outlet property="clearSearchBtn" destination="NUs-aB-3ve" id="SiR-BK-2qS"/>
                 <outlet property="dividerHeightConstraint" destination="hNU-UO-LM5" id="FEE-4k-sRe"/>
                 <outlet property="episodeInfoLabel" destination="wNf-rq-iBx" id="IdI-xz-2sJ"/>
-                <outlet property="episodeInfoSeparatorLabel" destination="HMd-Rg-WEW" id="pal-GF-NMA"/>
                 <outlet property="limitLabel" destination="lbQ-Z6-M40" id="xWz-Co-myd"/>
                 <outlet property="loadingSpinner" destination="eeU-aw-oKZ" id="ddr-yz-DvO"/>
                 <outlet property="middleDividerHeightConstraint" destination="9u3-y4-9Dm" id="T8i-Cs-7SM"/>
@@ -106,44 +104,28 @@
                                 <action selector="overflowTapped:" destination="-1" eventType="touchUpInside" id="IKL-bQ-mD4"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GPT-Sc-fsw" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GPT-Sc-fsw" userLabel="Top Theme Divider View" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="56" width="375" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="9u3-y4-9Dm"/>
                             </constraints>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YwF-Gn-bkb">
-                            <rect key="frame" x="16" y="69" width="228.5" height="18"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 episodes " textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNf-rq-iBx" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.5" width="83" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMd-Rg-WEW" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="88" y="0.5" width="6.5" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13 archived" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J57-7s-Hfz" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="99.5" y="0.5" width="74" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbQ-Z6-M40" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="178.5" y="0.0" width="50" height="18"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                        </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="6fg-N7-SIa">
-                            <rect key="frame" x="260" y="69" width="99" height="18"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbQ-Z6-M40" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="104" y="69" width="0.0" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="23 episodes " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNf-rq-iBx" userLabel="episodeInfo" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="16" y="69" width="207" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="6fg-N7-SIa">
+                            <rect key="frame" x="231" y="69" width="131" height="18"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                             <state key="normal" title="Show Archived"/>
                             <connections>
@@ -160,7 +142,6 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="6fg-N7-SIa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GPT-Sc-fsw" secondAttribute="bottom" constant="12" id="2I8-g9-AUh"/>
-                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YwF-Gn-bkb" secondAttribute="bottom" constant="12" id="9Hb-vG-9Wb"/>
                         <constraint firstAttribute="trailing" secondItem="0Wl-Qr-Alh" secondAttribute="trailing" constant="13" id="9He-fw-EUV"/>
                         <constraint firstItem="Wat-Pf-EXJ" firstAttribute="top" secondItem="LW5-CL-eLg" secondAttribute="top" constant="10" id="ATB-D4-uQT"/>
                         <constraint firstAttribute="trailing" secondItem="elY-fZ-CTE" secondAttribute="trailing" id="DRe-tp-FxM"/>
@@ -168,17 +149,17 @@
                         <constraint firstItem="elY-fZ-CTE" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" id="ION-v2-Qrm"/>
                         <constraint firstAttribute="trailing" secondItem="GPT-Sc-fsw" secondAttribute="trailing" id="IPM-XG-F0U"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="centerY" secondItem="Wat-Pf-EXJ" secondAttribute="centerY" id="LXI-wZ-NP6"/>
-                        <constraint firstItem="YwF-Gn-bkb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GPT-Sc-fsw" secondAttribute="bottom" constant="12" id="NwM-AJ-8tT"/>
-                        <constraint firstItem="YwF-Gn-bkb" firstAttribute="centerY" secondItem="6fg-N7-SIa" secondAttribute="centerY" id="R5k-Il-Vfw"/>
                         <constraint firstItem="elY-fZ-CTE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6fg-N7-SIa" secondAttribute="bottom" constant="12" id="TPr-w7-jrT"/>
                         <constraint firstItem="Wat-Pf-EXJ" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" constant="16" id="TWh-ZP-zKq"/>
-                        <constraint firstItem="YwF-Gn-bkb" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" constant="16" id="VrV-o8-h8D"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="leading" secondItem="Wat-Pf-EXJ" secondAttribute="trailing" constant="12" id="ZW4-wp-Ue9"/>
                         <constraint firstItem="0Wl-Qr-Alh" firstAttribute="height" secondItem="Wat-Pf-EXJ" secondAttribute="height" id="hho-PG-qD9"/>
+                        <constraint firstItem="6fg-N7-SIa" firstAttribute="leading" secondItem="wNf-rq-iBx" secondAttribute="trailing" constant="8" id="mwl-h5-3g9"/>
                         <constraint firstItem="GPT-Sc-fsw" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" id="oWm-Lf-zFh"/>
-                        <constraint firstItem="6fg-N7-SIa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="YwF-Gn-bkb" secondAttribute="trailing" constant="5" id="wK9-ln-XKo"/>
+                        <constraint firstItem="wNf-rq-iBx" firstAttribute="top" secondItem="GPT-Sc-fsw" secondAttribute="bottom" constant="12" id="r3d-gL-yaz"/>
+                        <constraint firstItem="elY-fZ-CTE" firstAttribute="top" secondItem="wNf-rq-iBx" secondAttribute="bottom" constant="12" id="ti7-7q-Qit"/>
                         <constraint firstItem="GPT-Sc-fsw" firstAttribute="top" secondItem="Wat-Pf-EXJ" secondAttribute="bottom" constant="10" id="wP4-yr-nmc"/>
-                        <constraint firstAttribute="trailing" secondItem="6fg-N7-SIa" secondAttribute="trailing" constant="16" id="wxO-CR-jZR"/>
+                        <constraint firstItem="wNf-rq-iBx" firstAttribute="leading" secondItem="LW5-CL-eLg" secondAttribute="leading" constant="16" id="wmw-hB-zBV"/>
+                        <constraint firstItem="0Wl-Qr-Alh" firstAttribute="trailing" secondItem="6fg-N7-SIa" secondAttribute="trailing" id="wxO-CR-jZR"/>
                     </constraints>
                 </view>
             </subviews>
@@ -186,6 +167,7 @@
             <constraints>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="2at-TJ-6wI"/>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XsT-xW-B8h"/>
+                <constraint firstItem="6fg-N7-SIa" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.35" id="gWu-ry-EhR"/>
                 <constraint firstItem="LW5-CL-eLg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ljk-0j-SOI"/>
                 <constraint firstAttribute="bottom" secondItem="LW5-CL-eLg" secondAttribute="bottom" id="ot4-gY-BWe"/>
             </constraints>

@@ -19,6 +19,8 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     private var highPassFilter: AVAudioUnitEffect?
     private var dynamicsProcessor: AVAudioUnitEffect?
     private var peakLimiter: AVAudioUnitEffect?
+    private let useVoiceBoostN = AtomicBool()
+    private var audioFileSampleRate: Double = 0
 
     private var playBufferManager: PlayBufferManager?
     private var audioReadTask: AudioReadTask?
@@ -83,6 +85,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.effects = PlaybackManager.shared.effects()
             strongSelf.playBufferManager = PlayBufferManager()
 
+            // Set useVoiceBoostN before setVolumeBoostSettings so bypass is configured correctly
+            strongSelf.useVoiceBoostN.value = Settings.isVoiceBoostNEnabled && strongSelf.effects.volumeBoost
+
             strongSelf.audioMixerNode = strongSelf.createAudioMixerNode()
             strongSelf.engine?.attach(strongSelf.audioMixerNode!)
 
@@ -144,6 +149,9 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             strongSelf.engine?.connect(strongSelf.highPassFilter!, to: strongSelf.dynamicsProcessor!, format: format)
             strongSelf.engine?.connect(strongSelf.dynamicsProcessor!, to: strongSelf.peakLimiter!, format: format)
             strongSelf.engine?.connect(strongSelf.peakLimiter!, to: strongSelf.engine!.outputNode, format: format)
+
+            // Store sample rate for AudioReadTask (useVoiceBoostN already set above)
+            strongSelf.audioFileSampleRate = strongSelf.audioFile!.fileFormat.sampleRate
 
             strongSelf.startReadAndPlayThreads()
             do {
@@ -268,6 +276,13 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         playbackSpeed = effects.playbackSpeed
         timePitch?.rate = Float(playbackSpeed)
 
+        // Update VoiceBoostN flag for dynamic switching
+        let shouldUseVoiceBoostN = Settings.isVoiceBoostNEnabled && effects.volumeBoost
+        if shouldUseVoiceBoostN != useVoiceBoostN.value {
+            useVoiceBoostN.value = shouldUseVoiceBoostN
+            FileLog.shared.addMessage("[EffectsPlayer] VoiceBoostN flag changed to \(shouldUseVoiceBoostN)")
+        }
+
         setVolumeBoostSettings()
     }
 
@@ -357,7 +372,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
 
         guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
-        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount)
+        audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
 
         audioReadTask?.startup()
@@ -367,10 +382,17 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func setVolumeBoostSettings() {
-        if !effects.volumeBoost {
+        let shouldBypassLegacy = !effects.volumeBoost || useVoiceBoostN.value
+        if shouldBypassLegacy {
+            // Bypass existing effects when VoiceBoostN handles it or volumeBoost off
             peakLimiter?.bypass = true
             highPassFilter?.bypass = true
             dynamicsProcessor?.bypass = true
+            if effects.volumeBoost && useVoiceBoostN.value {
+                FileLog.shared.addMessage("[EffectsPlayer] Volume boost enabled with VoiceBoostN - bypassing legacy AudioUnit chain")
+            } else if !effects.volumeBoost {
+                FileLog.shared.addMessage("[EffectsPlayer] Volume boost disabled - bypassing all effects")
+            }
         } else {
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_CutoffFrequency, value: 180)
             setFloatParameter(highPassFilter?.audioUnit, key: kHipassParam_Resonance, value: 0)

@@ -277,6 +277,12 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable VoiceBoostN with updated description copy (TestFlight only)
     case voiceBoostN
 
+    /// Use GRDB QueryInterface for database queries instead of raw SQL
+    case grdbQueryInterface
+
+    /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
+    case playlistCacheInvalidation
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -465,6 +471,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .voiceBoostN:
             BuildEnvironment.current == .testFlight || BuildEnvironment.current == .debug
+        case .grdbQueryInterface:
+            false
+        case .playlistCacheInvalidation:
+            true
         }
     }
 

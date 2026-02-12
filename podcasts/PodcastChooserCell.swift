@@ -2,8 +2,6 @@ import UIKit
 
 class PodcastChooserCell: ThemeableCell {
     @IBOutlet var podcastImage: PodcastImageView!
-    @IBOutlet var podcastImageWidth: NSLayoutConstraint!
-    @IBOutlet var podcastImageHeight: NSLayoutConstraint!
 
     @IBOutlet var podcastName: UILabel! {
         didSet {
@@ -32,13 +30,13 @@ class PodcastChooserCell: ThemeableCell {
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let size = max(metric.scaledValue(for: 56), 56)
-        podcastImageWidth.constant = size
-        podcastImageHeight.constant = size
+        podcastImage.updateSizeConstraints(to: size)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
-        updateSize()
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
