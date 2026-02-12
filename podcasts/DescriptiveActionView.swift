@@ -31,7 +31,7 @@ class DescriptiveActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func actionWasAdded() {
+    func actionWasAdded(vc: UIViewController) {
         // add icon
         let image = UIImage(named: icon)?.tintedImage(AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride))
         let iconView = UIImageView(image: image)
@@ -69,12 +69,17 @@ class DescriptiveActionView: UIView {
         // add message
         let messageBottomAnchor: NSLayoutYAxisAnchor
         if FeatureFlag.useDescriptiveActionAttributedTextView.enabled, let message {
-            let messageView = DescriptiveActionAttributedTextView(
+            let messageViewRoot = DescriptiveActionAttributedTextView(
                 text: message,
                 onLinkTap: onLinkTap
-            ).themedUIView
+            )
+            let messageVC = ThemedHostingController(rootView: messageViewRoot)
+            messageVC.sizingOptions = [.intrinsicContentSize]
+            let messageView = messageVC.view!
+            vc.addChild(messageVC)
             messageView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(messageView)            
+            addSubview(messageView)
+            messageVC.didMove(toParent: vc)
             NSLayoutConstraint.activate([
                 messageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
                 messageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),

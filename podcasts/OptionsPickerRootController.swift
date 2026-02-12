@@ -152,7 +152,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             actionView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             actionView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
         ])
-        actionView.actionWasAdded()
+        actionView.actionWasAdded(vc: self)
 
         actionsAdded += 1
     }
@@ -166,7 +166,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             actionView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             actionView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
         ])
-        actionView.actionWasAdded()
+        actionView.actionWasAdded(vc: self)
 
         actionsAdded += 1
     }
