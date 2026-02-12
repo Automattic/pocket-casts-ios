@@ -11,6 +11,7 @@
 - Dynamic Type: Update Episode Detail View [#3926](https://github.com/Automattic/pocket-casts-ios/pull/3926)
 - Dynamic Type: Update Episode Detail View [#3931](https://github.com/Automattic/pocket-casts-ios/pull/3931)
 - Dynamic Type: Update Siri Shortcuts settings [#3930](https://github.com/Automattic/pocket-casts-ios/pull/3930)
+- Dynamic Type: Update Options [#3938](https://github.com/Automattic/pocket-casts-ios/pull/3938)
 
 8.5
 -----
