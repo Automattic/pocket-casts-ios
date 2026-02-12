@@ -108,24 +108,12 @@ class DescriptiveActionView: UIView {
         var previousBottomAnchor = messageBottomAnchor
 
         for (index, action) in actions.enumerated() {
-            let actionButton = ShiftyRoundButton()
-            actionButton.fontSize = 18
-            actionButton.buttonTitle = action.label
-            actionButton.isAccessibilityElement = true
-            actionButton.accessibilityLabel = action.label
+            let actionButton = makeStandardButton(for: action)
+
             actionButton.accessibilityIdentifier = "action_\(index)"
-            actionButton.accessibilityTraits = [.button]
-            let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
-            actionButton.textColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
-            actionButton.fillColor = actionColor
-            actionButton.strokeColor = actionColor
-            actionButton.isOn = !action.outline
-            actionButton.setup()
-            actionButton.buttonTapped = { [weak self] in
-                action.action()
-                self?.delegate?.animateOut(optionChosen: true)
-            }
             actionButton.translatesAutoresizingMaskIntoConstraints = false
+            actionButton.setContentHuggingPriority(.defaultLow, for: .vertical)
+            actionButton.setContentCompressionResistancePriority(.required, for: .vertical)
             addSubview(actionButton)
 
             NSLayoutConstraint.activate([
@@ -143,6 +131,57 @@ class DescriptiveActionView: UIView {
         ])
 
         updateSize()
+    }
+
+    private func makeStandardButton(for action: OptionAction) -> UIView {
+        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+
+        var config = UIButton.Configuration.filled()
+        var title = AttributedString(action.label)
+        title.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .body)
+        config.attributedTitle = title
+        config.baseBackgroundColor = action.outline ? .clear : actionColor
+        config.baseForegroundColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
+        if action.outline {
+            config.background.strokeColor = actionColor
+            config.background.strokeWidth = 2
+        }
+        config.cornerStyle = .medium // automatic rounded corners
+        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
+
+        let actionButton = UIButton(configuration: config, primaryAction: UIAction(title: action.label, handler: { [weak self] _ in
+            action.action()
+            self?.delegate?.animateOut(optionChosen: true)
+        }))
+        actionButton.configurationUpdateHandler = { button in
+            var config = button.configuration
+
+            var title = AttributedString(action.label)
+            title.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .body)
+            config?.attributedTitle = title
+            button.configuration = config
+        }
+        return actionButton
+    }
+
+    private func makeShiftyButton(for action: OptionAction) -> UIView {
+        let actionButton = ShiftyRoundButton()
+        actionButton.fontSize = 18
+        actionButton.buttonTitle = action.label
+        actionButton.isAccessibilityElement = true
+        actionButton.accessibilityLabel = action.label
+        actionButton.accessibilityTraits = [.button]
+        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+        actionButton.textColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
+        actionButton.fillColor = actionColor
+        actionButton.strokeColor = actionColor
+        actionButton.isOn = !action.outline
+        actionButton.setup()
+        actionButton.buttonTapped = { [weak self] in
+            action.action()
+            self?.delegate?.animateOut(optionChosen: true)
+        }
+        return actionButton
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
