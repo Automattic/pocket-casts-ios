@@ -232,7 +232,30 @@ class NewPlaylistViewController: PCViewController {
             Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
+
+            Analytics.track(.filterCreated)
+            Analytics.track(.filterCreateAsManualPlaylistTapped)
+
+            if Settings.firstTimePlaylistCreated {
+                Settings.shouldShowDragAndDropTip = true
+            }
+
+            // Dismiss all presented view controllers and show snackbar with navigation action
+            if let rootVC = SceneHelper.rootViewController(includeTopMost: false) {
+                rootVC.dismiss(animated: true) {
+                    Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
+                        .init(title: L10n.bookmarkAddedButtonTitle) {
+                            NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.filterPageKey,
+                                data: [
+                                    NavigationManager.filterUuidKey: playlist.uuid
+                                ]
+                            )
+                        }
+                    ])
+                }
+            }
+            return
         }
 
         Analytics.track(.filterCreated)
