@@ -8,7 +8,8 @@ class PCRefreshControl: UIView {
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
 
-    private var pullDownAmountForRefresh = RefreshDefaults.pullDownAmount
+    private var pullDownAmountForRefresh: CGFloat = RefreshDefaults.pullDownAmount
+
     private var viewHeight: CGFloat = RefreshDefaults.viewHeight
 
     private let innerStartingAngle = -90 as CGFloat
@@ -30,6 +31,8 @@ class PCRefreshControl: UIView {
 
     let source: AnalyticsSource
 
+    var heightConstraint: NSLayoutConstraint?
+
     init(scrollView: UIScrollView, navBar: UINavigationBar, searchBar: PCSearchBarController? = nil, source: AnalyticsSource) {
         self.source = source
         super.init(frame: CGRect.zero)
@@ -43,39 +46,41 @@ class PCRefreshControl: UIView {
 
         scrollView.addSubview(self)
         translatesAutoresizingMaskIntoConstraints = false
+
         leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor).isActive = true
         trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
+        heightConstraint = heightAnchor.constraint(equalToConstant: viewHeight)
+        heightConstraint?.isActive = true
         widthAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.widthAnchor).isActive = true
         topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -viewHeight).isActive = true
         alpha = 0
-
-        // refresh label
-        refreshLabel.text = L10n.refreshControlPullToRefresh
-        refreshLabel.textAlignment = NSTextAlignment.center
-        refreshLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
-        refreshLabel.adjustsFontForContentSizeCategory = true
-        refreshLabel.numberOfLines = 0
-        refreshLabel.textColor = UIColor(hex: "#B8C3C9")
-        addSubview(refreshLabel)
-        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
-        refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")
         addSubview(refreshInnerImage)
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        //refreshInnerImage.adjustsImageSizeForAccessibilityContentSizeCategory = true
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")
         addSubview(refreshOuterImage)
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        //refreshOuterImage.adjustsImageSizeForAccessibilityContentSizeCategory = true
+
+        // refresh label
+        refreshLabel.text = L10n.refreshControlPullToRefresh
+        refreshLabel.textAlignment = NSTextAlignment.center
+        refreshLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .largeTitle)
+        refreshLabel.adjustsFontForContentSizeCategory = true
+        refreshLabel.numberOfLines = 1
+        refreshLabel.textColor = UIColor(hex: "#B8C3C9")
+        addSubview(refreshLabel)
+        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            refreshLabel.topAnchor.constraint(equalTo: refreshOuterImage.bottomAnchor, constant: 16),
+        ])
 
         // Recalculate some values
         // We recalculate the view height after we set the constraints so the UI gets pinned to the bottom of the view
@@ -156,7 +161,7 @@ class PCRefreshControl: UIView {
 
     func offsetToPullDown() {
         if let scrollView = scrollView {
-            scrollView.contentInset = UIEdgeInsets(top: viewHeight, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
+            scrollView.contentInset = UIEdgeInsets(top: pullDownAmountForRefresh, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
         }
     }
 
@@ -289,17 +294,21 @@ class PCRefreshControl: UIView {
 
     private enum RefreshDefaults {
         static var viewHeight: CGFloat {
-            let metric = UIFontMetrics(forTextStyle: .caption1)
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
             return metric.scaledValue(for: 80)
         }
 
-        static let pullDownAmount: CGFloat = 80
+        static var pullDownAmount: CGFloat {
+            80
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         guard previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory else { return }
-        self.calculateViewHeight()
+        calculateViewHeight()
+        calculatePullDownAmount()
+        resetOffset()
     }
 }
 
@@ -309,13 +318,14 @@ private extension PCRefreshControl {
     func calculateViewHeight() {
         let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
         viewHeight = RefreshDefaults.viewHeight + searchHeight
+        heightConstraint?.constant = viewHeight
     }
 
     func calculatePullDownAmount() {
         var amount = RefreshDefaults.pullDownAmount
 
         if searchBar != nil {
-            amount += viewHeight
+            amount += PCSearchBarController.defaultHeight
         }
 
         pullDownAmountForRefresh = amount
