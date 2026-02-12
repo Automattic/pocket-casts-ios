@@ -188,12 +188,25 @@ class ManualPlaylistsChooserViewController: PCViewController {
                 title = L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName)
                 actions = [
                     .init(title: L10n.bookmarkAddedButtonTitle) {
-                        NavigationManager.sharedManager.navigateTo(
-                            NavigationManager.filterPageKey,
-                            data: [
-                                NavigationManager.filterUuidKey: playlist.uuid
-                            ]
-                        )
+                        // Dismiss any presented view controllers (e.g., Episode Detail) before navigating
+                        if let rootVC = SceneHelper.rootViewController(includeTopMost: false),
+                           rootVC.presentedViewController != nil {
+                            rootVC.dismiss(animated: true) {
+                                NavigationManager.sharedManager.navigateTo(
+                                    NavigationManager.filterPageKey,
+                                    data: [
+                                        NavigationManager.filterUuidKey: playlist.uuid
+                                    ]
+                                )
+                            }
+                        } else {
+                            NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.filterPageKey,
+                                data: [
+                                    NavigationManager.filterUuidKey: playlist.uuid
+                                ]
+                            )
+                        }
                     }
                 ]
             }
