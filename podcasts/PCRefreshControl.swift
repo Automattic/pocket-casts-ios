@@ -38,7 +38,7 @@ class PCRefreshControl: UIView {
         super.init(frame: CGRect.zero)
 
         clipsToBounds = true
-        backgroundColor = UIColor.clear        
+        backgroundColor = UIColor.clear
         self.scrollView = scrollView
         self.navBar = navBar
         self.searchBar = searchBar
