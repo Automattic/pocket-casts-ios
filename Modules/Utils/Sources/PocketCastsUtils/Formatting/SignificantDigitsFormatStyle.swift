@@ -11,6 +11,7 @@ public struct SignificantDigitsFormatStyle: FormatStyle {
     public func format(_ value: TimeInterval) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.usesGroupingSeparator = false
         formatter.usesSignificantDigits = true
         formatter.minimumSignificantDigits = significantDigits
         formatter.maximumSignificantDigits = significantDigits
