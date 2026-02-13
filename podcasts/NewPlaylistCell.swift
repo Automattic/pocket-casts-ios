@@ -27,7 +27,7 @@ class NewPlaylistCell: ThemeableCell {
         return view
     }()
 
-    private var viewModel = NewPlaylistCellViewModel()    
+    private var viewModel = NewPlaylistCellViewModel()
     private var playlistCountLoadTask: Task<Void, Never>?
     private var playlistImageLoadTask: Task<Void, Never>?
     private var playlistID: String = ""
