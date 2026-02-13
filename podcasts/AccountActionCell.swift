@@ -11,7 +11,7 @@ class AccountActionCell: ThemeableCell {
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.style = iconStyle
-            cellLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .body)
+            cellLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .callout)
         }
     }
 
@@ -30,6 +30,7 @@ class AccountActionCell: ThemeableCell {
     @IBOutlet var counterLabel: ThemeableLabel! {
         didSet {
             counterLabel.style = .primaryInteractive02
+            counterLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .callout)
         }
     }
 
@@ -46,7 +47,6 @@ class AccountActionCell: ThemeableCell {
             cellLabel.style = iconStyle
             return
         }
-
 
         cellImage.tintColor = imageAndTextColor
         cellLabel.textColor = imageAndTextColor
@@ -74,25 +74,32 @@ class AccountActionCell: ThemeableCell {
 
         imageAndTextColor = nil
 
-        updateImageScale()
+        updateSize()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            updateImageScale()
-            updateDisclosureScale()
+            updateSize()
         }
     }
 
+    func updateSize() {
+        updateImageScale()
+        updateDisclosureScale()
+    }
+
     func updateImageScale() {
-        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
-        cellImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+        let fontMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let size = max(24, fontMetric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: size)
     }
 
     private func updateDisclosureScale() {
-        let scale = ScaleFactorModifier.scaleFactor(for: traitCollection.preferredContentSizeCategory)
-        disclosureImageView?.transform = CGAffineTransform(scaleX: scale, y: scale)
+        let fontMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let size = max(24, fontMetric.scaledValue(for: 24))
+        disclosureImageView?.updateSizeConstraints(to: size)
     }
+
 }
