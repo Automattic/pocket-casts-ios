@@ -27,10 +27,7 @@ class NewPlaylistCell: ThemeableCell {
         return view
     }()
 
-    private var viewModel = NewPlaylistCellViewModel()
-    private lazy var hostingController = ThemedHostingController(
-        rootView: NewPlaylistCellView(viewModel: viewModel)
-    )
+    private var viewModel = NewPlaylistCellViewModel()    
     private var playlistCountLoadTask: Task<Void, Never>?
     private var playlistImageLoadTask: Task<Void, Never>?
     private var playlistID: String = ""
@@ -52,18 +49,12 @@ class NewPlaylistCell: ThemeableCell {
         layoutMargins = .zero
         preservesSuperviewLayoutMargins = false
 
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(hostingController.view)
+        self.contentConfiguration = UIHostingConfiguration { NewPlaylistCellView(viewModel: viewModel).environmentObject(Theme.sharedTheme) }
 
-        contentView.addSubview(artworkImageSource)
+        addSubview(artworkImageSource)
         addSubview(separatorView)
         bringSubviewToFront(separatorView)
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-
             artworkImageSource.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 16.0),
             artworkImageSource.widthAnchor.constraint(equalToConstant: 56.0),
             artworkImageSource.heightAnchor.constraint(equalToConstant: 56.0),
