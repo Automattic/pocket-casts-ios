@@ -8,6 +8,8 @@ struct SmartPlaylistRuleRowView: View {
     let hideDivider: Bool
     let action: (SmartPlaylistRule) -> Void
 
+    @ScaledMetric(relativeTo: .largeTitle) var iconSize = CGFloat(24)
+
     var body: some View {
         ZStack {
             if !hideDivider {
@@ -26,14 +28,14 @@ struct SmartPlaylistRuleRowView: View {
                     .resizable()
                     .scaledToFit()
                     .foregroundStyle(theme.primaryIcon03)
-                    .frame(width: 24, height: 24)
+                    .frame(width: iconSize, height: iconSize)
                     .padding(.trailing, 8.0)
 
                 Text(rule.title)
                     .foregroundStyle(theme.primaryText01)
                     .font(size: 17, style: .body)
-                    .lineLimit(1)
-
+                    .lineLimit(0)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
 
                 if let description {
@@ -46,12 +48,13 @@ struct SmartPlaylistRuleRowView: View {
 
                 Image("cs-chevron")
                     .renderingMode(.template)
+                    .resizable()
                     .foregroundStyle(theme.primaryIcon02)
-                    .frame(width: 24, height: 24)
+                    .frame(width: iconSize, height: iconSize)
                     .padding(.trailing, 8.0)
             }
             .padding(.leading, 16.0)
-            .frame(height: 44)
+            .frame(minHeight: 44)
             .contentShape(Rectangle())
             .onTapGesture {
                 action(rule)
