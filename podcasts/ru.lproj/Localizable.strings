@@ -2757,6 +2757,11 @@ Pocket Casts на полную мощность.</string>
     <string>Спасибо, что поделились пропуском Pocket Casts! Мы сообщим, когда у вас появятся новые пропуска.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Вы потратили все гостевые пропуска!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Здравствуйте!
+
+Это гостевой пропуск на %1$@ в Pocket Casts Plus — мой любимый плеер подкастов. В нём есть множество уникальных функций, которых больше нет нигде: закладки, папки и многое другое. Надеюсь, вам он тоже понравится!
+</string>
     <key>referrals_share_pass_message</key>
     <string>Привет! По ссылке ниже лежит ваш гостевой пропуск в Pocket Casts Plus сроком на %1$@. Воспользуйтесь им и слушайте подкасты на любом из ваших устройств!</string>
     <key>referrals_share_pass_subject</key>
