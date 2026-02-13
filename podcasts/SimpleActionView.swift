@@ -61,8 +61,8 @@ class SimpleActionView: UIView {
             ])
         }
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+            label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ])
         var previousView: UIView = label
 
@@ -79,8 +79,8 @@ class SimpleActionView: UIView {
             addSubview(secondaryLabel)
 
             NSLayoutConstraint.activate([
-                secondaryLabel.topAnchor.constraint(equalTo: topAnchor),
-                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+                secondaryLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+                secondaryLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
                 label.widthAnchor.constraint(greaterThanOrEqualTo: secondaryLabel.widthAnchor, multiplier: 1),
             ])
             previousView = secondaryLabel

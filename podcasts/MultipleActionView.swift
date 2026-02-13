@@ -51,8 +51,8 @@ class MultipleActionView: UIView {
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                label.topAnchor.constraint(equalTo: topAnchor),
-                label.bottomAnchor.constraint(equalTo: bottomAnchor),
+                label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
         }
 
