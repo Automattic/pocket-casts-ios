@@ -7,7 +7,7 @@ class AccountActionCell: ThemeableCell {
         super.awakeFromNib()
         updateSize()
     }
-    
+
     var imageAndTextColor: UIColor? = nil {
         didSet {
             handleThemeDidChange()
