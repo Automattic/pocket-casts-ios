@@ -35,6 +35,7 @@ struct SmartPlaylistCreationView: View {
                 Spacer()
                 Image("cs-chevron")
                     .renderingMode(.template)
+                    .resizable()
                     .foregroundStyle(theme.primaryText02)
                     .frame(width: iconSize, height: iconSize)
             }
