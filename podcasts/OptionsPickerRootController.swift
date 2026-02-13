@@ -19,12 +19,13 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     @objc var overrideStatusBarStyle = AppTheme.defaultStatusBarStyle()
 
+    private var scrollView: UIScrollView!
     private var stackView: UIStackView!
     private var stackBgView: UIView!
 
     private let buttonCornerRadius: CGFloat = 8
     private var actionHeight: CGFloat = 72
-
+    private let layoutHorizontalMargin = CGFloat(20)
     private var actionsAdded = 0
 
     private var themeOverride: Theme.ThemeType?
@@ -34,8 +35,9 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     var portraitOnly = true
 
-    private var stackViewBottomAnchor: NSLayoutConstraint?
-    private var stackViewTopAnchor: NSLayoutConstraint?
+    private var scrollViewBottomAnchor: NSLayoutConstraint?
+    private var scrollViewTopAnchor: NSLayoutConstraint?
+    private var scrollViewHeightConstraint: NSLayoutConstraint?
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle
@@ -49,34 +51,52 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
 
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = false
+        scrollView.layer.cornerRadius = 6
+        scrollView.clipsToBounds = true
+        view.addSubview(scrollView)
+        scrollView.backgroundColor = colors.background
+
         stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.distribution = .fill
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        stackBgView = UIView()
-        stackView.insertSubview(stackBgView, at: 0)
-        stackBgView.anchorToAllSidesOf(view: stackView)
+        scrollView.addSubview(stackView)
 
-        stackBgView.backgroundColor = colors.background
-
-        view.addSubview(stackView)
-
-        stackBgView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
-        stackBgView.layer.shadowOffset = CGSize(width: 0, height: -1)
-        stackBgView.layer.shadowOpacity = 0.2
-        stackBgView.layer.shadowRadius = 10
-        stackBgView.layer.cornerRadius = 6
-        stackBgView.layer.shadowPath = UIBezierPath(rect: stackBgView.layer.bounds).cgPath
-
-        stackViewTopAnchor = view.bottomAnchor.constraint(equalTo: stackView.topAnchor)
-        stackViewBottomAnchor = view.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
+        // Stack view fills the scroll view's content area at full width
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackViewTopAnchor!
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        ])
+
+        // The scroll view height matches its content height when possible,
+        // but is capped at the available vertical space so it never overflows.
+        let maxHeightConstraint = scrollView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, constant: -75)
+        maxHeightConstraint.priority = .required
+
+        // A lower-priority constraint makes the scroll view shrink-wrap its content
+        // so it doesn't scroll when all content fits on screen.
+        scrollViewHeightConstraint = scrollView.heightAnchor.constraint(equalTo: stackView.heightAnchor)
+        scrollViewHeightConstraint?.priority = .defaultHigh
+
+        scrollViewTopAnchor = view.bottomAnchor.constraint(equalTo: scrollView.topAnchor)
+        scrollViewBottomAnchor = view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            maxHeightConstraint,
+            scrollViewHeightConstraint!,
+            scrollViewTopAnchor!
         ])
 
         let dismissView = UIView()
@@ -91,7 +111,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             dismissView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             dismissView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             dismissView.topAnchor.constraint(equalTo: view.topAnchor),
-            dismissView.bottomAnchor.constraint(equalTo: stackView.topAnchor)
+            dismissView.bottomAnchor.constraint(equalTo: scrollView.topAnchor)
         ])
 
         let dismissGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
@@ -132,7 +152,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             actionView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             actionView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
         ])
-        actionView.actionWasAdded()
+        actionView.actionWasAdded(vc: self)
 
         actionsAdded += 1
     }
@@ -146,7 +166,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             actionView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             actionView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
         ])
-        actionView.actionWasAdded()
+        actionView.actionWasAdded(vc: self)
 
         actionsAdded += 1
     }
@@ -156,7 +176,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
         let actionView = MultipleActionView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: actionHeight), name: name, icon: icon, actions: actions, themeOverride: themeOverride)
         NSLayoutConstraint.activate([
-            actionView.heightAnchor.constraint(equalToConstant: actionHeight)
+            actionView.heightAnchor.constraint(greaterThanOrEqualToConstant: actionHeight)
         ])
         stackView.addArrangedSubview(actionView)
         NSLayoutConstraint.activate([
@@ -170,11 +190,14 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
 
     func aboutToPresentOptions(bottomPadding: CGFloat) {
         let bottomPaddingView = UIView()
+        bottomPaddingView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             bottomPaddingView.heightAnchor.constraint(equalToConstant: bottomPadding),
-            bottomPaddingView.widthAnchor.constraint(equalToConstant: 280)
         ])
         stackView.addArrangedSubview(bottomPaddingView)
+        NSLayoutConstraint.activate([
+            bottomPaddingView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+        ])
     }
 
     // MARK: - Animate in/out
@@ -183,8 +206,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         view.backgroundColor = UIColor.black.withAlphaComponent(0)
         view.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, delay: 0, options: .curveEaseOut, animations: { [weak self] in
-            self?.stackViewTopAnchor?.isActive = false
-            self?.stackViewBottomAnchor?.isActive = true
+            self?.scrollViewTopAnchor?.isActive = false
+            self?.scrollViewBottomAnchor?.isActive = true
             self?.view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
 
             self?.view?.layoutIfNeeded()
@@ -194,8 +217,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     func animateOut(optionChosen: Bool) {
         view?.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, animations: { [weak self] in
-            self?.stackViewBottomAnchor?.isActive = false
-            self?.stackViewTopAnchor?.isActive = true
+            self?.scrollViewBottomAnchor?.isActive = false
+            self?.scrollViewTopAnchor?.isActive = true
 
             self?.view.backgroundColor = UIColor.clear
 
@@ -212,7 +235,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     // MARK: - UIGestureRecognizerDelegate
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        touch.view?.isDescendant(of: stackView) == false
+        touch.view?.isDescendant(of: scrollView) == false
     }
 
     // MARK: - Drawing Helpers
@@ -221,23 +244,28 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            containerView.heightAnchor.constraint(equalToConstant: 40)
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40)
         ])
         stackView.addArrangedSubview(containerView)
 
         let label = UILabel()
         label.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .footnote)
         label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         label.text = title
         label.textColor = titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(label)
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20)
+            containerView.leadingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.trailingAnchor),
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: layoutHorizontalMargin),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -layoutHorizontalMargin),
+            label.topAnchor.constraint(equalTo: containerView.layoutMarginsGuide.topAnchor),
+            label.bottomAnchor.constraint(equalTo: containerView.layoutMarginsGuide.bottomAnchor),
         ])
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
     }
 
     private func addDivider() {
@@ -256,8 +284,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            dividerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            containerView.trailingAnchor.constraint(equalTo: dividerView.trailingAnchor, constant: 20),
+            dividerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: layoutHorizontalMargin),
+            containerView.trailingAnchor.constraint(equalTo: dividerView.trailingAnchor, constant: -layoutHorizontalMargin),
             dividerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             dividerView.topAnchor.constraint(equalTo: containerView.topAnchor)
         ])
