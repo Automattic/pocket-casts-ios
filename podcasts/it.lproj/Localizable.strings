@@ -2757,6 +2757,11 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Grazie per aver condiviso Pocket Casts. Ti avviseremo quando avrai altri pass da assegnare.</string>
     <key>referrals_share_no_guest_pass_title</key>
     <string>Hai condiviso tutti i tuoi pass per gli ospiti!</string>
+    <key>referrals_share_pass_long_message</key>
+    <string>Ciao!
+
+Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player preferito. È ricco di funzionalità uniche come segnalibri, cartelle e molto altro che non troverai da nessun'altra parte. Penso che piacerà anche a te.
+</string>
     <key>referrals_share_pass_message</key>
     <string>Ciao! Utilizza il seguente link per ottenere il tuo pass per ospiti %1$@ per Pocket Casts Plus e goditi i podcast in tutti i tuoi dispositivi!</string>
     <key>referrals_share_pass_subject</key>

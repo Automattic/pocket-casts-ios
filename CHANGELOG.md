@@ -1,9 +1,7 @@
 8.6
 -----
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
-
 - Dynamic Type: Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
-- [TestFlight only] Add a new VoiceBoost solution designed to maintain more consistent audio levels. [#3915](https://github.com/Automattic/pocket-casts-ios/pull/3915)
 - Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
 - Dynamic Type: Update Podcast detail [#3892](https://github.com/Automattic/pocket-casts-ios/pull/3892)
 - Dynamic Type: Update Settings [#3896](https://github.com/Automattic/pocket-casts-ios/pull/3896)
@@ -11,10 +9,12 @@
 - Dynamic Type: Update Episode Detail View [#3926](https://github.com/Automattic/pocket-casts-ios/pull/3926)
 - Dynamic Type: Update Episode Detail View [#3931](https://github.com/Automattic/pocket-casts-ios/pull/3931)
 - Dynamic Type: Update Siri Shortcuts settings [#3930](https://github.com/Automattic/pocket-casts-ios/pull/3930)
+- Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
 
 8.5
 -----
 - Fix removal of User Episode Files when selecting multiple episodes [#3898](https://github.com/Automattic/pocket-casts-ios/pull/3898)
+- Fix URL handling from iMessage [#3937](https://github.com/Automattic/pocket-casts-ios/pull/3937)
 
 8.4
 -----

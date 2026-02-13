@@ -470,7 +470,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchUpNextSyncFix:
             true
         case .voiceBoostN:
-            BuildEnvironment.current == .testFlight || BuildEnvironment.current == .debug
+            false
         case .grdbQueryInterface:
             false
         case .playlistCacheInvalidation:
