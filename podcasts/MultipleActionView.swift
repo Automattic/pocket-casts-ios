@@ -27,7 +27,7 @@ class MultipleActionView: UIView {
         let label = UILabel()
         label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
         label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.text = name
         label.textColor = AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,13 +44,15 @@ class MultipleActionView: UIView {
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
+                label.topAnchor.constraint(equalTo: topAnchor),
+                label.bottomAnchor.constraint(equalTo: bottomAnchor),
             ])
             self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
+                label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             ])
         }
 
@@ -78,6 +80,8 @@ class MultipleActionView: UIView {
         ])
 
         segmentedControl.addTarget(self, action: #selector(optionSelected), for: .valueChanged)
+
+        updateSize()
     }
 
     @objc private func optionSelected(_ sender: CustomSegmentedControl) {
