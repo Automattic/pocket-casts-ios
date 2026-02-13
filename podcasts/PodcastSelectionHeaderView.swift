@@ -12,6 +12,7 @@ class PodcastSelectionHeaderView: UIView {
     @IBOutlet var titleLabel: UILabel! {
         didSet {
             titleLabel.text = L10n.filterCreatePodcastsAllPodcasts
+            titleLabel.font = UIFont.font(ofSize: 18, weight: .regular, scalingWith: .headline)
         }
     }
 
@@ -37,6 +38,7 @@ class PodcastSelectionHeaderView: UIView {
 
     func loadViewFromNib() {
         Bundle.main.loadNibNamed("PodcastSelectionHeaderView", owner: self, options: nil)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
     }
