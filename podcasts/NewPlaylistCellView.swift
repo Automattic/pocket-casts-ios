@@ -55,7 +55,8 @@ struct NewPlaylistCellView: View {
             } else {
                 PlaylistArtworkView(items: viewModel.images)
                     .frame(width: imageSize, height: imageSize)
-                    .padding(16.0)
+                    .padding(.leading, 16.0)
+                    .padding(.vertical, 16.0)
                     .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 2.0) {
@@ -66,7 +67,7 @@ struct NewPlaylistCellView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 if let subtitle {
                     subtitleView(text: subtitle)
-                        .lineLimit(2)
+                        .lineLimit(1)
                 }
             }
             Spacer()
