@@ -65,7 +65,9 @@ class NewPlaylistViewController: PCViewController {
         didSet {
             saveButton.translatesAutoresizingMaskIntoConstraints = false
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            setupSaveButtonTitle()
+            saveButton.setTitle(L10n.playlistCreationCreatePlaylistButton, for: .normal)
+            saveButton.tintColor = ThemeColor.primaryInteractive02()
+            saveButton.titleLabel?.font = .font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
             saveButton.layer.cornerRadius = 12
             saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
             saveButton.titleLabel?.numberOfLines = 0
@@ -164,7 +166,7 @@ class NewPlaylistViewController: PCViewController {
 
             saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            saveButton.heightAnchor.constraint(greaterThanOrEqualTo: textFieldBorderView.heightAnchor)
+            saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
         ]
 
         if creationType == .default {
@@ -203,11 +205,6 @@ class NewPlaylistViewController: PCViewController {
         closeButton.target = self
         closeButton.action = #selector(closeTapped)
         navigationItem.leftBarButtonItem = closeButton
-    }
-
-    private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistCreationCreatePlaylistButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 
     @objc private func createManualPlaylist() {
