@@ -12,6 +12,7 @@
 - Dynamic Type: Update Options [#3938](https://github.com/Automattic/pocket-casts-ios/pull/3938)
 - Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
 - Dynamic Type: Update Playlists List [#3946](https://github.com/Automattic/pocket-casts-ios/pull/3946)
+- Dynamic Type: Update Playlists Creation and options [#3948](https://github.com/Automattic/pocket-casts-ios/pull/3948)
 
 8.5
 -----
