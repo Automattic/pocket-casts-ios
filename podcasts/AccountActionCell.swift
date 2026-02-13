@@ -2,6 +2,12 @@
 import UIKit
 
 class AccountActionCell: ThemeableCell {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+    }
+    
     var imageAndTextColor: UIColor? = nil {
         didSet {
             handleThemeDidChange()
