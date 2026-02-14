@@ -133,7 +133,7 @@ final class WatchSyncManagerTests: XCTestCase {
         XCTAssertEqual(result, .same)
     }
 
-    func testEpisodeComparison_WatchHasEpisodesPhoneEmpty_ReturnsPhoneNeedsUpdate() {
+    func testEpisodeComparison_WatchHasEpisodesPhoneNil_ReturnsNotEnoughInformation() {
         let watchEpisodes = [makeEpisode(uuid: "watch-1")]
 
         let result = compare(
@@ -142,7 +142,19 @@ final class WatchSyncManagerTests: XCTestCase {
             watchEpisodeCount: watchEpisodes.count
         )
 
-        XCTAssertEqual(result, .phoneNeedsUpdate)
+        XCTAssertEqual(result, .notEnoughInformation)
+    }
+
+    func testEpisodeComparison_WatchHasEpisodesPhoneExplicitlyEmpty_ReturnsWatchNeedsUpdate() {
+        let watchEpisodes = [makeEpisode(uuid: "watch-1")]
+
+        let result = compare(
+            phoneEpisodes: [],
+            watchEpisodes: watchEpisodes,
+            watchEpisodeCount: watchEpisodes.count
+        )
+
+        XCTAssertEqual(result, .watchNeedsUpdate)
     }
 
     func testEpisodeComparison_TruncatedList_ReturnsNotEnoughInformation() {
@@ -217,6 +229,27 @@ final class WatchSyncManagerTests: XCTestCase {
 
         wait(for: [expectation], timeout: debounceTimeout)
         XCTAssertEqual(fireCount, 1)
+    }
+
+    func testIntegration_PhoneClearedQueue_ShouldPullFromPhone() {
+        let watchEpisodes = [makeEpisode(uuid: "watch-1"), makeEpisode(uuid: "watch-2")]
+
+        let comparisonResult = compare(
+            phoneEpisodes: [],
+            phoneUpNextCount: 0,
+            watchEpisodes: watchEpisodes,
+            watchEpisodeCount: watchEpisodes.count,
+            lastServerRefresh: Date(timeIntervalSince1970: 100),
+            lastWatchDataTime: Date(timeIntervalSince1970: 50)
+        )
+
+        XCTAssertEqual(comparisonResult, .watchNeedsUpdate)
+        XCTAssertTrue(WatchSyncDecision.shouldPerformBackgroundRefresh(
+            isPlusUser: true,
+            isAppInBackground: true,
+            comparisonResult: comparisonResult,
+            isFirstSyncInProgress: false
+        ))
     }
 
     // MARK: - Regression Tests for Original Bug
