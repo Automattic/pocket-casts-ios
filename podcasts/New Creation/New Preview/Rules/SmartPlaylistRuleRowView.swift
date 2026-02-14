@@ -34,7 +34,6 @@ struct SmartPlaylistRuleRowView: View {
                 Text(rule.title)
                     .foregroundStyle(theme.primaryText01)
                     .font(size: 17, style: .body)
-                    .lineLimit(0)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
 
@@ -54,7 +53,7 @@ struct SmartPlaylistRuleRowView: View {
                     .padding(.trailing, 8.0)
             }
             .padding(.leading, 16.0)
-            .frame(minHeight: 44)
+            .padding(.vertical, 8.0)
             .contentShape(Rectangle())
             .onTapGesture {
                 action(rule)
