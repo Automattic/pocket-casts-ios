@@ -27,6 +27,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 filtersTable.dropDelegate = nil
             }
             filtersTable.sectionFooterHeight = UITableView.automaticDimension
+            filtersTable.estimatedSectionFooterHeight = UITableView.automaticDimension
         }
     }
 
