@@ -19,6 +19,7 @@ final class WatchSyncManagerTests: XCTestCase {
                          watchEpisodeCount: Int? = nil,
                          lastServerRefresh: Date? = Date(timeIntervalSince1970: 0),
                          lastWatchDataTime: Date = Date(timeIntervalSince1970: 0),
+                         lastLocalQueueChange: Date? = nil,
                          useConservativeComparison: Bool = true) -> UpNextComparisonResult {
         UpNextListComparator.compare(
             phoneEpisodes: phoneEpisodes,
@@ -27,6 +28,7 @@ final class WatchSyncManagerTests: XCTestCase {
             watchEpisodeCount: watchEpisodeCount ?? watchEpisodes.count,
             lastServerRefresh: lastServerRefresh,
             lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange,
             useConservativeComparison: useConservativeComparison
         )
     }
@@ -78,7 +80,8 @@ final class WatchSyncManagerTests: XCTestCase {
         XCTAssertEqual(result, .notEnoughInformation)
     }
 
-    func testTimestampComparison_PhoneNewer_ReturnsPhoneNeedsUpdate() {
+    func testTimestampComparison_NoLocalChanges_ReturnsWatchNeedsUpdate() {
+        // When there are no local changes, phone is always source of truth
         let phoneEpisodes = [makeEpisode(uuid: "phone-1")]
         let watchEpisodes = [makeEpisode(uuid: "watch-1")]
         let lastServerRefresh = Date(timeIntervalSince1970: 200)
@@ -88,41 +91,49 @@ final class WatchSyncManagerTests: XCTestCase {
             phoneEpisodes: phoneEpisodes,
             watchEpisodes: watchEpisodes,
             lastServerRefresh: lastServerRefresh,
-            lastWatchDataTime: lastWatchDataTime
-        )
-
-        XCTAssertEqual(result, .phoneNeedsUpdate)
-    }
-
-    func testTimestampComparison_WatchNewer_ReturnsWatchNeedsUpdate() {
-        let phoneEpisodes = [makeEpisode(uuid: "phone-1")]
-        let watchEpisodes = [makeEpisode(uuid: "watch-1")]
-        let lastServerRefresh = Date(timeIntervalSince1970: 100)
-        let lastWatchDataTime = Date(timeIntervalSince1970: 200)
-
-        let result = compare(
-            phoneEpisodes: phoneEpisodes,
-            watchEpisodes: watchEpisodes,
-            lastServerRefresh: lastServerRefresh,
-            lastWatchDataTime: lastWatchDataTime
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: nil
         )
 
         XCTAssertEqual(result, .watchNeedsUpdate)
     }
 
-    func testTimestampComparison_EqualTimestamps_ReturnsSame() {
+    func testTimestampComparison_LocalChangeBeforePhoneData_ReturnsWatchNeedsUpdate() {
+        // Local change happened BEFORE receiving phone data, so phone is still source of truth
         let phoneEpisodes = [makeEpisode(uuid: "phone-1")]
         let watchEpisodes = [makeEpisode(uuid: "watch-1")]
-        let lastServerRefresh = Date(timeIntervalSince1970: 100)
+        let lastServerRefresh = Date(timeIntervalSince1970: 200)
+        let lastWatchDataTime = Date(timeIntervalSince1970: 150)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 100) // Before phone data
 
         let result = compare(
             phoneEpisodes: phoneEpisodes,
             watchEpisodes: watchEpisodes,
             lastServerRefresh: lastServerRefresh,
-            lastWatchDataTime: lastServerRefresh
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
         )
 
-        XCTAssertEqual(result, .same)
+        XCTAssertEqual(result, .watchNeedsUpdate)
+    }
+
+    func testTimestampComparison_LocalChangeAfterPhoneData_ReturnsPhoneNeedsUpdate() {
+        // Local change happened AFTER receiving phone data, so Watch changes should sync
+        let phoneEpisodes = [makeEpisode(uuid: "phone-1")]
+        let watchEpisodes = [makeEpisode(uuid: "watch-1")]
+        let lastServerRefresh = Date(timeIntervalSince1970: 200)
+        let lastWatchDataTime = Date(timeIntervalSince1970: 100)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 150) // After phone data
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            lastServerRefresh: lastServerRefresh,
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
+        )
+
+        XCTAssertEqual(result, .phoneNeedsUpdate)
     }
 
     // MARK: - compareUpNextLists Episode Comparison Tests
@@ -182,7 +193,8 @@ final class WatchSyncManagerTests: XCTestCase {
         XCTAssertEqual(result, .same)
     }
 
-    func testEpisodeComparison_DifferentEpisodes_FallsBackToTimestamp() {
+    func testEpisodeComparison_DifferentEpisodes_NoLocalChanges_ReturnsWatchNeedsUpdate() {
+        // When episodes differ but no local changes, phone is source of truth
         let phoneEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
         let watchEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-3")]
         let lastServerRefresh = Date(timeIntervalSince1970: 200)
@@ -192,7 +204,27 @@ final class WatchSyncManagerTests: XCTestCase {
             phoneEpisodes: phoneEpisodes,
             watchEpisodes: watchEpisodes,
             lastServerRefresh: lastServerRefresh,
-            lastWatchDataTime: lastWatchDataTime
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: nil
+        )
+
+        XCTAssertEqual(result, .watchNeedsUpdate)
+    }
+
+    func testEpisodeComparison_DifferentEpisodes_WithLocalChanges_ReturnsPhoneNeedsUpdate() {
+        // When episodes differ AND Watch made local changes after phone data, sync Watch to server
+        let phoneEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
+        let watchEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-3")]
+        let lastServerRefresh = Date(timeIntervalSince1970: 200)
+        let lastWatchDataTime = Date(timeIntervalSince1970: 100)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 150) // After phone data
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            lastServerRefresh: lastServerRefresh,
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
         )
 
         XCTAssertEqual(result, .phoneNeedsUpdate)
@@ -255,6 +287,7 @@ final class WatchSyncManagerTests: XCTestCase {
     // MARK: - Regression Tests for Original Bug
 
     func testRegression_WatchShouldNotOverwritePhoneWithStaleData() {
+        // When Watch has different data but no local changes, phone is source of truth
         let phoneEpisodes = [makeEpisode(uuid: "ep-1")]
         let watchEpisodes = [makeEpisode(uuid: "ep-2")]
 
@@ -262,25 +295,49 @@ final class WatchSyncManagerTests: XCTestCase {
             phoneEpisodes: phoneEpisodes,
             watchEpisodes: watchEpisodes,
             lastServerRefresh: nil,
-            lastWatchDataTime: Date(timeIntervalSince1970: 100)
+            lastWatchDataTime: Date(timeIntervalSince1970: 100),
+            lastLocalQueueChange: nil
         )
 
+        // With no server refresh timestamp in conservative mode, we don't have enough info
         XCTAssertEqual(result, .notEnoughInformation)
     }
 
-    func testRegression_EqualTimestampsShouldNotTriggerSync() {
+    func testRegression_WatchWithStaleDataNoLocalChanges_ShouldUpdateFromPhone() {
+        // Watch has stale data (old episodes), no local changes → pull from phone
         let phoneEpisodes = [makeEpisode(uuid: "ep-1")]
-        let watchEpisodes = [makeEpisode(uuid: "ep-2")]
-        let timestamp = Date(timeIntervalSince1970: 100)
+        let watchEpisodes = [makeEpisode(uuid: "ep-2"), makeEpisode(uuid: "ep-3"), makeEpisode(uuid: "ep-4")]
+        let lastServerRefresh = Date(timeIntervalSince1970: 100)
+        let lastWatchDataTime = Date(timeIntervalSince1970: 50)
 
         let result = compare(
             phoneEpisodes: phoneEpisodes,
             watchEpisodes: watchEpisodes,
-            lastServerRefresh: timestamp,
-            lastWatchDataTime: timestamp
+            lastServerRefresh: lastServerRefresh,
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: nil
         )
 
-        XCTAssertEqual(result, .same)
+        XCTAssertEqual(result, .watchNeedsUpdate)
+    }
+
+    func testRegression_WatchLocalChanges_ShouldSyncToServer() {
+        // Watch user made local changes → those should sync to server
+        let phoneEpisodes = [makeEpisode(uuid: "ep-1")]
+        let watchEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
+        let lastServerRefresh = Date(timeIntervalSince1970: 100)
+        let lastWatchDataTime = Date(timeIntervalSince1970: 50)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 75) // After phone data
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            lastServerRefresh: lastServerRefresh,
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
+        )
+
+        XCTAssertEqual(result, .phoneNeedsUpdate)
     }
 
     func testRegression_NoTimestampShouldNotTriggerSync() {
@@ -295,5 +352,62 @@ final class WatchSyncManagerTests: XCTestCase {
         )
 
         XCTAssertEqual(result, .notEnoughInformation)
+    }
+
+    // MARK: - Watch Queue Management Tests
+
+    func testWatchQueueManagement_AddEpisodeOnWatch_ShouldSync() {
+        // User adds an episode on Watch after receiving phone data
+        let phoneEpisodes = [makeEpisode(uuid: "ep-1")]
+        let watchEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
+        let lastWatchDataTime = Date(timeIntervalSince1970: 100)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 150) // User added ep-2
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            lastServerRefresh: Date(timeIntervalSince1970: 200),
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
+        )
+
+        XCTAssertEqual(result, .phoneNeedsUpdate)
+    }
+
+    func testWatchQueueManagement_RemoveEpisodeOnWatch_ShouldSync() {
+        // User removes an episode on Watch after receiving phone data
+        let phoneEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
+        let watchEpisodes = [makeEpisode(uuid: "ep-1")]
+        let lastWatchDataTime = Date(timeIntervalSince1970: 100)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 150) // User removed ep-2
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            lastServerRefresh: Date(timeIntervalSince1970: 200),
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
+        )
+
+        XCTAssertEqual(result, .phoneNeedsUpdate)
+    }
+
+    func testWatchQueueManagement_ClearQueueOnWatch_ShouldSync() {
+        // User clears queue on Watch after receiving phone data
+        let phoneEpisodes = [makeEpisode(uuid: "ep-1"), makeEpisode(uuid: "ep-2")]
+        let watchEpisodes: [BaseEpisode] = []
+        let lastWatchDataTime = Date(timeIntervalSince1970: 100)
+        let lastLocalQueueChange = Date(timeIntervalSince1970: 150) // User cleared queue
+
+        let result = compare(
+            phoneEpisodes: phoneEpisodes,
+            watchEpisodes: watchEpisodes,
+            watchEpisodeCount: 0,
+            lastServerRefresh: Date(timeIntervalSince1970: 200),
+            lastWatchDataTime: lastWatchDataTime,
+            lastLocalQueueChange: lastLocalQueueChange
+        )
+
+        XCTAssertEqual(result, .phoneNeedsUpdate)
     }
 }
