@@ -15,6 +15,7 @@ public struct UpNextListComparator {
                                watchEpisodeCount: Int,
                                lastServerRefresh: Date?,
                                lastWatchDataTime: Date,
+                               lastLocalQueueChange: Date? = nil,
                                useConservativeComparison: Bool = true) -> UpNextComparisonResult {
         // Handle nil (no phone context received yet) vs empty (phone intentionally sent empty queue)
         guard let phoneEpisodes = phoneEpisodes else {
@@ -69,20 +70,16 @@ public struct UpNextListComparator {
             }
         }
 
-        if lastServerRefresh > lastWatchDataTime {
-            FileLog.shared.addMessage("WatchSyncManager: Phone data is newer (lastServerRefresh: \(lastServerRefresh) > lastDataTime: \(lastWatchDataTime)), returning .phoneNeedsUpdate")
+        // Check if Watch made local queue changes AFTER receiving the latest phone data.
+        // If so, those local changes should sync to the server.
+        if let localChange = lastLocalQueueChange, localChange > lastWatchDataTime {
+            FileLog.shared.addMessage("WatchSyncManager: Local queue change (\(localChange)) is newer than phone data (\(lastWatchDataTime)), returning .phoneNeedsUpdate")
             return .phoneNeedsUpdate
-        } else if lastServerRefresh < lastWatchDataTime {
-            FileLog.shared.addMessage("WatchSyncManager: Watch data is newer (lastServerRefresh: \(lastServerRefresh) < lastDataTime: \(lastWatchDataTime)), returning .watchNeedsUpdate")
-            return .watchNeedsUpdate
-        } else {
-            if useConservativeComparison {
-                FileLog.shared.addMessage("WatchSyncManager: Timestamps are equal, returning .same")
-                return .same
-            } else {
-                return .watchNeedsUpdate
-            }
         }
+
+        // No local changes after phone data - phone is source of truth
+        FileLog.shared.addMessage("WatchSyncManager: No local changes after phone data, returning .watchNeedsUpdate (phone is source of truth)")
+        return .watchNeedsUpdate
     }
 }
 

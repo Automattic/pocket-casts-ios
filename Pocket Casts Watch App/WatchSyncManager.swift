@@ -312,6 +312,7 @@ class WatchSyncManager {
             watchEpisodeCount: PlaybackManager.shared.queue.upNextCount(),
             lastServerRefresh: ServerSettings.lastRefreshStartTime(),
             lastWatchDataTime: WatchDataManager.lastDataTime(),
+            lastLocalQueueChange: WatchDataManager.lastLocalQueueChange(),
             useConservativeComparison: FeatureFlag.watchUpNextSyncFix.enabled
         )
     }

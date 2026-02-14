@@ -122,13 +122,13 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     func removeFromUpNext(episode: BaseEpisode) {
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true)
-        WatchDataManager.updateLastDataTime()
+        WatchDataManager.recordLocalQueueChange()
     }
 
     func addToUpNext(episode: BaseEpisode, toTop: Bool) {
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false)
         PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: toTop)
-        WatchDataManager.updateLastDataTime()
+        WatchDataManager.recordLocalQueueChange()
     }
 
     func archive(episode: BaseEpisode) {
@@ -233,7 +233,7 @@ class WatchSourceViewModel: PlaySourceViewModel {
 
     func clearUpNext() {
         PlaybackManager.shared.queue.clearUpNextList()
-        WatchDataManager.updateLastDataTime()
+        WatchDataManager.recordLocalQueueChange()
     }
 
     // MARK: Now Playing

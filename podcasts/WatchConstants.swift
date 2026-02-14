@@ -62,6 +62,7 @@ public enum WatchConstants {
         public static let lastContext = "lastContext_v2"
         public static let lastSubscriptionStatusTime = "lastSubscriptionStatusTime"
         public static let lastDataTime = "lastDataTime"
+        public static let lastLocalQueueChange = "lastLocalQueueChange"
     }
 
     public enum Notifications {

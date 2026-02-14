@@ -188,4 +188,21 @@ class WatchDataManager {
         }
         return lastTime
     }
+
+    /// Records when the Watch user explicitly made a local queue change (add/remove/clear).
+    /// This is separate from lastDataTime which tracks when phone data was received.
+    class func recordLocalQueueChange() {
+        guard FeatureFlag.watchUpNextSyncFix.enabled else { return }
+        UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastLocalQueueChange)
+    }
+
+    /// Returns the timestamp of the last local queue change made by the Watch user, or nil if none.
+    class func lastLocalQueueChange() -> Date? {
+        UserDefaults.standard.object(forKey: WatchConstants.UserDefaults.lastLocalQueueChange) as? Date
+    }
+
+    /// Clears the local queue change timestamp after it has been synced.
+    class func clearLocalQueueChange() {
+        UserDefaults.standard.removeObject(forKey: WatchConstants.UserDefaults.lastLocalQueueChange)
+    }
 }
