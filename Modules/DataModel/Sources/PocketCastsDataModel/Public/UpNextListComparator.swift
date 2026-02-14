@@ -16,11 +16,25 @@ public struct UpNextListComparator {
                                lastServerRefresh: Date?,
                                lastWatchDataTime: Date,
                                useConservativeComparison: Bool = true) -> UpNextComparisonResult {
-        guard let phoneEpisodes = phoneEpisodes, phoneEpisodes.count > 0 else {
+        // Handle nil (no phone context received yet) vs empty (phone intentionally sent empty queue)
+        guard let phoneEpisodes = phoneEpisodes else {
+            // No phone context received - we don't have enough info to make a decision
             if watchEpisodeCount == 0 {
                 return .same
             } else {
-                return .phoneNeedsUpdate
+                FileLog.shared.addMessage("WatchSyncManager: No phone context received but watch has \(watchEpisodeCount) episodes - Not enough information")
+                return .notEnoughInformation
+            }
+        }
+
+        guard phoneEpisodes.count > 0 else {
+            if watchEpisodeCount == 0 {
+                return .same
+            } else {
+                // Phone explicitly sent empty queue - this is intentional (user cleared queue on phone)
+                // Watch should update FROM phone, not push stale data TO server
+                FileLog.shared.addMessage("WatchSyncManager: Phone sent empty queue but watch has \(watchEpisodeCount) episodes - Watch needs update")
+                return .watchNeedsUpdate
             }
         }
 
