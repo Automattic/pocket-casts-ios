@@ -20,6 +20,7 @@ class StarredFilterOverlayController: PCViewController {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: Self.smartRuleHeaderCellId)
             tableView.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: FilterPreviewViewController.previewCellId)
             tableView.rowHeight = UITableView.automaticDimension
+            tableView.estimatedRowHeight = UITableView.automaticDimension
         }
     }
     private var viewModel: SmartRuleToggleViewModel!
@@ -65,7 +66,7 @@ class StarredFilterOverlayController: PCViewController {
         let backgroundColor = AppTheme.viewBackgroundColor()
         changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
 
-        largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
         title = SmartPlaylistRule.starred.title
 
