@@ -37,6 +37,12 @@ build: ## Builds the Debug configuration using Xcode
        -configuration Debug \
        build
 
+clean: ## Cleans the build artifacts
+	xcodebuild -project podcasts.xcodeproj \
+       -scheme pocketcasts \
+       -configuration Debug \
+       clean
+
 test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
 	xcodebuild test -project podcasts.xcodeproj \
 	    -scheme pocketcasts \
