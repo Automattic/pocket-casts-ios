@@ -59,7 +59,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func viewDidLoad() {
         super.viewDidLoad()
         if playlistsRebrandingEnabled {
-            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+            largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
         }
 
         insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
