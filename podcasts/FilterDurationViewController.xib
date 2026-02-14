@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -38,42 +38,42 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLe-tB-Z1Z" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="18" y="124" width="135.5" height="22"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Filter by duration" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="18" y="124" width="307" height="20.5"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rrc-db-3fy" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="347" y="119.5" width="51" height="31"/>
+                            <rect key="frame" x="335" y="120.5" width="63" height="28"/>
                             <connections>
                                 <action selector="filterSwitchChanged:" destination="-1" eventType="valueChanged" id="vGZ-YO-bDs"/>
                             </connections>
                         </switch>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qmv-fg-ZEx" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="166" width="414" height="1"/>
+                            <rect key="frame" x="0.0" y="164.5" width="414" height="1"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="jdl-nw-jjC"/>
                             </constraints>
                         </view>
                         <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e89-rD-l86">
-                            <rect key="frame" x="0.0" y="177" width="414" height="128"/>
+                            <rect key="frame" x="0.0" y="175.5" width="414" height="595.5"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longer than" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-u3-vvZ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="18" y="20" width="92" height="20.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" text="Longer than da skd a skdj asdkj askdjasdasdasda" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-u3-vvZ" userLabel="Longer than" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="18" y="20" width="197" height="42.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUI-Nj-eNz" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="223" y="20" width="83" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUI-Nj-eNz" userLabel="Longer time" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="223" y="31" width="83" height="20.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vBK-gb-mUn" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="312" y="8.5" width="90" height="44"/>
+                                    <rect key="frame" x="312" y="19.5" width="90" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="90" id="AD6-Yr-MK4"/>
                                         <constraint firstAttribute="height" constant="44" id="deg-0j-VFo"/>
@@ -82,20 +82,20 @@
                                         <action selector="longerThanChanged:" destination="-1" eventType="valueChanged" id="QXE-mE-IQT"/>
                                     </connections>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shorter than" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gv-4P-y7p" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="18" y="76.5" width="95" height="20.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Shorter than Shorter than  Shorter than  Shorter than " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gv-4P-y7p" userLabel="Shorter than" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="18" y="98.5" width="197" height="64.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTM-qF-WZF" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="223" y="76.5" width="83" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="10 minutes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTM-qF-WZF" userLabel="Shorter time" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                    <rect key="frame" x="223" y="120.5" width="83" height="20.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuO-fW-Vwb" customClass="CustomTimeStepper" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="312" y="65" width="90" height="44"/>
+                                    <rect key="frame" x="312" y="109" width="90" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="j0b-lQ-RAL"/>
                                         <constraint firstAttribute="width" constant="90" id="lYX-SW-y14"/>
@@ -107,17 +107,19 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="ZUI-Nj-eNz" firstAttribute="centerY" secondItem="8XS-u3-vvZ" secondAttribute="centerY" id="4tI-aC-0at"/>
-                                <constraint firstAttribute="height" constant="128" id="5t7-nl-guX"/>
                                 <constraint firstItem="cuO-fW-Vwb" firstAttribute="leading" secondItem="CTM-qF-WZF" secondAttribute="trailing" constant="6" id="9hR-Fd-9A6"/>
                                 <constraint firstItem="cuO-fW-Vwb" firstAttribute="centerY" secondItem="3gv-4P-y7p" secondAttribute="centerY" id="ApP-o3-Q9x"/>
                                 <constraint firstItem="3gv-4P-y7p" firstAttribute="top" secondItem="8XS-u3-vvZ" secondAttribute="bottom" constant="36" id="IyF-fn-FAq"/>
-                                <constraint firstItem="vBK-gb-mUn" firstAttribute="leading" secondItem="ZUI-Nj-eNz" secondAttribute="trailing" constant="6" id="MwX-s2-1Tc"/>
                                 <constraint firstItem="CTM-qF-WZF" firstAttribute="centerY" secondItem="3gv-4P-y7p" secondAttribute="centerY" id="Nl7-O8-CAa"/>
                                 <constraint firstItem="vBK-gb-mUn" firstAttribute="centerY" secondItem="8XS-u3-vvZ" secondAttribute="centerY" id="OFE-dL-3A1"/>
                                 <constraint firstItem="8XS-u3-vvZ" firstAttribute="top" secondItem="e89-rD-l86" secondAttribute="top" constant="20" id="Q96-QQ-X6m"/>
+                                <constraint firstItem="CTM-qF-WZF" firstAttribute="leading" secondItem="3gv-4P-y7p" secondAttribute="trailing" constant="8" id="cx2-ap-oxj"/>
                                 <constraint firstAttribute="trailing" secondItem="cuO-fW-Vwb" secondAttribute="trailing" constant="12" id="eGM-0a-Jos"/>
                                 <constraint firstAttribute="trailing" secondItem="vBK-gb-mUn" secondAttribute="trailing" constant="12" id="j8R-Sn-xvD"/>
                                 <constraint firstItem="3gv-4P-y7p" firstAttribute="leading" secondItem="8XS-u3-vvZ" secondAttribute="leading" id="qXS-RE-C2Z"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3gv-4P-y7p" secondAttribute="bottom" constant="20" id="rfs-2P-gqc"/>
+                                <constraint firstItem="ZUI-Nj-eNz" firstAttribute="leading" secondItem="8XS-u3-vvZ" secondAttribute="trailing" constant="8" id="yjm-hS-dry"/>
+                                <constraint firstItem="vBK-gb-mUn" firstAttribute="leading" secondItem="ZUI-Nj-eNz" secondAttribute="trailing" constant="6" id="zow-R6-S9x"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -128,10 +130,12 @@
                         <constraint firstItem="8XS-u3-vvZ" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="leading" id="HHB-ac-xDP"/>
                         <constraint firstItem="Rrc-db-3fy" firstAttribute="centerY" secondItem="ZaL-Yo-lbb" secondAttribute="centerY" id="Q7T-Ou-tj5"/>
                         <constraint firstItem="e89-rD-l86" firstAttribute="top" secondItem="qmv-fg-ZEx" secondAttribute="bottom" constant="10" id="UqR-VB-Yi4"/>
+                        <constraint firstItem="Rrc-db-3fy" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="trailing" constant="10" id="ejZ-1Z-aSM"/>
                         <constraint firstItem="e89-rD-l86" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" id="gWU-19-FQi"/>
                         <constraint firstAttribute="trailing" secondItem="e89-rD-l86" secondAttribute="trailing" id="iqE-IW-F52"/>
                         <constraint firstItem="ZaL-Yo-lbb" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" constant="18" id="oZn-SA-na9"/>
                         <constraint firstAttribute="trailing" secondItem="qmv-fg-ZEx" secondAttribute="trailing" id="sZ5-SJ-hGm"/>
+                        <constraint firstAttribute="bottom" secondItem="e89-rD-l86" secondAttribute="bottom" constant="20" id="tNC-hf-Tf2"/>
                         <constraint firstItem="qmv-fg-ZEx" firstAttribute="top" secondItem="ZaL-Yo-lbb" secondAttribute="bottom" constant="20" id="wyC-Yi-UN6"/>
                         <constraint firstItem="ZaL-Yo-lbb" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="topMargin" constant="20" id="zaU-xW-y4b"/>
                     </constraints>
@@ -143,9 +147,9 @@
                             <rect key="frame" x="15" y="15" width="384" height="56"/>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="56" id="gV8-Bm-2Ks"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="gV8-Bm-2Ks"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                             <state key="normal" title="Update Filter">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -156,7 +160,7 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Qpn-kM-EXb" secondAttribute="bottom" constant="34" id="8wN-hL-KqB"/>
+                        <constraint firstItem="Qpn-kM-EXb" firstAttribute="bottom" secondItem="g9i-cH-zil" secondAttribute="bottom" constant="-34" id="8wN-hL-KqB"/>
                         <constraint firstAttribute="trailing" secondItem="Qpn-kM-EXb" secondAttribute="trailing" constant="15" id="Ra9-I7-igH"/>
                         <constraint firstItem="Qpn-kM-EXb" firstAttribute="top" secondItem="g9i-cH-zil" secondAttribute="top" constant="15" id="bNM-pB-guF"/>
                         <constraint firstItem="Qpn-kM-EXb" firstAttribute="leading" secondItem="g9i-cH-zil" secondAttribute="leading" constant="15" id="uQc-Su-Wym"/>
@@ -170,6 +174,7 @@
                 <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="AHu-3t-bil"/>
                 <constraint firstItem="g9i-cH-zil" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="bottom" id="ZOu-Zy-7Ci"/>
                 <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="mMM-QC-Ohx"/>
+                <constraint firstItem="g9i-cH-zil" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="bottom" id="o2h-fJ-yKO"/>
                 <constraint firstItem="ZLe-tB-Z1Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="uMf-pA-lLQ"/>
                 <constraint firstItem="g9i-cH-zil" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="wwo-dz-gJc"/>
                 <constraint firstAttribute="bottom" secondItem="g9i-cH-zil" secondAttribute="bottom" id="z1N-Pm-dwB"/>
