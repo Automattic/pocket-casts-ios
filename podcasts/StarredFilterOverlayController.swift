@@ -148,8 +148,10 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistSmartRuleSaveButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
+        let attributedTitle = NSAttributedString(string: L10n.playlistSmartRuleSaveButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .body)])
         saveButton.setAttributedTitle(attributedTitle, for: .normal)
+        saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        saveButton.titleLabel?.numberOfLines = 0
     }
 
     @objc private func saveTapped(sender: Any) {
@@ -184,7 +186,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             cell.contentConfiguration = UIHostingConfiguration {
                 SmartRuleToggleHeaderView(viewModel: viewModel)
                     .environmentObject(Theme.sharedTheme)
-                    .frame(maxWidth: .infinity, minHeight: 70.0, alignment: .leading)
+                    .frame(minHeight: 70.0, alignment: .leading)
             }
             .margins(.horizontal, 0)
             .margins(.vertical, 0)
