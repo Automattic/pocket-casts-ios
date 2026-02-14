@@ -78,7 +78,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
         podcastImage.backgroundColor = ThemeColor.primaryUi01()
     }
 
-    // MARK : - Dynamic Type Updates
+    // MARK: - Dynamic Type Updates
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
