@@ -263,7 +263,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
         safariViewController = nil
     }
 
-    //MARK: - Dynamic type
+    // MARK: - Dynamic type
 
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
