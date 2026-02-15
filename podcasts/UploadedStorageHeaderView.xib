@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,67 +20,72 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6oY-Pd-rYs" userLabel="Plus View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud-gold" translatesAutoresizingMaskIntoConstraints="NO" id="gbd-4I-6MR">
-                            <rect key="frame" x="10" y="11.5" width="16" height="16"/>
+                            <rect key="frame" x="8" y="23" width="16" height="16"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="16" id="guu-tg-iHX"/>
                                 <constraint firstAttribute="width" constant="16" id="oLI-aa-OY3"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="104 Files" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIo-c4-fKC" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="35" y="12" width="100" height="15"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="15" id="5d2-CE-qFn"/>
-                                <constraint firstAttribute="width" constant="100" id="zAa-PA-xvG"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="104 Files 104 Files 104 Files" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIo-c4-fKC" userLabel="Files" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="32" y="0.0" width="113" height="62"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5 GB / 2GB" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKx-9X-OVA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="188" y="12" width="120" height="15"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="15" id="bHB-GG-EkR"/>
-                                <constraint firstAttribute="width" constant="120" id="tkd-gx-rK3" userLabel="width = 95"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.5 GB / 2GB 1.5 GB / 2GB" textAlignment="right" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKx-9X-OVA" userLabel="GB" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="153" y="0.0" width="112.5" height="62"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88% Full" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MQ8-3w-fa2" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="316" y="12" width="51" height="15"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="51" id="ATV-IG-rxb"/>
-                                <constraint firstAttribute="height" constant="15" id="G4f-al-W37"/>
-                            </constraints>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88% Full" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MQ8-3w-fa2" userLabel="Percentage" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="273.5" y="0.0" width="93.5" height="62"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <viewLayoutGuide key="safeArea" id="hDv-sj-rwZ"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="MQ8-3w-fa2" secondAttribute="trailing" constant="8" id="3cR-Hx-26l"/>
-                        <constraint firstAttribute="height" constant="39" id="Z6H-r0-VXN"/>
-                        <constraint firstItem="MQ8-3w-fa2" firstAttribute="leading" secondItem="RKx-9X-OVA" secondAttribute="trailing" constant="8" id="bzd-QD-n4Q"/>
-                        <constraint firstItem="IIo-c4-fKC" firstAttribute="leading" secondItem="gbd-4I-6MR" secondAttribute="trailing" constant="9" id="knt-73-qgJ"/>
+                        <constraint firstItem="MQ8-3w-fa2" firstAttribute="width" secondItem="6oY-Pd-rYs" secondAttribute="width" multiplier="0.25" id="Eba-7X-cKP"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="FgB-eq-xrm"/>
+                        <constraint firstItem="IIo-c4-fKC" firstAttribute="width" secondItem="6oY-Pd-rYs" secondAttribute="width" multiplier="0.3" priority="999" id="I42-2g-Dc6"/>
+                        <constraint firstItem="MQ8-3w-fa2" firstAttribute="top" secondItem="6oY-Pd-rYs" secondAttribute="top" id="LN8-hG-RB5"/>
+                        <constraint firstItem="gbd-4I-6MR" firstAttribute="centerY" secondItem="6oY-Pd-rYs" secondAttribute="centerY" id="Nk6-Vo-xh2"/>
+                        <constraint firstItem="gbd-4I-6MR" firstAttribute="leading" secondItem="6oY-Pd-rYs" secondAttribute="leading" constant="8" id="PdH-c4-3qy"/>
+                        <constraint firstItem="IIo-c4-fKC" firstAttribute="top" secondItem="6oY-Pd-rYs" secondAttribute="top" id="Pnt-el-9lf"/>
+                        <constraint firstAttribute="bottom" secondItem="IIo-c4-fKC" secondAttribute="bottom" id="SCG-Nj-O4T"/>
+                        <constraint firstItem="RKx-9X-OVA" firstAttribute="top" secondItem="6oY-Pd-rYs" secondAttribute="top" id="TyQ-UN-0ZN"/>
+                        <constraint firstItem="RKx-9X-OVA" firstAttribute="width" secondItem="6oY-Pd-rYs" secondAttribute="width" multiplier="0.3" id="UCJ-4n-PVd"/>
+                        <constraint firstAttribute="bottom" secondItem="MQ8-3w-fa2" secondAttribute="bottom" id="aqh-QI-YtD"/>
+                        <constraint firstItem="MQ8-3w-fa2" firstAttribute="leading" secondItem="RKx-9X-OVA" secondAttribute="trailing" constant="8" id="iBi-Dd-feS"/>
+                        <constraint firstAttribute="trailing" secondItem="MQ8-3w-fa2" secondAttribute="trailing" constant="8" id="k0I-Ci-IVR"/>
+                        <constraint firstItem="IIo-c4-fKC" firstAttribute="leading" secondItem="gbd-4I-6MR" secondAttribute="trailing" constant="8" id="knt-73-qgJ"/>
+                        <constraint firstItem="RKx-9X-OVA" firstAttribute="leading" secondItem="IIo-c4-fKC" secondAttribute="trailing" constant="8" id="xvW-DJ-7au"/>
+                        <constraint firstAttribute="bottom" secondItem="RKx-9X-OVA" secondAttribute="bottom" id="z26-p0-vWd"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="hDv-sj-rwZ"/>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P40-lj-z0V" userLabel="Non Plussed View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locked-outline" translatesAutoresizingMaskIntoConstraints="NO" id="k2O-8w-Pi2">
-                            <rect key="frame" x="10" y="7.5" width="24" height="24"/>
+                            <rect key="frame" x="10" y="19" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="0wX-eV-QPc"/>
+                                <constraint firstAttribute="height" constant="24" id="Y5B-gt-nw9"/>
+                            </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No files uploaded" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqj-Rp-tIb" customClass="SecondaryLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="42" y="12" width="103" height="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No files uploaded" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqj-Rp-tIb" customClass="SecondaryLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="42" y="0.0" width="333" height="62"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -88,21 +93,24 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="cqj-Rp-tIb" firstAttribute="centerY" secondItem="P40-lj-z0V" secondAttribute="centerY" id="0OQ-fO-qoA"/>
+                        <constraint firstAttribute="trailing" secondItem="cqj-Rp-tIb" secondAttribute="trailing" id="6Yt-z2-9ph"/>
                         <constraint firstItem="k2O-8w-Pi2" firstAttribute="leading" secondItem="P40-lj-z0V" secondAttribute="leading" constant="10" id="91S-IY-Wll"/>
-                        <constraint firstItem="k2O-8w-Pi2" firstAttribute="centerY" secondItem="P40-lj-z0V" secondAttribute="centerY" id="JrA-Ei-2yQ"/>
-                        <constraint firstAttribute="height" constant="39" id="WDI-Nj-kRT"/>
+                        <constraint firstItem="cqj-Rp-tIb" firstAttribute="top" secondItem="P40-lj-z0V" secondAttribute="top" id="9I7-Iu-arh"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="Bi3-Jh-c2S"/>
                         <constraint firstItem="cqj-Rp-tIb" firstAttribute="leading" secondItem="k2O-8w-Pi2" secondAttribute="trailing" constant="8" id="Z0g-Tf-rcX"/>
+                        <constraint firstAttribute="bottom" secondItem="cqj-Rp-tIb" secondAttribute="bottom" id="eLi-4B-onE"/>
+                        <constraint firstItem="k2O-8w-Pi2" firstAttribute="centerY" secondItem="P40-lj-z0V" secondAttribute="centerY" id="uAC-YI-qgJ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3w-Vu-PhP" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="38" width="375" height="1"/>
+                    <rect key="frame" x="0.0" y="61" width="375" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="Dqf-Tk-3h5"/>
                     </constraints>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="6oY-Pd-rYs" secondAttribute="trailing" id="2B0-oI-TcM"/>
@@ -111,21 +119,14 @@
                 <constraint firstItem="6oY-Pd-rYs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8ab-Hg-gxg"/>
                 <constraint firstItem="P40-lj-z0V" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="AzG-jW-f67"/>
                 <constraint firstItem="f3w-Vu-PhP" firstAttribute="top" secondItem="P40-lj-z0V" secondAttribute="bottom" constant="-1" id="JHU-Eh-Msk"/>
-                <constraint firstItem="IIo-c4-fKC" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ma9-UN-Lda"/>
-                <constraint firstItem="RKx-9X-OVA" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="RHi-Ph-WPJ"/>
-                <constraint firstItem="gbd-4I-6MR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="VOP-Mo-hYU"/>
                 <constraint firstAttribute="trailing" secondItem="f3w-Vu-PhP" secondAttribute="trailing" id="WK3-xZ-K46"/>
                 <constraint firstItem="6oY-Pd-rYs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="btB-cC-6r1"/>
-                <constraint firstItem="gbd-4I-6MR" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="fgo-qt-rZu"/>
-                <constraint firstItem="6oY-Pd-rYs" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="hht-2G-sl2"/>
                 <constraint firstAttribute="bottom" secondItem="P40-lj-z0V" secondAttribute="bottom" id="kPB-9I-Bsu"/>
-                <constraint firstItem="MQ8-3w-fa2" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="lDY-NZ-pN1"/>
                 <constraint firstItem="P40-lj-z0V" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rZs-2a-oGJ"/>
                 <constraint firstItem="f3w-Vu-PhP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ydW-MW-WMc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="42" y="18"/>
+            <point key="canvasLocation" x="40.799999999999997" y="27.886056971514247"/>
         </view>
     </objects>
     <resources>
