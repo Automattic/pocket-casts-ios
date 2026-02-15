@@ -67,7 +67,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 0
+            return UITableView.automaticDimension
         }
         return 18
     }
@@ -137,7 +137,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 162
+            return 200
         }
 
         return 44
