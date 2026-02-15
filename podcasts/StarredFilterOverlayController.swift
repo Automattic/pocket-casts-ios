@@ -149,10 +149,12 @@ class StarredFilterOverlayController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistSmartRuleSaveButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .body)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
+        saveButton.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
+        saveButton.tintColor = ThemeColor.primaryInteractive02()
+        saveButton.titleLabel?.font = UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
         saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
         saveButton.titleLabel?.numberOfLines = 0
+        saveButton.titleLabel?.lineBreakMode = .byWordWrapping
     }
 
     @objc private func saveTapped(sender: Any) {
