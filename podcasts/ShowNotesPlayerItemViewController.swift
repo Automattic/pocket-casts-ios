@@ -6,9 +6,27 @@ import UIKit
 import WebKit
 
 class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewControllerDelegate, WKNavigationDelegate {
-    @IBOutlet var episodeTitle: UILabel!
-    @IBOutlet var publishedDate: UILabel!
-    @IBOutlet var duration: UILabel!
+    @IBOutlet var episodeTitle: UILabel! {
+        didSet {
+            episodeTitle.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            episodeTitle.adjustsFontForContentSizeCategory = true
+            episodeTitle.numberOfLines = 0
+        }
+    }
+    @IBOutlet var publishedDate: UILabel! {
+        didSet {
+            publishedDate.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            publishedDate.adjustsFontForContentSizeCategory = true
+            publishedDate.numberOfLines = 0
+        }
+    }
+    @IBOutlet var duration: UILabel! {
+        didSet {
+            duration.font = UIFont.font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
+            duration.adjustsFontForContentSizeCategory = true
+            duration.numberOfLines = 0
+        }
+    }
     @IBOutlet var durationImageView: UIImageView!
     @IBOutlet var dateImageView: UIImageView!
 
@@ -44,6 +62,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
         setupWebView()
         updateColors()
+        updateSize()
     }
 
     private func setupWebView() {
@@ -242,5 +261,21 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         safariViewController?.delegate = nil
         safariViewController = nil
+    }
+
+    //MARK: - Dynamic type
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let size = max(metric.scaledValue(for: 24), 24)
+        durationImageView.updateSizeConstraints(to: size)
+        dateImageView.updateSizeConstraints(to: size)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
