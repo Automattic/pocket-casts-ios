@@ -419,20 +419,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         super.tableView(tableView, didSelectRowAt: indexPath)
     }
 
-     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if playlistsRebrandingEnabled {
-            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
-                return
-            }
-        }
-        let podcastCell = cell as! PodcastFilterSelectionCell
-
-        let podcast = allPodcasts[indexPath.row]
-        podcastCell.populateFrom(podcast)
-        podcastCell.contentView.alpha = switchIsOn ? 0.3 : 1
-        podcastCell.setSelected(selectedUuids.contains(podcast.uuid), animated: true)
-    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if playlistsRebrandingEnabled {
             if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
