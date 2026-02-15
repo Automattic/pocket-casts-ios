@@ -144,7 +144,8 @@ class PlaylistPreviewViewController: PCViewController {
                 footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
                 saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-                saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),                
+                saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
+                saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
 
                 list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
