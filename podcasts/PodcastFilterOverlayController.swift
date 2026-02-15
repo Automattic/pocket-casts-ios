@@ -214,23 +214,6 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         saveButton.titleLabel?.textAlignment = .center
         saveButton.tintColor = ThemeColor.primaryInteractive02()
         saveButton.titleLabel?.lineBreakMode = .byWordWrapping
-        if let label = saveButton.titleLabel {
-            label.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                label.topAnchor.constraint(
-                    equalTo: saveButton.topAnchor, constant: 8
-                ),
-                label.bottomAnchor.constraint(
-                    equalTo: saveButton.bottomAnchor, constant: -8
-                ),
-                label.leadingAnchor.constraint(
-                    equalTo: saveButton.leadingAnchor, constant: 8
-                ),
-                label.trailingAnchor.constraint(
-                    equalTo: saveButton.trailingAnchor, constant: -8
-                ),
-            ])
-        }
     }
 
     private func updateSaveButtonEnabledState() {
