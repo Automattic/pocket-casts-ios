@@ -38,14 +38,14 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLe-tB-Z1Z" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Filter by duration" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="18" y="124" width="307" height="20.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Filter by duration" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZaL-Yo-lbb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="18" y="124" width="315" height="20.5"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rrc-db-3fy" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="335" y="120.5" width="63" height="28"/>
+                            <rect key="frame" x="341" y="120.5" width="63" height="28"/>
                             <connections>
                                 <action selector="filterSwitchChanged:" destination="-1" eventType="valueChanged" id="vGZ-YO-bDs"/>
                             </connections>
@@ -125,18 +125,18 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="Rrc-db-3fy" secondAttribute="trailing" constant="18" id="8UB-wB-n83"/>
                         <constraint firstItem="qmv-fg-ZEx" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" id="Em3-F4-gXn"/>
                         <constraint firstItem="8XS-u3-vvZ" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="leading" id="HHB-ac-xDP"/>
                         <constraint firstItem="Rrc-db-3fy" firstAttribute="centerY" secondItem="ZaL-Yo-lbb" secondAttribute="centerY" id="Q7T-Ou-tj5"/>
                         <constraint firstItem="e89-rD-l86" firstAttribute="top" secondItem="qmv-fg-ZEx" secondAttribute="bottom" constant="10" id="UqR-VB-Yi4"/>
-                        <constraint firstItem="Rrc-db-3fy" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="trailing" constant="10" id="ejZ-1Z-aSM"/>
+                        <constraint firstItem="Rrc-db-3fy" firstAttribute="leading" secondItem="ZaL-Yo-lbb" secondAttribute="trailing" priority="999" constant="8" id="ejZ-1Z-aSM" userLabel="Themeable Switch.leading = Filter by duration.trailing - 10"/>
                         <constraint firstItem="e89-rD-l86" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" id="gWU-19-FQi"/>
                         <constraint firstAttribute="trailing" secondItem="e89-rD-l86" secondAttribute="trailing" id="iqE-IW-F52"/>
                         <constraint firstItem="ZaL-Yo-lbb" firstAttribute="leading" secondItem="ZLe-tB-Z1Z" secondAttribute="leading" constant="18" id="oZn-SA-na9"/>
                         <constraint firstAttribute="trailing" secondItem="qmv-fg-ZEx" secondAttribute="trailing" id="sZ5-SJ-hGm"/>
                         <constraint firstAttribute="bottom" secondItem="e89-rD-l86" secondAttribute="bottom" constant="20" id="tNC-hf-Tf2"/>
                         <constraint firstItem="qmv-fg-ZEx" firstAttribute="top" secondItem="ZaL-Yo-lbb" secondAttribute="bottom" constant="20" id="wyC-Yi-UN6"/>
+                        <constraint firstItem="Rrc-db-3fy" firstAttribute="trailing" secondItem="ZLe-tB-Z1Z" secondAttribute="trailing" constant="-12" id="zM1-YC-4EZ"/>
                         <constraint firstItem="ZaL-Yo-lbb" firstAttribute="top" secondItem="ZLe-tB-Z1Z" secondAttribute="topMargin" constant="20" id="zaU-xW-y4b"/>
                     </constraints>
                 </view>
