@@ -100,6 +100,7 @@ extension ChaptersViewController: ChaptersHeaderDelegate {
         chaptersTable.reloadSections([0], with: .automatic)
         header.isTogglingChapters = isTogglingChapters
         header.update()
+        updateSize()
         playbackManager.playableChaptersUpdated()
 
         if isTogglingChapters {

@@ -37,7 +37,6 @@ class ChaptersHeader: UIView {
              outgoing.font = .font(ofSize: 12, scalingWith: .footnote)
              return outgoing
          }
-        button.heightAnchor.constraint(greaterThanOrEqualToConstant: 44).isActive = true
         return button
     }()
 
@@ -109,18 +108,18 @@ class ChaptersHeader: UIView {
             divider.heightAnchor.constraint(equalToConstant: 1),
             divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -2.0),
 
             chaptersLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
             chaptersLabel.topAnchor.constraint(equalTo: container.topAnchor),
             chaptersLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             chaptersLabel.trailingAnchor.constraint(equalTo: toggleButton.leadingAnchor),
-            chaptersLabel.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.45),
+            chaptersLabel.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.40),
 
             toggleButton.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
-            toggleButton.topAnchor.constraint(equalTo: container.topAnchor),
-            toggleButton.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            toggleButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.45),
+            toggleButton.topAnchor.constraint(equalTo: container.layoutMarginsGuide.topAnchor),
+            toggleButton.bottomAnchor.constraint(equalTo: container.layoutMarginsGuide.bottomAnchor),
+            toggleButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5),
 
             container.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
         ])

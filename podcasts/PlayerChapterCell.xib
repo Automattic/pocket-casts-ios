@@ -71,7 +71,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Chapter Name Is Really Really Really long" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTd-fM-Gsz">
-                        <rect key="frame" x="59" y="12" width="172" height="26"/>
+                        <rect key="frame" x="59" y="12" width="164" height="26"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -106,7 +106,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="16min." textAlignment="right" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IbE-k6-vdl">
                                 <rect key="frame" x="29" y="0.0" width="40" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="TBU-rV-Y7Y"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="TBU-rV-Y7Y"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -131,7 +131,7 @@
                     <constraint firstAttribute="trailing" secondItem="Bm9-Ke-jXY" secondAttribute="trailing" constant="20" id="A0f-dS-oKL"/>
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="AIU-CM-1rw"/>
                     <constraint firstAttribute="bottom" secondItem="Gii-fb-Tnl" secondAttribute="bottom" id="FVM-4m-0ce"/>
-                    <constraint firstAttribute="trailing" secondItem="MTd-fM-Gsz" secondAttribute="trailing" constant="89" id="JCM-zm-33N"/>
+                    <constraint firstItem="Gii-fb-Tnl" firstAttribute="leading" secondItem="MTd-fM-Gsz" secondAttribute="trailing" constant="8" id="JCM-zm-33N"/>
                     <constraint firstItem="Bke-e5-Ifv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JLP-sl-9fr"/>
                     <constraint firstItem="MTd-fM-Gsz" firstAttribute="leading" secondItem="7tO-zw-yY4" secondAttribute="trailing" constant="10" id="KzW-mJ-oCf"/>
                     <constraint firstItem="Gii-fb-Tnl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NDI-jY-d0m"/>
