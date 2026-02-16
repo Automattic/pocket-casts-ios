@@ -11,6 +11,7 @@
 - Dynamic Type: Update Siri Shortcuts settings [#3930](https://github.com/Automattic/pocket-casts-ios/pull/3930)
 - Dynamic Type: Update Options [#3938](https://github.com/Automattic/pocket-casts-ios/pull/3938)
 - Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
+- Dynamic Type: Update Account Cells [#3956](https://github.com/Automattic/pocket-casts-ios/pull/3956)
 
 8.5
 -----
