@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <accessibilityOverrides isEnabled="YES" dynamicTypePreference="3"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,12 +31,12 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qjC-Ws-uBv">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMPORT TO POCKET CASTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7X-bw-cpJ">
-                            <rect key="frame" x="20" y="23" width="161" height="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMPORT TO POCKET CASTS" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7X-bw-cpJ">
+                            <rect key="frame" x="20" y="23" width="335" height="15"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="15" id="NgB-CI-aoO"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="NgB-CI-aoO"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                             <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -56,7 +57,7 @@
                                         <constraint firstAttribute="width" constant="177" id="xjh-Be-Ls5"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAe-wK-dSl" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAe-wK-dSl" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="20" y="107" width="335" height="143"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="PIh-Mc-EaX"/>
@@ -64,7 +65,7 @@
                                     <string key="text">You can import your podcasts subscriptions to Pocket Casts using the widely supported OPML format. Export the file from another app and choose open in Pocket Casts.
 
 Note: You may need to email the OPML file to yourself, long press on the attachment and select Pocket Casts.</string>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                     <color key="textColor" systemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -79,7 +80,7 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="aIY-53-1To" firstAttribute="leading" secondItem="1tG-32-6jZ" secondAttribute="leading" id="0p4-pl-GNL"/>
-                                <constraint firstAttribute="height" constant="260" id="CbP-cv-w1M"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="260" id="CbP-cv-w1M"/>
                                 <constraint firstItem="aIY-53-1To" firstAttribute="top" secondItem="1tG-32-6jZ" secondAttribute="top" id="Gp0-wE-5j0"/>
                                 <constraint firstAttribute="bottom" secondItem="VAe-wK-dSl" secondAttribute="bottom" constant="10" id="acP-bs-wm6"/>
                                 <constraint firstAttribute="trailing" secondItem="VhA-c6-7IE" secondAttribute="trailing" id="ad9-bf-iKT"/>
@@ -94,16 +95,16 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                                 <constraint firstAttribute="trailing" secondItem="aIY-53-1To" secondAttribute="trailing" id="zLD-09-TEf"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EXPORT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPK-s3-NB2">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EXPORT" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPK-s3-NB2">
                             <rect key="frame" x="20" y="334" width="48" height="15"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="15" id="x3d-xF-kW4"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="x3d-xF-kW4"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                             <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="npD-RJ-l4K" userLabel="Export View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="npD-RJ-l4K" userLabel="Export View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="357" width="375" height="44"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ih-wd-QLO" customClass="ThemeDividerView" customModule="podcasts" customModuleProvider="target">
@@ -113,11 +114,12 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                                         <constraint firstAttribute="height" constant="1" id="3qB-CY-zzd"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMv-5c-rbA">
+                                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMv-5c-rbA">
                                     <rect key="frame" x="20" y="0.0" width="335" height="44"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="Dzm-C4-SSh"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Dzm-C4-SSh"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <state key="normal" title="Export Podcasts"/>
                                     <connections>
                                         <action selector="exportPodcasts:" destination="-1" eventType="touchUpInside" id="tLH-Xq-cQI"/>
@@ -137,22 +139,24 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                                 <constraint firstAttribute="trailing" secondItem="CMv-5c-rbA" secondAttribute="trailing" constant="20" id="8Pd-hi-sG8"/>
                                 <constraint firstAttribute="trailing" secondItem="Ol7-ZT-IPW" secondAttribute="trailing" id="BPy-j4-i60"/>
                                 <constraint firstItem="9ih-wd-QLO" firstAttribute="leading" secondItem="npD-RJ-l4K" secondAttribute="leading" id="HEl-9d-ihl"/>
-                                <constraint firstAttribute="bottom" secondItem="Ol7-ZT-IPW" secondAttribute="bottom" id="SFN-NT-lkF"/>
-                                <constraint firstItem="9ih-wd-QLO" firstAttribute="top" secondItem="npD-RJ-l4K" secondAttribute="top" id="maY-eT-tKY"/>
-                                <constraint firstAttribute="height" constant="44" id="pNE-Ui-wKQ"/>
+                                <constraint firstAttribute="bottom" secondItem="CMv-5c-rbA" secondAttribute="bottom" id="QOU-N8-v4k"/>
+                                <constraint firstItem="CMv-5c-rbA" firstAttribute="bottom" secondItem="Ol7-ZT-IPW" secondAttribute="bottom" id="SFN-NT-lkF"/>
+                                <constraint firstItem="CMv-5c-rbA" firstAttribute="height" secondItem="npD-RJ-l4K" secondAttribute="height" id="mZs-ea-biW"/>
+                                <constraint firstItem="9ih-wd-QLO" firstAttribute="top" secondItem="CMv-5c-rbA" secondAttribute="top" id="maY-eT-tKY"/>
                                 <constraint firstAttribute="trailing" secondItem="9ih-wd-QLO" secondAttribute="trailing" id="tL7-Tv-5pw"/>
                                 <constraint firstItem="CMv-5c-rbA" firstAttribute="top" secondItem="npD-RJ-l4K" secondAttribute="top" id="tXI-v6-K9x"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exports all your podcasts as an OPML file, which you can import into other podcast apps." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6H-wz-5MK" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="20" y="411" width="335" height="31.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exports all your podcasts as an OPML file, which you can import into other podcast apps." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6H-wz-5MK" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="411" width="335" height="34"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                             <color key="textColor" red="0.076280742883682251" green="0.078793004155158997" blue="0.081458523869514465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <constraints>
                         <constraint firstItem="npD-RJ-l4K" firstAttribute="top" secondItem="sPK-s3-NB2" secondAttribute="bottom" constant="8" id="46l-oX-EnS"/>
+                        <constraint firstItem="v7X-bw-cpJ" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" constant="20" id="4gA-ty-yvJ"/>
                         <constraint firstItem="npD-RJ-l4K" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" id="5Ci-8s-ITF"/>
                         <constraint firstItem="1tG-32-6jZ" firstAttribute="centerX" secondItem="qjC-Ws-uBv" secondAttribute="centerX" id="65s-Vr-fIL"/>
                         <constraint firstItem="sPK-s3-NB2" firstAttribute="leading" secondItem="v7X-bw-cpJ" secondAttribute="leading" id="A39-f2-5TW"/>
@@ -164,6 +168,7 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                         <constraint firstItem="CMv-5c-rbA" firstAttribute="leading" secondItem="sPK-s3-NB2" secondAttribute="leading" id="Sr0-6V-KPx"/>
                         <constraint firstItem="F6H-wz-5MK" firstAttribute="leading" secondItem="sPK-s3-NB2" secondAttribute="leading" id="UjZ-cp-mkZ"/>
                         <constraint firstAttribute="trailing" secondItem="1tG-32-6jZ" secondAttribute="trailing" id="XLT-lF-2zq"/>
+                        <constraint firstAttribute="trailing" secondItem="v7X-bw-cpJ" secondAttribute="trailing" constant="20" id="atA-Lc-ZXO"/>
                         <constraint firstItem="1tG-32-6jZ" firstAttribute="leading" secondItem="qjC-Ws-uBv" secondAttribute="leading" id="eLa-iH-WSu"/>
                         <constraint firstAttribute="bottom" secondItem="F6H-wz-5MK" secondAttribute="bottom" constant="20" id="o46-hu-AsO"/>
                         <constraint firstAttribute="trailing" secondItem="npD-RJ-l4K" secondAttribute="trailing" id="psL-B2-e4n"/>
@@ -175,7 +180,6 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                 <constraint firstAttribute="bottom" secondItem="qjC-Ws-uBv" secondAttribute="bottom" id="58e-Fa-iOj"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="U3y-q9-jK0"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="duf-CA-ucX"/>
-                <constraint firstItem="qJZ-Qf-pVi" firstAttribute="leading" secondItem="v7X-bw-cpJ" secondAttribute="leading" constant="-20" id="enh-Wh-2ov"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="g3n-dr-TpZ"/>
                 <constraint firstAttribute="trailing" secondItem="qjC-Ws-uBv" secondAttribute="trailing" id="kK4-V8-WA2"/>
                 <constraint firstItem="qjC-Ws-uBv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tAl-Ku-uIF"/>
