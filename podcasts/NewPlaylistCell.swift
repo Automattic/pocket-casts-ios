@@ -28,9 +28,6 @@ class NewPlaylistCell: ThemeableCell {
     }()
 
     private var viewModel = NewPlaylistCellViewModel()
-    private lazy var hostingController = ThemedHostingController(
-        rootView: NewPlaylistCellView(viewModel: viewModel)
-    )
     private var playlistCountLoadTask: Task<Void, Never>?
     private var playlistImageLoadTask: Task<Void, Never>?
     private var playlistID: String = ""
@@ -52,22 +49,16 @@ class NewPlaylistCell: ThemeableCell {
         layoutMargins = .zero
         preservesSuperviewLayoutMargins = false
 
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(hostingController.view)
+        self.contentConfiguration = UIHostingConfiguration { NewPlaylistCellView(viewModel: viewModel).environmentObject(Theme.sharedTheme) }
 
         addSubview(artworkImageSource)
         addSubview(separatorView)
         bringSubviewToFront(separatorView)
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: topAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32.0),
-
-            artworkImageSource.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),
+            artworkImageSource.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 16.0),
             artworkImageSource.widthAnchor.constraint(equalToConstant: 56.0),
             artworkImageSource.heightAnchor.constraint(equalToConstant: 56.0),
-            artworkImageSource.centerYAnchor.constraint(equalTo: centerYAnchor),
+            artworkImageSource.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
             separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
             separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.0),

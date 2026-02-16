@@ -6,36 +6,39 @@ class ChaptersHeader: UIView {
 
     var isTogglingChapters = false
 
-    private lazy var container: UIStackView = {
-        let container = UIStackView()
-        container.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
-        container.isLayoutMarginsRelativeArrangement = true
-        container.axis = .horizontal
+    private lazy var container: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
         return container
     }()
 
     private lazy var chaptersLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .footnote)
+        label.font = .font(ofSize: 12, scalingWith: .footnote)
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var toggleButton: UIButton = {
         let button = UIButton(configuration: .plain())
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
-        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        button.contentHorizontalAlignment = .trailing
+        button.titleLabel?.lineBreakMode = .byWordWrapping
         button.configuration?.imagePadding = 8
+        button.configuration?.imagePlacement = .trailing
         button.configuration?.image = lockIcon
         button.configuration?.titleTextAttributesTransformer =
            UIConfigurationTextAttributesTransformer { incoming in
              var outgoing = incoming
-             outgoing.font = .preferredFont(forTextStyle: .footnote)
+             outgoing.font = .font(ofSize: 12, scalingWith: .footnote)
              return outgoing
          }
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
         return button
     }()
 
@@ -71,8 +74,8 @@ class ChaptersHeader: UIView {
     }
 
     private func configure() {
-        container.addArrangedSubview(chaptersLabel)
-        container.addArrangedSubview(toggleButton)
+        container.addSubview(chaptersLabel)
+        container.addSubview(toggleButton)
         addSubview(container)
         container.anchorToAllSidesOf(view: self)
         container.addSubview(divider)
@@ -107,9 +110,28 @@ class ChaptersHeader: UIView {
             divider.heightAnchor.constraint(equalToConstant: 1),
             divider.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             divider.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            divider.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -2.0),
+
+            chaptersLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
+            chaptersLabel.topAnchor.constraint(equalTo: container.topAnchor),
+            chaptersLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            chaptersLabel.trailingAnchor.constraint(greaterThanOrEqualTo: toggleButton.leadingAnchor, constant: 8),
+            chaptersLabel.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.40),
+
+            toggleButton.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
+            toggleButton.topAnchor.constraint(equalTo: container.layoutMarginsGuide.topAnchor),
+            toggleButton.bottomAnchor.constraint(equalTo: container.layoutMarginsGuide.bottomAnchor),
+            toggleButton.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5),
+
+            container.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
         ])
+        chaptersLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        toggleButton.setContentHuggingPriority(.defaultLow, for: .vertical)
+
+        chaptersLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        toggleButton.setContentCompressionResistancePriority(.required, for: .vertical)
     }
+
 }
 
 protocol ChaptersHeaderDelegate: AnyObject {

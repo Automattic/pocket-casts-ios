@@ -120,6 +120,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         indexPath.section == 1 ? 79 : 64
     }
 
