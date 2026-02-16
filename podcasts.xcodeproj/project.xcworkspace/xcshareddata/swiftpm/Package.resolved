@@ -289,15 +289,6 @@
       }
     },
     {
-      "identity" : "test-collector-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/buildkite/test-collector-swift",
-      "state" : {
-        "revision" : "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
-        "version" : "0.1.1"
-      }
-    },
-    {
       "identity" : "tinycsv",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dagronf/TinyCSV",
