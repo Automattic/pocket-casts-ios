@@ -5,7 +5,7 @@ struct PlaylistHeaderView: View {
     @ObservedObject var viewModel: PlaylistDetailViewModel
 
     @ScaledMetric(relativeTo: .largeTitle) private var iconSize = CGFloat(18)
-    
+
     var description: String {
         let duration = viewModel.totalDuration()
         switch viewModel.playlistEpisodesCount {
