@@ -121,9 +121,8 @@ class PlaylistPreviewViewController: PCViewController {
 
         let list = SmartPlaylistRulesView(
             viewModel: viewModel
-        ).themedUIView
+        ).insertThemedUIView(in: self)
         list.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(list)
 
         if mode == .edit {
             NSLayoutConstraint.activate([
@@ -138,17 +137,15 @@ class PlaylistPreviewViewController: PCViewController {
 
             saveButton = UIButton(type: .custom)
             footerView.addSubview(saveButton)
-
             NSLayoutConstraint.activate([
                 footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
                 footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-                footerView.heightAnchor.constraint(equalToConstant: 110),
+                footerView.heightAnchor.constraint(equalTo: saveButton.heightAnchor, constant: 32),
                 footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 
                 saveButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
                 saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-                saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -34),
-                saveButton.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 16),
+                saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
 
                 list.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -161,8 +158,30 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistPreviewCreateSmartPlaylist, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
+        saveButton.setTitle(L10n.playlistPreviewCreateSmartPlaylist, for: .normal)
+        saveButton.titleLabel?.font = UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
+        saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        saveButton.titleLabel?.numberOfLines = 0
+        saveButton.titleLabel?.textAlignment = .center
+        saveButton.tintColor = ThemeColor.primaryInteractive02()
+        saveButton.titleLabel?.lineBreakMode = .byWordWrapping
+        if let label = saveButton.titleLabel {
+            label.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                label.topAnchor.constraint(
+                    equalTo: saveButton.topAnchor, constant: 8
+                ),
+                label.bottomAnchor.constraint(
+                    equalTo: saveButton.bottomAnchor, constant: -8
+                ),
+                label.leadingAnchor.constraint(
+                    equalTo: saveButton.leadingAnchor, constant: 8
+                ),
+                label.trailingAnchor.constraint(
+                    equalTo: saveButton.trailingAnchor, constant: -8
+                ),
+            ])
+        }
     }
 
     private func addCloseButton() {

@@ -70,10 +70,10 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
         cell.title.setLetterSpacing(-0.2)
         cell.setSelectState(selectedRow == row)
         if FeatureFlag.playlistsRebranding.enabled {
-            cell.title.font = .systemFont(ofSize: 17, weight: .semibold)
+            cell.title.font = .font(ofSize: 17, weight: .semibold, scalingWith: .body)
             cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
         } else {
-            cell.title.font = .systemFont(ofSize: 16, weight: .medium)
+            cell.title.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
             cell.setTintColor(color: filterToEdit.playlistColor())
         }
         cell.style = .primaryUi01
@@ -88,6 +88,10 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         FeatureFlag.playlistsRebranding.enabled ? 46 : 51
     }
 

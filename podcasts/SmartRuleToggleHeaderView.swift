@@ -23,12 +23,12 @@ struct SmartRuleToggleHeaderView: View {
             VStack(alignment: .leading, spacing: 4.0) {
                 Text(viewModel.title)
                     .font(size: 18.0, style: .body, weight: .semibold)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText01)
                 let subtitle = viewModel.toggleIsOn ? viewModel.enabledString : viewModel.disabledString
                 Text(subtitle)
                     .font(size: 14.0, style: .body, weight: .regular)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText02)
             }
             Spacer()

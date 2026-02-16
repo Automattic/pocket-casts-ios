@@ -63,13 +63,15 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
     var body: some View {
         Group {
             Text(title)
-                .font(size: 22.0, style: .body, weight: .bold)
+                .font(size: 22.0, style: .title2, weight: .bold)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(theme.primaryText01)
                 .listRowClearStyle()
             if let description {
                 Text(description)
                     .font(size: 14.0, style: .body, weight: .regular)
-                    .lineLimit(2)
+                    .lineLimit(4)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText02)
                     .multilineTextAlignment(.leading)
                     .padding(.top, 4.0)
@@ -118,7 +120,7 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
                     .padding(.leading, -18.0)
                 } label: {
                     Text(L10n.playlistSmartPreviewMoreRules)
-                        .font(size: 22.0, style: .body, weight: .bold)
+                        .font(size: 22.0, style: .title2, weight: .bold)
                         .foregroundStyle(theme.primaryText01)
                         .listRowClearStyle()
                 }
@@ -140,8 +142,9 @@ struct SmartPlaylistRulesEpisodesSection: View {
     var body: some View {
         Group {
             Text(L10n.playlistPreviewTitle(playlistName))
-                .font(size: 22.0, style: .body, weight: .bold)
+                .font(size: 22.0, style: .title2, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 16.0)
                 .padding(.bottom, 16.0)
                 .padding(.horizontal, 16.0)

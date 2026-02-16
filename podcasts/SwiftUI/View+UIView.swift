@@ -11,4 +11,12 @@ extension View {
     var themedUIView: UIView {
         ThemedHostingController(rootView: self).view
     }
+
+    func insertThemedUIView(in vc: UIViewController) -> UIView {
+        let hostedVC = ThemedHostingController(rootView: self)
+        vc.addChild(hostedVC)
+        vc.view.addSubview(hostedVC.view)
+        hostedVC.didMove(toParent: vc)
+        return hostedVC.view
+    }
 }
