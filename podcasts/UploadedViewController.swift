@@ -14,7 +14,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             registerLongPress()
             uploadsTable.allowsMultipleSelectionDuringEditing = true
             uploadsTable.rowHeight = UITableView.automaticDimension
-            uploadsTable.estimatedRowHeight = UITableView.automaticDimension
+            uploadsTable.estimatedRowHeight = 80
             uploadsTable.sectionHeaderHeight = UITableView.automaticDimension
             uploadsTable.estimatedSectionHeaderHeight = 56
             uploadsTable.sectionHeaderTopPadding = 0
