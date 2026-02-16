@@ -5838,3 +5838,6 @@
 
 /* Message to shown then trying to open playback from deep link but it's not available */
 "playback_not_available" = "Playback unavailable";
+
+/* Message when the user didn't upload any files */
+"files_not_uploaded" = "No files uploaded";

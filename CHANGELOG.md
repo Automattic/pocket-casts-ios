@@ -7,11 +7,12 @@
 - Dynamic Type: Update Settings [#3896](https://github.com/Automattic/pocket-casts-ios/pull/3896)
 - Dynamic Type: Update Profile View [#3894](https://github.com/Automattic/pocket-casts-ios/pull/3894)
 - Dynamic Type: Update Episode Detail View [#3926](https://github.com/Automattic/pocket-casts-ios/pull/3926)
-- Dynamic Type: Update Episode Detail View [#3931](https://github.com/Automattic/pocket-casts-ios/pull/3931)
+- Dynamic Type: Update Podcast Grid View [#3931](https://github.com/Automattic/pocket-casts-ios/pull/3931)
 - Dynamic Type: Update Siri Shortcuts settings [#3930](https://github.com/Automattic/pocket-casts-ios/pull/3930)
 - Dynamic Type: Update Options [#3938](https://github.com/Automattic/pocket-casts-ios/pull/3938)
 - Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
 - Dynamic Type: Update Account Cells [#3956](https://github.com/Automattic/pocket-casts-ios/pull/3956)
+- Dynamic Type: Update Uploaded Files [#3953](https://github.com/Automattic/pocket-casts-ios/pull/3953)
 - Dynamic Type: Update Stats [#3955](https://github.com/Automattic/pocket-casts-ios/pull/3955)
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)
 
