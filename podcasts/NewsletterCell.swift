@@ -35,6 +35,11 @@ class NewsletterCell: ThemeableCell {
         cellSecondaryLabel.style = .primaryText02
     }
 
+    override func awakeFromNib(){
+        super.awakeFromNib()
+        updateSize()
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
