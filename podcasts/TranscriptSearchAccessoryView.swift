@@ -138,19 +138,26 @@ private extension TranscriptSearchAccessoryView {
         textField.backgroundColor = .systemGray3
         textField.rightLabel.textColor = .secondaryLabel
         textField.delegate = self
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.adjustsFontForContentSizeCategory = true
+        textField.font = UIFont.font(with: .body, maxSizeCategory: .large)
+        textField.adjustsFontForContentSizeCategory = false
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: .large)
+        textField.rightLabel.adjustsFontForContentSizeCategory = false
     }
 
     func createButton(title: String, action: Selector, titleColor: UIColor, highlightedTitleColor: UIColor, contentInsets: NSDirectionalEdgeInsets) -> UIButton {
         let button = UIButton(type: .system)
         button.addTarget(self, action: action, for: .touchUpInside)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: titleColor,
+                    .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+        ]
+        button.setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
         button.setTitle(title, for: .normal)
         button.setTitleColor(titleColor, for: .normal)
         button.setTitleColor(highlightedTitleColor, for: .highlighted)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        button.titleLabel?.adjustsFontForContentSizeCategory = false
 
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.contentInsets = contentInsets
@@ -163,8 +170,8 @@ private extension TranscriptSearchAccessoryView {
         button.addTarget(self, action: action, for: .touchUpInside)
         let config = UIImage.SymbolConfiguration(textStyle: .body)
         button.setImage(UIImage(systemName: imageName, withConfiguration: config), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.titleLabel?.font = UIFont.font(with: .callout, maxSizeCategory: .large)
+        button.titleLabel?.adjustsFontForContentSizeCategory = false
         button.tintColor = .label
 
         var buttonConfig = UIButton.Configuration.plain()

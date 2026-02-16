@@ -346,14 +346,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
 
         let searchButton = RoundButton(type: .system)
-        searchButton.setTitle(L10n.search, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+        ]
+        searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
         searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
         searchButton.setTitleColor(titleColor, for: .normal)
         searchButton.tintColor = tintColor
         searchButton.layer.masksToBounds = true
         searchButton.configuration = configuration
-        searchButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        searchButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        searchButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return searchButton
     }()
 
@@ -372,14 +374,16 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
 
         let shareButton = RoundButton(type: .system)
-        shareButton.setTitle(L10n.share, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+        ]
+        shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
         shareButton.addTarget(self, action: #selector(shareEpisode), for: .touchUpInside)
         shareButton.setTitleColor(titleColor, for: .normal)
         shareButton.tintColor = tintColor
         shareButton.layer.masksToBounds = true
         shareButton.configuration = configuration
-        shareButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        shareButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        shareButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return shareButton
     }()
 
@@ -934,7 +938,10 @@ fileprivate class RoundPlayPauseButton: RoundButton {
             let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
             let image = UIImage(systemName: buttonState.imageName, withConfiguration: config)?
                 .withRenderingMode(.alwaysTemplate)
-            setTitle(buttonState.buttonTitle, for: .normal)
+            let attributes: [NSAttributedString.Key: Any] = [
+                        .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+            ]
+            setAttributedTitle(NSAttributedString(string: buttonState.buttonTitle, attributes: attributes), for: .normal)
             setImage(image, for: .normal)
         }
     }
@@ -959,7 +966,6 @@ fileprivate class RoundPlayPauseButton: RoundButton {
         playButton.tintColor = tintColor
         playButton.layer.masksToBounds = true
         playButton.configuration = configuration
-        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         return playButton
     }
 
