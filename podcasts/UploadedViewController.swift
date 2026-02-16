@@ -120,7 +120,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 //            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
         }
 
-        headerView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         headerView.controllerForPresenting = self
 
         updateHeaderView()
@@ -248,6 +247,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private func reloadAllFiles() {
         if SubscriptionHelper.hasActiveSubscription() {
             UserEpisodeManager.updateUserEpisodes()
+            updateHeaderView()
         } else {
             reloadLocalFiles()
         }

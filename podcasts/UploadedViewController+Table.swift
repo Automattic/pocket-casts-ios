@@ -18,7 +18,6 @@ extension UploadedViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        updateHeaderView()
         return headerView
     }
 
