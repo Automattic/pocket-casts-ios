@@ -10,6 +10,11 @@ class StatsCell: ThemeableCell {
         }
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+    }
+
     @IBOutlet var leadingSpaceToIcon: NSLayoutConstraint!
 
     func hideIcon() {
@@ -28,4 +33,20 @@ class StatsCell: ThemeableCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {}
+
+
+    // MARK: - Dynamic type
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let size = max(metric.scaledValue(for: 24), 24)
+        statsIcon.updateSizeConstraints(to: size)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
 }
