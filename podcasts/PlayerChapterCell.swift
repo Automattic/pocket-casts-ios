@@ -3,9 +3,25 @@ import PocketCastsDataModel
 import UIKit
 
 class PlayerChapterCell: UITableViewCell {
-    @IBOutlet var chapterName: UILabel!
-    @IBOutlet var chapterLength: UILabel!
-    @IBOutlet var chapterNumber: UILabel!
+    @IBOutlet var chapterName: UILabel! {
+        didSet {
+            chapterName.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            chapterName.adjustsFontForContentSizeCategory = true
+        }
+    }
+    @IBOutlet var chapterLength: UILabel! {
+        didSet {
+            chapterLength.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            chapterLength.adjustsFontForContentSizeCategory = true
+        }
+    }
+
+    @IBOutlet var chapterNumber: UILabel! {
+        didSet {
+            chapterNumber.font = .font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            chapterNumber.adjustsFontForContentSizeCategory = true
+        }
+    }
     @IBOutlet var nowPlayingAnimation: NowPlayingAnimationView!
     @IBOutlet var linkAndTimeView: UIView! {
         didSet {
