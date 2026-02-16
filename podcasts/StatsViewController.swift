@@ -62,23 +62,19 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 0
+            return UITableView.automaticDimension
         }
         return 18
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            return tableView.dequeueReusableCell(withIdentifier: statsHeaderCellId, for: indexPath) as! StatsTopCell
-        }
-
-        return tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            let castCell = cell as! StatsTopCell
+            let castCell = tableView.dequeueReusableCell(withIdentifier: statsHeaderCellId, for: indexPath) as! StatsTopCell
             if loadingState == LoadingStatus.failed {
                 castCell.loadingIndicator.stopAnimating()
                 castCell.descriptionLabel.text = L10n.statsError
@@ -102,8 +98,10 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
             }
-        } else if indexPath.section == 1 {
-            let castCell = cell as! StatsCell
+            return castCell
+        }
+        if indexPath.section == 1 {
+            let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
             castCell.showIcon()
             if indexPath.row == 0 {
                 castCell.statName.text = L10n.statsSkipping
@@ -123,18 +121,23 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 castCell.statValue.text = formatStat(autoSkipStat())
             }
             castCell.statValue.style = .primaryText01
-        } else {
-            let castCell = cell as! StatsCell
-            castCell.statName.text = L10n.statsTotal
-            castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
-            castCell.statValue.style = .support01
-            castCell.hideIcon()
+            return castCell
         }
+        let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
+        castCell.statName.text = L10n.statsTotal
+        castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
+        castCell.statValue.style = .support01
+        castCell.hideIcon()
+        return castCell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 162
+            return 200
         }
 
         return 44
