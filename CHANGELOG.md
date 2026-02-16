@@ -1,13 +1,9 @@
 8.7
 -----
 
-
-8.7
------
-- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
-
 8.6
 -----
+- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
 - Dynamic Type: Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
 - Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
