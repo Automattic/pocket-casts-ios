@@ -206,10 +206,9 @@ class WatchManager: NSObject, WCSessionDelegate {
             }
         } else if WatchConstants.Messages.LoginDetailsRequest.type == messageType {
             // Watch is requesting login details but message was delivered without reply handler
-            // This can happen with WatchConnectivity timing issues - mark login details as updated
+            // This can happen with WatchConnectivity timing issues
             // so that updateWatchData() will push the latest login information to the watch.
             FileLog.shared.addMessage("WatchManager: loginDetailsRequest received without reply handler, pushing data to watch")
-            Settings.setLoginDetailsUpdated()
             updateWatchData()
         }
     }
