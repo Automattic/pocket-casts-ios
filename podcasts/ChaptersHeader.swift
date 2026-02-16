@@ -28,7 +28,7 @@ class ChaptersHeader: UIView {
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
-        button.contentHorizontalAlignment = .trailing        
+        button.contentHorizontalAlignment = .trailing
         button.configuration?.imagePadding = 8
         button.configuration?.image = lockIcon
         button.configuration?.titleTextAttributesTransformer =
