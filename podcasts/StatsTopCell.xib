@@ -16,27 +16,27 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="You’ve listened for" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKM-H6-ffT" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="You’ve listened for" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKM-H6-ffT" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="26" y="25" width="268" height="18"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" ambiguous="YES" text="1 Day 9 Hours" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TI4-G1-ax2" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="26" y="58" width="268" height="40"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="1 Day 9 Hours" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TI4-G1-ax2" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="26" y="58" width="268" height="41"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                         <color key="textColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sGI-yH-hVK" customClass="AngularActivityIndicator" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="140" y="58" width="40" height="40"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sGI-yH-hVK" customClass="AngularActivityIndicator" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="140" y="59" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="sGI-yH-hVK" secondAttribute="height" multiplier="1:1" id="F2D-xr-WFH"/>
                             <constraint firstAttribute="width" constant="40" id="hD0-wb-IDI"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="During Which time some crazy thing happened that was crazy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aog-d1-cio" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="20" y="113" width="280" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="During Which time some crazy thing happened that was crazy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aog-d1-cio" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="20" y="115" width="280" height="24"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -45,10 +45,10 @@
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="TI4-G1-ax2" secondAttribute="trailing" constant="10" id="2ot-QA-GtD"/>
                     <constraint firstItem="TI4-G1-ax2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="8JS-UF-VkV"/>
-                    <constraint firstItem="sGI-yH-hVK" firstAttribute="top" secondItem="bKM-H6-ffT" secondAttribute="bottom" constant="15" id="9wq-2k-orH"/>
+                    <constraint firstItem="sGI-yH-hVK" firstAttribute="top" secondItem="bKM-H6-ffT" secondAttribute="bottom" constant="16" id="9wq-2k-orH"/>
                     <constraint firstItem="bKM-H6-ffT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="AsZ-kF-b72"/>
                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="aog-d1-cio" secondAttribute="bottom" constant="8" id="Nvo-qx-1Cz"/>
-                    <constraint firstItem="aog-d1-cio" firstAttribute="top" secondItem="TI4-G1-ax2" secondAttribute="bottom" constant="15" id="XFc-aU-z68"/>
+                    <constraint firstItem="aog-d1-cio" firstAttribute="top" secondItem="TI4-G1-ax2" secondAttribute="bottom" constant="16" id="XFc-aU-z68"/>
                     <constraint firstAttribute="trailing" secondItem="aog-d1-cio" secondAttribute="trailing" constant="20" id="XTN-le-W7j"/>
                     <constraint firstItem="sGI-yH-hVK" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Ykg-hk-oQH"/>
                     <constraint firstItem="bKM-H6-ffT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="pNF-mQ-eCC"/>
