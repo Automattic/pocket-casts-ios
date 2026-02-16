@@ -37,6 +37,7 @@ build: ## Builds the Debug configuration using Xcode
 	xcodebuild -project podcasts.xcodeproj \
        -scheme pocketcasts \
        -configuration Debug \
+       -destination 'generic/platform=iOS Simulator' \
        build
 
 clean: ## Cleans the build artifacts
