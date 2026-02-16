@@ -28,7 +28,7 @@ class ChaptersHeader: UIView {
         button.setTitle(L10n.skipChapters, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(toggleChapterSelection), for: .touchUpInside)
-        button.semanticContentAttribute = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        button.contentHorizontalAlignment = .trailing        
         button.configuration?.imagePadding = 8
         button.configuration?.image = lockIcon
         button.configuration?.titleTextAttributesTransformer =
@@ -113,7 +113,7 @@ class ChaptersHeader: UIView {
             chaptersLabel.leadingAnchor.constraint(equalTo: container.layoutMarginsGuide.leadingAnchor),
             chaptersLabel.topAnchor.constraint(equalTo: container.topAnchor),
             chaptersLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            chaptersLabel.trailingAnchor.constraint(equalTo: toggleButton.leadingAnchor),
+            chaptersLabel.trailingAnchor.constraint(greaterThanOrEqualTo: toggleButton.leadingAnchor, constant: 8),
             chaptersLabel.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.40),
 
             toggleButton.trailingAnchor.constraint(equalTo: container.layoutMarginsGuide.trailingAnchor),
