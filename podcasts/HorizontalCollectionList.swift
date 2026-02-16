@@ -1,6 +1,6 @@
 import SwiftUI
 import Foundation
-
+import WrappingHStack
 import PocketCastsServer
 
 struct HorizontalCollectionList: View {
@@ -9,8 +9,12 @@ struct HorizontalCollectionList: View {
 
     @EnvironmentObject var theme: Theme
 
+    @ScaledMetric(relativeTo: .largeTitle) var maxHeight = CGFloat(323)
+
+    @ScaledMetric(relativeTo: .largeTitle) var maxRowHeight = CGFloat(210)
+
     var header: some View {
-        HStack {
+        WrappingHStack {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
                 .font(.title2.bold())
@@ -28,51 +32,55 @@ struct HorizontalCollectionList: View {
     }
 
     var poster: some View {
-        ZStack(alignment: .bottom) {
-            AsyncImage(url: model.posterImage) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
-                    Image(uiImage: image)
-                } else {
-                    Color.gray
+        VStack() {
+            Spacer()
+            ZStack(alignment: .bottom) {
+                AsyncImage(url: model.posterImage) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                        Image(uiImage: image)
+                    } else {
+                        Color.gray
+                    }
                 }
-            }
-            .frame(width: 179, height: 210)
-            VStack() {
-                Spacer().frame(height: 12)
-                Text(model.title)
-                    .foregroundStyle(.white)
-                    .font(size: 13, style: .footnote, weight: .bold)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .padding(.horizontal, 8)
-                Spacer().frame(height: 8)
-                Text(model.description)
-                    .foregroundStyle(.white)
-                    .font(.footnote)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .padding(.horizontal, 8)
-                Spacer().frame(height: 12)
-            }
-            .foregroundColor(.clear)
-            .frame(minWidth: 179, minHeight: 74)
-            .background(
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
-                        Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0),
-                    endPoint: UnitPoint(x: 0.5, y: 0.7)
+                .frame(width: 179, height: 179)
+                VStack() {
+                    Spacer().frame(height: 12)
+                    Text(model.title)
+                        .foregroundStyle(.white)
+                        .font(size: 13, style: .footnote, weight: .bold)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .padding(.horizontal, 8)
+                    Spacer().frame(height: 8)
+                    Text(model.description)
+                        .foregroundStyle(.white)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .padding(.horizontal, 8)
+                    Spacer().frame(height: 12)
+                }
+                .foregroundColor(.clear)
+                .frame(minWidth: 179, minHeight: 74)
+                .background(
+                    LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
+                            Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
+                        ],
+                        startPoint: UnitPoint(x: 0.5, y: 0),
+                        endPoint: UnitPoint(x: 0.5, y: 0.7)
+                    )
                 )
-            )
+            }
+            Spacer()
         }
         .cornerRadius(4)
-        .frame(width: 179, height: 210)
+        .frame(width: 179, height: maxRowHeight)
         .padding(.leading, 16)
     }
 
@@ -105,6 +113,7 @@ struct HorizontalCollectionList: View {
                 model.subscribePodcast(podcast)
             }
         }
+        .frame(maxHeight: (maxRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }
@@ -124,7 +133,7 @@ struct HorizontalCollectionList: View {
                 }
             }
             .padding(.leading, 16)
-            .frame(width: max(width - 24, 0), height: 210)
+            .frame(width: max(width - 24, 0), height: maxRowHeight)
             .id(index + 1)
         }
     }
@@ -158,7 +167,7 @@ struct HorizontalCollectionList: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
         }
-        .frame(height: 323)
+        .frame(height: maxHeight)
     }
 }
 
