@@ -472,7 +472,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .voiceBoostN:
             false
         case .grdbQueryInterface:
-            false
+            true
         case .playlistCacheInvalidation:
             true
         }

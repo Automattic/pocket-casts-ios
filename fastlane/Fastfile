@@ -204,7 +204,8 @@ platform :ios do
   #
   lane :test do
     run_tests(
-      scheme: SCHEME
+      scheme: SCHEME,
+      output_types: 'junit'
     )
   end
 
