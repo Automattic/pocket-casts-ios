@@ -56,6 +56,7 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
             exportBtn.titleLabel?.font = .font(ofSize: 13, scalingWith: .subheadline)
             exportBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             exportBtn.titleLabel?.numberOfLines = 0
+            exportBtn.titleLabel?.lineBreakMode = .byWordWrapping
         }
     }
 
