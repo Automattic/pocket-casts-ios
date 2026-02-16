@@ -11,6 +11,12 @@ make format
 make build
 ```
 
+## Cleaning Build Artifacts
+
+```bash
+make clean
+```
+
 ## Running Tests
 
 ```bash
