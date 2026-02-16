@@ -114,7 +114,7 @@ Note: You may need to email the OPML file to yourself, long press on the attachm
                                         <constraint firstAttribute="height" constant="1" id="3qB-CY-zzd"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMv-5c-rbA">
+                                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="CMv-5c-rbA">
                                     <rect key="frame" x="20" y="0.0" width="335" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Dzm-C4-SSh"/>
