@@ -55,7 +55,6 @@
                     <viewLayoutGuide key="safeArea" id="hDv-sj-rwZ"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="MQ8-3w-fa2" secondAttribute="trailing" constant="8" id="3cR-Hx-26l"/>
                         <constraint firstItem="MQ8-3w-fa2" firstAttribute="width" secondItem="6oY-Pd-rYs" secondAttribute="width" multiplier="0.25" id="Eba-7X-cKP"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="FgB-eq-xrm"/>
                         <constraint firstItem="IIo-c4-fKC" firstAttribute="width" secondItem="6oY-Pd-rYs" secondAttribute="width" multiplier="0.3" priority="999" id="I42-2g-Dc6"/>
