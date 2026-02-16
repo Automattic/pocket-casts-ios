@@ -5,6 +5,14 @@ import UIKit
 class UploadedStorageHeaderView: UIView {
     @IBOutlet var contentView: UIView!
 
+    @IBOutlet var noFilesLabel: ThemeableLabel! {
+        didSet {
+            noFilesLabel.style = .primaryText02
+            noFilesLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            noFilesLabel.text = L10n.filesNotUploaded
+        }
+    }
+
     @IBOutlet var numFilesLabel: ThemeableLabel! {
         didSet {
             numFilesLabel.style = .primaryText02

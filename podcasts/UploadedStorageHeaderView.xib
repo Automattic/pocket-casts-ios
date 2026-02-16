@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UploadedStorageHeaderView" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ep3-jb-O2w"/>
+                <outlet property="noFilesLabel" destination="cqj-Rp-tIb" id="dUq-vS-xVA"/>
                 <outlet property="noPlusView" destination="P40-lj-z0V" id="xQo-UU-HuY"/>
                 <outlet property="numFilesLabel" destination="IIo-c4-fKC" id="LJc-9A-M2J"/>
                 <outlet property="percentageLabel" destination="MQ8-3w-fa2" id="Rag-v7-Phk"/>
@@ -85,7 +86,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No files uploaded" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqj-Rp-tIb" customClass="SecondaryLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="42" y="0.0" width="333" height="62"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>

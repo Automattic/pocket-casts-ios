@@ -1309,6 +1309,8 @@ internal enum L10n {
   internal static var files: String { return L10n.tr("Localizable", "files", fallback: "Files") }
   /// Title for the screen that details how to add a file to Pocket Casts.
   internal static var filesHowToTitle: String { return L10n.tr("Localizable", "files_how_to_title", fallback: "How to save a file") }
+  /// Message when the user didn't upload any files
+  internal static var filesNotUploaded: String { return L10n.tr("Localizable", "files_not_uploaded", fallback: "No files uploaded") }
   /// Prompt to open a menu to allow sorting of manually added files.
   internal static var filesSort: String { return L10n.tr("Localizable", "files_sort", fallback: "Sort Files") }
   /// Subtitle informing the user that new podcasts will be automatically added to this filter.
