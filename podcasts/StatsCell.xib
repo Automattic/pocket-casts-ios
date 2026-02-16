@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 hours 33 mins" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc6-2g-Ue0" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="216" y="0.0" width="96" height="44"/>
+                        <rect key="frame" x="188" y="0.0" width="124" height="44"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -43,7 +43,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="pc6-2g-Ue0" secondAttribute="trailingMargin" id="39f-Xy-2HI"/>
                     <constraint firstItem="VgC-Gc-Ci6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="3cb-f4-Fce"/>
                     <constraint firstAttribute="bottom" secondItem="VgC-Gc-Ci6" secondAttribute="bottom" id="4m6-4s-M5Z"/>
-                    <constraint firstItem="pc6-2g-Ue0" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.3" id="6yA-50-Nze"/>
+                    <constraint firstItem="pc6-2g-Ue0" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.4" priority="999" id="6yA-50-Nze" userLabel="Stat Value.width = 0.35 × width"/>
                     <constraint firstItem="pc6-2g-Ue0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Gwo-Kz-jMX"/>
                     <constraint firstItem="VgC-Gc-Ci6" firstAttribute="leading" secondItem="rxL-bl-LLe" secondAttribute="trailing" constant="10" id="LFj-gf-0Tf"/>
                     <constraint firstItem="rxL-bl-LLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fxQ-Rl-ZZy"/>
