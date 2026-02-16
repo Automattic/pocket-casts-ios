@@ -9,6 +9,9 @@ class DiscoverFeaturedView: ThemeableView {
     @IBOutlet var listType: RoundedLabel! {
         didSet {
             listType.style = .contrast02
+            listType.font = .font(ofSize: 13, weight: .bold, scalingWith: .caption1)
+            listType.adjustsFontForContentSizeCategory = true
+            listType.numberOfLines = 0
         }
     }
 
@@ -16,16 +19,29 @@ class DiscoverFeaturedView: ThemeableView {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.style = .contrast01
+            podcastTitle.font = .font(ofSize: 22, weight: .bold, scalingWith: .title3)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+            podcastTitle.numberOfLines = 0
         }
     }
 
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .contrast03
+            podcastAuthor.font = .font(ofSize: 15, weight: .bold, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
+            podcastAuthor.numberOfLines = 0
         }
     }
 
-    @IBOutlet var rankingLabel: UILabel!
+    @IBOutlet var rankingLabel: UILabel!{
+        didSet {
+            rankingLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .footnote)
+            rankingLabel.adjustsFontForContentSizeCategory = true
+            rankingLabel.numberOfLines = 0
+        }
+    }
+    
     @IBOutlet var podcastImageLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {
@@ -53,8 +69,9 @@ class DiscoverFeaturedView: ThemeableView {
 
     private func commonInit() {
         Bundle.main.loadNibNamed("DiscoverFeaturedView", owner: self, options: nil)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
-        contentView.frame = bounds
+        contentView.anchorToAllSidesOf(view: self)
         backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
     }
 

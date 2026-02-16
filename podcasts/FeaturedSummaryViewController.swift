@@ -16,7 +16,11 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
-    private let cellHeight = 181 as CGFloat
+    private var cellHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        return max(182, metric.scaledValue(for: 182))
+    }
+
     private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
     private var lastLayedOutWidth = 0 as CGFloat

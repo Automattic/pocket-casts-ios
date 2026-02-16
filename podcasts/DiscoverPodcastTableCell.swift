@@ -17,16 +17,28 @@ class DiscoverPodcastTableCell: ThemeableCell {
         }
     }
 
-    @IBOutlet var podcastTitle: UILabel!
+    @IBOutlet var podcastTitle: UILabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+            podcastTitle.numberOfLines = 0
+        }
+    }
+
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = .font(ofSize: 14, weight: .regular, scalingWith: .footnote)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
+            podcastAuthor.numberOfLines = 0
         }
     }
 
     @IBOutlet var itemNumber: ThemeableLabel! {
         didSet {
             itemNumber.style = .primaryText02
+            itemNumber.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote)
+            itemNumber.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -120,4 +132,30 @@ class DiscoverPodcastTableCell: ThemeableCell {
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil
     }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let imageSize = max(52, metric.scaledValue(for: 52))
+
+        podcastImage.updateSizeConstraints(to: imageSize)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        subscribeButton.updateSizeConstraints(to: iconSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
 }
