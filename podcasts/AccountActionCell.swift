@@ -69,7 +69,7 @@ class AccountActionCell: ThemeableCell {
         }
     }
 
-    override func awakeFromNib(){
+    override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
     }

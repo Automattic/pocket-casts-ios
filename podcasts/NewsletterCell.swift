@@ -35,7 +35,7 @@ class NewsletterCell: ThemeableCell {
         cellSecondaryLabel.style = .primaryText02
     }
 
-    override func awakeFromNib(){
+    override func awakeFromNib() {
         super.awakeFromNib()
         updateSize()
     }
