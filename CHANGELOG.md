@@ -1,5 +1,9 @@
 8.7
 -----
+
+
+8.7
+-----
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 
 8.6
