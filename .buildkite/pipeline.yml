@@ -11,7 +11,13 @@ steps:
     command: .buildkite/commands/build.sh
     agents:
       queue: mac
-    plugins: [$CI_TOOLKIT]
+    plugins:
+      - $CI_TOOLKIT
+      - ${TEST_COLLECTOR}:
+          files: fastlane/test_output/report.junit
+          format: junit
+          missing-error: 0
+          api-token-env-name: BUILDKITE_ANALYTICS_TOKEN
 
   - group: "Linters"
     steps:
