@@ -13,6 +13,7 @@
 - Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
 - Dynamic Type: Update Playlists List [#3946](https://github.com/Automattic/pocket-casts-ios/pull/3946)
 - Dynamic Type: Update Playlists Creation and options [#3948](https://github.com/Automattic/pocket-casts-ios/pull/3948)
+- Dynamic Type: Update Account Cells [#3956](https://github.com/Automattic/pocket-casts-ios/pull/3956)
 - Dynamic Type: Update Uploaded Files [#3953](https://github.com/Automattic/pocket-casts-ios/pull/3953)
 - Dynamic Type: Update Stats [#3955](https://github.com/Automattic/pocket-casts-ios/pull/3955)
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)

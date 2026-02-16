@@ -3,11 +3,6 @@ import UIKit
 
 class AccountActionCell: ThemeableCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        updateSize()
-    }
-
     var imageAndTextColor: UIColor? = nil {
         didSet {
             handleThemeDidChange()
@@ -17,7 +12,7 @@ class AccountActionCell: ThemeableCell {
     @IBOutlet var cellLabel: ThemeableLabel! {
         didSet {
             cellLabel.style = iconStyle
-            cellLabel.font = UIFont.font(ofSize: 15.0, scalingWith: .callout)
+            cellLabel.font = UIFont.font(ofSize: 16.0, scalingWith: .callout)
         }
     }
 
@@ -67,12 +62,17 @@ class AccountActionCell: ThemeableCell {
                 disclosureImageView = imageView
                 accessoryView = imageView
                 updateColor()
-                updateDisclosureScale()
+                updateSize()
             } else {
                 disclosureImageView = nil
                 accessoryView = nil
             }
         }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
     }
 
     override func prepareForReuse() {
@@ -92,20 +92,11 @@ class AccountActionCell: ThemeableCell {
     }
 
     func updateSize() {
-        updateImageScale()
-        updateDisclosureScale()
-    }
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
 
-    func updateImageScale() {
-        let fontMetric = UIFontMetrics(forTextStyle: .largeTitle)
-        let size = max(24, fontMetric.scaledValue(for: 24))
-        cellImage.updateSizeConstraints(to: size)
-    }
-
-    private func updateDisclosureScale() {
-        let fontMetric = UIFontMetrics(forTextStyle: .largeTitle)
-        let size = max(24, fontMetric.scaledValue(for: 24))
-        disclosureImageView?.updateSizeConstraints(to: size)
+        let iconSize = max(24, metric.scaledValue(for: 24))
+        cellImage.updateSizeConstraints(to: iconSize)
+        disclosureImageView?.updateSizeConstraints(to: iconSize)
     }
 
 }

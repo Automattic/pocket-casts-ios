@@ -25,24 +25,24 @@
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="dlX-ON-NLx"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E94-Wl-ATh">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E94-Wl-ATh">
                         <rect key="frame" x="16" y="23" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="RSA-2z-2kv"/>
                             <constraint firstAttribute="height" constant="24" id="Sck-T2-Wxk"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFT-Bo-lkY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="56" y="15" width="248" height="40"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFT-Bo-lkY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="56" y="13" width="264" height="44"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I9u-5d-5Rt" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="272" y="19" width="32" height="32"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9u-5d-5Rt" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="280" y="19" width="32" height="32"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-Jg-3M5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EhW-Jg-3M5" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="12.5" y="7.5" width="7" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -50,30 +50,27 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
-                            <constraint firstItem="EhW-Jg-3M5" firstAttribute="leading" secondItem="I9u-5d-5Rt" secondAttribute="leading" id="59H-zE-yTg"/>
                             <constraint firstItem="EhW-Jg-3M5" firstAttribute="centerY" secondItem="I9u-5d-5Rt" secondAttribute="centerY" id="5Gt-Y7-57N"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="32" id="BC0-Iu-jqz"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="NXY-T9-O0X"/>
-                            <constraint firstAttribute="bottom" secondItem="EhW-Jg-3M5" secondAttribute="bottom" id="YXY-cj-w2Q"/>
-                            <constraint firstAttribute="trailing" secondItem="EhW-Jg-3M5" secondAttribute="trailing" id="ipC-cn-G4N"/>
-                            <constraint firstItem="EhW-Jg-3M5" firstAttribute="top" secondItem="I9u-5d-5Rt" secondAttribute="top" id="rBn-35-0vf"/>
+                            <constraint firstAttribute="width" constant="32" id="BC0-Iu-jqz"/>
+                            <constraint firstAttribute="height" constant="32" id="NXY-T9-O0X"/>
                             <constraint firstItem="EhW-Jg-3M5" firstAttribute="centerX" secondItem="I9u-5d-5Rt" secondAttribute="centerX" id="ywj-O2-faH"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="E94-Wl-ATh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="2kD-6s-qbQ"/>
-                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="trailing" secondItem="I9u-5d-5Rt" secondAttribute="leading" constant="-8" id="315-gf-cs9"/>
+                    <constraint firstItem="E94-Wl-ATh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2kD-6s-qbQ"/>
+                    <constraint firstAttribute="trailing" secondItem="zFT-Bo-lkY" secondAttribute="trailing" id="315-gf-cs9"/>
                     <constraint firstItem="E94-Wl-ATh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6St-0I-qNN"/>
                     <constraint firstAttribute="bottom" secondItem="RQj-j3-jbg" secondAttribute="bottom" id="6wr-be-Vek"/>
+                    <constraint firstAttribute="bottom" secondItem="zFT-Bo-lkY" secondAttribute="bottom" constant="13" id="Anv-3x-xFk"/>
                     <constraint firstAttribute="trailing" secondItem="RQj-j3-jbg" secondAttribute="trailing" id="C2t-YL-aIJ"/>
                     <constraint firstItem="RQj-j3-jbg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="HOl-Gu-qRy"/>
                     <constraint firstItem="RQj-j3-jbg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="HdX-0N-BrL"/>
                     <constraint firstItem="zFT-Bo-lkY" firstAttribute="leading" secondItem="E94-Wl-ATh" secondAttribute="trailing" constant="16" id="M8C-SA-EAb"/>
-                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="PiL-H9-127"/>
+                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="PiL-H9-127"/>
                     <constraint firstItem="I9u-5d-5Rt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QGP-tK-sIG"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="I9u-5d-5Rt" secondAttribute="trailing" id="ZFH-IG-pys"/>
-                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="aU2-Wr-X8c"/>
+                    <constraint firstAttribute="trailing" secondItem="I9u-5d-5Rt" secondAttribute="trailing" constant="8" id="ZFH-IG-pys"/>
+                    <constraint firstItem="zFT-Bo-lkY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aU2-Wr-X8c"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
