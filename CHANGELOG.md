@@ -1,3 +1,7 @@
+8.7
+-----
+- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
+
 8.6
 -----
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)

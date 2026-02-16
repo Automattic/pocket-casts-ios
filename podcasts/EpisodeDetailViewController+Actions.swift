@@ -5,25 +5,40 @@ import PocketCastsUtils
 extension EpisodeDetailViewController {
     // MARK: - Button Actions
 
-    @IBAction func upNextTapped(_ sender: UIButton) {
-        if PlaybackManager.shared.inUpNext(episode: episode) {
-            PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-        } else if PlaybackManager.shared.queue.upNextCount() < 1 {
-            PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+    @IBAction func addTapped(_ sender: UIButton) {
+        let addPicker = OptionsPicker(title: nil)
+
+        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
+
+        if isInUpNext {
+            let removeFromUpNextAction = OptionAction(label: L10n.removeFromUpNext, icon: "episode-removenext") { [weak self] in
+                guard let self else { return }
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: self.episode, fireNotification: true, userInitiated: true)
+            }
+            addPicker.addAction(action: removeFromUpNextAction)
         } else {
-            let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
-            let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
+            let playNextAction = OptionAction(label: L10n.playNextInUpNext, icon: "list_playnext") { [weak self] in
+                guard let self else { return }
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
             }
-            addToUpNextPicker.addAction(action: playNextAction)
+            addPicker.addAction(action: playNextAction)
 
-            let playLastAction = OptionAction(label: L10n.playLast, icon: "list_playlast") {
+            let playLastAction = OptionAction(label: L10n.playLastInUpNext, icon: "list_playlast") { [weak self] in
+                guard let self else { return }
                 PlaybackManager.shared.addToUpNext(episode: self.episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
             }
-            addToUpNextPicker.addAction(action: playLastAction)
-
-            addToUpNextPicker.show(statusBarStyle: preferredStatusBarStyle)
+            addPicker.addAction(action: playLastAction)
         }
+
+        let addToPlaylistAction = OptionAction(label: L10n.playlistManualEpisodeAddToPlaylist, icon: "plus-circle") { [weak self] in
+            guard let self else { return }
+            let chooser = ManualPlaylistsChooserViewController(episode: self.episode, analyticsSource: "episode_details")
+            let navVC = SJUIUtils.navController(for: chooser)
+            self.present(navVC, animated: true, completion: nil)
+        }
+        addPicker.addAction(action: addToPlaylistAction)
+
+        addPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     @IBAction func episodeStatusTapped(_ sender: Any) {
@@ -120,14 +135,9 @@ extension EpisodeDetailViewController {
             downloadBtn.accessibilityLabel = L10n.download
         }
 
-        upNextBtn.setTitle(L10n.upNext, for: .normal)
-        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) || playbackManager.inUpNext(episode: episode) {
-            upNextBtn.setImage(UIImage(named: "episode-removenext"), for: .normal)
-            upNextBtn.accessibilityLabel = L10n.removeFromUpNext
-        } else {
-            upNextBtn.setImage(UIImage(named: "episode-playnext"), for: .normal)
-            upNextBtn.accessibilityLabel = L10n.upNext
-        }
+        addButton.setTitle(L10n.episodeDetailAdd, for: .normal)
+        addButton.setImage(UIImage(named: "episode-add"), for: .normal)
+        addButton.accessibilityLabel = L10n.episodeDetailAdd
 
         if episode.archived {
             archiveButton.setImage(UIImage(named: "episode-unarchive"), for: .normal)
