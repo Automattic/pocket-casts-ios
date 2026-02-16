@@ -5,15 +5,25 @@ import UIKit
 class UploadedStorageHeaderView: UIView {
     @IBOutlet var contentView: UIView!
 
+    @IBOutlet var noFilesLabel: ThemeableLabel! {
+        didSet {
+            noFilesLabel.style = .primaryText02
+            noFilesLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+            noFilesLabel.text = L10n.filesNotUploaded
+        }
+    }
+
     @IBOutlet var numFilesLabel: ThemeableLabel! {
         didSet {
             numFilesLabel.style = .primaryText02
+            numFilesLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
         }
     }
 
     @IBOutlet var storageSizeLabel: ThemeableLabel! {
         didSet {
             storageSizeLabel.style = .primaryText02
+            storageSizeLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
         }
     }
 
@@ -31,7 +41,11 @@ class UploadedStorageHeaderView: UIView {
         }
     }
 
-    @IBOutlet var percentageLabel: ThemeableLabel!
+    @IBOutlet var percentageLabel: ThemeableLabel! {
+        didSet {
+            percentageLabel.font = UIFont.font(ofSize: 12, weight: .semibold, scalingWith: .caption1)
+        }
+    }
 
     weak var controllerForPresenting: UIViewController?
 

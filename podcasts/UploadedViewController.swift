@@ -13,6 +13,11 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         didSet {
             registerLongPress()
             uploadsTable.allowsMultipleSelectionDuringEditing = true
+            uploadsTable.rowHeight = UITableView.automaticDimension
+            uploadsTable.estimatedRowHeight = 80
+            uploadsTable.sectionHeaderHeight = UITableView.automaticDimension
+            uploadsTable.estimatedSectionHeaderHeight = 56
+            uploadsTable.sectionHeaderTopPadding = 0
         }
     }
 
@@ -115,10 +120,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 //            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
         }
 
-        let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        headerView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         headerView.controllerForPresenting = self
-        uploadsTable.tableHeaderView = headerView
+
         updateHeaderView()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: uploadsTable)
         reloadLocalFiles()
@@ -244,6 +247,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private func reloadAllFiles() {
         if SubscriptionHelper.hasActiveSubscription() {
             UserEpisodeManager.updateUserEpisodes()
+            updateHeaderView()
         } else {
             reloadLocalFiles()
         }
