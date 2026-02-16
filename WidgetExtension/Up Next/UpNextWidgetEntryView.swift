@@ -16,7 +16,7 @@ struct UpNextWidgetEntryView: View {
 
     var body: some View {
         Group {
-            if let episodes = entry.episodes, episodes.count > 0 {
+            if let episodes = entry.episodes, !episodes.isEmpty {
                 if family == .systemMedium {
                     UpNextMediumWidgetView(episodes: episodes, filterName: entry.filterName, isPlaying: entry.isPlaying)
                 } else {

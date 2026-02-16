@@ -398,7 +398,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             data[1].append(.globalUpNext)
         }
 
-        if playlistsPodcastCanAppearIn().count > 0 {
+        if !playlistsPodcastCanAppearIn().isEmpty {
             data.append([.inFilters])
         }
         data.append([.siriShortcut])

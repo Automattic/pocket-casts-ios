@@ -30,11 +30,11 @@ struct UpNextProvider: TimelineProvider {
         let widgetData = WidgetData.shared
         widgetData.reload()
 
-        if let filterEpisodes = widgetData.topFilterEpisodes, filterEpisodes.count > 0 {
+        if let filterEpisodes = widgetData.topFilterEpisodes, !filterEpisodes.isEmpty {
             let entry = upNextEntry(episodes: filterEpisodes, data: widgetData, imageCountToCache: context.family.imageCount)
             let timeline = Timeline(entries: [entry], policy: .never)
             completion(timeline)
-        } else if let upNextEpisodes = widgetData.upNextEpisodes, upNextEpisodes.count > 0 {
+        } else if let upNextEpisodes = widgetData.upNextEpisodes, !upNextEpisodes.isEmpty {
             let entry = upNextEntry(episodes: upNextEpisodes, data: widgetData, imageCountToCache: context.family.imageCount)
             let timeline = Timeline(entries: [entry], policy: .atEnd)
             completion(timeline)
@@ -45,7 +45,7 @@ struct UpNextProvider: TimelineProvider {
     }
 
     private func upNextEntry(episodes: [WidgetEpisode]?, data: WidgetData, imageCountToCache: Int = 0) -> UpNextEntry {
-        if let episodes = episodes, episodes.count > 0, imageCountToCache > 0 {
+        if let episodes = episodes, !episodes.isEmpty, imageCountToCache > 0 {
             for episode in episodes.prefix(imageCountToCache) {
                 episode.loadImageData()
             }

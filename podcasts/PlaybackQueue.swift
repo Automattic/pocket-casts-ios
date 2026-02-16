@@ -294,7 +294,7 @@ class PlaybackQueue: NSObject {
         if includeNowPlaying { return DataManager.sharedManager.allUpNextEpisodes() }
 
         var episodes = DataManager.sharedManager.allUpNextEpisodes()
-        if episodes.count == 0 { return episodes }
+        if episodes.isEmpty { return episodes }
 
         episodes.removeFirst()
 
@@ -303,7 +303,7 @@ class PlaybackQueue: NSObject {
 
     func allEpisodeUuids() -> [BaseEpisode] {
         var episodes = DataManager.sharedManager.allUpNextEpisodeUuids()
-        if episodes.count == 0 { return episodes }
+        if episodes.isEmpty { return episodes }
 
         episodes.removeFirst()
 

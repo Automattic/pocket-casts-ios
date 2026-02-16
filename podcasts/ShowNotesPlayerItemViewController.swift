@@ -154,7 +154,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
             if let showNotes = try? await ShowInfoCoordinator.shared.loadShowNotes(podcastUuid: episode.parentIdentifier(), episodeUuid: episode.uuid) {
                 self?.downloadingShowNotes = false
 
-                let shouldResetScrollOffset = lastEpisodeUuidRendered != episode.uuid && lastEpisodeUuidRendered != ""
+                let shouldResetScrollOffset = lastEpisodeUuidRendered != episode.uuid && !lastEpisodeUuidRendered.isEmpty
                 self?.displayShowNotes(showNotes, shouldResetScrollOffset: shouldResetScrollOffset)
 
                 // if we get back the no show notes available message, make sure next update we try again

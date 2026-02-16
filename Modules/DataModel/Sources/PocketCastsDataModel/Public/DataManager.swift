@@ -170,7 +170,7 @@ public class DataManager {
 
     public func allUpNextEpisodes() -> [BaseEpisode] {
         let allUpNextEpisodes = upNextManager.allUpNextPlaylistEpisodes(dbQueue: dbQueue)
-        if allUpNextEpisodes.count == 0 { return [BaseEpisode]() }
+        if allUpNextEpisodes.isEmpty { return [BaseEpisode]() }
 
         let episodes = episodeManager.allUpNextEpisodes(dbQueue: dbQueue)
         let userEpisodes = userEpisodeManager.allUpNextEpisodes(dbQueue: dbQueue)
@@ -586,11 +586,11 @@ public class DataManager {
 
     public func bulkUserFileDelete(baseEpisodes: [BaseEpisode]) {
         let episodes = baseEpisodes.compactMap { $0 as? Episode }
-        if episodes.count > 0 {
+        if !episodes.isEmpty {
             episodeManager.bulkUserFileDelete(episodes: episodes, dbQueue: dbQueue)
         }
         let userEpisodes = baseEpisodes.compactMap { $0 as? UserEpisode }
-        if userEpisodes.count > 0 {
+        if !userEpisodes.isEmpty {
             userEpisodeManager.bulkUserFileDelete(episodes: userEpisodes, dbQueue: dbQueue)
         }
     }
@@ -801,12 +801,12 @@ public class DataManager {
 
     public func bulkMarkAsUnPlayed(baseEpisodes: [BaseEpisode], updateSyncFlag: Bool) {
         let episodes = baseEpisodes.compactMap { $0 as? Episode }
-        if episodes.count > 0 {
+        if !episodes.isEmpty {
             episodeManager.bulkMarkAsUnPlayed(episodes: episodes, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         }
 
         let userEpisodes = baseEpisodes.compactMap { $0 as? UserEpisode }
-        if userEpisodes.count > 0 {
+        if !userEpisodes.isEmpty {
             userEpisodeManager.bulkMarkAsUnPlayed(episodes: userEpisodes, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         }
     }

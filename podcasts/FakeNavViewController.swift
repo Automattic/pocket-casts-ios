@@ -179,7 +179,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
             button.layer.masksToBounds = true
         }
         button.translatesAutoresizingMaskIntoConstraints = false
-        if rightActionButtons.count == 0 {
+        if rightActionButtons.isEmpty {
             // if there are no other buttons, anchor this one to the edge
             let margin: CGFloat = 16
             NSLayoutConstraint.activate([

@@ -9,7 +9,7 @@ class SiriPodcastSearchManager {
         do {
             let subscribedPodcasts = try JSONDecoder().decode([SiriPodcastItem].self, from: serializedPodcasts)
 
-            guard subscribedPodcasts.count > 0 else { return nil }
+            guard !subscribedPodcasts.isEmpty else { return nil }
 
             let podcastNames = subscribedPodcasts.map(\.name)
 

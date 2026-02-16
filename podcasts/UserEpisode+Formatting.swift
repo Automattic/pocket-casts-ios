@@ -23,7 +23,7 @@ extension UserEpisode {
         var informationLabelStr = duration > 0 ? displayableTimeLeft() : L10n.unknownDuration
 
         if includeSize, sizeInBytes > 0 {
-            if informationLabelStr.count == 0 {
+            if informationLabelStr.isEmpty {
                 informationLabelStr = SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes)
             } else {
                 informationLabelStr += " • \(SizeFormatter.shared.noDecimalFormat(bytes: sizeInBytes))"

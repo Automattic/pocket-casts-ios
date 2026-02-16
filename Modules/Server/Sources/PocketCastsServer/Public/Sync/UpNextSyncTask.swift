@@ -97,7 +97,7 @@ class UpNextSyncTask: ApiBaseTask {
 
             // all other add/remove actions
             let actions = DataManager.sharedManager.findUpdateActions()
-            if actions.count > 0 {
+            if !actions.isEmpty {
                 for action in actions {
                     if action.utcTime > latestActionTime {
                         latestActionTime = action.utcTime
@@ -155,7 +155,7 @@ class UpNextSyncTask: ApiBaseTask {
         guard let localEpisodes = ServerConfig.shared.playbackDelegate?.allEpisodesInQueue(includeNowPlaying: true) else { return }
         if localEpisodes.count == episodes.count {
             // if they are both 0, nothing to do
-            if localEpisodes.count == 0 {
+            if localEpisodes.isEmpty {
                 FileLog.shared.addMessage("UpNextSyncTask: no local or remote episodes, no action required")
                 return
             }
@@ -179,7 +179,7 @@ class UpNextSyncTask: ApiBaseTask {
 
         let episodePlayingBeforeChanges = ServerConfig.shared.playbackDelegate?.currentEpisode()
         var uuids = [String]()
-        if modifiedList.count > 0 {
+        if !modifiedList.isEmpty {
             for (index, episodeInfo) in modifiedList.enumerated() {
                 uuids.append(episodeInfo.uuid)
 
@@ -268,7 +268,7 @@ class UpNextSyncTask: ApiBaseTask {
             // removed unintentionally.
             let localUUIDs = localEpisodes.compactMap { uuids.contains($0.uuid) ? nil : $0.uuid }
 
-            if localUUIDs.count != 0 {
+            if !localUUIDs.isEmpty {
                 FileLog.shared.addMessage("UpNextSyncTask: Merging \(localEpisodes.count) local episodes that were not in the remote server call")
 
                 uuids.append(contentsOf: localUUIDs)
@@ -296,10 +296,10 @@ class UpNextSyncTask: ApiBaseTask {
         if let episodePlayingBeforeChanges = episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
-        } else if episodePlayingBeforeChanges == nil, modifiedList.count > 0 {
+        } else if episodePlayingBeforeChanges == nil, !modifiedList.isEmpty {
             // nothing was playing but now it is
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
-        } else if episodePlayingBeforeChanges != nil, modifiedList.count == 0 {
+        } else if episodePlayingBeforeChanges != nil, modifiedList.isEmpty {
             // there was something playing but it should no longer be playing
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         }
@@ -388,7 +388,7 @@ class UpNextSyncTask: ApiBaseTask {
     }
 
     private func upNextServerModified() -> Int64? {
-        if let modifiedStr = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.upNextServerLastModified), modifiedStr.count > 0 {
+        if let modifiedStr = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.upNextServerLastModified), !modifiedStr.isEmpty {
             return Int64(modifiedStr)
         }
 

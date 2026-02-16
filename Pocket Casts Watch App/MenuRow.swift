@@ -18,7 +18,7 @@ struct MenuRow: View {
     }
 
     var countText: String {
-        guard count > 0 else {
+        guard !isEmpty else {
             return "0"
         }
         let ammendedCount = count > 99 ? "99+" : "\(count)"
@@ -26,7 +26,7 @@ struct MenuRow: View {
     }
 
     var accessibilityLabel: String {
-        if count > 0 {
+        if !isEmpty {
             return "\(label), \(count)"
         } else {
             return label
@@ -47,7 +47,7 @@ struct MenuRow: View {
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 9, height: 9)))
                         .foregroundColor(.black)
                 }
-                .opacity(count > 0 ? 1 : 0)
+                .opacity(!isEmpty ? 1 : 0)
             }
             .accessibilityLabel(accessibilityLabel)
         } icon: {

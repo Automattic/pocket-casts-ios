@@ -14,7 +14,7 @@ class CustomObserver: NSObject {
     }
 
     func removeAllCustomObservers() {
-        if customObservers.count == 0 { return }
+        if customObservers.isEmpty { return }
 
         let notCenter = NotificationCenter.default
         for name in customObservers {
@@ -24,7 +24,7 @@ class CustomObserver: NSObject {
     }
 
     private func containsObserver(_ name: Notification.Name) -> Bool {
-        if customObservers.count == 0 { return false }
+        if customObservers.isEmpty { return false }
 
         return customObservers.contains(name)
     }

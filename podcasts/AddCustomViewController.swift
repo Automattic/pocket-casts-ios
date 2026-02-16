@@ -450,7 +450,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        if let typedText = nameTextfield.text, typedText.count > 0 {
+        if let typedText = nameTextfield.text, !typedText.isEmpty {
             nameLabel.text = typedText
             name = typedText
             nameLabel.style = .primaryText02

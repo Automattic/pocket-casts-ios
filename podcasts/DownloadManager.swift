@@ -188,7 +188,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         // Update all the downloaded files existing protections
-        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), paths.count > 0 else {
+        guard let paths = FileManager.default.subpaths(atPath: podcastsDirectory), !paths.isEmpty else {
             return
         }
 
@@ -507,7 +507,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
 
         // make sure the URL is valid and has a supported scheme: only http and https are allowed
-        guard let url = downloadUrl, let scheme = url.scheme, scheme.count > 0, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
+        guard let url = downloadUrl, let scheme = url.scheme, !scheme.isEmpty, scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame else {
             dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorContactAuthor, downloadTaskId: nil, episode: episode)
 
             logDownload(episode, failure: .malformedHost)
@@ -679,7 +679,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         guard let taskId = taskId else { return }
 
         session.getTasksWithCompletionHandler { [weak self] _, _, downloadTasks in
-            if downloadTasks.count == 0 { return }
+            if downloadTasks.isEmpty { return }
 
             for task in downloadTasks {
                 if let taskDescription = task.taskDescription, taskId == taskDescription {
@@ -692,7 +692,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private func cancelTask(_ task: URLSessionDownloadTask, for episode: BaseEpisode) {
         task.cancel { [weak self] data in
-            if let data = data, data.count > 0, let tempFilePath = self?.tempPathForEpisode(episode) {
+            if let data = data, !data.isEmpty, let tempFilePath = self?.tempPathForEpisode(episode) {
                 do {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
                 } catch {

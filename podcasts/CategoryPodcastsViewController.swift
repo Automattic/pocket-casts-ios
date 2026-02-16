@@ -120,7 +120,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     private func loadPodcasts() {
         guard let delegate = delegate, let category, let source = delegate.replaceRegionCode(string: category.source) else { return }
-        if loadingIndicator.isAnimating || podcasts.count > 0 { return }
+        if loadingIndicator.isAnimating || !podcasts.isEmpty { return }
 
         noNetworkView.isHidden = true
         loadingIndicator.startAnimating()

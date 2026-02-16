@@ -41,7 +41,7 @@ class EpisodeManager: NSObject {
     }
 
     class func bulkMarkAsPlayed(episodes: [BaseEpisode], updateSyncFlag: Bool) {
-        guard episodes.count > 0 else { return }
+        guard !episodes.isEmpty else { return }
         var episodesToArchive = [Episode]()
         var episodesToMarkAsPlayed = [Episode]()
         var userEpisodeToMarkAsPlayed = [UserEpisode]()
@@ -72,15 +72,15 @@ class EpisodeManager: NSObject {
         let uuids = episodesMinusCurrent.map(\.uuid)
         PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
 
-        if episodesToArchive.count > 0 {
+        if !episodesToArchive.isEmpty {
             DataManager.sharedManager.bulkArchive(episodes: episodesToArchive, markAsNotDownloaded: true, markAsPlayed: true, updateSyncFlag: updateSyncFlag)
         }
 
-        if episodesToMarkAsPlayed.count > 0 {
+        if !episodesToMarkAsPlayed.isEmpty {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: episodesToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
         }
 
-        if userEpisodeToMarkAsPlayed.count > 0 {
+        if !userEpisodeToMarkAsPlayed.isEmpty {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
 
             #if !APPCLIP

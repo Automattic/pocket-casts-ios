@@ -783,7 +783,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playingOverAirplay() -> Bool {
         let currentRoute = AVAudioSession.sharedInstance().currentRoute
 
-        if currentRoute.outputs.count == 0 { return false }
+        if currentRoute.outputs.isEmpty { return false }
 
         let currentOutput = currentRoute.outputs[0]
         if currentOutput.portType.rawValue == AVAudioSession.Port.airPlay.rawValue {
@@ -1151,7 +1151,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         // it's technically possible to try and add just the now playing episode, in which case there's nothing more to do
-        if episodesToAdd.count == 0 {
+        if episodesToAdd.isEmpty {
             queue.bulkOperationDidComplete()
 
             return

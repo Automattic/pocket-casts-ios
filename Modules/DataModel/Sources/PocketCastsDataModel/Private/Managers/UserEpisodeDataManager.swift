@@ -431,7 +431,7 @@ class UserEpisodeDataManager {
     }
 
     func bulkMarkAsPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -463,7 +463,7 @@ class UserEpisodeDataManager {
     }
 
     func bulkMarkAsUnPlayed(episodes: [UserEpisode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -496,7 +496,7 @@ class UserEpisodeDataManager {
     }
 
     func bulkUserFileDelete(episodes: [UserEpisode], dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {

@@ -548,7 +548,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         var upNextList = [[String: Any]]()
 
         let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
-        if upNextEpisodes.count == 0 { return upNextList }
+        if upNextEpisodes.isEmpty { return upNextList }
 
         let truncatedList = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
         for episode in truncatedList {
@@ -577,7 +577,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
     private func serializePodcastArchiveSettings() -> [[String: Any]]? {
         let podcastsWithOverride = DataManager.sharedManager.allOverrideGlobalArchivePodcasts()
-        guard podcastsWithOverride.count > 0 else { return nil }
+        guard !podcastsWithOverride.isEmpty else { return nil }
 
         var podcastArchiveSettings = [[String: Any]]()
         podcastsWithOverride.forEach {

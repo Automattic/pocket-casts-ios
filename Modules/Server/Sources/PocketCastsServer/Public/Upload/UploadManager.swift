@@ -141,7 +141,7 @@ public class UploadManager: NSObject {
         guard let taskId = taskId else { return }
 
         session.getTasksWithCompletionHandler { [weak self] _, uploadTasks, _ in
-            if uploadTasks.count == 0 { return }
+            if uploadTasks.isEmpty { return }
 
             for task in uploadTasks {
                 if taskId == task.taskDescription {
@@ -172,7 +172,7 @@ public class UploadManager: NSObject {
 
     private func resumeUpload(episode: UserEpisode, session: URLSession, previousUploadFailed: Bool, taskId: String?) {
         session.getTasksWithCompletionHandler { [weak self] _, uploadTasks, _ in
-            if uploadTasks.count == 0 {
+            if uploadTasks.isEmpty {
                 self?.startUpload(episode: episode, session: session, previousUploadFailed: previousUploadFailed, taskId: taskId)
                 return
             }

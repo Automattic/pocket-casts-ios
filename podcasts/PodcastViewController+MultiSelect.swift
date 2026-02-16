@@ -67,11 +67,11 @@ extension PodcastViewController {
         } else {
             let shouldSelectAll = multiSelectAllBtn.title(for: .normal) == L10n.selectAll
             if shouldSelectAll {
-                guard let allObjects = episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+                guard let allObjects = episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
                 episodesTable.selectAllBelow(fromIndexPath: IndexPath(row: 0, section: PodcastViewController.allEpisodesSection))
             } else {
                 episodesTable.deselectAll()
-                if selectedEpisodes.count != 0 { // special case where hidden (archived) episodes are selected
+                if !selectedEpisodes.isEmpty { // special case where hidden (archived) episodes are selected
                     selectedEpisodes.removeAll()
                 }
             }
