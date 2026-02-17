@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
-        "revision" : "7442def327dbbc9158c0d780382843e0b7a2e6c9",
-        "version" : "4.1.0"
+        "branch" : "watchos-compatibility",
+        "revision" : "d8550ad77f3ba62f23a0bc6bf3f3d434caa696a2"
       }
     },
     {
