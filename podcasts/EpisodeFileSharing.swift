@@ -1,9 +1,10 @@
 import UIKit
 import PocketCastsDataModel
 import PocketCastsUtils
+import ObjectiveC
 
 /// Protocol for view controllers that support sharing episode files
-protocol EpisodeFileSharing: UIViewController {
+protocol EpisodeFileSharing: UIViewController, UIDocumentInteractionControllerDelegate {
     /// The episode to share
     var episodeForFileSharing: Episode? { get }
     
@@ -16,7 +17,20 @@ protocol EpisodeFileSharing: UIViewController {
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction?
 }
 
-extension EpisodeFileSharing where Self: UIDocumentInteractionControllerDelegate {
+// Associated object key for storing the document controller
+private var documentControllerKey: UInt8 = 0
+
+extension EpisodeFileSharing {
+    
+    private var documentController: UIDocumentInteractionController? {
+        get {
+            return objc_getAssociatedObject(self, &documentControllerKey) as? UIDocumentInteractionController
+        }
+        set {
+            objc_setAssociatedObject(self, &documentControllerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
     func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
         guard let episode = episodeForFileSharing,
               episode.downloaded(pathFinder: DownloadManager.shared) else {
@@ -34,6 +48,9 @@ extension EpisodeFileSharing where Self: UIDocumentInteractionControllerDelegate
         docController.name = episode.displayableTitle()
         docController.delegate = self
         
+        // Store the controller to prevent it from being deallocated
+        self.documentController = docController
+        
         Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": analyticsSource])
         
         let canOpen = docController.presentOpenInMenu(from: sourceRect, in: view, animated: true)
@@ -41,6 +58,10 @@ extension EpisodeFileSharing where Self: UIDocumentInteractionControllerDelegate
             let alert = UIAlertController(title: L10n.error, message: L10n.podcastShareEpisodeErrorMsg, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: L10n.ok, style: UIAlertAction.Style.cancel, handler: nil))
             present(alert, animated: true, completion: nil)
+            
+            // Clear the controller on error
+            self.documentController = nil
         }
     }
 }
+

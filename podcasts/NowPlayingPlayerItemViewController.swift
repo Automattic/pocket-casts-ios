@@ -8,7 +8,7 @@ import PocketCastsUtils
 import SwiftUI
 import PocketCastsServer
 
-class NowPlayingPlayerItemViewController: PlayerItemViewController, UIDocumentInteractionControllerDelegate, EpisodeFileSharing {
+class NowPlayingPlayerItemViewController: PlayerItemViewController, EpisodeFileSharing {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
 

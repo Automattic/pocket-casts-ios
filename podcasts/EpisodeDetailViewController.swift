@@ -6,7 +6,7 @@ import SafariServices
 import UIKit
 import WebKit
 
-class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate, EpisodeFileSharing {
+class EpisodeDetailViewController: FakeNavViewController, EpisodeFileSharing {
     @IBOutlet var containerScrollView: PagedUIScrollView!
 
     private var cancellables = Set<AnyCancellable>()
