@@ -8,7 +8,7 @@ import PocketCastsUtils
 import SwiftUI
 import PocketCastsServer
 
-class NowPlayingPlayerItemViewController: PlayerItemViewController {
+class NowPlayingPlayerItemViewController: PlayerItemViewController, UIDocumentInteractionControllerDelegate, EpisodeFileSharing {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
 
@@ -241,6 +241,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var analyticsSource: AnalyticsSource {
         .player
+    }
+    
+    // MARK: - EpisodeFileSharing
+    
+    var episodeForFileSharing: Episode? {
+        PlaybackManager.shared.currentEpisode() as? Episode
     }
 
     var displayTranscript = false {

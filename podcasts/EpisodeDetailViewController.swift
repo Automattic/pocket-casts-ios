@@ -6,7 +6,7 @@ import SafariServices
 import UIKit
 import WebKit
 
-class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate {
+class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionControllerDelegate, EpisodeFileSharing {
     @IBOutlet var containerScrollView: PagedUIScrollView!
 
     private var cancellables = Set<AnyCancellable>()
@@ -160,6 +160,12 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     var safariViewController: SFSafariViewController?
 
     var episode: Episode
+    
+    // MARK: - EpisodeFileSharing
+    
+    var episodeForFileSharing: Episode? {
+        episode
+    }
     var podcast: Podcast
     var timestamp: TimeInterval?
 
@@ -518,35 +524,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         let type = shareTime == 0 ? "episode" : "current_position"
 
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view, fromSource: analyticsSource, analyticsType: type)
-    }
-
-    func episodeFileAction(from sourceRect: CGRect) -> OptionAction? {
-        guard episode.downloaded(pathFinder: DownloadManager.shared) else {
-            return nil
-        }
-        let openFileAction = OptionAction(label: L10n.podcastShareOpenFile, icon: nil) { [weak self] in
-            self?.shareEpisodeFile(sourceRect: sourceRect)
-        }
-        return openFileAction
-    }
-
-    func shareEpisodeFile(sourceRect: CGRect) {
-        let fileUrl = URL(fileURLWithPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared))
-        docController = UIDocumentInteractionController(url: fileUrl)
-        docController?.name = episode.displayableTitle()
-        docController?.delegate = self
-
-        Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": analyticsSource])
-
-        let canOpen = docController?.presentOpenInMenu(from: sourceRect, in: view, animated: true) ?? false
-        if !canOpen {
-            let alert = UIAlertController(title: L10n.error, message: L10n.podcastShareEpisodeErrorMsg, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: L10n.ok, style: UIAlertAction.Style.cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-
-            docController?.delegate = nil
-            docController = nil
-        }
     }
 
     // MARK: - Show notes error handling
