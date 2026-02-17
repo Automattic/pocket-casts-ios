@@ -4,6 +4,27 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchConnectivity
 
+/// Errors that can occur during Watch sync operations
+enum WatchSyncError: LocalizedError {
+    case sendMessageFailed(underlyingError: Error)
+    case updateApplicationContextFailed(underlyingError: Error)
+    case missingPayloadData(messageType: String, missingKey: String)
+    case episodeNotFound(uuid: String, operation: String)
+
+    var errorDescription: String? {
+        switch self {
+        case .sendMessageFailed(let error):
+            return "Watch sendMessage failed: \(error.localizedDescription)"
+        case .updateApplicationContextFailed(let error):
+            return "Watch updateApplicationContext failed: \(error.localizedDescription)"
+        case .missingPayloadData(let messageType, let missingKey):
+            return "Watch message '\(messageType)' missing required key: \(missingKey)"
+        case .episodeNotFound(let uuid, let operation):
+            return "Episode not found for Watch \(operation): \(uuid)"
+        }
+    }
+}
+
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
@@ -309,7 +330,12 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleAddToUpnext(episodeUuid: String, toTop: Bool) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Episode not found for addToUpNext: \(episodeUuid)")
+            let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "addToUpNext")
+            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            return
+        }
 
         // remove it first so that this can be used as a move to top/bottom as well
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false, userInitiated: false)
@@ -317,7 +343,12 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleRemoveFromUpnext(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Episode not found for removeFromUpNext: \(episodeUuid)")
+            let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "removeFromUpNext")
+            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            return
+        }
 
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
     }
