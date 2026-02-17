@@ -267,18 +267,23 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resignFirstResponder()
     }
 
+    private lazy var bannerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = L10n.generatedTranscriptsBanner
+        label.numberOfLines = 2
+        label.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
+        label.textColor = showFromEpisode ? ThemeColor.primaryText01() : .white.withAlphaComponent(0.5)
+        label.backgroundColor = .clear
+        return label
+    }()
+
     private lazy var bannerView: UIView = {
         let view = UIView()
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = L10n.generatedTranscriptsBanner
-        label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = showFromEpisode ? ThemeColor.primaryText01() : .white.withAlphaComponent(0.5)
-        label.backgroundColor = .clear
+        let label = bannerLabel
         view.addSubview(label)
 
         let stroke = UIView()
@@ -347,7 +352,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         let searchButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
-                    .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
         ]
         searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
         searchButton.addTarget(self, action: #selector(displaySearch), for: .touchUpInside)
@@ -362,7 +367,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private lazy var playButton: RoundPlayPauseButton = {
         let playButton = RoundPlayPauseButton.makeButton(playbackManager: playbackManager)
         playButton.addTarget(self, action: #selector(playEpisode), for: .touchUpInside)
-        playButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        playButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return playButton
     }()
 
@@ -375,7 +380,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         let shareButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
-                    .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
         ]
         shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
         shareButton.addTarget(self, action: #selector(shareEpisode), for: .touchUpInside)
@@ -557,8 +562,20 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             refreshText()
             refreshError()
+            refreshActionButtons()
         }
         updateTextMargins()
+    }
+
+    private func refreshActionButtons() {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
+        shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
+        playButton.updateSize()
+
+        bannerLabel.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
     }
 
     public override func viewDidLayoutSubviews() {
@@ -939,11 +956,18 @@ fileprivate class RoundPlayPauseButton: RoundButton {
             let image = UIImage(systemName: buttonState.imageName, withConfiguration: config)?
                 .withRenderingMode(.alwaysTemplate)
             let attributes: [NSAttributedString.Key: Any] = [
-                        .font: UIFont.font(with: .callout, maxSizeCategory: .large)
+                        .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
             ]
             setAttributedTitle(NSAttributedString(string: buttonState.buttonTitle, attributes: attributes), for: .normal)
             setImage(image, for: .normal)
         }
+    }
+
+    func updateSize() {
+        let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        setAttributedTitle(NSAttributedString(string: buttonState.buttonTitle, attributes: attributes), for: .normal)
     }
 
     static func makeButton(playbackManager: TranscriptPlaybackManaging) -> RoundPlayPauseButton {
