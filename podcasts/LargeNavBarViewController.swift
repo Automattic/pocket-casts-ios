@@ -8,13 +8,14 @@ class LargeNavBarViewController: PCViewController {
         largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-        appearance.shadowColor = .clear
+        appearance.shadowColor = nil
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
         appearance.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         appearance.setBackIndicatorImage(UIImage(named: "nav-back"), transitionMaskImage: UIImage(named: "nav-back"))
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance

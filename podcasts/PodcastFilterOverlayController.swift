@@ -133,6 +133,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = backgroundColor
+        appearance.shadowColor = nil
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
             NSAttributedString.Key.font: UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
@@ -140,6 +141,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         appearance.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
     }

@@ -47,6 +47,7 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
         appearance.backgroundColor = AppTheme.colorForStyle(navStyle, themeOverride: themeOverride)
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(titleStyle, themeOverride: themeOverride)]
         appearance.shadowColor = nil
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance

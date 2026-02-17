@@ -209,9 +209,10 @@ class FilterDurationViewController: PCViewController {
 
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = backgroundColor
-        appearance.shadowColor = .clear
+        appearance.shadowColor = nil
         appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText01()]
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()]
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         navigationBar?.scrollEdgeAppearance = appearance
         navigationBar?.standardAppearance = appearance
     }

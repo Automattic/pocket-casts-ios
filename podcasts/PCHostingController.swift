@@ -99,6 +99,7 @@ class PCHostingController<Content>: ThemedHostingController<Content> where Conte
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 31, weight: .bold)
         ]
         appearance.shadowColor = nil
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).standardAppearance = appearance
         UINavigationBar.appearance(for: traits, whenContainedInInstancesOf: [PCHostingController.self]).compactAppearance = appearance

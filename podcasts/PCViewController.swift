@@ -154,6 +154,7 @@ class PCViewController: SimpleNotificationsViewController {
             NSAttributedString.Key.font: largeTitleFont
         ]
         appearance.shadowColor = nil
+        appearance.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 
         if animated {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
