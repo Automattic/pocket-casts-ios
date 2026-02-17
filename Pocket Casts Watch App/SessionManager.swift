@@ -32,7 +32,16 @@ class SessionManager: NSObject, WCSessionDelegate {
 
     // this is called in the background when there's new data available for the app
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
-        handleStateUpdate(applicationContext)
+        if FeatureFlag.watchTransferUserInfoApi.enabled {
+            handleStateUpdate(applicationContext)
+        } else {
+            if let messageId = applicationContext[WatchConstants.Keys.messageVersion] as? String, messageId == WatchConstants.Values.messageVersion {
+                UserDefaults.standard.set(applicationContext, forKey: WatchConstants.UserDefaults.data)
+                UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
+                updateFeatureFlags(applicationContext)
+                NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
+            }
+        }
     }
 
     func updateFeatureFlags(_ applicationContext: [String: Any]) {
@@ -63,6 +72,7 @@ class SessionManager: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
 
         if WatchConstants.Messages.StateUpdate.type == messageType {
