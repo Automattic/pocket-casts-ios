@@ -17,8 +17,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     private var maxCellWidth = 400 as CGFloat
     private var cellHeight: CGFloat {
-        let metric = UIFontMetrics(forTextStyle: .largeTitle)
-        return max(182, metric.scaledValue(for: 182))
+        return DiscoverFeaturedView.scaledHeight
     }
     private var fullHeight: CGFloat {
         return cellHeight

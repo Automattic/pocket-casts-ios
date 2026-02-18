@@ -70,9 +70,9 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     // MARK: - UITableView Methods
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
         if showFeaturedCell, indexPath.row == 0 {
-            return max(181, metric.scaledValue(for: 181))
+            return DiscoverFeaturedView.scaledHeight
         }
         return UITableView.automaticDimension
     }
@@ -81,7 +81,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let preferredBodySize = UIFontMetrics.default.scaledValue(for: 17)
         if showFeaturedCell, indexPath.row == 0 {
-            return UIFontMetrics.default.scaledValue(for: 181)
+            return DiscoverFeaturedView.scaledHeight
         }
         return max(UIFontMetrics.default.scaledValue(for: 65), preferredBodySize * 2)
     }

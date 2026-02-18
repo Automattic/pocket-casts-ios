@@ -70,6 +70,7 @@
                 <constraints>
                     <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="fFP-ej-ygw" secondAttribute="trailing" constant="10" id="2rw-F4-VZe"/>
                     <constraint firstItem="0Ds-zk-cf6" firstAttribute="width" secondItem="OJ3-BB-GTf" secondAttribute="width" id="4mJ-db-vSx"/>
+                    <constraint firstItem="l3O-C3-pI5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="8ks-KF-Vl9"/>
                     <constraint firstAttribute="bottom" secondItem="fFP-ej-ygw" secondAttribute="bottom" constant="4" id="BkM-5H-aew"/>
                     <constraint firstItem="OJ3-BB-GTf" firstAttribute="top" secondItem="l3O-C3-pI5" secondAttribute="top" id="C9H-e6-6Er"/>
                     <constraint firstAttribute="trailing" secondItem="SCC-oJ-G9x" secondAttribute="trailing" constant="16" id="Rh9-28-RbQ"/>
@@ -87,9 +88,6 @@
                     <constraint firstItem="PhF-0P-gW1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="yav-wC-cMb"/>
                 </constraints>
             </tableViewCellContentView>
-            <constraints>
-                <constraint firstItem="l3O-C3-pI5" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" constant="8" id="PCM-tM-TcM"/>
-            </constraints>
             <connections>
                 <outlet property="itemNumber" destination="l3O-C3-pI5" id="QWm-FW-HbV"/>
                 <outlet property="numberWidth" destination="Ygy-Lt-1yl" id="7ec-yl-MBR"/>

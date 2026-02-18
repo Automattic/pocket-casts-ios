@@ -4,6 +4,13 @@ import PocketCastsUtils
 import UIKit
 
 class DiscoverFeaturedView: ThemeableView {
+
+    static let baseHeight: CGFloat = 182
+    static var scaledHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .title1)
+        return max(baseHeight, metric.scaledValue(for: DiscoverFeaturedView.baseHeight))
+    }
+
     @IBOutlet var contentView: UIView!
     @IBOutlet var backgroundView: UIView!
     @IBOutlet var listType: RoundedLabel! {
@@ -73,6 +80,8 @@ class DiscoverFeaturedView: ThemeableView {
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
         backgroundView.backgroundColor = AppTheme.defaultPodcastBackgroundColor()
+        setupAlternativeConstraints()
+        updateSize()
     }
 
     deinit {
@@ -154,5 +163,54 @@ class DiscoverFeaturedView: ThemeableView {
         podcastImage.clearArtwork()
         subscribeButton.shouldAnimate = false
         discoverPodcast = nil
+    }
+
+    // MARK: - Dynamic Type support
+
+    @IBOutlet var titleTopConstraint: NSLayoutConstraint!
+    @IBOutlet var titleLeadingConstraint: NSLayoutConstraint!
+
+    var alternativeTitleTopConstraint: NSLayoutConstraint!
+    var alternativeTitleLeadingConstraint: NSLayoutConstraint!
+
+    func setupAlternativeConstraints() {
+        alternativeTitleTopConstraint = podcastTitle.topAnchor.constraint(equalTo: podcastImage.bottomAnchor, constant: 8)
+        alternativeTitleLeadingConstraint = podcastTitle.leadingAnchor.constraint(equalTo: podcastImage.leadingAnchor, constant: 0)
+    }
+
+    func updateSize() {
+        let sizesToChange: Set<UIContentSizeCategory> = .init([UIContentSizeCategory.accessibilityExtraExtraExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraLarge])
+        let largeContentSize: Bool = sizesToChange.contains(traitCollection.preferredContentSizeCategory)
+        if largeContentSize {
+            podcastTitle.numberOfLines = 2
+            podcastAuthor.numberOfLines = 1
+            NSLayoutConstraint.deactivate([
+                titleTopConstraint,
+                titleLeadingConstraint
+            ])
+            NSLayoutConstraint.activate([
+                alternativeTitleTopConstraint,
+                alternativeTitleLeadingConstraint
+            ])
+        } else {
+            podcastTitle.numberOfLines = 3
+            podcastAuthor.numberOfLines = 2
+            NSLayoutConstraint.deactivate([
+                alternativeTitleTopConstraint,
+                alternativeTitleLeadingConstraint
+            ])
+            NSLayoutConstraint.activate([
+                titleTopConstraint,
+                titleLeadingConstraint
+            ])
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
