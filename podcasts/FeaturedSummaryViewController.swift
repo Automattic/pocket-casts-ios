@@ -269,7 +269,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     func updateSize() {
         lastLayedOutWidth = 0
-        featuredCollectionViewHeight.constant = fullHeight
+        featuredCollectionViewHeight.constant = cellHeight
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
