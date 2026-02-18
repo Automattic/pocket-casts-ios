@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "delete@2x.png",
+      "filename" : "episode-add@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "delete@3x.png",
+      "filename" : "episode-add@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -20,7 +20,6 @@
     "version" : 1
   },
   "properties" : {
-    "preserves-vector-representation" : true,
     "template-rendering-intent" : "template"
   }
 }

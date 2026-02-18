@@ -1,5 +1,9 @@
+8.7
+-----
+
 8.6
 -----
+- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
 - Dynamic Type: Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
 - Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
@@ -11,11 +15,16 @@
 - Dynamic Type: Update Siri Shortcuts settings [#3930](https://github.com/Automattic/pocket-casts-ios/pull/3930)
 - Dynamic Type: Update Options [#3938](https://github.com/Automattic/pocket-casts-ios/pull/3938)
 - Dynamic Type: Update Pull to Refresh [#3939](https://github.com/Automattic/pocket-casts-ios/pull/3939)
+- Dynamic type: Playlists smart rules [#3949](https://github.com/Automattic/pocket-casts-ios/pull/3949)
+- Dynamic Type: Update Playlists List [#3946](https://github.com/Automattic/pocket-casts-ios/pull/3946)
+- Dynamic Type: Update Playlists Creation and options [#3948](https://github.com/Automattic/pocket-casts-ios/pull/3948)
 - Dynamic Type: Update Account Cells [#3956](https://github.com/Automattic/pocket-casts-ios/pull/3956)
 - Dynamic Type: Update Uploaded Files [#3953](https://github.com/Automattic/pocket-casts-ios/pull/3953)
 - Dynamic Type: Update Stats [#3955](https://github.com/Automattic/pocket-casts-ios/pull/3955)
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)
 - Dynamic Type: Transcript update actions and paywall [#3969](https://github.com/Automattic/pocket-casts-ios/pull/33969)
+- Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
+- Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
 
 8.5
 -----

@@ -88,16 +88,20 @@ class EpisodeFilterOverlayController: FilterSettingsOverlayController, UITableVi
         cell.selectButton.tag = tableRow.rawValue
         cell.selectButton.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         if FeatureFlag.playlistsRebranding.enabled {
-            cell.episodeTitle.font = .systemFont(ofSize: 18, weight: .semibold)
+            cell.episodeTitle.font = .font(ofSize: 17, weight: .semibold, scalingWith: .body)
             cell.filterColor = AppTheme.colorForStyle(.primaryInteractive01)
         } else {
-            cell.episodeTitle.font = .systemFont(ofSize: 16, weight: .medium)
+            cell.episodeTitle.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
             cell.filterColor = filterToEdit.playlistColor()
         }
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         FeatureFlag.playlistsRebranding.enabled ? 48 : 51
     }
 

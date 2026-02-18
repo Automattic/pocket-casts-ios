@@ -2,6 +2,7 @@
 import UIKit
 
 class AccountActionCell: ThemeableCell {
+
     var imageAndTextColor: UIColor? = nil {
         didSet {
             handleThemeDidChange()
@@ -30,6 +31,7 @@ class AccountActionCell: ThemeableCell {
     @IBOutlet var counterLabel: ThemeableLabel! {
         didSet {
             counterLabel.style = .primaryInteractive02
+            counterLabel.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .callout)
         }
     }
 
@@ -46,7 +48,6 @@ class AccountActionCell: ThemeableCell {
             cellLabel.style = iconStyle
             return
         }
-
 
         cellImage.tintColor = imageAndTextColor
         cellLabel.textColor = imageAndTextColor

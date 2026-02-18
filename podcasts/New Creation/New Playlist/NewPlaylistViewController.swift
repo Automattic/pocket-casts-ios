@@ -39,7 +39,8 @@ class NewPlaylistViewController: PCViewController {
             playlistNameTextField.clearsOnBeginEditing = false
             playlistNameTextField.clearButtonMode = .whileEditing
             playlistNameTextField.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-            playlistNameTextField.font = .systemFont(ofSize: 15, weight: .medium)
+            playlistNameTextField.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+            playlistNameTextField.adjustsFontForContentSizeCategory = true
             playlistNameTextField.tintColor = AppTheme.colorForStyle(.primaryField03)
 
             if let clearButton = playlistNameTextField.value(forKey: "clearButton") as? UIButton,
@@ -64,8 +65,13 @@ class NewPlaylistViewController: PCViewController {
         didSet {
             saveButton.translatesAutoresizingMaskIntoConstraints = false
             saveButton.backgroundColor = AppTheme.colorForStyle(.primaryInteractive01)
-            setupSaveButtonTitle()
+            saveButton.setTitle(L10n.playlistCreationCreatePlaylistButton, for: .normal)
+            saveButton.tintColor = ThemeColor.primaryInteractive02()
+            saveButton.titleLabel?.font = .font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
             saveButton.layer.cornerRadius = 12
+            saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            saveButton.titleLabel?.numberOfLines = 0
+            saveButton.titleLabel?.textAlignment = .center
             saveButton.addTarget(self, action: #selector(createManualPlaylist), for: .touchUpInside)
         }
     }
@@ -115,7 +121,7 @@ class NewPlaylistViewController: PCViewController {
 
         title = L10n.playlistsDefaultNewPlaylist
 
-        largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+        largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -148,35 +154,39 @@ class NewPlaylistViewController: PCViewController {
         view.addSubview(saveButton)
 
         var constraints = [
-            textFieldBorderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10.0),
+            textFieldBorderView.topAnchor.constraint(equalTo: playlistNameTextField.topAnchor, constant: -8.0),
             textFieldBorderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
             textFieldBorderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
-            textFieldBorderView.heightAnchor.constraint(equalToConstant: 56.0),
+            textFieldBorderView.bottomAnchor.constraint(equalTo: playlistNameTextField.bottomAnchor, constant: 8),
+            textFieldBorderView.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
 
-            playlistNameTextField.topAnchor.constraint(equalTo: textFieldBorderView.topAnchor),
+            playlistNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             playlistNameTextField.leadingAnchor.constraint(equalTo: textFieldBorderView.leadingAnchor, constant: 16.0),
             playlistNameTextField.trailingAnchor.constraint(equalTo: textFieldBorderView.trailingAnchor, constant: -16.0),
-            playlistNameTextField.bottomAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor),
 
             saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            saveButton.heightAnchor.constraint(equalToConstant: 56.0)
+            saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
         ]
 
         if creationType == .default {
-            let creationView = SmartPlaylistCreationView() { [weak self] in
+            let creationViewUI = SmartPlaylistCreationView() { [weak self] in
                 self?.createSmartPlaylist()
-            }.themedUIView
+            }
+            let themedVC = ThemedHostingController(rootView: creationViewUI)
+            themedVC.sizingOptions = [.intrinsicContentSize, .preferredContentSize]
+            self.addChild(themedVC)
+            let creationView = themedVC.view!
             creationView.translatesAutoresizingMaskIntoConstraints = false
             view.insertSubview(creationView, belowSubview: saveButton)
-
+            themedVC.didMove(toParent: self)
             self.creationView = creationView
 
             constraints.append(contentsOf: [
-                creationView.topAnchor.constraint(equalTo: textFieldBorderView.bottomAnchor, constant: 16.0),
+                creationView.topAnchor.constraint(equalTo: playlistNameTextField.bottomAnchor, constant: 16.0),
                 creationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
                 creationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
-                creationView.heightAnchor.constraint(equalToConstant: 59.0),
+                creationView.heightAnchor.constraint(greaterThanOrEqualToConstant: 59.0),
                 saveButton.topAnchor.constraint(equalTo: creationView.bottomAnchor, constant: 24)
             ])
         } else {
@@ -195,11 +205,6 @@ class NewPlaylistViewController: PCViewController {
         closeButton.target = self
         closeButton.action = #selector(closeTapped)
         navigationItem.leftBarButtonItem = closeButton
-    }
-
-    private func setupSaveButtonTitle() {
-        let attributedTitle = NSAttributedString(string: L10n.playlistCreationCreatePlaylistButton, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 
     @objc private func createManualPlaylist() {
@@ -232,7 +237,30 @@ class NewPlaylistViewController: PCViewController {
             Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: playlist.uuid])
+
+            Analytics.track(.filterCreated)
+            Analytics.track(.filterCreateAsManualPlaylistTapped)
+
+            if Settings.firstTimePlaylistCreated {
+                Settings.shouldShowDragAndDropTip = true
+            }
+
+            // Dismiss all presented view controllers and show snackbar with navigation action
+            if let rootVC = SceneHelper.rootViewController(includeTopMost: false) {
+                rootVC.dismiss(animated: true) {
+                    Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
+                        .init(title: L10n.bookmarkAddedButtonTitle) {
+                            NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.filterPageKey,
+                                data: [
+                                    NavigationManager.filterUuidKey: playlist.uuid
+                                ]
+                            )
+                        }
+                    ])
+                }
+            }
+            return
         }
 
         Analytics.track(.filterCreated)
