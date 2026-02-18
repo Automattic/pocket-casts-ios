@@ -21,7 +21,7 @@ protocol TranscriptSearchAccessoryViewDelegate: AnyObject {
 class TranscriptSearchAccessoryView: UIInputView {
     weak var delegate: TranscriptSearchAccessoryViewDelegate?
 
-    var maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraExtraLarge
+    var maxContentSizeCategory: UIContentSizeCategory = .extraExtraLarge
 
     lazy var textField: CustomTextField = {
         let textField = CustomTextField()
@@ -161,7 +161,7 @@ private extension TranscriptSearchAccessoryView {
         textField.font = UIFont.font(with: .body, maxSizeCategory: maxContentSizeCategory)
         textField.adjustsFontForContentSizeCategory = false
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: .large)
+        textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
         textField.rightLabel.adjustsFontForContentSizeCategory = false
     }
 
