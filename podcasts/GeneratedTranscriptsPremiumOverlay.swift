@@ -38,7 +38,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         title.translatesAutoresizingMaskIntoConstraints = false
         title.text = L10n.generatedTranscriptsOverlayTitle
         title.numberOfLines = 0
-        title.font = .systemFont(ofSize: 22, weight: .bold)
+        title.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
+        title.adjustsFontForContentSizeCategory = true
         title.textColor = titleColor
         title.backgroundColor = .clear
         title.textAlignment = .center
@@ -50,7 +51,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         description.translatesAutoresizingMaskIntoConstraints = false
         description.text = L10n.generatedTranscriptsOverlayDescription
         description.numberOfLines = 0
-        description.font = .systemFont(ofSize: 14, weight: .regular)
+        description.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+        description.adjustsFontForContentSizeCategory = true
         description.textColor = descriptionColor
         description.backgroundColor = .clear
         description.textAlignment = .center
@@ -63,7 +65,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         button.backgroundColor = UIColor(hex: "#FFD846")
         button.layer.cornerRadius = 12
         button.setTitle("", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.font(ofSize: 18, weight: .bold, scalingWith: .headline)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setTitleColor(UIColor(hex: "#181818"), for: .normal)
         button.addTarget(self, action: #selector(paywallButtonTapped), for: .touchUpInside)
         return button
@@ -213,7 +216,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 paywallButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: paywallButtonBottomMargin),
                 paywallButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 paywallButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-                paywallButton.heightAnchor.constraint(equalToConstant: 56),
+                paywallButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
                 activityIndicator.centerXAnchor.constraint(equalTo: paywallButton.centerXAnchor),
                 activityIndicator.centerYAnchor.constraint(equalTo: paywallButton.centerYAnchor)
             ]
