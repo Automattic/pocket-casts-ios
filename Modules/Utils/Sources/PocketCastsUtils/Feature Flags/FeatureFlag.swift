@@ -283,6 +283,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
 
+    /// Use WCSessionFileTransfer to send logs from watchOS to iPhone instead of sendMessage reply
+    case watchLogFileTransfer
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -475,6 +478,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .playlistCacheInvalidation:
             true
+        case .watchLogFileTransfer:
+            false
         }
     }
 

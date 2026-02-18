@@ -60,9 +60,33 @@ class SessionManager: NSObject, WCSessionDelegate {
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
 
         if WatchConstants.Messages.LogFileRequest.type == messageType {
-            FileLog.shared.loadLogFileAsString { logContents in
-                let response = [WatchConstants.Messages.LogFileRequest.logContents: logContents]
-                replyHandler(response)
+            if FeatureFlag.watchLogFileTransfer.enabled {
+                // Use file transfer for log delivery when flag is enabled
+                sendLogFileViaTransfer()
+                replyHandler([:])
+            } else {
+                FileLog.shared.loadLogFileAsString { logContents in
+                    let response = [WatchConstants.Messages.LogFileRequest.logContents: logContents]
+                    replyHandler(response)
+                }
+            }
+        }
+    }
+
+    private func sendLogFileViaTransfer() {
+        FileLog.shared.loadLogFileAsString { [weak self] logContents in
+            guard let self else { return }
+
+            // Write log contents to a temporary file for transfer
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("watch-log-transfer.txt")
+            do {
+                try logContents.write(to: tempURL, atomically: true, encoding: .utf8)
+                let metadata: [String: Any] = [
+                    WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileTransfer.type
+                ]
+                WCSession.default.transferFile(tempURL, metadata: metadata)
+            } catch {
+                FileLog.shared.addMessage("SessionManager: Failed to write log file for transfer: \(error.localizedDescription)")
             }
         }
     }

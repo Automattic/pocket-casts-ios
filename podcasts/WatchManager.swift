@@ -213,6 +213,15 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
+    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+        guard FeatureFlag.watchLogFileTransfer.enabled else { return }
+
+        // Check if this is a log file transfer
+        if file.metadata?[WatchConstants.Messages.messageType] as? String == WatchConstants.Messages.LogFileTransfer.type {
+            handleLogFileTransfer(file: file)
+        }
+    }
+
     func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else {
             FileLog.shared.addMessage("WatchManager: Received message without messageType (with reply handler)")
@@ -291,6 +300,20 @@ class WatchManager: NSObject, WCSessionDelegate {
             PlaybackManager.shared.skipToNextChapter()
         } else {
             PlaybackManager.shared.skipToPreviousChapter()
+        }
+    }
+
+    private func handleLogFileTransfer(file: WCSessionFile) {
+        do {
+            let logContents = try String(contentsOf: file.fileURL, encoding: .utf8)
+            Task {
+                await logCache.setCachedLog(logContents)
+                if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                    saveLog(contents: logContents)
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("WatchManager: Failed to read transferred log file: \(error.localizedDescription)")
         }
     }
 
