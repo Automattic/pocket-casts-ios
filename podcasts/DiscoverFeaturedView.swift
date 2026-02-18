@@ -11,7 +11,7 @@ class DiscoverFeaturedView: ThemeableView {
             listType.style = .contrast02
             listType.font = .font(ofSize: 13, weight: .bold, scalingWith: .caption1)
             listType.adjustsFontForContentSizeCategory = true
-            listType.numberOfLines = 0
+            listType.numberOfLines = 2
         }
     }
 
@@ -19,9 +19,9 @@ class DiscoverFeaturedView: ThemeableView {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.style = .contrast01
-            podcastTitle.font = .font(ofSize: 22, weight: .bold, scalingWith: .title3)
+            podcastTitle.font = .font(ofSize: 22, weight: .bold, scalingWith: .title2)
             podcastTitle.adjustsFontForContentSizeCategory = true
-            podcastTitle.numberOfLines = 0
+            podcastTitle.numberOfLines = 3
         }
     }
 
@@ -30,18 +30,18 @@ class DiscoverFeaturedView: ThemeableView {
             podcastAuthor.style = .contrast03
             podcastAuthor.font = .font(ofSize: 15, weight: .bold, scalingWith: .subheadline)
             podcastAuthor.adjustsFontForContentSizeCategory = true
-            podcastAuthor.numberOfLines = 0
+            podcastAuthor.numberOfLines = 2
         }
     }
 
-    @IBOutlet var rankingLabel: UILabel!{
+    @IBOutlet var rankingLabel: UILabel! {
         didSet {
             rankingLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .footnote)
             rankingLabel.adjustsFontForContentSizeCategory = true
-            rankingLabel.numberOfLines = 0
+            rankingLabel.numberOfLines = 1
         }
     }
-    
+
     @IBOutlet var podcastImageLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {

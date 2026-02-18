@@ -31,7 +31,7 @@
                     <color key="backgroundColor" systemColor="darkTextColor"/>
                 </view>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q9r-sz-NQG">
-                    <rect key="frame" x="12" y="16" width="7" height="18"/>
+                    <rect key="frame" x="8" y="16" width="7" height="18"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -44,21 +44,21 @@
                         <constraint firstAttribute="width" constant="149" id="Vqz-yB-iLo"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdM-a0-E8o" customClass="RoundedLabel" customModule="podcasts" customModuleProvider="target">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdM-a0-E8o" customClass="RoundedLabel" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="181" y="16" width="31" height="14.5"/>
                     <color key="backgroundColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="0.098195456289999997" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                     <color key="textColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WfR-63-yrx" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="181" y="42.5" width="186" height="26.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="999" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WfR-63-yrx" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="181" y="38.5" width="186" height="26.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L96-pl-AjY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="181" y="73" width="186" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="998" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L96-pl-AjY" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="181" y="69" width="186" height="18"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -77,7 +77,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="WfR-63-yrx" firstAttribute="top" secondItem="VdM-a0-E8o" secondAttribute="bottom" constant="12" id="3hM-Wx-Zq1"/>
+                <constraint firstItem="WfR-63-yrx" firstAttribute="top" secondItem="VdM-a0-E8o" secondAttribute="bottom" constant="8" id="3hM-Wx-Zq1"/>
                 <constraint firstItem="w4f-BU-Mm1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="5Ul-O2-FGC"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="L96-pl-AjY" secondAttribute="bottom" constant="8" id="AfN-VE-lZl"/>
                 <constraint firstItem="L96-pl-AjY" firstAttribute="top" secondItem="WfR-63-yrx" secondAttribute="bottom" constant="4" id="Cu3-ga-VT1"/>
@@ -90,11 +90,12 @@
                 <constraint firstItem="VdM-a0-E8o" firstAttribute="leading" secondItem="w4f-BU-Mm1" secondAttribute="trailing" constant="16" id="d1g-Iz-ev3"/>
                 <constraint firstItem="WfR-63-yrx" firstAttribute="leading" secondItem="VdM-a0-E8o" secondAttribute="leading" id="fk0-se-H9B"/>
                 <constraint firstItem="Z0d-wV-tWl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hki-wf-qUV"/>
-                <constraint firstItem="q9r-sz-NQG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="jqt-yR-dTu"/>
+                <constraint firstItem="q9r-sz-NQG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="jqt-yR-dTu"/>
                 <constraint firstItem="Z0d-wV-tWl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nsC-SI-ws2"/>
                 <constraint firstItem="L96-pl-AjY" firstAttribute="trailing" secondItem="WfR-63-yrx" secondAttribute="trailing" id="qnp-39-kMa"/>
                 <constraint firstItem="F9Q-BV-ByW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="s2D-HE-3Ia"/>
                 <constraint firstItem="VdM-a0-E8o" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="tGj-Ei-1Dp"/>
+                <constraint firstItem="F9Q-BV-ByW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VdM-a0-E8o" secondAttribute="trailing" constant="8" id="wUC-3A-xh9"/>
                 <constraint firstAttribute="bottom" secondItem="Z0d-wV-tWl" secondAttribute="bottom" id="waw-bl-mUU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

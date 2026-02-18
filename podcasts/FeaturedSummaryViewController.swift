@@ -20,6 +20,9 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         return max(182, metric.scaledValue(for: 182))
     }
+    private var fullHeight: CGFloat {
+        return cellHeight
+    }
 
     private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
@@ -64,7 +67,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
             maxCellWidth = view.bounds.width
-            featuredCollectionViewHeight.constant = cellHeight
+            featuredCollectionViewHeight.constant = fullHeight
             featuredCollectionView.reloadData()
 
             updatePageCount()
@@ -264,5 +267,20 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     func listId(for podcast: DiscoverPodcast) -> String? {
         lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        lastLayedOutWidth = 0
+        featuredCollectionViewHeight.constant = fullHeight
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
