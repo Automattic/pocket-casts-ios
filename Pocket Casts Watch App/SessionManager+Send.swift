@@ -14,6 +14,7 @@ extension SessionManager {
     }
 
     func play(episode: BaseEpisode, playlist: AutoplayHelper.Playlist?) {
+        guard validateSessionActivated() else { return }
         if !WCSession.default.isReachable { return }
 
         let playEpisodeRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.PlayEpisodeRequest.type, WatchConstants.Messages.PlayEpisodeRequest.episodeUuid: episode.uuid,
@@ -34,11 +35,7 @@ extension SessionManager {
     }
 
     func clearUpNext() {
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            transferAction(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
-        } else {
-            sendResponseless(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
-        }
+        transferAction(messageType: WatchConstants.Messages.ClearUpNextRequest.type)
     }
 
     func setEpisodeStarred(starred: Bool, episodeUuid: String) {
@@ -47,14 +44,11 @@ extension SessionManager {
             WatchConstants.Messages.StarRequest.star: starred,
             WatchConstants.Messages.StarRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(starRequest)
-        } else {
-            WCSession.default.sendMessage(starRequest, replyHandler: nil)
-        }
+        sendWithFallback(starRequest)
     }
 
     func deleteDownload(episodeUuid: String) {
+        guard validateSessionActivated() else { return }
         let deleteDownloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.DeleteDownloadRequest.type,
             WatchConstants.Messages.DeleteDownloadRequest.episodeUuid: episodeUuid
@@ -63,6 +57,7 @@ extension SessionManager {
     }
 
     func downloadEpisode(episodeUuid: String) {
+        guard validateSessionActivated() else { return }
         let downloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.DownloadRequest.type,
             WatchConstants.Messages.DownloadRequest.episodeUuid: episodeUuid
@@ -71,6 +66,7 @@ extension SessionManager {
     }
 
     func stopEpisodeDownload(episodeUuid: String) {
+        guard validateSessionActivated() else { return }
         let stopDownloadRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.StopDownloadRequest.type,
             WatchConstants.Messages.StopDownloadRequest.episodeUuid: episodeUuid
@@ -83,11 +79,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.ArchiveRequest.type,
             WatchConstants.Messages.ArchiveRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(archiveRequest)
-        } else {
-            WCSession.default.sendMessage(archiveRequest, replyHandler: nil)
-        }
+        sendWithFallback(archiveRequest)
     }
 
     func unarchiveEpisode(episodeUuid: String) {
@@ -95,11 +87,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.UnarchiveRequest.type,
             WatchConstants.Messages.UnarchiveRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(unarchiveRequest)
-        } else {
-            WCSession.default.sendMessage(unarchiveRequest, replyHandler: nil)
-        }
+        sendWithFallback(unarchiveRequest)
     }
 
     func markPlayed(episodeUuid: String) {
@@ -107,11 +95,7 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkPlayedRequest.type,
             WatchConstants.Messages.MarkPlayedRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(markPlayedRequest)
-        } else {
-            WCSession.default.sendMessage(markPlayedRequest, replyHandler: nil)
-        }
+        sendWithFallback(markPlayedRequest)
     }
 
     func markUnplayed(episodeUuid: String) {
@@ -119,14 +103,11 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.MarkUnplayedRequest.type,
             WatchConstants.Messages.MarkUnplayedRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(markUnplayedRequest)
-        } else {
-            WCSession.default.sendMessage(markUnplayedRequest, replyHandler: nil)
-        }
+        sendWithFallback(markUnplayedRequest)
     }
 
     func changeChapter(next: Bool) {
+        guard validateSessionActivated() else { return }
         let changeChapterRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.ChangeChapterRequest.type,
             WatchConstants.Messages.ChangeChapterRequest.nextChapter: next
@@ -135,21 +116,25 @@ extension SessionManager {
     }
 
     func decreasePlaybackSpeed() {
+        guard validateSessionActivated() else { return }
         let decreaseSpeedRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.DecreaseSpeedRequest.type] as [String: Any]
         WCSession.default.sendMessage(decreaseSpeedRequest, replyHandler: nil)
     }
 
     func changeSpeedInterval() {
+        guard validateSessionActivated() else { return }
         let changeSpeedIntervalRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.ChangeSpeedIntervalRequest.type] as [String: Any]
         WCSession.default.sendMessage(changeSpeedIntervalRequest, replyHandler: nil)
     }
 
     func increasePlaybackSpeed() {
+        guard validateSessionActivated() else { return }
         let increaseSpeedRequest = [WatchConstants.Messages.messageType: WatchConstants.Messages.IncreaseSpeedRequest.type] as [String: Any]
         WCSession.default.sendMessage(increaseSpeedRequest, replyHandler: nil)
     }
 
     func setVolumeBoost(enabled: Bool) {
+        guard validateSessionActivated() else { return }
         let volumeBoostRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.VolumeBoostRequest.type,
             WatchConstants.Messages.VolumeBoostRequest.enabled: enabled
@@ -158,6 +143,7 @@ extension SessionManager {
     }
 
     func setTrimSilence(enabled: Bool) {
+        guard validateSessionActivated() else { return }
         let trimSilenceRequest = [
             WatchConstants.Messages.messageType: WatchConstants.Messages.TrimSilenceRequest.type,
             WatchConstants.Messages.TrimSilenceRequest.enabled: enabled
@@ -171,11 +157,7 @@ extension SessionManager {
             WatchConstants.Messages.AddToUpNextRequest.episodeUuid: episodeUuid,
             WatchConstants.Messages.AddToUpNextRequest.toTop: toTop
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(addToUpNextRequest)
-        } else {
-            WCSession.default.sendMessage(addToUpNextRequest, replyHandler: nil)
-        }
+        sendWithFallback(addToUpNextRequest)
     }
 
     func removeFromUpNext(episodeUuid: String) {
@@ -183,14 +165,14 @@ extension SessionManager {
             WatchConstants.Messages.messageType: WatchConstants.Messages.RemoveFromUpNextRequest.type,
             WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid: episodeUuid
         ] as [String: Any]
-        if FeatureFlag.watchTransferUserInfoApi.enabled {
-            WCSession.default.transferUserInfo(removeFromUpNextRequest)
-        } else {
-            WCSession.default.sendMessage(removeFromUpNextRequest, replyHandler: nil)
-        }
+        sendWithFallback(removeFromUpNextRequest)
     }
 
     func requestEpisode(uuid: String, onReply: @escaping ((BaseEpisode?) -> Void), onError: (() -> Void)? = nil) {
+        guard validateSessionActivated() else {
+            onError?()
+            return
+        }
         if !WCSession.default.isReachable {
             onError?()
             return
@@ -206,6 +188,10 @@ extension SessionManager {
     }
 
     func requestContents(playlist: WatchPlaylist, replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
+        guard validateSessionActivated() else {
+            errorHandler?()
+            return
+        }
         if !WCSession.default.isReachable {
             errorHandler?()
             return
@@ -221,6 +207,10 @@ extension SessionManager {
     }
 
     func requestDownloadedEpisodes(replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
+        guard validateSessionActivated() else {
+            errorHandler?()
+            return
+        }
         if !WCSession.default.isReachable {
             errorHandler?()
             return
@@ -236,6 +226,10 @@ extension SessionManager {
     }
 
     func requestUserEpisodes(replyHandler: (([BaseEpisode]) -> Swift.Void)?, errorHandler: (() -> Swift.Void)? = nil) {
+        guard validateSessionActivated() else {
+            errorHandler?()
+            return
+        }
         if !WCSession.default.isReachable {
             errorHandler?()
             return
@@ -251,6 +245,7 @@ extension SessionManager {
     }
 
     private func sendResponseless(messageType: String) {
+        guard validateSessionActivated() else { return }
         if !WCSession.default.isReachable { return }
 
         let message = [WatchConstants.Messages.messageType: messageType]
@@ -261,6 +256,32 @@ extension SessionManager {
     /// Uses transferUserInfo which queues the action until the iPhone is available.
     private func transferAction(messageType: String) {
         let message = [WatchConstants.Messages.messageType: messageType]
-        WCSession.default.transferUserInfo(message)
+        sendWithFallback(message)
+    }
+
+    /// Sends a message using sendMessage, falling back to transferUserInfo if delivery fails.
+    /// When feature flag is disabled, only uses sendMessage (old behavior).
+    private func sendWithFallback(_ message: [String: Any]) {
+        guard validateSessionActivated() else { return }
+
+        if FeatureFlag.watchTransferUserInfoApi.enabled {
+            WCSession.default.sendMessage(message, replyHandler: nil) { _ in
+                // sendMessage failed, fall back to transferUserInfo for guaranteed delivery
+                WCSession.default.transferUserInfo(message)
+            }
+        } else {
+            WCSession.default.sendMessage(message, replyHandler: nil)
+        }
+    }
+
+    /// Validates that the WCSession is activated before making API calls.
+    /// Returns true if activated, false otherwise.
+    /// Triggers assertionFailure in debug builds if not activated.
+    private func validateSessionActivated() -> Bool {
+        guard WCSession.default.activationState == .activated else {
+            assertionFailure("WCSession must be activated before calling this method")
+            return false
+        }
+        return true
     }
 }
