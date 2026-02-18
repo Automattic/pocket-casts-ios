@@ -19,9 +19,6 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private var cellHeight: CGFloat {
         return DiscoverFeaturedView.scaledHeight
     }
-    private var fullHeight: CGFloat {
-        return cellHeight
-    }
 
     private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
@@ -66,7 +63,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
             maxCellWidth = view.bounds.width
-            featuredCollectionViewHeight.constant = fullHeight
+            featuredCollectionViewHeight.constant = cellHeight
             featuredCollectionView.reloadData()
 
             updatePageCount()
