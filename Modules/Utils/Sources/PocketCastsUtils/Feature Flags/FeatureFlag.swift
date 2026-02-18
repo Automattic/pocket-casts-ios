@@ -479,7 +479,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistCacheInvalidation:
             true
         case .watchLogFileTransfer:
-            false
+            true
         }
     }
 
