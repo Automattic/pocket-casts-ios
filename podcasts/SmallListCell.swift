@@ -4,6 +4,12 @@ import PocketCastsUtils
 import UIKit
 
 class SmallListCell: ThemeableCollectionCell {
+
+    static var scaledHeight: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .callout)
+        return max(48, metric.scaledValue(for: 48))
+    }
+
     @IBOutlet var podcastImage: PodcastImageView!
     @IBOutlet var subscribeButton: BouncyButton! {
         didSet {
@@ -53,6 +59,8 @@ class SmallListCell: ThemeableCollectionCell {
         subscribeButton.currentlyOn = isSubscribed
 
         subscribeButton.shouldAnimate = true
+
+        setNeedsUpdateConstraints()
     }
 
     @IBAction func subscribeTapped(_ sender: AnyObject) {
