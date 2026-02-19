@@ -14,17 +14,17 @@ struct HorizontalCollectionList: View {
     @ScaledMetric(relativeTo: .largeTitle) var maxRowHeight = CGFloat(210)
 
     var header: some View {
-        WrappingHStack {
+        HStack(alignment: .center) {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
-                .font(.title2.bold())
+                .font(size: 22, style: .title, weight: .bold)
             Spacer()
             Button() {
                 model.showCollection()
             } label: {
                 Text(L10n.discoverShowAll.localizedUppercase)
                     .foregroundStyle(theme.primaryInteractive01)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .title, weight: .bold)
                     .kerning(0.6)
             }
         }
