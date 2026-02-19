@@ -10,6 +10,9 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
             showAllBtn.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
+            showAllBtn.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .callout)
+            showAllBtn.titleLabel?.numberOfLines = 2
+            showAllBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
