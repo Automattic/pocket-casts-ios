@@ -90,7 +90,7 @@ dataManager.save(podcast: podcast)
 
 // Episode operations
 let episode = dataManager.findEpisode(uuid: "...")
-dataManager.saveEpisode(episode: episode)
+dataManager.save(episode: episode)
 let downloadedCount = dataManager.downloadedEpisodeCount()
 
 // Playlist/Filter operations
@@ -133,8 +133,8 @@ SwiftLint is configured with opt-in rules. Notable custom rules:
 - Never use `LocalizedStringKey` in SwiftUI - use `NSLocalizedString` with L10n
 
 ## Themes
-* When styling Views, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the View is used.
-* Use `AppTheme.sharedTheme.color(for: .primaryText01, theme: theme)` to access themed colors
+- When styling Views, use `@EnvironmentObject private var theme: Theme` and inject `.environmentObject(Theme.sharedTheme)` where the View is used.
+- Use `AppTheme.color(for: .primaryText01, theme: theme)` to access themed colors
 
 ## Protocol Buffers
 
