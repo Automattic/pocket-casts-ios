@@ -59,7 +59,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
     override func viewDidLoad() {
         super.viewDidLoad()
         if playlistsRebrandingEnabled {
-            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+            largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
         }
 
         insetAdjuster = InsetAdjuster(ignoreMiniPlayer: true)
@@ -70,6 +70,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         podcastTable.dataSource = self
         podcastTable.separatorStyle = .none
         podcastTable.register(UINib(nibName: "PodcastFilterSelectionCell", bundle: nil), forCellReuseIdentifier: podcastFilterCellId)
+        podcastTable.estimatedRowHeight = UITableView.automaticDimension
         if playlistsRebrandingEnabled {
             podcastTable.register(UITableViewCell.self, forCellReuseIdentifier: podcastsSmartRuleHeaderCellId)
             podcastTable.register(EmptyStateCell.self, forCellReuseIdentifier: EmptyStateCell.reuseIdentifier)
@@ -134,7 +135,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         appearance.backgroundColor = backgroundColor
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 22, weight: .bold)
+            NSAttributedString.Key.font: UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
         ]
         appearance.titleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
@@ -205,8 +206,14 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
 
     private func setupSaveButtonTitle() {
         let title = playlistsRebrandingEnabled ? L10n.playlistSmartRuleSaveButton : L10n.filterUpdate
-        let attributedTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: ThemeColor.primaryInteractive02(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .semibold)])
-        saveButton.setAttributedTitle(attributedTitle, for: .normal)
+
+        saveButton.setTitle(title, for: .normal)
+        saveButton.titleLabel?.font = UIFont.font(ofSize: 18.0, weight: .semibold, scalingWith: .headline)
+        saveButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        saveButton.titleLabel?.numberOfLines = 0
+        saveButton.titleLabel?.textAlignment = .center
+        saveButton.tintColor = ThemeColor.primaryInteractive02()
+        saveButton.titleLabel?.lineBreakMode = .byWordWrapping
     }
 
     private func updateSaveButtonEnabledState() {
@@ -373,13 +380,17 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
                 return cell
             }
         }
-        let cell = podcastTable.dequeueReusableCell(withIdentifier: podcastFilterCellId) as! PodcastFilterSelectionCell
+        let podcastCell = podcastTable.dequeueReusableCell(withIdentifier: podcastFilterCellId) as! PodcastFilterSelectionCell
         if playlistsRebrandingEnabled {
-            cell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
+            podcastCell.setTintColor(color: AppTheme.colorForStyle(.primaryInteractive01))
         } else {
-            cell.setTintColor(color: filterToEdit.playlistColor())
+            podcastCell.setTintColor(color: filterToEdit.playlistColor())
         }
-        return cell
+        let podcast = allPodcasts[indexPath.row]
+        podcastCell.populateFrom(podcast)
+        podcastCell.contentView.alpha = switchIsOn ? 0.3 : 1
+        podcastCell.setSelected(selectedUuids.contains(podcast.uuid), animated: true)
+        return podcastCell
     }
 
      override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -391,25 +402,12 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         super.tableView(tableView, didSelectRowAt: indexPath)
     }
 
-     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if playlistsRebrandingEnabled {
-            if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
-                return
-            }
-        }
-        let podcastCell = cell as! PodcastFilterSelectionCell
-
-        let podcast = allPodcasts[indexPath.row]
-        podcastCell.populateFrom(podcast)
-        podcastCell.contentView.alpha = switchIsOn ? 0.3 : 1
-        podcastCell.setSelected(selectedUuids.contains(podcast.uuid), animated: true)
-    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if playlistsRebrandingEnabled {
             if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
                 return UITableView.automaticDimension
             }
+            return UITableView.automaticDimension
         }
         return 72
     }

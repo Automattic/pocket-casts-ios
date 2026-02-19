@@ -89,6 +89,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             dateLabel.accessibilityLabel = L10n.queueNowPlayingAccessibility(dateText)
         }
         progressUpdated(animated: false)
+        updateDownloadStatus()
     }
 
     @objc func progressUpdated(animated: Bool = true) {
@@ -174,6 +175,9 @@ class UpNextNowPlayingCell: ThemeableCell {
     }
 
     func updateDownloadStatus() {
+        defer {
+            setNeedsUpdateConstraints()
+        }
         guard let episode = episode else {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
@@ -242,6 +246,8 @@ class UpNextNowPlayingCell: ThemeableCell {
         disclosureImageView.layer.cornerRadius = buttonSize / 2
 
         playingAnimationView.updateSizeConstraints(to: buttonSize)
+
+        updateDownloadStatus()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

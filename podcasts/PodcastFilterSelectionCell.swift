@@ -21,10 +21,16 @@ class PodcastFilterSelectionCell: ThemeableCell {
         }
     }
 
-    @IBOutlet var podcastTitle: UILabel!
+    @IBOutlet var podcastTitle: UILabel! {
+        didSet {
+            podcastTitle.font = UIFont.font(ofSize: 16, weight: .medium, scalingWith: .callout)
+        }
+    }
+
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = UIFont.font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -37,6 +43,7 @@ class PodcastFilterSelectionCell: ThemeableCell {
         tickImageView.image = tickImage
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
         style = .primaryUi01
+        updateSize()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -69,5 +76,26 @@ class PodcastFilterSelectionCell: ThemeableCell {
     override func handleThemeDidChange() {
         tickImageView.tintColor = ThemeColor.primaryInteractive02()
         podcastImage.backgroundColor = ThemeColor.primaryUi01()
+    }
+
+    // MARK: - Dynamic Type Updates
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        let iconSize = max(24, metric.scaledValue(for: 24))
+
+        selectedImageView.updateSizeConstraints(to: iconSize)
+
+        let imageSize = max(52, metric.scaledValue(for: 52))
+        podcastImage?.updateSizeConstraints(to: imageSize)
     }
 }

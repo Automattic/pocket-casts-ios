@@ -73,11 +73,11 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         }
     }
 
-    @IBOutlet var upNextBtn: UIButton! {
+    @IBOutlet var addButton: UIButton! {
         didSet {
-            upNextBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
-            upNextBtn.titleLabel?.adjustsFontForContentSizeCategory = true
-            upNextBtn.titleLabel?.numberOfLines = 3
+            addButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            addButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            addButton.titleLabel?.numberOfLines = 3
         }
     }
 
@@ -457,7 +457,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         let actionColor = podcast.iconTintColor(for: themeOverride)
         downloadBtn.tintColor = episode.downloaded(pathFinder: DownloadManager.shared) ? AppTheme.successGreen() : actionColor
-        upNextBtn.tintColor = actionColor
+        addButton.tintColor = actionColor
         playPauseBtn.circleColor = actionColor
         playPauseBtn.playButtonColor = bgColor
         playStatusButton.tintColor = actionColor
@@ -466,7 +466,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
         let primaryText02 = ThemeColor.primaryText02(for: themeOverride)
         downloadBtn.setTitleColor(primaryText02, for: .normal)
-        upNextBtn.setTitleColor(primaryText02, for: .normal)
+        addButton.setTitleColor(primaryText02, for: .normal)
         playStatusButton.setTitleColor(primaryText02, for: .normal)
         archiveButton.setTitleColor(primaryText02, for: .normal)
 

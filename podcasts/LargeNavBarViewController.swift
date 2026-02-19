@@ -5,7 +5,7 @@ class LargeNavBarViewController: PCViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .automatic
         navigationController?.navigationBar.sizeToFit()
-
+        largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
         appearance.shadowColor = .clear
