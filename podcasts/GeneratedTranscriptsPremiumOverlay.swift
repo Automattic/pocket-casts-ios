@@ -81,6 +81,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         button.configuration?.baseBackgroundColor = UIColor(hex: "#FFD846")
         button.configuration?.title = ""
         button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .center
         button.configuration?.baseForegroundColor = UIColor(hex: "#181818")
         button.addTarget(self, action: #selector(paywallButtonTapped), for: .touchUpInside)
         return button
