@@ -16,6 +16,7 @@
 - Dynamic Type: Update Stats [#3955](https://github.com/Automattic/pocket-casts-ios/pull/3955)
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)
 - Dynamic Type: Discovery - Resize feature cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
+- Dynamic type Discover trending list [#3975](https://github.com/Automattic/pocket-casts-ios/pull/3975)
 
 8.5
 -----
