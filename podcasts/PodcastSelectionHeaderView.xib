@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,20 +22,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EbX-et-kqR" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="414" y="26.5" width="51" height="31"/>
+                    <rect key="frame" x="402" y="21" width="63" height="28"/>
                 </switch>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Podcasts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9QU-qm-l0h" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="20" y="24" width="394" height="36"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="All Podcasts" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9QU-qm-l0h" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="20" y="24" width="372" height="21.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New podcasts you subscribe to will be automatically added" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SW2-Aa-pXb" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="20" y="81" width="394" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="cMW-L7-Gv9"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="New podcasts you subscribe to will be automatically added New podcasts you subscribe to will be automatically added" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SW2-Aa-pXb" userLabel="Description" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                    <rect key="frame" x="20" y="66.5" width="372" height="34"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -44,14 +41,14 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="EbX-et-kqR" secondAttribute="trailing" constant="16" id="DFu-XP-cxb"/>
-                <constraint firstItem="EbX-et-kqR" firstAttribute="leading" secondItem="9QU-qm-l0h" secondAttribute="trailing" id="Gte-A7-zIM"/>
+                <constraint firstItem="EbX-et-kqR" firstAttribute="leading" secondItem="9QU-qm-l0h" secondAttribute="trailing" constant="10" id="Gte-A7-zIM"/>
                 <constraint firstItem="EbX-et-kqR" firstAttribute="centerY" secondItem="9QU-qm-l0h" secondAttribute="centerY" id="GuQ-Xx-8uQ"/>
                 <constraint firstItem="SW2-Aa-pXb" firstAttribute="leading" secondItem="9QU-qm-l0h" secondAttribute="leading" id="Kd4-Wb-fix"/>
                 <constraint firstItem="9QU-qm-l0h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="SBY-4J-Mdg"/>
                 <constraint firstItem="SW2-Aa-pXb" firstAttribute="top" secondItem="9QU-qm-l0h" secondAttribute="bottom" constant="21" id="Y2y-bl-fzq"/>
                 <constraint firstItem="SW2-Aa-pXb" firstAttribute="trailing" secondItem="9QU-qm-l0h" secondAttribute="trailing" id="dVC-yh-mwV"/>
                 <constraint firstItem="9QU-qm-l0h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="ezs-Ei-yR1"/>
-                <constraint firstAttribute="bottom" secondItem="SW2-Aa-pXb" secondAttribute="bottom" constant="20" id="zsT-Kn-cEG"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SW2-Aa-pXb" secondAttribute="bottom" constant="20" id="zsT-Kn-cEG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="138.40000000000001" y="-83.208395802098963"/>

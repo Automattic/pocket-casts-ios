@@ -7,6 +7,8 @@ struct NewPlaylistCellView: View {
 
     @State private var refreshToken = UUID()
 
+    @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 56
+
     private var title: String {
         switch viewModel.displayType {
         case .addNew:
@@ -48,20 +50,22 @@ struct NewPlaylistCellView: View {
                 }
                 .cornerRadius(4)
                 .clipped()
-                .frame(width: 56.0, height: 56.0)
+                .frame(width: imageSize, height: imageSize)
                 .padding(.leading, 16.0)
             } else {
                 PlaylistArtworkView(items: viewModel.images)
-                    .frame(width: 56.0, height: 56.0)
-                    .padding(.leading, 16.0)
+                    .frame(width: imageSize, height: imageSize)
                     .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 2.0) {
                 Text(title)
                     .foregroundStyle(theme.primaryText01)
-                    .font(size: 15.0, style: .body, weight: .medium)
+                    .font(size: 15.0, style: .subheadline, weight: .medium)
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
                 if let subtitle {
                     subtitleView(text: subtitle)
+                        .lineLimit(2)
                 }
             }
             Spacer()
@@ -74,7 +78,8 @@ struct NewPlaylistCellView: View {
     private func subtitleView(text: String) -> some View {
         Text(text)
             .foregroundStyle(theme.primaryText02)
-            .font(size: 14.0, style: .body, weight: .regular)
+            .font(size: 14.0, style: .footnote, weight: .regular)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder private func accesoryView() -> some View {
@@ -82,9 +87,9 @@ struct NewPlaylistCellView: View {
         case .count:
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
+                    .lineLimit(1)
                     .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
             }
-            .padding(.trailing, 8.0)
         default:
             EmptyView()
         }

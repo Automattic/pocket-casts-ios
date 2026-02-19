@@ -3,6 +3,8 @@ LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
 SWIFTLINT_FROM_BUILDTOOLS=swiftlint lint --working-directory .. --quiet
 
+.PHONY: help build clean test lint lint_lenient format install_dependencies
+
 define run_in_buildtools
 	@pushd BuildTools && \
 	export SDKROOT=$$(xcrun --sdk macosx --show-sdk-path) && \
@@ -35,7 +37,14 @@ build: ## Builds the Debug configuration using Xcode
 	xcodebuild -project podcasts.xcodeproj \
        -scheme pocketcasts \
        -configuration Debug \
+       -destination 'generic/platform=iOS Simulator' \
        build
+
+clean: ## Cleans the build artifacts
+	xcodebuild -project podcasts.xcodeproj \
+       -scheme pocketcasts \
+       -configuration Debug \
+       clean
 
 test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
 	xcodebuild test -project podcasts.xcodeproj \
