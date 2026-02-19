@@ -12,12 +12,17 @@ class PodcastSelectionHeaderView: UIView {
     @IBOutlet var titleLabel: UILabel! {
         didSet {
             titleLabel.text = L10n.filterCreatePodcastsAllPodcasts
+            titleLabel.font = UIFont.font(ofSize: 18, weight: .regular, scalingWith: .headline)
+            titleLabel.numberOfLines = 0
+            titleLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var subtitleLabel: ThemeableLabel! {
         didSet {
             subtitleLabel.style = .secondaryText01
+            subtitleLabel.numberOfLines = 0
+            subtitleLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -37,6 +42,7 @@ class PodcastSelectionHeaderView: UIView {
 
     func loadViewFromNib() {
         Bundle.main.loadNibNamed("PodcastSelectionHeaderView", owner: self, options: nil)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         contentView.anchorToAllSidesOf(view: self)
     }

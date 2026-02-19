@@ -9,10 +9,10 @@ class FilterDurationViewController: PCViewController {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 longerThanLabel.style = .primaryText02
-                longerThanLabel.font = .systemFont(ofSize: 15.0, weight: .medium)
+                longerThanLabel.font = .font(ofSize: 15.0, weight: .medium, scalingWith: .subheadline)
             } else {
                 longerThanLabel.style = .primaryText01
-                longerThanLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
+                longerThanLabel.font = .font(ofSize: 17.0, weight: .regular, scalingWith: .body)
             }
         }
     }
@@ -21,10 +21,10 @@ class FilterDurationViewController: PCViewController {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 longerThanDescription.style = .primaryText02
-                longerThanDescription.font = .systemFont(ofSize: 15.0, weight: .medium)
+                longerThanDescription.font = .font(ofSize: 15.0, weight: .medium, scalingWith: .subheadline)
             } else {
                 longerThanDescription.style = .primaryText01
-                longerThanDescription.font = .systemFont(ofSize: 17.0, weight: .regular)
+                longerThanDescription.font = .font(ofSize: 17.0, weight: .regular, scalingWith: .body)
             }
             longerThanDescription.text = L10n.filterLongerThanLabel
         }
@@ -34,10 +34,10 @@ class FilterDurationViewController: PCViewController {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 shorterThanLabel.style = .primaryText02
-                shorterThanLabel.font = .systemFont(ofSize: 15.0, weight: .medium)
+                shorterThanLabel.font = .font(ofSize: 15.0, weight: .medium, scalingWith: .subheadline)
             } else {
                 shorterThanLabel.style = .primaryText01
-                shorterThanLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
+                shorterThanLabel.font = .font(ofSize: 17.0, weight: .regular, scalingWith: .body)
             }
         }
     }
@@ -46,10 +46,10 @@ class FilterDurationViewController: PCViewController {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
                 shorterThanDescription.style = .primaryText02
-                shorterThanDescription.font = .systemFont(ofSize: 15.0, weight: .medium)
+                shorterThanDescription.font = .font(ofSize: 15.0, weight: .medium, scalingWith: .subheadline)
             } else {
                 shorterThanDescription.style = .primaryText01
-                shorterThanDescription.font = .systemFont(ofSize: 17.0, weight: .regular)
+                shorterThanDescription.font = .font(ofSize: 17.0, weight: .regular, scalingWith: .body)
             }
             shorterThanDescription.text = L10n.filterShorterThanLabel
         }
@@ -87,6 +87,8 @@ class FilterDurationViewController: PCViewController {
             saveBtn.backgroundColor = filter.playlistColor()
             saveBtn.layer.cornerRadius = 12
             saveBtn.setTitleColor(ThemeColor.primaryInteractive02(), for: .normal)
+            saveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            saveBtn.titleLabel?.numberOfLines = 0
             if FeatureFlag.playlistsRebranding.enabled {
                 saveBtn.setTitle(L10n.playlistSmartRuleSaveButton, for: .normal)
             } else {
@@ -98,9 +100,9 @@ class FilterDurationViewController: PCViewController {
     @IBOutlet var filterDurationLabel: ThemeableLabel! {
         didSet {
             if FeatureFlag.playlistsRebranding.enabled {
-                filterDurationLabel.font = .systemFont(ofSize: 18.0, weight: .semibold)
+                filterDurationLabel.font = .font(ofSize: 18.0, weight: .semibold, scalingWith: .body)
             } else {
-                filterDurationLabel.font = .systemFont(ofSize: 18.0, weight: .regular)
+                filterDurationLabel.font = .font(ofSize: 18.0, weight: .regular, scalingWith: .body)
             }
             filterDurationLabel.text = L10n.episodeFilterByDurationLabel
         }
@@ -146,7 +148,7 @@ class FilterDurationViewController: PCViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if FeatureFlag.playlistsRebranding.enabled {
-            largeTitleFont = UIFont.systemFont(ofSize: 22, weight: .bold)
+            largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
             navigationItem.largeTitleDisplayMode = .always
         } else {
             let closeButton = createStandardCloseButton(imageName: "cancel")

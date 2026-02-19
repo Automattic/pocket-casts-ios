@@ -26,6 +26,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 filtersTable.dragDelegate = nil
                 filtersTable.dropDelegate = nil
             }
+            filtersTable.sectionFooterHeight = UITableView.automaticDimension
+            filtersTable.estimatedSectionFooterHeight = UITableView.automaticDimension
         }
     }
 
@@ -133,6 +135,8 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         newFilterButton.layer.cornerRadius = 7
         newFilterButton.layer.borderWidth = 2
         newFilterButton.setLetterSpacing(-0.2)
+        newFilterButton.titleLabel?.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+        newFilterButton.titleLabel?.adjustsFontForContentSizeCategory = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
