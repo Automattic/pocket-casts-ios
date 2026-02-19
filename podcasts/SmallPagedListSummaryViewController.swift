@@ -7,7 +7,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var showAllButton: ThemeableUIButton! {
         didSet {
             showAllButton.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
-            showAllButton.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .footnote)
+            showAllButton.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .title1)
             showAllButton.titleLabel?.adjustsFontForContentSizeCategory = true
             showAllButton.titleLabel?.numberOfLines = 2
         }
