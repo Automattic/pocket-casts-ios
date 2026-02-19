@@ -5,9 +5,9 @@ import UIKit
 
 class SmallListCell: ThemeableCollectionCell {
 
-    static var scaledHeight: CGFloat {
+    static var scaledHeight: CGFloat {        
         let metric = UIFontMetrics(forTextStyle: .callout)
-        return max(48, metric.scaledValue(for: 48))
+        return max(52, metric.scaledValue(for: 52))
     }
 
     @IBOutlet var podcastImage: PodcastImageView!
@@ -39,6 +39,11 @@ class SmallListCell: ThemeableCollectionCell {
         didSet {
             setSelectedState(isHighlighted)
         }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
     }
 
     func setSelectedState(_ selected: Bool) {
@@ -109,5 +114,25 @@ class SmallListCell: ThemeableCollectionCell {
         discoverPodcast = nil
         setSelectedState(false)
         subscribeButton.currentlyOn = false
+    }
+
+    func updateSize() {
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        podcastTitle.numberOfLines = largeSize ? 2 : 1
+        podcastAuthor.numberOfLines = largeSize ? 2 : 1
+
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+
+        podcastImage.updateSizeConstraints(to: max(48, metric.scaledValue(for: 48)))
+
+        subscribeButton.updateSizeConstraints(to: max(24, metric.scaledValue(for: 24)))
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

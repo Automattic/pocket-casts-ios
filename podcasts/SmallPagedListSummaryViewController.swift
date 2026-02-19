@@ -30,7 +30,13 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     private static let cellId = "smallPagedListCell"
 
     private var cellHeight: CGFloat {
-        SmallListCell.scaledHeight
+        var height = SmallListCell.scaledHeight
+
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        if largeSize {
+            height = height * 1.5
+        }
+        return height
     }
 
     private let numberOfRows = 4
