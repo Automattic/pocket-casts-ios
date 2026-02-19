@@ -200,7 +200,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.shadowImage = UIImage()
 
         addEventObservers()
 
@@ -217,7 +216,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         removeAllCustomObservers()
         tableRefreshControl?.parentViewControllerDidDisappear()
         noEpisodesRefreshControl?.parentViewControllerDidDisappear()
-        navigationController?.navigationBar.shadowImage = nil
     }
 
     override func handleAppDidEnterBackground() {
