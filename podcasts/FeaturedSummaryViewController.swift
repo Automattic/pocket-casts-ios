@@ -16,7 +16,10 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     private static let cellId = "FeaturedCollectionViewCell"
 
     private var maxCellWidth = 400 as CGFloat
-    private let cellHeight = 181 as CGFloat
+    private var cellHeight: CGFloat {
+        return DiscoverFeaturedView.scaledHeight
+    }
+
     private let cellSpacing = 0 as CGFloat
     private var listType: String = ""
     private var lastLayedOutWidth = 0 as CGFloat
@@ -260,5 +263,20 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     func listId(for podcast: DiscoverPodcast) -> String? {
         lists.first(where: { $0.podcasts?.contains(podcast) ?? false })?.listId
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        lastLayedOutWidth = 0
+        featuredCollectionViewHeight.constant = cellHeight
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

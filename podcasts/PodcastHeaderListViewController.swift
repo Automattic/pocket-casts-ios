@@ -52,6 +52,14 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         chartsTable.reloadData()
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            chartsTable.reloadData()
+        }
+    }
+
     @objc private func handleShare() {
         guard let source = source?.deletingPathExtension() else { return }
         Analytics.track(.discoverListShareTapped)
@@ -62,10 +70,20 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     // MARK: - UITableView Methods
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
         if showFeaturedCell, indexPath.row == 0 {
-            return 181.0
+            return DiscoverFeaturedView.scaledHeight
         }
-        return 65
+        return UITableView.automaticDimension
+    }
+
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let preferredBodySize = UIFontMetrics.default.scaledValue(for: 17)
+        if showFeaturedCell, indexPath.row == 0 {
+            return DiscoverFeaturedView.scaledHeight
+        }
+        return max(UIFontMetrics.default.scaledValue(for: 65), preferredBodySize * 2)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
