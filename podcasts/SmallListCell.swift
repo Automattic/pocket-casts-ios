@@ -5,7 +5,7 @@ import UIKit
 
 class SmallListCell: ThemeableCollectionCell {
 
-    static var scaledHeight: CGFloat {        
+    static var scaledHeight: CGFloat {
         let metric = UIFontMetrics(forTextStyle: .callout)
         return max(52, metric.scaledValue(for: 52))
     }
