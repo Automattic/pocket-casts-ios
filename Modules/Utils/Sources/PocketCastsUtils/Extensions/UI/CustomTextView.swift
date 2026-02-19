@@ -9,7 +9,7 @@ public class CustomTextField: UITextField {
     public let rightLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .callout)
-        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontForContentSizeCategory = false
         return label
     }()
 
