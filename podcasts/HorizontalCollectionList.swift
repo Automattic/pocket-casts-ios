@@ -32,52 +32,47 @@ struct HorizontalCollectionList: View {
     }
 
     var poster: some View {
-        VStack() {
-            Spacer()
-            ZStack(alignment: .bottom) {
-                AsyncImage(url: model.posterImage) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
-                        Image(uiImage: image)
-                    } else {
-                        Color.gray
-                    }
+        ZStack(alignment: .bottom) {
+            AsyncImage(url: model.posterImage) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                if let image = ImageManager.sharedManager.placeHolderImage(.grid) {
+                    Image(uiImage: image)
+                } else {
+                    Color.gray
                 }
-                .frame(width: 179, height: 179)
-                VStack() {
-                    Spacer().frame(height: 12)
-                    Text(model.title)
-                        .foregroundStyle(.white)
-                        .font(size: 13, style: .footnote, weight: .bold)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .padding(.horizontal, 8)
-                    Spacer().frame(height: 8)
-                    Text(model.description)
-                        .foregroundStyle(.white)
-                        .font(.footnote)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .padding(.horizontal, 8)
-                    Spacer().frame(height: 12)
-                }
-                .foregroundColor(.clear)
-                .frame(minWidth: 179, minHeight: 74)
-                .background(
-                    LinearGradient(
-                        stops: [
-                            Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
-                            Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
-                        ],
-                        startPoint: UnitPoint(x: 0.5, y: 0),
-                        endPoint: UnitPoint(x: 0.5, y: 0.7)
-                    )
-                )
             }
-            Spacer()
+            .frame(width: 179, height: maxRowHeight)
+            VStack() {
+                Spacer()
+                Text(model.title)
+                    .foregroundStyle(.white)
+                    .font(size: 13, style: .footnote, weight: .bold)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal, 8)
+                Spacer().frame(height: 8)
+                Text(model.description)
+                    .foregroundStyle(.white)
+                    .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal, 8)
+            }
+            .foregroundColor(.clear)
+            .frame(minWidth: 179, minHeight: 74)
+            .background(
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: Color(red: 0.16, green: 0.05, blue: 0.02).opacity(0), location: 0),
+                        Gradient.Stop(color: Color(red: 0.09, green: 0.05, blue: 0.03), location: 1),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 0),
+                    endPoint: UnitPoint(x: 0.5, y: 0.7)
+                )
+            )
         }
         .cornerRadius(4)
         .frame(width: 179, height: maxRowHeight)
@@ -86,11 +81,12 @@ struct HorizontalCollectionList: View {
 
     @ViewBuilder
     func row(for podcast: DiscoverPodcast) -> some View {
-        HStack(alignment: .center, spacing: 10) {
+        HStack(alignment: .center, spacing: 0) {
             PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
                 .frame(width: 101, height: 101)
-            VStack(alignment: .leading) {
-                HStack {
+            Spacer().frame(width: 10)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
                     Text(podcast.title ?? "")
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
@@ -99,7 +95,8 @@ struct HorizontalCollectionList: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
-                HStack {
+                Spacer().frame(height: 8)
+                HStack(spacing: 0) {
                     Text(podcast.author ?? "")
                         .foregroundStyle(theme.primaryText02)
                         .font(.footnote.weight(.medium))
@@ -108,7 +105,7 @@ struct HorizontalCollectionList: View {
                     Spacer()
                 }
             }
-            Spacer()
+            .layoutPriority(1)
             SubscribeButtonView(podcastUuid: podcast.uuid ?? "", source: .discover) {
                 model.subscribePodcast(podcast)
             }
@@ -128,7 +125,7 @@ struct HorizontalCollectionList: View {
                 }
                 if index == pairs.count - 1, pairs[index].count == 1 {
                     Rectangle()
-                        .frame(height: 101)
+                        .frame(height: (maxRowHeight - 8.0) / 2.0)
                         .foregroundStyle(.clear)
                 }
             }
