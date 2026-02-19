@@ -59,15 +59,29 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         return description
     }()
 
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var paywallButton: UIButton = {
-        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.filled()
+
+        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
+        config.cornerStyle = .medium
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.font(ofSize: 18, weight: .bold, scalingWith: .headline)
+            return outgoing
+        }
+
+        let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(hex: "#FFD846")
-        button.layer.cornerRadius = 12
-        button.setTitle("", for: .normal)
-        button.titleLabel?.font = UIFont.font(ofSize: 18, weight: .bold, scalingWith: .headline)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.setTitleColor(UIColor(hex: "#181818"), for: .normal)
+        button.configuration?.baseBackgroundColor = UIColor(hex: "#FFD846")
+        button.configuration?.title = ""
+        button.titleLabel?.numberOfLines = 2
+        button.configuration?.baseForegroundColor = UIColor(hex: "#181818")
         button.addTarget(self, action: #selector(paywallButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -172,10 +186,11 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
             overlay.anchorToAllSidesOf(view: view)
         }
 
+        view.addSubview(scrollView)
         view.addSubview(stackView)
-        view.addSubview(badge)
-        view.addSubview(titleLabel)
-        view.addSubview(descriptionLabel)
+        scrollView.addSubview(badge)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(descriptionLabel)
         view.addSubview(paywallButton)
         view.addSubview(activityIndicator)
 
@@ -197,18 +212,23 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 closeButton.heightAnchor.constraint(equalToConstant: 44),
                 closeButton.widthAnchor.constraint(equalToConstant: 44),
+                scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 badge.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                badge.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 56),
+                badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 56),
                 titleLabel.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 24),
                 titleLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor, constant: readableContentGuideMargin),
                 titleLabel.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -readableContentGuideMargin),
                 descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
                 descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                 descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+                descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -50),
                 topGradient.topAnchor.constraint(equalTo: descriptionLabel.topAnchor),
                 topGradient.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 topGradient.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                topGradient.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 100.0),
+                topGradient.bottomAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 50.0),
                 topSolidView.topAnchor.constraint(equalTo: view.topAnchor),
                 topSolidView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 topSolidView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -221,6 +241,16 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 activityIndicator.centerYAnchor.constraint(equalTo: paywallButton.centerYAnchor)
             ]
         )
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Inset bottom of scroll content by button height + spacing
+        let buttonHeight = paywallButton.frame.height
+        let spacing: CGFloat = 10 // padding above + below button
+        scrollView.contentInset.bottom = buttonHeight + spacing
+        scrollView.verticalScrollIndicatorInsets.bottom = buttonHeight + spacing
     }
 
     @objc private func closeTapped() {
