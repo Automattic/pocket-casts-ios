@@ -286,6 +286,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use WCSessionFileTransfer to send logs from watchOS to iPhone instead of sendMessage reply
     case watchLogFileTransfer
 
+    /// Clear all pending Up Next changes on login sync to prevent stale replace actions from being sent
+    case clearPendingUpNextChangesOnLogin
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -479,6 +482,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistCacheInvalidation:
             true
         case .watchLogFileTransfer:
+            true
+        case .clearPendingUpNextChangesOnLogin:
             true
         }
     }

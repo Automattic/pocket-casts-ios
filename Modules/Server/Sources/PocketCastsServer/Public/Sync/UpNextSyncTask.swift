@@ -132,7 +132,13 @@ class UpNextSyncTask: ApiBaseTask {
             // save the server last modified so we can send it back next time. For legacy compatibility this is stored as a string
             UserDefaults.standard.set("\(response.serverModified)", forKey: ServerConstants.UserDefaults.upNextServerLastModified)
 
-            clearSyncedData(latestActionTime: latestActionTime)
+            // For login syncs, clear all pending changes since we've applied server state
+            // and any pending changes are stale. See: https://github.com/Automattic/pocket-casts-ios/issues/XXXX
+            if SyncManager.syncReason == .login && FeatureFlag.clearPendingUpNextChangesOnLogin.enabled {
+                clearSyncedData(latestActionTime: Int64.max)
+            } else {
+                clearSyncedData(latestActionTime: latestActionTime)
+            }
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: Failed to decode server data")
         }
