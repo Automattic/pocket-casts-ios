@@ -9,9 +9,17 @@ struct HorizontalCollectionList: View {
 
     @EnvironmentObject var theme: Theme
 
-    @ScaledMetric(relativeTo: .largeTitle) var maxHeight = CGFloat(323)
+    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(323)
 
-    @ScaledMetric(relativeTo: .largeTitle) var maxRowHeight = CGFloat(210)
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowHeight = CGFloat(210)
+
+    var adjustedHeight: CGFloat {
+        return max(323, scaledHeight)
+    }
+
+    var adjustedRowHeight: CGFloat {
+        return max(210, scaledRowHeight)
+    }
 
     var header: some View {
         HStack(alignment: .center) {
@@ -44,7 +52,7 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: 179, height: maxRowHeight)
+            .frame(width: 179, height: adjustedRowHeight)
             VStack() {
                 Spacer()
                 Text(model.title)
@@ -75,7 +83,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: 179, height: maxRowHeight)
+        .frame(width: 179, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 
@@ -110,7 +118,7 @@ struct HorizontalCollectionList: View {
                 model.subscribePodcast(podcast)
             }
         }
-        .frame(maxHeight: (maxRowHeight - 8.0) / 2.0)
+        .frame(maxHeight: (adjustedRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }
@@ -125,12 +133,12 @@ struct HorizontalCollectionList: View {
                 }
                 if index == pairs.count - 1, pairs[index].count == 1 {
                     Rectangle()
-                        .frame(height: (maxRowHeight - 8.0) / 2.0)
+                        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
                         .foregroundStyle(.clear)
                 }
             }
             .padding(.leading, 16)
-            .frame(width: max(width - 24, 0), height: maxRowHeight)
+            .frame(width: max(width - 24, 0), height: adjustedRowHeight)
             .id(index + 1)
         }
     }
@@ -164,7 +172,7 @@ struct HorizontalCollectionList: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
         }
-        .frame(height: maxHeight)
+        .frame(height: adjustedHeight)
     }
 }
 
