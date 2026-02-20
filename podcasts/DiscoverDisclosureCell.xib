@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,24 +13,27 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="286" height="55.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="293.5" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Trending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbo-mQ-vAQ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="28" y="18" width="86" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Trending" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbo-mQ-vAQ" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="28" y="0.0" width="253.5" height="56"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="fbo-mQ-vAQ" secondAttribute="bottom" id="AoJ-7e-B4e"/>
                     <constraint firstItem="fbo-mQ-vAQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="12" id="JKg-P8-27V"/>
-                    <constraint firstItem="fbo-mQ-vAQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rqA-lR-fmr"/>
+                    <constraint firstAttribute="trailing" secondItem="fbo-mQ-vAQ" secondAttribute="trailing" constant="12" id="leJ-Wa-z7z"/>
+                    <constraint firstItem="fbo-mQ-vAQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="rqA-lR-fmr"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="mainLabel" destination="fbo-mQ-vAQ" id="YKL-1k-jx2"/>
             </connections>
+            <point key="canvasLocation" x="139" y="154"/>
         </tableViewCell>
     </objects>
 </document>
