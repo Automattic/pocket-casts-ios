@@ -9,7 +9,12 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
     }
 
     @IBOutlet var countryFlag: UIImageView!
-    @IBOutlet var countryName: ThemeableLabel!
+    @IBOutlet var countryName: ThemeableLabel! {
+        didSet {
+            countryName.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
+        }
+    }
+
     @IBOutlet var discoverSectionView: ThemeableView! {
         didSet {
             discoverSectionView.style = .primaryUi02
