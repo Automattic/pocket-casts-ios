@@ -30,6 +30,7 @@
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
 - Dynamic type: Discover network highlight cell [#3979](https://github.com/Automattic/pocket-casts-ios/pull/3979)
 - Dynamic Type: Country selector [#3986](https://github.com/Automattic/pocket-casts-ios/pull/3986)
+- Dynamic type: Update player main view [#3989](https://github.com/Automattic/pocket-casts-ios/pull/3989)
 
 
 8.5
