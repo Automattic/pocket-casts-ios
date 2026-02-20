@@ -54,6 +54,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             episodeName.text = ""
 #endif
             episodeName.style = .playerContrast01
+            episodeName.adjustsFontForContentSizeCategory = true
+            episodeName.font = .font(ofSize: 18, weight: .semibold, scalingWith: .largeTitle)
         }
     }
 
@@ -63,6 +65,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             podcastName.text = ""
 #endif
             podcastName.style = .playerContrast02
+            podcastName.adjustsFontForContentSizeCategory = true
+            podcastName.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
+
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(podcastNameTapped))
             podcastName.addGestureRecognizer(tapGesture)
 
@@ -77,6 +82,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             chapterName.text = ""
 #endif
             chapterName.style = .playerContrast01
+            chapterName.adjustsFontForContentSizeCategory = true
+            chapterName.font = .font(ofSize: 18, weight: .semibold, scalingWith: .largeTitle)
 
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(chapterNameTapped))
             chapterName.addGestureRecognizer(tapGesture)
@@ -109,12 +116,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var chapterCounter: ThemeableLabel! {
         didSet {
             chapterCounter.style = .playerContrast02
+            chapterCounter.adjustsFontForContentSizeCategory = true
+            chapterCounter.font = .font(ofSize: 12, weight: .semibold, scalingWith: .largeTitle)
         }
     }
 
     @IBOutlet var chapterTimeLeftLabel: UILabel! {
         didSet {
-            chapterTimeLeftLabel.font = chapterTimeLeftLabel.font.monospaced()
+            chapterTimeLeftLabel.adjustsFontForContentSizeCategory = true
+            chapterTimeLeftLabel.font = .font(ofSize: 11, weight: .semibold, scalingWith: .largeTitle).monospaced()
         }
     }
 
@@ -157,14 +167,21 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var timeElapsed: ThemeableLabel! {
         didSet {
             timeElapsed.style = .playerContrast02
-            timeElapsed.font = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let baseFont = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+            timeElapsed.font = metrics.scaledFont(for: baseFont)
+            timeElapsed.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var timeRemaining: ThemeableLabel! {
         didSet {
             timeRemaining.style = .playerContrast02
-            timeRemaining.font = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let baseFont = UIFont.monospacedDigitSystemFont(ofSize: 12, weight: UIFont.Weight.medium)
+            let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+            timeRemaining.font = metrics.scaledFont(for: baseFont)
+            timeRemaining.adjustsFontForContentSizeCategory = true
+
         }
     }
 
@@ -350,6 +367,23 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             }
         }
         #endif
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    var shelfIconSize: CGFloat {
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = min(45, max(32, metrics.scaledValue(for: 32)))
+        return iconSize
+    }
+
+    private func updateSize() {
+        let iconSize = shelfIconSize
+        for view in playerControlsStackView.subviews {
+            view.updateSizeConstraints(to: iconSize)
+        }
     }
 
     // MARK: - Interface Actions
