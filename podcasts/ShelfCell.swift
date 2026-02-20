@@ -4,12 +4,14 @@ class ShelfCell: UITableViewCell {
     @IBOutlet var actionName: ThemeableLabel! {
         didSet {
             actionName.style = .playerContrast01
+            actionName.font = .font(ofSize: 18, weight: .medium, scalingWith: .headline)
         }
     }
 
     @IBOutlet var actionSubtitle: ThemeableLabel! {
         didSet {
             actionSubtitle.style = .playerContrast02
+            actionName.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
