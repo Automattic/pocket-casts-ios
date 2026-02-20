@@ -58,6 +58,7 @@ class RichExpandableLabel: WKWebView {
         isUserInteractionEnabled = true
         scrollView.isScrollEnabled = false
         navigationDelegate = self
+        addGestureRecognizer(linkTapGesture)
         updateStyle()
     }
 
@@ -178,13 +179,11 @@ class RichExpandableLabel: WKWebView {
 
     private func update() {
         if collapsed {
-            addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
             let newHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
             heightConstraint.constant = newHeight
             heightChanged?(newHeight)
         } else {
-            removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
             heightChanged?(contentHeight.rounded(.up))
         }
