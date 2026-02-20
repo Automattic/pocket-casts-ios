@@ -111,8 +111,6 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         headingLabel.isHidden = true
 
         headingViewHeightConstraint.constant = 56
-        editButtonVerticalConstraint.isActive = false
-        doneButtonVerticalConstraint.isActive = true
         setPreferredSize(animated: true)
 
         if let sheetController = sheetPresentationController {
