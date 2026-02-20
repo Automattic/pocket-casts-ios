@@ -29,6 +29,8 @@
 - Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
 - Dynamic type: Discover network highlight cell [#3979](https://github.com/Automattic/pocket-casts-ios/pull/3979)
+- Dynamic Type: Country selector [#3986](https://github.com/Automattic/pocket-casts-ios/pull/3986)
+
 
 8.5
 -----
