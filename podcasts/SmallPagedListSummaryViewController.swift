@@ -7,10 +7,19 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     @IBOutlet var showAllButton: ThemeableUIButton! {
         didSet {
             showAllButton.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
+            showAllButton.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .title1)
+            showAllButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            showAllButton.titleLabel?.numberOfLines = 2
         }
     }
 
-    @IBOutlet var titleLabel: ThemeableLabel!
+    @IBOutlet var titleLabel: ThemeableLabel! {
+        didSet {
+            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
+            titleLabel.adjustsFontForContentSizeCategory = true
+            titleLabel.numberOfLines = 2
+        }
+    }
     @IBOutlet var pageControl: TinyPageControl! {
         didSet {
             pageControl.delegate = self
@@ -19,7 +28,17 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
 
     private var podcasts = [DiscoverPodcast]()
     private static let cellId = "smallPagedListCell"
-    private let cellHeight = 48 as CGFloat
+
+    private var cellHeight: CGFloat {
+        var height = SmallListCell.scaledHeight
+
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        if largeSize {
+            height = height * 1.5
+        }
+        return height
+    }
+
     private let numberOfRows = 4
     private var lastLayedOutWidth = 0 as CGFloat
 
@@ -55,6 +74,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         gridLayout.itemSpacing = cellSpacing
 
         showAllButton.setLetterSpacing(0.6)
+        updateSize()
     }
 
     override func viewDidLayoutSubviews() {
@@ -226,5 +246,20 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
         guard let delegate = delegate, let item = item else { return }
 
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil)
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        lastLayedOutWidth = 0
+        smallPagedCollectionViewHeight.constant = (cellHeight + cellSpacing) * CGFloat(numberOfRows)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

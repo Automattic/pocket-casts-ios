@@ -10,6 +10,9 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     @IBOutlet var showAllBtn: UIButton! {
         didSet {
             showAllBtn.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
+            showAllBtn.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .title1)
+            showAllBtn.titleLabel?.numberOfLines = 2
+            showAllBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -62,6 +65,16 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         showAllBtn.setLetterSpacing(0.6)
     }
 
+    var cellExtraHeight: CGFloat {
+        var baseHeight = padding ?? 50
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        if largeSize {
+            baseHeight = baseHeight * 1.5
+        }
+        let metric = UIFontMetrics(forTextStyle: .callout)
+        return max(baseHeight, metric.scaledValue(for: baseHeight))
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -71,7 +84,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
         if lastLayedOutWidth != view.bounds.width {
             lastLayedOutWidth = view.bounds.width
-            largeListCollectionViewHeight.constant = cellWidth + (padding ?? 50)
+            largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
             collectionView.layoutIfNeeded()
         }
     }
@@ -152,7 +165,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     }
 
     func sizeForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> CGSize {
-        CGSize(width: cellWidth, height: cellWidth + 60)
+        CGSize(width: cellWidth, height: cellWidth + cellExtraHeight + 10)
     }
 
     // MARK: - Populate From Data
@@ -241,5 +254,21 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         Analytics.track(.discoverLargeListPageChanged, properties: ["current_page": currentPage,
                                                                     "total_pages": totalPages,
                                                                     "list_id": item.inferredListId])
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        lastLayedOutWidth = 0
+        largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
+        view.setNeedsLayout()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
