@@ -59,7 +59,7 @@ struct SubscribeButtonView: View {
                         .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
                 }
             }
-            .frame(width: 48, height: 48)
+            .frame(width: 32, height: 32)
         }
         .buttonStyle(SubscribeButtonStyle())
         .onAppear {

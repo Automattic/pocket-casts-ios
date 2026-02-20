@@ -48,9 +48,11 @@
                     </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="4v7-ir-rc1" secondAttribute="bottom" constant="8" id="3Ow-7N-KKc"/>
                     <constraint firstItem="adL-Rt-KMT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8s2-J0-hn0"/>
                     <constraint firstItem="4v7-ir-rc1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="A7o-8j-t3T"/>
                     <constraint firstItem="iI1-hI-3Bc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BOh-B9-jMg"/>
+                    <constraint firstItem="4v7-ir-rc1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="JM0-t2-EBN"/>
                     <constraint firstItem="adL-Rt-KMT" firstAttribute="leading" secondItem="iI1-hI-3Bc" secondAttribute="trailing" constant="12" id="MBB-38-AUU"/>
                     <constraint firstItem="4v7-ir-rc1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RoP-CG-Ruo"/>
                     <constraint firstItem="iI1-hI-3Bc" firstAttribute="height" relation="greaterThanOrEqual" secondItem="4v7-ir-rc1" secondAttribute="height" id="SE3-to-5Ts"/>

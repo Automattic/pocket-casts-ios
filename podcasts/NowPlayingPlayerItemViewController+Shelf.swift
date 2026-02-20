@@ -553,8 +553,8 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         playerControlsStackView.addArrangedSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 32),
-            view.heightAnchor.constraint(equalToConstant: 32)
+            view.widthAnchor.constraint(equalToConstant: shelfIconSize),
+            view.heightAnchor.constraint(equalToConstant: shelfIconSize)
         ])
     }
 }

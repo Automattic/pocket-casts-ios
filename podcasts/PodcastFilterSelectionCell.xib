@@ -34,14 +34,14 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Podcast Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0F0-Yt-Vzo" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="78" y="15" width="188" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" text="Podcast Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0F0-Yt-Vzo" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="78" y="15" width="188" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                         <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a32-Ow-DK1" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="78" y="37" width="188" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="999" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a32-Ow-DK1" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="78" y="38.5" width="188" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -65,11 +65,13 @@
                     <constraint firstItem="oOj-21-wxG" firstAttribute="leading" secondItem="0F0-Yt-Vzo" secondAttribute="trailing" constant="8" id="5Df-pM-cxW"/>
                     <constraint firstItem="Gev-Zg-4Im" firstAttribute="top" secondItem="oOj-21-wxG" secondAttribute="top" constant="3" id="6uR-jm-7Sb"/>
                     <constraint firstItem="a32-Ow-DK1" firstAttribute="trailing" secondItem="oOj-21-wxG" secondAttribute="leading" constant="-8" id="7oP-Vt-wyV"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="H9k-Zb-amy" secondAttribute="bottom" constant="8" id="8sI-WS-1aU"/>
                     <constraint firstItem="a32-Ow-DK1" firstAttribute="leading" secondItem="H9k-Zb-amy" secondAttribute="trailing" constant="10" id="H0X-F0-E5d"/>
                     <constraint firstItem="Gev-Zg-4Im" firstAttribute="bottom" secondItem="oOj-21-wxG" secondAttribute="bottom" constant="-3" id="J4n-4v-gYt"/>
                     <constraint firstItem="Gev-Zg-4Im" firstAttribute="leading" secondItem="oOj-21-wxG" secondAttribute="leading" constant="3" id="Jdo-IZ-zk6"/>
                     <constraint firstItem="4zT-Bx-dl3" firstAttribute="leading" secondItem="H9k-Zb-amy" secondAttribute="leading" id="VSa-HP-tQp"/>
                     <constraint firstItem="H9k-Zb-amy" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aUP-gu-6La"/>
+                    <constraint firstItem="H9k-Zb-amy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="aaI-bs-Pw8"/>
                     <constraint firstItem="H9k-Zb-amy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="jO4-AZ-5rQ"/>
                     <constraint firstItem="Gev-Zg-4Im" firstAttribute="trailing" secondItem="oOj-21-wxG" secondAttribute="trailing" constant="-3" id="o1e-yK-Nct"/>
                     <constraint firstItem="0F0-Yt-Vzo" firstAttribute="leading" secondItem="H9k-Zb-amy" secondAttribute="trailing" constant="10" id="oEq-yp-YU3"/>

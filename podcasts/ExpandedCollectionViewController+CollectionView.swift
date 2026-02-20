@@ -73,7 +73,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
                 return CGSize(width: viewWidth, height: descriptiveListPreferredMaxHeight)
             case .grid:
                 let itemWidth = (viewWidth - (gridStyleSpacing * (gridNumColumns - 1))) / gridNumColumns
-                let itemHeight = itemWidth + 60
+                let itemHeight = itemWidth + cellExtraHeight
                 return CGSize(width: itemWidth, height: itemHeight)
             }
         } else {
@@ -85,7 +85,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             case .grid:
                 let numColumns = floor(viewWidth / (gridPreferredWidth + gridStyleSpacing))
                 let itemWidth = (viewWidth - (gridStyleSpacing * (numColumns - 1))) / numColumns
-                let itemHeight = itemWidth + 60
+                let itemHeight = itemWidth + cellExtraHeight
                 return CGSize(width: itemWidth, height: itemHeight)
             }
         }

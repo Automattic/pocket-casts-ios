@@ -14,16 +14,26 @@ class DescriptiveCollectionCell: ThemeableCollectionCell {
         }
     }
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.adjustsFontForContentSizeCategory = true
+        }
+    }
+
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            podcastAuthor.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var podcastDescription: ThemeableLabel! {
         didSet {
             podcastDescription.style = .primaryText02
+            podcastDescription.font = .font(ofSize: 15, weight: .regular, scalingWith: .callout)
+            podcastDescription.adjustsFontForContentSizeCategory = true
         }
     }
 
