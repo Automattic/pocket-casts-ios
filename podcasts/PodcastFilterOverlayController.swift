@@ -393,6 +393,14 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
         return podcastCell
     }
 
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let podcastCell = cell as? PodcastFilterSelectionCell else {
+            return
+        }
+        let podcast = allPodcasts[indexPath.row]
+        podcastCell.setSelected(selectedUuids.contains(podcast.uuid), animated: true)
+    }
+
      override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if playlistsRebrandingEnabled {
             if indexPath.section == 0 || (indexPath.section == 1 && allPodcasts.isEmpty) {
