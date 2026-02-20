@@ -11,7 +11,7 @@ class ShelfCell: UITableViewCell {
     @IBOutlet var actionSubtitle: ThemeableLabel! {
         didSet {
             actionSubtitle.style = .playerContrast02
-            actionName.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
+            actionSubtitle.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
