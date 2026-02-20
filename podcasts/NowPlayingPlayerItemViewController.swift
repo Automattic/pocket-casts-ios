@@ -367,6 +367,23 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             }
         }
         #endif
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    var shelfIconSize: CGFloat {
+        let metrics = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = min(45, max(32, metrics.scaledValue(for: 32)))
+        return iconSize
+    }
+
+    private func updateSize() {
+        let iconSize = shelfIconSize
+        for view in playerControlsStackView.subviews {
+            view.updateSizeConstraints(to: iconSize)
+        }
     }
 
     // MARK: - Interface Actions
