@@ -81,6 +81,14 @@ class PodcastChooserViewController: PCViewController, UITableViewDelegate, UITab
         return podcastCell
     }
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let podcastCell = cell as? PodcastChooserCell else {
+            return
+        }
+        let podcast = allPodcasts[indexPath.row]
+        podcastCell.setIsSelected(selectedUuids.contains(podcast.uuid))
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
