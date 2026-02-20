@@ -57,20 +57,21 @@ struct HorizontalCollectionList: View {
                 Spacer()
                 Text(model.title)
                     .foregroundStyle(.white)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .largeTitle, weight: .bold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
                 Spacer().frame(height: 8)
                 Text(model.description)
                     .foregroundStyle(.white)
-                    .font(.footnote)
+                    .font(size: 13, style: .largeTitle, weight: .regular)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
+                Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(minWidth: adjustedRowHeight, minHeight: 74)
+            .frame(minWidth: adjustedRowHeight, minHeight: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
