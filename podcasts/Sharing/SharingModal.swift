@@ -99,7 +99,7 @@ enum SharingModal {
         }
         optionPicker.addActions(actions)
 
-        if let vc = (viewController as? EpisodeDetailViewController),
+        if let vc = (viewController as? EpisodeFileSharing),
            let fileAction = vc.episodeFileAction(from: .zero) {
             optionPicker.addAction(action: fileAction)
         }
