@@ -28,6 +28,8 @@
 - Dynamic Type: Discovery - Update featured carrousel and cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
 - Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
+- Dynamic type: Network highlight - Show all [#3985](https://github.com/Automattic/pocket-casts-ios/pull/3985)
+
 
 8.5
 -----
