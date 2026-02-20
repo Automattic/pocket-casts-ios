@@ -29,6 +29,7 @@
 - Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
 - Dynamic Type: Country selector [#3986](https://github.com/Automattic/pocket-casts-ios/pull/3986)
+- Dynamic type: Update player main view [#3989](https://github.com/Automattic/pocket-casts-ios/pull/3989)
 
 
 8.5
