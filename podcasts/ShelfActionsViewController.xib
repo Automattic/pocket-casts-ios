@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,7 +13,7 @@
                 <outlet property="actionsTable" destination="6tw-OJ-5M6" id="hJv-NQ-6cB"/>
                 <outlet property="doneButtonVerticalConstraint" destination="e5y-WK-qoH" id="4on-L0-dot"/>
                 <outlet property="dragHandle" destination="u7u-d7-LCB" id="siQ-EJ-snB"/>
-                <outlet property="editButtonVerticalConstraint" destination="pje-FQ-OGl" id="Ee6-DI-ET2"/>
+                <outlet property="editButtonVerticalConstraint" destination="uLs-vs-n1s" id="bMU-wq-rjw"/>
                 <outlet property="headingLabel" destination="ReJ-sq-mag" id="LRC-D2-cT7"/>
                 <outlet property="headingView" destination="kRe-hz-06d" id="6I3-nx-wuu"/>
                 <outlet property="headingViewHeightConstraint" destination="5Lc-Gk-ogu" id="sj2-kT-LZz"/>
@@ -29,14 +29,14 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kRe-hz-06d" userLabel="Popup Heading">
                     <rect key="frame" x="0.0" y="0.0" width="412" height="68"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE ACTIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReJ-sq-mag" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="20" y="35" width="99.5" height="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE ACTIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReJ-sq-mag" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="20" y="16" width="99" height="36"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rearrange Actions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pi8-u0-lvv" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="132" y="23.5" width="148" height="21"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rearrange Actions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pi8-u0-lvv" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="133" y="23.5" width="146.5" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -54,8 +54,8 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKZ-Dw-VOH" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="360" y="25.5" width="32" height="33"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKZ-Dw-VOH" customClass="ThemeableUIButton" customModule="podcasts" customModuleProvider="target">
+                            <rect key="frame" x="361" y="17.5" width="31" height="33"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="Edit">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -68,14 +68,15 @@
                     <color key="backgroundColor" red="0.27818405629999998" green="0.16882148390000001" blue="0.043081961570000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="pi8-u0-lvv" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="58X-ye-TXQ"/>
-                        <constraint firstAttribute="height" constant="68" id="5Lc-Gk-ogu"/>
-                        <constraint firstAttribute="bottom" secondItem="ReJ-sq-mag" secondAttribute="bottom" constant="17" id="7Cv-ee-gK0"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="5Lc-Gk-ogu"/>
+                        <constraint firstAttribute="bottom" secondItem="ReJ-sq-mag" secondAttribute="bottom" constant="16" id="7Cv-ee-gK0"/>
+                        <constraint firstItem="ReJ-sq-mag" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="16" id="Phm-2g-RiH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="Rch-bC-tUP"/>
                         <constraint firstItem="ReJ-sq-mag" firstAttribute="leading" secondItem="kRe-hz-06d" secondAttribute="leading" constant="20" id="c3L-kF-bIk"/>
-                        <constraint firstItem="cKZ-Dw-VOH" firstAttribute="centerY" secondItem="pi8-u0-lvv" secondAttribute="centerY" id="e5y-WK-qoH"/>
+                        <constraint firstAttribute="centerY" secondItem="ReJ-sq-mag" secondAttribute="centerY" id="e5y-WK-qoH"/>
                         <constraint firstItem="u7u-d7-LCB" firstAttribute="top" secondItem="kRe-hz-06d" secondAttribute="top" constant="8" id="mMP-BI-Eut"/>
-                        <constraint firstItem="cKZ-Dw-VOH" firstAttribute="firstBaseline" secondItem="ReJ-sq-mag" secondAttribute="firstBaseline" id="pje-FQ-OGl"/>
                         <constraint firstAttribute="trailing" secondItem="cKZ-Dw-VOH" secondAttribute="trailing" constant="20" id="q1u-Nq-yeJ"/>
+                        <constraint firstItem="cKZ-Dw-VOH" firstAttribute="centerY" secondItem="kRe-hz-06d" secondAttribute="centerY" id="uLs-vs-n1s"/>
                         <constraint firstItem="pi8-u0-lvv" firstAttribute="centerX" secondItem="kRe-hz-06d" secondAttribute="centerX" id="zGs-cC-qdI"/>
                     </constraints>
                     <variation key="default">
@@ -86,7 +87,7 @@
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="default" rowHeight="72" estimatedRowHeight="72" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6tw-OJ-5M6">
                     <rect key="frame" x="0.0" y="68" width="412" height="402"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                     <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="GUP-CC-1l4"/>
@@ -108,4 +109,9 @@
             <point key="canvasLocation" x="-1293" y="-35"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
