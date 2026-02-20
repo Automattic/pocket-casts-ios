@@ -9,6 +9,9 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
             actionsTable.separatorColor = AppTheme.tableDividerColor(for: .dark)
             actionsTable.indicatorStyle = AppTheme.indicatorStyle()
+
+            actionsTable.rowHeight = UITableView.automaticDimension
+            actionsTable.sectionHeaderHeight = UITableView.automaticDimension
         }
     }
 
