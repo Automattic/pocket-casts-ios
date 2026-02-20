@@ -32,11 +32,15 @@ class SessionManager: NSObject, WCSessionDelegate {
 
     // this is called in the background when there's new data available for the app
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
-        if let messageId = applicationContext[WatchConstants.Keys.messageVersion] as? String, messageId == WatchConstants.Values.messageVersion {
-            UserDefaults.standard.set(applicationContext, forKey: WatchConstants.UserDefaults.data)
-            UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
-            updateFeatureFlags(applicationContext)
-            NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
+        if FeatureFlag.watchTransferUserInfoApi.enabled {
+            handleStateUpdate(applicationContext)
+        } else {
+            if let messageId = applicationContext[WatchConstants.Keys.messageVersion] as? String, messageId == WatchConstants.Values.messageVersion {
+                UserDefaults.standard.set(applicationContext, forKey: WatchConstants.UserDefaults.data)
+                UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
+                updateFeatureFlags(applicationContext)
+                NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
+            }
         }
     }
 
@@ -89,6 +93,42 @@ class SessionManager: NSObject, WCSessionDelegate {
                 FileLog.shared.addMessage("SessionManager: Failed to write log file for transfer: \(error.localizedDescription)")
             }
         }
+    }
+
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
+        guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
+
+        if WatchConstants.Messages.StateUpdate.type == messageType {
+            handleStateUpdate(message)
+        }
+    }
+
+    // MARK: - State Update Handler
+
+    private static let lastProcessedTimestampKey = "lastProcessedStateUpdateTimestamp"
+
+    private func handleStateUpdate(_ stateData: [String: Any]) {
+        guard let messageId = stateData[WatchConstants.Keys.messageVersion] as? String,
+              messageId == WatchConstants.Values.messageVersion else {
+            return
+        }
+
+        // Validate timestamp to ignore stale updates
+        // This prevents old queued applicationContext data from overwriting newer sendMessage data
+        if let newTimestamp = stateData[WatchConstants.Keys.lastUpdateTime] as? TimeInterval {
+            let lastProcessed = UserDefaults.standard.double(forKey: Self.lastProcessedTimestampKey)
+            if newTimestamp <= lastProcessed {
+                FileLog.shared.addMessage("SessionManager: Ignoring stale state update (timestamp: \(newTimestamp), last processed: \(lastProcessed))")
+                return
+            }
+            UserDefaults.standard.set(newTimestamp, forKey: Self.lastProcessedTimestampKey)
+        }
+
+        UserDefaults.standard.set(stateData, forKey: WatchConstants.UserDefaults.data)
+        UserDefaults.standard.set(Date(), forKey: WatchConstants.UserDefaults.lastDataTime)
+        updateFeatureFlags(stateData)
+        NotificationCenter.default.post(name: WatchConstants.Notifications.dataUpdated, object: nil)
     }
 
     // MARK: - Offline watch messages
