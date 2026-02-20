@@ -12,6 +12,7 @@ class RichExpandableLabel: WKWebView {
     private(set) var previousHTML: String = ""
     private(set) var originalHTML: String = ""
     private var isFirstTime = true
+    private var isCollapsible = false
 
     private lazy var linkTapGesture: UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
@@ -58,6 +59,7 @@ class RichExpandableLabel: WKWebView {
         isUserInteractionEnabled = true
         scrollView.isScrollEnabled = false
         navigationDelegate = self
+        addGestureRecognizer(linkTapGesture)
         updateStyle()
     }
 
@@ -159,6 +161,7 @@ class RichExpandableLabel: WKWebView {
     }
 
     @objc private func labelTapped(gesture: UITapGestureRecognizer) {
+        guard isCollapsible else { return }
         if collapsed {
             delegate?.willExpandLabel(self)
             collapsed = false
@@ -178,13 +181,11 @@ class RichExpandableLabel: WKWebView {
 
     private func update() {
         if collapsed {
-            addGestureRecognizer(linkTapGesture)
             let font = UIFont.preferredFont(forTextStyle: .body)
             let newHeight = Self.estimateHeightFor(maxLines: maxLines, lineHeightMultiple: desiredLinedHeightMultiple, font: font)
             heightConstraint.constant = newHeight
             heightChanged?(newHeight)
         } else {
-            removeGestureRecognizer(linkTapGesture)
             heightConstraint.constant = contentHeight
             heightChanged?(contentHeight.rounded(.up))
         }
@@ -213,7 +214,8 @@ class RichExpandableLabel: WKWebView {
     private func updateLinesRequired() {
         evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
             guard let self = self, let linesRequired = lines as? Double else { return }
-            collapsed = Int(linesRequired.rounded(.up)) > self.maxLines
+            isCollapsible = Int(linesRequired.rounded(.up)) > self.maxLines
+            collapsed = isCollapsible
         })
     }
 
