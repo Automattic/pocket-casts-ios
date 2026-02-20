@@ -24,6 +24,7 @@
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)
 - Dynamic Type: Discovery - Resize feature cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
 - Dynamic type: Discover - Trending list [#3975](https://github.com/Automattic/pocket-casts-ios/pull/3975)
+- Dynamic Type: Transcript update actions and paywall [#3969](https://github.com/Automattic/pocket-casts-ios/pull/33969)
 - Dynamic Type: Discovery - Update featured carrousel and cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
 - Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
