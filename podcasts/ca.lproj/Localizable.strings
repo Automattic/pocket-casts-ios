@@ -1054,6 +1054,8 @@ Ens veiem el 2024!</string>
     <string>%1$@ episodis</string>
     <key>episode_description_title</key>
     <string>Descripció de l'episodi</string>
+    <key>episode_detail_add</key>
+    <string>Afegeix</string>
     <key>episode_details_title</key>
     <string>Notes</string>
     <key>episode_filter_by_duration_label</key>
@@ -1160,6 +1162,8 @@ Ens veiem el 2024!</string>
     <string>Arxius</string>
     <key>files_how_to_title</key>
     <string>Com desar un arxiu</string>
+    <key>files_not_uploaded</key>
+    <string>No s'han pujat fitxers</string>
     <key>files_sort</key>
     <string>Ordenar els arxius</string>
     <key>filter_auto_add_subtitle</key>
@@ -1895,8 +1899,12 @@ ACTUALITZACIONS</string>
     <string>Reprodueix-ho tot</string>
     <key>play_last</key>
     <string>Reproduir al final</string>
+    <key>play_last_in_up_next</key>
+    <string>Reprodueix al final a 'Tot seguit'</string>
     <key>play_next</key>
     <string>Reproduir a continuació</string>
+    <key>play_next_in_up_next</key>
+    <string>Reproduir a continuació a 'Tot seguit'</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Dels %1$@ episodis que vas començar, has escoltat completament un total de %2$@.</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3159,6 +3167,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Si prems a un episodi de la llista «Tot seguit» es mostra la pàgina d'accions. I si prems de forma perllongada es reproduirà l'episodi. Per a canviar una per l'altra, activa aquesta opció.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Si prems un episodi de la llista «Tot seguit» aquest es reproduirà. I si premis de forma perllongada s'ensenyaran les opcions dels episodis. Per a canviar una per l'altra, desactiva aquesta opció.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Utilitza l'eina d'apujar el volum actualitzada amb nivells de veu més consistents.</string>
     <key>settings_global_settings</key>
     <string>Configuració general</string>
     <key>settings_headphone_controls</key>
@@ -3816,6 +3828,8 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <string>Apujar el volum</string>
     <key>volume_boost_description</key>
     <string>Augmenta el volum de les veus</string>
+    <key>volume_boost_n_description</key>
+    <string>Els nivells de veu són més consistents</string>
     <key>wait_for_wifi</key>
     <string>Esperant a la xarxa Wi-Fi</string>
     <key>watch</key>
