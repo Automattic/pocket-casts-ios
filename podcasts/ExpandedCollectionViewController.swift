@@ -21,7 +21,15 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
     let gridPreferredWidth: CGFloat = 150
     let gridPeferredHeight: CGFloat = 265
     let descriptiveListPreferredMaxWidth: CGFloat = 280
-    let descriptiveListPreferredMaxHeight: CGFloat = 200
+    var descriptiveListPreferredMaxHeight: CGFloat {
+        var baseHeight = CGFloat(200)
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        if largeSize {
+            baseHeight = baseHeight * 1.3
+        }
+        let metric = UIFontMetrics(forTextStyle: .callout)
+        return max(baseHeight, metric.scaledValue(for: baseHeight))
+    }
     let descriptiveListSpacing: CGFloat = 16
 
     @IBOutlet var collectionView: ThemeableCollectionView! {
@@ -114,5 +122,29 @@ class ExpandedCollectionViewController: PCViewController, CollectionHeaderLinkDe
         Analytics.track(.discoverListShareTapped)
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         present(activityViewController, animated: true)
+    }
+
+    // MARK: - Dynamic Type support
+
+    var cellExtraHeight: CGFloat {
+        var baseHeight: CGFloat = 50
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        if largeSize {
+            baseHeight = baseHeight * 1.5
+        }
+        let metric = UIFontMetrics(forTextStyle: .callout)
+        return max(baseHeight, metric.scaledValue(for: baseHeight))
+    }
+
+    func updateSize() {
+        updateFlowLayoutSize()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
