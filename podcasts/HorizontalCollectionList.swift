@@ -1,6 +1,6 @@
 import SwiftUI
 import Foundation
-
+import WrappingHStack
 import PocketCastsServer
 
 struct HorizontalCollectionList: View {
@@ -9,18 +9,30 @@ struct HorizontalCollectionList: View {
 
     @EnvironmentObject var theme: Theme
 
+    @ScaledMetric(relativeTo: .largeTitle) var scaledHeight = CGFloat(323)
+
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowHeight = CGFloat(210)
+
+    var adjustedHeight: CGFloat {
+        return max(323, scaledHeight)
+    }
+
+    var adjustedRowHeight: CGFloat {
+        return min(320, max(210, scaledRowHeight))
+    }
+
     var header: some View {
-        HStack {
+        HStack(alignment: .center) {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
-                .font(.title2.bold())
+                .font(size: 22, style: .title, weight: .bold)
             Spacer()
             Button() {
                 model.showCollection()
             } label: {
                 Text(L10n.discoverShowAll.localizedUppercase)
                     .foregroundStyle(theme.primaryInteractive01)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .title, weight: .bold)
                     .kerning(0.6)
             }
         }
@@ -40,26 +52,26 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: 179, height: 210)
+            .frame(width: adjustedRowHeight, height: adjustedRowHeight)
             VStack() {
-                Spacer().frame(height: 12)
+                Spacer()
                 Text(model.title)
                     .foregroundStyle(.white)
-                    .font(size: 13, style: .footnote, weight: .bold)
+                    .font(size: 13, style: .largeTitle, weight: .bold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
                 Spacer().frame(height: 8)
                 Text(model.description)
                     .foregroundStyle(.white)
-                    .font(.footnote)
+                    .font(size: 13, style: .largeTitle, weight: .regular)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 8)
-                Spacer().frame(height: 12)
+                Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(minWidth: 179, minHeight: 74)
+            .frame(minWidth: adjustedRowHeight, minHeight: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
@@ -72,17 +84,18 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: 179, height: 210)
+        .frame(width: adjustedRowHeight, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 
     @ViewBuilder
     func row(for podcast: DiscoverPodcast) -> some View {
-        HStack(alignment: .center, spacing: 10) {
+        HStack(alignment: .center, spacing: 0) {
             PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
-                .frame(width: 101, height: 101)
-            VStack(alignment: .leading) {
-                HStack {
+                .frame(width: (adjustedRowHeight / 2) - 4, height: (adjustedRowHeight / 2) - 4)
+            Spacer().frame(width: 10)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
                     Text(podcast.title ?? "")
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
@@ -91,7 +104,8 @@ struct HorizontalCollectionList: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
-                HStack {
+                Spacer().frame(height: 8)
+                HStack(spacing: 0) {
                     Text(podcast.author ?? "")
                         .foregroundStyle(theme.primaryText02)
                         .font(.footnote.weight(.medium))
@@ -100,11 +114,12 @@ struct HorizontalCollectionList: View {
                     Spacer()
                 }
             }
-            Spacer()
+            .layoutPriority(1)
             SubscribeButtonView(podcastUuid: podcast.uuid ?? "", source: .discover) {
                 model.subscribePodcast(podcast)
             }
         }
+        .frame(maxHeight: (adjustedRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }
@@ -119,12 +134,12 @@ struct HorizontalCollectionList: View {
                 }
                 if index == pairs.count - 1, pairs[index].count == 1 {
                     Rectangle()
-                        .frame(height: 101)
+                        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
                         .foregroundStyle(.clear)
                 }
             }
             .padding(.leading, 16)
-            .frame(width: max(width - 24, 0), height: 210)
+            .frame(width: max(width - 24, 0), height: adjustedRowHeight)
             .id(index + 1)
         }
     }
@@ -158,7 +173,7 @@ struct HorizontalCollectionList: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
         }
-        .frame(height: 323)
+        .frame(height: adjustedHeight)
     }
 }
 
