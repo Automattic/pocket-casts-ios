@@ -81,6 +81,10 @@ public enum WatchConstants {
             public static let logContents = "logFile"
         }
 
+        enum LogFileTransfer {
+            public static let type = "logFileTransfer"
+        }
+
         enum SignificantSyncableUpdate {
             public static let type = "sigSyncUpdate"
         }

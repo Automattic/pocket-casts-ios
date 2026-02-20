@@ -1,10 +1,8 @@
 8.7
 -----
-
-
-8.7
------
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
+- Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
+- Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
 
 8.6
 -----

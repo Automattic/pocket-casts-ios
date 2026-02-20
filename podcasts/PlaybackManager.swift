@@ -1974,6 +1974,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             player?.routeDidChange(shouldPause: true)
         } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {
             player?.routeDidChange(shouldPause: false)
+            updateAllNowPlayingData()
         }
     }
 

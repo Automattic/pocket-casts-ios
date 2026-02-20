@@ -63,6 +63,11 @@ extension FileLog: EventLoggingDelegate {
         .eraseToAnyPublisher()
     }
 
+    /// Returns the watchOS log contents as a string, using the same flow as support uploads
+    func watchLogFileAsString() async -> String? {
+        await WatchManager.shared.requestLogFile()
+    }
+
     public func encryptedWatchLogUUID() -> AnyPublisher<String, Never> {
         watchLogFileForUpload()
             .tryMap { [unowned self] filePath in
