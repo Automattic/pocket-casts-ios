@@ -18,7 +18,7 @@ struct HorizontalCollectionList: View {
     }
 
     var adjustedRowHeight: CGFloat {
-        return max(210, scaledRowHeight)
+        return min(320, max(210, scaledRowHeight))
     }
 
     var header: some View {
@@ -52,7 +52,7 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: 179, height: adjustedRowHeight)
+            .frame(width: adjustedRowHeight, height: adjustedRowHeight)
             VStack() {
                 Spacer()
                 Text(model.title)
@@ -70,7 +70,7 @@ struct HorizontalCollectionList: View {
                     .padding(.horizontal, 8)
             }
             .foregroundColor(.clear)
-            .frame(minWidth: 179, minHeight: 74)
+            .frame(minWidth: adjustedRowHeight, minHeight: 74)
             .background(
                 LinearGradient(
                     stops: [
@@ -83,7 +83,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: 179, height: adjustedRowHeight)
+        .frame(width: adjustedRowHeight, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 
@@ -91,7 +91,7 @@ struct HorizontalCollectionList: View {
     func row(for podcast: DiscoverPodcast) -> some View {
         HStack(alignment: .center, spacing: 0) {
             PodcastImageViewWrapper(podcastUUID: podcast.uuid ?? "", size: .grid)
-                .frame(width: 101, height: 101)
+                .frame(width: (adjustedRowHeight / 2) - 4, height: (adjustedRowHeight / 2) - 4)
             Spacer().frame(width: 10)
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
