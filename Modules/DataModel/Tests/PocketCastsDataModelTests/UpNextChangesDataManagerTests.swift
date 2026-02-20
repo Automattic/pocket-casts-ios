@@ -285,4 +285,98 @@ final class UpNextChangesDataManagerTests: DataManagerTestCase {
             XCTAssertNotNil(updateActions, "\(impl): Update actions should be accessible")
         }
     }
+
+    // MARK: - Login Sync Bug Tests
+
+    /// This test demonstrates the bug where pending replace actions persist through login sync.
+    ///
+    /// The bug occurs because:
+    /// 1. During login sync, changes are not collected, so latestActionTime stays at 0
+    /// 2. clearSyncedData(latestActionTime: 0) calls deleteChangesOlderThan(utcTime: 0)
+    /// 3. Since all pending changes have positive timestamps (milliseconds since 1970),
+    ///    the query "DELETE WHERE utcTime <= 0" deletes nothing
+    /// 4. Old replace actions persist and get sent on the next non-login sync
+    func testDeleteChangesOlderThanZeroDoesNotDeleteReplaceAction_DemonstratesBug() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
+
+            // Simulate: Device creates an empty replace action (e.g., when queue is cleared)
+            dataManager.saveReplace(episodeList: [])
+
+            // Verify replace action exists
+            let replaceActionBefore = dataManager.findReplaceAction()
+            XCTAssertNotNil(replaceActionBefore, "\(impl): Replace action should exist before deletion attempt")
+            XCTAssertEqual(replaceActionBefore?.uuids, "", "\(impl): Replace action should have empty episode list")
+
+            // Simulate login sync: clearSyncedData is called with latestActionTime = 0
+            // This is the bug - it should clear pending changes but doesn't
+            dataManager.deleteChangesOlderThan(utcTime: 0)
+
+            // BUG: Replace action still exists because its utcTime > 0
+            let replaceActionAfter = dataManager.findReplaceAction()
+            XCTAssertNotNil(replaceActionAfter, "\(impl): BUG DEMONSTRATED - Replace action persists after deleteChangesOlderThan(0)")
+        }
+    }
+
+    /// This test demonstrates the fix: using Int64.max to clear all pending changes.
+    func testDeleteChangesOlderThanMaxDeletesAllChanges_DemonstratesFix() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
+            let episode2 = self.createTestEpisode(uuid: "episode-2", podcast: podcast, dataManager: dataManager)
+
+            // Create both a replace action and update actions
+            dataManager.saveReplace(episodeList: [])
+            dataManager.saveUpNextAddToTop(episodeUuid: episode2.uuid)
+
+            // Verify actions exist
+            XCTAssertNotNil(dataManager.findReplaceAction(), "\(impl): Replace action should exist")
+
+            // FIX: Use Int64.max to clear all pending changes during login sync
+            dataManager.deleteChangesOlderThan(utcTime: Int64.max)
+
+            // All changes should be cleared
+            let replaceAction = dataManager.findReplaceAction()
+            let updateActions = dataManager.findUpdateActions()
+
+            XCTAssertNil(replaceAction, "\(impl): FIX DEMONSTRATED - Replace action cleared with Int64.max")
+            XCTAssertTrue(updateActions.isEmpty, "\(impl): FIX DEMONSTRATED - Update actions cleared with Int64.max")
+        }
+    }
+
+    /// This test simulates the full bug scenario:
+    /// 1. Empty replace action is created
+    /// 2. Login sync happens (simulated by deleteChangesOlderThan(0))
+    /// 3. Replace action persists
+    /// 4. On next sync, the stale replace would be found and sent
+    func testStaleReplaceActionPersistsThroughLoginSync() throws {
+        try runWithBothImplementations { dataManager, impl in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "episode-1", podcast: podcast, dataManager: dataManager)
+
+            // Step 1: Device has empty queue, creates empty replace action
+            dataManager.saveReplace(episodeList: [])
+
+            let originalReplace = dataManager.findReplaceAction()
+            XCTAssertNotNil(originalReplace, "\(impl): Original replace should exist")
+            let originalTimestamp = originalReplace!.utcTime
+            XCTAssertGreaterThan(originalTimestamp, 0, "\(impl): Replace should have positive timestamp")
+
+            // Step 2: Simulate login sync - this should clear stale changes but doesn't
+            // In real code: latestActionTime = 0 because changes aren't collected during login
+            dataManager.deleteChangesOlderThan(utcTime: 0)
+
+            // Step 3: Verify stale replace still exists (the bug)
+            let staleReplace = dataManager.findReplaceAction()
+            XCTAssertNotNil(staleReplace, "\(impl): Stale replace persists through login sync")
+            XCTAssertEqual(staleReplace?.utcTime, originalTimestamp, "\(impl): Same stale replace action")
+
+            // Step 4: On next non-login sync, findReplaceAction() would return this stale action
+            // and it would be sent to the server, potentially clearing the server's queue
+            let replaceToSync = dataManager.findReplaceAction()
+            XCTAssertNotNil(replaceToSync, "\(impl): Stale replace would be synced on next sync")
+            XCTAssertEqual(replaceToSync?.uuids, "", "\(impl): Empty replace would clear server queue")
+        }
+    }
 }
