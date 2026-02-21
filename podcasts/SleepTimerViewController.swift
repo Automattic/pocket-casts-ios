@@ -17,7 +17,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             plusFiveBtn.layer.cornerRadius = 12
             plusFiveBtn.layer.borderWidth = 2
             plusFiveBtn.backgroundColor = UIColor.clear
-            plusFiveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            plusFiveBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            plusFiveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -27,14 +28,16 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             endOfEpisodeBtn.layer.cornerRadius = 12
             endOfEpisodeBtn.layer.borderWidth = 2
             endOfEpisodeBtn.backgroundColor = UIColor.clear
-            endOfEpisodeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            endOfEpisodeBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            endOfEpisodeBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var cancelBtn: UIButton! {
         didSet {
             cancelBtn.setTitle(L10n.sleepTimerCancel, for: .normal)
-            cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            cancelBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            cancelBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             cancelBtn.layer.cornerRadius = 12
         }
     }
@@ -57,7 +60,9 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBOutlet var sleepTimerActiveView: UIView!
     @IBOutlet var timeRemaining: ThemeableLabel! {
         didSet {
-            timeRemaining.font = timeRemaining.font.monospaced()
+            let baseFont = timeRemaining.font.monospaced()
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            timeRemaining.font = metric.scaledFont(for: baseFont)
             timeRemaining.style = .playerContrast01
         }
     }
@@ -75,6 +80,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         didSet {
             endOfEpisodeLabel.style = .playerContrast01
             endOfEpisodeLabel.text = sleepTimerEpisodesLabel
+            endOfEpisodeLabel.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title1)
+            endOfEpisodeLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -180,6 +187,15 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         self.view.translatesAutoresizingMaskIntoConstraints = false
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
+        setupButtonsForDynamicType()
+    }
+
+    private func setupButtonsForDynamicType() {
+        var buttons: [UIButton] = [fiveMinutesBtn, fifteenMinutesBtn, thirtyMinutesBtn, oneHourBtn, endOfEpisodeInactiveBtn, customTimeBtn]
+        for button in buttons {
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.titleLabel?.numberOfLines = 0
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
