@@ -283,6 +283,15 @@ public enum FeatureFlag: String, CaseIterable {
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
 
+    /// Use WCSessionFileTransfer to send logs from watchOS to iPhone instead of sendMessage reply
+    case watchLogFileTransfer
+
+    /// Check if protected data is available before running migrations that touch keychain
+    case checkProtectedDataBeforeMigration
+
+    /// Use transferUserInfo API for watch-to-phone actions and sendMessage for phone-to-watch state updates
+    case watchTransferUserInfoApi
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -474,6 +483,12 @@ public enum FeatureFlag: String, CaseIterable {
         case .grdbQueryInterface:
             true
         case .playlistCacheInvalidation:
+            true
+        case .watchLogFileTransfer:
+            true
+        case .checkProtectedDataBeforeMigration:
+			true
+        case .watchTransferUserInfoApi:
             true
         }
     }
