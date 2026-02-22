@@ -296,21 +296,21 @@
                                     <rect key="frame" x="0.0" y="446" width="280" height="64"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mmt-Tp-FF7" customClass="PodcastImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="17" y="17" width="30" height="30"/>
+                                            <rect key="frame" x="16" y="17" width="30" height="30"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="30" id="2jl-Pv-ckQ"/>
                                                 <constraint firstAttribute="height" constant="30" id="nH4-zL-ocq"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom effects applied" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JrO-T2-rgm" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="63" y="23" width="159.5" height="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Custom effects applied" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JrO-T2-rgm" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="62" y="4" width="109" height="56"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SX-69-2q8">
-                                            <rect key="frame" x="213" y="17" width="47" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SX-69-2q8">
+                                            <rect key="frame" x="181" y="17" width="91" height="30"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <state key="normal" title="CLEAR">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -323,11 +323,14 @@
                                     <color key="backgroundColor" white="1" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="JrO-T2-rgm" firstAttribute="centerY" secondItem="mmt-Tp-FF7" secondAttribute="centerY" id="04o-qB-94K"/>
-                                        <constraint firstAttribute="trailing" secondItem="1SX-69-2q8" secondAttribute="trailing" constant="20" id="AFv-mO-fG9"/>
-                                        <constraint firstAttribute="height" constant="64" id="BSk-fU-Qyn"/>
+                                        <constraint firstItem="1SX-69-2q8" firstAttribute="leading" secondItem="JrO-T2-rgm" secondAttribute="trailing" constant="10" id="9Ja-tg-QEq"/>
+                                        <constraint firstAttribute="trailing" secondItem="1SX-69-2q8" secondAttribute="trailing" constant="8" id="AFv-mO-fG9"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="BSk-fU-Qyn"/>
                                         <constraint firstItem="JrO-T2-rgm" firstAttribute="leading" secondItem="mmt-Tp-FF7" secondAttribute="trailing" constant="16" id="Csf-Aq-Tzi"/>
+                                        <constraint firstAttribute="bottom" secondItem="JrO-T2-rgm" secondAttribute="bottom" constant="4" id="Ej6-9Z-cGq"/>
+                                        <constraint firstItem="JrO-T2-rgm" firstAttribute="top" secondItem="IPm-dg-nP6" secondAttribute="top" constant="4" id="SiS-gx-fOr"/>
                                         <constraint firstItem="mmt-Tp-FF7" firstAttribute="centerY" secondItem="IPm-dg-nP6" secondAttribute="centerY" id="Tt2-xj-JXv"/>
-                                        <constraint firstItem="mmt-Tp-FF7" firstAttribute="leading" secondItem="IPm-dg-nP6" secondAttribute="leading" constant="17" id="WwT-mx-tmo"/>
+                                        <constraint firstItem="mmt-Tp-FF7" firstAttribute="leading" secondItem="IPm-dg-nP6" secondAttribute="leading" constant="16" id="WwT-mx-tmo"/>
                                         <constraint firstItem="1SX-69-2q8" firstAttribute="centerY" secondItem="JrO-T2-rgm" secondAttribute="centerY" id="g4f-AL-8PV"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
