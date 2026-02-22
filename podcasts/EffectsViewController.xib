@@ -94,7 +94,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gSi-1e-Tle">
                     <rect key="frame" x="20" y="68" width="280" height="530"/>
                     <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="036-xZ-lLC" userLabel="Playback Settings Segmented">
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="036-xZ-lLC" userLabel="Playback Settings Segmented">
                             <rect key="frame" x="0.0" y="28" width="280" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="Hg5-29-bhj"/>
@@ -104,20 +104,20 @@
                                 <segment title="Second"/>
                             </segments>
                         </segmentedControl>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5iH-XX-TB6" userLabel="Speed View">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5iH-XX-TB6" userLabel="Speed View">
                             <rect key="frame" x="0.0" y="89" width="280" height="44"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="player_speed" translatesAutoresizingMaskIntoConstraints="NO" id="l8T-5d-1fK" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="player_speed" translatesAutoresizingMaskIntoConstraints="NO" id="l8T-5d-1fK" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="10" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="7Mt-Tq-MwW" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" ambiguous="YES" text="Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Mt-Tq-MwW" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="44" y="12" width="49" height="20.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X9d-OS-tJn" userLabel="Minus">
+                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X9d-OS-tJn" userLabel="Minus">
                                     <rect key="frame" x="102" y="0.0" width="44" height="44"/>
                                     <accessibility key="accessibilityConfiguration" label="Decrease playback speed"/>
                                     <constraints>
@@ -129,7 +129,7 @@
                                         <action selector="minusTapped:" destination="-1" eventType="touchUpInside" id="s3h-rh-5OF"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OiT-SV-8zG" userLabel="Speed Button" customClass="ShiftyRoundButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OiT-SV-8zG" userLabel="Speed Button" customClass="ShiftyRoundButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="156" y="4" width="70" height="36"/>
                                     <viewLayoutGuide key="safeArea" id="GCu-8B-qJc"/>
                                     <accessibility key="accessibilityConfiguration" label="Playback Speed">
@@ -151,7 +151,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiH-JO-EJn" userLabel="Plus">
+                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZiH-JO-EJn" userLabel="Plus">
                                     <rect key="frame" x="236" y="0.0" width="44" height="44"/>
                                     <accessibility key="accessibilityConfiguration" label="Increase playback speed"/>
                                     <constraints>
@@ -175,26 +175,30 @@
                                 <constraint firstItem="X9d-OS-tJn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Mt-Tq-MwW" secondAttribute="trailing" constant="4" id="ug7-5u-o29"/>
                                 <constraint firstItem="7Mt-Tq-MwW" firstAttribute="centerY" secondItem="l8T-5d-1fK" secondAttribute="centerY" id="vgr-tS-BqN"/>
                                 <constraint firstItem="7Mt-Tq-MwW" firstAttribute="leading" secondItem="l8T-5d-1fK" secondAttribute="trailing" constant="20" id="wCK-VC-Hrq"/>
-                                <constraint firstAttribute="height" constant="44" id="xel-ni-y2Z"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="xel-ni-y2Z"/>
                                 <constraint firstItem="OiT-SV-8zG" firstAttribute="centerY" secondItem="ZiH-JO-EJn" secondAttribute="centerY" id="zbm-LI-yES"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W33-7F-lgX" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W33-7F-lgX" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="149" width="280" height="1"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.33743089437484741" blue="0.22742205858230591" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="koq-fY-Mbi"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Im-sp-Xss" userLabel="Trim Silence Switch View">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Im-sp-Xss" userLabel="Trim Silence Switch View">
                             <rect key="frame" x="0.0" y="166" width="280" height="44"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_trim" translatesAutoresizingMaskIntoConstraints="NO" id="vd7-K4-6oP" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="Ump-Cb-e7y"/>
+                                        <constraint firstAttribute="width" constant="24" id="aSs-7n-MvH"/>
+                                    </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trim Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0h-Uu-9ZR" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="2" width="93" height="20.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Trim Silence" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0h-Uu-9ZR" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="2" width="167" height="20.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
@@ -211,47 +215,52 @@
                             <constraints>
                                 <constraint firstItem="x0h-Uu-9ZR" firstAttribute="centerY" secondItem="vd7-K4-6oP" secondAttribute="centerY" id="4Nf-8Z-7nq"/>
                                 <constraint firstItem="qfX-vN-SOl" firstAttribute="centerY" secondItem="x0h-Uu-9ZR" secondAttribute="centerY" id="Hxw-vR-DIg"/>
+                                <constraint firstItem="qfX-vN-SOl" firstAttribute="leading" secondItem="x0h-Uu-9ZR" secondAttribute="trailing" constant="8" id="QgA-fc-pe6"/>
                                 <constraint firstItem="vd7-K4-6oP" firstAttribute="top" secondItem="9Im-sp-Xss" secondAttribute="top" id="axg-bp-REq"/>
                                 <constraint firstItem="x0h-Uu-9ZR" firstAttribute="leading" secondItem="vd7-K4-6oP" secondAttribute="trailing" constant="20" id="hDk-aa-hOq"/>
                                 <constraint firstItem="vd7-K4-6oP" firstAttribute="leading" secondItem="9Im-sp-Xss" secondAttribute="leading" id="sBg-9q-Fi1"/>
                                 <constraint firstAttribute="trailing" secondItem="qfX-vN-SOl" secondAttribute="trailing" id="uQV-Kn-tLV"/>
-                                <constraint firstAttribute="height" constant="44" id="zyL-RT-ftY"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="zyL-RT-ftY"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSS-An-PYk" userLabel="Trim Silence Segmented Control" customClass="CustomSegmentedControl" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="44" y="210" width="236" height="38"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lSS-An-PYk" userLabel="Trim Silence Segmented Control" customClass="CustomSegmentedControl" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="44" y="227" width="236" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="38" id="joY-sc-tBY"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" text="Makes episodes shorter by trimming silence when no one is talking." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLf-fa-jTA" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="44" y="260" width="236" height="75"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Makes episodes shorter by trimming silence when no one is talking." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLf-fa-jTA" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="44" y="277" width="236" height="58"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-9R-Vqg" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-9R-Vqg" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="351" width="280" height="1"/>
                             <color key="backgroundColor" red="0.41960784309999999" green="0.33743089440000001" blue="0.2274220586" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="T4l-sT-XYD"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OpL-dz-bb5" userLabel="Volume Boost View">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OpL-dz-bb5" userLabel="Volume Boost View">
                             <rect key="frame" x="0.0" y="368" width="280" height="60"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_volumeboost" translatesAutoresizingMaskIntoConstraints="NO" id="pxa-gz-sJt" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="1QV-6g-47E"/>
+                                        <constraint firstAttribute="height" constant="24" id="mJ1-Gq-vNu"/>
+                                    </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume Boost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="2" width="105.5" height="20.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Volume Boost" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="0.0" width="171" height="20.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Kq-Z2-EgY" customClass="ThemeableSwitch" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="219" y="-2" width="63" height="28"/>
+                                    <rect key="frame" x="219" y="-3.5" width="63" height="28"/>
                                     <accessibility key="accessibilityConfiguration" label="Volume Boost"/>
                                     <color key="onTintColor" red="0.92475664615631104" green="0.57313865423202515" blue="0.21551844477653503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <connections>
@@ -259,20 +268,21 @@
                                     </connections>
                                 </switch>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voices sound louder" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iuh-tf-56P" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="34.5" width="139.5" height="18"/>
+                                    <rect key="frame" x="44" y="32.5" width="139.5" height="18"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="6Kq-Z2-EgY" firstAttribute="leading" secondItem="n5f-PT-klK" secondAttribute="trailing" constant="4" id="47w-de-6VN"/>
                                 <constraint firstItem="pxa-gz-sJt" firstAttribute="top" secondItem="OpL-dz-bb5" secondAttribute="top" id="5av-ja-iAh"/>
                                 <constraint firstItem="pxa-gz-sJt" firstAttribute="leading" secondItem="OpL-dz-bb5" secondAttribute="leading" id="8TZ-YT-h80"/>
                                 <constraint firstItem="6Kq-Z2-EgY" firstAttribute="centerY" secondItem="n5f-PT-klK" secondAttribute="centerY" id="JEY-To-Q0p"/>
                                 <constraint firstAttribute="trailing" secondItem="6Kq-Z2-EgY" secondAttribute="trailing" id="TcI-kL-f6A"/>
-                                <constraint firstItem="n5f-PT-klK" firstAttribute="centerY" secondItem="pxa-gz-sJt" secondAttribute="centerY" id="VtG-v9-l3t"/>
+                                <constraint firstItem="n5f-PT-klK" firstAttribute="top" secondItem="OpL-dz-bb5" secondAttribute="top" id="VtG-v9-l3t"/>
                                 <constraint firstItem="Iuh-tf-56P" firstAttribute="top" secondItem="n5f-PT-klK" secondAttribute="bottom" constant="12" id="evO-YP-vix"/>
-                                <constraint firstAttribute="height" constant="60" id="hxi-IG-PVF"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="hxi-IG-PVF"/>
                                 <constraint firstItem="n5f-PT-klK" firstAttribute="leading" secondItem="pxa-gz-sJt" secondAttribute="trailing" constant="20" id="srX-1h-wSV"/>
                                 <constraint firstItem="Iuh-tf-56P" firstAttribute="leading" secondItem="n5f-PT-klK" secondAttribute="leading" id="vV4-WW-FBp"/>
                             </constraints>

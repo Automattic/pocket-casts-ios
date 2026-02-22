@@ -147,7 +147,7 @@ class EffectsViewController: SimpleNotificationsViewController {
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectThisPodcast, forSegmentAt: 1)
 
-            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)
+            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)            
         }
     }
 
@@ -454,9 +454,9 @@ class EffectsViewController: SimpleNotificationsViewController {
             playbackSettingsSegmentedControl.backgroundColor = ThemeColor.playerContrast06()
             playbackSettingsSegmentedControl.selectedSegmentTintColor = ThemeColor.playerContrast01()
 
-            let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02()]
+            let normalAttribute = [NSAttributedString.Key.foregroundColor: ThemeColor.playerContrast02(), .font: UIFont.font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)]
             playbackSettingsSegmentedControl.setTitleTextAttributes(normalAttribute, for: .normal)
-            let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01()]
+            let selectedAttribute = [NSAttributedString.Key.foregroundColor: PlayerColorHelper.playerBackgroundColor01(), .font: UIFont.font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)]
             playbackSettingsSegmentedControl.setTitleTextAttributes(selectedAttribute, for: .selected)
         } else {
             trimSilenceAmountControl.lineColor = ThemeColor.playerContrast02()
@@ -557,5 +557,23 @@ class EffectsViewController: SimpleNotificationsViewController {
         accessibilityElements.append(volumeBoostSwitch!)
 
         view.accessibilityElements = accessibilityElements
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        trimIcon.updateSizeConstraints(to: iconSize)
+        speedIcon.updateSizeConstraints(to: iconSize)
+        volumeIcon.updateSizeConstraints(to: iconSize)
+
+        updateColors()
     }
 }
