@@ -147,7 +147,7 @@ class EffectsViewController: SimpleNotificationsViewController {
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectAllPodcasts, forSegmentAt: 0)
             playbackSettingsSegmentedControl.setTitle(L10n.playbackEffectThisPodcast, forSegmentAt: 1)
 
-            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)            
+            playbackSettingsSegmentedControl.addTarget(self, action: #selector(playbackSettingsDestinationChanged), for: .valueChanged)
         }
     }
 
