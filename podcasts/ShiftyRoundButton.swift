@@ -93,7 +93,7 @@ class ShiftyRoundButton: UIView {
     }
 
     private func updateTextLayerFont() {
-        let uiFont = UIFont.font(ofSize: fontSize, weight: .semibold, scalingWith: .subheadline)
+        let uiFont = UIFont.font(ofSize: fontSize, weight: .semibold, scalingWith: .largeTitle)
         textLayer.string = buttonTitle
         textLayer.foregroundColor = textColor.cgColor
         textLayer.fontSize = uiFont.pointSize
@@ -162,6 +162,7 @@ class ShiftyRoundButton: UIView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         guard traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory else { return }
+        lastCGRectRendered = .zero
         updateTextLayerFont()
         setNeedsLayout()
     }

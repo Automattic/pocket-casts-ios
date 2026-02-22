@@ -574,6 +574,9 @@ class EffectsViewController: SimpleNotificationsViewController {
         speedIcon.updateSizeConstraints(to: iconSize)
         volumeIcon.updateSizeConstraints(to: iconSize)
 
+        let timerSize = max(36, iconMetric.scaledValue(for: 36))
+        speedBtn.updateSizeConstraints(width: 70, height: timerSize)
+
         updateColors()
     }
 }
