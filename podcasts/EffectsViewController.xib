@@ -378,7 +378,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="kai-Yh-xjV" firstAttribute="trailing" secondItem="gSi-1e-Tle" secondAttribute="trailing" constant="20" id="0BR-i6-ky3"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="550" id="0JD-py-CNT"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="0JD-py-CNT"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="top" secondItem="8UN-zx-FOh" secondAttribute="top" id="8Mp-Ix-bzN"/>
                         <constraint firstItem="8UN-zx-FOh" firstAttribute="bottom" secondItem="gSi-1e-Tle" secondAttribute="bottom" id="8SB-id-lhS"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="width" secondItem="kai-Yh-xjV" secondAttribute="width" constant="-40" id="Bq1-Rs-Bmf"/>
