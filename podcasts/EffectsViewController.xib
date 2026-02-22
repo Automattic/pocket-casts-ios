@@ -39,8 +39,8 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="598"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="734"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDY-er-QkI" userLabel="Popup Heading">
@@ -72,7 +72,7 @@
                                 <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="Fa1-TQ-Foj"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAYBACK EFFECTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fF-ad-Nz3" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAYBACK EFFECTS" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fF-ad-Nz3" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="20" y="35" width="127.5" height="16"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -256,22 +256,22 @@
                                                 <constraint firstAttribute="height" constant="24" id="mJ1-Gq-vNu"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Volume Boost Volume Boost Volume Boost Volume Boost" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" userLabel="Volume Boost" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="44" y="0.0" width="171" height="64.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" ambiguous="YES" text="Volume Boost" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" userLabel="Volume Boost" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="44" y="0.0" width="171" height="20.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Kq-Z2-EgY" customClass="ThemeableSwitch" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="219" y="18.5" width="63" height="28"/>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Kq-Z2-EgY" customClass="ThemeableSwitch" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="219" y="-3.5" width="63" height="28"/>
                                             <accessibility key="accessibilityConfiguration" label="Volume Boost"/>
                                             <color key="onTintColor" red="0.92475664615631104" green="0.57313865423202515" blue="0.21551844477653503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <connections>
                                                 <action selector="volumeBoostChanged:" destination="-1" eventType="valueChanged" id="GFx-lg-UCb"/>
                                             </connections>
                                         </switch>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Voices sound louder Voices sound louder Voices sound louder" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iuh-tf-56P" userLabel="Voices sound louder" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="44" y="76.5" width="236" height="38"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Voices sound louder" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iuh-tf-56P" userLabel="Voices sound louder" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="44" y="32.5" width="236" height="38"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
@@ -375,9 +375,10 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="kai-Yh-xjV" firstAttribute="trailing" secondItem="gSi-1e-Tle" secondAttribute="trailing" constant="20" id="0BR-i6-ky3"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="570" id="0JD-py-CNT"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="550" id="0JD-py-CNT"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="top" secondItem="8UN-zx-FOh" secondAttribute="top" id="8Mp-Ix-bzN"/>
                         <constraint firstItem="8UN-zx-FOh" firstAttribute="bottom" secondItem="gSi-1e-Tle" secondAttribute="bottom" id="8SB-id-lhS"/>
+                        <constraint firstItem="gSi-1e-Tle" firstAttribute="width" secondItem="kai-Yh-xjV" secondAttribute="width" constant="-40" id="Bq1-Rs-Bmf"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="leading" secondItem="kai-Yh-xjV" secondAttribute="leading" constant="20" id="u7T-6o-n5N"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="8UN-zx-FOh"/>
@@ -395,7 +396,7 @@
                 <constraint firstItem="yTq-s1-73n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="obR-ut-WMq"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-1526.0869565217392" y="-135.26785714285714"/>
+            <point key="canvasLocation" x="-1526.0869565217392" y="-89.732142857142847"/>
         </view>
     </objects>
     <resources>
