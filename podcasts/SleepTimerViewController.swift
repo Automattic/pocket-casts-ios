@@ -191,10 +191,13 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     private func setupButtonsForDynamicType() {
-        var buttons: [UIButton] = [fiveMinutesBtn, fifteenMinutesBtn, thirtyMinutesBtn, oneHourBtn, endOfEpisodeInactiveBtn, customTimeBtn]
+        let buttons: [UIButton] = [fiveMinutesBtn, fifteenMinutesBtn, thirtyMinutesBtn, oneHourBtn, endOfEpisodeInactiveBtn, customTimeBtn]
         for button in buttons {
             button.titleLabel?.adjustsFontForContentSizeCategory = true
-            button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.numberOfLines = 2
+            button.titleLabel?.lineBreakMode = .byWordWrapping
+            button.titleLabel?.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            button.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
     }
 
@@ -375,5 +378,48 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+/// Class that implements a properly resize Multiline button to use inside StackView that can force rescale of the StackView when it expands
+class MultiLineButton: ThemeableUIButton {
+
+    override var intrinsicContentSize: CGSize {
+        guard let titleLabel = titleLabel else {
+            return super.intrinsicContentSize
+        }
+
+        let imageWidth: CGFloat
+        if let img = imageView?.image {
+            imageWidth = img.size.width + imageEdgeInsets.left + imageEdgeInsets.right
+        } else {
+            imageWidth = 0
+        }
+
+        // Available width for text = button width - image - content insets - title insets
+        let availableWidth = frame.width
+            - contentEdgeInsets.left - contentEdgeInsets.right
+            - titleEdgeInsets.left - titleEdgeInsets.right
+            - imageWidth
+
+        guard availableWidth > 0 else {
+            return super.intrinsicContentSize
+        }
+
+        let textSize = titleLabel.sizeThatFits(
+            CGSize(width: availableWidth, height: .greatestFiniteMagnitude)
+        )
+
+        let totalHeight = textSize.height
+            + contentEdgeInsets.top + contentEdgeInsets.bottom
+            + titleEdgeInsets.top + titleEdgeInsets.bottom
+
+        return CGSize(width: frame.width, height: totalHeight)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // After layout sets the width, recalculate height
+        invalidateIntrinsicContentSize()
     }
 }
