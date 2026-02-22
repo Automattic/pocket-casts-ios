@@ -5,6 +5,7 @@ class PodcastEffectsViewController: PCViewController {
     @IBOutlet var effectsTable: UITableView! {
         didSet {
             registerCells()
+            effectsTable.rowHeight = UITableView.automaticDimension
         }
     }
 

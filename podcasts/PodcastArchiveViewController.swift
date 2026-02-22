@@ -5,6 +5,7 @@ class PodcastArchiveViewController: PCViewController {
     @IBOutlet var archiveTable: UITableView! {
         didSet {
             registerCells()
+            archiveTable.rowHeight = UITableView.automaticDimension
         }
     }
 
