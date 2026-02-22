@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EffectsViewController" customModule="podcasts" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EffectsViewController" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
             <connections>
                 <outlet property="clearForPodcastImage" destination="mmt-Tp-FF7" id="FWo-AX-adQ"/>
                 <outlet property="clearForPodcastView" destination="IPm-dg-nP6" id="ged-Fl-88u"/>
@@ -47,7 +46,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDY-er-QkI" userLabel="Popup Heading">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
                     <subviews>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dp7-EY-xsE" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dp7-EY-xsE" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="132" y="8" width="56" height="4"/>
                             <color key="backgroundColor" red="0.63509190082550049" green="0.58443516492843628" blue="0.50978493690490723" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <accessibility key="accessibilityConfiguration" label="Close Effects">
@@ -73,7 +72,7 @@
                                 <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="Fa1-TQ-Foj"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAYBACK EFFECTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fF-ad-Nz3" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAYBACK EFFECTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fF-ad-Nz3" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="20" y="35" width="127.5" height="16"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -96,9 +95,9 @@
                     <rect key="frame" x="20" y="68" width="280" height="530"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="036-xZ-lLC" userLabel="Playback Settings Segmented">
-                            <rect key="frame" x="0.0" y="28" width="280" height="25"/>
+                            <rect key="frame" x="0.0" y="28" width="280" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="24" id="Hg5-29-bhj"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="Hg5-29-bhj"/>
                             </constraints>
                             <segments>
                                 <segment title="First"/>
@@ -106,15 +105,15 @@
                             </segments>
                         </segmentedControl>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5iH-XX-TB6" userLabel="Speed View">
-                            <rect key="frame" x="0.0" y="82" width="280" height="44"/>
+                            <rect key="frame" x="0.0" y="89" width="280" height="44"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="player_speed" translatesAutoresizingMaskIntoConstraints="NO" id="l8T-5d-1fK" customClass="TintableImageView" customModule="podcasts" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="player_speed" translatesAutoresizingMaskIntoConstraints="NO" id="l8T-5d-1fK" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="10" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="7Mt-Tq-MwW" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="11.5" width="52" height="21.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="7Mt-Tq-MwW" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="12" width="49" height="20.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -130,7 +129,7 @@
                                         <action selector="minusTapped:" destination="-1" eventType="touchUpInside" id="s3h-rh-5OF"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OiT-SV-8zG" userLabel="Speed Button" customClass="ShiftyRoundButton" customModule="podcasts" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OiT-SV-8zG" userLabel="Speed Button" customClass="ShiftyRoundButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="156" y="4" width="70" height="36"/>
                                     <viewLayoutGuide key="safeArea" id="GCu-8B-qJc"/>
                                     <accessibility key="accessibilityConfiguration" label="Playback Speed">
@@ -180,28 +179,28 @@
                                 <constraint firstItem="OiT-SV-8zG" firstAttribute="centerY" secondItem="ZiH-JO-EJn" secondAttribute="centerY" id="zbm-LI-yES"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W33-7F-lgX" userLabel="Divider" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="142" width="280" height="1"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W33-7F-lgX" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="149" width="280" height="1"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.33743089437484741" blue="0.22742205858230591" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="koq-fY-Mbi"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Im-sp-Xss" userLabel="Trim Silence Switch View">
-                            <rect key="frame" x="0.0" y="159" width="280" height="44"/>
+                            <rect key="frame" x="0.0" y="166" width="280" height="44"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_trim" translatesAutoresizingMaskIntoConstraints="NO" id="vd7-K4-6oP" customClass="TintableImageView" customModule="podcasts" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_trim" translatesAutoresizingMaskIntoConstraints="NO" id="vd7-K4-6oP" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trim Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0h-Uu-9ZR" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="1.5" width="98" height="21.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trim Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0h-Uu-9ZR" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="2" width="93" height="20.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfX-vN-SOl" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="231" y="-3.5" width="51" height="31"/>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qfX-vN-SOl" customClass="ThemeableSwitch" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="219" y="-2" width="63" height="28"/>
                                     <accessibility key="accessibilityConfiguration" label="Trim Silence"/>
                                     <color key="onTintColor" red="0.92475664615631104" green="0.57313865423202515" blue="0.21551844477653503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <connections>
@@ -219,19 +218,19 @@
                                 <constraint firstAttribute="height" constant="44" id="zyL-RT-ftY"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSS-An-PYk" userLabel="Trim Silence Segmented Control" customClass="CustomSegmentedControl" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="44" y="203" width="236" height="38"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lSS-An-PYk" userLabel="Trim Silence Segmented Control" customClass="CustomSegmentedControl" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="44" y="210" width="236" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="38" id="joY-sc-tBY"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" text="Makes episodes shorter by trimming silence when no one is talking." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLf-fa-jTA" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="44" y="253" width="236" height="82"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" text="Makes episodes shorter by trimming silence when no one is talking." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLf-fa-jTA" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="44" y="260" width="236" height="75"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-9R-Vqg" userLabel="Divider" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-9R-Vqg" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="351" width="280" height="1"/>
                             <color key="backgroundColor" red="0.41960784309999999" green="0.33743089440000001" blue="0.2274220586" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
@@ -241,27 +240,27 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OpL-dz-bb5" userLabel="Volume Boost View">
                             <rect key="frame" x="0.0" y="368" width="280" height="60"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_volumeboost" translatesAutoresizingMaskIntoConstraints="NO" id="pxa-gz-sJt" customClass="TintableImageView" customModule="podcasts" customModuleProvider="target">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="player_volumeboost" translatesAutoresizingMaskIntoConstraints="NO" id="pxa-gz-sJt" customClass="TintableImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume Boost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="1.5" width="111.5" height="21.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume Boost" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5f-PT-klK" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="2" width="105.5" height="20.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Kq-Z2-EgY" customClass="ThemeableSwitch" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="231" y="-3.5" width="51" height="31"/>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Kq-Z2-EgY" customClass="ThemeableSwitch" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="219" y="-2" width="63" height="28"/>
                                     <accessibility key="accessibilityConfiguration" label="Volume Boost"/>
                                     <color key="onTintColor" red="0.92475664615631104" green="0.57313865423202515" blue="0.21551844477653503" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <connections>
                                         <action selector="volumeBoostChanged:" destination="-1" eventType="valueChanged" id="GFx-lg-UCb"/>
                                     </connections>
                                 </switch>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voices sound louder" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iuh-tf-56P" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="44" y="35" width="139.5" height="18"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voices sound louder" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iuh-tf-56P" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="44" y="34.5" width="139.5" height="18"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -281,7 +280,7 @@
                         <view hidden="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IPm-dg-nP6" userLabel="Custom Effects View">
                             <rect key="frame" x="0.0" y="446" width="280" height="64"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mmt-Tp-FF7" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mmt-Tp-FF7" customClass="PodcastImageView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="17" y="17" width="30" height="30"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -289,15 +288,15 @@
                                         <constraint firstAttribute="height" constant="30" id="nH4-zL-ocq"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom effects applied" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JrO-T2-rgm" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                    <rect key="frame" x="63" y="23.5" width="150" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom effects applied" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JrO-T2-rgm" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="63" y="23" width="159.5" height="18"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SX-69-2q8">
-                                    <rect key="frame" x="215" y="17.5" width="45" height="29"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <rect key="frame" x="213" y="17" width="47" height="30"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                     <state key="normal" title="CLEAR">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
