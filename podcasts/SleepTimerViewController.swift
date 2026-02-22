@@ -381,7 +381,10 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 }
 
-/// Class that implements a properly resize Multiline button to use inside StackView that can force rescale of the StackView when it expands
+/// A UIButton subclass that correctly sizes itself when displaying multi-line titles inside a UIStackView.
+/// Overrides `intrinsicContentSize` to compute the height from the current width and title text, and
+/// invalidates that intrinsic size in `layoutSubviews` so the stack view can update its layout when
+/// the button’s content expands or contracts.
 class MultiLineButton: ThemeableUIButton {
 
     override var intrinsicContentSize: CGSize {
