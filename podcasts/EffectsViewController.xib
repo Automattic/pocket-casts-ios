@@ -378,12 +378,12 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="kai-Yh-xjV" firstAttribute="trailing" secondItem="gSi-1e-Tle" secondAttribute="trailing" constant="20" id="0BR-i6-ky3"/>
+                        <constraint firstItem="8UN-zx-FOh" firstAttribute="trailing" secondItem="gSi-1e-Tle" secondAttribute="trailing" constant="-300" id="0BR-i6-ky3"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="0JD-py-CNT"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="top" secondItem="8UN-zx-FOh" secondAttribute="top" id="8Mp-Ix-bzN"/>
                         <constraint firstItem="8UN-zx-FOh" firstAttribute="bottom" secondItem="gSi-1e-Tle" secondAttribute="bottom" id="8SB-id-lhS"/>
                         <constraint firstItem="gSi-1e-Tle" firstAttribute="width" secondItem="kai-Yh-xjV" secondAttribute="width" constant="-40" id="Bq1-Rs-Bmf"/>
-                        <constraint firstItem="gSi-1e-Tle" firstAttribute="leading" secondItem="kai-Yh-xjV" secondAttribute="leading" constant="20" id="u7T-6o-n5N"/>
+                        <constraint firstItem="gSi-1e-Tle" firstAttribute="leading" secondItem="8UN-zx-FOh" secondAttribute="leading" constant="20" id="u7T-6o-n5N"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="8UN-zx-FOh"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="kai-Yh-xjV"/>
@@ -391,7 +391,7 @@
             </subviews>
             <color key="backgroundColor" red="0.18413844704627991" green="0.11385995894670486" blue="0.023501332849264145" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="yTq-s1-73n" secondAttribute="bottom" constant="20" symbolic="YES" id="F5X-8D-RbT"/>
+                <constraint firstAttribute="bottom" secondItem="yTq-s1-73n" secondAttribute="bottom" id="F5X-8D-RbT"/>
                 <constraint firstAttribute="trailing" secondItem="xDY-er-QkI" secondAttribute="trailing" id="K7y-jI-UaP"/>
                 <constraint firstAttribute="trailing" secondItem="yTq-s1-73n" secondAttribute="trailing" id="KHg-tX-HZU"/>
                 <constraint firstItem="xDY-er-QkI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="KKx-bh-4Tu"/>
