@@ -286,8 +286,10 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         Analytics.track(.addToPlaylistsNewPlaylistTapped, properties: ["source": analyticsSource])
 
-        guard let firstEpisode = episodes.first else { return }
-        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: firstEpisode), analyticsSource: analyticsSource)
+        let creationType: NewPlaylistViewController.CreationType = episodes.count == 1
+            ? .addEpisode(episode: episodes[0])
+            : .addEpisodes(episodes: episodes)
+        let createPlaylistViewController = NewPlaylistViewController(creationType: creationType, analyticsSource: analyticsSource)
         navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }

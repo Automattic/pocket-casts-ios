@@ -6,6 +6,7 @@ class NewPlaylistViewController: PCViewController {
     enum CreationType: Equatable {
         case `default`
         case addEpisode(episode: Episode)
+        case addEpisodes(episodes: [Episode])
 
         static func == (lhs: Self, rhs: Self) -> Bool {
             switch (lhs, rhs) {
@@ -13,6 +14,8 @@ class NewPlaylistViewController: PCViewController {
                 return true
             case (.addEpisode(let lhsEpisode), .addEpisode(let rhsEpisode)):
                 return lhsEpisode.uuid == rhsEpisode.uuid
+            case (.addEpisodes(let lhsEpisodes), .addEpisodes(let rhsEpisodes)):
+                return lhsEpisodes.map(\.uuid) == rhsEpisodes.map(\.uuid)
             default:
                 return false
             }
@@ -228,6 +231,41 @@ class NewPlaylistViewController: PCViewController {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
         } else if case let .addEpisode(episode) = creationType {
             let didAdd = DataManager.sharedManager.add(episodes: [episode], to: playlist)
+            guard didAdd else {
+                let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
+                Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
+                return
+            }
+
+            Analytics.track(.addToPlaylistsCreateNewPlaylistTapped, properties: ["source": analyticsSource ?? "unknown"])
+
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: playlist)
+
+            Analytics.track(.filterCreated)
+            Analytics.track(.filterCreateAsManualPlaylistTapped)
+
+            if Settings.firstTimePlaylistCreated {
+                Settings.shouldShowDragAndDropTip = true
+            }
+
+            // Dismiss all presented view controllers and show snackbar with navigation action
+            if let rootVC = SceneHelper.rootViewController(includeTopMost: false) {
+                rootVC.dismiss(animated: true) {
+                    Toast.show(L10n.playlistEpisodesAddedToSinglePlaylist(playlist.playlistName), actions: [
+                        .init(title: L10n.bookmarkAddedButtonTitle) {
+                            NavigationManager.sharedManager.navigateTo(
+                                NavigationManager.filterPageKey,
+                                data: [
+                                    NavigationManager.filterUuidKey: playlist.uuid
+                                ]
+                            )
+                        }
+                    ])
+                }
+            }
+            return
+        } else if case let .addEpisodes(episodes) = creationType {
+            let didAdd = DataManager.sharedManager.add(episodes: episodes, to: playlist)
             guard didAdd else {
                 let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
                 Toast.show(L10n.playlistManualCreateErrorMessage, theme: theme)
