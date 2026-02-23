@@ -33,6 +33,7 @@
 - Dynamic Type: Country selector [#3986](https://github.com/Automattic/pocket-casts-ios/pull/3986)
 - Dynamic type: Update player more options [#3993](https://github.com/Automattic/pocket-casts-ios/pull/3993)
 - Dynamic type: Update player main view [#3989](https://github.com/Automattic/pocket-casts-ios/pull/3989)
+- Dynamic type: Discover Category [#3995](https://github.com/Automattic/pocket-casts-ios/pull/3995)
 
 
 8.5
