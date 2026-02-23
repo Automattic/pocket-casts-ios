@@ -72,7 +72,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
     private var firstTimeLoading = true
 
-    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+    lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let invertedColor: Bool? = FeatureFlag.playlistsRebranding.enabled ? true : nil
         let bannerType: InformationalBannerType = FeatureFlag.playlistsRebranding.enabled ? .playlists : .filters
         let viewModel = InformationalBannerViewModel(bannerType: bannerType, invertedColor: invertedColor)
@@ -151,7 +151,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         }
 
         reloadFilters()
-        setupInformationalBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -299,21 +298,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 self.newFilterButton.isHidden = false
                 self.loadingIndicator.stopAnimating()
                 self.filtersTable.reloadData()
-            }
-        }
-    }
-
-    private func setupInformationalBanner() {
-        if !informationalBannerCoordinator.shouldShowBanner() {
-            filtersTable.tableHeaderView = nil
-            return
-        }
-        if filtersTable.tableHeaderView != nil {
-            return
-        }
-        filtersTable.tableHeaderView = informationalBannerCoordinator.tableHeaderView(size: CGSize(width: filtersTable.bounds.width, height: 135)) {
-            UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.filtersTable.tableHeaderView = nil
             }
         }
     }
