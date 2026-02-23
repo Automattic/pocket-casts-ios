@@ -103,7 +103,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         rearrangeLabel.isHidden = true
         doneButton.isHidden = true
         updateColors()
-        //enableScrollingIfViewTooSmall()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -252,7 +251,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
         if let sheetController = sheetPresentationController {
             sheetController.animateChanges { sheetController.detents = [.large()] }
-            //enableScrollingIfViewTooSmall()
         }
 
         Analytics.track(.multiSelectViewOverflowMenuRearrangeStarted, properties: ["source": actionDelegate.multiSelectViewSource])
@@ -265,16 +263,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         dismiss(animated: true, completion: nil)
         Analytics.track(.multiSelectViewOverflowMenuRearrangeFinished, properties: ["source": actionDelegate.multiSelectViewSource])
     }
-
-//    private func enableScrollingIfViewTooSmall() {
-//        guard actionsTable.isEditing else { return }
-//
-//        let newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-//        if newSize.height > UIScreen.main.bounds.height {
-//            actionsTable.isScrollEnabled = true
-//            actionsTable.bounces = false
-//        }
-//    }
 
     func updateColors() {
         doneButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
