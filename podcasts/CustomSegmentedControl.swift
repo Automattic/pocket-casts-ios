@@ -72,7 +72,7 @@ class CustomSegmentedControl: UIControl {
     private var itemViews = [UIView]()
 
     private var actionCount = 0
-    private var titleFont = UIFont.systemFont(ofSize: 15, weight: .bold)
+    private var titleFont = UIFont.font(ofSize: 15, weight: .bold, scalingWith: .subheadline)
     private let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 
     private final class SegmentView: UIView {
@@ -180,6 +180,7 @@ class CustomSegmentedControl: UIControl {
                 label.text = action.title
                 label.textAlignment = .center
                 label.font = titleFont
+                label.adjustsFontForContentSizeCategory = true
                 label.adjustsFontSizeToFitWidth = true
                 label.minimumScaleFactor = 0.7
                 segmentView.addSubview(label)
