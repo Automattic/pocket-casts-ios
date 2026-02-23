@@ -29,18 +29,25 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         didSet {
             selectedCountLabel.style = .primaryText02
             selectedCountLabel.themeOverride = themeOverride
+            selectedCountLabel.font = UIFont.font(ofSize: 13, weight: .bold, scalingWith: .largeTitle)
+            selectedCountLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var editButton: UIButton! {
         didSet {
             editButton.setTitle(L10n.edit, for: .normal)
+            editButton.titleLabel?.font = UIFont.font(ofSize: 15, weight: .bold, scalingWith: .largeTitle)
+            editButton.titleLabel?.adjustsFontForContentSizeCategory = true
+
         }
     }
 
     @IBOutlet var doneButton: UIButton! {
         didSet {
             doneButton.setTitle(L10n.done, for: .normal)
+            doneButton.titleLabel?.font = UIFont.font(ofSize: 15, weight: .bold, scalingWith: .largeTitle)
+            doneButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -48,6 +55,9 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         didSet {
             rearrangeLabel.themeOverride = themeOverride
             rearrangeLabel.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeLabel.numberOfLines =  2
+            rearrangeLabel.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .largeTitle)
+            rearrangeLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
