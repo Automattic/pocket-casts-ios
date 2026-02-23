@@ -65,7 +65,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
 
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.text = "• " + L10n.changePasswordLengthError            
+            infoLabel.text = "• " + L10n.changePasswordLengthError
         }
     }
 
