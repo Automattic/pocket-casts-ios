@@ -154,6 +154,10 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     // MARK: - Table Config
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? CGFloat.leastNonzeroMagnitude : UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         section == 0 ? CGFloat.leastNonzeroMagnitude : 19
     }
 
