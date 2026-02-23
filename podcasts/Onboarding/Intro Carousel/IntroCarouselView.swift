@@ -128,7 +128,7 @@ struct IntroCarouselView: View {
                     coordinator.loginTapped()
                 }
                 .foregroundColor(theme.primaryText01)
-                .font(.system(size: 18, weight: .semibold))
+                .applyButtonFont(maxContentSizeCategory: .extraExtraExtraLarge)
             }
             .padding(.horizontal, 15)
             .padding(.bottom, 10)
