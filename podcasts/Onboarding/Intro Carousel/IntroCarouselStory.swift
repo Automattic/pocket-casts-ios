@@ -35,7 +35,7 @@ struct IntroCarouselStory: StoryView {
                     .offset(y: titleOffset)
 
                 Text(item.description)
-                    .applyButtonFont(size: 16, style: .headline, weight: .regular, maxContentSizeCategory: .extraExtraExtraLarge)                    
+                    .applyButtonFont(size: 16, style: .headline, weight: .regular, maxContentSizeCategory: .extraExtraExtraLarge)
                     .foregroundColor(ThemeColor.primaryText02(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
