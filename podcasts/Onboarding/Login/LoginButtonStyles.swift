@@ -5,10 +5,16 @@ struct SocialButtonStyle: ButtonStyle {
     @EnvironmentObject var theme: Theme
 
     let imageName: String
+    let maxContentSizeCategory: UIContentSizeCategory
+
+    init(imageName: String, maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) {
+        self.imageName = imageName
+        self.maxContentSizeCategory = maxContentSizeCategory
+    }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .applyButtonFont()
+            .applyButtonFont(maxContentSizeCategory: maxContentSizeCategory)
             .frame(maxWidth: .infinity)
             .padding()
 

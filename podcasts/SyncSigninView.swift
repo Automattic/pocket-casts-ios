@@ -56,6 +56,8 @@ struct SyncSigninView: View {
         .background(theme.primaryUi01)
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(L10n.accountLogin)
+        .toolbarBackground(theme.primaryUi01, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             model.onCompleted = {
                 onCompleted?() ?? dismiss()
@@ -147,7 +149,7 @@ struct SyncSigninView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 16)
-        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn))
+        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn, maxContentSizeCategory: .extraExtraExtraLarge))
     }
 
     @ViewBuilder func divider() -> some View {

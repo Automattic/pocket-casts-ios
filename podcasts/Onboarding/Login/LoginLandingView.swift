@@ -356,12 +356,12 @@ private struct LoginButtons: View {
 
             Button(FeatureFlag.newOnboardingAccountCreation.enabled ? "Sign up with email" : "Sign Up") {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle(theme: theme))
+            }.buttonStyle(RoundedButtonStyle(theme: theme, maxContentSizeCategory: .extraExtraExtraLarge))
 
             if shouldShowLogin {
                 Button("Login") {
                     coordinator.loginTapped()
-                }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+                }.buttonStyle(SimpleTextButtonStyle(theme: theme, maxContentSizeCategory: .extraExtraExtraLarge))
             }
         }
     }
@@ -377,11 +377,11 @@ struct SocialLoginButtons: View {
             case .apple:
                 Button(L10n.socialSignInContinueWithApple) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme)))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme), maxContentSizeCategory: .extraExtraExtraLarge))
             case .google:
                 Button(L10n.socialSignInContinueWithGoogle) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName(), maxContentSizeCategory: .extraExtraExtraLarge))
             }
         }
     }
