@@ -2,6 +2,10 @@ BUNDLE=rbenv exec bundle
 LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
 SWIFTLINT_FROM_BUILDTOOLS=swiftlint lint --working-directory .. --quiet
+# Parse the human-readable output of simctl
+SIMULATOR_NAME = $(shell xcrun simctl list devices available \
+	| grep "iPhone" \
+	| tail -1 | sed 's/^[[:space:]]*//' | sed 's/ *(.*) *$$//')
 
 .PHONY: help build clean test lint lint_lenient format install_dependencies
 
@@ -49,7 +53,8 @@ clean: ## Cleans the build artifacts
 test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
 	xcodebuild test -project podcasts.xcodeproj \
 	    -scheme pocketcasts \
-        -only-testing:PocketCastsTests
+        -only-testing:PocketCastsTests \
+        -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
 
 format: ## Lint and autocorrect linter errors
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
