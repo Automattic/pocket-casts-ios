@@ -2,7 +2,11 @@ import PocketCastsServer
 import UIKit
 
 class CountryCell: ThemeableCell {
-    @IBOutlet var countryName: UILabel!
+    @IBOutlet var countryName: UILabel! {
+        didSet {
+            countryName.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
+        }
+    }
     @IBOutlet var countryFlag: UIImageView!
 
     private var region: DiscoverRegion?
