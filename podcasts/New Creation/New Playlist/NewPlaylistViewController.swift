@@ -265,6 +265,10 @@ class NewPlaylistViewController: PCViewController {
             }
             return
         } else if case let .addEpisodes(episodes) = creationType {
+            if episodes.count > 1000 {
+                Toast.show(L10n.playlistManualAddTooManyEpisodesToast)
+                return
+            }
             let didAdd = DataManager.sharedManager.add(episodes: episodes, to: playlist)
             guard didAdd else {
                 let theme: any ToastTheme = ToastIconTheme(iconName: "option-alert", iconColor: Theme.sharedTheme.primaryIcon01)
