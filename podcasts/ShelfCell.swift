@@ -69,5 +69,7 @@ class ShelfCell: UITableViewCell {
         let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
         let iconSize = max(24, iconMetric.scaledValue(for: 24))
         actionIcon.updateSizeConstraints(to: iconSize)
+
+        customViewContainer.updateSizeConstraints(to: iconSize)
     }
 }
