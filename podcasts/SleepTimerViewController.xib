@@ -149,9 +149,9 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-qP-qnr" userLabel="Popup Heading" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="408" height="68"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLEEP TIMER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQK-q4-qBY" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="35" width="83.5" height="16"/>
-                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLEEP TIMER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQK-q4-qBY" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="20" y="35" width="82" height="16"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -178,7 +178,7 @@
                             </constraints>
                         </view>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HO2-dO-eLB">
-                            <rect key="frame" x="0.0" y="68" width="408" height="444"/>
+                            <rect key="frame" x="0.0" y="68" width="408" height="464"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJb-Yj-WkR">
                                     <rect key="frame" x="20" y="0.0" width="368" height="395"/>
@@ -311,7 +311,7 @@
                                                         <action selector="customTapped:" destination="-1" eventType="touchUpInside" id="M02-pz-RPz"/>
                                                     </connections>
                                                 </button>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nac-xX-8CP" customClass="CustomTimeStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Nac-xX-8CP" customClass="CustomTimeStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                                     <rect key="frame" x="278" y="0.0" width="90" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="DuW-YP-rJw"/>
@@ -332,7 +332,7 @@
                                 </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="JGY-oo-rAo" firstAttribute="trailing" secondItem="DJb-Yj-WkR" secondAttribute="trailing" constant="20" id="4v0-Yg-Pb2"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="JGY-oo-rAo" secondAttribute="trailing" constant="20" id="4v0-Yg-Pb2"/>
                                 <constraint firstItem="JGY-oo-rAo" firstAttribute="bottom" secondItem="DJb-Yj-WkR" secondAttribute="bottom" id="FM2-nI-WCq"/>
                                 <constraint firstItem="DJb-Yj-WkR" firstAttribute="top" secondItem="JGY-oo-rAo" secondAttribute="top" id="Z2h-dC-exa"/>
                                 <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="JGY-oo-rAo" secondAttribute="leading" constant="20" id="uou-NG-XfL"/>
@@ -348,7 +348,7 @@
                         <constraint firstItem="NpZ-qP-qnr" firstAttribute="leading" secondItem="VIr-G3-c6n" secondAttribute="leading" id="co0-LJ-f6K"/>
                         <constraint firstAttribute="trailing" secondItem="NpZ-qP-qnr" secondAttribute="trailing" id="h6D-eB-JpJ"/>
                         <constraint firstItem="NpZ-qP-qnr" firstAttribute="top" secondItem="VIr-G3-c6n" secondAttribute="top" id="sbg-sh-mKj"/>
-                        <constraint firstAttribute="bottom" secondItem="HO2-dO-eLB" secondAttribute="bottom" constant="20" symbolic="YES" id="uON-mB-e7t"/>
+                        <constraint firstAttribute="bottom" secondItem="HO2-dO-eLB" secondAttribute="bottom" id="uON-mB-e7t"/>
                         <constraint firstItem="HO2-dO-eLB" firstAttribute="leading" secondItem="VIr-G3-c6n" secondAttribute="leading" id="uvQ-xl-J0y"/>
                     </constraints>
                 </view>

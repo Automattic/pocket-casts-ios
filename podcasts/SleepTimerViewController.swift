@@ -73,6 +73,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         didSet {
             sleepTimerOffHeadingLabel.style = .playerContrast02
             sleepTimerOffHeadingLabel.text = L10n.sleepTimer.localizedUppercase
+            sleepTimerOffHeadingLabel.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            sleepTimerOffHeadingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
