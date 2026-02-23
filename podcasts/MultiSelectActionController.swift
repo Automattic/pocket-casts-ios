@@ -89,11 +89,11 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         selectedCountLabel.text = numSelectedEpisodes == 1 ? L10n.multiSelectSelectedCountSingular : L10n.multiSelectSelectedCountPlural(numSelectedEpisodes.localized())
-        actionsTable.isScrollEnabled = false
+        actionsTable.isScrollEnabled = true
         rearrangeLabel.isHidden = true
         doneButton.isHidden = true
         updateColors()
-        enableScrollingIfViewTooSmall()
+        //enableScrollingIfViewTooSmall()
 
         Analytics.track(.multiSelectViewOverflowMenuShown, properties: ["source": actionDelegate.multiSelectViewSource])
     }
@@ -127,6 +127,10 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         MultiSelectActionController.rowHeight
     }
 
@@ -186,6 +190,13 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView.isEditing {
+            return UITableView.automaticDimension
+        }
+        return CGFloat.leastNonzeroMagnitude
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        if tableView.isEditing {
             return 40
         }
         return CGFloat.leastNonzeroMagnitude
@@ -231,7 +242,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
 
         if let sheetController = sheetPresentationController {
             sheetController.animateChanges { sheetController.detents = [.large()] }
-            enableScrollingIfViewTooSmall()
+            //enableScrollingIfViewTooSmall()
         }
 
         Analytics.track(.multiSelectViewOverflowMenuRearrangeStarted, properties: ["source": actionDelegate.multiSelectViewSource])
@@ -245,15 +256,15 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         Analytics.track(.multiSelectViewOverflowMenuRearrangeFinished, properties: ["source": actionDelegate.multiSelectViewSource])
     }
 
-    private func enableScrollingIfViewTooSmall() {
-        guard actionsTable.isEditing else { return }
-
-        let newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-        if newSize.height > UIScreen.main.bounds.height {
-            actionsTable.isScrollEnabled = true
-            actionsTable.bounces = false
-        }
-    }
+//    private func enableScrollingIfViewTooSmall() {
+//        guard actionsTable.isEditing else { return }
+//
+//        let newSize = view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+//        if newSize.height > UIScreen.main.bounds.height {
+//            actionsTable.isScrollEnabled = true
+//            actionsTable.bounces = false
+//        }
+//    }
 
     func updateColors() {
         doneButton.setTitleColor(AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride), for: .normal)
