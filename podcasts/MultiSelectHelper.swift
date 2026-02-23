@@ -42,6 +42,8 @@ class MultiSelectHelper {
             share(actionDelegate: actionDelegate, view: view)
         case .removeListeningHistory:
             removeListeningHistory(actionDelegate: actionDelegate)
+        case .addToPlaylist:
+            addToPlaylist(actionDelegate: actionDelegate)
         }
     }
 
@@ -342,6 +344,18 @@ class MultiSelectHelper {
                                          showArrow: view != nil,
                                          fromSource: .multiSelect
         )
+    }
+
+    private class func addToPlaylist(actionDelegate: MultiSelectActionDelegate) {
+        let episodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
+        guard !episodes.isEmpty else { return }
+
+        let presentingVC = actionDelegate.multiSelectPresentingViewController()
+        let chooser = ManualPlaylistsChooserViewController(episodes: episodes, analyticsSource: "multi_select")
+        let navController = UINavigationController(rootViewController: chooser)
+        DispatchQueue.main.async {
+            presentingVC.present(navController, animated: true)
+        }
     }
 
     private class func removeListeningHistory(actionDelegate: MultiSelectActionDelegate) {

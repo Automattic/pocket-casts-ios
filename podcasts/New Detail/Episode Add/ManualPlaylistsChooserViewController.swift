@@ -14,7 +14,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var initialSelectedPlaylists: Set<String> = []
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
-    private let episode: Episode
+    private let episodes: [Episode]
     private let analyticsSource: String
     private let dataManager = DataManager.sharedManager
 
@@ -50,10 +50,14 @@ class ManualPlaylistsChooserViewController: PCViewController {
         }
     }
 
-    init(episode: Episode, analyticsSource: String) {
-        self.episode = episode
+    init(episodes: [Episode], analyticsSource: String) {
+        self.episodes = episodes
         self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
+    }
+
+    convenience init(episode: Episode, analyticsSource: String) {
+        self.init(episodes: [episode], analyticsSource: analyticsSource)
     }
 
     @MainActor required init?(coder: NSCoder) {
@@ -135,8 +139,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
 
-        let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
-        initialSelectedPlaylists = Set(uuids)
+        if episodes.count == 1, let episode = episodes.first {
+            let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
+            initialSelectedPlaylists = Set(uuids)
+        } else {
+            initialSelectedPlaylists = []
+        }
         newSelectedPlaylists = initialSelectedPlaylists
     }
 
@@ -161,11 +169,11 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
-                track(episode: episode, added: true, to: playlist)
-                dataManager.add(episodes: [episode], to: playlist)
+                episodes.forEach { track(episode: $0, added: true, to: playlist) }
+                dataManager.add(episodes: episodes, to: playlist)
                 changedPlaylists.insert(playlist)
             }
-            if removed.contains(playlist.uuid) {
+            if removed.contains(playlist.uuid), let episode = episodes.first, episodes.count == 1 {
                 track(episode: episode, added: false, to: playlist)
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
             }
@@ -278,7 +286,8 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         Analytics.track(.addToPlaylistsNewPlaylistTapped, properties: ["source": analyticsSource])
 
-        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode), analyticsSource: analyticsSource)
+        guard let firstEpisode = episodes.first else { return }
+        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: firstEpisode), analyticsSource: analyticsSource)
         navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }

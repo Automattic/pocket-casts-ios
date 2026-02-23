@@ -277,5 +277,11 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         if !orderedActions.contains(.share) && hasOnlyShareableEpisodes {
             orderedActions.append(.share)
         }
+
+        // Similarly, addToPlaylist may be missing for users who saved their
+        // action list before this action was added.
+        if !orderedActions.contains(.addToPlaylist) && hasOnlyShareableEpisodes {
+            orderedActions.append(.addToPlaylist)
+        }
     }
 }
