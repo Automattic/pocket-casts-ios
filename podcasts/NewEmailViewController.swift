@@ -28,6 +28,8 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
             } else {
                 nextButton.setTitle(L10n.next, for: .normal)
             }
+            nextButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            nextButton.titleLabel?.numberOfLines = 0
         }
     }
 
@@ -57,7 +59,7 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
 
     @IBOutlet var infoLabel: ThemeableLabel! {
         didSet {
-            infoLabel.text = "• " + L10n.changePasswordLengthError
+            infoLabel.text = "• " + L10n.changePasswordLengthError            
         }
     }
 
