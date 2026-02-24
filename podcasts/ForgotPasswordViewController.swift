@@ -11,6 +11,12 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
         didSet {
             resetPasswordBtn.setTitle(L10n.profileResetPassword, for: .normal)
             resetPasswordBtn.buttonStyle = .primaryInteractive01
+            resetPasswordBtn.titleLabel?.numberOfLines = 0
+            resetPasswordBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            resetPasswordBtn.titleLabel?.font = UIFont.font(ofSize: 17, weight: .semibold, scalingWith: .headline)
+            NSLayoutConstraint.activate([
+                resetPasswordBtn.heightAnchor.constraint(greaterThanOrEqualTo: resetPasswordBtn.titleLabel!.heightAnchor)
+            ])
         }
     }
 
@@ -135,7 +141,7 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
 
     private func showErrorMessage(_ message: String) {
         errorMessage.text = message
-        mainButtonTopSpace.constant = 50
+        mainButtonTopSpace.constant = 0
         messageView.isHidden = false
     }
 
