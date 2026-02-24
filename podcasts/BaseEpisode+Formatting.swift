@@ -72,6 +72,23 @@ extension BaseEpisode {
         commonDisplayableInfo(includeSize: includeSize)
     }
 
+    func accessibilityDisplayableInfo() -> String {
+        if inProgress(), playedUpTo > 0, duration > 0 {
+            if duration > playedUpTo {
+                let time = TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration - playedUpTo)
+                return L10n.podcastTimeLeft(time)
+            } else {
+                return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: 0)
+            }
+        }
+
+        if duration > 0 {
+            return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration)
+        }
+
+        return L10n.unknownDuration
+    }
+
     func shortPublishedDate() -> String {
         shortDateFor(date: publishedDate)
     }
