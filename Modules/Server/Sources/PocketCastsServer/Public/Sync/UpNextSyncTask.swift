@@ -310,30 +310,38 @@ class UpNextSyncTask: ApiBaseTask {
 
         FileLog.shared.addMessage("UpNextSyncTask: The following \(uuids.count) episodes will be kept: \(uuids)")
 
-        // Calculate how many episodes will be deleted
-        let episodesToDelete = localEpisodes.filter { !uuids.contains($0.uuid) }
-        let deletedCount = episodesToDelete.count
+        let uuidsSet = Set(uuids)
+        let deletedCount = localEpisodes.reduce(0) { count, episode in
+            uuidsSet.contains(episode.uuid) ? count : count + 1
+        }
 
-        // Log to Sentry if episodes are being deleted from the queue
-        // This helps track unexpected queue overwrites
+        // Log to Sentry only if queue is significantly modified to avoid noise from normal sync
+        // Threshold: more than 75% of local queue replaced
+        let deletionPercentage = localEpisodes.count > 0 ? Double(deletedCount) / Double(localEpisodes.count) : 0
+        let isSignificantDeletion = deletionPercentage > 0.75
+
         if deletedCount > 0 {
             let syncReason = reason?.rawValue ?? "unknown"
             FileLog.shared.addMessage("UpNextSyncTask: Deleting \(deletedCount) episodes from queue. Local had \(localEpisodes.count), server sent \(episodes.count), keeping \(uuids.count). Reason: \(syncReason)")
 
-            let overwriteError = UpNextSyncError.queueOverwritten(
-                localCount: localEpisodes.count,
-                serverCount: episodes.count,
-                deletedCount: deletedCount,
-                reason: syncReason
-            )
-            ServerConfig.shared.errorLogger?.log(error: overwriteError, context: [
-                "source": "upnext_sync",
-                "localCount": "\(localEpisodes.count)",
-                "serverCount": "\(episodes.count)",
-                "deletedCount": "\(deletedCount)",
-                "keptCount": "\(uuids.count)",
-                "syncReason": syncReason
-            ])
+            // Only report to error logger for significant overwrites
+            if isSignificantDeletion {
+                let overwriteError = UpNextSyncError.queueOverwritten(
+                    localCount: localEpisodes.count,
+                    serverCount: episodes.count,
+                    deletedCount: deletedCount,
+                    reason: syncReason
+                )
+                ServerConfig.shared.errorLogger?.log(error: overwriteError, context: [
+                    "source": "upnext_sync",
+                    "localCount": "\(localEpisodes.count)",
+                    "serverCount": "\(episodes.count)",
+                    "deletedCount": "\(deletedCount)",
+                    "keptCount": "\(uuids.count)",
+                    "syncReason": syncReason,
+                    "deletionPercentage": String(format: "%.1f", deletionPercentage * 100)
+                ])
+            }
         }
 
         // Remove any episodes that no longer need to be in the queue.
