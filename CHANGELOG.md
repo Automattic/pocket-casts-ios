@@ -36,7 +36,7 @@
 - Dynamic type: Player effects [#3998](https://github.com/Automattic/pocket-casts-ios/pull/3998)
 - Dynamic type: Player sleep timer [#3997](https://github.com/Automattic/pocket-casts-ios/pull/3997)
 - Dynamic type: Discover Category [#3995](https://github.com/Automattic/pocket-casts-ios/pull/3995)
-
+- Dynamic type: Update multi select options menu [#4005](https://github.com/Automattic/pocket-casts-ios/pull/4005)
 
 8.5
 -----

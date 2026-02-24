@@ -29,4 +29,23 @@ class MultiSelectActionCell: ThemeableCell {
         iconView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         ensureCorrectReorderColor()
     }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSize()
+    }
+
+    private func updateSize() {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, metric.scaledValue(for: 24))
+
+        iconView.updateSizeConstraints(to: iconSize)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
 }

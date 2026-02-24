@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,9 +17,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1B-Jj-2iM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="68" y="11.5" width="236" height="21"/>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1B-Jj-2iM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="68" y="0.0" width="236" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="kfm-Fy-kb1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -33,7 +36,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="u1B-Jj-2iM" secondAttribute="trailing" constant="16" id="1Px-Ez-h2o"/>
-                    <constraint firstItem="u1B-Jj-2iM" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NGB-hI-aT0"/>
+                    <constraint firstItem="u1B-Jj-2iM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NGB-hI-aT0"/>
+                    <constraint firstAttribute="bottom" secondItem="u1B-Jj-2iM" secondAttribute="bottom" id="Ocd-PX-RCm"/>
                     <constraint firstItem="Ain-qK-o3x" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="c6b-mW-041"/>
                     <constraint firstItem="u1B-Jj-2iM" firstAttribute="leading" secondItem="Ain-qK-o3x" secondAttribute="trailing" constant="24" id="dEc-Q3-1cq"/>
                     <constraint firstItem="Ain-qK-o3x" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="jZc-jP-6PR"/>
