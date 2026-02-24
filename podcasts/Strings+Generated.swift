@@ -2471,8 +2471,10 @@ internal enum L10n {
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add episodes") }
   /// Toast message when adding episodes to a playlist that would exceed the 1000 episode limit
   internal static var playlistManualAddEpisodesAlmostFullToast: String { return L10n.tr("Localizable", "playlist_manual_add_episodes_almost_full_toast", fallback: "Playlist is almost full. Try adding fewer episodes.") }
-  /// Toast message when trying to add more than 1000 episodes to a playlist at once, or creating a new playlist with more than 1000 episodes
-  internal static var playlistManualAddTooManyEpisodesToast: String { return L10n.tr("Localizable", "playlist_manual_add_too_many_episodes_toast", fallback: "Playlists can only contain up to 1,000 episodes.") }
+  /// Toast message when trying to add more than the max number of episodes to a playlist at once, or creating a new playlist with more than the max. '%1$@' is the max episode count, localized for the user's locale.
+  internal static func playlistManualAddTooManyEpisodesToast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_manual_add_too_many_episodes_toast", String(describing: p1), fallback: "Playlists can only contain up to %1$@ episodes.")
+  }
   /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
   internal static var playlistManualArchivedEpisodePlaceholder: String { return L10n.tr("Localizable", "playlist_manual_archived_episode_placeholder", fallback: "Your episode in this playlist has been archived") }
   /// Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes

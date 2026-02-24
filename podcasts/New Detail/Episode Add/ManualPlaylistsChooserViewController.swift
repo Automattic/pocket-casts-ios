@@ -167,12 +167,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         var changedPlaylists: Set<EpisodeFilter> = []
 
-        let maxPlaylistItems = 1000
+        let maxPlaylistItems = Constants.Limits.maxFilterItems
 
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
                 if episodes.count > maxPlaylistItems {
-                    Toast.show(L10n.playlistManualAddTooManyEpisodesToast)
+                    Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
                     return
                 }
                 let currentCount = dataManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)

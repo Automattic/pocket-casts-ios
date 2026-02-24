@@ -265,8 +265,9 @@ class NewPlaylistViewController: PCViewController {
             }
             return
         } else if case let .addEpisodes(episodes) = creationType {
-            if episodes.count > 1000 {
-                Toast.show(L10n.playlistManualAddTooManyEpisodesToast)
+            let maxPlaylistItems = Constants.Limits.maxFilterItems
+            if episodes.count > maxPlaylistItems {
+                Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
                 return
             }
             let didAdd = DataManager.sharedManager.add(episodes: episodes, to: playlist)
