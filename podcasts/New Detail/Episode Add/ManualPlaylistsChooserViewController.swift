@@ -262,6 +262,11 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 guard let self = self else { return }
 
                 if selected {
+                    let maxPlaylistItems = Constants.Limits.maxFilterItems
+                    let currentCount = self.dataManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+                    if currentCount + self.episodes.count > maxPlaylistItems {
+                        Toast.show(L10n.playlistManualAddEpisodesAlmostFullToast)
+                    }
                     self.newSelectedPlaylists.insert(playlist.uuid)
                 } else {
                     self.newSelectedPlaylists.remove(playlist.uuid)

@@ -350,6 +350,12 @@ class MultiSelectHelper {
         let episodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         guard !episodes.isEmpty else { return }
 
+        let maxPlaylistItems = Constants.Limits.maxFilterItems
+        if episodes.count > maxPlaylistItems {
+            Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
+            return
+        }
+
         let presentingVC = actionDelegate.multiSelectPresentingViewController()
         let chooser = ManualPlaylistsChooserViewController(episodes: episodes, analyticsSource: "multi_select")
         let navController = UINavigationController(rootViewController: chooser)
