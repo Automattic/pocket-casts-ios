@@ -42,7 +42,7 @@
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
         "branch" : "watchos-compatibility",
-        "revision" : "d8550ad77f3ba62f23a0bc6bf3f3d434caa696a2"
+        "revision" : "059b372446f72ad771a6de8042aa57e48dc976e1"
       }
     },
     {
@@ -248,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jedisct1/swift-sodium",
       "state" : {
-        "revision" : "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
-        "version" : "0.9.1"
+        "revision" : "e7e799cd1eaa4d0f6d3eab56832e7f4b377f4a4f",
+        "version" : "0.10.0"
       }
     },
     {
