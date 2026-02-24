@@ -56,14 +56,14 @@ test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
         -only-testing:PocketCastsTests \
         -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
 
-build_staging: ## Builds using the Staging configuration
+build_staging: ## Builds using the StagingDebug configuration
 	xcodebuild -project podcasts.xcodeproj \
        -scheme "Pocket Casts Staging" \
-       -configuration Staging \
+       -configuration StagingDebug \
        -destination 'generic/platform=iOS Simulator' \
        build
 
-test_staging: ## Build and run Unit Tests using the Staging configuration
+test_staging: ## Build and run Unit Tests using the StagingDebug configuration
 	xcodebuild test -project podcasts.xcodeproj \
 	    -scheme "Pocket Casts Staging" \
         -only-testing:PocketCastsTests

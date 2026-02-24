@@ -31,7 +31,7 @@ let package = Package(
             ],
             path: "Sources",
             swiftSettings: [
-                .unsafeFlags(["-enable-testing"])
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
             ],
             linkerSettings: [
                 .linkedFramework("CFNetwork", .when(platforms: [.iOS])),

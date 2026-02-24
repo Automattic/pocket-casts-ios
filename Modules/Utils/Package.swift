@@ -20,7 +20,7 @@ let package = Package(
             name: "PocketCastsUtils",
             path: "Sources",
             swiftSettings: [
-                .unsafeFlags(["-enable-testing"])
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
             ]
         ),
         .testTarget(
