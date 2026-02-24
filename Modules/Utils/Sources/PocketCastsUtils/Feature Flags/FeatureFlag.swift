@@ -288,7 +288,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Skip Up Next sync when protected data is unavailable to prevent sync with incorrect UserDefaults values
     case skipSyncWhenProtectedDataUnavailable
-  
+
     /// Check if protected data is available before running migrations that touch keychain
     case checkProtectedDataBeforeMigration
 
