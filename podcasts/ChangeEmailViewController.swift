@@ -8,6 +8,8 @@ protocol ChangeEmailDelegate: AnyObject {
 class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     weak var delegate: ChangeEmailDelegate?
 
+    @IBOutlet var scrollView: UIScrollView!
+
     @IBOutlet var stackView: UIStackView!
 
     @IBOutlet var contentView: ThemeableView! {
@@ -90,6 +92,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var errorLabel: ThemeableLabel! {
         didSet {
             errorLabel.style = .support05
+            errorLabel.font = .font(ofSize: 15, weight: .regular, scalingWith: .largeTitle)
         }
     }
 
@@ -105,7 +108,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet var mainButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView! {
         didSet {
             activityIndicatorView.isHidden = true
@@ -118,8 +120,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         currentEmailLabel.text = ServerSettings.syncingEmail()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-
-        originalButtonConstant = mainButtonBottomConstraint.constant
 
         updateButtonState()
         updateSize()
@@ -279,7 +279,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     private var originalButtonConstant: CGFloat = 60
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            mainButtonBottomConstraint.constant = originalButtonConstant + keyboardSize.height
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
             var animationDuration = 0.3
             if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
                 animationDuration = keyboardDuration
@@ -292,7 +292,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        mainButtonBottomConstraint.constant = originalButtonConstant
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         var animationDuration = 0.3
         if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
             animationDuration = keyboardDuration
