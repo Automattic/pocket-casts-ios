@@ -1,3 +1,4 @@
+import AutomatticRemoteLogging
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
@@ -5,11 +6,21 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKApplicationDelegate {
     private var haveAttemptedStateRestore = false
+    private var crashLogging: CrashLogging?
 
     func applicationDidFinishLaunching() {
+        setupCrashLogging()
+
         SessionManager.shared.setup()
         WatchSyncManager.shared.setup()
         restorePreviousStateIfRequired()
+    }
+
+    private func setupCrashLogging() {
+        crashLogging = try? CrashLogging(dataProvider: WatchCrashLoggingDataProvider()).start()
+        if let crashLogging = crashLogging {
+            ServerConfig.shared.errorLogger = WatchCrashLoggingErrorLogger(crashLogging: crashLogging)
+        }
     }
 
     func applicationDidBecomeActive() {
@@ -100,5 +111,38 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
                 FileLog.shared.addMessage("Task scheduling error \(error.localizedDescription)")
             }
         }
+    }
+}
+
+// MARK: - Crash Logging
+
+private class WatchCrashLoggingDataProvider: AutomatticRemoteLogging.CrashLoggingDataProvider {
+    let sentryDSN = ApiCredentials.sentryDSN
+    let userHasOptedOut = false
+    let shouldEnableAutomaticSessionTracking = true
+
+    var currentUser: AutomatticTracksModel.TracksUser? {
+        guard SyncManager.isUserLoggedIn() else {
+            return nil
+        }
+        return TracksUser(userID: ServerSettings.userId, email: ServerSettings.syncingEmail(), username: nil)
+    }
+
+    var buildType: String {
+        #if STAGING
+        return "staging"
+        #elseif DEBUG
+        return "debug"
+        #else
+        return "appStore"
+        #endif
+    }
+}
+
+private struct WatchCrashLoggingErrorLogger: ErrorLogger {
+    let crashLogging: CrashLogging
+
+    func log(error: Error, context: [String: String]?) {
+        crashLogging.logError(error, tags: context ?? [:], level: .warning)
     }
 }

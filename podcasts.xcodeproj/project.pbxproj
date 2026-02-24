@@ -1811,6 +1811,8 @@
 		F5BFF9892C6B0A9100A84561 /* Optional+ThrowOnNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFF9882C6B0A9100A84561 /* Optional+ThrowOnNil.swift */; };
 		F5C1FA212D1283F5007CFDF2 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */; };
 		F5CA25912CC9C30F0013DFF2 /* StoryFooter2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CA25902CC9C30F0013DFF2 /* StoryFooter2024.swift */; };
+		F5CDD79E2F4D1AB400D1B221 /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */; };
+		F5CDD79F2F4D1AE100D1B221 /* ApiCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0B427024FF3003D67DC /* ApiCredentials.swift */; };
 		F5CFDB622C6DA2D600DE57B2 /* AudioClipExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CFDB612C6DA2D600DE57B2 /* AudioClipExporter.swift */; };
 		F5D527382CC81AAD00682CD5 /* EpilogueStory2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D527372CC81AA700682CD5 /* EpilogueStory2024.swift */; };
 		F5D5F7C52CEBE84A001F492D /* NowPlayingPlayerItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB53C52362A2570001806E /* NowPlayingPlayerItemViewController.swift */; };
@@ -4295,6 +4297,7 @@
 				FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */,
 				FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */,
 				FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */,
+				F5CDD79E2F4D1AB400D1B221 /* AutomatticTracks in Frameworks */,
 				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
 				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
@@ -8907,6 +8910,7 @@
 				FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */,
 				FF2CD5812B9F4B2D009B58B5 /* Kingfisher */,
 				9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */,
+				F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */,
 			);
 			productName = "Pocket Casts Watch App";
 			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
@@ -11130,6 +11134,7 @@
 				FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */,
 				C7811D8A2A90334200FC68B4 /* Unlockable+Bookmarks.swift in Sources */,
 				46C843B927E373B100D1DBF3 /* NowPlayingImage.swift in Sources */,
+				F5CDD79F2F4D1AE100D1B221 /* ApiCredentials.swift in Sources */,
 				BD74F15827F2955D00222785 /* FolderView.swift in Sources */,
 				BD4910CD2457DC86005202CF /* SessionManager+Send.swift in Sources */,
 				4054146F2435B82B00431FD5 /* PlaylistManager.swift in Sources */,
@@ -13657,8 +13662,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.0;
+				branch = "watchos-compatibility";
+				kind = branch;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
@@ -13902,6 +13907,11 @@
 			productName = PocketCastsUtils;
 		};
 		F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
+			productName = AutomatticTracks;
+		};
+		F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
 			productName = AutomatticTracks;
