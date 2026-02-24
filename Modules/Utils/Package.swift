@@ -18,7 +18,10 @@ let package = Package(
     targets: [
         .target(
             name: "PocketCastsUtils",
-            path: "Sources"
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"])
+            ]
         ),
         .testTarget(
             name: "PocketCastsUtilsTests",

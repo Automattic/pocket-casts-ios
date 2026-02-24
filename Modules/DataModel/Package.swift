@@ -28,7 +28,10 @@ let package = Package(
                 .product(name: "PocketCastsUtils", package: "Utils"),
                 .product(name: "GRDBMacros", package: "GRDBMacros")
             ],
-            path: "Sources"
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"])
+            ]
         ),
         .testTarget(
             name: "PocketCastsDataModelTests",
