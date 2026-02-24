@@ -195,8 +195,10 @@ class ManualPlaylistsChooserViewController: PCViewController {
             dataManager.save(playlist: playlist)
         }
 
+        let showAddedToast = !added.isEmpty && changedPlaylists.count > 0
+
         dismiss(animated: true) {
-            if added.isEmpty {
+            guard showAddedToast else {
                 return
             }
 
