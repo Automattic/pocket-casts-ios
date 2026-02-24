@@ -27,7 +27,7 @@ struct IntroCarouselStory: StoryView {
 
             VStack(spacing: 12) {
                 Text(item.title)
-                    .applyButtonFont(size: 31, style: .largeTitle, weight: .bold, maxContentSizeCategory: .extraExtraExtraLarge)
+                    .applyButtonFont(size: 31, style: .largeTitle, weight: .bold, maxContentSizeCategory: .accessibilityMedium)
                     .foregroundColor(ThemeColor.primaryText01(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 14)
@@ -35,7 +35,7 @@ struct IntroCarouselStory: StoryView {
                     .offset(y: titleOffset)
 
                 Text(item.description)
-                    .applyButtonFont(size: 16, style: .headline, weight: .regular, maxContentSizeCategory: .extraExtraExtraLarge)
+                    .applyButtonFont(size: 16, style: .headline, weight: .regular, maxContentSizeCategory: .accessibilityMedium)
                     .foregroundColor(ThemeColor.primaryText02(for: theme.activeTheme).color)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
