@@ -56,6 +56,18 @@ test: ## Build and run the PocketCastsTests target with Unit Tests using Xcode
         -only-testing:PocketCastsTests \
         -destination 'platform=iOS Simulator,name=$(SIMULATOR_NAME),OS=latest'
 
+build_staging: ## Builds using the Staging configuration
+	xcodebuild -project podcasts.xcodeproj \
+       -scheme "Pocket Casts Staging" \
+       -configuration Staging \
+       -destination 'generic/platform=iOS Simulator' \
+       build
+
+test_staging: ## Build and run Unit Tests using the Staging configuration
+	xcodebuild test -project podcasts.xcodeproj \
+	    -scheme "Pocket Casts Staging" \
+        -only-testing:PocketCastsTests
+
 format: ## Lint and autocorrect linter errors
 	$(call run_in_buildtools,$(SWIFTLINT_FROM_BUILDTOOLS) --autocorrect)
 
