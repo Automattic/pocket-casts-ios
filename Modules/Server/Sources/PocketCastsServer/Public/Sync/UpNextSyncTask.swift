@@ -7,6 +7,16 @@ class UpNextSyncTask: ApiBaseTask {
     private static let processDataLock = NSObject()
 
     override func main() {
+        // Skip sync when protected data is unavailable to prevent reading incorrect
+        // UserDefaults values (which may return defaults instead of actual stored values)
+        // This can happen when the app launches in background before first unlock after reboot
+        if FeatureFlag.skipSyncWhenProtectedDataUnavailable.enabled {
+            if let isAvailable = UserDefaults.isProtectedDataAvailable(), !isAvailable {
+                FileLog.shared.addMessage("UpNextSyncTask: Skipped - protected data not available")
+                return
+            }
+        }
+
         logProtectedDataAvailable()
         super.main()
     }

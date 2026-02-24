@@ -286,6 +286,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use WCSessionFileTransfer to send logs from watchOS to iPhone instead of sendMessage reply
     case watchLogFileTransfer
 
+    /// Skip Up Next sync when protected data is unavailable to prevent sync with incorrect UserDefaults values
+    case skipSyncWhenProtectedDataUnavailable
+
     /// Check if protected data is available before running migrations that touch keychain
     case checkProtectedDataBeforeMigration
 
@@ -486,8 +489,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .watchLogFileTransfer:
             true
+        case .skipSyncWhenProtectedDataUnavailable:
+            true
         case .checkProtectedDataBeforeMigration:
-			true
+			      true
         case .watchTransferUserInfoApi:
             true
         }
