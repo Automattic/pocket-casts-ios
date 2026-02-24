@@ -16,6 +16,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var currentEmailLabel: ThemeableLabel! {
         didSet {
             currentEmailLabel.text = L10n.currentEmailPrompt
+            currentEmailLabel.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
@@ -23,6 +24,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         didSet {
             emailInfoLabel.style = .primaryText02
             emailInfoLabel.text = L10n.currentEmailPrompt.localizedCapitalized
+            emailInfoLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .footnote)
         }
     }
 
@@ -48,6 +50,8 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
             mainButton.buttonStyle = .primaryInteractive01Disabled
             mainButton.textStyle = .primaryInteractive02
             mainButton.setTitle(L10n.confirm, for: .normal)
+            mainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            mainButton.titleLabel?.font = .font(ofSize: 17, weight: .semibold, scalingWith: .body)
         }
     }
 
