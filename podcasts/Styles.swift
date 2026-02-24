@@ -180,7 +180,7 @@ struct RoundedButtonStyle: ButtonStyle {
     let isEnabled: Bool?
     let maxContentSizeCategory: UIContentSizeCategory
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil, maxContentSizeCategory: UIContentSizeCategory = .extraExtraExtraLarge) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil, maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) {
         self.theme = theme
         self.textColor = textColor
         self.backgroundColor = backgroundColor
