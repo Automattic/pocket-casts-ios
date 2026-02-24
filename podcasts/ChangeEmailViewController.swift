@@ -7,11 +7,16 @@ protocol ChangeEmailDelegate: AnyObject {
 
 class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     weak var delegate: ChangeEmailDelegate?
+
+    @IBOutlet var stackView: UIStackView!
+
     @IBOutlet var contentView: ThemeableView! {
         didSet {
             contentView.style = .primaryUi02
         }
     }
+
+    @IBOutlet var emailLabelSizeConstraint: NSLayoutConstraint!
 
     @IBOutlet var currentEmailLabel: ThemeableLabel! {
         didSet {
@@ -117,6 +122,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         originalButtonConstant = mainButtonBottomConstraint.constant
 
         updateButtonState()
+        updateSize()
     }
 
     deinit {
@@ -300,5 +306,22 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+
+    // MARK: - Dynamic Type Support
+
+    private func updateSize() {
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        stackView.axis = largeSize ? .vertical : .horizontal
+        stackView.alignment = largeSize ? .leading : .fill
+        currentEmailLabel.textAlignment = largeSize ? .natural : .right
+        emailLabelSizeConstraint.isActive = largeSize ? false : true
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }

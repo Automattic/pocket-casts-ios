@@ -16,6 +16,7 @@
                 <outlet property="emailBorderView" destination="UcH-Ow-RcW" id="gkP-g4-e3f"/>
                 <outlet property="emailField" destination="54I-ed-4md" id="Lbd-MO-Wht"/>
                 <outlet property="emailInfoLabel" destination="7m9-7Z-Of9" id="wFT-SR-JWh"/>
+                <outlet property="emailLabelSizeConstraint" destination="Khg-x3-IEz" id="xQW-As-tyb"/>
                 <outlet property="errorLabel" destination="kuA-TD-Kfu" id="5Ed-Fg-Pzu"/>
                 <outlet property="errorView" destination="vNa-l1-Lrn" id="Fq7-wO-icR"/>
                 <outlet property="keyImage" destination="mTI-ZU-65k" id="Ynp-1F-OU5"/>
@@ -25,6 +26,7 @@
                 <outlet property="passwordBorderView" destination="I52-gV-mvl" id="ssQ-lw-18d"/>
                 <outlet property="passwordField" destination="xjw-Z1-agx" id="sa1-fy-goQ"/>
                 <outlet property="showPasswordBtn" destination="ceN-Oh-lGe" id="9Dd-qC-v1C"/>
+                <outlet property="stackView" destination="bIX-Lp-yDT" id="I3L-tB-NMT"/>
                 <outlet property="statusImage" destination="Tml-KH-0Ue" id="BfQ-fW-pSe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="PaQ-67-l6J"/>
             </connections>
@@ -56,7 +58,7 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UcH-Ow-RcW" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="56" width="382" height="56"/>
+                            <rect key="frame" x="16" y="64" width="382" height="56"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="cBc-Wk-kWo">
                                     <rect key="frame" x="16" y="16" width="24" height="24"/>
@@ -118,7 +120,7 @@
                             </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I52-gV-mvl" customClass="ThemeableSelectionView" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="16" y="128" width="382" height="56"/>
+                            <rect key="frame" x="16" y="136" width="382" height="56"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key" translatesAutoresizingMaskIntoConstraints="NO" id="mTI-ZU-65k">
                                     <rect key="frame" x="16" y="16" width="24" height="24"/>
@@ -174,7 +176,7 @@
                             <rect key="frame" x="197" y="686" width="20" height="20"/>
                         </activityIndicatorView>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vNa-l1-Lrn" userLabel="Error Container">
-                            <rect key="frame" x="16" y="200" width="382" height="18"/>
+                            <rect key="frame" x="16" y="208" width="382" height="18"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to change email" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kuA-TD-Kfu" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="372" height="18"/>
@@ -195,18 +197,18 @@
                     <constraints>
                         <constraint firstItem="vDF-bz-Ars" firstAttribute="centerY" secondItem="0pw-oQ-wwR" secondAttribute="centerY" id="2DE-vr-Edd"/>
                         <constraint firstAttribute="bottom" secondItem="vDF-bz-Ars" secondAttribute="bottom" constant="8" id="2iW-Dc-QE7"/>
-                        <constraint firstItem="UcH-Ow-RcW" firstAttribute="top" secondItem="bIX-Lp-yDT" secondAttribute="bottom" constant="8" id="6WS-sX-uHr"/>
+                        <constraint firstItem="UcH-Ow-RcW" firstAttribute="top" secondItem="bIX-Lp-yDT" secondAttribute="bottom" constant="16" id="6WS-sX-uHr"/>
                         <constraint firstItem="vDF-bz-Ars" firstAttribute="centerX" secondItem="0pw-oQ-wwR" secondAttribute="centerX" id="70M-5f-1of"/>
                         <constraint firstAttribute="trailing" secondItem="bIX-Lp-yDT" secondAttribute="trailing" constant="16" id="B38-Ul-ITQ"/>
                         <constraint firstItem="vDF-bz-Ars" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="BxD-FA-WQO"/>
                         <constraint firstAttribute="trailing" secondItem="I52-gV-mvl" secondAttribute="trailing" constant="16" id="DCk-OE-ojZ"/>
                         <constraint firstItem="bIX-Lp-yDT" firstAttribute="top" secondItem="dnb-WH-e3J" secondAttribute="top" constant="30" id="DDg-VB-bhJ"/>
+                        <constraint firstItem="7m9-7Z-Of9" firstAttribute="width" secondItem="dnb-WH-e3J" secondAttribute="width" multiplier="0.3" id="Khg-x3-IEz"/>
                         <constraint firstItem="vDF-bz-Ars" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vNa-l1-Lrn" secondAttribute="bottom" constant="8" id="LMf-xB-tRz"/>
                         <constraint firstItem="I52-gV-mvl" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="NsX-wP-yqj"/>
                         <constraint firstItem="vNa-l1-Lrn" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="Ot8-oN-xhA"/>
                         <constraint firstItem="vNa-l1-Lrn" firstAttribute="top" secondItem="I52-gV-mvl" secondAttribute="bottom" constant="16" id="Tn4-ui-Jqf"/>
                         <constraint firstAttribute="trailing" secondItem="UcH-Ow-RcW" secondAttribute="trailing" constant="16" id="UFx-d7-82U"/>
-                        <constraint firstItem="7m9-7Z-Of9" firstAttribute="width" secondItem="dnb-WH-e3J" secondAttribute="width" multiplier="0.3" id="Xo2-5A-YoN"/>
                         <constraint firstItem="bIX-Lp-yDT" firstAttribute="leading" secondItem="dnb-WH-e3J" secondAttribute="leading" constant="16" id="daV-XV-KVk"/>
                         <constraint firstItem="UcH-Ow-RcW" firstAttribute="bottom" secondItem="I52-gV-mvl" secondAttribute="top" constant="-16" id="l6v-Kx-xaX"/>
                         <constraint firstAttribute="trailing" secondItem="vNa-l1-Lrn" secondAttribute="trailing" constant="16" id="rA4-vZ-Qpp"/>
