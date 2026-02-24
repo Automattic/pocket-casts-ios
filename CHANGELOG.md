@@ -1,14 +1,12 @@
 8.7
 -----
-
-
-8.7
------
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
+- Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
 
 8.6
 -----
+- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
 - Dynamic Type: Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
 - Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
@@ -27,8 +25,18 @@
 - Dynamic Type: Update Uploaded Files [#3953](https://github.com/Automattic/pocket-casts-ios/pull/3953)
 - Dynamic Type: Update Stats [#3955](https://github.com/Automattic/pocket-casts-ios/pull/3955)
 - Dynamic Type: Update player notes header to support dynamic type [#3954](https://github.com/Automattic/pocket-casts-ios/pull/3954)
+- Dynamic Type: Discovery - Resize feature cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
+- Dynamic type: Discover - Trending list [#3975](https://github.com/Automattic/pocket-casts-ios/pull/3975)
+- Dynamic Type: Transcript update actions and paywall [#3969](https://github.com/Automattic/pocket-casts-ios/pull/33969)
+- Dynamic Type: Discovery - Update featured carrousel and cells [#3959](https://github.com/Automattic/pocket-casts-ios/pull/3959)
 - Dynamic type: Update Player chapters [#3957](https://github.com/Automattic/pocket-casts-ios/pull/3957)
 - Dynamic Type: Update exporter to support dynamic type [#3958](https://github.com/Automattic/pocket-casts-ios/pull/3958)
+- Dynamic type: Network highlight - Show all [#3985](https://github.com/Automattic/pocket-casts-ios/pull/3985)
+- Dynamic type: Discover network highlight cell [#3979](https://github.com/Automattic/pocket-casts-ios/pull/3979)
+- Dynamic Type: Country selector [#3986](https://github.com/Automattic/pocket-casts-ios/pull/3986)
+- Dynamic type: Update player more options [#3993](https://github.com/Automattic/pocket-casts-ios/pull/3993)
+- Dynamic type: Update player main view [#3989](https://github.com/Automattic/pocket-casts-ios/pull/3989)
+
 
 8.5
 -----

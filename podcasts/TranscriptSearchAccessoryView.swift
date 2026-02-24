@@ -21,6 +21,8 @@ protocol TranscriptSearchAccessoryViewDelegate: AnyObject {
 class TranscriptSearchAccessoryView: UIInputView {
     weak var delegate: TranscriptSearchAccessoryViewDelegate?
 
+    var maxContentSizeCategory: UIContentSizeCategory = .extraExtraLarge
+
     lazy var textField: CustomTextField = {
         let textField = CustomTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +74,8 @@ class TranscriptSearchAccessoryView: UIInputView {
         return .zero
     }
 
-    init() {
+    init(maxContentSizeCategory: UIContentSizeCategory = .extraExtraLarge) {
+        self.maxContentSizeCategory = maxContentSizeCategory
         super.init(frame: .zero, inputViewStyle: .keyboard)
         setupView()
     }
@@ -94,6 +97,7 @@ class TranscriptSearchAccessoryView: UIInputView {
 
         setupConstraints()
         configureHuggingAndCompressionPriorities()
+        updateSize()
     }
 
     @objc private func done() {
@@ -117,6 +121,22 @@ class TranscriptSearchAccessoryView: UIInputView {
         textField.rightLabel.text = text
         textField.rightLabel.sizeToFit()
     }
+
+    func updateSize() {
+        textField.font = UIFont.font(with: .body, maxSizeCategory: maxContentSizeCategory)
+        textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+        doneButton.titleLabel?.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+        let config = UIImage.SymbolConfiguration(pointSize: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory).pointSize)
+        upButton.setImage(UIImage(systemName: "chevron.up")?.withConfiguration(config), for: .normal)
+        downButton.setImage(UIImage(systemName: "chevron.down")?.withConfiguration(config), for: .normal)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
 }
 
 extension TranscriptSearchAccessoryView: UITextFieldDelegate {
@@ -138,19 +158,26 @@ private extension TranscriptSearchAccessoryView {
         textField.backgroundColor = .systemGray3
         textField.rightLabel.textColor = .secondaryLabel
         textField.delegate = self
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.adjustsFontForContentSizeCategory = true
+        textField.font = UIFont.font(with: .body, maxSizeCategory: maxContentSizeCategory)
+        textField.adjustsFontForContentSizeCategory = false
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+        textField.rightLabel.adjustsFontForContentSizeCategory = false
     }
 
     func createButton(title: String, action: Selector, titleColor: UIColor, highlightedTitleColor: UIColor, contentInsets: NSDirectionalEdgeInsets) -> UIButton {
         let button = UIButton(type: .system)
         button.addTarget(self, action: action, for: .touchUpInside)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: titleColor,
+                    .font: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+        ]
+        button.setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
         button.setTitle(title, for: .normal)
         button.setTitleColor(titleColor, for: .normal)
         button.setTitleColor(highlightedTitleColor, for: .highlighted)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        button.titleLabel?.adjustsFontForContentSizeCategory = false
 
         var buttonConfig = UIButton.Configuration.plain()
         buttonConfig.contentInsets = contentInsets
@@ -161,10 +188,10 @@ private extension TranscriptSearchAccessoryView {
     func createSymbolButton(imageName: String, action: Selector, contentInsets: NSDirectionalEdgeInsets) -> UIButton {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: action, for: .touchUpInside)
-        let config = UIImage.SymbolConfiguration(textStyle: .body)
-        button.setImage(UIImage(systemName: imageName, withConfiguration: config), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        button.setImage(UIImage(systemName: imageName)?.withConfiguration(config), for: .normal)
+        button.titleLabel?.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+        button.titleLabel?.adjustsFontForContentSizeCategory = false
         button.tintColor = .label
 
         var buttonConfig = UIButton.Configuration.plain()

@@ -288,6 +288,12 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Skip Up Next sync when protected data is unavailable to prevent sync with incorrect UserDefaults values
     case skipSyncWhenProtectedDataUnavailable
+  
+    /// Check if protected data is available before running migrations that touch keychain
+    case checkProtectedDataBeforeMigration
+
+    /// Use transferUserInfo API for watch-to-phone actions and sendMessage for phone-to-watch state updates
+    case watchTransferUserInfoApi
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -484,6 +490,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchLogFileTransfer:
             true
         case .skipSyncWhenProtectedDataUnavailable:
+            true
+        case .checkProtectedDataBeforeMigration:
+			      true
+        case .watchTransferUserInfoApi:
             true
         }
     }

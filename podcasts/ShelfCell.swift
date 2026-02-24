@@ -4,12 +4,14 @@ class ShelfCell: UITableViewCell {
     @IBOutlet var actionName: ThemeableLabel! {
         didSet {
             actionName.style = .playerContrast01
+            actionName.font = .font(ofSize: 18, weight: .medium, scalingWith: .headline)
         }
     }
 
     @IBOutlet var actionSubtitle: ThemeableLabel! {
         didSet {
             actionSubtitle.style = .playerContrast02
+            actionSubtitle.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -21,6 +23,7 @@ class ShelfCell: UITableViewCell {
 
         setHighlightedState(false)
         overrideUserInterfaceStyle = .dark
+        updateSize()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -52,5 +55,19 @@ class ShelfCell: UITableViewCell {
         super.prepareForReuse()
 
         customViewContainer.removeAllSubviews()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
+    }
+
+    private func updateSize() {
+        let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
+        let iconSize = max(24, iconMetric.scaledValue(for: 24))
+        actionIcon.updateSizeConstraints(to: iconSize)
     }
 }
