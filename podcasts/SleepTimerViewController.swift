@@ -17,7 +17,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             plusFiveBtn.layer.cornerRadius = 12
             plusFiveBtn.layer.borderWidth = 2
             plusFiveBtn.backgroundColor = UIColor.clear
-            plusFiveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            plusFiveBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            plusFiveBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -27,14 +28,16 @@ class SleepTimerViewController: SimpleNotificationsViewController {
             endOfEpisodeBtn.layer.cornerRadius = 12
             endOfEpisodeBtn.layer.borderWidth = 2
             endOfEpisodeBtn.backgroundColor = UIColor.clear
-            endOfEpisodeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            endOfEpisodeBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            endOfEpisodeBtn.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var cancelBtn: UIButton! {
         didSet {
             cancelBtn.setTitle(L10n.sleepTimerCancel, for: .normal)
-            cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            cancelBtn.titleLabel?.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)
+            cancelBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             cancelBtn.layer.cornerRadius = 12
         }
     }
@@ -57,7 +60,9 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBOutlet var sleepTimerActiveView: UIView!
     @IBOutlet var timeRemaining: ThemeableLabel! {
         didSet {
-            timeRemaining.font = timeRemaining.font.monospaced()
+            let baseFont = timeRemaining.font.monospaced()
+            let metric = UIFontMetrics(forTextStyle: .largeTitle)
+            timeRemaining.font = metric.scaledFont(for: baseFont)
             timeRemaining.style = .playerContrast01
         }
     }
@@ -68,6 +73,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         didSet {
             sleepTimerOffHeadingLabel.style = .playerContrast02
             sleepTimerOffHeadingLabel.text = L10n.sleepTimer.localizedUppercase
+            sleepTimerOffHeadingLabel.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            sleepTimerOffHeadingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -75,6 +82,8 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         didSet {
             endOfEpisodeLabel.style = .playerContrast01
             endOfEpisodeLabel.text = sleepTimerEpisodesLabel
+            endOfEpisodeLabel.font = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title1)
+            endOfEpisodeLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -180,6 +189,18 @@ class SleepTimerViewController: SimpleNotificationsViewController {
         self.view.translatesAutoresizingMaskIntoConstraints = false
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(dismissIfNeeded), name: UIApplication.didBecomeActiveNotification, object: nil)
+        setupButtonsForDynamicType()
+    }
+
+    private func setupButtonsForDynamicType() {
+        let buttons: [UIButton] = [fiveMinutesBtn, fifteenMinutesBtn, thirtyMinutesBtn, oneHourBtn, endOfEpisodeInactiveBtn, customTimeBtn]
+        for button in buttons {
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.titleLabel?.numberOfLines = 2
+            button.titleLabel?.lineBreakMode = .byWordWrapping
+            button.titleLabel?.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            button.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -359,5 +380,51 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+}
+
+/// A UIButton subclass that correctly sizes itself when displaying multi-line titles inside a UIStackView.
+/// Overrides `intrinsicContentSize` to compute the height from the current width and title text, and
+/// invalidates that intrinsic size in `layoutSubviews` so the stack view can update its layout when
+/// the button’s content expands or contracts.
+class MultiLineButton: ThemeableUIButton {
+
+    override var intrinsicContentSize: CGSize {
+        guard let titleLabel = titleLabel else {
+            return super.intrinsicContentSize
+        }
+
+        let imageWidth: CGFloat
+        if let img = imageView?.image {
+            imageWidth = img.size.width + imageEdgeInsets.left + imageEdgeInsets.right
+        } else {
+            imageWidth = 0
+        }
+
+        // Available width for text = button width - image - content insets - title insets
+        let availableWidth = frame.width
+            - contentEdgeInsets.left - contentEdgeInsets.right
+            - titleEdgeInsets.left - titleEdgeInsets.right
+            - imageWidth
+
+        guard availableWidth > 0 else {
+            return super.intrinsicContentSize
+        }
+
+        let textSize = titleLabel.sizeThatFits(
+            CGSize(width: availableWidth, height: .greatestFiniteMagnitude)
+        )
+
+        let totalHeight = textSize.height
+            + contentEdgeInsets.top + contentEdgeInsets.bottom
+            + titleEdgeInsets.top + titleEdgeInsets.bottom
+
+        return CGSize(width: frame.width, height: totalHeight)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // After layout sets the width, recalculate height
+        invalidateIntrinsicContentSize()
     }
 }

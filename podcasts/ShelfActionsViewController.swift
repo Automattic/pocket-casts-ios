@@ -21,6 +21,8 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         didSet {
             headingLabel.style = .playerContrast02
             headingLabel.text = L10n.accessibilityMoreActions.localizedUppercase
+            headingLabel.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            headingLabel.adjustsFontForContentSizeCategory = true
         }
     }
 
@@ -34,12 +36,16 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
         didSet {
             rearrangeHeader.style = .playerContrast01
             rearrangeHeader.text = L10n.playerActionsRearrangeTitle.localizedCapitalized
+            rearrangeHeader.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            rearrangeHeader.adjustsFontForContentSizeCategory = true
         }
     }
 
     @IBOutlet var actionButton: ThemeableUIButton! {
         didSet {
             actionButton.style = .playerContrast01
+            actionButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }
 

@@ -8,7 +8,7 @@
     <key>NSCameraUsageDescription</key>
     <string>Это разрешение позволит добавлять пользовательские изображения к вашим файлам</string>
     <key>NSLocalNetworkUsageDescription</key>
-    <string>Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отменить соответствующее разрешение.</string>
+    <string>Pocket Casts использует эти данные для поиска устройств Google Cast в вашей сети. Если вы не пользуетесь этой функцией, можно отказаться.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Pocket Casts требуется доступ к микрофону для обнаружения ближайших устройств Google Cast.</string>
     <key>NSPhotoLibraryAddUsageDescription</key>

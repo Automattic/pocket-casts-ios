@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,11 +39,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="408" height="488"/>
+            <rect key="frame" x="0.0" y="0.0" width="408" height="532"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nxz-IC-HCU" userLabel="Current Option">
-                    <rect key="frame" x="0.0" y="0.0" width="408" height="454"/>
+                    <rect key="frame" x="0.0" y="0.0" width="408" height="498"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6q-a6-BhY" customClass="SleepTimerButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="170" y="60" width="68" height="68"/>
@@ -57,17 +56,17 @@
                                 <constraint firstAttribute="width" constant="68" id="PXS-kj-qzC"/>
                             </constraints>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyF-KA-sb1" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="144" y="119" width="120" height="65"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyF-KA-sb1" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="144" y="144" width="120" height="84"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="65" id="K6U-Bm-L8g"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="65" id="K6U-Bm-L8g"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="60"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleeping when episode ends" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWl-Fm-Fg5" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="16" y="144" width="376" height="30"/>
+                            <rect key="frame" x="16" y="144" width="376" height="74"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="27" id="ZGO-cQ-xa7"/>
                             </constraints>
@@ -76,42 +75,42 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="sG9-ye-AOp">
-                            <rect key="frame" x="20" y="234" width="368" height="200"/>
+                            <rect key="frame" x="20" y="278" width="368" height="200"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TXG-Ts-uOu" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TXG-Ts-uOu" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="0.0" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Add five minutes">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="56" id="nRk-r7-9FH"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="ABE-jR-xnP"/>
                                     </constraints>
                                     <connections>
                                         <action selector="plusFiveTapped:" destination="-1" eventType="touchUpInside" id="oCT-cT-NHN"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYx-nN-wS9" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YYx-nN-wS9" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="72" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Change to end of episode">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="56" id="lmS-3e-J0q"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="2O4-Cy-wSf"/>
                                     </constraints>
                                     <connections>
                                         <action selector="endOfEpisodeActiveTapped:" destination="-1" eventType="touchUpInside" id="QzU-4Z-oMb"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EOQ-B1-4Zt" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EOQ-B1-4Zt" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="144" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Cancel Timer">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="56" id="rXI-0g-Ktm"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="KUU-lR-s7P"/>
                                     </constraints>
                                     <connections>
                                         <action selector="cancelTapped:" destination="-1" eventType="touchUpInside" id="CiN-vo-h80"/>
@@ -145,14 +144,14 @@
                     </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIr-G3-c6n" userLabel="List of Options">
-                    <rect key="frame" x="0.0" y="0.0" width="408" height="488"/>
+                    <rect key="frame" x="0.0" y="0.0" width="408" height="532"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-qP-qnr" userLabel="Popup Heading" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="408" height="68"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLEEP TIMER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQK-q4-qBY" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="35" width="83.5" height="16"/>
-                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SLEEP TIMER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQK-q4-qBY" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                    <rect key="frame" x="20" y="35" width="82" height="16"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -178,174 +177,179 @@
                                 <constraint firstItem="UQK-q4-qBY" firstAttribute="leading" secondItem="NpZ-qP-qnr" secondAttribute="leading" constant="20" id="lpg-MM-g46"/>
                             </constraints>
                         </view>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJb-Yj-WkR">
-                            <rect key="frame" x="20" y="68" width="368" height="395"/>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HO2-dO-eLB">
+                            <rect key="frame" x="0.0" y="68" width="408" height="464"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpm-Yl-Ktn" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="368" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="tEi-6G-S1k"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="5 minutes">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="fiveMinutesTapped:" destination="-1" eventType="touchUpInside" id="88y-BU-46f"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sIu-pA-5h2" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="55" width="368" height="1"/>
-                                    <viewLayoutGuide key="safeArea" id="Jww-DN-Lvl"/>
-                                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="ZFY-xz-L95"/>
-                                    </constraints>
-                                </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sls-sc-0oY" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="61" width="368" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="kZ7-ND-f8K"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="15 minutes">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="fifteenMinutesTapped:" destination="-1" eventType="touchUpInside" id="Tc2-et-Pes"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FTz-Q8-OOs" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="116" width="368" height="1"/>
-                                    <viewLayoutGuide key="safeArea" id="CvD-fP-r68"/>
-                                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="j1V-95-E9N"/>
-                                    </constraints>
-                                </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRn-De-Aso" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="122" width="368" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="R3i-2r-Tdo"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="30 minutes">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="thirtyMinutesTapped:" destination="-1" eventType="touchUpInside" id="LwQ-fv-tGN"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CF0-CU-Mzc" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="177" width="368" height="1"/>
-                                    <viewLayoutGuide key="safeArea" id="1UJ-PX-Xuu"/>
-                                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="gHW-nz-P4a"/>
-                                    </constraints>
-                                </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbQ-1n-0Db" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="183" width="368" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="URq-zY-lQC"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="1 hour">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="oneHourTapped:" destination="-1" eventType="touchUpInside" id="uce-ol-qjC"/>
-                                    </connections>
-                                </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q2h-db-rHQ" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="238" width="368" height="1"/>
-                                    <viewLayoutGuide key="safeArea" id="LW0-TZ-Lg2"/>
-                                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="mXC-Hj-7NM"/>
-                                    </constraints>
-                                </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="zV1-Fm-aS4">
-                                    <rect key="frame" x="0.0" y="244" width="368" height="50"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJb-Yj-WkR">
+                                    <rect key="frame" x="20" y="0.0" width="368" height="395"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLE-pt-wSu" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="273" height="50"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpm-Yl-Ktn" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="368" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="50" id="yW9-43-SRc"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="tEi-6G-S1k"/>
                                             </constraints>
-                                            <state key="normal" title="End of episode">
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <state key="normal" title="5 minutes">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </state>
                                             <connections>
-                                                <action selector="endOfEpisodeTapped:" destination="-1" eventType="touchUpInside" id="6mR-JE-nH3"/>
+                                                <action selector="fiveMinutesTapped:" destination="-1" eventType="touchUpInside" id="88y-BU-46f"/>
                                             </connections>
                                         </button>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5AT-lV-iMB" customClass="CustomStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="278" y="3" width="90" height="44"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sIu-pA-5h2" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="55" width="368" height="1"/>
+                                            <viewLayoutGuide key="safeArea" id="Jww-DN-Lvl"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="LdZ-ff-sWl"/>
-                                                <constraint firstAttribute="width" constant="90" id="U14-Mb-uvd"/>
+                                                <constraint firstAttribute="height" constant="1" id="ZFY-xz-L95"/>
                                             </constraints>
                                         </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="eLb-K5-lUm"/>
-                                    </constraints>
-                                </stackView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ql-AQB" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="299" width="368" height="1"/>
-                                    <viewLayoutGuide key="safeArea" id="0GV-bY-Dbn"/>
-                                    <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="OsV-gj-y2a"/>
-                                    </constraints>
-                                </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fMH-TT-nhn">
-                                    <rect key="frame" x="0.0" y="305" width="368" height="50"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4v-GT-5g4" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="273" height="50"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sls-sc-0oY" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="61" width="368" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="50" id="0hN-Ox-kKx"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="kZ7-ND-f8K"/>
                                             </constraints>
-                                            <state key="normal" title="Custom...">
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <state key="normal" title="15 minutes">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </state>
                                             <connections>
-                                                <action selector="customTapped:" destination="-1" eventType="touchUpInside" id="M02-pz-RPz"/>
+                                                <action selector="fifteenMinutesTapped:" destination="-1" eventType="touchUpInside" id="Tc2-et-Pes"/>
                                             </connections>
                                         </button>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nac-xX-8CP" customClass="CustomTimeStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                            <rect key="frame" x="278" y="3" width="90" height="44"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FTz-Q8-OOs" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="116" width="368" height="1"/>
+                                            <viewLayoutGuide key="safeArea" id="CvD-fP-r68"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="DuW-YP-rJw"/>
-                                                <constraint firstAttribute="width" constant="90" id="rKs-VG-Uae"/>
+                                                <constraint firstAttribute="height" constant="1" id="j1V-95-E9N"/>
+                                            </constraints>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRn-De-Aso" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="122" width="368" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="R3i-2r-Tdo"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <state key="normal" title="30 minutes">
+                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="thirtyMinutesTapped:" destination="-1" eventType="touchUpInside" id="LwQ-fv-tGN"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CF0-CU-Mzc" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="177" width="368" height="1"/>
+                                            <viewLayoutGuide key="safeArea" id="1UJ-PX-Xuu"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="gHW-nz-P4a"/>
+                                            </constraints>
+                                        </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbQ-1n-0Db" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="183" width="368" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="URq-zY-lQC"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <state key="normal" title="1 hour">
+                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="oneHourTapped:" destination="-1" eventType="touchUpInside" id="uce-ol-qjC"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q2h-db-rHQ" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="238" width="368" height="1"/>
+                                            <viewLayoutGuide key="safeArea" id="LW0-TZ-Lg2"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="mXC-Hj-7NM"/>
+                                            </constraints>
+                                        </view>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="zV1-Fm-aS4">
+                                            <rect key="frame" x="0.0" y="244" width="368" height="50"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLE-pt-wSu" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="273" height="50"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <state key="normal" title="End of episode">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="endOfEpisodeTapped:" destination="-1" eventType="touchUpInside" id="6mR-JE-nH3"/>
+                                                    </connections>
+                                                </button>
+                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="5AT-lV-iMB" customClass="CustomStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                                    <rect key="frame" x="278" y="0.0" width="90" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="LdZ-ff-sWl"/>
+                                                        <constraint firstAttribute="width" constant="90" id="U14-Mb-uvd"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Odq-ql-AQB" userLabel="Divider" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="299" width="368" height="1"/>
+                                            <viewLayoutGuide key="safeArea" id="0GV-bY-Dbn"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="OsV-gj-y2a"/>
+                                            </constraints>
+                                        </view>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fMH-TT-nhn">
+                                            <rect key="frame" x="0.0" y="305" width="368" height="50"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4v-GT-5g4" customClass="MultiLineButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="273" height="50"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <state key="normal" title="Custom...">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="customTapped:" destination="-1" eventType="touchUpInside" id="M02-pz-RPz"/>
+                                                    </connections>
+                                                </button>
+                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Nac-xX-8CP" customClass="CustomTimeStepper" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                                                    <rect key="frame" x="278" y="0.0" width="90" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="DuW-YP-rJw"/>
+                                                        <constraint firstAttribute="width" constant="90" id="rKs-VG-Uae"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmb-Qy-QcF">
+                                            <rect key="frame" x="0.0" y="360" width="368" height="35"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="35" id="DQ6-Oh-2fH" userLabel="height = 10"/>
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="wxy-lv-O2C"/>
-                                    </constraints>
                                 </stackView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmb-Qy-QcF">
-                                    <rect key="frame" x="0.0" y="360" width="368" height="35"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="35" id="DQ6-Oh-2fH"/>
-                                    </constraints>
-                                </view>
                             </subviews>
-                        </stackView>
+                            <constraints>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="JGY-oo-rAo" secondAttribute="trailing" constant="20" id="4v0-Yg-Pb2"/>
+                                <constraint firstItem="JGY-oo-rAo" firstAttribute="bottom" secondItem="DJb-Yj-WkR" secondAttribute="bottom" id="FM2-nI-WCq"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="top" secondItem="JGY-oo-rAo" secondAttribute="top" id="Z2h-dC-exa"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="JGY-oo-rAo" secondAttribute="leading" constant="20" id="uou-NG-XfL"/>
+                            </constraints>
+                            <viewLayoutGuide key="contentLayoutGuide" id="JGY-oo-rAo"/>
+                            <viewLayoutGuide key="frameLayoutGuide" id="dMa-B9-sF2"/>
+                        </scrollView>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="VIr-G3-c6n" secondAttribute="leading" constant="20" id="T2z-FJ-pn1"/>
+                        <constraint firstItem="HO2-dO-eLB" firstAttribute="top" secondItem="NpZ-qP-qnr" secondAttribute="bottom" id="4CW-9c-ctv"/>
+                        <constraint firstAttribute="trailing" secondItem="HO2-dO-eLB" secondAttribute="trailing" id="GeF-8h-rOE"/>
                         <constraint firstItem="NpZ-qP-qnr" firstAttribute="leading" secondItem="VIr-G3-c6n" secondAttribute="leading" id="co0-LJ-f6K"/>
                         <constraint firstAttribute="trailing" secondItem="NpZ-qP-qnr" secondAttribute="trailing" id="h6D-eB-JpJ"/>
-                        <constraint firstAttribute="trailing" secondItem="DJb-Yj-WkR" secondAttribute="trailing" constant="20" symbolic="YES" id="lO8-m9-JjA"/>
-                        <constraint firstAttribute="bottom" secondItem="DJb-Yj-WkR" secondAttribute="bottom" priority="999" id="n2Y-xj-Fq6"/>
                         <constraint firstItem="NpZ-qP-qnr" firstAttribute="top" secondItem="VIr-G3-c6n" secondAttribute="top" id="sbg-sh-mKj"/>
-                        <constraint firstItem="DJb-Yj-WkR" firstAttribute="top" secondItem="NpZ-qP-qnr" secondAttribute="bottom" id="zyc-Rv-bf0"/>
+                        <constraint firstAttribute="bottom" secondItem="HO2-dO-eLB" secondAttribute="bottom" id="uON-mB-e7t"/>
+                        <constraint firstItem="HO2-dO-eLB" firstAttribute="leading" secondItem="VIr-G3-c6n" secondAttribute="leading" id="uvQ-xl-J0y"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecN-cw-zLd">
@@ -396,7 +400,7 @@
                 <constraint firstItem="VIr-G3-c6n" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="xIp-dK-XGn"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="4.3478260869565224" y="112.5"/>
+            <point key="canvasLocation" x="4.3478260869565224" y="127.23214285714285"/>
         </view>
     </objects>
     <resources>

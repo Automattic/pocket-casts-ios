@@ -71,7 +71,7 @@ struct HorizontalCollectionList: View {
                 Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(minWidth: adjustedRowHeight, minHeight: adjustedRowHeight / 2)
+            .frame(width: adjustedRowHeight, height: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
