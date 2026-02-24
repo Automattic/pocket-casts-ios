@@ -95,7 +95,7 @@
                                                     <bool key="isElement" value="NO"/>
                                                 </accessibility>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="tpa-cl-8ND"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="200" id="tpa-cl-8ND"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <nil key="textColor"/>
