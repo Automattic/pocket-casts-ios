@@ -122,7 +122,14 @@ class PlayerCell: ThemeableSwipeCell {
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
         let subtitle = episode.subTitle()
-        let info = episodeInfo.text ?? ""
+
+        // Use full unit names for time so VoiceOver doesn't misread abbreviations like "m" as "meters".
+        let info: String
+        if episode.downloading() || episode.queued() {
+            info = episodeInfo.text ?? ""
+        } else {
+            info = episode.displayableTimeLeftAccessibility()
+        }
 
         var desc = [heading, subtitle, title, info]
         if episode.downloaded(pathFinder: DownloadManager.shared) {

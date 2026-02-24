@@ -31,6 +31,22 @@ extension BaseEpisode {
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: duration)
     }
 
+    /// Returns a human-readable time description using full unit names (e.g., "5 minutes")
+    /// instead of abbreviated forms (e.g., "5 min.") to ensure VoiceOver reads the
+    /// units correctly and doesn't misread abbreviations like "m" as "meters".
+    func displayableTimeLeftAccessibility() -> String {
+        if inProgress(), playedUpTo > 0, duration > 0 {
+            if duration > playedUpTo {
+                let time = TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration - playedUpTo)
+                return L10n.podcastTimeLeft(time)
+            } else {
+                return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: 0)
+            }
+        }
+
+        return TimeFormatter.shared.multipleUnitFormattedSpokenTime(time: duration)
+    }
+
     func commonDisplayableInfo(includeSize: Bool) -> String {
         if downloading() {
             if let progress = DownloadManager.shared.progressManager.progressForEpisode(uuid) {

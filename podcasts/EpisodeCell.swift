@@ -327,7 +327,22 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let episode = episode else { return "" }
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
-        let info = informationLabel.text ?? ""
+
+        // Build an accessible info string using full unit names (e.g., "5 minutes") so
+        // VoiceOver doesn't misread abbreviated units like "min" or "m" as "meters".
+        let info: String
+        if episode.downloading() || episode.queued() {
+            info = informationLabel.text ?? ""
+        } else if let userEpisode = episode as? UserEpisode,
+                  userEpisode.uploading() || userEpisode.uploadWaitingForWifi() || userEpisode.uploadFailed() {
+            info = informationLabel.text ?? ""
+        } else if episode.wasDeleted {
+            info = L10n.podcastUnavailable + " " + episode.displayableTimeLeftAccessibility()
+        } else if episode.archived {
+            info = L10n.podcastArchived + " " + episode.displayableTimeLeftAccessibility()
+        } else {
+            info = episode.displayableTimeLeftAccessibility()
+        }
 
         var desc = [heading]
 

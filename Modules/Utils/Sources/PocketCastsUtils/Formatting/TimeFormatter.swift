@@ -101,6 +101,19 @@ public class TimeFormatter {
         return shortTimeFormatter.string(from: time) ?? ""
     }
 
+    /// Returns a full (non-abbreviated) time string suitable for accessibility / VoiceOver.
+    /// Uses words like "minutes" and "hours" instead of abbreviations like "min" or "hr"
+    /// to prevent VoiceOver from misreading units (e.g., reading "m" as "meters").
+    public func multipleUnitFormattedSpokenTime(time: TimeInterval) -> String {
+        if time.isNaN || !time.isFinite { return "" }
+
+        if time < 60.seconds {
+            return appleFormatterSeconds.string(from: time) ?? ""
+        }
+
+        return minutesHoursFormatter.string(from: time) ?? ""
+    }
+
     public func minutesHoursFormatted(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
 
