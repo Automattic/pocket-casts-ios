@@ -30,6 +30,9 @@ let package = Package(
                 .product(name: "PocketCastsUtils", package: "Utils")
             ],
             path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ],
             linkerSettings: [
                 .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
                 .linkedFramework("AuthenticationServices", .when(platforms: [.iOS, .watchOS]))

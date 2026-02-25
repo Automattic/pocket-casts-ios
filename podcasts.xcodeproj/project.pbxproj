@@ -11670,7 +11670,7 @@
 			};
 			name = Release;
 		};
-		3FD6E0542BFC790F003941C0 /* Staging */ = {
+		3FD6E0542BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */;
 			buildSettings = {
@@ -11701,6 +11701,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -11726,9 +11727,9 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0552BFC790F003941C0 /* Staging */ = {
+		3FD6E0552BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -11751,9 +11752,9 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "podcasts/podcasts-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0562BFC790F003941C0 /* Staging */ = {
+		3FD6E0562BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -11778,9 +11779,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0572BFC790F003941C0 /* Staging */ = {
+		3FD6E0572BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -11805,9 +11806,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0582BFC790F003941C0 /* Staging */ = {
+		3FD6E0582BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -11837,9 +11838,9 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0592BFC790F003941C0 /* Staging */ = {
+		3FD6E0592BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -11873,9 +11874,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05A2BFC790F003941C0 /* Staging */ = {
+		3FD6E05A2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -11908,9 +11909,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05B2BFC790F003941C0 /* Staging */ = {
+		3FD6E05B2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -11946,9 +11947,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05C2BFC790F003941C0 /* Staging */ = {
+		3FD6E05C2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -11956,9 +11957,9 @@
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05D2BFC790F003941C0 /* Staging */ = {
+		3FD6E05D2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -11992,9 +11993,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = podcasts;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05E2BFC790F003941C0 /* Staging */ = {
+		3FD6E05E2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12024,9 +12025,9 @@
 				TEST_TARGET_NAME = "Pocket Casts Watch App";
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E05F2BFC790F003941C0 /* Staging */ = {
+		3FD6E05F2BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -12056,9 +12057,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/podcasts.app/podcasts";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
-		3FD6E0602BFC790F003941C0 /* Staging */ = {
+		3FD6E0602BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -12098,7 +12099,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
 		403B5B2A21813FFB00821A54 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -12794,6 +12795,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -13029,6 +13031,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -13087,6 +13090,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -13333,7 +13337,7 @@
 			};
 			name = Debug;
 		};
-		F5D5F7A12CEBE76A001F492D /* Staging */ = {
+		F5D5F7A12CEBE76A001F492D /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -13386,7 +13390,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Staging;
+			name = StagingDebug;
 		};
 		F5D5F7A22CEBE76A001F492D /* Prototype */ = {
 			isa = XCBuildConfiguration;
@@ -13505,7 +13509,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F9099162A4F88B10044FC55 /* Debug */,
-				3FD6E0602BFC790F003941C0 /* Staging */,
+				3FD6E0602BFC790F003941C0 /* StagingDebug */,
 				2F9099172A4F88B10044FC55 /* Prototype */,
 				2F9099182A4F88B10044FC55 /* Release */,
 			);
@@ -13516,7 +13520,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2A21813FFB00821A54 /* Debug */,
-				3FD6E05A2BFC790F003941C0 /* Staging */,
+				3FD6E05A2BFC790F003941C0 /* StagingDebug */,
 				BD69A0212266A9E400168459 /* Prototype */,
 				403B5B2B21813FFB00821A54 /* Release */,
 			);
@@ -13527,7 +13531,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				403B5B2D21813FFB00821A54 /* Debug */,
-				3FD6E0592BFC790F003941C0 /* Staging */,
+				3FD6E0592BFC790F003941C0 /* StagingDebug */,
 				BD69A0202266A9E400168459 /* Prototype */,
 				403B5B2E21813FFB00821A54 /* Release */,
 			);
@@ -13538,7 +13542,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4090975C25235DFC00CED68C /* Debug */,
-				3FD6E05B2BFC790F003941C0 /* Staging */,
+				3FD6E05B2BFC790F003941C0 /* StagingDebug */,
 				4090975D25235DFC00CED68C /* Prototype */,
 				4090975E25235DFC00CED68C /* Release */,
 			);
@@ -13549,7 +13553,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45ECEF8127E910E300C65030 /* Debug */,
-				3FD6E05F2BFC790F003941C0 /* Staging */,
+				3FD6E05F2BFC790F003941C0 /* StagingDebug */,
 				45ECEF8227E910E300C65030 /* Prototype */,
 				45ECEF8327E910E300C65030 /* Release */,
 			);
@@ -13560,7 +13564,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				462EE0C22702532E003D67DC /* Debug */,
-				3FD6E05C2BFC790F003941C0 /* Staging */,
+				3FD6E05C2BFC790F003941C0 /* StagingDebug */,
 				462EE0C32702532E003D67DC /* Prototype */,
 				462EE0C42702532E003D67DC /* Release */,
 			);
@@ -13571,7 +13575,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4694FA682799C80300E9CF70 /* Debug */,
-				3FD6E05D2BFC790F003941C0 /* Staging */,
+				3FD6E05D2BFC790F003941C0 /* StagingDebug */,
 				4694FA692799C80300E9CF70 /* Prototype */,
 				4694FA6A2799C80300E9CF70 /* Release */,
 			);
@@ -13582,7 +13586,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46AFC23D27AB19CF004B026F /* Debug */,
-				3FD6E05E2BFC790F003941C0 /* Staging */,
+				3FD6E05E2BFC790F003941C0 /* StagingDebug */,
 				46AFC23E27AB19CF004B026F /* Prototype */,
 				46AFC23F27AB19CF004B026F /* Release */,
 			);
@@ -13593,7 +13597,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BD3A21151E6CFC2400F42241 /* Debug */,
-				3FD6E0562BFC790F003941C0 /* Staging */,
+				3FD6E0562BFC790F003941C0 /* StagingDebug */,
 				BD69A01C2266A9E400168459 /* Prototype */,
 				BD3A21161E6CFC2400F42241 /* Release */,
 			);
@@ -13604,7 +13608,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540C17019B2A0048C8C5 /* Debug */,
-				3FD6E0542BFC790F003941C0 /* Staging */,
+				3FD6E0542BFC790F003941C0 /* StagingDebug */,
 				BD69A0192266A9E400168459 /* Prototype */,
 				BDBD540D17019B2A0048C8C5 /* Release */,
 			);
@@ -13615,7 +13619,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDBD540F17019B2A0048C8C5 /* Debug */,
-				3FD6E0552BFC790F003941C0 /* Staging */,
+				3FD6E0552BFC790F003941C0 /* StagingDebug */,
 				BD69A01A2266A9E400168459 /* Prototype */,
 				BDBD541017019B2A0048C8C5 /* Release */,
 			);
@@ -13626,7 +13630,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDD301831EFB9356004A9972 /* Debug */,
-				3FD6E0582BFC790F003941C0 /* Staging */,
+				3FD6E0582BFC790F003941C0 /* StagingDebug */,
 				BD69A01E2266A9E400168459 /* Prototype */,
 				BDD301841EFB9356004A9972 /* Release */,
 			);
@@ -13637,7 +13641,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BDEFBA221E6D3C2300B9024B /* Debug */,
-				3FD6E0572BFC790F003941C0 /* Staging */,
+				3FD6E0572BFC790F003941C0 /* StagingDebug */,
 				BD69A01D2266A9E400168459 /* Prototype */,
 				BDEFBA231E6D3C2300B9024B /* Release */,
 			);
@@ -13648,7 +13652,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F5D5F7A02CEBE76A001F492D /* Debug */,
-				F5D5F7A12CEBE76A001F492D /* Staging */,
+				F5D5F7A12CEBE76A001F492D /* StagingDebug */,
 				F5D5F7A22CEBE76A001F492D /* Prototype */,
 				F5D5F7A32CEBE76A001F492D /* Release */,
 			);
