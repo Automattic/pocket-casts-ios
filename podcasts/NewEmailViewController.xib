@@ -159,7 +159,7 @@
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="a6T-wr-gNk"/>
                     </constraints>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                    <state key="normal" title="Next is a bug message">
+                    <state key="normal" title="Next">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <userDefinedRuntimeAttributes>

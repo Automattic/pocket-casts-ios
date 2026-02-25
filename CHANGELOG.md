@@ -37,6 +37,8 @@
 - Dynamic type: Player sleep timer [#3997](https://github.com/Automattic/pocket-casts-ios/pull/3997)
 - Dynamic type: Discover Category [#3995](https://github.com/Automattic/pocket-casts-ios/pull/3995)
 - Dynamic type: Update multi select options menu [#4005](https://github.com/Automattic/pocket-casts-ios/pull/4005)
+- Dynamic type: Change email [#4009](https://github.com/Automattic/pocket-casts-ios/pull/4009)
+- Dynamic Type: Update Change password [#4011](https://github.com/Automattic/pocket-casts-ios/pull/4011)
 
 8.5
 -----
