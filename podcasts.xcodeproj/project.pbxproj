@@ -28,7 +28,6 @@
 		102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */; };
 		102864AB2CED1F990098B2A9 /* CancelSubscription.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 102864AA2CED1F990098B2A9 /* CancelSubscription.xcassets */; };
 		1035FFED2CEE5F4E00C1E80D /* CancelSubscriptionOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1035FFEC2CEE5F4E00C1E80D /* CancelSubscriptionOption.swift */; };
-		105A6C432BAA0B3B0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C442BAA0B3E0025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */; };
 		105A6C452BAA0B410025B855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */; };
 		10756F832C57D00B0089D34F /* KidsProfileThankYouScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F822C57D00B0089D34F /* KidsProfileThankYouScreen.swift */; };
@@ -270,6 +269,10 @@
 		40E8037323FE9E9200B4E1F8 /* SleepTimerIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E8036D23FE9E9100B4E1F8 /* SleepTimerIntentHandler.swift */; };
 		40E8037423FE9E9200B4E1F8 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E8036E23FE9E9100B4E1F8 /* IntentHandler.swift */; };
 		40E8037623FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E8037523FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift */; };
+		40F0DE8922E42AD2001DAA52 /* PlusLockedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F0DE8722E42AD1001DAA52 /* PlusLockedInfoView.swift */; };
+		40F0DE8A22E42AD2001DAA52 /* PlusLockedInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F0DE8822E42AD1001DAA52 /* PlusLockedInfoView.xib */; };
+		40F0DE8D22E45236001DAA52 /* PlusLockedInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F0DE8B22E45236001DAA52 /* PlusLockedInfoCell.swift */; };
+		40F0DE8E22E45236001DAA52 /* PlusLockedInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F0DE8C22E45236001DAA52 /* PlusLockedInfoCell.xib */; };
 		40F1492C218BCC4F008F54EA /* PlaylistShortcutsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F1492A218BCC4F008F54EA /* PlaylistShortcutsViewController.swift */; };
 		40F1492D218BCC4F008F54EA /* PlaylistShortcutsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F1492B218BCC4F008F54EA /* PlaylistShortcutsViewController.xib */; };
 		40F8344C245028BE009FF284 /* WatchSyncManager+Autodownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */; };
@@ -1722,7 +1725,6 @@
 		10A4F7642C540B400084D783 /* KidsProfileSheetHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheetHost.swift; path = "Kids Profile/KidsProfileSheetHost.swift"; sourceTree = "<group>"; };
 		10A4F7662C540DC00084D783 /* KidsProfileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheet.swift; path = "Kids Profile/KidsProfileSheet.swift"; sourceTree = "<group>"; };
 		10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KidsProfileSheetViewModel.swift; path = "Kids Profile/KidsProfileSheetViewModel.swift"; sourceTree = "<group>"; };
-		10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10B558ED2BA476BA0061847C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		10DFE9302C5A889700957D0A /* CategoryPodcastsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPodcastsTable.swift; sourceTree = "<group>"; };
@@ -1802,7 +1804,6 @@
 		403B5B03217D5F7500821A54 /* TitleViewWithCollapseButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleViewWithCollapseButton.xib; sourceTree = "<group>"; };
 		403B5B0521812E6000821A54 /* AppDelegate+SiriShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+SiriShortcuts.swift"; sourceTree = "<group>"; };
 		403B5B1021813FFA00821A54 /* PodcastsIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PodcastsIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		403B5B1421813FFA00821A54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PodcastsIntentsUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		403B5B1A21813FFA00821A54 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		403D1AB32281C36100CE7C9B /* AccountViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AccountViewController+TableView.swift"; path = "podcasts/AccountViewController+TableView.swift"; sourceTree = SOURCE_ROOT; };
@@ -1819,7 +1820,6 @@
 		4041FEA0218AA5EC0089D4A1 /* SiriShortcutAddCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SiriShortcutAddCell.xib; sourceTree = "<group>"; };
 		4041FEA5218FF3B80089D4A1 /* AddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCell.swift; sourceTree = "<group>"; };
 		4041FEA6218FF3B80089D4A1 /* AddCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCell.xib; sourceTree = "<group>"; };
-		4041FEAD219146680089D4A1 /* PodcastsIntents.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PodcastsIntents.entitlements; sourceTree = "<group>"; };
 		4041FEB12193E5EC0089D4A1 /* SiriShortcuts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SiriShortcuts.xcassets; sourceTree = "<group>"; };
 		40422D94251AF10500C80BE4 /* BundlePodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundlePodcastCell.swift; sourceTree = "<group>"; };
 		40422D95251AF10500C80BE4 /* BundlePodcastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BundlePodcastCell.xib; sourceTree = "<group>"; };
@@ -3069,6 +3069,13 @@
 			);
 			target = 4090974D25235DFA00CED68C /* WidgetExtension */;
 		};
+		3F26BC1B2F4FC3CA0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 403B5B0F21813FFA00821A54 /* PodcastsIntents */;
+		};
 		3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -3153,6 +3160,7 @@
 		3F26BB0F2F4FC1E80007119B /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
 		3F26BB7B2F4FC23E0007119B /* PocketCastsTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BBBE2F4FC23E0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PocketCastsTests; sourceTree = "<group>"; };
 		3F26BBE52F4FC3090007119B /* WidgetExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BC052F4FC3090007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WidgetExtension; sourceTree = "<group>"; };
+		3F26BC112F4FC3C90007119B /* PodcastsIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BC1B2F4FC3CA0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntents; sourceTree = "<group>"; };
 		3FDAD4E72F46D75100CC3259 /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
 		3FDAD4EF2F46D75400CC3259 /* NotificationExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4F12F46D75500CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationExtension; sourceTree = "<group>"; };
 		3FDAD4F62F46D77800CC3259 /* PodcastsIntentsUI */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4FA2F46D77800CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntentsUI; sourceTree = "<group>"; };
@@ -3469,24 +3477,6 @@
 				40A4FCCF221938A700252170 /* SinglePodcastViewController.xib */,
 			);
 			name = "Single Podcast";
-			sourceTree = "<group>";
-		};
-		403B5B1121813FFA00821A54 /* PodcastsIntents */ = {
-			isa = PBXGroup;
-			children = (
-				3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */,
-				40E8036B23FE9E9100B4E1F8 /* ChapterIntentHandler.swift */,
-				10B558EA2BA364420061847C /* PrivacyInfo.xcprivacy */,
-				40E8036923FE9E9100B4E1F8 /* ExtendSleepTimerIntentHandler.swift */,
-				40E8036E23FE9E9100B4E1F8 /* IntentHandler.swift */,
-				40E8036A23FE9E9100B4E1F8 /* OpenFilterIntentHandler.swift */,
-				40E8036C23FE9E9100B4E1F8 /* PlayMediaIntentHandler.swift */,
-				40E8036D23FE9E9100B4E1F8 /* SleepTimerIntentHandler.swift */,
-				40E8037523FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift */,
-				4041FEAD219146680089D4A1 /* PodcastsIntents.entitlements */,
-				403B5B1421813FFA00821A54 /* Info.plist */,
-			);
-			path = PodcastsIntents;
 			sourceTree = "<group>";
 		};
 		404367C523C453FB00328B1D /* Cells */ = {
@@ -5337,7 +5327,7 @@
 				3FDAD4EF2F46D75400CC3259 /* NotificationExtension */,
 				3FDAD4E72F46D75100CC3259 /* NotificationContent */,
 				BDD301741EFB9356004A9972 /* Pocket Casts Watch App */,
-				403B5B1121813FFA00821A54 /* PodcastsIntents */,
+				3F26BC112F4FC3C90007119B /* PodcastsIntents */,
 				3FDAD4F62F46D77800CC3259 /* PodcastsIntentsUI */,
 				3F26BBE52F4FC3090007119B /* WidgetExtension */,
 				467DF6E526E1078400AC290C /* Resources */,
@@ -6412,6 +6402,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				3F26BC112F4FC3C90007119B /* PodcastsIntents */,
+			);
 			name = PodcastsIntents;
 			packageProductDependencies = (
 				BDD8AAC0267C859A0013494D /* Fuse */,
@@ -6878,7 +6871,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				105A6C432BAA0B3B0025B855 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7575,14 +7567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40E8036F23FE9E9200B4E1F8 /* ExtendSleepTimerIntentHandler.swift in Sources */,
-				40E8037423FE9E9200B4E1F8 /* IntentHandler.swift in Sources */,
 				40043F0D23FDFD91004A9B57 /* SiriPodcastItem.swift in Sources */,
-				40E8037323FE9E9200B4E1F8 /* SleepTimerIntentHandler.swift in Sources */,
-				40E8037123FE9E9200B4E1F8 /* ChapterIntentHandler.swift in Sources */,
-				40E8037623FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift in Sources */,
-				40E8037223FE9E9200B4E1F8 /* PlayMediaIntentHandler.swift in Sources */,
-				40E8037023FE9E9200B4E1F8 /* OpenFilterIntentHandler.swift in Sources */,
 				46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */,
 				40334805240C83D200EE338E /* CommonUpNextItem.swift in Sources */,
 				40043F0F23FE08B8004A9B57 /* SharedConstants.swift in Sources */,
