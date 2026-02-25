@@ -1953,6 +1953,11 @@
 		40E8036D23FE9E9100B4E1F8 /* SleepTimerIntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SleepTimerIntentHandler.swift; sourceTree = "<group>"; };
 		40E8036E23FE9E9100B4E1F8 /* IntentHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		40E8037523FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiriPodcastSearchManager.swift; path = podcasts/SiriPodcastSearchManager.swift; sourceTree = SOURCE_ROOT; };
+		40E8037523FE9EDB00B4E1F8 /* SiriPodcastSearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiriPodcastSearchManager.swift; sourceTree = "<group>"; };
+		40F0DE8722E42AD1001DAA52 /* PlusLockedInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusLockedInfoView.swift; sourceTree = "<group>"; };
+		40F0DE8822E42AD1001DAA52 /* PlusLockedInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlusLockedInfoView.xib; sourceTree = "<group>"; };
+		40F0DE8B22E45236001DAA52 /* PlusLockedInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusLockedInfoCell.swift; sourceTree = "<group>"; };
+		40F0DE8C22E45236001DAA52 /* PlusLockedInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlusLockedInfoCell.xib; sourceTree = "<group>"; };
 		40F1492A218BCC4F008F54EA /* PlaylistShortcutsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistShortcutsViewController.swift; sourceTree = "<group>"; };
 		40F1492B218BCC4F008F54EA /* PlaylistShortcutsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaylistShortcutsViewController.xib; sourceTree = "<group>"; };
 		40F8344B245028BE009FF284 /* WatchSyncManager+Autodownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchSyncManager+Autodownload.swift"; sourceTree = "<group>"; };
