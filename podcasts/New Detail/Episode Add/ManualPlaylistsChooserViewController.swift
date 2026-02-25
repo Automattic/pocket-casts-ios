@@ -14,7 +14,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     private var initialSelectedPlaylists: Set<String> = []
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
-    private let episode: Episode
+    private let episodes: [Episode]
     private let analyticsSource: String
     private let dataManager = DataManager.sharedManager
 
@@ -50,10 +50,14 @@ class ManualPlaylistsChooserViewController: PCViewController {
         }
     }
 
-    init(episode: Episode, analyticsSource: String) {
-        self.episode = episode
+    init(episodes: [Episode], analyticsSource: String) {
+        self.episodes = episodes
         self.analyticsSource = analyticsSource
         super.init(nibName: nil, bundle: nil)
+    }
+
+    convenience init(episode: Episode, analyticsSource: String) {
+        self.init(episodes: [episode], analyticsSource: analyticsSource)
     }
 
     @MainActor required init?(coder: NSCoder) {
@@ -135,8 +139,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         manualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
 
-        let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
-        initialSelectedPlaylists = Set(uuids)
+        if episodes.count == 1, let episode = episodes.first {
+            let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
+            initialSelectedPlaylists = Set(uuids)
+        } else {
+            initialSelectedPlaylists = []
+        }
         newSelectedPlaylists = initialSelectedPlaylists
     }
 
@@ -159,13 +167,24 @@ class ManualPlaylistsChooserViewController: PCViewController {
 
         var changedPlaylists: Set<EpisodeFilter> = []
 
+        let maxPlaylistItems = Constants.Limits.maxFilterItems
+
         manualPlaylists.forEach { playlist in
             if added.contains(playlist.uuid) {
-                track(episode: episode, added: true, to: playlist)
-                dataManager.add(episodes: [episode], to: playlist)
+                if episodes.count > maxPlaylistItems {
+                    Toast.show(L10n.playlistManualAddTooManyEpisodesToast(maxPlaylistItems.localized(.decimal)))
+                    return
+                }
+                let currentCount = dataManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+                if currentCount + episodes.count > maxPlaylistItems {
+                    Toast.show(L10n.playlistManualAddEpisodesAlmostFullToast)
+                    return
+                }
+                episodes.forEach { track(episode: $0, added: true, to: playlist) }
+                dataManager.add(episodes: episodes, to: playlist)
                 changedPlaylists.insert(playlist)
             }
-            if removed.contains(playlist.uuid) {
+            if removed.contains(playlist.uuid), let episode = episodes.first, episodes.count == 1 {
                 track(episode: episode, added: false, to: playlist)
                 dataManager.deleteEpisodes([episode.uuid], from: playlist)
             }
@@ -176,8 +195,10 @@ class ManualPlaylistsChooserViewController: PCViewController {
             dataManager.save(playlist: playlist)
         }
 
+        let showAddedToast = !added.isEmpty && changedPlaylists.count > 0
+
         dismiss(animated: true) {
-            if added.isEmpty {
+            guard showAddedToast else {
                 return
             }
 
@@ -241,6 +262,11 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 guard let self = self else { return }
 
                 if selected {
+                    let maxPlaylistItems = Constants.Limits.maxFilterItems
+                    let currentCount = self.dataManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+                    if currentCount + self.episodes.count > maxPlaylistItems {
+                        Toast.show(L10n.playlistManualAddEpisodesAlmostFullToast)
+                    }
                     self.newSelectedPlaylists.insert(playlist.uuid)
                 } else {
                     self.newSelectedPlaylists.remove(playlist.uuid)
@@ -278,7 +304,10 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
 
         Analytics.track(.addToPlaylistsNewPlaylistTapped, properties: ["source": analyticsSource])
 
-        let createPlaylistViewController = NewPlaylistViewController(creationType: .addEpisode(episode: episode), analyticsSource: analyticsSource)
+        let creationType: NewPlaylistViewController.CreationType = episodes.count == 1
+            ? .addEpisode(episode: episodes[0])
+            : .addEpisodes(episodes: episodes)
+        let createPlaylistViewController = NewPlaylistViewController(creationType: creationType, analyticsSource: analyticsSource)
         navigationController?.pushViewController(createPlaylistViewController, animated: true)
     }
 }
