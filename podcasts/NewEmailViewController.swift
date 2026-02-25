@@ -10,6 +10,8 @@ protocol CreateAccountDelegate: AnyObject {
 class NewEmailViewController: PCViewController, UITextFieldDelegate {
     weak var delegate: CreateAccountDelegate?
 
+    @IBOutlet var scrollView: UIScrollView!
+
     @IBOutlet var emailField: ThemeableTextField! {
         didSet {
             emailField.delegate = self
@@ -28,6 +30,12 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
             } else {
                 nextButton.setTitle(L10n.next, for: .normal)
             }
+            nextButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            nextButton.titleLabel?.numberOfLines = 0
+
+            NSLayoutConstraint.activate([
+                nextButton.heightAnchor.constraint(greaterThanOrEqualTo: nextButton.titleLabel!.heightAnchor)
+            ])
         }
     }
 

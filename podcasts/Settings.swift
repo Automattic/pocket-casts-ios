@@ -860,7 +860,7 @@ class Settings: NSObject {
 
     private static let multiSelectActionsKey = "MultiSelectActions"
     class func multiSelectActions() -> [MultiSelectAction] {
-        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .download, .archive, .share, .markAsPlayed, .star]
+        let defaultActions: [MultiSelectAction] = [.playNext, .playLast, .addToPlaylist, .download, .archive, .share, .markAsPlayed, .star]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.multiSelectActionsKey) as? [Int32] else {
             return defaultActions
         }

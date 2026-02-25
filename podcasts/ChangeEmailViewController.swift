@@ -7,15 +7,23 @@ protocol ChangeEmailDelegate: AnyObject {
 
 class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     weak var delegate: ChangeEmailDelegate?
+
+    @IBOutlet var scrollView: UIScrollView!
+
+    @IBOutlet var stackView: UIStackView!
+
     @IBOutlet var contentView: ThemeableView! {
         didSet {
             contentView.style = .primaryUi02
         }
     }
 
+    @IBOutlet var emailLabelSizeConstraint: NSLayoutConstraint!
+
     @IBOutlet var currentEmailLabel: ThemeableLabel! {
         didSet {
             currentEmailLabel.text = L10n.currentEmailPrompt
+            currentEmailLabel.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
@@ -23,6 +31,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         didSet {
             emailInfoLabel.style = .primaryText02
             emailInfoLabel.text = L10n.currentEmailPrompt.localizedCapitalized
+            emailInfoLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .footnote)
         }
     }
 
@@ -48,6 +57,8 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
             mainButton.buttonStyle = .primaryInteractive01Disabled
             mainButton.textStyle = .primaryInteractive02
             mainButton.setTitle(L10n.confirm, for: .normal)
+            mainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            mainButton.titleLabel?.font = .font(ofSize: 17, weight: .semibold, scalingWith: .body)
         }
     }
 
@@ -81,6 +92,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     @IBOutlet var errorLabel: ThemeableLabel! {
         didSet {
             errorLabel.style = .support05
+            errorLabel.font = .font(ofSize: 15, weight: .regular, scalingWith: .largeTitle)
         }
     }
 
@@ -96,7 +108,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet var mainButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView! {
         didSet {
             activityIndicatorView.isHidden = true
@@ -110,9 +121,8 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
-        originalButtonConstant = mainButtonBottomConstraint.constant
-
         updateButtonState()
+        updateSize()
     }
 
     deinit {
@@ -266,10 +276,9 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
 
     // MARK: Keyboard management
 
-    private var originalButtonConstant: CGFloat = 60
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            mainButtonBottomConstraint.constant = originalButtonConstant + keyboardSize.height
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
             var animationDuration = 0.3
             if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
                 animationDuration = keyboardDuration
@@ -282,7 +291,7 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        mainButtonBottomConstraint.constant = originalButtonConstant
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         var animationDuration = 0.3
         if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
             animationDuration = keyboardDuration
@@ -296,5 +305,22 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
+    }
+
+    // MARK: - Dynamic Type Support
+
+    private func updateSize() {
+        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        stackView.axis = largeSize ? .vertical : .horizontal
+        stackView.alignment = largeSize ? .leading : .fill
+        currentEmailLabel.textAlignment = largeSize ? .natural : .right
+        emailLabelSizeConstraint.isActive = largeSize ? false : true
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
