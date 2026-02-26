@@ -23,12 +23,13 @@ class DateHeadingView: UIView {
         topDivider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topDivider)
 
-        titleLabel = ThemeableLabel(frame: CGRect(x: 20, y: 10, width: bounds.width - 20, height: 30))
-        titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.bold)
+        titleLabel = ThemeableLabel()
         titleLabel?.textAlignment = .natural
         titleLabel?.text = title
-        titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel?.font = UIFont.font(ofSize: 22, weight: UIFont.Weight.bold, scalingWith: .largeTitle)
+        titleLabel?.adjustsFontForContentSizeCategory = true
         addSubview(titleLabel!)
+        titleLabel?.translatesAutoresizingMaskIntoConstraints = false
 
         // setup constraints so that they are all in the right place
         NSLayoutConstraint.activate([
@@ -38,7 +39,9 @@ class DateHeadingView: UIView {
             topDivider.topAnchor.constraint(equalTo: topAnchor),
 
             titleLabel!.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            bottomAnchor.constraint(equalTo: titleLabel!.bottomAnchor, constant: 10)
+            titleLabel!.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            titleLabel!.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
+            titleLabel!.topAnchor.constraint(equalTo: topAnchor, constant: 0)
         ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)

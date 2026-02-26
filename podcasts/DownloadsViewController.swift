@@ -11,7 +11,6 @@ class DownloadsViewController: PCViewController {
             refreshContentUnavailable()
         }
     }
-    var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
 
@@ -25,9 +24,7 @@ class DownloadsViewController: PCViewController {
     @IBOutlet var downloadsTable: UITableView! {
         didSet {
             registerTableCells()
-            registerLongPress()
-            downloadsTable.estimatedRowHeight = 80.0
-            downloadsTable.rowHeight = UITableView.automaticDimension
+            registerLongPress()            
             downloadsTable.allowsMultipleSelectionDuringEditing = true
         }
     }
