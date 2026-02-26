@@ -2154,6 +2154,10 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Aquesta llista de reproducció està plena. Elimina alguns episodis o comença'n una de nova.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afegir episodis</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>La llista de reproducció està gairebé plena. Prova d'afegir menys episodis.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Les llistes de reproducció només poden tenir fins a %1$@ episodis.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>El teu episodi en aquesta llista de reproducció s’ha arxivat.</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
