@@ -8,6 +8,9 @@ import AVFoundation
 class EpisodeArtwork {
     private let imageManager: ImageManager
 
+    /// Track in-progress artwork load tasks by episode UUID to prevent redundant requests and allow cancellation
+    private var inProgressArtworkLoads: [String: Task<Void, Never>] = [:]
+
     init(imageManager: ImageManager = .sharedManager) {
         self.imageManager = imageManager
     }
@@ -21,23 +24,39 @@ class EpisodeArtwork {
     ///   - podcastUuid: the UUID of the current playing podcast
     ///   - episodeUuid: the UUID of the current playing episode
     func loadEmbeddedImage(asset: AVAsset?, podcastUuid: String, episodeUuid: String) {
-        guard Settings.loadEmbeddedImages, !isCached(episodeUuid: episodeUuid) else {
+        guard Settings.loadEmbeddedImages,
+              !isCached(episodeUuid: episodeUuid),
+              inProgressArtworkLoads[episodeUuid] == nil else {
             return
         }
 
-        Task { [weak self] in
+        let task = Task { [weak self] in
             guard let self else { return }
+
+            defer {
+                self.inProgressArtworkLoads[episodeUuid] = nil
+            }
 
             // Priority 1: Show notes image URL (publisher intent takes precedence)
             if await self.loadArtworkFromShowNotes(podcastUuid: podcastUuid, episodeUuid: episodeUuid) {
                 return
             }
 
+            guard !Task.isCancelled else { return }
+
             // Priority 2: Embedded artwork from audio file metadata
             if let assetEpisodeArtwork = self.loadEpisodeArtwork(from: asset) {
                 self.imageManager.save(assetEpisodeArtwork, for: episodeUuid)
             }
         }
+
+        inProgressArtworkLoads[episodeUuid] = task
+    }
+
+    /// Cancel any in-progress artwork load for the given episode
+    func cancelArtworkLoad(for episodeUuid: String) {
+        inProgressArtworkLoads[episodeUuid]?.cancel()
+        inProgressArtworkLoads[episodeUuid] = nil
     }
 
     func isCached(episodeUuid: String) -> Bool {
@@ -69,6 +88,10 @@ class EpisodeArtwork {
 
         return await withCheckedContinuation { continuation in
             KingfisherManager.shared.retrieveImage(with: url, options: [.processor(resizeProcessor)]) { [weak self] result in
+                guard !Task.isCancelled else {
+                    continuation.resume(returning: false)
+                    return
+                }
                 if let image = try? result.get().image {
                     self?.imageManager.save(image, for: episodeUuid)
                     continuation.resume(returning: true)
