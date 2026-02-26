@@ -186,6 +186,33 @@ class PlaylistDataManager {
         return exists
     }
 
+    func manualPlaylistUUIDs(for episodesUUIDs: [String], dbQueue: PCDBQueue) -> [String] {
+        var uuids: [String] = []
+        //let episodesUUIDS = episodeUUIDs.joined(separator: ",")
+        dbQueue.read { db in
+            do {
+                let query = """
+                        SELECT playlist_uuid
+                        FROM \(DataManager.playlistEpisodeTableName)
+                        WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(episodesUUIDs)))
+                        GROUP BY playlist_uuid
+                        HAVING COUNT(DISTINCT episodeUuid) = \(episodesUUIDs.count);
+                    """
+                let resultSet = try db.executeQuery(query, values: [])
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let uuid = resultSet.string(forColumn: "playlist_uuid") {
+                        uuids.append(uuid)
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("PlaylistDataManager.manualPlaylistUUIDs error: \(error)")
+            }
+        }
+        return uuids
+    }
+
     func manualPlaylistUUIDs(for episodeUUID: String, dbQueue: PCDBQueue) -> [String] {
         var uuids: [String] = []
         dbQueue.read { db in

@@ -935,6 +935,10 @@ public class DataManager {
         playlistManager.manualPlaylistUUIDs(for: episodeUUID, dbQueue: dbQueue)
     }
 
+    public func manualPlaylistUUIDs(for episodeUUIDs: [String]) -> [String] {
+        playlistManager.manualPlaylistUUIDs(for: episodeUUIDs, dbQueue: dbQueue)
+    }
+
     public func playlistContainsPodcast(podcastUuid: String, includeDeleted: Bool = false) -> Bool {
         playlistManager.playlistContainsPodcast(podcastUuid: podcastUuid, includeDeleted: includeDeleted, dbQueue: dbQueue)
     }

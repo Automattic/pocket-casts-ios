@@ -143,7 +143,8 @@ class ManualPlaylistsChooserViewController: PCViewController {
             let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
             initialSelectedPlaylists = Set(uuids)
         } else {
-            initialSelectedPlaylists = []
+            let uuids = dataManager.manualPlaylistUUIDs(for: episodes.map {$0.uuid})
+            initialSelectedPlaylists = Set(uuids)
         }
         newSelectedPlaylists = initialSelectedPlaylists
     }
