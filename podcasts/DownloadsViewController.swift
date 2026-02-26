@@ -24,7 +24,7 @@ class DownloadsViewController: PCViewController {
     @IBOutlet var downloadsTable: UITableView! {
         didSet {
             registerTableCells()
-            registerLongPress()            
+            registerLongPress()
             downloadsTable.allowsMultipleSelectionDuringEditing = true
         }
     }
@@ -112,13 +112,18 @@ class DownloadsViewController: PCViewController {
         removeAllCustomObservers()
     }
 
+    private var firstShowOfBanner = true
+
     private func showManageDownloadsBanner() {
         guard ManageDownloadsCoordinator.shouldShowBanner
         else {
             downloadsTable.tableHeaderView = nil
             return
         }
-        Analytics.track(.freeUpSpaceBannerShown)
+        if firstShowOfBanner {
+            firstShowOfBanner = false
+            Analytics.track(.freeUpSpaceBannerShown)
+        }
         downloadsTable.tableHeaderView = makeBannerView()
     }
 
