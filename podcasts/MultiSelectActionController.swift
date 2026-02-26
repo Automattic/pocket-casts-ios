@@ -295,7 +295,7 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
     }
 
     var fittingHeight: CGFloat {
-        guard self.view != nil else {
+        guard isViewLoaded else {
             return 0
         }
         actionsTable.layoutIfNeeded()
