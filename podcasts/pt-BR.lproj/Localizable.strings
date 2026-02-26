@@ -1058,6 +1058,8 @@ que você ouviu foi
     <string>%1$@ episódios</string>
     <key>episode_description_title</key>
     <string>Descrição do episódio</string>
+    <key>episode_detail_add</key>
+    <string>Adicionar</string>
     <key>episode_details_title</key>
     <string>Detalhes</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ que você ouviu foi
     <string>Arquivos</string>
     <key>files_how_to_title</key>
     <string>Como salvar um arquivo</string>
+    <key>files_not_uploaded</key>
+    <string>Nenhum arquivo enviado</string>
     <key>files_sort</key>
     <string>Ordenar arquivos</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ ATUALIZAÇÕES</string>
     <string>Reproduzir tudo</string>
     <key>play_last</key>
     <string>Reproduzir por último</string>
+    <key>play_last_in_up_next</key>
+    <string>Adicionar por último à fila "A seguir"</string>
     <key>play_next</key>
     <string>Reproduzir em seguida</string>
+    <key>play_next_in_up_next</key>
+    <string>Adicionar à fila "A seguir"</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Dos %1$@ episódios que você começou a ouvir, você concluiu um total de %2$@</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Toque em um episódio na lista de Próximos para ver a página de ações. Mantenha pressionado para reproduzi-lo. Ative para inverter essas opções.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Toque em um episódio na lista de Próximos para reproduzi-lo. Mantenha pressionado para ver as opções do episódio. Desative para inverter essas opções.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Use a otimização de volume atualizada com níveis de voz mais consistentes.</string>
     <key>settings_global_settings</key>
     <string>Configurações gerais</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Dá para personalizar o aplicativo como você quiser. Então, você pode optar p
     <string>Aumento de volume</string>
     <key>volume_boost_description</key>
     <string>Vozes mais altas</string>
+    <key>volume_boost_n_description</key>
+    <string>Os níveis de voz são mais consistentes</string>
     <key>wait_for_wifi</key>
     <string>Aguardando rede Wi-Fi</string>
     <key>watch</key>

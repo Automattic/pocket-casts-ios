@@ -1058,6 +1058,8 @@ que has escuchado dura
     <string>%1$@ episodios</string>
     <key>episode_description_title</key>
     <string>Descripción del episodio</string>
+    <key>episode_detail_add</key>
+    <string>Añadir</string>
     <key>episode_details_title</key>
     <string>Detalles</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ que has escuchado dura
     <string>Archivos</string>
     <key>files_how_to_title</key>
     <string>Cómo guardar un archivo</string>
+    <key>files_not_uploaded</key>
+    <string>No se ha subido ningún archivo</string>
     <key>files_sort</key>
     <string>Ordenar archivos</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ ACTUALIZACIONES</string>
     <string>Reproducir todo</string>
     <key>play_last</key>
     <string>Reproducir último</string>
+    <key>play_last_in_up_next</key>
+    <string>Reproducir el último en A continuación</string>
     <key>play_next</key>
     <string>Reproducir siguiente</string>
+    <key>play_next_in_up_next</key>
+    <string>Reproducir el siguiente en A continuación</string>
     <key>playback_2024_completion_rate_description</key>
     <string>De los %1$@ episodios que has comenzado, has escuchado por completo un total de %2$@</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Al tocar un episodio en A continuación, se mostrará la página de acciones. Al presionar de manera prolongada, se reproducirá el episodio. Activa para modificarlos.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Al tocar un episodio en A continuación, el mismo se reproducirá. Al presionar de manera prolongada, se mostrarán las opciones de los episodios. Desactiva para modificarlos.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Utiliza la actualización de Volume Boost con niveles de voz más consistentes.</string>
     <key>settings_global_settings</key>
     <string>Configuración general</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Esta aplicación puede ser tan sencilla o difícil de usar como tú quieras. Pue
     <string>Aumento de volumen</string>
     <key>volume_boost_description</key>
     <string>Aumenta el volumen de las voces</string>
+    <key>volume_boost_n_description</key>
+    <string>Los niveles de voz son más consistentes</string>
     <key>wait_for_wifi</key>
     <string>Esperando conexión Wi-Fi</string>
     <key>watch</key>
