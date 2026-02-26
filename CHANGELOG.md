@@ -1,5 +1,6 @@
 8.7
 -----
+- Fix podcast search in non-standard locales [#4019](https://github.com/Automattic/pocket-casts-ios/pull/4019)
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
 - Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
