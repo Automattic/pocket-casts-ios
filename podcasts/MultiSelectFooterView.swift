@@ -40,6 +40,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             leftActionButton.setImage(UIImage(named: "more"), for: .normal)
             leftActionButton.tintColor = ThemeColor.primaryInteractive02()
             leftActionButton.layer.cornerRadius = 18
+            ensureButtonImage(leftActionButton, size: 24)
         }
     }
 
@@ -49,7 +50,22 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             rightActionButton.setImage(UIImage(named: "more"), for: .normal)
             rightActionButton.tintColor = ThemeColor.primaryInteractive02()
             rightActionButton.layer.cornerRadius = 18
+            ensureButtonImage(rightActionButton, size: 24)
         }
+    }
+
+    private func ensureButtonImage(_ button: UIButton, size: CGFloat) {
+        guard let imageView = button.imageView else {
+            return
+        }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                imageView.widthAnchor.constraint(equalToConstant: 24),
+                imageView.heightAnchor.constraint(equalToConstant: 24),
+            ]
+        )
+        imageView.contentMode = .scaleAspectFit
     }
 
     @IBOutlet var containerView: UIView! {
