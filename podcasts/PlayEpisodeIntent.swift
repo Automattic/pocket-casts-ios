@@ -2,10 +2,8 @@ import AppIntents
 import WidgetKit
 import PocketCastsUtils
 
-@available(iOS 17, *)
-struct PlayEpisodeIntent: AudioPlaybackIntent {
+struct PlayEpisodeIntent: AudioStartingIntent {
     static var title: LocalizedStringResource = "Play episode"
-    static var isDiscoverable = false // for now only to be used in the Now Playing widget
 
     @Parameter(title: "EpisodeUUID")
     var episodeUuid: String

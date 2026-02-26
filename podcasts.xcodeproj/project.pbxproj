@@ -2057,6 +2057,9 @@
 		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
 		FF5381B12C91C6EF00829525 /* ReferralsOfferInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381B02C91C6EF00829525 /* ReferralsOfferInfo.swift */; };
 		FF5453EF2DFC6C890045977B /* DiscoveryPageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5453EE2DFC6C890045977B /* DiscoveryPageIndicatorView.swift */; };
+		FF5495E02F03F2970086F773 /* ShortcutsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495DF2F03EBCD0086F773 /* ShortcutsProvider.swift */; };
+		FF5495E12F03F35C0086F773 /* ChapterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D52F02FE9A0086F773 /* ChapterIntent.swift */; };
+		FF5495E22F03F3630086F773 /* NextPrevious.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D72F02FE9A0086F773 /* NextPrevious.swift */; };
 		FF54BCA92C5A2F3900A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FF57FCBE2E37AD9A00D2E966 /* FoldersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF57FCBD2E37AD9A00D2E966 /* FoldersAnimationView.swift */; };
@@ -2078,6 +2081,7 @@
 		FF89C0982D81A2D000BC5104 /* PodcastHeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0972D81A2C700BC5104 /* PodcastHeaderModel.swift */; };
 		FF89C09A2D81A31D00BC5104 /* PodcastHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF89C0992D81A31700BC5104 /* PodcastHeaderView.swift */; };
 		FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */; };
+		FF90946D2F06ECAD003137B6 /* OpenFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D82F02FE9A0086F773 /* OpenFilterIntent.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
 		FF91A0F82B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F72B6BBF33002A0590 /* UpgradeRoundedSegmentedControl.swift */; };
 		FF91A0FA2B6BBFD1002A0590 /* UpgradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F92B6BBFD1002A0590 /* UpgradeCard.swift */; };
@@ -2102,6 +2106,8 @@
 		FFCCF6C02E2E87FE00BFC9E5 /* PreSelectChaptersAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCCF6BF2E2E87ED00BFC9E5 /* PreSelectChaptersAnimationView.swift */; };
 		FFD3AB8C2BD15E8F00C562CB /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD3AB8B2BD15E8F00C562CB /* CircleView.swift */; };
 		FFE794DD2DA443FF005E4D40 /* NotificationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE794DC2DA443F8005E4D40 /* NotificationsCoordinator.swift */; };
+		FFEA96C22F040A7E005D879A /* SleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D92F02FE9A0086F773 /* SleepTimerIntent.swift */; };
+		FFEA96C32F040A85005D879A /* ExtendSleepTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5495D62F02FE9A0086F773 /* ExtendSleepTimerIntent.swift */; };
 		FFEB45852EBE4A0A00DF5E12 /* PaidStoryWallView2025.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45842EBE49FD00DF5E12 /* PaidStoryWallView2025.swift */; };
 		FFEB45992EC2031600DF5E12 /* String+SentenceCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEB45982EC2031000DF5E12 /* String+SentenceCase.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
@@ -4136,6 +4142,12 @@
 		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
 		FF5381B02C91C6EF00829525 /* ReferralsOfferInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsOfferInfo.swift; sourceTree = "<group>"; };
 		FF5453EE2DFC6C890045977B /* DiscoveryPageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryPageIndicatorView.swift; sourceTree = "<group>"; };
+		FF5495D52F02FE9A0086F773 /* ChapterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterIntent.swift; sourceTree = "<group>"; };
+		FF5495D62F02FE9A0086F773 /* ExtendSleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendSleepTimerIntent.swift; sourceTree = "<group>"; };
+		FF5495D72F02FE9A0086F773 /* NextPrevious.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextPrevious.swift; sourceTree = "<group>"; };
+		FF5495D82F02FE9A0086F773 /* OpenFilterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFilterIntent.swift; sourceTree = "<group>"; };
+		FF5495D92F02FE9A0086F773 /* SleepTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerIntent.swift; sourceTree = "<group>"; };
+		FF5495DF2F03EBCD0086F773 /* ShortcutsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsProvider.swift; sourceTree = "<group>"; };
 		FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFormat.swift; sourceTree = "<group>"; };
 		FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FF57373C2B4EB5B100F511C7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -6970,6 +6982,7 @@
 		BDBD53F717019B2A0048C8C5 /* Pocket Casts */ = {
 			isa = PBXGroup;
 			children = (
+				FF5495DA2F02FE9A0086F773 /* Intents */,
 				462EE0B127024FF3003D67DC /* Credentials */,
 				BD7D337619F7D48E00B907EA /* podcasts.entitlements */,
 				3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */,
@@ -8561,6 +8574,19 @@
 			name = SharedUI;
 			sourceTree = "<group>";
 		};
+		FF5495DA2F02FE9A0086F773 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				FF5495DF2F03EBCD0086F773 /* ShortcutsProvider.swift */,
+				FF5495D52F02FE9A0086F773 /* ChapterIntent.swift */,
+				FF5495D72F02FE9A0086F773 /* NextPrevious.swift */,
+				FF5495D82F02FE9A0086F773 /* OpenFilterIntent.swift */,
+				FF5495D92F02FE9A0086F773 /* SleepTimerIntent.swift */,
+				FF5495D62F02FE9A0086F773 /* ExtendSleepTimerIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		FF68E8BC2DF33AAC00114FC7 /* Horizontal Collection List */ = {
 			isa = PBXGroup;
 			children = (
@@ -9967,6 +9993,7 @@
 				C7891DCA2A6B080F009DA661 /* BookmarksPodcastListController.swift in Sources */,
 				8BB55E3A28FEEE99001D1766 /* StoryShareableProvider.swift in Sources */,
 				408426322134CBE60076D82E /* SmallPagedListSummaryViewController.swift in Sources */,
+				FFEA96C32F040A85005D879A /* ExtendSleepTimerIntent.swift in Sources */,
 				C7FAFF6A2942E78A00329B40 /* HighlightedText.swift in Sources */,
 				BD4098801B9EFE3C007F36BD /* AudioPlayTask.swift in Sources */,
 				40AA12732488AE1F006B9D48 /* MultiSelectFooterView.swift in Sources */,
@@ -10426,6 +10453,7 @@
 				BD95ED6A1BAFA532004335B0 /* CountryChooserViewController.swift in Sources */,
 				C722245C2936CA15006B3B55 /* StoryLogoView.swift in Sources */,
 				8B5BD0B82C50235400C687CB /* Episode+Transcript.swift in Sources */,
+				FF5495E02F03F2970086F773 /* ShortcutsProvider.swift in Sources */,
 				C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */,
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				BD056F111F6F8CE800AF8260 /* MainTabBarController.swift in Sources */,
@@ -10529,6 +10557,7 @@
 				C73CD7A82916E8A900EAE879 /* SwiftUI+Previews.swift in Sources */,
 				BDB002BF211A9E1B00224A55 /* ProgressLine.swift in Sources */,
 				F57498D12DB8430A00892BF0 /* LargeListSummaryCellHeaderView.swift in Sources */,
+				FF90946D2F06ECAD003137B6 /* OpenFilterIntent.swift in Sources */,
 				9A263EC12DA65CC900E895B6 /* InformationalProfileBannerCell.swift in Sources */,
 				C7A110FF2922971100887A90 /* LoginLandingHostingController.swift in Sources */,
 				C7FAFF5B294183AA00329B40 /* CancelConfirmationView.swift in Sources */,
@@ -10580,8 +10609,10 @@
 				F5EA21F82CC1DC370043C780 /* EndOfYear2024StoriesModel.swift in Sources */,
 				BDD6F0342140E1A3005FD8A3 /* ChapterManager.swift in Sources */,
 				BD9A7FEB201EF5E000E3287B /* PodcastEpisodesRefreshOperation.swift in Sources */,
+				FFEA96C22F040A7E005D879A /* SleepTimerIntent.swift in Sources */,
 				46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */,
 				FF7F89ED2C2AF6DE00FC0ED5 /* TranscriptManager.swift in Sources */,
+				FF5495E12F03F35C0086F773 /* ChapterIntent.swift in Sources */,
 				BD2F3BA62366C17500416633 /* PlayerContainerViewController+Scroll.swift in Sources */,
 				C7DC401E2A67026800883D03 /* Toast.swift in Sources */,
 				BD07B92823583FC900B06FFF /* SettingsTableHeader.swift in Sources */,
@@ -10848,6 +10879,7 @@
 				BDB206AA2191734D00C1E456 /* NowPlayingHelper.swift in Sources */,
 				10DFE9372C5A8D1300957D0A /* ABTestProvider.swift in Sources */,
 				400AB301220BA8DC0003EE21 /* UploadedViewController+Table.swift in Sources */,
+				FF5495E22F03F3630086F773 /* NextPrevious.swift in Sources */,
 				4647623128F70CD0006D005A /* AuthenticationHelper.swift in Sources */,
 				F57626B62C8B56C7009C8225 /* String+SanitizedFileName.swift in Sources */,
 				BDDF8AA2240CE240009BA263 /* PlaylistViewController+Swipe.swift in Sources */,
