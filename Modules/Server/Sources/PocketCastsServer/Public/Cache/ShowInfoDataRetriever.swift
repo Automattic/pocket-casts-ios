@@ -50,7 +50,8 @@ public actor ShowInfoDataRetriever {
         return nsError.domain == NSURLErrorDomain && (
             nsError.code == NSURLErrorNotConnectedToInternet ||
             nsError.code == NSURLErrorNetworkConnectionLost ||
-            nsError.code == NSURLErrorDataNotAllowed
+            nsError.code == NSURLErrorDataNotAllowed ||
+            nsError.code == NSURLErrorTimedOut
         )
     }
 
