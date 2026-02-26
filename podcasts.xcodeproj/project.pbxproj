@@ -1033,7 +1033,6 @@
 		BDDA72D61C9BA7E2003A3BEB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA72D51C9BA7E2003A3BEB /* Theme.swift */; };
 		BDDAE72C27F2E76B003741A1 /* FileTypeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDAE72B27F2E76B003741A1 /* FileTypeUtil.swift */; };
 		BDDAE72D27F2E76B003741A1 /* FileTypeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDAE72B27F2E76B003741A1 /* FileTypeUtil.swift */; };
-		BDDC199D1F009EA700BAC535 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDC199C1F009EA700BAC535 /* ComplicationController.swift */; };
 		BDDC1C652394B7F800F2D723 /* UpNextViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDC1C642394B7F800F2D723 /* UpNextViewController+Swipe.swift */; };
 		BDDF8AA2240CE240009BA263 /* PlaylistViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDF8AA1240CE240009BA263 /* PlaylistViewController+Swipe.swift */; };
 		BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDF8AA7240CEBF9009BA263 /* DownloadsViewController+Swipe.swift */; };
@@ -2685,7 +2684,6 @@
 		BDDA72D11C9B898C003A3BEB /* StorageAndDataUseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorageAndDataUseViewController.xib; sourceTree = "<group>"; };
 		BDDA72D51C9BA7E2003A3BEB /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BDDAE72B27F2E76B003741A1 /* FileTypeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTypeUtil.swift; sourceTree = "<group>"; };
-		BDDC199C1F009EA700BAC535 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		BDDC1C642394B7F800F2D723 /* UpNextViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UpNextViewController+Swipe.swift"; sourceTree = "<group>"; };
 		BDDF8AA1240CE240009BA263 /* PlaylistViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistViewController+Swipe.swift"; sourceTree = "<group>"; };
 		BDDF8AA7240CEBF9009BA263 /* DownloadsViewController+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadsViewController+Swipe.swift"; sourceTree = "<group>"; };
@@ -3088,6 +3086,7 @@
 		3F26BC112F4FC3C90007119B /* PodcastsIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BC1B2F4FC3CA0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntents; sourceTree = "<group>"; };
 		3F26BE712F4FC4AF0007119B /* UI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UI; sourceTree = "<group>"; };
 		3F26BE962F4FC74D0007119B /* Supporting Files */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BE972F4FC7560007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Supporting Files"; sourceTree = "<group>"; };
+		3F26BE982F4FC77F0007119B /* Complication */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Complication; sourceTree = "<group>"; };
 		3FDAD4E72F46D75100CC3259 /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
 		3FDAD4EF2F46D75400CC3259 /* NotificationExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4F12F46D75500CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationExtension; sourceTree = "<group>"; };
 		3FDAD4F62F46D77800CC3259 /* PodcastsIntentsUI */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4FA2F46D77800CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntentsUI; sourceTree = "<group>"; };
@@ -5368,6 +5367,7 @@
 		BDD301741EFB9356004A9972 /* Pocket Casts Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				3F26BE982F4FC77F0007119B /* Complication */,
 				3F26BE962F4FC74D0007119B /* Supporting Files */,
 				3F26BE712F4FC4AF0007119B /* UI */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
@@ -5375,7 +5375,6 @@
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
 				BD2AFEDE1EFC9D5F00398A34 /* Extensions */,
 				BDD301901EFB9969004A9972 /* Data & Communication */,
-				BDDC199E1F009EAC00BAC535 /* Complication */,
 			);
 			path = "Pocket Casts Watch App";
 			sourceTree = "<group>";
@@ -5504,14 +5503,6 @@
 				BD1B70C62359765D004DDD44 /* ThemeAwareScrollView.swift */,
 			);
 			name = "Themed but not configurable";
-			sourceTree = "<group>";
-		};
-		BDDC199E1F009EAC00BAC535 /* Complication */ = {
-			isa = PBXGroup;
-			children = (
-				BDDC199C1F009EA700BAC535 /* ComplicationController.swift */,
-			);
-			name = Complication;
 			sourceTree = "<group>";
 		};
 		BDE5AC01178172A3006E71D8 /* Mini Player */ = {
@@ -6554,6 +6545,7 @@
 				3F7479522F55519F004C7FF6 /* Unlockable */,
 				3F26BE712F4FC4AF0007119B /* UI */,
 				3F26BE962F4FC74D0007119B /* Supporting Files */,
+				3F26BE982F4FC77F0007119B /* Complication */,
 			);
 			name = "Pocket Casts Watch App";
 			packageProductDependencies = (
@@ -8164,7 +8156,6 @@
 				468F800F27D0042900E6D764 /* BaseEpisode+Display.swift in Sources */,
 				BDE48A322410D44900ECA6CA /* ChapterInfo.swift in Sources */,
 				463538AC26E814DD00BA9D35 /* DataModel+Strings.swift in Sources */,
-				BDDC199D1F009EA700BAC535 /* ComplicationController.swift in Sources */,
 				F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */,
 				FF0F407B2D5E37250036FFE9 /* ThreadSafeDictionary.swift in Sources */,
 				46D88AB927DF97ED00F3BC43 /* PodcastsListViewModel.swift in Sources */,
