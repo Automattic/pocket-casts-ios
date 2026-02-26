@@ -64,7 +64,8 @@ class PlaylistCell: ThemeableCell {
         isLastRow: Bool,
         isSelected: Binding<Bool> = .constant(false),
         canBeDisabled: Bool = false,
-        analyticsSource: String? = nil
+        analyticsSource: String? = nil,
+        additionalEpisodesCount: Int = 0
     ) {
         switch cellType {
         case .count, .plain:
@@ -73,12 +74,15 @@ class PlaylistCell: ThemeableCell {
             accessoryType = .none
         }
 
+        let viewModel = PlaylistCellViewModel(
+            playlist: playlist,
+            displayType: cellType
+        )
+        viewModel.additionalEpisodesCount = additionalEpisodesCount
+
         contentConfiguration = UIHostingConfiguration {
             PlaylistCellView(
-                viewModel: PlaylistCellViewModel(
-                    playlist: playlist,
-                    displayType: cellType
-                ),
+                viewModel: viewModel,
                 isSelected: isSelected,
                 canBeDisabled: canBeDisabled,
                 analyticsSource: analyticsSource
