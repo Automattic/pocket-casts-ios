@@ -61,8 +61,8 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
             [
-                imageView.widthAnchor.constraint(equalToConstant: 24),
-                imageView.heightAnchor.constraint(equalToConstant: 24),
+                imageView.widthAnchor.constraint(equalToConstant: size),
+                imageView.heightAnchor.constraint(equalToConstant: size),
             ]
         )
         imageView.contentMode = .scaleAspectFit
