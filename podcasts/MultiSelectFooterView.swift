@@ -164,8 +164,8 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         if let sheetController = multiSelectActionController.sheetPresentationController {
             sheetController.detents = [.custom(resolver: { context in
                 let maxHeight = context.maximumDetentValue * 0.9
-                let minHeight = max(context.maximumDetentValue * 0.25, multiSelectActionController.fittingHeight)
-                return min(minHeight, maxHeight)
+                let desiredHeight = max(context.maximumDetentValue * 0.25, multiSelectActionController.fittingHeight)
+                return min(desiredHeight, maxHeight)
             }), ]
 
             // The Multiselect Actions VC implements its own grabber UI.
