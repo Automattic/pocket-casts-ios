@@ -11,13 +11,18 @@ public actor ShowInfoDataRetriever {
         cache = URLCache(memoryCapacity: 1.megabytes, diskCapacity: 100.megabytes, diskPath: "show_notes")
     }
 
-    /// Try to load episode data from cache
-    /// If it's not found, request it
+    /// Try to load episode data from the network
+    /// Falls back to cache if URLSession reports no connection
+    /// - Parameters:
+    ///   - podcastUuid: The podcast UUID
+    ///   - episodeUuid: The episode UUID
+    ///   - useCacheOnly: If true, skip the network request and only check cache
     public func loadEpisodeDataFromCache(
         for podcastUuid: String,
-        episodeUuid: String
+        episodeUuid: String,
+        useCacheOnly: Bool = false
     ) async throws -> String? {
-        if !FeatureFlag.episodesInfoCacheReloadPolicy.enabled || !NetworkUtils.shared.isConnected() {
+        if useCacheOnly {
             let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
             let request = URLRequest(url: url)
 
@@ -26,9 +31,28 @@ public actor ShowInfoDataRetriever {
                 FileLog.shared.addMessage("Show Info: returning cached data for episode \(episodeUuid)")
                 return metadata
             }
+            return nil
         }
 
-        return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
+        do {
+            return try await loadEpisodeData(for: podcastUuid, episodeUuid: episodeUuid)
+        } catch {
+            if isNetworkUnavailableError(error) {
+                FileLog.shared.addMessage("Show Info: network unavailable, falling back to cache for episode \(episodeUuid)")
+                return try await loadEpisodeDataFromCache(for: podcastUuid, episodeUuid: episodeUuid, useCacheOnly: true)
+            }
+            throw error
+        }
+    }
+
+    private func isNetworkUnavailableError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == NSURLErrorDomain && (
+            nsError.code == NSURLErrorNotConnectedToInternet ||
+            nsError.code == NSURLErrorNetworkConnectionLost ||
+            nsError.code == NSURLErrorDataNotAllowed ||
+            nsError.code == NSURLErrorTimedOut
+        )
     }
 
     public func loadShowInfoData(
@@ -39,7 +63,7 @@ public actor ShowInfoDataRetriever {
         }
 
         let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let cachePolicy: URLRequest.CachePolicy = FeatureFlag.episodesInfoCacheReloadPolicy.enabled ? .reloadRevalidatingCacheData : .reloadIgnoringLocalAndRemoteCacheData
+        let cachePolicy: URLRequest.CachePolicy = .reloadRevalidatingCacheData
         var request = URLRequest(url: url, cachePolicy: cachePolicy)
         request.addLocalizationHeaders()
 

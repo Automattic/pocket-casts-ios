@@ -4,6 +4,7 @@
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
 - Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
+- Fix Episode Artwork loading when audio asset image differs from feed [#4017](https://github.com/Automattic/pocket-casts-ios/pull/4017)
 
 8.6
 -----
