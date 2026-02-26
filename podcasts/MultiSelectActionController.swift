@@ -293,4 +293,12 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
             orderedActions.append(.addToPlaylist)
         }
     }
+
+    var fittingHeight: CGFloat {
+        guard isViewLoaded else {
+            return 0
+        }
+        actionsTable.layoutIfNeeded()
+        return actionsTable.contentSize.height + headerView.bounds.height
+    }
 }

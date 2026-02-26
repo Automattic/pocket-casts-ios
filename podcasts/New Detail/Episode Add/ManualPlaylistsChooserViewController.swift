@@ -271,6 +271,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 } else {
                     self.newSelectedPlaylists.remove(playlist.uuid)
                 }
+                tableView.reloadRows(at: [indexPath], with: .none)
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
@@ -287,7 +288,8 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 isLastRow: indexPath.row == manualPlaylists.count - 1,
                 isSelected: isSelected,
                 canBeDisabled: !episodeIsInPlaylist,
-                analyticsSource: analyticsSource
+                analyticsSource: analyticsSource,
+                additionalEpisodesCount: episodes.count
             )
         }
         return cell

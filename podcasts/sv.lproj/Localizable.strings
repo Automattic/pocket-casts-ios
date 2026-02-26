@@ -1058,6 +1058,8 @@ du lyssnade på var
     <string>%1$@ avsnitt</string>
     <key>episode_description_title</key>
     <string>Avsnittsbeskrivning</string>
+    <key>episode_detail_add</key>
+    <string>Lägg till</string>
     <key>episode_details_title</key>
     <string>Detaljer</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ du lyssnade på var
     <string>Filer</string>
     <key>files_how_to_title</key>
     <string>Så här sparar du en fil</string>
+    <key>files_not_uploaded</key>
+    <string>Inga filer har laddats upp</string>
     <key>files_sort</key>
     <string>Sortera filer</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ UPPDATERINGAR</string>
     <string>Spela upp alla</string>
     <key>play_last</key>
     <string>Spela sista</string>
+    <key>play_last_in_up_next</key>
+    <string>Spela upp sist i Up Next</string>
     <key>play_next</key>
     <string>Spela nästa</string>
+    <key>play_next_in_up_next</key>
+    <string>Spela upp nästa i Up Next</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Du lyssnade sammanlagt klart på %2$@ av de %1$@ avsnitt du började lyssna på</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Om du trycker på ett avsnitt i Nästa så kommer en lista av Åtgärder att dyka upp. Ett långtryck spelar avsnittet. Aktivera för att vända på dem.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Om du trycker på ett avsnitt i Nästa så spelas avsnittet. Ett långtryck visar en lista av Åtgärder. Inaktivera för att vända på dem.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Använd uppdaterad Volume Boost med mer konsekventa röstnivåer.</string>
     <key>settings_global_settings</key>
     <string>Globala inställningar</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Appen kan vara så enkel eller svår att använda som du själv vill att den ska
     <string>Volymökning</string>
     <key>volume_boost_description</key>
     <string>Röster låter starkare</string>
+    <key>volume_boost_n_description</key>
+    <string>Röstnivåer är mer konsekventa</string>
     <key>wait_for_wifi</key>
     <string>Väntar på WiFi</string>
     <key>watch</key>

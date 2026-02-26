@@ -11,7 +11,6 @@ class DownloadsViewController: PCViewController {
             refreshContentUnavailable()
         }
     }
-    var cellHeights: [IndexPath: CGFloat] = [:]
 
     private let episodesDataManager = EpisodesDataManager()
 
@@ -26,8 +25,6 @@ class DownloadsViewController: PCViewController {
         didSet {
             registerTableCells()
             registerLongPress()
-            downloadsTable.estimatedRowHeight = 80.0
-            downloadsTable.rowHeight = UITableView.automaticDimension
             downloadsTable.allowsMultipleSelectionDuringEditing = true
         }
     }
@@ -115,17 +112,22 @@ class DownloadsViewController: PCViewController {
         removeAllCustomObservers()
     }
 
+    private var firstShowOfBanner = true
+
     private func showManageDownloadsBanner() {
         guard ManageDownloadsCoordinator.shouldShowBanner
         else {
             downloadsTable.tableHeaderView = nil
             return
         }
-        Analytics.track(.freeUpSpaceBannerShown)
-        downloadsTable.tableHeaderView = bannerView
+        if firstShowOfBanner {
+            firstShowOfBanner = false
+            Analytics.track(.freeUpSpaceBannerShown)
+        }
+        downloadsTable.tableHeaderView = makeBannerView()
     }
 
-    private lazy var bannerView: UIView = {
+    private func makeBannerView() -> UIView {
         let model = ManageDownloadsModel(initialSize: "",
                                          onManageTap: { [weak self] in
             Analytics.track(.freeUpSpaceManageDownloadsTapped, properties: ["source": "downloads"])
@@ -138,7 +140,11 @@ class DownloadsViewController: PCViewController {
         })
         let banner = ManageDownloadsBannerView(dataModel: model).themedUIView
         banner.translatesAutoresizingMaskIntoConstraints = false
-        let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: 132))
+        let largeCategories = Set<UIContentSizeCategory>([.accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge])
+        let largeSize = largeCategories.contains(traitCollection.preferredContentSizeCategory)
+        let metrics = UIFontMetrics(forTextStyle: .callout)
+        let bannerHeight = metrics.scaledValue(for: largeSize ? 200 : 132)
+        let wrapperView = UIView(frame: CGRect(x: 116, y: 0, width: 200, height: bannerHeight))
         wrapperView.addSubview(banner)
         NSLayoutConstraint.activate([
             banner.leadingAnchor.constraint(equalTo: wrapperView.leadingAnchor, constant: 16),
@@ -147,7 +153,7 @@ class DownloadsViewController: PCViewController {
             banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
             ])
         return wrapperView
-    }()
+    }
 
     // MARK: - App Backgrounding
 
@@ -325,6 +331,17 @@ class DownloadsViewController: PCViewController {
         }
 
         return downloadingList
+    }
+
+    private func updateSize() {
+        showManageDownloadsBanner()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
 

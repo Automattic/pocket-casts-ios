@@ -40,6 +40,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             leftActionButton.setImage(UIImage(named: "more"), for: .normal)
             leftActionButton.tintColor = ThemeColor.primaryInteractive02()
             leftActionButton.layer.cornerRadius = 18
+            ensureButtonImage(leftActionButton, size: 24)
         }
     }
 
@@ -49,7 +50,22 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             rightActionButton.setImage(UIImage(named: "more"), for: .normal)
             rightActionButton.tintColor = ThemeColor.primaryInteractive02()
             rightActionButton.layer.cornerRadius = 18
+            ensureButtonImage(rightActionButton, size: 24)
         }
+    }
+
+    private func ensureButtonImage(_ button: UIButton, size: CGFloat) {
+        guard let imageView = button.imageView else {
+            return
+        }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [
+                imageView.widthAnchor.constraint(equalToConstant: size),
+                imageView.heightAnchor.constraint(equalToConstant: size),
+            ]
+        )
+        imageView.contentMode = .scaleAspectFit
     }
 
     @IBOutlet var containerView: UIView! {
@@ -142,18 +158,15 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             setActionsFunc: setActionsFunc,
             themeOverride: themeOverride
         )
-
+        multiSelectActionController.loadViewIfNeeded()
+        multiSelectActionController.view.setNeedsLayout()
         let presentingVC = delegate.multiSelectPresentingViewController()
         if let sheetController = multiSelectActionController.sheetPresentationController {
-            // Create a custom detent height of 45% of the hosting VC as the medium detent
-            // is too large.
-            let hostingControllerHeight = presentingVC.view.bounds.height
-            let sheetDetentHeight = hostingControllerHeight * 0.45
-            if actions.count < 7 {
-                sheetController.detents = [.custom(resolver: { _ in sheetDetentHeight }), ]
-            } else {
-                sheetController.detents = [.medium()]
-            }
+            sheetController.detents = [.custom(resolver: { context in
+                let maxHeight = context.maximumDetentValue * 0.9
+                let desiredHeight = max(context.maximumDetentValue * 0.25, multiSelectActionController.fittingHeight)
+                return min(desiredHeight, maxHeight)
+            }), ]
 
             // The Multiselect Actions VC implements its own grabber UI.
             sheetController.prefersGrabberVisible = false

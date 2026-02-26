@@ -42,20 +42,24 @@ struct ManageDownloadsBannerView: View {
                 .foregroundColor(theme.primaryText01)
             VStack(alignment: .leading, spacing: 8) {
                 Text(L10n.manageDownloadsTitle)
-                    .font(.system(size: 15, weight: .medium))
+                    .font(.callout).fontWeight(.medium)
                     .foregroundColor(theme.primaryText01)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
                 Text(L10n.manageDownloadsDetail(dataModel.sizeOccupied))
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(theme.primaryText02)
                 Button() {
                     dataModel.onManageTap?()
                 } label: {
                     Text(L10n.manageDownloadsAction)
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.footnote).fontWeight(.medium)
                         .foregroundColor(theme.primaryText02Selected)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
                 }
             }
             Spacer()
