@@ -1058,6 +1058,8 @@ Pocket Casts Plus</string>
     <string>%1$@ 集</string>
     <key>episode_description_title</key>
     <string>單集說明</string>
+    <key>episode_detail_add</key>
+    <string>新增</string>
     <key>episode_details_title</key>
     <string>詳細資料</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ Pocket Casts Plus</string>
     <string>檔案</string>
     <key>files_how_to_title</key>
     <string>如何儲存檔案</string>
+    <key>files_not_uploaded</key>
+    <string>沒有上傳任何檔案</string>
     <key>files_sort</key>
     <string>為檔案排序</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ Pocket Casts Plus</string>
     <string>全部播放</string>
     <key>play_last</key>
     <string>播放上一集</string>
+    <key>play_last_in_up_next</key>
+    <string>在「接下來播放」中播放最後一集</string>
     <key>play_next</key>
     <string>播放下一集</string>
+    <key>play_next_in_up_next</key>
+    <string>在「接下來播放」中播放下一集</string>
     <key>playback_2024_completion_rate_description</key>
     <string>從你開始收聽的 %1$@ 集起，你完整收聽了 %2$@ 集</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Pocket Casts Plus</string>
     <string>點選「接下來播放」中的單集會顯示動作頁面。長按會播放該單集。開啟以切換這些選項。</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>點選「接下來播放」中的單集就會播放。長按會顯示單集選項。關閉以切換這些選項。</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>使用經過更新的音量增強功能，取得更一致的音量。</string>
     <key>settings_global_settings</key>
     <string>全域設定</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Pocket Casts Plus</string>
     <string>音量增強</string>
     <key>volume_boost_description</key>
     <string>讓音量更大聲</string>
+    <key>volume_boost_n_description</key>
+    <string>音量更一致</string>
     <key>wait_for_wifi</key>
     <string>正在等候 WiFi</string>
     <key>watch</key>
