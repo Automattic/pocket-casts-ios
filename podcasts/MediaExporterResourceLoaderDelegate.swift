@@ -367,11 +367,23 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func downloadFailed(with error: Error) {
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
         invalidateAndCancelSession(error: error)
+        cancelPendingRequests(with: error)
         let contentType = self.response?.mimeType
         callbackQueue.async { [weak self] in
             guard let self else { return }
             self.callback?(.failed(error), contentType, 0, 0)
         }
+    }
+
+    private func cancelPendingRequests(with error: Error) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        pendingRequests.forEach {
+            $0.finishLoading(with: error)
+        }
+
+        pendingRequests.removeAll()
     }
 
     @objc private func handleAppWillTerminate() {
