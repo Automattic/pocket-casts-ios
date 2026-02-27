@@ -590,8 +590,12 @@ class WatchManager: NSObject, WCSessionDelegate {
         if FeatureFlag.watchTransferUserInfoApi.enabled && session.isReachable {
             // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext
             // See: https://linear.app/a8c/issue/PCIOS-504
-            session.sendMessage(applicationDict, replyHandler: nil) { error in
+            session.sendMessage(applicationDict, replyHandler: nil) { [weak self] error in
+                guard let self else { return }
                 FileLog.shared.addMessage("WatchManager sendStateToWatch via sendMessage failed \(error.localizedDescription)")
+                if self.isPayloadTooLargeError(error) {
+                    self.logPayloadTooLargeError(method: "sendMessage", upNextCount: upNextCount)
+                }
             }
         } else {
             // When not reachable or feature flag disabled, use updateApplicationContext for eventual delivery
@@ -599,8 +603,35 @@ class WatchManager: NSObject, WCSessionDelegate {
                 try session.updateApplicationContext(applicationDict)
             } catch {
                 FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
+                if isPayloadTooLargeError(error) {
+                    logPayloadTooLargeError(method: "updateApplicationContext", upNextCount: upNextCount)
+                }
             }
         }
+    }
+
+    /// Checks if a WatchConnectivity error is due to payload being too large.
+    private func isPayloadTooLargeError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == WCErrorDomain && nsError.code == WCError.Code.payloadTooLarge.rawValue
+    }
+
+    /// Logs a Sentry error and FileLog message if the WatchConnectivity error is due to payload being too large.
+    /// This helps track when synced data exceeds WatchConnectivity's size limits.
+    private func logPayloadTooLargeError(method: String, upNextCount: Int) {
+        FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
+
+        let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
+        CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
+            watchError,
+            tags: [
+                "source": "watch_sync",
+                "method": method,
+                "error_code": "payloadTooLarge",
+                "up_next_count": "\(upNextCount)"
+            ],
+            level: .error
+        )
     }
 
     // MARK: - Encoding
