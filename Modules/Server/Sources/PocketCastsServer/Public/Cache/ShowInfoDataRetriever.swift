@@ -23,8 +23,7 @@ public actor ShowInfoDataRetriever {
         useCacheOnly: Bool = false
     ) async throws -> String? {
         if useCacheOnly {
-            let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-            let request = URLRequest(url: url)
+            let request = baseRequest(for: podcastUuid)
 
             if let cachedResponse = cache.cachedResponse(for: request),
                 let metadata = extractMetadata(for: episodeUuid, from: cachedResponse.data) {
@@ -62,12 +61,11 @@ public actor ShowInfoDataRetriever {
             return try await task.value
         }
 
-        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
-        let cachePolicy: URLRequest.CachePolicy = .reloadRevalidatingCacheData
-        var request = URLRequest(url: url, cachePolicy: cachePolicy)
-        request.addLocalizationHeaders()
+        let cacheKey = baseRequest(for: podcastUuid)
+        var request = cacheKey
+        request.cachePolicy = .reloadRevalidatingCacheData
 
-        if let cachedResponse = cache.cachedResponse(for: URLRequest(url: url)) {
+        if let cachedResponse = cache.cachedResponse(for: cacheKey) {
             if let etag = cachedResponse.response.etag {
                 request.setValue(etag, forHTTPHeaderField: ServerConstants.HttpHeaders.ifNoneMatch)
             }
@@ -79,7 +77,7 @@ public actor ShowInfoDataRetriever {
 
         FileLog.shared.addMessage("Show Info: requesting info for podcast \(podcastUuid)")
 
-        let task = Task<Data, Error> { [weak self, request] in
+        let task = Task<Data, Error> { [weak self, request, cacheKey] in
             guard let self else { throw TaskError.nilSelf }
 
             do {
@@ -87,12 +85,12 @@ public actor ShowInfoDataRetriever {
 
                 if response.extractStatusCode() == 200 {
                     let responseToCache = CachedURLResponse(response: response, data: data)
-                    cache.storeCachedResponse(responseToCache, for: request)
+                    cache.storeCachedResponse(responseToCache, for: cacheKey)
                     FileLog.shared.addMessage("Show Info: request succeeded for podcast \(podcastUuid).")
-                } else if let data = cache.cachedResponse(for: request)?.data {
+                } else if let cachedData = cache.cachedResponse(for: cacheKey)?.data {
                     await setDataRequestMapToNil(for: podcastUuid)
-                    FileLog.shared.addMessage("Show Info: request failed for podcast \(podcastUuid). Returning cached data")
-                    return data
+                    FileLog.shared.addMessage("Show Info: returning cached data for podcast \(podcastUuid) (status \(response.extractStatusCode())).")
+                    return cachedData
                 }
 
                 await setDataRequestMapToNil(for: podcastUuid)
@@ -106,6 +104,13 @@ public actor ShowInfoDataRetriever {
         dataRequestMap[podcastUuid] = task
 
         return try await task.value
+    }
+
+    private func baseRequest(for podcastUuid: String) -> URLRequest {
+        let url = ServerHelper.asUrl(ServerConstants.Urls.cache() + "mobile/show_notes/full/\(podcastUuid)")
+        var request = URLRequest(url: url)
+        request.addLocalizationHeaders()
+        return request
     }
 
     private func setDataRequestMapToNil(for podcastUuid: String) {
