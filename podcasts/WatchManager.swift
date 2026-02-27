@@ -546,7 +546,15 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
+    /// The fallback Up Next limit to use when payload is too large.
+    /// This is significantly smaller than the default to ensure the payload fits.
+    private static let payloadTooLargeFallbackLimit = Constants.Limits.maxListItemsToSendToWatch
+
     private func sendStateToWatch() {
+        sendStateToWatch(upNextLimit: nil)
+    }
+
+    private func sendStateToWatch(upNextLimit: Int?) {
         // This method should only be called from sessionQueue to ensure thread safety
         dispatchPrecondition(condition: .onQueue(sessionQueue))
 
@@ -572,9 +580,12 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
         applicationDict[WatchConstants.Keys.featureFlags] = featureFlags
 
+        let upNextInfo = serializeUpNext(limit: upNextLimit)
+        let upNextCount = upNextInfo.count
+
         applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
         applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
-        applicationDict[WatchConstants.Keys.upNextInfo] = serializeUpNext()
+        applicationDict[WatchConstants.Keys.upNextInfo] = upNextInfo
         applicationDict[WatchConstants.Keys.autoArchivePlayedAfter] = Settings.autoArchivePlayedAfter()
         applicationDict[WatchConstants.Keys.autoArchiveStarredEpisodes] = Settings.archiveStarredEpisodes()
         if let podcastsWithOverrideGlobalArchive = serializePodcastArchiveSettings() {
@@ -590,8 +601,19 @@ class WatchManager: NSObject, WCSessionDelegate {
         if FeatureFlag.watchTransferUserInfoApi.enabled && session.isReachable {
             // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext
             // See: https://linear.app/a8c/issue/PCIOS-504
-            session.sendMessage(applicationDict, replyHandler: nil) { error in
+            session.sendMessage(applicationDict, replyHandler: nil) { [weak self] error in
+                guard let self else { return }
                 FileLog.shared.addMessage("WatchManager sendStateToWatch via sendMessage failed \(error.localizedDescription)")
+                if self.isPayloadTooLargeError(error) {
+                    self.logPayloadTooLargeError(method: "sendMessage", upNextCount: upNextCount)
+                    // Retry with reduced Up Next queue if we haven't already
+                    if upNextLimit == nil {
+                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
+                        self.sessionQueue.async {
+                            self.sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
+                        }
+                    }
+                }
             }
         } else {
             // When not reachable or feature flag disabled, use updateApplicationContext for eventual delivery
@@ -599,8 +621,40 @@ class WatchManager: NSObject, WCSessionDelegate {
                 try session.updateApplicationContext(applicationDict)
             } catch {
                 FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
+                if isPayloadTooLargeError(error) {
+                    logPayloadTooLargeError(method: "updateApplicationContext", upNextCount: upNextCount)
+                    // Retry with reduced Up Next queue if we haven't already
+                    if upNextLimit == nil {
+                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
+                        sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
+                    }
+                }
             }
         }
+    }
+
+    /// Checks if a WatchConnectivity error is due to payload being too large.
+    private func isPayloadTooLargeError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == WCErrorDomain && nsError.code == WCError.Code.payloadTooLarge.rawValue
+    }
+
+    /// Logs a Sentry error and FileLog message if the WatchConnectivity error is due to payload being too large.
+    /// This helps track when synced data exceeds WatchConnectivity's size limits.
+    private func logPayloadTooLargeError(method: String, upNextCount: Int) {
+        FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
+
+        let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
+        CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
+            watchError,
+            tags: [
+                "source": "watch_sync",
+                "method": method,
+                "error_code": "payloadTooLarge",
+                "up_next_count": "\(upNextCount)"
+            ],
+            level: .error
+        )
     }
 
     // MARK: - Encoding
@@ -643,14 +697,22 @@ class WatchManager: NSObject, WCSessionDelegate {
         return nowPlayingInfo
     }
 
-    private func serializeUpNext() -> [[String: Any]] {
+    private func serializeUpNext(limit: Int? = nil) -> [[String: Any]] {
         var upNextList = [[String: Any]]()
 
         let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
         if upNextEpisodes.count == 0 { return upNextList }
 
-        let truncatedList = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
-        for episode in truncatedList {
+        let episodesToSync: [BaseEpisode]
+        if let limit {
+            episodesToSync = Array(upNextEpisodes.prefix(limit))
+        } else if FeatureFlag.unlimitedWatchUpNextSync.enabled {
+            episodesToSync = upNextEpisodes
+        } else {
+            episodesToSync = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
+        }
+
+        for episode in episodesToSync {
             if let convertedEpisode = convertForWatch(episode: episode) {
                 upNextList.append(convertedEpisode)
             }
