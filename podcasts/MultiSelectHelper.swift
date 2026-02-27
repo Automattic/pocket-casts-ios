@@ -347,7 +347,16 @@ class MultiSelectHelper {
     }
 
     private class func addToPlaylist(actionDelegate: MultiSelectActionDelegate) {
-        let episodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
+        let allSelected = actionDelegate.multiSelectedBaseEpisodes()
+        let episodes = allSelected.compactMap { $0 as? Episode }
+
+        // Check if any files (user episodes) are in the selection
+        let containsFiles = allSelected.contains { $0 is UserEpisode }
+        if containsFiles {
+            Toast.show(L10n.playlistManualAddFilesNotSupportedToast)
+            return
+        }
+
         guard !episodes.isEmpty else { return }
 
         let maxPlaylistItems = Constants.Limits.maxFilterItems

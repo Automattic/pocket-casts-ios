@@ -913,10 +913,15 @@ class Settings: NSObject {
     private static let upNextMultiSelectActionsKey = "UpNextMultiSelectActions"
     class func upNextMultiSelectActions() -> [MultiSelectAction] {
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.upNextMultiSelectActionsKey) as? [Int32] else {
-            return [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive]
+            return [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive, .addToPlaylist]
         }
 
-        let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
+        var actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
+
+        // Add addToPlaylist for users who saved their action list before this action was added
+        if !actions.contains(.addToPlaylist) {
+            actions.append(.addToPlaylist)
+        }
 
         return actions
     }

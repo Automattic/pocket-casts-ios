@@ -2471,6 +2471,8 @@ internal enum L10n {
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add episodes") }
   /// Toast message when adding episodes to a playlist that would exceed the 1000 episode limit
   internal static var playlistManualAddEpisodesAlmostFullToast: String { return L10n.tr("Localizable", "playlist_manual_add_episodes_almost_full_toast", fallback: "Playlist is almost full. Try adding fewer episodes.") }
+  /// Toast message when trying to add files (user episodes) to a playlist
+  internal static var playlistManualAddFilesNotSupportedToast: String { return L10n.tr("Localizable", "playlist_manual_add_files_not_supported_toast", fallback: "Playlists can only contain podcast episodes.") }
   /// Toast message when trying to add more than the max number of episodes to a playlist at once, or creating a new playlist with more than the max. '%1$@' is the max episode count, localized for the user's locale.
   internal static func playlistManualAddTooManyEpisodesToast(_ p1: Any) -> String {
     return L10n.tr("Localizable", "playlist_manual_add_too_many_episodes_toast", String(describing: p1), fallback: "Playlists can only contain up to %1$@ episodes.")
