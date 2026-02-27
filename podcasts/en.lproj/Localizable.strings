@@ -541,9 +541,6 @@
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
 
-/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
-"discover_browse_by_category_society_and_culture" = "Culture";
-
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
 
