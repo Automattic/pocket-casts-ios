@@ -13,11 +13,11 @@ struct CategoriesModalPicker: View {
 
     private enum Constants {
         enum Padding {
-            static let title = EdgeInsets(top: 26, leading: 20, bottom: 4, trailing: 20)
-            static let cell = EdgeInsets(top: 25, leading: 20, bottom: 25, trailing: 20)
+            static let title = EdgeInsets(top: 26, leading: 16, bottom: 4, trailing: 16)
+            static let cell = EdgeInsets(top: 25, leading: 16, bottom: 25, trailing: 16)
         }
         static let imageSize: CGFloat = 24
-        static let cellSpacing: CGFloat = 20
+        static let cellSpacing: CGFloat = 16
     }
 
     // MARK: Colors
@@ -57,6 +57,8 @@ struct CategoriesModalPicker: View {
                 }
             }
             .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(background)
         }
         .background(background)
     }
