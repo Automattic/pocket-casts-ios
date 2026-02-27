@@ -649,8 +649,11 @@ class WatchManager: NSObject, WCSessionDelegate {
         let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
         if upNextEpisodes.count == 0 { return upNextList }
 
-        let truncatedList = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
-        for episode in truncatedList {
+        let episodesToSync = FeatureFlag.unlimitedWatchUpNextSync.enabled
+            ? upNextEpisodes
+            : Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
+
+        for episode in episodesToSync {
             if let convertedEpisode = convertForWatch(episode: episode) {
                 upNextList.append(convertedEpisode)
             }
