@@ -1057,7 +1057,7 @@ waar je naar hebt geluisterd was
     <key>episode_description_title</key>
     <string>Beschrijving van aflevering</string>
     <key>episode_detail_add</key>
-    <string>'Toevoegen'</string>
+    <string>Toevoegen</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>
@@ -3167,7 +3167,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Door op een aflevering in Hierna te tikken, wordt deze afgespeeld. Door deze ingedrukt te houden, worden opties voor de aflevering weergegeven. Schakel uit om deze om te wisselen.</string>
     <key>settings_general_voice_boost_n</key>
-    <string>VoiceBoost N</string>
+    <string>VoiceBoostN</string>
     <key>settings_general_voice_boost_n_subtitle</key>
     <string>Gebruik de bijgewerkte volumeboost met consistentere spraakniveaus.</string>
     <key>settings_global_settings</key>

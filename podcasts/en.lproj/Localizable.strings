@@ -5627,6 +5627,9 @@
 /* Toast message when adding episodes to a playlist that would exceed the 1000 episode limit */
 "playlist_manual_add_episodes_almost_full_toast" = "Playlist is almost full. Try adding fewer episodes.";
 
+/* Toast message when trying to add files (user episodes) to a playlist */
+"playlist_manual_add_files_not_supported_toast" = "Playlists can only contain podcast episodes.";
+
 /* Text of the placeholder used in the manual playlist detail screen when one episode is archived. */
 "playlist_manual_archived_episode_placeholder" = "Your episode in this playlist has been archived";
 

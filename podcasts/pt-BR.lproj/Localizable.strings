@@ -1906,11 +1906,11 @@ ATUALIZAÇÕES</string>
     <key>play_last</key>
     <string>Reproduzir por último</string>
     <key>play_last_in_up_next</key>
-    <string>Adicionar por último à fila "A seguir"</string>
+    <string>Reproduzir por último em "Próximos"</string>
     <key>play_next</key>
     <string>Reproduzir em seguida</string>
     <key>play_next_in_up_next</key>
-    <string>Adicionar à fila "A seguir"</string>
+    <string>Reproduzir logo em "Próximos"</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Dos %1$@ episódios que você começou a ouvir, você concluiu um total de %2$@</string>
     <key>playback_2024_completion_rate_title</key>
