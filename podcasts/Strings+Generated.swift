@@ -742,8 +742,8 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryScienceAndMedicine: String { return L10n.tr("Localizable", "discover_browse_by_category_science_and_medicine", fallback: "Science & Medicine") }
   /// Title for the podcast category Society
   internal static var discoverBrowseByCategorySociety: String { return L10n.tr("Localizable", "discover_browse_by_category_society", fallback: "Society") }
-  /// Abbreviation for the podcast category Society & Culture, using only "Culture"
-  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Culture") }
+  /// Title for the podcast category Society & Culture
+  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Society & Culture") }
   /// Abbreviation for the podcast category Religion & Spirituality
   internal static var discoverBrowseByCategorySpirituality: String { return L10n.tr("Localizable", "discover_browse_by_category_spirituality", fallback: "Spirituality") }
   /// Title for the podcast category Sports
