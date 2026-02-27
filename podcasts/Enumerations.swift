@@ -640,7 +640,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return episodes.count == 1 && episodes.allSatisfy({ $0 is Episode })
 
         case .addToPlaylist:
-            return episodes.allSatisfy({ $0 is Episode })
+            // Always show the option; toast will be shown if files are selected
+            return true
 
         default:
             return true

@@ -912,13 +912,15 @@ class Settings: NSObject {
 
     private static let upNextMultiSelectActionsKey = "UpNextMultiSelectActions"
     class func upNextMultiSelectActions() -> [MultiSelectAction] {
+        let defaultActions: [MultiSelectAction] = [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive, .addToPlaylist]
         guard let savedInts = UserDefaults.standard.object(forKey: Settings.upNextMultiSelectActionsKey) as? [Int32] else {
-            return [.moveToTop, .moveToBottom, .removeFromUpNext, .download, .markAsPlayed, .archive]
+            return defaultActions
         }
 
         let actions = savedInts.compactMap { MultiSelectAction(rawValue: $0) }
 
-        return actions
+        // Make sure new items are shown
+        return actions + defaultActions.filter { !actions.contains($0) }
     }
 
     class func updateUpNextMultiSelectActions(_ actions: [MultiSelectAction]) {
