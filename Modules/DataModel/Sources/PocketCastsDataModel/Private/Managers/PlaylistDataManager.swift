@@ -188,15 +188,15 @@ class PlaylistDataManager {
 
     func manualPlaylistUUIDs(for episodesUUIDs: [String], dbQueue: PCDBQueue) -> [String] {
         var uuids: [String] = []
-        //let episodesUUIDS = episodeUUIDs.joined(separator: ",")
+        let episodesUUIDsString = DataHelper.convertArrayToInString(episodesUUIDs)
         dbQueue.read { db in
             do {
                 let query = """
                         SELECT playlist_uuid
                         FROM \(DataManager.playlistEpisodeTableName)
-                        WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(episodesUUIDs)))
+                        WHERE episodeUuid IN (\(episodesUUIDsString))
                         GROUP BY playlist_uuid
-                        HAVING COUNT(DISTINCT episodeUuid) = \(episodesUUIDs.count);
+                        HAVING COUNT(DISTINCT episodeUuid) = \(episodesUUIDs.count)
                     """
                 let resultSet = try db.executeQuery(query, values: [])
                 defer { resultSet.close() }
