@@ -17,6 +17,7 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
 
         title = L10n.settingsPrivacy
         settingsTable.rowHeight = UITableView.automaticDimension
+        settingsTable.estimatedRowHeight = 54
         settingsTable.dataSource = dataSource
     }
 

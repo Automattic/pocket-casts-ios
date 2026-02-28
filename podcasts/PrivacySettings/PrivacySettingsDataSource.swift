@@ -22,7 +22,8 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.style = .primaryUi02
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsCollectInformationAdditionalInformation
-            cell.textLabel?.font = .systemFont(ofSize: 16)
+            cell.textLabel?.font = .font(with: .callout)
+            cell.textLabel?.adjustsFontForContentSizeCategory = true
             cell.textLabel?.numberOfLines = 0
             return cell
         case 1:
@@ -38,13 +39,16 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsAllowCollectionFirstParty
-            cell.textLabel?.font = .systemFont(ofSize: 16)
+            cell.textLabel?.font = .font(with: .callout)
+            cell.textLabel?.adjustsFontForContentSizeCategory = true
             cell.textLabel?.numberOfLines = 0
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId, for: indexPath) as! ThemeableCell
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
-            cell.textLabel?.font = .systemFont(ofSize: 16)
+            cell.textLabel?.font = .font(with: .callout)
+            cell.textLabel?.adjustsFontForContentSizeCategory = true
+            cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = L10n.settingsReadPrivacyPolicy
             return cell
         }
