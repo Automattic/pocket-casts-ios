@@ -129,7 +129,7 @@ Use the `@ScaledMetric` property wrapper (or the project's `@ScaledMetricWithMax
 @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 24
 
 // or with a max cap:
-@ScaledMetricWithMaxSize(wrappedValue: 24, relativeTo: .largeTitle, maxSize: .accessibility3) private var imageSize: CGFloat
+@ScaledMetricWithMaxSize(wrappedValue: 24, relativeTo: .largeTitle, maxSize: .xxLarge) private var imageSize: CGFloat
 
 var body: some View {
     Image(systemName: "star.fill")
