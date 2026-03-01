@@ -168,7 +168,7 @@ Cells must have an unbroken chain of constraints from top to bottom of the conte
 When embedding SwiftUI content in cells, two approaches work:
 
 - **`UIHostingConfiguration`**: Resizing is automatic. This is the preferred approach for new cells.
-- **`.themedUI` modifier with hosting controller**: Be mindful of adding proper child/parent view controller relationships.
+- **`themedUIView` / `insertThemedUIView(in:)` helpers with a hosting controller**: Be mindful of adding proper child/parent view controller relationships.
 
 ```swift
 // UIHostingConfiguration example
