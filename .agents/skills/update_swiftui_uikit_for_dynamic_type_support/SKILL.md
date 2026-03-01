@@ -186,34 +186,6 @@ Use a standard SwiftUI `List`, or a `VStack` inside a `ScrollView` for custom la
 
 ---
 
-## Testing
-
-Tests live in `PocketCastsTests/` organized by feature. The project uses plain XCTest — no third-party test frameworks.
-
-### Patterns
-
-- **Builders** for test data: `EpisodeBuilder`, `PodcastBuilder`, `FolderBuilder` — use these to construct model objects in tests instead of calling initializers directly.
-- **Mocks**: `MockDataManager`, `MockURLHandler`, and similar — check for existing mocks before creating new ones.
-
-```swift
-func testEpisodeDownloadCount() {
-    let episode = EpisodeBuilder().with(downloadStatus: .downloaded).build()
-    let mockDataManager = MockDataManager()
-    mockDataManager.episodes = [episode]
-    XCTAssertEqual(mockDataManager.downloadedEpisodeCount(), 1)
-}
-```
-
-### Running tests
-
-```bash
-make test_staging                                               # All tests
-make test_staging ONLY_TESTING=PocketCastsTests/MyTest          # Single class
-make test_staging ONLY_TESTING=PocketCastsDataModelTests        # Module tests
-```
-
----
-
 ## SwiftUI + UIKit Integration
 
 The project is in gradual migration from UIKit to SwiftUI. New features can be SwiftUI-first, but they need to interop cleanly with the existing UIKit shell.
