@@ -2,7 +2,7 @@
 name: update_swiftui_uikit_for_dynamic_type_support
 description: >
   Expert guidance for Dynamic Type support for Pocket Casts iOS development with Swift, UIKit, and SwiftUI.
-  Use this skill whenever the user asks support for dynamic type in UI elements. Also trigger when the user mentions UIKit, SwiftUI,
+  Use this skill whenever the user asks for support with Dynamic Type in UI elements. Also trigger when the user mentions UIKit, SwiftUI,
   ViewControllers, cells, table views, collection views, accessibility, fonts, themes, or any iOS
   UI component. If the user is working in an Xcode project with .swift files, this skill applies.
 ---
@@ -168,7 +168,7 @@ Cells must have an unbroken chain of constraints from top to bottom of the conte
 When embedding SwiftUI content in cells, two approaches work:
 
 - **`UIHostingConfiguration`**: Resizing is automatic. This is the preferred approach for new cells.
-- **`.themedUI` modifier with hosting controller**: Be mindful of adding proper child/parent view controller relationships.
+- **`themedUIView` / `insertThemedUIView(in:)` helpers with a hosting controller**: Be mindful of adding proper child/parent view controller relationships.
 
 ```swift
 // UIHostingConfiguration example
