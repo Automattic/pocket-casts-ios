@@ -25,7 +25,7 @@ label.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
 **SwiftUI:**
 ```swift
 Text("Hello")
-    .font(size: 15.0, style: .body, weight: .medium)
+    .font(size: 15.0, style: .subheadline, weight: .medium)
 ```
 
 These APIs use `UIFontMetrics` internally to scale your custom size proportionally with the user's preferred text size, while capping at a sensible maximum (`accessibilityExtraExtraExtraLarge` by default).
