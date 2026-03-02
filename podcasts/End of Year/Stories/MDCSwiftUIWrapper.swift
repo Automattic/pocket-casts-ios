@@ -48,6 +48,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.sharedTheme)
         )
+        hostingController.sizingOptions = [.intrinsicContentSize]
         addChild(hostingController)
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
@@ -104,6 +105,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content, dismissCallback: dismissCallback)
         if autoSize {
             let customDetent = UISheetPresentationController.Detent.custom { _ in
+                wrapperController.updatePreferredContentSize()
                 return wrapperController.customDetentHeight
             }
             wrapperController.presentModally(in: viewController, detents: [customDetent], showingGrabber: showingGrabber)
@@ -114,6 +116,19 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.dismissCallback?()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            if let sheetController = sheetPresentationController {
+                updatePreferredContentSize()
+                sheetController.animateChanges {
+                    sheetController.invalidateDetents()
+                }
+            }
+        }
     }
 
 }
