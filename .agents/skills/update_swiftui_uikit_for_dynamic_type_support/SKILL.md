@@ -2,7 +2,7 @@
 name: update_swiftui_uikit_for_dynamic_type_support
 description: >
   Expert guidance for Dynamic Type support for Pocket Casts iOS development with Swift, UIKit, and SwiftUI.
-  Use this skill whenever the user asks support for dynamic type in UI elements. Also trigger when the user mentions UIKit, SwiftUI,
+  Use this skill whenever the user asks for support with Dynamic Type in UI elements. Also trigger when the user mentions UIKit, SwiftUI,
   ViewControllers, cells, table views, collection views, accessibility, fonts, themes, or any iOS
   UI component. If the user is working in an Xcode project with .swift files, this skill applies.
 ---
@@ -129,7 +129,7 @@ Use the `@ScaledMetric` property wrapper (or the project's `@ScaledMetricWithMax
 @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 24
 
 // or with a max cap:
-@ScaledMetricWithMaxSize(wrappedValue: 24, relativeTo: .largeTitle, maxSize: .accessibility3) private var imageSize: CGFloat
+@ScaledMetricWithMaxSize(wrappedValue: 24, relativeTo: .largeTitle, maxSize: .xxLarge) private var imageSize: CGFloat
 
 var body: some View {
     Image(systemName: "star.fill")
@@ -168,7 +168,7 @@ Cells must have an unbroken chain of constraints from top to bottom of the conte
 When embedding SwiftUI content in cells, two approaches work:
 
 - **`UIHostingConfiguration`**: Resizing is automatic. This is the preferred approach for new cells.
-- **`.themedUI` modifier with hosting controller**: Be mindful of adding proper child/parent view controller relationships.
+- **`themedUIView` / `insertThemedUIView(in:)` helpers with a hosting controller**: Be mindful of adding proper child/parent view controller relationships.
 
 ```swift
 // UIHostingConfiguration example
@@ -183,34 +183,6 @@ cell.contentConfiguration = UIHostingConfiguration {
 ### Table Views / Lists (SwiftUI)
 
 Use a standard SwiftUI `List`, or a `VStack` inside a `ScrollView` for custom layouts. SwiftUI handles Dynamic Type sizing automatically as long as you use dynamic fonts.
-
----
-
-## Testing
-
-Tests live in `PocketCastsTests/` organized by feature. The project uses plain XCTest — no third-party test frameworks.
-
-### Patterns
-
-- **Builders** for test data: `EpisodeBuilder`, `PodcastBuilder`, `FolderBuilder` — use these to construct model objects in tests instead of calling initializers directly.
-- **Mocks**: `MockDataManager`, `MockURLHandler`, and similar — check for existing mocks before creating new ones.
-
-```swift
-func testEpisodeDownloadCount() {
-    let episode = EpisodeBuilder().with(downloadStatus: .downloaded).build()
-    let mockDataManager = MockDataManager()
-    mockDataManager.episodes = [episode]
-    XCTAssertEqual(mockDataManager.downloadedEpisodeCount(), 1)
-}
-```
-
-### Running tests
-
-```bash
-make test_staging                                               # All tests
-make test_staging ONLY_TESTING=PocketCastsTests/MyTest          # Single class
-make test_staging ONLY_TESTING=PocketCastsDataModelTests        # Module tests
-```
 
 ---
 
