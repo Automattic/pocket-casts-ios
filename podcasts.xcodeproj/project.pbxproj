@@ -13666,8 +13666,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
-				branch = "watchos-compatibility";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
