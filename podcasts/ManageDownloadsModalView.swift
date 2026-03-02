@@ -8,37 +8,39 @@ struct ManageDownloadsModalView: View {
 
     @ObservedObject var dataModel: ManageDownloadsModel
 
+    @ScaledMetric(relativeTo: .largeTitle) private var imageSize = 36
+
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             Spacer()
             Image("cleanup")
                 .resizable()
-                .frame(width: 40, height: 40)
+                .frame(width: imageSize, height: imageSize)
                 .foregroundColor(theme.primaryText02Selected)
             Text(L10n.manageDownloadsTitle)
-                .font(.system(size: 23, weight: .bold))
+                .font(.title2.bold())
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(theme.primaryText01)
             Text(L10n.manageDownloadsDetail(dataModel.sizeOccupied))
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
                 .multilineTextAlignment(.leading)
-                .font(.system(size: 14, weight: .medium))
+                .font(.callout)
                 .foregroundColor(theme.primaryText01)
             Spacer()
             Button() {
                 dataModel.onManageTap?()
             } label: {
                 Text(L10n.manageDownloadsAction)
-                    .font(.system(size: 14, weight: .medium))
             }
             .buttonStyle(RoundedButtonStyle(theme: theme))
             Button() {
                 dataModel.onNotNowTap?()
             } label: {
                 Text(L10n.maybeLater)
-                    .font(.system(size: 14, weight: .medium))
+                    .font(size: 14, style: .subheadline, weight: .medium)
                     .foregroundColor(theme.primaryText01)
-            }.frame(height: 56)
+            }.frame(idealHeight: 56)
         }
         .padding()
         .ignoresSafeArea()
