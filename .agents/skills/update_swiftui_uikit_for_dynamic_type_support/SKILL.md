@@ -2,9 +2,9 @@
 name: update_swiftui_uikit_for_dynamic_type_support
 description: >
   Expert guidance for Dynamic Type support for Pocket Casts iOS development with Swift, UIKit, and SwiftUI.
-  Use this skill whenever the user asks for support with Dynamic Type in UI elements. Also trigger when the user mentions UIKit, SwiftUI,
-  ViewControllers, cells, table views, collection views, accessibility, fonts, themes, or any iOS
-  UI component. If the user is working in an Xcode project with .swift files, this skill applies.
+  Use this skill when the user asks about Dynamic Type, content size categories, accessibility text size, font scaling, or making text/UI
+  elements respond to the user's preferred text size (e.g., using preferredContentSizeCategory, adjustsFontForContentSizeCategory,
+  UIFontMetrics, or related APIs in SwiftUI and UIKit).
 ---
 
 # Dynamic Type
