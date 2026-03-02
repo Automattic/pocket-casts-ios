@@ -60,7 +60,7 @@ label.numberOfLines = 0
 
 ### Labels (SwiftUI)
 
-For `Text` or `AttributedText` views, use a standard Apple style via the custom `.font` modifier. If the size you need doesn't match any reference size, use the custom variant:
+For `Text` (including `Text` with `AttributedString` or custom attributed text views such as `DescriptiveActionAttributedTextView`), use a standard Apple style via the custom `.font` modifier. If the size you need doesn't match any reference size, use the custom variant:
 
 ```swift
 Text("Description")
