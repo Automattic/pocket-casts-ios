@@ -22,9 +22,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.style = .primaryUi02
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsCollectInformationAdditionalInformation
-            cell.textLabel?.font = .font(with: .callout)
-            cell.textLabel?.adjustsFontForContentSizeCategory = true
-            cell.textLabel?.numberOfLines = 0
+            configureDynamicTypeCell(cell)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
@@ -39,19 +37,21 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsAllowCollectionFirstParty
-            cell.textLabel?.font = .font(with: .callout)
-            cell.textLabel?.adjustsFontForContentSizeCategory = true
-            cell.textLabel?.numberOfLines = 0
+            configureDynamicTypeCell(cell)
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId, for: indexPath) as! ThemeableCell
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
-            cell.textLabel?.font = .font(with: .callout)
-            cell.textLabel?.adjustsFontForContentSizeCategory = true
-            cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = L10n.settingsReadPrivacyPolicy
+            configureDynamicTypeCell(cell)
             return cell
         }
+    }
+
+    private func configureDynamicTypeCell(_ cell: ThemeableCell) {
+        cell.textLabel?.font = .font(with: .callout)
+        cell.textLabel?.adjustsFontForContentSizeCategory = true
+        cell.textLabel?.numberOfLines = 0
     }
 
     @objc private func pushToggled(_ sender: UISwitch) {
