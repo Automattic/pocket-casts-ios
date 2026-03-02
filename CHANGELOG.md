@@ -1,3 +1,7 @@
+8.8
+-----
+
+
 8.7
 -----
 - Fix podcast search in non-standard locales [#4019](https://github.com/Automattic/pocket-casts-ios/pull/4019)
