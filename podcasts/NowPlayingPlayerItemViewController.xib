@@ -22,6 +22,7 @@
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
                 <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
+                <outlet property="loadingIndicator" destination="rKH-bb-mf2" id="IW8-jV-mKO"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
                 <outlet property="playPauseHeightConstraint" destination="dtu-hS-iiu" id="s0N-0P-nEh"/>
                 <outlet property="playerControlsStackView" destination="ACg-CR-Hm8" id="Sgd-Fl-WU9"/>
@@ -227,6 +228,9 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="rKH-bb-mf2">
+                                            <rect key="frame" x="197" y="24.5" width="20" height="20"/>
+                                        </activityIndicatorView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nY-hc-503" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="349" y="27" width="35" height="14.5"/>
                                             <accessibility key="accessibilityConfiguration">
@@ -239,7 +243,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="07T-6K-z55"/>
+                                        <constraint firstItem="rKH-bb-mf2" firstAttribute="centerX" secondItem="T2E-0H-hwM" secondAttribute="centerX" id="0oQ-nQ-hcy"/>
                                         <constraint firstItem="v3N-m7-an0" firstAttribute="leading" secondItem="T2E-0H-hwM" secondAttribute="leading" constant="10" id="15h-Fu-2P1"/>
+                                        <constraint firstItem="rKH-bb-mf2" firstAttribute="centerY" secondItem="BjS-kB-x8Y" secondAttribute="centerY" id="5M5-cq-73a"/>
                                         <constraint firstItem="1nY-hc-503" firstAttribute="trailing" secondItem="v3N-m7-an0" secondAttribute="trailing" constant="-20" id="6iH-rn-JjP"/>
                                         <constraint firstItem="BjS-kB-x8Y" firstAttribute="leading" secondItem="v3N-m7-an0" secondAttribute="leading" constant="20" id="aQo-ZX-WoQ"/>
                                         <constraint firstAttribute="trailing" secondItem="v3N-m7-an0" secondAttribute="trailing" constant="10" id="eQi-JU-gv3"/>

@@ -167,7 +167,8 @@ extension NowPlayingPlayerItemViewController {
             timeSlider.currentTime = upTo
         }
 
-        // TODO, buffering: bufferingLabel.isHidden = !PlaybackManager.shared.buffering()
+        //TODO: -> buffering: bufferingLabel.isHidden = !PlaybackManager.shared.buffering()
+        loadingIndicator.isHidden = !PlaybackManager.shared.buffering()
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
