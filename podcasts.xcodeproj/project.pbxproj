@@ -1194,7 +1194,6 @@
 		BDA003091F7B318B00DCB4AE /* AppIcon-Default76x76@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002931F7B2C9900DCB4AE /* AppIcon-Default76x76@2x~ipad.png */; };
 		BDA0030A1F7B318B00DCB4AE /* AppIcon-Default76x76~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002921F7B2C9900DCB4AE /* AppIcon-Default76x76~ipad.png */; };
 		BDA0030B1F7B318B00DCB4AE /* AppIcon-Default83.5x83.5@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002B01F7B2C9C00DCB4AE /* AppIcon-Default83.5x83.5@2x~ipad.png */; };
-		BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA028611C74466500476B28 /* GoogleCastPlayer.swift */; };
 		BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */; };
 		BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */; };
 		BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */; };
@@ -3360,7 +3359,6 @@
 		BDA002C01F7B2C9E00DCB4AE /* AppIcon-Round-Dark20x20~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Round-Dark20x20~ipad.png"; sourceTree = "<group>"; };
 		BDA002C11F7B2C9F00DCB4AE /* AppIcon-Dark20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Dark20x20@2x.png"; sourceTree = "<group>"; };
 		BDA002C21F7B2C9F00DCB4AE /* AppIcon-Round40x40~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Round40x40~ipad.png"; sourceTree = "<group>"; };
-		BDA028611C74466500476B28 /* GoogleCastPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleCastPlayer.swift; sourceTree = "<group>"; };
 		BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableLabel.swift; sourceTree = "<group>"; };
 		BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStyle.swift; sourceTree = "<group>"; };
 		BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
@@ -4050,6 +4048,7 @@
 		3F7479522F55519F004C7FF6 /* Unlockable */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74795C2F55519F004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Unlockable; sourceTree = "<group>"; };
 		3F7479C32F5551AA004C7FF6 /* Analytics */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F7479EC2F5551AA004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F7479ED2F5551AA004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Analytics; sourceTree = "<group>"; };
 		3F747A532F5553A1004C7FF6 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+		3F747A542F5598A2004C7FF6 /* Playback */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Playback; sourceTree = "<group>"; };
 		3FDAD4E72F46D75100CC3259 /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
 		3FDAD4EF2F46D75400CC3259 /* NotificationExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4F12F46D75500CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationExtension; sourceTree = "<group>"; };
 		3FDAD4F62F46D77800CC3259 /* PodcastsIntentsUI */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4FA2F46D77800CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntentsUI; sourceTree = "<group>"; };
@@ -6563,14 +6562,6 @@
 			name = Color;
 			sourceTree = "<group>";
 		};
-		BDA028601C74464D00476B28 /* Google Cast */ = {
-			isa = PBXGroup;
-			children = (
-				BDA028611C74466500476B28 /* GoogleCastPlayer.swift */,
-			);
-			name = "Google Cast";
-			sourceTree = "<group>";
-		};
 		BDA1E8131EDD28510098FB9D /* Sonos */ = {
 			isa = PBXGroup;
 			children = (
@@ -6726,6 +6717,7 @@
 		BDBD53F717019B2A0048C8C5 /* Pocket Casts */ = {
 			isa = PBXGroup;
 			children = (
+				3F747A542F5598A2004C7FF6 /* Playback */,
 				3F747A532F5553A1004C7FF6 /* Extensions */,
 				3F7479402F55510B004C7FF6 /* Utilities */,
 				3F74793C2F5550AD004C7FF6 /* Third Party Libraries */,
@@ -7159,7 +7151,6 @@
 		BDF15A491B54E386000EC323 /* Players */ = {
 			isa = PBXGroup;
 			children = (
-				BDA028601C74464D00476B28 /* Google Cast */,
 				BD4098771B9ECA2C007F36BD /* Default Player */,
 				BD4098781B9ECA33007F36BD /* Effects */,
 				BDF15A431B54E155000EC323 /* PlaybackProtocol.swift */,
@@ -8471,6 +8462,7 @@
 				3F7479522F55519F004C7FF6 /* Unlockable */,
 				3F7479C32F5551AA004C7FF6 /* Analytics */,
 				3F747A532F5553A1004C7FF6 /* Extensions */,
+				3F747A542F5598A2004C7FF6 /* Playback */,
 				FFB74AE72E94037500F16857 /* End of Year 2025 */,
 			);
 			name = podcasts;
@@ -10493,7 +10485,6 @@
 				4084F68624DCE2F6006E5D97 /* StarredViewController+Multiselect.swift in Sources */,
 				400E3D1123F0E6D900ADAA63 /* PromotionFinishedViewController.swift in Sources */,
 				FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */,
-				BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */,
 				BDB5F0CD20450FDC00437669 /* Enumerations.swift in Sources */,
 				F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */,
 				BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */,
