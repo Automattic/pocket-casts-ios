@@ -2219,14 +2219,10 @@
 		232C32192FA9FA97E332A6E4 /* VoiceBoostN_Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VoiceBoostN_Internal.h; sourceTree = "<group>"; };
 		2F90990B2A4F88B00044FC55 /* Share Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		321AC0292B6AFC45008D6FF2 /* XCTestCase+WaitForNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+WaitForNotification.swift"; sourceTree = "<group>"; };
-		3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.prototype.xcconfig; sourceTree = "<group>"; };
-		3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.release.xcconfig; sourceTree = "<group>"; };
-		3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PocketCasts.debug.xcconfig; sourceTree = "<group>"; };
 		3FB86431288968A1003A86BE /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		3FD6E04F2BF735EC003941C0 /* podcasts.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = podcasts.prototype.entitlements; sourceTree = "<group>"; };
 		3FD6E0502BF739D6003941C0 /* PodcastsIntents.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = PodcastsIntents.prototype.entitlements; sourceTree = "<group>"; };
 		3FD6E0522BF739F6003941C0 /* WidgetExtension.prototype.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.prototype.entitlements; sourceTree = "<group>"; };
-		3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PocketCasts.staging.xcconfig; sourceTree = "<group>"; };
 		4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriPodcastItem.swift; sourceTree = "<group>"; };
 		4006E30923A35F1500174DEB /* CollectionSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSummaryViewController.swift; sourceTree = "<group>"; };
@@ -4044,6 +4040,7 @@
 		3F747A532F5553A1004C7FF6 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		3F747A542F5598A2004C7FF6 /* Playback */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Playback; sourceTree = "<group>"; };
 		3F747A5A2F559925004C7FF6 /* Notifications */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Notifications; sourceTree = "<group>"; };
+		3F7463D02F55488A004C7FF6 /* config */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = config; sourceTree = "<group>"; };
 		3FDAD4E72F46D75100CC3259 /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
 		3FDAD4EF2F46D75400CC3259 /* NotificationExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4F12F46D75500CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationExtension; sourceTree = "<group>"; };
 		3FDAD4F62F46D77800CC3259 /* PodcastsIntentsUI */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4FA2F46D77800CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntentsUI; sourceTree = "<group>"; };
@@ -4293,6 +4290,15 @@
 				3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */,
 			);
 			path = config;
+		10DFE9352C5A8D1300957D0A /* ABTest */ = {
+			isa = PBXGroup;
+			children = (
+				1099A4A92CA5A3AE001B96A9 /* Variation+CustomTreatment.swift */,
+				10DFE9322C5A8D1300957D0A /* ABTest.swift */,
+				10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */,
+				10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */,
+			);
+			path = ABTest;
 			sourceTree = "<group>";
 		};
 		4006E30D23A35F4000174DEB /* Collection List */ = {
@@ -6635,7 +6641,7 @@
 			children = (
 				FF57373B2B4EB5B100F511C7 /* CHANGELOG.md */,
 				FF57373C2B4EB5B100F511C7 /* README.md */,
-				3F299D882872BF3600F2ED7F /* config */,
+				3F7463D02F55488A004C7FF6 /* config */,
 				BDBD53F717019B2A0048C8C5 /* Pocket Casts */,
 				3FDAD4EF2F46D75400CC3259 /* NotificationExtension */,
 				3FDAD4E72F46D75100CC3259 /* NotificationContent */,
@@ -11117,7 +11123,8 @@
 		};
 		3FD6E0542BFC790F003941C0 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */;
+			baseConfigurationReferenceAnchor = 3F7463D02F55488A004C7FF6 /* config */;
+			baseConfigurationReferenceRelativePath = PocketCasts.staging.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -12210,7 +12217,8 @@
 		};
 		BD69A0192266A9E400168459 /* Prototype */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */;
+			baseConfigurationReferenceAnchor = 3F7463D02F55488A004C7FF6 /* config */;
+			baseConfigurationReferenceRelativePath = PocketCasts.prototype.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -12447,7 +12455,8 @@
 		};
 		BDBD540C17019B2A0048C8C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */;
+			baseConfigurationReferenceAnchor = 3F7463D02F55488A004C7FF6 /* config */;
+			baseConfigurationReferenceRelativePath = PocketCasts.debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -12506,7 +12515,8 @@
 		};
 		BDBD540D17019B2A0048C8C5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */;
+			baseConfigurationReferenceAnchor = 3F7463D02F55488A004C7FF6 /* config */;
+			baseConfigurationReferenceRelativePath = PocketCasts.release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
