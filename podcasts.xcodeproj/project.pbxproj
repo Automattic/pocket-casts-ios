@@ -13108,8 +13108,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
-				branch = "fix/uiapplication-watchos-non-public-api";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.1;
 			};
 		};
 		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
