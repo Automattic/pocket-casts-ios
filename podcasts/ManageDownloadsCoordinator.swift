@@ -20,8 +20,7 @@ class ManageDownloadsCoordinator {
     }
 
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
-        guard Self.shouldShowBanner
-        else {
+        guard Self.shouldShowBanner else {
             return
         }
         Analytics.track(.freeUpSpaceModalShown, properties: ["source": source])
@@ -36,11 +35,12 @@ class ManageDownloadsCoordinator {
             presentationVC?.dismiss(animated: true)
         })
         BottomSheetSwiftUIWrapper.present(
-            ManageDownloadsModalView(dataModel: dataModel).environmentObject(Theme.sharedTheme),
+            ManageDownloadsModalView(dataModel: dataModel),
             autoSize: true,
             showingGrabber: true,
-            in: presentationVC
-        )
+            in: presentationVC) {
+                Settings.manageDownloadsLastCheckDate = Date.now
+            }
         return
     }
 
