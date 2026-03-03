@@ -13108,7 +13108,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
 			requirement = {
-				branch = "watchos-compatibility";
+				branch = "fix/uiapplication-watchos-non-public-api";
 				kind = branch;
 			};
 		};
