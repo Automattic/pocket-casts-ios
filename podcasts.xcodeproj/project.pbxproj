@@ -4281,15 +4281,6 @@
 			path = UpgradeExperiment;
 			sourceTree = "<group>";
 		};
-		3F299D882872BF3600F2ED7F /* config */ = {
-			isa = PBXGroup;
-			children = (
-				3F299D8D2872BF3600F2ED7F /* PocketCasts.debug.xcconfig */,
-				3F299D892872BF3600F2ED7F /* PocketCasts.prototype.xcconfig */,
-				3F299D8B2872BF3600F2ED7F /* PocketCasts.release.xcconfig */,
-				3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */,
-			);
-			path = config;
 		10DFE9352C5A8D1300957D0A /* ABTest */ = {
 			isa = PBXGroup;
 			children = (
