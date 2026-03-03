@@ -4281,17 +4281,6 @@
 			path = UpgradeExperiment;
 			sourceTree = "<group>";
 		};
-		10DFE9352C5A8D1300957D0A /* ABTest */ = {
-			isa = PBXGroup;
-			children = (
-				1099A4A92CA5A3AE001B96A9 /* Variation+CustomTreatment.swift */,
-				10DFE9322C5A8D1300957D0A /* ABTest.swift */,
-				10DFE9332C5A8D1300957D0A /* ABTestProvider.swift */,
-				10DFE9342C5A8D1300957D0A /* ABTestProviding.swift */,
-			);
-			path = ABTest;
-			sourceTree = "<group>";
-		};
 		4006E30D23A35F4000174DEB /* Collection List */ = {
 			isa = PBXGroup;
 			children = (
