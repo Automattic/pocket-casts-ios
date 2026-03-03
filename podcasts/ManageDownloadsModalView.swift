@@ -41,6 +41,7 @@ struct ManageDownloadsModalView: View {
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .foregroundColor(theme.primaryText01)
             }.frame(idealHeight: 56)
+            Spacer().frame(height: 16)
         }
         .padding()
         .ignoresSafeArea()
