@@ -902,7 +902,6 @@
 		BD47E7FA1DD57F7B00C18EE7 /* ShowNotesFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47E7F91DD57F7B00C18EE7 /* ShowNotesFormatter.swift */; };
 		BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
 		BD4910CD2457DC86005202CF /* SessionManager+Send.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4910CC2457DC86005202CF /* SessionManager+Send.swift */; };
-		BD4910D02457E088005202CF /* WatchManager+Send.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4910CE2457E068005202CF /* WatchManager+Send.swift */; };
 		BD49C8F127C5F9E300A2CCBD /* ColorSelectCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49C8F027C5F9E300A2CCBD /* ColorSelectCircle.swift */; };
 		BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49DB7F1D5B052500813204 /* DestructiveButtonCell.swift */; };
 		BD49DB821D5B052500813204 /* DestructiveButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD49DB801D5B052500813204 /* DestructiveButtonCell.xib */; };
@@ -1301,7 +1300,6 @@
 		BDD3017A1EFB9356004A9972 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */; };
 		BDD3017C1EFB9356004A9972 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3017B1EFB9356004A9972 /* NotificationController.swift */; };
 		BDD301821EFB9356004A9972 /* Pocket Casts Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */; };
-		BDD3018C1EFB94C9004A9972 /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018B1EFB94C9004A9972 /* WatchManager.swift */; };
 		BDD3018E1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD3018F1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD301931EFB9979004A9972 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD301911EFB9979004A9972 /* SessionManager.swift */; };
@@ -3042,7 +3040,6 @@
 		BD47E7F91DD57F7B00C18EE7 /* ShowNotesFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatter.swift; sourceTree = "<group>"; };
 		BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsHelper.swift; sourceTree = "<group>"; };
 		BD4910CC2457DC86005202CF /* SessionManager+Send.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager+Send.swift"; sourceTree = "<group>"; };
-		BD4910CE2457E068005202CF /* WatchManager+Send.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchManager+Send.swift"; sourceTree = "<group>"; };
 		BD49C8F027C5F9E300A2CCBD /* ColorSelectCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectCircle.swift; sourceTree = "<group>"; };
 		BD49DB7F1D5B052500813204 /* DestructiveButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestructiveButtonCell.swift; sourceTree = "<group>"; };
 		BD49DB801D5B052500813204 /* DestructiveButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DestructiveButtonCell.xib; sourceTree = "<group>"; };
@@ -3463,7 +3460,6 @@
 		BDD301761EFB9356004A9972 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		BDD301791EFB9356004A9972 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		BDD3017B1EFB9356004A9972 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		BDD3018B1EFB94C9004A9972 /* WatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
 		BDD3018D1EFB9574004A9972 /* WatchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConstants.swift; sourceTree = "<group>"; };
 		BDD301911EFB9979004A9972 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		BDD301941EFB9A4F004A9972 /* WatchDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDataManager.swift; sourceTree = "<group>"; };
@@ -4022,6 +4018,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Episode Info Coordinator"; sourceTree = "<group>"; };
 		3F584D242F567E73005A3593 /* InAppPurchases */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InAppPurchases; sourceTree = "<group>"; };
+		3F584D252F567EA6005A3593 /* Watch Communication */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Watch Communication"; sourceTree = "<group>"; };
 		3F74793C2F5550AD004C7FF6 /* Third Party Libraries */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74793E2F5550D7004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F74793F2F5550D7004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Third Party Libraries"; sourceTree = "<group>"; };
 		3F7479402F55510B004C7FF6 /* Utilities */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F747A502F5551D5004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F747A512F5551D5004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Utilities; sourceTree = "<group>"; };
 		3F7479452F555197004C7FF6 /* ABTest */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74794E2F555197004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ABTest; sourceTree = "<group>"; };
@@ -5809,15 +5806,6 @@
 			name = Effects;
 			sourceTree = "<group>";
 		};
-		BD45F013243460C10029ADF2 /* Watch Communication */ = {
-			isa = PBXGroup;
-			children = (
-				BDD3018B1EFB94C9004A9972 /* WatchManager.swift */,
-				BD4910CE2457E068005202CF /* WatchManager+Send.swift */,
-			);
-			name = "Watch Communication";
-			sourceTree = "<group>";
-		};
 		BD49F584247393DC00DD08C7 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -6016,10 +6004,10 @@
 		BD618BD31702BE1200967A6B /* Managers and Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3F584D252F567EA6005A3593 /* Watch Communication */,
 				3F584D242F567E73005A3593 /* InAppPurchases */,
 				3F747A5A2F559925004C7FF6 /* Notifications */,
 				3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */,
-				BD45F013243460C10029ADF2 /* Watch Communication */,
 				BD3334531FC680E20017C3A8 /* Lists */,
 				BDCA97A417CB78D3006E4242 /* Sharing */,
 				8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */,
@@ -8401,6 +8389,7 @@
 			fileSystemSynchronizedGroups = (
 				3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */,
 				3F584D242F567E73005A3593 /* InAppPurchases */,
+				3F584D252F567EA6005A3593 /* Watch Communication */,
 				3F74793C2F5550AD004C7FF6 /* Third Party Libraries */,
 				3F7479402F55510B004C7FF6 /* Utilities */,
 				3F7479452F555197004C7FF6 /* ABTest */,
@@ -9793,7 +9782,6 @@
 				C71C04C929243F7D00F2858A /* ImportViewModel.swift in Sources */,
 				FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */,
 				8B9D459C28F9A6260034219E /* TopFivePodcastsStory2023.swift in Sources */,
-				BDD3018C1EFB94C9004A9972 /* WatchManager.swift in Sources */,
 				C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */,
 				F5E431D62B50888500A71DB3 /* PlusLabel.swift in Sources */,
 				F58189C32DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift in Sources */,
@@ -10262,7 +10250,6 @@
 				8B67A26B29A7D8820076886D /* ThemeableListHeader.swift in Sources */,
 				BDC940B61BA7F5FB008CC635 /* BouncyButton.swift in Sources */,
 				409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */,
-				BD4910D02457E088005202CF /* WatchManager+Send.swift in Sources */,
 				BD78A1D71FBACD4800048EB2 /* SmartInvertImageView.swift in Sources */,
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				BD340FC521AF897400EAB091 /* PodcastArchiveViewController.swift in Sources */,
