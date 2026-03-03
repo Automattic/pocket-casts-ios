@@ -37,9 +37,14 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         settingsTable.reloadData()
     }
 
+    private var firstAppear: Bool = true
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "auto_download")
+        if firstAppear {
+            firstAppear = false
+            ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "auto_download")
+        }
     }
 
     // MARK: - UITableView methods
