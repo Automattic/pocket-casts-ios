@@ -22,8 +22,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var videoViewController: VideoViewController?
 
-    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
-
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
