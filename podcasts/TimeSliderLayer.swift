@@ -87,8 +87,10 @@ class TimeSliderLayer: CALayer {
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
 
-        let animationColor = leftColor.copy(alpha: 0.5)!
-        drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
+        if animating {
+            let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
+            drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
+        }
 
         // draw the knob
         ctx.addEllipse(in: knobRect)
@@ -187,12 +189,4 @@ class TimeSliderLayer: CALayer {
         (leftHalfRect.size.width + rightHalfRect.size.width) / 3
     }
 
-//    private func makeAnimationForKey(_ key: String) -> CABasicAnimation {
-//        let anim = CABasicAnimation(keyPath: key)
-//        anim.fromValue = presentation()?.value(forKey: key)
-//        anim.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-//        anim.duration = Constants.Animation.defaultAnimationTime
-//
-//        return anim
-//    }
 }
