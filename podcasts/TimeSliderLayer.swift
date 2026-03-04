@@ -1,6 +1,9 @@
 import UIKit
 
 class TimeSliderLayer: CALayer {
+
+    @NSManaged private var progressAnimationRect: CGRect
+
     @NSManaged var leftHalfRect: CGRect
     @NSManaged var rightHalfRect: CGRect
     @NSManaged var knobRect: CGRect
@@ -28,6 +31,7 @@ class TimeSliderLayer: CALayer {
 
         let otherLayer = layer as! TimeSliderLayer
 
+        progressAnimationRect = otherLayer.progressAnimationRect
         leftHalfRect = otherLayer.leftHalfRect
         rightHalfRect = otherLayer.rightHalfRect
         knobRect = otherLayer.knobRect
@@ -43,7 +47,7 @@ class TimeSliderLayer: CALayer {
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
-        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" {
+        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" || key == "progressAnimationRect" {
             return true
         }
 
@@ -83,6 +87,9 @@ class TimeSliderLayer: CALayer {
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
 
+        let animationColor = leftColor.copy(alpha: 0.5)!
+        drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
+
         // draw the knob
         ctx.addEllipse(in: knobRect)
         ctx.setFillColor(circleColor)
@@ -116,4 +123,76 @@ class TimeSliderLayer: CALayer {
             popupValue.draw(in: CGRect(x: progressCenter - 40, y: baseHeight + 5 + (5.0 - (popupScale * 5.0)), width: 80, height: 40), withAttributes: [NSAttributedString.Key.font: UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular), NSAttributedString.Key.foregroundColor: popupTextColor, NSAttributedString.Key.paragraphStyle: textStyle])
         }
     }
+
+    private func drawRoundedLine(rect: CGRect, color: CGColor, context: CGContext) {
+        context.setFillColor(color)
+        context.setStrokeColor(color)
+        UIBezierPath(roundedRect: rect, cornerRadius: 2).fill()
+    }
+
+    private var animating: Bool = false
+
+    var shouldAnimate = false {
+        didSet {
+            if shouldAnimate {
+                startAnimating()
+            } else {
+                stopAnimating()
+            }
+        }
+    }
+
+    private func startAnimating() {
+        if animating { return }
+
+        animating = true
+        progressAnimationRect = CGRect(x: 0, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
+
+        let duration: CFTimeInterval = 1.0
+        let progressStartX = leftHalfRect.origin.x
+
+        let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
+        moveAnimation.values = [
+            progressStartX,
+            progressStartX + animationLineWidth(),
+            leftHalfRect.origin.x + leftHalfRect.size.width + rightHalfRect.size.width
+        ]
+        moveAnimation.keyTimes = [0, 0.3, 1]
+        moveAnimation.duration = duration
+
+        let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
+        growAnimation.values = [
+            animationLineWidth() / 2,
+            animationLineWidth(),
+            1
+        ]
+        growAnimation.keyTimes = [0, 0.5, 1]
+        growAnimation.duration = duration
+
+        let animationGroup = CAAnimationGroup()
+        animationGroup.animations = [moveAnimation, growAnimation]
+        animationGroup.duration = duration
+        animationGroup.repeatCount = .greatestFiniteMagnitude
+
+        add(animationGroup, forKey: "buferringAnimation")
+    }
+
+    private func stopAnimating() {
+        animating = false
+
+        removeAllAnimations()
+    }
+
+    private func animationLineWidth() -> CGFloat {
+        (leftHalfRect.size.width + rightHalfRect.size.width) / 3
+    }
+
+//    private func makeAnimationForKey(_ key: String) -> CABasicAnimation {
+//        let anim = CABasicAnimation(keyPath: key)
+//        anim.fromValue = presentation()?.value(forKey: key)
+//        anim.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+//        anim.duration = Constants.Animation.defaultAnimationTime
+//
+//        return anim
+//    }
 }
