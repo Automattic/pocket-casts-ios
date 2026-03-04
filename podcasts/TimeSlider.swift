@@ -201,12 +201,12 @@ class TimeSlider: UIView {
         TimeSliderLayer.self
     }
 
-    var indeterminat: Bool {
-        set {
-            timeLayer().shouldAnimate = newValue
-        }
-        get {
-            timeLayer().shouldAnimate
+    var indeterminant: Bool = false {
+        didSet {
+            recalculatePositionRects(true)
+            if self.window != nil {
+                timeLayer().shouldAnimate = indeterminant
+            }
         }
     }
 }

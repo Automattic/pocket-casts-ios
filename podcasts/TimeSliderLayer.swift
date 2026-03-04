@@ -44,6 +44,8 @@ class TimeSliderLayer: CALayer {
 
         popupValue = otherLayer.popupValue
         textStyle = otherLayer.textStyle
+
+        shouldAnimate = otherLayer.shouldAnimate
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
@@ -90,9 +92,11 @@ class TimeSliderLayer: CALayer {
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
 
-        if animating {
-            let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
+        let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
+        if shouldAnimate {
             drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
+        } else {
+            drawRoundedLine(rect: .zero, color: animationColor, context: ctx)
         }
 
         // draw the knob
