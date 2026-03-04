@@ -29,13 +29,22 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
         Analytics.track(.settingsAutoDownloadShown)
-        ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "auto_download")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         settingsTable.reloadData()
+    }
+
+    private var firstAppear: Bool = true
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstAppear {
+            firstAppear = false
+            ManageDownloadsCoordinator.showModalIfNeeded(from: self, source: "auto_download")
+        }
     }
 
     // MARK: - UITableView methods
