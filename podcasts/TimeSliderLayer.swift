@@ -74,8 +74,11 @@ class TimeSliderLayer: CALayer {
     override func draw(in ctx: CGContext) {
         guard !leftHalfRect.origin.y.isNaN else { return }
 
-        // draw the left line
         UIGraphicsPushContext(ctx)
+        defer {
+            UIGraphicsPopContext()
+        }
+        // draw the left line
         ctx.setFillColor(leftColor)
         ctx.setStrokeColor(leftColor)
         let leftPath = UIBezierPath(roundedRect: leftHalfRect, cornerRadius: 2)
@@ -127,6 +130,10 @@ class TimeSliderLayer: CALayer {
     }
 
     private func drawRoundedLine(rect: CGRect, color: CGColor, context: CGContext) {
+        UIGraphicsPushContext(context)
+        defer {
+            UIGraphicsPopContext()
+        }
         context.setFillColor(color)
         context.setStrokeColor(color)
         UIBezierPath(roundedRect: rect, cornerRadius: 2).fill()
