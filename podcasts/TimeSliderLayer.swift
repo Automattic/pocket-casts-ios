@@ -187,13 +187,15 @@ class TimeSliderLayer: CALayer {
         animationGroup.duration = duration
         animationGroup.repeatCount = .greatestFiniteMagnitude
 
-        add(animationGroup, forKey: "buferringAnimation")
+        add(animationGroup, forKey: Self.animationKey)
     }
+
+    private static let animationKey = "bufferingAnimation"
 
     private func stopAnimating() {
         animating = false
 
-        removeAnimation(forKey: "buferringAnimation")
+        removeAnimation(forKey: Self.animationKey)
     }
 
     private func animationLineWidth() -> CGFloat {
