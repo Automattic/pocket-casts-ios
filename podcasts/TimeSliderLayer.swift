@@ -193,7 +193,7 @@ class TimeSliderLayer: CALayer {
     private func stopAnimating() {
         animating = false
 
-        removeAllAnimations()
+        removeAnimation(forKey: "buferringAnimation")
     }
 
     private func animationLineWidth() -> CGFloat {
