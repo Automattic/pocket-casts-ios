@@ -167,7 +167,7 @@ extension NowPlayingPlayerItemViewController {
             timeSlider.currentTime = upTo
         }
 
-        timeSlider.indeterminat = PlaybackManager.shared.buffering()
+        timeSlider.indeterminant = PlaybackManager.shared.buffering()
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
