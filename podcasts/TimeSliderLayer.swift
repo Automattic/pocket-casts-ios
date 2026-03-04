@@ -147,6 +147,9 @@ class TimeSliderLayer: CALayer {
 
     var shouldAnimate = false {
         didSet {
+            guard shouldAnimate != oldValue else {
+                return
+            }
             if shouldAnimate {
                 startAnimating()
             } else {
