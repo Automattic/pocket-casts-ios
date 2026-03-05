@@ -445,7 +445,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             if exportStatus.error == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
-                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType)
+                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType, copyFile: true)
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
