@@ -1,6 +1,9 @@
 import UIKit
 
 class TimeSliderLayer: CALayer {
+
+    @NSManaged private var progressAnimationRect: CGRect
+
     @NSManaged var leftHalfRect: CGRect
     @NSManaged var rightHalfRect: CGRect
     @NSManaged var knobRect: CGRect
@@ -28,6 +31,7 @@ class TimeSliderLayer: CALayer {
 
         let otherLayer = layer as! TimeSliderLayer
 
+        progressAnimationRect = otherLayer.progressAnimationRect
         leftHalfRect = otherLayer.leftHalfRect
         rightHalfRect = otherLayer.rightHalfRect
         knobRect = otherLayer.knobRect
@@ -40,10 +44,12 @@ class TimeSliderLayer: CALayer {
 
         popupValue = otherLayer.popupValue
         textStyle = otherLayer.textStyle
+
+        shouldAnimate = otherLayer.shouldAnimate
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
-        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" {
+        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" || key == "progressAnimationRect" {
             return true
         }
 
@@ -70,8 +76,11 @@ class TimeSliderLayer: CALayer {
     override func draw(in ctx: CGContext) {
         guard !leftHalfRect.origin.y.isNaN else { return }
 
-        // draw the left line
         UIGraphicsPushContext(ctx)
+        defer {
+            UIGraphicsPopContext()
+        }
+        // draw the left line
         ctx.setFillColor(leftColor)
         ctx.setStrokeColor(leftColor)
         let leftPath = UIBezierPath(roundedRect: leftHalfRect, cornerRadius: 2)
@@ -82,6 +91,11 @@ class TimeSliderLayer: CALayer {
         ctx.setStrokeColor(rightColor)
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
+
+        let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
+        if shouldAnimate {
+            drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
+        }
 
         // draw the knob
         ctx.addEllipse(in: knobRect)
@@ -116,4 +130,77 @@ class TimeSliderLayer: CALayer {
             popupValue.draw(in: CGRect(x: progressCenter - 40, y: baseHeight + 5 + (5.0 - (popupScale * 5.0)), width: 80, height: 40), withAttributes: [NSAttributedString.Key.font: UIFont.monospacedDigitSystemFont(ofSize: 16, weight: UIFont.Weight.regular), NSAttributedString.Key.foregroundColor: popupTextColor, NSAttributedString.Key.paragraphStyle: textStyle])
         }
     }
+
+    private func drawRoundedLine(rect: CGRect, color: CGColor, context: CGContext) {
+        UIGraphicsPushContext(context)
+        defer {
+            UIGraphicsPopContext()
+        }
+        context.setFillColor(color)
+        context.setStrokeColor(color)
+        UIBezierPath(roundedRect: rect, cornerRadius: 2).fill()
+    }
+
+    private var animating: Bool = false
+
+    var shouldAnimate = false {
+        didSet {
+            guard shouldAnimate != oldValue else {
+                return
+            }
+            if shouldAnimate {
+                startAnimating()
+            } else {
+                stopAnimating()
+            }
+        }
+    }
+
+    private func startAnimating() {
+        if animating { return }
+
+        animating = true
+        progressAnimationRect = CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
+
+        let duration: CFTimeInterval = 1.0
+        let progressStartX = leftHalfRect.origin.x
+
+        let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
+        moveAnimation.values = [
+            progressStartX,
+            progressStartX + animationLineWidth(),
+            leftHalfRect.origin.x + leftHalfRect.size.width + rightHalfRect.size.width
+        ]
+        moveAnimation.keyTimes = [0, 0.3, 1]
+        moveAnimation.duration = duration
+
+        let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
+        growAnimation.values = [
+            animationLineWidth() / 2,
+            animationLineWidth(),
+            1
+        ]
+        growAnimation.keyTimes = [0, 0.5, 1]
+        growAnimation.duration = duration
+
+        let animationGroup = CAAnimationGroup()
+        animationGroup.animations = [moveAnimation, growAnimation]
+        animationGroup.duration = duration
+        animationGroup.repeatCount = .greatestFiniteMagnitude
+
+        add(animationGroup, forKey: Self.animationKey)
+    }
+
+    private static let animationKey = "bufferingAnimation"
+
+    private func stopAnimating() {
+        animating = false
+
+        removeAnimation(forKey: Self.animationKey)
+    }
+
+    private func animationLineWidth() -> CGFloat {
+        (leftHalfRect.size.width + rightHalfRect.size.width) / 3
+    }
+
 }

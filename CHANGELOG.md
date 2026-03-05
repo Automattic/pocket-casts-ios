@@ -1,5 +1,6 @@
 8.8
 -----
+- Show buffering UI on Full Screen Player [#4051](https://github.com/Automattic/pocket-casts-ios/pull/4051)
 
 
 8.7
