@@ -1,7 +1,9 @@
 BUNDLE=rbenv exec bundle
 LANG_VAR=LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
-SWIFTLINT_FROM_BUILDTOOLS=swiftlint lint --working-directory .. --quiet
+# Explicit --config prevents SwiftLint from picking up nested configs in
+# BuildTools/.build/checkouts/ (e.g., SwiftGenPlugin's .swiftlint.yml).
+SWIFTLINT_FROM_BUILDTOOLS=swiftlint lint --working-directory .. --config .swiftlint.yml --quiet
 # Parse the human-readable output of simctl
 SIMULATOR_NAME = $(shell xcrun simctl list devices available \
 	| grep "iPhone" \
