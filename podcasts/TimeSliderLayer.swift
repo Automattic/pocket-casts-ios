@@ -95,8 +95,6 @@ class TimeSliderLayer: CALayer {
         let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
         if shouldAnimate {
             drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
-        } else {
-            drawRoundedLine(rect: .zero, color: animationColor, context: ctx)
         }
 
         // draw the knob
