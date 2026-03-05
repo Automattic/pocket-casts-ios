@@ -2,6 +2,7 @@
 -----
 - Show buffering UI on Full Screen Player [#4051](https://github.com/Automattic/pocket-casts-ios/pull/4051)
 
+
 8.7
 -----
 - Fix podcast search in non-standard locales [#4019](https://github.com/Automattic/pocket-casts-ios/pull/4019)
