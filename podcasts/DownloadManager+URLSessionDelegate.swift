@@ -183,7 +183,9 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         let fileSize = FileManager.default.fileSize(of: location) ?? 0
         guard isEpisodeFileValid(contentType: contentType, fileSize: fileSize) else {
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorContactAuthorVersion2, reason: .suspiciousContent(fileSize))
-            StorageManager.removeItem(at: location)
+            if !copyFile {
+                StorageManager.removeItem(at: location)
+            }
             return
         }
 
