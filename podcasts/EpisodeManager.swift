@@ -391,10 +391,12 @@ class EpisodeManager: NSObject {
             return
         }
         while let tmpFile = folderEnum.nextObject() as? String {
-            if exceptions.contains(tmpFile) {
+            let fullFilePath = tmpPath + "/" + tmpFile
+            if exceptions.contains(fullFilePath) {
                 continue
             }
-            try? fileManager.removeItem(atPath: tmpPath + "/" + tmpFile)
+            FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
+            try? fileManager.removeItem(atPath: fullFilePath)
         }
     }
 
