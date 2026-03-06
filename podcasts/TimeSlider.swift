@@ -200,6 +200,15 @@ class TimeSlider: UIView {
     override class var layerClass: AnyClass {
         TimeSliderLayer.self
     }
+
+    var indeterminant: Bool = false {
+        didSet {
+            recalculatePositionRects(true)
+            if self.window != nil {
+                timeLayer().shouldAnimate = indeterminant
+            }
+        }
+    }
 }
 
 private extension TimeInterval {
