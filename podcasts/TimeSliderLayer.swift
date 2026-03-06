@@ -163,21 +163,23 @@ class TimeSliderLayer: CALayer {
         progressAnimationRect = CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
 
         let duration: CFTimeInterval = 1.0
-        let progressStartX = leftHalfRect.origin.x
+        let progressStartX = rightHalfRect.origin.x
+
+        let animationLineWidth = animationLineWidth()
 
         let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
         moveAnimation.values = [
             progressStartX,
-            progressStartX + animationLineWidth(),
-            leftHalfRect.origin.x + leftHalfRect.size.width + rightHalfRect.size.width
+            progressStartX,
+            progressStartX
         ]
         moveAnimation.keyTimes = [0, 0.3, 1]
         moveAnimation.duration = duration
 
         let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
         growAnimation.values = [
-            animationLineWidth() / 2,
-            animationLineWidth(),
+            animationLineWidth / 2,
+            animationLineWidth,
             1
         ]
         growAnimation.keyTimes = [0, 0.5, 1]
@@ -200,7 +202,7 @@ class TimeSliderLayer: CALayer {
     }
 
     private func animationLineWidth() -> CGFloat {
-        (leftHalfRect.size.width + rightHalfRect.size.width) / 3
+        rightHalfRect.size.width
     }
 
 }

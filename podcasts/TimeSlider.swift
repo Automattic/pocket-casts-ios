@@ -102,6 +102,7 @@ class TimeSlider: UIView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let firstTouch = touches.first {
+            timeLayer().shouldAnimate = true
             let touchPoint = firstTouch.location(in: self)
             let slightlyBiggerKnobRect = timeLayer().knobRect.insetBy(dx: -20, dy: -20)
             if slightlyBiggerKnobRect.contains(touchPoint) {
@@ -202,8 +203,7 @@ class TimeSlider: UIView {
     }
 
     var indeterminant: Bool = false {
-        didSet {
-            recalculatePositionRects(true)
+        didSet {            
             if self.window != nil {
                 timeLayer().shouldAnimate = indeterminant
             }
