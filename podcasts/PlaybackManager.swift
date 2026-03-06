@@ -2271,7 +2271,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
                 return
             }
-
+            haveCalledPlayerLoad = false
             FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
             lastRetryEpisodeUuid = episodeUuid
 
