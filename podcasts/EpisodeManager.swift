@@ -381,7 +381,7 @@ class EpisodeManager: NSObject {
 
         if FeatureFlag.cleanUpTmpFiles.enabled {
             // Remove any files in the temporary folder that were not part of the above, that should be orphan files
-            let filePaths = Set<String>(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
+            let filePaths = Set(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
             cleanUpTmpFolder(exceptions: filePaths)
         }
     }
@@ -394,7 +394,7 @@ class EpisodeManager: NSObject {
         }
         FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
         while let tmpFile = folderEnum.nextObject() as? String {
-            let fullFilePath = tmpPath + "/" + tmpFile
+            let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
             if exceptions.contains(fullFilePath) {
                 continue
             }
