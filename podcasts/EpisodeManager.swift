@@ -379,9 +379,11 @@ class EpisodeManager: NSObject {
             }
         }
 
-        // Remove any files in the temporary folder that were not part of the above, that should be orphan files
-        let filePaths = Set<String>(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-        cleanUpTmpFolder(exceptions: filePaths)
+        if FeatureFlag.cleanUpTmpFiles.enabled {
+            // Remove any files in the temporary folder that were not part of the above, that should be orphan files
+            let filePaths = Set<String>(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
+            cleanUpTmpFolder(exceptions: filePaths)
+        }
     }
 
     class func cleanUpTmpFolder(exceptions: Set<String>) {

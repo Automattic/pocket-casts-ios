@@ -295,6 +295,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Remove the 50-episode limit when syncing Up Next to Apple Watch
     case unlimitedWatchUpNextSync
 
+    /// Ensure that tmp files are removed when no longer needed
+    case cleanUpTmpFiles
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -494,6 +497,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchTransferUserInfoApi:
             true
         case .unlimitedWatchUpNextSync:
+            true
+        case .cleanUpTmpFiles:
             true
         }
     }
