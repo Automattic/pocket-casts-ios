@@ -382,7 +382,13 @@ class EpisodeManager: NSObject {
         if FeatureFlag.cleanUpTmpFiles.enabled {
             // Remove any files in the temporary folder that were not part of the above, that should be orphan files
             let filePaths = Set(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-            cleanUpTmpFolder(exceptions: filePaths)
+            // Also protect actively downloading episodes
+            let downloadingEpisodes = DataManager.sharedManager.findEpisodesWhere(
+                customWhere: "episodeStatus == \(DownloadStatus.downloading.rawValue) OR episodeStatus == \(DownloadStatus.queued.rawValue)",
+                arguments: nil
+            )
+            let allExceptions = filePaths.union(downloadingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
+            cleanUpTmpFolder(exceptions: allExceptions)
         }
     }
 
