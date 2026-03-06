@@ -17,6 +17,7 @@ extension NowPlayingPlayerItemViewController {
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(updateChapterInfo))
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update))
         addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(update))
 
         addCustomObserver(Constants.Notifications.sleepTimerChanged, selector: #selector(sleepTimerUpdated))
         addCustomObserver(Constants.Notifications.playerActionsUpdated, selector: #selector(reloadShelfActions))
@@ -63,6 +64,7 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfo()
         updateChapterProgress()
         updateColors()
+        updateError()
 
         if !showingCustomImage {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
@@ -168,6 +170,21 @@ extension NowPlayingPlayerItemViewController {
         }
 
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+    }
+
+    func updateError() {
+        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
+        var errorMessage = ""
+        if let playbackError = playingEpisode.playbackErrorDetails {
+            errorMessage = playbackError
+        }
+        if !errorMessage.isEmpty {
+            print("Error: \(errorMessage)")
+        }
+
+        if let downloadError = playingEpisode.downloadErrorDetails {
+            print("Error: \(downloadError)")
+        }
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
