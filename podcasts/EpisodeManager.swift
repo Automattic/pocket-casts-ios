@@ -394,7 +394,7 @@ class EpisodeManager: NSObject {
             if exceptions.contains(tmpFile) {
                 continue
             }
-            try? fileManager.removeItem(atPath: tmpPath + "/" + tmpFile)            
+            try? fileManager.removeItem(atPath: tmpPath + "/" + tmpFile)
         }
     }
 
