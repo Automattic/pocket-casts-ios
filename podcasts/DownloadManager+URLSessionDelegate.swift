@@ -208,7 +208,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         } catch {
             if !copyFile {
                 // Lets try remove the file so we don't have a pending file on the tmp folder
-                try? FileManager.default.removeItem(at: location)
+                StorageManager.removeItem(at: location)
             }
             FileLog.shared.addMessage("DownloadManager: Failed to copy downloaded file from location: \(location.absoluteString) to destination:  \(destinationPath) error: \(error)")
             markEpisode(episode, asFailedWithMessage: L10n.downloadErrorNotEnoughSpace, reason: .badResponse)
