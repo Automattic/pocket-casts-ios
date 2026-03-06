@@ -378,6 +378,24 @@ class EpisodeManager: NSObject {
                 deleteDownloadedFiles(episode: episode)
             }
         }
+
+        // Remove any files in the temporary folder that were not part of the above, that should be orphan files
+        let filePaths = Set<String>(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
+        cleanUpTmpFolder(exceptions: filePaths)
+    }
+
+    class func cleanUpTmpFolder(exceptions: Set<String>) {
+        let fileManager = FileManager.default
+        let tmpPath = DownloadManager.shared.tempDownloadFolder
+        guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
+            return
+        }
+        while let tmpFile = folderEnum.nextObject() as? String {
+            if exceptions.contains(tmpFile) {
+                continue
+            }
+            try? fileManager.removeItem(atPath: tmpPath + "/" + tmpFile)            
+        }
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {

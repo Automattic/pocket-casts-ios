@@ -147,7 +147,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         return directory
     }()
 
-    private var tempDownloadFolder = ""
+    private(set) var tempDownloadFolder = ""
 
     let dataManager: DataManager
 
