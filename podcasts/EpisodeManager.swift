@@ -392,14 +392,16 @@ class EpisodeManager: NSObject {
         guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
             return
         }
+        FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
         while let tmpFile = folderEnum.nextObject() as? String {
             let fullFilePath = tmpPath + "/" + tmpFile
             if exceptions.contains(fullFilePath) {
                 continue
             }
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
-            try? fileManager.removeItem(atPath: fullFilePath)
+            StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
         }
+        FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files")
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
