@@ -290,40 +290,28 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             transitionContext.completeTransition(true)
         }
 
-        // For presenting, use a separate ease animation for properties
-        // that don't need spring physics
-        if isPresenting {
-            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut) {
-                backgroundTransitionView.backgroundColor = toColor
-                backgroundTransitionView.layer.cornerRadius = 0
-                toView?.layer.opacity = 1
-                tabBarSnapshot?.frame = hiddenTabBarFrame
-            } completion: { _ in
-                tabBar?.isHidden = false
-            }
-        }
     }
 
-    /// When presenting use curveEaseInOut. If dismissing, use spring animation
+    /// Use spring animation for both present and dismiss.
+    /// Dismiss carries gesture momentum via initialVelocity; present starts from rest.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        if isPresenting {
-            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
-        } else {
-            // stiffness 500 → snappy response; damping 35 → ζ ≈ 0.78 (subtle bounce).
-            // initialVelocity carries the drag momentum directly into the spring.
-            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 500, damping: 35, initialVelocity: CGVector(dx: 0, dy: springVelocity))
-            let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
-            animator.addCompletion { position in
-                switch position {
-                case .end:
-                    completion?(true)
-                default:
-                    break
-                }
+        // Present: stiffness 400, damping 38 → ζ ≈ 0.95 (lighter, nearly critically damped).
+        // Dismiss: stiffness 500, damping 35 → ζ ≈ 0.78 (snappier, subtle bounce).
+        let stiffness: CGFloat = isPresenting ? 400 : 500
+        let damping: CGFloat = isPresenting ? 38 : 35
+        let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
+        let timingParameters = UISpringTimingParameters(mass: 1, stiffness: stiffness, damping: damping, initialVelocity: velocity)
+        let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
+        animator.addCompletion { position in
+            switch position {
+            case .end:
+                completion?(true)
+            default:
+                break
             }
-            animator.addAnimations(animations)
-            animator.startAnimation()
         }
+        animator.addAnimations(animations)
+        animator.startAnimation()
     }
 
     enum Transition {
