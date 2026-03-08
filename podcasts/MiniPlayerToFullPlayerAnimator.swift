@@ -12,11 +12,13 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
     private let fullPlayerYPosition: CGFloat
 
-    // Spring velocity is defined by pan gesture velocity / distance
+    // Spring velocity is defined by pan gesture velocity / distance.
+    // A positive value means moving in the same direction as the animation (downward, toward mini player).
     private lazy var springVelocity: CGFloat = {
         let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
         let distance = miniplayerFrame.origin.y - fullPlayerYPosition
-        return -1 * dismissVelocity / distance
+        guard distance > 0 else { return 0 }
+        return dismissVelocity / distance
     }()
 
     // When presenting the player, duration is always the same
@@ -101,12 +103,30 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         playerView.setNeedsLayout()
         playerView.layoutIfNeeded()
 
+        // Hide artwork in the layer model tree so the snapshot excludes it
+        // (the artwork overlay will animate it separately).
         if fullPlayerArtwork.image != nil {
             fullPlayerArtwork.layer.opacity = 0
         }
 
-        let toView = playerView.snapshotView(afterScreenUpdates: true)
-        toView?.frame = isPresenting ? containerView.frame : fromFrame
+        // For presenting, capture the full player via drawHierarchy which renders
+        // the complete UIKit view hierarchy (including buttons/labels) into an
+        // off-screen graphics context — no render-server commit that could flash.
+        // For dismissing, skip the player snapshot entirely — the artwork overlay is
+        // the visual anchor, and eliminating this render cuts the setup delay.
+        let toView: UIView?
+        if isPresenting {
+            let renderer = UIGraphicsImageRenderer(bounds: playerView.bounds)
+            let snapshotImage = renderer.image { _ in
+                playerView.drawHierarchy(in: playerView.bounds, afterScreenUpdates: true)
+            }
+            let imageView = UIImageView(image: snapshotImage)
+            imageView.clipsToBounds = true
+            toView = imageView
+            toView?.frame = containerView.frame
+        } else {
+            toView = nil
+        }
 
         // MARK: - Artwork
 
@@ -156,8 +176,10 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         containerView.addSubview(backgroundTransitionView)
         containerView.sendSubviewToBack(backgroundTransitionView)
 
-        // Get the initial and final colors
-        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.view.backgroundColor
+        // Get the initial and final colors.
+        // Use mainView's background (opaque) rather than the outer view's (.clear)
+        // to prevent see-through during the present cross-fade.
+        let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
 
         let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
 
@@ -176,8 +198,11 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundFromFrame = isPresenting ? miniplayerFrame : backgroundTransitionInitialFrame
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
-        // Add a snapshot of the miniplayer and full player
-        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
+        // Add a snapshot of the miniplayer and full player.
+        // For dismiss, use afterScreenUpdates:false — views are already on screen,
+        // and skipping the synchronous render pass reduces the setup delay between
+        // gesture end and animation start.
+        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: isPresenting)
         miniPlayerSnapshotView?.addSubview(UIVisualEffectView(effect: UIBlurEffect(style: .prominent)))
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
@@ -187,7 +212,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // MARK: - Tab Bar
 
         let tabBar = (toViewController.presentingViewController as? MainTabBarController)?.tabBar
-        let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: true)
+        let tabBarSnapshot = tabBar?.snapshotView(afterScreenUpdates: isPresenting)
         tabBar?.isHidden = true
         tabBarSnapshot?.layer.drawTopBorder()
         let snapshotView = tabBarSnapshot ?? UIView()
@@ -196,7 +221,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
         // MARK: - Animations
 
-        // If it has artwork, hide the original ones
+        // Now that playerView is hidden and snapshots/overlays are in place,
+        // safely hide the real artwork — no visible flash possible.
         if artwork?.image != nil {
             fullPlayerArtwork.layer.opacity = 0
             miniPlayerArtwork.layer.opacity = 0
@@ -228,14 +254,23 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
             artwork?.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : miniPlayerArtwork.imageView!.layer.cornerRadius
 
+
             // snapshot has its frame changed to account for the shadow
             miniPlayerArtworkSnapshot?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkWithShadowFrame
 
             // Background
             backgroundTransitionView.frame = backgroundToFrame
+            backgroundTransitionView.backgroundColor = toColor
+            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
 
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1
+
+            // Player
+            toView?.layer.opacity = self.isPresenting ? 1 : 0
+
+            // Tab Bar
+            tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
 
             gradientView.layer.opacity = isPresenting ? 0 : 1
         } completion: { completed in
@@ -250,34 +285,21 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             self.fromViewController.view.layer.opacity = 1
 
+            tabBar?.isHidden = false
+
             transitionContext.completeTransition(true)
         }
 
-        // MARK: - Non-spring animation
-
-        UIView.animate(withDuration: duration, delay: 0, options: isPresenting ? .curveEaseInOut : .curveEaseOut) {
-            // Background
-            backgroundTransitionView.backgroundColor = toColor
-            backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
-            // Player
-            toView?.layer.opacity = self.isPresenting ? 1 : 0
-
-            // Tab Bar
-            tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
-        } completion: { _ in
-            tabBar?.isHidden = false
-        }
-
-        // MARK: - Delayed artwork transition
-
-        // We fade from the big artwork to the miniplayer snapshot to ensure
-        // a smooth transition. DispatchQueue is needed because delay conflicts
-        // with snapshotView(afterScreenUpdates: true) (yes...)
-        if !isPresenting {
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: self.duration * 0.3, delay: self.duration * 0.7, options: .curveEaseOut) { [self] in
-                    artwork?.layer.opacity = self.isPresenting ? 1 : 0
-                }
+        // For presenting, use a separate ease animation for properties
+        // that don't need spring physics
+        if isPresenting {
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut) {
+                backgroundTransitionView.backgroundColor = toColor
+                backgroundTransitionView.layer.cornerRadius = 0
+                toView?.layer.opacity = 1
+                tabBarSnapshot?.frame = hiddenTabBarFrame
+            } completion: { _ in
+                tabBar?.isHidden = false
             }
         }
     }
@@ -287,9 +309,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         if isPresenting {
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
         } else {
-            // Mass is reduced accordingly to speed. This prevents the miniplayer from boucing really hard if the speed is high
-            let mass = -springVelocity > 20 ? 3 / log2(-springVelocity) : 1
-            let timingParameters = UISpringTimingParameters(mass: mass, stiffness: 400, damping: 30, initialVelocity: CGVector(dx: -springVelocity, dy: springVelocity))
+            // stiffness 500 → snappy response; damping 35 → ζ ≈ 0.78 (subtle bounce).
+            // initialVelocity carries the drag momentum directly into the spring.
+            let timingParameters = UISpringTimingParameters(mass: 1, stiffness: 500, damping: 35, initialVelocity: CGVector(dx: 0, dy: springVelocity))
             let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
             animator.addCompletion { position in
                 switch position {

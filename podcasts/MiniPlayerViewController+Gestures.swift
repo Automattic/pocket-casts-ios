@@ -30,37 +30,16 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
 
         let velocity = panUpRecognizer.velocity(in: view)
 
-        return abs(velocity.y) > abs(velocity.x)
+        // Only recognize upward swipes (negative y velocity)
+        return velocity.y < 0 && abs(velocity.y) > abs(velocity.x)
     }
 
     @objc private func handlePullingUpGesture(_ recognizer: UIPanGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizer.State.began {
-            aboutToDisplayFullScreenPlayer()
-            rootViewController()?.view.isUserInteractionEnabled = false
-            fullScreenPlayer?.view.isUserInteractionEnabled = false
-            playerOpenState = .beingDragged
-        } else if recognizer.state == UIGestureRecognizer.State.changed {
-            let currentPoint = recognizer.translation(in: view.superview)
-
-            fullScreenPlayer?.view.moveTo(y: fullScreenPlayer!.view.bounds.height + currentPoint.y)
-        } else if recognizer.state == UIGestureRecognizer.State.ended {
-            rootViewController()?.view.isUserInteractionEnabled = true
-            fullScreenPlayer?.view.isUserInteractionEnabled = true
-
-            let endPoint = recognizer.translation(in: view)
-
-            // didn't move far enough
-            if abs(endPoint.y) < MiniPlayerViewController.minMoveAmount {
-                return
-            }
-
-            // the user has moved far enough
+        // Open the full screen player as soon as the upward swipe is recognized,
+        // rather than waiting for the gesture to end. This makes the transition
+        // feel immediate and responsive.
+        if recognizer.state == .began {
             openFullScreenPlayer()
-        } else if recognizer.state == UIGestureRecognizer.State.cancelled {
-            rootViewController()?.view.isUserInteractionEnabled = true
-            fullScreenPlayer?.view.isUserInteractionEnabled = true
-
-            closeFullScreenPlayer()
         }
     }
 
