@@ -248,6 +248,9 @@ class UpNextNowPlayingCell: ThemeableCell {
         playingAnimationView.updateSizeConstraints(to: buttonSize)
 
         updateDownloadStatus()
+
+        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        dateLabel.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
