@@ -70,7 +70,8 @@ class GridHelper {
                 divideBy = gridType == .threeByThree ? 3 : 4
             }
         }
-        if  collectionView.traitCollection.preferredContentSizeCategory.isAccessibilityCategory {
+        let largerSizes = Set<UIContentSizeCategory>([.accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge])
+        if  largerSizes.contains(collectionView.traitCollection.preferredContentSizeCategory) {
             divideBy = floor(divideBy / 2)
         }
 
