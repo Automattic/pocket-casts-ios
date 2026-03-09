@@ -29,7 +29,7 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBa-lc-2bB" userLabel="badge" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="140" y="16" width="189" height="16"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="16" id="MVg-QN-dWu"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="MVg-QN-dWu"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                             <nil key="textColor"/>
@@ -38,9 +38,6 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loy-w1-tk4" userLabel="Title" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="140" y="38" width="219" height="0.0"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="46" id="0lJ-so-hHQ"/>
-                            </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -90,7 +87,7 @@
                         <constraint firstAttribute="trailing" secondItem="bpB-X8-HAZ" secondAttribute="trailing" constant="2" id="V07-en-MYC"/>
                         <constraint firstItem="dLq-mT-vqQ" firstAttribute="leading" secondItem="iHc-Gl-5D7" secondAttribute="leading" constant="16" id="YZQ-xr-KxC"/>
                         <constraint firstAttribute="bottom" secondItem="ioX-U1-92Y" secondAttribute="bottom" id="aNP-NH-FaL"/>
-                        <constraint firstAttribute="height" priority="250" constant="123" id="aOR-zy-89O"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="250" constant="123" id="aOR-zy-89O"/>
                         <constraint firstAttribute="trailing" secondItem="ioX-U1-92Y" secondAttribute="trailing" constant="16" id="d1Q-qt-9iV"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dLq-mT-vqQ" secondAttribute="bottom" priority="750" constant="16" id="dgQ-74-3VB"/>
                         <constraint firstItem="loy-w1-tk4" firstAttribute="top" secondItem="kBa-lc-2bB" secondAttribute="bottom" constant="6" id="iES-gL-B7e"/>

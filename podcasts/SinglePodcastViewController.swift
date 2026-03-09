@@ -8,12 +8,14 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var podcastTitle: ThemeableLabel! {
         didSet {
             podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.updateNumberOfLines(regular: 2, accessibility: 2)
         }
     }
     @IBOutlet var podcastDescription: ThemeableLabel! {
         didSet {
             podcastDescription.style = .primaryText02
             podcastDescription.adjustsFontForContentSizeCategory = true
+            podcastDescription.updateNumberOfLines(regular: 4, accessibility: 6)
         }
     }
 
