@@ -1,19 +1,18 @@
 ---
 name: cross-platform
-description: "Cross-platform codebase exploration for Pocket Casts. Use when asked about Web, iOS, or Server implementation of a feature, or when comparing implementations across platforms."
+description: "Cross-platform codebase exploration for Pocket Casts. Use when asked about Web, iOS, or Android implementation of a feature, or when comparing implementations across platforms."
 ---
 
 # Cross-Platform Codebase Exploration
 
 ## Repository Locations
 
-Other platform repos are siblings of the root Android repo (not worktrees):
+Other platform repos are siblings of the root iOS repo (not worktrees):
 
 | Platform | Relative to project root | Trunk Branch |
 |----------|--------------------------|--------------|
 | Web | `../pocket-casts-webplayer/` | `develop` |
-| Server | `../pocket-casts-android/` | `main` |
-| iOS | `../pocket-casts-ios/` | `trunk` |
+| Android | `../pocket-casts-android/` | `main` |
 
 ## Finding Repos (Worktree-Safe)
 
@@ -25,8 +24,8 @@ If working in a worktree, first find the root iOS repo:
 ROOT=$(git worktree list --porcelain | head -n 1 | awk '{print $2}')
 
 # Platform repos are siblings of the root
-WEB_REPO="$ROOT/../pocket-casts-web"
-IOS_REPO="$ROOT/../pocket-casts-ios"
+WEB_REPO="$ROOT/../pocket-casts-webplayer"
+ANDROID_REPO="$ROOT/../pocket-casts-android"
 ```
 
 ## Before Exploring
@@ -39,7 +38,7 @@ Before exploring code:
 
 1. **Navigate to repo** and check current state:
    ```bash
-   cd "$WEB_REPO"  # or $ANDROID_REPO or $SERVER_REPO
+   cd "$WEB_REPO"  # or $ANDROID_REPO
    git status --short
    git branch --show-current
    ```
