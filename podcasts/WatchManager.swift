@@ -653,7 +653,7 @@ class WatchManager: NSObject, WCSessionDelegate {
                 "error_code": "payloadTooLarge",
                 "up_next_count": "\(upNextCount)"
             ],
-            level: .error
+            level: .warning // This is a critical error but we fall back to the limited Up Next sync so it should be recoverable
         )
     }
 
