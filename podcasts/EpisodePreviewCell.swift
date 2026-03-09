@@ -55,5 +55,9 @@ class EpisodePreviewCell: ThemeableCell {
         let imageSize = max(56, metric.scaledValue(for: 56))
 
         episodeImage.updateSizeConstraints(to: imageSize)
+
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        dateLabel.updateNumberOfLines(regular: 2, accessibility: 3)
+        durationLabel.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 }

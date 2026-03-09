@@ -31,6 +31,8 @@ class PodcastChooserCell: ThemeableCell {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let size = max(metric.scaledValue(for: 56), 56)
         podcastImage.updateSizeConstraints(to: size)
+
+        podcastName.updateNumberOfLines(regular: 2, accessibility: 3)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

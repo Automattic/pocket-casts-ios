@@ -601,8 +601,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         selectTickImageView.layer.cornerRadius = tickSize / 2
         selectCircleView.layer.cornerRadius = tickSize / 2
 
-        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         dayName.updateNumberOfLines(regular: 1, accessibility: 3)
+        informationLabel.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
