@@ -35,7 +35,7 @@ class LargeListSummaryCellHeaderView: UIView {
         let label = ThemeableLabel()
         label.textColor = ThemeColor.primaryText01()
         label.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -97,5 +97,19 @@ class LargeListSummaryCellHeaderView: UIView {
 
         horizontalStack.addArrangedSubview(imageView)
         horizontalStack.addArrangedSubview(verticalStack)
+    }
+
+    // MARK: - Dynamic Type support
+
+    func updateSize() {
+        bottomLabel.updateNumberOfLines(regular: 1, accessibility: 2)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
+        }
     }
 }
