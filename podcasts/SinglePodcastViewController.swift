@@ -23,6 +23,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         didSet {
             typeBadgeLabel.layer.cornerRadius = 4
             typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontSizeToFitWidth = true
         }
     }
 
