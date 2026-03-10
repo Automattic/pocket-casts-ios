@@ -28,7 +28,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var downloadedIndicator: UIImageView!
     @IBOutlet var downloadingIndicator: UIActivityIndicatorView! {
         didSet {
-            downloadingIndicator.transform = CGAffineTransform(scaleX: 1, y: 1)
+            downloadingIndicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         }
     }
 
@@ -170,7 +170,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
             disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         }
-
+        downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         playingAnimationView.setFillColor(AppTheme.colorForStyle(.primaryText01, themeOverride: themeOverride))
     }
 
