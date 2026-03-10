@@ -2858,6 +2858,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Bookmarks+Analytics.swift",
+			);
+			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
+		};
 		3F26BBBE2F4FC23E0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -3263,6 +3266,8 @@
 				3FD6E0612BFC7996003941C0 /* PocketCasts.staging.xcconfig */,
 			);
 			path = config;
+			sourceTree = "<group>";
+		};
 		3F8DE33C2F59272F00C02C4E /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -3480,6 +3485,8 @@
 				4090975825235DFC00CED68C /* Info.plist */,
 			);
 			path = WidgetExtension;
+			sourceTree = "<group>";
+		};
 		409BF821248F09790015097B /* MultiSelect */ = {
 			isa = PBXGroup;
 			children = (
@@ -3725,6 +3732,8 @@
 				8B317BA82890704400A26A13 /* TestingScreen.storyboard */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
 		8B14E3AA29B773EB0069B6F2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -3819,6 +3828,8 @@
 				F5F69D7F2C07C867000B3C87 /* FMDatabaseQueue+Test.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8B7298F629144EDB0059C077 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -4195,6 +4206,8 @@
 				46B5DFD527EA27C6006FC2ED /* Row */,
 			);
 			name = "Now Playing";
+			sourceTree = "<group>";
+		};
 		BD14CCDC1D7D3C2F00DB4547 /* Collection View Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -4523,6 +4536,8 @@
 				BD49F585247393ED00DD08C7 /* NavigationManager.swift */,
 			);
 			name = Navigation;
+			sourceTree = "<group>";
+		};
 		BD45F013243460C10029ADF2 /* Watch Communication */ = {
 			isa = PBXGroup;
 			children = (
@@ -4859,6 +4874,10 @@
 			children = (
 				BD74F15727F2955D00222785 /* FolderView.swift */,
 				BD74F15927F2956800222785 /* FolderViewModel.swift */,
+			);
+			name = Folders;
+			sourceTree = "<group>";
+		};
 		BD70AFD3206B506700431F7F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -5284,6 +5303,8 @@
 				BDCB87261F01349900120EA0 /* Restorable.swift */,
 			);
 			name = "State Restoration";
+			sourceTree = "<group>";
+		};
 		BDCD1E7A244D62F700B83602 /* Theme Specific Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -5297,9 +5318,6 @@
 		BDD301741EFB9356004A9972 /* Pocket Casts Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				3F26BE982F4FC77F0007119B /* Complication */,
-				3F26BE962F4FC74D0007119B /* Supporting Files */,
-				3F26BE712F4FC4AF0007119B /* UI */,
 				BDD301691EFB9356004A9972 /* Assets.xcassets */,
 				10B558EC2BA472E80061847C /* PrivacyInfo.xcprivacy */,
 				BDD3016B1EFB9356004A9972 /* Info.plist */,
@@ -5329,6 +5347,8 @@
 				BD49F584247393DC00DD08C7 /* Navigation */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
 		BDD3578B27BCD3090000D155 /* Create & Edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -5423,6 +5443,8 @@
 				468A0FC127D68BAD00F800C8 /* Episode Actions */,
 			);
 			name = Episode;
+			sourceTree = "<group>";
+		};
 		BDDB0DD02305230200AD081F /* Themed but not configurable */ = {
 			isa = PBXGroup;
 			children = (
@@ -6473,11 +6495,7 @@
 			fileSystemSynchronizedGroups = (
 				3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */,
 				3F7479522F55519F004C7FF6 /* Unlockable */,
-				3F26BE712F4FC4AF0007119B /* UI */,
-				3F26BE962F4FC74D0007119B /* Supporting Files */,
-				3F26BE982F4FC77F0007119B /* Complication */,
 				3F26BF082F4FC7C40007119B /* Pocket Casts Watch App */,
-				3F7479522F55519F004C7FF6 /* Unlockable */,
 			);
 			name = "Pocket Casts Watch App";
 			packageProductDependencies = (
@@ -8040,8 +8058,6 @@
 				8B1F88072C6404D00038E0D2 /* ArrayExtension.swift in Sources */,
 				BDE48A182410D05A00ECA6CA /* PlaybackQueue.swift in Sources */,
 				BDE48A3D2410D83100ECA6CA /* SJCommonUtils.m in Sources */,
-				4633FEC327D7E70100996077 /* EpisodeRowViewModel.swift in Sources */,
-				8BBE19F42BEA9ED4009E944B /* ShowInfoCoordinating.swift in Sources */,
 				BDE48A292410D27300ECA6CA /* BaseEpisode+Formatting.swift in Sources */,
 				FF54BCAA2C5A2F4D00A342E5 /* TranscriptFormat.swift in Sources */,
 				F5CDD79F2F4D1AE100D1B221 /* ApiCredentials.swift in Sources */,
@@ -8080,12 +8096,8 @@
 				BDC063D1246A626E00208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				BDE48A212410D0A300ECA6CA /* DownloadProgress.swift in Sources */,
 				467DF6EA26E10AFB00AC290C /* Strings+Generated.swift in Sources */,
-				46D88ABC27DFDB5B00F3BC43 /* FilesListView.swift in Sources */,
-				C7811D8D2A90491000FC68B4 /* Bookmarks+Analytics.swift in Sources */,
 				BDE48A372410D4E300ECA6CA /* WatchNowPlayingHelper.swift in Sources */,
 				BDE48A1C2410D07300ECA6CA /* PlaybackProtocol.swift in Sources */,
-				46666F0627D1289F00A141AA /* EpisodeAction.swift in Sources */,
-				8BBE19F52BEA9EE8009E944B /* ShowInfoCoordinator.swift in Sources */,
 				BDD3018F1EFB9574004A9972 /* WatchConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
