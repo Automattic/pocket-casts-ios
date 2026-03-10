@@ -28,7 +28,7 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var downloadedIndicator: UIImageView!
     @IBOutlet var downloadingIndicator: UIActivityIndicatorView! {
         didSet {
-            //downloadingIndicator.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+            downloadingIndicator.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
 
