@@ -170,7 +170,7 @@ class UpNextNowPlayingCell: ThemeableCell {
             disclosureImageView.backgroundColor = AppTheme.colorForStyle(.primaryUi05, themeOverride: themeOverride)
             disclosureImageView.tintColor = AppTheme.colorForStyle(.primaryInteractive01, themeOverride: themeOverride)
         }
-
+        downloadingIndicator.color = AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride)
         playingAnimationView.setFillColor(AppTheme.colorForStyle(.primaryText01, themeOverride: themeOverride))
     }
 

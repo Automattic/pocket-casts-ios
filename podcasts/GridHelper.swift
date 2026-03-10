@@ -46,10 +46,12 @@ class GridHelper {
         let viewWidth = collectionView.bounds.width - collectionView.contentInset.left - collectionView.contentInset.right
         let viewHeight = collectionView.bounds.height
 
+        let largerSizes = Set<UIContentSizeCategory>([.accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge])
+
         if gridType == .list {
             let metric = UIFontMetrics(forTextStyle: .title3)
             var baseSize = CGFloat(65)
-            if  collectionView.traitCollection.preferredContentSizeCategory.isAccessibilityCategory {
+            if  largerSizes.contains(collectionView.traitCollection.preferredContentSizeCategory) {
                 baseSize = 85
             }
             let imageSize = max(baseSize, metric.scaledValue(for: baseSize))
@@ -70,7 +72,7 @@ class GridHelper {
                 divideBy = gridType == .threeByThree ? 3 : 4
             }
         }
-        let largerSizes = Set<UIContentSizeCategory>([.accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge])
+
         if  largerSizes.contains(collectionView.traitCollection.preferredContentSizeCategory) {
             divideBy = floor(divideBy / 2)
         }

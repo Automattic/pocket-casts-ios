@@ -10,15 +10,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MultiSelectCellId" rowHeight="112" id="KGk-i7-Jjw" customClass="MultiSelectActionCell" customModule="podcasts" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MultiSelectCellId" rowHeight="72" id="KGk-i7-Jjw" customClass="MultiSelectActionCell" customModule="podcasts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1B-Jj-2iM" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="68" y="0.0" width="236" height="84"/>
+                        <rect key="frame" x="68" y="0.0" width="236" height="72"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="72" id="kfm-Fy-kb1"/>
                         </constraints>
@@ -27,7 +27,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ain-qK-o3x">
-                        <rect key="frame" x="20" y="30" width="24" height="24"/>
+                        <rect key="frame" x="20" y="24" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="E9x-O6-g98"/>
                             <constraint firstAttribute="height" constant="24" id="gYr-xe-Dr4"/>
@@ -48,7 +48,7 @@
                 <outlet property="iconView" destination="Ain-qK-o3x" id="2Vb-Vg-Loq"/>
                 <outlet property="nameLabel" destination="u1B-Jj-2iM" id="jy1-dK-cZ3"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
+            <point key="canvasLocation" x="137.68115942028987" y="97.767857142857139"/>
         </tableViewCell>
     </objects>
 </document>
