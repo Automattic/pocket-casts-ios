@@ -29,19 +29,41 @@
                             <action selector="subscribeTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="XGG-tb-PXz"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="A very large title that should grow to the next line" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUF-uV-U8H" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="56" y="4" width="249" height="19.5"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="A very large author that show grow to the next line" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTw-UR-Z1t" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="56" y="26.5" width="249" height="18"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                        <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.64313725490196083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="fOp-WR-qVy">
+                        <rect key="frame" x="56" y="3" width="241" height="92"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" verticalCompressionResistancePriority="248" translatesAutoresizingMaskIntoConstraints="NO" id="Rla-LP-MtP">
+                                <rect key="frame" x="0.0" y="0.0" width="241" height="22.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="A very large title that should grow to the next line" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUF-uV-U8H" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="25.5" width="241" height="19.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="19" id="TO4-nj-GAk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="A very large author that show grow to the next line" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTw-UR-Z1t" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="48" width="241" height="19"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="19" id="Bld-hY-KIk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.64313725490196083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="eTD-aU-OQh">
+                                <rect key="frame" x="0.0" y="70" width="241" height="22"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="eTD-aU-OQh" firstAttribute="height" secondItem="Rla-LP-MtP" secondAttribute="height" id="3qR-8f-bVh"/>
+                        </constraints>
+                    </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bYh-d7-bzs" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="25" width="48" height="48"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -55,14 +77,11 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="bYh-d7-bzs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="7FH-vv-a4a"/>
-                <constraint firstItem="VUU-Ww-mYR" firstAttribute="leading" secondItem="FTw-UR-Z1t" secondAttribute="trailing" id="AiJ-bY-MR0"/>
-                <constraint firstItem="bUF-uV-U8H" firstAttribute="leading" secondItem="bYh-d7-bzs" secondAttribute="trailing" constant="8" id="HZO-L1-zYo"/>
-                <constraint firstItem="FTw-UR-Z1t" firstAttribute="leading" secondItem="bUF-uV-U8H" secondAttribute="leading" id="Kej-NW-1EM"/>
-                <constraint firstItem="FTw-UR-Z1t" firstAttribute="top" secondItem="bUF-uV-U8H" secondAttribute="bottom" constant="3" id="Xg7-wf-uKJ"/>
-                <constraint firstItem="VUU-Ww-mYR" firstAttribute="leading" secondItem="bUF-uV-U8H" secondAttribute="trailing" id="ZMF-n9-RaF"/>
+                <constraint firstItem="fOp-WR-qVy" firstAttribute="leading" secondItem="bYh-d7-bzs" secondAttribute="trailing" constant="8" id="HRD-BS-TCG"/>
+                <constraint firstAttribute="bottom" secondItem="fOp-WR-qVy" secondAttribute="bottom" constant="3" id="PdU-U1-BRj"/>
+                <constraint firstItem="VUU-Ww-mYR" firstAttribute="leading" secondItem="fOp-WR-qVy" secondAttribute="trailing" constant="8" id="TlE-uc-2G2"/>
+                <constraint firstItem="fOp-WR-qVy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="YsE-r6-oKq"/>
                 <constraint firstAttribute="trailing" secondItem="VUU-Ww-mYR" secondAttribute="trailing" id="chm-dl-ku3"/>
-                <constraint firstItem="bUF-uV-U8H" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="4" id="nkH-FJ-Pko"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FTw-UR-Z1t" secondAttribute="bottom" constant="4" id="oOU-S9-UC3"/>
                 <constraint firstItem="bYh-d7-bzs" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="tN6-1J-7cZ"/>
                 <constraint firstItem="VUU-Ww-mYR" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="uFk-pc-iqL"/>
             </constraints>
