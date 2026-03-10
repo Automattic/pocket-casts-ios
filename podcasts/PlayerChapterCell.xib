@@ -25,6 +25,7 @@
                                 <color key="backgroundColor" white="1" alpha="0.15329035659509202" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" id="jBd-mB-N0I"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="ksw-4K-GXj"/>
                                 </constraints>
                             </view>
                         </subviews>
