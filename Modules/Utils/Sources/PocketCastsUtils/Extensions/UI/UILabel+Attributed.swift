@@ -35,5 +35,9 @@
 
             attributedText = attributedString
         }
+
+        func updateNumberOfLines(regular: Int, accessibility: Int) {
+            self.numberOfLines = traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? accessibility : regular
+        }
     }
 #endif

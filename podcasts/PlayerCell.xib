@@ -40,20 +40,20 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OJf-Is-8tF" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="20" y="6" width="56" height="56"/>
+                        <rect key="frame" x="20" y="12" width="56" height="56"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="56" id="CmK-da-ABR"/>
                             <constraint firstAttribute="height" constant="56" id="Ohc-ER-Sk3"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="6" width="228" height="13.5"/>
+                        <rect key="frame" x="84" y="10" width="228" height="13.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                         <color key="textColor" white="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="749" text="Glow In The Dark Sharks can be real snarks" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wE1-9S-69I" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="84" y="21.5" width="212" height="24.5"/>
+                        <rect key="frame" x="84" y="25.5" width="212" height="20.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -93,7 +93,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="vxd-V8-but" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="3jl-q6-Kuk"/>
+                    <constraint firstItem="vxd-V8-but" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="3jl-q6-Kuk"/>
                     <constraint firstAttribute="trailing" secondItem="oRM-hc-IES" secondAttribute="trailing" id="6cL-cZ-UKS"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7mz-gA-2Vu"/>
                     <constraint firstItem="wE1-9S-69I" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="8aj-Ja-L8V"/>
@@ -102,7 +102,7 @@
                     <constraint firstItem="SPL-EK-QpB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="THB-Gv-8b2"/>
                     <constraint firstItem="oRM-hc-IES" firstAttribute="top" secondItem="wE1-9S-69I" secondAttribute="bottom" constant="4" id="Tna-d1-ajw"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-24" id="W6l-JH-2df"/>
-                    <constraint firstItem="OJf-Is-8tF" firstAttribute="top" secondItem="vxd-V8-but" secondAttribute="top" id="Z0H-Az-83U"/>
+                    <constraint firstItem="OJf-Is-8tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Z0H-Az-83U"/>
                     <constraint firstItem="vxd-V8-but" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="aTa-Qw-wZX"/>
                     <constraint firstItem="oRM-hc-IES" firstAttribute="leading" secondItem="wE1-9S-69I" secondAttribute="leading" id="bI8-92-Yir"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-20" id="dAg-4g-2db"/>

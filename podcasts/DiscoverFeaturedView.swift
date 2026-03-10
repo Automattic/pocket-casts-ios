@@ -35,7 +35,7 @@ class DiscoverFeaturedView: ThemeableView {
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .contrast03
-            podcastAuthor.font = .font(ofSize: 15, weight: .bold, scalingWith: .subheadline)
+            podcastAuthor.font = .font(ofSize: 15, weight: .regular, scalingWith: .subheadline)
             podcastAuthor.adjustsFontForContentSizeCategory = true
             podcastAuthor.numberOfLines = 2
         }

@@ -150,6 +150,9 @@ class DiscoverPodcastTableCell: ThemeableCell {
         subscribeButton.updateSizeConstraints(to: iconSize)
 
         podcastImageLeadingConstraint.constant = max(32, metric.scaledValue(for: 32))
+
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
