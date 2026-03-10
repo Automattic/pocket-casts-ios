@@ -86,7 +86,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         self.item = item
         self.region = region
         self.category = category
-        self.updateSize()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
@@ -136,9 +135,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         subscribeButton.shouldAnimate = true
 
         view.sizeToFit()
-        view.setNeedsLayout()
-        view.setNeedsUpdateConstraints()
-        view.setNeedsDisplay()
+        view.layoutIfNeeded()
     }
 
     // MARK: Actions
