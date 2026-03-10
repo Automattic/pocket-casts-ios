@@ -74,6 +74,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         let categoryId = category?.id.map(String.init)
         AnalyticsHelper.listImpression(listId: listId, category: categoryId)
+        updateSize()
     }
 
     // MARK: DiscoverSummaryProtocol
@@ -84,6 +85,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         self.item = item
         self.region = region
         self.category = category
+        self.updateSize()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
             guard let discoverPodcast = podcastList?.podcasts else { return }
 
@@ -124,6 +126,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         let fontSize: CGFloat = UIScreen.main.bounds.width >= 360 ? 15 : 14
         podcastDescription.font = .font(ofSize: fontSize, weight: .regular, scalingWith: .callout)
 
+        updateSize()
         podcastTitle.sizeToFit()
         podcastDescription.sizeToFit()
 
@@ -133,7 +136,8 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         view.sizeToFit()
         view.setNeedsLayout()
-        updateSize()
+        view.setNeedsUpdateConstraints()
+        view.setNeedsDisplay()
     }
 
     // MARK: Actions
