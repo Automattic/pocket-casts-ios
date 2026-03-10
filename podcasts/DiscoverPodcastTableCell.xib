@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -42,18 +43,34 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="top" verticalHuggingPriority="252" text="Podcast Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhF-0P-gW1" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="97" y="15" width="173" height="18"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                        <color key="textColor" red="0.30196078431372547" green="0.33725490196078434" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFP-ej-ygw" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="97" y="37" width="173" height="46"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                        <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Rbl-a3-omI">
+                        <rect key="frame" x="97" y="10" width="189" height="67"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="MVF-W3-399">
+                                <rect key="frame" x="0.0" y="0.0" width="189" height="4"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="4" id="8b9-z3-WvO"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" verticalHuggingPriority="252" text="Podcast Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhF-0P-gW1" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="8" width="189" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <color key="textColor" red="0.30196078431372547" green="0.33725490196078434" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFP-ej-ygw" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="30" width="189" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" red="0.5607843137254902" green="0.59215686274509804" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="D2a-t3-Rvs">
+                                <rect key="frame" x="0.0" y="52" width="189" height="15"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                    </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCC-oJ-G9x" userLabel="Subscribe Button" customClass="BouncyButton" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="280" y="31.5" width="24" height="24"/>
                         <accessibility key="accessibilityConfiguration" label="Subscribe"/>
@@ -68,24 +85,21 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="fFP-ej-ygw" secondAttribute="trailing" constant="10" id="2rw-F4-VZe"/>
+                    <constraint firstAttribute="bottom" secondItem="Rbl-a3-omI" secondAttribute="bottom" constant="10" id="0td-GM-okm"/>
                     <constraint firstItem="0Ds-zk-cf6" firstAttribute="width" secondItem="OJ3-BB-GTf" secondAttribute="width" id="4mJ-db-vSx"/>
                     <constraint firstItem="l3O-C3-pI5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="8ks-KF-Vl9"/>
-                    <constraint firstAttribute="bottom" secondItem="fFP-ej-ygw" secondAttribute="bottom" constant="4" id="BkM-5H-aew"/>
                     <constraint firstItem="OJ3-BB-GTf" firstAttribute="top" secondItem="l3O-C3-pI5" secondAttribute="top" id="C9H-e6-6Er"/>
                     <constraint firstAttribute="trailing" secondItem="SCC-oJ-G9x" secondAttribute="trailing" constant="16" id="Rh9-28-RbQ"/>
                     <constraint firstItem="0Ds-zk-cf6" firstAttribute="top" secondItem="OJ3-BB-GTf" secondAttribute="top" id="UdP-Mo-Dog"/>
                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="OJ3-BB-GTf" secondAttribute="bottom" id="WTx-xz-P46"/>
+                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="Rbl-a3-omI" secondAttribute="trailing" constant="-6" id="bX2-2l-Et1"/>
                     <constraint firstItem="0Ds-zk-cf6" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="leading" id="bxa-G3-HTt"/>
-                    <constraint firstItem="PhF-0P-gW1" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="trailing" constant="10" id="d7a-H0-ysE"/>
                     <constraint firstItem="OJ3-BB-GTf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="dR4-yn-WIm"/>
                     <constraint firstItem="0Ds-zk-cf6" firstAttribute="height" secondItem="OJ3-BB-GTf" secondAttribute="height" id="dr5-Ij-NUB"/>
+                    <constraint firstItem="Rbl-a3-omI" firstAttribute="leading" secondItem="0Ds-zk-cf6" secondAttribute="trailing" constant="10" id="fPk-Ff-reC"/>
                     <constraint firstItem="SCC-oJ-G9x" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jJC-qI-VFh"/>
-                    <constraint firstItem="fFP-ej-ygw" firstAttribute="top" secondItem="PhF-0P-gW1" secondAttribute="bottom" constant="4" id="o4c-ao-B9H"/>
-                    <constraint firstItem="SCC-oJ-G9x" firstAttribute="leading" secondItem="PhF-0P-gW1" secondAttribute="trailing" constant="10" id="pgv-VK-r6F"/>
-                    <constraint firstItem="fFP-ej-ygw" firstAttribute="leading" secondItem="OJ3-BB-GTf" secondAttribute="trailing" constant="10" id="rXa-3q-PpW"/>
+                    <constraint firstItem="Rbl-a3-omI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="le5-pM-6kg"/>
                     <constraint firstItem="OJ3-BB-GTf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="35" id="tgE-Fj-xcP"/>
-                    <constraint firstItem="PhF-0P-gW1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="yav-wC-cMb"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -103,5 +117,8 @@
     </objects>
     <resources>
         <image name="discover_add" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
