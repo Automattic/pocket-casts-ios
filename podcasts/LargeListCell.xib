@@ -45,7 +45,7 @@
                         </connections>
                     </button>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-9m-MuE">
-                        <rect key="frame" x="0.0" y="203" width="199" height="49"/>
+                        <rect key="frame" x="0.0" y="207" width="199" height="45"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="999" text="Podcast title that grows a lot " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qw-eq-tYg" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="199" height="19.5"/>
@@ -61,8 +61,8 @@
                                 <color key="textColor" red="0.56078431370000004" green="0.59215686270000001" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" verticalHuggingPriority="230" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xJ-ec-VVU">
-                                <rect key="frame" x="0.0" y="43.5" width="199" height="5.5"/>
+                            <view contentMode="scaleToFill" verticalHuggingPriority="230" verticalCompressionResistancePriority="250" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xJ-ec-VVU">
+                                <rect key="frame" x="0.0" y="43.5" width="199" height="1.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -80,7 +80,7 @@
                 <constraint firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" id="b7M-Bk-yhL"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="bottom" secondItem="nBx-mo-aDN" secondAttribute="bottom" constant="-4" id="cOB-Ih-NY8"/>
                 <constraint firstItem="1Gb-8A-zQV" firstAttribute="trailing" secondItem="nBx-mo-aDN" secondAttribute="trailing" constant="-4" id="nHw-ba-ihn"/>
-                <constraint firstItem="1Ah-9m-MuE" firstAttribute="top" secondItem="nBx-mo-aDN" secondAttribute="bottom" constant="4" id="rGj-0i-Zbr"/>
+                <constraint firstItem="1Ah-9m-MuE" firstAttribute="top" secondItem="nBx-mo-aDN" secondAttribute="bottom" constant="8" id="rGj-0i-Zbr"/>
             </constraints>
             <size key="customSize" width="199" height="252"/>
             <connections>
