@@ -14,8 +14,8 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
 
     @IBOutlet var titleLabel: UILabel! {
         didSet {
-            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
-            titleLabel.text = L10n.networks
+            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            titleLabel.text = L10n.discoverNetworks
         }
     }
 

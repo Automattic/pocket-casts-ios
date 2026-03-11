@@ -770,6 +770,8 @@ internal enum L10n {
   internal static var discoverFeaturedEpisodeErrorNotFound: String { return L10n.tr("Localizable", "discover_featured_episode_error_not_found", fallback: "Featured podcast or episode not found. Make sure you are connected to the internet and try again.") }
   /// Informative label letting the users know that the displayed podcast is a featured new podcast.
   internal static var discoverFreshPick: String { return L10n.tr("Localizable", "discover_fresh_pick", fallback: "FRESH PICK") }
+  /// Informative label letting the users know that they are seeing networks of blog
+  internal static var discoverNetworks: String { return L10n.tr("Localizable", "discover_networks", fallback: "Networks") }
   /// Informational title when the episode search succeeds but returns no results.
   internal static var discoverNoEpisodesFound: String { return L10n.tr("Localizable", "discover_no_episodes_found", fallback: "No episodes found") }
   /// Informational title when the search succeeds but returns no results.
