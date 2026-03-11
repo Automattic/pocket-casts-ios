@@ -25,7 +25,7 @@
                 <view autoresizesSubviews="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XLj-4B-d8V">
                     <rect key="frame" x="0.0" y="0.0" width="408" height="132.5"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured episode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQv-lQ-Swz">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Featured episode" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQv-lQ-Swz">
                             <rect key="frame" x="126" y="16" width="110" height="16"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                             <nil key="textColor"/>
@@ -72,7 +72,7 @@
                                 <action selector="didSelectPlay:" destination="-1" eventType="touchUpInside" id="b2D-ZB-q2G"/>
                             </connections>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="749" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="749" text="1h 32m • 20 OCT" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfO-Aq-DlI" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="749" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="749" text="1h 32m • 20 OCT" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XfO-Aq-DlI" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="234" y="91.5" width="107" height="16"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
