@@ -5859,3 +5859,6 @@
 
 /* Message when the user didn't upload any files */
 "files_not_uploaded" = "No files uploaded";
+
+/* Informative label letting the users know that they are seeing networks of blog */
+"discover_networks" = "Networks"

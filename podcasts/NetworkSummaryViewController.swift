@@ -12,6 +12,13 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
 
     @IBOutlet var networkCollectionViewHeight: NSLayoutConstraint!
 
+    @IBOutlet var titleLabel: UILabel! {
+        didSet {
+            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
+            titleLabel.text = L10n.networks
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
