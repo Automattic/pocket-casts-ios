@@ -4,6 +4,27 @@ import PocketCastsServer
 import PocketCastsUtils
 import WatchConnectivity
 
+/// Errors that can occur during Watch sync operations
+enum WatchSyncError: LocalizedError {
+    case sendMessageFailed(underlyingError: Error)
+    case updateApplicationContextFailed(underlyingError: Error)
+    case missingPayloadData(messageType: String, missingKey: String)
+    case episodeNotFound(uuid: String, operation: String)
+
+    var errorDescription: String? {
+        switch self {
+        case .sendMessageFailed(let error):
+            return "Watch sendMessage failed: \(error.localizedDescription)"
+        case .updateApplicationContextFailed(let error):
+            return "Watch updateApplicationContext failed: \(error.localizedDescription)"
+        case .missingPayloadData(let messageType, let missingKey):
+            return "Watch message '\(messageType)' missing required key: \(missingKey)"
+        case .episodeNotFound(let uuid, let operation):
+            return "Episode not found for Watch \(operation): \(uuid)"
+        }
+    }
+}
+
 class WatchManager: NSObject, WCSessionDelegate {
     static let shared = WatchManager()
 
@@ -92,17 +113,32 @@ class WatchManager: NSObject, WCSessionDelegate {
         updateWatchData()
     }
 
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
+        if session.isReachable {
+            updateWatchData()
+        }
+    }
+
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else {
             FileLog.shared.addMessage("WatchManager: Received message without messageType")
             return
         }
 
+        handleWatchAction(messageType: messageType, payload: message)
+    }
+
+    // MARK: - Watch Action Handler
+
+    /// Handles actions from the Watch, whether received via sendMessage or transferUserInfo.
+    /// This unified handler ensures consistent behavior for both delivery mechanisms.
+    private func handleWatchAction(messageType: String, payload: [String: Any]) {
         if WatchConstants.Messages.DataRequest.type == messageType {
             updateWatchData()
         } else if WatchConstants.Messages.PlayEpisodeRequest.type == messageType {
-            if let episodeUuid = message[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
-                let playlist = getPlaylist(from: message)
+            if let episodeUuid = payload[WatchConstants.Messages.PlayEpisodeRequest.episodeUuid] as? String {
+                let playlist = getPlaylist(from: payload)
 
                 handlePlayRequest(episodeUuid: episodeUuid, playlist: playlist)
             }
@@ -122,49 +158,49 @@ class WatchManager: NSObject, WCSessionDelegate {
             AnalyticsPlaybackHelper.shared.currentSource = .watch
             PlaybackManager.shared.skipForward()
         } else if WatchConstants.Messages.StarRequest.type == messageType {
-            if let starred = message[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = message[WatchConstants.Messages.StarRequest.episodeUuid] as? String {
+            if let starred = payload[WatchConstants.Messages.StarRequest.star] as? Bool, let uuid = payload[WatchConstants.Messages.StarRequest.episodeUuid] as? String {
                 handleStarRequest(starred: starred, episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.AddToUpNextRequest.type == messageType {
-            if let toTop = message[WatchConstants.Messages.AddToUpNextRequest.toTop] as? Bool, let uuid = message[WatchConstants.Messages.AddToUpNextRequest.episodeUuid] as? String {
+            if let toTop = payload[WatchConstants.Messages.AddToUpNextRequest.toTop] as? Bool, let uuid = payload[WatchConstants.Messages.AddToUpNextRequest.episodeUuid] as? String {
                 handleAddToUpnext(episodeUuid: uuid, toTop: toTop)
             }
         } else if WatchConstants.Messages.RemoveFromUpNextRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.RemoveFromUpNextRequest.episodeUuid] as? String {
                 handleRemoveFromUpnext(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.MarkPlayedRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.MarkPlayedRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.MarkPlayedRequest.episodeUuid] as? String {
                 handleMarkPlayed(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.MarkUnplayedRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.MarkUnplayedRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.MarkUnplayedRequest.episodeUuid] as? String {
                 handleMarkUnplayed(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.DownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.DownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.DownloadRequest.episodeUuid] as? String {
                 handleDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.StopDownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.StopDownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.StopDownloadRequest.episodeUuid] as? String {
                 handleStopDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.DeleteDownloadRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.DeleteDownloadRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.DeleteDownloadRequest.episodeUuid] as? String {
                 handleDeleteDownload(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.ArchiveRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.ArchiveRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.ArchiveRequest.episodeUuid] as? String {
                 handleArchive(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.UnarchiveRequest.type == messageType {
-            if let uuid = message[WatchConstants.Messages.UnarchiveRequest.episodeUuid] as? String {
+            if let uuid = payload[WatchConstants.Messages.UnarchiveRequest.episodeUuid] as? String {
                 handleUnarchive(episodeUuid: uuid)
             }
         } else if WatchConstants.Messages.ClearUpNextRequest.type == messageType {
             PlaybackManager.shared.queue.clearUpNextList()
         } else if WatchConstants.Messages.ChangeChapterRequest.type == messageType {
-            if let nextChapter = message[WatchConstants.Messages.ChangeChapterRequest.nextChapter] as? Bool {
+            if let nextChapter = payload[WatchConstants.Messages.ChangeChapterRequest.nextChapter] as? Bool {
                 handleChangeChapter(next: nextChapter)
             }
         } else if WatchConstants.Messages.IncreaseSpeedRequest.type == messageType {
@@ -182,13 +218,13 @@ class WatchManager: NSObject, WCSessionDelegate {
                 PlaybackManager.shared.changeEffects(effects)
             }
         } else if WatchConstants.Messages.TrimSilenceRequest.type == messageType {
-            guard let enabled = message[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
+            guard let enabled = payload[WatchConstants.Messages.TrimSilenceRequest.enabled] as? Bool else { return }
 
             let effects = PlaybackManager.shared.effects()
             effects.trimSilence = enabled ? .low : .off
             PlaybackManager.shared.changeEffects(effects)
         } else if WatchConstants.Messages.VolumeBoostRequest.type == messageType {
-            guard let enabled = message[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
+            guard let enabled = payload[WatchConstants.Messages.VolumeBoostRequest.enabled] as? Bool else { return }
 
             let effects = PlaybackManager.shared.effects()
             effects.volumeBoost = enabled
@@ -211,6 +247,27 @@ class WatchManager: NSObject, WCSessionDelegate {
             FileLog.shared.addMessage("WatchManager: loginDetailsRequest received without reply handler, pushing data to watch")
             updateWatchData()
         }
+    }
+
+    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+        guard FeatureFlag.watchLogFileTransfer.enabled else { return }
+
+        // Check if this is a log file transfer
+        if file.metadata?[WatchConstants.Messages.messageType] as? String == WatchConstants.Messages.LogFileTransfer.type {
+            handleLogFileTransfer(file: file)
+        }
+	}
+
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        // Handle actions transferred via transferUserInfo for guaranteed delivery
+        // These are the same message types as didReceiveMessage but with guaranteed delivery
+        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
+        guard let messageType = userInfo[WatchConstants.Messages.messageType] as? String else {
+            FileLog.shared.addMessage("WatchManager: Received userInfo without messageType")
+            return
+        }
+
+        handleWatchAction(messageType: messageType, payload: userInfo)
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
@@ -294,6 +351,20 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
+    private func handleLogFileTransfer(file: WCSessionFile) {
+        do {
+            let logContents = try String(contentsOf: file.fileURL, encoding: .utf8)
+            Task {
+                await logCache.setCachedLog(logContents)
+                if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
+                    saveLog(contents: logContents)
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("WatchManager: Failed to read transferred log file: \(error.localizedDescription)")
+        }
+    }
+
     private func handleMarkPlayed(episodeUuid: String) {
         guard let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) else { return }
 
@@ -309,7 +380,12 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleAddToUpnext(episodeUuid: String, toTop: Bool) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Episode not found for addToUpNext: \(episodeUuid)")
+            let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "addToUpNext")
+            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            return
+        }
 
         // remove it first so that this can be used as a move to top/bottom as well
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: false, userInitiated: false)
@@ -317,7 +393,12 @@ class WatchManager: NSObject, WCSessionDelegate {
     }
 
     private func handleRemoveFromUpnext(episodeUuid: String) {
-        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
+        guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else {
+            FileLog.shared.addMessage("WatchManager: Episode not found for removeFromUpNext: \(episodeUuid)")
+            let error = WatchSyncError.episodeNotFound(uuid: episodeUuid, operation: "removeFromUpNext")
+            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(error, tags: ["source": "watch_upnext"], level: .warning)
+            return
+        }
 
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
     }
@@ -465,7 +546,15 @@ class WatchManager: NSObject, WCSessionDelegate {
         }
     }
 
+    /// The fallback Up Next limit to use when payload is too large.
+    /// This is significantly smaller than the default to ensure the payload fits.
+    private static let payloadTooLargeFallbackLimit = Constants.Limits.maxListItemsToSendToWatch
+
     private func sendStateToWatch() {
+        sendStateToWatch(upNextLimit: nil)
+    }
+
+    private func sendStateToWatch(upNextLimit: Int?) {
         // This method should only be called from sessionQueue to ensure thread safety
         dispatchPrecondition(condition: .onQueue(sessionQueue))
 
@@ -473,7 +562,6 @@ class WatchManager: NSObject, WCSessionDelegate {
 
         let session = WCSession.default
 
-        // only send data when we have a valid connection
         guard session.activationState == .activated,
               session.isPaired,
               session.isWatchAppInstalled
@@ -481,16 +569,23 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
 
+        let timestamp = Date().timeIntervalSince1970
+
         var applicationDict = [String: Any]()
+        applicationDict[WatchConstants.Messages.messageType] = WatchConstants.Messages.StateUpdate.type
         applicationDict[WatchConstants.Keys.messageVersion] = WatchConstants.Values.messageVersion
+        applicationDict[WatchConstants.Keys.lastUpdateTime] = timestamp
         let featureFlags: [String: Bool] = FeatureFlag.allCases.reduce(into: [:]) { dict, feature in
             dict[feature.rawValue] = feature.enabled
         }
         applicationDict[WatchConstants.Keys.featureFlags] = featureFlags
 
+        let upNextInfo = serializeUpNext(limit: upNextLimit)
+        let upNextCount = upNextInfo.count
+
         applicationDict[WatchConstants.Keys.filters] = serializePlaylists()
         applicationDict[WatchConstants.Keys.nowPlayingInfo] = serializeNowPlaying()
-        applicationDict[WatchConstants.Keys.upNextInfo] = serializeUpNext()
+        applicationDict[WatchConstants.Keys.upNextInfo] = upNextInfo
         applicationDict[WatchConstants.Keys.autoArchivePlayedAfter] = Settings.autoArchivePlayedAfter()
         applicationDict[WatchConstants.Keys.autoArchiveStarredEpisodes] = Settings.archiveStarredEpisodes()
         if let podcastsWithOverrideGlobalArchive = serializePodcastArchiveSettings() {
@@ -503,11 +598,63 @@ class WatchManager: NSObject, WCSessionDelegate {
         applicationDict[WatchConstants.Keys.upNextDownloadEpisodeCount] = Settings.watchAutoDownloadUpNextEnabled() == true ? Settings.watchAutoDownloadUpNextCount() : 0
         applicationDict[WatchConstants.Keys.upNextAutoDeleteEpisodeCount] = Settings.watchAutoDeleteUpNext() == true ? Settings.watchAutoDownloadUpNextCount() : 25
 
-        do {
-            try session.updateApplicationContext(applicationDict)
-        } catch {
-            FileLog.shared.addMessage("WatchManager sendStateToWatch failed \(error.localizedDescription)")
+        if FeatureFlag.watchTransferUserInfoApi.enabled && session.isReachable {
+            // When reachable, prefer sendMessage - messages are not queued like updateApplicationContext
+            // See: https://linear.app/a8c/issue/PCIOS-504
+            session.sendMessage(applicationDict, replyHandler: nil) { [weak self] error in
+                guard let self else { return }
+                FileLog.shared.addMessage("WatchManager sendStateToWatch via sendMessage failed \(error.localizedDescription)")
+                if self.isPayloadTooLargeError(error) {
+                    self.logPayloadTooLargeError(method: "sendMessage", upNextCount: upNextCount)
+                    // Retry with reduced Up Next queue if we haven't already
+                    if upNextLimit == nil {
+                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
+                        self.sessionQueue.async {
+                            self.sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
+                        }
+                    }
+                }
+            }
+        } else {
+            // When not reachable or feature flag disabled, use updateApplicationContext for eventual delivery
+            do {
+                try session.updateApplicationContext(applicationDict)
+            } catch {
+                FileLog.shared.addMessage("WatchManager sendStateToWatch via updateApplicationContext failed \(error.localizedDescription)")
+                if isPayloadTooLargeError(error) {
+                    logPayloadTooLargeError(method: "updateApplicationContext", upNextCount: upNextCount)
+                    // Retry with reduced Up Next queue if we haven't already
+                    if upNextLimit == nil {
+                        FileLog.shared.addMessage("WatchManager: Retrying with reduced Up Next limit of \(Self.payloadTooLargeFallbackLimit)")
+                        sendStateToWatch(upNextLimit: Self.payloadTooLargeFallbackLimit)
+                    }
+                }
+            }
         }
+    }
+
+    /// Checks if a WatchConnectivity error is due to payload being too large.
+    private func isPayloadTooLargeError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == WCErrorDomain && nsError.code == WCError.Code.payloadTooLarge.rawValue
+    }
+
+    /// Logs a Sentry error and FileLog message if the WatchConnectivity error is due to payload being too large.
+    /// This helps track when synced data exceeds WatchConnectivity's size limits.
+    private func logPayloadTooLargeError(method: String, upNextCount: Int) {
+        FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
+
+        let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
+        CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
+            watchError,
+            tags: [
+                "source": "watch_sync",
+                "method": method,
+                "error_code": "payloadTooLarge",
+                "up_next_count": "\(upNextCount)"
+            ],
+            level: .warning // This is a critical error but we fall back to the limited Up Next sync so it should be recoverable
+        )
     }
 
     // MARK: - Encoding
@@ -550,14 +697,22 @@ class WatchManager: NSObject, WCSessionDelegate {
         return nowPlayingInfo
     }
 
-    private func serializeUpNext() -> [[String: Any]] {
+    private func serializeUpNext(limit: Int? = nil) -> [[String: Any]] {
         var upNextList = [[String: Any]]()
 
         let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
         if upNextEpisodes.count == 0 { return upNextList }
 
-        let truncatedList = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
-        for episode in truncatedList {
+        let episodesToSync: [BaseEpisode]
+        if let limit {
+            episodesToSync = Array(upNextEpisodes.prefix(limit))
+        } else if FeatureFlag.unlimitedWatchUpNextSync.enabled {
+            episodesToSync = upNextEpisodes
+        } else {
+            episodesToSync = Array(upNextEpisodes.prefix(Constants.Limits.maxListItemsToSendToWatch))
+        }
+
+        for episode in episodesToSync {
             if let convertedEpisode = convertForWatch(episode: episode) {
                 upNextList.append(convertedEpisode)
             }

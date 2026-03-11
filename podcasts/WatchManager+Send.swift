@@ -92,7 +92,7 @@ extension WatchManager {
         return contents
     }
 
-    private func saveLog(contents: String) {
+    func saveLog(contents: String) {
         let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(Self.watchLogFileName)
         let backupPath = FileManager.default.temporaryDirectory.appendingPathComponent("watch-logs-backup.txt")
         let rotator = FileRotator(fileManager: FileManager.default, targetFilePath: filePath.path, backupFilePath: backupPath.path, loggingTo: nil)

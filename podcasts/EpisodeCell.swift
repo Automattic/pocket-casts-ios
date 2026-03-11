@@ -327,7 +327,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         guard let episode = episode else { return "" }
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
-        let info = informationLabel.text ?? ""
+        let info = episode.accessibilityDisplayableInfo()
 
         var desc = [heading]
 

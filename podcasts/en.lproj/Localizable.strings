@@ -541,9 +541,6 @@
 /* Title for the podcast category Society & Culture */
 "discover_browse_by_category_society_and_culture" = "Society & Culture";
 
-/* Abbreviation for the podcast category Society & Culture, using only "Culture" */
-"discover_browse_by_category_society_and_culture" = "Culture";
-
 /* Title for the podcast category Sports */
 "discover_browse_by_category_sports" = "Sports";
 
@@ -5041,6 +5038,9 @@
 
 /* Message when no email account is configured to be able to send the logs*/
 "logs_no_email_account_configured" = "You need to configure an email account on the device in order to send the logs";
+
+/* Message shown when watchOS logs are not available */
+"logs_watch_os_not_available" = "No watchOS logs available. Make sure you have an Apple Watch paired and the Pocket Casts watch app installed.";
 
 /* Title for action to remove episode from listening history */
 "listening_history_remove" = "Remove from history";

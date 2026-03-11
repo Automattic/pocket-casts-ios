@@ -742,8 +742,8 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryScienceAndMedicine: String { return L10n.tr("Localizable", "discover_browse_by_category_science_and_medicine", fallback: "Science & Medicine") }
   /// Title for the podcast category Society
   internal static var discoverBrowseByCategorySociety: String { return L10n.tr("Localizable", "discover_browse_by_category_society", fallback: "Society") }
-  /// Abbreviation for the podcast category Society & Culture, using only "Culture"
-  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Culture") }
+  /// Title for the podcast category Society & Culture
+  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Society & Culture") }
   /// Abbreviation for the podcast category Religion & Spirituality
   internal static var discoverBrowseByCategorySpirituality: String { return L10n.tr("Localizable", "discover_browse_by_category_spirituality", fallback: "Spirituality") }
   /// Title for the podcast category Sports
@@ -1732,6 +1732,8 @@ internal enum L10n {
   internal static var logs: String { return L10n.tr("Localizable", "logs", fallback: "Logs") }
   /// Message when no email account is configured to be able to send the logs
   internal static var logsNoEmailAccountConfigured: String { return L10n.tr("Localizable", "logs_no_email_account_configured", fallback: "You need to configure an email account on the device in order to send the logs") }
+  /// Message shown when watchOS logs are not available
+  internal static var logsWatchOsNotAvailable: String { return L10n.tr("Localizable", "logs_watch_os_not_available", fallback: "No watchOS logs available. Make sure you have an Apple Watch paired and the Pocket Casts watch app installed.") }
   /// Button title for manage downloads file space usage banner and modal.
   internal static var manageDownloadsAction: String { return L10n.tr("Localizable", "manage_downloads_action", fallback: "Manage downloads") }
   /// Detail for manage downloads file space usage banner and modal. %1$@ is the disk space in Mb/GB that the episodes take

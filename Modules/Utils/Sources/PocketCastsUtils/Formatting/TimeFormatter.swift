@@ -101,6 +101,16 @@ public class TimeFormatter {
         return shortTimeFormatter.string(from: time) ?? ""
     }
 
+    public func multipleUnitFormattedSpokenTime(time: TimeInterval) -> String {
+        if time.isNaN || !time.isFinite { return "" }
+
+        if time < 60.seconds {
+            return appleFormatterSeconds.string(from: time) ?? ""
+        }
+
+        return minutesHoursFormatter.string(from: time) ?? ""
+    }
+
     public func minutesHoursFormatted(time: TimeInterval) -> String {
         if time.isNaN || !time.isFinite { return "" }
 

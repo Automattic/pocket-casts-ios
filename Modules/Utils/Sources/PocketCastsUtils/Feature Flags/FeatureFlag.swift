@@ -239,9 +239,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
-    /// Avoid returning cached episode early and use policy instead
-    case episodesInfoCacheReloadPolicy
-
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
@@ -282,6 +279,21 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Adds invalidation to the playlist cache on appearance when its been > 30 seconds
     case playlistCacheInvalidation
+
+    /// Use WCSessionFileTransfer to send logs from watchOS to iPhone instead of sendMessage reply
+    case watchLogFileTransfer
+
+    /// Skip Up Next sync when protected data is unavailable to prevent sync with incorrect UserDefaults values
+    case skipSyncWhenProtectedDataUnavailable
+
+    /// Check if protected data is available before running migrations that touch keychain
+    case checkProtectedDataBeforeMigration
+
+    /// Use transferUserInfo API for watch-to-phone actions and sendMessage for phone-to-watch state updates
+    case watchTransferUserInfoApi
+
+    /// Remove the 50-episode limit when syncing Up Next to Apple Watch
+    case unlimitedWatchUpNextSync
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -445,8 +457,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .playlistDataCacheBeforeQuery:
             true
-        case .episodesInfoCacheReloadPolicy:
-			true
         case .ignorePlayWithOtherAudio:
             true
         case .streamAndDownloadReadFromMemoryBuffer:
@@ -474,6 +484,16 @@ public enum FeatureFlag: String, CaseIterable {
         case .grdbQueryInterface:
             true
         case .playlistCacheInvalidation:
+            true
+        case .watchLogFileTransfer:
+            true
+        case .skipSyncWhenProtectedDataUnavailable:
+            true
+        case .checkProtectedDataBeforeMigration:
+			      true
+        case .watchTransferUserInfoApi:
+            true
+        case .unlimitedWatchUpNextSync:
             true
         }
     }

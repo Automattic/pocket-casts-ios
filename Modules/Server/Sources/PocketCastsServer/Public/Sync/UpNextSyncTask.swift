@@ -3,10 +3,46 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
+/// Errors that can occur during Up Next sync operations
+public enum UpNextSyncError: LocalizedError {
+    case serverSyncFailed(httpStatus: Int)
+    case protobufEncodingFailed(underlyingError: Error)
+    case serverDataDecodeFailed(underlyingError: Error)
+    /// Logged when the Up Next queue is significantly modified by a sync operation
+    case queueOverwritten(localCount: Int, serverCount: Int, deletedCount: Int, reason: String?)
+    /// Logged when an archived episode is re-added to queue during sync (server has stale data)
+    case archivedEpisodeAddedToQueue(uuid: String, title: String)
+
+    public var errorDescription: String? {
+        switch self {
+        case .serverSyncFailed(let httpStatus):
+            return "Up Next sync failed with HTTP status: \(httpStatus)"
+        case .protobufEncodingFailed(let error):
+            return "Up Next sync protobuf encoding failed: \(error.localizedDescription)"
+        case .serverDataDecodeFailed(let error):
+            return "Up Next sync server data decode failed: \(error.localizedDescription)"
+        case .queueOverwritten(let localCount, let serverCount, let deletedCount, let reason):
+            return "Up Next queue overwritten: local=\(localCount), server=\(serverCount), deleted=\(deletedCount), reason=\(reason ?? "unknown")"
+        case .archivedEpisodeAddedToQueue(let uuid, let title):
+            return "Up Next sync added archived episode to queue: \(title) (\(uuid))"
+        }
+    }
+}
+
 class UpNextSyncTask: ApiBaseTask {
     private static let processDataLock = NSObject()
 
     override func main() {
+        // Skip sync when protected data is unavailable to prevent reading incorrect
+        // UserDefaults values (which may return defaults instead of actual stored values)
+        // This can happen when the app launches in background before first unlock after reboot
+        if FeatureFlag.skipSyncWhenProtectedDataUnavailable.enabled {
+            if let isAvailable = UserDefaults.isProtectedDataAvailable(), !isAvailable {
+                FileLog.shared.addMessage("UpNextSyncTask: Skipped - protected data not available")
+                return
+            }
+        }
+
         logProtectedDataAvailable()
         super.main()
     }
@@ -27,9 +63,13 @@ class UpNextSyncTask: ApiBaseTask {
                 process(serverData: response, latestActionTime: latestActionTime)
             } else {
                 FileLog.shared.addMessage("UpNextSyncTask: Unable to sync with server got status \(httpStatus)")
+                let syncError = UpNextSyncError.serverSyncFailed(httpStatus: httpStatus)
+                ServerConfig.shared.errorLogger?.log(error: syncError, context: ["source": "upnext_sync", "httpStatus": "\(httpStatus)"])
             }
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: had issues encoding protobuf \(error.localizedDescription)")
+            let syncError = UpNextSyncError.protobufEncodingFailed(underlyingError: error)
+            ServerConfig.shared.errorLogger?.log(error: syncError, context: ["source": "upnext_sync"])
         }
     }
 
@@ -135,6 +175,8 @@ class UpNextSyncTask: ApiBaseTask {
             clearSyncedData(latestActionTime: latestActionTime)
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: Failed to decode server data")
+            let syncError = UpNextSyncError.serverDataDecodeFailed(underlyingError: error)
+            ServerConfig.shared.errorLogger?.log(error: syncError, context: ["source": "upnext_sync"])
         }
     }
 
@@ -277,6 +319,40 @@ class UpNextSyncTask: ApiBaseTask {
         }
 
         FileLog.shared.addMessage("UpNextSyncTask: The following \(uuids.count) episodes will be kept: \(uuids)")
+
+        let uuidsSet = Set(uuids)
+        let deletedCount = localEpisodes.reduce(0) { count, episode in
+            uuidsSet.contains(episode.uuid) ? count : count + 1
+        }
+
+        // Log to Sentry only if queue is significantly modified to avoid noise from normal sync
+        // Threshold: more than 75% of local queue replaced
+        let deletionPercentage = localEpisodes.count > 0 ? Double(deletedCount) / Double(localEpisodes.count) : 0
+        let isSignificantDeletion = deletionPercentage > 0.75
+
+        if deletedCount > 0 {
+            let syncReason = reason?.rawValue ?? "unknown"
+            FileLog.shared.addMessage("UpNextSyncTask: Deleting \(deletedCount) episodes from queue. Local had \(localEpisodes.count), server sent \(episodes.count), keeping \(uuids.count). Reason: \(syncReason)")
+
+            // Only report to error logger for significant overwrites
+            if isSignificantDeletion {
+                let overwriteError = UpNextSyncError.queueOverwritten(
+                    localCount: localEpisodes.count,
+                    serverCount: episodes.count,
+                    deletedCount: deletedCount,
+                    reason: syncReason
+                )
+                ServerConfig.shared.errorLogger?.log(error: overwriteError, context: [
+                    "source": "upnext_sync",
+                    "localCount": "\(localEpisodes.count)",
+                    "serverCount": "\(episodes.count)",
+                    "deletedCount": "\(deletedCount)",
+                    "keptCount": "\(uuids.count)",
+                    "syncReason": syncReason,
+                    "deletionPercentage": String(format: "%.1f", deletionPercentage * 100)
+                ])
+            }
+        }
 
         // Remove any episodes that no longer need to be in the queue.
         DataManager.sharedManager.deleteAllUpNextEpisodesNotIn(uuids: uuids)
