@@ -77,6 +77,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
             XCTAssertEqual(loaded.manual, original.manual, "\(implementationName): manual should match")
             XCTAssertEqual(loaded.showArchivedEpisodes, original.showArchivedEpisodes, "\(implementationName): showArchivedEpisodes should match")
+            XCTAssertEqual(loaded.filterEpisodeTitle, original.filterEpisodeTitle, "\(implementationName): filterEpisodeTitle should match")
         }
     }
 
@@ -115,6 +116,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             filter.releaseDateSmartRuleApplied = true
             filter.mediaTypeSmartRuleApplied = true
             filter.downloadStatusSmartRuleApplied = true
+            filter.titleSmartRuleApplied = true
 
             dataManager.save(playlist: filter)
 
@@ -131,6 +133,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
             XCTAssertFalse(loaded.releaseDateSmartRuleApplied, "\(implementationName): releaseDateSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.mediaTypeSmartRuleApplied, "\(implementationName): mediaTypeSmartRuleApplied should NOT be persisted")
             XCTAssertFalse(loaded.downloadStatusSmartRuleApplied, "\(implementationName): downloadStatusSmartRuleApplied should NOT be persisted")
+            XCTAssertFalse(loaded.titleSmartRuleApplied, "\(implementationName): titleSmartRuleApplied should NOT be persisted")
         }
     }
 
@@ -163,6 +166,7 @@ final class EpisodeFilterColumnConsistencyTests: DataManagerTestCase {
         filter.manual = false
         filter.showArchivedEpisodes = true
         filter.playlistUpdateDate = Date()
+        filter.filterEpisodeTitle = "bonus"
         return filter
     }
 }
