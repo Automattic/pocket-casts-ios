@@ -8,7 +8,8 @@ class PlayPauseLabeledButton: BasePlayPauseButton {
     private var cancellables = Set<AnyCancellable>()
     private let label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        label.font = UIFont.font(ofSize: 13, weight: .semibold, scalingWith: .largeTitle)
+        label.adjustsFontForContentSizeCategory = true
         label.isUserInteractionEnabled = false
         return label
     }()
