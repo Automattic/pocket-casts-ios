@@ -8,7 +8,11 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
         }
     }
 
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel! {
+        didSet {
+            titleLabel.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
+        }
+    }
     private static let cellId = "CategoryCell"
 
     private var categories = [DiscoverCategory]()

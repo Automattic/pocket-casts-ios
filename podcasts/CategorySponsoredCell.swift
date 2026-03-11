@@ -25,13 +25,20 @@ class CategorySponsoredCell: ThemeableCell {
     @IBOutlet var sponsoredLabel: ThemeableLabel! {
         didSet {
             sponsoredLabel.style = .primaryText02
+            sponsoredLabel.font = .font(ofSize: 11, weight: .bold, scalingWith: .caption2)
+            sponsoredLabel.adjustsFontSizeToFitWidth = true
         }
     }
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
+        }
+    }
     @IBOutlet var descriptionLabel: ThemeableLabel! {
         didSet {
             descriptionLabel.style = .primaryText02
+            descriptionLabel.font = .font(ofSize: 14, weight: .regular, scalingWith: .footnote)
         }
     }
 
