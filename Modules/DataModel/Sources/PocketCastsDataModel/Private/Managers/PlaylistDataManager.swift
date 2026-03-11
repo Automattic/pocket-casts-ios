@@ -30,7 +30,8 @@ class PlaylistDataManager {
         "shorterThan",
         "manual",
         "showArchivedEpisodes",
-        "playlistUpdateDate"
+        "playlistUpdateDate",
+        "filterEpisodeTitle"
     ]
 
     func count(includeDeleted: Bool, dbQueue: PCDBQueue) -> Int {

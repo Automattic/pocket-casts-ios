@@ -698,6 +698,12 @@ public class PlaylistQueryBuilder {
             haveStartedWhere: &haveStartedWhere
         )
 
+        buildFilterEpisodeTitleQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
         return .value(queryString, haveStartedWhere)
     }
 
@@ -850,6 +856,19 @@ public class PlaylistQueryBuilder {
             queryString += "episode.publishedDate > \(filterTimeFor(hours: playlist.filterHours)) "
              haveStartedWhere = true
         }
+    }
+
+    private static func buildFilterEpisodeTitleQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        let title = playlist.filterEpisodeTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !title.isEmpty else { return }
+        if haveStartedWhere { queryString += "AND " }
+        let escaped = title.replacingOccurrences(of: "'", with: "''")
+        queryString += "UPPER(episode.title) LIKE '%\(escaped.uppercased())%' ESCAPE '\\' "
+        haveStartedWhere = true
     }
 
     // MARK: - Legacy

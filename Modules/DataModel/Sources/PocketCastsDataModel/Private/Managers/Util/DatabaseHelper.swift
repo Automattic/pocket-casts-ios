@@ -882,6 +882,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 72 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJFilteredPlaylist ADD COLUMN filterEpisodeTitle TEXT NOT NULL DEFAULT '';", values: nil)
+                schemaVersion = 72
+            } catch {
+                failedAt(72)
+                return
+            }
+        }
+
         db.commit()
     }
 }

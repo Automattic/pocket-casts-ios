@@ -59,6 +59,8 @@ class PlaylistPreviewViewModel: ObservableObject {
             return newPlaylist.filterStarred
         case .duration:
             return newPlaylist.filterDuration
+        case .episodeTitle:
+            return newPlaylist.titleSmartRuleApplied
         }
     }
 
@@ -113,6 +115,9 @@ class PlaylistPreviewViewModel: ObservableObject {
                 return "\(longTime) - \(shortTime)"
             }
             return L10n.off
+        case .episodeTitle:
+            let title = newPlaylist.filterEpisodeTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            return title.isEmpty ? nil : title
         }
     }
 

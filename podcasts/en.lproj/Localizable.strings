@@ -1021,6 +1021,18 @@
 /* Title for filter sections that relate to episode status. */
 "filter_episode_status" = "Episode Status";
 
+/* Title for the episode title contains smart filter rule. */
+"filter_episode_title_contains" = "Episode Title";
+
+/* Header title shown inside the episode title filter screen. */
+"filter_episode_title_contains_header" = "Episode title contains";
+
+/* Description shown inside the episode title filter screen explaining what it does. */
+"filter_episode_title_contains_description" = "Only include episodes whose title contains this text. Useful for tracking a guest or topic across all your podcasts.";
+
+/* Placeholder text for the episode title search field. */
+"filter_episode_title_contains_placeholder" = "e.g. bonus, interview…";
+
 /* Subtitle informing the user that new podcasts will not be automatically added to this filter. */
 "filter_manual_add_subtitle" = "New podcasts you subscribe to will not be automatically added";
 
