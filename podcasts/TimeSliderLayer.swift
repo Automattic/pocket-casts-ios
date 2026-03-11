@@ -92,7 +92,6 @@ class TimeSliderLayer: CALayer {
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
 
-        let animationColor = leftColor.copy(alpha: 0.5) ?? leftColor
         if shouldAnimate {
             drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
         }
@@ -162,7 +161,7 @@ class TimeSliderLayer: CALayer {
         animating = true
         progressAnimationRect = CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
 
-        let duration: CFTimeInterval = 1.0
+        let duration: CFTimeInterval = 1.5
         let progressStartX = rightHalfRect.origin.x
 
         let animationLineWidth = animationLineWidth()
@@ -178,16 +177,30 @@ class TimeSliderLayer: CALayer {
 
         let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
         growAnimation.values = [
+            1,
             animationLineWidth / 2,
             animationLineWidth,
+            animationLineWidth / 2,
             1
         ]
-        growAnimation.keyTimes = [0, 0.5, 1]
+        growAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         growAnimation.duration = duration
 
+        let colorAnimation = CAKeyframeAnimation(keyPath: "animationColor")
+        colorAnimation.values = [
+            leftColor.copy(alpha: 0.5)!,
+            leftColor.copy(alpha: 0.3)!,
+            leftColor.copy(alpha: 0.1)!,
+            leftColor.copy(alpha: 0.05)!,
+            leftColor.copy(alpha: 0.0)!
+        ]
+        colorAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
+        colorAnimation.duration = duration
+
         let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [moveAnimation, growAnimation]
+        animationGroup.animations = [moveAnimation, growAnimation, colorAnimation]
         animationGroup.duration = duration
+
         animationGroup.repeatCount = .greatestFiniteMagnitude
 
         add(animationGroup, forKey: Self.animationKey)
