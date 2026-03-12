@@ -27,8 +27,13 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
             title = category?.name?.localized
         }
     }
-    private var skipCount: Int
+    private(set) var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
+
+    /// Exposes skipCount for testing purposes
+    var currentSkipCount: Int {
+        skipCount
+    }
     private var promotion: DiscoverCategoryPromotion?
     fileprivate var region: String?
 
@@ -160,6 +165,12 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
         self.delegate = delegate
     }
 
+    /// Updates the skipCount from the item's summaryItemCount.
+    /// This is used to skip podcasts already shown in the "Most Popular" carousel.
+    func updateSkipCount(from item: DiscoverItem) {
+        skipCount = item.summaryItemCount ?? 0
+    }
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         AppTheme.defaultStatusBarStyle()
     }
@@ -178,8 +189,11 @@ extension CategoryPodcastsViewController: DiscoverSummaryProtocol {
         }
         self.region = region
 
+        // Update skipCount from item to skip podcasts already shown in the carousel
+        updateSkipCount(from: item)
+
         podcasts = []
-        podcastsTable.reloadData()
+        podcastsTable?.reloadData()
         loadPodcasts()
     }
 }
