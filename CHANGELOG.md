@@ -9,6 +9,7 @@
 - Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
 - Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
 - Fix Episode Artwork loading when audio asset image differs from feed [#4017](https://github.com/Automattic/pocket-casts-ios/pull/4017)
+- Fix Single episode loading and support for DT [#4063](https://github.com/Automattic/pocket-casts-ios/pull/4063)
 
 8.6
 -----
