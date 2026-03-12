@@ -162,7 +162,7 @@ class TimeSliderLayer: CALayer {
         animating = true
         progressAnimationRect = CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
 
-        let duration: CFTimeInterval = 1.5
+        let duration: CFTimeInterval = 1.0
         let progressStartX = rightHalfRect.origin.x
 
         let animationLineWidth = animationLineWidth()
@@ -179,10 +179,10 @@ class TimeSliderLayer: CALayer {
         let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
         growAnimation.values = [
             1,
+            animationLineWidth / 4,
             animationLineWidth / 2,
-            animationLineWidth,
-            animationLineWidth / 2,
-            1
+            animationLineWidth / 4 * 3,
+            animationLineWidth
         ]
         growAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         growAnimation.duration = duration
@@ -190,10 +190,10 @@ class TimeSliderLayer: CALayer {
         let colorAnimation = CAKeyframeAnimation(keyPath: "animationColor")
         colorAnimation.values = [
             animationColor.copy(alpha: 0.5)!,
+            animationColor.copy(alpha: 0.4)!,
             animationColor.copy(alpha: 0.3)!,
             animationColor.copy(alpha: 0.2)!,
-            animationColor.copy(alpha: 0.1)!,
-            animationColor.copy(alpha: 0.0)!
+            animationColor.copy(alpha: 0.1)!
         ]
         colorAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         colorAnimation.duration = duration
