@@ -1,7 +1,7 @@
 8.8
 -----
 - Show buffering UI on Full Screen Player [#4051](https://github.com/Automattic/pocket-casts-ios/pull/4051)
-
+- Ensure that temporary download files are properly deleted from the system [#4052](https://github.com/Automattic/pocket-casts-ios/pull/4052)
 
 8.7
 -----
