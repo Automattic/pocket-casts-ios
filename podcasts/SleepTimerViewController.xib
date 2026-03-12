@@ -39,11 +39,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="408" height="532"/>
+            <rect key="frame" x="0.0" y="0.0" width="408" height="500"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nxz-IC-HCU" userLabel="Current Option">
-                    <rect key="frame" x="0.0" y="0.0" width="408" height="498"/>
+                    <rect key="frame" x="0.0" y="0.0" width="408" height="466"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6q-a6-BhY" customClass="SleepTimerButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="170" y="60" width="68" height="68"/>
@@ -57,7 +57,7 @@
                             </constraints>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyF-KA-sb1" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="144" y="144" width="120" height="84"/>
+                            <rect key="frame" x="144" y="131" width="120" height="65"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="65" id="K6U-Bm-L8g"/>
                             </constraints>
@@ -66,7 +66,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sleeping when episode ends" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWl-Fm-Fg5" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="16" y="144" width="376" height="74"/>
+                            <rect key="frame" x="16" y="144" width="376" height="42"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="27" id="ZGO-cQ-xa7"/>
                             </constraints>
@@ -75,9 +75,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="sG9-ye-AOp">
-                            <rect key="frame" x="20" y="278" width="368" height="200"/>
+                            <rect key="frame" x="20" y="246" width="368" height="200"/>
                             <subviews>
-                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TXG-Ts-uOu" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXG-Ts-uOu" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="0.0" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Add five minutes">
                                         <accessibilityTraits key="traits" button="YES"/>
@@ -90,7 +90,7 @@
                                         <action selector="plusFiveTapped:" destination="-1" eventType="touchUpInside" id="oCT-cT-NHN"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YYx-nN-wS9" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YYx-nN-wS9" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="72" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Change to end of episode">
                                         <accessibilityTraits key="traits" button="YES"/>
@@ -103,7 +103,7 @@
                                         <action selector="endOfEpisodeActiveTapped:" destination="-1" eventType="touchUpInside" id="QzU-4Z-oMb"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EOQ-B1-4Zt" customClass="UIButton">
+                                <view contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EOQ-B1-4Zt" customClass="UIButton">
                                     <rect key="frame" x="0.0" y="144" width="368" height="56"/>
                                     <accessibility key="accessibilityConfiguration" label="Cancel Timer">
                                         <accessibilityTraits key="traits" button="YES"/>
@@ -144,7 +144,7 @@
                     </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VIr-G3-c6n" userLabel="List of Options">
-                    <rect key="frame" x="0.0" y="0.0" width="408" height="532"/>
+                    <rect key="frame" x="0.0" y="0.0" width="408" height="500"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-qP-qnr" userLabel="Popup Heading" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="408" height="68"/>
@@ -178,7 +178,7 @@
                             </constraints>
                         </view>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HO2-dO-eLB">
-                            <rect key="frame" x="0.0" y="68" width="408" height="464"/>
+                            <rect key="frame" x="0.0" y="68" width="408" height="432"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJb-Yj-WkR">
                                     <rect key="frame" x="20" y="0.0" width="368" height="395"/>

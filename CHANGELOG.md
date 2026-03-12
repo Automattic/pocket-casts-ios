@@ -10,6 +10,13 @@
 - Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
 - Fix Episode Artwork loading when audio asset image differs from feed [#4017](https://github.com/Automattic/pocket-casts-ios/pull/4017)
 
+8.6.1
+-----
+- Dynamic Type adjustments [#4055](https://github.com/Automattic/pocket-casts-ios/pull/4055)
+- Dynamic Type: Update Discovery Large Cell layout margins
+[#4057](https://github.com/Automattic/pocket-casts-ios/pull/4057)
+- Dynamic Type: Update Sponsored [#4058](https://github.com/Automattic/pocket-casts-ios/pull/4058)
+
 8.6
 -----
 - Playlists: Add episodes to a playlist from multi-select overflow menu [#4001](https://github.com/Automattic/pocket-casts-ios/pull/4002)

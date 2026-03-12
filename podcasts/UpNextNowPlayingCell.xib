@@ -29,7 +29,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oXa-LZ-pvj" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="12" y="12" width="48" height="48"/>
+                                <rect key="frame" x="12" y="32.5" width="48" height="48"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="Ikt-fn-OqM"/>
@@ -42,7 +42,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MONDAY" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFH-le-6i7" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="70" y="12" width="178" height="23"/>
+                                <rect key="frame" x="70" y="10" width="178" height="25"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -56,32 +56,32 @@
                             <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1fL-ql-Hfg">
                                 <rect key="frame" x="70" y="57" width="48" height="50"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U8E-BC-Cls">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" id="ugk-pc-7Mu"/>
-                                        </constraints>
-                                    </view>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="OzR-Qq-DsV" userLabel="Downloading Indicator">
-                                        <rect key="frame" x="8" y="17" width="16" height="16"/>
+                                        <rect key="frame" x="0.0" y="17" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="PFX-gi-0dj"/>
                                             <constraint firstAttribute="height" constant="16" id="sr8-ek-Aog"/>
                                         </constraints>
                                     </activityIndicatorView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_downloaded" translatesAutoresizingMaskIntoConstraints="NO" id="KAb-iK-X7U">
-                                        <rect key="frame" x="32" y="17" width="16" height="16"/>
+                                        <rect key="frame" x="24" y="17" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="6rq-sD-ThI"/>
                                             <constraint firstAttribute="width" constant="16" id="U0t-bh-rkL"/>
                                         </constraints>
                                     </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U8E-BC-Cls">
+                                        <rect key="frame" x="48" y="0.0" width="0.0" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="ugk-pc-7Mu"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="53 Minutes remaining" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TpI-i7-PDk" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="118" y="60" width="130" height="44"/>
+                                <rect key="frame" x="118" y="57" width="130" height="50"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -111,8 +111,8 @@
                             <constraint firstItem="mhM-ON-FAA" firstAttribute="top" secondItem="uFH-le-6i7" secondAttribute="bottom" constant="2" id="FDE-I4-Ijn"/>
                             <constraint firstItem="mhM-ON-FAA" firstAttribute="trailing" secondItem="uFH-le-6i7" secondAttribute="trailing" id="FSB-nj-2a9"/>
                             <constraint firstItem="Drj-gb-CmX" firstAttribute="top" secondItem="lof-Ey-IPR" secondAttribute="top" id="IGm-mv-RZ3"/>
-                            <constraint firstItem="uFH-le-6i7" firstAttribute="top" secondItem="lof-Ey-IPR" secondAttribute="top" constant="12" id="JoR-VQ-h4V"/>
-                            <constraint firstItem="oXa-LZ-pvj" firstAttribute="top" secondItem="uFH-le-6i7" secondAttribute="top" id="O7c-cP-oFm"/>
+                            <constraint firstItem="uFH-le-6i7" firstAttribute="top" secondItem="lof-Ey-IPR" secondAttribute="top" constant="10" id="JoR-VQ-h4V" userLabel="Date Label.top = top + 12"/>
+                            <constraint firstItem="oXa-LZ-pvj" firstAttribute="centerY" secondItem="lof-Ey-IPR" secondAttribute="centerY" id="O7c-cP-oFm"/>
                             <constraint firstItem="t5J-xk-yXq" firstAttribute="centerY" secondItem="lV7-rK-gas" secondAttribute="centerY" id="Pr0-ss-PCS"/>
                             <constraint firstItem="TpI-i7-PDk" firstAttribute="leading" secondItem="1fL-ql-Hfg" secondAttribute="trailing" id="TU0-OR-OXR"/>
                             <constraint firstAttribute="bottom" secondItem="Drj-gb-CmX" secondAttribute="bottom" id="ZAC-8g-I6v"/>
@@ -123,7 +123,7 @@
                             <constraint firstItem="uFH-le-6i7" firstAttribute="leading" secondItem="oXa-LZ-pvj" secondAttribute="trailing" constant="10" id="iPt-2Y-afY"/>
                             <constraint firstAttribute="trailing" secondItem="t5J-xk-yXq" secondAttribute="trailing" constant="12" id="izN-PH-Mb2"/>
                             <constraint firstItem="1fL-ql-Hfg" firstAttribute="bottom" secondItem="lof-Ey-IPR" secondAttribute="bottom" constant="-6" id="kUL-3d-eNZ"/>
-                            <constraint firstItem="TpI-i7-PDk" firstAttribute="top" secondItem="mhM-ON-FAA" secondAttribute="bottom" constant="6" id="pVN-Cm-KLx"/>
+                            <constraint firstItem="TpI-i7-PDk" firstAttribute="top" secondItem="mhM-ON-FAA" secondAttribute="bottom" constant="3" id="pVN-Cm-KLx"/>
                             <constraint firstItem="1fL-ql-Hfg" firstAttribute="centerY" secondItem="TpI-i7-PDk" secondAttribute="centerY" id="rvc-gd-x6c"/>
                             <constraint firstItem="TpI-i7-PDk" firstAttribute="trailing" secondItem="mhM-ON-FAA" secondAttribute="trailing" id="xkT-Mm-Xn6"/>
                         </constraints>
