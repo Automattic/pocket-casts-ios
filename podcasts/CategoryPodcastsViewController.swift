@@ -168,7 +168,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     /// Updates the skipCount from the item's summaryItemCount.
     /// This is used to skip podcasts already shown in the "Most Popular" carousel.
     func updateSkipCount(from item: DiscoverItem) {
-        skipCount = item.summaryItemCount ?? 0
+        skipCount = max(0, item.summaryItemCount ?? 0)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
