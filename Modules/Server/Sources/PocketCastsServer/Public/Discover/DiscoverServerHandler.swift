@@ -224,7 +224,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 data: data,
                 response: response,
                 cacheRequest: request,
-                useCache: useCache,
+                useCache: true,
                 type: type
             )
             completion(decoded, useCache)
