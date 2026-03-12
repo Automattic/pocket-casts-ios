@@ -29,11 +29,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     }
     private(set) var skipCount: Int
     private var podcasts = [DiscoverPodcast]()
-
-    /// Exposes skipCount for testing purposes
-    var currentSkipCount: Int {
-        skipCount
-    }
     private var promotion: DiscoverCategoryPromotion?
     fileprivate var region: String?
 

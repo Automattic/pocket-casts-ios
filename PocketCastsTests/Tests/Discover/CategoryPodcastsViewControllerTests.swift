@@ -4,40 +4,9 @@ import XCTest
 
 final class CategoryPodcastsViewControllerTests: XCTestCase {
 
-    // MARK: - Bug Reproduction: PCIOS-561
-    // Top 5 podcasts are being repeated on Category pages
-    //
-    // When viewing a category page, the "Most Popular" carousel shows the top 5 podcasts.
-    // The list below should start at #6, but currently shows all podcasts including the top 5.
-    //
-    // Root cause: CategoryPodcastsViewController doesn't use summaryItemCount from the
-    // DiscoverItem to skip podcasts already shown in the carousel.
-
-    func testCategoryListItemShouldIncludeSummaryItemCountToSkipCarouselPodcasts() {
-        // Given: A category with a "Most Popular" section showing 5 items
-        var category = DiscoverCategory(id: 1, name: "Technology")
-        category.source = "https://example.com/tech"
-        let popularItemsCount = 5
-
-        // When: Creating a category list item for the full podcast list
-        // The item should specify how many podcasts to skip (those already in the carousel)
-        let categoryListItem = DiscoverItem(
-            id: "category-\(category.id ?? 0)",
-            title: category.name,
-            type: "category_podcast_list",
-            summaryItemCount: popularItemsCount, // This is what the fix should add
-            source: category.source,
-            regions: ["us"],
-            categoryID: category.id
-        )
-
-        // Then: The item should have summaryItemCount set to skip the carousel podcasts
-        XCTAssertEqual(
-            categoryListItem.summaryItemCount,
-            popularItemsCount,
-            "Category list item should have summaryItemCount to indicate how many podcasts to skip"
-        )
-    }
+    // MARK: - Bug Fix: PCIOS-561
+    // Top 5 podcasts were being repeated on Category pages.
+    // The fix uses summaryItemCount from DiscoverItem to skip podcasts already shown in the carousel.
 
     func testCategoryPodcastsViewControllerInitializesWithZeroSkipCount() {
         // Given/When: A CategoryPodcastsViewController initialized with default skipCount
@@ -45,7 +14,7 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
 
         // Then: skipCount should be 0 by default
         XCTAssertEqual(
-            viewController.currentSkipCount,
+            viewController.skipCount,
             0,
             "CategoryPodcastsViewController should initialize with skipCount of 0"
         )
@@ -57,7 +26,7 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
 
         // Then: skipCount should match the provided value
         XCTAssertEqual(
-            viewController.currentSkipCount,
+            viewController.skipCount,
             5,
             "CategoryPodcastsViewController should use the provided skipCount"
         )
@@ -66,7 +35,7 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
     func testCategoryPodcastsViewControllerUpdatesSkipCountFromItem() {
         // Given: A CategoryPodcastsViewController with default skipCount
         let viewController = CategoryPodcastsViewController(region: "us")
-        XCTAssertEqual(viewController.currentSkipCount, 0, "Initial skipCount should be 0")
+        XCTAssertEqual(viewController.skipCount, 0, "Initial skipCount should be 0")
 
         // And: A DiscoverItem with summaryItemCount indicating podcasts to skip
         let item = DiscoverItem(
@@ -79,17 +48,12 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
             categoryID: 1
         )
 
-        var category = DiscoverCategory(id: 1, name: "Technology")
-        category.source = "https://example.com/tech"
-
         // When: updateSkipCount is called with the item
-        // (This method will be added as part of the fix)
         viewController.updateSkipCount(from: item)
 
         // Then: skipCount should be updated from item.summaryItemCount
-        // This test will FAIL until the fix is implemented
         XCTAssertEqual(
-            viewController.currentSkipCount,
+            viewController.skipCount,
             5,
             "CategoryPodcastsViewController should update skipCount from item.summaryItemCount"
         )
@@ -114,7 +78,7 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
 
         // Then: skipCount should remain 0
         XCTAssertEqual(
-            viewController.currentSkipCount,
+            viewController.skipCount,
             0,
             "CategoryPodcastsViewController should keep skipCount at 0 when item has no summaryItemCount"
         )
