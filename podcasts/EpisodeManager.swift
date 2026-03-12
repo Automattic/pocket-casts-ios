@@ -384,7 +384,7 @@ class EpisodeManager: NSObject {
             let filePaths = Set(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
             // Also protect actively downloading episodes
             let downloadingEpisodes = DataManager.sharedManager.findEpisodesWhere(
-                customWhere: "episodeStatus == \(DownloadStatus.downloading.rawValue) OR episodeStatus == \(DownloadStatus.queued.rawValue)",
+                customWhere: "episodeStatus == \(DownloadStatus.downloading.rawValue) OR episodeStatus == \(DownloadStatus.queued.rawValue) OR (autoDownloadStatus == \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) && episodeStatus != \(DownloadStatus.downloaded))",
                 arguments: nil
             )
             let allExceptions = filePaths.union(downloadingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
