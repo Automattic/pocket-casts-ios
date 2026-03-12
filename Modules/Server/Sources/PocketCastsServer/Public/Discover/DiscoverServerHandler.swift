@@ -110,8 +110,8 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
 
         return Future { [unowned self] promise in
-            self.discoverRequest(path: source, type: type, authenticated: authenticated) { discoverList, didError in
-                if !didError, let discoverList = discoverList {
+            self.discoverRequest(path: source, type: type, authenticated: authenticated) { discoverList, _ in
+                if let discoverList = discoverList {
                     promise(.success(discoverList))
                 } else {
                     promise(.failure(DiscoverServerError.unknown))
@@ -224,7 +224,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
                 data: data,
                 response: response,
                 cacheRequest: request,
-                useCache: true,
+                useCache: useCache,
                 type: type
             )
             completion(decoded, useCache)
