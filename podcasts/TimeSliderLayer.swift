@@ -3,7 +3,7 @@ import UIKit
 class TimeSliderLayer: CALayer {
 
     @NSManaged private var progressAnimationRect: CGRect
-
+    @NSManaged var animationColor: CGColor
     @NSManaged var leftHalfRect: CGRect
     @NSManaged var rightHalfRect: CGRect
     @NSManaged var knobRect: CGRect
@@ -41,6 +41,7 @@ class TimeSliderLayer: CALayer {
         rightColor = otherLayer.rightColor
         circleColor = otherLayer.circleColor
         popupColor = otherLayer.popupColor
+        animationColor = otherLayer.animationColor
 
         popupValue = otherLayer.popupValue
         textStyle = otherLayer.textStyle
@@ -188,11 +189,11 @@ class TimeSliderLayer: CALayer {
 
         let colorAnimation = CAKeyframeAnimation(keyPath: "animationColor")
         colorAnimation.values = [
-            leftColor.copy(alpha: 0.5)!,
-            leftColor.copy(alpha: 0.3)!,
-            leftColor.copy(alpha: 0.1)!,
-            leftColor.copy(alpha: 0.05)!,
-            leftColor.copy(alpha: 0.0)!
+            animationColor.copy(alpha: 0.5)!,
+            animationColor.copy(alpha: 0.3)!,
+            animationColor.copy(alpha: 0.2)!,
+            animationColor.copy(alpha: 0.1)!,
+            animationColor.copy(alpha: 0.0)!
         ]
         colorAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         colorAnimation.duration = duration
