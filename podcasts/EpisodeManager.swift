@@ -387,13 +387,7 @@ class EpisodeManager: NSObject {
                 customWhere: "episodeStatus == \(DownloadStatus.downloading.rawValue) OR episodeStatus == \(DownloadStatus.queued.rawValue)",
                 arguments: nil
             )
-            let downloadingEpisodePaths = Set(downloadingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-            // Also protect episodes that are being streamed and cached in parallel
-            let streamingEpisodes = DownloadManager.shared.downloadAndStreamEpisodes.values
-            let streamingEpisodePaths = Set(streamingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-            let allExceptions = filePaths
-                .union(downloadingEpisodePaths)
-                .union(streamingEpisodePaths)
+            let allExceptions = filePaths.union(downloadingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
             cleanUpTmpFolder(exceptions: allExceptions)
         }
     }
