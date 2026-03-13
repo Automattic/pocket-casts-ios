@@ -9,6 +9,22 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
     // things smaller than 150kb are suspect, probably text, xml or html error pages
     private static let suspectEpisodeSize = 150 * 1024
 
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        let bytesSent = task.countOfBytesSent
+        let isCellular = metrics.transactionMetrics.last?.isCellular ?? false
+
+        if bytesSent > 0 {
+            let connectionType: NetworkDataUsageManager.ConnectionType = isCellular ? .cellular : .wifi
+
+            DataManager.sharedManager.networkDataUsageManager.add(
+                bytesUploaded: bytesSent,
+                operationType: .upload,
+                connectionType: connectionType,
+                sessionType: .background
+            )
+        }
+    }
+
     public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         // make sure we call the completion handler on the main queue, otherwise it will crash
         DispatchQueue.main.async {
