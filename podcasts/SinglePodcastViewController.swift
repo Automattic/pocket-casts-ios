@@ -5,16 +5,25 @@ import UIKit
 class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     @IBOutlet var podcastImage: PodcastImageView!
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 19, weight: .bold, scalingWith: .title3)
+            podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        }
+    }
     @IBOutlet var podcastDescription: ThemeableLabel! {
         didSet {
             podcastDescription.style = .primaryText02
+            podcastDescription.adjustsFontForContentSizeCategory = true
+            podcastDescription.updateNumberOfLines(regular: 4, accessibility: 6)
         }
     }
 
     @IBOutlet var typeBadgeLabel: ThemeableLabel! {
         didSet {
             typeBadgeLabel.layer.cornerRadius = 4
+            typeBadgeLabel.font = .font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            typeBadgeLabel.adjustsFontSizeToFitWidth = true
         }
     }
 
@@ -66,6 +75,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         let categoryId = category?.id.map(String.init)
         AnalyticsHelper.listImpression(listId: listId, category: categoryId)
+        updateSize()
     }
 
     // MARK: DiscoverSummaryProtocol
@@ -96,7 +106,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             podcastTitle?.text = title
             let maxTitleChars = podcastTitle.bounds.width * 0.11
             let fontSize: CGFloat = title.count > Int(maxTitleChars) ? 15 : 18
-            podcastTitle.font = UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.bold)
+            podcastTitle.font = .font(ofSize: fontSize, weight: .bold, scalingWith: .body)
             titleToDescriptionConstraint.constant = fontSize == 15 ? 4 : 6
         }
         if let description = featuredDescription {
@@ -114,8 +124,9 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         }
 
         let fontSize: CGFloat = UIScreen.main.bounds.width >= 360 ? 15 : 14
-        podcastDescription.font = UIFont.systemFont(ofSize: fontSize, weight: UIFont.Weight.regular)
+        podcastDescription.font = .font(ofSize: fontSize, weight: .regular, scalingWith: .callout)
 
+        updateSize()
         podcastTitle.sizeToFit()
         podcastDescription.sizeToFit()
 
@@ -124,6 +135,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         subscribeButton.shouldAnimate = true
 
         view.sizeToFit()
+        view.layoutIfNeeded()
     }
 
     // MARK: Actions
@@ -172,6 +184,19 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
             typeBadgeLabel.style = .secondaryText02
         } else {
             typeBadgeLabel.style = .support02
+        }
+    }
+
+    func updateSize() {
+        podcastTitle.updateNumberOfLines(regular: 2, accessibility: 3)
+        podcastDescription.updateNumberOfLines(regular: 4, accessibility: 6)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSize()
         }
     }
 }

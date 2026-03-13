@@ -21,10 +21,15 @@ class SmallListCell: ThemeableCollectionCell {
         }
     }
 
-    @IBOutlet var podcastTitle: ThemeableLabel!
+    @IBOutlet var podcastTitle: ThemeableLabel! {
+        didSet {
+            podcastTitle.font = .font(ofSize: 16, weight: .medium, scalingWith: .callout)
+        }
+    }
     @IBOutlet var podcastAuthor: ThemeableLabel! {
         didSet {
             podcastAuthor.style = .primaryText02
+            podcastAuthor.font = .font(ofSize: 14, weight: .regular, scalingWith: .subheadline)
         }
     }
 
@@ -125,7 +130,7 @@ class SmallListCell: ThemeableCollectionCell {
 
         podcastImage.updateSizeConstraints(to: max(48, metric.scaledValue(for: 48)))
 
-        subscribeButton.updateSizeConstraints(to: max(24, metric.scaledValue(for: 24)))
+        subscribeButton.updateSizeConstraints(to: max(44, metric.scaledValue(for: 44)))
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

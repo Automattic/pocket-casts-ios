@@ -165,7 +165,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     }
 
     func sizeForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> CGSize {
-        CGSize(width: cellWidth, height: cellWidth + cellExtraHeight + 10)
+        CGSize(width: cellWidth, height: cellWidth + cellExtraHeight)
     }
 
     // MARK: - Populate From Data

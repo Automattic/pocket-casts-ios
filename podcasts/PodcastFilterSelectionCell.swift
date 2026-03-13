@@ -97,5 +97,8 @@ class PodcastFilterSelectionCell: ThemeableCell {
 
         let imageSize = max(52, metric.scaledValue(for: 52))
         podcastImage?.updateSizeConstraints(to: imageSize)
+
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 }

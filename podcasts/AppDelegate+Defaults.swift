@@ -51,10 +51,6 @@ extension AppDelegate {
             defaults.set(true, forKey: Constants.UserDefaults.cleanupPlayed)
         }
 
-        performUpdateIfRequired(updateKey: "v7Run") {
-            defaults.set(2, forKey: Constants.UserDefaults.lastTabOpened)
-        }
-
         performUpdateIfRequired(updateKey: "v7bRun") {
             Settings.setAutoDownloadMobileDataAllowed(false)
         }
