@@ -48,7 +48,7 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="QsO-yw-QTt"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="72" id="QsO-yw-QTt"/>
                         </constraints>
                     </stackView>
                 </subviews>

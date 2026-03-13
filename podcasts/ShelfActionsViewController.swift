@@ -44,7 +44,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
     @IBOutlet var actionButton: ThemeableUIButton! {
         didSet {
             actionButton.style = .playerContrast01
-            actionButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
+            actionButton.titleLabel?.font = UIFont.font(ofSize: 17, weight: .semibold, scalingWith: .title1)
             actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
     }

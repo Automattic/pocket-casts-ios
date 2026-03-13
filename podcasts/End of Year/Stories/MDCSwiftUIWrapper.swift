@@ -48,6 +48,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
                 .edgesIgnoringSafeArea(.all)
                 .environmentObject(Theme.sharedTheme)
         )
+        hostingController.sizingOptions = [.intrinsicContentSize]
         addChild(hostingController)
         stackView.addArrangedSubview(hostingController.view)
         hostingController.didMove(toParent: self)
@@ -102,8 +103,13 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     /// Present a SwiftUI view as a bottom sheet in the given VC. If `autoSize` is `true`, a custom detent will be calculated based on the view size
     static func present(_ content: ContentView, autoSize: Bool = false, showingGrabber: Bool = false, in viewController: UIViewController, dismissCallback: (()->())? = nil) {
         let wrapperController = BottomSheetSwiftUIWrapper(rootView: content, dismissCallback: dismissCallback)
+        var previousSizeCategory = viewController.traitCollection.preferredContentSizeCategory
         if autoSize {
-            let customDetent = UISheetPresentationController.Detent.custom { _ in
+            let customDetent = UISheetPresentationController.Detent.custom { context in
+                if context.containerTraitCollection.preferredContentSizeCategory != previousSizeCategory {
+                    previousSizeCategory = context.containerTraitCollection.preferredContentSizeCategory
+                    wrapperController.updatePreferredContentSize()
+                }
                 return wrapperController.customDetentHeight
             }
             wrapperController.presentModally(in: viewController, detents: [customDetent], showingGrabber: showingGrabber)
@@ -114,6 +120,22 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.dismissCallback?()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            if let sheetController = sheetPresentationController {
+                updatePreferredContentSize()
+                //Dispatch to main to allow changes in content to reflect
+                DispatchQueue.main.async {
+                    sheetController.animateChanges {
+                        sheetController.invalidateDetents()
+                    }
+                }
+            }
+        }
     }
 
 }

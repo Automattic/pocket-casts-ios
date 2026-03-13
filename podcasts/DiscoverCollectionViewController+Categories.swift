@@ -60,7 +60,8 @@ extension DiscoverCollectionViewController {
         var newLayout = layout
         newLayout.layout?.insert(item, at: layout.layout?.startIndex.advanced(by: 1) ?? 0)
 
-        let categoryListItem = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, type: "category_podcast_list", source: category.source, regions: regions, categoryID: category.id)
+        // Use the summaryItemCount from the "Most Popular" item to skip those podcasts in the full list
+        let categoryListItem = DiscoverItem(id: "category-\(category.id ?? 0)", title: category.name, type: "category_podcast_list", summaryItemCount: item.summaryItemCount, source: category.source, regions: regions, categoryID: category.id)
         newLayout.layout?.append(categoryListItem)
 
         return newLayout

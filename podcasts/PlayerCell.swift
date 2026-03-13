@@ -256,6 +256,9 @@ class PlayerCell: ThemeableSwipeCell {
         let tickSize = max(24, metric.scaledValue(for: 24))
         selectTickImageView.updateSizeConstraints(to: tickSize)
         selectTickImageView.layer.cornerRadius = tickSize / 2
+
+        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        dayName.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
