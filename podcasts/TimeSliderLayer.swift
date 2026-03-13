@@ -161,7 +161,7 @@ class TimeSliderLayer: CALayer {
 
         animating = true
 
-        let duration: CFTimeInterval = 1.0
+        let duration: CFTimeInterval = 0.75
         let progressStartX = rightHalfRect.origin.x
         let animationLineWidth = animationLineWidth()
 
