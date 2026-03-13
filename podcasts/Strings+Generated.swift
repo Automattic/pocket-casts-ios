@@ -3393,7 +3393,7 @@ internal enum L10n {
   }
   /// Subtitle explaining the app's behavior when the episode limit is reached and new episodes are added to the top of the Up Next Queue. '%1$@' is a placeholder for the auto add limit.
   internal static func settingsAutoAddLimitSubtitleTop(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "settings_auto_add_limit_subtitle_top", String(describing: p1), fallback: "When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue. No new episodes will be added to the bottom.")
+    return L10n.tr("Localizable", "settings_auto_add_limit_subtitle_top", String(describing: p1), fallback: "When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.")
   }
   /// Section header that displays all of the Podcasts that will automatically add new episodes to the Up Next Queue.
   internal static var settingsAutoAddPodcasts: String { return L10n.tr("Localizable", "settings_auto_add_podcasts", fallback: "Auto-Add Podcasts") }
@@ -3793,7 +3793,7 @@ internal enum L10n {
   }
   /// Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit.
   internal static func settingsUpNextLimitAddToTop(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "settings_up_next_limit_add_to_top", String(describing: p1), fallback: "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue.")
+    return L10n.tr("Localizable", "settings_up_next_limit_add_to_top", String(describing: p1), fallback: "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.")
   }
   /// Provides a prompt for the user to toggle on the volume boosting setting.
   internal static var settingsVolumeBoost: String { return L10n.tr("Localizable", "settings_volume_boost", fallback: "Volume Boost") }
