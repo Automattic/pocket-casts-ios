@@ -199,10 +199,9 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         let backgroundToFrame = isPresenting ? toFrame : miniplayerFrame
 
         // Add a snapshot of the miniplayer and full player.
-        // For dismiss, use afterScreenUpdates:false — views are already on screen,
-        // and skipping the synchronous render pass reduces the setup delay between
-        // gesture end and animation start.
-        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: isPresenting)
+        // Always use afterScreenUpdates:true so the snapshot reflects artwork being
+        // hidden (opacity 0) — otherwise the dismiss snapshot shows double artwork.
+        let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: true)
         miniPlayerSnapshotView?.addSubview(UIVisualEffectView(effect: UIBlurEffect(style: .prominent)))
         miniPlayerSnapshotView?.layer.opacity = isPresenting ? 1 : 0
         backgroundTransitionView.addSubview(toView ?? UIView())
