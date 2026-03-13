@@ -26,6 +26,10 @@ public class DataManager {
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
     public let ratings: RatingsDataManager
+    public lazy var networkDataUsageManager: NetworkDataUsageManager = {
+        // Force unwrap is safe here as dbQueue is always a GRDBQueue at runtime
+        NetworkDataUsageManager(dbQueue: dbQueue as! GRDBQueue)
+    }()
 
     let dbQueue: PCDBQueue
 

@@ -882,6 +882,34 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 72 {
+            do {
+                try db.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS NetworkDataUsage (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        timestamp REAL NOT NULL,
+                        episode_uuid TEXT,
+                        podcast_uuid TEXT,
+                        bytes_downloaded INTEGER NOT NULL DEFAULT 0,
+                        bytes_streamed INTEGER NOT NULL DEFAULT 0,
+                        bytes_uploaded INTEGER NOT NULL DEFAULT 0,
+                        operation_type TEXT NOT NULL,
+                        connection_type INTEGER NOT NULL,
+                        session_type TEXT
+                    );
+                """, values: nil)
+
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS network_data_timestamp ON NetworkDataUsage (timestamp);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS network_data_episode ON NetworkDataUsage (episode_uuid);", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS network_data_connection ON NetworkDataUsage (connection_type);", values: nil)
+
+                schemaVersion = 72
+            } catch {
+                failedAt(72)
+                return
+            }
+        }
+
         db.commit()
     }
 }
