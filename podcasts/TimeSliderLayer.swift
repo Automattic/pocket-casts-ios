@@ -50,7 +50,7 @@ class TimeSliderLayer: CALayer {
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
-        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" || key == "progressAnimationRect" {
+        if key == "leftHalfRect" || key == "rightHalfRect" || key == "knobRect" || key == "shouldShowPopup" || key == "popupValue" || key == "popupScale" || key == "progressAnimationRect"  || key == "animationColor" {
             return true
         }
 
