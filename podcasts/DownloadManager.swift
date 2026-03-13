@@ -399,7 +399,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let exportPath = outputURL.pathComponents.joined(separator: "/")
         let exportStatus =  ExportStatus()
         let originalSizeInBytes = episode.sizeInBytes
-        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath) { [weak self, exportStatus] status, contentType, bytesDownloaded, bytesExpected in
+        let customLoaderDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: exportPath, episodeUuid: episode.uuid, podcastUuid: episode.parentIdentifier()) { [weak self, exportStatus] status, contentType, bytesDownloaded, bytesExpected in
             guard let self else {
                 return
             }
