@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -377,6 +378,25 @@
                         <constraint firstAttribute="width" secondItem="auM-3f-elA" secondAttribute="height" multiplier="1:1" id="r9y-4s-XLM"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="Error View">
+                    <rect key="frame" x="0.0" y="796" width="414" height="100"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE">
+                            <rect key="frame" x="8" y="8" width="398" height="16"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="top" secondItem="Owh-jf-YTg" secondAttribute="topMargin" id="Tha-E8-VUo"/>
+                        <constraint firstAttribute="trailingMargin" secondItem="96b-yr-mZE" secondAttribute="trailing" id="XpO-f7-0TS"/>
+                        <constraint firstAttribute="bottomMargin" secondItem="96b-yr-mZE" secondAttribute="bottom" id="bf9-Jd-CIf"/>
+                        <constraint firstAttribute="height" constant="100" id="eT2-Qf-DyX"/>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="leading" secondItem="Owh-jf-YTg" secondAttribute="leadingMargin" id="klf-K7-FM8"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" label="Full Size Player">
@@ -388,8 +408,11 @@
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
+                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" id="ckZ-tn-s0v"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
+                <constraint firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
+                <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
                 <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
@@ -403,5 +426,8 @@
         <image name="chapter-link-white" width="24" height="24"/>
         <image name="chapter-skipbackwards" width="30" height="30"/>
         <image name="chapter-skipforward" width="30" height="30"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
