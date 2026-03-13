@@ -212,7 +212,7 @@ class TimeSlider: UIView {
     var indeterminant: Bool = false {
         didSet {
             if self.window != nil {
-                timeLayer().shouldAnimate = true
+                timeLayer().shouldAnimate = indeterminant
             }
         }
     }
