@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,6 +20,8 @@
                 <outlet property="episodeImage" destination="dXr-Zd-0wP" id="g0t-eE-u5G"/>
                 <outlet property="episodeInfoView" destination="MLe-7y-U6n" id="0K2-Ws-I3X"/>
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
+                <outlet property="errorContainer" destination="Owh-jf-YTg" id="TJt-lH-W8r"/>
+                <outlet property="errorLabel" destination="96b-yr-mZE" id="PeX-yT-KUQ"/>
                 <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
@@ -42,7 +43,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WxQ-7h-0WZ">
-                    <rect key="frame" x="0.0" y="8" width="414" height="858"/>
+                    <rect key="frame" x="0.0" y="8" width="414" height="816"/>
                     <subviews>
                         <imageView contentMode="scaleAspectFit" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dXr-Zd-0wP">
                             <rect key="frame" x="30" y="0.0" width="354" height="354"/>
@@ -204,7 +205,7 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="UmO-Rc-jIG" userLabel="Bottom Controls Stack View">
-                            <rect key="frame" x="0.0" y="459" width="414" height="399"/>
+                            <rect key="frame" x="0.0" y="459" width="414" height="357"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2E-0H-hwM" userLabel="Time Slide">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
@@ -250,7 +251,7 @@
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="0FS-5h-EyM" userLabel="Play Skip Stack View">
-                                    <rect key="frame" x="10" y="146.5" width="394" height="80"/>
+                                    <rect key="frame" x="10" y="125.5" width="394" height="80"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooq-fV-tVm" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="137" height="80"/>
@@ -300,7 +301,7 @@
                                     </constraints>
                                 </stackView>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IM8-JJ-Wfy" userLabel="Action Buttons" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="343" width="374" height="56"/>
+                                    <rect key="frame" x="20" y="301" width="374" height="56"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ACg-CR-Hm8">
                                             <rect key="frame" x="15" y="0.0" width="344" height="56"/>
@@ -378,22 +379,23 @@
                         <constraint firstAttribute="width" secondItem="auM-3f-elA" secondAttribute="height" multiplier="1:1" id="r9y-4s-XLM"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="Error View">
-                    <rect key="frame" x="0.0" y="796" width="414" height="100"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="Error View" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="840" width="414" height="56"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE">
-                            <rect key="frame" x="8" y="8" width="398" height="16"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            <nil key="textColor"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="8" y="8" width="398" height="40"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.070000000000000007" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="96b-yr-mZE" firstAttribute="top" secondItem="Owh-jf-YTg" secondAttribute="topMargin" id="Tha-E8-VUo"/>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="top" secondItem="Owh-jf-YTg" secondAttribute="top" constant="8" id="Tha-E8-VUo"/>
                         <constraint firstAttribute="trailingMargin" secondItem="96b-yr-mZE" secondAttribute="trailing" id="XpO-f7-0TS"/>
-                        <constraint firstAttribute="bottomMargin" secondItem="96b-yr-mZE" secondAttribute="bottom" id="bf9-Jd-CIf"/>
-                        <constraint firstAttribute="height" constant="100" id="eT2-Qf-DyX"/>
+                        <constraint firstAttribute="bottom" secondItem="96b-yr-mZE" secondAttribute="bottom" constant="8" id="bf9-Jd-CIf"/>
+                        <constraint firstAttribute="height" constant="56" id="eT2-Qf-DyX"/>
                         <constraint firstItem="96b-yr-mZE" firstAttribute="leading" secondItem="Owh-jf-YTg" secondAttribute="leadingMargin" id="klf-K7-FM8"/>
                     </constraints>
                 </view>
@@ -415,7 +417,7 @@
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
-                <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
+                <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="72" id="zFk-ce-kom"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-796" y="-267"/>
@@ -426,8 +428,5 @@
         <image name="chapter-link-white" width="24" height="24"/>
         <image name="chapter-skipbackwards" width="30" height="30"/>
         <image name="chapter-skipforward" width="30" height="30"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

@@ -191,6 +191,20 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
+    @IBOutlet weak var errorContainer: ThemeableView! {
+        didSet {
+            errorContainer.style = .playerContrast06
+        }
+    }
+
+    @IBOutlet weak var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            errorLabel.adjustsFontForContentSizeCategory = true
+            errorLabel.style = .playerContrast02
+        }
+    }
+
     #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     #endif
