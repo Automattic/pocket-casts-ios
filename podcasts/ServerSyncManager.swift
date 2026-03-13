@@ -5,6 +5,8 @@ import PocketCastsUtils
 
 class ServerSyncManager: ServerSyncDelegate {
     static let shared = ServerSyncManager()
+    private static let networkDataUsageRetentionPeriod: TimeInterval = 60.days
+    private static let networkDataUsageCleanupInterval: TimeInterval = 24.hours
 
     // MARK: - Podcast functions
 
@@ -73,6 +75,7 @@ class ServerSyncManager: ServerSyncDelegate {
     }
 
     func performActionsAfterSync() {
+        cleanupNetworkDataUsageIfNeeded()
         PodcastManager.shared.checkForExpiredPodcastsAndCleanup()
         PodcastManager.shared.checkForPendingAndAutoDownloads()
         #if !APPCLIP
@@ -87,6 +90,28 @@ class ServerSyncManager: ServerSyncDelegate {
             #if !APPCLIP
             NotificationsHelper.shared.register(checkToken: true)
             #endif
+        }
+    }
+
+    private func cleanupNetworkDataUsageIfNeeded() {
+        let defaults = UserDefaults.standard
+        let lastCleanupDate = defaults.object(forKey: Constants.UserDefaults.lastNetworkDataUsageCleanupDate) as? Date
+
+        guard DateUtil.hasEnoughTimePassed(since: lastCleanupDate, time: Self.networkDataUsageCleanupInterval) else {
+            return
+        }
+
+        let cleanupDate = Date()
+        defaults.set(cleanupDate, forKey: Constants.UserDefaults.lastNetworkDataUsageCleanupDate)
+
+        Task {
+            let didCleanup = await DataManager.sharedManager.networkDataUsageManager.deleteRecords(
+                olderThan: Date(timeIntervalSinceNow: -Self.networkDataUsageRetentionPeriod)
+            )
+
+            if !didCleanup {
+                defaults.set(lastCleanupDate, forKey: Constants.UserDefaults.lastNetworkDataUsageCleanupDate)
+            }
         }
     }
 
