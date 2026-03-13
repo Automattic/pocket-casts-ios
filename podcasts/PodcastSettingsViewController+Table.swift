@@ -320,13 +320,14 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
     private func showAutoAddPositionSettings() {
         let positionPicker = OptionsPicker(title: L10n.autoAdd.localizedUppercase)
+        let currentSetting = podcast.autoAddToUpNextSetting()
 
-        let topAction = OptionAction(label: L10n.top, icon: nil) {
+        let topAction = OptionAction(label: L10n.top, icon: nil, selected: currentSetting == .addFirst) {
             self.setUpNext(.addFirst)
         }
         positionPicker.addAction(action: topAction)
 
-        let bottomAction = OptionAction(label: L10n.bottom, icon: nil) {
+        let bottomAction = OptionAction(label: L10n.bottom, icon: nil, selected: currentSetting == .addLast) {
             self.setUpNext(.addLast)
         }
         positionPicker.addAction(action: bottomAction)
