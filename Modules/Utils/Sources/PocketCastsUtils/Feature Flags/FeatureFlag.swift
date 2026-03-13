@@ -304,6 +304,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Track network data usage per episode/connection type in the NetworkDataUsage table
     case trackNetworkDataUsage
 
+    /// Fix cellular downloads to track user-approved cellular status explicitly
+    case cellularDownloadStatusFix
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -509,6 +512,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .detectTruncatedBackgroundSyncDownloads:
 			true
         case .trackNetworkDataUsage:
+			true
+        case .cellularDownloadStatusFix:
             true
         }
     }

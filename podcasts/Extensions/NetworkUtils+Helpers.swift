@@ -4,21 +4,28 @@ import PocketCastsServer
 import PocketCastsUtils
 
 extension NetworkUtils {
-    func downloadEpisodeRequested(autoDownloadStatus: AutoDownloadStatus, _ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
+    /// Requests permission to download an episode, potentially showing a prompt if on cellular.
+    /// - Parameters:
+    ///   - autoDownloadStatus: The auto-download status of the episode
+    ///   - allowed: Callback invoked when download is allowed.
+    ///     - `later`: true if user chose "Queue for Later", false if "Download Now" or no prompt needed
+    ///     - `approvedCellular`: true if user explicitly approved cellular download in the prompt
+    ///   - disallowed: Callback invoked when user dismisses without choosing an option
+    func downloadEpisodeRequested(autoDownloadStatus: AutoDownloadStatus, _ allowed: ((_ later: Bool, _ approvedCellular: Bool) -> Void)?, disallowed: (() -> Void)?) {
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
 
         if mobileDataAllowed || isConnectedToUnexpensiveConnection() {
-            allowed?(false)
+            allowed?(false, false)
 
             return
         }
 
         let optionsPicker = OptionsPicker(title: nil)
         let downloadAction = OptionAction(label: L10n.podcastDownloadNow, icon: nil) {
-            allowed?(false)
+            allowed?(false, true) // User explicitly approved cellular download
         }
         let laterAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-            allowed?(true)
+            allowed?(true, false)
         }
         laterAction.outline = true
 

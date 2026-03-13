@@ -221,25 +221,33 @@ class MultiSelectHelper {
             return
         }
 
-        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
-        let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
-            MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-            actionDelegate.multiSelectActionCompleted()
-        }
-
         let confirmPicker = OptionsPicker(title: nil)
         var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
         if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
+            let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+                // User is on Wi-Fi, no cellular approval needed
+                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate, userApprovedCellular: false)
+                actionDelegate.multiSelectActionCompleted()
+            }
+
             if downloadableCount < 5 {
                 let status = L10n.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
-                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
+                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate, userApprovedCellular: false)
                 return
             } else {
                 confirmPicker.addDescriptiveActions(title: L10n.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             }
         } else {
+            let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
+            let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+                // User explicitly approved cellular download
+                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate, userApprovedCellular: true)
+                actionDelegate.multiSelectActionCompleted()
+            }
+
             let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
                 let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
                 actionDelegate.multiSelectActionBegan(status: status)
@@ -257,11 +265,17 @@ class MultiSelectHelper {
         confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
     }
 
-    private class func downloadEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {
+    private class func downloadEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate, userApprovedCellular: Bool) {
+        let status: AutoDownloadStatus
+        if FeatureFlag.cellularDownloadStatusFix.enabled {
+            status = userApprovedCellular ? .userApprovedCellular : .notSpecified
+        } else {
+            status = .notSpecified
+        }
         DispatchQueue.global().async {
             var queuedEpisodes = 0
             for episode in episodes {
-                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
+                DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: status)
                 queuedEpisodes += 1
                 if queuedEpisodes == Constants.Limits.maxBulkDownloads {
                     return

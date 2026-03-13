@@ -20,7 +20,7 @@ public enum UploadedSort: Int32, CaseIterable, Codable {
 }
 
 public enum AutoDownloadStatus: Int32 {
-    case notSpecified = 0, userDeletedFile = 1, userCancelledDownload = 2, autoDownloaded = 3, playerDownloadedForStreaming = 4
+    case notSpecified = 0, userDeletedFile = 1, userCancelledDownload = 2, autoDownloaded = 3, playerDownloadedForStreaming = 4, userApprovedCellular = 5
 }
 
 public enum DownloadStatus: Int32 {

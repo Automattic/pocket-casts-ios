@@ -36,11 +36,17 @@ class PlaybackActionHelper {
     class func download(episodeUuid: String) {
         AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: episodeUuid)
 
-        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
+        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later, approvedCellular in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: .notSpecified)
             } else {
-                DownloadManager.shared.addToQueue(episodeUuid: episodeUuid)
+                let status: AutoDownloadStatus
+                if FeatureFlag.cellularDownloadStatusFix.enabled {
+                    status = approvedCellular ? .userApprovedCellular : .notSpecified
+                } else {
+                    status = .notSpecified
+                }
+                DownloadManager.shared.addToQueue(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: status)
             }
         }, disallowed: nil)
     }
@@ -52,11 +58,17 @@ class PlaybackActionHelper {
     }
 
     class func overrideWaitingForWifi(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) {
-        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: autoDownloadStatus, { later in
+        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: autoDownloadStatus, { later, approvedCellular in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: autoDownloadStatus)
             } else {
-                DownloadManager.shared.addToQueue(episodeUuid: episodeUuid)
+                let status: AutoDownloadStatus
+                if FeatureFlag.cellularDownloadStatusFix.enabled {
+                    status = approvedCellular ? .userApprovedCellular : autoDownloadStatus
+                } else {
+                    status = autoDownloadStatus
+                }
+                DownloadManager.shared.addToQueue(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: status)
             }
         }, disallowed: nil)
     }
