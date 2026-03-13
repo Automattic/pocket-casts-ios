@@ -108,7 +108,7 @@ class TimeSlider: UIView {
     // MARK: - Touch handling
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let firstTouch = touches.first {            
+        if let firstTouch = touches.first {
             let touchPoint = firstTouch.location(in: self)
             let slightlyBiggerKnobRect = timeLayer().knobRect.insetBy(dx: -20, dy: -20)
             if slightlyBiggerKnobRect.contains(touchPoint) {
