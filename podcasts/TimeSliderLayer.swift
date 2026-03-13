@@ -160,12 +160,18 @@ class TimeSliderLayer: CALayer {
         if animating { return }
 
         animating = true
-        progressAnimationRect = CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: animationLineWidth(), height: leftHalfRect.size.height)
 
         let duration: CFTimeInterval = 1.0
         let progressStartX = rightHalfRect.origin.x
-
         let animationLineWidth = animationLineWidth()
+
+        // Initialize the model rect to match the first keyframe (start X and minimal width)
+        progressAnimationRect = CGRect(
+            x: progressStartX,
+            y: leftHalfRect.origin.y,
+            width: 1,
+            height: leftHalfRect.size.height
+        )
 
         let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
         moveAnimation.values = [
