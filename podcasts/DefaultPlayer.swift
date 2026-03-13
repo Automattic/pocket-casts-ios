@@ -36,6 +36,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var episodeUuid: String?
     private var podcastUuid: String?
 
+
+#if !os(watchOS) && !APPCLIP
+    private var cellularTracker: StreamingCellularTracker?
+#endif
+
     #if !os(watchOS)
         private lazy var episodeArtwork: EpisodeArtwork = {
             EpisodeArtwork()
@@ -73,6 +78,20 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         episodeUuid = episode.uuid
         podcastUuid = episode.parentIdentifier()
+
+        // Start cellular tracking for remote streaming
+        // MediaExporterResourceLoaderDelegate handles its own tracking for cache+stream,
+        // but for direct AVPlayer streaming we use StreamingCellularTracker
+        #if !os(watchOS) && !APPCLIP
+        if let urlAsset = playerItem.asset as? AVURLAsset, !urlAsset.url.isFileURL {
+            cellularTracker = StreamingCellularTracker()
+            cellularTracker?.startTracking(
+                playerItem: playerItem,
+                episodeUuid: episode.uuid,
+                podcastUuid: episode.parentIdentifier()
+            )
+        }
+        #endif
 
         configurePlayer(videoPodcast: episode.videoPodcast())
     }
@@ -181,6 +200,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             player?.pause()
         }
         cleanupPlayer()
+
+        #if !os(watchOS) && !APPCLIP
+        cellularTracker?.stopTracking()
+        cellularTracker = nil
+        #endif
 
         audioMix = nil
         assetTrack = nil

@@ -1756,6 +1756,7 @@
 		F55598112C534D4100C02EEB /* CMTimeScale+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */; };
 		F56035112DCBD67300E6F238 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035102DCBD67300E6F238 /* EmptyStateCell.swift */; };
 		F56035132DCBDB1F00E6F238 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56035122DCBDB1F00E6F238 /* LoadingCell.swift */; };
+		F561A6EA2F68F81C0014889E /* StreamingCellularTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561A6E92F68F81C0014889E /* StreamingCellularTracker.swift */; };
 		F56295292C0FC14900C44E8A /* DBTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56295282C0FC14900C44E8A /* DBTestCase.swift */; };
 		F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */; };
 		F56C030C2CCEEF7100E515FF /* NumberListened2024.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */; };
@@ -3997,6 +3998,7 @@
 		F55598102C534D4100C02EEB /* CMTimeScale+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTimeScale+Common.swift"; sourceTree = "<group>"; };
 		F56035102DCBD67300E6F238 /* EmptyStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
 		F56035122DCBDB1F00E6F238 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		F561A6E92F68F81C0014889E /* StreamingCellularTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingCellularTracker.swift; sourceTree = "<group>"; };
 		F56295282C0FC14900C44E8A /* DBTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTestCase.swift; sourceTree = "<group>"; };
 		F565602E2B7ACD9B003E76D5 /* DataManager+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Import.swift"; sourceTree = "<group>"; };
 		F56C030B2CCEEF6700E515FF /* NumberListened2024.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberListened2024.swift; sourceTree = "<group>"; };
@@ -6319,6 +6321,7 @@
 				BD7BCF101F6A4F110006E008 /* SharingHelper.swift */,
 				8BD256D12A5C7090006648BE /* SharingHelper+swipeButton.swift */,
 				BD7BCF121F6A4F920006E008 /* SharingItemProvider.swift */,
+				F561A6E92F68F81C0014889E /* StreamingCellularTracker.swift */,
 				BDCE1D601FBC1C4100100A86 /* UrlHelper.swift */,
 				BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */,
 				BD24E6F220E3474600A712E3 /* ArchiveHelper.swift */,
@@ -10230,6 +10233,7 @@
 				FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */,
 				9AA14FAD2E45023900464A5A /* NewPlaylistViewController.swift in Sources */,
 				C76ECACE2A685FB300D9DB9E /* BookmarksListView.swift in Sources */,
+				F561A6EA2F68F81C0014889E /* StreamingCellularTracker.swift in Sources */,
 				F51BAC222DC852C200351B09 /* CreatorPickModalView.swift in Sources */,
 				4022A4C0236BA15800900734 /* SleepTimerViewController.swift in Sources */,
 				F5DFC4EE2E7138B100D69412 /* BookmarksHostingCell.swift in Sources */,
