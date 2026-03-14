@@ -1361,10 +1361,10 @@ internal enum L10n {
   internal static var filterEpisodeStatus: String { return L10n.tr("Localizable", "filter_episode_status", fallback: "Episode Status") }
   /// Title for the episode title contains smart filter rule.
   internal static var filterEpisodeTitleContains: String { return L10n.tr("Localizable", "filter_episode_title_contains", fallback: "Episode Title") }
-  /// Header title shown inside the episode title filter screen.
-  internal static var filterEpisodeTitleContainsHeader: String { return L10n.tr("Localizable", "filter_episode_title_contains_header", fallback: "Episode title contains") }
   /// Description shown inside the episode title filter screen explaining what it does.
   internal static var filterEpisodeTitleContainsDescription: String { return L10n.tr("Localizable", "filter_episode_title_contains_description", fallback: "Only include episodes whose title contains this text. Useful for tracking a guest or topic across all your podcasts.") }
+  /// Header title shown inside the episode title filter screen.
+  internal static var filterEpisodeTitleContainsHeader: String { return L10n.tr("Localizable", "filter_episode_title_contains_header", fallback: "Episode title contains") }
   /// Placeholder text for the episode title search field.
   internal static var filterEpisodeTitleContainsPlaceholder: String { return L10n.tr("Localizable", "filter_episode_title_contains_placeholder", fallback: "e.g. bonus, interview…") }
   /// Label for the longer than duration filter time

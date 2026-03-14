@@ -141,6 +141,7 @@ class PlaylistDataManager {
 
                 if resultSet.next() {
                     playlist = self.createPlaylistFrom(resultSet: resultSet)
+                    playlist?.recalculateSmartRuleFlags()
                 }
             } catch {
                 FileLog.shared.addMessage("PlaylistDataManager.findBy error: \(error)")
@@ -410,6 +411,7 @@ class PlaylistDataManager {
 
                 while resultSet.next() {
                     let filter = self.createPlaylistFrom(resultSet: resultSet)
+                    filter.recalculateSmartRuleFlags()
                     allPlaylists.append(filter)
                 }
             } catch {
@@ -571,6 +573,7 @@ class PlaylistDataManager {
         playlist.manual = rs.bool(forColumn: "manual")
         playlist.showArchivedEpisodes = rs.bool(forColumn: "showArchivedEpisodes")
         playlist.playlistUpdateDate = DBUtils.convertDate(value: rs.double(forColumn: "playlistUpdateDate"))
+        playlist.filterEpisodeTitle = DBUtils.nonNilStringFromColumn(resultSet: rs, columnName: "filterEpisodeTitle")
 
         return playlist
     }
@@ -603,6 +606,7 @@ class PlaylistDataManager {
         values.append(playlist.manual)
         values.append(playlist.showArchivedEpisodes)
         values.append(DBUtils.nullIfNil(value: updateDate ?? playlist.playlistUpdateDate))
+        values.append(playlist.filterEpisodeTitle)
 
         if includeUuidForWhere {
             values.append(playlist.uuid)

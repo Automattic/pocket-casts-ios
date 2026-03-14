@@ -55,6 +55,10 @@ public class EpisodeFilter: NSObject {
 
     override public init() {}
 
+    public func recalculateSmartRuleFlags() {
+        titleSmartRuleApplied = !filterEpisodeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {
             playlistName = defaultTitle
