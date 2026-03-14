@@ -281,6 +281,10 @@ class PlaylistPreviewViewController: PCViewController {
             let filterSettingsVC = EpisodeFilterOverlayController(nibName: "FilterSettingsOverlayController", bundle: nil)
             filterSettingsVC.filterToEdit = viewModel.newPlaylist
             viewController = filterSettingsVC
+        case .episodeTitle:
+            let titleFilterVC = EpisodeTitleFilterViewController()
+            titleFilterVC.filterToEdit = viewModel.newPlaylist
+            viewController = titleFilterVC
         }
         navigationController?.pushViewController(viewController, animated: true)
     }

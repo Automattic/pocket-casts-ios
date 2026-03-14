@@ -735,6 +735,230 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         XCTAssertGreaterThan(resultsOptimized.count, 0, "Should return episodes when shouldShowArchived is true")
     }
 
+    // MARK: - Episode Title Filter Tests
+
+    private func insertEpisodeTitleTestData(in dbPool: DatabasePool, podcastUUID: String = "podcast-title-test") throws {
+        try dbPool.write { db in
+            try db.execute(sql: """
+                INSERT INTO SJPodcast (id, uuid, title, addedDate)
+                VALUES (100, ?, 'Title Test Podcast', 0.0)
+                """, arguments: [podcastUUID])
+
+            let now = Date().timeIntervalSince1970
+            let titles = [
+                "Interview with Adam Curry",
+                "Bonus Episode: Behind the Scenes",
+                "BONUS: Extended Interview",
+                "Normal Episode One",
+                "Normal Episode Two",
+                "Interview Tips for Podcasters",
+                "It's O'Brien: A Special Guest"
+            ]
+            for (index, title) in titles.enumerated() {
+                try db.execute(sql: """
+                    INSERT INTO SJEpisode (id, uuid, podcastUuid, podcast_id, title, publishedDate, addedDate,
+                                          duration, playingStatus, episodeStatus, archived)
+                    VALUES (?, ?, ?, 100, ?, ?, ?, 600, 0, 1, 0)
+                    """, arguments: [200 + index, "title-ep-\(index)", podcastUUID, title,
+                                     now - Double(index * 1000), now])
+            }
+        }
+    }
+
+    private func episodeTitles(from results: [[String: DatabaseValue]]) -> [String] {
+        results.compactMap { row in
+            row["title"].flatMap { String.fromDatabaseValue($0) }
+        }
+    }
+
+    func testEpisodeTitleFilterIncludesLIKEClause() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "bonus"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.uppercased().contains("LIKE '%BONUS%'"), "Query should contain LIKE clause for title: \(query)")
+    }
+
+    func testEpisodeTitleFilterEmptyStringProducesNoLIKEClause() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = ""
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertFalse(query.contains("LIKE"), "Empty title filter should not produce a LIKE clause: \(query)")
+    }
+
+    func testEpisodeTitleFilterWhitespaceOnlyProducesNoLIKEClause() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "   "
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertFalse(query.contains("LIKE"), "Whitespace-only title filter should not produce a LIKE clause: \(query)")
+    }
+
+    func testEpisodeTitleFilterUsesUppercaseComparison() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "Bonus"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.contains("UPPER(episode.title)"), "Query should use UPPER() for case-insensitive match: \(query)")
+        XCTAssertTrue(query.uppercased().contains("LIKE '%BONUS%'"), "Keyword should be uppercased in query: \(query)")
+    }
+
+    func testEpisodeTitleFilterEscapesSingleQuotes() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "O'Brien"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.uppercased().contains("O''BRIEN"), "Single quotes should be escaped as two single quotes: \(query)")
+    }
+
+    func testEpisodeTitleFilterProducesValidSQLForAllClauses() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "interview"
+
+        for clause in [PlaylistQueryBuilder.SelectClause.episode, .episodeCount, .allEpisodeCount] {
+            let query = PlaylistQueryBuilder.query(clause: clause, for: filter)
+            XCTAssertNoThrow(try SQLiteValidator.validate(sql: query), "Clause \(clause) should produce valid SQL: \(query)")
+        }
+    }
+
+    func testEpisodeTitleFilterCombinesWithOtherFilters() {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "bonus"
+        filter.filterUnplayed = true
+        filter.filterStarred = true
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query))
+        XCTAssertTrue(query.uppercased().contains("LIKE '%BONUS%'"), "Title filter should be present alongside other filters")
+        XCTAssertTrue(query.contains("playingStatus"), "Playing status filter should also be present")
+        XCTAssertTrue(query.contains("keepEpisode"), "Starred filter should also be present")
+    }
+
+    func testEpisodeTitleFilterReturnsMatchingEpisodes() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "bonus"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+        let results = try executeQuery(query, in: dbPool)
+        let titles = episodeTitles(from: results)
+
+        // "Bonus Episode: Behind the Scenes" and "BONUS: Extended Interview"
+        XCTAssertEqual(titles.count, 2, "Should match exactly 2 episodes with 'bonus' in title, got: \(titles)")
+        XCTAssertTrue(titles.allSatisfy { $0.uppercased().contains("BONUS") },
+                      "All results should contain 'bonus' (case-insensitive)")
+    }
+
+    func testEpisodeTitleFilterIsCaseInsensitive() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        for keyword in ["bonus", "BONUS", "Bonus", "bOnUs"] {
+            let filter = EpisodeFilter()
+            filter.manual = false
+            filter.filterEpisodeTitle = keyword
+
+            let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+            let results = try executeQuery(query, in: dbPool)
+
+            XCTAssertEqual(results.count, 2, "'\(keyword)' should match 2 episodes regardless of case")
+        }
+    }
+
+    func testEpisodeTitleFilterReturnsNoEpisodesForNonMatchingKeyword() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "zzznomatch"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+        let results = try executeQuery(query, in: dbPool)
+
+        XCTAssertEqual(results.count, 0, "Non-matching keyword should return no episodes")
+    }
+
+    func testEpisodeTitleFilterMatchesPartialTitle() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "interview"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+        let results = try executeQuery(query, in: dbPool)
+        let titles = episodeTitles(from: results)
+
+        // "Interview with Adam Curry" and "Interview Tips for Podcasters"
+        XCTAssertEqual(titles.count, 2, "Should match 2 episodes containing 'interview', got: \(titles)")
+        XCTAssertTrue(titles.allSatisfy { $0.uppercased().contains("INTERVIEW") })
+    }
+
+    func testEpisodeTitleFilterHandlesSingleQuoteInKeyword() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "O'Brien"
+
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+        XCTAssertNoThrow(try SQLiteValidator.validate(sql: query), "Query with single-quote keyword should be valid SQL")
+
+        let results = try executeQuery(query, in: dbPool)
+        let titles = episodeTitles(from: results)
+
+        XCTAssertEqual(results.count, 1, "Should match exactly 1 episode containing O'Brien, got: \(titles)")
+        XCTAssertTrue(titles.first?.contains("O'Brien") == true)
+    }
+
+    func testEpisodeTitleCountMatchesEpisodeCount() throws {
+        let dbPool = try createTestDatabase()
+        try insertEpisodeTitleTestData(in: dbPool)
+
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.filterEpisodeTitle = "bonus"
+
+        let episodeQuery = PlaylistQueryBuilder.query(clause: .episode, for: filter)
+        let countQuery = PlaylistQueryBuilder.query(clause: .episodeCount, for: filter)
+
+        let episodeResults = try executeQuery(episodeQuery, in: dbPool)
+        let countResults = try executeQuery(countQuery, in: dbPool)
+
+        guard let countValue = countResults.first?.values.first.flatMap(Int.fromDatabaseValue) else {
+            XCTFail("Could not extract count value")
+            return
+        }
+
+        XCTAssertEqual(episodeResults.count, countValue,
+                       "Episode count query should return same count as episode query rows")
+    }
+
     func testShouldShowArchivedConsistencyAcrossAllClauses() throws {
         let dbPool = try createTestDatabase()
         let playlistUUID = "test-consistency"

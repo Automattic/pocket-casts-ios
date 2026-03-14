@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 
 enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
-    case podcast, episode, releaseDate, duration, downloadStatus, mediaType, starred
+    case podcast, episode, releaseDate, duration, downloadStatus, mediaType, starred, episodeTitle
 
     var id: Int { rawValue }
 
@@ -22,6 +22,8 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
             return "filter_clock"
         case .starred:
             return "filter_starred"
+        case .episodeTitle:
+            return "filter_list"
         }
     }
 
@@ -42,6 +44,8 @@ enum SmartPlaylistRule: Int, CaseIterable, Identifiable {
             value = L10n.filterChipsDuration
         case .starred:
             value = L10n.statusStarred
+        case .episodeTitle:
+            value = L10n.filterEpisodeTitleContains
         }
         if FeatureFlag.playlistsRebranding.enabled {
             value = value.sentenceCased
