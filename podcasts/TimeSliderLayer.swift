@@ -185,12 +185,13 @@ class TimeSliderLayer: CALayer {
         growAnimation.duration = duration
 
         let colorAnimation = CAKeyframeAnimation(keyPath: "animationColor")
+        let uiAnimationColor = UIColor(cgColor: animationColor)
         colorAnimation.values = [
-            animationColor.copy(alpha: 0.5)!,
-            animationColor.copy(alpha: 0.4)!,
-            animationColor.copy(alpha: 0.3)!,
-            animationColor.copy(alpha: 0.2)!,
-            animationColor.copy(alpha: 0.1)!
+            uiAnimationColor.withAlphaComponent(0.5).cgColor,
+            uiAnimationColor.withAlphaComponent(0.4).cgColor,
+            uiAnimationColor.withAlphaComponent(0.3).cgColor,
+            uiAnimationColor.withAlphaComponent(0.2).cgColor,
+            uiAnimationColor.withAlphaComponent(0.1).cgColor
         ]
         colorAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         colorAnimation.duration = duration
