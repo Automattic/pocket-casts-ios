@@ -1,5 +1,5 @@
 {
-  "originHash" : "d94ace484c27f99c363777342878fde1223d55735ab669448050a4d650fa795c",
+  "originHash" : "4012766e1e923354f1ef267f92ff3d2d17e631279f5ea956475e05fa79d8cfc4",
   "pins" : [
     {
       "identity" : "grdb.swift",
@@ -11,12 +11,30 @@
       }
     },
     {
+      "identity" : "swift-protobuf",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-protobuf.git",
+      "state" : {
+        "revision" : "a008af1a102ff3dd6cc3764bb69bf63226d0f5f6",
+        "version" : "1.36.1"
+      }
+    },
+    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-syntax.git",
       "state" : {
         "revision" : "0687f71944021d616d34d922343dcef086855920",
         "version" : "600.0.1"
+      }
+    },
+    {
+      "identity" : "swime",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielebogo/Swime",
+      "state" : {
+        "branch" : "master",
+        "revision" : "6a507c6480de4603bc5b6f178d4b1855b9c05a8c"
       }
     }
   ],
