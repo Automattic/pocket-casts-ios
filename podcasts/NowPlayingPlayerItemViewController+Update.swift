@@ -180,11 +180,22 @@ extension NowPlayingPlayerItemViewController {
         }
         if !errorMessage.isEmpty {
             print("Error: \(errorMessage)")
+            errorLabel.text = errorMessage
         }
 
         if let downloadError = playingEpisode.downloadErrorDetails {
             print("Error: \(downloadError)")
+            errorLabel.text = downloadError
         }
+    }
+
+    func showError() {
+        // Move error container in view
+        
+    }
+
+    func hideError() {
+        // Move error out
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {

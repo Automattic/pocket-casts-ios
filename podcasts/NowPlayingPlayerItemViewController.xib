@@ -26,6 +26,7 @@
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
                 <outlet property="playPauseHeightConstraint" destination="dtu-hS-iiu" id="s0N-0P-nEh"/>
+                <outlet property="playerBottomSpacing" destination="zFk-ce-kom" id="MBu-Nk-TqD"/>
                 <outlet property="playerControlsStackView" destination="ACg-CR-Hm8" id="Sgd-Fl-WU9"/>
                 <outlet property="podcastName" destination="aMx-eC-OGM" id="ahS-1J-UQ6"/>
                 <outlet property="shelfBg" destination="IM8-JJ-Wfy" id="eGr-43-mIS"/>
