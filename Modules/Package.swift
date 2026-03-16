@@ -24,6 +24,11 @@ let package = Package(
         .library(
             name: "PocketCastsUtils",
             targets: ["PocketCastsUtils"]
+        ),
+        .library(
+            name: "PocketCastsDataModel",
+            type: .dynamic,
+            targets: ["PocketCastsDataModel"]
         )
     ],
     dependencies: [
@@ -85,6 +90,23 @@ let package = Package(
             name: "PocketCastsUtilsTests",
             dependencies: ["PocketCastsUtils"],
             path: "Tests/PocketCastsUtilsTests"
+        ),
+        .target(
+            name: "PocketCastsDataModel",
+            dependencies: [
+                .product(name: "GRDB", package: "GRDB.swift"),
+                "PocketCastsUtils",
+                "GRDBMacros",
+            ],
+            path: "Sources/PocketCastsDataModel",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ]
+        ),
+        .testTarget(
+            name: "PocketCastsDataModelTests",
+            dependencies: ["PocketCastsDataModel"],
+            path: "Tests/PocketCastsDataModelTests"
         )
     ]
 )
