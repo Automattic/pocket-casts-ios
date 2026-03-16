@@ -20,12 +20,11 @@ class ManageDownloadsCoordinator {
     }
 
     static func showModalIfNeeded(from presentationVC: UIViewController, source: String) {
-        guard Self.shouldShowBanner
-        else {
+        guard Self.shouldShowBanner else {
             return
         }
         Analytics.track(.freeUpSpaceModalShown, properties: ["source": source])
-        let modalView = ManageDownloadsModel(initialSize: "", onManageTap: { [weak presentationVC] in
+        let dataModel = ManageDownloadsModel(initialSize: "", onManageTap: { [weak presentationVC] in
             Analytics.track(.freeUpSpaceManageDownloadsTapped, properties: ["source": source])
             presentationVC?.dismiss(animated: true, completion: {
                 presentationVC?.navigationController?.pushViewController(DownloadedFilesViewController(), animated: true)
@@ -35,12 +34,14 @@ class ManageDownloadsCoordinator {
             Settings.manageDownloadsLastCheckDate = Date.now
             presentationVC?.dismiss(animated: true)
         })
-        let themedVC = ThemedHostingController(rootView: ManageDownloadsModalView(dataModel: modalView))
-        if let sheet = themedVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersGrabberVisible = true
-        }
-        presentationVC.present(themedVC, animated: true)
+        BottomSheetSwiftUIWrapper.present(
+            ManageDownloadsModalView(dataModel: dataModel),
+            autoSize: true,
+            showingGrabber: true,
+            in: presentationVC) {
+                Settings.manageDownloadsLastCheckDate = Date.now
+            }
+        return
     }
 
 }

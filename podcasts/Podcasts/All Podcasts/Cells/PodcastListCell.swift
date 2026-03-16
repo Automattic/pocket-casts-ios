@@ -82,6 +82,8 @@ class PodcastListCell: ThemeableCollectionCell {
                 break
         }
         unplayedBadge.layoutIfNeeded()
+
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

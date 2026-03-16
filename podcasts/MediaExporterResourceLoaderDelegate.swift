@@ -47,6 +47,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
     private var pendingRequestsValue = Set<AVAssetResourceLoadingRequest>()
     private var isDownloadComplete = false
+    var deleteFileOnRelease = false
     var hasRetriedWithoutUserAgent = false
 
     private let saveFilePath: String
@@ -83,6 +84,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Releasing loader for \(saveFilePath)")
         session?.invalidateAndCancel()
         session = nil
+        if deleteFileOnRelease {
+            fileHandle.deleteFile()
+        }
     }
 
     static let schemePrefix = "custom-"

@@ -78,7 +78,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsQueuePosition
             cell.setImage(imageName: nil)
-
+            cell.showSecondaryLabel = true
             let upNextOrder = podcast.autoAddToUpNextSetting()?.rawValue
             cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.bottom : L10n.top
 
@@ -87,7 +87,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = L10n.settingsGlobalSettings
             cell.setImage(imageName: nil)
-
+            cell.showSecondaryLabel = true
             cell.cellSecondaryLabel.text = L10n.settingsEpisodeLimitFormat(ServerSettings.autoAddToUpNextLimit().localized())
 
             return cell
@@ -320,13 +320,14 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
     private func showAutoAddPositionSettings() {
         let positionPicker = OptionsPicker(title: L10n.autoAdd.localizedUppercase)
+        let currentSetting = podcast.autoAddToUpNextSetting()
 
-        let topAction = OptionAction(label: L10n.top, icon: nil) {
+        let topAction = OptionAction(label: L10n.top, icon: nil, selected: currentSetting == .addFirst) {
             self.setUpNext(.addFirst)
         }
         positionPicker.addAction(action: topAction)
 
-        let bottomAction = OptionAction(label: L10n.bottom, icon: nil) {
+        let bottomAction = OptionAction(label: L10n.bottom, icon: nil, selected: currentSetting == .addLast) {
             self.setUpNext(.addLast)
         }
         positionPicker.addAction(action: bottomAction)
