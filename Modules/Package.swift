@@ -20,6 +20,10 @@ let package = Package(
         .library(
             name: "GRDBMacros",
             targets: ["GRDBMacros"]
+        ),
+        .library(
+            name: "PocketCastsUtils",
+            targets: ["PocketCastsUtils"]
         )
     ],
     dependencies: [
@@ -69,6 +73,18 @@ let package = Package(
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ],
             path: "Tests/GRDBMacrosTests"
+        ),
+        .target(
+            name: "PocketCastsUtils",
+            path: "Sources/PocketCastsUtils",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ]
+        ),
+        .testTarget(
+            name: "PocketCastsUtilsTests",
+            dependencies: ["PocketCastsUtils"],
+            path: "Tests/PocketCastsUtilsTests"
         )
     ]
 )

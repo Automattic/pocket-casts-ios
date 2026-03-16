@@ -18,7 +18,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
         .package(url: "https://github.com/danielebogo/Swime", branch: "master"),
         .package(path: "../DataModel/"),
-        .package(path: "../Utils/")
+        .package(path: "../")
     ],
     targets: [
         .target(
@@ -27,7 +27,7 @@ let package = Package(
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Swime", package: "Swime"),
                 .product(name: "PocketCastsDataModel", package: "DataModel"),
-                .product(name: "PocketCastsUtils", package: "Utils")
+                .product(name: "PocketCastsUtils", package: "Modules")
             ],
             path: "Sources",
             swiftSettings: [

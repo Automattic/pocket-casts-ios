@@ -396,14 +396,12 @@
 		8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DED287352F600E35313 /* PocketCastsServer */; };
 		8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DED287352F600E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF32873533F00E35313 /* PocketCastsUtils */; };
-		8BE36DF52873533F00E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF32873533F00E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36DF72873534A00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF62873534A00E35313 /* PocketCastsUtils */; };
 		8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; };
 		8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; };
 		8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
-		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
@@ -1150,7 +1148,6 @@
 		F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
 		F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF72122A2DA00649F81 /* sleep_button.json */; };
 		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
-		F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
 		F55566FF2D14E3D000231367 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD14E792214642B80082FD5F /* VideoViewController.xib */; };
 		F555980B2C50242800C02EEB /* VideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F555980A2C50242800C02EEB /* VideoExporter.swift */; };
@@ -1198,7 +1195,6 @@
 		F5F508F12CEBE955007D6E39 /* RegionCancellingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1E000D1F6BA44D0024542F /* RegionCancellingScrollView.swift */; };
 		F5F508F22CEBE966007D6E39 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A3D1B54E053000EC323 /* PlaybackManager.swift */; };
 		F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F32CEBE985007D6E39 /* PocketCastsUtils */; };
-		F5F508F62CEBE985007D6E39 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F32CEBE985007D6E39 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */; };
 		F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F5F508FA2CEBE9C1007D6E39 /* ThemeableUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD5C9FF2303E8FA005E133C /* ThemeableUIButton.swift */; };
@@ -1496,7 +1492,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -1509,7 +1504,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F55449432B758E8300F68AE9 /* PocketCastsUtils in Embed Frameworks */,
 				C7BF5E4E29083E2100733C1E /* PocketCastsServer in Embed Frameworks */,
 				8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -1570,7 +1564,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8BE36DF52873533F00E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -1583,7 +1576,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F5F508F62CEBE985007D6E39 /* PocketCastsUtils in Embed Frameworks */,
 				F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */,
 				F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */,
 			);
@@ -1955,7 +1947,6 @@
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
 		871975870906424F8C3C70B0 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Modules; path = Modules; sourceTree = SOURCE_ROOT; };
 		8BE36DCA28734F7000E35313 /* DataModel */ = {isa = PBXFileReference; lastKnownFileType = text; name = DataModel; path = Modules/DataModel; sourceTree = SOURCE_ROOT; };
-		8BE36DCB28734F7000E35313 /* Utils */ = {isa = PBXFileReference; lastKnownFileType = text; name = Utils; path = Modules/Utils; sourceTree = SOURCE_ROOT; };
 		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
@@ -3544,7 +3535,6 @@
 				3F584DED2F56811B005A3593 /* End of Year */,
 				8BE36DCA28734F7000E35313 /* DataModel */,
 				8BE36DCC28734F7000E35313 /* Server */,
-				8BE36DCB28734F7000E35313 /* Utils */,
 				3F584E3E2F568131005A3593 /* Whats New */,
 			);
 			name = Modules;
