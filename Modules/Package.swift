@@ -10,12 +10,12 @@ let package = Package(
     products: [
         .library(
             name: "Modules",
-            type: .dynamic,
+
             targets: ["Modules"]
         ),
         .library(
             name: "PocketCastsDependencyInjection",
-            type: .dynamic,
+
             targets: ["PocketCastsDependencyInjection"]
         )
     ],

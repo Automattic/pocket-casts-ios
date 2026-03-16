@@ -405,7 +405,6 @@
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; };
-		B56FFF0F23B9490A97604C5F /* Modules in Embed Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
@@ -447,11 +446,8 @@
 		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
 		9A9004C62E2E62EA005879CB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; };
-		9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; };
-		9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; };
-		9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */; };
 		9A96E64D2EC4A24800472FB8 /* 2025_rating_bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A96E64C2EC4A24800472FB8 /* 2025_rating_bars.json */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
@@ -1500,8 +1496,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B56FFF0F23B9490A97604C5F /* Modules in Embed Frameworks */,
-				9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -1576,7 +1570,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A9004CC2E2E6455005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36DF52873533F00E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */,
 				8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */,
@@ -1590,7 +1583,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A9004CF2E2E6462005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				F5F508F62CEBE985007D6E39 /* PocketCastsUtils in Embed Frameworks */,
 				F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */,
 				F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */,
