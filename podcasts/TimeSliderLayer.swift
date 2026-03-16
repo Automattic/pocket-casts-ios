@@ -173,15 +173,6 @@ class TimeSliderLayer: CALayer {
             height: leftHalfRect.size.height
         )
 
-        let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
-        moveAnimation.values = [
-            progressStartX,
-            progressStartX,
-            progressStartX
-        ]
-        moveAnimation.keyTimes = [0, 0.3, 1]
-        moveAnimation.duration = duration
-
         let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
         growAnimation.values = [
             1,
@@ -205,7 +196,7 @@ class TimeSliderLayer: CALayer {
         colorAnimation.duration = duration
 
         let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [moveAnimation, growAnimation, colorAnimation]
+        animationGroup.animations = [growAnimation, colorAnimation]
         animationGroup.duration = duration
 
         animationGroup.repeatCount = .greatestFiniteMagnitude
