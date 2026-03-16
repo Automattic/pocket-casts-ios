@@ -20,6 +20,7 @@
                 <outlet property="episodeImage" destination="dXr-Zd-0wP" id="g0t-eE-u5G"/>
                 <outlet property="episodeInfoView" destination="MLe-7y-U6n" id="0K2-Ws-I3X"/>
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
+                <outlet property="errorBottomSpacing" destination="ckZ-tn-s0v" id="T3H-oG-x6y"/>
                 <outlet property="errorContainer" destination="Owh-jf-YTg" id="TJt-lH-W8r"/>
                 <outlet property="errorLabel" destination="96b-yr-mZE" id="PeX-yT-KUQ"/>
                 <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
@@ -44,7 +45,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WxQ-7h-0WZ">
-                    <rect key="frame" x="0.0" y="8" width="414" height="816"/>
+                    <rect key="frame" x="0.0" y="8" width="414" height="858"/>
                     <subviews>
                         <imageView contentMode="scaleAspectFit" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dXr-Zd-0wP">
                             <rect key="frame" x="30" y="0.0" width="354" height="354"/>
@@ -206,7 +207,7 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="UmO-Rc-jIG" userLabel="Bottom Controls Stack View">
-                            <rect key="frame" x="0.0" y="459" width="414" height="357"/>
+                            <rect key="frame" x="0.0" y="459" width="414" height="399"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2E-0H-hwM" userLabel="Time Slide">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
@@ -252,7 +253,7 @@
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="0FS-5h-EyM" userLabel="Play Skip Stack View">
-                                    <rect key="frame" x="10" y="125.5" width="394" height="80"/>
+                                    <rect key="frame" x="10" y="146.5" width="394" height="80"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooq-fV-tVm" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="137" height="80"/>
@@ -302,7 +303,7 @@
                                     </constraints>
                                 </stackView>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IM8-JJ-Wfy" userLabel="Action Buttons" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                                    <rect key="frame" x="20" y="301" width="374" height="56"/>
+                                    <rect key="frame" x="20" y="343" width="374" height="56"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ACg-CR-Hm8">
                                             <rect key="frame" x="15" y="0.0" width="344" height="56"/>
@@ -381,7 +382,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="Error View" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="840" width="414" height="56"/>
+                    <rect key="frame" x="0.0" y="940" width="414" height="56"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                             <rect key="frame" x="8" y="8" width="398" height="40"/>
@@ -411,14 +412,14 @@
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
-                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" id="ckZ-tn-s0v"/>
+                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" constant="-100" id="ckZ-tn-s0v"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
                 <constraint firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
-                <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="72" id="zFk-ce-kom"/>
+                <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-796" y="-267"/>

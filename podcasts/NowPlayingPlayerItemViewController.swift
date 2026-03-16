@@ -207,6 +207,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var playerBottomSpacing: NSLayoutConstraint!
 
+    @IBOutlet weak var errorBottomSpacing: NSLayoutConstraint!
+
     #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     #endif

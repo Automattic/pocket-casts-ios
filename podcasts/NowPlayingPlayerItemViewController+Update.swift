@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension NowPlayingPlayerItemViewController {
     func addObservers() {
@@ -175,27 +176,50 @@ extension NowPlayingPlayerItemViewController {
     func updateError() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
         var errorMessage = ""
+        errorLabel.text = errorMessage
+
         if let playbackError = playingEpisode.playbackErrorDetails {
             errorMessage = playbackError
         }
+        
         if !errorMessage.isEmpty {
             print("Error: \(errorMessage)")
             errorLabel.text = errorMessage
         }
 
-        if let downloadError = playingEpisode.downloadErrorDetails {
-            print("Error: \(downloadError)")
-            errorLabel.text = downloadError
+        if errorLabel.text?.isEmpty == false {
+            showError()
+        } else {
+            hideError()
         }
     }
 
     func showError() {
         // Move error container in view
-        
+        UIView.animate(
+                    withDuration: 0.45,
+                    delay: 0,
+                    usingSpringWithDamping: 0.75,
+                    initialSpringVelocity: 0.5,
+                    options: .curveEaseOut
+        ) { [weak self] in
+            self?.errorBottomSpacing.constant = 0
+            self?.playerBottomSpacing.constant = 72
+        }
     }
 
     func hideError() {
         // Move error out
+        UIView.animate(
+                    withDuration: 0.45,
+                    delay: 0,
+                    usingSpringWithDamping: 0.75,
+                    initialSpringVelocity: 0.5,
+                    options: .curveEaseOut
+        ) { [weak self] in
+            self?.errorBottomSpacing.constant = -100
+            self?.playerBottomSpacing.constant = 32
+        }
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
