@@ -12,6 +12,11 @@ let package = Package(
             name: "Modules",
             type: .dynamic,
             targets: ["Modules"]
+        ),
+        .library(
+            name: "PocketCastsDependencyInjection",
+            type: .dynamic,
+            targets: ["PocketCastsDependencyInjection"]
         )
     ],
     targets: [
@@ -23,6 +28,15 @@ let package = Package(
             name: "ModulesTests",
             dependencies: ["Modules"],
             path: "Tests/ModulesTests"
+        ),
+        .target(
+            name: "PocketCastsDependencyInjection",
+            path: "Sources/PocketCastsDependencyInjection"
+        ),
+        .testTarget(
+            name: "PocketCastsDependencyInjectionTests",
+            dependencies: ["PocketCastsDependencyInjection"],
+            path: "Tests/PocketCastsDependencyInjectionTests"
         )
     ]
 )
