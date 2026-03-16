@@ -237,7 +237,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     private func playerStatusDidChange() {
-        if player?.currentItem?.status == .failed {
+        if player?.currentItem?.status == .failed  || player?.status == .failed {
 
             if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
                (player?.currentItem?.error as? NSError)?.domain == NSURLErrorDomain,
