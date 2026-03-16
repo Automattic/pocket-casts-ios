@@ -404,8 +404,8 @@
 		8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
 		8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		20F2443446DB464FA3F9FEA8 /* PocketCastsModules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* PocketCastsModules */; };
-		B56FFF0F23B9490A97604C5F /* PocketCastsModules in Embed Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* PocketCastsModules */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; };
+		B56FFF0F23B9490A97604C5F /* Modules in Embed Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
@@ -1500,7 +1500,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B56FFF0F23B9490A97604C5F /* PocketCastsModules in Embed Frameworks */,
+				B56FFF0F23B9490A97604C5F /* Modules in Embed Frameworks */,
 				9A9004C92E2E6447005879CB /* PocketCastsDependencyInjection in Embed Frameworks */,
 				8BE36E042873552600E35313 /* PocketCastsUtils in Embed Frameworks */,
 				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
@@ -3047,7 +3047,7 @@
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
-				20F2443446DB464FA3F9FEA8 /* PocketCastsModules in Frameworks */,
+				20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
@@ -5969,7 +5969,7 @@
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
 				8BE36DFF2873552500E35313 /* PocketCastsServer */,
 				8BE36E022873552600E35313 /* PocketCastsUtils */,
-				CB7495FEF21A4F38BAB3F94B /* PocketCastsModules */,
+				CB7495FEF21A4F38BAB3F94B /* Modules */,
 				C72CED33289DA28B0017883A /* AutomatticTracks */,
 				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
 				8B365E4F2B62E82000143DAC /* Agrume */,
@@ -10212,9 +10212,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
 		};
-		CB7495FEF21A4F38BAB3F94B /* PocketCastsModules */ = {
+		CB7495FEF21A4F38BAB3F94B /* Modules */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsModules;
+			productName = Modules;
 		};
 		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
 			isa = XCSwiftPackageProductDependency;

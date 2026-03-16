@@ -3,26 +3,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "PocketCastsModules",
+    name: "Modules",
     platforms: [
         .iOS(.v16), .watchOS(.v9)
     ],
     products: [
         .library(
-            name: "PocketCastsModules",
+            name: "Modules",
             type: .dynamic,
-            targets: ["PocketCastsModules"]
+            targets: ["Modules"]
         )
     ],
     targets: [
         .target(
-            name: "PocketCastsModules",
-            path: "Sources/PocketCastsModules"
+            name: "Modules",
+            path: "Sources/Modules"
         ),
         .testTarget(
-            name: "PocketCastsModulesTests",
-            dependencies: ["PocketCastsModules"],
-            path: "Tests/PocketCastsModulesTests"
+            name: "ModulesTests",
+            dependencies: ["Modules"],
+            path: "Tests/ModulesTests"
         )
     ]
 )
