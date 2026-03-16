@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.2.0"),
         .package(path: "../Utils/"),
-        .package(path: "../GRDBMacros/")
+        .package(path: "../")
     ],
     targets: [
         .target(
@@ -26,7 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift"),
                 .product(name: "PocketCastsUtils", package: "Utils"),
-                .product(name: "GRDBMacros", package: "GRDBMacros")
+                .product(name: "GRDBMacros", package: "Modules")
             ],
             path: "Sources",
             swiftSettings: [
