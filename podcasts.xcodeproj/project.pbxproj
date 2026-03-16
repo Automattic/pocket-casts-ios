@@ -392,22 +392,16 @@
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
 		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
 		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
-		8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DED287352F600E35313 /* PocketCastsServer */; };
-		8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DED287352F600E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF32873533F00E35313 /* PocketCastsUtils */; };
 		8BE36DF72873534A00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF62873534A00E35313 /* PocketCastsUtils */; };
 		8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; };
-		8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; };
-		8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
 		20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
-		8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; };
-		8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8BF622FF2C529F3C00D10F57 /* ChampionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF622FE2C529F3C00D10F57 /* ChampionView.swift */; };
 		8BF623012C53ED7C00D10F57 /* TranscriptSearchAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF623002C53ED7C00D10F57 /* TranscriptSearchAccessoryView.swift */; };
 		8BFB434E2A1FFB4B00F3D409 /* StatusPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */; };
@@ -1092,8 +1086,6 @@
 		C7ACD7F62878B07300AF3AB8 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		C7B3C61D291AD0EA00054145 /* Onboarding.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7B3C61C291AD0EA00054145 /* Onboarding.xcassets */; };
 		C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF5E46290832FD00733C1E /* DiscoverCoordinator.swift */; };
-		C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; };
-		C7BF5E4E29083E2100733C1E /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = C7BF5E4C29083E2100733C1E /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C7C4CAF328ABFD0900CFC8CF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
 		C7C4F9B62A4BAD57002822DD /* HeadphoneSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4F9B52A4BAD57002822DD /* HeadphoneSettingsViewController.swift */; };
 		C7D6551428E5153200AD7174 /* Debounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6551328E5153200AD7174 /* Debounce.swift */; };
@@ -1147,7 +1139,6 @@
 		F553A1672CECF9E1006581A1 /* CustomStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4C6FE42BD6EC2E00D0BB9D /* CustomStepper.swift */; };
 		F553A1682CECF9F0006581A1 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
 		F553A1692CECFAA3006581A1 /* sleep_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF72122A2DA00649F81 /* sleep_button.json */; };
-		F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F55449412B758E8300F68AE9 /* PocketCastsUtils */; };
 		F55449452B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55449442B75935F00F68AE9 /* AppSettings+ImportUserDefaults.swift */; };
 		F55566FF2D14E3D000231367 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD14E792214642B80082FD5F /* VideoViewController.xib */; };
 		F555980B2C50242800C02EEB /* VideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F555980A2C50242800C02EEB /* VideoExporter.swift */; };
@@ -1196,7 +1187,6 @@
 		F5F508F22CEBE966007D6E39 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A3D1B54E053000EC323 /* PlaybackManager.swift */; };
 		F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F32CEBE985007D6E39 /* PocketCastsUtils */; };
 		F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */; };
-		F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F5F508FA2CEBE9C1007D6E39 /* ThemeableUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD5C9FF2303E8FA005E133C /* ThemeableUIButton.swift */; };
 		F5F508FE2CEBE9F8007D6E39 /* TimeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9DDD61B8AD29C00E77B35 /* TimeSlider.swift */; };
 		F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508FF2CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -1294,7 +1284,6 @@
 		F5F509682CEBF7DB007D6E39 /* TimeSliderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9DDD81B8AD29C00E77B35 /* TimeSliderLayer.swift */; };
 		F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F5F509692CEBF859007D6E39 /* Kingfisher */; };
 		F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096B2CEBF871007D6E39 /* PocketCastsServer */; };
-		F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096B2CEBF871007D6E39 /* PocketCastsServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096E2CEBF884007D6E39 /* Lottie */; };
 		F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2A49E51701A6AE00C2F192 /* SJCommonUtils.m */; };
 		F5F509712CEBF8C1007D6E39 /* SJMediaMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */; };
@@ -1492,8 +1481,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8BE36DFE2873552500E35313 /* PocketCastsDataModel in Embed Frameworks */,
-				8BE36E012873552600E35313 /* PocketCastsServer in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1504,8 +1491,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8BF0BBD6289199D2006BBECF /* PocketCastsDataModel in Embed Frameworks */,
-				C7BF5E4E29083E2100733C1E /* PocketCastsServer in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1564,8 +1549,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8BE36DEC287352F200E35313 /* PocketCastsDataModel in Embed Frameworks */,
-				8BE36DEF287352F600E35313 /* PocketCastsServer in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1576,8 +1559,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F5F508F92CEBE9A1007D6E39 /* PocketCastsDataModel in Embed Frameworks */,
-				F5F5096D2CEBF871007D6E39 /* PocketCastsServer in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1946,7 +1927,6 @@
 		8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryEntryView.swift; sourceTree = "<group>"; };
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
 		871975870906424F8C3C70B0 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Modules; path = Modules; sourceTree = SOURCE_ROOT; };
-		8BE36DCC28734F7000E35313 /* Server */ = {isa = PBXFileReference; lastKnownFileType = text; name = Server; path = Modules/Server; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
 		8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersHeader.swift; sourceTree = "<group>"; };
@@ -2983,9 +2963,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7BF5E4D29083E2100733C1E /* PocketCastsServer in Frameworks */,
-				8BF0BBD4289199D2006BBECF /* PocketCastsDataModel in Frameworks */,
-				F55449422B758E8300F68AE9 /* PocketCastsUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3532,7 +3509,6 @@
 			children = (
 				871975870906424F8C3C70B0 /* Modules */,
 				3F584DED2F56811B005A3593 /* End of Year */,
-				8BE36DCC28734F7000E35313 /* Server */,
 				3F584E3E2F568131005A3593 /* Whats New */,
 			);
 			name = Modules;
@@ -5801,11 +5777,6 @@
 				3F26BB7B2F4FC23E0007119B /* PocketCastsTests */,
 			);
 			name = PocketCastsTests;
-			packageProductDependencies = (
-				8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */,
-				C7BF5E4C29083E2100733C1E /* PocketCastsServer */,
-				F55449412B758E8300F68AE9 /* PocketCastsUtils */,
-			);
 			productName = PocketCastsTests;
 			productReference = 45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";

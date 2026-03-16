@@ -27,13 +27,18 @@ let package = Package(
         ),
         .library(
             name: "PocketCastsDataModel",
-            type: .dynamic,
             targets: ["PocketCastsDataModel"]
+        ),
+        .library(
+            name: "PocketCastsServer",
+            targets: ["PocketCastsServer"]
         )
     ],
     dependencies: [
         .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0"),
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
+        .package(url: "https://github.com/danielebogo/Swime", branch: "master"),
     ],
     targets: [
         .target(
@@ -107,6 +112,29 @@ let package = Package(
             name: "PocketCastsDataModelTests",
             dependencies: ["PocketCastsDataModel"],
             path: "Tests/PocketCastsDataModelTests"
+        ),
+        .target(
+            name: "PocketCastsServer",
+            dependencies: [
+                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
+                .product(name: "Swime", package: "Swime"),
+                "PocketCastsDataModel",
+                "PocketCastsUtils",
+            ],
+            path: "Sources/PocketCastsServer",
+            swiftSettings: [
+                .unsafeFlags(["-enable-testing"], .when(configuration: .debug))
+            ],
+            linkerSettings: [
+                .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
+                .linkedFramework("AuthenticationServices", .when(platforms: [.iOS, .watchOS]))
+            ]
+        ),
+        .testTarget(
+            name: "PocketCastsServerTests",
+            dependencies: ["PocketCastsServer"],
+            path: "Tests/PocketCastsServerTests",
+            resources: [.copy("Fixtures")]
         )
     ]
 )
