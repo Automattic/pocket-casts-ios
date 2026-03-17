@@ -398,7 +398,6 @@
 		8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; };
 		8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; };
 		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
-		20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */ = {isa = PBXBuildFile; productRef = CB7495FEF21A4F38BAB3F94B /* Modules */; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
@@ -1872,6 +1871,7 @@
 		46FBD8CD276A876900867746 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8CF276A876B00867746 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Intents.strings; sourceTree = "<group>"; };
 		46FBD8D1276A876D00867746 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Intents.strings; sourceTree = "<group>"; };
+		871975870906424F8C3C70B0 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = SOURCE_ROOT; };
 		8B087FC829DC976F0027EAE5 /* PodcastImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastImage.swift; sourceTree = "<group>"; };
 		8B10E78528D908A900702C54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8B15E7212AD050EE0077F45A /* DMSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DMSans.ttf; sourceTree = "<group>"; };
@@ -1926,7 +1926,6 @@
 		8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryModel.swift; sourceTree = "<group>"; };
 		8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHistoryEntryView.swift; sourceTree = "<group>"; };
 		8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Halloween-152@2x.png"; sourceTree = "<group>"; };
-		871975870906424F8C3C70B0 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Modules; path = Modules; sourceTree = SOURCE_ROOT; };
 		8BE85CA82876260600AEB5FF /* acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = acknowledgements.html; sourceTree = "<group>"; };
 		8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalAndMoreView.swift; sourceTree = "<group>"; };
 		8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersHeader.swift; sourceTree = "<group>"; };
@@ -3005,7 +3004,6 @@
 				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
-				20F2443446DB464FA3F9FEA8 /* Modules in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
 				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
 				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
@@ -5918,7 +5916,6 @@
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
 				8BE36DFF2873552500E35313 /* PocketCastsServer */,
 				8BE36E022873552600E35313 /* PocketCastsUtils */,
-				CB7495FEF21A4F38BAB3F94B /* Modules */,
 				C72CED33289DA28B0017883A /* AutomatticTracks */,
 				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
 				8B365E4F2B62E82000143DAC /* Agrume */,
@@ -10161,14 +10158,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
 		};
-		CB7495FEF21A4F38BAB3F94B /* Modules */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Modules;
-		};
-		8BF0BBD3289199D2006BBECF /* PocketCastsDataModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDataModel;
-		};
 		9A11FCD32DA410F600A1EF3E /* GoogleCast */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */;
@@ -10220,14 +10209,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
 			productName = AutomatticTracks;
-		};
-		C7BF5E4C29083E2100733C1E /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		F55449412B758E8300F68AE9 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
 		};
 		F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */ = {
 			isa = XCSwiftPackageProductDependency;

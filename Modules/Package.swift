@@ -10,10 +10,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Modules",
-            targets: ["Modules"]
-        ),
-        .library(
             name: "PocketCastsDependencyInjection",
             targets: ["PocketCastsDependencyInjection"]
         ),
@@ -41,15 +37,6 @@ let package = Package(
         .package(url: "https://github.com/danielebogo/Swime", branch: "master"),
     ],
     targets: [
-        .target(
-            name: "Modules",
-            path: "Sources/Modules"
-        ),
-        .testTarget(
-            name: "ModulesTests",
-            dependencies: ["Modules"],
-            path: "Tests/ModulesTests"
-        ),
         .target(
             name: "PocketCastsDependencyInjection",
             path: "Sources/PocketCastsDependencyInjection"
