@@ -122,6 +122,13 @@ private extension LiveAnalyticsStreamer {
     func flush() {
         guard !eventBuffer.isEmpty else { return }
 
+        // Respect opt-out even if events were buffered before the user opted out
+        if Settings.analyticsOptOut() {
+            eventBuffer.removeAll()
+            isFlushScheduled = false
+            return
+        }
+
         // Check for URL at flush time (allows dynamic enable/disable)
         guard let urlString = ServerSettings.liveAnalyticsUrl,
               !urlString.isEmpty,
