@@ -10,6 +10,9 @@ import PocketCastsUtils
 /// This is used for direct AVPlayer streaming (when not using MediaExporterResourceLoaderDelegate).
 /// For cached streaming, network tracking is handled by MediaExporterResourceLoaderDelegate's
 /// URLSessionTaskMetrics.
+///
+/// DB writes happen only on connection type changes and when tracking stops (not during streaming).
+/// An access log observer keeps an in-memory byte count up to date so that flushes are accurate.
 #if !os(watchOS)
 class StreamingCellularTracker {
     private var monitor: NWPathMonitor?
@@ -22,6 +25,7 @@ class StreamingCellularTracker {
     private var currentConnectionType: NetworkDataUsageManager.ConnectionType?
     private var bytesWhenConnectionStarted: Int64 = 0
     private var lastReportedBytes: Int64 = 0
+    private var latestBytesTransferred: Int64 = 0
 
     private var accessLogObserver: NSObjectProtocol?
 
@@ -41,6 +45,7 @@ class StreamingCellularTracker {
         self.lastReportedBytes = 0
         self.bytesWhenConnectionStarted = 0
         self.currentConnectionType = nil
+        self.latestBytesTransferred = 0
 
         let newMonitor = NWPathMonitor()
         newMonitor.pathUpdateHandler = { [weak self] path in
@@ -49,7 +54,8 @@ class StreamingCellularTracker {
         newMonitor.start(queue: monitorQueue)
         monitor = newMonitor
 
-        // Observe access log changes to track bytes as they're downloaded
+        // Observe access log changes to keep our in-memory byte count current.
+        // No DB writes happen here — we only flush on connection change or stop.
         accessLogObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemNewAccessLogEntry,
             object: playerItem,
@@ -57,7 +63,7 @@ class StreamingCellularTracker {
         ) { [weak self] _ in
             guard let self else { return }
             self.monitorQueue.async {
-                self.checkAndReportConnectionUsage()
+                self.updateBytesTransferred()
             }
         }
     }
@@ -65,6 +71,7 @@ class StreamingCellularTracker {
     /// Stop tracking and report final network usage
     func stopTracking() {
         monitorQueue.sync {
+            updateBytesTransferred()
             reportCurrentConnectionUsageIfNeeded()
         }
 
@@ -82,6 +89,7 @@ class StreamingCellularTracker {
         currentConnectionType = nil
         bytesWhenConnectionStarted = 0
         lastReportedBytes = 0
+        latestBytesTransferred = 0
     }
 
     // MARK: - Private
@@ -104,35 +112,29 @@ class StreamingCellularTracker {
             return
         }
 
+        updateBytesTransferred()
         reportCurrentConnectionUsageIfNeeded()
 
         currentConnectionType = nextConnectionType
-        bytesWhenConnectionStarted = currentBytesTransferred()
+        bytesWhenConnectionStarted = latestBytesTransferred
         lastReportedBytes = 0
 
         let connectionLabel = nextConnectionType?.displayName ?? "none"
         FileLog.shared.addMessage("StreamingCellularTracker: Switched connection type to \(connectionLabel), starting bytes: \(bytesWhenConnectionStarted)")
     }
 
-    private func checkAndReportConnectionUsage() {
-        guard currentConnectionType != nil else { return }
-
-        let currentBytes = currentBytesTransferred()
-        let bytesOnConnection = currentBytes - bytesWhenConnectionStarted
-
-        let bytesThreshold: Int64 = 1024 * 1024 // 1 MB
-        if bytesOnConnection - lastReportedBytes >= bytesThreshold {
-            let bytesToReport = bytesOnConnection - lastReportedBytes
-            reportConnectionBytes(bytesToReport)
-            lastReportedBytes = bytesOnConnection
+    /// Updates the cached byte count from the access log (no DB write).
+    private func updateBytesTransferred() {
+        guard let accessLog = playerItem?.accessLog() else {
+            return
         }
+        latestBytesTransferred = accessLog.events.reduce(0) { $0 + $1.numberOfBytesTransferred }
     }
 
     private func reportCurrentConnectionUsageIfNeeded() {
         guard currentConnectionType != nil else { return }
 
-        let currentBytes = currentBytesTransferred()
-        let bytesOnConnection = currentBytes - bytesWhenConnectionStarted
+        let bytesOnConnection = latestBytesTransferred - bytesWhenConnectionStarted
         let unreportedBytes = bytesOnConnection - lastReportedBytes
 
         if unreportedBytes > 0 {
@@ -154,13 +156,6 @@ class StreamingCellularTracker {
             connectionType: connectionType,
             sessionType: .foreground
         )
-    }
-
-    private func currentBytesTransferred() -> Int64 {
-        guard let accessLog = playerItem?.accessLog() else {
-            return 0
-        }
-        return accessLog.events.reduce(0) { $0 + $1.numberOfBytesTransferred }
     }
 }
 
