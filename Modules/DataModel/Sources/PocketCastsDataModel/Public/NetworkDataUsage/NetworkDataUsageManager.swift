@@ -43,9 +43,9 @@ public struct NetworkDataUsageManager {
     @discardableResult
     public func deleteRecords(olderThan date: Date) async -> Bool {
         let before = date.timeIntervalSince1970
-        let filter = NetworkDataUsageRecord.Columns.timestamp < before
-        let deletedCount = dbQueue.deleteAll(NetworkDataUsageRecord.self, filter: filter)
-        return deletedCount >= 0
+        return dbQueue.write { db in
+            try NetworkDataUsageRecord.filter(NetworkDataUsageRecord.Columns.timestamp < before).deleteAll(db)
+        }
     }
 
     // MARK: - Enums
