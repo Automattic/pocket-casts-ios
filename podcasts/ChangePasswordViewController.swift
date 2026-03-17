@@ -3,6 +3,9 @@ import PocketCastsUtils
 import UIKit
 
 class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
+
+    @IBOutlet var scrollView: UIScrollView!
+
     @IBOutlet var contentView: ThemeableView! {
         didSet {
             contentView.style = .primaryUi02
@@ -39,6 +42,8 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             mainButton.buttonStyle = .primaryInteractive01Disabled
             mainButton.textStyle = .primaryInteractive02
             mainButton.setTitle(L10n.confirm, for: .normal)
+            mainButton.titleLabel?.adjustsFontForContentSizeCategory = true
+            mainButton.titleLabel?.font = .font(ofSize: 17, weight: .semibold, scalingWith: .body)
         }
     }
 
@@ -112,7 +117,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         }
     }
 
-    @IBOutlet var mainButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView! {
         didSet {
             activityIndicatorView.isHidden = true
@@ -125,8 +129,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(backTapped))
         navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-
-        originalButtonConstant = mainButtonBottomConstraint.constant
 
         updateButtonState()
     }
@@ -315,7 +317,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     private var originalButtonConstant: CGFloat = 49
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            mainButtonBottomConstraint.constant = originalButtonConstant + keyboardSize.height
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
             var animationDuration = 0.3
             if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
                 animationDuration = keyboardDuration
@@ -328,7 +330,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        mainButtonBottomConstraint.constant = originalButtonConstant
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         var animationDuration = 0.3
         if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
             animationDuration = keyboardDuration

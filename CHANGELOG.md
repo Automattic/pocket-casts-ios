@@ -1,12 +1,28 @@
+8.8
+-----
+- Show buffering UI on Full Screen Player [#4051](https://github.com/Automattic/pocket-casts-ios/pull/4051)
+- Ensure that temporary download files are properly deleted from the system [#4052](https://github.com/Automattic/pocket-casts-ios/pull/4052)
+
 8.7
 -----
+- Fix podcast search in non-standard locales [#4019](https://github.com/Automattic/pocket-casts-ios/pull/4019)
 - Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
 - Refresh Now Playing info when Bluetooth device connects [#3964](https://github.com/Automattic/pocket-casts-ios/pull/3964) 
 - Fix logout issue when refreshing in background while device is locked [#3983](https://github.com/Automattic/pocket-casts-ios/pull/3983) 
+- Fix Episode Artwork loading when audio asset image differs from feed [#4017](https://github.com/Automattic/pocket-casts-ios/pull/4017)
+- Fix Single episode loading and support for DT [#4063](https://github.com/Automattic/pocket-casts-ios/pull/4063)
+
+8.6.1
+-----
+- Dynamic Type adjustments [#4055](https://github.com/Automattic/pocket-casts-ios/pull/4055)
+- Dynamic Type: Update Discovery Large Cell layout margins
+[#4057](https://github.com/Automattic/pocket-casts-ios/pull/4057)
+- Dynamic Type: Update Sponsored [#4058](https://github.com/Automattic/pocket-casts-ios/pull/4058)
 
 8.6
 -----
-- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/) 
+- Playlists: Add episodes to a playlist from multi-select overflow menu [#4001](https://github.com/Automattic/pocket-casts-ios/pull/4002)
+- Playlists: Add episode to a playlist from episode details [##3943](https://github.com/Automattic/pocket-casts-ios/pull/3943/)
 - Improve cache invalidation for Playlist Count and Artwork [#3927](https://github.com/Automattic/pocket-casts-ios/pull/3927)
 - Dynamic Type: Update UpNext [#3918](https://github.com/Automattic/pocket-casts-ios/pull/3918)
 - Dynamic Type: Update Podcasts list [#3914](https://github.com/Automattic/pocket-casts-ios/pull/3914)
@@ -39,7 +55,9 @@
 - Dynamic type: Player effects [#3998](https://github.com/Automattic/pocket-casts-ios/pull/3998)
 - Dynamic type: Player sleep timer [#3997](https://github.com/Automattic/pocket-casts-ios/pull/3997)
 - Dynamic type: Discover Category [#3995](https://github.com/Automattic/pocket-casts-ios/pull/3995)
-
+- Dynamic type: Update multi select options menu [#4005](https://github.com/Automattic/pocket-casts-ios/pull/4005)
+- Dynamic type: Change email [#4009](https://github.com/Automattic/pocket-casts-ios/pull/4009)
+- Dynamic Type: Update Change password [#4011](https://github.com/Automattic/pocket-casts-ios/pull/4011)
 
 8.5
 -----

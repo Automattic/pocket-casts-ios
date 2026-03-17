@@ -742,8 +742,8 @@ internal enum L10n {
   internal static var discoverBrowseByCategoryScienceAndMedicine: String { return L10n.tr("Localizable", "discover_browse_by_category_science_and_medicine", fallback: "Science & Medicine") }
   /// Title for the podcast category Society
   internal static var discoverBrowseByCategorySociety: String { return L10n.tr("Localizable", "discover_browse_by_category_society", fallback: "Society") }
-  /// Abbreviation for the podcast category Society & Culture, using only "Culture"
-  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Culture") }
+  /// Title for the podcast category Society & Culture
+  internal static var discoverBrowseByCategorySocietyAndCulture: String { return L10n.tr("Localizable", "discover_browse_by_category_society_and_culture", fallback: "Society & Culture") }
   /// Abbreviation for the podcast category Religion & Spirituality
   internal static var discoverBrowseByCategorySpirituality: String { return L10n.tr("Localizable", "discover_browse_by_category_spirituality", fallback: "Spirituality") }
   /// Title for the podcast category Sports
@@ -2471,6 +2471,14 @@ internal enum L10n {
   internal static var playlistManualAddEpisodeFullPlaylistToast: String { return L10n.tr("Localizable", "playlist_manual_add_episode_full_playlist_toast", fallback: "This playlist is full. Remove a few episodes or start a new one.") }
   /// Manual Playlist: header button title to add new episodes to the playlist
   internal static var playlistManualAddEpisodes: String { return L10n.tr("Localizable", "playlist_manual_add_episodes", fallback: "Add episodes") }
+  /// Toast message when adding episodes to a playlist that would exceed the 1000 episode limit
+  internal static var playlistManualAddEpisodesAlmostFullToast: String { return L10n.tr("Localizable", "playlist_manual_add_episodes_almost_full_toast", fallback: "Playlist is almost full. Try adding fewer episodes.") }
+  /// Toast message when trying to add files (user episodes) to a playlist
+  internal static var playlistManualAddFilesNotSupportedToast: String { return L10n.tr("Localizable", "playlist_manual_add_files_not_supported_toast", fallback: "Playlists can only contain podcast episodes.") }
+  /// Toast message when trying to add more than the max number of episodes to a playlist at once, or creating a new playlist with more than the max. '%1$@' is the max episode count, localized for the user's locale.
+  internal static func playlistManualAddTooManyEpisodesToast(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "playlist_manual_add_too_many_episodes_toast", String(describing: p1), fallback: "Playlists can only contain up to %1$@ episodes.")
+  }
   /// Text of the placeholder used in the manual playlist detail screen when one episode is archived.
   internal static var playlistManualArchivedEpisodePlaceholder: String { return L10n.tr("Localizable", "playlist_manual_archived_episode_placeholder", fallback: "Your episode in this playlist has been archived") }
   /// Text of the placeholder used in the manual playlist detail screen when all episodes are archived. '%1$@' represents the number of archived episodes
@@ -3385,7 +3393,7 @@ internal enum L10n {
   }
   /// Subtitle explaining the app's behavior when the episode limit is reached and new episodes are added to the top of the Up Next Queue. '%1$@' is a placeholder for the auto add limit.
   internal static func settingsAutoAddLimitSubtitleTop(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "settings_auto_add_limit_subtitle_top", String(describing: p1), fallback: "When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue. No new episodes will be added to the bottom.")
+    return L10n.tr("Localizable", "settings_auto_add_limit_subtitle_top", String(describing: p1), fallback: "When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.")
   }
   /// Section header that displays all of the Podcasts that will automatically add new episodes to the Up Next Queue.
   internal static var settingsAutoAddPodcasts: String { return L10n.tr("Localizable", "settings_auto_add_podcasts", fallback: "Auto-Add Podcasts") }
@@ -3785,7 +3793,7 @@ internal enum L10n {
   }
   /// Informs the user about how the Queue will be adjusted when the episode limit is reached. '%1$@' is a placeholder for the current queue limit.
   internal static func settingsUpNextLimitAddToTop(_ p1: Any) -> String {
-    return L10n.tr("Localizable", "settings_up_next_limit_add_to_top", String(describing: p1), fallback: "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto-added to the top will remove the last episode in the queue.")
+    return L10n.tr("Localizable", "settings_up_next_limit_add_to_top", String(describing: p1), fallback: "Automatically add new episodes to Up Next. When Up Next reaches %1$@, new episodes auto‑added to the top will remove the last episode in the queue. Episodes set to auto‑add to the bottom won’t be added until Up Next is below the limit.")
   }
   /// Provides a prompt for the user to toggle on the volume boosting setting.
   internal static var settingsVolumeBoost: String { return L10n.tr("Localizable", "settings_volume_boost", fallback: "Volume Boost") }

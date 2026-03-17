@@ -1058,6 +1058,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件のエピソード</string>
     <key>episode_description_title</key>
     <string>エピソードの説明</string>
+    <key>episode_detail_add</key>
+    <string>追加</string>
     <key>episode_details_title</key>
     <string>詳細</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ファイル</string>
     <key>files_how_to_title</key>
     <string>ファイルの保存方法</string>
+    <key>files_not_uploaded</key>
+    <string>アップロードされたファイルがありません</string>
     <key>files_sort</key>
     <string>ファイルを並び替え</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>すべてを再生</string>
     <key>play_last</key>
     <string>最後に再生</string>
+    <key>play_last_in_up_next</key>
+    <string>「次に再生」で最後に再生</string>
     <key>play_next</key>
     <string>次に再生</string>
+    <key>play_next_in_up_next</key>
+    <string>「次に再生」で次に再生</string>
     <key>playback_2024_completion_rate_description</key>
     <string>開始した%1$@件のエピソードから合計%2$@件を最後まで聴きました</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3164,6 +3172,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>次のエピソードでエピソード項目をタップすると「操作」ページが表示されます。 長押しするとエピソードが再生されます。 オンにすると逆になります。</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>次のエピソードでエピソード項目をタップすると、その項目が再生されます。 長押しすると、エピソードオプションが表示されます。 オフにすると逆になります。</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>より安定した音声レベルで更新されたボリュームブーストを使用します。</string>
     <key>settings_global_settings</key>
     <string>グローバル設定</string>
     <key>settings_headphone_controls</key>
@@ -3818,6 +3830,8 @@ Pocket Casts は間違いなく、ポッドキャストを聴くための最高�
     <string>ボリュームブースト</string>
     <key>volume_boost_description</key>
     <string>音声のボリュームをアップ</string>
+    <key>volume_boost_n_description</key>
+    <string>音声レベルの安定性が向上</string>
     <key>wait_for_wifi</key>
     <string>Wi-Fi に再接続しています</string>
     <key>watch</key>

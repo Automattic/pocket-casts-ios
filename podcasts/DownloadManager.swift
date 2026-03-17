@@ -147,7 +147,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         return directory
     }()
 
-    private var tempDownloadFolder = ""
+    private(set) var tempDownloadFolder = ""
 
     let dataManager: DataManager
 
@@ -445,7 +445,11 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
             if exportStatus.error == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
-                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType)
+                processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType, copyFile: true)
+                if FeatureFlag.cleanUpTmpFiles.enabled {
+                    // Now that the file is downloaded and copied we can mark it for deletion on release
+                    customLoaderDelegate.deleteFileOnRelease = true
+                }
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()

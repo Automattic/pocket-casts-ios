@@ -1058,6 +1058,8 @@ que vous avez écouté était
     <string>%1$@ épisodes</string>
     <key>episode_description_title</key>
     <string>Description de l’épisode</string>
+    <key>episode_detail_add</key>
+    <string>Ajouter</string>
     <key>episode_details_title</key>
     <string>Détails</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ que vous avez écouté était
     <string>Fichiers</string>
     <key>files_how_to_title</key>
     <string>Comment enregistrer un fichier</string>
+    <key>files_not_uploaded</key>
+    <string>Aucun fichier chargé</string>
     <key>files_sort</key>
     <string>Trier les fichiers</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ MISES À JOUR</string>
     <string>Tout lire</string>
     <key>play_last</key>
     <string>Lire dernier</string>
+    <key>play_last_in_up_next</key>
+    <string>Placer en dernier dans la file d’attente</string>
     <key>play_next</key>
     <string>Lire suivant</string>
+    <key>play_next_in_up_next</key>
+    <string>Placer à la suite dans la file d’attente</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Sur les %1$@ épisodes que vous avez commencés, vous en avez écouté %2$@ en totalité</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Un appui sur un épisode dans la file d’attente affiche la page des actions. Une pression prolongée permet de lire l’épisode. Activer pour permuter.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Un appui sur un épisode dans la file d’attente déclenche sa lecture. Une pression prolongée affiche les options de l’épisode. Désactiver pour permuter.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Utilisez la fonctionnalité d’augmentation du volume mise à jour, avec des niveaux de voix plus cohérents.</string>
     <key>settings_global_settings</key>
     <string>Réglages globaux</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Usage simple ou complexe, cette application est telle que vous la souhaitez. Uti
     <string>Augmenter le volume</string>
     <key>volume_boost_description</key>
     <string>Les voix sont plus fortes</string>
+    <key>volume_boost_n_description</key>
+    <string>Les niveaux de voix sont plus cohérents</string>
     <key>wait_for_wifi</key>
     <string>En attente de WiFi</string>
     <key>watch</key>

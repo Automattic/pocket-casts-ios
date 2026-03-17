@@ -1058,6 +1058,8 @@ che hai ascoltato è stato
     <string>%1$@ episodi</string>
     <key>episode_description_title</key>
     <string>Descrizione episodio</string>
+    <key>episode_detail_add</key>
+    <string>Aggiungi</string>
     <key>episode_details_title</key>
     <string>Dettagli</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ che hai ascoltato è stato
     <string>File</string>
     <key>files_how_to_title</key>
     <string>Come salvare un file</string>
+    <key>files_not_uploaded</key>
+    <string>Nessun file caricato</string>
     <key>files_sort</key>
     <string>Ordina i file</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ AGGIORNAMENTI</string>
     <string>Riproduci tutto</string>
     <key>play_last</key>
     <string>Riproduci ultimo</string>
+    <key>play_last_in_up_next</key>
+    <string>Riproduci ultimo in Successivo</string>
     <key>play_next</key>
     <string>Riproduci successivo</string>
+    <key>play_next_in_up_next</key>
+    <string>Riproduci successivo in Successivo</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Dei %1$@ episodi iniziati, ne hai ascoltati integralmente un totale pari a %2$@.</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Toccando un episodio in Successivo viene mostrata la pagina delle azioni. Tramite la pressione prolungata viene riprodotto l'episodio. Attivali per cambiarli di posto.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Toccando un episodio in Successivo, questo verrà riprodotto. Tramite la pressione prolungata vengono visualizzate le opzioni dell'episodio. Disattivali per cambiarli di posto.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Usa Aumenta il volume aggiornato con livelli vocali più coerenti.</string>
     <key>settings_global_settings</key>
     <string>Impostazioni globali</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Questa app soddisfa le esigenze di ogni utente, Che si cerchi un approccio plug 
     <string>Aumenta il volume</string>
     <key>volume_boost_description</key>
     <string>Volume più alto del solito</string>
+    <key>volume_boost_n_description</key>
+    <string>I livelli vocali sono più coerenti</string>
     <key>wait_for_wifi</key>
     <string>In attesa del WiFi</string>
     <key>watch</key>

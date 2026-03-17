@@ -108,7 +108,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         guard let player = player else { return false }
 
         if let item = player.currentItem {
-            return item.isPlaybackBufferEmpty
+            return item.isPlaybackBufferEmpty || !item.isPlaybackLikelyToKeepUp
         }
 
         return true

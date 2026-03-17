@@ -1058,6 +1058,8 @@ Pocket Casts。</string>
     <string>%1$@ 集</string>
     <key>episode_description_title</key>
     <string>剧集描述</string>
+    <key>episode_detail_add</key>
+    <string>添加</string>
     <key>episode_details_title</key>
     <string>详细信息</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ Pocket Casts。</string>
     <string>文件</string>
     <key>files_how_to_title</key>
     <string>如何保存文件</string>
+    <key>files_not_uploaded</key>
+    <string>未上传文件</string>
     <key>files_sort</key>
     <string>排列文件</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ Pocket Casts。</string>
     <string>全部播放</string>
     <key>play_last</key>
     <string>播放最后一个</string>
+    <key>play_last_in_up_next</key>
+    <string>在“接下来播放”中播放最后一个</string>
     <key>play_next</key>
     <string>播放下一个</string>
+    <key>play_next_in_up_next</key>
+    <string>在“接下来播放”中播放下一个</string>
     <key>playback_2024_completion_rate_description</key>
     <string>从最初收听的 %1$@ 集开始，您总共完整收听的时长为 %2$@</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Pocket Casts。</string>
     <string>轻点“接下来播放”中的剧集后，系统将显示操作页面。 长按可播放剧集。 打开以进行切换。</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>轻点“接下来播放”中的剧集后，系统将播放该剧集。 长按可显示剧集选项。 关闭以进行切换。</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>使用新版音量增强功能，享受更稳定的音量水平。</string>
     <key>settings_global_settings</key>
     <string>全局设置</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Pocket Casts。</string>
     <string>音量增强</string>
     <key>volume_boost_description</key>
     <string>声音更大</string>
+    <key>volume_boost_n_description</key>
+    <string>音量水平更稳定</string>
     <key>wait_for_wifi</key>
     <string>正在等待 WiFi</string>
     <key>watch</key>

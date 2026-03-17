@@ -1058,6 +1058,8 @@ Folge dauerte
     <string>%1$@ Folgen</string>
     <key>episode_description_title</key>
     <string>Beschreibung der Folge</string>
+    <key>episode_detail_add</key>
+    <string>Hinzufügen</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>
@@ -1164,6 +1166,8 @@ Folge dauerte
     <string>Dateien</string>
     <key>files_how_to_title</key>
     <string>So speicherst du eine Datei</string>
+    <key>files_not_uploaded</key>
+    <string>Keine Dateien hochgeladen</string>
     <key>files_sort</key>
     <string>Dateien sortieren</string>
     <key>filter_auto_add_subtitle</key>
@@ -1901,8 +1905,12 @@ UM UPDATES ZU ERHALTEN</string>
     <string>Alle Titel abspielen</string>
     <key>play_last</key>
     <string>Als letzten Titel abspielen</string>
+    <key>play_last_in_up_next</key>
+    <string>Als Letztes in „Als Nächstes“ abspielen</string>
     <key>play_next</key>
     <string>Als nächsten Titel abspielen</string>
+    <key>play_next_in_up_next</key>
+    <string>Als Nächstes in „Als Nächstes“ abspielen</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Von deinen %1$@ angefangenen Episoden hast du insgesamt %2$@ vollständig angehört</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3166,6 +3174,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Wenn du in der Warteschlange eine Folge antippst, wird die Aktionsseite angezeigt. Durch Gedrückthalten wird die Folge abgespielt. Wenn du diese Option aktivierst, ist es umgekehrt.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Wenn du eine Folge in der Warteschlange antippst, wird sie abgespielt. Durch Gedrückthalten werden Optionen für die Folgen angezeigt. Wenn du diese Option deaktivierst, ist es umgekehrt.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Verwende den aktualisierten Lautstärke-Booster mit einheitlicheren Stimmpegeln.</string>
     <key>settings_global_settings</key>
     <string>Allgemeine Einstellungen</string>
     <key>settings_headphone_controls</key>
@@ -3824,6 +3836,8 @@ Die Nutzung dieser App kann ganz einfach oder sehr kompliziert sein – das hä
     <string>Lautstärke-Booster</string>
     <key>volume_boost_description</key>
     <string>Stimmen hören sich lauter an</string>
+    <key>volume_boost_n_description</key>
+    <string>Die Stimmpegel sind konsistenter</string>
     <key>wait_for_wifi</key>
     <string>Auf WLAN warten</string>
     <key>watch</key>

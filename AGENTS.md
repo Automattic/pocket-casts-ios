@@ -8,7 +8,7 @@ make format
 ## Building and Running
 
 ```bash
-make build
+make build_staging
 ```
 
 ## Cleaning Build Artifacts
@@ -20,31 +20,26 @@ make clean
 ## Running Tests
 
 ```bash
-make test
+make test_staging
 ```
 
 ### Running a Single Test
 
 ```bash
-xcodebuild test -project podcasts.xcodeproj \
-    -scheme pocketcasts \
-    -only-testing:PocketCastsTests/YourTestClass/testMethodName
+make test_staging ONLY_TESTING=PocketCastsTests/YourTestClass/testMethodName
 ```
 
 ### Running Module Tests
 
 ```bash
 # DataModel module tests
-xcodebuild test -project podcasts.xcodeproj -scheme pocketcasts \
-    -only-testing:PocketCastsDataModelTests
+make test_staging ONLY_TESTING=PocketCastsDataModelTests
 
 # Server module tests
-xcodebuild test -project podcasts.xcodeproj -scheme pocketcasts \
-    -only-testing:PocketCastsServerTests
+make test_staging ONLY_TESTING=PocketCastsServerTests
 
 # Utils module tests
-xcodebuild test -project podcasts.xcodeproj -scheme pocketcasts \
-    -only-testing:PocketCastsUtilsTests
+make test_staging ONLY_TESTING=PocketCastsUtilsTests
 ```
 
 ## Architecture

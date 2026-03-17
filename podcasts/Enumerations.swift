@@ -515,7 +515,7 @@ extension PlayerAction: AnalyticsDescribable {
 }
 
 enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
-    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory
+    case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete, share, removeListeningHistory, addToPlaylist
 
     func title() -> String {
         switch self {
@@ -551,6 +551,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return L10n.share
         case .removeListeningHistory:
             return L10n.listeningHistoryRemove
+        case .addToPlaylist:
+            return L10n.playlistManualEpisodeAddToPlaylist
         }
     }
 
@@ -588,6 +590,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "podcast-share"
         case .removeListeningHistory:
             return "episode-delete"
+        case .addToPlaylist:
+            return "plus-circle"
         }
     }
 
@@ -625,6 +629,8 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "share"
         case .removeListeningHistory:
             return "listening_history_remove_episode"
+        case .addToPlaylist:
+            return "add_to_playlist"
         }
     }
 
@@ -632,6 +638,10 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
         switch self {
         case .share:
             return episodes.count == 1 && episodes.allSatisfy({ $0 is Episode })
+
+        case .addToPlaylist:
+            // Always show the option; toast will be shown if files are selected
+            return true
 
         default:
             return true

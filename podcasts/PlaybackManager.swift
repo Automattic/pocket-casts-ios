@@ -1968,7 +1968,18 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let reason = changeReason.uintValue
         if let currEpisode = currentEpisode(), playingOverAirplay() && playerSwitchRequired() {
-            let autoPlay = FeatureFlag.dontAutoplayOnRouteChange.enabled ? false : true
+            let wasPlaying = player?.shouldBePlaying() ?? false
+            let autoPlay: Bool
+            if FeatureFlag.dontAutoplayOnRouteChange.enabled {
+                // When flag is enabled: only autoplay if we were already playing
+                autoPlay = wasPlaying
+                if autoPlay {
+                    FileLog.shared.addMessage("PlaybackManager: Route change with active playback, preserving autoPlay=true")
+                }
+            } else {
+                // When flag is disabled: always autoplay (original behavior)
+                autoPlay = true
+            }
             load(episode: currEpisode, autoPlay: autoPlay, overrideUpNext: false)
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)

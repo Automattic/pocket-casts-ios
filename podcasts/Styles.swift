@@ -141,16 +141,18 @@ struct BasicButtonStyle: ButtonStyle {
     let textColor: Color
     let backgroundColor: Color
     let borderColor: Color?
+    let maxContentSizeCategory: UIContentSizeCategory
 
-    init(textColor: Color, backgroundColor: Color, borderColor: Color? = nil) {
+    init(textColor: Color, backgroundColor: Color, borderColor: Color? = nil, maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) {
         self.textColor = textColor
         self.backgroundColor = backgroundColor
         self.borderColor = borderColor
+        self.maxContentSizeCategory = maxContentSizeCategory
     }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .applyButtonFont()
+            .applyButtonFont(maxContentSizeCategory: maxContentSizeCategory)
             .foregroundColor(textColor)
             .frame(maxWidth: .infinity)
             .padding()
@@ -176,12 +178,14 @@ struct RoundedButtonStyle: ButtonStyle {
     let textColor: ThemeStyle
     let backgroundColor: Color?
     let isEnabled: Bool?
+    let maxContentSizeCategory: UIContentSizeCategory
 
-    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil) {
+    init(theme: Theme, textColor: ThemeStyle = .primaryInteractive02, backgroundColor: Color? = nil, isEnabled: Bool? = nil, maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) {
         self.theme = theme
         self.textColor = textColor
         self.backgroundColor = backgroundColor
         self.isEnabled = isEnabled
+        self.maxContentSizeCategory = maxContentSizeCategory
     }
 
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -196,7 +200,7 @@ struct RoundedButtonStyle: ButtonStyle {
                             .opacity(configuration.isPressed ? 0.6 : 1)
         }
 
-        return BasicButtonStyle(textColor: text, backgroundColor: background)
+        return BasicButtonStyle(textColor: text, backgroundColor: background, maxContentSizeCategory: maxContentSizeCategory)
             .makeBody(configuration: configuration)
     }
 }
@@ -309,22 +313,25 @@ struct SimpleTextButtonStyle: ButtonStyle {
     let style: Font.TextStyle
     let weight: Font.Weight
     let size: Double
+    let maxContentSizeCategory: UIContentSizeCategory
 
     init(theme: Theme,
          size: Double = 18,
          textColor: ThemeStyle = .primaryText01,
          style: Font.TextStyle = .body,
-         weight: Font.Weight = .semibold) {
+         weight: Font.Weight = .semibold,
+         maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) {
         self.theme = theme
         self.size = size
         self.textColor = textColor
         self.style = style
         self.weight = weight
+        self.maxContentSizeCategory = maxContentSizeCategory
     }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .applyButtonFont(size: size, style: style, weight: weight)
+            .applyButtonFont(size: size, style: style, weight: weight, maxContentSizeCategory: maxContentSizeCategory)
             .foregroundColor(AppTheme.color(for: textColor, theme: theme))
             .frame(maxWidth: .infinity)
             .padding()
@@ -414,11 +421,12 @@ extension View {
 
     func applyButtonFont(size: Double = 18,
                          style: Font.TextStyle = .body,
-                         weight: Font.Weight = .semibold) -> some View {
+                         weight: Font.Weight = .semibold,
+                         maxContentSizeCategory: UIContentSizeCategory = .accessibilityExtraExtraLarge) -> some View {
         self.font(size: size,
                   style: style,
                   weight: weight,
-                  maxSizeCategory: .accessibilityExtraExtraLarge)
+                  maxSizeCategory: maxContentSizeCategory)
     }
 }
 

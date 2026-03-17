@@ -22,6 +22,12 @@ class TimeSlider: UIView {
         }
     }
 
+    var animationColor = UIColor.white {
+        didSet {
+            timeLayer().animationColor = animationColor.cgColor
+        }
+    }
+
     var rightColor = UIColor(white: 1.0, alpha: 0.20)
     var circleColor = UIColor.white {
         didSet {
@@ -74,6 +80,7 @@ class TimeSlider: UIView {
         tLayer.contentsScale = UIScreen.main.scale
         tLayer.leftColor = leftColor.cgColor
         tLayer.rightColor = rightColor.cgColor
+        tLayer.animationColor = animationColor.cgColor
         tLayer.circleColor = circleColor.cgColor
         tLayer.popupColor = popupColor
         tLayer.popupTextColor = popupTextColor
@@ -199,6 +206,14 @@ class TimeSlider: UIView {
 
     override class var layerClass: AnyClass {
         TimeSliderLayer.self
+    }
+
+    var indeterminant: Bool = false {
+        didSet {
+            if self.window != nil {
+                timeLayer().shouldAnimate = indeterminant
+            }
+        }
     }
 }
 

@@ -239,9 +239,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Uses the PlaylistMetadataLoader cache before running the query (the query will update when it's done)
     case playlistDataCacheBeforeQuery
 
-    /// Avoid returning cached episode early and use policy instead
-    case episodesInfoCacheReloadPolicy
-
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
@@ -294,6 +291,12 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Use transferUserInfo API for watch-to-phone actions and sendMessage for phone-to-watch state updates
     case watchTransferUserInfoApi
+
+    /// Remove the 50-episode limit when syncing Up Next to Apple Watch
+    case unlimitedWatchUpNextSync
+
+    /// Ensure that tmp files are removed when no longer needed
+    case cleanUpTmpFiles
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -457,8 +460,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .playlistDataCacheBeforeQuery:
             true
-        case .episodesInfoCacheReloadPolicy:
-			true
         case .ignorePlayWithOtherAudio:
             true
         case .streamAndDownloadReadFromMemoryBuffer:
@@ -494,6 +495,10 @@ public enum FeatureFlag: String, CaseIterable {
         case .checkProtectedDataBeforeMigration:
 			      true
         case .watchTransferUserInfoApi:
+            true
+        case .unlimitedWatchUpNextSync:
+            true
+        case .cleanUpTmpFiles:
             true
         }
     }

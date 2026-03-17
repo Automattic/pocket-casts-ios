@@ -1056,6 +1056,8 @@ waar je naar hebt geluisterd was
     <string>%1$@ afleveringen</string>
     <key>episode_description_title</key>
     <string>Beschrijving van aflevering</string>
+    <key>episode_detail_add</key>
+    <string>Toevoegen</string>
     <key>episode_details_title</key>
     <string>Details</string>
     <key>episode_filter_by_duration_label</key>
@@ -1162,6 +1164,8 @@ waar je naar hebt geluisterd was
     <string>Bestanden</string>
     <key>files_how_to_title</key>
     <string>Een bestand opslaan</string>
+    <key>files_not_uploaded</key>
+    <string>Geen bestanden geüpload</string>
     <key>files_sort</key>
     <string>Bestanden sorteren</string>
     <key>filter_auto_add_subtitle</key>
@@ -1899,8 +1903,12 @@ UPDATES</string>
     <string>Alles afspelen</string>
     <key>play_last</key>
     <string>Als laatste afspelen</string>
+    <key>play_last_in_up_next</key>
+    <string>Als laatste afspelen in Hierna</string>
     <key>play_next</key>
     <string>Als eerstvolgende afspelen</string>
+    <key>play_next_in_up_next</key>
+    <string>Hierna afspelen in Hierna</string>
     <key>playback_2024_completion_rate_description</key>
     <string>Van de %1$@ afleveringen waar je aan bent begonnen, heb je er %2$@ helemaal afgeluisterd</string>
     <key>playback_2024_completion_rate_title</key>
@@ -3158,6 +3166,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Door op een aflevering in Hierna te tikken, wordt de actiepagina weergegeven. Door deze ingedrukt te houden, wordt de aflevering afgespeeld. Schakel in om deze om te wisselen.</string>
     <key>settings_general_up_next_tap_on_subtitle</key>
     <string>Door op een aflevering in Hierna te tikken, wordt deze afgespeeld. Door deze ingedrukt te houden, worden opties voor de aflevering weergegeven. Schakel uit om deze om te wisselen.</string>
+    <key>settings_general_voice_boost_n</key>
+    <string>VoiceBoostN</string>
+    <key>settings_general_voice_boost_n_subtitle</key>
+    <string>Gebruik de bijgewerkte volumeboost met consistentere spraakniveaus.</string>
     <key>settings_global_settings</key>
     <string>Algemene instellingen</string>
     <key>settings_headphone_controls</key>
@@ -3816,6 +3828,8 @@ Deze app kan zo eenvoudig of moeilijk te gebruiken zijn als je zelf maar wilt. D
     <string>Volumeboost</string>
     <key>volume_boost_description</key>
     <string>Stemmen klinken luider</string>
+    <key>volume_boost_n_description</key>
+    <string>Spraakniveaus zijn consistenter</string>
     <key>wait_for_wifi</key>
     <string>Wachten op wifi</string>
     <key>watch</key>

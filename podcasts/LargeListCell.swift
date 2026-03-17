@@ -97,9 +97,8 @@ class LargeListCell: ThemeableCollectionCell {
     // MARK: - Dynamic Type support
 
     func updateSize() {
-        let largeSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
-        podcastTitle.numberOfLines = largeSize ? 2 : 1
-        podcastAuthor.numberOfLines = largeSize ? 2 : 1
+        podcastTitle.updateNumberOfLines(regular: 1, accessibility: 2)
+        podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
