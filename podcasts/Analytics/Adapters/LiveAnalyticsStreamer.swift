@@ -34,10 +34,6 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
         let platform: String
     }
 
-    fileprivate struct EventBatch: Codable {
-        let events: [AnalyticsEvent]
-    }
-
     private let queue = DispatchQueue(label: "au.com.shiftyjelly.pocketcasts.liveanalytics")
     private var eventBuffer: [AnalyticsEvent] = []
     private var isFlushScheduled = false
@@ -128,10 +124,10 @@ private extension LiveAnalyticsStreamer {
             return
         }
 
-        let batch = EventBatch(events: eventBuffer)
+        let events = eventBuffer
         eventBuffer.removeAll()
 
-        send(batch: batch, to: url)
+        send(events: events, to: url)
     }
 
     /// In release builds, only allow HTTPS URLs on the Pocket Casts domain.
@@ -147,8 +143,8 @@ private extension LiveAnalyticsStreamer {
         #endif
     }
 
-    func send(batch: EventBatch, to url: URL) {
-        guard let data = try? encoder.encode(batch) else {
+    func send(events: [AnalyticsEvent], to url: URL) {
+        guard let data = try? encoder.encode(events) else {
             FileLog.shared.addMessage("LiveAnalyticsStreamer: Failed to encode event batch")
             return
         }
