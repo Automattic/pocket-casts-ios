@@ -6,6 +6,7 @@
 -----
 - Show buffering UI on Full Screen Player [#4051](https://github.com/Automattic/pocket-casts-ios/pull/4051)
 - Ensure that temporary download files are properly deleted from the system [#4052](https://github.com/Automattic/pocket-casts-ios/pull/4052)
+- Fix size and shape of podcast header buttons when using show borders [#4077](https://github.com/Automattic/pocket-casts-ios/pull/4077)
 
 8.7
 -----
