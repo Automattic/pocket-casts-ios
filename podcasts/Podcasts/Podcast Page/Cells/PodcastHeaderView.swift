@@ -76,7 +76,7 @@ struct PodcastHeaderView: View {
                 .clipped()
             PodcastDetailsTabView(delegate: viewModel.delegate)
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 16)
     }
 
     private var podcastCategory: some View {
@@ -106,9 +106,9 @@ struct PodcastHeaderView: View {
     }
 
     @ScaledMetric(relativeTo: .body) private var titleBottomMargin = 16
-    @ScaledMetric(relativeTo: .title2) private var itemMargin = 24
-    @ScaledMetric(relativeTo: .title2) private var iconSize = 24
-    @ScaledMetric(relativeTo: .title2) private var iconRounding = 32
+    @ScaledMetric(relativeTo: .largeTitle) private var itemMargin = 24
+    @ScaledMetric(relativeTo: .largeTitle) private var iconSize = 24
+    @ScaledMetric(relativeTo: .largeTitle) private var iconRounding = 32
 
     private var podcastTitle: some View {
         HStack(spacing: 0) {
@@ -149,7 +149,7 @@ struct PodcastHeaderView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .background(theme.support02)
-                        .tint(theme.primaryUi01)
+                        .foregroundStyle(theme.primaryUi01)
                         .frame(width: iconSize, height: iconSize)
                         .clipShape(Circle())
                         .opacity(viewModel.isSubscribed ? 1 : 0)
@@ -163,6 +163,7 @@ struct PodcastHeaderView: View {
                 .clipped()
 
         }
+        .buttonStyle(.plain)
     }
 
     private var fundingButton: some View {
@@ -185,6 +186,7 @@ struct PodcastHeaderView: View {
             }
         }
         .accessibilityLabel(L10n.funding)
+        .buttonStyle(.plain)
     }
 
     private func fundingImage(width: CGFloat, height: CGFloat, padding: CGFloat) -> some View {
@@ -230,10 +232,12 @@ struct PodcastHeaderView: View {
             Image(imageName)
                 .renderingMode(.template)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: iconSize, height: iconSize)
                 .padding(8)
                 .foregroundStyle(theme.primaryIcon03)
         }
+        .buttonStyle(.plain)
         .accessibilityLabel(title)
     }
 
