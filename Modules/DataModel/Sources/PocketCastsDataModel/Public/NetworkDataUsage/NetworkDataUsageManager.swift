@@ -84,14 +84,6 @@ public struct NetworkDataUsageManager {
         return .wifi
     }
 
-    private func normalizedOperationType(_ operationType: OperationType) -> OperationType {
-        switch operationType {
-        case .autoDownload:
-            return .download
-        default:
-            return operationType
-        }
-    }
 }
 
 // MARK: - Schema Creation
