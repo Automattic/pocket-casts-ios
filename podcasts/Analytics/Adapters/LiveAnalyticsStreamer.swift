@@ -129,12 +129,14 @@ private extension LiveAnalyticsStreamer {
             return
         }
 
-        // Check for URL at flush time (allows dynamic enable/disable)
+        // Check for URL at flush time (allows dynamic enable/disable).
+        // Stop the flush loop when no URL is configured; the next call to
+        // bufferEvent() will restart it when a new event arrives.
         guard let urlString = ServerSettings.liveAnalyticsUrl,
               !urlString.isEmpty,
               let url = URL(string: urlString),
               isAllowedUrl(url) else {
-            // Keep events buffered until URL becomes available
+            isFlushScheduled = false
             return
         }
 
