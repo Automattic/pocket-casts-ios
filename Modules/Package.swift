@@ -28,6 +28,10 @@ let package = Package(
         .library(
             name: "PocketCastsServer",
             targets: ["PocketCastsServer"]
+        ),
+        .library(
+            name: "Modules",
+            targets: ["Modules"]
         )
     ],
     dependencies: [
@@ -122,6 +126,15 @@ let package = Package(
             dependencies: ["PocketCastsServer"],
             path: "Tests/PocketCastsServerTests",
             resources: [.copy("Fixtures")]
+        ),
+        .target(
+            name: "Modules",
+            path: "Sources/Modules"
+        ),
+        .testTarget(
+            name: "ModulesTests",
+            dependencies: ["Modules"],
+            path: "Tests/ModulesTests"
         )
     ]
 )
