@@ -245,8 +245,10 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 PlaybackManager.shared.urlFailedToLoad(for: episodeUuid)
                 return
             }
+            let playerError =  player?.error?.localizedDescription ?? ""
+            let playerItemError = player?.currentItem?.error?.localizedDescription ?? ""
 
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerError) - \(playerItemError)", userMessage: nil)
 
             return
         }
