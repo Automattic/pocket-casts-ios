@@ -25,6 +25,7 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
     private enum Config {
         static let maxBufferSize = 1000
         static let flushDelayMs: UInt64 = 500
+        static let errorBackoffMs: UInt64 = 30_000
     }
 
     fileprivate struct AnalyticsEvent: Codable {
@@ -37,6 +38,7 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
     private let queue = DispatchQueue(label: "au.com.shiftyjelly.pocketcasts.liveanalytics")
     private var eventBuffer: [AnalyticsEvent] = []
     private var isFlushScheduled = false
+    private var isBackingOff = false
 
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.default
@@ -98,6 +100,11 @@ private extension LiveAnalyticsStreamer {
     }
 
     func scheduleFlush() {
+        guard !isBackingOff else {
+            isFlushScheduled = false
+            return
+        }
+
         // Immediately flush, then wait 500ms before next flush
         flush()
 
@@ -130,6 +137,21 @@ private extension LiveAnalyticsStreamer {
         send(events: events, to: url)
     }
 
+    func startBackoff() {
+        guard !isBackingOff else { return }
+        isBackingOff = true
+
+        queue.asyncAfter(deadline: .now() + .milliseconds(Int(Config.errorBackoffMs))) { [weak self] in
+            guard let self else { return }
+            self.isBackingOff = false
+
+            if !self.eventBuffer.isEmpty, !self.isFlushScheduled {
+                self.isFlushScheduled = true
+                self.scheduleFlush()
+            }
+        }
+    }
+
     /// In release builds, only allow HTTPS URLs on the Pocket Casts domain.
     func isAllowedUrl(_ url: URL) -> Bool {
         #if DEBUG || STAGING
@@ -154,12 +176,23 @@ private extension LiveAnalyticsStreamer {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = data
 
-        // Fire and forget - no retry on failure
-        urlSession.dataTask(with: request) { _, response, error in
-            if let error {
+        // Fire and forget - no retry on failure, but back off on errors
+        urlSession.dataTask(with: request) { [weak self] _, response, error in
+            let failed: Bool
+            if let error, (error as NSError).code != NSURLErrorCancelled {
                 FileLog.shared.addMessage("LiveAnalyticsStreamer: Send failed - \(error.localizedDescription)")
+                failed = true
             } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode >= 400 {
                 FileLog.shared.addMessage("LiveAnalyticsStreamer: Send failed - HTTP \(httpResponse.statusCode)")
+                failed = true
+            } else {
+                failed = false
+            }
+
+            if failed {
+                self?.queue.async {
+                    self?.startBackoff()
+                }
             }
         }.resume()
     }
