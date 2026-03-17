@@ -12,7 +12,7 @@ import PocketCastsUtils
 /// URLSessionTaskMetrics.
 #if !os(watchOS)
 class StreamingCellularTracker {
-    private let monitor = NWPathMonitor()
+    private var monitor: NWPathMonitor?
     private let monitorQueue = DispatchQueue(label: "com.pocketcasts.StreamingCellularTracker")
 
     private weak var playerItem: AVPlayerItem?
@@ -42,10 +42,12 @@ class StreamingCellularTracker {
         self.bytesWhenConnectionStarted = 0
         self.currentConnectionType = nil
 
-        monitor.pathUpdateHandler = { [weak self] path in
+        let newMonitor = NWPathMonitor()
+        newMonitor.pathUpdateHandler = { [weak self] path in
             self?.handlePathUpdate(path)
         }
-        monitor.start(queue: monitorQueue)
+        newMonitor.start(queue: monitorQueue)
+        monitor = newMonitor
 
         // Observe access log changes to track bytes as they're downloaded
         accessLogObserver = NotificationCenter.default.addObserver(
@@ -53,15 +55,21 @@ class StreamingCellularTracker {
             object: playerItem,
             queue: nil
         ) { [weak self] _ in
-            self?.checkAndReportConnectionUsage()
+            guard let self else { return }
+            self.monitorQueue.async {
+                self.checkAndReportConnectionUsage()
+            }
         }
     }
 
     /// Stop tracking and report final network usage
     func stopTracking() {
-        reportCurrentConnectionUsageIfNeeded()
+        monitorQueue.sync {
+            reportCurrentConnectionUsageIfNeeded()
+        }
 
-        monitor.cancel()
+        monitor?.cancel()
+        monitor = nil
 
         if let observer = accessLogObserver {
             NotificationCenter.default.removeObserver(observer)
@@ -112,7 +120,7 @@ class StreamingCellularTracker {
         let currentBytes = currentBytesTransferred()
         let bytesOnConnection = currentBytes - bytesWhenConnectionStarted
 
-        let bytesThreshold: Int64 = 100 * 1024
+        let bytesThreshold: Int64 = 1024 * 1024 // 1 MB
         if bytesOnConnection - lastReportedBytes >= bytesThreshold {
             let bytesToReport = bytesOnConnection - lastReportedBytes
             reportConnectionBytes(bytesToReport)
@@ -149,11 +157,10 @@ class StreamingCellularTracker {
     }
 
     private func currentBytesTransferred() -> Int64 {
-        guard let accessLog = playerItem?.accessLog(),
-              let lastEvent = accessLog.events.last else {
+        guard let accessLog = playerItem?.accessLog() else {
             return 0
         }
-        return lastEvent.numberOfBytesTransferred
+        return accessLog.events.reduce(0) { $0 + $1.numberOfBytesTransferred }
     }
 }
 
