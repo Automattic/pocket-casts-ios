@@ -977,11 +977,11 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playbackDidFail(logMessage: String?, userMessage: String?, fallbackToDefaultPlayer: Bool = false) {
-        FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
+        FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(logMessage ?? "No error provided")")
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
-            FileLog.shared.addMessage("Playback Failed, attempting to fallback to: DefaultPlayer")
+            FileLog.shared.addMessage("[PlaybackManager] Playback failed, attempting to fallback to: DefaultPlayer")
 
             fallbackToPlayer = DefaultPlayer.self
 
@@ -995,7 +995,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
-            FileLog.shared.addMessage("PlaybackManager: Failed to fetch current episode. Queue will be cleared.")
+            FileLog.shared.addMessage("[PlaybackManager] Failed to fetch current episode. Queue will be cleared.")
             endPlayback()
 
             return
@@ -1024,7 +1024,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        FileLog.shared.addMessage("Something odd about the end of this episode but we got close enough, marking as finished")
+        FileLog.shared.addMessage("[PlaybackManager] Something odd about the end of this episode but we got close enough, marking as finished")
         playerDidFinishPlayingEpisode()
     }
 
