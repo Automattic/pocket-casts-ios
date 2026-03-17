@@ -182,7 +182,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         let bytesReceived = task.countOfBytesReceived
-        let isCellular = metrics.transactionMetrics.last?.isCellular ?? false
+        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
 
         guard bytesReceived > 0 else { return }
 

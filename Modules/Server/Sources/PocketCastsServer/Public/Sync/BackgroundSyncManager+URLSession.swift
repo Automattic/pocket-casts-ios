@@ -6,7 +6,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         let bytesReceived = task.countOfBytesReceived
         let bytesSent = task.countOfBytesSent
-        let isCellular = metrics.transactionMetrics.last?.isCellular ?? false
+        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
 
         if bytesReceived > 0 || bytesSent > 0 {
             let connectionType: NetworkDataUsageManager.ConnectionType = isCellular ? .cellular : .wifi

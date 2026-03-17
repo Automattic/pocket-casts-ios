@@ -212,7 +212,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
         // Track cellular data usage
         let bytesReceived = task.countOfBytesReceived
-        let isCellular = metrics.transactionMetrics.last?.isCellular ?? false
+        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
 
         if bytesReceived > 0 {
             let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)

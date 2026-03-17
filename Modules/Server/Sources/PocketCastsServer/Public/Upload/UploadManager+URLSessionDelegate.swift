@@ -11,7 +11,7 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         let bytesSent = task.countOfBytesSent
-        let isCellular = metrics.transactionMetrics.last?.isCellular ?? false
+        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
 
         if bytesSent > 0 {
             let connectionType: NetworkDataUsageManager.ConnectionType = isCellular ? .cellular : .wifi
