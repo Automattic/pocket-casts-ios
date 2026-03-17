@@ -70,6 +70,20 @@ public struct NetworkDataUsageManager {
         case foreground
     }
 
+    /// Derives a ``ConnectionType`` from URL session task metrics.
+    /// Returns `.unknown` when no transaction metrics are available.
+    public static func connectionType(from metrics: URLSessionTaskMetrics) -> ConnectionType {
+        guard !metrics.transactionMetrics.isEmpty else {
+            return .unknown
+        }
+
+        if metrics.transactionMetrics.contains(where: { $0.isCellular }) {
+            return .cellular
+        }
+
+        return .wifi
+    }
+
     private func normalizedOperationType(_ operationType: OperationType) -> OperationType {
         switch operationType {
         case .autoDownload:

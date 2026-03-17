@@ -186,11 +186,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         let bytesReceived = task.countOfBytesReceived
-        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
+        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
         guard bytesReceived > 0 else { return }
-
-        let connectionType: NetworkDataUsageManager.ConnectionType = isCellular ? .cellular : .wifi
 
         DataManager.sharedManager.networkDataUsageManager.add(
             episodeUuid: episodeUuid,

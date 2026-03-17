@@ -223,7 +223,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
         // Track cellular data usage
         let bytesReceived = task.countOfBytesReceived
-        let isCellular = metrics.transactionMetrics.contains(where: { $0.isCellular })
+        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
         if bytesReceived > 0 {
             let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)
@@ -241,7 +241,6 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             let bytesDownloaded = operationType != .stream ? bytesReceived : 0
             let bytesStreamed = operationType == .stream ? bytesReceived : 0
-            let connectionType: NetworkDataUsageManager.ConnectionType = isCellular ? .cellular : .wifi
 
             dataManager.networkDataUsageManager.add(
                 episodeUuid: episode.uuid,
