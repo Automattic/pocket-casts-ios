@@ -204,6 +204,10 @@ class SyncSettingsTask: ApiBaseTask {
                 }
             }
 
+            if settings.liveAnalyticsURL.changed.value {
+                ServerSettings.liveAnalyticsUrl = settings.liveAnalyticsURL.value.value
+            }
+
             ServerSettings.setSkipBackSynced()
             ServerSettings.setSkipForwardSynced()
             ServerSettings.marketingOptInSynced()
