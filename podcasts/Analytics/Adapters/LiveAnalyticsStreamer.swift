@@ -2,6 +2,8 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 
+private let allowedHost = "pocketcasts.com"
+
 /// Streams analytics events to a remote debugging endpoint when enabled by the server.
 ///
 /// This adapter buffers analytics events and sends them in batches to the configured
@@ -120,7 +122,8 @@ private extension LiveAnalyticsStreamer {
         // Check for URL at flush time (allows dynamic enable/disable)
         guard let urlString = ServerSettings.liveAnalyticsUrl,
               !urlString.isEmpty,
-              let url = URL(string: urlString) else {
+              let url = URL(string: urlString),
+              isAllowedUrl(url) else {
             // Keep events buffered until URL becomes available
             return
         }
@@ -129,6 +132,19 @@ private extension LiveAnalyticsStreamer {
         eventBuffer.removeAll()
 
         send(batch: batch, to: url)
+    }
+
+    /// In release builds, only allow HTTPS URLs on the Pocket Casts domain.
+    func isAllowedUrl(_ url: URL) -> Bool {
+        #if DEBUG || STAGING
+        return true
+        #else
+        guard url.scheme == "https",
+              let host = url.host?.lowercased() else {
+            return false
+        }
+        return host == allowedHost || host.hasSuffix(".\(allowedHost)")
+        #endif
     }
 
     func send(batch: EventBatch, to url: URL) {
