@@ -83,7 +83,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // MediaExporterResourceLoaderDelegate handles its own tracking for cache+stream,
         // but for direct AVPlayer streaming we use StreamingCellularTracker
         #if !os(watchOS) && !APPCLIP
-        if let urlAsset = playerItem.asset as? AVURLAsset, !urlAsset.url.isFileURL {
+        if let urlAsset = playerItem.asset as? AVURLAsset,
+           !urlAsset.url.isFileURL,
+           !(urlAsset.url.scheme?.hasPrefix(MediaExporterResourceLoaderDelegate.schemePrefix) ?? false) {
             cellularTracker = StreamingCellularTracker()
             cellularTracker?.startTracking(
                 playerItem: playerItem,
