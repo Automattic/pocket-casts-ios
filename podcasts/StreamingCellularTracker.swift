@@ -22,7 +22,7 @@ class StreamingCellularTracker {
     private var episodeUuid: String?
     private var podcastUuid: String?
 
-    private var currentConnectionType: NetworkDataUsageManager.ConnectionType?
+    private var currentConnectionType: NetworkDataUsageManager.ConnectionType = .unknown
     private var bytesWhenConnectionStarted: Int64 = 0
     private var lastReportedBytes: Int64 = 0
     private var latestBytesTransferred: Int64 = 0
@@ -44,7 +44,7 @@ class StreamingCellularTracker {
         self.podcastUuid = podcastUuid
         self.lastReportedBytes = 0
         self.bytesWhenConnectionStarted = 0
-        self.currentConnectionType = nil
+        self.currentConnectionType = .unknown
         self.latestBytesTransferred = 0
 
         let newMonitor = NWPathMonitor()
@@ -86,7 +86,7 @@ class StreamingCellularTracker {
         playerItem = nil
         episodeUuid = nil
         podcastUuid = nil
-        currentConnectionType = nil
+        currentConnectionType = .unknown
         bytesWhenConnectionStarted = 0
         lastReportedBytes = 0
         latestBytesTransferred = 0
@@ -96,7 +96,7 @@ class StreamingCellularTracker {
 
     private func handlePathUpdate(_ path: NWPath) {
         let previousConnectionType = currentConnectionType
-        let nextConnectionType: NetworkDataUsageManager.ConnectionType? = {
+        let nextConnectionType: NetworkDataUsageManager.ConnectionType = {
             if path.usesInterfaceType(.cellular) {
                 return .cellular
             }
@@ -105,7 +105,7 @@ class StreamingCellularTracker {
                 return .wifi
             }
 
-            return nil
+            return .unknown
         }()
 
         guard previousConnectionType != nextConnectionType else {
@@ -119,7 +119,7 @@ class StreamingCellularTracker {
         bytesWhenConnectionStarted = latestBytesTransferred
         lastReportedBytes = 0
 
-        let connectionLabel = nextConnectionType?.displayName ?? "none"
+        let connectionLabel = nextConnectionType.displayName
         FileLog.shared.addMessage("StreamingCellularTracker: Switched connection type to \(connectionLabel), starting bytes: \(bytesWhenConnectionStarted)")
     }
 
@@ -132,8 +132,6 @@ class StreamingCellularTracker {
     }
 
     private func reportCurrentConnectionUsageIfNeeded() {
-        guard currentConnectionType != nil else { return }
-
         let bytesOnConnection = latestBytesTransferred - bytesWhenConnectionStarted
         let unreportedBytes = bytesOnConnection - lastReportedBytes
 
@@ -144,7 +142,8 @@ class StreamingCellularTracker {
     }
 
     private func reportConnectionBytes(_ bytes: Int64) {
-        guard bytes > 0, let connectionType = currentConnectionType else { return }
+        guard bytes > 0 else { return }
+        let connectionType = currentConnectionType
 
         FileLog.shared.addMessage("StreamingCellularTracker: Reporting \(bytes) bytes of \(connectionType.displayName) streaming for episode: \(episodeUuid ?? "unknown")")
 
