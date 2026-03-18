@@ -182,7 +182,7 @@ extension NowPlayingPlayerItemViewController {
         if let playbackError = playingEpisode.playbackErrorDetails {
             errorMessage = playbackError
         }
-        
+
         if !errorMessage.isEmpty {
             print("Error: \(errorMessage)")
             errorLabel.text = errorMessage

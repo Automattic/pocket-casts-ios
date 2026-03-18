@@ -256,7 +256,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             }
             var userMessage: String?
             if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
-                userMessage = "Episode not available"
+                userMessage = L10n.playerErrorEpisodeNotAvailable
             }
             PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: userMessage)
 

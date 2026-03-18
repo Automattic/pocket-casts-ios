@@ -2398,6 +2398,8 @@ internal enum L10n {
   internal static var playerEpisodeWasRemoved: String { return L10n.tr("Localizable", "player_episode_was_removed", fallback: "Episode was removed") }
   /// Generic error used when playback fails but the episode has a downloaded file. Warns the user that playback is failing because the associated file likely has been corrupted.
   internal static var playerErrorCorruptedFile: String { return L10n.tr("Localizable", "player_error_corrupted_file", fallback: "The episode might be corrupted, but you can try to play it again.") }
+  /// Generic error used when playback fails because we are unable to access the episode file.
+  internal static var playerErrorEpisodeNotAvailable: String { return L10n.tr("Localizable", "player_error_episode_not_available", fallback: "Episode not available") }
   /// Generic error used when playback fails while streaming. Asks the user to verify their internet connection.
   internal static var playerErrorInternetConnection: String { return L10n.tr("Localizable", "player_error_internet_connection", fallback: "Check your Internet connection and try again.") }
   /// Accessibility label for the player control that fast-forwards the current playback position by a customizable time.
