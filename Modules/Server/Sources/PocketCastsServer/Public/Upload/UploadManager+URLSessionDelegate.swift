@@ -10,11 +10,12 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
     private static let suspectEpisodeSize = 150 * 1024
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard FeatureFlag.trackNetworkDataUsage.enabled else { return }
+
         let bytesSent = task.countOfBytesSent
         let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
         if bytesSent > 0 {
-
             DataManager.sharedManager.networkDataUsageManager.add(
                 bytesUploaded: bytesSent,
                 operationType: .upload,

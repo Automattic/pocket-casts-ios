@@ -221,36 +221,38 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             return
         }
 
-        // Track cellular data usage
-        let bytesReceived = task.countOfBytesReceived
-        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+        // Track network data usage
+        if FeatureFlag.trackNetworkDataUsage.enabled {
+            let bytesReceived = task.countOfBytesReceived
+            let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
 
-        if bytesReceived > 0 {
-            let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)
-            let operationType: NetworkDataUsageManager.OperationType
-            switch autoDownloadStatus {
-            case .playerDownloadedForStreaming:
-                operationType = .stream
-            default:
-                operationType = .download
+            if bytesReceived > 0 {
+                let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)
+                let operationType: NetworkDataUsageManager.OperationType
+                switch autoDownloadStatus {
+                case .playerDownloadedForStreaming:
+                    operationType = .stream
+                default:
+                    operationType = .download
+                }
+
+                let sessionType: NetworkDataUsageManager.SessionType =
+                    session === wifiOnlyBackgroundSession ? .background :
+                    (session === cellularBackgroundSession ? .background : .foreground)
+
+                let bytesDownloaded = operationType != .stream ? bytesReceived : 0
+                let bytesStreamed = operationType == .stream ? bytesReceived : 0
+
+                dataManager.networkDataUsageManager.add(
+                    episodeUuid: episode.uuid,
+                    podcastUuid: episode.parentIdentifier(),
+                    bytesDownloaded: bytesDownloaded,
+                    bytesStreamed: bytesStreamed,
+                    operationType: operationType,
+                    connectionType: connectionType,
+                    sessionType: sessionType
+                )
             }
-
-            let sessionType: NetworkDataUsageManager.SessionType =
-                session === wifiOnlyBackgroundSession ? .background :
-                (session === cellularBackgroundSession ? .background : .foreground)
-
-            let bytesDownloaded = operationType != .stream ? bytesReceived : 0
-            let bytesStreamed = operationType == .stream ? bytesReceived : 0
-
-            dataManager.networkDataUsageManager.add(
-                episodeUuid: episode.uuid,
-                podcastUuid: episode.parentIdentifier(),
-                bytesDownloaded: bytesDownloaded,
-                bytesStreamed: bytesStreamed,
-                operationType: operationType,
-                connectionType: connectionType,
-                sessionType: sessionType
-            )
         }
 
         if let failure = taskFailure[episode.uuid] {
