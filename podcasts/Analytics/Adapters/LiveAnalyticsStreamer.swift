@@ -41,8 +41,10 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
     private var isBackingOff = false
 
     private lazy var urlSession: URLSession = {
-        let config = URLSessionConfiguration.default
+        let config = URLSessionConfiguration.ephemeral
         config.timeoutIntervalForRequest = 30
+        config.httpCookieStorage = nil
+        config.urlCache = nil
         return URLSession(configuration: config)
     }()
 
