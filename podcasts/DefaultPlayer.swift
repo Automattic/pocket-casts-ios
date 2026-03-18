@@ -238,17 +238,18 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private func playerStatusDidChange() {
         if player?.currentItem?.status == .failed  || player?.status == .failed {
-
+            let playerItemError = player?.currentItem?.error
             if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               (player?.currentItem?.error as? NSError)?.domain == NSURLErrorDomain,
+               (playerItemError as? NSError)?.domain == NSURLErrorDomain,
                 let episodeUuid {
-                PlaybackManager.shared.urlFailedToLoad(for: episodeUuid)
-                return
+                if PlaybackManager.shared.isRetryingUrlLoad(for: episodeUuid) {
+                    return
+                }
             }
-            let playerError =  player?.error?.localizedDescription ?? ""
-            let playerItemError = player?.currentItem?.error?.localizedDescription ?? ""
+            let playerErrorMessage =  player?.error?.localizedDescription ?? ""
+            let playerItemErrorMessage = playerItemError?.localizedDescription ?? ""
 
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerError) - \(playerItemError)", userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: nil)
 
             return
         }
