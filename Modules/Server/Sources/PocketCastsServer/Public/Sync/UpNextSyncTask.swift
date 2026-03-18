@@ -52,6 +52,8 @@ class UpNextSyncTask: ApiBaseTask {
         defer { TraceManager.shared.endTracing(trace: trace) }
 
         let (syncRequest, latestActionTime) = createUpNextSyncRequest()
+        let changeCount = syncRequest.upNext.changes.count
+        let syncReason = SyncManager.syncReason?.rawValue ?? "unknown"
         let url = ServerConstants.Urls.api() + "up_next/sync"
         do {
             let data = try syncRequest.serializedData()
@@ -62,9 +64,18 @@ class UpNextSyncTask: ApiBaseTask {
             } else if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response, latestActionTime: latestActionTime)
             } else {
-                FileLog.shared.addMessage("UpNextSyncTask: Unable to sync with server got status \(httpStatus)")
+                let responseBody = response.flatMap { String(data: $0, encoding: .utf8) }
+                let truncatedBody = responseBody.map { String($0.prefix(500)) } ?? "nil"
+                FileLog.shared.addMessage("UpNextSyncTask: Unable to sync with server got status \(httpStatus), response: \(truncatedBody)")
                 let syncError = UpNextSyncError.serverSyncFailed(httpStatus: httpStatus)
-                ServerConfig.shared.errorLogger?.log(error: syncError, context: ["source": "upnext_sync", "httpStatus": "\(httpStatus)"])
+                ServerConfig.shared.errorLogger?.log(error: syncError, context: [
+                    "source": "upnext_sync",
+                    "httpStatus": "\(httpStatus)",
+                    "changeCount": "\(changeCount)",
+                    "requestBytes": "\(data.count)",
+                    "syncReason": syncReason,
+                    "responseBody": truncatedBody
+                ])
             }
         } catch {
             FileLog.shared.addMessage("UpNextSyncTask: had issues encoding protobuf \(error.localizedDescription)")
