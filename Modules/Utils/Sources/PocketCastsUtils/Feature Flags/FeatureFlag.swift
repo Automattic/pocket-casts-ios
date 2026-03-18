@@ -298,6 +298,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
+    /// Detect truncated background sync downloads by comparing received bytes to Content-Length
+    case detectTruncatedBackgroundSyncDownloads
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -499,6 +502,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .unlimitedWatchUpNextSync:
             true
         case .cleanUpTmpFiles:
+            true
+        case .detectTruncatedBackgroundSyncDownloads:
             true
         }
     }
