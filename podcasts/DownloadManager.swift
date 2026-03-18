@@ -88,6 +88,12 @@ class DownloadManager: NSObject, FilePathProtocol {
          }()
     #endif
 
+    private func setupSessions() {
+        let _ = wifiOnlyBackgroundSession
+        let _ = cellularBackgroundSession
+        let _ = cellularForegroundSession
+    }
+
     lazy var wifiOnlyBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
         if FeatureFlag.useCellularNetworkApis.enabled {
@@ -155,6 +161,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         self.dataManager = dataManager
         super.init()
 
+        setupSessions()
         // setup the temp download folder, in caches where iOS can purge it if need be
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
         if let cachePath = paths.first as NSString? {
