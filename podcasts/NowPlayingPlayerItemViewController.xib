@@ -382,10 +382,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="Error View" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="940" width="414" height="56"/>
+                    <rect key="frame" x="0.0" y="896" width="414" height="56"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="8" y="8" width="398" height="40"/>
+                            <rect key="frame" x="24" y="8" width="366" height="40"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -395,10 +395,10 @@
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.070000000000000007" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="96b-yr-mZE" firstAttribute="top" secondItem="Owh-jf-YTg" secondAttribute="top" constant="8" id="Tha-E8-VUo"/>
-                        <constraint firstAttribute="trailingMargin" secondItem="96b-yr-mZE" secondAttribute="trailing" id="XpO-f7-0TS"/>
+                        <constraint firstAttribute="trailingMargin" secondItem="96b-yr-mZE" secondAttribute="trailing" constant="16" id="XpO-f7-0TS"/>
                         <constraint firstAttribute="bottom" secondItem="96b-yr-mZE" secondAttribute="bottom" constant="8" id="bf9-Jd-CIf"/>
-                        <constraint firstAttribute="height" constant="56" id="eT2-Qf-DyX"/>
-                        <constraint firstItem="96b-yr-mZE" firstAttribute="leading" secondItem="Owh-jf-YTg" secondAttribute="leadingMargin" id="klf-K7-FM8"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="eT2-Qf-DyX"/>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="leading" secondItem="Owh-jf-YTg" secondAttribute="leadingMargin" constant="16" id="klf-K7-FM8"/>
                     </constraints>
                 </view>
             </subviews>
@@ -412,14 +412,15 @@
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
-                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" constant="-100" id="ckZ-tn-s0v"/>
+                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" priority="250" id="ckZ-tn-s0v"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
                 <constraint firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
+                <constraint firstItem="Owh-jf-YTg" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="bottom" priority="750" id="mNk-ir-3tT"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
-                <constraint firstAttribute="bottom" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
+                <constraint firstItem="Owh-jf-YTg" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-796" y="-267"/>

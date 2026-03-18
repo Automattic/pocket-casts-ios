@@ -200,8 +200,8 @@ extension NowPlayingPlayerItemViewController {
 
     func showError() {
         // Move error container in view
-        errorBottomSpacing.constant = 0
-        playerBottomSpacing.constant = 72
+        errorBottomSpacing.priority = UILayoutPriority.required
+        playerBottomSpacing.constant = 16
         UIView.animate(
                     withDuration: 0.45,
                     delay: 0,
@@ -215,7 +215,7 @@ extension NowPlayingPlayerItemViewController {
 
     func hideError() {
         // Move error out
-        errorBottomSpacing.constant = -100
+        errorBottomSpacing.priority = UILayoutPriority.defaultLow
         playerBottomSpacing.constant = 32
         UIView.animate(
                     withDuration: 0.45,
