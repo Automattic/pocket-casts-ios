@@ -298,6 +298,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
+    /// Track network data usage per episode/connection type in the NetworkDataUsage table
+    case trackNetworkDataUsage
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -499,6 +502,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .unlimitedWatchUpNextSync:
             true
         case .cleanUpTmpFiles:
+            true
+        case .trackNetworkDataUsage:
             true
         }
     }
