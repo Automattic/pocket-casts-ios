@@ -30,15 +30,14 @@ extension NowPlayingPlayerItemViewController {
 
     @objc private func playbackTrackChanged() {
         floatingVideoView.isHidden = true
-        update()
+        update(notification: nil)
     }
 
     @objc private func videoPlaybackEngineSwitched() {
         floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
     }
 
-    @objc func update() {
-        PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
+    @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if playingEpisode.videoPodcast() {
@@ -66,8 +65,11 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfo()
         updateChapterProgress()
         updateColors()
-        updateError()
-
+        if notification?.name == Constants.Notifications.playbackFailed
+           || notification?.name == Constants.Notifications.playbackStarted
+           || notification?.name == Constants.Notifications.playbackPaused {
+            updateError()
+        }
         if !showingCustomImage {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
         }
@@ -174,7 +176,8 @@ extension NowPlayingPlayerItemViewController {
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
     }
 
-    func updateError() {
+    @objc func updateError() {
+        PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
         var errorMessage = ""
         errorLabel.text = errorMessage

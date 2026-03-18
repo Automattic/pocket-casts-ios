@@ -355,7 +355,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     override func willBeAddedToPlayer() {
-        update()
+        update(notification: nil)
         addObservers()
     }
 
@@ -371,7 +371,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
-        update()
+        update(notification: nil)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
