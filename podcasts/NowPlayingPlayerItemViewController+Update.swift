@@ -38,6 +38,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     @objc func update() {
+        PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if playingEpisode.videoPodcast() {
@@ -196,6 +197,8 @@ extension NowPlayingPlayerItemViewController {
 
     func showError() {
         // Move error container in view
+        errorBottomSpacing.constant = 0
+        playerBottomSpacing.constant = 72
         UIView.animate(
                     withDuration: 0.45,
                     delay: 0,
@@ -203,13 +206,14 @@ extension NowPlayingPlayerItemViewController {
                     initialSpringVelocity: 0.5,
                     options: .curveEaseOut
         ) { [weak self] in
-            self?.errorBottomSpacing.constant = 0
-            self?.playerBottomSpacing.constant = 72
+            self?.view.layoutIfNeeded()
         }
     }
 
     func hideError() {
         // Move error out
+        errorBottomSpacing.constant = -100
+        playerBottomSpacing.constant = 32
         UIView.animate(
                     withDuration: 0.45,
                     delay: 0,
@@ -217,8 +221,7 @@ extension NowPlayingPlayerItemViewController {
                     initialSpringVelocity: 0.5,
                     options: .curveEaseOut
         ) { [weak self] in
-            self?.errorBottomSpacing.constant = -100
-            self?.playerBottomSpacing.constant = 32
+            self?.view.layoutIfNeeded()
         }
     }
 
