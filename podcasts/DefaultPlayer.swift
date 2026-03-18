@@ -254,8 +254,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     return
                 }
             }
-
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: nil)
+            var userMessage: String?
+            if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
+                userMessage = "Episode not available"
+            }
+            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: userMessage)
 
             return
         }
