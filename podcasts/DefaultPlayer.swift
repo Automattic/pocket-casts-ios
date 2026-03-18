@@ -238,16 +238,22 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
     private func playerStatusDidChange() {
         if player?.currentItem?.status == .failed  || player?.status == .failed {
-            let playerItemError = player?.currentItem?.error
+            let playerErrorMessage =  (player?.error as? NSError)?.debugDescription ?? ""
+            let playerItemErrorMessage = (player?.currentItem?.error as? NSError)?.debugDescription ?? ""
+            FileLog.shared.addMessage("[Default Player] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
+
+            // Give priority to player item error
+            let playerError: Error? = (player?.currentItem?.error ?? player?.error)
+            let playerNSError = playerError as? NSError
+            let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
+
             if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               (playerItemError as? NSError)?.domain == NSURLErrorDomain,
+               playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
                 let episodeUuid {
                 if PlaybackManager.shared.isRetryingUrlLoad(for: episodeUuid) {
                     return
                 }
             }
-            let playerErrorMessage =  player?.error?.localizedDescription ?? ""
-            let playerItemErrorMessage = playerItemError?.localizedDescription ?? ""
 
             PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: nil)
 
