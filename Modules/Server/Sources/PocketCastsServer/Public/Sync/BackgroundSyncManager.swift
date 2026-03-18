@@ -109,6 +109,19 @@ public class BackgroundSyncManager: NSObject {
         return task
     }
 
+    /// Returns `true` if the download is complete (received bytes match expected),
+    /// or if the expected length is unknown (Content-Length not set / chunked transfer).
+    /// Returns `false` if the received byte count doesn't match the expected Content-Length,
+    /// indicating the download was truncated.
+    static func isDownloadComplete(receivedBytes: Int, expectedContentLength: Int64) -> Bool {
+        guard expectedContentLength != -1 else {
+            // Unknown content length (chunked transfer encoding) — can't verify
+            return true
+        }
+
+        return Int64(receivedBytes) == expectedContentLength
+    }
+
     private func createUrlSession(identifier: String) -> URLSession {
         let config = URLSessionConfiguration.background(withIdentifier: identifier)
         let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
