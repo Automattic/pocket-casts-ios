@@ -65,9 +65,9 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfo()
         updateChapterProgress()
         updateColors()
-        if notification?.name == Constants.Notifications.playbackFailed
-           || notification?.name == Constants.Notifications.playbackStarted
-           || notification?.name == Constants.Notifications.playbackPaused {
+        let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
+        if let notificationName = notification?.name,
+           errorRelevantNotifications.contains(notificationName) {
             updateError()
         }
         if !showingCustomImage {
