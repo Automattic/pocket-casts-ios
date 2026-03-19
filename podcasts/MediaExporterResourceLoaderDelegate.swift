@@ -345,7 +345,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
         // Only retry if we haven't already retried without User-Agent and the error is a status code >= 400
-        return !hasRetriedWithoutUserAgent && error.code >= 400
+        return !hasRetriedWithoutUserAgent && (error.code == NSURLErrorResourceUnavailable || error.code == NSURLErrorZeroByteResource)
     }
 
     private func retryWithoutUserAgent(originalURL: URL?) {
