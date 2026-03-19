@@ -178,6 +178,9 @@ extension NowPlayingPlayerItemViewController {
     }
 
     @objc func updateError() {
+        guard FeatureFlag.displayErrorsOnPlayer.enabled else {
+            return
+        }
         PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
         var errorMessage = ""
