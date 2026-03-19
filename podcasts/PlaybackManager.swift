@@ -2273,7 +2273,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     // If we're streaming an episode and it fails, try to make sure the URL is up to date.
     // Authors can change URLs at any time, so this is handy to fix cases where they post
     // the wrong one and update it later
-    func isRetryingUrlLoad(for episodeUuid: String) -> Bool {
+    // This episode will return false if no retry is done, because we already did it before.
+    func retryUrlLoad(for episodeUuid: String) -> Bool {
 
         guard lastRetryEpisodeUuid != episodeUuid,
               let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),

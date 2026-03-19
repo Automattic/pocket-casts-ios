@@ -250,7 +250,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
                playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
                 let episodeUuid {
-                if PlaybackManager.shared.isRetryingUrlLoad(for: episodeUuid) {
+                if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
                     return
                 }
             }
