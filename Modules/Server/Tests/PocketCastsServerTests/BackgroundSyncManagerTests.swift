@@ -20,9 +20,8 @@ final class BackgroundSyncManagerTests: XCTestCase {
     }
 
     func testUnknownContentLengthReturnsTrue() {
-        // -1 means Content-Length was not set (chunked transfer encoding)
         XCTAssertTrue(
-            BackgroundSyncManager.isDownloadComplete(receivedBytes: 512, expectedContentLength: -1),
+            BackgroundSyncManager.isDownloadComplete(receivedBytes: 512, expectedContentLength: BackgroundSyncManager.unknownContentLength),
             "Unknown content length should be treated as complete (can't verify)"
         )
     }

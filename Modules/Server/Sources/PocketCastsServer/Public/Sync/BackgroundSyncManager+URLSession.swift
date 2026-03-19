@@ -16,7 +16,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
         // Verify the download completed fully by comparing received bytes to Content-Length.
         // A truncated download can produce valid-but-incomplete protobuf that silently drops fields.
         if FeatureFlag.detectTruncatedBackgroundSyncDownloads.enabled {
-            let expectedLength = downloadTask.response?.expectedContentLength ?? -1
+            let expectedLength = downloadTask.response?.expectedContentLength ?? BackgroundSyncManager.unknownContentLength
             if let receivedData = data, !BackgroundSyncManager.isDownloadComplete(receivedBytes: receivedData.count, expectedContentLength: expectedLength) {
                 FileLog.shared.addMessage("Background sync data truncated for task \(downloadTask.taskDescription ?? "unknown"): received \(receivedData.count) bytes, expected \(expectedLength)")
                 data = nil
