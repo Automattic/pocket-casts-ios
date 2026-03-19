@@ -205,6 +205,12 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    @IBOutlet weak var errorChevron: UIImageView! {
+        didSet {
+            errorChevron.isHidden = true
+        }
+    }
+
     @IBOutlet weak var playerBottomSpacing: NSLayoutConstraint!
 
     @IBOutlet weak var errorBottomSpacing: NSLayoutConstraint!
