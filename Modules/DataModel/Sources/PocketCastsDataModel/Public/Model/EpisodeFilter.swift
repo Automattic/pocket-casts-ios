@@ -35,6 +35,7 @@ public class EpisodeFilter: NSObject {
     @objc public var manual: Bool = false
     @objc public var showArchivedEpisodes: Bool = false
     @objc public var playlistUpdateDate: Date?
+    @objc public var filterEpisodeTitle: String = ""
 
     // Internal tracking
     @GRDBIgnore
@@ -49,8 +50,14 @@ public class EpisodeFilter: NSObject {
     public var mediaTypeSmartRuleApplied: Bool = false
     @GRDBIgnore
     public var downloadStatusSmartRuleApplied: Bool = false
+    @GRDBIgnore
+    public var titleSmartRuleApplied: Bool = false
 
     override public init() {}
+
+    public func recalculateSmartRuleFlags() {
+        titleSmartRuleApplied = !filterEpisodeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
 
     public func setTitle(_ title: String?, defaultTitle: String) {
         guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {

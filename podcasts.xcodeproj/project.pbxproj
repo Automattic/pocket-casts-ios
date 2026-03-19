@@ -148,6 +148,8 @@
 		4051A5812281B38100C13C12 /* NewsletterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051A57F2281B38000C13C12 /* NewsletterCell.swift */; };
 		4053A827249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053A826249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift */; };
 		4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053CDF6214B6B61001C92B1 /* EpisodeFilterOverlayController.swift */; };
+		9176997CBA434B2CB470C046 /* EpisodeTitleFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7352D6407C4FA6BAED4FB4 /* EpisodeTitleFilterViewController.swift */; };
+		7B32C30CDFE3484B8226E5CA /* EpisodeTitleFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF904FD73284AFA9AB34A99 /* EpisodeTitleFilterHeaderView.swift */; };
 		4053CDF9214F3583001C92B1 /* PodcastFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053CDF8214F3583001C92B1 /* PodcastFilterOverlayController.swift */; };
 		4053CDFB214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053CDFA214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift */; };
 		4053CE022150AC4B001C92B1 /* CheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053CE002150AC4B001C92B1 /* CheckboxCell.swift */; };
@@ -1712,6 +1714,8 @@
 		4051A57F2281B38000C13C12 /* NewsletterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsletterCell.swift; sourceTree = "<group>"; };
 		4053A826249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistViewController+MultiSelect.swift"; sourceTree = "<group>"; };
 		4053CDF6214B6B61001C92B1 /* EpisodeFilterOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFilterOverlayController.swift; sourceTree = "<group>"; };
+		1D7352D6407C4FA6BAED4FB4 /* EpisodeTitleFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTitleFilterViewController.swift; sourceTree = "<group>"; };
+		9EF904FD73284AFA9AB34A99 /* EpisodeTitleFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTitleFilterHeaderView.swift; sourceTree = "<group>"; };
 		4053CDF8214F3583001C92B1 /* PodcastFilterOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFilterOverlayController.swift; sourceTree = "<group>"; };
 		4053CDFA214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseDateFilterOverlayController.swift; sourceTree = "<group>"; };
 		4053CE002150AC4B001C92B1 /* CheckboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxCell.swift; sourceTree = "<group>"; };
@@ -4154,6 +4158,8 @@
 				4053CDF8214F3583001C92B1 /* PodcastFilterOverlayController.swift */,
 				9AA14FAA2E44BDED00464A5A /* SmartRuleToggleHeaderView.swift */,
 				4053CDF6214B6B61001C92B1 /* EpisodeFilterOverlayController.swift */,
+				1D7352D6407C4FA6BAED4FB4 /* EpisodeTitleFilterViewController.swift */,
+				9EF904FD73284AFA9AB34A99 /* EpisodeTitleFilterHeaderView.swift */,
 				4053CDFA214F374B001C92B1 /* ReleaseDateFilterOverlayController.swift */,
 				9AA14FA82E44BD0C00464A5A /* StarredFilterOverlayController.swift */,
 				403B5AFD2179670F00821A54 /* MediaFilterOverlayController.swift */,
@@ -7021,6 +7027,8 @@
 				BD95ED661BAFA228004335B0 /* CountrySummaryViewController.swift in Sources */,
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
+				9176997CBA434B2CB470C046 /* EpisodeTitleFilterViewController.swift in Sources */,
+				7B32C30CDFE3484B8226E5CA /* EpisodeTitleFilterHeaderView.swift in Sources */,
 				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
