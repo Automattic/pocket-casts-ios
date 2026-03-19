@@ -164,7 +164,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let error = verifyResponse()
 
         guard error == nil else {
-            if shouldRetryWithoutUserAgent(error: error!) {
+            if shouldRetryWithoutUserAgent() {
                 retryWithoutUserAgent(originalURL: task.originalRequest?.url)
                 return
             }
@@ -343,9 +343,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         return error
     }
 
-    private func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
+    private func shouldRetryWithoutUserAgent() -> Bool {
+        guard let response = response as? HTTPURLResponse else { return false }
         // Only retry if we haven't already retried without User-Agent and the error is a status code >= 400
-        return !hasRetriedWithoutUserAgent && (error.code == NSURLErrorResourceUnavailable || error.code == NSURLErrorZeroByteResource)
+        return !hasRetriedWithoutUserAgent && (response.statusCode >= 400)
     }
 
     private func retryWithoutUserAgent(originalURL: URL?) {
