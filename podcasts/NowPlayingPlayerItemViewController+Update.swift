@@ -187,7 +187,6 @@ extension NowPlayingPlayerItemViewController {
         }
 
         if !errorMessage.isEmpty {
-            print("Error: \(errorMessage)")
             errorLabel.text = errorMessage
         }
 
