@@ -236,30 +236,39 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         lastBackgroundedDate = Date()
     }
 
+    private func checkIfPlayerFailed() -> Bool {
+        guard let player, player.currentItem?.status == .failed  || player.status == .failed else {
+            return false
+        }
+        let playerErrorMessage =  (player.error as? NSError)?.debugDescription ?? ""
+        let playerItemErrorMessage = (player.currentItem?.error as? NSError)?.debugDescription ?? ""
+        FileLog.shared.addMessage("[Default Player] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
+
+        // Give priority to player item error
+        let playerError: Error? = (player.currentItem?.error ?? player.error)
+        let playerNSError = playerError as? NSError
+        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
+
+        if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
+           playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
+            let episodeUuid {
+            if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
+                return true
+            }
+        }
+        var userMessage: String?
+        if let playerNSError,
+           playerNSError.domain == NSURLErrorDomain,
+           playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
+            userMessage = L10n.playerErrorEpisodeNotAvailable
+        }
+        PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: userMessage)
+
+        return true
+    }
+
     private func playerStatusDidChange() {
-        if player?.currentItem?.status == .failed  || player?.status == .failed {
-            let playerErrorMessage =  (player?.error as? NSError)?.debugDescription ?? ""
-            let playerItemErrorMessage = (player?.currentItem?.error as? NSError)?.debugDescription ?? ""
-            FileLog.shared.addMessage("[Default Player] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
-
-            // Give priority to player item error
-            let playerError: Error? = (player?.currentItem?.error ?? player?.error)
-            let playerNSError = playerError as? NSError
-            let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
-
-            if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
-                let episodeUuid {
-                if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
-                    return
-                }
-            }
-            var userMessage: String?
-            if let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
-                userMessage = L10n.playerErrorEpisodeNotAvailable
-            }
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)", userMessage: userMessage)
-
+        guard !checkIfPlayerFailed() else {
             return
         }
 
