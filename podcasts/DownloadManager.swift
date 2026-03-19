@@ -88,10 +88,14 @@ class DownloadManager: NSObject, FilePathProtocol {
          }()
     #endif
 
+    /// Eagerly initializes all URLSessions to avoid race conditions.
+    /// Swift lazy properties are not thread-safe: if multiple threads access an
+    /// uninitialized lazy var concurrently, the initializer can run more than once.
+    /// Calling this from `init()` guarantees single-threaded first access.
     private func setupSessions() {
-        let _ = wifiOnlyBackgroundSession
-        let _ = cellularBackgroundSession
-        let _ = cellularForegroundSession
+        _ = wifiOnlyBackgroundSession
+        _ = cellularBackgroundSession
+        _ = cellularForegroundSession
     }
 
     lazy var wifiOnlyBackgroundSession: URLSession = {
