@@ -26,90 +26,90 @@ struct Files_File: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: String {
-    get {return _storage._uuid}
+    get {_storage._uuid}
     set {_uniqueStorage()._uuid = newValue}
   }
 
   var title: String {
-    get {return _storage._title}
+    get {_storage._title}
     set {_uniqueStorage()._title = newValue}
   }
 
   var size: Int64 {
-    get {return _storage._size}
+    get {_storage._size}
     set {_uniqueStorage()._size = newValue}
   }
 
   var contentType: String {
-    get {return _storage._contentType}
+    get {_storage._contentType}
     set {_uniqueStorage()._contentType = newValue}
   }
 
   var playedUpTo: Int32 {
-    get {return _storage._playedUpTo}
+    get {_storage._playedUpTo}
     set {_uniqueStorage()._playedUpTo = newValue}
   }
 
   var playedUpToModified: Int64 {
-    get {return _storage._playedUpToModified}
+    get {_storage._playedUpToModified}
     set {_uniqueStorage()._playedUpToModified = newValue}
   }
 
   var playingStatus: Int32 {
-    get {return _storage._playingStatus}
+    get {_storage._playingStatus}
     set {_uniqueStorage()._playingStatus = newValue}
   }
 
   var playingStatusModified: Int64 {
-    get {return _storage._playingStatusModified}
+    get {_storage._playingStatusModified}
     set {_uniqueStorage()._playingStatusModified = newValue}
   }
 
   var duration: Int64 {
-    get {return _storage._duration}
+    get {_storage._duration}
     set {_uniqueStorage()._duration = newValue}
   }
 
   var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._published = newValue}
   }
   /// Returns true if `published` has been explicitly set.
-  var hasPublished: Bool {return _storage._published != nil}
+  var hasPublished: Bool {_storage._published != nil}
   /// Clears the value of `published`. Subsequent reads from it will return its default value.
   mutating func clearPublished() {_uniqueStorage()._published = nil}
 
   var colour: Int32 {
-    get {return _storage._colour}
+    get {_storage._colour}
     set {_uniqueStorage()._colour = newValue}
   }
 
   var imageURL: String {
-    get {return _storage._imageURL}
+    get {_storage._imageURL}
     set {_uniqueStorage()._imageURL = newValue}
   }
 
   var hasCustomImage_p: Bool {
-    get {return _storage._hasCustomImage_p}
+    get {_storage._hasCustomImage_p}
     set {_uniqueStorage()._hasCustomImage_p = newValue}
   }
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return _storage._modifiedAt != nil}
+  var hasModifiedAt: Bool {_storage._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {_uniqueStorage()._modifiedAt = nil}
 
   var imageStatus: Int32 {
-    get {return _storage._imageStatus}
+    get {_storage._imageStatus}
     set {_uniqueStorage()._imageStatus = newValue}
   }
 
   var bookmarks: [Api_BookmarkResponse] {
-    get {return _storage._bookmarks}
+    get {_storage._bookmarks}
     set {_uniqueStorage()._bookmarks = newValue}
   }
 
@@ -130,38 +130,38 @@ struct Files_FileUpdate: Sendable {
   var title: String = String()
 
   var playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_playedUpTo = newValue}
   }
   /// Returns true if `playedUpTo` has been explicitly set.
-  var hasPlayedUpTo: Bool {return self._playedUpTo != nil}
+  var hasPlayedUpTo: Bool {self._playedUpTo != nil}
   /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpTo() {self._playedUpTo = nil}
 
   var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_playingStatus = newValue}
   }
   /// Returns true if `playingStatus` has been explicitly set.
-  var hasPlayingStatus: Bool {return self._playingStatus != nil}
+  var hasPlayingStatus: Bool {self._playingStatus != nil}
   /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatus() {self._playingStatus = nil}
 
   var duration: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _duration ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_duration ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_duration = newValue}
   }
   /// Returns true if `duration` has been explicitly set.
-  var hasDuration: Bool {return self._duration != nil}
+  var hasDuration: Bool {self._duration != nil}
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {self._duration = nil}
 
   var colour: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _colour ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_colour ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_colour = newValue}
   }
   /// Returns true if `colour` has been explicitly set.
-  var hasColour: Bool {return self._colour != nil}
+  var hasColour: Bool {self._colour != nil}
   /// Clears the value of `colour`. Subsequent reads from it will return its default value.
   mutating func clearColour() {self._colour = nil}
 
@@ -209,11 +209,11 @@ struct Files_FileListResponse: Sendable {
   var files: [Files_File] = []
 
   var account: Files_AccountUsage {
-    get {return _account ?? Files_AccountUsage()}
+    get {_account ?? Files_AccountUsage()}
     set {_account = newValue}
   }
   /// Returns true if `account` has been explicitly set.
-  var hasAccount: Bool {return self._account != nil}
+  var hasAccount: Bool {self._account != nil}
   /// Clears the value of `account`. Subsequent reads from it will return its default value.
   mutating func clearAccount() {self._account = nil}
 
@@ -252,11 +252,11 @@ struct Files_FileUploadRequest: Sendable {
   var duration: Int64 = 0
 
   var colour: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _colour ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_colour ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_colour = newValue}
   }
   /// Returns true if `colour` has been explicitly set.
-  var hasColour: Bool {return self._colour != nil}
+  var hasColour: Bool {self._colour != nil}
   /// Clears the value of `colour`. Subsequent reads from it will return its default value.
   mutating func clearColour() {self._colour = nil}
 

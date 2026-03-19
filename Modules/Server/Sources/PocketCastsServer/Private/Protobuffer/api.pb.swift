@@ -26,11 +26,11 @@ struct Api_UserChangeResponse: Sendable {
   // methods supported on all messages.
 
   var success: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _success ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_success ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_success = newValue}
   }
   /// Returns true if `success` has been explicitly set.
-  var hasSuccess: Bool {return self._success != nil}
+  var hasSuccess: Bool {self._success != nil}
   /// Clears the value of `success`. Subsequent reads from it will return its default value.
   mutating func clearSuccess() {self._success = nil}
 
@@ -296,11 +296,11 @@ struct Api_NamedSettingsRequest: Sendable {
   /// Devices which are always online should use settings.
   /// The time the settings was changed will be assumed to be NOW.
   var settings: Api_NamedSettings {
-    get {return _settings ?? Api_NamedSettings()}
+    get {_settings ?? Api_NamedSettings()}
     set {_settings = newValue}
   }
   /// Returns true if `settings` has been explicitly set.
-  var hasSettings: Bool {return self._settings != nil}
+  var hasSettings: Bool {self._settings != nil}
   /// Clears the value of `settings`. Subsequent reads from it will return its default value.
   mutating func clearSettings() {self._settings = nil}
 
@@ -308,11 +308,11 @@ struct Api_NamedSettingsRequest: Sendable {
   /// The time the setting was changed should be included.
   /// This helps resolve syncing changes of the same setting from multiple devices.
   var changedSettings: Api_ChangeableSettings {
-    get {return _changedSettings ?? Api_ChangeableSettings()}
+    get {_changedSettings ?? Api_ChangeableSettings()}
     set {_changedSettings = newValue}
   }
   /// Returns true if `changedSettings` has been explicitly set.
-  var hasChangedSettings: Bool {return self._changedSettings != nil}
+  var hasChangedSettings: Bool {self._changedSettings != nil}
   /// Clears the value of `changedSettings`. Subsequent reads from it will return its default value.
   mutating func clearChangedSettings() {self._changedSettings = nil}
 
@@ -330,844 +330,871 @@ struct Api_ChangeableSettings: @unchecked Sendable {
   // methods supported on all messages.
 
   var gridLayout: Api_Int32Setting {
-    get {return _storage._gridLayout ?? Api_Int32Setting()}
+    get {_storage._gridLayout ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridLayout = newValue}
   }
   /// Returns true if `gridLayout` has been explicitly set.
-  var hasGridLayout: Bool {return _storage._gridLayout != nil}
+  var hasGridLayout: Bool {_storage._gridLayout != nil}
   /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
   mutating func clearGridLayout() {_uniqueStorage()._gridLayout = nil}
 
   var gridOrder: Api_Int32Setting {
-    get {return _storage._gridOrder ?? Api_Int32Setting()}
+    get {_storage._gridOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridOrder = newValue}
   }
   /// Returns true if `gridOrder` has been explicitly set.
-  var hasGridOrder: Bool {return _storage._gridOrder != nil}
+  var hasGridOrder: Bool {_storage._gridOrder != nil}
   /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
   mutating func clearGridOrder() {_uniqueStorage()._gridOrder = nil}
 
   var showPlayed: Api_Int32Setting {
-    get {return _storage._showPlayed ?? Api_Int32Setting()}
+    get {_storage._showPlayed ?? Api_Int32Setting()}
     set {_uniqueStorage()._showPlayed = newValue}
   }
   /// Returns true if `showPlayed` has been explicitly set.
-  var hasShowPlayed: Bool {return _storage._showPlayed != nil}
+  var hasShowPlayed: Bool {_storage._showPlayed != nil}
   /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
   mutating func clearShowPlayed() {_uniqueStorage()._showPlayed = nil}
 
   var theme: Api_Int32Setting {
-    get {return _storage._theme ?? Api_Int32Setting()}
+    get {_storage._theme ?? Api_Int32Setting()}
     set {_uniqueStorage()._theme = newValue}
   }
   /// Returns true if `theme` has been explicitly set.
-  var hasTheme: Bool {return _storage._theme != nil}
+  var hasTheme: Bool {_storage._theme != nil}
   /// Clears the value of `theme`. Subsequent reads from it will return its default value.
   mutating func clearTheme() {_uniqueStorage()._theme = nil}
 
   var skipForward: Api_Int32Setting {
-    get {return _storage._skipForward ?? Api_Int32Setting()}
+    get {_storage._skipForward ?? Api_Int32Setting()}
     set {_uniqueStorage()._skipForward = newValue}
   }
   /// Returns true if `skipForward` has been explicitly set.
-  var hasSkipForward: Bool {return _storage._skipForward != nil}
+  var hasSkipForward: Bool {_storage._skipForward != nil}
   /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
   mutating func clearSkipForward() {_uniqueStorage()._skipForward = nil}
 
   var skipBack: Api_Int32Setting {
-    get {return _storage._skipBack ?? Api_Int32Setting()}
+    get {_storage._skipBack ?? Api_Int32Setting()}
     set {_uniqueStorage()._skipBack = newValue}
   }
   /// Returns true if `skipBack` has been explicitly set.
-  var hasSkipBack: Bool {return _storage._skipBack != nil}
+  var hasSkipBack: Bool {_storage._skipBack != nil}
   /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
   mutating func clearSkipBack() {_uniqueStorage()._skipBack = nil}
 
   var webVersion: Api_Int32Setting {
-    get {return _storage._webVersion ?? Api_Int32Setting()}
+    get {_storage._webVersion ?? Api_Int32Setting()}
     set {_uniqueStorage()._webVersion = newValue}
   }
   /// Returns true if `webVersion` has been explicitly set.
-  var hasWebVersion: Bool {return _storage._webVersion != nil}
+  var hasWebVersion: Bool {_storage._webVersion != nil}
   /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
   mutating func clearWebVersion() {_uniqueStorage()._webVersion = nil}
 
   var language: Api_StringSetting {
-    get {return _storage._language ?? Api_StringSetting()}
+    get {_storage._language ?? Api_StringSetting()}
     set {_uniqueStorage()._language = newValue}
   }
   /// Returns true if `language` has been explicitly set.
-  var hasLanguage: Bool {return _storage._language != nil}
+  var hasLanguage: Bool {_storage._language != nil}
   /// Clears the value of `language`. Subsequent reads from it will return its default value.
   mutating func clearLanguage() {_uniqueStorage()._language = nil}
 
   var recommendationsOn: Api_BoolSetting {
-    get {return _storage._recommendationsOn ?? Api_BoolSetting()}
+    get {_storage._recommendationsOn ?? Api_BoolSetting()}
     set {_uniqueStorage()._recommendationsOn = newValue}
   }
   /// Returns true if `recommendationsOn` has been explicitly set.
-  var hasRecommendationsOn: Bool {return _storage._recommendationsOn != nil}
+  var hasRecommendationsOn: Bool {_storage._recommendationsOn != nil}
   /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
 
   /// unused and replaced by row_action BoolSetting stream_by_default = 10;
   var useEmbeddedArtwork: Api_BoolSetting {
-    get {return _storage._useEmbeddedArtwork ?? Api_BoolSetting()}
+    get {_storage._useEmbeddedArtwork ?? Api_BoolSetting()}
     set {_uniqueStorage()._useEmbeddedArtwork = newValue}
   }
   /// Returns true if `useEmbeddedArtwork` has been explicitly set.
-  var hasUseEmbeddedArtwork: Bool {return _storage._useEmbeddedArtwork != nil}
+  var hasUseEmbeddedArtwork: Bool {_storage._useEmbeddedArtwork != nil}
   /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtwork() {_uniqueStorage()._useEmbeddedArtwork = nil}
 
   var playbackSpeed: Api_DoubleSetting {
-    get {return _storage._playbackSpeed ?? Api_DoubleSetting()}
+    get {_storage._playbackSpeed ?? Api_DoubleSetting()}
     set {_uniqueStorage()._playbackSpeed = newValue}
   }
   /// Returns true if `playbackSpeed` has been explicitly set.
-  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  var hasPlaybackSpeed: Bool {_storage._playbackSpeed != nil}
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
   /// unused and replaced by trim_silence BoolSetting silence_removal = 13;
   var volumeBoost: Api_BoolSetting {
-    get {return _storage._volumeBoost ?? Api_BoolSetting()}
+    get {_storage._volumeBoost ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoost = newValue}
   }
   /// Returns true if `volumeBoost` has been explicitly set.
-  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  var hasVolumeBoost: Bool {_storage._volumeBoost != nil}
   /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
 
   var badges: Api_Int32Setting {
-    get {return _storage._badges ?? Api_Int32Setting()}
+    get {_storage._badges ?? Api_Int32Setting()}
     set {_uniqueStorage()._badges = newValue}
   }
   /// Returns true if `badges` has been explicitly set.
-  var hasBadges: Bool {return _storage._badges != nil}
+  var hasBadges: Bool {_storage._badges != nil}
   /// Clears the value of `badges`. Subsequent reads from it will return its default value.
   mutating func clearBadges() {_uniqueStorage()._badges = nil}
 
   var freeGiftAcknowledgement: Api_BoolSetting {
-    get {return _storage._freeGiftAcknowledgement ?? Api_BoolSetting()}
+    get {_storage._freeGiftAcknowledgement ?? Api_BoolSetting()}
     set {_uniqueStorage()._freeGiftAcknowledgement = newValue}
   }
   /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
-  var hasFreeGiftAcknowledgement: Bool {return _storage._freeGiftAcknowledgement != nil}
+  var hasFreeGiftAcknowledgement: Bool {_storage._freeGiftAcknowledgement != nil}
   /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
   mutating func clearFreeGiftAcknowledgement() {_uniqueStorage()._freeGiftAcknowledgement = nil}
 
   var marketingOptIn: Api_BoolSetting {
-    get {return _storage._marketingOptIn ?? Api_BoolSetting()}
+    get {_storage._marketingOptIn ?? Api_BoolSetting()}
     set {_uniqueStorage()._marketingOptIn = newValue}
   }
   /// Returns true if `marketingOptIn` has been explicitly set.
-  var hasMarketingOptIn: Bool {return _storage._marketingOptIn != nil}
+  var hasMarketingOptIn: Bool {_storage._marketingOptIn != nil}
   /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
   mutating func clearMarketingOptIn() {_uniqueStorage()._marketingOptIn = nil}
 
   var autoArchivePlayedEpisodes: Api_BoolSetting {
-    get {return _storage._autoArchivePlayedEpisodes ?? Api_BoolSetting()}
+    get {_storage._autoArchivePlayedEpisodes ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchivePlayedEpisodes = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
-  var hasAutoArchivePlayedEpisodes: Bool {return _storage._autoArchivePlayedEpisodes != nil}
+  var hasAutoArchivePlayedEpisodes: Bool {_storage._autoArchivePlayedEpisodes != nil}
   /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodes() {_uniqueStorage()._autoArchivePlayedEpisodes = nil}
 
   var autoArchiveIncludesStarred: Api_BoolSetting {
-    get {return _storage._autoArchiveIncludesStarred ?? Api_BoolSetting()}
+    get {_storage._autoArchiveIncludesStarred ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchiveIncludesStarred = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
-  var hasAutoArchiveIncludesStarred: Bool {return _storage._autoArchiveIncludesStarred != nil}
+  var hasAutoArchiveIncludesStarred: Bool {_storage._autoArchiveIncludesStarred != nil}
   /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarred() {_uniqueStorage()._autoArchiveIncludesStarred = nil}
 
   var region: Api_StringSetting {
-    get {return _storage._region ?? Api_StringSetting()}
+    get {_storage._region ?? Api_StringSetting()}
     set {_uniqueStorage()._region = newValue}
   }
   /// Returns true if `region` has been explicitly set.
-  var hasRegion: Bool {return _storage._region != nil}
+  var hasRegion: Bool {_storage._region != nil}
   /// Clears the value of `region`. Subsequent reads from it will return its default value.
   mutating func clearRegion() {_uniqueStorage()._region = nil}
 
   var rowAction: Api_Int32Setting {
-    get {return _storage._rowAction ?? Api_Int32Setting()}
+    get {_storage._rowAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._rowAction = newValue}
   }
   /// Returns true if `rowAction` has been explicitly set.
-  var hasRowAction: Bool {return _storage._rowAction != nil}
+  var hasRowAction: Bool {_storage._rowAction != nil}
   /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
   mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
 
   var upNextSwipe: Api_Int32Setting {
-    get {return _storage._upNextSwipe ?? Api_Int32Setting()}
+    get {_storage._upNextSwipe ?? Api_Int32Setting()}
     set {_uniqueStorage()._upNextSwipe = newValue}
   }
   /// Returns true if `upNextSwipe` has been explicitly set.
-  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  var hasUpNextSwipe: Bool {_storage._upNextSwipe != nil}
   /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
   mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
 
   var episodeGrouping: Api_Int32Setting {
-    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    get {_storage._episodeGrouping ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodeGrouping = newValue}
   }
   /// Returns true if `episodeGrouping` has been explicitly set.
-  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  var hasEpisodeGrouping: Bool {_storage._episodeGrouping != nil}
   /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
 
   var showArchived: Api_BoolSetting {
-    get {return _storage._showArchived ?? Api_BoolSetting()}
+    get {_storage._showArchived ?? Api_BoolSetting()}
     set {_uniqueStorage()._showArchived = newValue}
   }
   /// Returns true if `showArchived` has been explicitly set.
-  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  var hasShowArchived: Bool {_storage._showArchived != nil}
   /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
   mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var openLinks: Api_BoolSetting {
-    get {return _storage._openLinks ?? Api_BoolSetting()}
+    get {_storage._openLinks ?? Api_BoolSetting()}
     set {_uniqueStorage()._openLinks = newValue}
   }
   /// Returns true if `openLinks` has been explicitly set.
-  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  var hasOpenLinks: Bool {_storage._openLinks != nil}
   /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
   mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
 
   var mediaActions: Api_BoolSetting {
-    get {return _storage._mediaActions ?? Api_BoolSetting()}
+    get {_storage._mediaActions ?? Api_BoolSetting()}
     set {_uniqueStorage()._mediaActions = newValue}
   }
   /// Returns true if `mediaActions` has been explicitly set.
-  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  var hasMediaActions: Bool {_storage._mediaActions != nil}
   /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
   mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
 
   var mediaActionsOrder: Api_StringSetting {
-    get {return _storage._mediaActionsOrder ?? Api_StringSetting()}
+    get {_storage._mediaActionsOrder ?? Api_StringSetting()}
     set {_uniqueStorage()._mediaActionsOrder = newValue}
   }
   /// Returns true if `mediaActionsOrder` has been explicitly set.
-  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  var hasMediaActionsOrder: Bool {_storage._mediaActionsOrder != nil}
   /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
   mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
 
   var keepScreenAwake: Api_BoolSetting {
-    get {return _storage._keepScreenAwake ?? Api_BoolSetting()}
+    get {_storage._keepScreenAwake ?? Api_BoolSetting()}
     set {_uniqueStorage()._keepScreenAwake = newValue}
   }
   /// Returns true if `keepScreenAwake` has been explicitly set.
-  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  var hasKeepScreenAwake: Bool {_storage._keepScreenAwake != nil}
   /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
   mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
 
   var openPlayer: Api_BoolSetting {
-    get {return _storage._openPlayer ?? Api_BoolSetting()}
+    get {_storage._openPlayer ?? Api_BoolSetting()}
     set {_uniqueStorage()._openPlayer = newValue}
   }
   /// Returns true if `openPlayer` has been explicitly set.
-  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  var hasOpenPlayer: Bool {_storage._openPlayer != nil}
   /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
   mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
 
   var intelligentResumption: Api_BoolSetting {
-    get {return _storage._intelligentResumption ?? Api_BoolSetting()}
+    get {_storage._intelligentResumption ?? Api_BoolSetting()}
     set {_uniqueStorage()._intelligentResumption = newValue}
   }
   /// Returns true if `intelligentResumption` has been explicitly set.
-  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  var hasIntelligentResumption: Bool {_storage._intelligentResumption != nil}
   /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
   mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
 
   var playUpNextOnTap: Api_BoolSetting {
-    get {return _storage._playUpNextOnTap ?? Api_BoolSetting()}
+    get {_storage._playUpNextOnTap ?? Api_BoolSetting()}
     set {_uniqueStorage()._playUpNextOnTap = newValue}
   }
   /// Returns true if `playUpNextOnTap` has been explicitly set.
-  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  var hasPlayUpNextOnTap: Bool {_storage._playUpNextOnTap != nil}
   /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
   mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
 
   var remoteSkipChapters: Api_BoolSetting {
-    get {return _storage._remoteSkipChapters ?? Api_BoolSetting()}
+    get {_storage._remoteSkipChapters ?? Api_BoolSetting()}
     set {_uniqueStorage()._remoteSkipChapters = newValue}
   }
   /// Returns true if `remoteSkipChapters` has been explicitly set.
-  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  var hasRemoteSkipChapters: Bool {_storage._remoteSkipChapters != nil}
   /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
   mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
 
   var playbackActions: Api_BoolSetting {
-    get {return _storage._playbackActions ?? Api_BoolSetting()}
+    get {_storage._playbackActions ?? Api_BoolSetting()}
     set {_uniqueStorage()._playbackActions = newValue}
   }
   /// Returns true if `playbackActions` has been explicitly set.
-  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  var hasPlaybackActions: Bool {_storage._playbackActions != nil}
   /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
 
   var legacyBluetooth: Api_BoolSetting {
-    get {return _storage._legacyBluetooth ?? Api_BoolSetting()}
+    get {_storage._legacyBluetooth ?? Api_BoolSetting()}
     set {_uniqueStorage()._legacyBluetooth = newValue}
   }
   /// Returns true if `legacyBluetooth` has been explicitly set.
-  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  var hasLegacyBluetooth: Bool {_storage._legacyBluetooth != nil}
   /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
   mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
 
   var multiSelectGesture: Api_BoolSetting {
-    get {return _storage._multiSelectGesture ?? Api_BoolSetting()}
+    get {_storage._multiSelectGesture ?? Api_BoolSetting()}
     set {_uniqueStorage()._multiSelectGesture = newValue}
   }
   /// Returns true if `multiSelectGesture` has been explicitly set.
-  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  var hasMultiSelectGesture: Bool {_storage._multiSelectGesture != nil}
   /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
   mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
 
   var chapterTitles: Api_BoolSetting {
-    get {return _storage._chapterTitles ?? Api_BoolSetting()}
+    get {_storage._chapterTitles ?? Api_BoolSetting()}
     set {_uniqueStorage()._chapterTitles = newValue}
   }
   /// Returns true if `chapterTitles` has been explicitly set.
-  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  var hasChapterTitles: Bool {_storage._chapterTitles != nil}
   /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
   mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
 
   var notifications: Api_BoolSetting {
-    get {return _storage._notifications ?? Api_BoolSetting()}
+    get {_storage._notifications ?? Api_BoolSetting()}
     set {_uniqueStorage()._notifications = newValue}
   }
   /// Returns true if `notifications` has been explicitly set.
-  var hasNotifications: Bool {return _storage._notifications != nil}
+  var hasNotifications: Bool {_storage._notifications != nil}
   /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
   mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
 
   var notificationActions: Api_StringSetting {
-    get {return _storage._notificationActions ?? Api_StringSetting()}
+    get {_storage._notificationActions ?? Api_StringSetting()}
     set {_uniqueStorage()._notificationActions = newValue}
   }
   /// Returns true if `notificationActions` has been explicitly set.
-  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  var hasNotificationActions: Bool {_storage._notificationActions != nil}
   /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
   mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
 
   var playOverNotifications: Api_Int32Setting {
-    get {return _storage._playOverNotifications ?? Api_Int32Setting()}
+    get {_storage._playOverNotifications ?? Api_Int32Setting()}
     set {_uniqueStorage()._playOverNotifications = newValue}
   }
   /// Returns true if `playOverNotifications` has been explicitly set.
-  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  var hasPlayOverNotifications: Bool {_storage._playOverNotifications != nil}
   /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
   mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
 
   var hideNotificationOnPause: Api_BoolSetting {
-    get {return _storage._hideNotificationOnPause ?? Api_BoolSetting()}
+    get {_storage._hideNotificationOnPause ?? Api_BoolSetting()}
     set {_uniqueStorage()._hideNotificationOnPause = newValue}
   }
   /// Returns true if `hideNotificationOnPause` has been explicitly set.
-  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  var hasHideNotificationOnPause: Bool {_storage._hideNotificationOnPause != nil}
   /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
   mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
 
   var appBadge: Api_Int32Setting {
-    get {return _storage._appBadge ?? Api_Int32Setting()}
+    get {_storage._appBadge ?? Api_Int32Setting()}
     set {_uniqueStorage()._appBadge = newValue}
   }
   /// Returns true if `appBadge` has been explicitly set.
-  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  var hasAppBadge: Bool {_storage._appBadge != nil}
   /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
   mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
 
   var appBadgeFilter: Api_StringSetting {
-    get {return _storage._appBadgeFilter ?? Api_StringSetting()}
+    get {_storage._appBadgeFilter ?? Api_StringSetting()}
     set {_uniqueStorage()._appBadgeFilter = newValue}
   }
   /// Returns true if `appBadgeFilter` has been explicitly set.
-  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  var hasAppBadgeFilter: Bool {_storage._appBadgeFilter != nil}
   /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
   mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
 
   var autoArchivePlayed: Api_Int32Setting {
-    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    get {_storage._autoArchivePlayed ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchivePlayed = newValue}
   }
   /// Returns true if `autoArchivePlayed` has been explicitly set.
-  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  var hasAutoArchivePlayed: Bool {_storage._autoArchivePlayed != nil}
   /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
 
   var autoArchiveInactive: Api_Int32Setting {
-    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    get {_storage._autoArchiveInactive ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchiveInactive = newValue}
   }
   /// Returns true if `autoArchiveInactive` has been explicitly set.
-  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  var hasAutoArchiveInactive: Bool {_storage._autoArchiveInactive != nil}
   /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
 
   var autoUpNextLimit: Api_Int32Setting {
-    get {return _storage._autoUpNextLimit ?? Api_Int32Setting()}
+    get {_storage._autoUpNextLimit ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoUpNextLimit = newValue}
   }
   /// Returns true if `autoUpNextLimit` has been explicitly set.
-  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  var hasAutoUpNextLimit: Bool {_storage._autoUpNextLimit != nil}
   /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
 
   var autoUpNextLimitReached: Api_Int32Setting {
-    get {return _storage._autoUpNextLimitReached ?? Api_Int32Setting()}
+    get {_storage._autoUpNextLimitReached ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoUpNextLimitReached = newValue}
   }
   /// Returns true if `autoUpNextLimitReached` has been explicitly set.
-  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  var hasAutoUpNextLimitReached: Bool {_storage._autoUpNextLimitReached != nil}
   /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
 
   var warnDataUsage: Api_BoolSetting {
-    get {return _storage._warnDataUsage ?? Api_BoolSetting()}
+    get {_storage._warnDataUsage ?? Api_BoolSetting()}
     set {_uniqueStorage()._warnDataUsage = newValue}
   }
   /// Returns true if `warnDataUsage` has been explicitly set.
-  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  var hasWarnDataUsage: Bool {_storage._warnDataUsage != nil}
   /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
   mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
 
   var filesAutoUpNext: Api_BoolSetting {
-    get {return _storage._filesAutoUpNext ?? Api_BoolSetting()}
+    get {_storage._filesAutoUpNext ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAutoUpNext = newValue}
   }
   /// Returns true if `filesAutoUpNext` has been explicitly set.
-  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  var hasFilesAutoUpNext: Bool {_storage._filesAutoUpNext != nil}
   /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
 
   var filesAfterPlayingDeleteLocal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  var hasFilesAfterPlayingDeleteLocal: Bool {_storage._filesAfterPlayingDeleteLocal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
 
   var filesAfterPlayingDeleteCloud: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  var hasFilesAfterPlayingDeleteCloud: Bool {_storage._filesAfterPlayingDeleteCloud != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
 
   var privacyAnalytics: Api_BoolSetting {
-    get {return _storage._privacyAnalytics ?? Api_BoolSetting()}
+    get {_storage._privacyAnalytics ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyAnalytics = newValue}
   }
   /// Returns true if `privacyAnalytics` has been explicitly set.
-  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  var hasPrivacyAnalytics: Bool {_storage._privacyAnalytics != nil}
   /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
 
   var privacyCrashReports: Api_BoolSetting {
-    get {return _storage._privacyCrashReports ?? Api_BoolSetting()}
+    get {_storage._privacyCrashReports ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyCrashReports = newValue}
   }
   /// Returns true if `privacyCrashReports` has been explicitly set.
-  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  var hasPrivacyCrashReports: Bool {_storage._privacyCrashReports != nil}
   /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
 
   var privacyLinkAccount: Api_BoolSetting {
-    get {return _storage._privacyLinkAccount ?? Api_BoolSetting()}
+    get {_storage._privacyLinkAccount ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyLinkAccount = newValue}
   }
   /// Returns true if `privacyLinkAccount` has been explicitly set.
-  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  var hasPrivacyLinkAccount: Bool {_storage._privacyLinkAccount != nil}
   /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
 
   var playerShelf: Api_StringSetting {
-    get {return _storage._playerShelf ?? Api_StringSetting()}
+    get {_storage._playerShelf ?? Api_StringSetting()}
     set {_uniqueStorage()._playerShelf = newValue}
   }
   /// Returns true if `playerShelf` has been explicitly set.
-  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  var hasPlayerShelf: Bool {_storage._playerShelf != nil}
   /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
 
   var autoSubscribeToPlayed: Api_BoolSetting {
-    get {return _storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
+    get {_storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
   }
   /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
-  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  var hasAutoSubscribeToPlayed: Bool {_storage._autoSubscribeToPlayed != nil}
   /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
 
   var autoShowPlayed: Api_BoolSetting {
-    get {return _storage._autoShowPlayed ?? Api_BoolSetting()}
+    get {_storage._autoShowPlayed ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoShowPlayed = newValue}
   }
   /// Returns true if `autoShowPlayed` has been explicitly set.
-  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  var hasAutoShowPlayed: Bool {_storage._autoShowPlayed != nil}
   /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
 
   var autoPlayEnabled: Api_BoolSetting {
-    get {return _storage._autoPlayEnabled ?? Api_BoolSetting()}
+    get {_storage._autoPlayEnabled ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoPlayEnabled = newValue}
   }
   /// Returns true if `autoPlayEnabled` has been explicitly set.
-  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  var hasAutoPlayEnabled: Bool {_storage._autoPlayEnabled != nil}
   /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
 
   var autoPlayLastListUuid: Api_StringSetting {
-    get {return _storage._autoPlayLastListUuid ?? Api_StringSetting()}
+    get {_storage._autoPlayLastListUuid ?? Api_StringSetting()}
     set {_uniqueStorage()._autoPlayLastListUuid = newValue}
   }
   /// Returns true if `autoPlayLastListUuid` has been explicitly set.
-  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  var hasAutoPlayLastListUuid: Bool {_storage._autoPlayLastListUuid != nil}
   /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
 
   var trimSilence: Api_Int32Setting {
-    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    get {_storage._trimSilence ?? Api_Int32Setting()}
     set {_uniqueStorage()._trimSilence = newValue}
   }
   /// Returns true if `trimSilence` has been explicitly set.
-  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  var hasTrimSilence: Bool {_storage._trimSilence != nil}
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
   var showArtworkOnLockScreen: Api_BoolSetting {
-    get {return _storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
+    get {_storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
     set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
   }
   /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
-  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  var hasShowArtworkOnLockScreen: Bool {_storage._showArtworkOnLockScreen != nil}
   /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
   mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
 
   var headphoneControlsNextAction: Api_Int32Setting {
-    get {return _storage._headphoneControlsNextAction ?? Api_Int32Setting()}
+    get {_storage._headphoneControlsNextAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._headphoneControlsNextAction = newValue}
   }
   /// Returns true if `headphoneControlsNextAction` has been explicitly set.
-  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  var hasHeadphoneControlsNextAction: Bool {_storage._headphoneControlsNextAction != nil}
   /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
 
   var headphoneControlsPreviousAction: Api_Int32Setting {
-    get {return _storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
+    get {_storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
   }
   /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
-  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  var hasHeadphoneControlsPreviousAction: Bool {_storage._headphoneControlsPreviousAction != nil}
   /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
 
   var headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting {
-    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
+    get {_storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
     set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
   }
   /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
-  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {_storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
   /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
 
   var darkThemePreference: Api_Int32Setting {
-    get {return _storage._darkThemePreference ?? Api_Int32Setting()}
+    get {_storage._darkThemePreference ?? Api_Int32Setting()}
     set {_uniqueStorage()._darkThemePreference = newValue}
   }
   /// Returns true if `darkThemePreference` has been explicitly set.
-  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  var hasDarkThemePreference: Bool {_storage._darkThemePreference != nil}
   /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
 
   var lightThemePreference: Api_Int32Setting {
-    get {return _storage._lightThemePreference ?? Api_Int32Setting()}
+    get {_storage._lightThemePreference ?? Api_Int32Setting()}
     set {_uniqueStorage()._lightThemePreference = newValue}
   }
   /// Returns true if `lightThemePreference` has been explicitly set.
-  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  var hasLightThemePreference: Bool {_storage._lightThemePreference != nil}
   /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
 
   var useSystemTheme: Api_BoolSetting {
-    get {return _storage._useSystemTheme ?? Api_BoolSetting()}
+    get {_storage._useSystemTheme ?? Api_BoolSetting()}
     set {_uniqueStorage()._useSystemTheme = newValue}
   }
   /// Returns true if `useSystemTheme` has been explicitly set.
-  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  var hasUseSystemTheme: Bool {_storage._useSystemTheme != nil}
   /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
 
   var episodeBookmarksSortType: Api_Int32Setting {
-    get {return _storage._episodeBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._episodeBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodeBookmarksSortType = newValue}
   }
   /// Returns true if `episodeBookmarksSortType` has been explicitly set.
-  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  var hasEpisodeBookmarksSortType: Bool {_storage._episodeBookmarksSortType != nil}
   /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
 
   var playerBookmarksSortType: Api_Int32Setting {
-    get {return _storage._playerBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._playerBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._playerBookmarksSortType = newValue}
   }
   /// Returns true if `playerBookmarksSortType` has been explicitly set.
-  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  var hasPlayerBookmarksSortType: Bool {_storage._playerBookmarksSortType != nil}
   /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
 
   var podcastBookmarksSortType: Api_Int32Setting {
-    get {return _storage._podcastBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._podcastBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._podcastBookmarksSortType = newValue}
   }
   /// Returns true if `podcastBookmarksSortType` has been explicitly set.
-  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  var hasPodcastBookmarksSortType: Bool {_storage._podcastBookmarksSortType != nil}
   /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
 
   var useDarkUpNextTheme: Api_BoolSetting {
-    get {return _storage._useDarkUpNextTheme ?? Api_BoolSetting()}
+    get {_storage._useDarkUpNextTheme ?? Api_BoolSetting()}
     set {_uniqueStorage()._useDarkUpNextTheme = newValue}
   }
   /// Returns true if `useDarkUpNextTheme` has been explicitly set.
-  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  var hasUseDarkUpNextTheme: Bool {_storage._useDarkUpNextTheme != nil}
   /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
 
   var useDynamicColorsForWidget: Api_BoolSetting {
-    get {return _storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
+    get {_storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
     set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
   }
   /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
-  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  var hasUseDynamicColorsForWidget: Bool {_storage._useDynamicColorsForWidget != nil}
   /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
   mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
 
   var filesSortOrder: Api_Int32Setting {
-    get {return _storage._filesSortOrder ?? Api_Int32Setting()}
+    get {_storage._filesSortOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._filesSortOrder = newValue}
   }
   /// Returns true if `filesSortOrder` has been explicitly set.
-  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  var hasFilesSortOrder: Bool {_storage._filesSortOrder != nil}
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
   var backgroundRefresh: Api_BoolSetting {
-    get {return _storage._backgroundRefresh ?? Api_BoolSetting()}
+    get {_storage._backgroundRefresh ?? Api_BoolSetting()}
     set {_uniqueStorage()._backgroundRefresh = newValue}
   }
   /// Returns true if `backgroundRefresh` has been explicitly set.
-  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  var hasBackgroundRefresh: Bool {_storage._backgroundRefresh != nil}
   /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
   mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
 
   var autoDownloadUnmeteredOnly: Api_BoolSetting {
-    get {return _storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    get {_storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
-  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  var hasAutoDownloadUnmeteredOnly: Bool {_storage._autoDownloadUnmeteredOnly != nil}
   /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
 
   var autoDownloadOnlyWhenCharging: Api_BoolSetting {
-    get {return _storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
+    get {_storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
   }
   /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
-  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  var hasAutoDownloadOnlyWhenCharging: Bool {_storage._autoDownloadOnlyWhenCharging != nil}
   /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
 
   var autoDownloadUpNext: Api_BoolSetting {
-    get {return _storage._autoDownloadUpNext ?? Api_BoolSetting()}
+    get {_storage._autoDownloadUpNext ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadUpNext = newValue}
   }
   /// Returns true if `autoDownloadUpNext` has been explicitly set.
-  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  var hasAutoDownloadUpNext: Bool {_storage._autoDownloadUpNext != nil}
   /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
 
   var cloudAutoUpload: Api_BoolSetting {
-    get {return _storage._cloudAutoUpload ?? Api_BoolSetting()}
+    get {_storage._cloudAutoUpload ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudAutoUpload = newValue}
   }
   /// Returns true if `cloudAutoUpload` has been explicitly set.
-  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  var hasCloudAutoUpload: Bool {_storage._cloudAutoUpload != nil}
   /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
 
   var cloudAutoDownload: Api_BoolSetting {
-    get {return _storage._cloudAutoDownload ?? Api_BoolSetting()}
+    get {_storage._cloudAutoDownload ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudAutoDownload = newValue}
   }
   /// Returns true if `cloudAutoDownload` has been explicitly set.
-  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  var hasCloudAutoDownload: Bool {_storage._cloudAutoDownload != nil}
   /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
 
   var cloudDownloadUnmeteredOnly: Api_BoolSetting {
-    get {return _storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    get {_storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
-  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  var hasCloudDownloadUnmeteredOnly: Bool {_storage._cloudDownloadUnmeteredOnly != nil}
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
   var useRssArtwork: Api_BoolSetting {
-    get {return _storage._useRssArtwork ?? Api_BoolSetting()}
+    get {_storage._useRssArtwork ?? Api_BoolSetting()}
     set {_uniqueStorage()._useRssArtwork = newValue}
   }
   /// Returns true if `useRssArtwork` has been explicitly set.
-  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  var hasUseRssArtwork: Bool {_storage._useRssArtwork != nil}
   /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
 
   var bookmarksSortOrder: Api_Int32Setting {
-    get {return _storage._bookmarksSortOrder ?? Api_Int32Setting()}
+    get {_storage._bookmarksSortOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._bookmarksSortOrder = newValue}
   }
   /// Returns true if `bookmarksSortOrder` has been explicitly set.
-  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  var hasBookmarksSortOrder: Bool {_storage._bookmarksSortOrder != nil}
   /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
 
   var autoArchivePlayedEpisodesGlobal: Api_BoolSetting {
-    get {return _storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
+    get {_storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
-  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {_storage._autoArchivePlayedEpisodesGlobal != nil}
   /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
 
   var autoArchiveIncludesStarredGlobal: Api_BoolSetting {
-    get {return _storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
+    get {_storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
-  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  var hasAutoArchiveIncludesStarredGlobal: Bool {_storage._autoArchiveIncludesStarredGlobal != nil}
   /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
 
   var filesAutoUpNextGlobal: Api_BoolSetting {
-    get {return _storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
   }
   /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
-  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  var hasFilesAutoUpNextGlobal: Bool {_storage._filesAutoUpNextGlobal != nil}
   /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
 
   var filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {_storage._filesAfterPlayingDeleteLocalGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
 
   var filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {_storage._filesAfterPlayingDeleteCloudGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
 
   var playerShelfGlobal: Api_StringSetting {
-    get {return _storage._playerShelfGlobal ?? Api_StringSetting()}
+    get {_storage._playerShelfGlobal ?? Api_StringSetting()}
     set {_uniqueStorage()._playerShelfGlobal = newValue}
   }
   /// Returns true if `playerShelfGlobal` has been explicitly set.
-  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  var hasPlayerShelfGlobal: Bool {_storage._playerShelfGlobal != nil}
   /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
 
   var rowActionGlobal: Api_Int32Setting {
-    get {return _storage._rowActionGlobal ?? Api_Int32Setting()}
+    get {_storage._rowActionGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._rowActionGlobal = newValue}
   }
   /// Returns true if `rowActionGlobal` has been explicitly set.
-  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  var hasRowActionGlobal: Bool {_storage._rowActionGlobal != nil}
   /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
 
   var useEmbeddedArtworkGlobal: Api_BoolSetting {
-    get {return _storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
+    get {_storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
   }
   /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
-  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  var hasUseEmbeddedArtworkGlobal: Bool {_storage._useEmbeddedArtworkGlobal != nil}
   /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
 
   var recommendationsOnGlobal: Api_BoolSetting {
-    get {return _storage._recommendationsOnGlobal ?? Api_BoolSetting()}
+    get {_storage._recommendationsOnGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._recommendationsOnGlobal = newValue}
   }
   /// Returns true if `recommendationsOnGlobal` has been explicitly set.
-  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  var hasRecommendationsOnGlobal: Bool {_storage._recommendationsOnGlobal != nil}
   /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
 
   var gridLayoutGlobal: Api_Int32Setting {
-    get {return _storage._gridLayoutGlobal ?? Api_Int32Setting()}
+    get {_storage._gridLayoutGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridLayoutGlobal = newValue}
   }
   /// Returns true if `gridLayoutGlobal` has been explicitly set.
-  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  var hasGridLayoutGlobal: Bool {_storage._gridLayoutGlobal != nil}
   /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
   mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
 
   var volumeBoostGlobal: Api_BoolSetting {
-    get {return _storage._volumeBoostGlobal ?? Api_BoolSetting()}
+    get {_storage._volumeBoostGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoostGlobal = newValue}
   }
   /// Returns true if `volumeBoostGlobal` has been explicitly set.
-  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  var hasVolumeBoostGlobal: Bool {_storage._volumeBoostGlobal != nil}
   /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
 
   var badgesGlobal: Api_Int32Setting {
-    get {return _storage._badgesGlobal ?? Api_Int32Setting()}
+    get {_storage._badgesGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._badgesGlobal = newValue}
   }
   /// Returns true if `badgesGlobal` has been explicitly set.
-  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  var hasBadgesGlobal: Bool {_storage._badgesGlobal != nil}
   /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
 
   /// unused as not set from clients google.protobuf.BoolValue developer = 94;
   var smartFoldersNumberOfTimesShown: Api_Int32Setting {
-    get {return _storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
+    get {_storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
     set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
   }
   /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
-  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  var hasSmartFoldersNumberOfTimesShown: Bool {_storage._smartFoldersNumberOfTimesShown != nil}
   /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
 
   var smartFoldersLastDateShown: Api_StringSetting {
-    get {return _storage._smartFoldersLastDateShown ?? Api_StringSetting()}
+    get {_storage._smartFoldersLastDateShown ?? Api_StringSetting()}
     set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
   }
   /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
-  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  var hasSmartFoldersLastDateShown: Bool {_storage._smartFoldersLastDateShown != nil}
   /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
+
+  var saveUpNextOnPlaylistsPlayAll: Api_BoolSetting {
+    get {_storage._saveUpNextOnPlaylistsPlayAll ?? Api_BoolSetting()}
+    set {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = newValue}
+  }
+  /// Returns true if `saveUpNextOnPlaylistsPlayAll` has been explicitly set.
+  var hasSaveUpNextOnPlaylistsPlayAll: Bool {_storage._saveUpNextOnPlaylistsPlayAll != nil}
+  /// Clears the value of `saveUpNextOnPlaylistsPlayAll`. Subsequent reads from it will return its default value.
+  mutating func clearSaveUpNextOnPlaylistsPlayAll() {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = nil}
+
+  var doNotSellOrShare: Api_BoolSetting {
+    get {_storage._doNotSellOrShare ?? Api_BoolSetting()}
+    set {_uniqueStorage()._doNotSellOrShare = newValue}
+  }
+  /// Returns true if `doNotSellOrShare` has been explicitly set.
+  var hasDoNotSellOrShare: Bool {_storage._doNotSellOrShare != nil}
+  /// Clears the value of `doNotSellOrShare`. Subsequent reads from it will return its default value.
+  mutating func clearDoNotSellOrShare() {_uniqueStorage()._doNotSellOrShare = nil}
+
+  var liveAnalyticsURL: Api_StringSetting {
+    get {_storage._liveAnalyticsURL ?? Api_StringSetting()}
+    set {_uniqueStorage()._liveAnalyticsURL = newValue}
+  }
+  /// Returns true if `liveAnalyticsURL` has been explicitly set.
+  var hasLiveAnalyticsURL: Bool {_storage._liveAnalyticsURL != nil}
+  /// Clears the value of `liveAnalyticsURL`. Subsequent reads from it will return its default value.
+  mutating func clearLiveAnalyticsURL() {_uniqueStorage()._liveAnalyticsURL = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1182,844 +1209,871 @@ struct Api_NamedSettings: @unchecked Sendable {
   // methods supported on all messages.
 
   var gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._gridLayout ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._gridLayout ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._gridLayout = newValue}
   }
   /// Returns true if `gridLayout` has been explicitly set.
-  var hasGridLayout: Bool {return _storage._gridLayout != nil}
+  var hasGridLayout: Bool {_storage._gridLayout != nil}
   /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
   mutating func clearGridLayout() {_uniqueStorage()._gridLayout = nil}
 
   var gridOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._gridOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._gridOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._gridOrder = newValue}
   }
   /// Returns true if `gridOrder` has been explicitly set.
-  var hasGridOrder: Bool {return _storage._gridOrder != nil}
+  var hasGridOrder: Bool {_storage._gridOrder != nil}
   /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
   mutating func clearGridOrder() {_uniqueStorage()._gridOrder = nil}
 
   var showPlayed: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._showPlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._showPlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._showPlayed = newValue}
   }
   /// Returns true if `showPlayed` has been explicitly set.
-  var hasShowPlayed: Bool {return _storage._showPlayed != nil}
+  var hasShowPlayed: Bool {_storage._showPlayed != nil}
   /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
   mutating func clearShowPlayed() {_uniqueStorage()._showPlayed = nil}
 
   var theme: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._theme ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._theme ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._theme = newValue}
   }
   /// Returns true if `theme` has been explicitly set.
-  var hasTheme: Bool {return _storage._theme != nil}
+  var hasTheme: Bool {_storage._theme != nil}
   /// Clears the value of `theme`. Subsequent reads from it will return its default value.
   mutating func clearTheme() {_uniqueStorage()._theme = nil}
 
   var skipForward: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._skipForward ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._skipForward ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._skipForward = newValue}
   }
   /// Returns true if `skipForward` has been explicitly set.
-  var hasSkipForward: Bool {return _storage._skipForward != nil}
+  var hasSkipForward: Bool {_storage._skipForward != nil}
   /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
   mutating func clearSkipForward() {_uniqueStorage()._skipForward = nil}
 
   var skipBack: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._skipBack ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._skipBack ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._skipBack = newValue}
   }
   /// Returns true if `skipBack` has been explicitly set.
-  var hasSkipBack: Bool {return _storage._skipBack != nil}
+  var hasSkipBack: Bool {_storage._skipBack != nil}
   /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
   mutating func clearSkipBack() {_uniqueStorage()._skipBack = nil}
 
   var webVersion: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._webVersion ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._webVersion ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._webVersion = newValue}
   }
   /// Returns true if `webVersion` has been explicitly set.
-  var hasWebVersion: Bool {return _storage._webVersion != nil}
+  var hasWebVersion: Bool {_storage._webVersion != nil}
   /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
   mutating func clearWebVersion() {_uniqueStorage()._webVersion = nil}
 
   var language: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._language ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._language ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._language = newValue}
   }
   /// Returns true if `language` has been explicitly set.
-  var hasLanguage: Bool {return _storage._language != nil}
+  var hasLanguage: Bool {_storage._language != nil}
   /// Clears the value of `language`. Subsequent reads from it will return its default value.
   mutating func clearLanguage() {_uniqueStorage()._language = nil}
 
   var recommendationsOn: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._recommendationsOn ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._recommendationsOn ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._recommendationsOn = newValue}
   }
   /// Returns true if `recommendationsOn` has been explicitly set.
-  var hasRecommendationsOn: Bool {return _storage._recommendationsOn != nil}
+  var hasRecommendationsOn: Bool {_storage._recommendationsOn != nil}
   /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
 
   /// unused and replaced by row_action google.protobuf.BoolValue stream_by_default = 10;
   var useEmbeddedArtwork: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useEmbeddedArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useEmbeddedArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useEmbeddedArtwork = newValue}
   }
   /// Returns true if `useEmbeddedArtwork` has been explicitly set.
-  var hasUseEmbeddedArtwork: Bool {return _storage._useEmbeddedArtwork != nil}
+  var hasUseEmbeddedArtwork: Bool {_storage._useEmbeddedArtwork != nil}
   /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtwork() {_uniqueStorage()._useEmbeddedArtwork = nil}
 
   var playbackSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._playbackSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._playbackSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._playbackSpeed = newValue}
   }
   /// Returns true if `playbackSpeed` has been explicitly set.
-  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  var hasPlaybackSpeed: Bool {_storage._playbackSpeed != nil}
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
   /// unused and replaced by trim_silence google.protobuf.BoolValue silence_removal = 13;
   var volumeBoost: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._volumeBoost ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._volumeBoost ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._volumeBoost = newValue}
   }
   /// Returns true if `volumeBoost` has been explicitly set.
-  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  var hasVolumeBoost: Bool {_storage._volumeBoost != nil}
   /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
 
   var badges: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._badges ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._badges ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._badges = newValue}
   }
   /// Returns true if `badges` has been explicitly set.
-  var hasBadges: Bool {return _storage._badges != nil}
+  var hasBadges: Bool {_storage._badges != nil}
   /// Clears the value of `badges`. Subsequent reads from it will return its default value.
   mutating func clearBadges() {_uniqueStorage()._badges = nil}
 
   var freeGiftAcknowledgement: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._freeGiftAcknowledgement ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._freeGiftAcknowledgement ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._freeGiftAcknowledgement = newValue}
   }
   /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
-  var hasFreeGiftAcknowledgement: Bool {return _storage._freeGiftAcknowledgement != nil}
+  var hasFreeGiftAcknowledgement: Bool {_storage._freeGiftAcknowledgement != nil}
   /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
   mutating func clearFreeGiftAcknowledgement() {_uniqueStorage()._freeGiftAcknowledgement = nil}
 
   var marketingOptIn: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._marketingOptIn ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._marketingOptIn ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._marketingOptIn = newValue}
   }
   /// Returns true if `marketingOptIn` has been explicitly set.
-  var hasMarketingOptIn: Bool {return _storage._marketingOptIn != nil}
+  var hasMarketingOptIn: Bool {_storage._marketingOptIn != nil}
   /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
   mutating func clearMarketingOptIn() {_uniqueStorage()._marketingOptIn = nil}
 
   var autoArchivePlayedEpisodes: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoArchivePlayedEpisodes ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoArchivePlayedEpisodes ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoArchivePlayedEpisodes = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
-  var hasAutoArchivePlayedEpisodes: Bool {return _storage._autoArchivePlayedEpisodes != nil}
+  var hasAutoArchivePlayedEpisodes: Bool {_storage._autoArchivePlayedEpisodes != nil}
   /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodes() {_uniqueStorage()._autoArchivePlayedEpisodes = nil}
 
   var autoArchiveIncludesStarred: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoArchiveIncludesStarred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoArchiveIncludesStarred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoArchiveIncludesStarred = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
-  var hasAutoArchiveIncludesStarred: Bool {return _storage._autoArchiveIncludesStarred != nil}
+  var hasAutoArchiveIncludesStarred: Bool {_storage._autoArchiveIncludesStarred != nil}
   /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarred() {_uniqueStorage()._autoArchiveIncludesStarred = nil}
 
   var region: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._region ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._region ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._region = newValue}
   }
   /// Returns true if `region` has been explicitly set.
-  var hasRegion: Bool {return _storage._region != nil}
+  var hasRegion: Bool {_storage._region != nil}
   /// Clears the value of `region`. Subsequent reads from it will return its default value.
   mutating func clearRegion() {_uniqueStorage()._region = nil}
 
   var rowAction: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._rowAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._rowAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._rowAction = newValue}
   }
   /// Returns true if `rowAction` has been explicitly set.
-  var hasRowAction: Bool {return _storage._rowAction != nil}
+  var hasRowAction: Bool {_storage._rowAction != nil}
   /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
   mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
 
   var upNextSwipe: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._upNextSwipe ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._upNextSwipe ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._upNextSwipe = newValue}
   }
   /// Returns true if `upNextSwipe` has been explicitly set.
-  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  var hasUpNextSwipe: Bool {_storage._upNextSwipe != nil}
   /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
   mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
 
   var episodeGrouping: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._episodeGrouping ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._episodeGrouping ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._episodeGrouping = newValue}
   }
   /// Returns true if `episodeGrouping` has been explicitly set.
-  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  var hasEpisodeGrouping: Bool {_storage._episodeGrouping != nil}
   /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
 
   var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._showArchived = newValue}
   }
   /// Returns true if `showArchived` has been explicitly set.
-  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  var hasShowArchived: Bool {_storage._showArchived != nil}
   /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
   mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var openLinks: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._openLinks ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._openLinks ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._openLinks = newValue}
   }
   /// Returns true if `openLinks` has been explicitly set.
-  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  var hasOpenLinks: Bool {_storage._openLinks != nil}
   /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
   mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
 
   var mediaActions: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._mediaActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._mediaActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._mediaActions = newValue}
   }
   /// Returns true if `mediaActions` has been explicitly set.
-  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  var hasMediaActions: Bool {_storage._mediaActions != nil}
   /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
   mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
 
   var mediaActionsOrder: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._mediaActionsOrder ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._mediaActionsOrder ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._mediaActionsOrder = newValue}
   }
   /// Returns true if `mediaActionsOrder` has been explicitly set.
-  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  var hasMediaActionsOrder: Bool {_storage._mediaActionsOrder != nil}
   /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
   mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
 
   var keepScreenAwake: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._keepScreenAwake ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._keepScreenAwake ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._keepScreenAwake = newValue}
   }
   /// Returns true if `keepScreenAwake` has been explicitly set.
-  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  var hasKeepScreenAwake: Bool {_storage._keepScreenAwake != nil}
   /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
   mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
 
   var openPlayer: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._openPlayer ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._openPlayer ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._openPlayer = newValue}
   }
   /// Returns true if `openPlayer` has been explicitly set.
-  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  var hasOpenPlayer: Bool {_storage._openPlayer != nil}
   /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
   mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
 
   var intelligentResumption: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._intelligentResumption ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._intelligentResumption ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._intelligentResumption = newValue}
   }
   /// Returns true if `intelligentResumption` has been explicitly set.
-  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  var hasIntelligentResumption: Bool {_storage._intelligentResumption != nil}
   /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
   mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
 
   var playUpNextOnTap: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._playUpNextOnTap ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._playUpNextOnTap ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._playUpNextOnTap = newValue}
   }
   /// Returns true if `playUpNextOnTap` has been explicitly set.
-  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  var hasPlayUpNextOnTap: Bool {_storage._playUpNextOnTap != nil}
   /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
   mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
 
   var remoteSkipChapters: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._remoteSkipChapters ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._remoteSkipChapters ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._remoteSkipChapters = newValue}
   }
   /// Returns true if `remoteSkipChapters` has been explicitly set.
-  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  var hasRemoteSkipChapters: Bool {_storage._remoteSkipChapters != nil}
   /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
   mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
 
   var playbackActions: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._playbackActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._playbackActions ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._playbackActions = newValue}
   }
   /// Returns true if `playbackActions` has been explicitly set.
-  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  var hasPlaybackActions: Bool {_storage._playbackActions != nil}
   /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
 
   var legacyBluetooth: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._legacyBluetooth ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._legacyBluetooth ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._legacyBluetooth = newValue}
   }
   /// Returns true if `legacyBluetooth` has been explicitly set.
-  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  var hasLegacyBluetooth: Bool {_storage._legacyBluetooth != nil}
   /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
   mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
 
   var multiSelectGesture: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._multiSelectGesture ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._multiSelectGesture ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._multiSelectGesture = newValue}
   }
   /// Returns true if `multiSelectGesture` has been explicitly set.
-  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  var hasMultiSelectGesture: Bool {_storage._multiSelectGesture != nil}
   /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
   mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
 
   var chapterTitles: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._chapterTitles ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._chapterTitles ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._chapterTitles = newValue}
   }
   /// Returns true if `chapterTitles` has been explicitly set.
-  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  var hasChapterTitles: Bool {_storage._chapterTitles != nil}
   /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
   mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
 
   var notifications: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._notifications ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._notifications ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._notifications = newValue}
   }
   /// Returns true if `notifications` has been explicitly set.
-  var hasNotifications: Bool {return _storage._notifications != nil}
+  var hasNotifications: Bool {_storage._notifications != nil}
   /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
   mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
 
   var notificationActions: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._notificationActions ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._notificationActions ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._notificationActions = newValue}
   }
   /// Returns true if `notificationActions` has been explicitly set.
-  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  var hasNotificationActions: Bool {_storage._notificationActions != nil}
   /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
   mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
 
   var playOverNotifications: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._playOverNotifications ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._playOverNotifications ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._playOverNotifications = newValue}
   }
   /// Returns true if `playOverNotifications` has been explicitly set.
-  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  var hasPlayOverNotifications: Bool {_storage._playOverNotifications != nil}
   /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
   mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
 
   var hideNotificationOnPause: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._hideNotificationOnPause ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._hideNotificationOnPause ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._hideNotificationOnPause = newValue}
   }
   /// Returns true if `hideNotificationOnPause` has been explicitly set.
-  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  var hasHideNotificationOnPause: Bool {_storage._hideNotificationOnPause != nil}
   /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
   mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
 
   var appBadge: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._appBadge ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._appBadge ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._appBadge = newValue}
   }
   /// Returns true if `appBadge` has been explicitly set.
-  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  var hasAppBadge: Bool {_storage._appBadge != nil}
   /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
   mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
 
   var appBadgeFilter: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._appBadgeFilter ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._appBadgeFilter ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._appBadgeFilter = newValue}
   }
   /// Returns true if `appBadgeFilter` has been explicitly set.
-  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  var hasAppBadgeFilter: Bool {_storage._appBadgeFilter != nil}
   /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
   mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
 
   var autoArchivePlayed: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoArchivePlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoArchivePlayed ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoArchivePlayed = newValue}
   }
   /// Returns true if `autoArchivePlayed` has been explicitly set.
-  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  var hasAutoArchivePlayed: Bool {_storage._autoArchivePlayed != nil}
   /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
 
   var autoArchiveInactive: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoArchiveInactive ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoArchiveInactive ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoArchiveInactive = newValue}
   }
   /// Returns true if `autoArchiveInactive` has been explicitly set.
-  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  var hasAutoArchiveInactive: Bool {_storage._autoArchiveInactive != nil}
   /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
 
   var autoUpNextLimit: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoUpNextLimit ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoUpNextLimit ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoUpNextLimit = newValue}
   }
   /// Returns true if `autoUpNextLimit` has been explicitly set.
-  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  var hasAutoUpNextLimit: Bool {_storage._autoUpNextLimit != nil}
   /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
 
   var autoUpNextLimitReached: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoUpNextLimitReached ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoUpNextLimitReached ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoUpNextLimitReached = newValue}
   }
   /// Returns true if `autoUpNextLimitReached` has been explicitly set.
-  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  var hasAutoUpNextLimitReached: Bool {_storage._autoUpNextLimitReached != nil}
   /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
 
   var warnDataUsage: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._warnDataUsage ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._warnDataUsage ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._warnDataUsage = newValue}
   }
   /// Returns true if `warnDataUsage` has been explicitly set.
-  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  var hasWarnDataUsage: Bool {_storage._warnDataUsage != nil}
   /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
   mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
 
   var filesAutoUpNext: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAutoUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAutoUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAutoUpNext = newValue}
   }
   /// Returns true if `filesAutoUpNext` has been explicitly set.
-  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  var hasFilesAutoUpNext: Bool {_storage._filesAutoUpNext != nil}
   /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
 
   var filesAfterPlayingDeleteLocal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAfterPlayingDeleteLocal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAfterPlayingDeleteLocal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  var hasFilesAfterPlayingDeleteLocal: Bool {_storage._filesAfterPlayingDeleteLocal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
 
   var filesAfterPlayingDeleteCloud: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAfterPlayingDeleteCloud ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAfterPlayingDeleteCloud ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  var hasFilesAfterPlayingDeleteCloud: Bool {_storage._filesAfterPlayingDeleteCloud != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
 
   var privacyAnalytics: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._privacyAnalytics ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._privacyAnalytics ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._privacyAnalytics = newValue}
   }
   /// Returns true if `privacyAnalytics` has been explicitly set.
-  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  var hasPrivacyAnalytics: Bool {_storage._privacyAnalytics != nil}
   /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
 
   var privacyCrashReports: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._privacyCrashReports ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._privacyCrashReports ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._privacyCrashReports = newValue}
   }
   /// Returns true if `privacyCrashReports` has been explicitly set.
-  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  var hasPrivacyCrashReports: Bool {_storage._privacyCrashReports != nil}
   /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
 
   var privacyLinkAccount: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._privacyLinkAccount ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._privacyLinkAccount ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._privacyLinkAccount = newValue}
   }
   /// Returns true if `privacyLinkAccount` has been explicitly set.
-  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  var hasPrivacyLinkAccount: Bool {_storage._privacyLinkAccount != nil}
   /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
 
   var playerShelf: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._playerShelf ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._playerShelf ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._playerShelf = newValue}
   }
   /// Returns true if `playerShelf` has been explicitly set.
-  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  var hasPlayerShelf: Bool {_storage._playerShelf != nil}
   /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
 
   var autoSubscribeToPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoSubscribeToPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoSubscribeToPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
   }
   /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
-  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  var hasAutoSubscribeToPlayed: Bool {_storage._autoSubscribeToPlayed != nil}
   /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
 
   var autoShowPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoShowPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoShowPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoShowPlayed = newValue}
   }
   /// Returns true if `autoShowPlayed` has been explicitly set.
-  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  var hasAutoShowPlayed: Bool {_storage._autoShowPlayed != nil}
   /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
 
   var autoPlayEnabled: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoPlayEnabled ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoPlayEnabled ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoPlayEnabled = newValue}
   }
   /// Returns true if `autoPlayEnabled` has been explicitly set.
-  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  var hasAutoPlayEnabled: Bool {_storage._autoPlayEnabled != nil}
   /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
 
   var autoPlayLastListUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._autoPlayLastListUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._autoPlayLastListUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._autoPlayLastListUuid = newValue}
   }
   /// Returns true if `autoPlayLastListUuid` has been explicitly set.
-  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  var hasAutoPlayLastListUuid: Bool {_storage._autoPlayLastListUuid != nil}
   /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
 
   var trimSilence: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._trimSilence ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._trimSilence ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._trimSilence = newValue}
   }
   /// Returns true if `trimSilence` has been explicitly set.
-  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  var hasTrimSilence: Bool {_storage._trimSilence != nil}
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
   var showArtworkOnLockScreen: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._showArtworkOnLockScreen ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._showArtworkOnLockScreen ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
   }
   /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
-  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  var hasShowArtworkOnLockScreen: Bool {_storage._showArtworkOnLockScreen != nil}
   /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
   mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
 
   var headphoneControlsNextAction: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._headphoneControlsNextAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._headphoneControlsNextAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._headphoneControlsNextAction = newValue}
   }
   /// Returns true if `headphoneControlsNextAction` has been explicitly set.
-  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  var hasHeadphoneControlsNextAction: Bool {_storage._headphoneControlsNextAction != nil}
   /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
 
   var headphoneControlsPreviousAction: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._headphoneControlsPreviousAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._headphoneControlsPreviousAction ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
   }
   /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
-  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  var hasHeadphoneControlsPreviousAction: Bool {_storage._headphoneControlsPreviousAction != nil}
   /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
 
   var headphoneControlsPlayBookmarkConfirmationSound: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._headphoneControlsPlayBookmarkConfirmationSound ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
   }
   /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
-  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {_storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
   /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
 
   var darkThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._darkThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._darkThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._darkThemePreference = newValue}
   }
   /// Returns true if `darkThemePreference` has been explicitly set.
-  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  var hasDarkThemePreference: Bool {_storage._darkThemePreference != nil}
   /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
 
   var lightThemePreference: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._lightThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._lightThemePreference ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._lightThemePreference = newValue}
   }
   /// Returns true if `lightThemePreference` has been explicitly set.
-  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  var hasLightThemePreference: Bool {_storage._lightThemePreference != nil}
   /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
 
   var useSystemTheme: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useSystemTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useSystemTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useSystemTheme = newValue}
   }
   /// Returns true if `useSystemTheme` has been explicitly set.
-  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  var hasUseSystemTheme: Bool {_storage._useSystemTheme != nil}
   /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
 
   var episodeBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._episodeBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._episodeBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._episodeBookmarksSortType = newValue}
   }
   /// Returns true if `episodeBookmarksSortType` has been explicitly set.
-  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  var hasEpisodeBookmarksSortType: Bool {_storage._episodeBookmarksSortType != nil}
   /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
 
   var playerBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._playerBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._playerBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._playerBookmarksSortType = newValue}
   }
   /// Returns true if `playerBookmarksSortType` has been explicitly set.
-  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  var hasPlayerBookmarksSortType: Bool {_storage._playerBookmarksSortType != nil}
   /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
 
   var podcastBookmarksSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._podcastBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._podcastBookmarksSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._podcastBookmarksSortType = newValue}
   }
   /// Returns true if `podcastBookmarksSortType` has been explicitly set.
-  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  var hasPodcastBookmarksSortType: Bool {_storage._podcastBookmarksSortType != nil}
   /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
 
   var useDarkUpNextTheme: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useDarkUpNextTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useDarkUpNextTheme ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useDarkUpNextTheme = newValue}
   }
   /// Returns true if `useDarkUpNextTheme` has been explicitly set.
-  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  var hasUseDarkUpNextTheme: Bool {_storage._useDarkUpNextTheme != nil}
   /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
 
   var useDynamicColorsForWidget: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useDynamicColorsForWidget ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useDynamicColorsForWidget ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
   }
   /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
-  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  var hasUseDynamicColorsForWidget: Bool {_storage._useDynamicColorsForWidget != nil}
   /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
   mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
 
   var filesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._filesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._filesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._filesSortOrder = newValue}
   }
   /// Returns true if `filesSortOrder` has been explicitly set.
-  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  var hasFilesSortOrder: Bool {_storage._filesSortOrder != nil}
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
   var backgroundRefresh: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._backgroundRefresh ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._backgroundRefresh ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._backgroundRefresh = newValue}
   }
   /// Returns true if `backgroundRefresh` has been explicitly set.
-  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  var hasBackgroundRefresh: Bool {_storage._backgroundRefresh != nil}
   /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
   mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
 
   var autoDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
-  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  var hasAutoDownloadUnmeteredOnly: Bool {_storage._autoDownloadUnmeteredOnly != nil}
   /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
 
   var autoDownloadOnlyWhenCharging: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoDownloadOnlyWhenCharging ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoDownloadOnlyWhenCharging ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
   }
   /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
-  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  var hasAutoDownloadOnlyWhenCharging: Bool {_storage._autoDownloadOnlyWhenCharging != nil}
   /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
 
   var autoDownloadUpNext: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoDownloadUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoDownloadUpNext ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoDownloadUpNext = newValue}
   }
   /// Returns true if `autoDownloadUpNext` has been explicitly set.
-  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  var hasAutoDownloadUpNext: Bool {_storage._autoDownloadUpNext != nil}
   /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
 
   var cloudAutoUpload: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._cloudAutoUpload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._cloudAutoUpload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._cloudAutoUpload = newValue}
   }
   /// Returns true if `cloudAutoUpload` has been explicitly set.
-  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  var hasCloudAutoUpload: Bool {_storage._cloudAutoUpload != nil}
   /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
 
   var cloudAutoDownload: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._cloudAutoDownload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._cloudAutoDownload ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._cloudAutoDownload = newValue}
   }
   /// Returns true if `cloudAutoDownload` has been explicitly set.
-  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  var hasCloudAutoDownload: Bool {_storage._cloudAutoDownload != nil}
   /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
 
   var cloudDownloadUnmeteredOnly: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._cloudDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._cloudDownloadUnmeteredOnly ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
-  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  var hasCloudDownloadUnmeteredOnly: Bool {_storage._cloudDownloadUnmeteredOnly != nil}
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
   var useRssArtwork: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useRssArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useRssArtwork ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useRssArtwork = newValue}
   }
   /// Returns true if `useRssArtwork` has been explicitly set.
-  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  var hasUseRssArtwork: Bool {_storage._useRssArtwork != nil}
   /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
 
   var bookmarksSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._bookmarksSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._bookmarksSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._bookmarksSortOrder = newValue}
   }
   /// Returns true if `bookmarksSortOrder` has been explicitly set.
-  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  var hasBookmarksSortOrder: Bool {_storage._bookmarksSortOrder != nil}
   /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
 
   var autoArchivePlayedEpisodesGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoArchivePlayedEpisodesGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoArchivePlayedEpisodesGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
-  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {_storage._autoArchivePlayedEpisodesGlobal != nil}
   /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
 
   var autoArchiveIncludesStarredGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._autoArchiveIncludesStarredGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._autoArchiveIncludesStarredGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
-  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  var hasAutoArchiveIncludesStarredGlobal: Bool {_storage._autoArchiveIncludesStarredGlobal != nil}
   /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
 
   var filesAutoUpNextGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAutoUpNextGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAutoUpNextGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
   }
   /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
-  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  var hasFilesAutoUpNextGlobal: Bool {_storage._filesAutoUpNextGlobal != nil}
   /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
 
   var filesAfterPlayingDeleteLocalGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAfterPlayingDeleteLocalGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {_storage._filesAfterPlayingDeleteLocalGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
 
   var filesAfterPlayingDeleteCloudGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filesAfterPlayingDeleteCloudGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {_storage._filesAfterPlayingDeleteCloudGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
 
   var playerShelfGlobal: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._playerShelfGlobal ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._playerShelfGlobal ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._playerShelfGlobal = newValue}
   }
   /// Returns true if `playerShelfGlobal` has been explicitly set.
-  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  var hasPlayerShelfGlobal: Bool {_storage._playerShelfGlobal != nil}
   /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
 
   var rowActionGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._rowActionGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._rowActionGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._rowActionGlobal = newValue}
   }
   /// Returns true if `rowActionGlobal` has been explicitly set.
-  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  var hasRowActionGlobal: Bool {_storage._rowActionGlobal != nil}
   /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
 
   var useEmbeddedArtworkGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._useEmbeddedArtworkGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._useEmbeddedArtworkGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
   }
   /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
-  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  var hasUseEmbeddedArtworkGlobal: Bool {_storage._useEmbeddedArtworkGlobal != nil}
   /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
 
   var recommendationsOnGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._recommendationsOnGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._recommendationsOnGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._recommendationsOnGlobal = newValue}
   }
   /// Returns true if `recommendationsOnGlobal` has been explicitly set.
-  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  var hasRecommendationsOnGlobal: Bool {_storage._recommendationsOnGlobal != nil}
   /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
 
   var gridLayoutGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._gridLayoutGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._gridLayoutGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._gridLayoutGlobal = newValue}
   }
   /// Returns true if `gridLayoutGlobal` has been explicitly set.
-  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  var hasGridLayoutGlobal: Bool {_storage._gridLayoutGlobal != nil}
   /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
   mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
 
   var volumeBoostGlobal: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._volumeBoostGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._volumeBoostGlobal ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._volumeBoostGlobal = newValue}
   }
   /// Returns true if `volumeBoostGlobal` has been explicitly set.
-  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  var hasVolumeBoostGlobal: Bool {_storage._volumeBoostGlobal != nil}
   /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
 
   var badgesGlobal: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._badgesGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._badgesGlobal ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._badgesGlobal = newValue}
   }
   /// Returns true if `badgesGlobal` has been explicitly set.
-  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  var hasBadgesGlobal: Bool {_storage._badgesGlobal != nil}
   /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
 
   /// unused as not set from clients google.protobuf.BoolValue developer = 94;
   var smartFoldersNumberOfTimesShown: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._smartFoldersNumberOfTimesShown ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._smartFoldersNumberOfTimesShown ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
   }
   /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
-  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  var hasSmartFoldersNumberOfTimesShown: Bool {_storage._smartFoldersNumberOfTimesShown != nil}
   /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
 
   var smartFoldersLastDateShown: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._smartFoldersLastDateShown ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._smartFoldersLastDateShown ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
   }
   /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
-  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  var hasSmartFoldersLastDateShown: Bool {_storage._smartFoldersLastDateShown != nil}
   /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
+
+  var saveUpNextOnPlaylistsPlayAll: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._saveUpNextOnPlaylistsPlayAll ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = newValue}
+  }
+  /// Returns true if `saveUpNextOnPlaylistsPlayAll` has been explicitly set.
+  var hasSaveUpNextOnPlaylistsPlayAll: Bool {_storage._saveUpNextOnPlaylistsPlayAll != nil}
+  /// Clears the value of `saveUpNextOnPlaylistsPlayAll`. Subsequent reads from it will return its default value.
+  mutating func clearSaveUpNextOnPlaylistsPlayAll() {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = nil}
+
+  var doNotSellOrShare: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._doNotSellOrShare ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._doNotSellOrShare = newValue}
+  }
+  /// Returns true if `doNotSellOrShare` has been explicitly set.
+  var hasDoNotSellOrShare: Bool {_storage._doNotSellOrShare != nil}
+  /// Clears the value of `doNotSellOrShare`. Subsequent reads from it will return its default value.
+  mutating func clearDoNotSellOrShare() {_uniqueStorage()._doNotSellOrShare = nil}
+
+  var liveAnalyticsURL: SwiftProtobuf.Google_Protobuf_StringValue {
+    get {_storage._liveAnalyticsURL ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    set {_uniqueStorage()._liveAnalyticsURL = newValue}
+  }
+  /// Returns true if `liveAnalyticsURL` has been explicitly set.
+  var hasLiveAnalyticsURL: Bool {_storage._liveAnalyticsURL != nil}
+  /// Clears the value of `liveAnalyticsURL`. Subsequent reads from it will return its default value.
+  mutating func clearLiveAnalyticsURL() {_uniqueStorage()._liveAnalyticsURL = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2034,852 +2088,879 @@ struct Api_NamedSettingsResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var gridLayout: Api_Int32Setting {
-    get {return _storage._gridLayout ?? Api_Int32Setting()}
+    get {_storage._gridLayout ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridLayout = newValue}
   }
   /// Returns true if `gridLayout` has been explicitly set.
-  var hasGridLayout: Bool {return _storage._gridLayout != nil}
+  var hasGridLayout: Bool {_storage._gridLayout != nil}
   /// Clears the value of `gridLayout`. Subsequent reads from it will return its default value.
   mutating func clearGridLayout() {_uniqueStorage()._gridLayout = nil}
 
   var gridOrder: Api_Int32Setting {
-    get {return _storage._gridOrder ?? Api_Int32Setting()}
+    get {_storage._gridOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridOrder = newValue}
   }
   /// Returns true if `gridOrder` has been explicitly set.
-  var hasGridOrder: Bool {return _storage._gridOrder != nil}
+  var hasGridOrder: Bool {_storage._gridOrder != nil}
   /// Clears the value of `gridOrder`. Subsequent reads from it will return its default value.
   mutating func clearGridOrder() {_uniqueStorage()._gridOrder = nil}
 
   var showPlayed: Api_Int32Setting {
-    get {return _storage._showPlayed ?? Api_Int32Setting()}
+    get {_storage._showPlayed ?? Api_Int32Setting()}
     set {_uniqueStorage()._showPlayed = newValue}
   }
   /// Returns true if `showPlayed` has been explicitly set.
-  var hasShowPlayed: Bool {return _storage._showPlayed != nil}
+  var hasShowPlayed: Bool {_storage._showPlayed != nil}
   /// Clears the value of `showPlayed`. Subsequent reads from it will return its default value.
   mutating func clearShowPlayed() {_uniqueStorage()._showPlayed = nil}
 
   var theme: Api_Int32Setting {
-    get {return _storage._theme ?? Api_Int32Setting()}
+    get {_storage._theme ?? Api_Int32Setting()}
     set {_uniqueStorage()._theme = newValue}
   }
   /// Returns true if `theme` has been explicitly set.
-  var hasTheme: Bool {return _storage._theme != nil}
+  var hasTheme: Bool {_storage._theme != nil}
   /// Clears the value of `theme`. Subsequent reads from it will return its default value.
   mutating func clearTheme() {_uniqueStorage()._theme = nil}
 
   var skipForward: Api_Int32Setting {
-    get {return _storage._skipForward ?? Api_Int32Setting()}
+    get {_storage._skipForward ?? Api_Int32Setting()}
     set {_uniqueStorage()._skipForward = newValue}
   }
   /// Returns true if `skipForward` has been explicitly set.
-  var hasSkipForward: Bool {return _storage._skipForward != nil}
+  var hasSkipForward: Bool {_storage._skipForward != nil}
   /// Clears the value of `skipForward`. Subsequent reads from it will return its default value.
   mutating func clearSkipForward() {_uniqueStorage()._skipForward = nil}
 
   var skipBack: Api_Int32Setting {
-    get {return _storage._skipBack ?? Api_Int32Setting()}
+    get {_storage._skipBack ?? Api_Int32Setting()}
     set {_uniqueStorage()._skipBack = newValue}
   }
   /// Returns true if `skipBack` has been explicitly set.
-  var hasSkipBack: Bool {return _storage._skipBack != nil}
+  var hasSkipBack: Bool {_storage._skipBack != nil}
   /// Clears the value of `skipBack`. Subsequent reads from it will return its default value.
   mutating func clearSkipBack() {_uniqueStorage()._skipBack = nil}
 
   var webVersion: Api_Int32Setting {
-    get {return _storage._webVersion ?? Api_Int32Setting()}
+    get {_storage._webVersion ?? Api_Int32Setting()}
     set {_uniqueStorage()._webVersion = newValue}
   }
   /// Returns true if `webVersion` has been explicitly set.
-  var hasWebVersion: Bool {return _storage._webVersion != nil}
+  var hasWebVersion: Bool {_storage._webVersion != nil}
   /// Clears the value of `webVersion`. Subsequent reads from it will return its default value.
   mutating func clearWebVersion() {_uniqueStorage()._webVersion = nil}
 
   var language: Api_StringSetting {
-    get {return _storage._language ?? Api_StringSetting()}
+    get {_storage._language ?? Api_StringSetting()}
     set {_uniqueStorage()._language = newValue}
   }
   /// Returns true if `language` has been explicitly set.
-  var hasLanguage: Bool {return _storage._language != nil}
+  var hasLanguage: Bool {_storage._language != nil}
   /// Clears the value of `language`. Subsequent reads from it will return its default value.
   mutating func clearLanguage() {_uniqueStorage()._language = nil}
 
   var recommendationsOn: Api_BoolSetting {
-    get {return _storage._recommendationsOn ?? Api_BoolSetting()}
+    get {_storage._recommendationsOn ?? Api_BoolSetting()}
     set {_uniqueStorage()._recommendationsOn = newValue}
   }
   /// Returns true if `recommendationsOn` has been explicitly set.
-  var hasRecommendationsOn: Bool {return _storage._recommendationsOn != nil}
+  var hasRecommendationsOn: Bool {_storage._recommendationsOn != nil}
   /// Clears the value of `recommendationsOn`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOn() {_uniqueStorage()._recommendationsOn = nil}
 
   /// unused and replaced by row_action BoolSetting stream_by_default = 10;
   var useEmbeddedArtwork: Api_BoolSetting {
-    get {return _storage._useEmbeddedArtwork ?? Api_BoolSetting()}
+    get {_storage._useEmbeddedArtwork ?? Api_BoolSetting()}
     set {_uniqueStorage()._useEmbeddedArtwork = newValue}
   }
   /// Returns true if `useEmbeddedArtwork` has been explicitly set.
-  var hasUseEmbeddedArtwork: Bool {return _storage._useEmbeddedArtwork != nil}
+  var hasUseEmbeddedArtwork: Bool {_storage._useEmbeddedArtwork != nil}
   /// Clears the value of `useEmbeddedArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtwork() {_uniqueStorage()._useEmbeddedArtwork = nil}
 
   var playbackSpeed: Api_DoubleSetting {
-    get {return _storage._playbackSpeed ?? Api_DoubleSetting()}
+    get {_storage._playbackSpeed ?? Api_DoubleSetting()}
     set {_uniqueStorage()._playbackSpeed = newValue}
   }
   /// Returns true if `playbackSpeed` has been explicitly set.
-  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  var hasPlaybackSpeed: Bool {_storage._playbackSpeed != nil}
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
   /// unused and replaced by trim_silence google.protobuf.BoolValue silence_removal = 13;
   var volumeBoost: Api_BoolSetting {
-    get {return _storage._volumeBoost ?? Api_BoolSetting()}
+    get {_storage._volumeBoost ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoost = newValue}
   }
   /// Returns true if `volumeBoost` has been explicitly set.
-  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  var hasVolumeBoost: Bool {_storage._volumeBoost != nil}
   /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
 
   var badges: Api_Int32Setting {
-    get {return _storage._badges ?? Api_Int32Setting()}
+    get {_storage._badges ?? Api_Int32Setting()}
     set {_uniqueStorage()._badges = newValue}
   }
   /// Returns true if `badges` has been explicitly set.
-  var hasBadges: Bool {return _storage._badges != nil}
+  var hasBadges: Bool {_storage._badges != nil}
   /// Clears the value of `badges`. Subsequent reads from it will return its default value.
   mutating func clearBadges() {_uniqueStorage()._badges = nil}
 
   var freeGiftAcknowledgement: Api_BoolSetting {
-    get {return _storage._freeGiftAcknowledgement ?? Api_BoolSetting()}
+    get {_storage._freeGiftAcknowledgement ?? Api_BoolSetting()}
     set {_uniqueStorage()._freeGiftAcknowledgement = newValue}
   }
   /// Returns true if `freeGiftAcknowledgement` has been explicitly set.
-  var hasFreeGiftAcknowledgement: Bool {return _storage._freeGiftAcknowledgement != nil}
+  var hasFreeGiftAcknowledgement: Bool {_storage._freeGiftAcknowledgement != nil}
   /// Clears the value of `freeGiftAcknowledgement`. Subsequent reads from it will return its default value.
   mutating func clearFreeGiftAcknowledgement() {_uniqueStorage()._freeGiftAcknowledgement = nil}
 
   var marketingOptIn: Api_BoolSetting {
-    get {return _storage._marketingOptIn ?? Api_BoolSetting()}
+    get {_storage._marketingOptIn ?? Api_BoolSetting()}
     set {_uniqueStorage()._marketingOptIn = newValue}
   }
   /// Returns true if `marketingOptIn` has been explicitly set.
-  var hasMarketingOptIn: Bool {return _storage._marketingOptIn != nil}
+  var hasMarketingOptIn: Bool {_storage._marketingOptIn != nil}
   /// Clears the value of `marketingOptIn`. Subsequent reads from it will return its default value.
   mutating func clearMarketingOptIn() {_uniqueStorage()._marketingOptIn = nil}
 
   var autoArchivePlayedEpisodes: Api_BoolSetting {
-    get {return _storage._autoArchivePlayedEpisodes ?? Api_BoolSetting()}
+    get {_storage._autoArchivePlayedEpisodes ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchivePlayedEpisodes = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodes` has been explicitly set.
-  var hasAutoArchivePlayedEpisodes: Bool {return _storage._autoArchivePlayedEpisodes != nil}
+  var hasAutoArchivePlayedEpisodes: Bool {_storage._autoArchivePlayedEpisodes != nil}
   /// Clears the value of `autoArchivePlayedEpisodes`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodes() {_uniqueStorage()._autoArchivePlayedEpisodes = nil}
 
   var autoArchiveIncludesStarred: Api_BoolSetting {
-    get {return _storage._autoArchiveIncludesStarred ?? Api_BoolSetting()}
+    get {_storage._autoArchiveIncludesStarred ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchiveIncludesStarred = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarred` has been explicitly set.
-  var hasAutoArchiveIncludesStarred: Bool {return _storage._autoArchiveIncludesStarred != nil}
+  var hasAutoArchiveIncludesStarred: Bool {_storage._autoArchiveIncludesStarred != nil}
   /// Clears the value of `autoArchiveIncludesStarred`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarred() {_uniqueStorage()._autoArchiveIncludesStarred = nil}
 
   var region: Api_StringSetting {
-    get {return _storage._region ?? Api_StringSetting()}
+    get {_storage._region ?? Api_StringSetting()}
     set {_uniqueStorage()._region = newValue}
   }
   /// Returns true if `region` has been explicitly set.
-  var hasRegion: Bool {return _storage._region != nil}
+  var hasRegion: Bool {_storage._region != nil}
   /// Clears the value of `region`. Subsequent reads from it will return its default value.
   mutating func clearRegion() {_uniqueStorage()._region = nil}
 
   var rowAction: Api_Int32Setting {
-    get {return _storage._rowAction ?? Api_Int32Setting()}
+    get {_storage._rowAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._rowAction = newValue}
   }
   /// Returns true if `rowAction` has been explicitly set.
-  var hasRowAction: Bool {return _storage._rowAction != nil}
+  var hasRowAction: Bool {_storage._rowAction != nil}
   /// Clears the value of `rowAction`. Subsequent reads from it will return its default value.
   mutating func clearRowAction() {_uniqueStorage()._rowAction = nil}
 
   var upNextSwipe: Api_Int32Setting {
-    get {return _storage._upNextSwipe ?? Api_Int32Setting()}
+    get {_storage._upNextSwipe ?? Api_Int32Setting()}
     set {_uniqueStorage()._upNextSwipe = newValue}
   }
   /// Returns true if `upNextSwipe` has been explicitly set.
-  var hasUpNextSwipe: Bool {return _storage._upNextSwipe != nil}
+  var hasUpNextSwipe: Bool {_storage._upNextSwipe != nil}
   /// Clears the value of `upNextSwipe`. Subsequent reads from it will return its default value.
   mutating func clearUpNextSwipe() {_uniqueStorage()._upNextSwipe = nil}
 
   var episodeGrouping: Api_Int32Setting {
-    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    get {_storage._episodeGrouping ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodeGrouping = newValue}
   }
   /// Returns true if `episodeGrouping` has been explicitly set.
-  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  var hasEpisodeGrouping: Bool {_storage._episodeGrouping != nil}
   /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
 
   var showArchived: Api_BoolSetting {
-    get {return _storage._showArchived ?? Api_BoolSetting()}
+    get {_storage._showArchived ?? Api_BoolSetting()}
     set {_uniqueStorage()._showArchived = newValue}
   }
   /// Returns true if `showArchived` has been explicitly set.
-  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  var hasShowArchived: Bool {_storage._showArchived != nil}
   /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
   mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var openLinks: Api_BoolSetting {
-    get {return _storage._openLinks ?? Api_BoolSetting()}
+    get {_storage._openLinks ?? Api_BoolSetting()}
     set {_uniqueStorage()._openLinks = newValue}
   }
   /// Returns true if `openLinks` has been explicitly set.
-  var hasOpenLinks: Bool {return _storage._openLinks != nil}
+  var hasOpenLinks: Bool {_storage._openLinks != nil}
   /// Clears the value of `openLinks`. Subsequent reads from it will return its default value.
   mutating func clearOpenLinks() {_uniqueStorage()._openLinks = nil}
 
   var mediaActions: Api_BoolSetting {
-    get {return _storage._mediaActions ?? Api_BoolSetting()}
+    get {_storage._mediaActions ?? Api_BoolSetting()}
     set {_uniqueStorage()._mediaActions = newValue}
   }
   /// Returns true if `mediaActions` has been explicitly set.
-  var hasMediaActions: Bool {return _storage._mediaActions != nil}
+  var hasMediaActions: Bool {_storage._mediaActions != nil}
   /// Clears the value of `mediaActions`. Subsequent reads from it will return its default value.
   mutating func clearMediaActions() {_uniqueStorage()._mediaActions = nil}
 
   var mediaActionsOrder: Api_StringSetting {
-    get {return _storage._mediaActionsOrder ?? Api_StringSetting()}
+    get {_storage._mediaActionsOrder ?? Api_StringSetting()}
     set {_uniqueStorage()._mediaActionsOrder = newValue}
   }
   /// Returns true if `mediaActionsOrder` has been explicitly set.
-  var hasMediaActionsOrder: Bool {return _storage._mediaActionsOrder != nil}
+  var hasMediaActionsOrder: Bool {_storage._mediaActionsOrder != nil}
   /// Clears the value of `mediaActionsOrder`. Subsequent reads from it will return its default value.
   mutating func clearMediaActionsOrder() {_uniqueStorage()._mediaActionsOrder = nil}
 
   var keepScreenAwake: Api_BoolSetting {
-    get {return _storage._keepScreenAwake ?? Api_BoolSetting()}
+    get {_storage._keepScreenAwake ?? Api_BoolSetting()}
     set {_uniqueStorage()._keepScreenAwake = newValue}
   }
   /// Returns true if `keepScreenAwake` has been explicitly set.
-  var hasKeepScreenAwake: Bool {return _storage._keepScreenAwake != nil}
+  var hasKeepScreenAwake: Bool {_storage._keepScreenAwake != nil}
   /// Clears the value of `keepScreenAwake`. Subsequent reads from it will return its default value.
   mutating func clearKeepScreenAwake() {_uniqueStorage()._keepScreenAwake = nil}
 
   var openPlayer: Api_BoolSetting {
-    get {return _storage._openPlayer ?? Api_BoolSetting()}
+    get {_storage._openPlayer ?? Api_BoolSetting()}
     set {_uniqueStorage()._openPlayer = newValue}
   }
   /// Returns true if `openPlayer` has been explicitly set.
-  var hasOpenPlayer: Bool {return _storage._openPlayer != nil}
+  var hasOpenPlayer: Bool {_storage._openPlayer != nil}
   /// Clears the value of `openPlayer`. Subsequent reads from it will return its default value.
   mutating func clearOpenPlayer() {_uniqueStorage()._openPlayer = nil}
 
   var intelligentResumption: Api_BoolSetting {
-    get {return _storage._intelligentResumption ?? Api_BoolSetting()}
+    get {_storage._intelligentResumption ?? Api_BoolSetting()}
     set {_uniqueStorage()._intelligentResumption = newValue}
   }
   /// Returns true if `intelligentResumption` has been explicitly set.
-  var hasIntelligentResumption: Bool {return _storage._intelligentResumption != nil}
+  var hasIntelligentResumption: Bool {_storage._intelligentResumption != nil}
   /// Clears the value of `intelligentResumption`. Subsequent reads from it will return its default value.
   mutating func clearIntelligentResumption() {_uniqueStorage()._intelligentResumption = nil}
 
   var playUpNextOnTap: Api_BoolSetting {
-    get {return _storage._playUpNextOnTap ?? Api_BoolSetting()}
+    get {_storage._playUpNextOnTap ?? Api_BoolSetting()}
     set {_uniqueStorage()._playUpNextOnTap = newValue}
   }
   /// Returns true if `playUpNextOnTap` has been explicitly set.
-  var hasPlayUpNextOnTap: Bool {return _storage._playUpNextOnTap != nil}
+  var hasPlayUpNextOnTap: Bool {_storage._playUpNextOnTap != nil}
   /// Clears the value of `playUpNextOnTap`. Subsequent reads from it will return its default value.
   mutating func clearPlayUpNextOnTap() {_uniqueStorage()._playUpNextOnTap = nil}
 
   var remoteSkipChapters: Api_BoolSetting {
-    get {return _storage._remoteSkipChapters ?? Api_BoolSetting()}
+    get {_storage._remoteSkipChapters ?? Api_BoolSetting()}
     set {_uniqueStorage()._remoteSkipChapters = newValue}
   }
   /// Returns true if `remoteSkipChapters` has been explicitly set.
-  var hasRemoteSkipChapters: Bool {return _storage._remoteSkipChapters != nil}
+  var hasRemoteSkipChapters: Bool {_storage._remoteSkipChapters != nil}
   /// Clears the value of `remoteSkipChapters`. Subsequent reads from it will return its default value.
   mutating func clearRemoteSkipChapters() {_uniqueStorage()._remoteSkipChapters = nil}
 
   var playbackActions: Api_BoolSetting {
-    get {return _storage._playbackActions ?? Api_BoolSetting()}
+    get {_storage._playbackActions ?? Api_BoolSetting()}
     set {_uniqueStorage()._playbackActions = newValue}
   }
   /// Returns true if `playbackActions` has been explicitly set.
-  var hasPlaybackActions: Bool {return _storage._playbackActions != nil}
+  var hasPlaybackActions: Bool {_storage._playbackActions != nil}
   /// Clears the value of `playbackActions`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackActions() {_uniqueStorage()._playbackActions = nil}
 
   var legacyBluetooth: Api_BoolSetting {
-    get {return _storage._legacyBluetooth ?? Api_BoolSetting()}
+    get {_storage._legacyBluetooth ?? Api_BoolSetting()}
     set {_uniqueStorage()._legacyBluetooth = newValue}
   }
   /// Returns true if `legacyBluetooth` has been explicitly set.
-  var hasLegacyBluetooth: Bool {return _storage._legacyBluetooth != nil}
+  var hasLegacyBluetooth: Bool {_storage._legacyBluetooth != nil}
   /// Clears the value of `legacyBluetooth`. Subsequent reads from it will return its default value.
   mutating func clearLegacyBluetooth() {_uniqueStorage()._legacyBluetooth = nil}
 
   var multiSelectGesture: Api_BoolSetting {
-    get {return _storage._multiSelectGesture ?? Api_BoolSetting()}
+    get {_storage._multiSelectGesture ?? Api_BoolSetting()}
     set {_uniqueStorage()._multiSelectGesture = newValue}
   }
   /// Returns true if `multiSelectGesture` has been explicitly set.
-  var hasMultiSelectGesture: Bool {return _storage._multiSelectGesture != nil}
+  var hasMultiSelectGesture: Bool {_storage._multiSelectGesture != nil}
   /// Clears the value of `multiSelectGesture`. Subsequent reads from it will return its default value.
   mutating func clearMultiSelectGesture() {_uniqueStorage()._multiSelectGesture = nil}
 
   var chapterTitles: Api_BoolSetting {
-    get {return _storage._chapterTitles ?? Api_BoolSetting()}
+    get {_storage._chapterTitles ?? Api_BoolSetting()}
     set {_uniqueStorage()._chapterTitles = newValue}
   }
   /// Returns true if `chapterTitles` has been explicitly set.
-  var hasChapterTitles: Bool {return _storage._chapterTitles != nil}
+  var hasChapterTitles: Bool {_storage._chapterTitles != nil}
   /// Clears the value of `chapterTitles`. Subsequent reads from it will return its default value.
   mutating func clearChapterTitles() {_uniqueStorage()._chapterTitles = nil}
 
   var notifications: Api_BoolSetting {
-    get {return _storage._notifications ?? Api_BoolSetting()}
+    get {_storage._notifications ?? Api_BoolSetting()}
     set {_uniqueStorage()._notifications = newValue}
   }
   /// Returns true if `notifications` has been explicitly set.
-  var hasNotifications: Bool {return _storage._notifications != nil}
+  var hasNotifications: Bool {_storage._notifications != nil}
   /// Clears the value of `notifications`. Subsequent reads from it will return its default value.
   mutating func clearNotifications() {_uniqueStorage()._notifications = nil}
 
   var notificationActions: Api_StringSetting {
-    get {return _storage._notificationActions ?? Api_StringSetting()}
+    get {_storage._notificationActions ?? Api_StringSetting()}
     set {_uniqueStorage()._notificationActions = newValue}
   }
   /// Returns true if `notificationActions` has been explicitly set.
-  var hasNotificationActions: Bool {return _storage._notificationActions != nil}
+  var hasNotificationActions: Bool {_storage._notificationActions != nil}
   /// Clears the value of `notificationActions`. Subsequent reads from it will return its default value.
   mutating func clearNotificationActions() {_uniqueStorage()._notificationActions = nil}
 
   var playOverNotifications: Api_Int32Setting {
-    get {return _storage._playOverNotifications ?? Api_Int32Setting()}
+    get {_storage._playOverNotifications ?? Api_Int32Setting()}
     set {_uniqueStorage()._playOverNotifications = newValue}
   }
   /// Returns true if `playOverNotifications` has been explicitly set.
-  var hasPlayOverNotifications: Bool {return _storage._playOverNotifications != nil}
+  var hasPlayOverNotifications: Bool {_storage._playOverNotifications != nil}
   /// Clears the value of `playOverNotifications`. Subsequent reads from it will return its default value.
   mutating func clearPlayOverNotifications() {_uniqueStorage()._playOverNotifications = nil}
 
   var hideNotificationOnPause: Api_BoolSetting {
-    get {return _storage._hideNotificationOnPause ?? Api_BoolSetting()}
+    get {_storage._hideNotificationOnPause ?? Api_BoolSetting()}
     set {_uniqueStorage()._hideNotificationOnPause = newValue}
   }
   /// Returns true if `hideNotificationOnPause` has been explicitly set.
-  var hasHideNotificationOnPause: Bool {return _storage._hideNotificationOnPause != nil}
+  var hasHideNotificationOnPause: Bool {_storage._hideNotificationOnPause != nil}
   /// Clears the value of `hideNotificationOnPause`. Subsequent reads from it will return its default value.
   mutating func clearHideNotificationOnPause() {_uniqueStorage()._hideNotificationOnPause = nil}
 
   var appBadge: Api_Int32Setting {
-    get {return _storage._appBadge ?? Api_Int32Setting()}
+    get {_storage._appBadge ?? Api_Int32Setting()}
     set {_uniqueStorage()._appBadge = newValue}
   }
   /// Returns true if `appBadge` has been explicitly set.
-  var hasAppBadge: Bool {return _storage._appBadge != nil}
+  var hasAppBadge: Bool {_storage._appBadge != nil}
   /// Clears the value of `appBadge`. Subsequent reads from it will return its default value.
   mutating func clearAppBadge() {_uniqueStorage()._appBadge = nil}
 
   var appBadgeFilter: Api_StringSetting {
-    get {return _storage._appBadgeFilter ?? Api_StringSetting()}
+    get {_storage._appBadgeFilter ?? Api_StringSetting()}
     set {_uniqueStorage()._appBadgeFilter = newValue}
   }
   /// Returns true if `appBadgeFilter` has been explicitly set.
-  var hasAppBadgeFilter: Bool {return _storage._appBadgeFilter != nil}
+  var hasAppBadgeFilter: Bool {_storage._appBadgeFilter != nil}
   /// Clears the value of `appBadgeFilter`. Subsequent reads from it will return its default value.
   mutating func clearAppBadgeFilter() {_uniqueStorage()._appBadgeFilter = nil}
 
   var autoArchivePlayed: Api_Int32Setting {
-    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    get {_storage._autoArchivePlayed ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchivePlayed = newValue}
   }
   /// Returns true if `autoArchivePlayed` has been explicitly set.
-  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  var hasAutoArchivePlayed: Bool {_storage._autoArchivePlayed != nil}
   /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
 
   var autoArchiveInactive: Api_Int32Setting {
-    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    get {_storage._autoArchiveInactive ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchiveInactive = newValue}
   }
   /// Returns true if `autoArchiveInactive` has been explicitly set.
-  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  var hasAutoArchiveInactive: Bool {_storage._autoArchiveInactive != nil}
   /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
 
   var autoUpNextLimit: Api_Int32Setting {
-    get {return _storage._autoUpNextLimit ?? Api_Int32Setting()}
+    get {_storage._autoUpNextLimit ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoUpNextLimit = newValue}
   }
   /// Returns true if `autoUpNextLimit` has been explicitly set.
-  var hasAutoUpNextLimit: Bool {return _storage._autoUpNextLimit != nil}
+  var hasAutoUpNextLimit: Bool {_storage._autoUpNextLimit != nil}
   /// Clears the value of `autoUpNextLimit`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimit() {_uniqueStorage()._autoUpNextLimit = nil}
 
   var autoUpNextLimitReached: Api_Int32Setting {
-    get {return _storage._autoUpNextLimitReached ?? Api_Int32Setting()}
+    get {_storage._autoUpNextLimitReached ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoUpNextLimitReached = newValue}
   }
   /// Returns true if `autoUpNextLimitReached` has been explicitly set.
-  var hasAutoUpNextLimitReached: Bool {return _storage._autoUpNextLimitReached != nil}
+  var hasAutoUpNextLimitReached: Bool {_storage._autoUpNextLimitReached != nil}
   /// Clears the value of `autoUpNextLimitReached`. Subsequent reads from it will return its default value.
   mutating func clearAutoUpNextLimitReached() {_uniqueStorage()._autoUpNextLimitReached = nil}
 
   var warnDataUsage: Api_BoolSetting {
-    get {return _storage._warnDataUsage ?? Api_BoolSetting()}
+    get {_storage._warnDataUsage ?? Api_BoolSetting()}
     set {_uniqueStorage()._warnDataUsage = newValue}
   }
   /// Returns true if `warnDataUsage` has been explicitly set.
-  var hasWarnDataUsage: Bool {return _storage._warnDataUsage != nil}
+  var hasWarnDataUsage: Bool {_storage._warnDataUsage != nil}
   /// Clears the value of `warnDataUsage`. Subsequent reads from it will return its default value.
   mutating func clearWarnDataUsage() {_uniqueStorage()._warnDataUsage = nil}
 
   var filesAutoUpNext: Api_BoolSetting {
-    get {return _storage._filesAutoUpNext ?? Api_BoolSetting()}
+    get {_storage._filesAutoUpNext ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAutoUpNext = newValue}
   }
   /// Returns true if `filesAutoUpNext` has been explicitly set.
-  var hasFilesAutoUpNext: Bool {return _storage._filesAutoUpNext != nil}
+  var hasFilesAutoUpNext: Bool {_storage._filesAutoUpNext != nil}
   /// Clears the value of `filesAutoUpNext`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNext() {_uniqueStorage()._filesAutoUpNext = nil}
 
   var filesAfterPlayingDeleteLocal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteLocal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocal: Bool {return _storage._filesAfterPlayingDeleteLocal != nil}
+  var hasFilesAfterPlayingDeleteLocal: Bool {_storage._filesAfterPlayingDeleteLocal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocal() {_uniqueStorage()._filesAfterPlayingDeleteLocal = nil}
 
   var filesAfterPlayingDeleteCloud: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteCloud ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloud = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloud` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloud: Bool {return _storage._filesAfterPlayingDeleteCloud != nil}
+  var hasFilesAfterPlayingDeleteCloud: Bool {_storage._filesAfterPlayingDeleteCloud != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloud`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloud() {_uniqueStorage()._filesAfterPlayingDeleteCloud = nil}
 
   var privacyAnalytics: Api_BoolSetting {
-    get {return _storage._privacyAnalytics ?? Api_BoolSetting()}
+    get {_storage._privacyAnalytics ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyAnalytics = newValue}
   }
   /// Returns true if `privacyAnalytics` has been explicitly set.
-  var hasPrivacyAnalytics: Bool {return _storage._privacyAnalytics != nil}
+  var hasPrivacyAnalytics: Bool {_storage._privacyAnalytics != nil}
   /// Clears the value of `privacyAnalytics`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyAnalytics() {_uniqueStorage()._privacyAnalytics = nil}
 
   var privacyCrashReports: Api_BoolSetting {
-    get {return _storage._privacyCrashReports ?? Api_BoolSetting()}
+    get {_storage._privacyCrashReports ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyCrashReports = newValue}
   }
   /// Returns true if `privacyCrashReports` has been explicitly set.
-  var hasPrivacyCrashReports: Bool {return _storage._privacyCrashReports != nil}
+  var hasPrivacyCrashReports: Bool {_storage._privacyCrashReports != nil}
   /// Clears the value of `privacyCrashReports`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyCrashReports() {_uniqueStorage()._privacyCrashReports = nil}
 
   var privacyLinkAccount: Api_BoolSetting {
-    get {return _storage._privacyLinkAccount ?? Api_BoolSetting()}
+    get {_storage._privacyLinkAccount ?? Api_BoolSetting()}
     set {_uniqueStorage()._privacyLinkAccount = newValue}
   }
   /// Returns true if `privacyLinkAccount` has been explicitly set.
-  var hasPrivacyLinkAccount: Bool {return _storage._privacyLinkAccount != nil}
+  var hasPrivacyLinkAccount: Bool {_storage._privacyLinkAccount != nil}
   /// Clears the value of `privacyLinkAccount`. Subsequent reads from it will return its default value.
   mutating func clearPrivacyLinkAccount() {_uniqueStorage()._privacyLinkAccount = nil}
 
   var playerShelf: Api_StringSetting {
-    get {return _storage._playerShelf ?? Api_StringSetting()}
+    get {_storage._playerShelf ?? Api_StringSetting()}
     set {_uniqueStorage()._playerShelf = newValue}
   }
   /// Returns true if `playerShelf` has been explicitly set.
-  var hasPlayerShelf: Bool {return _storage._playerShelf != nil}
+  var hasPlayerShelf: Bool {_storage._playerShelf != nil}
   /// Clears the value of `playerShelf`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelf() {_uniqueStorage()._playerShelf = nil}
 
   var autoSubscribeToPlayed: Api_BoolSetting {
-    get {return _storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
+    get {_storage._autoSubscribeToPlayed ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoSubscribeToPlayed = newValue}
   }
   /// Returns true if `autoSubscribeToPlayed` has been explicitly set.
-  var hasAutoSubscribeToPlayed: Bool {return _storage._autoSubscribeToPlayed != nil}
+  var hasAutoSubscribeToPlayed: Bool {_storage._autoSubscribeToPlayed != nil}
   /// Clears the value of `autoSubscribeToPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoSubscribeToPlayed() {_uniqueStorage()._autoSubscribeToPlayed = nil}
 
   var autoShowPlayed: Api_BoolSetting {
-    get {return _storage._autoShowPlayed ?? Api_BoolSetting()}
+    get {_storage._autoShowPlayed ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoShowPlayed = newValue}
   }
   /// Returns true if `autoShowPlayed` has been explicitly set.
-  var hasAutoShowPlayed: Bool {return _storage._autoShowPlayed != nil}
+  var hasAutoShowPlayed: Bool {_storage._autoShowPlayed != nil}
   /// Clears the value of `autoShowPlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoShowPlayed() {_uniqueStorage()._autoShowPlayed = nil}
 
   var autoPlayEnabled: Api_BoolSetting {
-    get {return _storage._autoPlayEnabled ?? Api_BoolSetting()}
+    get {_storage._autoPlayEnabled ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoPlayEnabled = newValue}
   }
   /// Returns true if `autoPlayEnabled` has been explicitly set.
-  var hasAutoPlayEnabled: Bool {return _storage._autoPlayEnabled != nil}
+  var hasAutoPlayEnabled: Bool {_storage._autoPlayEnabled != nil}
   /// Clears the value of `autoPlayEnabled`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayEnabled() {_uniqueStorage()._autoPlayEnabled = nil}
 
   var autoPlayLastListUuid: Api_StringSetting {
-    get {return _storage._autoPlayLastListUuid ?? Api_StringSetting()}
+    get {_storage._autoPlayLastListUuid ?? Api_StringSetting()}
     set {_uniqueStorage()._autoPlayLastListUuid = newValue}
   }
   /// Returns true if `autoPlayLastListUuid` has been explicitly set.
-  var hasAutoPlayLastListUuid: Bool {return _storage._autoPlayLastListUuid != nil}
+  var hasAutoPlayLastListUuid: Bool {_storage._autoPlayLastListUuid != nil}
   /// Clears the value of `autoPlayLastListUuid`. Subsequent reads from it will return its default value.
   mutating func clearAutoPlayLastListUuid() {_uniqueStorage()._autoPlayLastListUuid = nil}
 
   var trimSilence: Api_Int32Setting {
-    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    get {_storage._trimSilence ?? Api_Int32Setting()}
     set {_uniqueStorage()._trimSilence = newValue}
   }
   /// Returns true if `trimSilence` has been explicitly set.
-  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  var hasTrimSilence: Bool {_storage._trimSilence != nil}
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
   var showArtworkOnLockScreen: Api_BoolSetting {
-    get {return _storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
+    get {_storage._showArtworkOnLockScreen ?? Api_BoolSetting()}
     set {_uniqueStorage()._showArtworkOnLockScreen = newValue}
   }
   /// Returns true if `showArtworkOnLockScreen` has been explicitly set.
-  var hasShowArtworkOnLockScreen: Bool {return _storage._showArtworkOnLockScreen != nil}
+  var hasShowArtworkOnLockScreen: Bool {_storage._showArtworkOnLockScreen != nil}
   /// Clears the value of `showArtworkOnLockScreen`. Subsequent reads from it will return its default value.
   mutating func clearShowArtworkOnLockScreen() {_uniqueStorage()._showArtworkOnLockScreen = nil}
 
   var headphoneControlsNextAction: Api_Int32Setting {
-    get {return _storage._headphoneControlsNextAction ?? Api_Int32Setting()}
+    get {_storage._headphoneControlsNextAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._headphoneControlsNextAction = newValue}
   }
   /// Returns true if `headphoneControlsNextAction` has been explicitly set.
-  var hasHeadphoneControlsNextAction: Bool {return _storage._headphoneControlsNextAction != nil}
+  var hasHeadphoneControlsNextAction: Bool {_storage._headphoneControlsNextAction != nil}
   /// Clears the value of `headphoneControlsNextAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsNextAction() {_uniqueStorage()._headphoneControlsNextAction = nil}
 
   var headphoneControlsPreviousAction: Api_Int32Setting {
-    get {return _storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
+    get {_storage._headphoneControlsPreviousAction ?? Api_Int32Setting()}
     set {_uniqueStorage()._headphoneControlsPreviousAction = newValue}
   }
   /// Returns true if `headphoneControlsPreviousAction` has been explicitly set.
-  var hasHeadphoneControlsPreviousAction: Bool {return _storage._headphoneControlsPreviousAction != nil}
+  var hasHeadphoneControlsPreviousAction: Bool {_storage._headphoneControlsPreviousAction != nil}
   /// Clears the value of `headphoneControlsPreviousAction`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPreviousAction() {_uniqueStorage()._headphoneControlsPreviousAction = nil}
 
   var headphoneControlsPlayBookmarkConfirmationSound: Api_BoolSetting {
-    get {return _storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
+    get {_storage._headphoneControlsPlayBookmarkConfirmationSound ?? Api_BoolSetting()}
     set {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = newValue}
   }
   /// Returns true if `headphoneControlsPlayBookmarkConfirmationSound` has been explicitly set.
-  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {return _storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
+  var hasHeadphoneControlsPlayBookmarkConfirmationSound: Bool {_storage._headphoneControlsPlayBookmarkConfirmationSound != nil}
   /// Clears the value of `headphoneControlsPlayBookmarkConfirmationSound`. Subsequent reads from it will return its default value.
   mutating func clearHeadphoneControlsPlayBookmarkConfirmationSound() {_uniqueStorage()._headphoneControlsPlayBookmarkConfirmationSound = nil}
 
   var darkThemePreference: Api_Int32Setting {
-    get {return _storage._darkThemePreference ?? Api_Int32Setting()}
+    get {_storage._darkThemePreference ?? Api_Int32Setting()}
     set {_uniqueStorage()._darkThemePreference = newValue}
   }
   /// Returns true if `darkThemePreference` has been explicitly set.
-  var hasDarkThemePreference: Bool {return _storage._darkThemePreference != nil}
+  var hasDarkThemePreference: Bool {_storage._darkThemePreference != nil}
   /// Clears the value of `darkThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearDarkThemePreference() {_uniqueStorage()._darkThemePreference = nil}
 
   var lightThemePreference: Api_Int32Setting {
-    get {return _storage._lightThemePreference ?? Api_Int32Setting()}
+    get {_storage._lightThemePreference ?? Api_Int32Setting()}
     set {_uniqueStorage()._lightThemePreference = newValue}
   }
   /// Returns true if `lightThemePreference` has been explicitly set.
-  var hasLightThemePreference: Bool {return _storage._lightThemePreference != nil}
+  var hasLightThemePreference: Bool {_storage._lightThemePreference != nil}
   /// Clears the value of `lightThemePreference`. Subsequent reads from it will return its default value.
   mutating func clearLightThemePreference() {_uniqueStorage()._lightThemePreference = nil}
 
   var useSystemTheme: Api_BoolSetting {
-    get {return _storage._useSystemTheme ?? Api_BoolSetting()}
+    get {_storage._useSystemTheme ?? Api_BoolSetting()}
     set {_uniqueStorage()._useSystemTheme = newValue}
   }
   /// Returns true if `useSystemTheme` has been explicitly set.
-  var hasUseSystemTheme: Bool {return _storage._useSystemTheme != nil}
+  var hasUseSystemTheme: Bool {_storage._useSystemTheme != nil}
   /// Clears the value of `useSystemTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseSystemTheme() {_uniqueStorage()._useSystemTheme = nil}
 
   var episodeBookmarksSortType: Api_Int32Setting {
-    get {return _storage._episodeBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._episodeBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodeBookmarksSortType = newValue}
   }
   /// Returns true if `episodeBookmarksSortType` has been explicitly set.
-  var hasEpisodeBookmarksSortType: Bool {return _storage._episodeBookmarksSortType != nil}
+  var hasEpisodeBookmarksSortType: Bool {_storage._episodeBookmarksSortType != nil}
   /// Clears the value of `episodeBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeBookmarksSortType() {_uniqueStorage()._episodeBookmarksSortType = nil}
 
   var playerBookmarksSortType: Api_Int32Setting {
-    get {return _storage._playerBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._playerBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._playerBookmarksSortType = newValue}
   }
   /// Returns true if `playerBookmarksSortType` has been explicitly set.
-  var hasPlayerBookmarksSortType: Bool {return _storage._playerBookmarksSortType != nil}
+  var hasPlayerBookmarksSortType: Bool {_storage._playerBookmarksSortType != nil}
   /// Clears the value of `playerBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPlayerBookmarksSortType() {_uniqueStorage()._playerBookmarksSortType = nil}
 
   var podcastBookmarksSortType: Api_Int32Setting {
-    get {return _storage._podcastBookmarksSortType ?? Api_Int32Setting()}
+    get {_storage._podcastBookmarksSortType ?? Api_Int32Setting()}
     set {_uniqueStorage()._podcastBookmarksSortType = newValue}
   }
   /// Returns true if `podcastBookmarksSortType` has been explicitly set.
-  var hasPodcastBookmarksSortType: Bool {return _storage._podcastBookmarksSortType != nil}
+  var hasPodcastBookmarksSortType: Bool {_storage._podcastBookmarksSortType != nil}
   /// Clears the value of `podcastBookmarksSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastBookmarksSortType() {_uniqueStorage()._podcastBookmarksSortType = nil}
 
   var useDarkUpNextTheme: Api_BoolSetting {
-    get {return _storage._useDarkUpNextTheme ?? Api_BoolSetting()}
+    get {_storage._useDarkUpNextTheme ?? Api_BoolSetting()}
     set {_uniqueStorage()._useDarkUpNextTheme = newValue}
   }
   /// Returns true if `useDarkUpNextTheme` has been explicitly set.
-  var hasUseDarkUpNextTheme: Bool {return _storage._useDarkUpNextTheme != nil}
+  var hasUseDarkUpNextTheme: Bool {_storage._useDarkUpNextTheme != nil}
   /// Clears the value of `useDarkUpNextTheme`. Subsequent reads from it will return its default value.
   mutating func clearUseDarkUpNextTheme() {_uniqueStorage()._useDarkUpNextTheme = nil}
 
   var useDynamicColorsForWidget: Api_BoolSetting {
-    get {return _storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
+    get {_storage._useDynamicColorsForWidget ?? Api_BoolSetting()}
     set {_uniqueStorage()._useDynamicColorsForWidget = newValue}
   }
   /// Returns true if `useDynamicColorsForWidget` has been explicitly set.
-  var hasUseDynamicColorsForWidget: Bool {return _storage._useDynamicColorsForWidget != nil}
+  var hasUseDynamicColorsForWidget: Bool {_storage._useDynamicColorsForWidget != nil}
   /// Clears the value of `useDynamicColorsForWidget`. Subsequent reads from it will return its default value.
   mutating func clearUseDynamicColorsForWidget() {_uniqueStorage()._useDynamicColorsForWidget = nil}
 
   var filesSortOrder: Api_Int32Setting {
-    get {return _storage._filesSortOrder ?? Api_Int32Setting()}
+    get {_storage._filesSortOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._filesSortOrder = newValue}
   }
   /// Returns true if `filesSortOrder` has been explicitly set.
-  var hasFilesSortOrder: Bool {return _storage._filesSortOrder != nil}
+  var hasFilesSortOrder: Bool {_storage._filesSortOrder != nil}
   /// Clears the value of `filesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearFilesSortOrder() {_uniqueStorage()._filesSortOrder = nil}
 
   var backgroundRefresh: Api_BoolSetting {
-    get {return _storage._backgroundRefresh ?? Api_BoolSetting()}
+    get {_storage._backgroundRefresh ?? Api_BoolSetting()}
     set {_uniqueStorage()._backgroundRefresh = newValue}
   }
   /// Returns true if `backgroundRefresh` has been explicitly set.
-  var hasBackgroundRefresh: Bool {return _storage._backgroundRefresh != nil}
+  var hasBackgroundRefresh: Bool {_storage._backgroundRefresh != nil}
   /// Clears the value of `backgroundRefresh`. Subsequent reads from it will return its default value.
   mutating func clearBackgroundRefresh() {_uniqueStorage()._backgroundRefresh = nil}
 
   var autoDownloadUnmeteredOnly: Api_BoolSetting {
-    get {return _storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    get {_storage._autoDownloadUnmeteredOnly ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `autoDownloadUnmeteredOnly` has been explicitly set.
-  var hasAutoDownloadUnmeteredOnly: Bool {return _storage._autoDownloadUnmeteredOnly != nil}
+  var hasAutoDownloadUnmeteredOnly: Bool {_storage._autoDownloadUnmeteredOnly != nil}
   /// Clears the value of `autoDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUnmeteredOnly() {_uniqueStorage()._autoDownloadUnmeteredOnly = nil}
 
   var autoDownloadOnlyWhenCharging: Api_BoolSetting {
-    get {return _storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
+    get {_storage._autoDownloadOnlyWhenCharging ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadOnlyWhenCharging = newValue}
   }
   /// Returns true if `autoDownloadOnlyWhenCharging` has been explicitly set.
-  var hasAutoDownloadOnlyWhenCharging: Bool {return _storage._autoDownloadOnlyWhenCharging != nil}
+  var hasAutoDownloadOnlyWhenCharging: Bool {_storage._autoDownloadOnlyWhenCharging != nil}
   /// Clears the value of `autoDownloadOnlyWhenCharging`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadOnlyWhenCharging() {_uniqueStorage()._autoDownloadOnlyWhenCharging = nil}
 
   var autoDownloadUpNext: Api_BoolSetting {
-    get {return _storage._autoDownloadUpNext ?? Api_BoolSetting()}
+    get {_storage._autoDownloadUpNext ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoDownloadUpNext = newValue}
   }
   /// Returns true if `autoDownloadUpNext` has been explicitly set.
-  var hasAutoDownloadUpNext: Bool {return _storage._autoDownloadUpNext != nil}
+  var hasAutoDownloadUpNext: Bool {_storage._autoDownloadUpNext != nil}
   /// Clears the value of `autoDownloadUpNext`. Subsequent reads from it will return its default value.
   mutating func clearAutoDownloadUpNext() {_uniqueStorage()._autoDownloadUpNext = nil}
 
   var cloudAutoUpload: Api_BoolSetting {
-    get {return _storage._cloudAutoUpload ?? Api_BoolSetting()}
+    get {_storage._cloudAutoUpload ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudAutoUpload = newValue}
   }
   /// Returns true if `cloudAutoUpload` has been explicitly set.
-  var hasCloudAutoUpload: Bool {return _storage._cloudAutoUpload != nil}
+  var hasCloudAutoUpload: Bool {_storage._cloudAutoUpload != nil}
   /// Clears the value of `cloudAutoUpload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoUpload() {_uniqueStorage()._cloudAutoUpload = nil}
 
   var cloudAutoDownload: Api_BoolSetting {
-    get {return _storage._cloudAutoDownload ?? Api_BoolSetting()}
+    get {_storage._cloudAutoDownload ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudAutoDownload = newValue}
   }
   /// Returns true if `cloudAutoDownload` has been explicitly set.
-  var hasCloudAutoDownload: Bool {return _storage._cloudAutoDownload != nil}
+  var hasCloudAutoDownload: Bool {_storage._cloudAutoDownload != nil}
   /// Clears the value of `cloudAutoDownload`. Subsequent reads from it will return its default value.
   mutating func clearCloudAutoDownload() {_uniqueStorage()._cloudAutoDownload = nil}
 
   var cloudDownloadUnmeteredOnly: Api_BoolSetting {
-    get {return _storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
+    get {_storage._cloudDownloadUnmeteredOnly ?? Api_BoolSetting()}
     set {_uniqueStorage()._cloudDownloadUnmeteredOnly = newValue}
   }
   /// Returns true if `cloudDownloadUnmeteredOnly` has been explicitly set.
-  var hasCloudDownloadUnmeteredOnly: Bool {return _storage._cloudDownloadUnmeteredOnly != nil}
+  var hasCloudDownloadUnmeteredOnly: Bool {_storage._cloudDownloadUnmeteredOnly != nil}
   /// Clears the value of `cloudDownloadUnmeteredOnly`. Subsequent reads from it will return its default value.
   mutating func clearCloudDownloadUnmeteredOnly() {_uniqueStorage()._cloudDownloadUnmeteredOnly = nil}
 
   var useRssArtwork: Api_BoolSetting {
-    get {return _storage._useRssArtwork ?? Api_BoolSetting()}
+    get {_storage._useRssArtwork ?? Api_BoolSetting()}
     set {_uniqueStorage()._useRssArtwork = newValue}
   }
   /// Returns true if `useRssArtwork` has been explicitly set.
-  var hasUseRssArtwork: Bool {return _storage._useRssArtwork != nil}
+  var hasUseRssArtwork: Bool {_storage._useRssArtwork != nil}
   /// Clears the value of `useRssArtwork`. Subsequent reads from it will return its default value.
   mutating func clearUseRssArtwork() {_uniqueStorage()._useRssArtwork = nil}
 
   var bookmarksSortOrder: Api_Int32Setting {
-    get {return _storage._bookmarksSortOrder ?? Api_Int32Setting()}
+    get {_storage._bookmarksSortOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._bookmarksSortOrder = newValue}
   }
   /// Returns true if `bookmarksSortOrder` has been explicitly set.
-  var hasBookmarksSortOrder: Bool {return _storage._bookmarksSortOrder != nil}
+  var hasBookmarksSortOrder: Bool {_storage._bookmarksSortOrder != nil}
   /// Clears the value of `bookmarksSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearBookmarksSortOrder() {_uniqueStorage()._bookmarksSortOrder = nil}
 
   var autoArchivePlayedEpisodesGlobal: Api_BoolSetting {
-    get {return _storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
+    get {_storage._autoArchivePlayedEpisodesGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = newValue}
   }
   /// Returns true if `autoArchivePlayedEpisodesGlobal` has been explicitly set.
-  var hasAutoArchivePlayedEpisodesGlobal: Bool {return _storage._autoArchivePlayedEpisodesGlobal != nil}
+  var hasAutoArchivePlayedEpisodesGlobal: Bool {_storage._autoArchivePlayedEpisodesGlobal != nil}
   /// Clears the value of `autoArchivePlayedEpisodesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayedEpisodesGlobal() {_uniqueStorage()._autoArchivePlayedEpisodesGlobal = nil}
 
   var autoArchiveIncludesStarredGlobal: Api_BoolSetting {
-    get {return _storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
+    get {_storage._autoArchiveIncludesStarredGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchiveIncludesStarredGlobal = newValue}
   }
   /// Returns true if `autoArchiveIncludesStarredGlobal` has been explicitly set.
-  var hasAutoArchiveIncludesStarredGlobal: Bool {return _storage._autoArchiveIncludesStarredGlobal != nil}
+  var hasAutoArchiveIncludesStarredGlobal: Bool {_storage._autoArchiveIncludesStarredGlobal != nil}
   /// Clears the value of `autoArchiveIncludesStarredGlobal`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveIncludesStarredGlobal() {_uniqueStorage()._autoArchiveIncludesStarredGlobal = nil}
 
   var filesAutoUpNextGlobal: Api_BoolSetting {
-    get {return _storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAutoUpNextGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAutoUpNextGlobal = newValue}
   }
   /// Returns true if `filesAutoUpNextGlobal` has been explicitly set.
-  var hasFilesAutoUpNextGlobal: Bool {return _storage._filesAutoUpNextGlobal != nil}
+  var hasFilesAutoUpNextGlobal: Bool {_storage._filesAutoUpNextGlobal != nil}
   /// Clears the value of `filesAutoUpNextGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAutoUpNextGlobal() {_uniqueStorage()._filesAutoUpNextGlobal = nil}
 
   var filesAfterPlayingDeleteLocalGlobal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteLocalGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteLocalGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {return _storage._filesAfterPlayingDeleteLocalGlobal != nil}
+  var hasFilesAfterPlayingDeleteLocalGlobal: Bool {_storage._filesAfterPlayingDeleteLocalGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteLocalGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteLocalGlobal() {_uniqueStorage()._filesAfterPlayingDeleteLocalGlobal = nil}
 
   var filesAfterPlayingDeleteCloudGlobal: Api_BoolSetting {
-    get {return _storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
+    get {_storage._filesAfterPlayingDeleteCloudGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = newValue}
   }
   /// Returns true if `filesAfterPlayingDeleteCloudGlobal` has been explicitly set.
-  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {return _storage._filesAfterPlayingDeleteCloudGlobal != nil}
+  var hasFilesAfterPlayingDeleteCloudGlobal: Bool {_storage._filesAfterPlayingDeleteCloudGlobal != nil}
   /// Clears the value of `filesAfterPlayingDeleteCloudGlobal`. Subsequent reads from it will return its default value.
   mutating func clearFilesAfterPlayingDeleteCloudGlobal() {_uniqueStorage()._filesAfterPlayingDeleteCloudGlobal = nil}
 
   var playerShelfGlobal: Api_StringSetting {
-    get {return _storage._playerShelfGlobal ?? Api_StringSetting()}
+    get {_storage._playerShelfGlobal ?? Api_StringSetting()}
     set {_uniqueStorage()._playerShelfGlobal = newValue}
   }
   /// Returns true if `playerShelfGlobal` has been explicitly set.
-  var hasPlayerShelfGlobal: Bool {return _storage._playerShelfGlobal != nil}
+  var hasPlayerShelfGlobal: Bool {_storage._playerShelfGlobal != nil}
   /// Clears the value of `playerShelfGlobal`. Subsequent reads from it will return its default value.
   mutating func clearPlayerShelfGlobal() {_uniqueStorage()._playerShelfGlobal = nil}
 
   var rowActionGlobal: Api_Int32Setting {
-    get {return _storage._rowActionGlobal ?? Api_Int32Setting()}
+    get {_storage._rowActionGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._rowActionGlobal = newValue}
   }
   /// Returns true if `rowActionGlobal` has been explicitly set.
-  var hasRowActionGlobal: Bool {return _storage._rowActionGlobal != nil}
+  var hasRowActionGlobal: Bool {_storage._rowActionGlobal != nil}
   /// Clears the value of `rowActionGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRowActionGlobal() {_uniqueStorage()._rowActionGlobal = nil}
 
   var useEmbeddedArtworkGlobal: Api_BoolSetting {
-    get {return _storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
+    get {_storage._useEmbeddedArtworkGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._useEmbeddedArtworkGlobal = newValue}
   }
   /// Returns true if `useEmbeddedArtworkGlobal` has been explicitly set.
-  var hasUseEmbeddedArtworkGlobal: Bool {return _storage._useEmbeddedArtworkGlobal != nil}
+  var hasUseEmbeddedArtworkGlobal: Bool {_storage._useEmbeddedArtworkGlobal != nil}
   /// Clears the value of `useEmbeddedArtworkGlobal`. Subsequent reads from it will return its default value.
   mutating func clearUseEmbeddedArtworkGlobal() {_uniqueStorage()._useEmbeddedArtworkGlobal = nil}
 
   var recommendationsOnGlobal: Api_BoolSetting {
-    get {return _storage._recommendationsOnGlobal ?? Api_BoolSetting()}
+    get {_storage._recommendationsOnGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._recommendationsOnGlobal = newValue}
   }
   /// Returns true if `recommendationsOnGlobal` has been explicitly set.
-  var hasRecommendationsOnGlobal: Bool {return _storage._recommendationsOnGlobal != nil}
+  var hasRecommendationsOnGlobal: Bool {_storage._recommendationsOnGlobal != nil}
   /// Clears the value of `recommendationsOnGlobal`. Subsequent reads from it will return its default value.
   mutating func clearRecommendationsOnGlobal() {_uniqueStorage()._recommendationsOnGlobal = nil}
 
   var gridLayoutGlobal: Api_Int32Setting {
-    get {return _storage._gridLayoutGlobal ?? Api_Int32Setting()}
+    get {_storage._gridLayoutGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._gridLayoutGlobal = newValue}
   }
   /// Returns true if `gridLayoutGlobal` has been explicitly set.
-  var hasGridLayoutGlobal: Bool {return _storage._gridLayoutGlobal != nil}
+  var hasGridLayoutGlobal: Bool {_storage._gridLayoutGlobal != nil}
   /// Clears the value of `gridLayoutGlobal`. Subsequent reads from it will return its default value.
   mutating func clearGridLayoutGlobal() {_uniqueStorage()._gridLayoutGlobal = nil}
 
   var volumeBoostGlobal: Api_BoolSetting {
-    get {return _storage._volumeBoostGlobal ?? Api_BoolSetting()}
+    get {_storage._volumeBoostGlobal ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoostGlobal = newValue}
   }
   /// Returns true if `volumeBoostGlobal` has been explicitly set.
-  var hasVolumeBoostGlobal: Bool {return _storage._volumeBoostGlobal != nil}
+  var hasVolumeBoostGlobal: Bool {_storage._volumeBoostGlobal != nil}
   /// Clears the value of `volumeBoostGlobal`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoostGlobal() {_uniqueStorage()._volumeBoostGlobal = nil}
 
   var badgesGlobal: Api_Int32Setting {
-    get {return _storage._badgesGlobal ?? Api_Int32Setting()}
+    get {_storage._badgesGlobal ?? Api_Int32Setting()}
     set {_uniqueStorage()._badgesGlobal = newValue}
   }
   /// Returns true if `badgesGlobal` has been explicitly set.
-  var hasBadgesGlobal: Bool {return _storage._badgesGlobal != nil}
+  var hasBadgesGlobal: Bool {_storage._badgesGlobal != nil}
   /// Clears the value of `badgesGlobal`. Subsequent reads from it will return its default value.
   mutating func clearBadgesGlobal() {_uniqueStorage()._badgesGlobal = nil}
 
   var developer: Api_BoolSetting {
-    get {return _storage._developer ?? Api_BoolSetting()}
+    get {_storage._developer ?? Api_BoolSetting()}
     set {_uniqueStorage()._developer = newValue}
   }
   /// Returns true if `developer` has been explicitly set.
-  var hasDeveloper: Bool {return _storage._developer != nil}
+  var hasDeveloper: Bool {_storage._developer != nil}
   /// Clears the value of `developer`. Subsequent reads from it will return its default value.
   mutating func clearDeveloper() {_uniqueStorage()._developer = nil}
 
   var smartFoldersNumberOfTimesShown: Api_Int32Setting {
-    get {return _storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
+    get {_storage._smartFoldersNumberOfTimesShown ?? Api_Int32Setting()}
     set {_uniqueStorage()._smartFoldersNumberOfTimesShown = newValue}
   }
   /// Returns true if `smartFoldersNumberOfTimesShown` has been explicitly set.
-  var hasSmartFoldersNumberOfTimesShown: Bool {return _storage._smartFoldersNumberOfTimesShown != nil}
+  var hasSmartFoldersNumberOfTimesShown: Bool {_storage._smartFoldersNumberOfTimesShown != nil}
   /// Clears the value of `smartFoldersNumberOfTimesShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersNumberOfTimesShown() {_uniqueStorage()._smartFoldersNumberOfTimesShown = nil}
 
   var smartFoldersLastDateShown: Api_StringSetting {
-    get {return _storage._smartFoldersLastDateShown ?? Api_StringSetting()}
+    get {_storage._smartFoldersLastDateShown ?? Api_StringSetting()}
     set {_uniqueStorage()._smartFoldersLastDateShown = newValue}
   }
   /// Returns true if `smartFoldersLastDateShown` has been explicitly set.
-  var hasSmartFoldersLastDateShown: Bool {return _storage._smartFoldersLastDateShown != nil}
+  var hasSmartFoldersLastDateShown: Bool {_storage._smartFoldersLastDateShown != nil}
   /// Clears the value of `smartFoldersLastDateShown`. Subsequent reads from it will return its default value.
   mutating func clearSmartFoldersLastDateShown() {_uniqueStorage()._smartFoldersLastDateShown = nil}
+
+  var saveUpNextOnPlaylistsPlayAll: Api_BoolSetting {
+    get {_storage._saveUpNextOnPlaylistsPlayAll ?? Api_BoolSetting()}
+    set {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = newValue}
+  }
+  /// Returns true if `saveUpNextOnPlaylistsPlayAll` has been explicitly set.
+  var hasSaveUpNextOnPlaylistsPlayAll: Bool {_storage._saveUpNextOnPlaylistsPlayAll != nil}
+  /// Clears the value of `saveUpNextOnPlaylistsPlayAll`. Subsequent reads from it will return its default value.
+  mutating func clearSaveUpNextOnPlaylistsPlayAll() {_uniqueStorage()._saveUpNextOnPlaylistsPlayAll = nil}
+
+  var doNotSellOrShare: Api_BoolSetting {
+    get {_storage._doNotSellOrShare ?? Api_BoolSetting()}
+    set {_uniqueStorage()._doNotSellOrShare = newValue}
+  }
+  /// Returns true if `doNotSellOrShare` has been explicitly set.
+  var hasDoNotSellOrShare: Bool {_storage._doNotSellOrShare != nil}
+  /// Clears the value of `doNotSellOrShare`. Subsequent reads from it will return its default value.
+  mutating func clearDoNotSellOrShare() {_uniqueStorage()._doNotSellOrShare = nil}
+
+  var liveAnalyticsURL: Api_StringSetting {
+    get {_storage._liveAnalyticsURL ?? Api_StringSetting()}
+    set {_uniqueStorage()._liveAnalyticsURL = newValue}
+  }
+  /// Returns true if `liveAnalyticsURL` has been explicitly set.
+  var hasLiveAnalyticsURL: Bool {_storage._liveAnalyticsURL != nil}
+  /// Clears the value of `liveAnalyticsURL`. Subsequent reads from it will return its default value.
+  mutating func clearLiveAnalyticsURL() {_uniqueStorage()._liveAnalyticsURL = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2894,29 +2975,29 @@ struct Api_Int32Setting: Sendable {
   // methods supported on all messages.
 
   var value: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _value ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_value ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_value = newValue}
   }
   /// Returns true if `value` has been explicitly set.
-  var hasValue: Bool {return self._value != nil}
+  var hasValue: Bool {self._value != nil}
   /// Clears the value of `value`. Subsequent reads from it will return its default value.
   mutating func clearValue() {self._value = nil}
 
   var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_changed = newValue}
   }
   /// Returns true if `changed` has been explicitly set.
-  var hasChanged: Bool {return self._changed != nil}
+  var hasChanged: Bool {self._changed != nil}
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  var hasModifiedAt: Bool {self._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {self._modifiedAt = nil}
 
@@ -2935,29 +3016,29 @@ struct Api_BoolSetting: Sendable {
   // methods supported on all messages.
 
   var value: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _value ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_value ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_value = newValue}
   }
   /// Returns true if `value` has been explicitly set.
-  var hasValue: Bool {return self._value != nil}
+  var hasValue: Bool {self._value != nil}
   /// Clears the value of `value`. Subsequent reads from it will return its default value.
   mutating func clearValue() {self._value = nil}
 
   var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_changed = newValue}
   }
   /// Returns true if `changed` has been explicitly set.
-  var hasChanged: Bool {return self._changed != nil}
+  var hasChanged: Bool {self._changed != nil}
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  var hasModifiedAt: Bool {self._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {self._modifiedAt = nil}
 
@@ -2976,29 +3057,29 @@ struct Api_StringSetting: Sendable {
   // methods supported on all messages.
 
   var value: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _value ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_value ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_value = newValue}
   }
   /// Returns true if `value` has been explicitly set.
-  var hasValue: Bool {return self._value != nil}
+  var hasValue: Bool {self._value != nil}
   /// Clears the value of `value`. Subsequent reads from it will return its default value.
   mutating func clearValue() {self._value = nil}
 
   var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_changed = newValue}
   }
   /// Returns true if `changed` has been explicitly set.
-  var hasChanged: Bool {return self._changed != nil}
+  var hasChanged: Bool {self._changed != nil}
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  var hasModifiedAt: Bool {self._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {self._modifiedAt = nil}
 
@@ -3017,29 +3098,29 @@ struct Api_DoubleSetting: Sendable {
   // methods supported on all messages.
 
   var value: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _value ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_value ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_value = newValue}
   }
   /// Returns true if `value` has been explicitly set.
-  var hasValue: Bool {return self._value != nil}
+  var hasValue: Bool {self._value != nil}
   /// Clears the value of `value`. Subsequent reads from it will return its default value.
   mutating func clearValue() {self._value = nil}
 
   var changed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_changed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_changed = newValue}
   }
   /// Returns true if `changed` has been explicitly set.
-  var hasChanged: Bool {return self._changed != nil}
+  var hasChanged: Bool {self._changed != nil}
   /// Clears the value of `changed`. Subsequent reads from it will return its default value.
   mutating func clearChanged() {self._changed = nil}
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  var hasModifiedAt: Bool {self._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {self._modifiedAt = nil}
 
@@ -3092,126 +3173,126 @@ struct Api_UserPodcastResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: String {
-    get {return _storage._uuid}
+    get {_storage._uuid}
     set {_uniqueStorage()._uuid = newValue}
   }
 
   var episodesSortOrder: Int32 {
-    get {return _storage._episodesSortOrder}
+    get {_storage._episodesSortOrder}
     set {_uniqueStorage()._episodesSortOrder = newValue}
   }
 
   var autoStartFrom: Int32 {
-    get {return _storage._autoStartFrom}
+    get {_storage._autoStartFrom}
     set {_uniqueStorage()._autoStartFrom = newValue}
   }
 
   var title: String {
-    get {return _storage._title}
+    get {_storage._title}
     set {_uniqueStorage()._title = newValue}
   }
 
   var author: String {
-    get {return _storage._author}
+    get {_storage._author}
     set {_uniqueStorage()._author = newValue}
   }
 
   var description_p: String {
-    get {return _storage._description_p}
+    get {_storage._description_p}
     set {_uniqueStorage()._description_p = newValue}
   }
 
   var url: String {
-    get {return _storage._url}
+    get {_storage._url}
     set {_uniqueStorage()._url = newValue}
   }
 
   var lastEpisodePublished: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._lastEpisodePublished ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._lastEpisodePublished ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._lastEpisodePublished = newValue}
   }
   /// Returns true if `lastEpisodePublished` has been explicitly set.
-  var hasLastEpisodePublished: Bool {return _storage._lastEpisodePublished != nil}
+  var hasLastEpisodePublished: Bool {_storage._lastEpisodePublished != nil}
   /// Clears the value of `lastEpisodePublished`. Subsequent reads from it will return its default value.
   mutating func clearLastEpisodePublished() {_uniqueStorage()._lastEpisodePublished = nil}
 
   var unplayed: Bool {
-    get {return _storage._unplayed}
+    get {_storage._unplayed}
     set {_uniqueStorage()._unplayed = newValue}
   }
 
   var lastEpisodeUuid: String {
-    get {return _storage._lastEpisodeUuid}
+    get {_storage._lastEpisodeUuid}
     set {_uniqueStorage()._lastEpisodeUuid = newValue}
   }
 
   var lastEpisodePlayingStatus: Int32 {
-    get {return _storage._lastEpisodePlayingStatus}
+    get {_storage._lastEpisodePlayingStatus}
     set {_uniqueStorage()._lastEpisodePlayingStatus = newValue}
   }
 
   var lastEpisodeArchived: Bool {
-    get {return _storage._lastEpisodeArchived}
+    get {_storage._lastEpisodeArchived}
     set {_uniqueStorage()._lastEpisodeArchived = newValue}
   }
 
   var autoSkipLast: Int32 {
-    get {return _storage._autoSkipLast}
+    get {_storage._autoSkipLast}
     set {_uniqueStorage()._autoSkipLast = newValue}
   }
 
   var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._folderUuid = newValue}
   }
   /// Returns true if `folderUuid` has been explicitly set.
-  var hasFolderUuid: Bool {return _storage._folderUuid != nil}
+  var hasFolderUuid: Bool {_storage._folderUuid != nil}
   /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
   mutating func clearFolderUuid() {_uniqueStorage()._folderUuid = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return _storage._sortPosition != nil}
+  var hasSortPosition: Bool {_storage._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {_uniqueStorage()._sortPosition = nil}
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return _storage._dateAdded != nil}
+  var hasDateAdded: Bool {_storage._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
 
   var settings: Api_PodcastSettings {
-    get {return _storage._settings ?? Api_PodcastSettings()}
+    get {_storage._settings ?? Api_PodcastSettings()}
     set {_uniqueStorage()._settings = newValue}
   }
   /// Returns true if `settings` has been explicitly set.
-  var hasSettings: Bool {return _storage._settings != nil}
+  var hasSettings: Bool {_storage._settings != nil}
   /// Clears the value of `settings`. Subsequent reads from it will return its default value.
   mutating func clearSettings() {_uniqueStorage()._settings = nil}
 
   var descriptionHtml: String {
-    get {return _storage._descriptionHtml}
+    get {_storage._descriptionHtml}
     set {_uniqueStorage()._descriptionHtml = newValue}
   }
 
   var isPrivate: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._isPrivate ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._isPrivate ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._isPrivate = newValue}
   }
   /// Returns true if `isPrivate` has been explicitly set.
-  var hasIsPrivate: Bool {return _storage._isPrivate != nil}
+  var hasIsPrivate: Bool {_storage._isPrivate != nil}
   /// Clears the value of `isPrivate`. Subsequent reads from it will return its default value.
   mutating func clearIsPrivate() {_uniqueStorage()._isPrivate = nil}
 
   var slug: String {
-    get {return _storage._slug}
+    get {_storage._slug}
     set {_uniqueStorage()._slug = newValue}
   }
 
@@ -3316,29 +3397,29 @@ struct Api_SyncEpisodesResponse: Sendable {
   var episodes: [Api_EpisodeSyncResponse] = []
 
   var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_autoStartFrom = newValue}
   }
   /// Returns true if `autoStartFrom` has been explicitly set.
-  var hasAutoStartFrom: Bool {return self._autoStartFrom != nil}
+  var hasAutoStartFrom: Bool {self._autoStartFrom != nil}
   /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
   mutating func clearAutoStartFrom() {self._autoStartFrom = nil}
 
   var episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_episodesSortOrder = newValue}
   }
   /// Returns true if `episodesSortOrder` has been explicitly set.
-  var hasEpisodesSortOrder: Bool {return self._episodesSortOrder != nil}
+  var hasEpisodesSortOrder: Bool {self._episodesSortOrder != nil}
   /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearEpisodesSortOrder() {self._episodesSortOrder = nil}
 
   var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_autoSkipLast = newValue}
   }
   /// Returns true if `autoSkipLast` has been explicitly set.
-  var hasAutoSkipLast: Bool {return self._autoSkipLast != nil}
+  var hasAutoSkipLast: Bool {self._autoSkipLast != nil}
   /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
   mutating func clearAutoSkipLast() {self._autoSkipLast = nil}
 
@@ -3407,106 +3488,106 @@ struct Api_EpisodeResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: String {
-    get {return _storage._uuid}
+    get {_storage._uuid}
     set {_uniqueStorage()._uuid = newValue}
   }
 
   var url: String {
-    get {return _storage._url}
+    get {_storage._url}
     set {_uniqueStorage()._url = newValue}
   }
 
   var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._published = newValue}
   }
   /// Returns true if `published` has been explicitly set.
-  var hasPublished: Bool {return _storage._published != nil}
+  var hasPublished: Bool {_storage._published != nil}
   /// Clears the value of `published`. Subsequent reads from it will return its default value.
   mutating func clearPublished() {_uniqueStorage()._published = nil}
 
   var duration: Int32 {
-    get {return _storage._duration}
+    get {_storage._duration}
     set {_uniqueStorage()._duration = newValue}
   }
 
   var fileType: String {
-    get {return _storage._fileType}
+    get {_storage._fileType}
     set {_uniqueStorage()._fileType = newValue}
   }
 
   var title: String {
-    get {return _storage._title}
+    get {_storage._title}
     set {_uniqueStorage()._title = newValue}
   }
 
   var size: Int64 {
-    get {return _storage._size}
+    get {_storage._size}
     set {_uniqueStorage()._size = newValue}
   }
 
   var playingStatus: Int32 {
-    get {return _storage._playingStatus}
+    get {_storage._playingStatus}
     set {_uniqueStorage()._playingStatus = newValue}
   }
 
   var playedUpTo: Int32 {
-    get {return _storage._playedUpTo}
+    get {_storage._playedUpTo}
     set {_uniqueStorage()._playedUpTo = newValue}
   }
 
   var starred: Bool {
-    get {return _storage._starred}
+    get {_storage._starred}
     set {_uniqueStorage()._starred = newValue}
   }
 
   var podcastUuid: String {
-    get {return _storage._podcastUuid}
+    get {_storage._podcastUuid}
     set {_uniqueStorage()._podcastUuid = newValue}
   }
 
   var podcastTitle: String {
-    get {return _storage._podcastTitle}
+    get {_storage._podcastTitle}
     set {_uniqueStorage()._podcastTitle = newValue}
   }
 
   var episodeType: String {
-    get {return _storage._episodeType}
+    get {_storage._episodeType}
     set {_uniqueStorage()._episodeType = newValue}
   }
 
   var episodeSeason: Int32 {
-    get {return _storage._episodeSeason}
+    get {_storage._episodeSeason}
     set {_uniqueStorage()._episodeSeason = newValue}
   }
 
   var episodeNumber: Int32 {
-    get {return _storage._episodeNumber}
+    get {_storage._episodeNumber}
     set {_uniqueStorage()._episodeNumber = newValue}
   }
 
   var isDeleted: Bool {
-    get {return _storage._isDeleted}
+    get {_storage._isDeleted}
     set {_uniqueStorage()._isDeleted = newValue}
   }
 
   var author: String {
-    get {return _storage._author}
+    get {_storage._author}
     set {_uniqueStorage()._author = newValue}
   }
 
   var bookmarks: [Api_BookmarkResponse] {
-    get {return _storage._bookmarks}
+    get {_storage._bookmarks}
     set {_uniqueStorage()._bookmarks = newValue}
   }
 
   var podcastSlug: String {
-    get {return _storage._podcastSlug}
+    get {_storage._podcastSlug}
     set {_uniqueStorage()._podcastSlug = newValue}
   }
 
   var slug: String {
-    get {return _storage._slug}
+    get {_storage._slug}
     set {_uniqueStorage()._slug = newValue}
   }
 
@@ -3537,11 +3618,11 @@ struct Api_UpdateEpisodeRequest: Sendable {
   var podcast: String = String()
 
   var position: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _position ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_position ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_position = newValue}
   }
   /// Returns true if `position` has been explicitly set.
-  var hasPosition: Bool {return self._position != nil}
+  var hasPosition: Bool {self._position != nil}
   /// Clears the value of `position`. Subsequent reads from it will return its default value.
   mutating func clearPosition() {self._position = nil}
 
@@ -3550,11 +3631,11 @@ struct Api_UpdateEpisodeRequest: Sendable {
   var duration: Int32 = 0
 
   var stats: Api_StatsRequest {
-    get {return _stats ?? Api_StatsRequest()}
+    get {_stats ?? Api_StatsRequest()}
     set {_stats = newValue}
   }
   /// Returns true if `stats` has been explicitly set.
-  var hasStats: Bool {return self._stats != nil}
+  var hasStats: Bool {self._stats != nil}
   /// Clears the value of `stats`. Subsequent reads from it will return its default value.
   mutating func clearStats() {self._stats = nil}
 
@@ -3694,11 +3775,11 @@ struct Api_UpNextSyncRequest: Sendable {
   var model: String = String()
 
   var upNext: Api_UpNextChanges {
-    get {return _upNext ?? Api_UpNextChanges()}
+    get {_upNext ?? Api_UpNextChanges()}
     set {_upNext = newValue}
   }
   /// Returns true if `upNext` has been explicitly set.
-  var hasUpNext: Bool {return self._upNext != nil}
+  var hasUpNext: Bool {self._upNext != nil}
   /// Clears the value of `upNext`. Subsequent reads from it will return its default value.
   mutating func clearUpNext() {self._upNext = nil}
 
@@ -3723,11 +3804,11 @@ struct Api_UpNextPlayRequest: Sendable {
   var model: String = String()
 
   var episode: Api_UpNextEpisodeRequest {
-    get {return _episode ?? Api_UpNextEpisodeRequest()}
+    get {_episode ?? Api_UpNextEpisodeRequest()}
     set {_episode = newValue}
   }
   /// Returns true if `episode` has been explicitly set.
-  var hasEpisode: Bool {return self._episode != nil}
+  var hasEpisode: Bool {self._episode != nil}
   /// Clears the value of `episode`. Subsequent reads from it will return its default value.
   mutating func clearEpisode() {self._episode = nil}
 
@@ -3772,11 +3853,11 @@ struct Api_UpNextEpisodeRequest: Sendable {
   var podcast: String = String()
 
   var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_published = newValue}
   }
   /// Returns true if `published` has been explicitly set.
-  var hasPublished: Bool {return self._published != nil}
+  var hasPublished: Bool {self._published != nil}
   /// Clears the value of `published`. Subsequent reads from it will return its default value.
   mutating func clearPublished() {self._published = nil}
 
@@ -3820,11 +3901,11 @@ struct Api_UpNextChanges: Sendable {
     var episodes: [Api_UpNextEpisodeRequest] = []
 
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-      get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+      get {_published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
       set {_published = newValue}
     }
     /// Returns true if `published` has been explicitly set.
-    var hasPublished: Bool {return self._published != nil}
+    var hasPublished: Bool {self._published != nil}
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() {self._published = nil}
 
@@ -3865,11 +3946,11 @@ struct Api_UpNextResponse: Sendable {
     var uuid: String = String()
 
     var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-      get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+      get {_published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
       set {_published = newValue}
     }
     /// Returns true if `published` has been explicitly set.
-    var hasPublished: Bool {return self._published != nil}
+    var hasPublished: Bool {self._published != nil}
     /// Clears the value of `published`. Subsequent reads from it will return its default value.
     mutating func clearPublished() {self._published = nil}
 
@@ -3888,20 +3969,20 @@ struct Api_UpNextResponse: Sendable {
     var uuid: String = String()
 
     var playedUpTo: SwiftProtobuf.Google_Protobuf_Int32Value {
-      get {return _playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+      get {_playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
       set {_playedUpTo = newValue}
     }
     /// Returns true if `playedUpTo` has been explicitly set.
-    var hasPlayedUpTo: Bool {return self._playedUpTo != nil}
+    var hasPlayedUpTo: Bool {self._playedUpTo != nil}
     /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
     mutating func clearPlayedUpTo() {self._playedUpTo = nil}
 
     var duration: SwiftProtobuf.Google_Protobuf_Int32Value {
-      get {return _duration ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+      get {_duration ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
       set {_duration = newValue}
     }
     /// Returns true if `duration` has been explicitly set.
-    var hasDuration: Bool {return self._duration != nil}
+    var hasDuration: Bool {self._duration != nil}
     /// Clears the value of `duration`. Subsequent reads from it will return its default value.
     mutating func clearDuration() {self._duration = nil}
 
@@ -3934,11 +4015,11 @@ struct Api_HistoryChange: Sendable {
   var url: String = String()
 
   var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_published = newValue}
   }
   /// Returns true if `published` has been explicitly set.
-  var hasPublished: Bool {return self._published != nil}
+  var hasPublished: Bool {self._published != nil}
   /// Clears the value of `published`. Subsequent reads from it will return its default value.
   mutating func clearPublished() {self._published = nil}
 
@@ -4115,11 +4196,11 @@ struct Api_StatsResponse: Sendable {
   var timeListened: Int64 = 0
 
   var timesStartedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_timesStartedAt = newValue}
   }
   /// Returns true if `timesStartedAt` has been explicitly set.
-  var hasTimesStartedAt: Bool {return self._timesStartedAt != nil}
+  var hasTimesStartedAt: Bool {self._timesStartedAt != nil}
   /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
   mutating func clearTimesStartedAt() {self._timesStartedAt = nil}
 
@@ -4200,11 +4281,11 @@ struct Api_UserTokenResponse: Sendable {
   var expiresIn: Int32 = 0
 
   var refreshToken: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _refreshToken ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_refreshToken ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_refreshToken = newValue}
   }
   /// Returns true if `refreshToken` has been explicitly set.
-  var hasRefreshToken: Bool {return self._refreshToken != nil}
+  var hasRefreshToken: Bool {self._refreshToken != nil}
   /// Clears the value of `refreshToken`. Subsequent reads from it will return its default value.
   mutating func clearRefreshToken() {self._refreshToken = nil}
 
@@ -4251,11 +4332,11 @@ struct Api_RegisterResponse: Sendable {
   // methods supported on all messages.
 
   var success: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _success ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_success ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_success = newValue}
   }
   /// Returns true if `success` has been explicitly set.
-  var hasSuccess: Bool {return self._success != nil}
+  var hasSuccess: Bool {self._success != nil}
   /// Clears the value of `success`. Subsequent reads from it will return its default value.
   mutating func clearSuccess() {self._success = nil}
 
@@ -4316,201 +4397,210 @@ struct Api_PlaylistSyncResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: String {
-    get {return _storage._uuid}
+    get {_storage._uuid}
     set {_uniqueStorage()._uuid = newValue}
   }
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return _storage._isDeleted != nil}
+  var hasIsDeleted: Bool {_storage._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {_uniqueStorage()._isDeleted = nil}
 
   var title: String {
-    get {return _storage._title}
+    get {_storage._title}
     set {_uniqueStorage()._title = newValue}
   }
 
   var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._audioVideo = newValue}
   }
   /// Returns true if `audioVideo` has been explicitly set.
-  var hasAudioVideo: Bool {return _storage._audioVideo != nil}
+  var hasAudioVideo: Bool {_storage._audioVideo != nil}
   /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
   mutating func clearAudioVideo() {_uniqueStorage()._audioVideo = nil}
 
   var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._notDownloaded = newValue}
   }
   /// Returns true if `notDownloaded` has been explicitly set.
-  var hasNotDownloaded: Bool {return _storage._notDownloaded != nil}
+  var hasNotDownloaded: Bool {_storage._notDownloaded != nil}
   /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
   mutating func clearNotDownloaded() {_uniqueStorage()._notDownloaded = nil}
 
   var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloaded = newValue}
   }
   /// Returns true if `downloaded` has been explicitly set.
-  var hasDownloaded: Bool {return _storage._downloaded != nil}
+  var hasDownloaded: Bool {_storage._downloaded != nil}
   /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
   mutating func clearDownloaded() {_uniqueStorage()._downloaded = nil}
 
   var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloading = newValue}
   }
   /// Returns true if `downloading` has been explicitly set.
-  var hasDownloading: Bool {return _storage._downloading != nil}
+  var hasDownloading: Bool {_storage._downloading != nil}
   /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
   mutating func clearDownloading() {_uniqueStorage()._downloading = nil}
 
   var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._finished = newValue}
   }
   /// Returns true if `finished` has been explicitly set.
-  var hasFinished: Bool {return _storage._finished != nil}
+  var hasFinished: Bool {_storage._finished != nil}
   /// Clears the value of `finished`. Subsequent reads from it will return its default value.
   mutating func clearFinished() {_uniqueStorage()._finished = nil}
 
   var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._partiallyPlayed = newValue}
   }
   /// Returns true if `partiallyPlayed` has been explicitly set.
-  var hasPartiallyPlayed: Bool {return _storage._partiallyPlayed != nil}
+  var hasPartiallyPlayed: Bool {_storage._partiallyPlayed != nil}
   /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
   mutating func clearPartiallyPlayed() {_uniqueStorage()._partiallyPlayed = nil}
 
   var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._unplayed = newValue}
   }
   /// Returns true if `unplayed` has been explicitly set.
-  var hasUnplayed: Bool {return _storage._unplayed != nil}
+  var hasUnplayed: Bool {_storage._unplayed != nil}
   /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
   mutating func clearUnplayed() {_uniqueStorage()._unplayed = nil}
 
   var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._starred = newValue}
   }
   /// Returns true if `starred` has been explicitly set.
-  var hasStarred: Bool {return _storage._starred != nil}
+  var hasStarred: Bool {_storage._starred != nil}
   /// Clears the value of `starred`. Subsequent reads from it will return its default value.
   mutating func clearStarred() {_uniqueStorage()._starred = nil}
 
   var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._manual = newValue}
   }
   /// Returns true if `manual` has been explicitly set.
-  var hasManual: Bool {return _storage._manual != nil}
+  var hasManual: Bool {_storage._manual != nil}
   /// Clears the value of `manual`. Subsequent reads from it will return its default value.
   mutating func clearManual() {_uniqueStorage()._manual = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return _storage._sortPosition != nil}
+  var hasSortPosition: Bool {_storage._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {_uniqueStorage()._sortPosition = nil}
 
   var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortType = newValue}
   }
   /// Returns true if `sortType` has been explicitly set.
-  var hasSortType: Bool {return _storage._sortType != nil}
+  var hasSortType: Bool {_storage._sortType != nil}
   /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
   mutating func clearSortType() {_uniqueStorage()._sortType = nil}
 
   var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._iconID = newValue}
   }
   /// Returns true if `iconID` has been explicitly set.
-  var hasIconID: Bool {return _storage._iconID != nil}
+  var hasIconID: Bool {_storage._iconID != nil}
   /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
   mutating func clearIconID() {_uniqueStorage()._iconID = nil}
 
   var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._allPodcasts = newValue}
   }
   /// Returns true if `allPodcasts` has been explicitly set.
-  var hasAllPodcasts: Bool {return _storage._allPodcasts != nil}
+  var hasAllPodcasts: Bool {_storage._allPodcasts != nil}
   /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
   mutating func clearAllPodcasts() {_uniqueStorage()._allPodcasts = nil}
 
   var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._filterHours = newValue}
   }
   /// Returns true if `filterHours` has been explicitly set.
-  var hasFilterHours: Bool {return _storage._filterHours != nil}
+  var hasFilterHours: Bool {_storage._filterHours != nil}
   /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
   mutating func clearFilterHours() {_uniqueStorage()._filterHours = nil}
 
   var podcastUuids: String {
-    get {return _storage._podcastUuids}
+    get {_storage._podcastUuids}
     set {_uniqueStorage()._podcastUuids = newValue}
   }
 
   var episodeUuids: String {
-    get {return _storage._episodeUuids}
+    get {_storage._episodeUuids}
     set {_uniqueStorage()._episodeUuids = newValue}
   }
 
   var originalUuid: String {
-    get {return _storage._originalUuid}
+    get {_storage._originalUuid}
     set {_uniqueStorage()._originalUuid = newValue}
   }
 
   var filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filterDuration = newValue}
   }
   /// Returns true if `filterDuration` has been explicitly set.
-  var hasFilterDuration: Bool {return _storage._filterDuration != nil}
+  var hasFilterDuration: Bool {_storage._filterDuration != nil}
   /// Clears the value of `filterDuration`. Subsequent reads from it will return its default value.
   mutating func clearFilterDuration() {_uniqueStorage()._filterDuration = nil}
 
   var longerThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._longerThan = newValue}
   }
   /// Returns true if `longerThan` has been explicitly set.
-  var hasLongerThan: Bool {return _storage._longerThan != nil}
+  var hasLongerThan: Bool {_storage._longerThan != nil}
   /// Clears the value of `longerThan`. Subsequent reads from it will return its default value.
   mutating func clearLongerThan() {_uniqueStorage()._longerThan = nil}
 
   var shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._shorterThan = newValue}
   }
   /// Returns true if `shorterThan` has been explicitly set.
-  var hasShorterThan: Bool {return _storage._shorterThan != nil}
+  var hasShorterThan: Bool {_storage._shorterThan != nil}
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
   var episodeOrder: [String] {
-    get {return _storage._episodeOrder}
+    get {_storage._episodeOrder}
     set {_uniqueStorage()._episodeOrder = newValue}
   }
 
   var episodes: [Api_SyncPlaylistEpisode] {
-    get {return _storage._episodes}
+    get {_storage._episodes}
     set {_uniqueStorage()._episodes = newValue}
   }
+
+  var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {_storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -4529,56 +4619,56 @@ struct Api_SyncPlaylistEpisode: Sendable {
   var podcast: String = String()
 
   var added: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _added ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_added ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_added = newValue}
   }
   /// Returns true if `added` has been explicitly set.
-  var hasAdded: Bool {return self._added != nil}
+  var hasAdded: Bool {self._added != nil}
   /// Clears the value of `added`. Subsequent reads from it will return its default value.
   mutating func clearAdded() {self._added = nil}
 
   var published: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_published ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_published = newValue}
   }
   /// Returns true if `published` has been explicitly set.
-  var hasPublished: Bool {return self._published != nil}
+  var hasPublished: Bool {self._published != nil}
   /// Clears the value of `published`. Subsequent reads from it will return its default value.
   mutating func clearPublished() {self._published = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return self._title != nil}
+  var hasTitle: Bool {self._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {self._title = nil}
 
   var url: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _url ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_url ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_url = newValue}
   }
   /// Returns true if `url` has been explicitly set.
-  var hasURL: Bool {return self._url != nil}
+  var hasURL: Bool {self._url != nil}
   /// Clears the value of `url`. Subsequent reads from it will return its default value.
   mutating func clearURL() {self._url = nil}
 
   var podcastSlug: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _podcastSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_podcastSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_podcastSlug = newValue}
   }
   /// Returns true if `podcastSlug` has been explicitly set.
-  var hasPodcastSlug: Bool {return self._podcastSlug != nil}
+  var hasPodcastSlug: Bool {self._podcastSlug != nil}
   /// Clears the value of `podcastSlug`. Subsequent reads from it will return its default value.
   mutating func clearPodcastSlug() {self._podcastSlug = nil}
 
   var episodeSlug: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _episodeSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_episodeSlug ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_episodeSlug = newValue}
   }
   /// Returns true if `episodeSlug` has been explicitly set.
-  var hasEpisodeSlug: Bool {return self._episodeSlug != nil}
+  var hasEpisodeSlug: Bool {self._episodeSlug != nil}
   /// Clears the value of `episodeSlug`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeSlug() {self._episodeSlug = nil}
 
@@ -4717,20 +4807,20 @@ struct Api_SubscriptionsWebStatusResponse: Sendable {
   var webStatus: Int32 = 0
 
   var plus: Api_SubscriptionsWebProduct {
-    get {return _plus ?? Api_SubscriptionsWebProduct()}
+    get {_plus ?? Api_SubscriptionsWebProduct()}
     set {_plus = newValue}
   }
   /// Returns true if `plus` has been explicitly set.
-  var hasPlus: Bool {return self._plus != nil}
+  var hasPlus: Bool {self._plus != nil}
   /// Clears the value of `plus`. Subsequent reads from it will return its default value.
   mutating func clearPlus() {self._plus = nil}
 
   var patron: Api_SubscriptionsWebProduct {
-    get {return _patron ?? Api_SubscriptionsWebProduct()}
+    get {_patron ?? Api_SubscriptionsWebProduct()}
     set {_patron = newValue}
   }
   /// Returns true if `patron` has been explicitly set.
-  var hasPatron: Bool {return self._patron != nil}
+  var hasPatron: Bool {self._patron != nil}
   /// Clears the value of `patron`. Subsequent reads from it will return its default value.
   mutating func clearPatron() {self._patron = nil}
 
@@ -4764,104 +4854,104 @@ struct Api_SubscriptionResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var platform: Int32 {
-    get {return _storage._platform}
+    get {_storage._platform}
     set {_uniqueStorage()._platform = newValue}
   }
 
   var type: Int32 {
-    get {return _storage._type}
+    get {_storage._type}
     set {_uniqueStorage()._type = newValue}
   }
 
   var frequency: Int32 {
-    get {return _storage._frequency}
+    get {_storage._frequency}
     set {_uniqueStorage()._frequency = newValue}
   }
 
   var autoRenewing: Bool {
-    get {return _storage._autoRenewing}
+    get {_storage._autoRenewing}
     set {_uniqueStorage()._autoRenewing = newValue}
   }
 
   var expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._expiryDate ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._expiryDate ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._expiryDate = newValue}
   }
   /// Returns true if `expiryDate` has been explicitly set.
-  var hasExpiryDate: Bool {return _storage._expiryDate != nil}
+  var hasExpiryDate: Bool {_storage._expiryDate != nil}
   /// Clears the value of `expiryDate`. Subsequent reads from it will return its default value.
   mutating func clearExpiryDate() {_uniqueStorage()._expiryDate = nil}
 
   var cancelURL: String {
-    get {return _storage._cancelURL}
+    get {_storage._cancelURL}
     set {_uniqueStorage()._cancelURL = newValue}
   }
 
   var updateURL: String {
-    get {return _storage._updateURL}
+    get {_storage._updateURL}
     set {_uniqueStorage()._updateURL = newValue}
   }
 
   var web: Api_SubscriptionsWebStatusResponse {
-    get {return _storage._web ?? Api_SubscriptionsWebStatusResponse()}
+    get {_storage._web ?? Api_SubscriptionsWebStatusResponse()}
     set {_uniqueStorage()._web = newValue}
   }
   /// Returns true if `web` has been explicitly set.
-  var hasWeb: Bool {return _storage._web != nil}
+  var hasWeb: Bool {_storage._web != nil}
   /// Clears the value of `web`. Subsequent reads from it will return its default value.
   mutating func clearWeb() {_uniqueStorage()._web = nil}
 
   var plan: String {
-    get {return _storage._plan}
+    get {_storage._plan}
     set {_uniqueStorage()._plan = newValue}
   }
 
   var index: Int32 {
-    get {return _storage._index}
+    get {_storage._index}
     set {_uniqueStorage()._index = newValue}
   }
 
   var giftDays: Int32 {
-    get {return _storage._giftDays}
+    get {_storage._giftDays}
     set {_uniqueStorage()._giftDays = newValue}
   }
 
   var paid: Int32 {
-    get {return _storage._paid}
+    get {_storage._paid}
     set {_uniqueStorage()._paid = newValue}
   }
 
   var webStatus: Int32 {
-    get {return _storage._webStatus}
+    get {_storage._webStatus}
     set {_uniqueStorage()._webStatus = newValue}
   }
 
   var bundleUuid: String {
-    get {return _storage._bundleUuid}
+    get {_storage._bundleUuid}
     set {_uniqueStorage()._bundleUuid = newValue}
   }
 
   var podcasts: [Api_PodcastPair] {
-    get {return _storage._podcasts}
+    get {_storage._podcasts}
     set {_uniqueStorage()._podcasts = newValue}
   }
 
   var eligible: Bool {
-    get {return _storage._eligible}
+    get {_storage._eligible}
     set {_uniqueStorage()._eligible = newValue}
   }
 
   var nextPayment: Api_PaymentResponse {
-    get {return _storage._nextPayment ?? Api_PaymentResponse()}
+    get {_storage._nextPayment ?? Api_PaymentResponse()}
     set {_uniqueStorage()._nextPayment = newValue}
   }
   /// Returns true if `nextPayment` has been explicitly set.
-  var hasNextPayment: Bool {return _storage._nextPayment != nil}
+  var hasNextPayment: Bool {_storage._nextPayment != nil}
   /// Clears the value of `nextPayment`. Subsequent reads from it will return its default value.
   mutating func clearNextPayment() {_uniqueStorage()._nextPayment = nil}
 
   var tier: String {
-    get {return _storage._tier}
+    get {_storage._tier}
     set {_uniqueStorage()._tier = newValue}
   }
 
@@ -4887,11 +4977,11 @@ struct Api_PaymentResponse: Sendable {
   var currency: String = String()
 
   var date: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _date ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_date ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_date = newValue}
   }
   /// Returns true if `date` has been explicitly set.
-  var hasDate: Bool {return self._date != nil}
+  var hasDate: Bool {self._date != nil}
   /// Clears the value of `date`. Subsequent reads from it will return its default value.
   mutating func clearDate() {self._date = nil}
 
@@ -4922,100 +5012,105 @@ struct Api_SubscriptionsStatusResponse: @unchecked Sendable {
   // methods supported on all messages.
 
   var paid: Int32 {
-    get {return _storage._paid}
+    get {_storage._paid}
     set {_uniqueStorage()._paid = newValue}
   }
 
   var platform: Int32 {
-    get {return _storage._platform}
+    get {_storage._platform}
     set {_uniqueStorage()._platform = newValue}
   }
 
   var expiryDate: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._expiryDate ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._expiryDate ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._expiryDate = newValue}
   }
   /// Returns true if `expiryDate` has been explicitly set.
-  var hasExpiryDate: Bool {return _storage._expiryDate != nil}
+  var hasExpiryDate: Bool {_storage._expiryDate != nil}
   /// Clears the value of `expiryDate`. Subsequent reads from it will return its default value.
   mutating func clearExpiryDate() {_uniqueStorage()._expiryDate = nil}
 
   var autoRenewing: Bool {
-    get {return _storage._autoRenewing}
+    get {_storage._autoRenewing}
     set {_uniqueStorage()._autoRenewing = newValue}
   }
 
   var giftDays: Int32 {
-    get {return _storage._giftDays}
+    get {_storage._giftDays}
     set {_uniqueStorage()._giftDays = newValue}
   }
 
   var cancelURL: String {
-    get {return _storage._cancelURL}
+    get {_storage._cancelURL}
     set {_uniqueStorage()._cancelURL = newValue}
   }
 
   var updateURL: String {
-    get {return _storage._updateURL}
+    get {_storage._updateURL}
     set {_uniqueStorage()._updateURL = newValue}
   }
 
   var frequency: Int32 {
-    get {return _storage._frequency}
+    get {_storage._frequency}
     set {_uniqueStorage()._frequency = newValue}
   }
 
   var web: Api_SubscriptionsWebStatusResponse {
-    get {return _storage._web ?? Api_SubscriptionsWebStatusResponse()}
+    get {_storage._web ?? Api_SubscriptionsWebStatusResponse()}
     set {_uniqueStorage()._web = newValue}
   }
   /// Returns true if `web` has been explicitly set.
-  var hasWeb: Bool {return _storage._web != nil}
+  var hasWeb: Bool {_storage._web != nil}
   /// Clears the value of `web`. Subsequent reads from it will return its default value.
   mutating func clearWeb() {_uniqueStorage()._web = nil}
 
   var subscriptions: [Api_SubscriptionResponse] {
-    get {return _storage._subscriptions}
+    get {_storage._subscriptions}
     set {_uniqueStorage()._subscriptions = newValue}
   }
 
   var type: Int32 {
-    get {return _storage._type}
+    get {_storage._type}
     set {_uniqueStorage()._type = newValue}
   }
 
   var index: Int32 {
-    get {return _storage._index}
+    get {_storage._index}
     set {_uniqueStorage()._index = newValue}
   }
 
   var webStatus: Int32 {
-    get {return _storage._webStatus}
+    get {_storage._webStatus}
     set {_uniqueStorage()._webStatus = newValue}
   }
 
   var tier: String {
-    get {return _storage._tier}
+    get {_storage._tier}
     set {_uniqueStorage()._tier = newValue}
   }
 
   var features: Api_Features {
-    get {return _storage._features ?? Api_Features()}
+    get {_storage._features ?? Api_Features()}
     set {_uniqueStorage()._features = newValue}
   }
   /// Returns true if `features` has been explicitly set.
-  var hasFeatures: Bool {return _storage._features != nil}
+  var hasFeatures: Bool {_storage._features != nil}
   /// Clears the value of `features`. Subsequent reads from it will return its default value.
   mutating func clearFeatures() {_uniqueStorage()._features = nil}
 
   var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._createdAt = newValue}
   }
   /// Returns true if `createdAt` has been explicitly set.
-  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  var hasCreatedAt: Bool {_storage._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
+
+  var installmentBased: Bool {
+    get {_storage._installmentBased}
+    set {_uniqueStorage()._installmentBased = newValue}
+  }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -5057,87 +5152,87 @@ struct Api_LegacyRequest: @unchecked Sendable {
   // methods supported on all messages.
 
   var device: String {
-    get {return _storage._device}
+    get {_storage._device}
     set {_uniqueStorage()._device = newValue}
   }
 
   var datetime: String {
-    get {return _storage._datetime}
+    get {_storage._datetime}
     set {_uniqueStorage()._datetime = newValue}
   }
 
   var v: String {
-    get {return _storage._v}
+    get {_storage._v}
     set {_uniqueStorage()._v = newValue}
   }
 
   var av: String {
-    get {return _storage._av}
+    get {_storage._av}
     set {_uniqueStorage()._av = newValue}
   }
 
   var ac: String {
-    get {return _storage._ac}
+    get {_storage._ac}
     set {_uniqueStorage()._ac = newValue}
   }
 
   var h: String {
-    get {return _storage._h}
+    get {_storage._h}
     set {_uniqueStorage()._h = newValue}
   }
 
   var dt: String {
-    get {return _storage._dt}
+    get {_storage._dt}
     set {_uniqueStorage()._dt = newValue}
   }
 
   var c: String {
-    get {return _storage._c}
+    get {_storage._c}
     set {_uniqueStorage()._c = newValue}
   }
 
   var l: String {
-    get {return _storage._l}
+    get {_storage._l}
     set {_uniqueStorage()._l = newValue}
   }
 
   var m: String {
-    get {return _storage._m}
+    get {_storage._m}
     set {_uniqueStorage()._m = newValue}
   }
 
   var email: String {
-    get {return _storage._email}
+    get {_storage._email}
     set {_uniqueStorage()._email = newValue}
   }
 
   var password: String {
-    get {return _storage._password}
+    get {_storage._password}
     set {_uniqueStorage()._password = newValue}
   }
 
   var token: String {
-    get {return _storage._token}
+    get {_storage._token}
     set {_uniqueStorage()._token = newValue}
   }
 
   var deviceUtcTimeMs: String {
-    get {return _storage._deviceUtcTimeMs}
+    get {_storage._deviceUtcTimeMs}
     set {_uniqueStorage()._deviceUtcTimeMs = newValue}
   }
 
   var data: String {
-    get {return _storage._data}
+    get {_storage._data}
     set {_uniqueStorage()._data = newValue}
   }
 
   var message: String {
-    get {return _storage._message}
+    get {_storage._message}
     set {_uniqueStorage()._message = newValue}
   }
 
   var lastModified: String {
-    get {return _storage._lastModified}
+    get {_storage._lastModified}
     set {_uniqueStorage()._lastModified = newValue}
   }
 
@@ -5182,11 +5277,11 @@ struct Api_SyncUpdateRequest: Sendable {
   var records: [Api_Record] = []
 
   var deviceType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_deviceType = newValue}
   }
   /// Returns true if `deviceType` has been explicitly set.
-  var hasDeviceType: Bool {return self._deviceType != nil}
+  var hasDeviceType: Bool {self._deviceType != nil}
   /// Clears the value of `deviceType`. Subsequent reads from it will return its default value.
   mutating func clearDeviceType() {self._deviceType = nil}
 
@@ -5289,83 +5384,83 @@ struct Api_SyncUserPodcast: Sendable {
   var uuid: String = String()
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return self._isDeleted != nil}
+  var hasIsDeleted: Bool {self._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {self._isDeleted = nil}
 
   var subscribed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_subscribed = newValue}
   }
   /// Returns true if `subscribed` has been explicitly set.
-  var hasSubscribed: Bool {return self._subscribed != nil}
+  var hasSubscribed: Bool {self._subscribed != nil}
   /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
   mutating func clearSubscribed() {self._subscribed = nil}
 
   var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_autoStartFrom = newValue}
   }
   /// Returns true if `autoStartFrom` has been explicitly set.
-  var hasAutoStartFrom: Bool {return self._autoStartFrom != nil}
+  var hasAutoStartFrom: Bool {self._autoStartFrom != nil}
   /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
   mutating func clearAutoStartFrom() {self._autoStartFrom = nil}
 
   var episodesSortOrder: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_episodesSortOrder ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_episodesSortOrder = newValue}
   }
   /// Returns true if `episodesSortOrder` has been explicitly set.
-  var hasEpisodesSortOrder: Bool {return self._episodesSortOrder != nil}
+  var hasEpisodesSortOrder: Bool {self._episodesSortOrder != nil}
   /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearEpisodesSortOrder() {self._episodesSortOrder = nil}
 
   var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_autoSkipLast = newValue}
   }
   /// Returns true if `autoSkipLast` has been explicitly set.
-  var hasAutoSkipLast: Bool {return self._autoSkipLast != nil}
+  var hasAutoSkipLast: Bool {self._autoSkipLast != nil}
   /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
   mutating func clearAutoSkipLast() {self._autoSkipLast = nil}
 
   var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_folderUuid = newValue}
   }
   /// Returns true if `folderUuid` has been explicitly set.
-  var hasFolderUuid: Bool {return self._folderUuid != nil}
+  var hasFolderUuid: Bool {self._folderUuid != nil}
   /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
   mutating func clearFolderUuid() {self._folderUuid = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return self._sortPosition != nil}
+  var hasSortPosition: Bool {self._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {self._sortPosition = nil}
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return self._dateAdded != nil}
+  var hasDateAdded: Bool {self._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {self._dateAdded = nil}
 
   var settings: Api_PodcastSettings {
-    get {return _settings ?? Api_PodcastSettings()}
+    get {_settings ?? Api_PodcastSettings()}
     set {_settings = newValue}
   }
   /// Returns true if `settings` has been explicitly set.
-  var hasSettings: Bool {return self._settings != nil}
+  var hasSettings: Bool {self._settings != nil}
   /// Clears the value of `settings`. Subsequent reads from it will return its default value.
   mutating func clearSettings() {self._settings = nil}
 
@@ -5390,146 +5485,146 @@ struct Api_PodcastSettings: @unchecked Sendable {
   // methods supported on all messages.
 
   var notification: Api_BoolSetting {
-    get {return _storage._notification ?? Api_BoolSetting()}
+    get {_storage._notification ?? Api_BoolSetting()}
     set {_uniqueStorage()._notification = newValue}
   }
   /// Returns true if `notification` has been explicitly set.
-  var hasNotification: Bool {return _storage._notification != nil}
+  var hasNotification: Bool {_storage._notification != nil}
   /// Clears the value of `notification`. Subsequent reads from it will return its default value.
   mutating func clearNotification() {_uniqueStorage()._notification = nil}
 
   var addToUpNext: Api_BoolSetting {
-    get {return _storage._addToUpNext ?? Api_BoolSetting()}
+    get {_storage._addToUpNext ?? Api_BoolSetting()}
     set {_uniqueStorage()._addToUpNext = newValue}
   }
   /// Returns true if `addToUpNext` has been explicitly set.
-  var hasAddToUpNext: Bool {return _storage._addToUpNext != nil}
+  var hasAddToUpNext: Bool {_storage._addToUpNext != nil}
   /// Clears the value of `addToUpNext`. Subsequent reads from it will return its default value.
   mutating func clearAddToUpNext() {_uniqueStorage()._addToUpNext = nil}
 
   var addToUpNextPosition: Api_Int32Setting {
-    get {return _storage._addToUpNextPosition ?? Api_Int32Setting()}
+    get {_storage._addToUpNextPosition ?? Api_Int32Setting()}
     set {_uniqueStorage()._addToUpNextPosition = newValue}
   }
   /// Returns true if `addToUpNextPosition` has been explicitly set.
-  var hasAddToUpNextPosition: Bool {return _storage._addToUpNextPosition != nil}
+  var hasAddToUpNextPosition: Bool {_storage._addToUpNextPosition != nil}
   /// Clears the value of `addToUpNextPosition`. Subsequent reads from it will return its default value.
   mutating func clearAddToUpNextPosition() {_uniqueStorage()._addToUpNextPosition = nil}
 
   var autoArchive: Api_BoolSetting {
-    get {return _storage._autoArchive ?? Api_BoolSetting()}
+    get {_storage._autoArchive ?? Api_BoolSetting()}
     set {_uniqueStorage()._autoArchive = newValue}
   }
   /// Returns true if `autoArchive` has been explicitly set.
-  var hasAutoArchive: Bool {return _storage._autoArchive != nil}
+  var hasAutoArchive: Bool {_storage._autoArchive != nil}
   /// Clears the value of `autoArchive`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchive() {_uniqueStorage()._autoArchive = nil}
 
   var playbackEffects: Api_BoolSetting {
-    get {return _storage._playbackEffects ?? Api_BoolSetting()}
+    get {_storage._playbackEffects ?? Api_BoolSetting()}
     set {_uniqueStorage()._playbackEffects = newValue}
   }
   /// Returns true if `playbackEffects` has been explicitly set.
-  var hasPlaybackEffects: Bool {return _storage._playbackEffects != nil}
+  var hasPlaybackEffects: Bool {_storage._playbackEffects != nil}
   /// Clears the value of `playbackEffects`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackEffects() {_uniqueStorage()._playbackEffects = nil}
 
   var playbackSpeed: Api_DoubleSetting {
-    get {return _storage._playbackSpeed ?? Api_DoubleSetting()}
+    get {_storage._playbackSpeed ?? Api_DoubleSetting()}
     set {_uniqueStorage()._playbackSpeed = newValue}
   }
   /// Returns true if `playbackSpeed` has been explicitly set.
-  var hasPlaybackSpeed: Bool {return _storage._playbackSpeed != nil}
+  var hasPlaybackSpeed: Bool {_storage._playbackSpeed != nil}
   /// Clears the value of `playbackSpeed`. Subsequent reads from it will return its default value.
   mutating func clearPlaybackSpeed() {_uniqueStorage()._playbackSpeed = nil}
 
   var trimSilence: Api_Int32Setting {
-    get {return _storage._trimSilence ?? Api_Int32Setting()}
+    get {_storage._trimSilence ?? Api_Int32Setting()}
     set {_uniqueStorage()._trimSilence = newValue}
   }
   /// Returns true if `trimSilence` has been explicitly set.
-  var hasTrimSilence: Bool {return _storage._trimSilence != nil}
+  var hasTrimSilence: Bool {_storage._trimSilence != nil}
   /// Clears the value of `trimSilence`. Subsequent reads from it will return its default value.
   mutating func clearTrimSilence() {_uniqueStorage()._trimSilence = nil}
 
   var volumeBoost: Api_BoolSetting {
-    get {return _storage._volumeBoost ?? Api_BoolSetting()}
+    get {_storage._volumeBoost ?? Api_BoolSetting()}
     set {_uniqueStorage()._volumeBoost = newValue}
   }
   /// Returns true if `volumeBoost` has been explicitly set.
-  var hasVolumeBoost: Bool {return _storage._volumeBoost != nil}
+  var hasVolumeBoost: Bool {_storage._volumeBoost != nil}
   /// Clears the value of `volumeBoost`. Subsequent reads from it will return its default value.
   mutating func clearVolumeBoost() {_uniqueStorage()._volumeBoost = nil}
 
   var autoStartFrom: Api_Int32Setting {
-    get {return _storage._autoStartFrom ?? Api_Int32Setting()}
+    get {_storage._autoStartFrom ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoStartFrom = newValue}
   }
   /// Returns true if `autoStartFrom` has been explicitly set.
-  var hasAutoStartFrom: Bool {return _storage._autoStartFrom != nil}
+  var hasAutoStartFrom: Bool {_storage._autoStartFrom != nil}
   /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
   mutating func clearAutoStartFrom() {_uniqueStorage()._autoStartFrom = nil}
 
   var autoSkipLast: Api_Int32Setting {
-    get {return _storage._autoSkipLast ?? Api_Int32Setting()}
+    get {_storage._autoSkipLast ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoSkipLast = newValue}
   }
   /// Returns true if `autoSkipLast` has been explicitly set.
-  var hasAutoSkipLast: Bool {return _storage._autoSkipLast != nil}
+  var hasAutoSkipLast: Bool {_storage._autoSkipLast != nil}
   /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
   mutating func clearAutoSkipLast() {_uniqueStorage()._autoSkipLast = nil}
 
   var episodesSortOrder: Api_Int32Setting {
-    get {return _storage._episodesSortOrder ?? Api_Int32Setting()}
+    get {_storage._episodesSortOrder ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodesSortOrder = newValue}
   }
   /// Returns true if `episodesSortOrder` has been explicitly set.
-  var hasEpisodesSortOrder: Bool {return _storage._episodesSortOrder != nil}
+  var hasEpisodesSortOrder: Bool {_storage._episodesSortOrder != nil}
   /// Clears the value of `episodesSortOrder`. Subsequent reads from it will return its default value.
   mutating func clearEpisodesSortOrder() {_uniqueStorage()._episodesSortOrder = nil}
 
   var autoArchivePlayed: Api_Int32Setting {
-    get {return _storage._autoArchivePlayed ?? Api_Int32Setting()}
+    get {_storage._autoArchivePlayed ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchivePlayed = newValue}
   }
   /// Returns true if `autoArchivePlayed` has been explicitly set.
-  var hasAutoArchivePlayed: Bool {return _storage._autoArchivePlayed != nil}
+  var hasAutoArchivePlayed: Bool {_storage._autoArchivePlayed != nil}
   /// Clears the value of `autoArchivePlayed`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchivePlayed() {_uniqueStorage()._autoArchivePlayed = nil}
 
   var autoArchiveInactive: Api_Int32Setting {
-    get {return _storage._autoArchiveInactive ?? Api_Int32Setting()}
+    get {_storage._autoArchiveInactive ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchiveInactive = newValue}
   }
   /// Returns true if `autoArchiveInactive` has been explicitly set.
-  var hasAutoArchiveInactive: Bool {return _storage._autoArchiveInactive != nil}
+  var hasAutoArchiveInactive: Bool {_storage._autoArchiveInactive != nil}
   /// Clears the value of `autoArchiveInactive`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveInactive() {_uniqueStorage()._autoArchiveInactive = nil}
 
   var autoArchiveEpisodeLimit: Api_Int32Setting {
-    get {return _storage._autoArchiveEpisodeLimit ?? Api_Int32Setting()}
+    get {_storage._autoArchiveEpisodeLimit ?? Api_Int32Setting()}
     set {_uniqueStorage()._autoArchiveEpisodeLimit = newValue}
   }
   /// Returns true if `autoArchiveEpisodeLimit` has been explicitly set.
-  var hasAutoArchiveEpisodeLimit: Bool {return _storage._autoArchiveEpisodeLimit != nil}
+  var hasAutoArchiveEpisodeLimit: Bool {_storage._autoArchiveEpisodeLimit != nil}
   /// Clears the value of `autoArchiveEpisodeLimit`. Subsequent reads from it will return its default value.
   mutating func clearAutoArchiveEpisodeLimit() {_uniqueStorage()._autoArchiveEpisodeLimit = nil}
 
   var episodeGrouping: Api_Int32Setting {
-    get {return _storage._episodeGrouping ?? Api_Int32Setting()}
+    get {_storage._episodeGrouping ?? Api_Int32Setting()}
     set {_uniqueStorage()._episodeGrouping = newValue}
   }
   /// Returns true if `episodeGrouping` has been explicitly set.
-  var hasEpisodeGrouping: Bool {return _storage._episodeGrouping != nil}
+  var hasEpisodeGrouping: Bool {_storage._episodeGrouping != nil}
   /// Clears the value of `episodeGrouping`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeGrouping() {_uniqueStorage()._episodeGrouping = nil}
 
   var showArchived: Api_BoolSetting {
-    get {return _storage._showArchived ?? Api_BoolSetting()}
+    get {_storage._showArchived ?? Api_BoolSetting()}
     set {_uniqueStorage()._showArchived = newValue}
   }
   /// Returns true if `showArchived` has been explicitly set.
-  var hasShowArchived: Bool {return _storage._showArchived != nil}
+  var hasShowArchived: Bool {_storage._showArchived != nil}
   /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
   mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
@@ -5550,103 +5645,103 @@ struct Api_SyncUserEpisode: Sendable {
   var podcastUuid: String = String()
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return self._isDeleted != nil}
+  var hasIsDeleted: Bool {self._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {self._isDeleted = nil}
 
   var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_isDeletedModified = newValue}
   }
   /// Returns true if `isDeletedModified` has been explicitly set.
-  var hasIsDeletedModified: Bool {return self._isDeletedModified != nil}
+  var hasIsDeletedModified: Bool {self._isDeletedModified != nil}
   /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
   mutating func clearIsDeletedModified() {self._isDeletedModified = nil}
 
   var duration: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _duration ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_duration ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_duration = newValue}
   }
   /// Returns true if `duration` has been explicitly set.
-  var hasDuration: Bool {return self._duration != nil}
+  var hasDuration: Bool {self._duration != nil}
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {self._duration = nil}
 
   var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_durationModified = newValue}
   }
   /// Returns true if `durationModified` has been explicitly set.
-  var hasDurationModified: Bool {return self._durationModified != nil}
+  var hasDurationModified: Bool {self._durationModified != nil}
   /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
   mutating func clearDurationModified() {self._durationModified = nil}
 
   var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_playingStatus = newValue}
   }
   /// Returns true if `playingStatus` has been explicitly set.
-  var hasPlayingStatus: Bool {return self._playingStatus != nil}
+  var hasPlayingStatus: Bool {self._playingStatus != nil}
   /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatus() {self._playingStatus = nil}
 
   var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_playingStatusModified = newValue}
   }
   /// Returns true if `playingStatusModified` has been explicitly set.
-  var hasPlayingStatusModified: Bool {return self._playingStatusModified != nil}
+  var hasPlayingStatusModified: Bool {self._playingStatusModified != nil}
   /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatusModified() {self._playingStatusModified = nil}
 
   var playedUpTo: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_playedUpTo ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_playedUpTo = newValue}
   }
   /// Returns true if `playedUpTo` has been explicitly set.
-  var hasPlayedUpTo: Bool {return self._playedUpTo != nil}
+  var hasPlayedUpTo: Bool {self._playedUpTo != nil}
   /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpTo() {self._playedUpTo = nil}
 
   var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_playedUpToModified = newValue}
   }
   /// Returns true if `playedUpToModified` has been explicitly set.
-  var hasPlayedUpToModified: Bool {return self._playedUpToModified != nil}
+  var hasPlayedUpToModified: Bool {self._playedUpToModified != nil}
   /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpToModified() {self._playedUpToModified = nil}
 
   var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_starred = newValue}
   }
   /// Returns true if `starred` has been explicitly set.
-  var hasStarred: Bool {return self._starred != nil}
+  var hasStarred: Bool {self._starred != nil}
   /// Clears the value of `starred`. Subsequent reads from it will return its default value.
   mutating func clearStarred() {self._starred = nil}
 
   var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_starredModified = newValue}
   }
   /// Returns true if `starredModified` has been explicitly set.
-  var hasStarredModified: Bool {return self._starredModified != nil}
+  var hasStarredModified: Bool {self._starredModified != nil}
   /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
   mutating func clearStarredModified() {self._starredModified = nil}
 
   var deselectedChapters: String = String()
 
   var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_deselectedChaptersModified = newValue}
   }
   /// Returns true if `deselectedChaptersModified` has been explicitly set.
-  var hasDeselectedChaptersModified: Bool {return self._deselectedChaptersModified != nil}
+  var hasDeselectedChaptersModified: Bool {self._deselectedChaptersModified != nil}
   /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChaptersModified() {self._deselectedChaptersModified = nil}
 
@@ -5673,75 +5768,75 @@ struct Api_SyncUserDevice: Sendable {
   // methods supported on all messages.
 
   var deviceID: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _deviceID ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_deviceID ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_deviceID = newValue}
   }
   /// Returns true if `deviceID` has been explicitly set.
-  var hasDeviceID: Bool {return self._deviceID != nil}
+  var hasDeviceID: Bool {self._deviceID != nil}
   /// Clears the value of `deviceID`. Subsequent reads from it will return its default value.
   mutating func clearDeviceID() {self._deviceID = nil}
 
   var deviceType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_deviceType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_deviceType = newValue}
   }
   /// Returns true if `deviceType` has been explicitly set.
-  var hasDeviceType: Bool {return self._deviceType != nil}
+  var hasDeviceType: Bool {self._deviceType != nil}
   /// Clears the value of `deviceType`. Subsequent reads from it will return its default value.
   mutating func clearDeviceType() {self._deviceType = nil}
 
   /// times in seconds
   var timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timesStartedAt = newValue}
   }
   /// Returns true if `timesStartedAt` has been explicitly set.
-  var hasTimesStartedAt: Bool {return self._timesStartedAt != nil}
+  var hasTimesStartedAt: Bool {self._timesStartedAt != nil}
   /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
   mutating func clearTimesStartedAt() {self._timesStartedAt = nil}
 
   var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timeSilenceRemoval = newValue}
   }
   /// Returns true if `timeSilenceRemoval` has been explicitly set.
-  var hasTimeSilenceRemoval: Bool {return self._timeSilenceRemoval != nil}
+  var hasTimeSilenceRemoval: Bool {self._timeSilenceRemoval != nil}
   /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
   mutating func clearTimeSilenceRemoval() {self._timeSilenceRemoval = nil}
 
   var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timeVariableSpeed = newValue}
   }
   /// Returns true if `timeVariableSpeed` has been explicitly set.
-  var hasTimeVariableSpeed: Bool {return self._timeVariableSpeed != nil}
+  var hasTimeVariableSpeed: Bool {self._timeVariableSpeed != nil}
   /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
   mutating func clearTimeVariableSpeed() {self._timeVariableSpeed = nil}
 
   var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timeIntroSkipping = newValue}
   }
   /// Returns true if `timeIntroSkipping` has been explicitly set.
-  var hasTimeIntroSkipping: Bool {return self._timeIntroSkipping != nil}
+  var hasTimeIntroSkipping: Bool {self._timeIntroSkipping != nil}
   /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeIntroSkipping() {self._timeIntroSkipping = nil}
 
   var timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timeSkipping = newValue}
   }
   /// Returns true if `timeSkipping` has been explicitly set.
-  var hasTimeSkipping: Bool {return self._timeSkipping != nil}
+  var hasTimeSkipping: Bool {self._timeSkipping != nil}
   /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeSkipping() {self._timeSkipping = nil}
 
   var timeListened: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_timeListened = newValue}
   }
   /// Returns true if `timeListened` has been explicitly set.
-  var hasTimeListened: Bool {return self._timeListened != nil}
+  var hasTimeListened: Bool {self._timeListened != nil}
   /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
   mutating func clearTimeListened() {self._timeListened = nil}
 
@@ -5765,213 +5860,222 @@ struct Api_SyncUserPlaylist: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: String {
-    get {return _storage._uuid}
+    get {_storage._uuid}
     set {_uniqueStorage()._uuid = newValue}
   }
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return _storage._isDeleted != nil}
+  var hasIsDeleted: Bool {_storage._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {_uniqueStorage()._isDeleted = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return _storage._title != nil}
+  var hasTitle: Bool {_storage._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {_uniqueStorage()._title = nil}
 
   var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._allPodcasts = newValue}
   }
   /// Returns true if `allPodcasts` has been explicitly set.
-  var hasAllPodcasts: Bool {return _storage._allPodcasts != nil}
+  var hasAllPodcasts: Bool {_storage._allPodcasts != nil}
   /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
   mutating func clearAllPodcasts() {_uniqueStorage()._allPodcasts = nil}
 
   var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._podcastUuids = newValue}
   }
   /// Returns true if `podcastUuids` has been explicitly set.
-  var hasPodcastUuids: Bool {return _storage._podcastUuids != nil}
+  var hasPodcastUuids: Bool {_storage._podcastUuids != nil}
   /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
   mutating func clearPodcastUuids() {_uniqueStorage()._podcastUuids = nil}
 
   var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._episodeUuids = newValue}
   }
   /// Returns true if `episodeUuids` has been explicitly set.
-  var hasEpisodeUuids: Bool {return _storage._episodeUuids != nil}
+  var hasEpisodeUuids: Bool {_storage._episodeUuids != nil}
   /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeUuids() {_uniqueStorage()._episodeUuids = nil}
 
   var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._audioVideo = newValue}
   }
   /// Returns true if `audioVideo` has been explicitly set.
-  var hasAudioVideo: Bool {return _storage._audioVideo != nil}
+  var hasAudioVideo: Bool {_storage._audioVideo != nil}
   /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
   mutating func clearAudioVideo() {_uniqueStorage()._audioVideo = nil}
 
   var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._notDownloaded = newValue}
   }
   /// Returns true if `notDownloaded` has been explicitly set.
-  var hasNotDownloaded: Bool {return _storage._notDownloaded != nil}
+  var hasNotDownloaded: Bool {_storage._notDownloaded != nil}
   /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
   mutating func clearNotDownloaded() {_uniqueStorage()._notDownloaded = nil}
 
   var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloaded = newValue}
   }
   /// Returns true if `downloaded` has been explicitly set.
-  var hasDownloaded: Bool {return _storage._downloaded != nil}
+  var hasDownloaded: Bool {_storage._downloaded != nil}
   /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
   mutating func clearDownloaded() {_uniqueStorage()._downloaded = nil}
 
   var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloading = newValue}
   }
   /// Returns true if `downloading` has been explicitly set.
-  var hasDownloading: Bool {return _storage._downloading != nil}
+  var hasDownloading: Bool {_storage._downloading != nil}
   /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
   mutating func clearDownloading() {_uniqueStorage()._downloading = nil}
 
   var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._finished = newValue}
   }
   /// Returns true if `finished` has been explicitly set.
-  var hasFinished: Bool {return _storage._finished != nil}
+  var hasFinished: Bool {_storage._finished != nil}
   /// Clears the value of `finished`. Subsequent reads from it will return its default value.
   mutating func clearFinished() {_uniqueStorage()._finished = nil}
 
   var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._partiallyPlayed = newValue}
   }
   /// Returns true if `partiallyPlayed` has been explicitly set.
-  var hasPartiallyPlayed: Bool {return _storage._partiallyPlayed != nil}
+  var hasPartiallyPlayed: Bool {_storage._partiallyPlayed != nil}
   /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
   mutating func clearPartiallyPlayed() {_uniqueStorage()._partiallyPlayed = nil}
 
   var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._unplayed = newValue}
   }
   /// Returns true if `unplayed` has been explicitly set.
-  var hasUnplayed: Bool {return _storage._unplayed != nil}
+  var hasUnplayed: Bool {_storage._unplayed != nil}
   /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
   mutating func clearUnplayed() {_uniqueStorage()._unplayed = nil}
 
   var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._starred = newValue}
   }
   /// Returns true if `starred` has been explicitly set.
-  var hasStarred: Bool {return _storage._starred != nil}
+  var hasStarred: Bool {_storage._starred != nil}
   /// Clears the value of `starred`. Subsequent reads from it will return its default value.
   mutating func clearStarred() {_uniqueStorage()._starred = nil}
 
   var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._manual = newValue}
   }
   /// Returns true if `manual` has been explicitly set.
-  var hasManual: Bool {return _storage._manual != nil}
+  var hasManual: Bool {_storage._manual != nil}
   /// Clears the value of `manual`. Subsequent reads from it will return its default value.
   mutating func clearManual() {_uniqueStorage()._manual = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return _storage._sortPosition != nil}
+  var hasSortPosition: Bool {_storage._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {_uniqueStorage()._sortPosition = nil}
 
   var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortType = newValue}
   }
   /// Returns true if `sortType` has been explicitly set.
-  var hasSortType: Bool {return _storage._sortType != nil}
+  var hasSortType: Bool {_storage._sortType != nil}
   /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
   mutating func clearSortType() {_uniqueStorage()._sortType = nil}
 
   var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._iconID = newValue}
   }
   /// Returns true if `iconID` has been explicitly set.
-  var hasIconID: Bool {return _storage._iconID != nil}
+  var hasIconID: Bool {_storage._iconID != nil}
   /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
   mutating func clearIconID() {_uniqueStorage()._iconID = nil}
 
   var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._filterHours = newValue}
   }
   /// Returns true if `filterHours` has been explicitly set.
-  var hasFilterHours: Bool {return _storage._filterHours != nil}
+  var hasFilterHours: Bool {_storage._filterHours != nil}
   /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
   mutating func clearFilterHours() {_uniqueStorage()._filterHours = nil}
 
   var originalUuid: String {
-    get {return _storage._originalUuid}
+    get {_storage._originalUuid}
     set {_uniqueStorage()._originalUuid = newValue}
   }
 
   var filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filterDuration = newValue}
   }
   /// Returns true if `filterDuration` has been explicitly set.
-  var hasFilterDuration: Bool {return _storage._filterDuration != nil}
+  var hasFilterDuration: Bool {_storage._filterDuration != nil}
   /// Clears the value of `filterDuration`. Subsequent reads from it will return its default value.
   mutating func clearFilterDuration() {_uniqueStorage()._filterDuration = nil}
 
   var longerThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._longerThan = newValue}
   }
   /// Returns true if `longerThan` has been explicitly set.
-  var hasLongerThan: Bool {return _storage._longerThan != nil}
+  var hasLongerThan: Bool {_storage._longerThan != nil}
   /// Clears the value of `longerThan`. Subsequent reads from it will return its default value.
   mutating func clearLongerThan() {_uniqueStorage()._longerThan = nil}
 
   var shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._shorterThan = newValue}
   }
   /// Returns true if `shorterThan` has been explicitly set.
-  var hasShorterThan: Bool {return _storage._shorterThan != nil}
+  var hasShorterThan: Bool {_storage._shorterThan != nil}
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
   var episodeOrder: [String] {
-    get {return _storage._episodeOrder}
+    get {_storage._episodeOrder}
     set {_uniqueStorage()._episodeOrder = newValue}
   }
 
   var episodes: [Api_SyncPlaylistEpisode] {
-    get {return _storage._episodes}
+    get {_storage._episodes}
     set {_uniqueStorage()._episodes = newValue}
   }
+
+  var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {_storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -5998,11 +6102,11 @@ struct Api_SyncUserFolder: Sendable {
   var podcastsSortType: Int32 = 0
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return self._dateAdded != nil}
+  var hasDateAdded: Bool {self._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {self._dateAdded = nil}
 
@@ -6025,56 +6129,56 @@ struct Api_SyncUserBookmark: Sendable {
   var episodeUuid: String = String()
 
   var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_createdAt = newValue}
   }
   /// Returns true if `createdAt` has been explicitly set.
-  var hasCreatedAt: Bool {return self._createdAt != nil}
+  var hasCreatedAt: Bool {self._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {self._createdAt = nil}
 
   var time: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_time = newValue}
   }
   /// Returns true if `time` has been explicitly set.
-  var hasTime: Bool {return self._time != nil}
+  var hasTime: Bool {self._time != nil}
   /// Clears the value of `time`. Subsequent reads from it will return its default value.
   mutating func clearTime() {self._time = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return self._title != nil}
+  var hasTitle: Bool {self._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {self._title = nil}
 
   var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_titleModified = newValue}
   }
   /// Returns true if `titleModified` has been explicitly set.
-  var hasTitleModified: Bool {return self._titleModified != nil}
+  var hasTitleModified: Bool {self._titleModified != nil}
   /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
   mutating func clearTitleModified() {self._titleModified = nil}
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return self._isDeleted != nil}
+  var hasIsDeleted: Bool {self._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {self._isDeleted = nil}
 
   var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_isDeletedModified = newValue}
   }
   /// Returns true if `isDeletedModified` has been explicitly set.
-  var hasIsDeletedModified: Bool {return self._isDeletedModified != nil}
+  var hasIsDeletedModified: Bool {self._isDeletedModified != nil}
   /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
   mutating func clearIsDeletedModified() {self._isDeletedModified = nil}
 
@@ -6110,11 +6214,11 @@ struct Api_LegacySyncRecord: Sendable {
   var type: String = String()
 
   var fields: Api_LegacyRecord {
-    get {return _fields ?? Api_LegacyRecord()}
+    get {_fields ?? Api_LegacyRecord()}
     set {_fields = newValue}
   }
   /// Returns true if `fields` has been explicitly set.
-  var hasFields: Bool {return self._fields != nil}
+  var hasFields: Bool {self._fields != nil}
   /// Clears the value of `fields`. Subsequent reads from it will return its default value.
   mutating func clearFields() {self._fields = nil}
 
@@ -6131,498 +6235,507 @@ struct Api_LegacyRecord: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._uuid = newValue}
   }
   /// Returns true if `uuid` has been explicitly set.
-  var hasUuid: Bool {return _storage._uuid != nil}
+  var hasUuid: Bool {_storage._uuid != nil}
   /// Clears the value of `uuid`. Subsequent reads from it will return its default value.
   mutating func clearUuid() {_uniqueStorage()._uuid = nil}
 
   var userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._userPodcastUuid = newValue}
   }
   /// Returns true if `userPodcastUuid` has been explicitly set.
-  var hasUserPodcastUuid: Bool {return _storage._userPodcastUuid != nil}
+  var hasUserPodcastUuid: Bool {_storage._userPodcastUuid != nil}
   /// Clears the value of `userPodcastUuid`. Subsequent reads from it will return its default value.
   mutating func clearUserPodcastUuid() {_uniqueStorage()._userPodcastUuid = nil}
 
   var episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._episodeUuid = newValue}
   }
   /// Returns true if `episodeUuid` has been explicitly set.
-  var hasEpisodeUuid: Bool {return _storage._episodeUuid != nil}
+  var hasEpisodeUuid: Bool {_storage._episodeUuid != nil}
   /// Clears the value of `episodeUuid`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeUuid() {_uniqueStorage()._episodeUuid = nil}
 
   var podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._podcastUuid = newValue}
   }
   /// Returns true if `podcastUuid` has been explicitly set.
-  var hasPodcastUuid: Bool {return _storage._podcastUuid != nil}
+  var hasPodcastUuid: Bool {_storage._podcastUuid != nil}
   /// Clears the value of `podcastUuid`. Subsequent reads from it will return its default value.
   mutating func clearPodcastUuid() {_uniqueStorage()._podcastUuid = nil}
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return _storage._isDeleted != nil}
+  var hasIsDeleted: Bool {_storage._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {_uniqueStorage()._isDeleted = nil}
 
   var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._isDeletedModified = newValue}
   }
   /// Returns true if `isDeletedModified` has been explicitly set.
-  var hasIsDeletedModified: Bool {return _storage._isDeletedModified != nil}
+  var hasIsDeletedModified: Bool {_storage._isDeletedModified != nil}
   /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
   mutating func clearIsDeletedModified() {_uniqueStorage()._isDeletedModified = nil}
 
   var duration: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._duration = newValue}
   }
   /// Returns true if `duration` has been explicitly set.
-  var hasDuration: Bool {return _storage._duration != nil}
+  var hasDuration: Bool {_storage._duration != nil}
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {_uniqueStorage()._duration = nil}
 
   var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._durationModified = newValue}
   }
   /// Returns true if `durationModified` has been explicitly set.
-  var hasDurationModified: Bool {return _storage._durationModified != nil}
+  var hasDurationModified: Bool {_storage._durationModified != nil}
   /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
   mutating func clearDurationModified() {_uniqueStorage()._durationModified = nil}
 
   var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._playingStatus = newValue}
   }
   /// Returns true if `playingStatus` has been explicitly set.
-  var hasPlayingStatus: Bool {return _storage._playingStatus != nil}
+  var hasPlayingStatus: Bool {_storage._playingStatus != nil}
   /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatus() {_uniqueStorage()._playingStatus = nil}
 
   var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._playingStatusModified = newValue}
   }
   /// Returns true if `playingStatusModified` has been explicitly set.
-  var hasPlayingStatusModified: Bool {return _storage._playingStatusModified != nil}
+  var hasPlayingStatusModified: Bool {_storage._playingStatusModified != nil}
   /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatusModified() {_uniqueStorage()._playingStatusModified = nil}
 
   var playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._playedUpTo = newValue}
   }
   /// Returns true if `playedUpTo` has been explicitly set.
-  var hasPlayedUpTo: Bool {return _storage._playedUpTo != nil}
+  var hasPlayedUpTo: Bool {_storage._playedUpTo != nil}
   /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpTo() {_uniqueStorage()._playedUpTo = nil}
 
   var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._playedUpToModified = newValue}
   }
   /// Returns true if `playedUpToModified` has been explicitly set.
-  var hasPlayedUpToModified: Bool {return _storage._playedUpToModified != nil}
+  var hasPlayedUpToModified: Bool {_storage._playedUpToModified != nil}
   /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpToModified() {_uniqueStorage()._playedUpToModified = nil}
 
   var starred: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._starred ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._starred ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._starred = newValue}
   }
   /// Returns true if `starred` has been explicitly set.
-  var hasStarred: Bool {return _storage._starred != nil}
+  var hasStarred: Bool {_storage._starred != nil}
   /// Clears the value of `starred`. Subsequent reads from it will return its default value.
   mutating func clearStarred() {_uniqueStorage()._starred = nil}
 
   var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._starredModified = newValue}
   }
   /// Returns true if `starredModified` has been explicitly set.
-  var hasStarredModified: Bool {return _storage._starredModified != nil}
+  var hasStarredModified: Bool {_storage._starredModified != nil}
   /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
   mutating func clearStarredModified() {_uniqueStorage()._starredModified = nil}
 
   var timesStartedAt: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timesStartedAt = newValue}
   }
   /// Returns true if `timesStartedAt` has been explicitly set.
-  var hasTimesStartedAt: Bool {return _storage._timesStartedAt != nil}
+  var hasTimesStartedAt: Bool {_storage._timesStartedAt != nil}
   /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
   mutating func clearTimesStartedAt() {_uniqueStorage()._timesStartedAt = nil}
 
   var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timeSilenceRemoval = newValue}
   }
   /// Returns true if `timeSilenceRemoval` has been explicitly set.
-  var hasTimeSilenceRemoval: Bool {return _storage._timeSilenceRemoval != nil}
+  var hasTimeSilenceRemoval: Bool {_storage._timeSilenceRemoval != nil}
   /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
   mutating func clearTimeSilenceRemoval() {_uniqueStorage()._timeSilenceRemoval = nil}
 
   var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timeVariableSpeed = newValue}
   }
   /// Returns true if `timeVariableSpeed` has been explicitly set.
-  var hasTimeVariableSpeed: Bool {return _storage._timeVariableSpeed != nil}
+  var hasTimeVariableSpeed: Bool {_storage._timeVariableSpeed != nil}
   /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
   mutating func clearTimeVariableSpeed() {_uniqueStorage()._timeVariableSpeed = nil}
 
   var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timeIntroSkipping = newValue}
   }
   /// Returns true if `timeIntroSkipping` has been explicitly set.
-  var hasTimeIntroSkipping: Bool {return _storage._timeIntroSkipping != nil}
+  var hasTimeIntroSkipping: Bool {_storage._timeIntroSkipping != nil}
   /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeIntroSkipping() {_uniqueStorage()._timeIntroSkipping = nil}
 
   var timeSkipping: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timeSkipping = newValue}
   }
   /// Returns true if `timeSkipping` has been explicitly set.
-  var hasTimeSkipping: Bool {return _storage._timeSkipping != nil}
+  var hasTimeSkipping: Bool {_storage._timeSkipping != nil}
   /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeSkipping() {_uniqueStorage()._timeSkipping = nil}
 
   var timeListened: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._timeListened ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._timeListened ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._timeListened = newValue}
   }
   /// Returns true if `timeListened` has been explicitly set.
-  var hasTimeListened: Bool {return _storage._timeListened != nil}
+  var hasTimeListened: Bool {_storage._timeListened != nil}
   /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
   mutating func clearTimeListened() {_uniqueStorage()._timeListened = nil}
 
   var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoStartFrom = newValue}
   }
   /// Returns true if `autoStartFrom` has been explicitly set.
-  var hasAutoStartFrom: Bool {return _storage._autoStartFrom != nil}
+  var hasAutoStartFrom: Bool {_storage._autoStartFrom != nil}
   /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
   mutating func clearAutoStartFrom() {_uniqueStorage()._autoStartFrom = nil}
 
   var subscribed: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._subscribed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._subscribed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._subscribed = newValue}
   }
   /// Returns true if `subscribed` has been explicitly set.
-  var hasSubscribed: Bool {return _storage._subscribed != nil}
+  var hasSubscribed: Bool {_storage._subscribed != nil}
   /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
   mutating func clearSubscribed() {_uniqueStorage()._subscribed = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return _storage._title != nil}
+  var hasTitle: Bool {_storage._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {_uniqueStorage()._title = nil}
 
   /// then a heap of playlist fields
   var allPodcasts: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._allPodcasts = newValue}
   }
   /// Returns true if `allPodcasts` has been explicitly set.
-  var hasAllPodcasts: Bool {return _storage._allPodcasts != nil}
+  var hasAllPodcasts: Bool {_storage._allPodcasts != nil}
   /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
   mutating func clearAllPodcasts() {_uniqueStorage()._allPodcasts = nil}
 
   var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._podcastUuids = newValue}
   }
   /// Returns true if `podcastUuids` has been explicitly set.
-  var hasPodcastUuids: Bool {return _storage._podcastUuids != nil}
+  var hasPodcastUuids: Bool {_storage._podcastUuids != nil}
   /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
   mutating func clearPodcastUuids() {_uniqueStorage()._podcastUuids = nil}
 
   var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._episodeUuids = newValue}
   }
   /// Returns true if `episodeUuids` has been explicitly set.
-  var hasEpisodeUuids: Bool {return _storage._episodeUuids != nil}
+  var hasEpisodeUuids: Bool {_storage._episodeUuids != nil}
   /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeUuids() {_uniqueStorage()._episodeUuids = nil}
 
   var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._audioVideo = newValue}
   }
   /// Returns true if `audioVideo` has been explicitly set.
-  var hasAudioVideo: Bool {return _storage._audioVideo != nil}
+  var hasAudioVideo: Bool {_storage._audioVideo != nil}
   /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
   mutating func clearAudioVideo() {_uniqueStorage()._audioVideo = nil}
 
   var notDownloaded: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._notDownloaded = newValue}
   }
   /// Returns true if `notDownloaded` has been explicitly set.
-  var hasNotDownloaded: Bool {return _storage._notDownloaded != nil}
+  var hasNotDownloaded: Bool {_storage._notDownloaded != nil}
   /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
   mutating func clearNotDownloaded() {_uniqueStorage()._notDownloaded = nil}
 
   var downloaded: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._downloaded ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._downloaded = newValue}
   }
   /// Returns true if `downloaded` has been explicitly set.
-  var hasDownloaded: Bool {return _storage._downloaded != nil}
+  var hasDownloaded: Bool {_storage._downloaded != nil}
   /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
   mutating func clearDownloaded() {_uniqueStorage()._downloaded = nil}
 
   var downloading: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._downloading ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._downloading ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._downloading = newValue}
   }
   /// Returns true if `downloading` has been explicitly set.
-  var hasDownloading: Bool {return _storage._downloading != nil}
+  var hasDownloading: Bool {_storage._downloading != nil}
   /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
   mutating func clearDownloading() {_uniqueStorage()._downloading = nil}
 
   var finished: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._finished ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._finished ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._finished = newValue}
   }
   /// Returns true if `finished` has been explicitly set.
-  var hasFinished: Bool {return _storage._finished != nil}
+  var hasFinished: Bool {_storage._finished != nil}
   /// Clears the value of `finished`. Subsequent reads from it will return its default value.
   mutating func clearFinished() {_uniqueStorage()._finished = nil}
 
   var partiallyPlayed: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._partiallyPlayed = newValue}
   }
   /// Returns true if `partiallyPlayed` has been explicitly set.
-  var hasPartiallyPlayed: Bool {return _storage._partiallyPlayed != nil}
+  var hasPartiallyPlayed: Bool {_storage._partiallyPlayed != nil}
   /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
   mutating func clearPartiallyPlayed() {_uniqueStorage()._partiallyPlayed = nil}
 
   var unplayed: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._unplayed ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._unplayed = newValue}
   }
   /// Returns true if `unplayed` has been explicitly set.
-  var hasUnplayed: Bool {return _storage._unplayed != nil}
+  var hasUnplayed: Bool {_storage._unplayed != nil}
   /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
   mutating func clearUnplayed() {_uniqueStorage()._unplayed = nil}
 
   var manual: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._manual ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._manual ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._manual = newValue}
   }
   /// Returns true if `manual` has been explicitly set.
-  var hasManual: Bool {return _storage._manual != nil}
+  var hasManual: Bool {_storage._manual != nil}
   /// Clears the value of `manual`. Subsequent reads from it will return its default value.
   mutating func clearManual() {_uniqueStorage()._manual = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return _storage._sortPosition != nil}
+  var hasSortPosition: Bool {_storage._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {_uniqueStorage()._sortPosition = nil}
 
   var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortType = newValue}
   }
   /// Returns true if `sortType` has been explicitly set.
-  var hasSortType: Bool {return _storage._sortType != nil}
+  var hasSortType: Bool {_storage._sortType != nil}
   /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
   mutating func clearSortType() {_uniqueStorage()._sortType = nil}
 
   var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._iconID = newValue}
   }
   /// Returns true if `iconID` has been explicitly set.
-  var hasIconID: Bool {return _storage._iconID != nil}
+  var hasIconID: Bool {_storage._iconID != nil}
   /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
   mutating func clearIconID() {_uniqueStorage()._iconID = nil}
 
   var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._filterHours = newValue}
   }
   /// Returns true if `filterHours` has been explicitly set.
-  var hasFilterHours: Bool {return _storage._filterHours != nil}
+  var hasFilterHours: Bool {_storage._filterHours != nil}
   /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
   mutating func clearFilterHours() {_uniqueStorage()._filterHours = nil}
 
   /// new fields
   var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoSkipLast = newValue}
   }
   /// Returns true if `autoSkipLast` has been explicitly set.
-  var hasAutoSkipLast: Bool {return _storage._autoSkipLast != nil}
+  var hasAutoSkipLast: Bool {_storage._autoSkipLast != nil}
   /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
   mutating func clearAutoSkipLast() {_uniqueStorage()._autoSkipLast = nil}
 
   /// episode duration filters
   var filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filterDuration = newValue}
   }
   /// Returns true if `filterDuration` has been explicitly set.
-  var hasFilterDuration: Bool {return _storage._filterDuration != nil}
+  var hasFilterDuration: Bool {_storage._filterDuration != nil}
   /// Clears the value of `filterDuration`. Subsequent reads from it will return its default value.
   mutating func clearFilterDuration() {_uniqueStorage()._filterDuration = nil}
 
   var longerThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._longerThan = newValue}
   }
   /// Returns true if `longerThan` has been explicitly set.
-  var hasLongerThan: Bool {return _storage._longerThan != nil}
+  var hasLongerThan: Bool {_storage._longerThan != nil}
   /// Clears the value of `longerThan`. Subsequent reads from it will return its default value.
   mutating func clearLongerThan() {_uniqueStorage()._longerThan = nil}
 
   var shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._shorterThan = newValue}
   }
   /// Returns true if `shorterThan` has been explicitly set.
-  var hasShorterThan: Bool {return _storage._shorterThan != nil}
+  var hasShorterThan: Bool {_storage._shorterThan != nil}
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
   /// folder fields
   var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._folderUuid = newValue}
   }
   /// Returns true if `folderUuid` has been explicitly set.
-  var hasFolderUuid: Bool {return _storage._folderUuid != nil}
+  var hasFolderUuid: Bool {_storage._folderUuid != nil}
   /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
   mutating func clearFolderUuid() {_uniqueStorage()._folderUuid = nil}
 
   var name: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._name = newValue}
   }
   /// Returns true if `name` has been explicitly set.
-  var hasName: Bool {return _storage._name != nil}
+  var hasName: Bool {_storage._name != nil}
   /// Clears the value of `name`. Subsequent reads from it will return its default value.
   mutating func clearName() {_uniqueStorage()._name = nil}
 
   var color: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._color = newValue}
   }
   /// Returns true if `color` has been explicitly set.
-  var hasColor: Bool {return _storage._color != nil}
+  var hasColor: Bool {_storage._color != nil}
   /// Clears the value of `color`. Subsequent reads from it will return its default value.
   mutating func clearColor() {_uniqueStorage()._color = nil}
 
   var podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._podcastsSortType = newValue}
   }
   /// Returns true if `podcastsSortType` has been explicitly set.
-  var hasPodcastsSortType: Bool {return _storage._podcastsSortType != nil}
+  var hasPodcastsSortType: Bool {_storage._podcastsSortType != nil}
   /// Clears the value of `podcastsSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastsSortType() {_uniqueStorage()._podcastsSortType = nil}
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return _storage._dateAdded != nil}
+  var hasDateAdded: Bool {_storage._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
 
   /// bookmark fields
   var bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._bookmarkUuid = newValue}
   }
   /// Returns true if `bookmarkUuid` has been explicitly set.
-  var hasBookmarkUuid: Bool {return _storage._bookmarkUuid != nil}
+  var hasBookmarkUuid: Bool {_storage._bookmarkUuid != nil}
   /// Clears the value of `bookmarkUuid`. Subsequent reads from it will return its default value.
   mutating func clearBookmarkUuid() {_uniqueStorage()._bookmarkUuid = nil}
 
   var time: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._time = newValue}
   }
   /// Returns true if `time` has been explicitly set.
-  var hasTime: Bool {return _storage._time != nil}
+  var hasTime: Bool {_storage._time != nil}
   /// Clears the value of `time`. Subsequent reads from it will return its default value.
   mutating func clearTime() {_uniqueStorage()._time = nil}
 
   var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._titleModified = newValue}
   }
   /// Returns true if `titleModified` has been explicitly set.
-  var hasTitleModified: Bool {return _storage._titleModified != nil}
+  var hasTitleModified: Bool {_storage._titleModified != nil}
   /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
   mutating func clearTitleModified() {_uniqueStorage()._titleModified = nil}
 
   var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._createdAt = newValue}
   }
   /// Returns true if `createdAt` has been explicitly set.
-  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  var hasCreatedAt: Bool {_storage._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
 
   /// chapters fields
   var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._deselectedChapters = newValue}
   }
   /// Returns true if `deselectedChapters` has been explicitly set.
-  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  var hasDeselectedChapters: Bool {_storage._deselectedChapters != nil}
   /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
 
   var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._deselectedChaptersModified = newValue}
   }
   /// Returns true if `deselectedChaptersModified` has been explicitly set.
-  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  var hasDeselectedChaptersModified: Bool {_storage._deselectedChaptersModified != nil}
   /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
 
   /// extra manual playlist fields
   var episodeOrder: [String] {
-    get {return _storage._episodeOrder}
+    get {_storage._episodeOrder}
     set {_uniqueStorage()._episodeOrder = newValue}
   }
 
   var episodes: [Api_SyncPlaylistEpisode] {
-    get {return _storage._episodes}
+    get {_storage._episodes}
     set {_uniqueStorage()._episodes = newValue}
   }
+
+  var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {_storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -6653,11 +6766,11 @@ struct Api_LegacySyncResponseRecord: Sendable {
   var type: String = String()
 
   var fields: Api_LegacyResponseRecord {
-    get {return _fields ?? Api_LegacyResponseRecord()}
+    get {_fields ?? Api_LegacyResponseRecord()}
     set {_fields = newValue}
   }
   /// Returns true if `fields` has been explicitly set.
-  var hasFields: Bool {return self._fields != nil}
+  var hasFields: Bool {self._fields != nil}
   /// Clears the value of `fields`. Subsequent reads from it will return its default value.
   mutating func clearFields() {self._fields = nil}
 
@@ -6674,497 +6787,506 @@ struct Api_LegacyResponseRecord: @unchecked Sendable {
   // methods supported on all messages.
 
   var uuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._uuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._uuid = newValue}
   }
   /// Returns true if `uuid` has been explicitly set.
-  var hasUuid: Bool {return _storage._uuid != nil}
+  var hasUuid: Bool {_storage._uuid != nil}
   /// Clears the value of `uuid`. Subsequent reads from it will return its default value.
   mutating func clearUuid() {_uniqueStorage()._uuid = nil}
 
   var userPodcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._userPodcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._userPodcastUuid = newValue}
   }
   /// Returns true if `userPodcastUuid` has been explicitly set.
-  var hasUserPodcastUuid: Bool {return _storage._userPodcastUuid != nil}
+  var hasUserPodcastUuid: Bool {_storage._userPodcastUuid != nil}
   /// Clears the value of `userPodcastUuid`. Subsequent reads from it will return its default value.
   mutating func clearUserPodcastUuid() {_uniqueStorage()._userPodcastUuid = nil}
 
   var episodeUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._episodeUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._episodeUuid = newValue}
   }
   /// Returns true if `episodeUuid` has been explicitly set.
-  var hasEpisodeUuid: Bool {return _storage._episodeUuid != nil}
+  var hasEpisodeUuid: Bool {_storage._episodeUuid != nil}
   /// Clears the value of `episodeUuid`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeUuid() {_uniqueStorage()._episodeUuid = nil}
 
   var podcastUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._podcastUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._podcastUuid = newValue}
   }
   /// Returns true if `podcastUuid` has been explicitly set.
-  var hasPodcastUuid: Bool {return _storage._podcastUuid != nil}
+  var hasPodcastUuid: Bool {_storage._podcastUuid != nil}
   /// Clears the value of `podcastUuid`. Subsequent reads from it will return its default value.
   mutating func clearPodcastUuid() {_uniqueStorage()._podcastUuid = nil}
 
   var isDeleted: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._isDeleted ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._isDeleted = newValue}
   }
   /// Returns true if `isDeleted` has been explicitly set.
-  var hasIsDeleted: Bool {return _storage._isDeleted != nil}
+  var hasIsDeleted: Bool {_storage._isDeleted != nil}
   /// Clears the value of `isDeleted`. Subsequent reads from it will return its default value.
   mutating func clearIsDeleted() {_uniqueStorage()._isDeleted = nil}
 
   var isDeletedModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._isDeletedModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._isDeletedModified = newValue}
   }
   /// Returns true if `isDeletedModified` has been explicitly set.
-  var hasIsDeletedModified: Bool {return _storage._isDeletedModified != nil}
+  var hasIsDeletedModified: Bool {_storage._isDeletedModified != nil}
   /// Clears the value of `isDeletedModified`. Subsequent reads from it will return its default value.
   mutating func clearIsDeletedModified() {_uniqueStorage()._isDeletedModified = nil}
 
   var duration: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._duration ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._duration = newValue}
   }
   /// Returns true if `duration` has been explicitly set.
-  var hasDuration: Bool {return _storage._duration != nil}
+  var hasDuration: Bool {_storage._duration != nil}
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {_uniqueStorage()._duration = nil}
 
   var durationModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._durationModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._durationModified = newValue}
   }
   /// Returns true if `durationModified` has been explicitly set.
-  var hasDurationModified: Bool {return _storage._durationModified != nil}
+  var hasDurationModified: Bool {_storage._durationModified != nil}
   /// Clears the value of `durationModified`. Subsequent reads from it will return its default value.
   mutating func clearDurationModified() {_uniqueStorage()._durationModified = nil}
 
   var playingStatus: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._playingStatus ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._playingStatus = newValue}
   }
   /// Returns true if `playingStatus` has been explicitly set.
-  var hasPlayingStatus: Bool {return _storage._playingStatus != nil}
+  var hasPlayingStatus: Bool {_storage._playingStatus != nil}
   /// Clears the value of `playingStatus`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatus() {_uniqueStorage()._playingStatus = nil}
 
   var playingStatusModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._playingStatusModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._playingStatusModified = newValue}
   }
   /// Returns true if `playingStatusModified` has been explicitly set.
-  var hasPlayingStatusModified: Bool {return _storage._playingStatusModified != nil}
+  var hasPlayingStatusModified: Bool {_storage._playingStatusModified != nil}
   /// Clears the value of `playingStatusModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayingStatusModified() {_uniqueStorage()._playingStatusModified = nil}
 
   var playedUpTo: SwiftProtobuf.Google_Protobuf_DoubleValue {
-    get {return _storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
+    get {_storage._playedUpTo ?? SwiftProtobuf.Google_Protobuf_DoubleValue()}
     set {_uniqueStorage()._playedUpTo = newValue}
   }
   /// Returns true if `playedUpTo` has been explicitly set.
-  var hasPlayedUpTo: Bool {return _storage._playedUpTo != nil}
+  var hasPlayedUpTo: Bool {_storage._playedUpTo != nil}
   /// Clears the value of `playedUpTo`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpTo() {_uniqueStorage()._playedUpTo = nil}
 
   var playedUpToModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._playedUpToModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._playedUpToModified = newValue}
   }
   /// Returns true if `playedUpToModified` has been explicitly set.
-  var hasPlayedUpToModified: Bool {return _storage._playedUpToModified != nil}
+  var hasPlayedUpToModified: Bool {_storage._playedUpToModified != nil}
   /// Clears the value of `playedUpToModified`. Subsequent reads from it will return its default value.
   mutating func clearPlayedUpToModified() {_uniqueStorage()._playedUpToModified = nil}
 
   var starred: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._starred ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._starred = newValue}
   }
   /// Returns true if `starred` has been explicitly set.
-  var hasStarred: Bool {return _storage._starred != nil}
+  var hasStarred: Bool {_storage._starred != nil}
   /// Clears the value of `starred`. Subsequent reads from it will return its default value.
   mutating func clearStarred() {_uniqueStorage()._starred = nil}
 
   var starredModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._starredModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._starredModified = newValue}
   }
   /// Returns true if `starredModified` has been explicitly set.
-  var hasStarredModified: Bool {return _storage._starredModified != nil}
+  var hasStarredModified: Bool {_storage._starredModified != nil}
   /// Clears the value of `starredModified`. Subsequent reads from it will return its default value.
   mutating func clearStarredModified() {_uniqueStorage()._starredModified = nil}
 
   var timesStartedAt: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timesStartedAt ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timesStartedAt = newValue}
   }
   /// Returns true if `timesStartedAt` has been explicitly set.
-  var hasTimesStartedAt: Bool {return _storage._timesStartedAt != nil}
+  var hasTimesStartedAt: Bool {_storage._timesStartedAt != nil}
   /// Clears the value of `timesStartedAt`. Subsequent reads from it will return its default value.
   mutating func clearTimesStartedAt() {_uniqueStorage()._timesStartedAt = nil}
 
   var timeSilenceRemoval: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timeSilenceRemoval ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timeSilenceRemoval = newValue}
   }
   /// Returns true if `timeSilenceRemoval` has been explicitly set.
-  var hasTimeSilenceRemoval: Bool {return _storage._timeSilenceRemoval != nil}
+  var hasTimeSilenceRemoval: Bool {_storage._timeSilenceRemoval != nil}
   /// Clears the value of `timeSilenceRemoval`. Subsequent reads from it will return its default value.
   mutating func clearTimeSilenceRemoval() {_uniqueStorage()._timeSilenceRemoval = nil}
 
   var timeVariableSpeed: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timeVariableSpeed ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timeVariableSpeed = newValue}
   }
   /// Returns true if `timeVariableSpeed` has been explicitly set.
-  var hasTimeVariableSpeed: Bool {return _storage._timeVariableSpeed != nil}
+  var hasTimeVariableSpeed: Bool {_storage._timeVariableSpeed != nil}
   /// Clears the value of `timeVariableSpeed`. Subsequent reads from it will return its default value.
   mutating func clearTimeVariableSpeed() {_uniqueStorage()._timeVariableSpeed = nil}
 
   var timeIntroSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timeIntroSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timeIntroSkipping = newValue}
   }
   /// Returns true if `timeIntroSkipping` has been explicitly set.
-  var hasTimeIntroSkipping: Bool {return _storage._timeIntroSkipping != nil}
+  var hasTimeIntroSkipping: Bool {_storage._timeIntroSkipping != nil}
   /// Clears the value of `timeIntroSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeIntroSkipping() {_uniqueStorage()._timeIntroSkipping = nil}
 
   var timeSkipping: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timeSkipping ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timeSkipping = newValue}
   }
   /// Returns true if `timeSkipping` has been explicitly set.
-  var hasTimeSkipping: Bool {return _storage._timeSkipping != nil}
+  var hasTimeSkipping: Bool {_storage._timeSkipping != nil}
   /// Clears the value of `timeSkipping`. Subsequent reads from it will return its default value.
   mutating func clearTimeSkipping() {_uniqueStorage()._timeSkipping = nil}
 
   var timeListened: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._timeListened ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._timeListened = newValue}
   }
   /// Returns true if `timeListened` has been explicitly set.
-  var hasTimeListened: Bool {return _storage._timeListened != nil}
+  var hasTimeListened: Bool {_storage._timeListened != nil}
   /// Clears the value of `timeListened`. Subsequent reads from it will return its default value.
   mutating func clearTimeListened() {_uniqueStorage()._timeListened = nil}
 
   var autoStartFrom: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoStartFrom ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoStartFrom = newValue}
   }
   /// Returns true if `autoStartFrom` has been explicitly set.
-  var hasAutoStartFrom: Bool {return _storage._autoStartFrom != nil}
+  var hasAutoStartFrom: Bool {_storage._autoStartFrom != nil}
   /// Clears the value of `autoStartFrom`. Subsequent reads from it will return its default value.
   mutating func clearAutoStartFrom() {_uniqueStorage()._autoStartFrom = nil}
 
   var subscribed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._subscribed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._subscribed = newValue}
   }
   /// Returns true if `subscribed` has been explicitly set.
-  var hasSubscribed: Bool {return _storage._subscribed != nil}
+  var hasSubscribed: Bool {_storage._subscribed != nil}
   /// Clears the value of `subscribed`. Subsequent reads from it will return its default value.
   mutating func clearSubscribed() {_uniqueStorage()._subscribed = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return _storage._title != nil}
+  var hasTitle: Bool {_storage._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {_uniqueStorage()._title = nil}
 
   /// then a heap of playlist fields
   var allPodcasts: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._allPodcasts ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._allPodcasts = newValue}
   }
   /// Returns true if `allPodcasts` has been explicitly set.
-  var hasAllPodcasts: Bool {return _storage._allPodcasts != nil}
+  var hasAllPodcasts: Bool {_storage._allPodcasts != nil}
   /// Clears the value of `allPodcasts`. Subsequent reads from it will return its default value.
   mutating func clearAllPodcasts() {_uniqueStorage()._allPodcasts = nil}
 
   var podcastUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._podcastUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._podcastUuids = newValue}
   }
   /// Returns true if `podcastUuids` has been explicitly set.
-  var hasPodcastUuids: Bool {return _storage._podcastUuids != nil}
+  var hasPodcastUuids: Bool {_storage._podcastUuids != nil}
   /// Clears the value of `podcastUuids`. Subsequent reads from it will return its default value.
   mutating func clearPodcastUuids() {_uniqueStorage()._podcastUuids = nil}
 
   var episodeUuids: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._episodeUuids ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._episodeUuids = newValue}
   }
   /// Returns true if `episodeUuids` has been explicitly set.
-  var hasEpisodeUuids: Bool {return _storage._episodeUuids != nil}
+  var hasEpisodeUuids: Bool {_storage._episodeUuids != nil}
   /// Clears the value of `episodeUuids`. Subsequent reads from it will return its default value.
   mutating func clearEpisodeUuids() {_uniqueStorage()._episodeUuids = nil}
 
   var audioVideo: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._audioVideo ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._audioVideo = newValue}
   }
   /// Returns true if `audioVideo` has been explicitly set.
-  var hasAudioVideo: Bool {return _storage._audioVideo != nil}
+  var hasAudioVideo: Bool {_storage._audioVideo != nil}
   /// Clears the value of `audioVideo`. Subsequent reads from it will return its default value.
   mutating func clearAudioVideo() {_uniqueStorage()._audioVideo = nil}
 
   var notDownloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._notDownloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._notDownloaded = newValue}
   }
   /// Returns true if `notDownloaded` has been explicitly set.
-  var hasNotDownloaded: Bool {return _storage._notDownloaded != nil}
+  var hasNotDownloaded: Bool {_storage._notDownloaded != nil}
   /// Clears the value of `notDownloaded`. Subsequent reads from it will return its default value.
   mutating func clearNotDownloaded() {_uniqueStorage()._notDownloaded = nil}
 
   var downloaded: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloaded ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloaded = newValue}
   }
   /// Returns true if `downloaded` has been explicitly set.
-  var hasDownloaded: Bool {return _storage._downloaded != nil}
+  var hasDownloaded: Bool {_storage._downloaded != nil}
   /// Clears the value of `downloaded`. Subsequent reads from it will return its default value.
   mutating func clearDownloaded() {_uniqueStorage()._downloaded = nil}
 
   var downloading: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._downloading ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._downloading = newValue}
   }
   /// Returns true if `downloading` has been explicitly set.
-  var hasDownloading: Bool {return _storage._downloading != nil}
+  var hasDownloading: Bool {_storage._downloading != nil}
   /// Clears the value of `downloading`. Subsequent reads from it will return its default value.
   mutating func clearDownloading() {_uniqueStorage()._downloading = nil}
 
   var finished: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._finished ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._finished = newValue}
   }
   /// Returns true if `finished` has been explicitly set.
-  var hasFinished: Bool {return _storage._finished != nil}
+  var hasFinished: Bool {_storage._finished != nil}
   /// Clears the value of `finished`. Subsequent reads from it will return its default value.
   mutating func clearFinished() {_uniqueStorage()._finished = nil}
 
   var partiallyPlayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._partiallyPlayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._partiallyPlayed = newValue}
   }
   /// Returns true if `partiallyPlayed` has been explicitly set.
-  var hasPartiallyPlayed: Bool {return _storage._partiallyPlayed != nil}
+  var hasPartiallyPlayed: Bool {_storage._partiallyPlayed != nil}
   /// Clears the value of `partiallyPlayed`. Subsequent reads from it will return its default value.
   mutating func clearPartiallyPlayed() {_uniqueStorage()._partiallyPlayed = nil}
 
   var unplayed: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._unplayed ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._unplayed = newValue}
   }
   /// Returns true if `unplayed` has been explicitly set.
-  var hasUnplayed: Bool {return _storage._unplayed != nil}
+  var hasUnplayed: Bool {_storage._unplayed != nil}
   /// Clears the value of `unplayed`. Subsequent reads from it will return its default value.
   mutating func clearUnplayed() {_uniqueStorage()._unplayed = nil}
 
   var manual: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._manual ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._manual = newValue}
   }
   /// Returns true if `manual` has been explicitly set.
-  var hasManual: Bool {return _storage._manual != nil}
+  var hasManual: Bool {_storage._manual != nil}
   /// Clears the value of `manual`. Subsequent reads from it will return its default value.
   mutating func clearManual() {_uniqueStorage()._manual = nil}
 
   var sortPosition: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortPosition ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortPosition = newValue}
   }
   /// Returns true if `sortPosition` has been explicitly set.
-  var hasSortPosition: Bool {return _storage._sortPosition != nil}
+  var hasSortPosition: Bool {_storage._sortPosition != nil}
   /// Clears the value of `sortPosition`. Subsequent reads from it will return its default value.
   mutating func clearSortPosition() {_uniqueStorage()._sortPosition = nil}
 
   var sortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._sortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._sortType = newValue}
   }
   /// Returns true if `sortType` has been explicitly set.
-  var hasSortType: Bool {return _storage._sortType != nil}
+  var hasSortType: Bool {_storage._sortType != nil}
   /// Clears the value of `sortType`. Subsequent reads from it will return its default value.
   mutating func clearSortType() {_uniqueStorage()._sortType = nil}
 
   var iconID: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._iconID ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._iconID = newValue}
   }
   /// Returns true if `iconID` has been explicitly set.
-  var hasIconID: Bool {return _storage._iconID != nil}
+  var hasIconID: Bool {_storage._iconID != nil}
   /// Clears the value of `iconID`. Subsequent reads from it will return its default value.
   mutating func clearIconID() {_uniqueStorage()._iconID = nil}
 
   var filterHours: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._filterHours ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._filterHours = newValue}
   }
   /// Returns true if `filterHours` has been explicitly set.
-  var hasFilterHours: Bool {return _storage._filterHours != nil}
+  var hasFilterHours: Bool {_storage._filterHours != nil}
   /// Clears the value of `filterHours`. Subsequent reads from it will return its default value.
   mutating func clearFilterHours() {_uniqueStorage()._filterHours = nil}
 
   /// new fields
   var autoSkipLast: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._autoSkipLast ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._autoSkipLast = newValue}
   }
   /// Returns true if `autoSkipLast` has been explicitly set.
-  var hasAutoSkipLast: Bool {return _storage._autoSkipLast != nil}
+  var hasAutoSkipLast: Bool {_storage._autoSkipLast != nil}
   /// Clears the value of `autoSkipLast`. Subsequent reads from it will return its default value.
   mutating func clearAutoSkipLast() {_uniqueStorage()._autoSkipLast = nil}
 
   var filterDuration: SwiftProtobuf.Google_Protobuf_BoolValue {
-    get {return _storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    get {_storage._filterDuration ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
     set {_uniqueStorage()._filterDuration = newValue}
   }
   /// Returns true if `filterDuration` has been explicitly set.
-  var hasFilterDuration: Bool {return _storage._filterDuration != nil}
+  var hasFilterDuration: Bool {_storage._filterDuration != nil}
   /// Clears the value of `filterDuration`. Subsequent reads from it will return its default value.
   mutating func clearFilterDuration() {_uniqueStorage()._filterDuration = nil}
 
   var longerThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._longerThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._longerThan = newValue}
   }
   /// Returns true if `longerThan` has been explicitly set.
-  var hasLongerThan: Bool {return _storage._longerThan != nil}
+  var hasLongerThan: Bool {_storage._longerThan != nil}
   /// Clears the value of `longerThan`. Subsequent reads from it will return its default value.
   mutating func clearLongerThan() {_uniqueStorage()._longerThan = nil}
 
   var shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._shorterThan ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._shorterThan = newValue}
   }
   /// Returns true if `shorterThan` has been explicitly set.
-  var hasShorterThan: Bool {return _storage._shorterThan != nil}
+  var hasShorterThan: Bool {_storage._shorterThan != nil}
   /// Clears the value of `shorterThan`. Subsequent reads from it will return its default value.
   mutating func clearShorterThan() {_uniqueStorage()._shorterThan = nil}
 
   /// folder fields
   var folderUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._folderUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._folderUuid = newValue}
   }
   /// Returns true if `folderUuid` has been explicitly set.
-  var hasFolderUuid: Bool {return _storage._folderUuid != nil}
+  var hasFolderUuid: Bool {_storage._folderUuid != nil}
   /// Clears the value of `folderUuid`. Subsequent reads from it will return its default value.
   mutating func clearFolderUuid() {_uniqueStorage()._folderUuid = nil}
 
   var name: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._name ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._name = newValue}
   }
   /// Returns true if `name` has been explicitly set.
-  var hasName: Bool {return _storage._name != nil}
+  var hasName: Bool {_storage._name != nil}
   /// Clears the value of `name`. Subsequent reads from it will return its default value.
   mutating func clearName() {_uniqueStorage()._name = nil}
 
   var color: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._color ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._color = newValue}
   }
   /// Returns true if `color` has been explicitly set.
-  var hasColor: Bool {return _storage._color != nil}
+  var hasColor: Bool {_storage._color != nil}
   /// Clears the value of `color`. Subsequent reads from it will return its default value.
   mutating func clearColor() {_uniqueStorage()._color = nil}
 
   var podcastsSortType: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._podcastsSortType ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._podcastsSortType = newValue}
   }
   /// Returns true if `podcastsSortType` has been explicitly set.
-  var hasPodcastsSortType: Bool {return _storage._podcastsSortType != nil}
+  var hasPodcastsSortType: Bool {_storage._podcastsSortType != nil}
   /// Clears the value of `podcastsSortType`. Subsequent reads from it will return its default value.
   mutating func clearPodcastsSortType() {_uniqueStorage()._podcastsSortType = nil}
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return _storage._dateAdded != nil}
+  var hasDateAdded: Bool {_storage._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {_uniqueStorage()._dateAdded = nil}
 
   /// bookmark fields
   var bookmarkUuid: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._bookmarkUuid ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._bookmarkUuid = newValue}
   }
   /// Returns true if `bookmarkUuid` has been explicitly set.
-  var hasBookmarkUuid: Bool {return _storage._bookmarkUuid != nil}
+  var hasBookmarkUuid: Bool {_storage._bookmarkUuid != nil}
   /// Clears the value of `bookmarkUuid`. Subsequent reads from it will return its default value.
   mutating func clearBookmarkUuid() {_uniqueStorage()._bookmarkUuid = nil}
 
   var time: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_storage._time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_uniqueStorage()._time = newValue}
   }
   /// Returns true if `time` has been explicitly set.
-  var hasTime: Bool {return _storage._time != nil}
+  var hasTime: Bool {_storage._time != nil}
   /// Clears the value of `time`. Subsequent reads from it will return its default value.
   mutating func clearTime() {_uniqueStorage()._time = nil}
 
   var titleModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._titleModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._titleModified = newValue}
   }
   /// Returns true if `titleModified` has been explicitly set.
-  var hasTitleModified: Bool {return _storage._titleModified != nil}
+  var hasTitleModified: Bool {_storage._titleModified != nil}
   /// Clears the value of `titleModified`. Subsequent reads from it will return its default value.
   mutating func clearTitleModified() {_uniqueStorage()._titleModified = nil}
 
   var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_storage._createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_uniqueStorage()._createdAt = newValue}
   }
   /// Returns true if `createdAt` has been explicitly set.
-  var hasCreatedAt: Bool {return _storage._createdAt != nil}
+  var hasCreatedAt: Bool {_storage._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {_uniqueStorage()._createdAt = nil}
 
   /// chapters fields
   var deselectedChapters: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_storage._deselectedChapters ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_uniqueStorage()._deselectedChapters = newValue}
   }
   /// Returns true if `deselectedChapters` has been explicitly set.
-  var hasDeselectedChapters: Bool {return _storage._deselectedChapters != nil}
+  var hasDeselectedChapters: Bool {_storage._deselectedChapters != nil}
   /// Clears the value of `deselectedChapters`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChapters() {_uniqueStorage()._deselectedChapters = nil}
 
   var deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value {
-    get {return _storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
+    get {_storage._deselectedChaptersModified ?? SwiftProtobuf.Google_Protobuf_Int64Value()}
     set {_uniqueStorage()._deselectedChaptersModified = newValue}
   }
   /// Returns true if `deselectedChaptersModified` has been explicitly set.
-  var hasDeselectedChaptersModified: Bool {return _storage._deselectedChaptersModified != nil}
+  var hasDeselectedChaptersModified: Bool {_storage._deselectedChaptersModified != nil}
   /// Clears the value of `deselectedChaptersModified`. Subsequent reads from it will return its default value.
   mutating func clearDeselectedChaptersModified() {_uniqueStorage()._deselectedChaptersModified = nil}
 
   /// additional manual playlist fields
   var episodeOrder: [String] {
-    get {return _storage._episodeOrder}
+    get {_storage._episodeOrder}
     set {_uniqueStorage()._episodeOrder = newValue}
   }
 
   var episodes: [Api_SyncPlaylistEpisode] {
-    get {return _storage._episodes}
+    get {_storage._episodes}
     set {_uniqueStorage()._episodes = newValue}
   }
+
+  var showArchived: SwiftProtobuf.Google_Protobuf_BoolValue {
+    get {_storage._showArchived ?? SwiftProtobuf.Google_Protobuf_BoolValue()}
+    set {_uniqueStorage()._showArchived = newValue}
+  }
+  /// Returns true if `showArchived` has been explicitly set.
+  var hasShowArchived: Bool {_storage._showArchived != nil}
+  /// Clears the value of `showArchived`. Subsequent reads from it will return its default value.
+  mutating func clearShowArchived() {_uniqueStorage()._showArchived = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -7293,11 +7415,11 @@ struct Api_PodcastFolderRequest: Sendable {
   var model: String = String()
 
   var folder: Api_PodcastFolder {
-    get {return _folder ?? Api_PodcastFolder()}
+    get {_folder ?? Api_PodcastFolder()}
     set {_folder = newValue}
   }
   /// Returns true if `folder` has been explicitly set.
-  var hasFolder: Bool {return self._folder != nil}
+  var hasFolder: Bool {self._folder != nil}
   /// Clears the value of `folder`. Subsequent reads from it will return its default value.
   mutating func clearFolder() {self._folder = nil}
 
@@ -7326,11 +7448,11 @@ struct Api_PodcastFolder: Sendable {
   var podcastsSortType: Int32 = 0
 
   var dateAdded: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_dateAdded ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_dateAdded = newValue}
   }
   /// Returns true if `dateAdded` has been explicitly set.
-  var hasDateAdded: Bool {return self._dateAdded != nil}
+  var hasDateAdded: Bool {self._dateAdded != nil}
   /// Clears the value of `dateAdded`. Subsequent reads from it will return its default value.
   mutating func clearDateAdded() {self._dateAdded = nil}
 
@@ -7367,6 +7489,32 @@ struct Api_PodcastFolderSorting: Sendable {
   var uuid: String = String()
 
   var position: Int32 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_SuggestedFolder: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var name: String = String()
+
+  var podcastUuids: [String] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_SuggestedFoldersRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var folders: [Api_SuggestedFolder] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -7467,20 +7615,20 @@ struct Api_BookmarkRequest: Sendable {
   var episodeUuid: String = String()
 
   var time: SwiftProtobuf.Google_Protobuf_Int32Value {
-    get {return _time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
+    get {_time ?? SwiftProtobuf.Google_Protobuf_Int32Value()}
     set {_time = newValue}
   }
   /// Returns true if `time` has been explicitly set.
-  var hasTime: Bool {return self._time != nil}
+  var hasTime: Bool {self._time != nil}
   /// Clears the value of `time`. Subsequent reads from it will return its default value.
   mutating func clearTime() {self._time = nil}
 
   var title: SwiftProtobuf.Google_Protobuf_StringValue {
-    get {return _title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
+    get {_title ?? SwiftProtobuf.Google_Protobuf_StringValue()}
     set {_title = newValue}
   }
   /// Returns true if `title` has been explicitly set.
-  var hasTitle: Bool {return self._title != nil}
+  var hasTitle: Bool {self._title != nil}
   /// Clears the value of `title`. Subsequent reads from it will return its default value.
   mutating func clearTitle() {self._title = nil}
 
@@ -7520,11 +7668,11 @@ struct Api_BookmarkResponse: Sendable {
   var title: String = String()
 
   var createdAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_createdAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_createdAt = newValue}
   }
   /// Returns true if `createdAt` has been explicitly set.
-  var hasCreatedAt: Bool {return self._createdAt != nil}
+  var hasCreatedAt: Bool {self._createdAt != nil}
   /// Clears the value of `createdAt`. Subsequent reads from it will return its default value.
   mutating func clearCreatedAt() {self._createdAt = nil}
 
@@ -7555,11 +7703,11 @@ struct Api_PodcastRating: Sendable {
   var podcastUuid: String = String()
 
   var modifiedAt: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {return _modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    get {_modifiedAt ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
     set {_modifiedAt = newValue}
   }
   /// Returns true if `modifiedAt` has been explicitly set.
-  var hasModifiedAt: Bool {return self._modifiedAt != nil}
+  var hasModifiedAt: Bool {self._modifiedAt != nil}
   /// Clears the value of `modifiedAt`. Subsequent reads from it will return its default value.
   mutating func clearModifiedAt() {self._modifiedAt = nil}
 
@@ -7768,6 +7916,39 @@ struct Api_PodcastsEpisodesRequest: Sendable {
   var podcastUuids: [String] = []
 
   var episodeUuids: [String] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Api_PlaylistCreateRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var playlist: Api_SyncUserPlaylist {
+    get {_playlist ?? Api_SyncUserPlaylist()}
+    set {_playlist = newValue}
+  }
+  /// Returns true if `playlist` has been explicitly set.
+  var hasPlaylist: Bool {self._playlist != nil}
+  /// Clears the value of `playlist`. Subsequent reads from it will return its default value.
+  mutating func clearPlaylist() {self._playlist = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _playlist: Api_SyncUserPlaylist? = nil
+}
+
+struct Api_PlaylistReorderRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var playlistUuids: [String] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -8247,7 +8428,7 @@ extension Api_BasicRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension Api_UserIdResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".UserIdResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}id\0\u{c}\u{2}\u{1}")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -8441,7 +8622,7 @@ extension Api_NamedSettingsRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ChangeableSettings"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -8537,6 +8718,9 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     var _badgesGlobal: Api_Int32Setting? = nil
     var _smartFoldersNumberOfTimesShown: Api_Int32Setting? = nil
     var _smartFoldersLastDateShown: Api_StringSetting? = nil
+    var _saveUpNextOnPlaylistsPlayAll: Api_BoolSetting? = nil
+    var _doNotSellOrShare: Api_BoolSetting? = nil
+    var _liveAnalyticsURL: Api_StringSetting? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -8640,6 +8824,9 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       _badgesGlobal = source._badgesGlobal
       _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
       _smartFoldersLastDateShown = source._smartFoldersLastDateShown
+      _saveUpNextOnPlaylistsPlayAll = source._saveUpNextOnPlaylistsPlayAll
+      _doNotSellOrShare = source._doNotSellOrShare
+      _liveAnalyticsURL = source._liveAnalyticsURL
     }
   }
 
@@ -8751,6 +8938,9 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
         case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
+        case 97: try { try decoder.decodeSingularMessageField(value: &_storage._saveUpNextOnPlaylistsPlayAll) }()
+        case 98: try { try decoder.decodeSingularMessageField(value: &_storage._doNotSellOrShare) }()
+        case 99: try { try decoder.decodeSingularMessageField(value: &_storage._liveAnalyticsURL) }()
         default: break
         }
       }
@@ -9041,6 +9231,15 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
       } }()
       try { if let v = _storage._smartFoldersLastDateShown {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
+      } }()
+      try { if let v = _storage._saveUpNextOnPlaylistsPlayAll {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 97)
+      } }()
+      try { if let v = _storage._doNotSellOrShare {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 98)
+      } }()
+      try { if let v = _storage._liveAnalyticsURL {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 99)
       } }()
     }
     try unknownFields.traverse(visitor: &visitor)
@@ -9144,6 +9343,9 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
         if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
         if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
+        if _storage._saveUpNextOnPlaylistsPlayAll != rhs_storage._saveUpNextOnPlaylistsPlayAll {return false}
+        if _storage._doNotSellOrShare != rhs_storage._doNotSellOrShare {return false}
+        if _storage._liveAnalyticsURL != rhs_storage._liveAnalyticsURL {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9155,7 +9357,7 @@ extension Api_ChangeableSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageI
 
 extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettings"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{4}\u{2}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
@@ -9251,6 +9453,9 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     var _badgesGlobal: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _smartFoldersNumberOfTimesShown: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _smartFoldersLastDateShown: SwiftProtobuf.Google_Protobuf_StringValue? = nil
+    var _saveUpNextOnPlaylistsPlayAll: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _doNotSellOrShare: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
+    var _liveAnalyticsURL: SwiftProtobuf.Google_Protobuf_StringValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -9354,6 +9559,9 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       _badgesGlobal = source._badgesGlobal
       _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
       _smartFoldersLastDateShown = source._smartFoldersLastDateShown
+      _saveUpNextOnPlaylistsPlayAll = source._saveUpNextOnPlaylistsPlayAll
+      _doNotSellOrShare = source._doNotSellOrShare
+      _liveAnalyticsURL = source._liveAnalyticsURL
     }
   }
 
@@ -9465,6 +9673,9 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         case 93: try { try decoder.decodeSingularMessageField(value: &_storage._badgesGlobal) }()
         case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
         case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
+        case 97: try { try decoder.decodeSingularMessageField(value: &_storage._saveUpNextOnPlaylistsPlayAll) }()
+        case 98: try { try decoder.decodeSingularMessageField(value: &_storage._doNotSellOrShare) }()
+        case 99: try { try decoder.decodeSingularMessageField(value: &_storage._liveAnalyticsURL) }()
         default: break
         }
       }
@@ -9756,6 +9967,15 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
       try { if let v = _storage._smartFoldersLastDateShown {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
       } }()
+      try { if let v = _storage._saveUpNextOnPlaylistsPlayAll {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 97)
+      } }()
+      try { if let v = _storage._doNotSellOrShare {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 98)
+      } }()
+      try { if let v = _storage._liveAnalyticsURL {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 99)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -9858,6 +10078,9 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
         if _storage._badgesGlobal != rhs_storage._badgesGlobal {return false}
         if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
         if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
+        if _storage._saveUpNextOnPlaylistsPlayAll != rhs_storage._saveUpNextOnPlaylistsPlayAll {return false}
+        if _storage._doNotSellOrShare != rhs_storage._doNotSellOrShare {return false}
+        if _storage._liveAnalyticsURL != rhs_storage._liveAnalyticsURL {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -9869,7 +10092,7 @@ extension Api_NamedSettings: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 
 extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".NamedSettingsResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{1}developer\0\u{3}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}grid_layout\0\u{3}grid_order\0\u{3}show_played\0\u{1}theme\0\u{3}skip_forward\0\u{3}skip_back\0\u{3}web_version\0\u{1}language\0\u{3}recommendations_on\0\u{4}\u{2}use_embedded_artwork\0\u{3}playback_speed\0\u{4}\u{2}volume_boost\0\u{1}badges\0\u{3}free_gift_acknowledgement\0\u{3}marketing_opt_in\0\u{3}auto_archive_played_episodes\0\u{3}auto_archive_includes_starred\0\u{1}region\0\u{3}row_action\0\u{3}up_next_swipe\0\u{3}episode_grouping\0\u{3}show_archived\0\u{3}open_links\0\u{3}media_actions\0\u{3}media_actions_order\0\u{3}keep_screen_awake\0\u{3}open_player\0\u{3}intelligent_resumption\0\u{3}play_up_next_on_tap\0\u{3}remote_skip_chapters\0\u{3}playback_actions\0\u{3}legacy_bluetooth\0\u{3}multi_select_gesture\0\u{3}chapter_titles\0\u{1}notifications\0\u{3}notification_actions\0\u{3}play_over_notifications\0\u{3}hide_notification_on_pause\0\u{3}app_badge\0\u{3}app_badge_filter\0\u{3}auto_archive_played\0\u{3}auto_archive_inactive\0\u{3}auto_up_next_limit\0\u{3}auto_up_next_limit_reached\0\u{3}warn_data_usage\0\u{3}files_auto_up_next\0\u{3}files_after_playing_delete_local\0\u{3}files_after_playing_delete_cloud\0\u{3}privacy_analytics\0\u{3}privacy_crash_reports\0\u{3}privacy_link_account\0\u{3}player_shelf\0\u{3}auto_subscribe_to_played\0\u{3}auto_show_played\0\u{3}auto_play_enabled\0\u{3}auto_play_last_list_uuid\0\u{3}trim_silence\0\u{3}show_artwork_on_lock_screen\0\u{3}headphone_controls_next_action\0\u{3}headphone_controls_previous_action\0\u{3}headphone_controls_play_bookmark_confirmation_sound\0\u{3}dark_theme_preference\0\u{3}light_theme_preference\0\u{3}use_system_theme\0\u{3}episode_bookmarks_sort_type\0\u{3}player_bookmarks_sort_type\0\u{3}podcast_bookmarks_sort_type\0\u{3}use_dark_up_next_theme\0\u{3}use_dynamic_colors_for_widget\0\u{3}files_sort_order\0\u{3}background_refresh\0\u{3}auto_download_unmetered_only\0\u{3}auto_download_only_when_charging\0\u{3}auto_download_up_next\0\u{3}cloud_auto_upload\0\u{3}cloud_auto_download\0\u{3}cloud_download_unmetered_only\0\u{3}use_rss_artwork\0\u{3}bookmarks_sort_order\0\u{3}auto_archive_played_episodes_global\0\u{3}auto_archive_includes_starred_global\0\u{3}files_auto_up_next_global\0\u{3}files_after_playing_delete_local_global\0\u{3}files_after_playing_delete_cloud_global\0\u{3}player_shelf_global\0\u{3}row_action_global\0\u{3}use_embedded_artwork_global\0\u{3}recommendations_on_global\0\u{3}grid_layout_global\0\u{3}volume_boost_global\0\u{3}badges_global\0\u{1}developer\0\u{3}smart_folders_number_of_times_shown\0\u{3}smart_folders_last_date_shown\0\u{3}save_up_next_on_playlists_play_all\0\u{3}do_not_sell_or_share\0\u{3}live_analytics_url\0\u{b}stream_by_default\0\u{b}silence_removal\0\u{c}\u{a}\u{1}\u{c}\u{d}\u{1}")
 
   fileprivate class _StorageClass {
     var _gridLayout: Api_Int32Setting? = nil
@@ -9966,6 +10189,9 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     var _developer: Api_BoolSetting? = nil
     var _smartFoldersNumberOfTimesShown: Api_Int32Setting? = nil
     var _smartFoldersLastDateShown: Api_StringSetting? = nil
+    var _saveUpNextOnPlaylistsPlayAll: Api_BoolSetting? = nil
+    var _doNotSellOrShare: Api_BoolSetting? = nil
+    var _liveAnalyticsURL: Api_StringSetting? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -10070,6 +10296,9 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       _developer = source._developer
       _smartFoldersNumberOfTimesShown = source._smartFoldersNumberOfTimesShown
       _smartFoldersLastDateShown = source._smartFoldersLastDateShown
+      _saveUpNextOnPlaylistsPlayAll = source._saveUpNextOnPlaylistsPlayAll
+      _doNotSellOrShare = source._doNotSellOrShare
+      _liveAnalyticsURL = source._liveAnalyticsURL
     }
   }
 
@@ -10182,6 +10411,9 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         case 94: try { try decoder.decodeSingularMessageField(value: &_storage._developer) }()
         case 95: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersNumberOfTimesShown) }()
         case 96: try { try decoder.decodeSingularMessageField(value: &_storage._smartFoldersLastDateShown) }()
+        case 97: try { try decoder.decodeSingularMessageField(value: &_storage._saveUpNextOnPlaylistsPlayAll) }()
+        case 98: try { try decoder.decodeSingularMessageField(value: &_storage._doNotSellOrShare) }()
+        case 99: try { try decoder.decodeSingularMessageField(value: &_storage._liveAnalyticsURL) }()
         default: break
         }
       }
@@ -10476,6 +10708,15 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
       try { if let v = _storage._smartFoldersLastDateShown {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 96)
       } }()
+      try { if let v = _storage._saveUpNextOnPlaylistsPlayAll {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 97)
+      } }()
+      try { if let v = _storage._doNotSellOrShare {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 98)
+      } }()
+      try { if let v = _storage._liveAnalyticsURL {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 99)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -10579,6 +10820,9 @@ extension Api_NamedSettingsResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if _storage._developer != rhs_storage._developer {return false}
         if _storage._smartFoldersNumberOfTimesShown != rhs_storage._smartFoldersNumberOfTimesShown {return false}
         if _storage._smartFoldersLastDateShown != rhs_storage._smartFoldersLastDateShown {return false}
+        if _storage._saveUpNextOnPlaylistsPlayAll != rhs_storage._saveUpNextOnPlaylistsPlayAll {return false}
+        if _storage._doNotSellOrShare != rhs_storage._doNotSellOrShare {return false}
+        if _storage._liveAnalyticsURL != rhs_storage._liveAnalyticsURL {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -13338,7 +13582,7 @@ extension Api_StarredEpisode: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".PlaylistSyncResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}all_podcasts\0\u{3}filter_hours\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}all_podcasts\0\u{3}filter_hours\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0\u{3}show_archived\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -13366,6 +13610,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _episodeOrder: [String] = []
     var _episodes: [Api_SyncPlaylistEpisode] = []
+    var _showArchived: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -13401,6 +13646,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _shorterThan = source._shorterThan
       _episodeOrder = source._episodeOrder
       _episodes = source._episodes
+      _showArchived = source._showArchived
     }
   }
 
@@ -13444,6 +13690,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 23: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
         case 24: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
         case 25: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
+        case 26: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
         default: break
         }
       }
@@ -13531,6 +13778,9 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
       if !_storage._episodes.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 25)
       }
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 26)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -13565,6 +13815,7 @@ extension Api_PlaylistSyncResponse: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
         if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
         if _storage._episodes != rhs_storage._episodes {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -14266,7 +14517,7 @@ extension Api_PodcastPair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 
 extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SubscriptionsStatusResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}paid\0\u{1}platform\0\u{1}expiryDate\0\u{1}autoRenewing\0\u{1}giftDays\0\u{1}cancelUrl\0\u{1}updateUrl\0\u{1}frequency\0\u{1}web\0\u{1}subscriptions\0\u{1}type\0\u{1}index\0\u{1}webStatus\0\u{1}tier\0\u{1}features\0\u{1}createdAt\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}paid\0\u{1}platform\0\u{1}expiryDate\0\u{1}autoRenewing\0\u{1}giftDays\0\u{1}cancelUrl\0\u{1}updateUrl\0\u{1}frequency\0\u{1}web\0\u{1}subscriptions\0\u{1}type\0\u{1}index\0\u{1}webStatus\0\u{1}tier\0\u{1}features\0\u{1}createdAt\0\u{1}installmentBased\0")
 
   fileprivate class _StorageClass {
     var _paid: Int32 = 0
@@ -14285,6 +14536,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
     var _tier: String = String()
     var _features: Api_Features? = nil
     var _createdAt: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _installmentBased: Bool = false
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -14311,6 +14563,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       _tier = source._tier
       _features = source._features
       _createdAt = source._createdAt
+      _installmentBased = source._installmentBased
     }
   }
 
@@ -14345,6 +14598,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         case 14: try { try decoder.decodeSingularStringField(value: &_storage._tier) }()
         case 15: try { try decoder.decodeSingularMessageField(value: &_storage._features) }()
         case 16: try { try decoder.decodeSingularMessageField(value: &_storage._createdAt) }()
+        case 17: try { try decoder.decodeSingularBoolField(value: &_storage._installmentBased) }()
         default: break
         }
       }
@@ -14405,6 +14659,9 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
       try { if let v = _storage._createdAt {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
       } }()
+      if _storage._installmentBased != false {
+        try visitor.visitSingularBoolField(value: _storage._installmentBased, fieldNumber: 17)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -14430,6 +14687,7 @@ extension Api_SubscriptionsStatusResponse: SwiftProtobuf.Message, SwiftProtobuf.
         if _storage._tier != rhs_storage._tier {return false}
         if _storage._features != rhs_storage._features {return false}
         if _storage._createdAt != rhs_storage._createdAt {return false}
+        if _storage._installmentBased != rhs_storage._installmentBased {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -15380,7 +15638,7 @@ extension Api_SyncUserDevice: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
 
 extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SyncUserPlaylist"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}is_deleted\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}starred\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}original_uuid\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}episode_order\0\u{1}episodes\0\u{3}show_archived\0")
 
   fileprivate class _StorageClass {
     var _uuid: String = String()
@@ -15408,6 +15666,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     var _shorterThan: SwiftProtobuf.Google_Protobuf_Int32Value? = nil
     var _episodeOrder: [String] = []
     var _episodes: [Api_SyncPlaylistEpisode] = []
+    var _showArchived: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -15443,6 +15702,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       _shorterThan = source._shorterThan
       _episodeOrder = source._episodeOrder
       _episodes = source._episodes
+      _showArchived = source._showArchived
     }
   }
 
@@ -15486,6 +15746,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         case 23: try { try decoder.decodeSingularMessageField(value: &_storage._shorterThan) }()
         case 24: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
         case 25: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
+        case 26: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
         default: break
         }
       }
@@ -15573,6 +15834,9 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
       if !_storage._episodes.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 25)
       }
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 26)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -15607,6 +15871,7 @@ extension Api_SyncUserPlaylist: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
         if _storage._shorterThan != rhs_storage._shorterThan {return false}
         if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
         if _storage._episodes != rhs_storage._episodes {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -15825,7 +16090,7 @@ extension Api_LegacySyncRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyRecord"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0\u{3}show_archived\0")
 
   fileprivate class _StorageClass {
     var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
@@ -15883,6 +16148,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _episodeOrder: [String] = []
     var _episodes: [Api_SyncPlaylistEpisode] = []
+    var _showArchived: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -15948,6 +16214,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _deselectedChaptersModified = source._deselectedChaptersModified
       _episodeOrder = source._episodeOrder
       _episodes = source._episodes
+      _showArchived = source._showArchived
     }
   }
 
@@ -16021,6 +16288,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         case 54: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
         case 55: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
+        case 56: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
         default: break
         }
       }
@@ -16198,6 +16466,9 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       if !_storage._episodes.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 55)
       }
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 56)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16262,6 +16533,7 @@ extension Api_LegacyRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
         if _storage._episodes != rhs_storage._episodes {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -16347,7 +16619,7 @@ extension Api_LegacySyncResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".LegacyResponseRecord"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{3}user_podcast_uuid\0\u{3}episode_uuid\0\u{3}podcast_uuid\0\u{3}is_deleted\0\u{3}is_deleted_modified\0\u{1}duration\0\u{3}duration_modified\0\u{3}playing_status\0\u{3}playing_status_modified\0\u{3}played_up_to\0\u{3}played_up_to_modified\0\u{1}starred\0\u{3}starred_modified\0\u{3}times_started_at\0\u{3}time_silence_removal\0\u{3}time_variable_speed\0\u{3}time_intro_skipping\0\u{3}time_skipping\0\u{3}time_listened\0\u{3}auto_start_from\0\u{1}subscribed\0\u{1}title\0\u{3}all_podcasts\0\u{3}podcast_uuids\0\u{3}episode_uuids\0\u{3}audio_video\0\u{3}not_downloaded\0\u{1}downloaded\0\u{1}downloading\0\u{1}finished\0\u{3}partially_played\0\u{1}unplayed\0\u{1}manual\0\u{3}sort_position\0\u{3}sort_type\0\u{3}icon_id\0\u{3}filter_hours\0\u{3}auto_skip_last\0\u{3}filter_duration\0\u{3}longer_than\0\u{3}shorter_than\0\u{3}folder_uuid\0\u{1}name\0\u{1}color\0\u{3}podcasts_sort_type\0\u{3}date_added\0\u{3}bookmark_uuid\0\u{1}time\0\u{3}title_modified\0\u{3}created_at\0\u{3}deselected_chapters\0\u{3}deselected_chapters_modified\0\u{3}episode_order\0\u{1}episodes\0\u{3}show_archived\0")
 
   fileprivate class _StorageClass {
     var _uuid: SwiftProtobuf.Google_Protobuf_StringValue? = nil
@@ -16405,6 +16677,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
     var _deselectedChaptersModified: SwiftProtobuf.Google_Protobuf_Int64Value? = nil
     var _episodeOrder: [String] = []
     var _episodes: [Api_SyncPlaylistEpisode] = []
+    var _showArchived: SwiftProtobuf.Google_Protobuf_BoolValue? = nil
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -16470,6 +16743,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       _deselectedChaptersModified = source._deselectedChaptersModified
       _episodeOrder = source._episodeOrder
       _episodes = source._episodes
+      _showArchived = source._showArchived
     }
   }
 
@@ -16543,6 +16817,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         case 53: try { try decoder.decodeSingularMessageField(value: &_storage._deselectedChaptersModified) }()
         case 54: try { try decoder.decodeRepeatedStringField(value: &_storage._episodeOrder) }()
         case 55: try { try decoder.decodeRepeatedMessageField(value: &_storage._episodes) }()
+        case 56: try { try decoder.decodeSingularMessageField(value: &_storage._showArchived) }()
         default: break
         }
       }
@@ -16720,6 +16995,9 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
       if !_storage._episodes.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._episodes, fieldNumber: 55)
       }
+      try { if let v = _storage._showArchived {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 56)
+      } }()
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -16784,6 +17062,7 @@ extension Api_LegacyResponseRecord: SwiftProtobuf.Message, SwiftProtobuf._Messag
         if _storage._deselectedChaptersModified != rhs_storage._deselectedChaptersModified {return false}
         if _storage._episodeOrder != rhs_storage._episodeOrder {return false}
         if _storage._episodes != rhs_storage._episodes {return false}
+        if _storage._showArchived != rhs_storage._showArchived {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -17251,6 +17530,71 @@ extension Api_PodcastFolderSorting: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static func ==(lhs: Api_PodcastFolderSorting, rhs: Api_PodcastFolderSorting) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.position != rhs.position {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_SuggestedFolder: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SuggestedFolder"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}name\0\u{3}podcast_uuids\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      case 2: try { try decoder.decodeRepeatedStringField(value: &self.podcastUuids) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
+    }
+    if !self.podcastUuids.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.podcastUuids, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_SuggestedFolder, rhs: Api_SuggestedFolder) -> Bool {
+    if lhs.name != rhs.name {return false}
+    if lhs.podcastUuids != rhs.podcastUuids {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_SuggestedFoldersRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".SuggestedFoldersRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}folders\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.folders) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.folders.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.folders, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_SuggestedFoldersRequest, rhs: Api_SuggestedFoldersRequest) -> Bool {
+    if lhs.folders != rhs.folders {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -18178,6 +18522,70 @@ extension Api_PodcastsEpisodesRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
   static func ==(lhs: Api_PodcastsEpisodesRequest, rhs: Api_PodcastsEpisodesRequest) -> Bool {
     if lhs.podcastUuids != rhs.podcastUuids {return false}
     if lhs.episodeUuids != rhs.episodeUuids {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PlaylistCreateRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PlaylistCreateRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}playlist\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._playlist) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._playlist {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PlaylistCreateRequest, rhs: Api_PlaylistCreateRequest) -> Bool {
+    if lhs._playlist != rhs._playlist {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Api_PlaylistReorderRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PlaylistReorderRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}playlist_uuids\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedStringField(value: &self.playlistUuids) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.playlistUuids.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.playlistUuids, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Api_PlaylistReorderRequest, rhs: Api_PlaylistReorderRequest) -> Bool {
+    if lhs.playlistUuids != rhs.playlistUuids {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

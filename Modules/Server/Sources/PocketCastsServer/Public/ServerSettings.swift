@@ -369,3 +369,24 @@ public extension ServerSettings {
         KeychainHelper.save(string: newValue, key: ServerConstants.Values.refreshTokenKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
     }
 }
+
+// MARK: - Live Analytics Debugging
+
+public extension ServerSettings {
+    private static let liveAnalyticsUrlKey = "SJLiveAnalyticsUrl"
+
+    /// URL for streaming analytics events to a remote debugging endpoint.
+    /// This is set by the server and enables live analytics debugging when non-empty.
+    class var liveAnalyticsUrl: String? {
+        get {
+            UserDefaults.standard.string(forKey: liveAnalyticsUrlKey)
+        }
+        set {
+            if let newValue, !newValue.isEmpty {
+                UserDefaults.standard.set(newValue, forKey: liveAnalyticsUrlKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: liveAnalyticsUrlKey)
+            }
+        }
+    }
+}
