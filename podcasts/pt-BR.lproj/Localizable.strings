@@ -2962,8 +2962,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Se o limite for alcançado</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>A adição automática de novos episódios será interrompida quando a lista de Próximos chegar a %1$@ episódios.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos. Nenhum episódio novo será adicionado na parte inferior.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Adicionar podcasts automaticamente</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Usar tema escuro na fila Próximos</string>
     <key>settings_up_next_limit</key>
     <string>Adicione novos episódios aos Próximos automaticamente. Novos episódios deixarão de ser adicionados quando a fila de Próximos chegar a %1$@.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Adicione novos episódios aos Próximos automaticamente. Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos.</string>
     <key>settings_volume_boost</key>
     <string>Aumentar volume</string>
     <key>settings_watch_auto_download</key>

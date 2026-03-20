@@ -2962,8 +2962,6 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Si se alcanza el límite</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>No será posible agregar nuevos episodios cuando A continuación alcance %1$@ episodios.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Cuando A continuación alcance los %1$@, los nuevos episodios agregados automáticamente a los principales eliminarán el último episodio de la cola. No se agregarán nuevos episodios al final de la cola.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Agregar podcasts automáticamente</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Utilizar tema Up Next oscuro</string>
     <key>settings_up_next_limit</key>
     <string>Agrega automáticamente nuevos episodios a A continuación. No será posible agregar nuevos episodios cuando A continuación alcance los %1$@.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Agrega automáticamente nuevos episodios a A continuación. Cuando A continuación alcance los %1$@, los nuevos episodios agregados automáticamente a los principales eliminarán el último episodio de la cola.</string>
     <key>settings_volume_boost</key>
     <string>Aumento de volumen</string>
     <key>settings_watch_auto_download</key>

@@ -22,7 +22,7 @@
     <key>ErAaNp</key>
     <string>Mode de repetició</string>
     <key>EwNFJ5</key>
-    <string>Ampliar temporitzador</string>
+    <string>Amplia el temporitzador</string>
     <key>G0iCil</key>
     <string>No es pot saltar el capítol</string>
     <key>G3J6fP</key>
@@ -34,7 +34,7 @@
     <key>MbU5ep</key>
     <string>Reprodueix aleatòriament ${mediaItems}</string>
     <key>No0K9w</key>
-    <string>reprendre</string>
+    <string>reprèn</string>
     <key>Ntulol</key>
     <string>Salta el capítol</string>
     <key>OJvsVr</key>
@@ -82,7 +82,7 @@
     <key>nR0neu</key>
     <string>Temporitzador</string>
     <key>ny98Lo</key>
-    <string>Ampliar temporitzador</string>
+    <string>Amplia el temporitzador</string>
     <key>o6CuZu</key>
     <string>Reprendre ${mediaContainer}</string>
     <key>q8QY8B</key>
@@ -90,7 +90,7 @@
     <key>rnkZnd</key>
     <string>Salta el capítol</string>
     <key>rvNMpm</key>
-    <string>Reprendre</string>
+    <string>Reprèn</string>
     <key>sLPQxZ</key>
     <string>Reprodueix ${mediaContainer}</string>
     <key>xdnqvn</key>

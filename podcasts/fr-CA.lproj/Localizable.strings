@@ -2962,8 +2962,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Si la limite est atteinte</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@ épisodes.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Lorsque la file d’attente Prochains épisodes atteint %1$@, l’ajout automatique de nouveaux épisodes au haut de la liste supprimera le dernier épisode dans la file d’attente. Aucun nouvel épisode ne sera ajouté au bas.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Ajout automatique de balados</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Utiliser le thème File d’attente sombre</string>
     <key>settings_up_next_limit</key>
     <string>Ajout automatique des nouveaux épisodes à la liste Prochains épisodes Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Ajout automatique des nouveaux épisodes à la file d’attente Prochains épisodes Lorsque la file d’attente Prochains épisodes atteint %1$@, l’ajout automatique de nouveaux épisodes au haut de la liste supprimera le dernier épisode dans la file d’attente.</string>
     <key>settings_volume_boost</key>
     <string>Amplification du volume</string>
     <key>settings_watch_auto_download</key>

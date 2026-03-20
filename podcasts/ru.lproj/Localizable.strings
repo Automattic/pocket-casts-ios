@@ -2962,8 +2962,6 @@ Pocket Casts на полную мощность.</string>
     <string>Если достигнут порог</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@ выпусков.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Когда размер очереди «Следующие» достигает %1$@ выпусков, автоматически добавляемые новые выпуски будут удалять из очереди самый старый выпуск. Новые выпуски снизу добавляться не будут.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Автоматическое добавление подкастов</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Pocket Casts на полную мощность.</string>
     <string>Использовать тёмную тему Up Next</string>
     <key>settings_up_next_limit</key>
     <string>Автоматически добавлять новые выпуски в список «Следующие». Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Автоматически добавлять новые выпуски в список «Следующие». Когда размер очереди «Следующие» достигает %1$@ выпусков, автоматически добавляемые новые выпуски будут удалять из очереди самый старый выпуск.</string>
     <key>settings_volume_boost</key>
     <string>Усилитель звука</string>
     <key>settings_watch_auto_download</key>

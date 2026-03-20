@@ -2962,8 +2962,6 @@ Pocket Casts。</string>
     <string>如果达到极限</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>当“接下来播放”达到 %1$@ 集，系统将停止添加新剧集。</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>当“接下来播放”达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。 底部不会添加新剧集。</string>
     <key>settings_auto_add_podcasts</key>
     <string>自动添加播客</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Pocket Casts。</string>
     <string>使用深色的“下一个”主题</string>
     <key>settings_up_next_limit</key>
     <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，系统将停止添加新剧集。</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。</string>
     <key>settings_volume_boost</key>
     <string>音量增强</string>
     <key>settings_watch_auto_download</key>
