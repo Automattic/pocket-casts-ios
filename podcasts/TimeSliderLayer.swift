@@ -85,7 +85,9 @@ class TimeSliderLayer: CALayer {
         //draw animation line
         if shouldAnimate {
             let clippedRect = progressAnimationRect.intersection(CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: leftHalfRect.width + rightHalfRect.width, height: leftHalfRect.height))
-            drawRoundedLine(rect: clippedRect, color: animationColor, context: ctx)
+            if !clippedRect.isNull {
+                drawRoundedLine(rect: clippedRect, color: animationColor, context: ctx)
+            }
         }
 
         // draw the left line
@@ -166,10 +168,9 @@ class TimeSliderLayer: CALayer {
 
         let duration: CFTimeInterval = 1.0
         let animationLineWidth = animationLineWidth()
-
-        progressAnimationRect = CGRect(x: leftHalfRect.origin.x + leftHalfRect.size.width, y: leftHalfRect.origin.y, width: animationLineWidth, height: rightHalfRect.size.height)
-
         let progressStartX = leftHalfRect.origin.x
+
+        progressAnimationRect = CGRect(x: progressStartX - animationLineWidth, y: leftHalfRect.origin.y, width: animationLineWidth, height: rightHalfRect.size.height)
 
         let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
         moveAnimation.values = [
