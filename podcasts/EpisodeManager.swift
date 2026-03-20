@@ -394,8 +394,10 @@ class EpisodeManager: NSObject {
         FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
         while let tmpFile = folderEnum.nextObject() as? String {
             let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
-            guard let date = try? fileManager.attributesOfItem(atPath: fullFilePath).fileCreationDate,
-               Date.now.timeIntervalSince(date) > 1.week else {
+            guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath),
+                  let date = attributes[.creationDate] as? Date,
+                  Date.now.timeIntervalSince(date) > 1.week
+            else {
                 continue
             }
 
