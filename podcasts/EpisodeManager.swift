@@ -385,9 +385,9 @@ class EpisodeManager: NSObject {
         }
     }
 
-    class func cleanUpTmpFolder() {
+    class func cleanUpTmpFolder(folderPath: String = DownloadManager.shared.tempDownloadFolder) {
         let fileManager = FileManager.default
-        let tmpPath = DownloadManager.shared.tempDownloadFolder
+        let tmpPath = folderPath
         guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
             return
         }
