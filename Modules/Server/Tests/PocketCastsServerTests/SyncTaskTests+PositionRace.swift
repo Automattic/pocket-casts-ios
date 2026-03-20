@@ -7,9 +7,9 @@ import XCTest
 /// Tests demonstrating that SyncTask.importEpisode unconditionally overwrites
 /// the local playedUpTo with the server value, without any recency check.
 ///
-/// The core issue in SyncTask+ServerChanges.swift:229-238:
-///   1. The DB write (line 231) is unconditional — no timestamp comparison
-///   2. The seek (line 238) fires for every write where the value differs
+/// The core issue in importEpisode's playedUpTo handling:
+///   1. The DB write is unconditional — no timestamp comparison
+///   2. The seek fires for every write where the playedUpTo value differs
 ///   3. The `playedUpToModified` field exists in the protobuf but is never checked
 ///
 /// This means any sync response — including one carrying a stale position — will
