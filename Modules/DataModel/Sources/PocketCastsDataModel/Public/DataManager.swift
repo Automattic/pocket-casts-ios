@@ -616,6 +616,12 @@ public class DataManager {
         episodeManager.saveIfNotModified(chapters: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    // returns true if the save succeeded, false otherwise
+    @discardableResult
+    public func saveIfNotModified(playedUpTo: Double, remoteModified: Int64, episodeUuid: String) -> Bool {
+        episodeManager.saveIfNotModified(playedUpTo: playedUpTo, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
+    }
+
     public func saveEpisode(playedUpTo: Double, episode: BaseEpisode, updateSyncFlag: Bool) {
         let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_EPISODE_POSITION_SAVE")
         defer { TraceManager.shared.endTracing(trace: trace) }

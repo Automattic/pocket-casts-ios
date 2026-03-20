@@ -18,9 +18,16 @@ final class SyncTaskTests_PositionRace: XCTestCase {
     private var syncTask: SyncTask!
     private var mockPlaybackDelegate: MockPlaybackDelegate!
     private var originalPlaybackDelegate: ServerPlaybackDelegate?
+    private var featureFlagMock: FeatureFlagMock!
 
     override func setUp() {
         super.setUp()
+        featureFlagMock = FeatureFlagMock()
+        // Ensure flags start at known state — UserDefaults overrides persist across tests
+        featureFlagMock.set(.syncPlayedUpToTimestampCheck, value: false)
+        // Use legacy SQL path for episode saves to ensure all columns are persisted
+        // consistently (the @GRDBRecord macro may not encode all columns)
+        featureFlagMock.set(.grdbQueryInterface, value: false)
         syncTask = SyncTask(dataManager: DataManager.sharedManager)
         mockPlaybackDelegate = MockPlaybackDelegate()
         originalPlaybackDelegate = ServerConfig.shared.playbackDelegate
@@ -29,7 +36,7 @@ final class SyncTaskTests_PositionRace: XCTestCase {
 
     override func tearDown() {
         ServerConfig.shared.playbackDelegate = originalPlaybackDelegate
-        FeatureFlagMock().reset()
+        featureFlagMock.reset()
         super.tearDown()
     }
 
@@ -193,13 +200,127 @@ final class SyncTaskTests_PositionRace: XCTestCase {
                       "Should not seek for non-playing episode")
     }
 
+    // MARK: - With syncPlayedUpToTimestampCheck enabled
+
+    /// With the flag enabled, a remote position with a valid timestamp is accepted
+    /// when the local playedUpToModified is 0 (which it always is during sync,
+    /// because processServerData calls markAllSynced first).
+    func testFlagEnabled_remotePositionAcceptedWhenLocalTimestampIsZero() {
+        featureFlagMock.set(.syncPlayedUpToTimestampCheck, value: true)
+
+        let episode = createEpisodeInDB(playedUpTo: 100)
+
+        mockPlaybackDelegate.nowPlayingUuid = episode.uuid
+        mockPlaybackDelegate.isPlaying = false
+
+        let response = Api_SyncUpdateResponse.withPlayedUpTo(
+            episodeUuid: episode.uuid,
+            podcastUuid: episode.podcastUuid,
+            playedUpTo: 500,
+            playedUpToModified: 2000
+        )
+        syncTask.processServerData(response: response)
+
+        let savedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+        XCTAssertEqual(Int64(savedEpisode?.playedUpTo ?? 0), 500,
+                       "Remote position accepted when local timestamp is 0")
+
+        // Verify the remote timestamp was persisted for future ordering
+        XCTAssertEqual(savedEpisode?.playedUpToModified, 2000,
+                       "Remote timestamp should be stored in playedUpToModified")
+
+        XCTAssertEqual(mockPlaybackDelegate.seekHistory.count, 1)
+        XCTAssertEqual(mockPlaybackDelegate.seekHistory[0].time, 500)
+    }
+
+    /// With the flag enabled, a remote response with no playedUpToModified (0)
+    /// is rejected when the DB already has a non-zero value from a previous
+    /// accepted remote write (preserved across cycles by markAllSynced).
+    func testFlagEnabled_zeroTimestampRejectedAfterPreviousRemoteWrite() {
+        featureFlagMock.set(.syncPlayedUpToTimestampCheck, value: true)
+
+        let episode = createEpisodeInDB(playedUpTo: 0)
+
+        mockPlaybackDelegate.nowPlayingUuid = episode.uuid
+        mockPlaybackDelegate.isPlaying = false
+
+        // First sync: accepts position with timestamp 2000
+        let firstResponse = Api_SyncUpdateResponse.withPlayedUpTo(
+            episodeUuid: episode.uuid,
+            podcastUuid: episode.podcastUuid,
+            playedUpTo: 500,
+            playedUpToModified: 2000
+        )
+        syncTask.processServerData(response: firstResponse)
+        mockPlaybackDelegate.seekHistory.removeAll()
+
+        // Second sync: zero-timestamp response.
+        // markAllSynced preserves playedUpToModified (still 2000).
+        // SQL: WHERE playedUpToModified < 0 → 2000 < 0 → false → rejected.
+        let secondResponse = Api_SyncUpdateResponse.withPlayedUpTo(
+            episodeUuid: episode.uuid,
+            podcastUuid: episode.podcastUuid,
+            playedUpTo: 50
+        )
+        syncTask.processServerData(response: secondResponse)
+
+        let savedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+        XCTAssertEqual(Int64(savedEpisode?.playedUpTo ?? 0), 500,
+                       "Zero-timestamp remote rejected — playedUpToModified preserved across cycles")
+        XCTAssertTrue(mockPlaybackDelegate.seekHistory.isEmpty)
+    }
+
+    /// With the flag enabled, markAllSynced preserves playedUpToModified so
+    /// the timestamp guard works across sync cycles. A newer remote write
+    /// persists its timestamp, and a subsequent stale remote is rejected.
+    func testFlagEnabled_crossCycleStaleWriteIsRejected() {
+        featureFlagMock.set(.syncPlayedUpToTimestampCheck, value: true)
+
+        let episode = createEpisodeInDB(playedUpTo: 0)
+
+        mockPlaybackDelegate.nowPlayingUuid = episode.uuid
+        mockPlaybackDelegate.isPlaying = false
+
+        // First sync cycle: accepts position with timestamp 2000
+        let firstResponse = Api_SyncUpdateResponse.withPlayedUpTo(
+            episodeUuid: episode.uuid,
+            podcastUuid: episode.podcastUuid,
+            playedUpTo: 146,
+            playedUpToModified: 2000
+        )
+        syncTask.processServerData(response: firstResponse)
+
+        XCTAssertEqual(mockPlaybackDelegate.seekHistory.count, 1)
+        mockPlaybackDelegate.seekHistory.removeAll()
+
+        // Second sync cycle: stale position with older timestamp 1500.
+        // With the flag enabled, markAllSynced preserves playedUpToModified,
+        // so the column still holds 2000 from the first write.
+        // SQL: WHERE playedUpToModified < 1500 → 2000 < 1500 → false → rejected.
+        let secondResponse = Api_SyncUpdateResponse.withPlayedUpTo(
+            episodeUuid: episode.uuid,
+            podcastUuid: episode.podcastUuid,
+            playedUpTo: 132,
+            playedUpToModified: 1500
+        )
+        syncTask.processServerData(response: secondResponse)
+
+        // Stale write rejected — position retained at 146
+        let savedEpisode = DataManager.sharedManager.findEpisode(uuid: episode.uuid)
+        XCTAssertEqual(Int64(savedEpisode?.playedUpTo ?? 0), 146,
+                       "Stale cross-cycle write should be rejected")
+        XCTAssertTrue(mockPlaybackDelegate.seekHistory.isEmpty,
+                      "No seek should fire for rejected stale position")
+    }
+
     // MARK: - Helpers
 
     @discardableResult
     private func createEpisodeInDB(
         episodeUuid: String = "episode-\(UUID().uuidString)",
         podcastUuid: String = "podcast-\(UUID().uuidString)",
-        playedUpTo: Double = 0
+        playedUpTo: Double = 0,
+        playedUpToModified: Int64 = 0
     ) -> Episode {
         let episode = Episode()
         episode.addedDate = Date()
@@ -209,6 +330,7 @@ final class SyncTaskTests_PositionRace: XCTestCase {
         episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
         episode.uuid = episodeUuid
         episode.playedUpTo = playedUpTo
+        episode.playedUpToModified = playedUpToModified
         episode.duration = 3600
 
         DataManager.sharedManager.save(episode: episode)
@@ -274,6 +396,29 @@ private extension Api_SyncUpdateResponse {
 
         var response = Api_SyncUpdateResponse()
         response.records.append(record)
+        return response
+    }
+
+    /// Creates a sync response with multiple records for the same episode,
+    /// each with a different playedUpTo and playedUpToModified value.
+    static func withMultiplePlayedUpTo(
+        episodeUuid: String,
+        podcastUuid: String,
+        entries: [(playedUpTo: Int64, modified: Int64)]
+    ) -> Self {
+        var response = Api_SyncUpdateResponse()
+        for entry in entries {
+            var episodeItem = Api_SyncUserEpisode()
+            episodeItem.uuid = episodeUuid
+            episodeItem.podcastUuid = podcastUuid
+            episodeItem.playedUpTo = Google_Protobuf_Int64Value(entry.playedUpTo)
+            episodeItem.playedUpToModified = Google_Protobuf_Int64Value(entry.modified)
+
+            var record = Api_Record()
+            record.record = .episode(episodeItem)
+            record.episode = episodeItem
+            response.records.append(record)
+        }
         return response
     }
 }

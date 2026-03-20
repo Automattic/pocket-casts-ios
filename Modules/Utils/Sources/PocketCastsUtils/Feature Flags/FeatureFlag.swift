@@ -301,6 +301,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Detect truncated background sync downloads by comparing received bytes to Content-Length
     case detectTruncatedBackgroundSyncDownloads
 
+    /// Guard playedUpTo sync writes with playedUpToModified timestamp to prevent stale remote positions from overwriting newer local progress
+    case syncPlayedUpToTimestampCheck
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -505,6 +508,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .detectTruncatedBackgroundSyncDownloads:
             true
+        case .syncPlayedUpToTimestampCheck:
+            false
         }
     }
 
