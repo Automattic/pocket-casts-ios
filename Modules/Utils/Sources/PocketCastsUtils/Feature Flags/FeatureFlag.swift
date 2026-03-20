@@ -509,7 +509,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .detectTruncatedBackgroundSyncDownloads:
             true
         case .syncPlayedUpToTimestampCheck:
-            false
+            true
         }
     }
 
