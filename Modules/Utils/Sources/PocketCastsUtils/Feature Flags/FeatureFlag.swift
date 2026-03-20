@@ -301,6 +301,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Display playback errors on player
     case displayErrorsOnPlayer
 
+    /// Detect truncated background sync downloads by comparing received bytes to Content-Length
+    case detectTruncatedBackgroundSyncDownloads
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue

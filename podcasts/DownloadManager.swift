@@ -88,6 +88,16 @@ class DownloadManager: NSObject, FilePathProtocol {
          }()
     #endif
 
+    /// Eagerly initializes all URLSessions to avoid race conditions.
+    /// Swift lazy properties are not thread-safe: if multiple threads access an
+    /// uninitialized lazy var concurrently, the initializer can run more than once.
+    /// Calling this from `init()` guarantees single-threaded first access.
+    private func setupSessions() {
+        _ = wifiOnlyBackgroundSession
+        _ = cellularBackgroundSession
+        _ = cellularForegroundSession
+    }
+
     lazy var wifiOnlyBackgroundSession: URLSession = {
         var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
         if FeatureFlag.useCellularNetworkApis.enabled {
@@ -155,6 +165,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         self.dataManager = dataManager
         super.init()
 
+        setupSessions()
         // setup the temp download folder, in caches where iOS can purge it if need be
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
         if let cachePath = paths.first as NSString? {
