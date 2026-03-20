@@ -2960,8 +2960,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>上限に達した場合</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>次のエピソード数が%1$@件に達したら新しいエピソードは追加されなくなります。</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>次のエピソード数が%1$@件に達すると、待機リストの一番上に新しいエピソードが自動的に追加されたときに最後のエピソードが削除されます。 新しいエピソードは一番下に追加されません。</string>
     <key>settings_auto_add_podcasts</key>
     <string>ポッドキャストを自動追加</string>
     <key>settings_auto_archive</key>
@@ -3328,8 +3326,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>次のエピソード待機リストのダークテーマを使用</string>
     <key>settings_up_next_limit</key>
     <string>次のエピソードに新しいエピソードを自動的に追加します。 次のエピソード数が%1$@件に達したときに新しいエピソードは追加されなくなります。</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>次のエピソードに新しいエピソードを自動的に追加します。 次のエピソード数が%1$@件に達すると、待機リストの一番上に新しいエピソードが自動的に追加されたときに最後のエピソードが削除されます。</string>
     <key>settings_volume_boost</key>
     <string>ボリュームブースト</string>
     <key>settings_watch_auto_download</key>

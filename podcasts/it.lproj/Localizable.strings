@@ -2962,8 +2962,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Se il limite viene raggiunto</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Non verranno più aggiunti nuovi episodi quando Successivo raggiunge %1$@ episodi.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Quando Successivo raggiunge %1$@, i nuovi episodi aggiunti automaticamente tra i primi rimuoveranno l'ultimo episodio in coda. Nessun nuovo episodio verrà aggiunto in fondo.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Aggiungi automaticamente i podcast</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Usa il tema scuro per Successivo</string>
     <key>settings_up_next_limit</key>
     <string>Aggiungi automaticamente nuovi episodi a Successivo. Non verranno più aggiunti nuovi episodi quando Successivo raggiunge %1$@.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Aggiungi automaticamente nuovi episodi a Successivo. Quando Successivo raggiunge %1$@, i nuovi episodi aggiunti automaticamente tra i primi rimuoveranno l'ultimo episodio in coda.</string>
     <key>settings_volume_boost</key>
     <string>Aumento volume</string>
     <key>settings_watch_auto_download</key>

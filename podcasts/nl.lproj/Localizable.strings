@@ -2954,8 +2954,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Als limiet is bereikt</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Nieuwe afleveringen worden niet toegevoegd wanneer Hierna %1$@ afleveringen bereikt.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Er worden geen nieuwe afleveringen onderaan toegevoegd.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Podcasts automatisch toevoegen</string>
     <key>settings_auto_archive</key>
@@ -3322,8 +3320,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Donker thema voor Hierna gebruiken</string>
     <key>settings_up_next_limit</key>
     <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Nieuwe afleveringen worden niet toegevoegd wanneer Hierna de %1$@ bereikt.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd.</string>
     <key>settings_volume_boost</key>
     <string>Volumeboost</string>
     <key>settings_watch_auto_download</key>

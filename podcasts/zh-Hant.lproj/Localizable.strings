@@ -2962,8 +2962,6 @@ Pocket Casts Plus</string>
     <string>如果達到限制</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>「接下來播放」達到 %1$@ 集後，自動新增至最上方的新單集會移除佇列中最後的單集。所有新單集皆不會新增至底部。</string>
     <key>settings_auto_add_podcasts</key>
     <string>自動新增 Podcast 節目</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Pocket Casts Plus</string>
     <string>使用暗色系「接下來播放」佈景主題</string>
     <key>settings_up_next_limit</key>
     <string>自動新增單集到「接下來播放」。「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>自動新增單集到「接下來播放」。「接下來播放」達到 %1$@ 集後，自動新增至最上方的新單集會移除佇列中最後的單集。</string>
     <key>settings_volume_boost</key>
     <string>音量增強</string>
     <key>settings_watch_auto_download</key>
