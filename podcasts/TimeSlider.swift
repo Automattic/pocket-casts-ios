@@ -22,7 +22,7 @@ class TimeSlider: UIView {
         }
     }
 
-    var animationColor = UIColor.white {
+    var animationColor = UIColor.white.withAlphaComponent(0.4) {
         didSet {
             timeLayer().animationColor = animationColor.cgColor
         }
