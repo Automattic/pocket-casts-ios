@@ -26,6 +26,7 @@ public class DataManager {
     public let autoAddCandidates: AutoAddCandidatesDataManager
     public let bookmarks: BookmarkDataManager
     public let ratings: RatingsDataManager
+    public let networkDataUsageManager: NetworkDataUsageManager
 
     let dbQueue: PCDBQueue
 
@@ -91,6 +92,8 @@ public class DataManager {
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
         ratings = RatingsDataManager()
+        // Force unwrap is safe here as dbQueue is always a GRDBQueue at runtime
+        networkDataUsageManager = NetworkDataUsageManager(dbQueue: dbQueue as! GRDBQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
