@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 class ServerSyncManager: ServerSyncDelegate {
     static let shared = ServerSyncManager()
-    private static let networkDataUsageRetentionPeriod: TimeInterval = 60.days
+    private static let networkDataUsageRetentionPeriod: TimeInterval = 30.days
     private static let networkDataUsageCleanupInterval: TimeInterval = 24.hours
 
     // MARK: - Podcast functions
