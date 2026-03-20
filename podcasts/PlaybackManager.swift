@@ -441,7 +441,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         let currentTime = playingEpisode.playedUpTo
         seekingTo = time
-        FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
+        FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek) for episode \(playingEpisode.displayableTitle())")
 
         let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
         if let player = player, isReadyToPlay {
