@@ -779,7 +779,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let queuedEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
         queuedEpisodes.forEach { episode in
             Task {
-                addToQueue(episodeUuid: episode.uuid)
+                addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
             }
         }
     }
