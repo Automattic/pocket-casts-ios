@@ -170,14 +170,15 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
             if actualDownloadCount == 0 { return }
             let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
+            let isOnExpensiveConnection = !NetworkUtils.shared.isConnectedToUnexpensiveConnection()
             let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
-                delegate.downloadAllTapped()
+                delegate.downloadAllTapped(userApprovedCellular: isOnExpensiveConnection)
             }
 
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            if !isOnExpensiveConnection {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true

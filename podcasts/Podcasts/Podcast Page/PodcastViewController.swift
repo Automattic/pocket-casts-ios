@@ -50,7 +50,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func showingArchived() -> Bool
     func archiveAllTapped(playedOnly: Bool)
     func unarchiveAllTapped()
-    func downloadAllTapped()
+    func downloadAllTapped(userApprovedCellular: Bool)
     func queueAllTapped()
     func downloadableEpisodeCount(items: [ListItem]?) -> Int
 
@@ -1019,7 +1019,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    func downloadAllTapped() {
+    func downloadAllTapped(userApprovedCellular: Bool) {
         DispatchQueue.global().async { [weak self] in
             guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
 
@@ -1027,7 +1027,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
             AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
 
-            self.downloadItems(allObjects: allObjects)
+            self.downloadItems(allObjects: allObjects, userApprovedCellular: userApprovedCellular)
         }
     }
 
@@ -1143,7 +1143,13 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         EpisodeManager.bulkUnarchive(episodes: episodes)
     }
 
-    func downloadItems(allObjects: [ListItem]) {
+    func downloadItems(allObjects: [ListItem], userApprovedCellular: Bool = false) {
+        let status: AutoDownloadStatus
+        if FeatureFlag.cellularDownloadStatusFix.enabled {
+            status = userApprovedCellular ? .userApprovedCellular : .notSpecified
+        } else {
+            status = .notSpecified
+        }
         var queuedEpisodes = 0
         for object in allObjects {
             guard let listEpisode = object as? ListEpisode else { continue }
@@ -1152,7 +1158,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 continue
             }
 
-            DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
+            DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: status)
             queuedEpisodes += 1
             if queuedEpisodes == Constants.Limits.maxBulkDownloads {
                 return
