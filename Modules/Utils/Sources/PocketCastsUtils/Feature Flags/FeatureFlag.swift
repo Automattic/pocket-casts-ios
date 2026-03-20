@@ -508,6 +508,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .displayErrorsOnPlayer:
             true
+        case .detectTruncatedBackgroundSyncDownloads:
+            true
         }
     }
 
