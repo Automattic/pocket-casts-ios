@@ -395,7 +395,7 @@ class EpisodeManager: NSObject {
         while let tmpFile = folderEnum.nextObject() as? String {
             let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
             guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath),
-                  let date = attributes[.creationDate] as? Date,
+                  let date = attributes[.modificationDate] as? Date,
                   Date.now.timeIntervalSince(date) > 1.week
             else {
                 continue
