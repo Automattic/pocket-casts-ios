@@ -304,6 +304,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Detect truncated background sync downloads by comparing received bytes to Content-Length
     case detectTruncatedBackgroundSyncDownloads
 
+    /// Track network data usage per episode/connection type in the NetworkDataUsage table
+    case trackNetworkDataUsage
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -509,6 +512,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .displayErrorsOnPlayer:
             true
         case .detectTruncatedBackgroundSyncDownloads:
+			true
+        case .trackNetworkDataUsage:
             true
         }
     }

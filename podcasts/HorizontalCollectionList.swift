@@ -26,6 +26,7 @@ struct HorizontalCollectionList: View {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 22, style: .title, weight: .bold)
+                .lineLimit(2)
             Spacer()
             Button() {
                 model.showCollection()
@@ -119,7 +120,7 @@ struct HorizontalCollectionList: View {
                 model.subscribePodcast(podcast)
             }
         }
-        .frame(maxHeight: (adjustedRowHeight - 8.0) / 2.0)
+        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }

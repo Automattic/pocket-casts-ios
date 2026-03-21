@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import UIKit
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -52,6 +53,11 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
+
+    // Episode context for cellular tracking
+    private let episodeUuid: String?
+    private let podcastUuid: String?
+
     private lazy var callbackQueue: DispatchQueue = {
         let queue: DispatchQueue
         if FeatureFlag.useBackgroundQueueForStreamingCallback.enabled {
@@ -71,8 +77,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     typealias FileExporterProgressReport = (_ status: FileExportStatus, _ contentType: String?, _ downloaded: Int64, _ total: Int64) -> ()
 
     // MARK: Init
-    init(saveFilePath: String, callback: FileExporterProgressReport?) {
+    init(saveFilePath: String, episodeUuid: String? = nil, podcastUuid: String? = nil, callback: FileExporterProgressReport?) {
         self.saveFilePath = saveFilePath
+        self.episodeUuid = episodeUuid
+        self.podcastUuid = podcastUuid
         self.callback = callback
         self.fileHandle = MediaFileHandle(filePath: saveFilePath)
         super.init()
@@ -174,6 +182,24 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         downloadComplete()
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard FeatureFlag.trackNetworkDataUsage.enabled else { return }
+
+        let bytesReceived = task.countOfBytesReceived
+        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+
+        guard bytesReceived > 0 else { return }
+
+        DataManager.sharedManager.networkDataUsageManager.add(
+            episodeUuid: episodeUuid,
+            podcastUuid: podcastUuid,
+            bytesStreamed: bytesReceived,
+            operationType: .stream,
+            connectionType: connectionType,
+            sessionType: .foreground
+        )
     }
 
     // MARK: Internal methods

@@ -81,6 +81,15 @@ class TimeSliderLayer: CALayer {
         defer {
             UIGraphicsPopContext()
         }
+
+        //draw animation line
+        if shouldAnimate {
+            let clippedRect = progressAnimationRect.intersection(CGRect(x: leftHalfRect.origin.x, y: leftHalfRect.origin.y, width: leftHalfRect.width + rightHalfRect.width, height: leftHalfRect.height))
+            if !clippedRect.isNull {
+                drawRoundedLine(rect: clippedRect, color: animationColor, context: ctx)
+            }
+        }
+
         // draw the left line
         ctx.setFillColor(leftColor)
         ctx.setStrokeColor(leftColor)
@@ -92,10 +101,6 @@ class TimeSliderLayer: CALayer {
         ctx.setStrokeColor(rightColor)
         let rightPath = UIBezierPath(roundedRect: rightHalfRect, cornerRadius: 2)
         rightPath.fill()
-
-        if shouldAnimate {
-            drawRoundedLine(rect: progressAnimationRect, color: animationColor, context: ctx)
-        }
 
         // draw the knob
         ctx.addEllipse(in: knobRect)
@@ -161,45 +166,33 @@ class TimeSliderLayer: CALayer {
 
         animating = true
 
-        let duration: CFTimeInterval = 0.75
-        let progressStartX = rightHalfRect.origin.x
+        let duration: CFTimeInterval = 1.0
         let animationLineWidth = animationLineWidth()
+        let progressStartX = leftHalfRect.origin.x
 
-        // Initialize the model rect to match the first keyframe (start X and minimal width)
-        progressAnimationRect = CGRect(
-            x: progressStartX,
-            y: leftHalfRect.origin.y,
-            width: 1,
-            height: leftHalfRect.size.height
-        )
+        progressAnimationRect = CGRect(x: progressStartX - animationLineWidth, y: leftHalfRect.origin.y, width: animationLineWidth, height: rightHalfRect.size.height)
+
+        let moveAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.origin.x")
+        moveAnimation.values = [
+            progressStartX - animationLineWidth,
+            progressStartX,
+            rightHalfRect.origin.x + rightHalfRect.size.width + animationLineWidth
+        ]
+        moveAnimation.keyTimes = [0, 0.3, 1]
+        moveAnimation.duration = duration
 
         let growAnimation = CAKeyframeAnimation(keyPath: "progressAnimationRect.size.width")
         growAnimation.values = [
-            1,
-            animationLineWidth / 4,
             animationLineWidth / 2,
-            animationLineWidth / 4 * 3,
-            animationLineWidth
+            animationLineWidth,
+            1
         ]
-        growAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
+        growAnimation.keyTimes = [0, 0.5, 1]
         growAnimation.duration = duration
 
-        let colorAnimation = CAKeyframeAnimation(keyPath: "animationColor")
-        let uiAnimationColor = UIColor(cgColor: animationColor)
-        colorAnimation.values = [
-            uiAnimationColor.withAlphaComponent(0.5).cgColor,
-            uiAnimationColor.withAlphaComponent(0.4).cgColor,
-            uiAnimationColor.withAlphaComponent(0.3).cgColor,
-            uiAnimationColor.withAlphaComponent(0.2).cgColor,
-            uiAnimationColor.withAlphaComponent(0.1).cgColor
-        ]
-        colorAnimation.keyTimes = [0, 0.25, 0.5, 0.75, 1]
-        colorAnimation.duration = duration
-
         let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [growAnimation, colorAnimation]
+        animationGroup.animations = [moveAnimation, growAnimation]
         animationGroup.duration = duration
-
         animationGroup.repeatCount = .greatestFiniteMagnitude
 
         add(animationGroup, forKey: Self.animationKey)
@@ -214,7 +207,7 @@ class TimeSliderLayer: CALayer {
     }
 
     private func animationLineWidth() -> CGFloat {
-        rightHalfRect.size.width
+        (leftHalfRect.size.width + rightHalfRect.size.width) / 3
     }
 
 }

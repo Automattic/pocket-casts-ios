@@ -3,6 +3,24 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate {
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard FeatureFlag.trackNetworkDataUsage.enabled else { return }
+
+        let bytesReceived = task.countOfBytesReceived
+        let bytesSent = task.countOfBytesSent
+        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+
+        if bytesReceived > 0 || bytesSent > 0 {
+            DataManager.sharedManager.networkDataUsageManager.add(
+                bytesDownloaded: bytesReceived,
+                bytesUploaded: bytesSent,
+                operationType: .sync,
+                connectionType: connectionType,
+                sessionType: .background
+            )
+        }
+    }
+
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         // one of our 3 tasks has finished, but since they can come back in any order we need to decide whether to process this now, or when another one return
         // we also extract the data here, because it will be deleted when this method exits, and some of the things we call run on another thread

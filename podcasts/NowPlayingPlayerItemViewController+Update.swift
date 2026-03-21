@@ -88,6 +88,7 @@ extension NowPlayingPlayerItemViewController {
 
         let highlightColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
         timeSlider.leftColor = highlightColor
+        timeSlider.animationColor = PlayerColorHelper.playerHighlightColor01(for: .dark).withAlphaComponent(0.2)
         timeSlider.circleColor = buttonColor
         timeSlider.rightColor = ThemeColor.playerContrast06()
         timeSlider.popupColor = ThemeColor.playerContrast06()

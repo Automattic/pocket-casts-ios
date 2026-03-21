@@ -2962,8 +2962,6 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Wenn maximale Anzahl erreicht ist:</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Es werden keine neuen Folgen mehr hinzugefügt, wenn die Warteschlange %1$@ enthält.</string>
-    <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Wenn die Warteschlange %1$@ Folgen enthält, wird die letzte Folge in der Warteschlange entfernt, sobald neue Folgen automatisch oben hinzugefügt wurden. Es werden keine neuen Folgen unten hinzugefügt.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Automatisch hinzugefügte Podcasts</string>
     <key>settings_auto_archive</key>
@@ -3330,8 +3328,6 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Dunkles „Up Next“-Theme verwenden</string>
     <key>settings_up_next_limit</key>
     <string>Neue Folgen werden automatisch zur Warteschlange hinzugefügt. Es werden keine neuen Folgen mehr hinzugefügt, sobald die Warteschlange %1$@ Folgen enthält.</string>
-    <key>settings_up_next_limit_add_to_top</key>
-    <string>Neue Folgen werden automatisch zur Warteschlange hinzugefügt. Sobald die Warteschlange %1$@ Folgen enthält, wird die letzte Folge in der Warteschlange entfernt, wenn oben neue Folgen automatisch hinzugefügt werden.</string>
     <key>settings_volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>settings_watch_auto_download</key>

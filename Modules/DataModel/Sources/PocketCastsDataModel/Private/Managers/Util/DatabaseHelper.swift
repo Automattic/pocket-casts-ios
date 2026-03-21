@@ -882,6 +882,17 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 72 {
+            do {
+                try NetworkDataUsageManager.createTable(in: db)
+
+                schemaVersion = 72
+            } catch {
+                failedAt(72)
+                return
+            }
+        }
+
         db.commit()
     }
 }

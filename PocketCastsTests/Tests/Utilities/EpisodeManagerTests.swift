@@ -140,4 +140,68 @@ final class EpisodeManagerTests: DBTestCase {
         // Then: Should return nil since no token available
         XCTAssertNil(url, "Should return nil when no sync token available for user episode")
     }
+
+    // MARK: - cleanUpTmpFolder Tests
+
+    func testCleanUpTmpFolderRemovesFilesOlderThanOneWeek() throws {
+      // Given: A tmp directory with an old file (> 1 week)
+      let tmpDir = NSTemporaryDirectory() + UUID().uuidString
+      try FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true)
+      defer { try? FileManager.default.removeItem(atPath: tmpDir) }
+
+      let oldFilePath = (tmpDir as NSString).appendingPathComponent("old_episode.mp3")
+      FileManager.default.createFile(atPath: oldFilePath, contents: Data("old".utf8))
+
+      let eightDaysAgo = Date.now.addingTimeInterval(-8.days)
+      try FileManager.default.setAttributes([.modificationDate: eightDaysAgo], ofItemAtPath: oldFilePath)
+
+      // When
+      EpisodeManager.cleanUpTmpFolder(folderPath: tmpDir)
+
+      // Then: File should be deleted
+      XCTAssertFalse(FileManager.default.fileExists(atPath: oldFilePath), "File older than 1 week should be removed")
+    }
+
+    func testCleanUpTmpFolderKeepsFilesNewerThanOneWeek() throws {
+      // Given: A tmp directory with a recent file (< 1 week)
+      let tmpDir = NSTemporaryDirectory() + UUID().uuidString
+      try FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true)
+      defer { try? FileManager.default.removeItem(atPath: tmpDir) }
+
+      let recentFilePath = (tmpDir as NSString).appendingPathComponent("recent_episode.mp3")
+      FileManager.default.createFile(atPath: recentFilePath, contents: Data("recent".utf8))
+
+      let threeDaysAgo = Date.now.addingTimeInterval(-3.days)
+      try FileManager.default.setAttributes([.modificationDate: threeDaysAgo], ofItemAtPath: recentFilePath)
+
+      // When
+      EpisodeManager.cleanUpTmpFolder(folderPath: tmpDir)
+
+      // Then: File should still exist
+      XCTAssertTrue(FileManager.default.fileExists(atPath: recentFilePath), "File newer than 1 week should be kept")
+    }
+
+    func testCleanUpTmpFolderMixedAgesDeletesOnlyOldFiles() throws {
+      // Given: A tmp directory with both old and recent files
+      let tmpDir = NSTemporaryDirectory() + UUID().uuidString
+      try FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true)
+      defer { try? FileManager.default.removeItem(atPath: tmpDir) }
+
+      let oldFilePath = (tmpDir as NSString).appendingPathComponent("old.mp3")
+      let recentFilePath = (tmpDir as NSString).appendingPathComponent("recent.mp3")
+      FileManager.default.createFile(atPath: oldFilePath, contents: Data("old".utf8))
+      FileManager.default.createFile(atPath: recentFilePath, contents: Data("recent".utf8))
+
+      try FileManager.default.setAttributes([.modificationDate: Date.now.addingTimeInterval(-10.days)], ofItemAtPath:
+    oldFilePath)
+      try FileManager.default.setAttributes([.modificationDate: Date.now.addingTimeInterval(-1.days)], ofItemAtPath:
+    recentFilePath)
+
+      // When
+      EpisodeManager.cleanUpTmpFolder(folderPath: tmpDir)
+
+      // Then
+      XCTAssertFalse(FileManager.default.fileExists(atPath: oldFilePath), "Old file should be removed")
+      XCTAssertTrue(FileManager.default.fileExists(atPath: recentFilePath), "Recent file should be kept")
+    }
 }
