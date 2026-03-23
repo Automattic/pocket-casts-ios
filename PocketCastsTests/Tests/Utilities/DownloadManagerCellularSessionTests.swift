@@ -7,9 +7,18 @@ import PocketCastsDataModel
 /// not runtime network state checks.
 final class DownloadManagerCellularSessionTests: DBTestCase {
 
+    private var originalCellularDownloadStatusFix: Bool!
+
+    override func setUp() {
+        super.setUp()
+        originalCellularDownloadStatusFix = FeatureFlag.cellularDownloadStatusFix
+        FeatureFlag.cellularDownloadStatusFix = true
+    }
+
     override func tearDown() {
-        super.tearDown()
+        FeatureFlag.cellularDownloadStatusFix = originalCellularDownloadStatusFix
         cleanupDownloadManager()
+        super.tearDown()
     }
 
     // MARK: - Session Selection Based on AutoDownloadStatus
