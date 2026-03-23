@@ -13,11 +13,11 @@ final class DownloadManagerCellularSessionTests: DBTestCase {
     override func setUp() {
         super.setUp()
         originalCellularDownloadStatusFix = FeatureFlag.cellularDownloadStatusFix.enabled
-        try? FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: true)
+        XCTAssertNoThrow(try FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: true))
     }
 
     override func tearDown() {
-        try? FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: originalCellularDownloadStatusFix)
+        XCTAssertNoThrow(try FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: originalCellularDownloadStatusFix))
         cleanupDownloadManager()
         super.tearDown()
     }
