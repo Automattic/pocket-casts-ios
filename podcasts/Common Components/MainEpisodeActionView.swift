@@ -286,8 +286,11 @@ extension MainEpisodeActionView {
             let waitingColor = AppTheme.waitingForWifiColor()
             waitingColor.setFill()
 
+            let startingY = circleCenter.y - (Self.circleRadius / 2)
+            let startingX = circleCenter.x - (Self.circleRadius / 2)
+
             // draw the WiFi symbol
-            let translation = CGAffineTransform(translationX: 14 - rightPadding, y: 15 + (bottomPadding / 2.0))
+            let translation = CGAffineTransform(translationX: startingX - rightPadding, y: startingY + (bottomPadding / 2.0))
 
             let curve1 = UIBezierPath()
             curve1.move(to: CGPoint(x: 7.78, y: 0))
