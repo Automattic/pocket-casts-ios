@@ -290,7 +290,7 @@ extension MainEpisodeActionView {
             let startingX = circleCenter.x - (Self.circleRadius / 2)
 
             // draw the WiFi symbol
-            let translation = CGAffineTransform(translationX: startingX - rightPadding, y: startingY + (bottomPadding / 2.0))
+            let translation = CGAffineTransform(translationX: startingX, y: startingY)
 
             let curve1 = UIBezierPath()
             curve1.move(to: CGPoint(x: 7.78, y: 0))
