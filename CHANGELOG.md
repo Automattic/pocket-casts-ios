@@ -1,7 +1,7 @@
 8.9
 -----
 - Fix DownloadManager sessions racing conditions [#4080](https://github.com/Automattic/pocket-casts-ios/pull/4080)
-- Ensure that auto-downloads only use cellular if explicitly allowed [#4071](https://github.com/Automattic/pocket-casts-ios/pull/4071)
+- Ensure that downloads, including auto-downloads and manual/bulk downloads, only use cellular if explicitly allowed [#4071](https://github.com/Automattic/pocket-casts-ios/pull/4071)
 
 8.8
 -----
