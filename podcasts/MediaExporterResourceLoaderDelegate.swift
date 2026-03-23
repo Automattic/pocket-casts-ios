@@ -369,7 +369,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         return error
     }
 
-    private func shouldRetryWithoutUserAgent() -> Bool {
+    func shouldRetryWithoutUserAgent() -> Bool {
         guard let response = response as? HTTPURLResponse else { return false }
         // Only retry if we haven't already retried without User-Agent and the response status code is >= 400
         return !hasRetriedWithoutUserAgent && (response.statusCode >= 400)
