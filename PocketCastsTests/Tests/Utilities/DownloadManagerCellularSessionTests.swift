@@ -1,6 +1,7 @@
 import XCTest
 @testable import podcasts
 import PocketCastsDataModel
+import PocketCastsUtils
 
 /// Tests for the TOCTOU fix in DownloadManager session selection.
 /// Verifies that session selection is based on explicit user approval status,
@@ -11,12 +12,12 @@ final class DownloadManagerCellularSessionTests: DBTestCase {
 
     override func setUp() {
         super.setUp()
-        originalCellularDownloadStatusFix = FeatureFlag.cellularDownloadStatusFix
-        FeatureFlag.cellularDownloadStatusFix = true
+        originalCellularDownloadStatusFix = FeatureFlag.cellularDownloadStatusFix.enabled
+        try? FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: true)
     }
 
     override func tearDown() {
-        FeatureFlag.cellularDownloadStatusFix = originalCellularDownloadStatusFix
+        try? FeatureFlagOverrideStore().override(FeatureFlag.cellularDownloadStatusFix, withValue: originalCellularDownloadStatusFix)
         cleanupDownloadManager()
         super.tearDown()
     }
