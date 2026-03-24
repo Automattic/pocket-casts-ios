@@ -208,6 +208,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: episode)
+        activeError = nil
 
         if autoPlay {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
@@ -648,6 +649,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             nextEpisode.playedUpTo = 0
         }
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: nextEpisode)
+        activeError = nil
 
         if autoPlay {
             play(userInitiated: false)
@@ -976,8 +978,57 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateAllNowPlayingData()
     }
 
-    func playbackDidFail(logMessage: String?, userMessage: String?, fallbackToDefaultPlayer: Bool = false) {
-        FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(logMessage ?? "No error provided")")
+    enum PlaybackError: Error {
+        case internetConnection(logMessage: String?)
+        case episodeNotAvailable(logMessage: String?)
+        case fileCorrupted(logMessage: String?)
+        case chromecastError(logMessage: String?)
+        case playbackError(logMessage: String?, isLocalFile: Bool)
+
+        var userMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorInternetConnection
+            case .episodeNotAvailable:
+                return L10n.playerErrorEpisodeNotAvailable
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorInternetConnection
+            }
+        }
+
+        var userAction: URL? {
+            switch self {
+            case .episodeNotAvailable:
+                return URL(string: "")
+            default:
+                return nil
+            }
+        }
+
+        var logMessage: String? {
+            switch self {
+            case .internetConnection(let logMessage):
+                return logMessage
+            case .episodeNotAvailable(let logMessage):
+                return logMessage
+            case .fileCorrupted(let logMessage):
+                return logMessage
+            case .chromecastError(let logMessage):
+                return logMessage
+            case .playbackError(let logMessage, _):
+                return logMessage
+            }
+        }
+    }
+
+    var activeError: PlaybackError?
+
+    func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
+        FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
@@ -1009,13 +1060,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
             pause()
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
+            activeError = error
+            let message = error.userMessage
+            DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
 
-            if episode.downloaded(pathFinder: DownloadManager.shared) {
-                let message = userMessage ?? L10n.playerErrorCorruptedFile
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
-            } else {
-                let message = userMessage ?? L10n.playerErrorInternetConnection
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
                 cleanupCurrentPlayer(permanent: false)
             }
 
