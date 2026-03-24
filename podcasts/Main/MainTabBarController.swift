@@ -63,6 +63,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
         label.textAlignment = .center
         label.numberOfLines = 2
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -1040,12 +1041,14 @@ extension MainTabBarController {
             errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             // Error label
-            errorLabel.leadingAnchor.constraint(equalTo: errorBanner.leadingAnchor, constant: 16),
-            errorLabel.trailingAnchor.constraint(equalTo: errorActionButton.leadingAnchor, constant: -8),
+            errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: errorBanner.leadingAnchor, constant: 16),
+            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -40),
+            errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
             errorLabel.centerYAnchor.constraint(equalTo: errorBanner.centerYAnchor, constant: 0),
 
-            // Dismiss button
-            errorActionButton.trailingAnchor.constraint(equalTo: errorBanner.trailingAnchor, constant: -16),
+            // Error Action button
+            errorActionButton.leadingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: 8),
+            errorActionButton.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
             errorActionButton.centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
             errorActionButton.widthAnchor.constraint(equalToConstant: 24),
             errorActionButton.heightAnchor.constraint(equalToConstant: 24),
@@ -1054,14 +1057,14 @@ extension MainTabBarController {
 
     func showError(message: String, autoDismissAfter seconds: TimeInterval? = nil) {
         errorLabel.text = message
+        errorLabel.sizeToFit()
+        errorBanner.layoutIfNeeded()
         isShowingError = true
         errorBanner.isHidden = false
 
-        UIView.animate(withDuration: 0.45,
+        UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       usingSpringWithDamping: 0.75,
-                       initialSpringVelocity: 0.5,
-                       options: .curveEaseOut) {
+                       options: .curveEaseInOut) {
             self.errorBanner.alpha = 1
 
             // Push child content up so it doesn't hide behind the shifted tab bar
@@ -1079,11 +1082,9 @@ extension MainTabBarController {
     }
 
     @objc func hideError() {
-        UIView.animate(withDuration: 0.45,
+        UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       usingSpringWithDamping: 0.75,
-                       initialSpringVelocity: 0.5,
-                       options: .curveEaseOut) {
+                       options: .curveEaseInOut) {
             self.errorBanner.alpha = 0
 
             // Reset content insets
