@@ -24,7 +24,7 @@ extension Double {
             output.append(minsSeconds)
         }
 
-        if output.count == 0 {
+        if output.isEmpty {
             let components = DateComponents(calendar: Calendar.current, second: secs)
             return DateComponentsFormatter.localizedString(from: components, unitsStyle: .full)
         }

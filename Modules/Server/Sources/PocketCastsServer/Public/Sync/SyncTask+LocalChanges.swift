@@ -7,7 +7,7 @@ extension SyncTask {
     func changedPodcasts() -> [Api_Record]? {
         let podcastsToSync = DataManager.sharedManager.allUnsyncedPodcasts()
 
-        if podcastsToSync.count == 0 { return nil }
+        if podcastsToSync.isEmpty { return nil }
 
         var podcastRecords = [Api_Record]()
         for podcast in podcastsToSync {
@@ -44,7 +44,7 @@ extension SyncTask {
     }
 
     func changedEpisodes(for episodesToSync: [Episode]) -> [Api_Record]? {
-        if episodesToSync.count == 0 { return nil }
+        if episodesToSync.isEmpty { return nil }
 
         var episodeRecords = [Api_Record]()
         for episode in episodesToSync {
@@ -88,7 +88,7 @@ extension SyncTask {
     func changedFolders() -> [Api_Record]? {
         let foldersToSync = DataManager.sharedManager.allUnsyncedFolders()
 
-        if foldersToSync.count == 0 { return nil }
+        if foldersToSync.isEmpty { return nil }
 
         var folderRecords = [Api_Record]()
         for folder in foldersToSync {
@@ -114,7 +114,7 @@ extension SyncTask {
     func changedPlaylists() -> [Api_Record]? {
         let playlistsToSync = DataManager.sharedManager.allUnsyncedPlaylists()
 
-        if playlistsToSync.count == 0 { return nil }
+        if playlistsToSync.isEmpty { return nil }
 
         var playlistRecords = [Api_Record]()
         for playlist in playlistsToSync {
@@ -130,7 +130,7 @@ extension SyncTask {
 
     private func createSyncUserPlaylist(from filter: EpisodeFilter) -> Api_SyncUserPlaylist {
         var playlistRecord = Api_SyncUserPlaylist()
-        playlistRecord.allPodcasts.value = filter.podcastUuids.count == 0
+        playlistRecord.allPodcasts.value = filter.podcastUuids.isEmpty
         playlistRecord.uuid = filter.uuid
         playlistRecord.originalUuid = filter.uuid // server side this field is important, because it will remain the same case DO NOT REMOVE
         playlistRecord.isDeleted.value = filter.wasDeleted

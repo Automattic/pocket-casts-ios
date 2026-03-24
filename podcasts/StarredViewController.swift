@@ -106,7 +106,7 @@ class StarredViewController: PCViewController {
                 DispatchQueue.main.sync { [weak self] in
                     guard let strongSelf = self else { return }
                     strongSelf.loadingIndicator.stopAnimating()
-                    strongSelf.starredTable.isHidden = (newData.count == 0)
+                    strongSelf.starredTable.isHidden = (newData.isEmpty)
                     if animated {
                         let changeSet = StagedChangeset(source: oldData, target: newData)
                         strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
@@ -128,7 +128,7 @@ class StarredViewController: PCViewController {
             let newData = self.episodesDataManager.starredEpisodes()
 
             DispatchQueue.main.sync {
-                self.starredTable.isHidden = (newData.count == 0)
+                self.starredTable.isHidden = (newData.isEmpty)
                 if animated {
                     let changeSet = StagedChangeset(source: oldData, target: newData)
                     self.starredTable.reload(using: changeSet, with: .none, setData: { data in

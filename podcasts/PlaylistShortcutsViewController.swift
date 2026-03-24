@@ -190,22 +190,22 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func enabledSection() -> Int {
-        enabledShortcuts.count > 0 ? 0 : -1
+        !enabledShortcuts.isEmpty ? 0 : -1
     }
 
     func availableSection() -> Int {
         if enabledSection() == 0 {
-            return availableRows.count > 0 ? 1 : -1
+            return !availableRows.isEmpty ? 1 : -1
         }
         return 0
     }
 
     private func reloadData() {
         tableData = []
-        if enabledShortcuts.count > 0 {
+        if !enabledShortcuts.isEmpty {
             tableData.append(.enabledSection)
         }
-        if availableRows.count > 0 {
+        if !availableRows.isEmpty {
             tableData.append(.availableSection)
         }
         DispatchQueue.main.async {

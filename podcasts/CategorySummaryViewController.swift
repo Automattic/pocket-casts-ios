@@ -87,7 +87,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
     }
 
     private func setTableHeight() {
-        let requiredHeight = categories.count > 0 ? (categories.count * 56) : 200
+        let requiredHeight = !categories.isEmpty ? (categories.count * 56) : 200
         categoryHeightConstraint.constant = CGFloat(requiredHeight)
     }
 }

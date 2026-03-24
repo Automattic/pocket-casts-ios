@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard URLContexts.count > 0, let url = URLContexts.first?.url, let rootViewController = window?.rootViewController else {
+        guard !URLContexts.isEmpty, let url = URLContexts.first?.url, let rootViewController = window?.rootViewController else {
             return
         }
         _ = appDelegate()?.handleOpenUrl(url: url, rootViewController: rootViewController)

@@ -46,10 +46,10 @@ class MetadataTask: Operation {
 
     class func updateEpisodeFrom(response: HTTPURLResponse, episode: Episode) {
         let responseHeaders = response.allHeaderFields
-        if responseHeaders.count == 0 { return } // no response headers
+        if responseHeaders.isEmpty { return } // no response headers
 
         var performedUpdate = false
-        if let contentType = responseHeaders[ServerConstants.HttpHeaders.contentType] as? String, contentType.count > 0 {
+        if let contentType = responseHeaders[ServerConstants.HttpHeaders.contentType] as? String, !contentType.isEmpty {
             // if we don't have a content type, or the server said this is a video, change our file type
             if (episode.fileType ?? "").isEmpty || contentType.hasPrefix("video") {
                 DataManager.sharedManager.saveEpisode(fileType: contentType, episode: episode)

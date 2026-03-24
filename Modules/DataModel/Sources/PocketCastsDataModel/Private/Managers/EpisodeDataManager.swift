@@ -455,7 +455,7 @@ class EpisodeDataManager {
     }
 
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -492,7 +492,7 @@ class EpisodeDataManager {
     }
 
     func bulkUserFileDelete(episodes: [Episode], dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -536,7 +536,7 @@ class EpisodeDataManager {
     }
 
     func saveBulkEpisodeSyncInfo(episodes: [EpisodeBasicData], dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -900,7 +900,7 @@ class EpisodeDataManager {
     }
 
     func bulkMarkAsPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -932,7 +932,7 @@ class EpisodeDataManager {
     }
 
     func bulkMarkAsUnPlayed(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -965,7 +965,7 @@ class EpisodeDataManager {
     }
 
     func bulkArchive(episodes: [Episode], markAsNotDownloaded: Bool, markAsPlayed: Bool, updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {
@@ -1000,7 +1000,7 @@ class EpisodeDataManager {
                             values.append(DBUtils.currentUTCTimeInMillis())
                         }
                     }
-                    if fields.count == 0 { continue }
+                    if fields.isEmpty { continue }
 
                     values.append(episode.uuid)
 
@@ -1015,7 +1015,7 @@ class EpisodeDataManager {
     }
 
     func bulkUnarchive(episodes: [Episode], updateSyncFlag: Bool, dbQueue: PCDBQueue) {
-        if episodes.count == 0 { return }
+        if episodes.isEmpty { return }
 
         dbQueue.write { db in
             do {

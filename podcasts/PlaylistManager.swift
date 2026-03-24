@@ -135,7 +135,7 @@ class PlaylistManager {
         if playlists.isEmpty { return }
 
         for playlist in playlists {
-            guard !playlist.filterAllPodcasts, playlist.podcastUuids.count > 0 else { continue }
+            guard !playlist.filterAllPodcasts, !playlist.podcastUuids.isEmpty else { continue }
 
             var podcastUuids = playlist.podcastUuids.components(separatedBy: ",")
             guard let indexOfUuid = podcastUuids.firstIndex(of: podcastUuid) else { continue }

@@ -18,6 +18,7 @@ struct MenuRow: View {
     }
 
     var countText: String {
+        // swiftlint:disable:next empty_count
         guard count > 0 else {
             return "0"
         }
@@ -26,6 +27,7 @@ struct MenuRow: View {
     }
 
     var accessibilityLabel: String {
+        // swiftlint:disable:next empty_count
         if count > 0 {
             return "\(label), \(count)"
         } else {
@@ -47,6 +49,7 @@ struct MenuRow: View {
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 9, height: 9)))
                         .foregroundColor(.black)
                 }
+                // swiftlint:disable:next empty_count
                 .opacity(count > 0 ? 1 : 0)
             }
             .accessibilityLabel(accessibilityLabel)

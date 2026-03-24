@@ -80,7 +80,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
 
         (view as? ThemeableView)?.style = .primaryUi01
 
-        if let code = promoCode, code.count > 0 {
+        if let code = promoCode, !code.isEmpty {
             if SyncManager.isUserLoggedIn() {
                 redeemCode()
             } else {

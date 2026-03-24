@@ -488,7 +488,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             strongSelf.firstTimeLoading = false
             strongSelf.loadingIndicator.stopAnimating()
 
-            strongSelf.tableView.isHidden = (newData.count == 0)
+            strongSelf.tableView.isHidden = (newData.isEmpty)
             if animated {
                 let oldData = strongSelf.episodes
                 let changeSet = StagedChangeset(source: oldData, target: newData)
@@ -511,7 +511,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
 
-            if self.episodes.count == 0 { return }
+            if self.episodes.isEmpty { return }
 
             var haveFoundFirst = false
             for listEpisode in self.episodes {
@@ -531,7 +531,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
 
-            if self.episodes.count == 0 { return }
+            if self.episodes.isEmpty { return }
 
             self.downloadItems(allEpisodes: self.episodes)
         }
@@ -541,7 +541,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
 
-            if self.episodes.count == 0 { return }
+            if self.episodes.isEmpty { return }
             self.queueItems(allEpisodes: self.episodes)
         }
     }
@@ -578,7 +578,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
-        if listEpisodes.count == 0 { return 0 }
+        if listEpisodes.isEmpty { return 0 }
         var count = 0
 
         for listEpisode in listEpisodes {

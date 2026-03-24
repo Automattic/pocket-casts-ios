@@ -9,7 +9,7 @@ extension UIViewController {
     ///     - delay: The number of seconds this function will wait before showing
     ///     the modal.
     func requestReview(delay: Double) {
-        guard Settings.reviewRequestDates().count == 0 else { return }
+        guard Settings.reviewRequestDates().isEmpty else { return }
 
         Task { @MainActor [weak self] in
             guard let self else { return }

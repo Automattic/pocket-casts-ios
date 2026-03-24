@@ -59,7 +59,7 @@ struct UserEpisodeManager {
 
     static func updateUserEpisodes() {
         let episodes = DataManager.sharedManager.unsyncedUserEpisodes()
-        if episodes.count > 0 {
+        if !episodes.isEmpty {
             ApiServerHandler.shared.uploadFilesUpdateRequest(episodes: episodes, completion: { _ in })
         }
 
@@ -127,12 +127,12 @@ struct UserEpisodeManager {
 
     static func checkForPendingCloudDeletes() {
         let allCloudDeletes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.deleteFromCloudPending)
-        if allCloudDeletes.count > 0 {
+        if !allCloudDeletes.isEmpty {
             ApiServerHandler.shared.processPendingCloudDeletes(episodes: allCloudDeletes, deleteCompletedHandler: nil)
         }
 
         let allLocalAndCloudDeletes = DataManager.sharedManager.findUserEpisodesWithUploadStatus(.deleteFromCloudAndLocalPending)
-        if allLocalAndCloudDeletes.count > 0 {
+        if !allLocalAndCloudDeletes.isEmpty {
             ApiServerHandler.shared.processPendingCloudDeletes(episodes: allLocalAndCloudDeletes) { episode in
                 UserEpisodeManager.deleteFromDevice(userEpisode: episode, removeFromPlaybackQueue: false)
             }

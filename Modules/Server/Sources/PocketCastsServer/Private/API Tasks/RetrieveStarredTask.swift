@@ -31,7 +31,7 @@ class RetrieveStarredTask: ApiBaseTask {
 
             do {
                 let serverEpisodes = try Api_StarredEpisodesResponse(serializedData: responseData).episodes
-                if serverEpisodes.count == 0 {
+                if serverEpisodes.isEmpty {
                     completion?(convertedEpisodes)
 
                     return

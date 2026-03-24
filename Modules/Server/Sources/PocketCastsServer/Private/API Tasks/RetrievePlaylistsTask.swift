@@ -24,7 +24,7 @@ class RetrievePlaylistsTask: ApiBaseTask {
 
             do {
                 let serverPlaylists = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
-                if serverPlaylists.count == 0 {
+                if serverPlaylists.isEmpty {
                     completion?(nil)
 
                     return
