@@ -57,6 +57,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return view
     }()
 
+    var errorBottomSpacing: NSLayoutConstraint?
+
+    private let errorPaddingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = AppTheme.tabBarBackgroundColor()
+        return view
+    }()
+
     private let errorLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppTheme.mainTextColor()
@@ -79,7 +88,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     // MARK: - State
 
-    private let bannerHeight: CGFloat = 44
+    private let bannerHeight: CGFloat = 56
     private var isShowingError = false
 
     override func viewDidLoad() {
@@ -1030,21 +1039,32 @@ extension MainTabBarController {
         view.addSubview(errorBanner)
         errorBanner.addSubview(errorLabel)
         errorBanner.addSubview(errorActionButton)
-
+        errorBanner.addSubview(errorPaddingView)
         errorActionButton.addTarget(self, action: #selector(hideError), for: .touchUpInside)
+
+        let bottomSpacing = errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        bottomSpacing.priority = .defaultLow
+        self.errorBottomSpacing = bottomSpacing
 
         NSLayoutConstraint.activate([
             // Pin banner to the very bottom of the view (below tab bar)
             errorBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             errorBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomSpacing,
             errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            // Error Padding
+            errorPaddingView.topAnchor.constraint(equalTo: errorBanner.topAnchor),
+            errorPaddingView.heightAnchor.constraint(equalToConstant: 12),
+            errorPaddingView.leadingAnchor.constraint(equalTo: errorBanner.leadingAnchor),
+            errorPaddingView.trailingAnchor.constraint(equalTo: errorBanner.trailingAnchor),
 
             // Error label
             errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: errorBanner.leadingAnchor, constant: 16),
             errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -40),
             errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
-            errorLabel.centerYAnchor.constraint(equalTo: errorBanner.centerYAnchor, constant: 0),
+            errorLabel.topAnchor.constraint(equalTo: errorPaddingView.bottomAnchor, constant: 0),
+            errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
 
             // Error Action button
             errorActionButton.leadingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: 8),
@@ -1061,7 +1081,7 @@ extension MainTabBarController {
         errorBanner.layoutIfNeeded()
         isShowingError = true
         errorBanner.isHidden = false
-
+        errorBottomSpacing?.priority = .required
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseInOut) {
@@ -1069,7 +1089,7 @@ extension MainTabBarController {
 
             // Push child content up so it doesn't hide behind the shifted tab bar
             self.additionalSafeAreaInsets = UIEdgeInsets(
-                top: 0, left: 0, bottom: self.bannerHeight, right: 0
+                top: 0, left: 0, bottom: self.bannerHeight - self.view.safeAreaInsets.bottom, right: 0
             )
             self.view.layoutIfNeeded()
         }
@@ -1082,6 +1102,7 @@ extension MainTabBarController {
     }
 
     @objc func hideError() {
+        errorBottomSpacing?.priority = .defaultLow
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseInOut) {
@@ -1100,5 +1121,6 @@ extension MainTabBarController {
         errorBanner.backgroundColor = ThemeColor.primaryUi04()
         errorLabel.textColor = AppTheme.mainTextColor()
         errorActionButton.tintColor = AppTheme.mainTextColor()
+        errorPaddingView.backgroundColor = AppTheme.tabBarBackgroundColor()
     }
 }
