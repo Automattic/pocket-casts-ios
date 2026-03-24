@@ -204,15 +204,14 @@ extension NowPlayingPlayerItemViewController {
 
     func showError() {
         // Move error container in view
+        errorLabel.sizeToFit()
+        errorContainer.layoutIfNeeded()
         errorBottomSpacing.priority = UILayoutPriority.required
         playerBottomSpacing.constant = 16
-        UIView.animate(
-                    withDuration: 0.45,
-                    delay: 0,
-                    usingSpringWithDamping: 0.75,
-                    initialSpringVelocity: 0.5,
-                    options: .curveEaseOut
-        ) { [weak self] in
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
@@ -221,13 +220,10 @@ extension NowPlayingPlayerItemViewController {
         // Move error out
         errorBottomSpacing.priority = UILayoutPriority.defaultLow
         playerBottomSpacing.constant = 32
-        UIView.animate(
-                    withDuration: 0.45,
-                    delay: 0,
-                    usingSpringWithDamping: 0.75,
-                    initialSpringVelocity: 0.5,
-                    options: .curveEaseOut
-        ) { [weak self] in
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
