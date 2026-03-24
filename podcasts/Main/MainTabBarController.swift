@@ -48,6 +48,39 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         })
     }
 
+    private let errorBanner: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColor.primaryUi01()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = AppTheme.mainTextColor()
+        label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let errorActionButton: UIButton = {
+        let button = UIButton(type: .system)
+        let image = UIImage(named: "chevron-small-right")
+        button.setImage(image, for: .normal)
+        button.tintColor = AppTheme.mainTextColor()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    // MARK: - State
+
+    private let bannerHeight: CGFloat = 44
+    private var isShowingError = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,6 +134,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
+
+        setupErrorBanner()
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -133,6 +168,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if DataManager.loginAgain {
             loginAgain()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            self?.showError(message: "Episode not available")
         }
     }
 
@@ -217,6 +256,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc func themeDidChange() {
         updateTabBarColor()
+        updateErrorColor()
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -924,6 +964,7 @@ private extension MainTabBarController {
             }
         }
     }
+
 }
 
 // MARK: - Analytics
@@ -978,5 +1019,85 @@ extension MainTabBarController {
 
     func showNotificationsPermissions() {
         present(NotificationsPermissionsViewModel.makeController(), animated: true)
+    }
+}
+
+// MARK: - Error Status
+
+extension MainTabBarController {
+    private func setupErrorBanner() {
+        view.addSubview(errorBanner)
+        errorBanner.addSubview(errorLabel)
+        errorBanner.addSubview(errorActionButton)
+
+        errorActionButton.addTarget(self, action: #selector(hideError), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            // Pin banner to the very bottom of the view (below tab bar)
+            errorBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            // Error label
+            errorLabel.leadingAnchor.constraint(equalTo: errorBanner.leadingAnchor, constant: 16),
+            errorLabel.trailingAnchor.constraint(equalTo: errorActionButton.leadingAnchor, constant: -8),
+            errorLabel.centerYAnchor.constraint(equalTo: errorBanner.centerYAnchor, constant: 0),
+
+            // Dismiss button
+            errorActionButton.trailingAnchor.constraint(equalTo: errorBanner.trailingAnchor, constant: -16),
+            errorActionButton.centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
+            errorActionButton.widthAnchor.constraint(equalToConstant: 24),
+            errorActionButton.heightAnchor.constraint(equalToConstant: 24),
+        ])
+    }
+
+    func showError(message: String, autoDismissAfter seconds: TimeInterval? = nil) {
+        errorLabel.text = message
+        isShowingError = true
+        errorBanner.isHidden = false
+
+        UIView.animate(withDuration: 0.45,
+                       delay: 0,
+                       usingSpringWithDamping: 0.75,
+                       initialSpringVelocity: 0.5,
+                       options: .curveEaseOut) {
+            self.errorBanner.alpha = 1
+
+            // Push child content up so it doesn't hide behind the shifted tab bar
+            self.additionalSafeAreaInsets = UIEdgeInsets(
+                top: 0, left: 0, bottom: self.bannerHeight, right: 0
+            )
+            self.view.layoutIfNeeded()
+        }
+
+        if let seconds {
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
+                self?.hideError()
+            }
+        }
+    }
+
+    @objc func hideError() {
+        UIView.animate(withDuration: 0.45,
+                       delay: 0,
+                       usingSpringWithDamping: 0.75,
+                       initialSpringVelocity: 0.5,
+                       options: .curveEaseOut) {
+            self.errorBanner.alpha = 0
+
+            // Reset content insets
+            self.additionalSafeAreaInsets = .zero
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.errorBanner.isHidden = true
+            self.isShowingError = false
+        }
+    }
+
+    func updateErrorColor() {
+        errorBanner.backgroundColor = ThemeColor.primaryUi04()
+        errorLabel.textColor = AppTheme.mainTextColor()
+        errorActionButton.tintColor = AppTheme.mainTextColor()
     }
 }
