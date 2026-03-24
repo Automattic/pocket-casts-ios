@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
+import SafariServices
 
 extension NowPlayingPlayerItemViewController {
     func addObservers() {
@@ -222,6 +223,19 @@ extension NowPlayingPlayerItemViewController {
             [weak self] in
             self?.view.layoutIfNeeded()
         }
+    }
+
+    @objc func errorTapped() {
+        guard let error  = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
