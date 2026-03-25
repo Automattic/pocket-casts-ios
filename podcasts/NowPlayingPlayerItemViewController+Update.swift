@@ -191,10 +191,10 @@ extension NowPlayingPlayerItemViewController {
             return
         }
 
-        showError(error)
+        showError(error, dismissAfter: 5)
     }
 
-    func showError(_ error: PlaybackManager.PlaybackError) {
+    func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
         // Move error container in view
         errorLabel.text = error.userMessage
         errorLabel.isHidden = false
@@ -208,6 +208,12 @@ extension NowPlayingPlayerItemViewController {
                        options: .curveEaseInOut) {
             [weak self] in
             self?.view.layoutIfNeeded()
+        }
+
+        if let seconds {
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
+                self?.hideError()
+            }
         }
     }
 
