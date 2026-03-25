@@ -1000,6 +1000,21 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         }
 
+        var shortUserMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorShortNoConnection
+            case .episodeNotAvailable:
+                return L10n.playerErrorEpisodeNotAvailable
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorShortNoConnection
+            }
+        }
+
         var userAction: URL? {
             switch self {
             case .episodeNotAvailable:

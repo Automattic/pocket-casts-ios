@@ -196,7 +196,7 @@ extension NowPlayingPlayerItemViewController {
 
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
         // Move error container in view
-        errorLabel.text = error.userMessage
+        errorLabel.text = error.shortUserMessage
         errorLabel.isHidden = false
         errorLabel.sizeToFit()
         errorChevron.isHidden = error.userAction == nil
