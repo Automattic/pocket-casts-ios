@@ -184,7 +184,6 @@ extension NowPlayingPlayerItemViewController {
             hideError()
             return
         }
-        PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
         guard PlaybackManager.shared.currentEpisode() != nil,
               let error  = PlaybackManager.shared.activeError else {
             hideError()
