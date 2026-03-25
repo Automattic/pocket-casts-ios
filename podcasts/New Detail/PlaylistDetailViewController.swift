@@ -95,7 +95,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                         self.searchController.searchTextField.resignFirstResponder()
                     }
                     self.track(.filterMultiSelectEntered)
-                    if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
+                    if self.selectedEpisodes.isEmpty, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                         self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
                     }
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)

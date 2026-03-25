@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
+import SafariServices
 
 extension NowPlayingPlayerItemViewController {
     func addObservers() {
@@ -118,7 +119,7 @@ extension NowPlayingPlayerItemViewController {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
 
-            chapterName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            chapterName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
 
             chapterSkipBackBtn.isEnabled = !visibleChapter.isFirst
             chapterSkipFwdBtn.isEnabled = !visibleChapter.isLast
@@ -180,31 +181,25 @@ extension NowPlayingPlayerItemViewController {
 
     @objc func updateError() {
         guard FeatureFlag.displayErrorsOnPlayer.enabled else {
+            hideError()
             return
         }
         PlaybackManager.shared.queueRefreshList(checkForAutoDownload: false)
-        guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
-        var errorMessage = ""
-        errorLabel.text = errorMessage
-
-        if let playbackError = playingEpisode.playbackErrorDetails {
-            errorMessage = playbackError
-        }
-
-        if !errorMessage.isEmpty {
-            errorLabel.text = errorMessage
-        }
-
-        if errorLabel.text?.isEmpty == false {
-            showError()
-        } else {
+        guard PlaybackManager.shared.currentEpisode() != nil,
+              let error  = PlaybackManager.shared.activeError else {
             hideError()
+            return
         }
+
+        showError(error, dismissAfter: 5)
     }
 
-    func showError() {
+    func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
         // Move error container in view
+        errorLabel.text = error.shortUserMessage
+        errorLabel.isHidden = false
         errorLabel.sizeToFit()
+        errorChevron.isHidden = error.userAction == nil
         errorContainer.layoutIfNeeded()
         errorBottomSpacing.priority = UILayoutPriority.required
         playerBottomSpacing.constant = 16
@@ -214,9 +209,17 @@ extension NowPlayingPlayerItemViewController {
             [weak self] in
             self?.view.layoutIfNeeded()
         }
+
+        if let seconds {
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
+                self?.hideError()
+            }
+        }
     }
 
     func hideError() {
+        errorLabel.text = ""
+        errorLabel.isHidden = true
         // Move error out
         errorBottomSpacing.priority = UILayoutPriority.defaultLow
         playerBottomSpacing.constant = 32
@@ -228,6 +231,19 @@ extension NowPlayingPlayerItemViewController {
         }
     }
 
+    @objc func errorTapped() {
+        guard let error  = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
+    }
+
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
@@ -235,8 +251,9 @@ extension NowPlayingPlayerItemViewController {
             return
         }
         let chapters = PlaybackManager.shared.chaptersForTime(time: time)
+        // swiftlint:disable:next empty_count
         if chapters.count > 0 {
-            episodeName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            episodeName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
             updateChapterProgress(for: chapters.visibleChapter, playheadPosition: time)
             updateUpTo(upTo: time, duration: chapters.duration, moveSlider: false)
             chapterCounter.text = L10n.playerChapterCount((chapters.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())

@@ -82,7 +82,7 @@ class SuggestedFoldersModel: ObservableObject {
     }
 
     var userHasExistingFolders: Bool {
-        return dataManager.allFolders().count > 0
+        return !dataManager.allFolders().isEmpty
     }
 
     var userIsSignedIn: Bool {

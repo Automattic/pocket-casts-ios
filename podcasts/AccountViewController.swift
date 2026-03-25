@@ -132,7 +132,7 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
         } else {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 
-            if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), subscriptionPodcasts.count > 0 {
+            if let subscriptionPodcasts = SubscriptionHelper.subscriptionPodcasts(), !subscriptionPodcasts.isEmpty {
                 newTableRows[0].insert(.supporterContributions, at: 0)
             }
 

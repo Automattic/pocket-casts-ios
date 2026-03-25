@@ -85,7 +85,7 @@ class PodcastChapterParser {
                 try SJCommonUtils.catchException {
                     let customHeaders = [ServerConstants.HttpHeaders.userAgent: ServerConstants.Values.appUserAgent]
                     let movieAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": customHeaders])
-                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], chapters.count > 0 else {
+                    guard let chapters = MNAVChapterReader.chapters(from: movieAsset) as? [MNAVChapter], !chapters.isEmpty else {
                         completion([])
                         return
                     }

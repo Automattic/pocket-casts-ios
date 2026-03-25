@@ -129,7 +129,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
 
     private func handleEpisodeNotification(response: UNNotificationResponse, completionHandler: @escaping () -> Void) {
 
-        guard let episodeUuid = response.notification.request.content.userInfo["eu"] as? String, episodeUuid.count > 0 else {
+        guard let episodeUuid = response.notification.request.content.userInfo["eu"] as? String, !episodeUuid.isEmpty else {
             completionHandler()
             return
         }

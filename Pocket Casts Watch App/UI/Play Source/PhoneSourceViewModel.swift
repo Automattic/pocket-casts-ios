@@ -255,7 +255,7 @@ class PhoneSourceViewModel: PlaySourceViewModel {
 
     func nowPlayingTitle(forEpisode episode: BaseEpisode) -> String? {
         let chapterTitle = WatchDataManager.nowPlayingChapterTitle()
-        return chapterTitle.count > 0 ? chapterTitle : episode.title
+        return !chapterTitle.isEmpty ? chapterTitle : episode.title
     }
 
     func nowPlayingSubTitle(forEpisode episode: BaseEpisode) -> String? {

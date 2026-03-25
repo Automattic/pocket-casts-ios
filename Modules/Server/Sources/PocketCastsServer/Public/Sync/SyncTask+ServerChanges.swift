@@ -378,7 +378,7 @@ extension SyncTask {
                 DataManager.sharedManager.save(episode: episode)
             }
 
-            if episodesToDelete.count > 0 {
+            if !episodesToDelete.isEmpty {
                 DataManager.sharedManager.rawDeleteEpisodes(Array(episodesToDelete), from: playlist)
             }
 

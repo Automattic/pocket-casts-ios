@@ -186,7 +186,7 @@ class UpNextDataManager {
     func deleteAllUpNextEpisodesNotIn(uuids: [String], dbQueue: PCDBQueue) {
         dbQueue.write { db in
             do {
-                if uuids.count == 0 {
+                if uuids.isEmpty {
                     try db.executeUpdate(
                         "DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE playlist_id = ?",
                         values: [UpNextDataManager.upNextPlaylistId]
@@ -203,7 +203,7 @@ class UpNextDataManager {
     }
 
     func deleteAllUpNextEpisodesIn(uuids: [String], dbQueue: PCDBQueue) {
-        guard uuids.count > 0 else { return }
+        guard !uuids.isEmpty else { return }
         dbQueue.write { db in
             do {
                 try db.executeUpdate("DELETE FROM \(DataManager.playlistEpisodeTableName) WHERE episodeUuid IN (\(DataHelper.convertArrayToInString(uuids))) AND playlist_id = ?", values: [UpNextDataManager.upNextPlaylistId])

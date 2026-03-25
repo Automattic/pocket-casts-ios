@@ -104,7 +104,7 @@ class DiscoverCollectionViewController: PCViewController {
             return
         }
 
-        guard items.count > 0 else {
+        guard !items.isEmpty else {
             handleEmptyResults()
             return
         }

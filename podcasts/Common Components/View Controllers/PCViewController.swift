@@ -60,7 +60,7 @@ class PCViewController: SimpleNotificationsViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let title = title, title.count > 0 {
+        if let title = title, !title.isEmpty {
             setupNavBar(animated: animated)
         }
         refreshRightButtons()

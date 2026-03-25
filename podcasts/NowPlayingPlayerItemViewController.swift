@@ -194,6 +194,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet weak var errorContainer: ThemeableView! {
         didSet {
             errorContainer.style = .playerContrast06
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
+            errorContainer.addGestureRecognizer(tapRecognizer)
         }
     }
 
@@ -208,6 +210,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet weak var errorChevron: UIImageView! {
         didSet {
             errorChevron.isHidden = true
+            errorChevron.tintColor = ThemeColor.playerContrast02()
         }
     }
 

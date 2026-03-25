@@ -5861,4 +5861,7 @@
 "files_not_uploaded" = "No files uploaded";
 
 /* Generic error used when playback fails because we are unable to access the episode file. */
- "player_error_episode_not_available" = "Episode not available";
+"player_error_episode_not_available" = "Episode not available";
+
+/* Generic error used when no internet connection is available. */
+"player_error_short_no_connection" = "Connection not available";

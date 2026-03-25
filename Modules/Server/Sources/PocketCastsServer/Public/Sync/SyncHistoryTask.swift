@@ -16,7 +16,7 @@ class SyncHistoryTask: ApiBaseTask {
         // find changes if there are any
         var changes = [Api_HistoryChange]()
         let episodesThatNeedSyncing = DataManager.sharedManager.findEpisodesWhere(customWhere: "lastPlaybackInteractionSyncStatus <> \(SyncStatus.synced.rawValue) AND lastPlaybackInteractionDate IS NOT NULL ORDER BY lastPlaybackInteractionDate DESC LIMIT 1000", arguments: nil)
-        if episodesThatNeedSyncing.count > 0 {
+        if !episodesThatNeedSyncing.isEmpty {
             for episode in episodesThatNeedSyncing {
                 if let episodeProto = convertToProto(episode: episode) {
                     changes.append(episodeProto)
@@ -119,7 +119,7 @@ class SyncHistoryTask: ApiBaseTask {
     }
 
     private func historyServerModified() -> Int64? {
-        if let modifiedStr = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.historyServerLastModified), modifiedStr.count > 0 {
+        if let modifiedStr = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.historyServerLastModified), !modifiedStr.isEmpty {
             return Int64(modifiedStr)
         }
 

@@ -53,7 +53,7 @@ public class EpisodeFilter: NSObject {
     override public init() {}
 
     public func setTitle(_ title: String?, defaultTitle: String) {
-        guard let title = title, title.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 else {
+        guard let title = title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             playlistName = defaultTitle
 
             return
@@ -75,7 +75,7 @@ public class EpisodeFilter: NSObject {
     }
 
     public func addPodcast(podcastUuid: String) {
-        if podcastUuids.count == 0 {
+        if podcastUuids.isEmpty {
             filterAllPodcasts = false
             podcastUuids = podcastUuid
         } else {
@@ -91,7 +91,7 @@ public class EpisodeFilter: NSObject {
             podcastUuid == uuid
         })
 
-        if podcasts.count == 0 {
+        if podcasts.isEmpty {
             filterAllPodcasts = true
             podcastUuids = ""
         } else {

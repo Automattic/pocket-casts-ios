@@ -82,7 +82,7 @@ class IAPHelper: NSObject {
     }
 
     func getProduct(for identifier: IAPProductID) -> SKProduct! {
-        guard productsArray.count > 0 else {
+        guard !productsArray.isEmpty else {
             requestProductInfo()
             return nil
         }
@@ -137,7 +137,7 @@ class IAPHelper: NSObject {
     }
 
     /// Whether the products have been loaded from StoreKit
-    var hasLoadedProducts: Bool { productsArray.count > 0 }
+    var hasLoadedProducts: Bool { !productsArray.isEmpty }
 
     public func getWeeklyReferencePrice(for identifier: IAPProductID) -> Double? {
         guard let product = getProduct(for: identifier) else { return nil }
@@ -253,7 +253,7 @@ extension IAPHelper: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         defer { isRequestingProducts = false }
 
-        if response.products.count > 0 {
+        if !response.products.isEmpty {
             productsArray = response.products
 
             // Update the trial eligibility

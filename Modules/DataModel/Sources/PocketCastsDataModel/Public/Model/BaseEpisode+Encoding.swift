@@ -8,19 +8,19 @@ public extension BaseEpisode {
     }
 
     func decodeInt32FromString(value: String?) -> Int32 {
-        guard let value = value, value.count > 0 else { return 0 }
+        guard let value = value, !value.isEmpty else { return 0 }
 
         return Int32(value) ?? 0
     }
 
     func decodeInt64FromString(value: String?) -> Int64 {
-        guard let value = value, value.count > 0 else { return 0 }
+        guard let value = value, !value.isEmpty else { return 0 }
 
         return Int64(value) ?? 0
     }
 
     func decodeDateFromString(date: String?) -> Date? {
-        guard let date = date, date.count > 0, let doubleVal = Double(date) else { return nil }
+        guard let date = date, !date.isEmpty, let doubleVal = Double(date) else { return nil }
 
         return Date(timeIntervalSince1970: doubleVal)
     }
@@ -38,7 +38,7 @@ public extension BaseEpisode {
     }
 
     func decodeOptionalStringFromString(value: String?) -> String? {
-        guard let value = value, value.count > 0 else { return nil }
+        guard let value = value, !value.isEmpty else { return nil }
 
         return value
     }

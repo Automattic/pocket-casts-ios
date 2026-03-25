@@ -46,7 +46,7 @@ class WatchNowPlayingHelper {
         nowPlayingInfo[MPMediaItemPropertyDiscNumber] = NSNumber(value: 1)
 
         let episodeTitle = titleForNowPlayingInfo(episode: episode)
-        if episodeTitle.count > 0 {
+        if !episodeTitle.isEmpty {
             nowPlayingInfo[MPMediaItemPropertyTitle] = episodeTitle as NSString
         }
 

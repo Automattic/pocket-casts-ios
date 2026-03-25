@@ -11,7 +11,7 @@ extension EpisodeListSearchController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let searchTerm = textField.text, searchTerm.count > 0 {
+        if let searchTerm = textField.text, !searchTerm.isEmpty {
             textField.resignFirstResponder()
             cancelSearchTimer()
             search(searchTerm: searchTerm)
@@ -23,7 +23,7 @@ extension EpisodeListSearchController: UITextFieldDelegate {
     func handleTextFieldDidChange() {
         let searchTerm = searchTextField.text
 
-        if let searchTerm = searchTerm, searchTerm.count > 0 {
+        if let searchTerm = searchTerm, !searchTerm.isEmpty {
             clearSearchBtn.isHidden = false
             resetSearchTimer()
         } else {
