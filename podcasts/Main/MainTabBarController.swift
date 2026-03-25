@@ -71,24 +71,22 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.textColor = AppTheme.mainTextColor()
         label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let errorActionButton: UIButton = {
-        let button = UIButton(type: .system)
-        let image = UIImage(named: "chevron-small-right")
-        button.setImage(image, for: .normal)
-        button.tintColor = AppTheme.mainTextColor()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private let errorChevron: UIView = {
+        let view = UIImageView(image: UIImage(named: "chevron-small-right"))
+        view.tintColor = AppTheme.mainTextColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     // MARK: - State
 
-    private let bannerHeight: CGFloat = 56
+    private let bannerHeight: CGFloat = 68
     private var isShowingError = false
 
     override func viewDidLoad() {
@@ -146,6 +144,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         addBookmarkCreatedToastHandler()
 
         setupErrorBanner()
+        setupErrorObservers()
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -178,10 +177,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         if DataManager.loginAgain {
             loginAgain()
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            self?.showError(message: "Episode not available")
         }
     }
 
@@ -1035,16 +1030,20 @@ extension MainTabBarController {
 // MARK: - Error Status
 
 extension MainTabBarController {
+
     private func setupErrorBanner() {
         view.addSubview(errorBanner)
         errorBanner.addSubview(errorLabel)
-        errorBanner.addSubview(errorActionButton)
+        errorBanner.addSubview(errorChevron)
         errorBanner.addSubview(errorPaddingView)
-        errorActionButton.addTarget(self, action: #selector(hideError), for: .touchUpInside)
 
         let bottomSpacing = errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         bottomSpacing.priority = .defaultLow
         self.errorBottomSpacing = bottomSpacing
+
+        errorBanner.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
+        errorBanner.addGestureRecognizer(tapRecognizer)
 
         NSLayoutConstraint.activate([
             // Pin banner to the very bottom of the view (below tab bar)
@@ -1067,16 +1066,34 @@ extension MainTabBarController {
             errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
 
             // Error Action button
-            errorActionButton.leadingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: 8),
-            errorActionButton.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
-            errorActionButton.centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
-            errorActionButton.widthAnchor.constraint(equalToConstant: 24),
-            errorActionButton.heightAnchor.constraint(equalToConstant: 24),
+            errorChevron.leadingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: 8),
+            errorChevron.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
+            errorChevron.centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
+            errorChevron.widthAnchor.constraint(equalToConstant: 24),
+            errorChevron.heightAnchor.constraint(equalToConstant: 24),
         ])
     }
 
-    func showError(message: String, autoDismissAfter seconds: TimeInterval? = nil) {
-        errorLabel.text = message
+    private func setupErrorObservers() {
+        let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
+
+        for notificationName in errorRelevantNotifications {
+            NotificationCenter.default.addObserver(self, selector: #selector(updateError(notification:)), name: notificationName, object: nil)
+        }
+    }
+
+    @objc func updateError(notification: NSNotification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let error = PlaybackManager.shared.activeError else {
+                self?.hideError()
+                return
+            }
+            self?.showError(error, autoDismissAfter: 5)
+        }
+    }
+
+    func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
+        errorLabel.text = error.shortUserMessage
         errorLabel.sizeToFit()
         errorBanner.layoutIfNeeded()
         isShowingError = true
@@ -1117,10 +1134,23 @@ extension MainTabBarController {
         }
     }
 
+    @objc func errorTapped() {
+        guard let error  = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
+    }
+
     func updateErrorColor() {
         errorBanner.backgroundColor = ThemeColor.primaryUi04()
         errorLabel.textColor = AppTheme.mainTextColor()
-        errorActionButton.tintColor = AppTheme.mainTextColor()
+        errorChevron.tintColor = AppTheme.mainTextColor()
         errorPaddingView.backgroundColor = AppTheme.tabBarBackgroundColor()
     }
 }
