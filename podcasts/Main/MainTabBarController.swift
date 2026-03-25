@@ -58,6 +58,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }()
 
     private var errorBottomSpacing: NSLayoutConstraint?
+    private var dismissErrorWorkItem: DispatchWorkItem?
 
     private let errorPaddingView: UIView = {
         let view = UIView()
@@ -1113,10 +1114,11 @@ extension MainTabBarController {
             self.view.layoutIfNeeded()
         }
 
+        dismissErrorWorkItem?.cancel()
         if let seconds {
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
-                self?.hideError()
-            }
+            let item = DispatchWorkItem { [weak self] in self?.hideError() }
+            dismissErrorWorkItem = item
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
         }
     }
 
