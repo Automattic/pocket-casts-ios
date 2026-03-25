@@ -1,6 +1,3 @@
-#if !os(watchOS)
-    import CFNetwork
-#endif
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
@@ -193,11 +190,9 @@ public extension ApiServerHandler {
 
         let statusCode = response?.extractStatusCode()
 
-        #if !os(watchOS)
-            if let err = error as? NSError, err.isConnectivityError {
-                return APIError.NO_CONNECTION
-            }
-        #endif
+        if let err = error as? NSError, err.isConnectivityError {
+            return APIError.NO_CONNECTION
+        }
 
         switch statusCode {
         case 400, 401:
