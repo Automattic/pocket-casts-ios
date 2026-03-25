@@ -57,7 +57,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return view
     }()
 
-    var errorBottomSpacing: NSLayoutConstraint?
+    private var errorBottomSpacing: NSLayoutConstraint?
 
     private let errorPaddingView: UIView = {
         let view = UIView()
@@ -141,9 +141,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
-
-        setupErrorBanner()
-        setupErrorObservers()
+        if FeatureFlag.displayErrorsOnPlayer.enabled {
+            setupErrorBanner()
+            setupErrorObservers()
+        }
     }
 
     private var cancellables = Set<AnyCancellable>()
