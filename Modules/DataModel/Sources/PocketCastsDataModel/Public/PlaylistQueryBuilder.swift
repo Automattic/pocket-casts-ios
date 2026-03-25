@@ -808,7 +808,7 @@ public class PlaylistQueryBuilder {
         queryString: inout String,
         haveStartedWhere: inout Bool
     ) {
-        if !playlist.filterAllPodcasts, playlist.podcastUuids.count > 0, playlist.podcastUuids != "null" {
+        if !playlist.filterAllPodcasts, !playlist.podcastUuids.isEmpty, playlist.podcastUuids != "null" {
             if haveStartedWhere { queryString += "AND " }
 
             let podcastUuidArr = playlist.podcastUuids.components(separatedBy: ",")
@@ -827,7 +827,7 @@ public class PlaylistQueryBuilder {
         haveStartedWhere: inout Bool
     ) {
         let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
-        if unsubscribedUuids.count > 0 {
+        if !unsubscribedUuids.isEmpty {
             if haveStartedWhere { queryString += "AND " }
 
             queryString += " episode.podcastUuid NOT IN ("
@@ -943,7 +943,7 @@ public class PlaylistQueryBuilder {
         }
 
         // particular podcasts only
-        if !filter.filterAllPodcasts, filter.podcastUuids.count > 0, filter.podcastUuids != "null" {
+        if !filter.filterAllPodcasts, !filter.podcastUuids.isEmpty, filter.podcastUuids != "null" {
             if haveStartedWhere { queryString += "AND " }
 
             let podcastUuidArr = filter.podcastUuids.components(separatedBy: ",")
@@ -957,7 +957,7 @@ public class PlaylistQueryBuilder {
 
         // filter out unsubscribed podcasts
         let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
-        if unsubscribedUuids.count > 0 {
+        if !unsubscribedUuids.isEmpty {
             if haveStartedWhere { queryString += "AND " }
 
             queryString += " podcastUuid NOT IN ("

@@ -130,7 +130,7 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
             self.selectAllBtn.layoutIfNeeded()
         }
 
-        nextBtn.isEnabled = selectedPodcasts.count > 0
+        nextBtn.isEnabled = !selectedPodcasts.isEmpty
     }
 
     private func loadPodcasts() {

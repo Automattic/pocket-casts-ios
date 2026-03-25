@@ -16,7 +16,7 @@ public struct UpNextListComparator {
                                lastServerRefresh: Date?,
                                lastWatchDataTime: Date,
                                useConservativeComparison: Bool = true) -> UpNextComparisonResult {
-        guard let phoneEpisodes = phoneEpisodes, phoneEpisodes.count > 0 else {
+        guard let phoneEpisodes = phoneEpisodes, !phoneEpisodes.isEmpty else {
             if watchEpisodeCount == 0 {
                 return .same
             } else {
@@ -29,7 +29,7 @@ public struct UpNextListComparator {
         }
 
         if phoneEpisodes.count == watchEpisodes.count {
-            if watchEpisodes.count == 0 {
+            if watchEpisodes.isEmpty {
                 return .same
             }
 

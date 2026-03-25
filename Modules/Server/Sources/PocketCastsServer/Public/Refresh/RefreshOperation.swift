@@ -114,7 +114,7 @@ class RefreshOperation: Operation {
         let updatedPodcasts = refreshResult.podcastUpdates
         var metadataRequestsQueued = 0
         for podcast in podcasts {
-            guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], podcastEpisodes.count > 0 else { continue }
+            guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], !podcastEpisodes.isEmpty else { continue }
 
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
                 guard let episodeUuid = episode.uuid else { return nil }
@@ -180,7 +180,7 @@ class RefreshOperation: Operation {
 
         let autoAddCandidates = DataManager.sharedManager.autoAddCandidates.candidates()
 
-        if autoAddCandidates.count > 0 {
+        if !autoAddCandidates.isEmpty {
             let startingCount = ServerConfig.shared.playbackDelegate?.upNextQueueCount() ?? 0
             FileLog.shared.addMessage("Checking for auto add to up next episodes in \(autoAddCandidates.count) podcasts that have been updated with auto add to up next turned on limit is \(upNextLimit) starting count is \(startingCount)")
         }

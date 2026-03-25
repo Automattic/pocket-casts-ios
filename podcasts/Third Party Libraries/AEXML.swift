@@ -96,7 +96,7 @@ open class AEXMLElement: NSObject {
         } else {
             let filtered = children.filter { $0.name == key }
             let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
-            return filtered.count > 0 ? filtered.first! : errorElement
+            return !filtered.isEmpty ? filtered.first! : errorElement
         }
     }
 
@@ -120,7 +120,7 @@ open class AEXMLElement: NSObject {
                     found.append(element)
                 }
             }
-            return found.count > 0 ? found : nil
+            return !found.isEmpty ? found : nil
         } else {
             return nil
         }
@@ -230,18 +230,18 @@ open class AEXMLElement: NSObject {
         xml += indentation(parentsCount - 1)
         xml += "<\(name)"
 
-        if attributes.count > 0 {
+        if !attributes.isEmpty {
             // insert attributes
             for (key, value) in attributes {
                 xml += " \(key)=\"\(escapeString(value))\""
             }
         }
 
-        if value == nil, children.count == 0 {
+        if value == nil, children.isEmpty {
             // close element
             xml += " />"
         } else {
-            if children.count > 0 {
+            if !children.isEmpty {
                 // add children
                 xml += ">\n"
                 for child in children {

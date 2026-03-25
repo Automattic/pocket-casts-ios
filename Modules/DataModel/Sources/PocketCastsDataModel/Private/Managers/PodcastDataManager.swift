@@ -427,7 +427,7 @@ class PodcastDataManager {
                 try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid])
 
                 // then set all the ones that should
-                if podcastUuids.count > 0 {
+                if !podcastUuids.isEmpty {
                     try db.executeUpdate("UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid IN (\(DataHelper.convertArrayToInString(podcastUuids)))", values: [folderUuid])
                 }
             } catch {

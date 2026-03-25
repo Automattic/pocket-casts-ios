@@ -298,7 +298,7 @@ extension AppDelegate {
         JLRoutes.global().addRoute("/redeem/promo/*") { [weak self] parameters -> Bool in
             guard self != nil else { return false }
             var promoCode: String?
-            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], pathComponents.count > 0 {
+            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], !pathComponents.isEmpty {
                 promoCode = pathComponents[0]
             }
 
@@ -310,7 +310,7 @@ extension AppDelegate {
         JLRoutes.global().addRoute("/premium/podcast/*") { [weak self] parameters -> Bool in
             guard self != nil else { return false }
 
-            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], pathComponents.count > 0, let podcastTitle = parameters["title"] as? String {
+            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], !pathComponents.isEmpty, let podcastTitle = parameters["title"] as? String {
                 let uuid = pathComponents[0]
 
                 if SyncManager.isUserLoggedIn() {
@@ -334,7 +334,7 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/premium/supporter-contributions/*") { [weak self] parameters -> Bool in
             guard self != nil else { return false }
-            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], pathComponents.count > 0 {
+            if let pathComponents = parameters[JLRouteWildcardComponentsKey] as? [String], !pathComponents.isEmpty {
                 let uuid = pathComponents[0]
 
                 if SyncManager.isUserLoggedIn() {

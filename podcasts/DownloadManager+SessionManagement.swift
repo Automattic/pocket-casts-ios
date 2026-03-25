@@ -70,7 +70,7 @@ extension DownloadManager {
             }
         }
 
-        if episodeUuids.count == 0 { return }
+        if episodeUuids.isEmpty { return }
 
         for episodeUuid in episodeUuids {
             guard let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { continue }

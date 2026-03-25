@@ -116,7 +116,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
             playbackDelegate.seekToFromSync(time: updatedNowPlayingTime, syncChanges: false, startPlaybackAfterSeek: false)
         }
 
-        if autodownloadEpisodes.count > 0 {
+        if !autodownloadEpisodes.isEmpty {
             ServerConfig.shared.syncDelegate?.autoDownloadUserEpisodes(episodes: autodownloadEpisodes)
         }
 

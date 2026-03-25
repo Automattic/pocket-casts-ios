@@ -60,7 +60,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     var selectedPlayListEpisodes = [PlaylistEpisode]() {
         didSet {
             multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
-            if selectedPlayListEpisodes.count == 0 {
+            if selectedPlayListEpisodes.isEmpty {
                 contentInseter.isMultiSelectEnabled = false
             } else {
                 contentInseter.isMultiSelectEnabled = true

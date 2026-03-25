@@ -41,7 +41,7 @@ class SyncTask: ApiBaseTask {
     }
 
     func incrementalSyncRequest(token: String) -> URLRequest? {
-        guard let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), lastServerModified.count > 0, let url = URL(string: ServerConstants.Urls.api() + "user/sync/update") else {
+        guard let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), !lastServerModified.isEmpty, let url = URL(string: ServerConstants.Urls.api() + "user/sync/update") else {
             return nil
         }
 
@@ -55,7 +55,7 @@ class SyncTask: ApiBaseTask {
     }
 
     private func performSync(token: String) {
-        if let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), lastServerModified.count > 0 {
+        if let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), !lastServerModified.isEmpty {
             if ServerSettings.homeGridNeedsRefresh() {
                 performHomeGridRefresh()
             }

@@ -159,7 +159,7 @@ extension PlaylistDetailViewController {
     }
 
     private func downloadableCount(listEpisodes: [ListEpisode]) -> Int {
-        if listEpisodes.count == 0 { return 0 }
+        if listEpisodes.isEmpty { return 0 }
         var count = 0
 
         for listEpisode in listEpisodes {

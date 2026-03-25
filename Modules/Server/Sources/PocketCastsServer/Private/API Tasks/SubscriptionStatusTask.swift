@@ -67,7 +67,7 @@ class SubscriptionStatusTask: ApiBaseTask {
             }
         }
 
-        if podcastSubscriptions.count > 0 {
+        if !podcastSubscriptions.isEmpty {
             SubscriptionHelper.setSubscriptionPodcasts(podcastSubscriptions)
         }
     }
