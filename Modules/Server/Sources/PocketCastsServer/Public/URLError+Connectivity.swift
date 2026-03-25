@@ -13,6 +13,7 @@ extension NSError {
              URLError.dnsLookupFailed.rawValue,
              URLError.dataNotAllowed.rawValue,
              URLError.internationalRoamingOff.rawValue,
+             URLError.timedOut.rawValue,
              URLError.callIsActive.rawValue:
             return true
         default:
