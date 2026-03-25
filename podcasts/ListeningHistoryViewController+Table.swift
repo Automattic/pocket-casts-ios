@@ -95,11 +95,17 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
             if episode.downloadFailed() {
                 let optionsPicker = OptionsPicker(title: nil)
                 let retryAction = OptionAction(label: L10n.retry, icon: nil, action: {
-                    NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
+                    NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later, approvedCellular in
                         if later {
                             DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
                         } else {
-                            DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
+                            let status: AutoDownloadStatus
+                            if FeatureFlag.cellularDownloadStatusFix.enabled {
+                                status = approvedCellular ? .userApprovedCellular : .notSpecified
+                            } else {
+                                status = .notSpecified
+                            }
+                            DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: status)
                         }
                     }, disallowed: nil)
                 })

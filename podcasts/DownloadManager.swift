@@ -540,7 +540,14 @@ class DownloadManager: NSObject, FilePathProtocol {
 
         let tempFilePath = tempPathForEpisode(episode)
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
-        let useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToUnexpensiveConnection() && autoDownloadStatus != .autoDownloaded)) // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
+        let useCellularSession: Bool
+        if FeatureFlag.cellularDownloadStatusFix.enabled {
+            // Allow cellular downloads if mobile data is allowed by settings, if the user explicitly approved cellular download at queue time, or for episodes downloaded by the player for streaming
+            useCellularSession = mobileDataAllowed || autoDownloadStatus == .userApprovedCellular || autoDownloadStatus == .playerDownloadedForStreaming
+        } else {
+            // allow cellular downloads if not on WiFi and not auto downloaded, because it means the user said yes to a confirmation prompt
+            useCellularSession = (mobileDataAllowed || (!NetworkUtils.shared.isConnectedToUnexpensiveConnection() && autoDownloadStatus != .autoDownloaded))
+        }
 
         #if os(watchOS)
             let sessionToUse = await WKApplication.shared().applicationState == .background ? cellularBackgroundSession : cellularForegroundSession
@@ -772,7 +779,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let queuedEpisodes = dataManager.findEpisodesWhere(customWhere: "episodeStatus == ?", arguments: [DownloadStatus.queued.rawValue])
         queuedEpisodes.forEach { episode in
             Task {
-                addToQueue(episodeUuid: episode.uuid)
+                addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: AutoDownloadStatus(rawValue: episode.autoDownloadStatus) ?? .notSpecified)
             }
         }
     }

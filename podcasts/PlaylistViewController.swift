@@ -345,14 +345,15 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
             if actualDownloadCount == 0 { return }
             let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
+            let isOnExpensiveConnection = !NetworkUtils.shared.isConnectedToUnexpensiveConnection()
             let downloadAction = OptionAction(label: downloadText, icon: nil) { [weak self] in
-                self?.downloadAll()
+                self?.downloadAll(userApprovedCellular: isOnExpensiveConnection)
             }
 
             let confirmPicker = OptionsPicker(title: nil)
             var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
 
-            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            if !isOnExpensiveConnection {
                 confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
             } else {
                 downloadAction.destructive = true
@@ -527,13 +528,13 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
     }
 
-    func downloadAll() {
+    func downloadAll(userApprovedCellular: Bool = false) {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
 
             if self.episodes.isEmpty { return }
 
-            self.downloadItems(allEpisodes: self.episodes)
+            self.downloadItems(allEpisodes: self.episodes, userApprovedCellular: userApprovedCellular)
         }
     }
 
@@ -562,14 +563,20 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
     }
 
-    func downloadItems(allEpisodes: [ListEpisode]) {
+    func downloadItems(allEpisodes: [ListEpisode], userApprovedCellular: Bool = false) {
+        let status: AutoDownloadStatus
+        if FeatureFlag.cellularDownloadStatusFix.enabled {
+            status = userApprovedCellular ? .userApprovedCellular : .notSpecified
+        } else {
+            status = .notSpecified
+        }
         var queuedEpisodes = 0
         for listEpisode in allEpisodes {
             if listEpisode.episode.downloading() || listEpisode.episode.downloaded(pathFinder: DownloadManager.shared) || listEpisode.episode.queued() {
                 continue
             }
 
-            DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
+            DownloadManager.shared.addToQueue(episodeUuid: listEpisode.episode.uuid, fireNotification: true, autoDownloadStatus: status)
             queuedEpisodes += 1
             if queuedEpisodes == Constants.Limits.maxBulkDownloads {
                 return

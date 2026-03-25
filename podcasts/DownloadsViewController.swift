@@ -291,13 +291,19 @@ class DownloadsViewController: PCViewController {
     }
 
     private func retryAllFailed() {
-        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
+        NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later, approvedCellular in
             let failedList = self.failedEpisodes()
+            let status: AutoDownloadStatus
+            if FeatureFlag.cellularDownloadStatusFix.enabled {
+                status = approvedCellular ? .userApprovedCellular : .notSpecified
+            } else {
+                status = .notSpecified
+            }
             for episode in failedList {
                 if later {
                     DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .notSpecified)
                 } else {
-                    DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: .notSpecified)
+                    DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: false, autoDownloadStatus: status)
                 }
             }
 
