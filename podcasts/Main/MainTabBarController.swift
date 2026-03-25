@@ -1129,14 +1129,14 @@ extension MainTabBarController {
             // Reset content insets
             self.additionalSafeAreaInsets = .zero
             self.view.layoutIfNeeded()
-        } completion: { _ in
-            self.errorBanner.isHidden = true
-            self.isShowingError = false
+        } completion: { [weak self] _ in
+            self?.errorBanner.isHidden = true
+            self?.isShowingError = false
         }
     }
 
     @objc private func errorTapped() {
-        guard let error  = PlaybackManager.shared.activeError,
+        guard let error = PlaybackManager.shared.activeError,
               let url = error.userAction
         else {
             return
