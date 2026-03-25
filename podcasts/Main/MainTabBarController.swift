@@ -50,7 +50,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private let errorBanner: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeColor.primaryUi01()
+        view.backgroundColor = ThemeColor.primaryUi04()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.alpha = 0
@@ -72,7 +72,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
         label.textAlignment = .center
         label.numberOfLines = 1
-        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -1082,7 +1081,7 @@ extension MainTabBarController {
         }
     }
 
-    @objc func updateError(notification: NSNotification) {
+    @objc private func updateError(notification: NSNotification) {
         DispatchQueue.main.async { [weak self] in
             guard FeatureFlag.displayErrorsOnPlayer.enabled,
                 let error = PlaybackManager.shared.activeError else {
@@ -1093,8 +1092,9 @@ extension MainTabBarController {
         }
     }
 
-    func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
+    private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
         errorLabel.text = error.shortUserMessage
+        errorChevron.isHidden = error.userAction == nil
         errorLabel.sizeToFit()
         errorBanner.layoutIfNeeded()
         isShowingError = true
@@ -1119,7 +1119,7 @@ extension MainTabBarController {
         }
     }
 
-    @objc func hideError() {
+    @objc private func hideError() {
         errorBottomSpacing?.priority = .defaultLow
         UIView.animate(withDuration: 0.3,
                        delay: 0,
@@ -1135,7 +1135,7 @@ extension MainTabBarController {
         }
     }
 
-    @objc func errorTapped() {
+    @objc private func errorTapped() {
         guard let error  = PlaybackManager.shared.activeError,
               let url = error.userAction
         else {
@@ -1148,7 +1148,7 @@ extension MainTabBarController {
         #endif
     }
 
-    func updateErrorColor() {
+    private func updateErrorColor() {
         errorBanner.backgroundColor = ThemeColor.primaryUi04()
         errorLabel.textColor = AppTheme.mainTextColor()
         errorChevron.tintColor = AppTheme.mainTextColor()
