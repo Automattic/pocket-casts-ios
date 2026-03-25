@@ -194,7 +194,7 @@ public extension ApiServerHandler {
         let statusCode = response?.extractStatusCode()
 
         #if !os(watchOS)
-            if let err = error as NSError?, err.code == CFNetworkErrors.cfurlErrorNotConnectedToInternet.rawValue {
+            if let err = error as? NSError, err.isConnectivityError {
                 return APIError.NO_CONNECTION
             }
         #endif
