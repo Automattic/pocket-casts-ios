@@ -35,7 +35,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
             // parse OPML file
             let parser = XMLParser(contentsOf: opmlFileUrl)
             parser?.delegate = self
-            guard let parsed = parser?.parse(), parsed, parsedUrls.count > 0 else {
+            guard let parsed = parser?.parse(), parsed, !parsedUrls.isEmpty else {
                 DispatchQueue.main.sync {
                     if let progressWindow = self.progressWindow {
                         progressWindow.hideAlert(false)
@@ -57,7 +57,7 @@ class OpmlImporter: Operation, XMLParserDelegate {
             importPodcasts(urls: parsedUrls)
 
             var amountOfTimesPolled = 0
-            while amountOfTimesPolled < 20, pollUuids.count > 0 {
+            while amountOfTimesPolled < 20, !pollUuids.isEmpty {
                 amountOfTimesPolled += 1
 
                 let pollUuidsToSend = pollUuids

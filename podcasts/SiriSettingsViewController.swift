@@ -173,11 +173,11 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     private func reloadData() {
         var newSections = [sections]()
-        if enabledShortcuts.count > 0 {
+        if !enabledShortcuts.isEmpty {
             newSections.append(.enabledSection)
         }
 
-        if suggestedShortcuts.count > 0 {
+        if !suggestedShortcuts.isEmpty {
             newSections.append(.suggestedSection)
         }
 
@@ -278,7 +278,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
 
     func editVoiceShortcutViewController(_ controller: INUIEditVoiceShortcutViewController, didDeleteVoiceShortcutWithIdentifier deletedVoiceShortcutIdentifier: UUID) {
         let shortcutsToDelete = enabledShortcuts.filter { $0.identifier == deletedVoiceShortcutIdentifier }
-        if shortcutsToDelete.count > 0 {
+        if !shortcutsToDelete.isEmpty {
             deleteEnabledShortcut(voiceShortcut: shortcutsToDelete[0])
         }
         navigationController?.popToViewController(self, animated: false)

@@ -22,7 +22,7 @@ struct Ratings2025Story: ShareableStory {
 
     var body: some View {
         Group {
-            if ratings.count == 0 {
+            if ratings.isEmpty {
                 emptyView()
             } else {
                 columnsView()
@@ -177,7 +177,7 @@ struct Ratings2025Story: ShareableStory {
     }
 
     func hideShareButton() -> Bool {
-        ratings.count == 0
+        ratings.isEmpty
     }
 }
 

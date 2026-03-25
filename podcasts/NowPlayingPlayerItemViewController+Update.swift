@@ -111,7 +111,7 @@ extension NowPlayingPlayerItemViewController {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
 
-            chapterName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            chapterName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
 
             chapterSkipBackBtn.isEnabled = !visibleChapter.isFirst
             chapterSkipFwdBtn.isEnabled = !visibleChapter.isLast
@@ -178,8 +178,9 @@ extension NowPlayingPlayerItemViewController {
             return
         }
         let chapters = PlaybackManager.shared.chaptersForTime(time: time)
+        // swiftlint:disable:next empty_count
         if chapters.count > 0 {
-            episodeName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            episodeName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
             updateChapterProgress(for: chapters.visibleChapter, playheadPosition: time)
             updateUpTo(upTo: time, duration: chapters.duration, moveSlider: false)
             chapterCounter.text = L10n.playerChapterCount((chapters.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())

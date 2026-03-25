@@ -73,7 +73,7 @@ class MultiSelectHelper {
         let uploadedEpisodes = selectedEpisodes.filter { $0.uploaded() }
 
         let confirmPicker: OptionsPicker
-        if downloadedEpisodes.count == 0 {
+        if downloadedEpisodes.isEmpty {
             confirmPicker = OptionsPicker(title: nil)
             let deleteFromCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil) { () in
                 DispatchQueue.global().async {
@@ -87,7 +87,7 @@ class MultiSelectHelper {
 
             let warningMessage = deleteFileMessage(uploadedEpisodes.count)
             confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
-        } else if uploadedEpisodes.count == 0 {
+        } else if uploadedEpisodes.isEmpty {
             confirmPicker = OptionsPicker(title: nil)
             let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
                 DispatchQueue.global().async {

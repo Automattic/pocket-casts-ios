@@ -20,7 +20,7 @@ struct Ratings2024Story: ShareableStory {
 
     var body: some View {
         Group {
-            if ratings.count == 0 {
+            if ratings.isEmpty {
                 emptyView()
             } else {
                 VStack(alignment: .leading) {
@@ -150,7 +150,7 @@ struct Ratings2024Story: ShareableStory {
     }
 
     func hideShareButton() -> Bool {
-        ratings.count == 0
+        ratings.isEmpty
     }
 }
 

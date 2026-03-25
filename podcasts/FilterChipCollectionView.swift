@@ -113,14 +113,14 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
                 selectedOptions += 1
             }
             if filter.filterPartiallyPlayed {
-                if returnedString.count > 0 {
+                if !returnedString.isEmpty {
                     returnedString.append(", ")
                 }
                 returnedString.append(L10n.inProgress)
                 selectedOptions += 1
             }
             if filter.filterFinished {
-                if returnedString.count > 0 {
+                if !returnedString.isEmpty {
                     returnedString.append(", ")
                 }
                 returnedString.append(L10n.statusPlayed)

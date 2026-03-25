@@ -55,7 +55,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
         }
 
         if bundle.podcasts?.count == 1 {
-            guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, subscription.uuid.count > 0 else {
+            guard let subscription = bundleSubscriptions?[indexPath.row].podcasts.first, !subscription.uuid.isEmpty else {
                 cell.isLoading = true
                 cell.heartView.setGradientColors(light: AppTheme.podcastHeartLightRedGradientColor(), dark: AppTheme.podcastHeartDarkRedGradientColor())
 

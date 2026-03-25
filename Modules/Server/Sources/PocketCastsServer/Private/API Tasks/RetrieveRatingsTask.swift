@@ -28,7 +28,7 @@ class RetrieveRatingsTask: ApiBaseTask, @unchecked Sendable {
             }
 
             let serverRatings = try Api_PodcastRatingsResponse(serializedData: responseData).podcastRatings
-            if serverRatings.count == 0 {
+            if serverRatings.isEmpty {
                 success = true
                 completion?(convertedRatings)
 

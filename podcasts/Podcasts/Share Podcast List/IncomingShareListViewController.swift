@@ -111,7 +111,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private func subscribeNext(loadingAlert: ShiftyLoadingAlert) {
-        if podcasts.count == 0 {
+        if podcasts.isEmpty {
             DispatchQueue.main.async { () in
                 loadingAlert.hideAlert(true)
                 self.dismiss(animated: true, completion: nil)

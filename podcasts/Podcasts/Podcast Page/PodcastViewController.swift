@@ -164,7 +164,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             }
 
             if self.isMultiSelectEnabled {
-                if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
+                if self.selectedEpisodes.isEmpty, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
                     self.tableView().scrollToRow(at: IndexPath(row: NSNotFound, section: PodcastViewController.allEpisodesSection), at: .top, animated: true)
                 }
                 self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
@@ -997,7 +997,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast else { return }
 
         DispatchQueue.global().async { [weak self] in
-            guard let allObjects = self?.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+            guard let allObjects = self?.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
             var count = 0
             for object in allObjects {
@@ -1021,7 +1021,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func downloadAllTapped() {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+            guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
             let episodes = allObjects.compactMap { ($0 as? ListEpisode)?.episode }
             AnalyticsEpisodeHelper.shared.currentSource = .podcastScreen
@@ -1093,7 +1093,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func episodesForSeason(_ season: Int) -> [ListEpisode] {
         guard let allObjects = self.episodeInfo[safe: 1]?.elements,
-              allObjects.count > 0
+              !allObjects.isEmpty
         else {
             return []
         }
@@ -1162,7 +1162,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func queueAllTapped() {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+            guard let self = self, let allObjects = self.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
             self.queueItems(allObjects: allObjects)
         }
     }
@@ -1186,7 +1186,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func downloadableEpisodeCount(items: [ListItem]? = nil) -> Int {
-        guard let allObjects = items == nil ? episodeInfo[safe: 1]?.elements : items, allObjects.count > 0 else { return 0 }
+        guard let allObjects = items == nil ? episodeInfo[safe: 1]?.elements : items, !allObjects.isEmpty else { return 0 }
 
         var count = 0
 
@@ -1562,7 +1562,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let podcast = podcast else { return }
 
         DispatchQueue.global().async { [weak self] in
-            guard let allObjects = self?.episodeInfo[safe: 1]?.elements, allObjects.count > 0 else { return }
+            guard let allObjects = self?.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
 
             var haveFoundFirst = false
             for object in allObjects {

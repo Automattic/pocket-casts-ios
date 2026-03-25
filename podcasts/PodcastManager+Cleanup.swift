@@ -17,7 +17,7 @@ extension PodcastManager {
         let interactedEpisodes = dataManager.allEpisodesForPodcast(id: podcast.id).filter { $0.userHasInteractedWithEpisode() }
 
         // we can safely delete podcasts where the user hasn't interacted with any of the episodes
-        if interactedEpisodes.count == 0 {
+        if interactedEpisodes.isEmpty {
             let episodes = dataManager.allEpisodesForPodcast(id: podcast.id)
             await downloadManager.cancelTasks(for: episodes)
 
@@ -29,7 +29,7 @@ extension PodcastManager {
 
     func deleteGhostEpisodesIfNeeded() {
         let episodes = dataManager.findGhostEpisodes()
-        guard episodes.count != 0 else {
+        guard !episodes.isEmpty else {
             return
         }
 
@@ -40,7 +40,7 @@ extension PodcastManager {
 
         episodes.forEach { episode in
             guard
-                episode.uuid.count != 0,
+                !episode.uuid.isEmpty,
                 episode.userHasInteractedWithEpisode() == false
             else {
                 return
@@ -65,7 +65,7 @@ extension PodcastManager {
         let allPaidPodcasts = dataManager.allPaidPodcasts()
 
         let licenseRestrictedPodcasts = allPaidPodcasts.filter { $0.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue }
-        if licenseRestrictedPodcasts.count == 0 { return }
+        if licenseRestrictedPodcasts.isEmpty { return }
 
         for podcast in licenseRestrictedPodcasts {
             guard let subscription = SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid) else { continue }
