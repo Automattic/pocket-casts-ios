@@ -277,7 +277,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
         let playerErrorMessage =  (player.error as? NSError)?.debugDescription ?? ""
         let playerItemErrorMessage = (player.currentItem?.error as? NSError)?.debugDescription ?? ""
-        FileLog.shared.addMessage("[Default Player] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
+        FileLog.shared.addMessage("[DefaultPlayer] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
 
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
