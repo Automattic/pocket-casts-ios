@@ -73,7 +73,7 @@ class AudioPlayTask {
             }
 
             if bufferManager.readErrorOccurred.value {
-                PlaybackManager.shared.playbackDidFail(logMessage: "Buffer read error occurred", userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: "Buffer read error occurred"))
                 shutdown()
 
                 return
