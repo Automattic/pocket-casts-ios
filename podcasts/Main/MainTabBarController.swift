@@ -1084,7 +1084,8 @@ extension MainTabBarController {
 
     @objc func updateError(notification: NSNotification) {
         DispatchQueue.main.async { [weak self] in
-            guard let error = PlaybackManager.shared.activeError else {
+            guard FeatureFlag.displayErrorsOnPlayer.enabled,
+                let error = PlaybackManager.shared.activeError else {
                 self?.hideError()
                 return
             }
