@@ -135,7 +135,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         let error = delegate.verifyResponse()
 
         XCTAssertNotNil(error, "Should return error for HTTP 403")
-        XCTAssertEqual(error?.code, 403, "Error code should match HTTP status code")
+        XCTAssertEqual(error?.code, NSURLErrorResourceUnavailable, "Error code should match HTTP status code")
     }
 
     func testVerifyResponse_ReturnsNilForSuccessfulResponse() {
@@ -191,18 +191,6 @@ extension MediaExporterResourceLoaderDelegate {
         bufferData = Data()
 
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
-    }
-
-    func verifyResponse() -> NSError? {
-        guard let response = response as? HTTPURLResponse else { return nil }
-
-        var error: NSError?
-
-        if response.statusCode >= 400 {
-            error = NSError(domain: "Failed downloading asset. Reason: response status code \(response.statusCode).", code: response.statusCode, userInfo: nil)
-        }
-
-        return error
     }
 
     func startDataRequest(with url: URL, retryWithoutUserAgent: Bool, mock: ((URL, Bool) -> Void)? = nil) {

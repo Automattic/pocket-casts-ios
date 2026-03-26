@@ -351,7 +351,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
     }
 
-    private func verifyResponse() -> NSError? {
+    func verifyResponse() -> NSError? {
         guard let response = response as? HTTPURLResponse else { return nil }
 
         let shouldVerifyDownloadedFileSize = MediaExporterItemConfiguration.shouldVerifyDownloadedFileSize
