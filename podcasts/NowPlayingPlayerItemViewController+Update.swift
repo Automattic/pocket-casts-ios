@@ -179,6 +179,10 @@ extension NowPlayingPlayerItemViewController {
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
     }
 
+    var isErrorVisible: Bool {
+        return errorBottomSpacing.priority == UILayoutPriority.required
+    }
+
     @objc func updateError() {
         guard FeatureFlag.displayErrorsOnPlayer.enabled else {
             hideError()
@@ -189,7 +193,7 @@ extension NowPlayingPlayerItemViewController {
             hideError()
             return
         }
-        if errorBottomSpacing.priority == UILayoutPriority.defaultLow {
+        if !isErrorVisible {
             showError(error, dismissAfter: 5)
         }
     }

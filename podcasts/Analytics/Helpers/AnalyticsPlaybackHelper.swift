@@ -96,7 +96,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(event, properties: properties)
     }
 
-    static func currentPlayerString(player: PlaybackProtocol?) -> String {
+    func currentPlayerString(player: PlaybackProtocol?) -> String {
         #if !os(watchOS) && !APPCLIP
         if player is GoogleCastPlayer {
             return "google_cast"
