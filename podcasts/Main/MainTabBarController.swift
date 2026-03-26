@@ -1096,7 +1096,6 @@ extension MainTabBarController {
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
-        errorLabel.sizeToFit()
         errorBanner.layoutIfNeeded()
         errorBanner.isHidden = false
         errorBottomSpacing?.priority = .required
@@ -1105,10 +1104,10 @@ extension MainTabBarController {
                        options: .curveEaseInOut) { [weak self] in
             guard let self else { return }
             self.errorBanner.alpha = 1
-
+            let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
             // Push child content up so it doesn't hide behind the shifted tab bar
             self.additionalSafeAreaInsets = UIEdgeInsets(
-                top: 0, left: 0, bottom: self.bannerHeight - self.view.safeAreaInsets.bottom, right: 0
+                top: 0, left: 0, bottom: self.bannerHeight - baseBottom, right: 0
             )
             self.view.layoutIfNeeded()
         }
