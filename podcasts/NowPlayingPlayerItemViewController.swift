@@ -218,6 +218,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var errorBottomSpacing: NSLayoutConstraint!
 
+    var errorAutoDismissWork: DispatchWorkItem?
+
     #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     #endif

@@ -208,10 +208,11 @@ extension NowPlayingPlayerItemViewController {
             self?.view.layoutIfNeeded()
         }
 
+        errorAutoDismissWork?.cancel()
         if let seconds {
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { [weak self] in
-                self?.hideError()
-            }
+            let work = DispatchWorkItem { [weak self] in self?.hideError() }
+            errorAutoDismissWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
         }
     }
 
