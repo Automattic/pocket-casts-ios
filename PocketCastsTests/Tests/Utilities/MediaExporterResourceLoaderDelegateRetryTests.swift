@@ -135,7 +135,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         let error = delegate.verifyResponse()
 
         XCTAssertNotNil(error, "Should return error for HTTP 403")
-        XCTAssertEqual(error?.code, NSURLErrorResourceUnavailable, "Error code should match HTTP status code")
+        XCTAssertEqual(error?.code, NSURLErrorResourceUnavailable, "Error code should be NSURLErrorResourceUnavailable for HTTP 403")
     }
 
     func testVerifyResponse_ReturnsNilForSuccessfulResponse() {
