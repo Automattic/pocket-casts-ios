@@ -1018,7 +1018,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         var userAction: URL? {
             switch self {
             case .episodeNotAvailable:
-                return URL(string: ServerConstants.Urls.support)
+                return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
             default:
                 return nil
             }

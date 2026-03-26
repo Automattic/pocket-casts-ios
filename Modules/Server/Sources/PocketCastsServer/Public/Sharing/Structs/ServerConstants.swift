@@ -53,6 +53,7 @@ public enum ServerConstants {
         public static let appStore = "https://apps.apple.com/app/id414834813"
         public static let appStoreReview = "https://apps.apple.com/app/id414834813?action=write-review"
         public static let podrollLearnMore = "https://support.pocketcasts.com/knowledge-base/podroll/"
+        public static let supportPlaybackDownloadErrors = "https://support.pocketcasts.com/knowledge-base/download-and-playback-errors/"
     }
 
     private static func production() -> Bool {

@@ -197,7 +197,6 @@ extension NowPlayingPlayerItemViewController {
         // Move error container in view
         errorLabel.text = error.shortUserMessage
         errorLabel.sizeToFit()
-        errorContainer.isHidden = false
         errorChevron.isHidden = error.userAction == nil
         errorContainer.layoutIfNeeded()
         errorBottomSpacing.priority = UILayoutPriority.required
@@ -218,9 +217,6 @@ extension NowPlayingPlayerItemViewController {
 
     func hideError() {
         // Move error out
-        if errorContainer.isHidden {
-            return
-        }
         errorBottomSpacing.priority = UILayoutPriority.defaultLow
         playerBottomSpacing.constant = 32
         UIView.animate(withDuration: 0.3,
@@ -228,10 +224,6 @@ extension NowPlayingPlayerItemViewController {
                        options: .curveEaseInOut) {
             [weak self] in
             self?.view.layoutIfNeeded()
-        } completion: { [weak self] completed in
-            if completed {
-                self?.errorContainer.isHidden = true
-            }
         }
     }
 
