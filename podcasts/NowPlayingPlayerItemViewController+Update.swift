@@ -185,7 +185,7 @@ extension NowPlayingPlayerItemViewController {
             return
         }
         guard PlaybackManager.shared.currentEpisode() != nil,
-              let error  = PlaybackManager.shared.activeError else {
+              let error = PlaybackManager.shared.activeError else {
             hideError()
             return
         }
@@ -196,8 +196,8 @@ extension NowPlayingPlayerItemViewController {
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
         // Move error container in view
         errorLabel.text = error.shortUserMessage
-        errorLabel.isHidden = false
         errorLabel.sizeToFit()
+        errorContainer.isHidden = false
         errorChevron.isHidden = error.userAction == nil
         errorContainer.layoutIfNeeded()
         errorBottomSpacing.priority = UILayoutPriority.required
@@ -217,9 +217,10 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func hideError() {
-        errorLabel.text = ""
-        errorLabel.isHidden = true
         // Move error out
+        if errorContainer.isHidden {
+            return
+        }
         errorBottomSpacing.priority = UILayoutPriority.defaultLow
         playerBottomSpacing.constant = 32
         UIView.animate(withDuration: 0.3,
@@ -227,6 +228,10 @@ extension NowPlayingPlayerItemViewController {
                        options: .curveEaseInOut) {
             [weak self] in
             self?.view.layoutIfNeeded()
+        } completion: { [weak self] completed in
+            if completed {
+                self?.errorContainer.isHidden = true
+            }
         }
     }
 
