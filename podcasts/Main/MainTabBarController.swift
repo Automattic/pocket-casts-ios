@@ -87,7 +87,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - State
 
     private let bannerHeight: CGFloat = 68
-    private var isShowingError = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1099,7 +1098,6 @@ extension MainTabBarController {
         errorChevron.isHidden = error.userAction == nil
         errorLabel.sizeToFit()
         errorBanner.layoutIfNeeded()
-        isShowingError = true
         errorBanner.isHidden = false
         errorBottomSpacing?.priority = .required
         UIView.animate(withDuration: 0.3,
@@ -1134,7 +1132,6 @@ extension MainTabBarController {
             self.view.layoutIfNeeded()
         } completion: { [weak self] _ in
             self?.errorBanner.isHidden = true
-            self?.isShowingError = false
         }
     }
 
