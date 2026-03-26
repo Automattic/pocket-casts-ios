@@ -77,7 +77,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         return label
     }()
 
-    private let errorChevron: UIView = {
+    private let errorChevron: UIImageView = {
         let view = UIImageView(image: UIImage(named: "chevron-small-right"))
         view.tintColor = AppTheme.mainTextColor()
         view.translatesAutoresizingMaskIntoConstraints = false
