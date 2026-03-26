@@ -1096,6 +1096,7 @@ extension MainTabBarController {
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
+        errorBanner.isUserInteractionEnabled = error.userAction != nil
         errorBanner.layoutIfNeeded()
         errorBanner.isHidden = false
         errorBottomSpacing?.priority = .required
