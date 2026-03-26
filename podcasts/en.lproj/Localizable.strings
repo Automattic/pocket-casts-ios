@@ -5864,4 +5864,4 @@
 "player_error_episode_not_available" = "Episode not available";
 
 /* Generic error used when no internet connection is available. */
-"player_error_short_no_connection" = "Connection not available";
+"player_error_short_no_connection" = "You’re offline";
