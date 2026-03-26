@@ -990,7 +990,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             case .internetConnection:
                 return L10n.playerErrorInternetConnection
             case .episodeNotAvailable:
-                return L10n.playerErrorEpisodeNotAvailable
+                return L10n.downloadErrorContactAuthorVersion2
             case .fileCorrupted:
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
