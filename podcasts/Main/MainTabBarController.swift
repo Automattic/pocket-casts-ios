@@ -74,6 +74,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
