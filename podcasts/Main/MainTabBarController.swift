@@ -74,10 +74,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
-    private let errorChevron: UIView = {
+    private let errorChevron: UIImageView = {
         let view = UIImageView(image: UIImage(named: "chevron-small-right"))
         view.tintColor = AppTheme.mainTextColor()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +88,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - State
 
     private let bannerHeight: CGFloat = 68
-    private var isShowingError = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1097,19 +1097,19 @@ extension MainTabBarController {
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
-        errorLabel.sizeToFit()
+        errorBanner.isUserInteractionEnabled = error.userAction != nil
         errorBanner.layoutIfNeeded()
-        isShowingError = true
         errorBanner.isHidden = false
         errorBottomSpacing?.priority = .required
         UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       options: .curveEaseInOut) {
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
             self.errorBanner.alpha = 1
-
+            let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
             // Push child content up so it doesn't hide behind the shifted tab bar
             self.additionalSafeAreaInsets = UIEdgeInsets(
-                top: 0, left: 0, bottom: self.bannerHeight - self.view.safeAreaInsets.bottom, right: 0
+                top: 0, left: 0, bottom: self.bannerHeight - baseBottom, right: 0
             )
             self.view.layoutIfNeeded()
         }
@@ -1126,7 +1126,8 @@ extension MainTabBarController {
         errorBottomSpacing?.priority = .defaultLow
         UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       options: .curveEaseInOut) {
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
             self.errorBanner.alpha = 0
 
             // Reset content insets
@@ -1134,7 +1135,6 @@ extension MainTabBarController {
             self.view.layoutIfNeeded()
         } completion: { [weak self] _ in
             self?.errorBanner.isHidden = true
-            self?.isShowingError = false
         }
     }
 
