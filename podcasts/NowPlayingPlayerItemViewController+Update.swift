@@ -189,8 +189,9 @@ extension NowPlayingPlayerItemViewController {
             hideError()
             return
         }
-
-        showError(error, dismissAfter: 5)
+        if errorBottomSpacing.priority == UILayoutPriority.defaultLow {
+            showError(error, dismissAfter: 5)
+        }
     }
 
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {

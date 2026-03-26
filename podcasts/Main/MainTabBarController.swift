@@ -1090,12 +1090,17 @@ extension MainTabBarController {
                 self?.hideError()
                 return
             }
-            self?.showError(error, autoDismissAfter: 5)
+            if self?.errorBanner.isHidden == true {
+                self?.showError(error, autoDismissAfter: 5)
+            }
         }
     }
 
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
-        AnalyticsPlaybackHelper.shared.playbackErrorShown(source: "mini_player")
+        if !(presentedViewController is PlayerContainerViewController) {
+            // do not track this if the full screen player is visible
+            AnalyticsPlaybackHelper.shared.playbackErrorShown(source: "mini_player")
+        }
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
         errorBanner.isUserInteractionEnabled = error.userAction != nil
