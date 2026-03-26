@@ -1102,7 +1102,8 @@ extension MainTabBarController {
         errorBottomSpacing?.priority = .required
         UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       options: .curveEaseInOut) {
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
             self.errorBanner.alpha = 1
 
             // Push child content up so it doesn't hide behind the shifted tab bar
@@ -1124,7 +1125,8 @@ extension MainTabBarController {
         errorBottomSpacing?.priority = .defaultLow
         UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       options: .curveEaseInOut) {
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
             self.errorBanner.alpha = 0
 
             // Reset content insets
