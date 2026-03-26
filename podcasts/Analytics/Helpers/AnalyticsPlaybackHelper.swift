@@ -80,6 +80,14 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackFailed, properties: ["episode_uuid": episodeUUID, "error": error, "player": player])
     }
 
+    func playbackErrorShown(source: String) {
+        track(.playbackErrorShown, properties: ["source": source])
+    }
+
+    func playbackErrorTapped(source: String) {
+        track(.playbackErrorTapped, properties: ["source": source])
+    }
+
     private func track(_ event: AnalyticsEvent, currentSettings: String?, properties: [String: Any]? = nil) {
         var properties = properties
         if let currentSettings {

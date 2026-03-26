@@ -273,6 +273,8 @@ enum AnalyticsEvent: String {
     case playbackChapterSkipped
 
     case playbackFailed
+    case playbackErrorShown
+    case playbackErrorTapped
 
     // MARK: - Autoplay
     case playbackEpisodeAutoplayed

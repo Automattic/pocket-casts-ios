@@ -1095,6 +1095,7 @@ extension MainTabBarController {
     }
 
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
+        AnalyticsPlaybackHelper.shared.playbackErrorShown(source: "mini_player")
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
         errorBanner.isUserInteractionEnabled = error.userAction != nil
@@ -1144,6 +1145,7 @@ extension MainTabBarController {
         else {
             return
         }
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(source: "mini_player")
         #if !APPCLIP
         let safariViewController = SFSafariViewController(with: url)
         safariViewController.modalPresentationStyle = .formSheet
