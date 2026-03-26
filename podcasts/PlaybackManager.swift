@@ -1045,6 +1045,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
+        AnalyticsPlaybackHelper.shared.playbackFailed(episodeUUID: currentEpisode()?.uuid ?? "", error: error.logMessage ?? "Unknown", player: AnalyticsPlaybackHelper.currentPlayerString(player: player))
+
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
             FileLog.shared.addMessage("[PlaybackManager] Playback failed, attempting to fallback to: DefaultPlayer")
@@ -1057,8 +1059,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #endif
-
-        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
             FileLog.shared.addMessage("[PlaybackManager] Failed to fetch current episode. Queue will be cleared.")
