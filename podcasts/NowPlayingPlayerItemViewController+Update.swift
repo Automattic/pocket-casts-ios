@@ -1,22 +1,25 @@
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
+import SafariServices
 
 extension NowPlayingPlayerItemViewController {
     func addObservers() {
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.episodeDurationChanged, selector: #selector(progressUpdated))
-        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackChanged))
         addCustomObserver(Constants.Notifications.videoPlaybackEngineSwitched, selector: #selector(videoPlaybackEngineSwitched))
-        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(update))
-        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(update(notification:)))
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(updateChapterInfo))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update))
-        addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update(notification:)))
+        addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(update(notification:)))
 
         addCustomObserver(Constants.Notifications.sleepTimerChanged, selector: #selector(sleepTimerUpdated))
         addCustomObserver(Constants.Notifications.playerActionsUpdated, selector: #selector(reloadShelfActions))
@@ -28,14 +31,14 @@ extension NowPlayingPlayerItemViewController {
 
     @objc private func playbackTrackChanged() {
         floatingVideoView.isHidden = true
-        update()
+        update(notification: nil)
     }
 
     @objc private func videoPlaybackEngineSwitched() {
         floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
     }
 
-    @objc func update() {
+    @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if playingEpisode.videoPodcast() {
@@ -63,7 +66,12 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfo()
         updateChapterProgress()
         updateColors()
+        let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
 
+        let notificationName = notification?.name ?? NSNotification.Name("")
+        if notification == nil || errorRelevantNotifications.contains(notificationName) {
+            updateError()
+        }
         if !showingCustomImage {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
         }
@@ -169,6 +177,67 @@ extension NowPlayingPlayerItemViewController {
         }
 
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+    }
+
+    @objc func updateError() {
+        guard FeatureFlag.displayErrorsOnPlayer.enabled else {
+            hideError()
+            return
+        }
+        guard PlaybackManager.shared.currentEpisode() != nil,
+              let error = PlaybackManager.shared.activeError else {
+            hideError()
+            return
+        }
+
+        showError(error, dismissAfter: 5)
+    }
+
+    func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
+        // Move error container in view
+        errorLabel.text = error.shortUserMessage
+        errorChevron.isHidden = error.userAction == nil
+        errorContainer.layoutIfNeeded()
+        errorBottomSpacing.priority = UILayoutPriority.required
+        playerBottomSpacing.constant = 16
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+        errorAutoDismissWork?.cancel()
+        if let seconds {
+            let work = DispatchWorkItem { [weak self] in self?.hideError() }
+            errorAutoDismissWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
+        }
+    }
+
+    func hideError() {
+        // Move error out
+        errorBottomSpacing.priority = UILayoutPriority.defaultLow
+        playerBottomSpacing.constant = 30
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    @objc func errorTapped() {
+        guard let error  = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
     }
 
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {

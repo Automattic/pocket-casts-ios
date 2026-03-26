@@ -19,6 +19,8 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     /// Internal flag that keeps track of whether we're waiting for the initial playback to begin
     private var isWaitingForInitialPlayback = false
 
+    private var isPlayingLocalFile = false
+
     // Keep track of the previous playback and waiting state
     private var previousReasonForWaiting: AVPlayer.WaitingReason?
     private var previousTimeControlStatus: AVPlayer.TimeControlStatus?
@@ -65,6 +67,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         if player != nil {
             cleanupPlayer()
             player = nil
+        }
+
+        if let url = EpisodeManager.urlForEpisode(episode) {
+            isPlayingLocalFile = url.isFileURL
+        } else {
+            isPlayingLocalFile = false
         }
 
         guard let playerItem = DownloadManager.shared.downloadParallelToStream(of: episode) else {
@@ -263,18 +271,40 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         lastBackgroundedDate = Date()
     }
 
-    private func playerStatusDidChange() {
-        if player?.currentItem?.status == .failed {
+    private func checkIfPlayerFailed() -> Bool {
+        guard let player, player.currentItem?.status == .failed  || player.status == .failed else {
+            return false
+        }
+        let playerErrorMessage =  (player.error as? NSError)?.debugDescription ?? ""
+        let playerItemErrorMessage = (player.currentItem?.error as? NSError)?.debugDescription ?? ""
+        FileLog.shared.addMessage("[DefaultPlayer] Playback did fail with error: \(playerErrorMessage) | \(playerItemErrorMessage)")
 
-            if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-               (player?.currentItem?.error as? NSError)?.domain == NSURLErrorDomain,
-                let episodeUuid {
-                PlaybackManager.shared.urlFailedToLoad(for: episodeUuid)
-                return
+        // Give priority to player item error
+        let playerError: Error? = (player.currentItem?.error ?? player.error)
+        let playerNSError = playerError as? NSError
+        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
+
+        if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
+           playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
+            let episodeUuid {
+            if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
+                return true
             }
+        }
+        let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
+        var error: PlaybackManager.PlaybackError = .internetConnection(logMessage: logMessage)
+        if let playerNSError,
+           playerNSError.domain == NSURLErrorDomain,
+           playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
+            error = .episodeNotAvailable(logMessage: logMessage)
+        }
+        PlaybackManager.shared.playbackDidFail(error: error)
 
-            PlaybackManager.shared.playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
+        return true
+    }
 
+    private func playerStatusDidChange() {
+        guard !checkIfPlayerFailed() else {
             return
         }
 
@@ -695,7 +725,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // only reports errors if we're meant to be playing
         if shouldKeepPlaying {
             shouldKeepPlaying = false
-            PlaybackManager.shared.playbackDidFail(logMessage: message, userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: message, isLocalFile: isPlayingLocalFile))
         }
     }
 
@@ -827,7 +857,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
             let errorMessage = error?.localizedDescription ?? "Unknown item did fail to finish error"
-            PlaybackManager.shared.playbackDidFail(logMessage: errorMessage, userMessage: nil)
+            PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
         }
 
         _ = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in

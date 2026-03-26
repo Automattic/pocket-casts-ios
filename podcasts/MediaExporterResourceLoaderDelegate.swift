@@ -172,7 +172,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let error = verifyResponse()
 
         guard error == nil else {
-            if shouldRetryWithoutUserAgent(error: error!) {
+            if shouldRetryWithoutUserAgent() {
                 retryWithoutUserAgent(originalURL: task.originalRequest?.url)
                 return
             }
@@ -351,7 +351,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
     }
 
-    private func verifyResponse() -> NSError? {
+    func verifyResponse() -> NSError? {
         guard let response = response as? HTTPURLResponse else { return nil }
 
         let shouldVerifyDownloadedFileSize = MediaExporterItemConfiguration.shouldVerifyDownloadedFileSize
@@ -359,19 +359,20 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         var error: NSError?
 
         if response.statusCode >= 400 {
-            error = NSError(domain: "Failed downloading asset. Reason: response status code \(response.statusCode).", code: response.statusCode, userInfo: nil)
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(response.statusCode)."])
         } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileHandle.fileSize {
-            error = NSError(domain: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize).", code: response.statusCode, userInfo: nil)
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize)."])
         } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileHandle.fileSize {
-            error = NSError(domain: "Failed downloading asset. Reason: file size \(fileHandle.fileSize) is smaller than minimumExpectedFileSize", code: response.statusCode, userInfo: nil)
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorZeroByteResource, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: file size \(fileHandle.fileSize) is smaller than minimumExpectedFileSize"])
         }
 
         return error
     }
 
-    private func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
-        // Only retry if we haven't already retried without User-Agent and the error is a status code >= 400
-        return !hasRetriedWithoutUserAgent && error.code >= 400
+    func shouldRetryWithoutUserAgent() -> Bool {
+        guard let response = response as? HTTPURLResponse else { return false }
+        // Only retry if we haven't already retried without User-Agent and the response status code is >= 400
+        return !hasRetriedWithoutUserAgent && (response.statusCode >= 400)
     }
 
     private func retryWithoutUserAgent(originalURL: URL?) {

@@ -298,6 +298,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
+    /// Display playback errors on player
+    case displayErrorsOnPlayer
+
     /// Detect truncated background sync downloads by comparing received bytes to Content-Length
     case detectTruncatedBackgroundSyncDownloads
 
@@ -505,6 +508,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .unlimitedWatchUpNextSync:
             true
         case .cleanUpTmpFiles:
+            true
+        case .displayErrorsOnPlayer:
             true
         case .detectTruncatedBackgroundSyncDownloads:
 			true

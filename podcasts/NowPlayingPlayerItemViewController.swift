@@ -191,6 +191,35 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet weak var bottomControlsStackView: UIStackView!
 
+    @IBOutlet weak var errorContainer: ThemeableView! {
+        didSet {
+            errorContainer.style = .playerContrast06
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
+            errorContainer.addGestureRecognizer(tapRecognizer)
+        }
+    }
+
+    @IBOutlet weak var errorLabel: ThemeableLabel! {
+        didSet {
+            errorLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
+            errorLabel.adjustsFontForContentSizeCategory = true
+            errorLabel.style = .playerContrast02
+        }
+    }
+
+    @IBOutlet weak var errorChevron: UIImageView! {
+        didSet {
+            errorChevron.isHidden = true
+            errorChevron.tintColor = ThemeColor.playerContrast02()
+        }
+    }
+
+    @IBOutlet weak var playerBottomSpacing: NSLayoutConstraint!
+
+    @IBOutlet weak var errorBottomSpacing: NSLayoutConstraint!
+
+    var errorAutoDismissWork: DispatchWorkItem?
+
     #if !APPCLIP
     let chromecastBtn = PCAlwaysVisibleCastBtn()
     #endif
@@ -337,7 +366,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     override func willBeAddedToPlayer() {
-        update()
+        update(notification: nil)
         addObservers()
     }
 
@@ -353,7 +382,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     override func themeDidChange() {
         lastShelfLoadState = ShelfLoadState()
-        update()
+        update(notification: nil)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

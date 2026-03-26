@@ -208,6 +208,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: episode)
+        activeError = nil
 
         if autoPlay {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
@@ -648,6 +649,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             nextEpisode.playedUpTo = 0
         }
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: nextEpisode)
+        activeError = nil
 
         if autoPlay {
             play(userInitiated: false)
@@ -976,12 +978,76 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateAllNowPlayingData()
     }
 
-    func playbackDidFail(logMessage: String?, userMessage: String?, fallbackToDefaultPlayer: Bool = false) {
-        FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
+    enum PlaybackError: Error {
+        case internetConnection(logMessage: String?)
+        case episodeNotAvailable(logMessage: String?)
+        case fileCorrupted(logMessage: String?)
+        case chromecastError(logMessage: String?)
+        case playbackError(logMessage: String?, isLocalFile: Bool)
+
+        var userMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorInternetConnection
+            case .episodeNotAvailable:
+                return L10n.downloadErrorContactAuthorVersion2
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorInternetConnection
+            }
+        }
+
+        var shortUserMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorShortNoConnection
+            case .episodeNotAvailable:
+                return L10n.playerErrorEpisodeNotAvailable
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorShortNoConnection
+            }
+        }
+
+        var userAction: URL? {
+            switch self {
+            case .episodeNotAvailable:
+                return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
+            default:
+                return nil
+            }
+        }
+
+        var logMessage: String? {
+            switch self {
+            case .internetConnection(let logMessage):
+                return logMessage
+            case .episodeNotAvailable(let logMessage):
+                return logMessage
+            case .fileCorrupted(let logMessage):
+                return logMessage
+            case .chromecastError(let logMessage):
+                return logMessage
+            case .playbackError(let logMessage, _):
+                return logMessage
+            }
+        }
+    }
+
+    var activeError: PlaybackError?
+
+    func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
+        FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
-            FileLog.shared.addMessage("Playback Failed, attempting to fallback to: DefaultPlayer")
+            FileLog.shared.addMessage("[PlaybackManager] Playback failed, attempting to fallback to: DefaultPlayer")
 
             fallbackToPlayer = DefaultPlayer.self
 
@@ -995,7 +1061,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
-            FileLog.shared.addMessage("PlaybackManager: Failed to fetch current episode. Queue will be cleared.")
+            FileLog.shared.addMessage("[PlaybackManager] Failed to fetch current episode. Queue will be cleared.")
             endPlayback()
 
             return
@@ -1009,13 +1075,11 @@ class PlaybackManager: ServerPlaybackDelegate {
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
             pause()
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
+            activeError = error
+            let message = error.userMessage
+            DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
 
-            if episode.downloaded(pathFinder: DownloadManager.shared) {
-                let message = userMessage ?? L10n.playerErrorCorruptedFile
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
-            } else {
-                let message = userMessage ?? L10n.playerErrorInternetConnection
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
                 cleanupCurrentPlayer(permanent: false)
             }
 
@@ -1024,7 +1088,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        FileLog.shared.addMessage("Something odd about the end of this episode but we got close enough, marking as finished")
+        FileLog.shared.addMessage("[PlaybackManager] Something odd about the end of this episode but we got close enough, marking as finished")
         playerDidFinishPlayingEpisode()
     }
 
@@ -2273,16 +2337,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     // If we're streaming an episode and it fails, try to make sure the URL is up to date.
     // Authors can change URLs at any time, so this is handy to fix cases where they post
     // the wrong one and update it later
-    func urlFailedToLoad(for episodeUuid: String) {
-        Task {
-            guard lastRetryEpisodeUuid != episodeUuid,
-                  let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
-                  let podcast = episode.parentPodcast() else {
-                lastRetryEpisodeUuid = episodeUuid
-                playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
-                return
-            }
+    // This method returns false if no retry is done, because we already did it before.
+    func retryUrlLoad(for episodeUuid: String) -> Bool {
 
+        guard lastRetryEpisodeUuid != episodeUuid,
+              let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
+              let podcast = episode.parentPodcast() else {
+            lastRetryEpisodeUuid = episodeUuid
+            return false
+        }
+        Task {
+            haveCalledPlayerLoad = false
             FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
             lastRetryEpisodeUuid = episodeUuid
 
@@ -2295,6 +2360,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
             }
         }
+        return true
     }
 
     // MARK: - Analytics

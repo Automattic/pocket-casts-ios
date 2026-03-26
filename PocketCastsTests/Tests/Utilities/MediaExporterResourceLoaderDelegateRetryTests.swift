@@ -37,28 +37,28 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
     // MARK: - Retry Logic Tests
 
     func testShouldRetryWithoutUserAgent_ReturnsTrueForHTTPError() {
-        let httpError = NSError(domain: "Test", code: 403, userInfo: nil)
-        let result = delegate.shouldRetryWithoutUserAgent(error: httpError)
+        delegate.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 403, httpVersion: nil, headerFields: nil)
+        let result = delegate.shouldRetryWithoutUserAgent()
         XCTAssertTrue(result, "Should retry for HTTP error 403 when haven't retried yet")
     }
 
     func testShouldRetryWithoutUserAgent_ReturnsFalseWhenAlreadyRetried() {
         delegate.hasRetriedWithoutUserAgent = true
-        let httpError = NSError(domain: "Test", code: 403, userInfo: nil)
-        let result = delegate.shouldRetryWithoutUserAgent(error: httpError)
+        delegate.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 403, httpVersion: nil, headerFields: nil)
+        let result = delegate.shouldRetryWithoutUserAgent()
         XCTAssertFalse(result, "Should not retry when already retried without User-Agent")
     }
 
     func testShouldRetryWithoutUserAgent_ReturnsFalseForNonHTTPError() {
-        let nonHTTPError = NSError(domain: "Test", code: 200, userInfo: nil)
-        let result = delegate.shouldRetryWithoutUserAgent(error: nonHTTPError)
+        delegate.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let result = delegate.shouldRetryWithoutUserAgent()
         XCTAssertFalse(result, "Should not retry for non-HTTP error status codes")
     }
 
-    func testShouldRetryWithoutUserAgent_ReturnsFalseForNetworkError() {
-        let networkError = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil)
-        let result = delegate.shouldRetryWithoutUserAgent(error: networkError)
-        XCTAssertFalse(result, "Should not retry for network connectivity errors")
+    func testShouldRetryWithoutUserAgent_ReturnsFalseNilResponse() {
+        delegate.response = nil
+        let result = delegate.shouldRetryWithoutUserAgent()
+        XCTAssertFalse(result, "Should not retry for nil response")
     }
 
     // MARK: - User-Agent Header Tests
@@ -135,7 +135,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         let error = delegate.verifyResponse()
 
         XCTAssertNotNil(error, "Should return error for HTTP 403")
-        XCTAssertEqual(error?.code, 403, "Error code should match HTTP status code")
+        XCTAssertEqual(error?.code, NSURLErrorResourceUnavailable, "Error code should be NSURLErrorResourceUnavailable for HTTP 403")
     }
 
     func testVerifyResponse_ReturnsNilForSuccessfulResponse() {
@@ -181,9 +181,6 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
 // MARK: - Extensions to expose private methods for testing
 
 extension MediaExporterResourceLoaderDelegate {
-    func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
-        return !hasRetriedWithoutUserAgent && error.code >= 400
-    }
 
     func retryWithoutUserAgent(originalURL: URL?) {
         guard let originalURL = originalURL else { return }
@@ -194,18 +191,6 @@ extension MediaExporterResourceLoaderDelegate {
         bufferData = Data()
 
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
-    }
-
-    func verifyResponse() -> NSError? {
-        guard let response = response as? HTTPURLResponse else { return nil }
-
-        var error: NSError?
-
-        if response.statusCode >= 400 {
-            error = NSError(domain: "Failed downloading asset. Reason: response status code \(response.statusCode).", code: response.statusCode, userInfo: nil)
-        }
-
-        return error
     }
 
     func startDataRequest(with url: URL, retryWithoutUserAgent: Bool, mock: ((URL, Bool) -> Void)? = nil) {

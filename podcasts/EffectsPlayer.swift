@@ -124,7 +124,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 }
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil, fallbackToDefaultPlayer: true)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: error.localizedDescription), fallbackToDefaultPlayer: true)
                 return
             }
 
@@ -159,14 +159,14 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
                 try strongSelf.engine?.start()
             } catch {
                 strongSelf.playerLock.unlock()
-                PlaybackManager.shared.playbackDidFail(logMessage: error.localizedDescription, userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: error.localizedDescription))
                 return
             }
             // there seem to be cases where the above call succeeds but the engine isn't actually started. Handle that here
             if !(strongSelf.engine?.isRunning ?? false) {
                 strongSelf.playerLock.unlock()
                 FileLog.shared.addMessage("EffectsPlayer: engine reported not running, calling playbackDidFail")
-                PlaybackManager.shared.playbackDidFail(logMessage: "AVAudioEngine reported not running", userMessage: nil)
+                PlaybackManager.shared.playbackDidFail(error: .fileCorrupted(logMessage: "AVAudioEngine reported not running"))
                 return
             }
 

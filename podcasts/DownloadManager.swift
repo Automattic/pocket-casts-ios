@@ -570,7 +570,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     private func shouldSkipExistingTask(for episode: BaseEpisode, in session: URLSession, matching request: URLRequest) async -> Bool {
         if let task = await session.existingTask(for: episode) {
             if task.originalRequest?.url == request.url {
-                if task.error == nil {
+                if task.error == nil, task.state == .running || task.state == .suspended {
                     // As long as we don't have an error, we'll skip starting a new download, otherwise we'll need the new task anyway
                     // Before this change, we allowed any new download so we'd rather start out more restrictive
                     return true
