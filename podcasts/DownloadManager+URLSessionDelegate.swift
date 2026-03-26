@@ -134,14 +134,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
-
-        guard let episode = episodeForTask(downloadTask, forceReload: true) else { return }
+        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+            return
+        }
 
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
             markEpisode(episode, asFailedWithMessage: L10n.downloadFailed, reason: .badResponse)
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
 
@@ -153,7 +155,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 }
                 return
             }
-
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
                 message = L10n.downloadErrorContactAuthorVersion2
@@ -165,7 +167,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             markEpisode(episode, asFailedWithMessage: message, reason: .statusCode(response.statusCode))
             return
         }
-
+        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
         let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
         processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType, copyFile: false)
     }

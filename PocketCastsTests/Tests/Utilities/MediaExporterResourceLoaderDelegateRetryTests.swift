@@ -55,6 +55,12 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         XCTAssertFalse(result, "Should not retry for non-HTTP error status codes")
     }
 
+    func testShouldRetryWithoutUserAgent_ReturnsFalseNilResponse() {
+        delegate.response = nil
+        let result = delegate.shouldRetryWithoutUserAgent()
+        XCTAssertFalse(result, "Should not retry for nil response")
+    }
+
     // MARK: - User-Agent Header Tests
 
     func testStartDataRequest_IncludesUserAgentByDefault() {

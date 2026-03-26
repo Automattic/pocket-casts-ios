@@ -990,7 +990,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             case .internetConnection:
                 return L10n.playerErrorInternetConnection
             case .episodeNotAvailable:
-                return L10n.playerErrorEpisodeNotAvailable
+                return L10n.downloadErrorContactAuthorVersion2
             case .fileCorrupted:
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
@@ -1018,7 +1018,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         var userAction: URL? {
             switch self {
             case .episodeNotAvailable:
-                return URL(string: ServerConstants.Urls.support)
+                return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
             default:
                 return nil
             }
