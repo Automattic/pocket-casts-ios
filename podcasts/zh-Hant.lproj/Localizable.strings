@@ -1562,6 +1562,8 @@ Pocket Casts Plus</string>
     <string>記錄</string>
     <key>logs_no_email_account_configured</key>
     <string>請在裝置上設定電子郵件帳號，以利傳送記錄</string>
+    <key>logs_watch_os_not_available</key>
+    <string>沒有可用的 watchOS 記錄。 請確認你已配對 Apple Watch 並安裝 Pocket Casts Watch 應用程式。</string>
     <key>manage_downloads_action</key>
     <string>管理下載項目</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Pocket Casts Plus</string>
     <string>此播放清單已滿。 請移除一些單集，或另行開啟新的播放清單。</string>
     <key>playlist_manual_add_episodes</key>
     <string>新增單集</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>播放清單快滿了。 請嘗試新增較少單集。</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>播放清單只能包含 Podcast 單集。</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>播放清單最多只能包含 %1$@ 個單集。</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>系統已封存你在此播放清單中的單集</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Pocket Casts Plus</string>
     <string>如果達到限制</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>「接下來播放」達到 %1$@ 集後，自動新增至最上方的新單集會移除佇列中最後的單集。 設定為自動新增至底部的單集，必須在「接下來播放」低於上限後才會新增。</string>
     <key>settings_auto_add_podcasts</key>
     <string>自動新增 Podcast 節目</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Pocket Casts Plus</string>
     <string>使用暗色系「接下來播放」佈景主題</string>
     <key>settings_up_next_limit</key>
     <string>自動新增單集到「接下來播放」。「接下來播放」達到 %1$@ 集時，將停止新增新單集。</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>自動新增集數到「接下來播放」。 「接下來播放」達到 %1$@ 集後，自動新增至最上方的新單集會移除佇列中最後的單集。 設定為自動新增至底部的單集，必須在「接下來播放」低於上限後才會新增。</string>
     <key>settings_volume_boost</key>
     <string>音量增強</string>
     <key>settings_watch_auto_download</key>

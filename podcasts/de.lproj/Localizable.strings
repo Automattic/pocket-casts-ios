@@ -1562,6 +1562,8 @@ Podcasts mit</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Du musst ein E-Mail-Konto auf dem Gerät konfigurieren, um die Protokolle senden zu können</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Keine watchOS-Protokolle verfügbar. Stelle sicher, dass eine Apple Watch gekoppelt und die Pocket Casts Watch-App installiert ist.</string>
     <key>manage_downloads_action</key>
     <string>Downloads verwalten</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>Diese Playlist ist voll. Entferne ein paar Folgen oder beginne eine neue.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Folgen hinzufügen</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Playlist ist fast voll. Versuche, weniger Folgen hinzuzufügen.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Playlists dürfen nur Podcast-Folgen enthalten.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Playlists dürfen nur bis zu %1$@ Folgen enthalten.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Deine Folge in dieser Playlist wurde archiviert</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Wenn maximale Anzahl erreicht ist:</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Es werden keine neuen Folgen mehr hinzugefügt, wenn die Warteschlange %1$@ enthält.</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>Wenn unter „Als Nächstes“ %1$@ Folgen erreicht sind, wird die letzte Folge in der Warteschlange entfernt, sobald neue Folgen automatisch oben hinzugefügt wurden. Folgen, die automatisch unten hinzugefügt werden, werden erst hinzugefügt, wenn „Als Nächstes“ unter dem Limit ist.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Automatisch hinzugefügte Podcasts</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Dunkles „Up Next“-Theme verwenden</string>
     <key>settings_up_next_limit</key>
     <string>Neue Folgen werden automatisch zur Warteschlange hinzugefügt. Es werden keine neuen Folgen mehr hinzugefügt, sobald die Warteschlange %1$@ Folgen enthält.</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>Neue Folgen werden automatisch zu „Als Nächstes“ hinzugefügt. Wenn unter „Als Nächstes“ %1$@ Folgen erreicht sind, wird die letzte Folge in der Warteschlange entfernt, sobald neue Folgen automatisch oben hinzugefügt wurden. Folgen, die automatisch unten hinzugefügt werden, werden erst hinzugefügt, wenn „Als Nächstes“ unter dem Limit ist.</string>
     <key>settings_volume_boost</key>
     <string>Lautstärke-Booster</string>
     <key>settings_watch_auto_download</key>
