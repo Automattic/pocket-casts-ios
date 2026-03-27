@@ -3,6 +3,7 @@
 - Fix DownloadManager sessions racing conditions [#4080](https://github.com/Automattic/pocket-casts-ios/pull/4080)
 - Show error states or full screen player [#4053](https://github.com/Automattic/pocket-casts-ios/pull/4053)
 - Show playback errors for the mini player [#4094](https://github.com/Automattic/pocket-casts-ios/pull/4094)
+- Show error states on full screen player [#4053](https://github.com/Automattic/pocket-casts-ios/pull/4053)
 
 8.8
 -----

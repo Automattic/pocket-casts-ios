@@ -1562,6 +1562,8 @@ pódcast contigo</string>
     <string>Registros</string>
     <key>logs_no_email_account_configured</key>
     <string>Tienes que configurar una cuenta de correo electrónico en el dispositivo para enviar los registros</string>
+    <key>logs_watch_os_not_available</key>
+    <string>No hay registros de watchOS disponibles. Asegúrate de tener un Apple Watch emparejado y la aplicación para relojes Pocket Casts instalada.</string>
     <key>manage_downloads_action</key>
     <string>Gestionar descargas</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Intenta ajustar las reglas, o guarda esta playlist para futuros episodios que pu
     <string>Esta playlist está completa. Elimina algunos episodios o empieza una nueva.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Añadir episodios</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>La lista de reproducción está casi completa. Prueba a añadir menos episodios.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Las listas de reproducción solo pueden contener episodios de podcasts.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Las listas de reproducción solo pueden contener hasta %1$@ episodios.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Se ha archivado tu episodio de esta playlist</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Si se alcanza el límite</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>No será posible agregar nuevos episodios cuando A continuación alcance %1$@ episodios.</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>Cuando A continuación llegue a %1$@, los episodios nuevos que se añadan automáticamente al principio eliminarán el último episodio de la cola. Los episodios configurados para que se añadan automáticamente al final no se añadirán hasta que A continuación esté por debajo del límite.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Agregar podcasts automáticamente</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Utilizar tema Up Next oscuro</string>
     <key>settings_up_next_limit</key>
     <string>Agrega automáticamente nuevos episodios a A continuación. No será posible agregar nuevos episodios cuando A continuación alcance los %1$@.</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>Añadir automáticamente nuevos episodios a A continuación. Cuando A continuación llegue a %1$@, los episodios nuevos que se añadan automáticamente al principio eliminarán el último episodio de la cola. Los episodios configurados para que se añadan automáticamente al final no se añadirán hasta que A continuación esté por debajo del límite.</string>
     <key>settings_volume_boost</key>
     <string>Aumento de volumen</string>
     <key>settings_watch_auto_download</key>

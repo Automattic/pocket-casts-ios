@@ -200,7 +200,6 @@ extension NowPlayingPlayerItemViewController {
         AnalyticsPlaybackHelper.shared.playbackErrorShown(source: "full_player")
         // Move error container in view
         errorLabel.text = error.shortUserMessage
-        errorLabel.sizeToFit()
         errorChevron.isHidden = error.userAction == nil
         errorContainer.layoutIfNeeded()
         errorBottomSpacing.priority = UILayoutPriority.required
@@ -223,7 +222,7 @@ extension NowPlayingPlayerItemViewController {
     func hideError() {
         // Move error out
         errorBottomSpacing.priority = UILayoutPriority.defaultLow
-        playerBottomSpacing.constant = 32
+        playerBottomSpacing.constant = 30
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseInOut) {

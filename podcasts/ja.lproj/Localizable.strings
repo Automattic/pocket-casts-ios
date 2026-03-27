@@ -1562,6 +1562,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ログ</string>
     <key>logs_no_email_account_configured</key>
     <string>ログを送信するには、端末にメールアドレスアカウントを設定する必要があります</string>
+    <key>logs_watch_os_not_available</key>
+    <string>利用可能な watchOS ログはありません。 Apple Watch がペアリングされており、Pocket Casts ウォッチアプリがインストールされていることを確認してください。</string>
     <key>manage_downloads_action</key>
     <string>ダウンロードを管理</string>
     <key>manage_downloads_detail</key>
@@ -2158,6 +2160,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>このプレイリストはいっぱいです。 エピソードをいくつか削除するか、新しいプレイリストを開始します。</string>
     <key>playlist_manual_add_episodes</key>
     <string>すべてのエピソード</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>プレイリストの残り容量がわずかです。 追加するエピソードの数を減らしてみてください。</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>プレイリストに含めることができるのはポッドキャストのエピソードのみです。</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>プレイリストに含めることができるエピソードは%1$@件までです。</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>このプレイリストのエピソードがアーカイブされました</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2960,6 +2968,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>上限に達した場合</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>次のエピソード数が%1$@件に達したら新しいエピソードは追加されなくなります。</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>「次のエピソード」の数が%1$@件に達すると、待機リストの一番上に新しいエピソードが自動的に追加されたときに最後のエピソードが削除されます。 一番下に自動的に追加されるよう設定されたエピソードは、「次のエピソード」が上限を下回るまで追加されません。</string>
     <key>settings_auto_add_podcasts</key>
     <string>ポッドキャストを自動追加</string>
     <key>settings_auto_archive</key>
@@ -3326,6 +3336,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>次のエピソード待機リストのダークテーマを使用</string>
     <key>settings_up_next_limit</key>
     <string>次のエピソードに新しいエピソードを自動的に追加します。 次のエピソード数が%1$@件に達したときに新しいエピソードは追加されなくなります。</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>「次のエピソード」に新しいエピソードを自動的に追加します。 「次のエピソード」の数が%1$@件に達すると、待機リストの一番上に新しいエピソードが自動的に追加されたときに最後のエピソードが削除されます。 一番下に自動的に追加されるよう設定されたエピソードは、「次のエピソード」が上限を下回るまで追加されません。</string>
     <key>settings_volume_boost</key>
     <string>ボリュームブースト</string>
     <key>settings_watch_auto_download</key>
