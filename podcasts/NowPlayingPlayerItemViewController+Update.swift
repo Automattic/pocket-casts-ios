@@ -67,9 +67,7 @@ extension NowPlayingPlayerItemViewController {
         updateChapterProgress()
         updateColors()
         let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
-
-        let notificationName = notification?.name ?? NSNotification.Name("")
-        if notification == nil || errorRelevantNotifications.contains(notificationName) {
+        if let notificationName = notification?.name, errorRelevantNotifications.contains(notificationName) {
             updateError()
         }
         if !showingCustomImage {
