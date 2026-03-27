@@ -1562,6 +1562,8 @@ Pocket Casts。</string>
     <string>日志</string>
     <key>logs_no_email_account_configured</key>
     <string>您需要在设备上配置电子邮件账户，以便发送日志</string>
+    <key>logs_watch_os_not_available</key>
+    <string>没有可用的 watchOS 日志。 请确保您的 Apple Watch 已配对，并且已安装 Pocket Casts 手表应用程序。</string>
     <key>manage_downloads_action</key>
     <string>管理下载</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Pocket Casts。</string>
     <string>此播放列表已满。 删除几集或新建一个列表。</string>
     <key>playlist_manual_add_episodes</key>
     <string>添加剧集</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>播放列表几乎已满。 尝试减少添加的剧集数量。</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>播放列表只能包含播客剧集。</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>播放列表最多只能包含 %1$@ 集。</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>您在此播放列表中的剧集已存档</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Pocket Casts。</string>
     <string>如果达到极限</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>当“接下来播放”达到 %1$@ 集，系统将停止添加新剧集。</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>当“接下来播放”中的剧集数量达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。 设置为自动添加到底部的剧集将不会添加，直到“接下来播放”中的剧集数量低于限制。</string>
     <key>settings_auto_add_podcasts</key>
     <string>自动添加播客</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Pocket Casts。</string>
     <string>使用深色的“下一个”主题</string>
     <key>settings_up_next_limit</key>
     <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”达到 %1$@，系统将停止添加新剧集。</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>自动将新剧集添加到“接下来播放”。 当“接下来播放”中的剧集数量达到 %1$@，自动添加到顶部的新剧集将删除队列中的最后一集。 设置为自动添加到底部的剧集将不会添加，直到“接下来播放”中的剧集数量低于限制。</string>
     <key>settings_volume_boost</key>
     <string>音量增强</string>
     <key>settings_watch_auto_download</key>
