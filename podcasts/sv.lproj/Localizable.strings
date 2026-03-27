@@ -1562,6 +1562,8 @@ podcasts med dig</string>
     <string>Loggar</string>
     <key>logs_no_email_account_configured</key>
     <string>Du behöver konfigurera ett e-postkonto på enheten för att skicka loggarna</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Inga watchOS-loggar är tillgängliga. Se till att du har en Apple Watch parkopplad och klockappen för Pocket Casts installerad.</string>
     <key>manage_downloads_action</key>
     <string>Hantera nedladdningar</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Denna spellista är full. Ta bort några avsnitt eller starta en ny.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Lägg till avsnitt</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Spellistan är nästan full. Prova att lägga till färre avsnitt.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Spellistor kan endast innehålla podcastavsnitt.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Spellistor kan endast innehålla upp till %1$@ avsnitt.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Ditt avsnitt i denna spellista har arkiverats</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Om antalet uppnås</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Nya avsnitt slutar läggas till när Nästa når %1$@ avsnitt.</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>När Nästa når %1$@ läggs nya avsnitt automatiskt till högst upp, varpå det sista avsnittet i kön tas bort. Avsnitt som är inställda på att läggas till automatiskt längst ner läggs inte till förrän Nästa är under gränsen.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Lägg till podcasts automatiskt</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Använd mörkt Up Next-tema</string>
     <key>settings_up_next_limit</key>
     <string>Lägg automatiskt till nya avsnitt i Nästa  Nya avsnitt slutar att läggas till när Nästa når %1$@.</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>Lägg automatiskt till nya avsnitt i Nästa. När Nästa når %1$@ läggs nya avsnitt automatiskt till högst upp, varpå det sista avsnittet i kön tas bort. Avsnitt som är inställda på att läggas till automatiskt längst ner läggs inte till förrän Nästa är under gränsen.</string>
     <key>settings_volume_boost</key>
     <string>Volymökning</string>
     <key>settings_watch_auto_download</key>

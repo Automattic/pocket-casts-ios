@@ -1562,6 +1562,8 @@ Pocket Casts на полную мощность.</string>
     <string>Журналы</string>
     <key>logs_no_email_account_configured</key>
     <string>Для отправки журналов необходимо настроить учётную запись электронной почты на устройстве.</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Нет доступных журналов watchOS. Убедитесь, что установлены сопряжённые часы Apple Watch и приложение для часов Pocket Casts.</string>
     <key>manage_downloads_action</key>
     <string>Управлять скачиваниями</string>
     <key>manage_downloads_detail</key>
@@ -2160,6 +2162,12 @@ Pocket Casts на полную мощность.</string>
     <string>Этот плейлист заполнен. Удалите несколько выпусков или создайте новый.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Добавить выпуски</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Список воспроизведения почти заполнен. Попробуйте добавить не так много выпусков.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Плейлисты могут содержать только выпуски подкастов.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Плейлисты могут содержать только несколько выпусков (не более %1$@).</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Выпуск в этом плейлисте архивирован</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2962,6 +2970,8 @@ Pocket Casts на полную мощность.</string>
     <string>Если достигнут порог</string>
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@ выпусков.</string>
+    <key>settings_auto_add_limit_subtitle_top</key>
+    <string>Когда размер очереди «Следующие» достигает %1$@ вып., каждый новый выпуск, автоматически добавляемый в начало, будет удалять из очереди самый старый выпуск. Автоматически добавляемые в конец выпуски не будут добавляться, пока размер очереди «Следующие» не снизится до лимита.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Автоматическое добавление подкастов</string>
     <key>settings_auto_archive</key>
@@ -3328,6 +3338,8 @@ Pocket Casts на полную мощность.</string>
     <string>Использовать тёмную тему Up Next</string>
     <key>settings_up_next_limit</key>
     <string>Автоматически добавлять новые выпуски в список «Следующие». Новые выпуски перестанут добавляться, когда размер очереди «Следующие» достигнет %1$@.</string>
+    <key>settings_up_next_limit_add_to_top</key>
+    <string>Автоматически добавлять новые выпуски в список «Следующие». Когда размер очереди «Следующие» достигает %1$@ вып., каждый новый выпуск, автоматически добавляемый в начало, будет удалять из очереди самый старый выпуск. Автоматически добавляемые в конец выпуски не будут добавляться, пока размер очереди «Следующие» не снизится до лимита.</string>
     <key>settings_volume_boost</key>
     <string>Усилитель звука</string>
     <key>settings_watch_auto_download</key>
