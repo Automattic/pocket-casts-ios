@@ -81,11 +81,11 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
     }
 
     func playbackErrorShown(source: String) {
-        track(.playbackErrorShown, properties: ["player_ui": source])
+        track(.playbackErrorShown, properties: ["player_source": source])
     }
 
     func playbackErrorTapped(source: String) {
-        track(.playbackErrorTapped, properties: ["player_ui": source])
+        track(.playbackErrorTapped, properties: ["player_source": source])
     }
 
     private func track(_ event: AnalyticsEvent, currentSettings: String?, properties: [String: Any]? = nil) {
