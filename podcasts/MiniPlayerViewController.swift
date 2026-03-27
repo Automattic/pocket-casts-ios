@@ -234,7 +234,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         playbackProgressView.progress = progress
-        playbackProgressView.indeterminant = PlaybackManager.shared.buffering()
+        playbackProgressView.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
 
         let amountBuferred = PlaybackManager.shared.futureBufferAvailable()
         if amountBuferred > 0 {
