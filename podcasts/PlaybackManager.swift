@@ -1075,7 +1075,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
             let previousSource = AnalyticsPlaybackHelper.shared.currentSource
             AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
-            pause()
+            pause(userInitiated: false)
             AnalyticsPlaybackHelper.shared.currentSource = previousSource
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
             activeError = error
