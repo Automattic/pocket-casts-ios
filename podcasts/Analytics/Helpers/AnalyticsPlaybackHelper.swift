@@ -76,8 +76,10 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackEffectSettingsChanged, properties: ["settings": currentSettings])
     }
 
-    func playbackFailed(episodeUUID: String, error: String, player: String) {
-        track(.playbackFailed, properties: ["episode_uuid": episodeUUID, "error": error, "player": player])
+    func playbackFailed(episodeUUID: String, error: String, player: PlaybackProtocol?) {
+        track(.playbackFailed, properties: ["episode_uuid": episodeUUID,
+                                            "error": error,
+                                            "player": playerString(player: player)])
     }
 
     func playbackErrorShown(source: String) {
@@ -96,7 +98,7 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(event, properties: properties)
     }
 
-    func currentPlayerString(player: PlaybackProtocol?) -> String {
+    func playerString(player: PlaybackProtocol?) -> String {
         #if !os(watchOS) && !APPCLIP
         if player is GoogleCastPlayer {
             return "google_cast"
