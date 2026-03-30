@@ -82,12 +82,17 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
                                             "player": playerString(player: player)])
     }
 
-    func playbackErrorShown(source: String) {
-        track(.playbackErrorShown, properties: ["player_source": source])
+    enum PlayerSource: String {
+        case fullPlayer = "full_player"
+        case miniPlayer = "mini_player"
     }
 
-    func playbackErrorTapped(source: String) {
-        track(.playbackErrorTapped, properties: ["player_source": source])
+    func playbackErrorShown(playerSource: PlayerSource) {
+        track(.playbackErrorShown, properties: ["player_source": playerSource.rawValue])
+    }
+
+    func playbackErrorTapped(playerSource: PlayerSource) {
+        track(.playbackErrorTapped, properties: ["player_source": playerSource.rawValue])
     }
 
     private func track(_ event: AnalyticsEvent, currentSettings: String?, properties: [String: Any]? = nil) {

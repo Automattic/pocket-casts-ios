@@ -197,7 +197,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
-        AnalyticsPlaybackHelper.shared.playbackErrorShown(source: "full_player")
+        AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .fullPlayer)
         // Move error container in view
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
@@ -237,7 +237,7 @@ extension NowPlayingPlayerItemViewController {
         else {
             return
         }
-        AnalyticsPlaybackHelper.shared.playbackErrorTapped(source: "full_player")
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .fullPlayer)
         #if !APPCLIP
         let safariViewController = SFSafariViewController(with: url)
         safariViewController.modalPresentationStyle = .formSheet
