@@ -359,7 +359,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         var error: NSError?
 
         if response.statusCode >= 400 {
-            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(response.statusCode)."])
+            error = errorFromStatusCode(response.statusCode)
         } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileHandle.fileSize {
             error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize)."])
         } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileHandle.fileSize {
@@ -367,6 +367,17 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         return error
+    }
+
+    func errorFromStatusCode(_ statusCode: Int) -> NSError {
+        switch statusCode {
+        case 401, 403:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+        case 404, 410:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+        default:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+        }
     }
 
     func shouldRetryWithoutUserAgent() -> Bool {
