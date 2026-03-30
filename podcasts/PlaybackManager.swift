@@ -1045,6 +1045,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
         FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
 
+        AnalyticsPlaybackHelper.shared.playbackFailed(episodeUUID: currentEpisode()?.uuid ?? "unknown", error: error.logMessage ?? "Unknown", player: player)
+
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
             FileLog.shared.addMessage("[PlaybackManager] Playback failed, attempting to fallback to: DefaultPlayer")
@@ -1057,8 +1059,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
         #endif
-
-        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
 
         guard let episode = currentEpisode() else {
             FileLog.shared.addMessage("[PlaybackManager] Failed to fetch current episode. Queue will be cleared.")
@@ -1073,7 +1073,10 @@ class PlaybackManager: ServerPlaybackDelegate {
         // - Is the duration actually reasonable?
         // if either of these is false, flag it as an error, otherwise we got close enough to the end
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
-            pause()
+            let previousSource = AnalyticsPlaybackHelper.shared.currentSource
+            AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
+            pause(userInitiated: false)
+            AnalyticsPlaybackHelper.shared.currentSource = previousSource
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
             activeError = error
             let message = error.userMessage

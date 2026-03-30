@@ -177,6 +177,10 @@ extension NowPlayingPlayerItemViewController {
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
     }
 
+    var isErrorVisible: Bool {
+        return errorBottomSpacing.priority == UILayoutPriority.required
+    }
+
     @objc func updateError() {
         guard FeatureFlag.displayErrorsOnPlayer.enabled else {
             hideError()
@@ -187,11 +191,13 @@ extension NowPlayingPlayerItemViewController {
             hideError()
             return
         }
-
-        showError(error, dismissAfter: 5)
+        if !isErrorVisible {
+            showError(error, dismissAfter: 5)
+        }
     }
 
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
+        AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .fullPlayer)
         // Move error container in view
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
@@ -231,6 +237,7 @@ extension NowPlayingPlayerItemViewController {
         else {
             return
         }
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .fullPlayer)
         #if !APPCLIP
         let safariViewController = SFSafariViewController(with: url)
         safariViewController.modalPresentationStyle = .formSheet

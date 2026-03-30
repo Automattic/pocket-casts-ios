@@ -1076,11 +1076,17 @@ extension MainTabBarController {
                 self?.hideError()
                 return
             }
-            self?.showError(error, autoDismissAfter: 5)
+            if self?.errorBanner.isHidden == true {
+                self?.showError(error, autoDismissAfter: 5)
+            }
         }
     }
 
     private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
+        if !(presentedViewController is PlayerContainerViewController) {
+            // do not track this if the full screen player is visible
+            AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .miniPlayer)
+        }
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
         errorBanner.isUserInteractionEnabled = error.userAction != nil
@@ -1130,6 +1136,7 @@ extension MainTabBarController {
         else {
             return
         }
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .miniPlayer)
         #if !APPCLIP
         let safariViewController = SFSafariViewController(with: url)
         safariViewController.modalPresentationStyle = .formSheet

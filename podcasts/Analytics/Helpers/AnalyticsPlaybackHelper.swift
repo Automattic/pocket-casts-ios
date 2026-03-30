@@ -76,11 +76,50 @@ class AnalyticsPlaybackHelper: AnalyticsCoordinator {
         track(.playbackEffectSettingsChanged, properties: ["settings": currentSettings])
     }
 
+    func playbackFailed(episodeUUID: String, error: String, player: PlaybackProtocol?) {
+        track(.playbackFailed, properties: ["episode_uuid": episodeUUID,
+                                            "error": error,
+                                            "player": playerString(player: player)])
+    }
+
+    enum PlayerSource: String {
+        case fullPlayer = "full_player"
+        case miniPlayer = "mini_player"
+    }
+
+    func playbackErrorShown(playerSource: PlayerSource) {
+        track(.playbackErrorShown, properties: ["player_source": playerSource.rawValue])
+    }
+
+    func playbackErrorTapped(playerSource: PlayerSource) {
+        track(.playbackErrorTapped, properties: ["player_source": playerSource.rawValue])
+    }
+
     private func track(_ event: AnalyticsEvent, currentSettings: String?, properties: [String: Any]? = nil) {
         var properties = properties
         if let currentSettings {
             properties?["settings"] = currentSettings
         }
         track(event, properties: properties)
+    }
+
+    func playerString(player: PlaybackProtocol?) -> String {
+        #if !os(watchOS) && !APPCLIP
+        if player is GoogleCastPlayer {
+            return "google_cast"
+        }
+        #endif
+
+        #if !os(watchOS)
+        if player is EffectsPlayer {
+            return "effects"
+        }
+        #endif
+
+        if player is DefaultPlayer {
+            return "default"
+        } else {
+            return "unknown"
+        }
     }
 }
