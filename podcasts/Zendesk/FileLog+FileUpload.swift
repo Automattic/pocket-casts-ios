@@ -81,10 +81,34 @@ extension FileLog: EventLoggingDelegate {
             .eraseToAnyPublisher()
     }
 
+    func widgetLogFileForUpload() -> AnyPublisher<String?, Never> {
+        Future<String?, Error> { promise in
+            let widgetLogPath = WidgetLog.shared.logFileForUpload()
+            promise(.success(widgetLogPath))
+        }
+        .replaceError(with: FileLog.genericErrorMessage)
+        .eraseToAnyPublisher()
+    }
+
+    public func encryptedWidgetLogUUID() -> AnyPublisher<String, Never> {
+        widgetLogFileForUpload()
+            .tryMap { [unowned self] filePath in
+                guard let filePath = filePath else {
+                    return "No widget logs available"
+                }
+
+                return try self.queueFileUpload(filePath)
+            }
+            .replaceError(with: FileLog.genericErrorMessage)
+            .eraseToAnyPublisher()
+    }
+
     // MARK: - EventLoggingDelegate
 
     public var shouldUploadLogFiles: Bool {
-        FileManager.default.fileExists(atPath: LogFilePaths.debugUploadLog) || FileManager.default.fileExists(atPath: LogFilePaths.watchUploadLog)
+        FileManager.default.fileExists(atPath: LogFilePaths.debugUploadLog) ||
+        FileManager.default.fileExists(atPath: LogFilePaths.watchUploadLog) ||
+        FileManager.default.fileExists(atPath: LogFilePaths.widgetUploadLog)
     }
 
     public func didFinishUploadingLog(_ log: LogFile) {

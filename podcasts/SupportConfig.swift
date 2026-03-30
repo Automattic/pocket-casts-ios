@@ -7,6 +7,7 @@ import PocketCastsUtils
 enum SupportCustomField: Int, CaseIterable {
     case debugLog = 360_049_192_052
     case wearableLog = 360_049_192_072
+    case widgetLog = 360_049_192_092  // Widget extension logs (new field)
     case allPodcasts = 360_049_245_291
     case metaData = 360_049_245_311
 
@@ -16,6 +17,8 @@ enum SupportCustomField: Int, CaseIterable {
             return L10n.supportLogsDebug
         case .wearableLog:
             return L10n.supportLogsWearable
+        case .widgetLog:
+            return "Widget Logs"
         case .allPodcasts:
             return L10n.supportLogsPodcasts
         case .metaData:
@@ -26,8 +29,10 @@ enum SupportCustomField: Int, CaseIterable {
     var displayOrder: Int {
         switch self {
         case .debugLog:
-            return 4
+            return 5
         case .wearableLog:
+            return 4
+        case .widgetLog:
             return 3
         case .allPodcasts:
             return 2
@@ -93,7 +98,11 @@ struct SupportConfig: ZDConfig {
             ]).eraseToAnyPublisher()
         }
 
-        return Publishers.MergeMany(debugLog(forDisplay: forDisplay), watchLog(forDisplay: forDisplay))
+        return Publishers.MergeMany(
+            debugLog(forDisplay: forDisplay),
+            watchLog(forDisplay: forDisplay),
+            widgetLog(forDisplay: forDisplay)
+        )
             .collect()
             .receive(on: DispatchQueue.global(qos: .background), options: nil)
             .eraseToAnyPublisher()
@@ -138,6 +147,25 @@ struct SupportConfig: ZDConfig {
         return FileLog.shared.encryptedWatchLogUUID()
             .map { uuid in
                 ZDCustomField(.wearableLog, value: uuid)
+            }
+            .eraseToAnyPublisher()
+    }
+
+    private func widgetLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
+        if forDisplay {
+            // Return the File Contents to show the user
+            return Future { promise in
+                let widgetLogs = WidgetLog.shared.readLog()
+                let displayValue = widgetLogs.isEmpty ? "No widget logs available. Widget logs are created when you interact with widgets." : widgetLogs
+                promise(.success(ZDCustomField(.widgetLog, value: displayValue)))
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // Return the File Name to be enqued for upload
+        return FileLog.shared.encryptedWidgetLogUUID()
+            .map { uuid in
+                ZDCustomField(.widgetLog, value: uuid)
             }
             .eraseToAnyPublisher()
     }
