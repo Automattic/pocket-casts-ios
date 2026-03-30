@@ -330,7 +330,7 @@ platform :ios do
       extracted_notes_file_path: EXTRACTED_RELEASE_NOTES_PATH
     )
     ios_update_release_notes(
-      new_version: release_version_current,
+      next_version: release_version_next,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
     )
 
