@@ -178,7 +178,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     var isErrorVisible: Bool {
-        return errorBottomSpacing.priority == UILayoutPriority.required
+        return errorBottomSpacing.constant == 0
     }
 
     @objc func updateError() {
@@ -202,7 +202,7 @@ extension NowPlayingPlayerItemViewController {
         errorLabel.text = error.shortUserMessage
         errorChevron.isHidden = error.userAction == nil
         errorContainer.layoutIfNeeded()
-        errorBottomSpacing.priority = UILayoutPriority.required
+        errorBottomSpacing.constant = 0
         playerBottomSpacing.constant = 16
         UIView.animate(withDuration: 0.3,
                        delay: 0,
@@ -221,7 +221,7 @@ extension NowPlayingPlayerItemViewController {
 
     func hideError() {
         // Move error out
-        errorBottomSpacing.priority = UILayoutPriority.defaultLow
+        errorBottomSpacing.constant = -48
         playerBottomSpacing.constant = 30
         UIView.animate(withDuration: 0.3,
                        delay: 0,
