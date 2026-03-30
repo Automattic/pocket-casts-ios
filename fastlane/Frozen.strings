@@ -5864,6 +5864,12 @@
 /* Message when the user didn't upload any files */
 "files_not_uploaded" = "No files uploaded";
 
+/* Generic error used when playback fails because we are unable to access the episode file. */
+"player_error_episode_not_available" = "Episode not available";
+
+/* Generic error used when no internet connection is available. */
+"player_error_short_no_connection" = "You’re offline";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */

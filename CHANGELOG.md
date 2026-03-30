@@ -1,3 +1,7 @@
+8.10
+-----
+
+
 8.9
 -----
 - Fix DownloadManager sessions racing conditions [#4080](https://github.com/Automattic/pocket-casts-ios/pull/4080)
