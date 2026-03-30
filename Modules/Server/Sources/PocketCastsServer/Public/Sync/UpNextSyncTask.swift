@@ -247,6 +247,12 @@ class UpNextSyncTask: ApiBaseTask {
 
                     // 1. If the new episode exists in the local database already, then just add it to the queue
                     if let localEpisode = DataManager.sharedManager.findBaseEpisode(uuid: episodeInfo.uuid) {
+                        // Skip archived episodes - they should not be re-added to Up Next
+                        if let episode = localEpisode as? Episode, episode.archived {
+                            FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) is archived, skipping")
+                            continue
+                        }
+
                         FileLog.shared.addMessage("UpNextSyncTask: Episode \(localEpisode.displayableTitle()) exists in local DB, adding to the queue")
                         // we already have this episode, so all good save the Up Next item
                         newEpisode.podcastUuid = localEpisode.parentIdentifier()
