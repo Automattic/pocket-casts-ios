@@ -1692,6 +1692,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
+            // Don't start playback during an active audio interruption (e.g. phone call).
+            // Bluetooth devices like Garmin watches with mic/speaker trigger route changes
+            // during calls, which cause iOS to send spurious playCommand events.
+            if strongSelf.interruptInProgress {
+                FileLog.shared.addMessage("Remote control: playCommand, ignored because an audio interruption is in progress")
+                return .success
+            }
+
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
 
             if Settings.legacyBluetoothModeEnabled() {
@@ -1713,9 +1721,10 @@ class PlaybackManager: ServerPlaybackDelegate {
                             return .commandFailed
                         }
                     }
-                    // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
-                    FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
-                    strongSelf.playPause()
+                    // playCommand should only ever start playback, never toggle/pause.
+                    // togglePlayPauseCommand handles toggling; pauseCommand handles pause.
+                    FileLog.shared.addMessage("Remote control: playCommand, treating as play")
+                    if !strongSelf.playing() { strongSelf.play() }
                 }
             }
             UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastPlayEvent)
