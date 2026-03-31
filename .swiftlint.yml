@@ -32,7 +32,7 @@ only_rules:
   # Prefer checking `isEmpty` over comparing `count` to zero.
   - empty_count
 
-  # Prefer `""` over String().
+  # Prefer `.isEmpty` over comparing to an empty string literal.
   - empty_string
 
   # Arguments can be omitted when matching enums with associated types if they
