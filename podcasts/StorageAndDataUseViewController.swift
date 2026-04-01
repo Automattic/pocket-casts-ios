@@ -59,7 +59,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
 
             let fileSize = EpisodeManager.downloadSizeOfAllEpisodes()
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(fileSize))
-            cell.cellSecondaryLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+            cell.cellSecondaryLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
 
             return cell
         } else {
