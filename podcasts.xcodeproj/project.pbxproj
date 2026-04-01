@@ -424,7 +424,6 @@
 		9A72B6632E214C580078FC84 /* PlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B6622E214C580078FC84 /* PlaylistCellView.swift */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
 		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
-		9A9004C62E2E62EA005879CB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */; };
 		9A96E64D2EC4A24800472FB8 /* 2025_rating_bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A96E64C2EC4A24800472FB8 /* 2025_rating_bars.json */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
@@ -2922,7 +2921,6 @@
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				3FC668C02F7CD3440072EBA8 /* XcodeTarget_podcasts in Frameworks */,
-				9A9004C62E2E62EA005879CB /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
