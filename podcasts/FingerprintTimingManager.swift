@@ -18,6 +18,7 @@ class FingerprintTimingManager {
     private var currentFilePath: String?
     private var currentMatcher: CheckpointMatcher?
     private var currentReference: ReferenceData?
+    private var currentIsStreaming: Bool = false
     private var timeMapping: [TimeMappingEntry] = []
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "com.pocketcasts.fingerprint", qos: .userInitiated)
@@ -69,9 +70,26 @@ class FingerprintTimingManager {
         let delta = abs(currentPos - lastKnownPlaybackPosition)
         lastKnownPlaybackPosition = currentPos
 
-        // If playback jumped more than 30 seconds, restart fingerprinting around the new position
-        if delta > 30, currentEpisodeUUID != nil, currentFilePath != nil {
+        guard currentEpisodeUUID != nil, currentFilePath != nil else { return }
+
+        // Restart if playback jumped significantly
+        if delta > 10 {
             restartFromCurrentPosition()
+            return
+        }
+
+        // Also restart if playback is outside the fingerprinted range
+        lock.lock()
+        let mapping = timeMapping
+        let active = isActive
+        lock.unlock()
+
+        if active, mapping.count >= 2,
+           let first = mapping.first, let last = mapping.last {
+            let margin = 30.0
+            if currentPos < first.playbackTime - margin || currentPos > last.playbackTime + margin {
+                restartFromCurrentPosition()
+            }
         }
     }
 
@@ -84,6 +102,7 @@ class FingerprintTimingManager {
             lock.unlock()
             return
         }
+        let streaming = currentIsStreaming
         // Cancel current processing
         isCancelled = true
         generationId += 1
@@ -102,7 +121,7 @@ class FingerprintTimingManager {
             self.isCancelled = false
             self.lock.unlock()
 
-            self.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference)
+            self.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference, isStreaming: streaming)
         }
     }
 
@@ -123,12 +142,17 @@ class FingerprintTimingManager {
         lock.unlock()
 
         guard hasBundledFingerprint(for: uuid),
-              episode.downloaded(pathFinder: DownloadManager.shared),
               let reference = loadReferenceCheckpoints(for: uuid) else {
             return
         }
 
-        let filePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
+        let isDownloaded = episode.downloaded(pathFinder: DownloadManager.shared)
+        let filePath: String
+        if isDownloaded {
+            filePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
+        } else {
+            filePath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+        }
 
         let matcher = CheckpointMatcher.withDrift(maxDrift: 5)
         for checkpoint in reference.checkpoints {
@@ -143,10 +167,12 @@ class FingerprintTimingManager {
         currentFilePath = filePath
         currentMatcher = matcher
         currentReference = reference
+        currentIsStreaming = !isDownloaded
         lock.unlock()
 
+        let streaming = !isDownloaded
         queue.async { [weak self] in
-            self?.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference)
+            self?.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference, isStreaming: streaming)
         }
     }
 
@@ -376,6 +402,7 @@ class FingerprintTimingManager {
         currentFilePath = nil
         currentMatcher = nil
         currentReference = nil
+        currentIsStreaming = false
         timeMapping = []
         isActive = false
         lastKnownPlaybackPosition = 0
@@ -384,27 +411,28 @@ class FingerprintTimingManager {
 
     // MARK: - Progressive File Reading
 
-    private func processFileProgressively(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData) {
+    private func processFileProgressively(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData, isStreaming: Bool = false) {
         let playbackPos = PlaybackManager.shared.currentTime()
         let interval = Double(reference.checkpointInterval)
-        // Start one window-duration before playback, snapped to the checkpoint interval grid
         let warmupStart = max(0, floor((playbackPos - Double(reference.checkpointDuration)) / interval) * interval)
 
-        print("[FingerprintTiming] Starting progressive fingerprinting for \(uuid), playback=\(playbackPos)s, warmup=\(warmupStart)s")
+        print("[FingerprintTiming] Starting progressive fingerprinting for \(uuid), playback=\(playbackPos)s, warmup=\(warmupStart)s, streaming=\(isStreaming)")
 
         let fileURL = URL(fileURLWithPath: audioFilePath)
 
         // Pass 1: from warmup position forward to EOF
         fingerprintFileRange(
             fileURL: fileURL, from: warmupStart, to: .infinity,
-            reference: reference, matcher: matcher, uuid: uuid
+            reference: reference, matcher: matcher, uuid: uuid,
+            waitForGrowth: isStreaming
         )
 
         // Pass 2: fill in from 0 up to where we started
         if warmupStart > 0 {
             fingerprintFileRange(
                 fileURL: fileURL, from: 0, to: warmupStart + Double(reference.checkpointDuration),
-                reference: reference, matcher: matcher, uuid: uuid
+                reference: reference, matcher: matcher, uuid: uuid,
+                waitForGrowth: isStreaming
             )
         }
 
@@ -416,13 +444,33 @@ class FingerprintTimingManager {
 
     private func fingerprintFileRange(
         fileURL: URL, from startSeconds: Double, to endSeconds: Double,
-        reference: ReferenceData, matcher: CheckpointMatcher, uuid: String
+        reference: ReferenceData, matcher: CheckpointMatcher, uuid: String,
+        waitForGrowth: Bool = false
     ) {
         guard let audioFile = try? AVAudioFile(
             forReading: fileURL,
             commonFormat: .pcmFormatFloat32,
             interleaved: false
-        ) else { return }
+        ) else {
+            if waitForGrowth {
+                // File might not exist yet — wait for it
+                var retries = 0
+                while retries < 30 {
+                    lock.lock()
+                    let cancelled = isCancelled
+                    lock.unlock()
+                    if cancelled { return }
+                    Thread.sleep(forTimeInterval: 1.0)
+                    retries += 1
+                    if let _ = try? AVAudioFile(forReading: fileURL, commonFormat: .pcmFormatFloat32, interleaved: false) {
+                        // Retry the whole method now that the file exists
+                        fingerprintFileRange(fileURL: fileURL, from: startSeconds, to: endSeconds, reference: reference, matcher: matcher, uuid: uuid, waitForGrowth: waitForGrowth)
+                        return
+                    }
+                }
+            }
+            return
+        }
 
         let sampleRate = audioFile.fileFormat.sampleRate
         let channels = UInt16(audioFile.processingFormat.channelCount)
@@ -432,9 +480,9 @@ class FingerprintTimingManager {
 
         let endFrame: AVAudioFramePosition
         if endSeconds == .infinity {
-            endFrame = audioFile.length
+            endFrame = AVAudioFramePosition.max
         } else {
-            endFrame = min(AVAudioFramePosition(endSeconds * sampleRate), audioFile.length)
+            endFrame = min(AVAudioFramePosition(endSeconds * sampleRate), AVAudioFramePosition.max)
         }
 
         let fingerprinter = StreamingWindowedFingerprinter(
@@ -449,19 +497,67 @@ class FingerprintTimingManager {
             return
         }
 
+        var stallCount = 0
+
         while audioFile.framePosition < endFrame {
             lock.lock()
             let cancelled = isCancelled
             lock.unlock()
             if cancelled { return }
 
+            // Re-check file length for streaming (file may have grown)
+            if waitForGrowth {
+                if let attrs = try? FileManager.default.attributesOfItem(atPath: fileURL.path),
+                   let fileSize = attrs[.size] as? UInt64 {
+                    // AVAudioFile.length may be stale; check raw file size
+                    let currentLength = audioFile.length
+                    if audioFile.framePosition >= currentLength {
+                        // We've caught up — wait for more data
+                        stallCount += 1
+                        if stallCount > 60 { break } // give up after ~60 seconds of no growth
+                        Thread.sleep(forTimeInterval: 1.0)
+                        // Reopen to get updated length
+                        guard let reopened = try? AVAudioFile(forReading: fileURL, commonFormat: .pcmFormatFloat32, interleaved: false) else { break }
+                        if reopened.length <= currentLength {
+                            continue // still no growth
+                        }
+                        // Seek the new file to where we left off
+                        reopened.framePosition = audioFile.framePosition
+                        // Can't reassign audioFile (let), so just process in a new call
+                        // Flush current fingerprinter first
+                        let flushWindows = fingerprinter.flush()
+                        let offset = startSeconds
+                        let offsetFlush = flushWindows.map { w in
+                            WindowedFingerprint(timestampMs: w.timestampMs + UInt32(offset * 1000), durationMs: w.durationMs, hashes: w.hashes)
+                        }
+                        processWindows(offsetFlush, matcher: matcher, uuid: uuid)
+                        // Continue with a new range from current position
+                        let currentSeconds = Double(audioFile.framePosition) / sampleRate + startSeconds
+                        fingerprintFileRange(fileURL: fileURL, from: currentSeconds, to: endSeconds, reference: reference, matcher: matcher, uuid: uuid, waitForGrowth: true)
+                        return
+                    }
+                    stallCount = 0
+                }
+            }
+
             do {
                 try audioFile.read(into: buffer)
             } catch {
+                if waitForGrowth {
+                    // Read error might mean file is being written — retry
+                    Thread.sleep(forTimeInterval: 0.5)
+                    continue
+                }
                 break
             }
 
-            guard buffer.frameLength > 0, let channelData = buffer.floatChannelData else { break }
+            guard buffer.frameLength > 0, let channelData = buffer.floatChannelData else {
+                if waitForGrowth {
+                    Thread.sleep(forTimeInterval: 0.5)
+                    continue
+                }
+                break
+            }
 
             let frames = Int(buffer.frameLength)
             let chCount = Int(channels)
@@ -474,7 +570,6 @@ class FingerprintTimingManager {
 
             let windows = fingerprinter.pushSamplesF32(samples: interleaved, channels: channels)
 
-            // Offset timestamps by the start position of this range
             let offsetWindows = windows.map { window in
                 WindowedFingerprint(
                     timestampMs: window.timestampMs + UInt32(startSeconds * 1000),

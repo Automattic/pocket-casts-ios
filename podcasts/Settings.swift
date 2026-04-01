@@ -146,10 +146,11 @@ class Settings: NSObject {
 
     private static let autoDownloadEnabledKey = "AutoDownloadEnabled"
     class func autoDownloadEnabled() -> Bool {
-        guard UserDefaults.standard.object(forKey: Settings.autoDownloadEnabledKey) != nil else {
-            return FeatureFlag.autoDownloadOnSubscribe.enabled
-        }
-        return UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
+        return false // DEBUG: disabled for fingerprint streaming testing
+//        guard UserDefaults.standard.object(forKey: Settings.autoDownloadEnabledKey) != nil else {
+//            return FeatureFlag.autoDownloadOnSubscribe.enabled
+//        }
+//        return UserDefaults.standard.bool(forKey: Settings.autoDownloadEnabledKey)
     }
 
     class func setAutoDownloadEnabled(_ allow: Bool, userInitiated: Bool = false) {
