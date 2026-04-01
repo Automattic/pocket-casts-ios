@@ -22,6 +22,8 @@ class FingerprintTimingManager {
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "com.pocketcasts.fingerprint", qos: .userInitiated)
     private var isCancelled = false
+    private var generationId: Int = 0
+    private var lastKnownPlaybackPosition: Double = 0
 
     private(set) var isActive: Bool = false
 
@@ -37,6 +39,12 @@ class FingerprintTimingManager {
             self,
             selector: #selector(onTrackChanged),
             name: Constants.Notifications.playbackStarted,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onPlaybackProgress),
+            name: Constants.Notifications.playbackProgress,
             object: nil
         )
     }
@@ -56,6 +64,48 @@ class FingerprintTimingManager {
         onEpisodePlay(episode: episode)
     }
 
+    @objc private func onPlaybackProgress() {
+        let currentPos = PlaybackManager.shared.currentTime()
+        let delta = abs(currentPos - lastKnownPlaybackPosition)
+        lastKnownPlaybackPosition = currentPos
+
+        // If playback jumped more than 30 seconds, restart fingerprinting around the new position
+        if delta > 30, currentEpisodeUUID != nil, currentFilePath != nil {
+            restartFromCurrentPosition()
+        }
+    }
+
+    private func restartFromCurrentPosition() {
+        lock.lock()
+        guard let uuid = currentEpisodeUUID,
+              let filePath = currentFilePath,
+              let matcher = currentMatcher,
+              let reference = currentReference else {
+            lock.unlock()
+            return
+        }
+        // Cancel current processing
+        isCancelled = true
+        generationId += 1
+        let gen = generationId
+        lock.unlock()
+
+        // Dispatch new processing — the old one will see isCancelled and exit
+        queue.async { [weak self] in
+            guard let self else { return }
+            self.lock.lock()
+            // Only proceed if we're still the latest generation
+            guard self.generationId == gen else {
+                self.lock.unlock()
+                return
+            }
+            self.isCancelled = false
+            self.lock.unlock()
+
+            self.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference)
+        }
+    }
+
     func onEpisodePlay(episode: BaseEpisode) {
         let uuid = episode.uuid
 
@@ -68,6 +118,8 @@ class FingerprintTimingManager {
         lock.lock()
         currentEpisodeUUID = uuid
         isCancelled = false
+        generationId += 1
+        lastKnownPlaybackPosition = PlaybackManager.shared.currentTime()
         lock.unlock()
 
         guard hasBundledFingerprint(for: uuid),
@@ -319,12 +371,14 @@ class FingerprintTimingManager {
     func reset() {
         lock.lock()
         isCancelled = true
+        generationId += 1
         currentEpisodeUUID = nil
         currentFilePath = nil
         currentMatcher = nil
         currentReference = nil
         timeMapping = []
         isActive = false
+        lastKnownPlaybackPosition = 0
         lock.unlock()
     }
 
