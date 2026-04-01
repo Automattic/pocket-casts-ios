@@ -315,8 +315,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .systemFont(ofSize: 16)
         textView.isEditable = false
+        textView.isSelectable = false
         textView.showsVerticalScrollIndicator = true
         textView.inputAccessoryView = nil
+        let tap = UITapGestureRecognizer(target: self, action: #selector(transcriptTapped(_:)))
+        textView.addGestureRecognizer(tap)
         return textView
     }()
 
@@ -701,12 +704,17 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //We disabled the method bellow until we find a way to resync/shift transcript positions
-        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
+        let rawPosition = playbackManager.currentTime()
+        let position: TimeInterval
+        if let mappedTime = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawPosition) {
+            position = mappedTime
+        } else {
+            position = rawPosition
+        }
         guard let transcript else {
             return
         }
@@ -723,6 +731,41 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+    }
+
+    // MARK: - Tap to Seek
+
+    @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
+        guard let transcript, playbackManager.isPlayingEpisode else { return }
+
+        let location = gesture.location(in: transcriptView)
+        let layoutManager = transcriptView.layoutManager
+        let textContainer = transcriptView.textContainer
+        let offset = CGPoint(
+            x: location.x - transcriptView.textContainerInset.left,
+            y: location.y - transcriptView.textContainerInset.top
+        )
+        let charIndex = layoutManager.characterIndex(for: offset, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        guard let cue = transcript.cues.first(where: { NSLocationInRange(charIndex, $0.characterRange) }) else { return }
+
+        // Interpolate within the cue based on tap position
+        let fraction: Double
+        if cue.characterRange.length > 0 {
+            fraction = Double(charIndex - cue.characterRange.location) / Double(cue.characterRange.length)
+        } else {
+            fraction = 0
+        }
+        let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
+
+        let seekTime: TimeInterval
+        if let playbackTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) {
+            seekTime = playbackTime
+        } else {
+            seekTime = referenceTime
+        }
+
+        PlaybackManager.shared.seekTo(time: seekTime)
     }
 
     // MARK: - Search

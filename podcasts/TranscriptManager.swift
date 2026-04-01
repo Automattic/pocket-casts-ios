@@ -44,6 +44,11 @@ class TranscriptManager {
     }
 
     public func loadTranscript() async throws -> TranscriptModel {
+        // Check for a bundled VTT transcript (used for fingerprint testing)
+        if let bundledModel = loadBundledTranscript() {
+            return bundledModel
+        }
+
         guard
             let metadata = try? await showCoordinator.loadTranscriptsMetadata(podcastUuid: podcastUUID, episodeUuid: episodeUUID),
             !metadata.transcripts.isEmpty else {
@@ -92,6 +97,15 @@ class TranscriptManager {
             throw TranscriptError.empty
         }
 
+        return model
+    }
+
+    private func loadBundledTranscript() -> TranscriptModel? {
+        guard let url = Bundle.main.url(forResource: episodeUUID, withExtension: "vtt"),
+              let vttText = try? String(contentsOf: url, encoding: .utf8),
+              let model = TranscriptModel.makeModel(from: vttText, format: .vtt) else {
+            return nil
+        }
         return model
     }
 

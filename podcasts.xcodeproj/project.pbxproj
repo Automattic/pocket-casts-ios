@@ -1349,6 +1349,14 @@
 		FFF024CF2B62B13A00457373 /* Pocket Casts Configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C7547F77286F571900DC1C9E /* Pocket Casts Configuration.storekit */; };
 		FFF23E8A2CC91E370046D3AD /* ServerPodcastManager+Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */; };
 		FFFCD23F2C7768F900A345ED /* Referrals.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFFCD23E2C7768F900A345ED /* Referrals.xcassets */; };
+		AA0001092F80A00100F1D009 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0001022F80A00100F1D002 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.json */; };
+		AA00010A2F80A00100F1D00A /* 2af70106-63ec-4384-9cc0-f6098c8062fb.vtt in Resources */ = {isa = PBXBuildFile; fileRef = AA0001032F80A00100F1D003 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.vtt */; };
+		AA00010B2F80A00100F1D00B /* c0ad7919-287b-4a2d-bf87-909d97deaf90.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0001042F80A00100F1D004 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.json */; };
+		AA00010C2F80A00100F1D00C /* c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt in Resources */ = {isa = PBXBuildFile; fileRef = AA0001052F80A00100F1D005 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt */; };
+		AA00010D2F80A00100F1D00D /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0001062F80A00100F1D006 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json */; };
+		AA00010E2F80A00100F1D00E /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt in Resources */ = {isa = PBXBuildFile; fileRef = AA0001072F80A00100F1D007 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt */; };
+		AA00010F2F80A00100F1D00F /* FingerprintTimingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */; };
+		AA0001102F80A00100F1D010 /* Fingerprint in Frameworks */ = {isa = PBXBuildFile; productRef = AA0001122F80A00100F1D012 /* Fingerprint */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2680,6 +2688,13 @@
 		FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playback2025_listening_time.json; sourceTree = "<group>"; };
 		FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ServerPodcastManager+Subscription.swift"; sourceTree = "<group>"; };
 		FFFCD23E2C7768F900A345ED /* Referrals.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Referrals.xcassets; sourceTree = "<group>"; };
+		AA0001022F80A00100F1D002 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "2af70106-63ec-4384-9cc0-f6098c8062fb.json"; sourceTree = "<group>"; };
+		AA0001032F80A00100F1D003 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "2af70106-63ec-4384-9cc0-f6098c8062fb.vtt"; sourceTree = "<group>"; };
+		AA0001042F80A00100F1D004 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "c0ad7919-287b-4a2d-bf87-909d97deaf90.json"; sourceTree = "<group>"; };
+		AA0001052F80A00100F1D005 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt"; sourceTree = "<group>"; };
+		AA0001062F80A00100F1D006 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "f2b33184-da8d-4686-8b55-78c2c6b3f552.json"; sourceTree = "<group>"; };
+		AA0001072F80A00100F1D007 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt"; sourceTree = "<group>"; };
+		AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintTimingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -2987,6 +3002,7 @@
 				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
 				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
 				FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */,
+				AA0001102F80A00100F1D010 /* Fingerprint in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4669,6 +4685,8 @@
 				BD40D7BC19C1A08D00FB8023 /* Launch Screen.xib */,
 				460C375026D83171008B3609 /* Resources */,
 				BDBD53F817019B2A0048C8C5 /* Supporting Files */,
+				AA0001012F80A00100F1D001 /* FingerprintData */,
+				AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */,
 			);
 			name = "Pocket Casts";
 			path = podcasts;
@@ -5510,6 +5528,19 @@
 			name = Transcripts;
 			sourceTree = "<group>";
 		};
+		AA0001012F80A00100F1D001 /* FingerprintData */ = {
+			isa = PBXGroup;
+			children = (
+				AA0001022F80A00100F1D002 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.json */,
+				AA0001032F80A00100F1D003 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.vtt */,
+				AA0001042F80A00100F1D004 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.json */,
+				AA0001052F80A00100F1D005 /* c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt */,
+				AA0001062F80A00100F1D006 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json */,
+				AA0001072F80A00100F1D007 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt */,
+			);
+			path = FingerprintData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5768,6 +5799,7 @@
 				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
 				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
 				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
+				AA0001122F80A00100F1D012 /* Fingerprint */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -5972,6 +6004,7 @@
 				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
 				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
 				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+				AA0001112F80A00100F1D011 /* XCLocalSwiftPackageReference "pocket-casts-fingerprint/bindings/swift" */,
 			);
 			preferredProjectObjectVersion = 51;
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
@@ -6061,6 +6094,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA0001092F80A00100F1D009 /* 2af70106-63ec-4384-9cc0-f6098c8062fb.json in Resources */,
+				AA00010A2F80A00100F1D00A /* 2af70106-63ec-4384-9cc0-f6098c8062fb.vtt in Resources */,
+				AA00010B2F80A00100F1D00B /* c0ad7919-287b-4a2d-bf87-909d97deaf90.json in Resources */,
+				AA00010C2F80A00100F1D00C /* c0ad7919-287b-4a2d-bf87-909d97deaf90.vtt in Resources */,
+				AA00010D2F80A00100F1D00D /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json in Resources */,
+				AA00010E2F80A00100F1D00E /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt in Resources */,
 				BD12928622F7CCC9004608A6 /* AppIcon-Electric-Blue83.5x83.5@2x~ipad.png in Resources */,
 				BD12928722F7CCC9004608A6 /* AppIcon-Electric-Blue20x20@2x.png in Resources */,
 				BDA002F11F7B318B00DCB4AE /* AppIcon-Round40x40@3x.png in Resources */,
@@ -6772,6 +6811,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA00010F2F80A00100F1D00F /* FingerprintTimingManager.swift in Sources */,
 				BD424B0B2575F30800C9447B /* PodcastDisclosureCell.swift in Sources */,
 				4029E3E42293AD410003BEEB /* ChangePasswordViewController.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
@@ -9807,6 +9847,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AA0001112F80A00100F1D011 /* XCLocalSwiftPackageReference "pocket-casts-fingerprint/bindings/swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../pocket-casts-fingerprint/bindings/swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -10112,6 +10159,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
 			productName = WrappingHStack;
+		};
+		AA0001122F80A00100F1D012 /* Fingerprint */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA0001112F80A00100F1D011 /* XCLocalSwiftPackageReference "pocket-casts-fingerprint/bindings/swift" */;
+			productName = Fingerprint;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
