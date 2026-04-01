@@ -23,6 +23,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    private var debugOverlay: FingerprintDebugOverlay?
+    private var debugTimer: Timer?
+
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
     private var topGradientHeightConstraint: NSLayoutConstraint?
@@ -206,6 +209,22 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                     bannerView.heightAnchor.constraint(equalToConstant: Sizes.topGradientHeight)
                 ]
             )
+        }
+
+        if FingerprintTimingManager.debugOverlayEnabled {
+            let overlay = FingerprintDebugOverlay()
+            overlay.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(overlay)
+            NSLayoutConstraint.activate([
+                overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+                overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+                overlay.heightAnchor.constraint(equalToConstant: 12)
+            ])
+            debugOverlay = overlay
+            debugTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak overlay] _ in
+                overlay?.update()
+            }
         }
     }
 
@@ -759,7 +778,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
         let seekTime: TimeInterval
-        if let playbackTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) {
+        if let playbackTime = FingerprintTimingManager.shared.seekPlaybackTime(forReferenceTime: referenceTime) {
             seekTime = playbackTime
         } else {
             seekTime = referenceTime

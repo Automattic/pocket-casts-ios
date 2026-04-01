@@ -1357,6 +1357,7 @@
 		AA00010E2F80A00100F1D00E /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt in Resources */ = {isa = PBXBuildFile; fileRef = AA0001072F80A00100F1D007 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt */; };
 		AA00010F2F80A00100F1D00F /* FingerprintTimingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */; };
 		AA0001102F80A00100F1D010 /* Fingerprint in Frameworks */ = {isa = PBXBuildFile; productRef = AA0001122F80A00100F1D012 /* Fingerprint */; };
+		AA0001212F80A00100F1D021 /* FingerprintDebugOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001202F80A00100F1D020 /* FingerprintDebugOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2695,6 +2696,7 @@
 		AA0001062F80A00100F1D006 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "f2b33184-da8d-4686-8b55-78c2c6b3f552.json"; sourceTree = "<group>"; };
 		AA0001072F80A00100F1D007 /* f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "f2b33184-da8d-4686-8b55-78c2c6b3f552.vtt"; sourceTree = "<group>"; };
 		AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintTimingManager.swift; sourceTree = "<group>"; };
+		AA0001202F80A00100F1D020 /* FingerprintDebugOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintDebugOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -4687,6 +4689,7 @@
 				BDBD53F817019B2A0048C8C5 /* Supporting Files */,
 				AA0001012F80A00100F1D001 /* FingerprintData */,
 				AA0001082F80A00100F1D008 /* FingerprintTimingManager.swift */,
+				AA0001202F80A00100F1D020 /* FingerprintDebugOverlay.swift */,
 			);
 			name = "Pocket Casts";
 			path = podcasts;
@@ -6812,6 +6815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA00010F2F80A00100F1D00F /* FingerprintTimingManager.swift in Sources */,
+				AA0001212F80A00100F1D021 /* FingerprintDebugOverlay.swift in Sources */,
 				BD424B0B2575F30800C9447B /* PodcastDisclosureCell.swift in Sources */,
 				4029E3E42293AD410003BEEB /* ChangePasswordViewController.swift in Sources */,
 				BD24E6F320E3474600A712E3 /* ArchiveHelper.swift in Sources */,
