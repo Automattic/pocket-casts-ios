@@ -166,11 +166,9 @@ enum XcodeTargetNames {
     static let appClip = "Pocket Casts App Clip"
     static let notificationExtension = "NotificationExtension"
     static let podcasts = "podcasts"
-    static let pocketCastsTests = "PocketCastsTests"
     static let pocketCastsWatchApp = "Pocket Casts Watch App"
     static let podcastsIntents = "PodcastsIntents"
     static let podcastsIntentsUI = "PodcastsIntentsUI"
-    static let screenshotAutomation = "Screenshot Automation"
     static let widgetExtension = "WidgetExtension"
 }
 
@@ -180,11 +178,9 @@ enum XcodeSupport {
             XcodeTargetNames.appClip,
             XcodeTargetNames.notificationExtension,
             XcodeTargetNames.podcasts,
-            XcodeTargetNames.pocketCastsTests,
             XcodeTargetNames.pocketCastsWatchApp,
             XcodeTargetNames.podcastsIntents,
             XcodeTargetNames.podcastsIntentsUI,
-            XcodeTargetNames.screenshotAutomation,
             XcodeTargetNames.widgetExtension,
         ].map { .supportingProduct(forXcodeTarget: $0) }
     }
@@ -263,18 +259,6 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
-                ]
-            ),
-            .xcodeTarget(
-                XcodeTargetNames.pocketCastsTests,
-                dependencies: [
-                    XcodeTargetNames.podcasts.asDependency,
-                ]
-            ),
-            .xcodeTarget(
-                XcodeTargetNames.screenshotAutomation,
-                dependencies: [
-                    XcodeTargetNames.podcasts.asDependency,
                 ]
             ),
         ]
