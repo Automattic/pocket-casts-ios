@@ -425,12 +425,11 @@
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerX" secondItem="dXr-Zd-0wP" secondAttribute="centerX" id="3QC-yl-rk2"/>
                 <constraint firstAttribute="trailing" secondItem="WxQ-7h-0WZ" secondAttribute="trailing" id="4fc-om-1OZ"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="centerY" secondItem="dXr-Zd-0wP" secondAttribute="centerY" id="P1f-xu-Ze5"/>
-                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" priority="250" id="ckZ-tn-s0v"/>
+                <constraint firstAttribute="bottom" secondItem="Owh-jf-YTg" secondAttribute="bottom" constant="-48" id="ckZ-tn-s0v"/>
                 <constraint firstItem="sam-0S-73x" firstAttribute="top" secondItem="dXr-Zd-0wP" secondAttribute="top" constant="10" id="fQK-oh-rpi"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="top" constant="8" id="hS4-XE-bck"/>
                 <constraint firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" id="jYr-cs-wkb"/>
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="ktT-yI-jhC"/>
-                <constraint firstItem="Owh-jf-YTg" firstAttribute="top" secondItem="Dsl-xJ-ho3" secondAttribute="bottom" priority="750" id="mNk-ir-3tT"/>
                 <constraint firstItem="WxQ-7h-0WZ" firstAttribute="leading" secondItem="Dsl-xJ-ho3" secondAttribute="leading" id="wSN-3z-fOR"/>
                 <constraint firstItem="auM-3f-elA" firstAttribute="height" secondItem="dXr-Zd-0wP" secondAttribute="height" id="ycO-kv-OEO"/>
                 <constraint firstItem="Owh-jf-YTg" firstAttribute="top" secondItem="WxQ-7h-0WZ" secondAttribute="bottom" constant="30" id="zFk-ce-kom"/>
