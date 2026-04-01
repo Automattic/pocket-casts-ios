@@ -222,9 +222,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 overlay.heightAnchor.constraint(equalToConstant: 12)
             ])
             debugOverlay = overlay
-            debugTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak overlay] _ in
+            let timer = Timer(timeInterval: 0.25, repeats: true) { [weak overlay] _ in
                 overlay?.update()
             }
+            RunLoop.main.add(timer, forMode: .common)
+            debugTimer = timer
         }
     }
 

@@ -331,36 +331,71 @@ class FingerprintTimingManager {
     // MARK: - Progressive File Reading
 
     private func processFileProgressively(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData) {
-        print("[FingerprintTiming] Starting progressive fingerprinting for \(uuid)")
+        let playbackPos = PlaybackManager.shared.currentTime()
+        let interval = Double(reference.checkpointInterval)
+        // Start one window-duration before playback, snapped to the checkpoint interval grid
+        let warmupStart = max(0, floor((playbackPos - Double(reference.checkpointDuration)) / interval) * interval)
+
+        print("[FingerprintTiming] Starting progressive fingerprinting for \(uuid), playback=\(playbackPos)s, warmup=\(warmupStart)s")
 
         let fileURL = URL(fileURLWithPath: audioFilePath)
+
+        // Pass 1: from warmup position forward to EOF
+        fingerprintFileRange(
+            fileURL: fileURL, from: warmupStart, to: .infinity,
+            reference: reference, matcher: matcher, uuid: uuid
+        )
+
+        // Pass 2: fill in from 0 up to where we started
+        if warmupStart > 0 {
+            fingerprintFileRange(
+                fileURL: fileURL, from: 0, to: warmupStart + Double(reference.checkpointDuration),
+                reference: reference, matcher: matcher, uuid: uuid
+            )
+        }
+
+        lock.lock()
+        let count = timeMapping.count
+        lock.unlock()
+        print("[FingerprintTiming] Done: \(count) mapping points for \(uuid)")
+    }
+
+    private func fingerprintFileRange(
+        fileURL: URL, from startSeconds: Double, to endSeconds: Double,
+        reference: ReferenceData, matcher: CheckpointMatcher, uuid: String
+    ) {
         guard let audioFile = try? AVAudioFile(
             forReading: fileURL,
             commonFormat: .pcmFormatFloat32,
             interleaved: false
-        ) else {
-            print("[FingerprintTiming] Failed to open audio file")
-            return
+        ) else { return }
+
+        let sampleRate = audioFile.fileFormat.sampleRate
+        let channels = UInt16(audioFile.processingFormat.channelCount)
+
+        let startFrame = AVAudioFramePosition(startSeconds * sampleRate)
+        audioFile.framePosition = min(startFrame, audioFile.length)
+
+        let endFrame: AVAudioFramePosition
+        if endSeconds == .infinity {
+            endFrame = audioFile.length
+        } else {
+            endFrame = min(AVAudioFramePosition(endSeconds * sampleRate), audioFile.length)
         }
 
-        let sampleRate = UInt32(audioFile.fileFormat.sampleRate)
-        let channels = UInt16(audioFile.processingFormat.channelCount)
         let fingerprinter = StreamingWindowedFingerprinter(
-            sampleRate: sampleRate,
+            sampleRate: UInt32(sampleRate),
             channels: channels,
             windowDurationMs: UInt32(reference.checkpointDuration * 1000),
             windowIntervalMs: UInt32(reference.checkpointInterval * 1000)
         )
-
-        print("[FingerprintTiming] Audio: \(sampleRate)Hz, \(channels)ch, \(audioFile.length) frames")
 
         let bufferSize: AVAudioFrameCount = 8192
         guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: bufferSize) else {
             return
         }
 
-        while audioFile.framePosition < audioFile.length {
-            // Check cancellation
+        while audioFile.framePosition < endFrame {
             lock.lock()
             let cancelled = isCancelled
             lock.unlock()
@@ -384,17 +419,27 @@ class FingerprintTimingManager {
             }
 
             let windows = fingerprinter.pushSamplesF32(samples: interleaved, channels: channels)
-            processWindows(windows, matcher: matcher, uuid: uuid)
+
+            // Offset timestamps by the start position of this range
+            let offsetWindows = windows.map { window in
+                WindowedFingerprint(
+                    timestampMs: window.timestampMs + UInt32(startSeconds * 1000),
+                    durationMs: window.durationMs,
+                    hashes: window.hashes
+                )
+            }
+            processWindows(offsetWindows, matcher: matcher, uuid: uuid)
         }
 
-        // Flush remaining
         let finalWindows = fingerprinter.flush()
-        processWindows(finalWindows, matcher: matcher, uuid: uuid)
-
-        lock.lock()
-        let count = timeMapping.count
-        lock.unlock()
-        print("[FingerprintTiming] Done: \(count) mapping points for \(uuid)")
+        let offsetFinal = finalWindows.map { window in
+            WindowedFingerprint(
+                timestampMs: window.timestampMs + UInt32(startSeconds * 1000),
+                durationMs: window.durationMs,
+                hashes: window.hashes
+            )
+        }
+        processWindows(offsetFinal, matcher: matcher, uuid: uuid)
     }
 
     // MARK: - Private
