@@ -13,12 +13,18 @@ struct HorizontalCollectionList: View {
 
     @ScaledMetric(relativeTo: .largeTitle) var scaledRowHeight = CGFloat(210)
 
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowWidth = CGFloat(180)
+
     var adjustedHeight: CGFloat {
         return max(323, scaledHeight)
     }
 
     var adjustedRowHeight: CGFloat {
         return min(320, max(210, scaledRowHeight))
+    }
+
+    var adjustedRowWidth: CGFloat {
+        return min(320, max(180, scaledRowWidth))
     }
 
     var header: some View {
@@ -53,7 +59,7 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: adjustedRowHeight, height: adjustedRowHeight)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight)
             VStack() {
                 Spacer()
                 Text(model.title)
@@ -72,7 +78,7 @@ struct HorizontalCollectionList: View {
                 Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(width: adjustedRowHeight, height: adjustedRowHeight / 2)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
@@ -85,7 +91,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: adjustedRowHeight, height: adjustedRowHeight)
+        .frame(width: adjustedRowWidth, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 

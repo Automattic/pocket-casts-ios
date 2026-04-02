@@ -30,7 +30,7 @@
     <key>accessibility_close_dialog</key>
     <string>Tanca la finestra</string>
     <key>accessibility_deselect_episode</key>
-    <string>Anul·lar selecció de l'episodi</string>
+    <string>Anul·la selecció de l'episodi</string>
     <key>accessibility_disabled</key>
     <string>Desactivat</string>
     <key>accessibility_dismiss</key>
@@ -620,7 +620,7 @@ Deixa'ns ajudar-te primer</string>
     <key>delete_from_device_only</key>
     <string>Esborra només del dispositiu</string>
     <key>deselect_all</key>
-    <string>Anul·lar totes les seleccions</string>
+    <string>Anul·la totes les seleccions</string>
     <key>deselect_all_above</key>
     <string>Desselecciona tot l'anterior</string>
     <key>deselect_all_below</key>
@@ -2100,8 +2100,12 @@ Això sí que és compromís!</string>
     <string>L'episodi ha estat eliminat</string>
     <key>player_error_corrupted_file</key>
     <string>És possible que aquest episodi estigui danyat, però pots intentar reproduir-lo una altra vegada.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Episodi no disponible</string>
     <key>player_error_internet_connection</key>
     <string>Comprova la teva connexió a Internet i torna-ho a intentar.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Estàs desconectat</string>
     <key>player_increment_time</key>
     <string>Temps addicional</string>
     <key>player_mark_as_played_confirmation</key>
