@@ -1,13 +1,13 @@
 import SwiftUI
 
-class PlayPauseAnimationViewModel: ObservableObject {
-    @Published private(set) var paused = true
+public class PlayPauseAnimationViewModel: ObservableObject {
+    @Published private(set) public var paused = true
 
     private var duration: TimeInterval
 
     private let animationType: (TimeInterval) -> Animation
 
-    init(duration: TimeInterval, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:)) {
+    public init(duration: TimeInterval, animation: @escaping (TimeInterval) -> Animation = Animation.linear(duration:)) {
         self.duration = duration
         self.animationType = animation
     }
@@ -19,11 +19,11 @@ class PlayPauseAnimationViewModel: ObservableObject {
     ///   - to: the final value of the property
     ///   - after: how long the animation should wait before starting
     /// - Returns: PlayPauseAnimatableModifier
-    func animate(_ value: Binding<Double>, to: Double, after: Double = 0) -> PlayPauseAnimatableModifier {
+    public func animate(_ value: Binding<Double>, to: Double, after: Double = 0) -> PlayPauseAnimatableModifier {
         return PlayPauseAnimatableModifier(value: value, to: to, duration: duration, viewModel: self, animation: animationType, after: after)
     }
 
-    func play() {
+    public func play() {
         guard paused else {
             return
         }
@@ -31,7 +31,7 @@ class PlayPauseAnimationViewModel: ObservableObject {
         paused = false
     }
 
-    func pause() {
+    public func pause() {
         guard !paused else {
             return
         }
@@ -40,7 +40,7 @@ class PlayPauseAnimationViewModel: ObservableObject {
     }
 }
 
-struct PlayPauseAnimatableModifier: AnimatableModifier {
+public struct PlayPauseAnimatableModifier: AnimatableModifier {
     @ObservedObject private var viewModel: PlayPauseAnimationViewModel
 
     @Binding private var value: Double
@@ -58,7 +58,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 
     @State private var timer: Timer?
 
-    var animatableData: Double {
+    public var animatableData: Double {
         get { currentValue }
         set { currentValue = newValue }
     }
@@ -74,7 +74,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
         self._after = State(initialValue: after)
     }
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .onChange(of: viewModel.paused) { _ in
                 playOrPause()
@@ -129,7 +129,7 @@ struct PlayPauseAnimatableModifier: AnimatableModifier {
 }
 
 extension Animation {
-    static func spring(_ duration: TimeInterval) -> Animation {
+    public static func spring(_ duration: TimeInterval) -> Animation {
         return spring(duration: duration, bounce: 0.3)
     }
 }

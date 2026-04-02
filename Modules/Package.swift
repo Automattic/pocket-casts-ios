@@ -30,6 +30,10 @@ let package = Package(
             targets: ["PocketCastsServer"]
         ),
         .library(
+            name: "EndOfYear",
+            targets: ["EndOfYear"]
+        ),
+        .library(
             name: "Modules",
             targets: ["Modules"]
         )
@@ -141,6 +145,10 @@ let package = Package(
             resources: [.copy("Fixtures")]
         ),
         .target(
+            name: "EndOfYear",
+            path: "Sources/EndOfYear"
+        ),
+        .target(
             name: "Modules",
             path: "Sources/Modules"
         ),
@@ -210,6 +218,7 @@ enum XcodeSupport {
                     .product(name: "SwiftSubtitles", package: "SwiftSubtitles"),
                     .product(name: "GoogleCast", package: "google-cast"),
                     .product(name: "WrappingHStack", package: "WrappingHStack"),
+                    "EndOfYear",
                 ]
             ),
             .xcodeTarget(
