@@ -375,6 +375,8 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
         case 404, 410:
             return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+        case 400, 405, 408, 409, 429, 500..<1000:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorBadServerResponse, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
         default:
             return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
         }
