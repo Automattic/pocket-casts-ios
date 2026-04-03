@@ -980,7 +980,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     enum PlaybackError: Error {
         case internetConnection(logMessage: String?)
-        case episodeNotAvailable(logMessage: String?)
+        case episodeNotAvailable(errorCode: Int, logMessage: String?)
         case fileCorrupted(logMessage: String?)
         case chromecastError(logMessage: String?)
         case playbackError(logMessage: String?, isLocalFile: Bool)
@@ -1017,8 +1017,17 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         var userAction: URL? {
             switch self {
-            case .episodeNotAvailable:
-                return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
+            case .episodeNotAvailable(let errorCode, _):
+                switch errorCode {
+                case NSURLErrorUserAuthenticationRequired:
+                    return URL(string: ServerConstants.Urls.supportEpisodeAccessIssues)
+                case NSURLErrorFileDoesNotExist:
+                    return URL(string: ServerConstants.Urls.supportEpisodeNotFound)
+                case NSURLErrorBadServerResponse:
+                    return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
+                default:
+                    return URL(string: ServerConstants.Urls.supportEpisodeServerProblem)
+                }
             default:
                 return nil
             }
@@ -1028,7 +1037,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             switch self {
             case .internetConnection(let logMessage):
                 return logMessage
-            case .episodeNotAvailable(let logMessage):
+            case .episodeNotAvailable(_, let logMessage):
                 return logMessage
             case .fileCorrupted(let logMessage):
                 return logMessage

@@ -296,7 +296,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         if let playerNSError,
            playerNSError.domain == NSURLErrorDomain,
            playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
-            error = .episodeNotAvailable(logMessage: logMessage)
+            error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
         }
         PlaybackManager.shared.playbackDidFail(error: error)
 
