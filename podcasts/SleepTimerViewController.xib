@@ -177,7 +177,7 @@
                                 <constraint firstItem="UQK-q4-qBY" firstAttribute="leading" secondItem="NpZ-qP-qnr" secondAttribute="leading" constant="20" id="lpg-MM-g46"/>
                             </constraints>
                         </view>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HO2-dO-eLB">
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HO2-dO-eLB">
                             <rect key="frame" x="0.0" y="68" width="408" height="432"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJb-Yj-WkR">
@@ -332,10 +332,11 @@
                                 </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="dMa-B9-sF2" secondAttribute="trailing" constant="-20" id="4v0-Yg-Pb2"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="JGY-oo-rAo" secondAttribute="trailing" constant="-20" id="4v0-Yg-Pb2"/>
                                 <constraint firstItem="JGY-oo-rAo" firstAttribute="bottom" secondItem="DJb-Yj-WkR" secondAttribute="bottom" id="FM2-nI-WCq"/>
                                 <constraint firstItem="DJb-Yj-WkR" firstAttribute="top" secondItem="JGY-oo-rAo" secondAttribute="top" id="Z2h-dC-exa"/>
-                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="dMa-B9-sF2" secondAttribute="leading" constant="20" id="uou-NG-XfL"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="width" secondItem="dMa-B9-sF2" secondAttribute="width" constant="-40" id="ofF-rQ-ZN6"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="JGY-oo-rAo" secondAttribute="leading" constant="20" id="uou-NG-XfL"/>
                             </constraints>
                             <viewLayoutGuide key="contentLayoutGuide" id="JGY-oo-rAo"/>
                             <viewLayoutGuide key="frameLayoutGuide" id="dMa-B9-sF2"/>
