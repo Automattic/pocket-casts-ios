@@ -307,7 +307,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Track network data usage per episode/connection type in the NetworkDataUsage table
     case trackNetworkDataUsage
 
-    /// If enabled, send watch-related error and crash logs to Sentry
+    /// If enabled, send explicit watch-related error logs to Sentry.
+    /// This does not control automatic crash reporting.
     case watchSentryLogs
 
     public var enabled: Bool {
