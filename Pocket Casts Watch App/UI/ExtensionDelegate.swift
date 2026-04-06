@@ -143,6 +143,8 @@ private struct WatchCrashLoggingErrorLogger: ErrorLogger {
     let crashLogging: CrashLogging
 
     func log(error: Error, context: [String: String]?) {
-        crashLogging.logError(error, tags: context ?? [:], level: .warning)
+        if FeatureFlag.watchSentryCrashLog.enabled {
+            crashLogging.logError(error, tags: context ?? [:], level: .warning)
+        }
     }
 }
