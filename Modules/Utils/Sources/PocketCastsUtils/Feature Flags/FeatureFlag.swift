@@ -308,7 +308,7 @@ public enum FeatureFlag: String, CaseIterable {
     case trackNetworkDataUsage
 
     /// If enabled, send watch-related error and crash logs to Sentry
-    case watchSentryCrashLog
+    case watchSentryLogs
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -518,7 +518,7 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .trackNetworkDataUsage:
             true
-        case .watchSentryCrashLog:
+        case .watchSentryLogs:
             false
         }
     }

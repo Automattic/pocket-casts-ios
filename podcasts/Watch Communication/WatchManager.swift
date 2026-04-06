@@ -643,7 +643,7 @@ class WatchManager: NSObject, WCSessionDelegate {
     /// This helps track when synced data exceeds WatchConnectivity's size limits.
     private func logPayloadTooLargeError(method: String, upNextCount: Int) {
         FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
-        if FeatureFlag.watchSentryCrashLog.enabled {
+        if FeatureFlag.watchSentryLogs.enabled {
             let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
             CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
                 watchError,
