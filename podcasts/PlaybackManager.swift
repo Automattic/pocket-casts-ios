@@ -1047,6 +1047,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return logMessage
             }
         }
+
+        static let knownURLErrors: [Int] = [NSURLErrorResourceUnavailable, NSURLErrorBadServerResponse, NSURLErrorUserAuthenticationRequired, NSURLErrorFileDoesNotExist, NSURLErrorZeroByteResource]
     }
 
     var activeError: PlaybackError?

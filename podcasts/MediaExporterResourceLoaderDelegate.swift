@@ -7,7 +7,7 @@ import PocketCastsUtils
 
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
-private enum MediaExporterItemConfiguration {
+enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
         FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
@@ -21,7 +21,7 @@ private enum MediaExporterItemConfiguration {
 
     /// If set greater than 0, the set value with be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
     /// Default value is `0`.
-    public static var minimumExpectedFileSize: Int = 0
+    public static var minimumExpectedFileSize: Int = DownloadManager.badEpisodeSize
 }
 
 fileprivate extension Int {

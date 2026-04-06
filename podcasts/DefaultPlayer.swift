@@ -293,10 +293,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
         var error: PlaybackManager.PlaybackError = .internetConnection(logMessage: logMessage)
-        var possibleURLErrors: [Int] = [NSURLErrorResourceUnavailable, NSURLErrorBadServerResponse, NSURLErrorUserAuthenticationRequired, NSURLErrorFileDoesNotExist]
         if let playerNSError,
            playerNSError.domain == NSURLErrorDomain,
-           possibleURLErrors.contains(playerNSError.code) {
+           PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
             error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
         }
         PlaybackManager.shared.playbackDidFail(error: error)
