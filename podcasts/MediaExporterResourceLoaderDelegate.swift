@@ -20,7 +20,7 @@ enum MediaExporterItemConfiguration {
     public static var shouldVerifyDownloadedFileSize: Bool = false
 
     /// If set greater than 0, the set value with be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
-    /// Default value is `0`.
+    /// Default value is `DownloadManager.badEpisodeSize` (10KB).
     public static var minimumExpectedFileSize: Int = DownloadManager.badEpisodeSize
 }
 
