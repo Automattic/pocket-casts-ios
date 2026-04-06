@@ -129,14 +129,16 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         guard let loadedTimeRanges = player?.currentItem?.loadedTimeRanges else { return 0 }
 
         let upTo = currentTime()
+        var maxTime: TimeInterval = 0
         for range in loadedTimeRanges {
             let rangeBuferred = range.timeRangeValue
-            if (CMTimeGetSeconds(rangeBuferred.start) + CMTimeGetSeconds(rangeBuferred.duration)) > upTo {
-                return CMTimeGetSeconds(rangeBuferred.duration)
+            let rangeMaxTime = CMTimeGetSeconds(rangeBuferred.start) + CMTimeGetSeconds(rangeBuferred.duration)
+            if rangeMaxTime > upTo, rangeMaxTime > maxTime {
+                maxTime = rangeMaxTime
             }
         }
 
-        return 0
+        return maxTime
     }
 
     func play(completion: (() -> Void)? = nil) {
