@@ -1721,10 +1721,11 @@ class PlaybackManager: ServerPlaybackDelegate {
                             return .commandFailed
                         }
                     }
-                    // playCommand should only ever start playback, never toggle/pause.
-                    // togglePlayPauseCommand handles toggling; pauseCommand handles pause.
-                    FileLog.shared.addMessage("Remote control: playCommand, treating as play")
-                    if !strongSelf.playing() { strongSelf.play() }
+                    // For non-legacy Bluetooth and when not playing over AirPlay, treat playCommand
+                    // as a play/pause toggle to preserve compatibility with accessories that send
+                    // playCommand as a toggle (play while paused, play again to pause).
+                    FileLog.shared.addMessage("Remote control: playCommand, treating as play/pause toggle")
+                    strongSelf.playPause()
                 }
             }
             UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastPlayEvent)
