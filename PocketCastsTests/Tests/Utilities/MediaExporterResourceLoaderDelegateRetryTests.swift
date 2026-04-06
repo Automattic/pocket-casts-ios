@@ -147,6 +147,8 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         )!
 
         delegate.response = httpResponse
+        let previousMinimumExpectedFileSize = MediaExporterItemConfiguration.minimumExpectedFileSize
+        defer { MediaExporterItemConfiguration.minimumExpectedFileSize = previousMinimumExpectedFileSize }
         MediaExporterItemConfiguration.minimumExpectedFileSize = 0
         let error = delegate.verifyResponse()
 
