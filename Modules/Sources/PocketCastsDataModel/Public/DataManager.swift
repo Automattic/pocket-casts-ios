@@ -542,6 +542,10 @@ public class DataManager {
         episodeManager.episodesWithListenHistory(limit: limit, dbQueue: dbQueue)
     }
 
+    public func dailyListeningTime(forLast days: Int = 365) -> [String: Double] {
+        episodeManager.dailyListeningTime(forLast: days, dbQueue: dbQueue)
+    }
+
     public func failedDownloadedEpisodesCount() -> Int {
         episodeManager.failedDownloadEpisodeCount(dbQueue: dbQueue)
     }

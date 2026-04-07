@@ -1,10 +1,13 @@
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
 import UIKit
 
 class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let statsCellId = "StatsCell"
     private let statsHeaderCellId = "StatsHeaderCell"
+    private let heatmapCellId = "HeatmapCell"
 
     private enum LoadingStatus { case loading, loaded, failed }
     private var loadingState = LoadingStatus.loading
@@ -12,11 +15,13 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private var localOnly = !SyncManager.isUserLoggedIn()
 
     let playbackTimeHelper = PlaybackTimeHelper()
+    private let heatmapViewModel = ListeningHeatmapViewModel()
 
     @IBOutlet var statsTable: UITableView! {
         didSet {
             statsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             statsTable.register(UINib(nibName: "StatsTopCell", bundle: nil), forCellReuseIdentifier: statsHeaderCellId)
+            statsTable.register(UITableViewCell.self, forCellReuseIdentifier: heatmapCellId)
             statsTable.contentInset = UIEdgeInsets(top: -35, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
         }
     }
@@ -26,6 +31,8 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         title = L10n.settingsStats
         Analytics.track(.statsShown)
+
+        heatmapViewModel.load()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,12 +46,18 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         Analytics.track(.statsDismissed)
     }
 
+    // MARK: - Sections
+    // Section 0: Header (total listening time)
+    // Section 1: Heatmap (listening activity graph)
+    // Section 2: Time Saved breakdown
+    // Section 3: Time Saved total
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        loadingState == LoadingStatus.loaded ? 3 : 1
+        loadingState == LoadingStatus.loaded ? 4 : 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 || section == 2 {
+        if section == 0 || section == 1 || section == 3 {
             return 1
         }
 
@@ -54,7 +67,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
-        if section == 1 {
+        if section == 2 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
         }
 
@@ -101,6 +114,31 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             return castCell
         }
         if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
+            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+            cell.selectionStyle = .none
+            cell.backgroundColor = .clear
+
+            let heatmapView = ListeningHeatmapView(viewModel: heatmapViewModel)
+                .environmentObject(Theme.sharedTheme)
+            let hostingController = UIHostingController(rootView: heatmapView)
+            hostingController.view.backgroundColor = .clear
+            hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+
+            addChild(hostingController)
+            cell.contentView.addSubview(hostingController.view)
+            hostingController.didMove(toParent: self)
+
+            NSLayoutConstraint.activate([
+                hostingController.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                hostingController.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+                hostingController.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+                hostingController.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
+            ])
+
+            return cell
+        }
+        if indexPath.section == 2 {
             let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
             castCell.showIcon()
             if indexPath.row == 0 {
@@ -138,6 +176,9 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 200
+        }
+        if indexPath.section == 1 {
+            return 180
         }
 
         return 44

@@ -1055,6 +1055,8 @@
 		C713D4F42A04C90500A78468 /* ProfileDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */; };
 		C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4ED2A04C90400A78468 /* ProfileImage.swift */; };
 		C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */; };
+		AA1B2C3D4E5F607100HEAT01 /* ListeningHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */; };
+		AA1B2C3D4E5F607100HEAT02 /* ListeningHeatmapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */; };
 		C713D4F72A04C90500A78468 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */; };
 		C713D4F82A04C90500A78468 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */; };
 		C713D4F92A04C90500A78468 /* SubscriptionProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */; };
@@ -2557,6 +2559,8 @@
 		C713D4EC2A04C90400A78468 /* ProfileDataViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDataViewModel.swift; sourceTree = "<group>"; };
 		C713D4ED2A04C90400A78468 /* ProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountHeaderView.swift; sourceTree = "<group>"; };
+		AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningHeatmapView.swift; sourceTree = "<group>"; };
+		AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningHeatmapViewModel.swift; sourceTree = "<group>"; };
 		C713D4EF2A04C90400A78468 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C713D4F02A04C90400A78468 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		C713D4F12A04C90500A78468 /* SubscriptionProfileImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionProfileImage.swift; sourceTree = "<group>"; };
@@ -4944,6 +4948,8 @@
 				C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */,
 				C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */,
 				8BF622FE2C529F3C00D10F57 /* ChampionView.swift */,
+				AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */,
+				AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -6885,6 +6891,8 @@
 				4053A827249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift in Sources */,
 				BD1EBD6E1CB7770B004F83D6 /* AppearanceViewController.swift in Sources */,
 				C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */,
+				AA1B2C3D4E5F607100HEAT01 /* ListeningHeatmapView.swift in Sources */,
+				AA1B2C3D4E5F607100HEAT02 /* ListeningHeatmapViewModel.swift in Sources */,
 				10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				9AB2900E2ECB82F9006086F9 /* PlaylistPlayAllSheet.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
