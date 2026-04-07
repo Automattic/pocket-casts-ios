@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct StoryLogoView: View {
-    var body: some View {
+public struct StoryLogoView: View {
+    public var body: some View {
         VStack {
             Spacer()
             HStack {
@@ -13,7 +13,9 @@ struct StoryLogoView: View {
         }
     }
 
-    enum Constants {
-        static let paddingBottom = 49.0
+    public init() {}
+
+    public enum Constants {
+        public static let paddingBottom = 49.0
     }
 }

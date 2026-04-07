@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import EndOfYear
 
 struct StoryHeader2025: View {
     @Environment(\.renderForSharing) var renderForSharing: Bool
