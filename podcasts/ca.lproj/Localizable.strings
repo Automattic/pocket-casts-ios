@@ -2273,9 +2273,9 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>playlists_tip_drag_and_drop_title</key>
     <string>Reordena les teves llistes de reproducció</string>
     <key>please_try_again</key>
-    <string>Per favor, torna-ho a intentar</string>
+    <string>Torna-ho a intentar</string>
     <key>please_try_again_later</key>
-    <string>Per favor, intenta-ho més tard.</string>
+    <string>Intenta-ho més tard.</string>
     <key>plus_account_required_prompt</key>
     <string>Es necessita un compte de Pocket Casts per a entrar a Pocket Casts Plus. Això garanteix una escolta perfecta a tots els dispositius.</string>
     <key>plus_account_required_prompt_details</key>
@@ -2429,7 +2429,7 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>plus_subscription_web_details</key>
     <string>Per a cancel·lar la subscripció, ho hauràs de fer anant a  Pocketcasts.com.</string>
     <key>plus_upgrade_no_internet_message</key>
-    <string>Per favor, revisa la teva connexió a la xarxa i prova-ho de nou.</string>
+    <string>Revisa la teva connexió a la xarxa i prova-ho de nou.</string>
     <key>plus_upgrade_no_internet_title</key>
     <string>No es pot carregar</string>
     <key>plus_yearly_frequency_pricing_format</key>
@@ -2727,7 +2727,7 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <key>rating_listen_to_this_podcast_message</key>
     <string>Només els oients d'aquest pòdcast poden fer  una valoració. Escolta uns quants episodis i després torna aquí per a fer la teva valoració. Estem desitjant saber què et sembla!</string>
     <key>rating_listen_to_this_podcast_title</key>
-    <string>Per favor, escolta aquest pòdcast primer</string>
+    <string>Escolta aquest pòdcast primer abans de valorar-lo</string>
     <key>rating_login_required</key>
     <string>Has d'iniciar sessió per a deixar una valoració</string>
     <key>rating_no_ratings</key>
