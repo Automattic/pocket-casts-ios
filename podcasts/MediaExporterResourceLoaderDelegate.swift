@@ -372,13 +372,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     func errorFromStatusCode(_ statusCode: Int) -> NSError {
         switch statusCode {
         case 401, 403:
-            return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
         case 404, 410:
-            return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
         case 400, 405, 408, 409, 429, 500..<1000:
-            return NSError(domain: NSURLErrorDomain, code: NSURLErrorBadServerResponse, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorBadServerResponse, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
         default:
-            return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(statusCode)."])
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
         }
     }
 
