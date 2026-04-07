@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct StoryIndicatorStyle {
     let height: CGFloat
