@@ -146,6 +146,12 @@ let package = Package(
         ),
         .target(
             name: "EndOfYear",
+            dependencies: [
+                "PocketCastsDataModel",
+                "PocketCastsServer",
+                "PocketCastsUtils",
+                .product(name: "Kingfisher", package: "Kingfisher"),
+            ],
             path: "Sources/EndOfYear"
         ),
         .target(
