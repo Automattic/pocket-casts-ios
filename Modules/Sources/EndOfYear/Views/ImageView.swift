@@ -5,10 +5,14 @@ import Kingfisher
 ///
 /// This is necessary because `Image` does not render correctly
 /// when taking screenshots of it — the image doesn't appear.
-struct ImageView: UIViewRepresentable {
+public struct ImageView: UIViewRepresentable {
     var image: UIImage?
 
-    func makeUIView(context: Context) -> UIImageView {
+    public init(image: UIImage? = nil) {
+        self.image = image
+    }
+
+    public func makeUIView(context: Context) -> UIImageView {
         let v = UIImageView()
 
         v.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -19,7 +23,7 @@ struct ImageView: UIViewRepresentable {
         return v
     }
 
-    func updateUIView(_ uiImage: UIImageView, context: Context) {
+    public func updateUIView(_ uiImage: UIImageView, context: Context) {
         uiImage.image = image
     }
 }
