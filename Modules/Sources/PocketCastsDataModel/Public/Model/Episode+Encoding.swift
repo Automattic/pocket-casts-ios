@@ -27,7 +27,7 @@ public extension Episode {
         episodeMap["podcastId"] = "\(podcast_id)"
         episodeMap["episodeNumber"] = "\(episodeNumber)"
         episodeMap["seasonNumber"] = "\(seasonNumber)"
-
+        episodeMap["hasGeneratedTranscript"] = "\(hasGeneratedTranscript)"
         return episodeMap
     }
 
@@ -54,5 +54,6 @@ public extension Episode {
         podcast_id = decodeInt64FromString(value: episodeMap["podcastId"])
         episodeNumber = decodeInt64FromString(value: episodeMap["episodeNumber"])
         seasonNumber = decodeInt64FromString(value: episodeMap["seasonNumber"])
+        hasGeneratedTranscript = decodeBoolFromString(value: episodeMap["hasGeneratedTranscript"])
     }
 }
