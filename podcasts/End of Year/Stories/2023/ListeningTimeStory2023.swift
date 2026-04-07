@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct ListeningTimeStory2023: ShareableStory {
     let identifier: String = "listening_time"
