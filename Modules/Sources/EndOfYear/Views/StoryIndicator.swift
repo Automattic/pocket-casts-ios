@@ -1,15 +1,15 @@
 import SwiftUI
-import EndOfYear
+import PocketCastsUtils
 
-struct StoryIndicatorStyle {
-    let height: CGFloat
-    let borderRadius: CGFloat
-    let backgroundOpacity: CGFloat
-    let foregroundOpacity: CGFloat
-    let backgroundColor: Color
-    let foregroundColor: Color
+public struct StoryIndicatorStyle {
+    public let height: CGFloat
+    public let borderRadius: CGFloat
+    public let backgroundOpacity: CGFloat
+    public let foregroundOpacity: CGFloat
+    public let backgroundColor: Color
+    public let foregroundColor: Color
 
-    init(
+    public init(
         height: CGFloat = 2,
         borderRadius: CGFloat = 5,
         backgroundOpacity: CGFloat = 0.3,
@@ -26,18 +26,18 @@ struct StoryIndicatorStyle {
     }
 }
 
-struct StoryIndicator: View {
+public struct StoryIndicator: View {
     let index: Int
     let style: StoryIndicatorStyle
     @ObservedObject var progressModel: StoriesProgressModel
 
-    init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle(), progressModel: StoriesProgressModel) {
+    public init(index: Int, style: StoryIndicatorStyle = StoryIndicatorStyle(), progressModel: StoriesProgressModel) {
         self.index = index
         self.style = style
         self.progressModel = progressModel
     }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
