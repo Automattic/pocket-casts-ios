@@ -1,6 +1,7 @@
 import PocketCastsServer
 import SwiftUI
 import PocketCastsUtils
+import EndOfYear
 
 class DiscoverCollectionViewController: PCViewController {
 

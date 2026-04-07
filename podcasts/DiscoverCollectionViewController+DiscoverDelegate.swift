@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 extension DiscoverCollectionViewController: DiscoverDelegate {
     func navigateTo(category: String) {

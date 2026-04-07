@@ -14,7 +14,7 @@ extension View {
     }
 
     @MainActor
-    func snapshotUIKit(origin: CGPoint = .zero, size: CGSize = .zero) -> UIImage {
+    public func snapshotUIKit(origin: CGPoint = .zero, size: CGSize = .zero) -> UIImage {
         let controller = UIHostingController(rootView: self)
         let view = controller.view
 
