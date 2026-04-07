@@ -135,7 +135,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         let error = delegate.verifyResponse()
 
         XCTAssertNotNil(error, "Should return error for HTTP 403")
-        XCTAssertEqual(error?.code, NSURLErrorResourceUnavailable, "Error code should be NSURLErrorResourceUnavailable for HTTP 403")
+        XCTAssertEqual(error?.code, NSURLErrorUserAuthenticationRequired, "Error code should be NSURLErrorUserAuthenticationRequired for HTTP 403")
     }
 
     func testVerifyResponse_ReturnsNilForSuccessfulResponse() {
@@ -147,6 +147,9 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         )!
 
         delegate.response = httpResponse
+        let previousMinimumExpectedFileSize = MediaExporterItemConfiguration.minimumExpectedFileSize
+        defer { MediaExporterItemConfiguration.minimumExpectedFileSize = previousMinimumExpectedFileSize }
+        MediaExporterItemConfiguration.minimumExpectedFileSize = 0
         let error = delegate.verifyResponse()
 
         XCTAssertNil(error, "Should not return error for HTTP 200")

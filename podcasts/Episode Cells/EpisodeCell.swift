@@ -223,7 +223,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             if !hideStatus {
                 let statusImage: UIImage?
                 if episode.downloadFailed() || uploadFailed || episode.playbackError() {
-                    statusImage = UIImage(named: "list_downloadfailed")
+                    statusImage = UIImage(named: "profile-alert")
                 } else if episode.downloaded(pathFinder: DownloadManager.shared) {
                     statusImage = UIImage(named: "list_downloaded")
                 } else {

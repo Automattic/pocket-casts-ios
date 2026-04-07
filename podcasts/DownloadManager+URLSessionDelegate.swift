@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     // things smaller than 10kbs are not episodes, way too small and something has gone wrong
-    private static let badEpisodeSize = 10 * 1024
+    static let badEpisodeSize = 10 * 1024
 
     // things smaller than 150kb are suspect, probably text, xml or html error pages
     private static let suspectEpisodeSize = 150 * 1024
