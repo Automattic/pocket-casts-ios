@@ -1024,9 +1024,9 @@ class PlaybackManager: ServerPlaybackDelegate {
                 case NSURLErrorFileDoesNotExist:
                     return URL(string: ServerConstants.Urls.supportEpisodeNotFound)
                 case NSURLErrorBadServerResponse:
-                    return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
-                default:
                     return URL(string: ServerConstants.Urls.supportEpisodeServerProblem)
+                default:
+                    return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
                 }
             default:
                 return nil
