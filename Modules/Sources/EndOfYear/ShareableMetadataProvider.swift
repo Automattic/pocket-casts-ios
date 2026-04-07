@@ -1,8 +1,9 @@
-import Foundation
+import UIKit
+import UniformTypeIdentifiers
 import PocketCastsServer
 import PocketCastsDataModel
 
-protocol ShareableMetadataDataSource: AnyObject {
+public protocol ShareableMetadataDataSource: AnyObject {
     /// Create a provider to handle the additional meta data needed
     var shareableMetadataProvider: ShareableMetadataProvider { get }
 
@@ -13,14 +14,14 @@ protocol ShareableMetadataDataSource: AnyObject {
     var hashtags: [String] { get }
 }
 
-class ShareableMetadataProvider: UIActivityItemProvider {
-    weak var dataSource: ShareableMetadataDataSource?
+public class ShareableMetadataProvider: UIActivityItemProvider {
+    public weak var dataSource: ShareableMetadataDataSource?
 
-    init() {
+    public init() {
         super.init(placeholderItem: "")
     }
 
-    override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    override public func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         guard let dataSource, let activityType, activityType.supportsShareableMetadata else { return nil }
 
         let item = NSExtensionItem()
@@ -44,9 +45,9 @@ class ShareableMetadataProvider: UIActivityItemProvider {
 }
 
 extension UIActivity.ActivityType {
-    static let postToTumblr = UIActivity.ActivityType(rawValue: "com.tumblr.tumblr.share")
+    public static let postToTumblr = UIActivity.ActivityType(rawValue: "com.tumblr.tumblr.share")
 
-    var supportsShareableMetadata: Bool {
+    public var supportsShareableMetadata: Bool {
         return self == .postToTumblr
     }
 }
