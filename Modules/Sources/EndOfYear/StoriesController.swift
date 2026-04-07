@@ -1,10 +1,10 @@
 import Foundation
 
 /// Control the presentation of the storieis
-class StoriesController {
-    static var shared = StoriesController()
+public class StoriesController {
+    public static var shared = StoriesController()
 
-    enum Notifications: String, CaseIterable {
+    public enum Notifications: String, CaseIterable {
         case replay
         case share
     }
@@ -12,11 +12,11 @@ class StoriesController {
     private init() { }
 
     /// Start the stories from the beginning
-    func replay() {
+    public func replay() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.replay.rawValue), object: nil)
     }
 
-    func share() {
+    public func share() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.share.rawValue), object: nil)
     }
 }

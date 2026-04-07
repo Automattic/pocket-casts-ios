@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import CoreHaptics
+import EndOfYear
 
 struct EpilogueStory2023: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool
