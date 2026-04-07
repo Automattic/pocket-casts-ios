@@ -54,6 +54,9 @@ public enum ServerConstants {
         public static let appStoreReview = "https://apps.apple.com/app/id414834813?action=write-review"
         public static let podrollLearnMore = "https://support.pocketcasts.com/knowledge-base/podroll/"
         public static let supportPlaybackDownloadErrors = "https://support.pocketcasts.com/knowledge-base/download-and-playback-errors/"
+        public static let supportEpisodeAccessIssues = "https://support.pocketcasts.com/knowledge-base/episode-access-issues/"
+        public static let supportEpisodeNotFound = "https://support.pocketcasts.com/knowledge-base/episode-not-found/"
+        public static let supportEpisodeServerProblem = "https://support.pocketcasts.com/knowledge-base/episode-server-problem/"
     }
 
     private static func production() -> Bool {
