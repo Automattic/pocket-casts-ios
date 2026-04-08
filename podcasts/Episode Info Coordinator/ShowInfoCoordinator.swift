@@ -59,8 +59,8 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     }
 
     private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {
-        let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid).vtt"
-        return Episode.Metadata.Transcript(url: urlString, type: "text/vtt", language: nil)
+        let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid).\(TranscriptFormat.vtt.fileExtension)"
+        return Episode.Metadata.Transcript(url: urlString, type: TranscriptFormat.vtt.rawValue, language: nil)
     }
 
     public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
