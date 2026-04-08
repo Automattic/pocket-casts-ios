@@ -894,9 +894,13 @@ class DatabaseHelper {
         }
 
         if schemaVersion < 73 {
-            try? db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN hasGeneratedTranscript INTEGER NOT NULL DEFAULT 0;", values: nil)
-
-            schemaVersion = 73
+            do {
+                try db.executeUpdate("ALTER TABLE SJEpisode ADD COLUMN hasGeneratedTranscript INTEGER NOT NULL DEFAULT 0;", values: nil)
+                schemaVersion = 73
+            } catch {
+                failedAt(73)
+                return
+            }
         }
 
         db.commit()
