@@ -1,6 +1,6 @@
 8.10
 -----
-
+- Support new transcripts generated episode field [#4116](https://github.com/Automattic/pocket-casts-ios/pull/4116)
 
 8.9
 -----
