@@ -639,23 +639,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         return nsError.domain == WCErrorDomain && nsError.code == WCError.Code.payloadTooLarge.rawValue
     }
 
-    /// Logs a Sentry error and FileLog message if the WatchConnectivity error is due to payload being too large.
+    /// Logs a FileLog message if the WatchConnectivity error is due to payload being too large.
     /// This helps track when synced data exceeds WatchConnectivity's size limits.
     private func logPayloadTooLargeError(method: String, upNextCount: Int) {
         FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
-        if FeatureFlag.watchSentryLogs.enabled {
-            let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
-            CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
-                watchError,
-                tags: [
-                    "source": "watch_sync",
-                    "method": method,
-                    "error_code": "payloadTooLarge",
-                    "up_next_count": "\(upNextCount)"
-                ],
-                level: .warning // This is a critical error but we fall back to the limited Up Next sync so it should be recoverable
-            )
-        }
     }
 
     // MARK: - Encoding
