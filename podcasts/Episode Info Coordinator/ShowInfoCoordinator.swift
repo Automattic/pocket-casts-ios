@@ -59,7 +59,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
     }
 
     private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {
-        let urlString = "https://shownotes.pocketcasts.com/generated_transcripts/\(podcastUuid)/\(episodeUuid).vtt"
+        let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid).vtt"
         return Episode.Metadata.Transcript(url: urlString, type: "text/vtt", language: nil)
     }
 

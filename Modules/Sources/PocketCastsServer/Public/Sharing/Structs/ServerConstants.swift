@@ -42,6 +42,10 @@ public enum ServerConstants {
             production() ? "https://search.pocketcasts.com/" : "https://search.pocketcasts.net/"
         }
 
+        public static var generatedTranscripts: String {
+            production() ? "https://shownotes.pocketcasts.com/generated_transcripts/" : "https://shownotes.pocketcasts.net/generated_transcripts/"
+        }
+
         public static let support = "https://support.pocketcasts.com/ios/"
         public static let cancelSubscription = "https://support.pocketcasts.com/knowledge-base/how-to-cancel-a-subscription/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
