@@ -121,6 +121,11 @@ extension ServerPodcastManager {
                     episodeChanged = true
                 }
 
+                if let type = episodeJson["hasGeneratedTranscript"] as? Bool, existingEpisode.hasGeneratedTranscript != type {
+                    existingEpisode.hasGeneratedTranscript = type
+                    episodeChanged = true
+                }
+
                 if episodeChanged {
                     DataManager.sharedManager.save(episode: existingEpisode)
                 }
@@ -181,6 +186,10 @@ extension ServerPodcastManager {
             }
             if let type = episodeJson["type"] as? String {
                 episode.episodeType = type
+            }
+
+            if let type = episodeJson["hasGeneratedTranscript"] as? Bool {
+                episode.hasGeneratedTranscript = type
             }
 
             DataManager.sharedManager.save(episode: episode)
