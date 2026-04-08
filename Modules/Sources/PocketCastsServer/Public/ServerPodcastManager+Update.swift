@@ -188,7 +188,7 @@ extension ServerPodcastManager {
                 episode.episodeType = type
             }
 
-            if let type = episodeJson["hasGeneratedTranscript"] as? Bool {
+            if let type = episodeJson["has_generated_transcript"] as? Bool {
                 episode.hasGeneratedTranscript = type
             }
 
