@@ -66,7 +66,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
         if FeatureFlag.generatedTranscripts.enabled {
             let externalTranscripts = metadata?.transcripts ?? []
-            let pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            var pocketCastsTranscripts: [Episode.Metadata.Transcript] = []
+            if let episode = dataManager.findEpisode(uuid: episodeUuid),
+               episode.hasGeneratedTranscript {
+                let transcript = Episode.Metadata.Transcript(url: "https://shownotes.pocketcasts.com/generated_transcripts/\(podcastUuid)/\(episodeUuid).vtt", type: "text/vtt", language: nil)
+                pocketCastsTranscripts = [transcript]
+            } else {
+                pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            }
+
             let transcripts = externalTranscripts.isEmpty ? pocketCastsTranscripts : externalTranscripts
             return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty)
         }

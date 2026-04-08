@@ -223,6 +223,12 @@ public class Episode: NSObject, BaseEpisode {
             public let url: String
             public let type: String
             public let language: String?
+
+            public init(url: String, type: String, language: String?) {
+                self.url = url
+                self.type = type
+                self.language = language
+            }
         }
     }
 }
