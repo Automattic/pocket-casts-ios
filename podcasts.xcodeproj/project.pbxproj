@@ -44,6 +44,13 @@
 		10A4F7672C540DC00084D783 /* KidsProfileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7662C540DC00084D783 /* KidsProfileSheet.swift */; };
 		10A4F7692C540EBE0084D783 /* KidsProfileSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4F7682C540EBE0084D783 /* KidsProfileSheetViewModel.swift */; };
 		10DFE9312C5A889700957D0A /* CategoryPodcastsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DFE9302C5A889700957D0A /* CategoryPodcastsTable.swift */; };
+		3FC668C02F7CD3440072EBA8 /* XcodeTarget_podcasts in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668BF2F7CD3440072EBA8 /* XcodeTarget_podcasts */; };
+		3FC668C22F7CD4A60072EBA8 /* XcodeTarget_NotificationExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668C12F7CD4A60072EBA8 /* XcodeTarget_NotificationExtension */; };
+		3FC668C42F7CD4F70072EBA8 /* XcodeTarget_Pocket Casts Watch App in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668C32F7CD4F70072EBA8 /* XcodeTarget_Pocket Casts Watch App */; };
+		3FC668C62F7CD5020072EBA8 /* XcodeTarget_PodcastsIntents in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668C52F7CD5020072EBA8 /* XcodeTarget_PodcastsIntents */; };
+		3FC668C82F7CD5140072EBA8 /* XcodeTarget_PodcastsIntentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668C72F7CD5140072EBA8 /* XcodeTarget_PodcastsIntentsUI */; };
+		3FC668CA2F7CD51E0072EBA8 /* XcodeTarget_WidgetExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668C92F7CD51E0072EBA8 /* XcodeTarget_WidgetExtension */; };
+		3FC668CC2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC668CB2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip */; };
 		4000A2A025463C6A00356FCE /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4000A29F25463C6900356FCE /* LeftAlignedFlowLayout.swift */; };
 		40043F0B23FBC6B1004A9B57 /* SiriPodcastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */; };
 		40043F0D23FDFD91004A9B57 /* SiriPodcastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40043F0A23FBC6B1004A9B57 /* SiriPodcastItem.swift */; };
@@ -274,7 +281,6 @@
 		462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0AC26FCC081003D67DC /* ZenDeskHelpers.swift */; };
 		462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */; };
 		462EE0B827024FF3003D67DC /* ApiCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0B427024FF3003D67DC /* ApiCredentials.swift */; };
-		46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */ = {isa = PBXBuildFile; productRef = 46305CEF272B082C003AC87B /* AutomatticEncryptedLogs */; };
 		46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46305CF1272B0962003AC87B /* FileLog+FileUpload.swift */; };
 		46316CF027A85E7F00458BA4 /* GenerateScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46316CEF27A85E7F00458BA4 /* GenerateScreenshots.swift */; };
 		46316CF227A85F3000458BA4 /* XCUIElement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */; };
@@ -302,9 +308,6 @@
 		467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
 		467DF6EA26E10AFB00AC290C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
 		467DF6EB26E10AFD00AC290C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
-		468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D227CD575C00FFAAAA /* FirebasePerformance */; };
-		468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */; };
 		4694FA652799C80300E9CF70 /* iPhone_GenerateScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4694FA642799C80300E9CF70 /* iPhone_GenerateScreenshots.swift */; };
 		4694FA6D2799C85500E9CF70 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4694FA6C2799C85500E9CF70 /* SnapshotHelper.swift */; };
 		4694FA712799E73E00E9CF70 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
@@ -329,15 +332,11 @@
 		8B10E78828D9094500702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B10E78A28D9094A00702C54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
 		8B15E7222AD050EF0077F45A /* DMSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B15E7212AD050EE0077F45A /* DMSans.ttf */; };
-		8B1762772B6808F700F44450 /* JLRoutes in Frameworks */ = {isa = PBXBuildFile; productRef = 8B1762762B6808F700F44450 /* JLRoutes */; };
-		8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8B1762792B684E7100F44450 /* Kingfisher */; };
-		8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8B17627B2B684ED300F44450 /* Kingfisher */; };
 		8B1B782B2BC7104000DC3373 /* SleepTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */; };
 		8B1B782C2BC7104000DC3373 /* SleepTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1B782A2BC7104000DC3373 /* SleepTimerManager.swift */; };
 		8B1F88072C6404D00038E0D2 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2CB3E22418B48600E2D762 /* ArrayExtension.swift */; };
 		8B2FEA8D28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B2FEA8C28F5A2E200A10DAE /* AppIcon-Halloween@2x~ipad.png */; };
 		8B317BA028906A8900A26A13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B317B9F28906A8900A26A13 /* main.swift */; };
-		8B365E502B62E82000143DAC /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = 8B365E4F2B62E82000143DAC /* Agrume */; };
 		8B3C7CA52A4DE36000939DED /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		8B484EF528D23BEF001AFA97 /* PlaybackTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B484EF428D23BEF001AFA97 /* PlaybackTimeHelper.swift */; };
@@ -354,7 +353,6 @@
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
 		8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BA55A1628CA92A7002BECC5 /* PrivacySettingsViewController.xib */; };
 		8BAB27202A40B3340079E5B3 /* EpisodesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB271F2A40B3340079E5B3 /* EpisodesDataManager.swift */; };
-		8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */; };
 		8BB2E58B2A8AA02E00E93088 /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD054A791E3EDEB300D9195B /* SharedConstants.swift */; };
 		8BB4AA632BD17EC10091480A /* FadeOutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4AA622BD17EC10091480A /* FadeOutManager.swift */; };
 		8BB4AA642BD17EC10091480A /* FadeOutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4AA622BD17EC10091480A /* FadeOutManager.swift */; };
@@ -390,14 +388,6 @@
 		8BD7A2472C09134900CF84E8 /* FolderHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2462C09134900CF84E8 /* FolderHistoryModel.swift */; };
 		8BD7A2492C09190200CF84E8 /* FolderHistoryEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A2482C09190200CF84E8 /* FolderHistoryEntryView.swift */; };
 		8BDEBC0F28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDEBC0E28F6F82A00A1B03C /* AppIcon-Halloween-152@2x.png */; };
-		8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DE7287352A100E35313 /* PocketCastsServer */; };
-		8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DEA287352F200E35313 /* PocketCastsDataModel */; };
-		8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DED287352F600E35313 /* PocketCastsServer */; };
-		8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF32873533F00E35313 /* PocketCastsUtils */; };
-		8BE36DF72873534A00E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DF62873534A00E35313 /* PocketCastsUtils */; };
-		8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFC2873552500E35313 /* PocketCastsDataModel */; };
-		8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36DFF2873552500E35313 /* PocketCastsServer */; };
-		8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE36E022873552600E35313 /* PocketCastsUtils */; };
 		8BE85CA92876260700AEB5FF /* acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = 8BE85CA82876260600AEB5FF /* acknowledgements.html */; };
 		8BE85CAB28762C4900AEB5FF /* LegalAndMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85CAA28762C4900AEB5FF /* LegalAndMoreView.swift */; };
 		8BEE86FE2B7D02480073784A /* ChaptersHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE86FD2B7D02480073784A /* ChaptersHeader.swift */; };
@@ -410,7 +400,6 @@
 		9A0E6C662D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0E6C652D822637008CFDF7 /* GeneratedTranscriptsPremiumOverlay.swift */; };
 		9A11FCBB2D9592B300A1EF3E /* PrivacySettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11FCBA2D9592AC00A1EF3E /* PrivacySettingsDataSource.swift */; };
 		9A11FCCE2D9EB59F00A1EF3E /* InformationalModal.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A11FCCD2D9EB59F00A1EF3E /* InformationalModal.xcassets */; };
-		9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */ = {isa = PBXBuildFile; productRef = 9A11FCD32DA410F600A1EF3E /* GoogleCast */; };
 		9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AAC2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift */; };
 		9A156AB12CF7430A007BA8D9 /* UpNextAnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */; };
 		9A156AB32CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A156AB22CF8BEE3007BA8D9 /* CancelSubscriptionPlanRow.swift */; };
@@ -435,10 +424,6 @@
 		9A72B6632E214C580078FC84 /* PlaylistCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A72B6622E214C580078FC84 /* PlaylistCellView.swift */; };
 		9A86AB2D2DE8642C00474E0F /* TranscriptExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86AB2C2DE8642300474E0F /* TranscriptExcerptView.swift */; };
 		9A9004BE2E27A2A1005879CB /* PlaylistArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004BD2E27A2A1005879CB /* PlaylistArtworkView.swift */; };
-		9A9004C62E2E62EA005879CB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */; };
-		9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */; };
-		9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */; };
 		9A9004D12E2E97DF005879CB /* PlaylistCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9004D02E2E97DF005879CB /* PlaylistCellViewModel.swift */; };
 		9A96E64D2EC4A24800472FB8 /* 2025_rating_bars.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A96E64C2EC4A24800472FB8 /* 2025_rating_bars.json */; };
 		9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B83B92DCA6661002CE179 /* CancelSubscriptionSurveyView.swift */; };
@@ -630,7 +615,6 @@
 		BD43BDE72122AD0600E63165 /* skip_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BD43BDE52122AD0600E63165 /* skip_button.json */; };
 		BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */; };
 		BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */; };
-		BD44F750267C850000810148 /* DifferenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD44F74F267C850000810148 /* DifferenceKit */; };
 		BD47E7FA1DD57F7B00C18EE7 /* ShowNotesFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD47E7F91DD57F7B00C18EE7 /* ShowNotesFormatter.swift */; };
 		BD48D5A6216DB26A00391F9E /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
 		BD49DB811D5B052500813204 /* DestructiveButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49DB7F1D5B052500813204 /* DestructiveButtonCell.swift */; };
@@ -921,7 +905,6 @@
 		BDBD53FC17019B2A0048C8C5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDBD53FA17019B2A0048C8C5 /* InfoPlist.strings */; };
 		BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBE35DB211D735E00C334B8 /* PlayerCell.swift */; };
 		BDBE35DE211D735E00C334B8 /* PlayerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDBE35DC211D735E00C334B8 /* PlayerCell.xib */; };
-		BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BDBEE72C267C845E00BA43FB /* Lottie */; };
 		BDC063D1246A626E00208446 /* DownloadManager+SessionManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */; };
 		BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */; };
 		BDC3028B1C7ABAD300FC2026 /* iPadImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */; };
@@ -934,7 +917,6 @@
 		BDCE1D611FBC1C4100100A86 /* UrlHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCE1D601FBC1C4100100A86 /* UrlHelper.swift */; };
 		BDCF3C8024283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF3C7F24283B0F005B6933 /* ListeningHistoryViewController+Swipe.swift */; };
 		BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF3C8124283C78005B6933 /* UploadedViewController+Swipe.swift */; };
-		BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = BDD239BC267C869B0047750C /* SwipeCellKit */; };
 		BDD301821EFB9356004A9972 /* Pocket Casts Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */; };
 		BDD3018E1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
 		BDD3018F1EFB9574004A9972 /* WatchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3018D1EFB9574004A9972 /* WatchConstants.swift */; };
@@ -950,9 +932,6 @@
 		BDD71CF51BA935E8006D2CE3 /* NetworkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD71CF31BA935E8006D2CE3 /* NetworkViewController.xib */; };
 		BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD71CF61BA93A6D006D2CE3 /* PodcastGroupCell.swift */; };
 		BDD71CF91BA93A6D006D2CE3 /* PodcastGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD71CF71BA93A6D006D2CE3 /* PodcastGroupCell.xib */; };
-		BDD8AABF267C858D0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AABE267C858D0013494D /* Fuse */; };
-		BDD8AAC1267C859A0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AAC0267C859A0013494D /* Fuse */; };
-		BDD8AAC3267C85A20013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AAC2267C85A20013494D /* Fuse */; };
 		BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14D6219AFA1E0066441E /* SearchInfoCell.swift */; };
 		BDDA14D9219AFA1E0066441E /* SearchInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDDA14D7219AFA1E0066441E /* SearchInfoCell.xib */; };
 		BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14DA219B021A0066441E /* SearchLoadingCell.swift */; };
@@ -1064,7 +1043,6 @@
 		C715EE0F2A0497DB0054A082 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		C725285F299B315000A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
 		C7252863299B353A00A582C3 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C725285E299B315000A582C3 /* BookmarkManager.swift */; };
-		C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = C72CED33289DA28B0017883A /* AutomatticTracks */; };
 		C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CED35289DB8690017883A /* AppDelegate+Analytics.swift */; };
 		C7360CB82A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
 		C7360CB92A42128300456930 /* Bookmarks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7360CB72A42128300456930 /* Bookmarks.xcassets */; };
@@ -1151,14 +1129,12 @@
 		F58189C22DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58189C12DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift */; };
 		F58189C32DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58189C12DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift */; };
 		F5AA0FD42E21D05D00ECDEEA /* SurveyDebugInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AA0FD32E21D05D00ECDEEA /* SurveyDebugInfoView.swift */; };
-		F5ADE2F72CF52B4800F2CEA7 /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */; };
 		F5B312B42BF5B6D400290696 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B312B32BF5B6D400290696 /* FirebaseManager.swift */; };
 		F5BA0D742E3443ED005931D3 /* PressableLottieButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA0D732E3443ED005931D3 /* PressableLottieButtonStyle.swift */; };
 		F5BA5C9A2C7F701900BDA5B9 /* DiscoverCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C992C7F701900BDA5B9 /* DiscoverCollectionViewController.swift */; };
 		F5BA5C9C2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */; };
 		F5BA5C9E2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BA5C9D2C81254300BDA5B9 /* DiscoverCollectionViewController+DiscoverDelegate.swift */; };
 		F5C1FA212D1283F5007CFDF2 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */; };
-		F5CDD79E2F4D1AB400D1B221 /* AutomatticTracks in Frameworks */ = {isa = PBXBuildFile; productRef = F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */; };
 		F5CDD79F2F4D1AE100D1B221 /* ApiCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0B427024FF3003D67DC /* ApiCredentials.swift */; };
 		F5D5F7C52CEBE84A001F492D /* NowPlayingPlayerItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB53C52362A2570001806E /* NowPlayingPlayerItemViewController.swift */; };
 		F5D5F7C62CEBE853001F492D /* PlayerContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD92322F23629E1900C1E118 /* PlayerContainerViewController.swift */; };
@@ -1170,11 +1146,8 @@
 		F5F508F02CEBE94F007D6E39 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
 		F5F508F12CEBE955007D6E39 /* RegionCancellingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1E000D1F6BA44D0024542F /* RegionCancellingScrollView.swift */; };
 		F5F508F22CEBE966007D6E39 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A3D1B54E053000EC323 /* PlaybackManager.swift */; };
-		F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F32CEBE985007D6E39 /* PocketCastsUtils */; };
-		F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */; };
 		F5F508FA2CEBE9C1007D6E39 /* ThemeableUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD5C9FF2303E8FA005E133C /* ThemeableUIButton.swift */; };
 		F5F508FE2CEBE9F8007D6E39 /* TimeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9DDD61B8AD29C00E77B35 /* TimeSlider.swift */; };
-		F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F5F508FF2CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		F5F509012CEBEA36007D6E39 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B1F001CE05159003CE958 /* AnalyticsHelper.swift */; };
 		F5F509032CEBEA6E007D6E39 /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */; };
 		F5F509042CEBEA73007D6E39 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8E76C51B9E9C03000E20C7 /* AppTheme.swift */; };
@@ -1261,15 +1234,11 @@
 		F5F5095D2CEBF697007D6E39 /* AudioUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD35BB6B1CF697650018D63E /* AudioUtils.swift */; };
 		F5F5095E2CEBF69D007D6E39 /* BufferedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEBD3A81BA0108800AD038F /* BufferedAudio.swift */; };
 		F5F5095F2CEBF6AC007D6E39 /* SynchronizedAudioStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD40987B1B9ED731007F36BD /* SynchronizedAudioStack.swift */; };
-		F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = F5F509602CEBF6CB007D6E39 /* FirebaseRemoteConfig */; };
 		F5F509622CEBF6DC007D6E39 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2CB3E22418B48600E2D762 /* ArrayExtension.swift */; };
 		F5F509632CEBF70E007D6E39 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4BBFA11D221FDA001BEE4D /* Queue.swift */; };
 		F5F509662CEBF788007D6E39 /* PaidFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C701C25B2A8E82DC00AD9FAB /* PaidFeature.swift */; };
 		F5F509672CEBF7AF007D6E39 /* UserEpisode+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */; };
 		F5F509682CEBF7DB007D6E39 /* TimeSliderLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9DDD81B8AD29C00E77B35 /* TimeSliderLayer.swift */; };
-		F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F5F509692CEBF859007D6E39 /* Kingfisher */; };
-		F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096B2CEBF871007D6E39 /* PocketCastsServer */; };
-		F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F5F5096E2CEBF884007D6E39 /* Lottie */; };
 		F5F509702CEBF8B8007D6E39 /* SJCommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2A49E51701A6AE00C2F192 /* SJCommonUtils.m */; };
 		F5F509712CEBF8C1007D6E39 /* SJMediaMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */; };
 		F5F509772CEBF9E3007D6E39 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
@@ -1309,10 +1278,6 @@
 		FF1F27052F224C5C001908BE /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
-		FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */; };
-		FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */; };
-		FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */; };
-		FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF2CD5812B9F4B2D009B58B5 /* Kingfisher */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
@@ -1332,7 +1297,6 @@
 		FF6BBCF22C578CE600604A01 /* TranscriptsDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6BBCF12C578CE600604A01 /* TranscriptsDataRetriever.swift */; };
 		FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89E92C2979D900FC0ED5 /* TranscriptViewController.swift */; };
 		FF7F89ED2C2AF6DE00FC0ED5 /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89EC2C2AF6DE00FC0ED5 /* TranscriptManager.swift */; };
-		FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */ = {isa = PBXBuildFile; productRef = FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */; };
 		FF7F89F12C2C0FD600FC0ED5 /* TranscriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F89F02C2C0FD600FC0ED5 /* TranscriptModel.swift */; };
 		FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9088EC2E00437E00FA1E7C /* HorizontaCollectionModel.swift */; };
 		FF91A0F62B64159D002A0590 /* UIScreen+Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF91A0F52B64159D002A0590 /* UIScreen+Sizes.swift */; };
@@ -2893,7 +2857,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDD8AAC1267C859A0013494D /* Fuse in Frameworks */,
+				3FC668C62F7CD5020072EBA8 /* XcodeTarget_PodcastsIntents in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2901,8 +2865,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FC668C82F7CD5140072EBA8 /* XcodeTarget_PodcastsIntentsUI in Frameworks */,
 				403B5B1B21813FFA00821A54 /* IntentsUI.framework in Frameworks */,
-				BDD8AAC3267C85A20013494D /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2910,8 +2874,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BE36DF72873534A00E35313 /* PocketCastsUtils in Frameworks */,
 				4090975025235DFA00CED68C /* WidgetKit.framework in Frameworks */,
+				3FC668CA2F7CD51E0072EBA8 /* XcodeTarget_WidgetExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2919,16 +2883,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF2CD5822B9F4B2D009B58B5 /* Kingfisher in Frameworks */,
-				FF2CD5802B9F4B2D009B58B5 /* PocketCastsUtils in Frameworks */,
-				FF2CD57E2B9F4B2D009B58B5 /* PocketCastsServer in Frameworks */,
-				F5CDD79E2F4D1AB400D1B221 /* AutomatticTracks in Frameworks */,
-				8BE36DEB287352F200E35313 /* PocketCastsDataModel in Frameworks */,
-				8BE36DEE287352F600E35313 /* PocketCastsServer in Frameworks */,
-				8BE36DF42873533F00E35313 /* PocketCastsUtils in Frameworks */,
-				9A9004CB2E2E6455005879CB /* PocketCastsDependencyInjection in Frameworks */,
-				FF2CD57C2B9F4B2D009B58B5 /* PocketCastsDataModel in Frameworks */,
-				8B17627C2B684ED300F44450 /* Kingfisher in Frameworks */,
+				3FC668C42F7CD4F70072EBA8 /* XcodeTarget_Pocket Casts Watch App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2957,7 +2912,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BE36DE8287352A100E35313 /* PocketCastsServer in Frameworks */,
+				3FC668C22F7CD4A60072EBA8 /* XcodeTarget_NotificationExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2966,28 +2921,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				46C22EE028F73D9A00F4173B /* AuthenticationServices.framework in Frameworks */,
-				468F00D327CD575C00FFAAAA /* FirebasePerformance in Frameworks */,
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
-				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
-				FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */,
-				C72CED34289DA28B0017883A /* AutomatticTracks in Frameworks */,
-				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
-				46305CF0272B082C003AC87B /* AutomatticEncryptedLogs in Frameworks */,
-				468F00CF27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				8BAD6E5E2975ADB800DB7259 /* GoogleSignIn in Frameworks */,
-				468F00D527CD575C00FFAAAA /* FirebaseRemoteConfig in Frameworks */,
-				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
-				9A9004C82E2E6447005879CB /* PocketCastsDependencyInjection in Frameworks */,
-				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
-				BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */,
-				8B365E502B62E82000143DAC /* Agrume in Frameworks */,
-				8BE36E002873552500E35313 /* PocketCastsServer in Frameworks */,
-				9A9004C62E2E62EA005879CB /* (null) in Frameworks */,
-				9A11FCD42DA410F600A1EF3E /* GoogleCast in Frameworks */,
-				BDD239BD267C869B0047750C /* SwipeCellKit in Frameworks */,
-				8B1762772B6808F700F44450 /* JLRoutes in Frameworks */,
-				8B17627A2B684E7100F44450 /* Kingfisher in Frameworks */,
-				FF7F89EF2C2AF7B600FC0ED5 /* SwiftSubtitles in Frameworks */,
+				3FC668C02F7CD3440072EBA8 /* XcodeTarget_podcasts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3004,15 +2939,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5F5096A2CEBF859007D6E39 /* Kingfisher in Frameworks */,
-				F5F508F82CEBE9A1007D6E39 /* PocketCastsDataModel in Frameworks */,
-				F5ADE2F72CF52B4800F2CEA7 /* AutomatticTracks in Frameworks */,
-				F5F5096C2CEBF871007D6E39 /* PocketCastsServer in Frameworks */,
-				F5F508F42CEBE985007D6E39 /* PocketCastsUtils in Frameworks */,
-				F5F509002CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				9A9004CE2E2E6462005879CB /* PocketCastsDependencyInjection in Frameworks */,
-				F5F509612CEBF6CB007D6E39 /* FirebaseRemoteConfig in Frameworks */,
-				F5F5096F2CEBF884007D6E39 /* Lottie in Frameworks */,
+				3FC668CC2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5548,7 +5475,7 @@
 			);
 			name = PodcastsIntents;
 			packageProductDependencies = (
-				BDD8AAC0267C859A0013494D /* Fuse */,
+				3FC668C52F7CD5020072EBA8 /* XcodeTarget_PodcastsIntents */,
 			);
 			productName = PodcastsIntents;
 			productReference = 403B5B1021813FFA00821A54 /* PodcastsIntents.appex */;
@@ -5571,7 +5498,7 @@
 			);
 			name = PodcastsIntentsUI;
 			packageProductDependencies = (
-				BDD8AAC2267C85A20013494D /* Fuse */,
+				3FC668C72F7CD5140072EBA8 /* XcodeTarget_PodcastsIntentsUI */,
 			);
 			productName = PodcastsIntentsUI;
 			productReference = 403B5B1921813FFA00821A54 /* PodcastsIntentsUI.appex */;
@@ -5595,7 +5522,7 @@
 			);
 			name = WidgetExtension;
 			packageProductDependencies = (
-				8BE36DF62873534A00E35313 /* PocketCastsUtils */,
+				3FC668C92F7CD51E0072EBA8 /* XcodeTarget_WidgetExtension */,
 			);
 			productName = WidgetExtensionExtension;
 			productReference = 4090974E25235DFA00CED68C /* WidgetExtension.appex */;
@@ -5677,7 +5604,7 @@
 			);
 			name = NotificationExtension;
 			packageProductDependencies = (
-				8BE36DE7287352A100E35313 /* PocketCastsServer */,
+				3FC668C12F7CD4A60072EBA8 /* XcodeTarget_NotificationExtension */,
 			);
 			productName = NotificationExtension;
 			productReference = BD3A210D1E6CFC2400F42241 /* NotificationExtension.appex */;
@@ -5749,26 +5676,7 @@
 			);
 			name = podcasts;
 			packageProductDependencies = (
-				BDBEE72C267C845E00BA43FB /* Lottie */,
-				BD44F74F267C850000810148 /* DifferenceKit */,
-				BDD8AABE267C858D0013494D /* Fuse */,
-				BDD239BC267C869B0047750C /* SwipeCellKit */,
-				46305CEF272B082C003AC87B /* AutomatticEncryptedLogs */,
-				468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */,
-				468F00D227CD575C00FFAAAA /* FirebasePerformance */,
-				468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */,
-				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
-				8BE36DFF2873552500E35313 /* PocketCastsServer */,
-				8BE36E022873552600E35313 /* PocketCastsUtils */,
-				C72CED33289DA28B0017883A /* AutomatticTracks */,
-				8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */,
-				8B365E4F2B62E82000143DAC /* Agrume */,
-				8B1762762B6808F700F44450 /* JLRoutes */,
-				8B1762792B684E7100F44450 /* Kingfisher */,
-				FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */,
-				9A11FCD32DA410F600A1EF3E /* GoogleCast */,
-				9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */,
-				FFBCADEA2E6578F900EA8287 /* WrappingHStack */,
+				3FC668BF2F7CD3440072EBA8 /* XcodeTarget_podcasts */,
 			);
 			productName = podcasts;
 			productReference = BDBD53EC17019B2A0048C8C5 /* podcasts.app */;
@@ -5795,12 +5703,7 @@
 			);
 			name = "Pocket Casts Watch App";
 			packageProductDependencies = (
-				FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */,
-				FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */,
-				FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */,
-				FF2CD5812B9F4B2D009B58B5 /* Kingfisher */,
-				9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */,
-				F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */,
+				3FC668C32F7CD4F70072EBA8 /* XcodeTarget_Pocket Casts Watch App */,
 			);
 			productName = "Pocket Casts Watch App";
 			productReference = BDD301641EFB9356004A9972 /* Pocket Casts Watch App.app */;
@@ -5960,19 +5863,6 @@
 			);
 			mainGroup = BDBD53E317019B290048C8C5;
 			packageReferences = (
-				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
-				BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */,
-				BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
-				46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */,
-				468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */,
-				8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */,
-				8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */,
-				9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */,
-				FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			preferredProjectObjectVersion = 51;
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
@@ -9809,311 +9699,34 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Automattic/Automattic-Tracks-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.1;
-			};
-		};
-		468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.23.0;
-			};
-		};
-		8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/joeldev/JLRoutes";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.1;
-			};
-		};
-		8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.10.2;
-			};
-		};
-		8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Automattic/Agrume";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.12;
-			};
-		};
-		9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Automattic/google-cast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1;
-			};
-		};
-		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ra1028/DifferenceKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
-		BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.0;
-			};
-		};
-		BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shiftyjelly/SwipeCellKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.6;
-			};
-		};
-		BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/krisk/fuse-swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.0;
-			};
-		};
-		C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.1.0;
-			};
-		};
-		FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dagronf/SwiftSubtitles";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.8.3;
-			};
-		};
-		FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		46305CEF272B082C003AC87B /* AutomatticEncryptedLogs */ = {
+		3FC668BF2F7CD3440072EBA8 /* XcodeTarget_podcasts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
-			productName = AutomatticEncryptedLogs;
+			productName = XcodeTarget_podcasts;
 		};
-		468F00CE27CD575C00FFAAAA /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+		3FC668C12F7CD4A60072EBA8 /* XcodeTarget_NotificationExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
+			productName = XcodeTarget_NotificationExtension;
 		};
-		468F00D227CD575C00FFAAAA /* FirebasePerformance */ = {
+		3FC668C32F7CD4F70072EBA8 /* XcodeTarget_Pocket Casts Watch App */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebasePerformance;
+			productName = "XcodeTarget_Pocket Casts Watch App";
 		};
-		468F00D427CD575C00FFAAAA /* FirebaseRemoteConfig */ = {
+		3FC668C52F7CD5020072EBA8 /* XcodeTarget_PodcastsIntents */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseRemoteConfig;
+			productName = XcodeTarget_PodcastsIntents;
 		};
-		8B1762762B6808F700F44450 /* JLRoutes */ = {
+		3FC668C72F7CD5140072EBA8 /* XcodeTarget_PodcastsIntentsUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8B1762752B6808F700F44450 /* XCRemoteSwiftPackageReference "JLRoutes" */;
-			productName = JLRoutes;
+			productName = XcodeTarget_PodcastsIntentsUI;
 		};
-		8B1762792B684E7100F44450 /* Kingfisher */ = {
+		3FC668C92F7CD51E0072EBA8 /* XcodeTarget_WidgetExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
+			productName = XcodeTarget_WidgetExtension;
 		};
-		8B17627B2B684ED300F44450 /* Kingfisher */ = {
+		3FC668CB2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		8B365E4F2B62E82000143DAC /* Agrume */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8B365E4E2B62E82000143DAC /* XCRemoteSwiftPackageReference "Agrume" */;
-			productName = Agrume;
-		};
-		8BAD6E5D2975ADB800DB7259 /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C7F01AF82911882500EE15D5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		8BE36DE7287352A100E35313 /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		8BE36DEA287352F200E35313 /* PocketCastsDataModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDataModel;
-		};
-		8BE36DED287352F600E35313 /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		8BE36DF32873533F00E35313 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
-		};
-		8BE36DF62873534A00E35313 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
-		};
-		8BE36DFC2873552500E35313 /* PocketCastsDataModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDataModel;
-		};
-		8BE36DFF2873552500E35313 /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		8BE36E022873552600E35313 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
-		};
-		9A11FCD32DA410F600A1EF3E /* GoogleCast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A11FCD22DA410F600A1EF3E /* XCRemoteSwiftPackageReference "google-cast" */;
-			productName = GoogleCast;
-		};
-		9A9004C72E2E6447005879CB /* PocketCastsDependencyInjection */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDependencyInjection;
-		};
-		9A9004CA2E2E6455005879CB /* PocketCastsDependencyInjection */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDependencyInjection;
-		};
-		9A9004CD2E2E6462005879CB /* PocketCastsDependencyInjection */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDependencyInjection;
-		};
-		BD44F74F267C850000810148 /* DifferenceKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */;
-			productName = DifferenceKit;
-		};
-		BDBEE72C267C845E00BA43FB /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
-		};
-		BDD239BC267C869B0047750C /* SwipeCellKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
-			productName = SwipeCellKit;
-		};
-		BDD8AABE267C858D0013494D /* Fuse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */;
-			productName = Fuse;
-		};
-		BDD8AAC0267C859A0013494D /* Fuse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */;
-			productName = Fuse;
-		};
-		BDD8AAC2267C85A20013494D /* Fuse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */;
-			productName = Fuse;
-		};
-		C72CED33289DA28B0017883A /* AutomatticTracks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
-			productName = AutomatticTracks;
-		};
-		F5ADE2F62CF52B4800F2CEA7 /* AutomatticTracks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
-			productName = AutomatticTracks;
-		};
-		F5CDD79D2F4D1AB400D1B221 /* AutomatticTracks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 46305CEE272B082C003AC87B /* XCRemoteSwiftPackageReference "Automattic-Tracks-iOS" */;
-			productName = AutomatticTracks;
-		};
-		F5F508F32CEBE985007D6E39 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
-		};
-		F5F508F72CEBE9A1007D6E39 /* PocketCastsDataModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDataModel;
-		};
-		F5F508FF2CEBEA24007D6E39 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		F5F509602CEBF6CB007D6E39 /* FirebaseRemoteConfig */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 468F00CD27CD575C00FFAAAA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseRemoteConfig;
-		};
-		F5F509692CEBF859007D6E39 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		F5F5096B2CEBF871007D6E39 /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		F5F5096E2CEBF884007D6E39 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
-		};
-		FF2CD57B2B9F4B2D009B58B5 /* PocketCastsDataModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsDataModel;
-		};
-		FF2CD57D2B9F4B2D009B58B5 /* PocketCastsServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsServer;
-		};
-		FF2CD57F2B9F4B2D009B58B5 /* PocketCastsUtils */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PocketCastsUtils;
-		};
-		FF2CD5812B9F4B2D009B58B5 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8B1762782B684E7100F44450 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		FF7F89EE2C2AF7B600FC0ED5 /* SwiftSubtitles */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FF7F89EB2C2AF53C00FC0ED5 /* XCRemoteSwiftPackageReference "SwiftSubtitles" */;
-			productName = SwiftSubtitles;
-		};
-		FFBCADEA2E6578F900EA8287 /* WrappingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FFBCADE92E65770300EA8287 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
-			productName = WrappingHStack;
+			productName = "XcodeTarget_Pocket Casts App Clip";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
