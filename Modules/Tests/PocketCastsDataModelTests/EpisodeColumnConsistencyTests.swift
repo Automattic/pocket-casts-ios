@@ -93,6 +93,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
             XCTAssertEqual(loaded.deselectedChapters, original.deselectedChapters, "\(implementationName): deselectedChapters should match")
             XCTAssertEqual(loaded.deselectedChaptersModified, original.deselectedChaptersModified, "\(implementationName): deselectedChaptersModified should match")
             XCTAssertEqual(loaded.wasDeleted, original.wasDeleted, "\(implementationName): wasDeleted should match")
+            XCTAssertEqual(loaded.hasGeneratedTranscript, original.hasGeneratedTranscript, "\(implementationName): hasGeneratedTranscript should match")
             XCTAssertEqual(loaded.podcast_id, original.podcast_id, "\(implementationName): podcast_id should match")
             self.assertDatesEqual(loaded.addedDate, original.addedDate, "\(implementationName): addedDate should match")
             self.assertDatesEqual(loaded.publishedDate, original.publishedDate, "\(implementationName): publishedDate should match")
