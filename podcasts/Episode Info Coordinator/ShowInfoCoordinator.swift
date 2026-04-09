@@ -74,9 +74,11 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
             let externalTranscripts = metadata?.transcripts ?? []
             var pocketCastsTranscripts: [Episode.Metadata.Transcript] = []
             if let episode = dataManager.findEpisode(uuid: episodeUuid),
-               episode.hasGeneratedTranscript {
-                let transcript = buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-                pocketCastsTranscripts = [transcript]
+               let hasTranscript = episode.hasGeneratedTranscript {
+                if hasTranscript {
+                    let transcript = buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                    pocketCastsTranscripts = [transcript]
+                }
             } else {
                 pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
             }

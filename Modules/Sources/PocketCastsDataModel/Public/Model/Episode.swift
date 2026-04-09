@@ -53,7 +53,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
     @objc public var wasDeleted = false
-    @objc public var hasGeneratedTranscript = false
+    public var hasGeneratedTranscript: Bool? = nil
 
     public var hasBookmarks: Bool {
         // This wil cause a regression in which the bookmarks won't be displayed

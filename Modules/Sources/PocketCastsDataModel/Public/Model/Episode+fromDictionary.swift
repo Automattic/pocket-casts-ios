@@ -41,6 +41,8 @@ extension Episode {
 
         if let type = episodeJson["has_generated_transcript"] as? Bool {
             episode.hasGeneratedTranscript = type
+        } else {
+            episode.hasGeneratedTranscript = nil
         }
 
         return episode
