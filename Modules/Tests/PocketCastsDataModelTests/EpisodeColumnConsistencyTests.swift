@@ -192,6 +192,7 @@ final class EpisodeColumnConsistencyTests: DataManagerTestCase {
         episode.lastPlaybackInteractionDate = Date()
         episode.lastPlaybackInteractionSyncStatus = 1
         episode.lastArchiveInteractionDate = Date()
+        episode.hasGeneratedTranscript = true
         return episode
     }
 }
