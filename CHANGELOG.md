@@ -1,6 +1,6 @@
 8.10
 -----
-
+- Watch Stop playing a sound on play. [#4118](https://github.com/Automattic/pocket-casts-ios/pull/4118)
 
 8.9
 -----
