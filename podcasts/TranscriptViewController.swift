@@ -779,13 +779,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
+        print("[TranscriptTap] cue.startTime=\(cue.startTime) cue.endTime=\(cue.endTime) fraction=\(String(format: "%.2f", fraction)) -> referenceTime=\(String(format: "%.2f", referenceTime))")
+
         let seekTime: TimeInterval
         if let playbackTime = FingerprintTimingManager.shared.seekPlaybackTime(forReferenceTime: referenceTime) {
+            print("[TranscriptTap] Mapped referenceTime=\(String(format: "%.2f", referenceTime)) -> playbackTime=\(String(format: "%.2f", playbackTime))")
             seekTime = playbackTime
         } else {
+            print("[TranscriptTap] No mapping available, using referenceTime directly: \(String(format: "%.2f", referenceTime))")
             seekTime = referenceTime
         }
 
+        print("[TranscriptTap] Seeking to: \(String(format: "%.2f", seekTime))")
         PlaybackManager.shared.seekTo(time: seekTime)
     }
 

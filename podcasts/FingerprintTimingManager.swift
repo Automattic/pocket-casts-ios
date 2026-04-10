@@ -18,7 +18,8 @@ class FingerprintTimingManager {
     private var currentMatcher: CheckpointMatcher?
     private var currentReference: ReferenceData?
     private var currentIsStreaming: Bool = false
-    private var timeMapping: [TimeMappingEntry] = []
+    private var timeMapping: [TimeMappingEntry] = []        // sorted by playbackTime
+    private var timeMappingByRef: [TimeMappingEntry] = []  // sorted by referenceTime
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "com.pocketcasts.fingerprint", qos: .userInitiated)
     private var isCancelled = false
@@ -158,7 +159,7 @@ class FingerprintTimingManager {
 
     func playbackTime(forReferenceTime refTime: TimeInterval) -> TimeInterval? {
         lock.lock()
-        let mapping = timeMapping
+        let mapping = timeMappingByRef
         let active = isActive
         lock.unlock()
 
@@ -222,6 +223,7 @@ class FingerprintTimingManager {
         currentReference = nil
         currentIsStreaming = false
         timeMapping = []
+        timeMappingByRef = []
         isActive = false
         lastKnownPlaybackPosition = 0
         lock.unlock()
@@ -354,17 +356,39 @@ class FingerprintTimingManager {
         guard !windows.isEmpty else { return }
 
         var newEntries: [TimeMappingEntry] = []
+        var scoreDistribution: [String: Int] = ["<0.5": 0, "0.5-0.7": 0, "0.7-0.85": 0, "0.85+": 0]
+        var refTimestampCounts: [Float: Int] = [:]
+
         for (i, window) in windows.enumerated() {
-            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 1)
-            if i < 10, let best = matches.first {
-                print("[FingerprintTiming] Window @\(window.timestampMs)ms (\(window.hashes.count)h) -> ref @\(best.timestamp)s score=\(String(format: "%.3f", best.score))")
+            // Get top 3 to see if there's a dominant checkpoint
+            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 3)
+            if i < 10, !matches.isEmpty {
+                let matchDesc = matches.prefix(3).map { "ref@\($0.timestamp)s=\(String(format: "%.3f", $0.score))" }.joined(separator: ", ")
+                print("[FingerprintTiming] Window @\(window.timestampMs)ms (\(window.hashes.count)h) -> [\(matchDesc)]")
             }
-            guard let best = matches.first, best.score > 0.5 else { continue }
+            guard let best = matches.first else { continue }
+
+            // Track score distribution
+            if best.score < 0.5 { scoreDistribution["<0.5"]! += 1 }
+            else if best.score < 0.7 { scoreDistribution["0.5-0.7"]! += 1 }
+            else if best.score < 0.85 { scoreDistribution["0.7-0.85"]! += 1 }
+            else { scoreDistribution["0.85+"]! += 1 }
+
+            guard best.score > 0.5 else { continue }
+
+            refTimestampCounts[best.timestamp, default: 0] += 1
             newEntries.append(TimeMappingEntry(
                 playbackTime: Double(window.timestampMs) / 1000.0,
                 referenceTime: Double(best.timestamp),
                 score: best.score
             ))
+        }
+
+        print("[FingerprintTiming] Score distribution: \(scoreDistribution)")
+        if !refTimestampCounts.isEmpty {
+            let sorted = refTimestampCounts.sorted { $0.value > $1.value }
+            let topRefs = sorted.prefix(5).map { "ref@\($0.key)s=\($0.value)x" }.joined(separator: ", ")
+            print("[FingerprintTiming] Top matched ref timestamps: \(topRefs) (unique=\(refTimestampCounts.count))")
         }
 
         guard !newEntries.isEmpty else { return }
@@ -376,10 +400,15 @@ class FingerprintTimingManager {
         }
         timeMapping.append(contentsOf: newEntries)
         timeMapping.sort { $0.playbackTime < $1.playbackTime }
+        timeMappingByRef.append(contentsOf: newEntries)
+        timeMappingByRef.sort { $0.referenceTime < $1.referenceTime }
         if timeMapping.count >= 2 && !isActive {
             isActive = true
-            print("[FingerprintTiming] Active with \(timeMapping.count) mapping points")
         }
+        let count = timeMapping.count
+        let refFirst = timeMappingByRef.first!
+        let refLast = timeMappingByRef.last!
+        print("[FingerprintTiming] Mapping: \(count) entries, ref=[\(String(format: "%.1f", refFirst.referenceTime))..\(String(format: "%.1f", refLast.referenceTime))] playback=[\(String(format: "%.1f", timeMapping.first!.playbackTime))..\(String(format: "%.1f", timeMapping.last!.playbackTime))]")
         lock.unlock()
     }
 
