@@ -199,7 +199,7 @@ extension NowPlayingPlayerItemViewController {
     func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
         AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .fullPlayer)
         // Move error container in view
-        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: ThemeColor.playerContrast02(), interactiveColor: ThemeColor.playerContrast03())
+        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: ThemeColor.playerContrast02(), interactiveColor: ThemeColor.primaryInteractive01())
         errorContainer.layoutIfNeeded()
         errorBottomSpacing.constant = 0
         playerBottomSpacing.constant = 16
