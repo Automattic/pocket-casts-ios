@@ -2106,8 +2106,12 @@ MISES À JOUR</string>
     <string>Épisode supprimé</string>
     <key>player_error_corrupted_file</key>
     <string>L’épisode peut être corrompu, mais vous pouvez essayer de le lire à nouveau.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Épisode non disponible</string>
     <key>player_error_internet_connection</key>
     <string>Vérifiez votre connexion Internet et réessayez.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Vous êtes hors ligne</string>
     <key>player_increment_time</key>
     <string>Incrémenter le temps</string>
     <key>player_mark_as_played_confirmation</key>

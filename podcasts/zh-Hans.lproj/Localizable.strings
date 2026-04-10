@@ -2106,8 +2106,12 @@ Pocket Casts。</string>
     <string>剧集已删除</string>
     <key>player_error_corrupted_file</key>
     <string>剧集可能已损坏，但您可以尝试再次播放。</string>
+    <key>player_error_episode_not_available</key>
+    <string>剧集暂不可用</string>
     <key>player_error_internet_connection</key>
     <string>检查互联网连接并重试。</string>
+    <key>player_error_short_no_connection</key>
+    <string>您处于离线状态</string>
     <key>player_increment_time</key>
     <string>增量时间</string>
     <key>player_mark_as_played_confirmation</key>
