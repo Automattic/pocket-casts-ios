@@ -53,6 +53,7 @@ public class Episode: NSObject, BaseEpisode {
     @objc public var deselectedChapters: String?
     @objc public var deselectedChaptersModified = 0 as Int64
     @objc public var wasDeleted = false
+    public var hasGeneratedTranscript: Bool? = nil
 
     public var hasBookmarks: Bool {
         // This wil cause a regression in which the bookmarks won't be displayed
@@ -222,6 +223,12 @@ public class Episode: NSObject, BaseEpisode {
             public let url: String
             public let type: String
             public let language: String?
+
+            public init(url: String, type: String, language: String?) {
+                self.url = url
+                self.type = type
+                self.language = language
+            }
         }
     }
 }

@@ -64,6 +64,10 @@ class GRDBResultSet: PCDBResultSet {
         row[forColumn] ?? false
     }
 
+    func optionalBool(forColumn: String) -> Bool? {
+        row[forColumn]
+    }
+
     func double(forColumn: String) -> Double {
         // GRDB sometimes convert the date right away to a String
         // When casting back to double, it becomes the year, which mess up

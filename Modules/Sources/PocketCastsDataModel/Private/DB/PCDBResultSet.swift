@@ -21,6 +21,8 @@ public protocol PCDBResultSet {
 
     func bool(forColumn: String) -> Bool
 
+    func optionalBool(forColumn: String) -> Bool?
+
     func double(forColumn: String) -> Double
 
     func date(forColumn: String) -> Date?
