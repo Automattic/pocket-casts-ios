@@ -307,6 +307,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Track network data usage per episode/connection type in the NetworkDataUsage table
     case trackNetworkDataUsage
 
+    /// If enabled, send explicit watch-related error logs to Sentry.
+    /// This does not control automatic crash reporting.
+    case watchSentryLogs
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -368,7 +372,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .customPlaybackSettings:
             true
         case .runVacuumOnVersionUpdate:
-            true
+            false
         case .endOfYear2024:
             false
         case .upNextShuffle:
@@ -515,6 +519,8 @@ public enum FeatureFlag: String, CaseIterable {
 			true
         case .trackNetworkDataUsage:
             true
+        case .watchSentryLogs:
+            false
         }
     }
 

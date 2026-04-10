@@ -2106,8 +2106,12 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуск удалён</string>
     <key>player_error_corrupted_file</key>
     <string>Выпуск может быть поврежден, но вы можете попробовать прослушать его снова.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Выпуск недоступен</string>
     <key>player_error_internet_connection</key>
     <string>Проверьте подключение к Интернету и повторите попытку.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Отсутствует подключение к Интернету</string>
     <key>player_increment_time</key>
     <string>Интервал перемотки вперед</string>
     <key>player_mark_as_played_confirmation</key>

@@ -2106,8 +2106,12 @@ Questa sì che è dedizione!</string>
     <string>Episodio rimosso</string>
     <key>player_error_corrupted_file</key>
     <string>L'episodio potrebbe essere danneggiato, ma puoi provare a riprodurlo di nuovo.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Episodio non disponibile</string>
     <key>player_error_internet_connection</key>
     <string>Controlla la tua connessione a Internet e riprova.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Sei offline</string>
     <key>player_increment_time</key>
     <string>Aumenta ora</string>
     <key>player_mark_as_played_confirmation</key>
