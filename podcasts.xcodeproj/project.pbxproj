@@ -2892,6 +2892,20 @@
 			);
 			target = 4694FA5F2799C80300E9CF70 /* Screenshot Automation */;
 		};
+		FF609D032F8909CD00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"String+SentenceCase.swift",
+			);
+			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
+		};
+		FF609D042F8909CD00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"String+SentenceCase.swift",
+			);
+			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */

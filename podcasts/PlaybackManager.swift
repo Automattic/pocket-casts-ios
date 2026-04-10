@@ -1017,7 +1017,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         func shortUserAttributedMessage(mainColor: UIColor, interactiveColor: UIColor) -> NSAttributedString {
             let baseText = self.shortUserMessage
-            let learnMore = L10n.learnMore
+            let learnMore: String = String(L10n.learnMore).sentenceCased
             let attributedString = NSMutableAttributedString(string: baseText, attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)])
             if self.userAction != nil {
                 attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
