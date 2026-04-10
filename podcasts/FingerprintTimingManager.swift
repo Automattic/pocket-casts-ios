@@ -281,8 +281,24 @@ class FingerprintTimingManager {
     private func processFile(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData) {
         print("[FingerprintTiming] Starting fingerprinting for \(uuid)")
 
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: audioFilePath)) else {
-            print("[FingerprintTiming] Failed to read file")
+        // Wait for the file to exist and have data (streaming buffer may not be ready yet)
+        let fileURL = URL(fileURLWithPath: audioFilePath)
+        var data: Data?
+        for _ in 0..<60 {
+            lock.lock()
+            let cancelled = isCancelled
+            lock.unlock()
+            if cancelled { return }
+
+            if let d = try? Data(contentsOf: fileURL), !d.isEmpty {
+                data = d
+                break
+            }
+            Thread.sleep(forTimeInterval: 1.0)
+        }
+
+        guard let data else {
+            print("[FingerprintTiming] Failed to read file after waiting")
             return
         }
 
