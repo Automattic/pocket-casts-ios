@@ -2892,19 +2892,19 @@
 			);
 			target = 4694FA5F2799C80300E9CF70 /* Screenshot Automation */;
 		};
-		FF609D032F8909CD00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"String+SentenceCase.swift",
-			);
-			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
-		};
-		FF609D042F8909CD00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		FF60EC562F890CF400B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"String+SentenceCase.swift",
 			);
 			target = F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */;
+		};
+		FF60EC582F890D1F00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"String+SentenceCase.swift",
+			);
+			target = BDD301631EFB9356004A9972 /* Pocket Casts Watch App */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -2945,7 +2945,7 @@
 		3F7479452F555197004C7FF6 /* ABTest */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74794E2F555197004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ABTest; sourceTree = "<group>"; };
 		3F7479522F55519F004C7FF6 /* Unlockable */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74795C2F55519F004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Unlockable; sourceTree = "<group>"; };
 		3F7479C32F5551AA004C7FF6 /* Analytics */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F7479EC2F5551AA004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F7479ED2F5551AA004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Analytics; sourceTree = "<group>"; };
-		3F747A532F5553A1004C7FF6 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+		3F747A532F5553A1004C7FF6 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF60EC582F890D1F00B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FF60EC562F890CF400B409BC /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		3F747A542F5598A2004C7FF6 /* Playback */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Playback; sourceTree = "<group>"; };
 		3F747A5A2F559925004C7FF6 /* Notifications */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Notifications; sourceTree = "<group>"; };
 		3FDAD4E72F46D75100CC3259 /* NotificationContent */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD4EC2F46D75100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationContent; sourceTree = "<group>"; };
