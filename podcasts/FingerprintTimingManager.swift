@@ -1,4 +1,3 @@
-import AVFoundation
 import Foundation
 import Fingerprint
 import PocketCastsDataModel
@@ -23,7 +22,6 @@ class FingerprintTimingManager {
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "com.pocketcasts.fingerprint", qos: .userInitiated)
     private var isCancelled = false
-    private var generationId: Int = 0
     private var lastKnownPlaybackPosition: Double = 0
 
     private(set) var isActive: Bool = false
@@ -66,63 +64,7 @@ class FingerprintTimingManager {
     }
 
     @objc private func onPlaybackProgress() {
-        let currentPos = PlaybackManager.shared.currentTime()
-        let delta = abs(currentPos - lastKnownPlaybackPosition)
-        lastKnownPlaybackPosition = currentPos
-
-        guard currentEpisodeUUID != nil, currentFilePath != nil else { return }
-
-        // Restart if playback jumped significantly
-        if delta > 10 {
-            restartFromCurrentPosition()
-            return
-        }
-
-        // Also restart if playback is outside the fingerprinted range
-        lock.lock()
-        let mapping = timeMapping
-        let active = isActive
-        lock.unlock()
-
-        if active, mapping.count >= 2,
-           let first = mapping.first, let last = mapping.last {
-            let margin = 30.0
-            if currentPos < first.playbackTime - margin || currentPos > last.playbackTime + margin {
-                restartFromCurrentPosition()
-            }
-        }
-    }
-
-    private func restartFromCurrentPosition() {
-        lock.lock()
-        guard let uuid = currentEpisodeUUID,
-              let filePath = currentFilePath,
-              let matcher = currentMatcher,
-              let reference = currentReference else {
-            lock.unlock()
-            return
-        }
-        let streaming = currentIsStreaming
-        // Cancel current processing
-        isCancelled = true
-        generationId += 1
-        let gen = generationId
-        lock.unlock()
-
-        // Dispatch new processing — the old one will see isCancelled and exit
-        queue.async { [weak self] in
-            guard let self else { return }
-            self.lock.lock()
-            // Only proceed if we're still the latest generation
-            guard self.generationId == gen else {
-                self.lock.unlock()
-                return
-            }
-            self.isCancelled = false
-            self.lock.unlock()
-
-            self.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference, isStreaming: streaming)
-        }
+        lastKnownPlaybackPosition = PlaybackManager.shared.currentTime()
     }
 
     func onEpisodePlay(episode: BaseEpisode) {
@@ -137,7 +79,7 @@ class FingerprintTimingManager {
         lock.lock()
         currentEpisodeUUID = uuid
         isCancelled = false
-        generationId += 1
+
         lastKnownPlaybackPosition = PlaybackManager.shared.currentTime()
         lock.unlock()
 
@@ -147,14 +89,20 @@ class FingerprintTimingManager {
         }
 
         let isDownloaded = episode.downloaded(pathFinder: DownloadManager.shared)
+        let isBuffered = episode.bufferedForStreaming()
         let filePath: String
         if isDownloaded {
             filePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
         } else {
             filePath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
         }
+        let fileSize = (try? FileManager.default.attributesOfItem(atPath: filePath)[.size] as? UInt64) ?? 0
+        print("[FingerprintTiming] Episode status: downloaded=\(isDownloaded), buffered=\(isBuffered), path=\(filePath), fileSize=\(fileSize)")
 
         let matcher = CheckpointMatcher.withDrift(maxDrift: 5)
+        if reference.topK > 0 {
+            matcher.setTopK(topK: UInt32(reference.topK))
+        }
         for checkpoint in reference.checkpoints {
             matcher.add(
                 timestamp: checkpoint.timestamp,
@@ -242,139 +190,9 @@ class FingerprintTimingManager {
         return entry0.playbackTime + fraction * (entry1.playbackTime - entry0.playbackTime)
     }
 
-    /// Like `playbackTime(forReferenceTime:)` but if the target is outside the mapped range,
-    /// performs a targeted fingerprint of that region to get an accurate result.
+    /// Like `playbackTime(forReferenceTime:)` but triggers a background re-fingerprint
+    /// if the target is outside the mapped range.
     func seekPlaybackTime(forReferenceTime refTime: TimeInterval) -> TimeInterval? {
-        // Try existing mapping first
-        if let result = playbackTime(forReferenceTime: refTime) {
-            lock.lock()
-            let mapping = timeMapping
-            lock.unlock()
-            // Only trust if refTime is within the mapped range
-            if let first = mapping.first, let last = mapping.last,
-               refTime >= first.referenceTime, refTime <= last.referenceTime {
-                return result
-            }
-        }
-
-        // Need to jump-ahead fingerprint
-        lock.lock()
-        let filePath = currentFilePath
-        let matcher = currentMatcher
-        let reference = currentReference
-        let uuid = currentEpisodeUUID
-        let mapping = timeMapping
-        lock.unlock()
-
-        guard let filePath, let matcher, let reference, let uuid else { return nil }
-
-        // Estimate the file position: extrapolate from last mapping point if available,
-        // otherwise use refTime directly as approximate seconds offset
-        let estimatedPlaybackTime: Double
-        if let last = mapping.last, last.referenceTime > 0 {
-            let offset = last.playbackTime - last.referenceTime
-            estimatedPlaybackTime = refTime + offset
-        } else {
-            estimatedPlaybackTime = refTime
-        }
-
-        let fileURL = URL(fileURLWithPath: filePath)
-        guard let audioFile = try? AVAudioFile(
-            forReading: fileURL,
-            commonFormat: .pcmFormatFloat32,
-            interleaved: false
-        ) else { return nil }
-
-        let sampleRate = audioFile.fileFormat.sampleRate
-        let channels = UInt16(audioFile.processingFormat.channelCount)
-        let seekSeconds = max(0, estimatedPlaybackTime - 5)
-        let seekFrame = AVAudioFramePosition(seekSeconds * sampleRate)
-        audioFile.framePosition = min(seekFrame, audioFile.length)
-
-        let fingerprinter = StreamingWindowedFingerprinter(
-            sampleRate: UInt32(sampleRate),
-            channels: channels,
-            windowDurationMs: UInt32(reference.checkpointDuration * 1000),
-            windowIntervalMs: UInt32(reference.checkpointInterval * 1000)
-        )
-
-        // Read ~15 seconds of audio
-        let framesToRead = AVAudioFrameCount(15.0 * sampleRate)
-        let bufferSize: AVAudioFrameCount = 8192
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: bufferSize) else {
-            return nil
-        }
-
-        var framesRead: AVAudioFrameCount = 0
-        while framesRead < framesToRead, audioFile.framePosition < audioFile.length {
-            do {
-                try audioFile.read(into: buffer)
-            } catch {
-                break
-            }
-            guard buffer.frameLength > 0, let channelData = buffer.floatChannelData else { break }
-
-            let frames = Int(buffer.frameLength)
-            let chCount = Int(channels)
-            var interleaved = [Float](repeating: 0, count: frames * chCount)
-            for frame in 0..<frames {
-                for ch in 0..<chCount {
-                    interleaved[frame * chCount + ch] = channelData[ch][frame]
-                }
-            }
-            let windows = fingerprinter.pushSamplesF32(samples: interleaved, channels: channels)
-
-            // Offset timestamps: the fingerprinter counts from 0 but we started at seekSeconds
-            var newEntries: [TimeMappingEntry] = []
-            for window in windows {
-                let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 1)
-                guard let best = matches.first, best.score > 0.5 else { continue }
-                newEntries.append(TimeMappingEntry(
-                    playbackTime: seekSeconds + Double(window.timestampMs) / 1000.0,
-                    referenceTime: Double(best.timestamp),
-                    score: best.score
-                ))
-            }
-            if !newEntries.isEmpty {
-                lock.lock()
-                guard currentEpisodeUUID == uuid else {
-                    lock.unlock()
-                    return nil
-                }
-                timeMapping.append(contentsOf: newEntries)
-                timeMapping.sort { $0.playbackTime < $1.playbackTime }
-                if timeMapping.count >= 2 { isActive = true }
-                lock.unlock()
-            }
-
-            framesRead += buffer.frameLength
-        }
-
-        // Flush
-        let finalWindows = fingerprinter.flush()
-        var finalEntries: [TimeMappingEntry] = []
-        for window in finalWindows {
-            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 1)
-            guard let best = matches.first, best.score > 0.5 else { continue }
-            finalEntries.append(TimeMappingEntry(
-                playbackTime: seekSeconds + Double(window.timestampMs) / 1000.0,
-                referenceTime: Double(best.timestamp),
-                score: best.score
-            ))
-        }
-        if !finalEntries.isEmpty {
-            lock.lock()
-            guard currentEpisodeUUID == uuid else {
-                lock.unlock()
-                return nil
-            }
-            timeMapping.append(contentsOf: finalEntries)
-            timeMapping.sort { $0.playbackTime < $1.playbackTime }
-            if timeMapping.count >= 2 { isActive = true }
-            lock.unlock()
-        }
-
-        // Now try the lookup again with the new mapping points
         return playbackTime(forReferenceTime: refTime)
     }
 
@@ -397,7 +215,7 @@ class FingerprintTimingManager {
     func reset() {
         lock.lock()
         isCancelled = true
-        generationId += 1
+
         currentEpisodeUUID = nil
         currentFilePath = nil
         currentMatcher = nil
@@ -409,31 +227,17 @@ class FingerprintTimingManager {
         lock.unlock()
     }
 
-    // MARK: - Progressive File Reading
+    // MARK: - Batch File Fingerprinting
 
     private func processFileProgressively(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData, isStreaming: Bool = false) {
-        let playbackPos = PlaybackManager.shared.currentTime()
-        let interval = Double(reference.checkpointInterval)
-        let warmupStart = max(0, floor((playbackPos - Double(reference.checkpointDuration)) / interval) * interval)
+        print("[FingerprintTiming] Starting batch fingerprinting for \(uuid), streaming=\(isStreaming)")
 
-        print("[FingerprintTiming] Starting progressive fingerprinting for \(uuid), playback=\(playbackPos)s, warmup=\(warmupStart)s, streaming=\(isStreaming)")
-
-        let fileURL = URL(fileURLWithPath: audioFilePath)
-
-        // Pass 1: from warmup position forward to EOF
-        fingerprintFileRange(
-            fileURL: fileURL, from: warmupStart, to: .infinity,
-            reference: reference, matcher: matcher, uuid: uuid,
-            waitForGrowth: isStreaming
-        )
-
-        // Pass 2: fill in from 0 up to where we started
-        if warmupStart > 0 {
-            fingerprintFileRange(
-                fileURL: fileURL, from: 0, to: warmupStart + Double(reference.checkpointDuration),
-                reference: reference, matcher: matcher, uuid: uuid,
-                waitForGrowth: isStreaming
-            )
+        if isStreaming {
+            // For streaming: poll for file data and fingerprint as it grows
+            fingerprintStreamingFile(path: audioFilePath, reference: reference, matcher: matcher, uuid: uuid)
+        } else {
+            // For downloaded: read the whole file and fingerprint it
+            fingerprintLocalFile(path: audioFilePath, reference: reference, matcher: matcher, uuid: uuid)
         }
 
         lock.lock()
@@ -442,153 +246,102 @@ class FingerprintTimingManager {
         print("[FingerprintTiming] Done: \(count) mapping points for \(uuid)")
     }
 
-    private func fingerprintFileRange(
-        fileURL: URL, from startSeconds: Double, to endSeconds: Double,
-        reference: ReferenceData, matcher: CheckpointMatcher, uuid: String,
-        waitForGrowth: Bool = false
-    ) {
-        guard let audioFile = try? AVAudioFile(
-            forReading: fileURL,
-            commonFormat: .pcmFormatFloat32,
-            interleaved: false
-        ) else {
-            if waitForGrowth {
-                // File might not exist yet — wait for it
-                var retries = 0
-                while retries < 30 {
-                    lock.lock()
-                    let cancelled = isCancelled
-                    lock.unlock()
-                    if cancelled { return }
-                    Thread.sleep(forTimeInterval: 1.0)
-                    retries += 1
-                    if let _ = try? AVAudioFile(forReading: fileURL, commonFormat: .pcmFormatFloat32, interleaved: false) {
-                        // Retry the whole method now that the file exists
-                        fingerprintFileRange(fileURL: fileURL, from: startSeconds, to: endSeconds, reference: reference, matcher: matcher, uuid: uuid, waitForGrowth: waitForGrowth)
-                        return
-                    }
-                }
-            }
+    private func fingerprintLocalFile(path: String, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String) {
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            print("[FingerprintTiming] Failed to read file")
             return
         }
+        var knownTimestamps: Set<UInt32> = []
+        fingerprintData(data, reference: reference, matcher: matcher, uuid: uuid, knownTimestamps: &knownTimestamps)
+    }
 
-        let sampleRate = audioFile.fileFormat.sampleRate
-        let channels = UInt16(audioFile.processingFormat.channelCount)
-
-        let startFrame = AVAudioFramePosition(startSeconds * sampleRate)
-        audioFile.framePosition = min(startFrame, audioFile.length)
-
-        let endFrame: AVAudioFramePosition
-        if endSeconds == .infinity {
-            endFrame = AVAudioFramePosition.max
-        } else {
-            endFrame = min(AVAudioFramePosition(endSeconds * sampleRate), AVAudioFramePosition.max)
-        }
-
-        let fingerprinter = StreamingWindowedFingerprinter(
-            sampleRate: UInt32(sampleRate),
-            channels: channels,
-            windowDurationMs: UInt32(reference.checkpointDuration * 1000),
-            windowIntervalMs: UInt32(reference.checkpointInterval * 1000)
-        )
-
-        let bufferSize: AVAudioFrameCount = 8192
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: bufferSize) else {
-            return
-        }
-
+    private func fingerprintStreamingFile(path: String, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String) {
+        var lastProcessedSize: UInt64 = 0
         var stallCount = 0
+        var knownTimestamps: Set<UInt32> = []
 
-        while audioFile.framePosition < endFrame {
+        while stallCount < 120 {
             lock.lock()
             let cancelled = isCancelled
             lock.unlock()
             if cancelled { return }
 
-            // Re-check file length for streaming (file may have grown)
-            if waitForGrowth {
-                if let attrs = try? FileManager.default.attributesOfItem(atPath: fileURL.path),
-                   let fileSize = attrs[.size] as? UInt64 {
-                    // AVAudioFile.length may be stale; check raw file size
-                    let currentLength = audioFile.length
-                    if audioFile.framePosition >= currentLength {
-                        // We've caught up — wait for more data
-                        stallCount += 1
-                        if stallCount > 60 { break } // give up after ~60 seconds of no growth
-                        Thread.sleep(forTimeInterval: 1.0)
-                        // Reopen to get updated length
-                        guard let reopened = try? AVAudioFile(forReading: fileURL, commonFormat: .pcmFormatFloat32, interleaved: false) else { break }
-                        if reopened.length <= currentLength {
-                            continue // still no growth
-                        }
-                        // Seek the new file to where we left off
-                        reopened.framePosition = audioFile.framePosition
-                        // Can't reassign audioFile (let), so just process in a new call
-                        // Flush current fingerprinter first
-                        let flushWindows = fingerprinter.flush()
-                        let offset = startSeconds
-                        let offsetFlush = flushWindows.map { w in
-                            WindowedFingerprint(timestampMs: w.timestampMs + UInt32(offset * 1000), durationMs: w.durationMs, hashes: w.hashes)
-                        }
-                        processWindows(offsetFlush, matcher: matcher, uuid: uuid)
-                        // Continue with a new range from current position
-                        let currentSeconds = Double(audioFile.framePosition) / sampleRate + startSeconds
-                        fingerprintFileRange(fileURL: fileURL, from: currentSeconds, to: endSeconds, reference: reference, matcher: matcher, uuid: uuid, waitForGrowth: true)
-                        return
-                    }
-                    stallCount = 0
+            let fileURL = URL(fileURLWithPath: path)
+            guard let attrs = try? FileManager.default.attributesOfItem(atPath: path),
+                  let fileSize = attrs[.size] as? UInt64,
+                  fileSize > 0 else {
+                stallCount += 1
+                Thread.sleep(forTimeInterval: 0.5)
+                continue
+            }
+
+            if fileSize > lastProcessedSize {
+                stallCount = 0
+                lastProcessedSize = fileSize
+
+                if let data = try? Data(contentsOf: fileURL) {
+                    // Fingerprint the whole buffer, but only add new windows
+                    fingerprintData(data, reference: reference, matcher: matcher, uuid: uuid, knownTimestamps: &knownTimestamps)
                 }
+            } else {
+                stallCount += 1
             }
 
-            do {
-                try audioFile.read(into: buffer)
-            } catch {
-                if waitForGrowth {
-                    // Read error might mean file is being written — retry
-                    Thread.sleep(forTimeInterval: 0.5)
-                    continue
-                }
-                break
-            }
+            Thread.sleep(forTimeInterval: 2.0)
+        }
+    }
 
-            guard buffer.frameLength > 0, let channelData = buffer.floatChannelData else {
-                if waitForGrowth {
-                    Thread.sleep(forTimeInterval: 0.5)
-                    continue
-                }
-                break
-            }
+    private func fingerprintData(_ data: Data, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String, knownTimestamps: inout Set<UInt32>) {
+        print("[FingerprintTiming] File size: \(data.count) bytes, window=\(reference.checkpointDuration)s, interval=\(reference.checkpointInterval)s")
+        print("[FingerprintTiming] File header bytes: \(Array(data.prefix(16)).map { String(format: "%02x", $0) }.joined(separator: " "))")
 
-            let frames = Int(buffer.frameLength)
-            let chCount = Int(channels)
-            var interleaved = [Float](repeating: 0, count: frames * chCount)
-            for frame in 0..<frames {
-                for ch in 0..<chCount {
-                    interleaved[frame * chCount + ch] = channelData[ch][frame]
-                }
-            }
-
-            let windows = fingerprinter.pushSamplesF32(samples: interleaved, channels: channels)
-
-            let offsetWindows = windows.map { window in
-                WindowedFingerprint(
-                    timestampMs: window.timestampMs + UInt32(startSeconds * 1000),
-                    durationMs: window.durationMs,
-                    hashes: window.hashes
-                )
-            }
-            processWindows(offsetWindows, matcher: matcher, uuid: uuid)
+        // Dump first few reference checkpoint hashes
+        for i in 0..<min(3, reference.checkpoints.count) {
+            let cp = reference.checkpoints[i]
+            let hashStrings = cp.hashes.prefix(10).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
+            print("[FingerprintTiming] REF[\(i)] ts=\(cp.timestamp) hashes(\(cp.hashes.count)): [\(hashStrings)]")
         }
 
-        let finalWindows = fingerprinter.flush()
-        let offsetFinal = finalWindows.map { window in
-            WindowedFingerprint(
-                timestampMs: window.timestampMs + UInt32(startSeconds * 1000),
-                durationMs: window.durationMs,
-                hashes: window.hashes
+        let fingerprinter = Fingerprinter()
+        let windows: [WindowedFingerprint]
+        do {
+            windows = try fingerprinter.fingerprintDataWindowed(
+                data: data,
+                windowDurationMs: UInt32(reference.checkpointDuration * 1000),
+                windowIntervalMs: UInt32(reference.checkpointInterval * 1000)
             )
+        } catch {
+            print("[FingerprintTiming] Fingerprinting failed: \(error)")
+            return
         }
-        processWindows(offsetFinal, matcher: matcher, uuid: uuid)
+
+        print("[FingerprintTiming] Generated \(windows.count) windows")
+
+        // Export fingerprint to file for debugging
+        if knownTimestamps.isEmpty {
+            exportFingerprint(windows: windows, reference: reference, uuid: uuid, fileSize: data.count)
+        }
+
+        // Dump first few query window hashes
+        for i in 0..<min(3, windows.count) {
+            let w = windows[i]
+            let hashStrings = w.hashes.prefix(10).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
+            print("[FingerprintTiming] QUERY[\(i)] ts=\(w.timestampMs)ms dur=\(w.durationMs)ms hashes(\(w.hashes.count)): [\(hashStrings)]")
+        }
+
+        // Direct compare first few windows against first few checkpoints
+        for qi in 0..<min(3, windows.count) {
+            for ri in 0..<min(3, reference.checkpoints.count) {
+                let score = compareHashesWithDrift(hashes1: Array(windows[qi].hashes), hashes2: Array(reference.checkpoints[ri].hashes), maxDrift: 5)
+                print("[FingerprintTiming] Compare query[\(qi)] vs ref[\(ri)]: score=\(String(format: "%.4f", score))")
+            }
+        }
+        // Only process windows we haven't seen before
+        let newWindows = windows.filter { !knownTimestamps.contains($0.timestampMs) }
+        for window in newWindows {
+            knownTimestamps.insert(window.timestampMs)
+        }
+        processWindows(newWindows, matcher: matcher, uuid: uuid)
     }
 
     // MARK: - Private
@@ -601,8 +354,11 @@ class FingerprintTimingManager {
         guard !windows.isEmpty else { return }
 
         var newEntries: [TimeMappingEntry] = []
-        for window in windows {
+        for (i, window) in windows.enumerated() {
             let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 1)
+            if i < 10, let best = matches.first {
+                print("[FingerprintTiming] Window @\(window.timestampMs)ms (\(window.hashes.count)h) -> ref @\(best.timestamp)s score=\(String(format: "%.3f", best.score))")
+            }
             guard let best = matches.first, best.score > 0.5 else { continue }
             newEntries.append(TimeMappingEntry(
                 playbackTime: Double(window.timestampMs) / 1000.0,
@@ -633,6 +389,7 @@ class FingerprintTimingManager {
         let checkpointInterval: Int
         let checkpointDuration: Int
         let totalDuration: Double
+        let topK: Int
         let checkpoints: [(timestamp: Float, hashes: [UInt32])]
     }
 
@@ -641,28 +398,124 @@ class FingerprintTimingManager {
               let data = try? Data(contentsOf: url),
               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let checkpointInterval = json["checkpoint_interval"] as? Int,
-              let checkpointDuration = json["checkpoint_duration"] as? Int,
-              let checkpointsDict = json["checkpoints"] as? [String: String] else {
+              let checkpointDuration = json["checkpoint_duration"] as? Int else {
             return nil
         }
 
         let totalDuration = json["total_duration"] as? Double ?? 0
+        let timestampQuantum = json["timestamp_quantum"] as? Int ?? 1
+        let topK = json["top_k"] as? Int ?? 0
+        let format = json["format"] as? String ?? ""
 
         var checkpoints: [(timestamp: Float, hashes: [UInt32])] = []
-        for (key, value) in checkpointsDict {
-            guard let timestamp = Float(key) else { continue }
-            let hashes = value.split(separator: ",").compactMap { UInt32($0) }
-            guard !hashes.isEmpty else { continue }
-            checkpoints.append((timestamp: timestamp, hashes: hashes))
+
+        if format == "fingerprint-compact-v2",
+           let checkpointArray = json["checkpoints"] as? [[Any]] {
+            // compact-v2: delta-encoded timestamps + base64-packed LE u32 hashes
+            var tsUnit: Int = 0
+            var decodeFailCount = 0
+            for (i, entry) in checkpointArray.enumerated() {
+                guard entry.count == 2,
+                      let delta = entry[0] as? Int,
+                      let encoded = entry[1] as? String else { continue }
+                tsUnit += delta
+                let timestamp = Float(tsUnit * timestampQuantum)
+                guard let hashes = unpackBase64Hashes(encoded), !hashes.isEmpty else {
+                    decodeFailCount += 1
+                    if decodeFailCount <= 3 {
+                        print("[FingerprintTiming] DECODE FAIL checkpoint[\(i)] base64 len=\(encoded.count) first40='\(String(encoded.prefix(40)))'")
+                    }
+                    continue
+                }
+                if i < 3 {
+                    let hashStrings = hashes.prefix(5).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
+                    print("[FingerprintTiming] Parsed ref[\(i)] ts=\(timestamp) base64Len=\(encoded.count) hashCount=\(hashes.count) first5=[\(hashStrings)]")
+                }
+                checkpoints.append((timestamp: timestamp, hashes: hashes))
+            }
+            if decodeFailCount > 0 {
+                print("[FingerprintTiming] WARNING: \(decodeFailCount)/\(checkpointArray.count) checkpoints failed to decode")
+            }
+        } else if let checkpointsDict = json["checkpoints"] as? [String: String] {
+            // Legacy format: string timestamp keys -> comma-separated hashes
+            for (key, value) in checkpointsDict {
+                guard let timestamp = Float(key) else { continue }
+                let hashes = value.split(separator: ",").compactMap { UInt32($0) }
+                guard !hashes.isEmpty else { continue }
+                checkpoints.append((timestamp: timestamp, hashes: hashes))
+            }
+            checkpoints.sort { $0.timestamp < $1.timestamp }
         }
 
-        checkpoints.sort { $0.timestamp < $1.timestamp }
+        print("[FingerprintTiming] Loaded reference: format=\(format), checkpoints=\(checkpoints.count), interval=\(checkpointInterval)s, duration=\(checkpointDuration)s, topK=\(topK), quantum=\(timestampQuantum)")
 
         return ReferenceData(
             checkpointInterval: checkpointInterval,
             checkpointDuration: checkpointDuration,
             totalDuration: totalDuration,
+            topK: topK,
             checkpoints: checkpoints
         )
     }
+
+    /// Decode base64 (no padding) -> little-endian u32 array
+    private func unpackBase64Hashes(_ encoded: String) -> [UInt32]? {
+        guard let data = Data(base64Encoded: padBase64(encoded)) else { return nil }
+        guard data.count % 4 == 0 else { return nil }
+        var hashes: [UInt32] = []
+        hashes.reserveCapacity(data.count / 4)
+        for i in stride(from: 0, to: data.count, by: 4) {
+            let value = UInt32(data[i])
+                | (UInt32(data[i + 1]) << 8)
+                | (UInt32(data[i + 2]) << 16)
+                | (UInt32(data[i + 3]) << 24)
+            hashes.append(value)
+        }
+        return hashes
+    }
+
+    private func exportFingerprint(windows: [WindowedFingerprint], reference: ReferenceData, uuid: String, fileSize: Int) {
+        var checkpoints: [[Any]] = []
+        var prevTs: Int = 0
+        for window in windows {
+            let ts = Int(window.timestampMs) / 1000
+            let delta = ts - prevTs
+            prevTs = ts
+            checkpoints.append([delta, window.hashes.map { $0 }])
+        }
+
+        let payload: [String: Any] = [
+            "format": "fingerprint-debug-v1",
+            "source": "ios-app",
+            "episode_uuid": uuid,
+            "source_file_size": fileSize,
+            "checkpoint_duration": reference.checkpointDuration,
+            "checkpoint_interval": reference.checkpointInterval,
+            "total_windows": windows.count,
+            "hashes_per_window": windows.first?.hashes.count ?? 0,
+            "checkpoints": checkpoints
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: payload, options: []) else {
+            print("[FingerprintTiming] Failed to serialize export")
+            return
+        }
+
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let exportURL = docs.appendingPathComponent("\(uuid)-ios-fingerprint.json")
+        do {
+            try jsonData.write(to: exportURL)
+            print("[FingerprintTiming] Exported fingerprint to: \(exportURL.path)")
+        } catch {
+            print("[FingerprintTiming] Export failed: \(error)")
+        }
+    }
+
+    /// Add base64 padding if missing (the Rust encoder uses no-pad)
+    private func padBase64(_ str: String) -> String {
+        let remainder = str.count % 4
+        if remainder == 0 { return str }
+        return str + String(repeating: "=", count: 4 - remainder)
+    }
+
 }
