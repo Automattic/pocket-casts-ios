@@ -17,12 +17,12 @@ class FingerprintTimingManager {
     private var currentFilePath: String?
     private var currentMatcher: CheckpointMatcher?
     private var currentReference: ReferenceData?
-    private var currentIsStreaming: Bool = false
     private var timeMapping: [TimeMappingEntry] = []        // sorted by playbackTime
-    private var timeMappingByRef: [TimeMappingEntry] = []  // sorted by referenceTime
+    private var timeMappingByRef: [TimeMappingEntry] = []   // sorted by referenceTime
     private let lock = NSLock()
     private let queue = DispatchQueue(label: "com.pocketcasts.fingerprint", qos: .userInitiated)
     private var isCancelled = false
+    private var generationId: Int = 0
     private var lastKnownPlaybackPosition: Double = 0
 
     private(set) var isActive: Bool = false
@@ -65,7 +65,59 @@ class FingerprintTimingManager {
     }
 
     @objc private func onPlaybackProgress() {
-        lastKnownPlaybackPosition = PlaybackManager.shared.currentTime()
+        let currentPos = PlaybackManager.shared.currentTime()
+        let delta = abs(currentPos - lastKnownPlaybackPosition)
+        lastKnownPlaybackPosition = currentPos
+
+        guard currentEpisodeUUID != nil, currentFilePath != nil else { return }
+
+        // Restart if playback jumped significantly
+        if delta > 10 {
+            restartFromCurrentPosition()
+            return
+        }
+
+        // Also restart if playback is outside the fingerprinted range
+        lock.lock()
+        let mapping = timeMapping
+        let active = isActive
+        lock.unlock()
+
+        if active, mapping.count >= 2,
+           let first = mapping.first, let last = mapping.last {
+            let margin = 30.0
+            if currentPos < first.playbackTime - margin || currentPos > last.playbackTime + margin {
+                restartFromCurrentPosition()
+            }
+        }
+    }
+
+    private func restartFromCurrentPosition() {
+        lock.lock()
+        guard let uuid = currentEpisodeUUID,
+              let filePath = currentFilePath,
+              let matcher = currentMatcher,
+              let reference = currentReference else {
+            lock.unlock()
+            return
+        }
+        isCancelled = true
+        generationId += 1
+        let gen = generationId
+        lock.unlock()
+
+        queue.async { [weak self] in
+            guard let self else { return }
+            self.lock.lock()
+            guard self.generationId == gen else {
+                self.lock.unlock()
+                return
+            }
+            self.isCancelled = false
+            self.lock.unlock()
+
+            self.processFile(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference)
+        }
     }
 
     func onEpisodePlay(episode: BaseEpisode) {
@@ -80,7 +132,7 @@ class FingerprintTimingManager {
         lock.lock()
         currentEpisodeUUID = uuid
         isCancelled = false
-
+        generationId += 1
         lastKnownPlaybackPosition = PlaybackManager.shared.currentTime()
         lock.unlock()
 
@@ -90,15 +142,12 @@ class FingerprintTimingManager {
         }
 
         let isDownloaded = episode.downloaded(pathFinder: DownloadManager.shared)
-        let isBuffered = episode.bufferedForStreaming()
         let filePath: String
         if isDownloaded {
             filePath = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
         } else {
             filePath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
         }
-        let fileSize = (try? FileManager.default.attributesOfItem(atPath: filePath)[.size] as? UInt64) ?? 0
-        print("[FingerprintTiming] Episode status: downloaded=\(isDownloaded), buffered=\(isBuffered), path=\(filePath), fileSize=\(fileSize)")
 
         let matcher = CheckpointMatcher.withDrift(maxDrift: 5)
         if reference.topK > 0 {
@@ -116,12 +165,10 @@ class FingerprintTimingManager {
         currentFilePath = filePath
         currentMatcher = matcher
         currentReference = reference
-        currentIsStreaming = !isDownloaded
         lock.unlock()
 
-        let streaming = !isDownloaded
         queue.async { [weak self] in
-            self?.processFileProgressively(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference, isStreaming: streaming)
+            self?.processFile(uuid: uuid, audioFilePath: filePath, matcher: matcher, reference: reference)
         }
     }
 
@@ -216,12 +263,12 @@ class FingerprintTimingManager {
     func reset() {
         lock.lock()
         isCancelled = true
-
+        generationId += 1
         currentEpisodeUUID = nil
         currentFilePath = nil
         currentMatcher = nil
         currentReference = nil
-        currentIsStreaming = false
+
         timeMapping = []
         timeMappingByRef = []
         isActive = false
@@ -229,17 +276,29 @@ class FingerprintTimingManager {
         lock.unlock()
     }
 
-    // MARK: - Batch File Fingerprinting
+    // MARK: - File Fingerprinting
 
-    private func processFileProgressively(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData, isStreaming: Bool = false) {
-        print("[FingerprintTiming] Starting batch fingerprinting for \(uuid), streaming=\(isStreaming)")
+    private func processFile(uuid: String, audioFilePath: String, matcher: CheckpointMatcher, reference: ReferenceData) {
+        print("[FingerprintTiming] Starting fingerprinting for \(uuid)")
 
-        if isStreaming {
-            // For streaming: poll for file data and fingerprint as it grows
-            fingerprintStreamingFile(path: audioFilePath, reference: reference, matcher: matcher, uuid: uuid)
-        } else {
-            // For downloaded: read the whole file and fingerprint it
-            fingerprintLocalFile(path: audioFilePath, reference: reference, matcher: matcher, uuid: uuid)
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: audioFilePath)) else {
+            print("[FingerprintTiming] Failed to read file")
+            return
+        }
+
+        guard let windows = fingerprintData(data, reference: reference) else { return }
+
+        // Process in batches so the debug overlay fills progressively
+        let batchSize = 50
+        for batchStart in stride(from: 0, to: windows.count, by: batchSize) {
+            lock.lock()
+            let cancelled = isCancelled
+            lock.unlock()
+            if cancelled { return }
+
+            let batchEnd = min(batchStart + batchSize, windows.count)
+            let batch = Array(windows[batchStart..<batchEnd])
+            processWindows(batch, matcher: matcher, uuid: uuid)
         }
 
         lock.lock()
@@ -248,102 +307,19 @@ class FingerprintTimingManager {
         print("[FingerprintTiming] Done: \(count) mapping points for \(uuid)")
     }
 
-    private func fingerprintLocalFile(path: String, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String) {
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            print("[FingerprintTiming] Failed to read file")
-            return
-        }
-        var knownTimestamps: Set<UInt32> = []
-        fingerprintData(data, reference: reference, matcher: matcher, uuid: uuid, knownTimestamps: &knownTimestamps)
-    }
-
-    private func fingerprintStreamingFile(path: String, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String) {
-        var lastProcessedSize: UInt64 = 0
-        var stallCount = 0
-        var knownTimestamps: Set<UInt32> = []
-
-        while stallCount < 120 {
-            lock.lock()
-            let cancelled = isCancelled
-            lock.unlock()
-            if cancelled { return }
-
-            let fileURL = URL(fileURLWithPath: path)
-            guard let attrs = try? FileManager.default.attributesOfItem(atPath: path),
-                  let fileSize = attrs[.size] as? UInt64,
-                  fileSize > 0 else {
-                stallCount += 1
-                Thread.sleep(forTimeInterval: 0.5)
-                continue
-            }
-
-            if fileSize > lastProcessedSize {
-                stallCount = 0
-                lastProcessedSize = fileSize
-
-                if let data = try? Data(contentsOf: fileURL) {
-                    // Fingerprint the whole buffer, but only add new windows
-                    fingerprintData(data, reference: reference, matcher: matcher, uuid: uuid, knownTimestamps: &knownTimestamps)
-                }
-            } else {
-                stallCount += 1
-            }
-
-            Thread.sleep(forTimeInterval: 2.0)
-        }
-    }
-
-    private func fingerprintData(_ data: Data, reference: ReferenceData, matcher: CheckpointMatcher, uuid: String, knownTimestamps: inout Set<UInt32>) {
-        print("[FingerprintTiming] File size: \(data.count) bytes, window=\(reference.checkpointDuration)s, interval=\(reference.checkpointInterval)s")
-        print("[FingerprintTiming] File header bytes: \(Array(data.prefix(16)).map { String(format: "%02x", $0) }.joined(separator: " "))")
-
-        // Dump first few reference checkpoint hashes
-        for i in 0..<min(3, reference.checkpoints.count) {
-            let cp = reference.checkpoints[i]
-            let hashStrings = cp.hashes.prefix(10).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
-            print("[FingerprintTiming] REF[\(i)] ts=\(cp.timestamp) hashes(\(cp.hashes.count)): [\(hashStrings)]")
-        }
-
+    /// Fingerprint raw file data and return the windows, or nil on failure.
+    private func fingerprintData(_ data: Data, reference: ReferenceData) -> [WindowedFingerprint]? {
         let fingerprinter = Fingerprinter()
-        let windows: [WindowedFingerprint]
         do {
-            windows = try fingerprinter.fingerprintDataWindowed(
+            return try fingerprinter.fingerprintDataWindowed(
                 data: data,
                 windowDurationMs: UInt32(reference.checkpointDuration * 1000),
                 windowIntervalMs: UInt32(reference.checkpointInterval * 1000)
             )
         } catch {
             print("[FingerprintTiming] Fingerprinting failed: \(error)")
-            return
+            return nil
         }
-
-        print("[FingerprintTiming] Generated \(windows.count) windows")
-
-        // Export fingerprint to file for debugging
-        if knownTimestamps.isEmpty {
-            exportFingerprint(windows: windows, reference: reference, uuid: uuid, fileSize: data.count)
-        }
-
-        // Dump first few query window hashes
-        for i in 0..<min(3, windows.count) {
-            let w = windows[i]
-            let hashStrings = w.hashes.prefix(10).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
-            print("[FingerprintTiming] QUERY[\(i)] ts=\(w.timestampMs)ms dur=\(w.durationMs)ms hashes(\(w.hashes.count)): [\(hashStrings)]")
-        }
-
-        // Direct compare first few windows against first few checkpoints
-        for qi in 0..<min(3, windows.count) {
-            for ri in 0..<min(3, reference.checkpoints.count) {
-                let score = compareHashesWithDrift(hashes1: Array(windows[qi].hashes), hashes2: Array(reference.checkpoints[ri].hashes), maxDrift: 5)
-                print("[FingerprintTiming] Compare query[\(qi)] vs ref[\(ri)]: score=\(String(format: "%.4f", score))")
-            }
-        }
-        // Only process windows we haven't seen before
-        let newWindows = windows.filter { !knownTimestamps.contains($0.timestampMs) }
-        for window in newWindows {
-            knownTimestamps.insert(window.timestampMs)
-        }
-        processWindows(newWindows, matcher: matcher, uuid: uuid)
     }
 
     // MARK: - Private
@@ -356,39 +332,14 @@ class FingerprintTimingManager {
         guard !windows.isEmpty else { return }
 
         var newEntries: [TimeMappingEntry] = []
-        var scoreDistribution: [String: Int] = ["<0.5": 0, "0.5-0.7": 0, "0.7-0.85": 0, "0.85+": 0]
-        var refTimestampCounts: [Float: Int] = [:]
-
-        for (i, window) in windows.enumerated() {
-            // Get top 3 to see if there's a dominant checkpoint
-            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 3)
-            if i < 10, !matches.isEmpty {
-                let matchDesc = matches.prefix(3).map { "ref@\($0.timestamp)s=\(String(format: "%.3f", $0.score))" }.joined(separator: ", ")
-                print("[FingerprintTiming] Window @\(window.timestampMs)ms (\(window.hashes.count)h) -> [\(matchDesc)]")
-            }
-            guard let best = matches.first else { continue }
-
-            // Track score distribution
-            if best.score < 0.5 { scoreDistribution["<0.5"]! += 1 }
-            else if best.score < 0.7 { scoreDistribution["0.5-0.7"]! += 1 }
-            else if best.score < 0.85 { scoreDistribution["0.7-0.85"]! += 1 }
-            else { scoreDistribution["0.85+"]! += 1 }
-
-            guard best.score > 0.5 else { continue }
-
-            refTimestampCounts[best.timestamp, default: 0] += 1
+        for window in windows {
+            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 1)
+            guard let best = matches.first, best.score > 0.5 else { continue }
             newEntries.append(TimeMappingEntry(
                 playbackTime: Double(window.timestampMs) / 1000.0,
                 referenceTime: Double(best.timestamp),
                 score: best.score
             ))
-        }
-
-        print("[FingerprintTiming] Score distribution: \(scoreDistribution)")
-        if !refTimestampCounts.isEmpty {
-            let sorted = refTimestampCounts.sorted { $0.value > $1.value }
-            let topRefs = sorted.prefix(5).map { "ref@\($0.key)s=\($0.value)x" }.joined(separator: ", ")
-            print("[FingerprintTiming] Top matched ref timestamps: \(topRefs) (unique=\(refTimestampCounts.count))")
         }
 
         guard !newEntries.isEmpty else { return }
@@ -404,11 +355,8 @@ class FingerprintTimingManager {
         timeMappingByRef.sort { $0.referenceTime < $1.referenceTime }
         if timeMapping.count >= 2 && !isActive {
             isActive = true
+            print("[FingerprintTiming] Active with \(timeMapping.count) mapping points")
         }
-        let count = timeMapping.count
-        let refFirst = timeMappingByRef.first!
-        let refLast = timeMappingByRef.last!
-        print("[FingerprintTiming] Mapping: \(count) entries, ref=[\(String(format: "%.1f", refFirst.referenceTime))..\(String(format: "%.1f", refLast.referenceTime))] playback=[\(String(format: "%.1f", timeMapping.first!.playbackTime))..\(String(format: "%.1f", timeMapping.last!.playbackTime))]")
         lock.unlock()
     }
 
@@ -440,33 +388,17 @@ class FingerprintTimingManager {
 
         if format == "fingerprint-compact-v2",
            let checkpointArray = json["checkpoints"] as? [[Any]] {
-            // compact-v2: delta-encoded timestamps + base64-packed LE u32 hashes
             var tsUnit: Int = 0
-            var decodeFailCount = 0
-            for (i, entry) in checkpointArray.enumerated() {
+            for entry in checkpointArray {
                 guard entry.count == 2,
                       let delta = entry[0] as? Int,
                       let encoded = entry[1] as? String else { continue }
                 tsUnit += delta
                 let timestamp = Float(tsUnit * timestampQuantum)
-                guard let hashes = unpackBase64Hashes(encoded), !hashes.isEmpty else {
-                    decodeFailCount += 1
-                    if decodeFailCount <= 3 {
-                        print("[FingerprintTiming] DECODE FAIL checkpoint[\(i)] base64 len=\(encoded.count) first40='\(String(encoded.prefix(40)))'")
-                    }
-                    continue
-                }
-                if i < 3 {
-                    let hashStrings = hashes.prefix(5).map { String(format: "0x%08X", $0) }.joined(separator: ", ")
-                    print("[FingerprintTiming] Parsed ref[\(i)] ts=\(timestamp) base64Len=\(encoded.count) hashCount=\(hashes.count) first5=[\(hashStrings)]")
-                }
+                guard let hashes = unpackBase64Hashes(encoded), !hashes.isEmpty else { continue }
                 checkpoints.append((timestamp: timestamp, hashes: hashes))
             }
-            if decodeFailCount > 0 {
-                print("[FingerprintTiming] WARNING: \(decodeFailCount)/\(checkpointArray.count) checkpoints failed to decode")
-            }
         } else if let checkpointsDict = json["checkpoints"] as? [String: String] {
-            // Legacy format: string timestamp keys -> comma-separated hashes
             for (key, value) in checkpointsDict {
                 guard let timestamp = Float(key) else { continue }
                 let hashes = value.split(separator: ",").compactMap { UInt32($0) }
@@ -476,7 +408,7 @@ class FingerprintTimingManager {
             checkpoints.sort { $0.timestamp < $1.timestamp }
         }
 
-        print("[FingerprintTiming] Loaded reference: format=\(format), checkpoints=\(checkpoints.count), interval=\(checkpointInterval)s, duration=\(checkpointDuration)s, topK=\(topK), quantum=\(timestampQuantum)")
+        print("[FingerprintTiming] Loaded reference: format=\(format), checkpoints=\(checkpoints.count), interval=\(checkpointInterval)s, duration=\(checkpointDuration)s, topK=\(topK)")
 
         return ReferenceData(
             checkpointInterval: checkpointInterval,
@@ -503,48 +435,10 @@ class FingerprintTimingManager {
         return hashes
     }
 
-    private func exportFingerprint(windows: [WindowedFingerprint], reference: ReferenceData, uuid: String, fileSize: Int) {
-        var checkpoints: [[Any]] = []
-        var prevTs: Int = 0
-        for window in windows {
-            let ts = Int(window.timestampMs) / 1000
-            let delta = ts - prevTs
-            prevTs = ts
-            checkpoints.append([delta, window.hashes.map { $0 }])
-        }
-
-        let payload: [String: Any] = [
-            "format": "fingerprint-debug-v1",
-            "source": "ios-app",
-            "episode_uuid": uuid,
-            "source_file_size": fileSize,
-            "checkpoint_duration": reference.checkpointDuration,
-            "checkpoint_interval": reference.checkpointInterval,
-            "total_windows": windows.count,
-            "hashes_per_window": windows.first?.hashes.count ?? 0,
-            "checkpoints": checkpoints
-        ]
-
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: payload, options: []) else {
-            print("[FingerprintTiming] Failed to serialize export")
-            return
-        }
-
-        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let exportURL = docs.appendingPathComponent("\(uuid)-ios-fingerprint.json")
-        do {
-            try jsonData.write(to: exportURL)
-            print("[FingerprintTiming] Exported fingerprint to: \(exportURL.path)")
-        } catch {
-            print("[FingerprintTiming] Export failed: \(error)")
-        }
-    }
-
     /// Add base64 padding if missing (the Rust encoder uses no-pad)
     private func padBase64(_ str: String) -> String {
         let remainder = str.count % 4
         if remainder == 0 { return str }
         return str + String(repeating: "=", count: 4 - remainder)
     }
-
 }

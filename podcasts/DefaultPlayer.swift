@@ -478,7 +478,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
                     return
                 }
-
                 return
             }
 
@@ -506,8 +505,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     return
                 }
 
-
-
                 // Process through VoiceBoostN
                 let bufferList = UnsafeMutableAudioBufferListPointer(bufferListInOut)
                 let channelCount = Int32(bufferList.count)
@@ -530,7 +527,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                     referenceToSelf.handlePlaybackError("AudioUnitRender failed")
                     return
                 }
-
 
                 numberFramesOut.pointee = numberFrames
             }
