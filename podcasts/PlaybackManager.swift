@@ -38,7 +38,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var player: PlaybackProtocol?
 
     private var switchingToDifferentUpNextEpisode = false
-    private var interruptInProgress = false
+    private let interruptInProgress = AtomicBool()
 
     private var wasPlayingBeforeInterruption = false
     private let aboutToPlay = AtomicBool()
@@ -1770,6 +1770,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
+            // Don't start playback during an active audio interruption (e.g. phone call).
+            // Bluetooth devices like Garmin watches with mic/speaker trigger route changes
+            // during calls, which cause iOS to send spurious playCommand events.
+            if strongSelf.interruptInProgress.value {
+                FileLog.shared.addMessage("Remote control: playCommand, ignored because an audio interruption is in progress")
+                return .success
+            }
+
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
 
             if Settings.legacyBluetoothModeEnabled() {
@@ -1791,8 +1799,10 @@ class PlaybackManager: ServerPlaybackDelegate {
                             return .commandFailed
                         }
                     }
-                    // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
-                    FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
+                    // For non-legacy Bluetooth and when not playing over AirPlay, treat playCommand
+                    // as a play/pause toggle to preserve compatibility with accessories that send
+                    // playCommand as a toggle (play while paused, play again to pause).
+                    FileLog.shared.addMessage("Remote control: playCommand, treating as play/pause toggle")
                     strongSelf.playPause()
                 }
             }
@@ -2091,7 +2101,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
         let interruptionReason = userInfo[AVAudioSessionInterruptionReasonKey] as? UInt
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
-            interruptInProgress = false
+            interruptInProgress.value = false
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio: \(interruptionOption) reason: \(interruptionReason?.description ?? "unknown")")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
@@ -2109,13 +2119,13 @@ class PlaybackManager: ServerPlaybackDelegate {
             // we run into any issues
             if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
                 if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
-                    interruptInProgress = true
+                    interruptInProgress.value = true
                 }
             } else {
                 // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
                 // no need to perform the same check for older versions.
                 // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
-                interruptInProgress = true
+                interruptInProgress.value = true
             }
 
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
@@ -2275,7 +2285,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Interruptions
 
     func interruptionInProgress() -> Bool {
-        interruptInProgress
+        interruptInProgress.value
     }
 
     // MARK: - Private helpers

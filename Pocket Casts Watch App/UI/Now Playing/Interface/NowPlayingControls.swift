@@ -78,7 +78,7 @@ struct NowPlayingControls: View {
 
     private var playPauseButton: some View {
         Button {
-            WKInterfaceDevice.current().play(viewModel.isPlaying ? .click : .start)
+            WKInterfaceDevice.current().play(.click)
             viewModel.playPauseTapped()
         } label: {
             Image(viewModel.isPlaying ? "pause" : "play")

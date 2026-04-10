@@ -1,3 +1,9 @@
+---
+name: create-pr
+description: Create a pull request using the repository template and current branch changes
+user-invocable: true
+---
+
 # Create Pull Request
 
 ## Steps

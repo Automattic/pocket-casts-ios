@@ -1,4 +1,5 @@
 {
+  "originHash" : "acc9e2c9728adfd6b4edffe38fc3d04529a8a3777fe5f732bb3910bec2dfefec",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -32,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openid/AppAuth-iOS.git",
       "state" : {
-        "revision" : "c89ed571ae140f8eb1142735e6e23d7bb8c34cb2",
-        "version" : "1.7.5"
+        "revision" : "2781038865a80e2c425a1da12cc1327bcd56501f",
+        "version" : "1.7.6"
       }
     },
     {
@@ -50,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ra1028/DifferenceKit",
       "state" : {
-        "revision" : "62745d7780deef4a023a792a1f8f763ec7bf9705",
-        "version" : "1.2.0"
+        "revision" : "073b9671ce2b9b5b96398611427a1f929927e428",
+        "version" : "1.3.0"
       }
     },
     {
@@ -131,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRDB.swift.git",
       "state" : {
-        "revision" : "a5a1be26b4513dc7ec360eb56bc08a345bac6649",
-        "version" : "7.5.0"
+        "revision" : "36e30a6f1ef10e4194f6af0cff90888526f0c115",
+        "version" : "7.10.0"
       }
     },
     {
@@ -149,8 +150,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
-        "revision" : "0382ca27f22fb3494cf657d8dc356dc282cd1193",
-        "version" : "3.4.1"
+        "revision" : "a2ab612cb980066ee56d90d60d8462992c07f24b",
+        "version" : "3.5.0"
       }
     },
     {
@@ -185,8 +186,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "revision" : "3ec0ab0bca4feb56e8b33e289c9496e89059dd08",
-        "version" : "7.10.2"
+        "revision" : "2ef543ee21d63734e1c004ad6c870255e8716c50",
+        "version" : "7.12.0"
       }
     },
     {
@@ -194,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
       "state" : {
-        "revision" : "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
-        "version" : "1.22.2"
+        "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+        "version" : "1.22.5"
       }
     },
     {
@@ -203,8 +204,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios.git",
       "state" : {
-        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
-        "version" : "4.5.2"
+        "revision" : "0cb03fd7564d27345bcd96144b811e56212949c6",
+        "version" : "4.6.0"
       }
     },
     {
@@ -230,8 +231,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa",
       "state" : {
-        "revision" : "f1eefffd88cd6dfe5751159a3b32ff3c8e5b3b32",
-        "version" : "9.4.0"
+        "revision" : "05d3ce8332097ff0b2347231ac66476fd7d2f4d8",
+        "version" : "9.8.0"
       }
     },
     {
@@ -239,8 +240,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "2547102afd04fe49f1b286090f13ebce07284980",
-        "version" : "1.31.1"
+        "revision" : "a008af1a102ff3dd6cc3764bb69bf63226d0f5f6",
+        "version" : "1.36.1"
       }
     },
     {
@@ -257,8 +258,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-syntax.git",
       "state" : {
-        "revision" : "0687f71944021d616d34d922343dcef086855920",
-        "version" : "600.0.1"
+        "revision" : "2bc86522d115234d1f588efe2bcb4ce4be8f8b82",
+        "version" : "510.0.3"
       }
     },
     {
@@ -293,8 +294,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dagronf/TinyCSV",
       "state" : {
-        "revision" : "a354f61664eef13236f20c4eb5400b50a8844d5a",
-        "version" : "1.0.0"
+        "revision" : "05d691ee7bab64f5ff075b97f47ef41d36a81f6f",
+        "version" : "1.0.1"
       }
     },
     {
@@ -302,8 +303,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/squarefrog/UIDeviceIdentifier",
       "state" : {
-        "revision" : "5815e06b9ab916af6e2729b637efcdced887d8b9",
-        "version" : "2.1.0"
+        "revision" : "4699794b08bb79a4d77785edaba6ea739e298e4b",
+        "version" : "2.3.0"
       }
     },
     {
@@ -316,5 +317,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
