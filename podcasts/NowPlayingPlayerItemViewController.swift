@@ -202,15 +202,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet weak var errorLabel: ThemeableLabel! {
         didSet {
             errorLabel.font = .font(ofSize: 14, weight: .medium, scalingWith: .subheadline)
-            errorLabel.adjustsFontForContentSizeCategory = true
             errorLabel.style = .playerContrast02
-        }
-    }
-
-    @IBOutlet weak var errorChevron: UIImageView! {
-        didSet {
-            errorChevron.isHidden = true
-            errorChevron.tintColor = ThemeColor.playerContrast02()
         }
     }
 

@@ -1015,6 +1015,17 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         }
 
+        func shortUserAttributedMessage(mainColor: UIColor, interactiveColor: UIColor) -> NSAttributedString {
+            let baseText = self.shortUserMessage
+            let learnMore = L10n.learnMore
+            let attributedString = NSMutableAttributedString(string: baseText, attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .regular)])
+            if self.userAction != nil {
+                attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .regular)]))
+                attributedString.append(NSAttributedString(string: learnMore, attributes: [.foregroundColor: interactiveColor, .font: UIFont.systemFont(ofSize: 14, weight: .bold)]))
+            }
+            return attributedString
+        }
+
         var userAction: URL? {
             switch self {
             case .episodeNotAvailable(let errorCode, _):
