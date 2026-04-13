@@ -288,7 +288,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
            playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
             let episodeUuid {
             if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
-                return true
+                return false
             }
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
