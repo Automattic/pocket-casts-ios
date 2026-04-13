@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+import PocketCastsUtils
 
 /// An Activity Provider used for the share sheet
 ///
@@ -7,26 +8,26 @@ import SwiftUI
 /// and when the user taps "Share" we use this provider to
 /// avoid blocking the main thread and the share sheet
 /// having a delay when appearing.
-class StoryShareableProvider: UIActivityItemProvider {
-    static var shared: StoryShareableProvider = StoryShareableProvider()
+public class StoryShareableProvider: UIActivityItemProvider {
+    public static var shared: StoryShareableProvider = StoryShareableProvider()
 
-    var generatedItem: Any?
+    public var generatedItem: Any?
 
-    var generatedItemURL: Any?
+    public var generatedItemURL: Any?
 
-    var view: AnyView?
+    public var view: AnyView?
 
-    static func new(_ view: AnyView) -> StoryShareableProvider {
+    public static func new(_ view: AnyView) -> StoryShareableProvider {
         shared = StoryShareableProvider()
         shared.view = view
         return shared
     }
 
-    init() {
+    public init() {
         super.init(placeholderItem: UIImage())
     }
 
-    override var item: Any {
+    override public var item: Any {
         get {
             if activityType?.rawValue.contains("instagram") == true {
                 generatedItemURL ?? NSURL()
@@ -39,7 +40,7 @@ class StoryShareableProvider: UIActivityItemProvider {
     // This method is called when the share sheet appeared
     // So we can go ahead and snapshot the view
     @MainActor
-    func snapshot(viewModifier: (AnyView) -> some View) {
+    public func snapshot(viewModifier: (AnyView) -> some View) {
         guard let view else {
             return
         }
@@ -75,7 +76,7 @@ class StoryShareableProvider: UIActivityItemProvider {
 }
 
 extension EnvironmentValues {
-    var renderForSharing: Bool {
+    public var renderForSharing: Bool {
         get { self[RenderSharingKey.self] }
         set { self[RenderSharingKey.self] = newValue }
     }

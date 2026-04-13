@@ -3,6 +3,9 @@ import UIKit
 #endif
 import Foundation
 import PocketCastsDataModel
+#if !os(watchOS) && !APPCLIP
+import EndOfYear
+#endif
 
 extension EpisodeFilter {
     #if !os(watchOS)

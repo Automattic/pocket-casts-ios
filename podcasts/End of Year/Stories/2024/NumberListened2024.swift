@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import EndOfYear
 
 struct NumberListened2024: ShareableStory {
 

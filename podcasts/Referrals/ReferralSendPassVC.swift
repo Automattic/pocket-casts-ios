@@ -2,6 +2,7 @@ import Foundation
 import LinkPresentation
 import SwiftUI
 import PocketCastsServer
+import EndOfYear
 
 class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
 

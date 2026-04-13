@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 import Lottie
+import EndOfYear
 
 struct TopSpotStory2025: ShareableStory {
 

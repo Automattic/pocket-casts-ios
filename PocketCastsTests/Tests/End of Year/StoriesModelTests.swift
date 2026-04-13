@@ -1,5 +1,6 @@
 import XCTest
 import SwiftUI
+import EndOfYear
 
 @testable import podcasts
 

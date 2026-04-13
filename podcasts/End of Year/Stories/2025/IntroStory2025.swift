@@ -1,6 +1,7 @@
 import SwiftUI
 import Lottie
 import PocketCastsServer
+import EndOfYear
 
 extension Color {
     static let endOfYear2025Background = Color(hex: "28486A")

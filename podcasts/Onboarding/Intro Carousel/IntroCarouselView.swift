@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 fileprivate extension String {
     func wrapInSmartQuotes() -> String {

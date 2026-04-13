@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-struct MarqueeTextView: View {
+public struct MarqueeTextView: View {
     let words: [String]
     let separator: Image
     private(set) var separatorPadding: Double = 0 // Must be mutable for initializer
@@ -20,7 +20,7 @@ struct MarqueeTextView: View {
         return ((font.lineHeight - font.capHeight) / 2) - imageAdjustment
     }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { geometry in
             let baseText = HStack(alignment: .center, spacing: 8) {
                 ForEach(0..<words.count, id: \.self) { idx in
@@ -58,6 +58,13 @@ struct MarqueeTextView: View {
         }
     }
 
+    public init(words: [String], separator: Image, separatorPadding: Double = 0, direction: HorizontalEdge) {
+        self.words = words
+        self.separator = separator
+        self.separatorPadding = separatorPadding
+        self.direction = direction
+    }
+
     private func startScrolling() {
         let speed: CGFloat = 0.1
 
@@ -76,8 +83,4 @@ struct MarqueeTextView: View {
             }
         }
     }
-}
-
-#Preview("Marquee Trailing") {
-    MarqueeTextView(words: ["Pocket", "Casts", "2024"].map({$0.uppercased()}), separator: Image("playback-24-heart"), direction: .trailing)
 }

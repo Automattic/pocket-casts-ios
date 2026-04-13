@@ -1,6 +1,7 @@
 import UIKit
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 class StoryShareableText: UIActivityItemProvider, ShareableMetadataDataSource {
     private var text: String
