@@ -21,7 +21,6 @@
                 <outlet property="episodeInfoView" destination="MLe-7y-U6n" id="0K2-Ws-I3X"/>
                 <outlet property="episodeName" destination="ool-HF-az4" id="87D-Nv-oIM"/>
                 <outlet property="errorBottomSpacing" destination="ckZ-tn-s0v" id="T3H-oG-x6y"/>
-                <outlet property="errorChevron" destination="Flg-T9-xTd" id="dZl-q1-AiG"/>
                 <outlet property="errorContainer" destination="Owh-jf-YTg" id="TJt-lH-W8r"/>
                 <outlet property="errorLabel" destination="96b-yr-mZE" id="PeX-yT-KUQ"/>
                 <outlet property="fillView" destination="sbN-fi-Mv7" id="AN8-6l-tnT"/>
@@ -385,33 +384,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Owh-jf-YTg" userLabel="ErrorContainer" customClass="ThemeableView" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="896" width="414" height="48"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE" userLabel="ErrorMessage" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
-                            <rect key="frame" x="207" y="8" width="0.0" height="32"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="YES" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="96b-yr-mZE" userLabel="ErrorMessage" customClass="ThemeableLabel" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
+                            <rect key="frame" x="16" y="8" width="382" height="32"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron-small-right" translatesAutoresizingMaskIntoConstraints="NO" id="Flg-T9-xTd">
-                            <rect key="frame" x="207" y="12" width="24" height="24"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="24" id="8fQ-5d-DA3"/>
-                                <constraint firstAttribute="width" constant="24" id="iqy-9m-PhI"/>
-                            </constraints>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.070000000000000007" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="Flg-T9-xTd" firstAttribute="leading" secondItem="96b-yr-mZE" secondAttribute="trailing" id="B1m-Dh-DE4"/>
-                        <constraint firstItem="Flg-T9-xTd" firstAttribute="centerY" secondItem="96b-yr-mZE" secondAttribute="centerY" id="Cgg-YW-Kl3"/>
-                        <constraint firstItem="96b-yr-mZE" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Owh-jf-YTg" secondAttribute="trailing" constant="-32" id="CkS-yR-wqI"/>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="trailing" secondItem="Owh-jf-YTg" secondAttribute="trailing" constant="-16" id="CkS-yR-wqI"/>
                         <constraint firstItem="96b-yr-mZE" firstAttribute="top" secondItem="Owh-jf-YTg" secondAttribute="top" constant="8" id="Tha-E8-VUo"/>
-                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Flg-T9-xTd" secondAttribute="trailing" constant="8" id="Uw0-CV-tco"/>
                         <constraint firstAttribute="bottom" secondItem="96b-yr-mZE" secondAttribute="bottom" constant="8" id="bf9-Jd-CIf"/>
-                        <constraint firstAttribute="height" constant="48" id="eT2-Qf-DyX" userLabel="height ≥ 48"/>
-                        <constraint firstItem="96b-yr-mZE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Owh-jf-YTg" secondAttribute="leading" constant="32" id="i4h-zQ-7M7"/>
-                        <constraint firstItem="96b-yr-mZE" firstAttribute="centerX" secondItem="Owh-jf-YTg" secondAttribute="centerX" id="ww8-J4-Sug"/>
+                        <constraint firstAttribute="height" constant="48" id="eT2-Qf-DyX"/>
+                        <constraint firstItem="96b-yr-mZE" firstAttribute="leading" secondItem="Owh-jf-YTg" secondAttribute="leading" constant="16" id="i4h-zQ-7M7"/>
                     </constraints>
                 </view>
             </subviews>
@@ -443,6 +430,5 @@
         <image name="chapter-link-white" width="24" height="24"/>
         <image name="chapter-skipbackwards" width="30" height="30"/>
         <image name="chapter-skipforward" width="30" height="30"/>
-        <image name="chevron-small-right" width="24" height="24"/>
     </resources>
 </document>
