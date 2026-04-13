@@ -14,8 +14,13 @@ then
 fi
 
 if command -v brew &> /dev/null; then
-    brew upgrade protobuf
-    brew upgrade swift-protobuf
+    for pkg in protobuf swift-protobuf; do
+        if brew list --formula "$pkg" &> /dev/null; then
+            brew upgrade "$pkg"
+        else
+            brew install "$pkg"
+        fi
+    done
 else
     echo "Brew is not installed. Make sure protoc + protoc-gen-swift is installed."
 fi
