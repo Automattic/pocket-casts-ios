@@ -215,7 +215,7 @@ class DownloadsViewController: PCViewController {
             let newData = self.episodesDataManager.downloadedEpisodes()
 
             DispatchQueue.main.sync {
-                self.downloadsTable.isHidden = (newData.count == 0)
+                self.downloadsTable.isHidden = (newData.isEmpty)
                 self.episodes = newData
                 self.downloadsTable.reloadData()
             }
@@ -252,7 +252,7 @@ class DownloadsViewController: PCViewController {
         }
         optionsPicker.addAction(action: settingsAction)
 
-        if failedEpisodes().count > 0 {
+        if !failedEpisodes().isEmpty {
             let retryAction = OptionAction(label: L10n.downloadsRetryFailedDownloads, icon: "option-download-retry") { [weak self] in
                 Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "retry_failed_downloads"])
                 self?.retryAllFailed(sender)
@@ -260,7 +260,7 @@ class DownloadsViewController: PCViewController {
             optionsPicker.addAction(action: retryAction)
         }
 
-        if downloadingEpisodes().count > 0 {
+        if !downloadingEpisodes().isEmpty {
             let stopAction = OptionAction(label: L10n.downloadsStopAllDownloads, icon: "option-cross-circle") { [weak self] in
                 Analytics.track(.downloadsOptionsModalOptionTapped, properties: ["option": "stop_all_downloads"])
                 self?.pauseAllDownloads()

@@ -332,9 +332,10 @@
                                 </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="JGY-oo-rAo" secondAttribute="trailing" constant="20" id="4v0-Yg-Pb2"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="trailing" secondItem="JGY-oo-rAo" secondAttribute="trailing" constant="-20" id="4v0-Yg-Pb2"/>
                                 <constraint firstItem="JGY-oo-rAo" firstAttribute="bottom" secondItem="DJb-Yj-WkR" secondAttribute="bottom" id="FM2-nI-WCq"/>
                                 <constraint firstItem="DJb-Yj-WkR" firstAttribute="top" secondItem="JGY-oo-rAo" secondAttribute="top" id="Z2h-dC-exa"/>
+                                <constraint firstItem="DJb-Yj-WkR" firstAttribute="width" secondItem="dMa-B9-sF2" secondAttribute="width" constant="-40" id="ofF-rQ-ZN6"/>
                                 <constraint firstItem="DJb-Yj-WkR" firstAttribute="leading" secondItem="JGY-oo-rAo" secondAttribute="leading" constant="20" id="uou-NG-XfL"/>
                             </constraints>
                             <viewLayoutGuide key="contentLayoutGuide" id="JGY-oo-rAo"/>

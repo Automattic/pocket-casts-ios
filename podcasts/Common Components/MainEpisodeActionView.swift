@@ -116,7 +116,7 @@ class MainEpisodeActionView: UIView {
         let isPlaying = (isCurrent && PlaybackManager.shared.playing())
         let googleCastConnected = GoogleCastManager.sharedManager.connected()
         let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
-        if googleCastConnected || isCurrent {
+        if googleCastConnected {
             state = isPlaying ? .pause : .play
         } else if episode.played() {
             state = episode.downloaded(pathFinder: DownloadManager.shared) ? .playedPlay : .playedDownload
@@ -286,8 +286,12 @@ extension MainEpisodeActionView {
             let waitingColor = AppTheme.waitingForWifiColor()
             waitingColor.setFill()
 
+            let startingY = circleCenter.y - (Self.circleRadius * enlargementScale / 3)
+            let startingX = circleCenter.x - ((Self.circleRadius + 1) * enlargementScale / 2)
+
             // draw the WiFi symbol
-            let translation = CGAffineTransform(translationX: 14 - rightPadding, y: 15 + (bottomPadding / 2.0))
+            let translation = CGAffineTransform(translationX: startingX, y: startingY)
+            let scale = CGAffineTransform(scaleX: enlargementScale, y: enlargementScale)
 
             let curve1 = UIBezierPath()
             curve1.move(to: CGPoint(x: 7.78, y: 0))
@@ -298,6 +302,7 @@ extension MainEpisodeActionView {
             curve1.addLine(to: CGPoint(x: 15.56, y: 3.22))
             curve1.addCurve(to: CGPoint(x: 7.78, y: 0), controlPoint1: CGPoint(x: 13.57, y: 1.23), controlPoint2: CGPoint(x: 10.82, y: 0))
             curve1.close()
+            curve1.apply(scale)
             curve1.apply(translation)
             curve1.fill()
 
@@ -310,6 +315,7 @@ extension MainEpisodeActionView {
             curve2.addCurve(to: CGPoint(x: 7.78, y: 4), controlPoint1: CGPoint(x: 11.46, y: 4.78), controlPoint2: CGPoint(x: 9.71, y: 4))
             curve2.addCurve(to: CGPoint(x: 2.83, y: 6.05), controlPoint1: CGPoint(x: 5.85, y: 4), controlPoint2: CGPoint(x: 4.1, y: 4.78))
             curve2.close()
+            curve2.apply(scale)
             curve2.apply(translation)
             curve2.fill()
 
@@ -324,6 +330,7 @@ extension MainEpisodeActionView {
             dot.addCurve(to: CGPoint(x: 7.78, y: 8), controlPoint1: CGPoint(x: 9.36, y: 8.34), controlPoint2: CGPoint(x: 8.61, y: 8))
             dot.addCurve(to: CGPoint(x: 5.66, y: 8.88), controlPoint1: CGPoint(x: 6.95, y: 8), controlPoint2: CGPoint(x: 6.2, y: 8.34))
             dot.close()
+            dot.apply(scale)
             dot.apply(translation)
             dot.fill()
 

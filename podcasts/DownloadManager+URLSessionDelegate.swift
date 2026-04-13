@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     // things smaller than 10kbs are not episodes, way too small and something has gone wrong
-    private static let badEpisodeSize = 10 * 1024
+    static let badEpisodeSize = 10 * 1024
 
     // things smaller than 150kb are suspect, probably text, xml or html error pages
     private static let suspectEpisodeSize = 150 * 1024
@@ -134,14 +134,16 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
-
-        guard let episode = episodeForTask(downloadTask, forceReload: true) else { return }
+        guard let episode = episodeForTask(downloadTask, forceReload: true) else {
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
+            return
+        }
 
         removeEpisodeFromCache(episode)
         guard let response = downloadTask.response as? HTTPURLResponse else {
             // invalid download since we can't check things like the status code and headers if it's not a HTTPURLResponse
             markEpisode(episode, asFailedWithMessage: L10n.downloadFailed, reason: .badResponse)
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             return
         }
 
@@ -153,7 +155,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
                 }
                 return
             }
-
+            downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
             let message: String
             if response.statusCode == ServerConstants.HttpConstants.notFound {
                 message = L10n.downloadErrorContactAuthorVersion2
@@ -165,7 +167,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
             markEpisode(episode, asFailedWithMessage: message, reason: .statusCode(response.statusCode))
             return
         }
-
+        downloadAttempts.removeValue(forKey: downloadTask.taskIdentifier)
         let responseContentType = response.allHeaderFields[ServerConstants.HttpHeaders.contentType] as? String
         processEpisode(episode, downloadedFile: location, reportedContentType: responseContentType, copyFile: false)
     }
@@ -219,6 +221,40 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         guard let downloadTask = task as? URLSessionDownloadTask,
               let episode = episodeForTask(downloadTask, forceReload: false) else {
             return
+        }
+
+        // Track network data usage
+        if FeatureFlag.trackNetworkDataUsage.enabled {
+            let bytesReceived = task.countOfBytesReceived
+            let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+
+            if bytesReceived > 0 {
+                let autoDownloadStatus = AutoDownloadStatus(rawValue: episode.autoDownloadStatus)
+                let operationType: NetworkDataUsageManager.OperationType
+                switch autoDownloadStatus {
+                case .playerDownloadedForStreaming:
+                    operationType = .stream
+                default:
+                    operationType = .download
+                }
+
+                let sessionType: NetworkDataUsageManager.SessionType =
+                    session === wifiOnlyBackgroundSession ? .background :
+                    (session === cellularBackgroundSession ? .background : .foreground)
+
+                let bytesDownloaded = operationType != .stream ? bytesReceived : 0
+                let bytesStreamed = operationType == .stream ? bytesReceived : 0
+
+                dataManager.networkDataUsageManager.add(
+                    episodeUuid: episode.uuid,
+                    podcastUuid: episode.parentIdentifier(),
+                    bytesDownloaded: bytesDownloaded,
+                    bytesStreamed: bytesStreamed,
+                    operationType: operationType,
+                    connectionType: connectionType,
+                    sessionType: sessionType
+                )
+            }
         }
 
         if let failure = taskFailure[episode.uuid] {

@@ -1,0 +1,534 @@
+import Foundation
+import PocketCastsDataModel
+import PocketCastsUtils
+
+extension SyncTask {
+    func processServerData(response: Api_SyncUpdateResponse) {
+        var podcastsToImport = [Api_SyncUserPodcast]()
+        var episodesToImport = [Api_SyncUserEpisode]()
+        var playlistsToImport = [Api_SyncUserPlaylist]()
+        var foldersToImport = [Api_SyncUserFolder]()
+        var bookmarksToImport = [Api_SyncUserBookmark]()
+
+        for item in response.records {
+            guard let oneOf = item.record else { continue }
+
+            switch oneOf {
+            case .podcast:
+                podcastsToImport.append(item.podcast)
+            case .episode:
+                episodesToImport.append(item.episode)
+            case .playlist:
+                playlistsToImport.append(item.playlist)
+            case .folder:
+                foldersToImport.append(item.folder)
+            case .bookmark:
+                bookmarksToImport.append(item.bookmark)
+            case .device:
+                StatsManager.shared.updateStatsIfNeeded(
+                    savedDynamicSpeed: TimeInterval(item.device.timeSilenceRemoval.value),
+                    savedVariableSpeed: TimeInterval(item.device.timeVariableSpeed.value),
+                    totalListenedTo: TimeInterval(item.device.timeListened.value),
+                    totalSkipped: TimeInterval(item.device.timeSkipping.value),
+                    savedAutoSkipping: TimeInterval(item.device.timeIntroSkipping.value)
+                )
+            }
+        }
+
+        DataManager.sharedManager.markAllSynced(episodeIDs: episodesToImport.map({ $0.uuid }))
+
+        totalToImport = podcastsToImport.count
+        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
+        upToPodcast = 1
+
+        // The sync order here is important. Folders need to be added before podcasts, because podcasts have folderUuids in them. Podcasts are next so we can load any episodes we don't have and then read their sync data.
+        for folderItem in foldersToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.importFolder(folderItem)
+            }
+        }
+
+        for podcastItem in podcastsToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.importPodcast(podcastItem)
+            }
+        }
+        importQueue.waitUntilAllOperationsAreFinished()
+        NotificationCenter.default.post(name: ServerNotifications.syncProgressImportedPodcasts, object: nil)
+
+        for episodeItem in episodesToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.importEpisode(episodeItem)
+            }
+        }
+
+        for playlistItem in playlistsToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.importPlaylist(playlistItem)
+            }
+        }
+
+        FileLog.shared.addMessage("SyncTask: Found \(bookmarksToImport.count) bookmarks to import")
+
+        for bookmark in bookmarksToImport {
+            importQueue.addOperation { [weak self] in
+                guard let strongSelf = self else { return }
+                let semaphore = DispatchSemaphore(value: 0)
+
+                Task {
+                    await strongSelf.importBookmark(bookmark)
+                    semaphore.signal()
+                }
+
+                semaphore.wait()
+            }
+        }
+
+        importQueue.waitUntilAllOperationsAreFinished()
+
+        // If any podcasts were moved out of their folders, the app saves this info
+        // In case of sync errors the user can restore.
+        FolderHistoryHelper.shared.snapshot()
+    }
+
+    private func importPodcast(_ podcastItem: Api_SyncUserPodcast) {
+        let existingPodcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true)
+        if podcastItem.hasIsDeleted, podcastItem.isDeleted.value {
+            if let podcast = existingPodcast {
+                podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
+                podcast.isPushEnabled = false
+                podcast.autoArchiveEpisodeLimit = 0
+                podcast.subscribed = 0
+                podcast.autoAddToUpNext = AutoAddToUpNextSetting.off.rawValue
+                podcast.settings = PodcastSettings.defaults
+                if FeatureFlag.settingsSync.enabled {
+                    podcast.processSettings(podcastItem.settings)
+                }
+
+                DataManager.sharedManager.save(podcast: podcast)
+            }
+        } else if let podcast = existingPodcast {
+            importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: true)
+            DataManager.sharedManager.save(podcast: podcast)
+
+            ServerConfig.shared.syncDelegate?.podcastUpdated(podcastUuid: podcast.uuid)
+        } else {
+            let semaphore = DispatchSemaphore(value: 0)
+
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
+                if success {
+                    if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
+                        podcast.syncStatus = SyncStatus.synced.rawValue
+                        self.importItem(podcastItem: podcastItem, into: podcast, checkIsDeleted: false)
+
+                        DataManager.sharedManager.save(podcast: podcast)
+                    }
+                }
+
+                semaphore.signal()
+            })
+            _ = semaphore.wait(timeout: .distantFuture)
+        }
+
+        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: upToPodcast)
+        NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
+        upToPodcast += 1
+    }
+
+    private func importItem(podcastItem: Api_SyncUserPodcast, into podcast: Podcast, checkIsDeleted: Bool) {
+        if podcastItem.hasAutoStartFrom {
+            podcast.startFrom = podcastItem.autoStartFrom.value
+        }
+        if podcastItem.hasAutoSkipLast {
+            podcast.skipLast = podcastItem.autoSkipLast.value
+        }
+        if podcastItem.hasFolderUuid {
+            let folderUuid = podcastItem.folderUuid.value
+
+
+            if folderUuid == DataConstants.homeGridFolderUuid, let originalFolderUuid = podcast.folderUuid {
+                FolderHistoryHelper.shared.add(podcastUuid: podcastItem.uuid, folderUuid: originalFolderUuid)
+            }
+
+            podcast.folderUuid = (folderUuid == DataConstants.homeGridFolderUuid) ? nil : folderUuid
+        }
+        if podcastItem.hasSortPosition {
+            podcast.sortOrder = podcastItem.sortPosition.value
+        }
+
+        if checkIsDeleted, podcastItem.hasIsDeleted {
+            podcast.subscribed = podcastItem.isDeleted.value ? 0 : 1
+        }
+
+        if FeatureFlag.settingsSync.enabled {
+            podcast.processSettings(podcastItem.settings)
+        }
+    }
+
+    private func importEpisode(_ episodeItem: Api_SyncUserEpisode) {
+        var existingEpisode = DataManager.sharedManager.findEpisode(uuid: episodeItem.uuid)
+
+        if existingEpisode == nil {
+            // we don't have this episode so try and find it
+            FileLog.shared.addMessage("Trying to find missing episode as part of a sync \(episodeItem.uuid)")
+            existingEpisode = ServerPodcastManager.shared.addMissingEpisode(episodeUuid: episodeItem.uuid, podcastUuid: episodeItem.podcastUuid)
+        }
+
+        guard let episode = existingEpisode else { return }
+
+        let updateSaved = DataManager.sharedManager.saveIfNotModified(chapters: episodeItem.deselectedChapters, remoteModified: episodeItem.deselectedChaptersModified.value, episodeUuid: episode.uuid)
+        if updateSaved {
+            ServerConfig.shared.syncDelegate?.deselectedChaptersChanged()
+        }
+
+        if episodeItem.hasStarred, episode.keepEpisode != episodeItem.starred.value {
+            let updateSaved = DataManager.sharedManager.saveIfNotModified(starred: episodeItem.starred.value, episodeUuid: episode.uuid)
+            if updateSaved {
+                ServerConfig.shared.syncDelegate?.episodeStarredChanged(episode: episode)
+            }
+        }
+
+        // The order of the two methods below is important, we should always archive an episode if it's been archived before marking it as played.
+        // This is because marking something as played has the potential to archive it as well, but doing so on device will update the time it was done potentially causing sync issues
+
+        if episodeItem.hasIsDeleted, episode.archived != episodeItem.isDeleted.value {
+            if isPlayerPlaying(episode: episode) {
+                // if we're actively playing this episode, mark the archive status as unsynced because ours is considered more current
+                DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: true)
+            } else {
+                if episodeItem.isDeleted.value {
+                    ServerConfig.shared.syncDelegate?.archiveEpisodeExternal(episode: episode)
+                } else {
+                    _ = DataManager.sharedManager.saveIfNotModified(archived: false, episodeUuid: episode.uuid)
+                }
+            }
+        }
+
+        if episodeItem.hasPlayingStatus, episode.playingStatus != episodeItem.playingStatus.value {
+            if isPlayerPlaying(episode: episode) {
+                // if we're actively playing this episode, mark the status as unsynced because ours is considered more current
+                DataManager.sharedManager.saveEpisode(playingStatus: .inProgress, episode: episode, updateSyncFlag: true)
+            } else {
+                let playingStatus = PlayingStatus(rawValue: episodeItem.playingStatus.value) ?? PlayingStatus.notPlayed
+                let updateSaved = DataManager.sharedManager.saveIfNotModified(playingStatus: playingStatus, episodeUuid: episode.uuid)
+                if updateSaved, playingStatus == .completed {
+                    // if an episode has been marked as played on one device, give it the same treatment on this one, including deletions, etc
+                    ServerConfig.shared.syncDelegate?.markEpisodeAsPlayedExternal(episode: episode)
+                }
+            }
+        }
+
+        if episodeItem.hasPlayedUpTo, Int64(episode.playedUpTo) != episodeItem.playedUpTo.value {
+            let playedUpTo = Double(episodeItem.playedUpTo.value)
+
+            let shouldApply: Bool
+            if FeatureFlag.syncPlayedUpToTimestampCheck.enabled {
+                let remoteModified = episodeItem.hasPlayedUpToModified ? episodeItem.playedUpToModified.value : 0
+                shouldApply = DataManager.sharedManager.saveIfNotModified(playedUpTo: playedUpTo, remoteModified: remoteModified, episodeUuid: episode.uuid)
+                if !shouldApply {
+                    FileLog.shared.addMessage("importEpisode: rejected stale playedUpTo \(playedUpTo) (remoteModified \(remoteModified) not newer than local) for \(episode.displayableTitle())")
+                }
+            } else {
+                DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
+                shouldApply = true
+            }
+
+            // if the episode is loaded into the player, and is currently paused seek to the new up to time
+            if shouldApply, let delegate = ServerConfig.shared.playbackDelegate, delegate.isNowPlayingEpisode(episodeUuid: episode.uuid), !delegate.playing() {
+                if playedUpTo < 1 {
+                    FileLog.shared.addMessage("Saving a time of \(playedUpTo) for episode \(episode.displayableTitle()) because that's what the server sent us during a sync")
+                }
+                ServerConfig.shared.playbackDelegate?.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
+            }
+        }
+
+        // only update the duration if we aren't actively playing this episode
+        if episodeItem.hasDuration, Int64(episode.duration) != episodeItem.duration.value, !isPlayerPlaying(episode: episode) {
+            DataManager.sharedManager.saveEpisode(duration: Double(episodeItem.duration.value), episode: episode, updateSyncFlag: false)
+        }
+    }
+
+    private func importFolder(_ folderItem: Api_SyncUserFolder) {
+        let folderUuid = folderItem.folderUuid
+
+        // if another device has deleted this folder, we need to delete it as well. No point in importing any of it's properties, so we return here as well
+        if folderItem.isDeleted {
+            DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: false)
+
+            return
+        }
+
+        var existingFolder = DataManager.sharedManager.findFolder(uuid: folderUuid)
+        if existingFolder == nil {
+            existingFolder = Folder()
+            existingFolder?.uuid = folderUuid
+        }
+        guard let folder = existingFolder else { return }
+
+        folder.name = folderItem.name
+        folder.color = folderItem.color
+        folder.sortOrder = folderItem.sortPosition
+        folder.sortType = Int32(ServerConverter.convertToClientSortType(serverType: folderItem.podcastsSortType))
+        folder.addedDate = folderItem.dateAdded.date
+
+        DataManager.sharedManager.save(folder: folder)
+    }
+
+    private func importPlaylist(_ playlistItem: Api_SyncUserPlaylist) {
+        let playlistUuid = playlistItem.originalUuid // it's important to use this field, not uuid because the server won't change the case on this one
+        var existingPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlistUuid)
+
+        // if the filter exists, and another device has deleted it, then delete it
+        if playlistItem.hasIsDeleted, playlistItem.isDeleted.value {
+            if let playlist = existingPlaylist {
+                DataManager.sharedManager.delete(playlist: playlist)
+            }
+
+            return
+        }
+
+        if existingPlaylist == nil {
+            existingPlaylist = EpisodeFilter()
+            existingPlaylist?.uuid = playlistUuid
+        }
+
+        guard let playlist = existingPlaylist else { return }
+
+        playlist.syncStatus = SyncStatus.synced.rawValue
+        if playlistItem.hasTitle {
+            playlist.playlistName = playlistItem.title.value
+        }
+        if playlistItem.hasAllPodcasts {
+            playlist.filterAllPodcasts = playlistItem.allPodcasts.value
+        }
+        if playlistItem.hasAudioVideo {
+            playlist.filterAudioVideoType = playlistItem.audioVideo.value
+        }
+        if playlistItem.hasNotDownloaded {
+            playlist.filterNotDownloaded = playlistItem.notDownloaded.value
+        }
+        if playlistItem.hasDownloaded {
+            playlist.filterDownloaded = playlistItem.downloaded.value
+        }
+        if playlistItem.hasFinished {
+            playlist.filterFinished = playlistItem.finished.value
+        }
+        if playlistItem.hasPartiallyPlayed {
+            playlist.filterPartiallyPlayed = playlistItem.partiallyPlayed.value
+        }
+        if playlistItem.hasUnplayed {
+            playlist.filterUnplayed = playlistItem.unplayed.value
+        }
+        if playlistItem.hasStarred {
+            playlist.filterStarred = playlistItem.starred.value
+        }
+        if playlistItem.hasSortPosition {
+            playlist.sortPosition = playlistItem.sortPosition.value
+        }
+        if playlistItem.hasSortType {
+            playlist.sortType = playlistItem.sortType.value
+        }
+        if playlistItem.hasIconID {
+            playlist.customIcon = playlistItem.iconID.value
+        }
+        if playlistItem.hasFilterHours {
+            playlist.filterHours = playlistItem.filterHours.value
+        }
+        if playlistItem.hasFilterDuration {
+            playlist.filterDuration = playlistItem.filterDuration.value
+        }
+        if playlistItem.hasShorterThan {
+            playlist.shorterThan = playlistItem.shorterThan.value
+        }
+        if playlistItem.hasLongerThan {
+            playlist.longerThan = playlistItem.longerThan.value
+        }
+        if playlistItem.hasManual {
+            playlist.manual = playlistItem.manual.value
+        }
+        if playlistItem.hasPodcastUuids {
+            playlist.podcastUuids = playlistItem.podcastUuids.value
+        } else {
+            playlist.podcastUuids = ""
+        }
+
+        if FeatureFlag.playlistsRebranding.enabled {
+            let serverSet = Set(playlistItem.episodeOrder)
+            let matchedEpisodes = DataManager.sharedManager.playlistEpisodes(for: playlist).map { $0.uuid }
+            let missingEpisodes = serverSet.subtracting(matchedEpisodes)
+            let episodesToDelete = Set(matchedEpisodes).subtracting(serverSet)
+
+            let addedEpisodes: [Episode] = missingEpisodes.compactMap { episode -> Episode? in
+                let playlistEpisode = playlistItem.episodes.first(where: { $0.episode == episode })
+                guard let playlistEpisode else { return nil }
+                let episode = DataManager.sharedManager.findEpisode(uuid: playlistEpisode.episode)
+                return episode ?? Episode(playlistEpisode)
+            }
+
+            addedEpisodes.forEach { episode in
+                if DataManager.sharedManager.findEpisode(uuid: episode.uuid) == nil {
+                    episode.wasDeleted = true
+                }
+
+                if episode.addedDate == nil {
+                    episode.addedDate = Date()
+                }
+
+                if episode.podcast_id == 0 {
+                    episode.podcast_id = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)?.id ?? 0
+                }
+
+                DataManager.sharedManager.save(episode: episode)
+            }
+
+            if !episodesToDelete.isEmpty {
+                DataManager.sharedManager.rawDeleteEpisodes(Array(episodesToDelete), from: playlist)
+            }
+
+            let didAdd = DataManager.sharedManager.add(episodes: addedEpisodes, to: playlist)
+            if !didAdd {
+                let playlistCount = DataManager.sharedManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: true)
+                FileLog.shared.addMessage("SyncTask: Tried to add too many episodes to imported playlist \(playlist.playlistName) episodeCount: \(addedEpisodes) playlistCount: \(playlistCount)")
+            }
+
+            updateEpisodePositionsIfNeeded(for: playlistItem, playlist: playlist)
+
+            playlist.syncStatus = SyncStatus.synced.rawValue
+            DataManager.sharedManager.save(playlist: playlist)
+
+            addedEpisodes.forEach { addedEpisode in
+                ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: addedEpisode.uuid, podcastUuid: addedEpisode.podcastUuid, shouldUpdateEpisode: true)
+            }
+        } else {
+            playlist.syncStatus = SyncStatus.synced.rawValue
+            DataManager.sharedManager.save(playlist: playlist)
+        }
+    }
+
+    private func updateEpisodePositionsIfNeeded(for playlistItem: Api_SyncUserPlaylist, playlist: EpisodeFilter) {
+        guard playlist.manual else { return }
+
+        let orderedEpisodeUuids = playlistItem.episodeOrder.isEmpty ? playlistItem.episodes.map { $0.episode } : playlistItem.episodeOrder
+        guard !orderedEpisodeUuids.isEmpty else { return }
+
+        var processedUuids = Set<String>()
+
+        for (index, episodeUuid) in orderedEpisodeUuids.enumerated() {
+            guard !episodeUuid.isEmpty, processedUuids.insert(episodeUuid).inserted else { continue }
+
+            DataManager.sharedManager.moveEpisode(episodeUuid, in: playlist, to: index)
+        }
+    }
+
+    func isPlayerPlaying(episode: Episode) -> Bool {
+        ServerConfig.shared.playbackDelegate?.isActivelyPlaying(episodeUuid: episode.uuid) ?? false
+    }
+
+    func importBookmark(_ apiBookmark: Api_SyncUserBookmark) async {
+        let bookmarkManager = dataManager.bookmarks
+
+        // Add the bookmark if it's not in the database
+        guard let existingBookmark = bookmarkManager.bookmark(for: apiBookmark.bookmarkUuid, allowDeleted: true) else {
+            if !apiBookmark.shouldDelete {
+                // If the podcast is for a user episode then we default to nil
+                let podcastUuid = apiBookmark.podcastUuid == DataConstants.userEpisodeFakePodcastId ? nil : apiBookmark.podcastUuid
+
+                let addedUuid = bookmarkManager.add(uuid: apiBookmark.bookmarkUuid,
+                                                    episodeUuid: apiBookmark.episodeUuid,
+                                                    podcastUuid: podcastUuid,
+                                                    title: apiBookmark.title.value,
+                                                    time: Double(apiBookmark.time.value),
+                                                    dateCreated: apiBookmark.createdAt.date,
+                                                    syncStatus: .synced)
+
+                if addedUuid == nil {
+                    FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not add non existent bookmark. API data: \(apiBookmark.logDescription)")
+                }
+            }
+            return
+        }
+
+        // Delete the bookmark
+        // Using an if to make it more explicit
+        if apiBookmark.shouldDelete {
+            await bookmarkManager.permanentlyDelete(bookmarks: [existingBookmark]).when(false, {
+                FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Could not delete uuid: \(existingBookmark.uuid). API Data: \(apiBookmark.logDescription)")
+            })
+            return
+        }
+
+        // Update
+        guard
+            let title = apiBookmark.bookmarkTitle,
+            let time = apiBookmark.bookmarkTime,
+            let created = apiBookmark.created
+        else {
+            FileLog.shared.addMessage("SyncTask: Import Bookmark Failed: Did not update bookmark because its missing required fields. API Data: \(apiBookmark.logDescription)")
+            return
+        }
+
+        await bookmarkManager.update(bookmark: existingBookmark, title: title, time: time, created: created, syncStatus: .synced).when(false) {
+            FileLog.shared.addMessage("SyncTask: Update Bookmark Failed. API Data: \(apiBookmark.logDescription)")
+        }
+    }
+}
+
+// MARK: - Api_SyncUserBookmark Helper Extension
+
+private extension Api_SyncUserBookmark {
+    var shouldDelete: Bool {
+        hasIsDeleted && isDeleted.value == true
+    }
+
+    var bookmarkTitle: String? {
+        hasTitle ? title.value : nil
+    }
+
+    var bookmarkTime: TimeInterval? {
+        guard hasTime else {
+            return nil
+        }
+
+        let time = TimeInterval(time.value)
+        return time.isNumeric ? time : nil
+    }
+
+    var created: Date? {
+        hasCreatedAt ? createdAt.date : nil
+    }
+
+    var logDescription: String {
+        (try? jsonString()) ?? "invalid api bookmark"
+    }
+}
+
+extension Podcast {
+    func processSettings(_ settings: Api_PodcastSettings) {
+        let oldSettings = self.settings
+        self.settings.$customEffects.update(setting: settings.playbackEffects)
+        self.settings.$autoStartFrom.update(setting: settings.autoStartFrom)
+        self.settings.$autoSkipLast.update(setting: settings.autoSkipLast)
+        self.settings.$trimSilence.update(setting: settings.trimSilence)
+        self.settings.$playbackSpeed.update(setting: settings.playbackSpeed)
+        self.settings.$boostVolume.update(setting: settings.volumeBoost)
+        self.settings.$notification.update(setting: settings.notification)
+        self.settings.$addToUpNext.update(setting: settings.addToUpNext)
+        self.settings.$addToUpNextPosition.update(setting: settings.addToUpNextPosition)
+        self.settings.$episodesSortOrder.update(setting: settings.episodesSortOrder)
+        self.settings.$episodeGrouping.update(setting: settings.episodeGrouping)
+        self.settings.$showArchived.update(setting: settings.showArchived)
+        self.settings.$autoArchive.update(setting: settings.autoArchive)
+        self.settings.$autoArchivePlayed.update(setting: settings.autoArchivePlayed)
+        self.settings.$autoArchiveInactive.update(setting: settings.autoArchiveInactive)
+        self.settings.$autoArchiveEpisodeLimit.update(setting: settings.autoArchiveEpisodeLimit)
+        oldSettings.printDiff(from: self.settings, withIdentifier: self.uuid)
+    }
+}

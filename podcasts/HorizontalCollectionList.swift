@@ -13,6 +13,8 @@ struct HorizontalCollectionList: View {
 
     @ScaledMetric(relativeTo: .largeTitle) var scaledRowHeight = CGFloat(210)
 
+    @ScaledMetric(relativeTo: .largeTitle) var scaledRowWidth = CGFloat(180)
+
     var adjustedHeight: CGFloat {
         return max(323, scaledHeight)
     }
@@ -21,11 +23,16 @@ struct HorizontalCollectionList: View {
         return min(320, max(210, scaledRowHeight))
     }
 
+    var adjustedRowWidth: CGFloat {
+        return min(320, max(180, scaledRowWidth))
+    }
+
     var header: some View {
         HStack(alignment: .center) {
             Text(model.type)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 22, style: .title, weight: .bold)
+                .lineLimit(2)
             Spacer()
             Button() {
                 model.showCollection()
@@ -52,7 +59,7 @@ struct HorizontalCollectionList: View {
                     Color.gray
                 }
             }
-            .frame(width: adjustedRowHeight, height: adjustedRowHeight)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight)
             VStack() {
                 Spacer()
                 Text(model.title)
@@ -71,7 +78,7 @@ struct HorizontalCollectionList: View {
                 Spacer().frame(height: 4)
             }
             .foregroundColor(.clear)
-            .frame(width: adjustedRowHeight, height: adjustedRowHeight / 2)
+            .frame(width: adjustedRowWidth, height: adjustedRowHeight / 2)
             .background(
                 LinearGradient(
                     stops: [
@@ -84,7 +91,7 @@ struct HorizontalCollectionList: View {
             )
         }
         .cornerRadius(4)
-        .frame(width: adjustedRowHeight, height: adjustedRowHeight)
+        .frame(width: adjustedRowWidth, height: adjustedRowHeight)
         .padding(.leading, 16)
     }
 
@@ -119,7 +126,7 @@ struct HorizontalCollectionList: View {
                 model.subscribePodcast(podcast)
             }
         }
-        .frame(maxHeight: (adjustedRowHeight - 8.0) / 2.0)
+        .frame(height: (adjustedRowHeight - 8.0) / 2.0)
         .onTapGesture {
             model.showPodcast(podcast)
         }

@@ -58,6 +58,12 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         return (metadata?.chapters, nil)
     }
 
+    private func buildGeneratedTranscript(podcastUuid: String, episodeUuid: String) -> Episode.Metadata.Transcript {
+        let format = TranscriptFormat.vtt
+        let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid).\(format.fileExtension)"
+        return Episode.Metadata.Transcript(url: urlString, type: format.rawValue, language: nil)
+    }
+
     public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
 #if os(watchOS)
         return (transcripts: [], hasGeneratedTranscripts: false)
@@ -66,7 +72,17 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
         if FeatureFlag.generatedTranscripts.enabled {
             let externalTranscripts = metadata?.transcripts ?? []
-            let pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            var pocketCastsTranscripts: [Episode.Metadata.Transcript] = []
+            if let episode = dataManager.findEpisode(uuid: episodeUuid),
+               let hasTranscript = episode.hasGeneratedTranscript {
+                if hasTranscript {
+                    let transcript = buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+                    pocketCastsTranscripts = [transcript]
+                }
+            } else {
+                pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
+            }
+
             let transcripts = externalTranscripts.isEmpty ? pocketCastsTranscripts : externalTranscripts
             return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty)
         }

@@ -78,7 +78,7 @@ extension Watch_GenerateScreenshots {
 
     private func navigateBackToSourceSelection() {
         _ = app.navigationBars.buttons.firstMatch.waitForExistence(timeout: 5)
-        while app.navigationBars.buttons.allElementsBoundByIndex.count > 0 {
+        while !app.navigationBars.buttons.allElementsBoundByIndex.isEmpty {
             app.navigationBars.buttons.firstMatch.waitForThenTap()
             _ = app.navigationBars.buttons.firstMatch.waitForExistence(timeout: 5)
         }

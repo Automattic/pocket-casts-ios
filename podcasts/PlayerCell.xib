@@ -84,7 +84,7 @@
                         </subviews>
                     </stackView>
                     <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPL-EK-QpB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="75" width="320" height="1"/>
+                        <rect key="frame" x="0.0" y="79" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Yg3-Y0-GSr"/>
@@ -109,7 +109,7 @@
                     <constraint firstAttribute="trailing" secondItem="vxd-V8-but" secondAttribute="trailing" constant="8" id="dsp-Ea-A98"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wE1-9S-69I" secondAttribute="trailing" constant="8" id="eja-el-zCZ"/>
                     <constraint firstItem="oRM-hc-IES" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-14" id="gys-zy-Lhp"/>
-                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-4" id="ixX-SD-QBc"/>
+                    <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="ixX-SD-QBc"/>
                     <constraint firstItem="wE1-9S-69I" firstAttribute="top" secondItem="vxd-V8-but" secondAttribute="bottom" constant="2" id="tXG-hc-RAK"/>
                 </constraints>
             </tableViewCellContentView>

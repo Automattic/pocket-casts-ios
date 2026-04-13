@@ -97,7 +97,7 @@ struct SearchResultsView: View {
                         }
                     ]
                 )
-            } else if searchResults.episodes.count > 0 {
+            } else if !searchResults.episodes.isEmpty {
                 ForEach(searchResults.episodes.prefix(Constants.maxNumberOfEpisodes), id: \.self) { episode in
                     let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
                     SearchResultCell(episode: episode, result: nil, played: played)

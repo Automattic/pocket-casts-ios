@@ -68,7 +68,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.unplayedToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             case 1:
                 cell.titleLabel.text = L10n.inProgress
                 cell.setSelectedState(deleteInProgress)
@@ -76,7 +76,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.inProgressToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             case 2:
                 cell.titleLabel.text = L10n.statusPlayed
                 cell.setSelectedState(deletePlayed)
@@ -84,7 +84,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
                 cell.selectButton.addTarget(self, action: #selector(DownloadedFilesViewController.playedToggled(_:)), for: .touchUpInside)
 
                 let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
-                cell.subtitleLabel.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+                cell.subtitleLabel.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             default:
                 break
             }
@@ -104,7 +104,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
             let total = totalDeleteSize()
             let sizeAsStr = SizeFormatter.shared.noDecimalFormat(bytes: Int64(total))
-            cell.statValue.text = sizeAsStr == "" ? SizeFormatter.shared.placeholder : sizeAsStr
+            cell.statValue.text = sizeAsStr.isEmpty ? SizeFormatter.shared.placeholder : sizeAsStr
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath) as! DestructiveButtonCell

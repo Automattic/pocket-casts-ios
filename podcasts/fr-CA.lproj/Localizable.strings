@@ -1562,6 +1562,8 @@ podcasts partout avec</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Vous devez configurer un compte de messagerie sur l’appareil pour envoyer les journaux</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Aucun journal watchOS disponible. Vérifiez que votre Apple Watch est connectée et que l’application Pocket Casts Watch est installée.</string>
     <key>manage_downloads_action</key>
     <string>Gérer les téléchargements</string>
     <key>manage_downloads_detail</key>
@@ -2104,8 +2106,12 @@ MISES À JOUR</string>
     <string>Épisode supprimé</string>
     <key>player_error_corrupted_file</key>
     <string>L’épisode est peut-être corrompu, mais vous pouvez essayer de l’écouter de nouveau.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Épisode non disponible</string>
     <key>player_error_internet_connection</key>
     <string>Vérifiez votre connexion Internet et réessayez.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Vous êtes hors ligne</string>
     <key>player_increment_time</key>
     <string>Augmenter le temps</string>
     <key>player_mark_as_played_confirmation</key>
@@ -2160,6 +2166,12 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Cette liste de lecture est pleine. Supprimez quelques épisodes ou démarrez-en un nouveau.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Ajouter des épisodes</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>La liste de lecture est presque pleine. Essayez d’ajouter moins d’épisodes.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Les listes de lecture ne peuvent contenir que des épisodes de podcast.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Les listes de lecture ne peuvent contenir que %1$@ épisodes maximum.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Votre épisode dans cette playlist a été archivé</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2963,7 +2975,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@ épisodes.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Lorsque la file d’attente Prochains épisodes atteint %1$@, l’ajout automatique de nouveaux épisodes au haut de la liste supprimera le dernier épisode dans la file d’attente. Aucun nouvel épisode ne sera ajouté au bas.</string>
+    <string>Lorsque la file d’attente atteint %1$@ éléments, les nouveaux épisodes ajoutés automatiquement au début suppriment ceux qui sont à la fin. Les épisodes qui doivent s’ajouter automatiquement à la fin ne sont pas ajoutés tant que la file d’attente n’est pas en dessous de la limite.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Ajout automatique de balados</string>
     <key>settings_auto_archive</key>
@@ -3331,7 +3343,7 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <key>settings_up_next_limit</key>
     <string>Ajout automatique des nouveaux épisodes à la liste Prochains épisodes Les nouveaux épisodes ne seront plus ajoutés lorsque la file d’attente Prochains épisodes atteindra %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Ajout automatique des nouveaux épisodes à la file d’attente Prochains épisodes Lorsque la file d’attente Prochains épisodes atteint %1$@, l’ajout automatique de nouveaux épisodes au haut de la liste supprimera le dernier épisode dans la file d’attente.</string>
+    <string>Ajoute automatiquement les nouveaux épisodes à la file d’attente. Lorsque la file d’attente atteint %1$@ éléments, les nouveaux épisodes ajoutés automatiquement au début suppriment ceux qui sont à la fin. Les épisodes qui doivent s’ajouter automatiquement à la fin ne sont pas ajoutés tant que la file d’attente n’est pas en dessous de la limite.</string>
     <key>settings_volume_boost</key>
     <string>Amplification du volume</string>
     <key>settings_watch_auto_download</key>

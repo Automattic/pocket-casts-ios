@@ -1562,6 +1562,8 @@ podcasts com você</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Você precisa configurar uma conta de e-mail no dispositivo para enviar os registros</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Nenhum registro watchOS disponível. Certifique-se de que você tenha um Apple Watch emparelhado e o aplicativo Pocket Casts instalado nele.</string>
     <key>manage_downloads_action</key>
     <string>Gerenciar downloads</string>
     <key>manage_downloads_detail</key>
@@ -2104,8 +2106,12 @@ Isso que é compromisso!</string>
     <string>Episódio removido</string>
     <key>player_error_corrupted_file</key>
     <string>O episódio talvez esteja corrompido, mas você pode tentar reproduzi-lo novamente.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Episódio não disponível</string>
     <key>player_error_internet_connection</key>
     <string>Verifique sua conexão com a Internet e tente novamente.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Você está offline</string>
     <key>player_increment_time</key>
     <string>Avançar no episódio</string>
     <key>player_mark_as_played_confirmation</key>
@@ -2160,6 +2166,12 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Esta playlist está cheia. Remova alguns episódios ou inicie um novo.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Adicionar episódios</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>A playlist está quase cheia. Tente adicionar menos episódios.</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Playlists só podem conter episódios de podcast.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Playlists podem conter no máximo %1$@ episódios.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Seu episódio nesta playlist foi arquivado</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2963,7 +2975,7 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>A adição automática de novos episódios será interrompida quando a lista de Próximos chegar a %1$@ episódios.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos. Nenhum episódio novo será adicionado na parte inferior.</string>
+    <string>Quando os Próximos chegam a %1$@, os novos episódios adicionados automaticamente ao início da fila removem os últimos. Os episódios configurados com adição automática ao fim da fila não serão adicionados até que Próximos esteja abaixo do limite.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Adicionar podcasts automaticamente</string>
     <key>settings_auto_archive</key>
@@ -3331,7 +3343,7 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <key>settings_up_next_limit</key>
     <string>Adicione novos episódios aos Próximos automaticamente. Novos episódios deixarão de ser adicionados quando a fila de Próximos chegar a %1$@.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Adicione novos episódios aos Próximos automaticamente. Quando a fila chega a %1$@, os novos episódios adicionados automaticamente ao topo removerão os últimos.</string>
+    <string>Adicione novos episódios aos Próximos automaticamente. Quando os Próximos chegam a %1$@, os novos episódios adicionados automaticamente ao início da fila removem os últimos. Os episódios configurados com adição automática ao fim da fila não serão adicionados até que Próximos esteja abaixo do limite.</string>
     <key>settings_volume_boost</key>
     <string>Aumentar volume</string>
     <key>settings_watch_auto_download</key>

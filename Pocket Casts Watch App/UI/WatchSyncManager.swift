@@ -80,10 +80,13 @@ class WatchSyncManager {
     }
 
     @objc func handleContextUpdate() {
-        if FeatureFlag.watchUpNextSyncFix.enabled {
+        if FeatureFlag.watchUpNextSyncFix.enabled,
+           WKApplication.shared().applicationState != .background {
             // Debounce context updates to allow watch to fully process phone's changes
             // before deciding whether to sync. This prevents the watch from sending
             // stale Up Next data that could overwrite recent phone changes.
+            // Only debounce in foreground — in background, the system's execution window
+            // is tied to setTaskCompletedWithSnapshot, so we must process immediately.
             contextUpdateDebouncer.call()
         } else {
             processContextUpdate()

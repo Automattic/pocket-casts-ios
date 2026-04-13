@@ -41,7 +41,7 @@ class EpisodeManager: NSObject {
     }
 
     class func bulkMarkAsPlayed(episodes: [BaseEpisode], updateSyncFlag: Bool) {
-        guard episodes.count > 0 else { return }
+        guard !episodes.isEmpty else { return }
         var episodesToArchive = [Episode]()
         var episodesToMarkAsPlayed = [Episode]()
         var userEpisodeToMarkAsPlayed = [UserEpisode]()
@@ -72,15 +72,15 @@ class EpisodeManager: NSObject {
         let uuids = episodesMinusCurrent.map(\.uuid)
         PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
 
-        if episodesToArchive.count > 0 {
+        if !episodesToArchive.isEmpty {
             DataManager.sharedManager.bulkArchive(episodes: episodesToArchive, markAsNotDownloaded: true, markAsPlayed: true, updateSyncFlag: updateSyncFlag)
         }
 
-        if episodesToMarkAsPlayed.count > 0 {
+        if !episodesToMarkAsPlayed.isEmpty {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: episodesToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
         }
 
-        if userEpisodeToMarkAsPlayed.count > 0 {
+        if !userEpisodeToMarkAsPlayed.isEmpty {
             DataManager.sharedManager.bulkMarkAsPlayed(episodes: userEpisodeToMarkAsPlayed, updateSyncFlag: updateSyncFlag)
 
             #if !APPCLIP
@@ -380,30 +380,27 @@ class EpisodeManager: NSObject {
         }
 
         if FeatureFlag.cleanUpTmpFiles.enabled {
-            // Remove any files in the temporary folder that were not part of the above, that should be orphan files
-            let filePaths = Set(episodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-            // Also protect actively downloading episodes
-            let downloadingEpisodes = DataManager.sharedManager.findEpisodesWhere(
-                customWhere: "episodeStatus == \(DownloadStatus.downloading.rawValue) OR episodeStatus == \(DownloadStatus.queued.rawValue) OR (autoDownloadStatus == \(AutoDownloadStatus.playerDownloadedForStreaming.rawValue) && episodeStatus != \(DownloadStatus.downloaded))",
-                arguments: nil
-            )
-            let allExceptions = filePaths.union(downloadingEpisodes.map { DownloadManager.shared.tempPathForEpisode($0) })
-            cleanUpTmpFolder(exceptions: allExceptions)
+            // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
+            cleanUpTmpFolder()
         }
     }
 
-    class func cleanUpTmpFolder(exceptions: Set<String>) {
+    class func cleanUpTmpFolder(folderPath: String = DownloadManager.shared.tempDownloadFolder) {
         let fileManager = FileManager.default
-        let tmpPath = DownloadManager.shared.tempDownloadFolder
+        let tmpPath = folderPath
         guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
             return
         }
         FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
         while let tmpFile = folderEnum.nextObject() as? String {
             let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
-            if exceptions.contains(fullFilePath) {
+            guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath),
+                  let date = attributes[.modificationDate] as? Date,
+                  Date.now.timeIntervalSince(date) > 1.week
+            else {
                 continue
             }
+
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
             StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
         }

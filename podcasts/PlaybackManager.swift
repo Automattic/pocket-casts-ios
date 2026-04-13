@@ -38,7 +38,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var player: PlaybackProtocol?
 
     private var switchingToDifferentUpNextEpisode = false
-    private var interruptInProgress = false
+    private let interruptInProgress = AtomicBool()
 
     private var wasPlayingBeforeInterruption = false
     private let aboutToPlay = AtomicBool()
@@ -208,6 +208,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: episode)
+        activeError = nil
 
         if autoPlay {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
@@ -648,6 +649,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             nextEpisode.playedUpTo = 0
         }
         DataManager.sharedManager.saveEpisode(playbackError: nil, episode: nextEpisode)
+        activeError = nil
 
         if autoPlay {
             play(userInitiated: false)
@@ -783,7 +785,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playingOverAirplay() -> Bool {
         let currentRoute = AVAudioSession.sharedInstance().currentRoute
 
-        if currentRoute.outputs.count == 0 { return false }
+        if currentRoute.outputs.isEmpty { return false }
 
         let currentOutput = currentRoute.outputs[0]
         if currentOutput.portType.rawValue == AVAudioSession.Port.airPlay.rawValue {
@@ -976,12 +978,100 @@ class PlaybackManager: ServerPlaybackDelegate {
         updateAllNowPlayingData()
     }
 
-    func playbackDidFail(logMessage: String?, userMessage: String?, fallbackToDefaultPlayer: Bool = false) {
-        FileLog.shared.addMessage("playbackDidFail: \(logMessage ?? "No error provided")")
+    enum PlaybackError: Error {
+        case internetConnection(logMessage: String?)
+        case episodeNotAvailable(errorCode: Int, logMessage: String?)
+        case fileCorrupted(logMessage: String?)
+        case chromecastError(logMessage: String?)
+        case playbackError(logMessage: String?, isLocalFile: Bool)
+
+        var userMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorInternetConnection
+            case .episodeNotAvailable:
+                return L10n.downloadErrorContactAuthorVersion2
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorInternetConnection
+            }
+        }
+
+        var shortUserMessage: String {
+            switch self {
+            case .internetConnection:
+                return L10n.playerErrorShortNoConnection
+            case .episodeNotAvailable:
+                return L10n.playerErrorEpisodeNotAvailable
+            case .fileCorrupted:
+                return L10n.playerErrorCorruptedFile
+            case .chromecastError:
+                return L10n.chromecastError
+            case .playbackError(_, let isLocalFile):
+                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorShortNoConnection
+            }
+        }
+
+        func shortUserAttributedMessage(mainColor: UIColor, interactiveColor: UIColor) -> NSAttributedString {
+            let baseText = self.shortUserMessage
+            let learnMore: String = String(L10n.learnMore).sentenceCased
+            let attributedString = NSMutableAttributedString(string: baseText, attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)])
+            if self.userAction != nil {
+                attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                attributedString.append(NSAttributedString(string: learnMore, attributes: [.foregroundColor: interactiveColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            }
+            return attributedString
+        }
+
+        var userAction: URL? {
+            switch self {
+            case .episodeNotAvailable(let errorCode, _):
+                switch errorCode {
+                case NSURLErrorUserAuthenticationRequired:
+                    return URL(string: ServerConstants.Urls.supportEpisodeAccessIssues)
+                case NSURLErrorFileDoesNotExist:
+                    return URL(string: ServerConstants.Urls.supportEpisodeNotFound)
+                case NSURLErrorBadServerResponse:
+                    return URL(string: ServerConstants.Urls.supportEpisodeServerProblem)
+                default:
+                    return URL(string: ServerConstants.Urls.supportPlaybackDownloadErrors)
+                }
+            default:
+                return nil
+            }
+        }
+
+        var logMessage: String? {
+            switch self {
+            case .internetConnection(let logMessage):
+                return logMessage
+            case .episodeNotAvailable(_, let logMessage):
+                return logMessage
+            case .fileCorrupted(let logMessage):
+                return logMessage
+            case .chromecastError(let logMessage):
+                return logMessage
+            case .playbackError(let logMessage, _):
+                return logMessage
+            }
+        }
+
+        static let knownURLErrors: [Int] = [NSURLErrorResourceUnavailable, NSURLErrorBadServerResponse, NSURLErrorUserAuthenticationRequired, NSURLErrorFileDoesNotExist, NSURLErrorZeroByteResource]
+    }
+
+    var activeError: PlaybackError?
+
+    func playbackDidFail(error: PlaybackError, fallbackToDefaultPlayer: Bool = false) {
+        FileLog.shared.addMessage("[PlaybackManager] Playback did fail with error: \(error.logMessage ?? "No error detail provided")")
+
+        AnalyticsPlaybackHelper.shared.playbackFailed(episodeUUID: currentEpisode()?.uuid ?? "unknown", error: error.logMessage ?? "Unknown", player: player)
 
         #if !os(watchOS)
         if fallbackToDefaultPlayer, let episode = currentEpisode() {
-            FileLog.shared.addMessage("Playback Failed, attempting to fallback to: DefaultPlayer")
+            FileLog.shared.addMessage("[PlaybackManager] Playback failed, attempting to fallback to: DefaultPlayer")
 
             fallbackToPlayer = DefaultPlayer.self
 
@@ -992,10 +1082,8 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
         #endif
 
-        AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
-
         guard let episode = currentEpisode() else {
-            FileLog.shared.addMessage("PlaybackManager: Failed to fetch current episode. Queue will be cleared.")
+            FileLog.shared.addMessage("[PlaybackManager] Failed to fetch current episode. Queue will be cleared.")
             endPlayback()
 
             return
@@ -1007,15 +1095,16 @@ class PlaybackManager: ServerPlaybackDelegate {
         // - Is the duration actually reasonable?
         // if either of these is false, flag it as an error, otherwise we got close enough to the end
         if episode.playedUpTo < 1.minutes || episode.duration <= 0 || ((episode.playedUpTo + 3.minutes) < episode.duration) {
-            pause()
+            let previousSource = AnalyticsPlaybackHelper.shared.currentSource
+            AnalyticsPlaybackHelper.shared.currentSource = .playbackFailed
+            pause(userInitiated: false)
+            AnalyticsPlaybackHelper.shared.currentSource = previousSource
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
+            activeError = error
+            let message = error.userMessage
+            DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
 
-            if episode.downloaded(pathFinder: DownloadManager.shared) {
-                let message = userMessage ?? L10n.playerErrorCorruptedFile
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
-            } else {
-                let message = userMessage ?? L10n.playerErrorInternetConnection
-                DataManager.sharedManager.saveEpisode(playbackError: message, episode: episode)
+            if !episode.downloaded(pathFinder: DownloadManager.shared) {
                 cleanupCurrentPlayer(permanent: false)
             }
 
@@ -1024,7 +1113,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        FileLog.shared.addMessage("Something odd about the end of this episode but we got close enough, marking as finished")
+        FileLog.shared.addMessage("[PlaybackManager] Something odd about the end of this episode but we got close enough, marking as finished")
         playerDidFinishPlayingEpisode()
     }
 
@@ -1151,7 +1240,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         // it's technically possible to try and add just the now playing episode, in which case there's nothing more to do
-        if episodesToAdd.count == 0 {
+        if episodesToAdd.isEmpty {
             queue.bulkOperationDidComplete()
 
             return
@@ -1692,6 +1781,14 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
+            // Don't start playback during an active audio interruption (e.g. phone call).
+            // Bluetooth devices like Garmin watches with mic/speaker trigger route changes
+            // during calls, which cause iOS to send spurious playCommand events.
+            if strongSelf.interruptInProgress.value {
+                FileLog.shared.addMessage("Remote control: playCommand, ignored because an audio interruption is in progress")
+                return .success
+            }
+
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
 
             if Settings.legacyBluetoothModeEnabled() {
@@ -1713,8 +1810,10 @@ class PlaybackManager: ServerPlaybackDelegate {
                             return .commandFailed
                         }
                     }
-                    // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
-                    FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
+                    // For non-legacy Bluetooth and when not playing over AirPlay, treat playCommand
+                    // as a play/pause toggle to preserve compatibility with accessories that send
+                    // playCommand as a toggle (play while paused, play again to pause).
+                    FileLog.shared.addMessage("Remote control: playCommand, treating as play/pause toggle")
                     strongSelf.playPause()
                 }
             }
@@ -2013,7 +2112,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
         let interruptionReason = userInfo[AVAudioSessionInterruptionReasonKey] as? UInt
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
-            interruptInProgress = false
+            interruptInProgress.value = false
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio: \(interruptionOption) reason: \(interruptionReason?.description ?? "unknown")")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
@@ -2031,13 +2130,13 @@ class PlaybackManager: ServerPlaybackDelegate {
             // we run into any issues
             if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
                 if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
-                    interruptInProgress = true
+                    interruptInProgress.value = true
                 }
             } else {
                 // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
                 // no need to perform the same check for older versions.
                 // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
-                interruptInProgress = true
+                interruptInProgress.value = true
             }
 
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
@@ -2197,7 +2296,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Interruptions
 
     func interruptionInProgress() -> Bool {
-        interruptInProgress
+        interruptInProgress.value
     }
 
     // MARK: - Private helpers
@@ -2273,16 +2372,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     // If we're streaming an episode and it fails, try to make sure the URL is up to date.
     // Authors can change URLs at any time, so this is handy to fix cases where they post
     // the wrong one and update it later
-    func urlFailedToLoad(for episodeUuid: String) {
-        Task {
-            guard lastRetryEpisodeUuid != episodeUuid,
-                  let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
-                  let podcast = episode.parentPodcast() else {
-                lastRetryEpisodeUuid = episodeUuid
-                playbackDidFail(logMessage: "AVPlayerItemStatusFailed on currentItem", userMessage: nil)
-                return
-            }
+    // This method returns false if no retry is done, because we already did it before.
+    func retryUrlLoad(for episodeUuid: String) -> Bool {
 
+        guard lastRetryEpisodeUuid != episodeUuid,
+              let episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid),
+              let podcast = episode.parentPodcast() else {
+            lastRetryEpisodeUuid = episodeUuid
+            return false
+        }
+        Task {
+            haveCalledPlayerLoad = false
             FileLog.shared.addMessage("PlaybackManager: URL failed to load, trying to update episode and playing again")
             lastRetryEpisodeUuid = episodeUuid
 
@@ -2295,6 +2395,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 load(episode: updatedEpisode, autoPlay: true, overrideUpNext: false)
             }
         }
+        return true
     }
 
     // MARK: - Analytics

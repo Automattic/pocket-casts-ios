@@ -1,22 +1,25 @@
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
+import SafariServices
 
 extension NowPlayingPlayerItemViewController {
     func addObservers() {
         addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(progressUpdated))
         addCustomObserver(Constants.Notifications.episodeDurationChanged, selector: #selector(progressUpdated))
-        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(playbackTrackChanged))
         addCustomObserver(Constants.Notifications.videoPlaybackEngineSwitched, selector: #selector(videoPlaybackEngineSwitched))
-        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
-        addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(update))
-        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackEffectsChanged, selector: #selector(update(notification:)))
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(update(notification:)))
         addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(updateChapterInfo))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update))
-        addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update))
+        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(update(notification:)))
+        addCustomObserver(UIApplication.willEnterForegroundNotification, selector: #selector(update(notification:)))
+        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(update(notification:)))
 
         addCustomObserver(Constants.Notifications.sleepTimerChanged, selector: #selector(sleepTimerUpdated))
         addCustomObserver(Constants.Notifications.playerActionsUpdated, selector: #selector(reloadShelfActions))
@@ -28,14 +31,14 @@ extension NowPlayingPlayerItemViewController {
 
     @objc private func playbackTrackChanged() {
         floatingVideoView.isHidden = true
-        update()
+        update(notification: nil)
     }
 
     @objc private func videoPlaybackEngineSwitched() {
         floatingVideoView.player = PlaybackManager.shared.internalPlayerForVideoPlayback()
     }
 
-    @objc func update() {
+    @objc func update(notification: NSNotification?) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
         if playingEpisode.videoPodcast() {
@@ -63,7 +66,10 @@ extension NowPlayingPlayerItemViewController {
         updateChapterInfo()
         updateChapterProgress()
         updateColors()
-
+        let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
+        if let notificationName = notification?.name, errorRelevantNotifications.contains(notificationName) {
+            updateError()
+        }
         if !showingCustomImage {
             ImageManager.sharedManager.loadImage(episode: playingEpisode, imageView: episodeImage, size: .page)
         }
@@ -81,6 +87,7 @@ extension NowPlayingPlayerItemViewController {
 
         let highlightColor = PlayerColorHelper.playerHighlightColor01(for: .dark)
         timeSlider.leftColor = highlightColor
+        timeSlider.animationColor = PlayerColorHelper.playerHighlightColor01(for: .dark).withAlphaComponent(0.2)
         timeSlider.circleColor = buttonColor
         timeSlider.rightColor = ThemeColor.playerContrast06()
         timeSlider.popupColor = ThemeColor.playerContrast06()
@@ -110,7 +117,7 @@ extension NowPlayingPlayerItemViewController {
             episodeInfoView.isHidden = true
             chapterInfoView.isHidden = false
 
-            chapterName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            chapterName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
 
             chapterSkipBackBtn.isEnabled = !visibleChapter.isFirst
             chapterSkipFwdBtn.isEnabled = !visibleChapter.isLast
@@ -170,6 +177,73 @@ extension NowPlayingPlayerItemViewController {
         timeSlider.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
     }
 
+    var isErrorVisible: Bool {
+        return errorBottomSpacing.constant == 0
+    }
+
+    @objc func updateError() {
+        guard FeatureFlag.displayErrorsOnPlayer.enabled else {
+            hideError()
+            return
+        }
+        guard PlaybackManager.shared.currentEpisode() != nil,
+              let error = PlaybackManager.shared.activeError else {
+            hideError()
+            return
+        }
+        if !isErrorVisible {
+            showError(error, dismissAfter: 5)
+        }
+    }
+
+    func showError(_ error: PlaybackManager.PlaybackError, dismissAfter seconds: TimeInterval?) {
+        AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .fullPlayer)
+        // Move error container in view
+        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: ThemeColor.playerContrast02(), interactiveColor: ThemeColor.primaryInteractive01())
+        errorContainer.layoutIfNeeded()
+        errorBottomSpacing.constant = 0
+        playerBottomSpacing.constant = 16
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+        errorAutoDismissWork?.cancel()
+        if let seconds {
+            let work = DispatchWorkItem { [weak self] in self?.hideError() }
+            errorAutoDismissWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
+        }
+    }
+
+    func hideError() {
+        // Move error out
+        errorBottomSpacing.constant = -48
+        playerBottomSpacing.constant = 30
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) {
+            [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    @objc func errorTapped() {
+        guard let error  = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .fullPlayer)
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
+    }
+
     func updateProvisionalChapterInfoForTime(time: TimeInterval) {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode() else { return }
 
@@ -177,8 +251,9 @@ extension NowPlayingPlayerItemViewController {
             return
         }
         let chapters = PlaybackManager.shared.chaptersForTime(time: time)
+        // swiftlint:disable:next empty_count
         if chapters.count > 0 {
-            episodeName.text = chapters.title.count > 0 ? chapters.title : playingEpisode.displayableTitle()
+            episodeName.text = !chapters.title.isEmpty ? chapters.title : playingEpisode.displayableTitle()
             updateChapterProgress(for: chapters.visibleChapter, playheadPosition: time)
             updateUpTo(upTo: time, duration: chapters.duration, moveSlider: false)
             chapterCounter.text = L10n.playerChapterCount((chapters.index + 1).localized(), PlaybackManager.shared.chapterCount().localized())

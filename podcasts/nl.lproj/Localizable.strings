@@ -1560,6 +1560,8 @@ podcasts mee</string>
     <string>Logs</string>
     <key>logs_no_email_account_configured</key>
     <string>Configureer een e-mailaccount op het apparaat om de logboeken te verzenden</string>
+    <key>logs_watch_os_not_available</key>
+    <string>Geen watchOS-logboeken beschikbaar. Zorg ervoor dat je een Apple Watch hebt gekoppeld en dat de Pocket Casts-app voor horloges is geïnstalleerd.</string>
     <key>manage_downloads_action</key>
     <string>Downloads beheren</string>
     <key>manage_downloads_detail</key>
@@ -2100,8 +2102,12 @@ Dat is waar we voor staan!</string>
     <string>Aflevering is verwijderd</string>
     <key>player_error_corrupted_file</key>
     <string>De aflevering is mogelijk beschadigd, maar je kan proberen deze opnieuw af te spelen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Aflevering niet beschikbaar</string>
     <key>player_error_internet_connection</key>
     <string>Controleer je netwerkverbinding en probeer het nogmaals.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Je bent offline.</string>
     <key>player_increment_time</key>
     <string>Duur van toename</string>
     <key>player_mark_as_played_confirmation</key>
@@ -2154,6 +2160,12 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Deze afspeellijst is vol. Verwijder een paar afleveringen of start een nieuwe.</string>
     <key>playlist_manual_add_episodes</key>
     <string>Afleveringen toevoegen</string>
+    <key>playlist_manual_add_episodes_almost_full_toast</key>
+    <string>Playlists bijna vol. Probeer minder afleveringen toe te voegen</string>
+    <key>playlist_manual_add_files_not_supported_toast</key>
+    <string>Playlists kunnen alleen podcastafleveringen bevatten.</string>
+    <key>playlist_manual_add_too_many_episodes_toast</key>
+    <string>Playlists kunnen maximaal %1$@ afleveringen bevatten.</string>
     <key>playlist_manual_archived_episode_placeholder</key>
     <string>Je aflevering in deze playlist is gearchiveerd</string>
     <key>playlist_manual_archived_episodes_placeholder</key>
@@ -2955,7 +2967,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_auto_add_limit_subtitle_stop</key>
     <string>Nieuwe afleveringen worden niet toegevoegd wanneer Hierna %1$@ afleveringen bereikt.</string>
     <key>settings_auto_add_limit_subtitle_top</key>
-    <string>Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Er worden geen nieuwe afleveringen onderaan toegevoegd.</string>
+    <string>Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Afleveringen die zijn ingesteld op automatisch onderaan toevoegen worden pas toegevoegd als Hierna onder de limiet ligt.</string>
     <key>settings_auto_add_podcasts</key>
     <string>Podcasts automatisch toevoegen</string>
     <key>settings_auto_archive</key>
@@ -3323,7 +3335,7 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>settings_up_next_limit</key>
     <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Nieuwe afleveringen worden niet toegevoegd wanneer Hierna de %1$@ bereikt.</string>
     <key>settings_up_next_limit_add_to_top</key>
-    <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd.</string>
+    <string>Nieuwe afleveringen automatisch toevoegen aan Hierna. Wanneer Hierna de %1$@ bereikt, wordt de laatste aflevering in de wachtrij automatisch verwijderd wanneer nieuwe afleveringen automatisch bovenaan worden toegevoegd. Afleveringen die zijn ingesteld op automatisch onderaan toevoegen worden pas toegevoegd als Hierna onder de limiet ligt.</string>
     <key>settings_volume_boost</key>
     <string>Volumeboost</string>
     <key>settings_watch_auto_download</key>

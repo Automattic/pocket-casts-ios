@@ -44,7 +44,7 @@ class AVFileUtil: NSObject {
         let titleMetaData = AVMetadataItem.metadataItems(from: asset.commonMetadata, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierTitle)
 
         if let metaData = titleMetaData.first {
-            if let title = metaData.stringValue, title.count > 0 {
+            if let title = metaData.stringValue, !title.isEmpty {
                 titleHandler(title)
                 return
             }
@@ -66,7 +66,7 @@ class AVFileUtil: NSObject {
         }
 
         var biggestImage: UIImage?
-        if artworkImages.count == 0 {
+        if artworkImages.isEmpty {
             artworkHandler(nil)
             return
         } else if artworkImages.count == 1 {

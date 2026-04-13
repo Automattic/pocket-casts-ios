@@ -48,6 +48,35 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         })
     }
 
+    private let errorBanner: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColor.primaryUi03()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+
+    private var errorBottomSpacing: NSLayoutConstraint?
+    private var dismissErrorWorkItem: DispatchWorkItem?
+
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = AppTheme.mainTextColor()
+        label.font = .font(ofSize: 14, weight: .medium, scalingWith: .largeTitle)
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        return label
+    }()
+
+    // MARK: - State
+
+    private let errorBannerHeight: CGFloat = 48
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,6 +130,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
+        if FeatureFlag.displayErrorsOnPlayer.enabled {
+            setupErrorBanner()
+            setupErrorObservers()
+        }
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -217,6 +250,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     @objc func themeDidChange() {
         updateTabBarColor()
+        updateErrorColor()
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -924,6 +958,7 @@ private extension MainTabBarController {
             }
         }
     }
+
 }
 
 // MARK: - Analytics
@@ -978,5 +1013,125 @@ extension MainTabBarController {
 
     func showNotificationsPermissions() {
         present(NotificationsPermissionsViewModel.makeController(), animated: true)
+    }
+}
+
+// MARK: - Error Status
+
+extension MainTabBarController {
+
+    private func setupErrorBanner() {
+        view.addSubview(errorBanner)
+        errorBanner.addSubview(errorLabel)
+
+        let bottomSpacing = errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        bottomSpacing.priority = .defaultLow
+        self.errorBottomSpacing = bottomSpacing
+
+        errorBanner.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(errorTapped))
+        errorBanner.addGestureRecognizer(tapRecognizer)
+
+        NSLayoutConstraint.activate([
+            // Pin banner to the very bottom of the view (below tab bar)
+            errorBanner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomSpacing,
+            errorBanner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            // Error label
+            errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: errorBanner.leadingAnchor, constant: 16),
+            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
+            errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
+            errorLabel.topAnchor.constraint(equalTo: errorBanner.topAnchor, constant: 0),
+            errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
+        ])
+    }
+
+    private func setupErrorObservers() {
+        let errorRelevantNotifications = Set([Constants.Notifications.playbackFailed, Constants.Notifications.playbackStarted, Constants.Notifications.playbackPaused])
+
+        for notificationName in errorRelevantNotifications {
+            NotificationCenter.default.addObserver(self, selector: #selector(updateError(notification:)), name: notificationName, object: nil)
+        }
+    }
+
+    @objc private func updateError(notification: NSNotification) {
+        DispatchQueue.main.async { [weak self] in
+            guard FeatureFlag.displayErrorsOnPlayer.enabled,
+                let error = PlaybackManager.shared.activeError else {
+                self?.hideError()
+                return
+            }
+            if self?.errorBanner.isHidden == true {
+                self?.showError(error, autoDismissAfter: 5)
+            }
+        }
+    }
+
+    private func showError(_ error: PlaybackManager.PlaybackError, autoDismissAfter seconds: TimeInterval? = nil) {
+        if !(presentedViewController is PlayerContainerViewController) {
+            // do not track this if the full screen player is visible
+            AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .miniPlayer)
+        }
+        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: AppTheme.mainTextColor(), interactiveColor: ThemeColor.primaryInteractive01())
+        errorBanner.isUserInteractionEnabled = error.userAction != nil
+        errorBanner.layoutIfNeeded()
+        errorBanner.isHidden = false
+        errorBottomSpacing?.priority = .required
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
+            self.errorBanner.alpha = 1
+            let baseBottom = view.safeAreaInsets.bottom - additionalSafeAreaInsets.bottom
+            // Push child content up so it doesn't hide behind the shifted tab bar
+            self.additionalSafeAreaInsets = UIEdgeInsets(
+                top: 0, left: 0, bottom: self.errorBannerHeight - baseBottom, right: 0
+            )
+            self.view.layoutIfNeeded()
+        }
+
+        dismissErrorWorkItem?.cancel()
+        if let seconds {
+            let item = DispatchWorkItem { [weak self] in self?.hideError() }
+            dismissErrorWorkItem = item
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
+        }
+    }
+
+    @objc private func hideError() {
+        errorBottomSpacing?.priority = .defaultLow
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseInOut) { [weak self] in
+            guard let self else { return }
+            self.errorBanner.alpha = 0
+
+            // Reset content insets
+            self.additionalSafeAreaInsets = .zero
+            self.view.layoutIfNeeded()
+        } completion: { [weak self] _ in
+            self?.errorBanner.isHidden = true
+        }
+    }
+
+    @objc private func errorTapped() {
+        guard let error = PlaybackManager.shared.activeError,
+              let url = error.userAction
+        else {
+            return
+        }
+        AnalyticsPlaybackHelper.shared.playbackErrorTapped(playerSource: .miniPlayer)
+        #if !APPCLIP
+        let safariViewController = SFSafariViewController(with: url)
+        safariViewController.modalPresentationStyle = .formSheet
+        self.present(safariViewController, animated: true, completion: nil)
+        #endif
+    }
+
+    private func updateErrorColor() {
+        errorBanner.backgroundColor = AppTheme.tabBarBackgroundColor()
+        errorLabel.textColor = AppTheme.mainTextColor()
     }
 }

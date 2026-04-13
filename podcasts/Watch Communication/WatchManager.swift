@@ -639,22 +639,10 @@ class WatchManager: NSObject, WCSessionDelegate {
         return nsError.domain == WCErrorDomain && nsError.code == WCError.Code.payloadTooLarge.rawValue
     }
 
-    /// Logs a Sentry error and FileLog message if the WatchConnectivity error is due to payload being too large.
+    /// Logs a FileLog message if the WatchConnectivity error is due to payload being too large.
     /// This helps track when synced data exceeds WatchConnectivity's size limits.
     private func logPayloadTooLargeError(method: String, upNextCount: Int) {
         FileLog.shared.addMessage("WatchManager: Payload too large for \(method). Up Next count: \(upNextCount)")
-
-        let watchError = WatchSyncError.sendMessageFailed(underlyingError: WCError(.payloadTooLarge))
-        CrashLoggingAdapter.sharedManager?.crashLogging?.logError(
-            watchError,
-            tags: [
-                "source": "watch_sync",
-                "method": method,
-                "error_code": "payloadTooLarge",
-                "up_next_count": "\(upNextCount)"
-            ],
-            level: .warning // This is a critical error but we fall back to the limited Up Next sync so it should be recoverable
-        )
     }
 
     // MARK: - Encoding
@@ -701,7 +689,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         var upNextList = [[String: Any]]()
 
         let upNextEpisodes = PlaybackManager.shared.allEpisodesInQueue(includeNowPlaying: false)
-        if upNextEpisodes.count == 0 { return upNextList }
+        if upNextEpisodes.isEmpty { return upNextList }
 
         let episodesToSync: [BaseEpisode]
         if let limit {
@@ -738,7 +726,7 @@ class WatchManager: NSObject, WCSessionDelegate {
 
     private func serializePodcastArchiveSettings() -> [[String: Any]]? {
         let podcastsWithOverride = DataManager.sharedManager.allOverrideGlobalArchivePodcasts()
-        guard podcastsWithOverride.count > 0 else { return nil }
+        guard !podcastsWithOverride.isEmpty else { return nil }
 
         var podcastArchiveSettings = [[String: Any]]()
         podcastsWithOverride.forEach {

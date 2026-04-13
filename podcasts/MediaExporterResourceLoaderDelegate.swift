@@ -1,12 +1,13 @@
 import Foundation
 import AVFoundation
 import UIKit
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
-private enum MediaExporterItemConfiguration {
+enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
         FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
@@ -18,9 +19,9 @@ private enum MediaExporterItemConfiguration {
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
 
-    /// If set greater than 0, the set value with be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
-    /// Default value is `0`.
-    public static var minimumExpectedFileSize: Int = 0
+    /// If set greater than 0, the set value will be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
+    /// Default value is `DownloadManager.badEpisodeSize` (10KB).
+    public static var minimumExpectedFileSize: Int = DownloadManager.badEpisodeSize
 }
 
 fileprivate extension Int {
@@ -52,6 +53,11 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
+
+    // Episode context for cellular tracking
+    private let episodeUuid: String?
+    private let podcastUuid: String?
+
     private lazy var callbackQueue: DispatchQueue = {
         let queue: DispatchQueue
         if FeatureFlag.useBackgroundQueueForStreamingCallback.enabled {
@@ -71,8 +77,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     typealias FileExporterProgressReport = (_ status: FileExportStatus, _ contentType: String?, _ downloaded: Int64, _ total: Int64) -> ()
 
     // MARK: Init
-    init(saveFilePath: String, callback: FileExporterProgressReport?) {
+    init(saveFilePath: String, episodeUuid: String? = nil, podcastUuid: String? = nil, callback: FileExporterProgressReport?) {
         self.saveFilePath = saveFilePath
+        self.episodeUuid = episodeUuid
+        self.podcastUuid = podcastUuid
         self.callback = callback
         self.fileHandle = MediaFileHandle(filePath: saveFilePath)
         super.init()
@@ -164,7 +172,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let error = verifyResponse()
 
         guard error == nil else {
-            if shouldRetryWithoutUserAgent(error: error!) {
+            if shouldRetryWithoutUserAgent() {
                 retryWithoutUserAgent(originalURL: task.originalRequest?.url)
                 return
             }
@@ -174,6 +182,24 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         downloadComplete()
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard FeatureFlag.trackNetworkDataUsage.enabled else { return }
+
+        let bytesReceived = task.countOfBytesReceived
+        let connectionType = NetworkDataUsageManager.connectionType(from: metrics)
+
+        guard bytesReceived > 0 else { return }
+
+        DataManager.sharedManager.networkDataUsageManager.add(
+            episodeUuid: episodeUuid,
+            podcastUuid: podcastUuid,
+            bytesStreamed: bytesReceived,
+            operationType: .stream,
+            connectionType: connectionType,
+            sessionType: .foreground
+        )
     }
 
     // MARK: Internal methods
@@ -242,6 +268,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         // Filter out the unfullfilled requests
         let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = pendingRequests.filter {
+            guard response != nil else {
+                return false
+            }
             fillInContentInformationRequest($0.contentInformationRequest)
             guard haveEnoughDataToFulfillRequest($0.dataRequest!) else { return false }
 
@@ -325,7 +354,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
     }
 
-    private func verifyResponse() -> NSError? {
+    func verifyResponse() -> NSError? {
         guard let response = response as? HTTPURLResponse else { return nil }
 
         let shouldVerifyDownloadedFileSize = MediaExporterItemConfiguration.shouldVerifyDownloadedFileSize
@@ -333,19 +362,33 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         var error: NSError?
 
         if response.statusCode >= 400 {
-            error = NSError(domain: "Failed downloading asset. Reason: response status code \(response.statusCode).", code: response.statusCode, userInfo: nil)
+            error = errorFromStatusCode(response.statusCode)
         } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileHandle.fileSize {
-            error = NSError(domain: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize).", code: response.statusCode, userInfo: nil)
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize)."])
         } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileHandle.fileSize {
-            error = NSError(domain: "Failed downloading asset. Reason: file size \(fileHandle.fileSize) is smaller than minimumExpectedFileSize", code: response.statusCode, userInfo: nil)
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorZeroByteResource, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: file size \(fileHandle.fileSize) is smaller than minimumExpectedFileSize"])
         }
 
         return error
     }
 
-    private func shouldRetryWithoutUserAgent(error: NSError) -> Bool {
-        // Only retry if we haven't already retried without User-Agent and the error is a status code >= 400
-        return !hasRetriedWithoutUserAgent && error.code >= 400
+    func errorFromStatusCode(_ statusCode: Int) -> NSError {
+        switch statusCode {
+        case 401, 403:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        case 404, 410:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        case 400, 405, 408, 409, 429, 500..<1000:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorBadServerResponse, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        default:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        }
+    }
+
+    func shouldRetryWithoutUserAgent() -> Bool {
+        guard let response = response as? HTTPURLResponse else { return false }
+        // Only retry if we haven't already retried without User-Agent and the response status code is >= 400
+        return !hasRetriedWithoutUserAgent && (response.statusCode >= 400)
     }
 
     private func retryWithoutUserAgent(originalURL: URL?) {

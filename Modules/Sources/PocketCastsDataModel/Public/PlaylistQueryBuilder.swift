@@ -1,0 +1,1023 @@
+import Foundation
+import PocketCastsUtils
+import RegexBuilder
+
+public class PlaylistQueryBuilder {
+    static let episodeLimit: Int = 1000
+
+    public enum SelectClause {
+        case episode
+        case episodeCount
+        case allEpisodeCount
+        case firstDistinctEpisodes
+    }
+
+    private enum QueryResult {
+        case value(String, Bool)
+
+        var value: String {
+            switch self {
+            case .value(let value, _):
+                return value
+            }
+        }
+
+        var boolValue: Bool {
+            switch self {
+            case .value(_, let boolValue):
+                return boolValue
+            }
+        }
+    }
+
+    public class func query(
+        clause: SelectClause,
+        for playlist: EpisodeFilter,
+        episodeUuidToAdd: String? = nil,
+        searchTerm: String? = nil,
+        limit: Int = 0,
+        shouldShowArchived: Bool = false,
+        sortType: PlaylistSort? = nil
+    ) -> String {
+
+        let sortType = sortType?.rawValue ?? playlist.sortType
+
+        var queryString: String = ""
+
+        if playlist.manual {
+            switch clause {
+            case .episode:
+                if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                    let archivedPreference = shouldShowArchived ? "1" : "0"
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0
+                                          WHEN episode.archived = \(archivedPreference) THEN 1
+                                          WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 2
+                                          ELSE 3 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT episode.*
+                        \(manualJoin)
+                        \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
+                        """
+                } else {
+                    // Original query without optimization
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT episode.*
+                        \(manualJoin)
+                        \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
+                        """
+                }
+            case .episodeCount:
+                if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0 ELSE 1 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT COUNT(*)
+                        \(manualJoin)
+                        WHERE episode.archived = \(shouldShowArchived ? "1" : "0")
+                        """
+                } else {
+                    return manualPlaylistEpisodesCount(
+                        playlistUUID: playlist.uuid,
+                        shouldShowArchived: shouldShowArchived,
+                        allEpisodesCount: false
+                    )
+                }
+            case .allEpisodeCount:
+                if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                    let manualCTE =
+                        """
+                        WITH playlist AS (
+                          SELECT episodeUuid, MIN(episodePosition) AS pos
+                          FROM \(DataManager.playlistEpisodeTableName)
+                          WHERE playlist_uuid = '\(playlist.uuid)'
+                          GROUP BY episodeUuid
+                        ),
+                        deduped_episode AS (
+                          SELECT episode.*,
+                                 ROW_NUMBER() OVER (
+                                   PARTITION BY episode.uuid
+                                   ORDER BY
+                                     CASE WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0 ELSE 1 END,
+                                     episode.id ASC
+                                 ) AS rn
+                          FROM \(DataManager.episodeTableName) episode
+                          WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                        )
+                        """
+                    let manualJoin =
+                        """
+                        FROM playlist p
+                        JOIN deduped_episode episode
+                          ON episode.uuid = p.episodeUuid
+                          AND episode.rn = 1
+                        LEFT JOIN \(DataManager.podcastTableName) podcast
+                          ON episode.podcast_id = podcast.id
+                        """
+                    queryString =
+                        """
+                        \(manualCTE)
+                        SELECT COUNT(*)
+                        \(manualJoin)
+                        \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
+                        """
+                } else {
+                    return manualPlaylistEpisodesCount(
+                        playlistUUID: playlist.uuid,
+                        shouldShowArchived: shouldShowArchived,
+                        allEpisodesCount: true
+                    )
+                }
+            case .firstDistinctEpisodes:
+                return manualPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    playlistUUID: playlist.uuid,
+                    shouldShowArchived: shouldShowArchived
+                )
+            }
+        } else {
+            var queryValues = [QueryResult]()
+            let addedUuid = add(episodeUuidToAdd: episodeUuidToAdd)
+            queryValues.append(addedUuid)
+            queryValues.append(add(smartRulesFor: playlist))
+            var stringifiedValues = queryValues.map({$0.value}).joined(separator: " ")
+            PlaylistQueryBuilder.removeEmptyFilterGroups(from: &stringifiedValues)
+
+            if clause == .firstDistinctEpisodes {
+                return smartPlaylistFirstDistinctEpisodes(
+                    sortFor: sortType,
+                    limit: limit,
+                    values: stringifiedValues,
+                    addedUuid: addedUuid.boolValue
+                )
+            }
+            if clause == .episodeCount || clause == .allEpisodeCount {
+                return smartPlaylistEpisodesCount(
+                    shouldShowArchived: shouldShowArchived,
+                    allEpisodesCount: clause == .allEpisodeCount,
+                    values: stringifiedValues
+                )
+            }
+
+            let select = select(clause: clause)
+            queryString = "\(select) WHERE episode.archived = 0 \(stringifiedValues)"
+            queryString += ")"
+            if addedUuid.boolValue {
+                queryString += ")"
+            }
+        }
+
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &queryString)
+        if let searchTerm {
+            let searchClause = playlist.manual ? "WHERE" : "AND"
+            queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(searchTerm.uppercased())%' ESCAPE '\\'"
+            queryString += " OR UPPER(podcast.title) LIKE '%\(searchTerm.uppercased())%'  ESCAPE '\\')"
+        }
+        if let sort = add(sortFor: sortType), clause != .episodeCount, clause != .allEpisodeCount {
+            queryString += " \(sort) "
+        }
+        if limit > 0 { queryString += " LIMIT \(limit)" }
+        return queryString
+    }
+
+    public class func podcastExistsInPlaylistEpisodesQuery(includeDeleted: Bool = false) -> String {
+        let deletedClause = includeDeleted ? "" : " AND wasDeleted = 0"
+        return "SELECT 1 FROM \(DataManager.playlistEpisodeTableName) WHERE podcastUuid = ?\(deletedClause) LIMIT 1"
+    }
+
+    private static func smartPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        values: String,
+        addedUuid: Bool
+    ) -> String {
+        let sortClause = add(sortFor: sortType) ?? ""
+        var sortClauseStripped = sortClause.replacingOccurrences(of: "ORDER BY", with: "")
+        sortClauseStripped = sortClauseStripped.replacingOccurrences(of: "episode.", with: "")
+
+        var query = """
+        WITH limited_episodes AS (
+            SELECT * FROM (
+                SELECT episode.id,
+                       episode.podcast_id,
+                       episode.publishedDate,
+                       episode.addedDate,
+                       episode.duration
+                FROM \(DataManager.episodeTableName) episode
+                LEFT JOIN \(DataManager.podcastTableName) podcast
+                  ON episode.podcast_id = podcast.id
+                WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ")")
+                \(sortClause)
+                LIMIT \(episodeLimit)
+            )
+        ),
+        numbered_episodes AS (
+            SELECT *,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY podcast_id
+                       ORDER BY \(sortClauseStripped)
+                   ) AS rn
+            FROM limited_episodes
+        )
+        SELECT episode.*
+        FROM numbered_episodes ne
+        JOIN \(DataManager.episodeTableName) episode
+          ON episode.id = ne.id
+        WHERE ne.rn = 1
+        ORDER BY \(sortClauseStripped)
+        LIMIT \(limit)
+        """
+        PlaylistQueryBuilder.removeEmptyFilterGroups(from: &query)
+        return query
+    }
+
+    private static func manualPlaylistEpisodesCount(
+        playlistUUID: String,
+        shouldShowArchived: Bool,
+        allEpisodesCount: Bool
+    ) -> String {
+        let whereClause = if allEpisodesCount {
+            "WHERE t.rn = 1 \(shouldShowArchived ? "" : "AND t.archived = 0")"
+        } else {
+            "WHERE t.rn = 1 AND t.archived = \(shouldShowArchived ? 1 : 0)"
+        }
+        return
+            """
+            WITH playlist AS (
+              SELECT episodeUuid
+              FROM \(DataManager.playlistEpisodeTableName)
+              WHERE playlist_uuid = '\(playlistUUID)'
+              GROUP BY episodeUuid
+            ),
+            deduped_uuid AS (
+              SELECT uuid
+              FROM (
+                SELECT episode.uuid AS uuid,
+                       episode.archived AS archived,
+                       ROW_NUMBER() OVER (
+                         PARTITION BY episode.uuid
+                         ORDER BY
+                           CASE WHEN episode.episodeStatus = 1 THEN 0 ELSE 1 END,
+                           episode.id ASC
+                       ) AS rn
+                FROM \(DataManager.episodeTableName) episode
+              ) t
+              \(whereClause)
+            )
+            SELECT COUNT(*)
+            FROM playlist p
+            JOIN deduped_uuid d
+              ON d.uuid = p.episodeUuid
+            """
+    }
+
+    private static func smartPlaylistEpisodesCount(
+        shouldShowArchived: Bool,
+        allEpisodesCount: Bool,
+        values: String
+    ) -> String {
+        let archivedEquality = "AND episode.archived = \(shouldShowArchived ? 1 : 0)"
+        let archivedOptional = shouldShowArchived ? "" : "AND episode.archived = 0"
+        let whereArchived = allEpisodesCount ? archivedOptional : archivedEquality
+
+        var trimmedValues = values.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedValues.hasSuffix(",") {
+            trimmedValues.removeLast()
+        }
+        let openCount = trimmedValues.filter { $0 == "(" }.count
+        let closeCount = trimmedValues.filter { $0 == ")" }.count
+        if openCount > closeCount {
+            trimmedValues.append(String(repeating: ")", count: openCount - closeCount))
+        }
+
+        // Clean up any empty filter groups that may have been created
+        removeEmptyFilterGroups(from: &trimmedValues)
+
+        let whereTail = trimmedValues.isEmpty ? "" : " \(trimmedValues)"
+
+        return """
+        WITH filtered AS (
+          SELECT episode.uuid,
+                 episode.archived,
+                 episode.episodeStatus,
+                 episode.id
+          FROM \(DataManager.episodeTableName) episode
+          LEFT JOIN \(DataManager.podcastTableName) podcast
+            ON episode.podcast_id = podcast.id
+          WHERE 1 = 1 \(whereArchived)\(whereTail)
+        ),
+        deduped AS (
+          SELECT uuid
+          FROM (
+            SELECT f.uuid,
+                   ROW_NUMBER() OVER (
+                     PARTITION BY f.uuid
+                     ORDER BY
+                       CASE WHEN f.episodeStatus = 1 THEN 0 ELSE 1 END,
+                       f.id ASC
+                   ) AS rn
+            FROM filtered f
+          ) t
+          WHERE rn = 1
+        )
+        SELECT COUNT(*) FROM deduped
+        """
+    }
+
+    private static func manualPlaylistFirstDistinctEpisodes(
+        sortFor sortType: Int32,
+        limit: Int,
+        playlistUUID: String,
+        shouldShowArchived: Bool
+    ) -> String {
+        let isCustomOrderSortType = sortType == 4
+
+        var playlistPositionOrderBy = "ORDER BY playlist_position ASC"
+        var episodePositionOrderBy = "ORDER BY playlist.episodePosition ASC"
+
+        if !isCustomOrderSortType {
+            if let sortByPlaylist = add(sortFor: sortType)?.replacingOccurrences(of: "episode.", with: "") {
+                playlistPositionOrderBy = sortByPlaylist
+            }
+
+            if let sortByEpisode = add(sortFor: sortType) {
+                episodePositionOrderBy = sortByEpisode
+            }
+        }
+
+        let archivedPredicateForDeduped = shouldShowArchived ? "" : "AND de.archived = 0"
+        let archivedPredicateForEpisode = shouldShowArchived ? "" : "AND episode.archived = 0"
+        let archivedPreference = shouldShowArchived ? "1" : "0"
+        let archivedPredicate = shouldShowArchived ? "" : "AND episode.archived = 0"
+        let episodePositionOrderByStripped = episodePositionOrderBy.replacingOccurrences(of: "episode.", with: "")
+
+        if isCustomOrderSortType {
+            if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+                return """
+                WITH playlist AS (
+                  SELECT episodeUuid, MIN(episodePosition) AS episodePosition
+                  FROM \(DataManager.playlistEpisodeTableName)
+                  WHERE playlist_uuid = '\(playlistUUID)'
+                  GROUP BY episodeUuid
+                ),
+                deduped_episode AS (
+                  SELECT episode.*,
+                         ROW_NUMBER() OVER (
+                           PARTITION BY episode.uuid
+                           ORDER BY
+                             CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 0
+                                  WHEN episode.archived = \(archivedPreference) THEN 1
+                                  WHEN episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) THEN 2
+                                  ELSE 3 END,
+                             episode.id ASC
+                         ) AS uuid_rn
+                  FROM \(DataManager.episodeTableName) episode
+                  WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+                ),
+                playlist_rows AS (
+                  SELECT de.id,
+                         de.podcast_id,
+                         p.episodePosition AS playlist_position
+                  FROM deduped_episode de
+                  JOIN playlist p
+                    ON de.uuid = p.episodeUuid
+                  WHERE de.uuid_rn = 1
+                  \(archivedPredicateForDeduped)
+                  LIMIT \(episodeLimit)
+                ),
+                first_per_podcast AS (
+                  SELECT podcast_id, MIN(playlist_position) AS min_pos
+                  FROM playlist_rows
+                  GROUP BY podcast_id
+                ),
+                chosen_ids AS (
+                  SELECT pr.id, pr.playlist_position
+                  FROM playlist_rows pr
+                  JOIN first_per_podcast f
+                    ON pr.podcast_id = f.podcast_id
+                   AND pr.playlist_position = f.min_pos
+                )
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                JOIN chosen_ids c
+                  ON episode.id = c.id
+                ORDER BY c.playlist_position ASC
+                LIMIT \(limit)
+                """
+            } else {
+                // Original query without deduplication
+                return """
+                WITH playlist_rows AS (
+                  SELECT episode.id,
+                         episode.podcast_id,
+                         playlist.episodePosition AS playlist_position
+                  FROM \(DataManager.episodeTableName) episode
+                  JOIN \(DataManager.playlistEpisodeTableName) playlist
+                    ON episode.uuid = playlist.episodeUuid
+                  WHERE playlist.playlist_uuid = '\(playlistUUID)'
+                  \(archivedPredicate)
+                  LIMIT \(episodeLimit)
+                ),
+                first_per_podcast AS (
+                  SELECT podcast_id, MIN(playlist_position) AS min_pos
+                  FROM playlist_rows
+                  GROUP BY podcast_id
+                ),
+                chosen_ids AS (
+                  SELECT pr.id, pr.playlist_position
+                  FROM playlist_rows pr
+                  JOIN first_per_podcast f
+                    ON pr.podcast_id = f.podcast_id
+                   AND pr.playlist_position = f.min_pos
+                )
+                SELECT episode.*
+                FROM \(DataManager.episodeTableName) episode
+                JOIN chosen_ids c
+                  ON episode.id = c.id
+                ORDER BY c.playlist_position ASC
+                LIMIT \(limit)
+                """
+            }
+        }
+
+        if FeatureFlag.optimizeManualPlaylistQueries.enabled {
+            // Optimized version: deduplicates by UUID first, then partitions by podcast
+            return """
+            WITH playlist AS (
+              SELECT episodeUuid, MIN(episodePosition) AS episodePosition
+              FROM \(DataManager.playlistEpisodeTableName)
+              WHERE playlist_uuid = '\(playlistUUID)'
+              GROUP BY episodeUuid
+            ),
+            deduped_episode AS (
+              SELECT episode.*,
+                     ROW_NUMBER() OVER (
+                       PARTITION BY episode.uuid
+                       ORDER BY
+                         CASE WHEN episode.archived = \(archivedPreference) AND episode.episodeStatus = 1 THEN 0
+                              WHEN episode.archived = \(archivedPreference) THEN 1
+                              WHEN episode.episodeStatus = 1 THEN 2
+                              ELSE 3 END,
+                         episode.id ASC
+                     ) AS uuid_rn
+              FROM \(DataManager.episodeTableName) episode
+              WHERE episode.uuid IN (SELECT episodeUuid FROM playlist)
+            ),
+            ordered_episodes AS (
+              SELECT de.id,
+                     de.podcast_id,
+                     p.episodePosition AS playlist_position,
+                     ROW_NUMBER() OVER (
+                       PARTITION BY de.podcast_id
+                       \(episodePositionOrderByStripped)
+                     ) AS podcast_rn
+              FROM deduped_episode de
+              JOIN playlist p
+                ON de.uuid = p.episodeUuid
+              WHERE de.uuid_rn = 1
+              \(archivedPredicateForDeduped)
+              LIMIT \(episodeLimit)
+            )
+            SELECT episode.*
+            FROM ordered_episodes oe
+            JOIN \(DataManager.episodeTableName) episode
+              ON episode.id = oe.id
+            WHERE oe.podcast_rn = 1
+            \(playlistPositionOrderBy)
+            LIMIT \(limit)
+            """
+        }
+
+        return """
+        WITH ordered_episodes AS (
+          SELECT episode.id,
+                 episode.podcast_id,
+                 playlist.episodePosition AS playlist_position,
+                 episode.publishedDate,
+                 episode.addedDate,
+                 episode.duration
+          FROM \(DataManager.episodeTableName) episode
+          JOIN \(DataManager.playlistEpisodeTableName) playlist
+            ON episode.uuid = playlist.episodeUuid
+          WHERE playlist.playlist_uuid = '\(playlistUUID)'
+          \(archivedPredicateForEpisode)
+          LIMIT \(episodeLimit)
+        ),
+        numbered AS (
+          SELECT *,
+                 ROW_NUMBER() OVER (
+                   PARTITION BY podcast_id
+                   \(episodePositionOrderByStripped)
+                 ) AS rn
+          FROM ordered_episodes
+        )
+        SELECT episode.*
+        FROM numbered n
+        JOIN \(DataManager.episodeTableName) episode
+          ON episode.id = n.id
+        WHERE n.rn = 1
+        \(playlistPositionOrderBy)
+        LIMIT \(limit)
+        """
+    }
+
+    private static func select(clause: SelectClause) -> String {
+        switch clause {
+        case .episode:
+            return "SELECT episode.* FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .episodeCount, .allEpisodeCount:
+            return "SELECT COUNT(*) FROM \(DataManager.episodeTableName) episode LEFT JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id"
+        case .firstDistinctEpisodes:
+            return ""
+        }
+    }
+
+    private static func add(episodeUuidToAdd uuids: String?) -> QueryResult {
+        if let uuids {
+            return .value("AND ((episode.uuid = '\(uuids)') OR (", true)
+        }
+        return .value("AND (", false)
+    }
+
+    private static func add(sortFor sortType: Int32) -> String? {
+        guard let sort = PlaylistSort(rawValue: sortType) else {
+            return nil
+        }
+        switch sort {
+        case .oldestToNewest:
+            return "ORDER BY episode.publishedDate ASC, episode.addedDate ASC"
+        case .newestToOldest:
+            return "ORDER BY episode.publishedDate DESC, episode.addedDate DESC"
+        case .shortestToLongest:
+            return "ORDER BY episode.duration ASC, episode.addedDate ASC"
+        case .longestToShortest:
+            return "ORDER BY episode.duration DESC, episode.addedDate DESC"
+        case .dragAndDrop:
+            return "ORDER BY p.pos ASC" // Only for manual playlist
+        }
+    }
+
+    private static func add(smartRulesFor playlist: EpisodeFilter) -> QueryResult {
+        var queryString = ""
+        var haveStartedWhere = false
+
+        buildPlayingStatusQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildAudioVideoQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildDownloadStatusQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildFilterDurationQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildStarredQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildParticularPodcastsQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        filterUnsubscribedPodcastsQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        buildFilterHoursQuery(
+            playlist: playlist,
+            queryString: &queryString,
+            haveStartedWhere: &haveStartedWhere
+        )
+
+        return .value(queryString, haveStartedWhere)
+    }
+
+    private static func buildPlayingStatusQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if !(playlist.filterUnplayed && playlist.filterPartiallyPlayed && playlist.filterFinished), playlist.filterUnplayed || playlist.filterPartiallyPlayed || playlist.filterFinished {
+            queryString += "("
+            if playlist.filterUnplayed {
+                queryString += "episode.playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+            }
+            if playlist.filterPartiallyPlayed {
+                if playlist.filterUnplayed { queryString += "OR " }
+
+                queryString += "episode.playingStatus = \(PlayingStatus.inProgress.rawValue) "
+            }
+            if playlist.filterFinished {
+                if playlist.filterUnplayed || playlist.filterPartiallyPlayed { queryString += "OR " }
+
+                queryString += "episode.playingStatus = \(PlayingStatus.completed.rawValue)"
+            }
+
+            queryString += ") "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildDownloadStatusQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if !(playlist.filterDownloaded && playlist.filterDownloading && playlist.filterNotDownloaded), playlist.filterDownloaded || playlist.filterDownloading || playlist.filterNotDownloaded {
+            if haveStartedWhere { queryString += "AND " }
+            queryString += "("
+            if playlist.filterDownloaded {
+                queryString += "episode.episodeStatus = \(DownloadStatus.downloaded.rawValue) "
+            }
+            if playlist.filterDownloading {
+                if playlist.filterDownloaded { queryString += "OR " }
+
+                queryString += "episode.episodeStatus = \(DownloadStatus.queued.rawValue) OR episode.episodeStatus = \(DownloadStatus.downloading.rawValue) "
+            }
+            if playlist.filterNotDownloaded {
+                if playlist.filterDownloaded || playlist.filterDownloading { queryString += "OR " }
+                queryString += "episode.episodeStatus = \(DownloadStatus.notDownloaded.rawValue) OR episode.episodeStatus = \(DownloadStatus.downloadFailed.rawValue) OR episode.episodeStatus = \(DownloadStatus.waitingForWifi.rawValue) "
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildAudioVideoQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if playlist.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'video%' "
+            haveStartedWhere = true
+        }
+
+        if playlist.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.fileType LIKE 'audio%' "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildFilterDurationQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if playlist.filterDuration {
+            if haveStartedWhere { queryString += "AND " }
+
+            let longerThanTime = (playlist.longerThan * 60)
+            // we add 59s here to account for how iOS doesn't show "10m" until you get to 10*60 seconds, that way our visual representation lines up with the filter times
+            let shorterThanTime = (playlist.shorterThan * 60) + 59
+
+            queryString += "(episode.duration >= \(longerThanTime) AND episode.duration <= \(shorterThanTime)) "
+
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildStarredQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if playlist.filterStarred {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.keepEpisode = 1 "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildParticularPodcastsQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if !playlist.filterAllPodcasts, !playlist.podcastUuids.isEmpty, playlist.podcastUuids != "null" {
+            if haveStartedWhere { queryString += "AND " }
+
+            let podcastUuidArr = playlist.podcastUuids.components(separatedBy: ",")
+            queryString += " episode.podcastUuid in ("
+            for (index, uuid) in podcastUuidArr.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func filterUnsubscribedPodcastsQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+        if !unsubscribedUuids.isEmpty {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += " episode.podcastUuid NOT IN ("
+            for (index, uuid) in unsubscribedUuids.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+    }
+
+    private static func buildFilterHoursQuery(
+        playlist: EpisodeFilter,
+        queryString: inout String,
+        haveStartedWhere: inout Bool
+    ) {
+        if playlist.filterHours > 0 {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "episode.publishedDate > \(filterTimeFor(hours: playlist.filterHours)) "
+             haveStartedWhere = true
+        }
+    }
+
+    // MARK: - Legacy
+
+    public class func queryFor(filter: EpisodeFilter, episodeUuidToAdd: String?, limit: Int) -> String {
+        var queryString = "archived = 0 "
+        var addedUuid = false
+
+        if let episodeUuidToAdd = episodeUuidToAdd {
+            queryString += "AND ((uuid = '\(episodeUuidToAdd)') OR ("
+            addedUuid = true
+        } else {
+            queryString += "AND ("
+        }
+
+        var haveStartedWhere = false
+        // Playing Status
+        if !(filter.filterUnplayed && filter.filterPartiallyPlayed && filter.filterFinished), filter.filterUnplayed || filter.filterPartiallyPlayed || filter.filterFinished {
+            queryString += "("
+            if filter.filterUnplayed {
+                queryString += "playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+            }
+            if filter.filterPartiallyPlayed {
+                if filter.filterUnplayed { queryString += "OR " }
+
+                queryString += "playingStatus = \(PlayingStatus.inProgress.rawValue) "
+            }
+            if filter.filterFinished {
+                if filter.filterUnplayed || filter.filterPartiallyPlayed { queryString += "OR " }
+
+                queryString += "playingStatus = \(PlayingStatus.completed.rawValue)"
+            }
+
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // Audio & Video
+        if filter.filterAudioVideoType == AudioVideoFilter.videoOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "fileType LIKE 'video%' "
+            haveStartedWhere = true
+        }
+        if filter.filterAudioVideoType == AudioVideoFilter.audioOnly.rawValue {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "fileType LIKE 'audio%' "
+            haveStartedWhere = true
+        }
+
+        // Download Status
+        if !(filter.filterDownloaded && filter.filterDownloading && filter.filterNotDownloaded), filter.filterDownloaded || filter.filterDownloading || filter.filterNotDownloaded {
+            if haveStartedWhere { queryString += "AND " }
+            queryString += "("
+            if filter.filterDownloaded {
+                queryString += "episodeStatus = \(DownloadStatus.downloaded.rawValue) "
+            }
+            if filter.filterDownloading {
+                if filter.filterDownloaded { queryString += "OR " }
+
+                queryString += "episodeStatus = \(DownloadStatus.queued.rawValue) OR episodeStatus = \(DownloadStatus.downloading.rawValue) "
+            }
+            if filter.filterNotDownloaded {
+                if filter.filterDownloaded || filter.filterDownloading { queryString += "OR " }
+                queryString += "episodeStatus = \(DownloadStatus.notDownloaded.rawValue) OR episodeStatus = \(DownloadStatus.downloadFailed.rawValue) OR episodeStatus = \(DownloadStatus.waitingForWifi.rawValue) "
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // Duration filtering
+        if filter.filterDuration {
+            if haveStartedWhere { queryString += "AND " }
+
+            let longerThanTime = (filter.longerThan * 60)
+            // we add 59s here to account for how iOS doesn't show "10m" until you get to 10*60 seconds, that way our visual representation lines up with the filter times
+            let shorterThanTime = (filter.shorterThan * 60) + 59
+
+            queryString += "(duration >= \(longerThanTime) AND duration <= \(shorterThanTime)) "
+
+            haveStartedWhere = true
+        }
+
+        // Starred only
+        if filter.filterStarred {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "keepEpisode = 1 "
+            haveStartedWhere = true
+        }
+
+        // particular podcasts only
+        if !filter.filterAllPodcasts, !filter.podcastUuids.isEmpty, filter.podcastUuids != "null" {
+            if haveStartedWhere { queryString += "AND " }
+
+            let podcastUuidArr = filter.podcastUuids.components(separatedBy: ",")
+            queryString += " podcastUuid in ("
+            for (index, uuid) in podcastUuidArr.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // filter out unsubscribed podcasts
+        let unsubscribedUuids = DataManager.sharedManager.allUnsubscribedPodcastUuids()
+        if !unsubscribedUuids.isEmpty {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += " podcastUuid NOT IN ("
+            for (index, uuid) in unsubscribedUuids.enumerated() {
+                queryString += "\(index > 0 ? "," : "")'\(uuid)'"
+            }
+            queryString += ") "
+            haveStartedWhere = true
+        }
+
+        // time based filtering
+        if filter.filterHours > 0 {
+            if haveStartedWhere { queryString += "AND " }
+
+            queryString += "publishedDate > \(filterTimeFor(hours: filter.filterHours)) "
+            // haveStartedWhere = true
+        }
+
+        queryString += ")"
+        queryString = queryString.replacingOccurrences(of: "AND ()", with: "")
+        queryString = queryString.replacingOccurrences(of: "OR ()", with: "OR (1)")
+
+        if addedUuid { queryString += ")" }
+
+        if filter.sortType == PlaylistSort.oldestToNewest.rawValue {
+            queryString += " ORDER BY publishedDate ASC, addedDate ASC"
+        } else if filter.sortType == PlaylistSort.newestToOldest.rawValue {
+            queryString += " ORDER BY publishedDate DESC, addedDate DESC"
+        } else if filter.sortType == PlaylistSort.shortestToLongest.rawValue {
+            queryString += " ORDER BY duration ASC, addedDate ASC"
+        } else if filter.sortType == PlaylistSort.longestToShortest.rawValue {
+            queryString += " ORDER BY duration DESC, addedDate DESC"
+        }
+
+        if limit > 0 {
+            queryString += " LIMIT \(limit)"
+        }
+
+        return queryString
+    }
+
+    private class func removeEmptyFilterGroups(from string: inout String) {
+        func emptyGroup(for keyword: String) -> Regex<Substring> {
+            Regex {
+                keyword
+                ZeroOrMore(.whitespace)
+                "("
+                ZeroOrMore(.whitespace)
+                ")"
+            }
+        }
+
+        string.replace(emptyGroup(for: "AND"), with: "")
+        string.replace(emptyGroup(for: "OR"), with: "OR (1)")
+        string = string.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private class func filterTimeFor(hours: Int32) -> TimeInterval {
+        let changedTime = Date(timeIntervalSinceNow: TimeInterval(hours * -3600))
+
+        return changedTime.timeIntervalSince1970
+    }
+}

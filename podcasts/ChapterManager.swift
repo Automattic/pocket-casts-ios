@@ -91,7 +91,7 @@ class ChapterManager {
 
     @discardableResult
     func updateCurrentChapter(time: TimeInterval) -> Bool {
-        if chapters.count == 0 { return false }
+        if chapters.isEmpty { return false }
 
         let chapters = chaptersForTime(time)
         let hasChanged = currentChapters != chapters

@@ -45,7 +45,7 @@ class NowPlayingHelper {
     }
 
     private class func titleForNowPlayingInfo(episode: BaseEpisode, currentChapters: Chapters) -> String {
-        if currentChapters.title.count > 0, Settings.publishChapterTitlesEnabled() {
+        if !currentChapters.title.isEmpty, Settings.publishChapterTitlesEnabled() {
             return currentChapters.title
         }
 
@@ -69,7 +69,7 @@ class NowPlayingHelper {
         nowPlayingInfo[MPMediaItemPropertyDiscNumber] = NSNumber(value: 1)
 
         let episodeTitle = titleForNowPlayingInfo(episode: episode, currentChapters: currentChapters)
-        if episodeTitle.count > 0 {
+        if !episodeTitle.isEmpty {
             nowPlayingInfo[MPMediaItemPropertyTitle] = episodeTitle as NSString
         }
 
@@ -95,7 +95,7 @@ class NowPlayingHelper {
             nowPlayingInfo[MPMediaItemPropertyPodcastTitle] = safeCharacterPodcastTitle as NSString
 
             // genre
-            if let podcastCategory = parentPodcast.podcastCategory, podcastCategory.count > 0 {
+            if let podcastCategory = parentPodcast.podcastCategory, !podcastCategory.isEmpty {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = podcastCategory as NSString
             } else {
                 nowPlayingInfo[MPMediaItemPropertyGenre] = "Podcast" as NSString

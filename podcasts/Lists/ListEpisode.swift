@@ -32,6 +32,7 @@ class ListEpisode: ListItem {
             episode.playedUpTo == rhs.episode.playedUpTo &&
             episode.duration == rhs.episode.duration &&
             episode.archived == rhs.episode.archived &&
+            episode.playbackErrorDetails == rhs.episode.playbackErrorDetails &&
             episode.keepEpisode == rhs.episode.keepEpisode &&
             episode.sizeInBytes == rhs.episode.sizeInBytes &&
             tintColor == rhs.tintColor &&
