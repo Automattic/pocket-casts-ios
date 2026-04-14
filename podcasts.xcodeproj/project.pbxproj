@@ -6554,18 +6554,20 @@
 		};
 		462F3AA2274EB4C3005FEB1F /* L10n */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/podcasts/en.lproj/Localizable.strings",
+				"$(SRCROOT)/swiftgen.yml",
 			);
 			name = L10n;
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/podcasts/Strings+Generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
