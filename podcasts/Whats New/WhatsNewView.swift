@@ -1,9 +1,10 @@
 import SwiftUI
+import WhatsNew
 
 struct WhatsNewView: View {
     @EnvironmentObject var theme: Theme
 
-    let announcement: WhatsNew.Announcement
+    let announcement: WhatsNewAnnouncement
 
     var body: some View {
         VStack(spacing: 10) {

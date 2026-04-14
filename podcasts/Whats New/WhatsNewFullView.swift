@@ -1,10 +1,11 @@
 import SwiftUI
 import PocketCastsServer
+import WhatsNew
 
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
 
-    var announcement: WhatsNew.Announcement
+    var announcement: WhatsNewAnnouncement
 
     var body: some View {
         VStack(spacing: 0) {

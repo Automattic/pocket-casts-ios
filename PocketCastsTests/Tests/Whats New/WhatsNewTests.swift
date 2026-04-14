@@ -1,5 +1,6 @@
 import XCTest
 import SwiftUI
+import WhatsNew
 
 @testable import podcasts
 
@@ -7,7 +8,7 @@ class WhatsNewtests: XCTestCase {
     /// When upgrading from 7.39 to 7.40 and there's a "What's New"
     /// for 7.40, show it
     func testShowWhatsNew() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.40")],
             previousOpenedVersion: "7.39",
             currentVersion: "7.40",
@@ -19,7 +20,7 @@ class WhatsNewtests: XCTestCase {
 
     /// When just opening the same version, do nothing
     func testDontShowWhatsNew() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.39")],
             previousOpenedVersion: "7.40",
             currentVersion: "7.40"
@@ -31,7 +32,7 @@ class WhatsNewtests: XCTestCase {
     /// When upgrading from 7.37 to 7.42 and there's a "What's New"
     /// for 7.41, show it
     func testShowWhatsNewEvenIfVersionDontMatch() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: "7.37",
             currentVersion: "7.42",
@@ -43,7 +44,7 @@ class WhatsNewtests: XCTestCase {
 
     /// When opening the app for the first time, show nothing
     func testDontShowWhenFirstOpening() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: nil,
             currentVersion: "7.41"
@@ -54,7 +55,7 @@ class WhatsNewtests: XCTestCase {
 
     // If the announcement is for a future version, don't show
     func testDontShowWhenFutureVersion() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.50")],
             previousOpenedVersion: "7.41",
             currentVersion: "7.41"
@@ -66,7 +67,7 @@ class WhatsNewtests: XCTestCase {
     // If there's an announcement for the current version but the user
     // already opened it, show nothing
     func testDontShowWhatsNewForTheCurrentOpenedVersion() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.41")],
             previousOpenedVersion: "7.41",
             currentVersion: "7.41",
@@ -79,7 +80,7 @@ class WhatsNewtests: XCTestCase {
     // If there's an announcement for the current hotfix and the user
     // hasn't opened this version yet, show what's new
     func testShowWhatsNewForHotfix() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.42")],
             previousOpenedVersion: "7.41",
             currentVersion: "7.42.1",
@@ -92,7 +93,7 @@ class WhatsNewtests: XCTestCase {
     // If there's an announcement for the current hotfix and the user
     // has opened this version yet, show what's new
     func testDontShowWhatsNewForHotfix() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.42")],
             previousOpenedVersion: "7.42",
             currentVersion: "7.42.1",
@@ -106,7 +107,7 @@ class WhatsNewtests: XCTestCase {
     // In theory, this setup should never happen, but we have
     // reports of the popup appearing for every new beta
     func testDontShowWhatsNewForSameBeta() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.43")],
             previousOpenedVersion: "7.42.0.0",
             currentVersion: "7.44.0.0",
@@ -118,7 +119,7 @@ class WhatsNewtests: XCTestCase {
 
     // Don't show any announcements that are disabled even if the other conditions are true
     func testDontShowDisabledAnnouncements() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [announcement(version: "7.40", isEnabled: false)],
             previousOpenedVersion: "7.39",
             currentVersion: "7.40"
@@ -131,7 +132,7 @@ class WhatsNewtests: XCTestCase {
     func testShowOnlyTheLastAnnouncement() {
         let lastAnnouncement = announcement(version: "7.12")
 
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.11"),
@@ -147,7 +148,7 @@ class WhatsNewtests: XCTestCase {
 
     // Do not show an announcement that has been shown before
     func testDontShowAnAnnouncementTwice() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.40"),
@@ -163,7 +164,7 @@ class WhatsNewtests: XCTestCase {
 
     // Shown an announcement if it was later enabled
     func testShowAnnouncementAfterItWasEnabled() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.40", isEnabled: false),
@@ -176,7 +177,7 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertNil(whatsNew.visibleAnnouncement)
 
-        let whatsNewWithAnnouncementEnabled = WhatsNew(
+        let whatsNewWithAnnouncementEnabled = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.40", isEnabled: true),
@@ -193,7 +194,7 @@ class WhatsNewtests: XCTestCase {
     // Shown an announcement if it was later enabled, even if the user migrated
     // to a upper version. Ensuring the What's New is always displayed if needs.
     func testShowAnnouncementAfterItWasEnabledInAUpperVersion() {
-        let whatsNew = WhatsNew(
+        let whatsNew = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.40", isEnabled: false),
@@ -206,7 +207,7 @@ class WhatsNewtests: XCTestCase {
 
         XCTAssertNil(whatsNew.visibleAnnouncement)
 
-        let whatsNewWithAnnouncementEnabled = WhatsNew(
+        let whatsNewWithAnnouncementEnabled = WhatsNewPresenter(
             announcements: [
                 announcement(version: "7.10"),
                 announcement(version: "7.40", isEnabled: true),
@@ -220,7 +221,7 @@ class WhatsNewtests: XCTestCase {
         XCTAssertEqual(whatsNewWithAnnouncementEnabled.visibleAnnouncement?.version, "7.40")
     }
 
-    private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
+    private func announcement(version: String, isEnabled: Bool = true) -> WhatsNewAnnouncement {
         return .init(version: version, header: AnyView(EmptyView()), title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
     }
 }
