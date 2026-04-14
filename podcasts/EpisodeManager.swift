@@ -387,6 +387,7 @@ class EpisodeManager: NSObject {
             return
         }
         FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
+        var totalFilesSize: UInt64 = 0
         while let tmpFile = folderEnum.nextObject() as? String {
             let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
             guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath),
@@ -395,11 +396,12 @@ class EpisodeManager: NSObject {
             else {
                 continue
             }
-
+            totalFilesSize += attributes[.size] as? UInt64 ?? 0
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
             StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
         }
-        FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files")
+        let formatFileSizes = SizeFormatter.shared.noDecimalFormat(bytes: Int64(totalFilesSize))
+        FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files. Removed \(formatFileSizes)")
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {

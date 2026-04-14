@@ -174,6 +174,11 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
         Analytics.track(.downloadsCleanUpCompleted, properties: ["unplayed": deleteUnplayed, "in_progress": deleteInProgress, "played": deletePlayed, "include_starred": includeStarred])
 
+        let unplayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
+        let inProgressSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
+        let playedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
+        FileLog.shared.addMessage("[DownloadFilesViewController] space being used:\n - Unplaye: \(unplayedSize)\n - InProgress: \(inProgressSize)\n - Played: \(playedSize)")
+
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)
             if FeatureFlag.cleanUpTmpFiles.enabled {
