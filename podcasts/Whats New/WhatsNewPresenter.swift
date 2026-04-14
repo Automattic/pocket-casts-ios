@@ -2,15 +2,13 @@ import Foundation
 import SwiftUI
 import WhatsNew
 
-class WhatsNew {
-    typealias Announcement = WhatsNewAnnouncement
-
-    let announcements: [Announcement]
+class WhatsNewPresenter {
+    let announcements: [WhatsNew.Announcement]
     let currentVersion: String
     let previousOpenedVersion: String?
     let lastWhatsNewShown: String?
 
-    init(announcements: [Announcement] = Announcements().announcements, previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion), currentVersion: String = Settings.appVersion(), lastWhatsNewShown: String? = Settings.lastWhatsNewShown) {
+    init(announcements: [WhatsNew.Announcement] = Announcements().announcements, previousOpenedVersion: String? = UserDefaults.standard.string(forKey: Constants.UserDefaults.lastRunVersion), currentVersion: String = Settings.appVersion(), lastWhatsNewShown: String? = Settings.lastWhatsNewShown) {
         self.announcements = announcements
         self.previousOpenedVersion = previousOpenedVersion?.majorMinor
         self.currentVersion = currentVersion.majorMinor
@@ -40,7 +38,7 @@ class WhatsNew {
     }
 
     /// Returns the announcement to be displayed if one is available
-    var visibleAnnouncement: Announcement? {
+    var visibleAnnouncement: WhatsNew.Announcement? {
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
         guard let previousOpenedVersion else {
@@ -83,9 +81,9 @@ extension UIViewController {
     }
 }
 
-extension WhatsNew {
-    static var slumberAnnouncement: Announcement? {
-        WhatsNew().announcements.first(where: { $0.version == "7.57" })
+extension WhatsNewPresenter {
+    static var slumberAnnouncement: WhatsNew.Announcement? {
+        WhatsNewPresenter().announcements.first(where: { $0.version == "7.57" })
     }
 }
 

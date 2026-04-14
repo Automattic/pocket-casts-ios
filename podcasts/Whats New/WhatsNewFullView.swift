@@ -5,7 +5,7 @@ import WhatsNew
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
 
-    var announcement: WhatsNewAnnouncement
+    var announcement: WhatsNew.Announcement
 
     var body: some View {
         VStack(spacing: 0) {
