@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
-import PocketCastsServer
 import PocketCastsUtils
+import WhatsNew
 
 struct Announcements {
     private static let bookmarksViewModel = BookmarkAnnouncementViewModel()

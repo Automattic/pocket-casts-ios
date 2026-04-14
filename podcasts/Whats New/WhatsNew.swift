@@ -1,41 +1,9 @@
 import Foundation
-import PocketCastsServer
 import SwiftUI
+import WhatsNew
 
 class WhatsNew {
-    struct Announcement {
-        let version: String
-        let header: () -> AnyView
-        let title: String
-        let message: String
-        let buttonTitle: String
-        let action: () -> Void
-        let displayTier: SubscriptionTier
-        let isEnabled: () -> Bool
-        let fullModal: Bool
-        let customBody: () -> AnyView?
-
-        init(version: String,
-             header: @autoclosure @escaping () -> AnyView,
-             title: String, message: String,
-             buttonTitle: String,
-             action: @escaping () -> Void,
-             displayTier: SubscriptionTier = .none,
-             isEnabled: @autoclosure @escaping () -> Bool,
-             fullModal: Bool = false,
-             customBody: @autoclosure @escaping () -> AnyView? = nil) {
-            self.version = version
-            self.header = header
-            self.title = title
-            self.message = message
-            self.buttonTitle = buttonTitle
-            self.action = action
-            self.displayTier = displayTier
-            self.isEnabled = isEnabled
-            self.fullModal = fullModal
-            self.customBody = customBody
-        }
-    }
+    typealias Announcement = WhatsNewAnnouncement
 
     let announcements: [Announcement]
     let currentVersion: String

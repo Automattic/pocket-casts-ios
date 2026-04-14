@@ -34,6 +34,10 @@ let package = Package(
             targets: ["EndOfYear"]
         ),
         .library(
+            name: "WhatsNew",
+            targets: ["WhatsNew"]
+        ),
+        .library(
             name: "Modules",
             targets: ["Modules"]
         )
@@ -155,6 +159,17 @@ let package = Package(
             path: "Sources/EndOfYear"
         ),
         .target(
+            name: "WhatsNew",
+            dependencies: [
+                "PocketCastsServer",
+                "PocketCastsUtils",
+            ],
+            path: "Sources/WhatsNew",
+            resources: [
+                .process("Resources"),
+            ]
+        ),
+        .target(
             name: "Modules",
             path: "Sources/Modules"
         ),
@@ -225,6 +240,7 @@ enum XcodeSupport {
                     .product(name: "GoogleCast", package: "google-cast"),
                     .product(name: "WrappingHStack", package: "WrappingHStack"),
                     "EndOfYear",
+                    "WhatsNew",
                 ]
             ),
             .xcodeTarget(

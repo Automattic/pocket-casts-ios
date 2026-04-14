@@ -1,12 +1,14 @@
 import SwiftUI
 
-struct GiveRatingsWhatsNewHeader: View {
+public struct GiveRatingsWhatsNewHeader: View {
     @State private var moving = false
     @State private var show = false
 
     private let publisher = Timer.publish(every: 6, on: .main, in: .common).autoconnect()
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         HStack(spacing: 0) {
             ForEach(1..<6) { i in
                 getStar(delay: Constants.animationInDelay + Double(i)*Constants.animationInDelay2)
@@ -22,7 +24,7 @@ struct GiveRatingsWhatsNewHeader: View {
     }
 
     var star: some View {
-        Image("whatsnew_star")
+        Image("whatsnew_star", bundle: .module)
             .offset(y: moving ? 0 : Constants.starMinY)
     }
 
