@@ -15,6 +15,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     private var unplayedSize = 0 as UInt64
     private var playedSize = 0 as UInt64
     private var inProgressSize = 0 as UInt64
+    private var tmpFilesSize = 0 as UInt64
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -177,7 +178,8 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         let unplayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
         let inProgressSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
         let playedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
-        FileLog.shared.addMessage("[DownloadFilesViewController] space being used:\n - Unplaye: \(unplayedSize)\n - InProgress: \(inProgressSize)\n - Played: \(playedSize)")
+        let tmpFilesSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(tmpFilesSize))
+        FileLog.shared.addMessage("[DownloadFilesViewController] space being used:\n - Unplayed: \(unplayedSize)\n - InProgress: \(inProgressSize)\n - Played: \(playedSize)\n - Temporary: \(tmpFilesSize)")
 
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)
@@ -199,6 +201,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         unplayedSize = EpisodeManager.downloadSizeOfUnplayedEpisodes(includeStarred: includeStarred)
         inProgressSize = EpisodeManager.downloadSizeOfInProgressEpisodes(includeStarred: includeStarred)
         playedSize = EpisodeManager.downloadSizeOfPlayedEpisodes(includeStarred: includeStarred)
+        tmpFilesSize = EpisodeManager.tmpFolderSize()
 
         DispatchQueue.main.async { () in
             self.settingsTable.reloadData()

@@ -404,6 +404,23 @@ class EpisodeManager: NSObject {
         FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files. Removed \(formatFileSizes)")
     }
 
+    class func tmpFolderSize(folderPath: String = DownloadManager.shared.tempDownloadFolder) -> UInt64 {
+        let fileManager = FileManager.default
+        let tmpPath = folderPath
+        guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
+            return 0
+        }
+        var totalFilesSize: UInt64 = 0
+        while let tmpFile = folderEnum.nextObject() as? String {
+            let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
+            guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath) else {
+                continue
+            }
+            totalFilesSize += attributes[.size] as? UInt64 ?? 0
+        }
+        return totalFilesSize
+    }
+
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {
         if !streamingOnly {
             // For local playback, prefer downloaded files
