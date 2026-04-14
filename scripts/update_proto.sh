@@ -34,5 +34,6 @@ for tool in protoc protoc-gen-swift; do
     fi
 done
 
-protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/api.proto
-protoc --swift_out=./Modules/Server/Sources/PocketCastsServer/Private/Protobuffer --proto_path=$API_BASE_FOLDER/ $API_BASE_FOLDER/files.proto
+PROTO_OUT=./Modules/Sources/PocketCastsServer/Private/Protobuffer
+protoc --swift_out="$PROTO_OUT" --proto_path="$API_BASE_FOLDER" "$API_BASE_FOLDER/api.proto"
+protoc --swift_out="$PROTO_OUT" --proto_path="$API_BASE_FOLDER" "$API_BASE_FOLDER/files.proto"
