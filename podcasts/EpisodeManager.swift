@@ -378,11 +378,6 @@ class EpisodeManager: NSObject {
                 deleteDownloadedFiles(episode: episode)
             }
         }
-
-        if FeatureFlag.cleanUpTmpFiles.enabled {
-            // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
-            cleanUpTmpFolder()
-        }
     }
 
     class func cleanUpTmpFolder(folderPath: String = DownloadManager.shared.tempDownloadFolder) {

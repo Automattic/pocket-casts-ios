@@ -176,7 +176,10 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)
-
+            if FeatureFlag.cleanUpTmpFiles.enabled {
+                // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
+                EpisodeManager.cleanUpTmpFolder()
+            }
             self.performRefresh()
         }
     }
