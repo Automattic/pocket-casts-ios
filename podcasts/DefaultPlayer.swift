@@ -860,10 +860,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
         }
 
-        _ = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
+        playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
             guard let self = self else { return }
-
+            FileLog.shared.addMessage("Received notification of playback stall")
             if self.shouldKeepPlaying {
+                FileLog.shared.addMessage("Trying to recover from stall by playing")
                 self.play(completion: nil)
             }
         }
