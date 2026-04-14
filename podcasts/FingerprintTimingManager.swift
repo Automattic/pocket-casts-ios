@@ -150,9 +150,6 @@ class FingerprintTimingManager {
         }
 
         let matcher = CheckpointMatcher.withDrift(maxDrift: 5)
-        if reference.topK > 0 {
-            matcher.setTopK(topK: UInt32(reference.topK))
-        }
         for checkpoint in reference.checkpoints {
             matcher.add(
                 timestamp: checkpoint.timestamp,

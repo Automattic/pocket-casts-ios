@@ -9854,7 +9854,7 @@
 /* Begin XCLocalSwiftPackageReference section */
 		AA0001112F80A00100F1D011 /* XCLocalSwiftPackageReference "pocket-casts-fingerprint/bindings/swift" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../pocket-casts-fingerprint/bindings/swift";
+			relativePath = "../pocket-casts-fingerprint/bindings/swift";
 		};
 /* End XCLocalSwiftPackageReference section */
 
