@@ -30,6 +30,9 @@ only_rules:
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
 
+  # Imports should not be duplicated.
+  - duplicate_imports
+
   # Prefer checking `isEmpty` over comparing `count` to zero.
   - empty_count
 

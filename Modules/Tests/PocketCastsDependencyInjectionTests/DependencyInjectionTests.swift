@@ -1,7 +1,5 @@
 import XCTest
 import PocketCastsDependencyInjection
-@testable import PocketCastsDependencyInjection
-
 final class DependencyInjectionTests: XCTestCase {
     @Dependency(container: TestDependencyContainer.current, \.mockSingleton)
     var mockSingleton: MockSingleton
