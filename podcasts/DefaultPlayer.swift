@@ -292,11 +292,16 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             }
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
-        var error: PlaybackManager.PlaybackError = .internetConnection(logMessage: logMessage)
+        var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
         if let playerNSError,
-           playerNSError.domain == NSURLErrorDomain,
-           PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
-            error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+           playerNSError.domain == NSURLErrorDomain {
+            if PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            } else if playerNSError.code == NSURLErrorNotConnectedToInternet {
+                error = .internetConnection(logMessage: logMessage)
+            } else {
+                error = .episodeNotAvailable(errorCode: NSURLErrorUnknown, logMessage: logMessage)
+            }
         }
         PlaybackManager.shared.playbackDidFail(error: error)
 
