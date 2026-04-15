@@ -3,8 +3,6 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
-import SwiftUI
-
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private let episodesDataManager = EpisodesDataManager()
     private var cancellables = Set<AnyCancellable>()
