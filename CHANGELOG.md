@@ -6,6 +6,7 @@
 -----
 - Support new transcripts generated episode field [#4116](https://github.com/Automattic/pocket-casts-ios/pull/4116)
 - Watch Stop playing a sound on play. [#4118](https://github.com/Automattic/pocket-casts-ios/pull/4118)
+- Update when offline error message shows on error banner [#4135](https://github.com/Automattic/pocket-casts-ios/pull/4135)
 
 8.9
 -----
