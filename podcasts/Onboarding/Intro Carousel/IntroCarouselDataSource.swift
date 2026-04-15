@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 class IntroCarouselDataSource: StoriesDataSource {
     private let items: [CarouselItem]

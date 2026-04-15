@@ -1,6 +1,7 @@
 import SwiftUI
 import SafariServices
 import PocketCastsServer
+import EndOfYear
 
 struct SlumberWhatsNewHeader: View {
     @State var distance: CGFloat = 0

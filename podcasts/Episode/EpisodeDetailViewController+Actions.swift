@@ -130,8 +130,14 @@ extension EpisodeDetailViewController {
             downloadBtn.accessibilityLabel = L10n.cancelDownload
         } else {
             downloadBtn.setImage(UIImage(named: "episode-download"), for: .normal)
-            let sizeAsStr = episode.sizeInBytes == 0 ? "" : SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
-            downloadBtn.setTitle(sizeAsStr == "" ? L10n.download : sizeAsStr, for: .normal)
+            let sizeAsStr = episode.sizeInBytes == 0 ? nil : SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
+            let downloadTitle: String
+            if let sizeAsStr, !sizeAsStr.isEmpty {
+                downloadTitle = sizeAsStr
+            } else {
+                downloadTitle = L10n.download
+            }
+            downloadBtn.setTitle(downloadTitle, for: .normal)
             downloadBtn.accessibilityLabel = L10n.download
         }
 

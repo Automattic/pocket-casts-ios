@@ -1,6 +1,11 @@
-9.0
+8.11
 -----
 
+
+8.10
+-----
+- Support new transcripts generated episode field [#4116](https://github.com/Automattic/pocket-casts-ios/pull/4116)
+- Watch Stop playing a sound on play. [#4118](https://github.com/Automattic/pocket-casts-ios/pull/4118)
 
 8.9
 -----

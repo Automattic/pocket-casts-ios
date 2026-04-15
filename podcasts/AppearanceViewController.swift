@@ -79,8 +79,6 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         if rowType == .appIcon {
             let metric = UIFontMetrics(forTextStyle: .largeTitle)
             return metric.scaledValue(for: 188)
-        } else if rowType == .plusCallout {
-            return 161
         }
 
         return UITableView.automaticDimension

@@ -2,6 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import Lottie
 import Combine
+import EndOfYear
 
 class StepCounter: ObservableObject {
 

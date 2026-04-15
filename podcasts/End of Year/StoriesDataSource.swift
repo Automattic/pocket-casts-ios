@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 protocol StoriesDataSource {
     var numberOfStories: Int { get }

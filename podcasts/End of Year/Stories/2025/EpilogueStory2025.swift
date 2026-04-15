@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct EpilogueStory2025: StoryView {
     private let foregroundColor = Color.white

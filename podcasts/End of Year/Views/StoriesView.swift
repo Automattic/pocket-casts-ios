@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import EndOfYear
 
 struct StoriesView: View {
     @ObservedObject private var model: StoriesModel

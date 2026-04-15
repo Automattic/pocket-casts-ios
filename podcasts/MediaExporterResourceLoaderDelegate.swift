@@ -268,6 +268,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         // Filter out the unfullfilled requests
         let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = pendingRequests.filter {
+            guard response != nil else {
+                return false
+            }
             fillInContentInformationRequest($0.contentInformationRequest)
             guard haveEnoughDataToFulfillRequest($0.dataRequest!) else { return false }
 

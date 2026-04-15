@@ -1,6 +1,7 @@
 import PocketCastsDataModel
 import SwiftUI
 import PocketCastsUtils
+import EndOfYear
 
 enum SharingModal {
 
