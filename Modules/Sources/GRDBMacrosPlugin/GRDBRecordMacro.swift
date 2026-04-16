@@ -1,3 +1,4 @@
+import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 import SwiftCompilerPlugin

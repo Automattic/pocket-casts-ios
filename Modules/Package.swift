@@ -6,7 +6,7 @@ import CompilerPluginSupport
 let package = Package(
     name: "Modules",
     platforms: [
-        .iOS(.v16), .watchOS(.v9), .macOS(.v10_15)
+        .iOS(.v16), .watchOS(.v9), .macOS(.v13)
     ],
     products: XcodeSupport.products + [
         .library(
@@ -39,7 +39,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "510.0.0"),
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "603.0.0"),
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
         .package(url: "https://github.com/danielebogo/Swime", branch: "master"),

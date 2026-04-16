@@ -1306,7 +1306,6 @@
 		FF9CBAF22EC9293000989151 /* playback2025_listening_time_numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFB74B0F2E993A8C00F16857 /* end_of_year_2025_intro.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */; };
-		FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = FFBCADEA2E6578F900EA8287 /* WrappingHStack */; };
 		FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
@@ -8851,6 +8850,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
