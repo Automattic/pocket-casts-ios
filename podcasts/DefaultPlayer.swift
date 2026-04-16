@@ -282,7 +282,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
-        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
 
         if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
            let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
