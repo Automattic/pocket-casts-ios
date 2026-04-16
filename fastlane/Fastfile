@@ -912,16 +912,16 @@ platform :ios do
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
       app_store_subtitle: {
         path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!',
+        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
       },
       app_store_desc: {
         path: File.join(source_metadata_folder, 'description.txt'),
-        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.',
+        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
       },
       app_store_keywords: {
         path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: 'translators: Comma seperated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!',
-      },
+        comment: 'translators: Comma seperated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+      }
     }
 
     gp_update_metadata_source(
