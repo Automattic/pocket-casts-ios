@@ -920,7 +920,7 @@ platform :ios do
       },
       app_store_keywords: {
         path: File.join(source_metadata_folder, 'keywords.txt'),
-        comment: 'translators: Comma seperated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
       }
     }
 
