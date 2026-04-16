@@ -366,6 +366,7 @@ extension PlaylistDetailViewModel {
             model: .episodes,
             elements: tempEpisodes
         )
+        reloadEpisodeList()
     }
 
     func endSearch() {
