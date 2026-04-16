@@ -1,6 +1,6 @@
 8.11
 -----
-
+- Fix an issue with Playlist not reloading after archiving entries during empty search [#4136](https://github.com/Automattic/pocket-casts-ios/pull/4136)
 
 8.10
 -----
