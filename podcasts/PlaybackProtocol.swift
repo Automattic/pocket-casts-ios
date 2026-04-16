@@ -36,8 +36,3 @@ import PocketCastsDataModel
 
     func setVolume(_ volume: Float)
 }
-
-enum PlaybackError: Error {
-    case unableToOpenFile
-    case errorDuringPlayback
-}
