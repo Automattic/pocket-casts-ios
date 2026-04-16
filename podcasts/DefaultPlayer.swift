@@ -300,7 +300,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             } else if playerNSError.code == NSURLErrorNotConnectedToInternet {
                 error = .internetConnection(logMessage: logMessage)
             } else {
-                error = .episodeNotAvailable(errorCode: NSURLErrorUnknown, logMessage: logMessage)
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
             }
         }
         PlaybackManager.shared.playbackDidFail(error: error)
