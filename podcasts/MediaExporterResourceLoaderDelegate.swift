@@ -308,6 +308,11 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             throw error
         }
 
+        if isDownloadComplete, currentOffset >= fileHandle.fileSize {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
+            throw MediaFileHandleError.tryToReadAfterEndOfFile
+        }
+
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {
             if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
@@ -330,10 +335,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         // Read data from disk and pass it to the dataRequest
         do {
             guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
-                if isDownloadComplete, currentOffset >= fileHandle.fileSize {
-                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
-                    downloadFailed(with: MediaFileHandleError.tryToReadAfterEndOfFile)
-                }
                 return false
             }
             dataRequest.respond(with: data)
