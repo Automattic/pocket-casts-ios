@@ -300,6 +300,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             bytesCached = try fileHandle.throwableFileSize()
         } catch {
             downloadFailed(with: error)
+            return false
         }
 
         // Is there enough data cached to fulfill the request?
