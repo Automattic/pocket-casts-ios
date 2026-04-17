@@ -45,7 +45,7 @@ extension MediaFileHandle {
     }
 
     var fileSize: Int {
-        return attributes?[.size] as? Int ?? 0
+        return (try? throwableFileSize()) ?? 0
     }
 
     func throwableFileSize() throws -> Int {
