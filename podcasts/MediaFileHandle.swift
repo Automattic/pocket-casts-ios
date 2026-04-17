@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsUtils
 
-enum MediaFileHandleError: Error {
+enum MediaFileHandleError: Error, Equatable {
     case unableToOpenFile
     case tryToReadAfterEndOfFile
 }
