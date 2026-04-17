@@ -199,6 +199,7 @@ class AudioReadTask {
             try audioFile.read(into: audioPCMBuffer!)
         } catch {
             objc_sync_exit(lock)
+            FileLog.shared.addMessage("[AudioReadTask] read failed: \(error.localizedDescription)")
             throw PlaybackManager.PlaybackError.playbackError(logMessage: "AudioRead Task read failed:\(error.localizedDescription)", isLocalFile: true)
         }
 
