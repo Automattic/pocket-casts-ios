@@ -282,13 +282,12 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
-        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
 
         if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-           playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
-            let episodeUuid {
+           let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
+           let episodeUuid {
             if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
-                return true
+                return false
             }
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"

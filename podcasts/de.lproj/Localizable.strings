@@ -2106,8 +2106,6 @@ Das ist Hingabe!</string>
     <string>Folge wurde entfernt</string>
     <key>player_error_corrupted_file</key>
     <string>Die Folge ist möglicherweise beschädigt, aber du kannst versuchen, sie erneut abzuspielen.</string>
-    <key>player_error_episode_not_available</key>
-    <string>Folge nicht verfügbar</string>
     <key>player_error_internet_connection</key>
     <string>Überprüfe deine Internetverbindung und versuche es erneut.</string>
     <key>player_error_short_no_connection</key>
