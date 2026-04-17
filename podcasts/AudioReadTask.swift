@@ -200,7 +200,7 @@ class AudioReadTask {
         } catch {
             objc_sync_exit(lock)
             FileLog.shared.addMessage("[AudioReadTask] read failed: \(error.localizedDescription)")
-            throw PlaybackManager.PlaybackError.playbackError(logMessage: "AudioRead Task read failed:\(error.localizedDescription)", isLocalFile: true)
+            throw error
         }
 
         // check that we actually read something
