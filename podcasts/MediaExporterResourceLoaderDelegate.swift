@@ -301,12 +301,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
         let currentOffset = Int(dataRequest.currentOffset)
-        var bytesCached = 0
-        do {
-            bytesCached = try fileHandle.throwableFileSize()
-        } catch {
-            throw error
-        }
+        var bytesCached = try fileHandle.throwableFileSize()
 
         if isDownloadComplete, currentOffset >= fileHandle.fileSize {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
