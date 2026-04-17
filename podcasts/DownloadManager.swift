@@ -367,8 +367,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         }
         var newItem: AVPlayerItem = playbackItem
         #if !os(watchOS) && !APPCLIP
-        if episode.autoDownloadStatus == AutoDownloadStatus.playerDownloadedForStreaming.rawValue || episode.autoDownloadStatus == AutoDownloadStatus.autoDownloaded.rawValue,
-           let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
+        if let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
             // We are already downloading this episode for streaming
             FileLog.shared.addMessage("DownloadManager stream and download: skipping because we are already exporting: \(episode.uuid)")
             let customURL = URL(string: "custom-\(urlAsset.url.absoluteString)")!
