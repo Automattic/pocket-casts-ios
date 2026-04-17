@@ -44,18 +44,18 @@ extension MediaFileHandle {
         return nil
     }
 
-    var fileSize: Int {
-        return (try? throwableFileSize()) ?? 0
-    }
-
-    func throwableFileSize() throws -> Int {
+    func fileSize() throws -> Int {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
             return attributes[.size] as? Int ?? 0
         } catch {
-            FileLog.shared.addMessage("MediaFileHandle: Read File size of [\(filePath)] error: \(error)")
+            FileLog.shared.addMessage("MediaFileHandle: Failed to read file size of [\(filePath)] error: \(error)")
             throw error
         }
+    }
+
+    var safeFileSize: Int {
+        return (try? fileSize()) ?? 0
     }
 
     func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {

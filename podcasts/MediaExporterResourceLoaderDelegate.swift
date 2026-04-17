@@ -144,7 +144,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let contentType = response?.mimeType
         callbackQueue.async { [weak self] in
             guard let self else { return }
-            self.callback?(.downloading, contentType, Int64(self.fileHandle.fileSize), dataTask.countOfBytesExpectedToReceive)
+            self.callback?(.downloading, contentType, Int64(self.fileHandle.safeFileSize), dataTask.countOfBytesExpectedToReceive)
         }
     }
 
@@ -301,7 +301,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
         let currentOffset = Int(dataRequest.currentOffset)
-        let bytesCached = try fileHandle.throwableFileSize()
+        let bytesCached = try fileHandle.fileSize()
 
         if isDownloadComplete, currentOffset >= bytesCached {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
@@ -366,8 +366,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         isDownloadComplete = true
         let contentType = self.response?.mimeType
-        callbackQueue.async {
-            self.callback?(.completed, contentType, Int64(self.fileHandle.fileSize), Int64(self.fileHandle.fileSize))
+        let fileSize = self.fileHandle.safeFileSize
+        callbackQueue.async { [weak self] in
+            self?.callback?(.completed, contentType, Int64(fileSize), Int64(fileSize))
         }
     }
 
@@ -377,13 +378,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let shouldVerifyDownloadedFileSize = MediaExporterItemConfiguration.shouldVerifyDownloadedFileSize
         let minimumExpectedFileSize = MediaExporterItemConfiguration.minimumExpectedFileSize
         var error: NSError?
-
+        let fileSize = fileHandle.safeFileSize
         if response.statusCode >= 400 {
             error = errorFromStatusCode(response.statusCode)
-        } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileHandle.fileSize {
-            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize)."])
-        } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileHandle.fileSize {
-            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorZeroByteResource, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: file size \(fileHandle.fileSize) is smaller than minimumExpectedFileSize"])
+        } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileSize {
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileSize)."])
+        } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileSize {
+            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorZeroByteResource, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: file size \(fileSize) is smaller than minimumExpectedFileSize"])
         }
 
         return error
