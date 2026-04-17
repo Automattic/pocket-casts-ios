@@ -267,7 +267,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         defer { lock.unlock() }
 
         do {
-            // Filter out the unfullfilled requests
+            // Filter out the unfulfilled requests
             let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = try pendingRequests.filter {
                 guard response != nil else {
                     return false
