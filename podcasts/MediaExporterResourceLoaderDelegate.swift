@@ -330,7 +330,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         // Read data from disk and pass it to the dataRequest
         do {
             guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
-                return false
+                throw MediaFileHandleError.tryToReadAfterEndOfFile
             }
             dataRequest.respond(with: data)
         } catch {
