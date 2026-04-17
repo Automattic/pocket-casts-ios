@@ -273,7 +273,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                     return false
                 }
                 fillInContentInformationRequest($0.contentInformationRequest)
-                guard try haveEnoughDataToFulfillRequest($0.dataRequest!) else {
+                guard let dataRequest = $0.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) else {
                     return false
                 }
 
