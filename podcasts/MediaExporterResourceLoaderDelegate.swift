@@ -303,10 +303,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let currentOffset = Int(dataRequest.currentOffset)
         let bytesCached = try fileHandle.fileSize()
 
-        if isDownloadComplete, currentOffset >= bytesCached {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
-            throw MediaFileHandleError.tryToReadAfterEndOfFile
-        }
+        try validateCurrentOffset(currentOffset, bytesCached: bytesCached)
 
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {
@@ -338,6 +335,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         return dataRequest.currentOffset >= requestedLength + requestedOffset
+    }
+
+    private func validateCurrentOffset(_ currentOffset: Int, bytesCached: Int) throws {
+        if isDownloadComplete, currentOffset >= bytesCached {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
+            throw MediaFileHandleError.tryToReadAfterEndOfFile
+        }
     }
 
     private func writeBufferDataToFileIfNeeded() {
@@ -442,5 +446,20 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     @objc private func handleAppWillTerminate() {
         invalidateAndCancelSession(shouldResetData: false)
     }
+
+#if DEBUG
+    func setIsDownloadComplete(_ value: Bool) {
+        isDownloadComplete = value
+    }
+
+    func validateReadOffsetAndHandleError(_ currentOffset: Int) {
+        do {
+            let bytesCached = try fileHandle.fileSize()
+            try validateCurrentOffset(currentOffset, bytesCached: bytesCached)
+        } catch {
+            downloadFailed(with: error)
+        }
+    }
+#endif
 }
 #endif
