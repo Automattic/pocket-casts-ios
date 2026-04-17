@@ -35,14 +35,6 @@ final class MediaFileHandle {
 // MARK: Internal methods
 
 extension MediaFileHandle {
-    var attributes: [FileAttributeKey: Any]? {
-        do {
-            return try FileManager.default.attributesOfItem(atPath: filePath)
-        } catch let error as NSError {
-            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] attribute error: \(error)")
-        }
-        return nil
-    }
 
     func fileSize() throws -> Int {
         do {
