@@ -295,7 +295,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
         let currentOffset = Int(dataRequest.currentOffset)
-        let bytesCached = fileHandle.fileSize
+        var bytesCached = 0
+        do {
+            bytesCached = try fileHandle.throwableFileSize()
+        } catch {
+            downloadFailed(with: error)
+        }
 
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {

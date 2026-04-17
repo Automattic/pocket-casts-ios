@@ -48,6 +48,16 @@ extension MediaFileHandle {
         return attributes?[.size] as? Int ?? 0
     }
 
+    func throwableFileSize() throws -> Int {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
+            return attributes[.size] as? Int ?? 0
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: Read File size of [\(filePath)] error: \(error)")
+            throw error
+        }
+    }
+
     func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
         lock.lock()
         defer { lock.unlock() }
