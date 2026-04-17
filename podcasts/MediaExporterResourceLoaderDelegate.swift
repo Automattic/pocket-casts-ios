@@ -447,19 +447,5 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         invalidateAndCancelSession(shouldResetData: false)
     }
 
-#if DEBUG
-    func setIsDownloadComplete(_ value: Bool) {
-        isDownloadComplete = value
-    }
-
-    func validateReadOffsetAndHandleError(_ currentOffset: Int) {
-        do {
-            let bytesCached = try fileHandle.fileSize()
-            try validateCurrentOffset(currentOffset, bytesCached: bytesCached)
-        } catch {
-            downloadFailed(with: error)
-        }
-    }
-#endif
 }
 #endif

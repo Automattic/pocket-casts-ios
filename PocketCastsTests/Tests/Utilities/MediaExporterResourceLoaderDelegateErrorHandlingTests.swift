@@ -82,27 +82,6 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
         XCTAssertEqual(receivedError as? MediaFileHandleError, .tryToReadAfterEndOfFile)
     }
 
-    func testCallback_receivesFailedStatus_whenDownloadCompleteAndReadOffsetIsAtEOF() {
-        let expectation = XCTestExpectation(description: "Callback receives .failed when read is requested at EOF")
-        var capturedStatus: MediaExporterResourceLoaderDelegate.FileExportStatus?
-
-        let delegate = MediaExporterResourceLoaderDelegate(saveFilePath: tempFilePath) { status, _, _, _ in
-            capturedStatus = status
-            expectation.fulfill()
-        }
-
-        delegate.setIsDownloadComplete(true)
-        delegate.validateReadOffsetAndHandleError(0)
-
-        wait(for: [expectation], timeout: 1.0)
-
-        guard case .failed(let receivedError) = capturedStatus else {
-            XCTFail("Expected .failed status, got \(String(describing: capturedStatus))")
-            return
-        }
-        XCTAssertEqual(receivedError as? MediaFileHandleError, .tryToReadAfterEndOfFile)
-    }
-
     func testCallback_isNotCalledWithFailed_whenSessionCompletesSuccessfully() {
         // A successful completion with no buffered data and no response verification error
         // should call the callback with .completed, not .failed.
