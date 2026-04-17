@@ -2101,7 +2101,7 @@ Això sí que és compromís!</string>
     <key>player_error_corrupted_file</key>
     <string>És possible que aquest episodi estigui danyat, però pots intentar reproduir-lo una altra vegada.</string>
     <key>player_error_episode_not_available</key>
-    <string>Episodi no disponible</string>
+    <string>Aquest episodi no es pot reproduir.</string>
     <key>player_error_internet_connection</key>
     <string>Comprova la teva connexió a Internet i torna-ho a intentar.</string>
     <key>player_error_short_no_connection</key>
@@ -2233,7 +2233,7 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>playlist_smart_rule_save_button</key>
     <string>Desa la regla intel·ligent</string>
     <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Els episodis destacats encara poden aparèixer si coincideixen amb les teves altres regles.</string>
+    <string>Els episodis destacats poden seguir apareixent si coincideixen amb altres regles.</string>
     <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
     <string>Només inclou episodis destacats que coincideixin amb les teves altres regles.</string>
     <key>playlist_smart_rule_starred_header_title</key>
@@ -2251,7 +2251,7 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <key>playlists_delete</key>
     <string>Esborra la llista de reproducció</string>
     <key>playlists_delete_alert_message</key>
-    <string>Estàs segur que vols esborrar la llista de reproducció? No hi ha manera de desfer-ho.</string>
+    <string>Estàs segur que vols esborrar-la? Aquesta acció no es pot desfer.</string>
     <key>playlists_delete_alert_title</key>
     <string>Vols esborrar la llista de reproducció?</string>
     <key>playlists_empty_state_description</key>
@@ -3837,7 +3837,7 @@ Aquesta app pot ser tan senzilla o difícil d'utilitzar com tu vulguis. Així qu
     <key>view_transcript</key>
     <string>Mostra la transcripció</string>
     <key>volume_boost</key>
-    <string>Apujar el volum</string>
+    <string>Apuja el volum</string>
     <key>volume_boost_description</key>
     <string>Augmenta el volum de les veus</string>
     <key>volume_boost_n_description</key>
