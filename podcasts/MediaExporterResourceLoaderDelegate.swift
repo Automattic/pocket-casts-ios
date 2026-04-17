@@ -317,8 +317,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
 
         // Read data from disk and pass it to the dataRequest
-        guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
-        dataRequest.respond(with: data)
+        do {
+            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {                
+                return false
+            }
+            dataRequest.respond(with: data)
+        } catch {
+            downloadFailed(with: error)
+        }
 
         return dataRequest.currentOffset >= requestedLength + requestedOffset
     }

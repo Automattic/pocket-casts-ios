@@ -1,6 +1,10 @@
 import Foundation
 import PocketCastsUtils
 
+enum MediaFileHandleError: Error {
+    case unableToOpenFile
+}
+
 /// File handle for local file operations.
 final class MediaFileHandle {
     private let filePath: String
@@ -43,27 +47,27 @@ extension MediaFileHandle {
         return attributes?[.size] as? Int ?? 0
     }
 
-    func readData(withOffset offset: Int, forLength length: Int) -> Data? {
+    func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
         lock.lock()
         defer { lock.unlock() }
 
         guard let readHandle else {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle is nil")
-            return nil
+            throw MediaFileHandleError.unableToOpenFile
         }
 
         do {
             try readHandle.seek(toOffset: UInt64(offset))
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] seek error: \(error)")
-            return nil
+            throw error
         }
 
         do {
             return try readHandle.read(upToCount: length)
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
-            return nil
+            throw error
         }
     }
 
