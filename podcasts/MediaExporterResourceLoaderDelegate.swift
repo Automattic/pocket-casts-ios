@@ -266,20 +266,26 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         lock.lock()
         defer { lock.unlock() }
 
-        // Filter out the unfullfilled requests
-        let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = pendingRequests.filter {
-            guard response != nil else {
-                return false
+        do {
+            // Filter out the unfullfilled requests
+            let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = try pendingRequests.filter {
+                guard response != nil else {
+                    return false
+                }
+                fillInContentInformationRequest($0.contentInformationRequest)
+                guard try haveEnoughDataToFulfillRequest($0.dataRequest!) else {
+                    return false
+                }
+
+                $0.finishLoading()
+                return true
             }
-            fillInContentInformationRequest($0.contentInformationRequest)
-            guard haveEnoughDataToFulfillRequest($0.dataRequest!) else { return false }
 
-            $0.finishLoading()
-            return true
+            // Remove fulfilled requests from pending requests
+            requestsFulfilled.forEach { pendingRequests.remove($0) }
+        } catch {
+            downloadFailed(with: error)
         }
-
-        // Remove fulfilled requests from pending requests
-        requestsFulfilled.forEach { pendingRequests.remove($0) }
     }
 
     private func fillInContentInformationRequest(_ contentInformationRequest: AVAssetResourceLoadingContentInformationRequest?) {
@@ -291,7 +297,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         contentInformationRequest?.isByteRangeAccessSupported = true
     }
 
-    private func haveEnoughDataToFulfillRequest(_ dataRequest: AVAssetResourceLoadingDataRequest) -> Bool {
+    private func haveEnoughDataToFulfillRequest(_ dataRequest: AVAssetResourceLoadingDataRequest) throws -> Bool {
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
         let currentOffset = Int(dataRequest.currentOffset)
@@ -299,8 +305,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         do {
             bytesCached = try fileHandle.throwableFileSize()
         } catch {
-            downloadFailed(with: error)
-            return false
+            throw error
         }
 
         // Is there enough data cached to fulfill the request?
@@ -333,7 +338,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             }
             dataRequest.respond(with: data)
         } catch {
-            downloadFailed(with: error)
+            throw error
         }
 
         return dataRequest.currentOffset >= requestedLength + requestedOffset
