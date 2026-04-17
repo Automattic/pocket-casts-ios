@@ -3,6 +3,7 @@ import PocketCastsUtils
 
 enum MediaFileHandleError: Error {
     case unableToOpenFile
+    case tryToReadAfterEndOfFile
 }
 
 /// File handle for local file operations.
