@@ -10,8 +10,7 @@ struct HeatmapDay: Identifiable {
 }
 
 final class ListeningHeatmapViewModel: ObservableObject {
-    @Published var weeks: [[HeatmapDay]] = []
-    @Published var hasData = false
+    @Published private(set) var weeks: [[HeatmapDay]] = []
 
     private let dataManager: DataManager
     private let calendar: Calendar
@@ -34,6 +33,8 @@ final class ListeningHeatmapViewModel: ObservableObject {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = calendar.timeZone
         self.dateFormatter = formatter
+
+        self.weeks = buildWeeks(from: [:])
     }
 
     func load() {
@@ -42,11 +43,9 @@ final class ListeningHeatmapViewModel: ObservableObject {
 
             let rawData = self.dataManager.dailyListeningTime(forLast: self.daysOfHistory)
             let weeks = self.buildWeeks(from: rawData)
-            let hasData = rawData.values.contains(where: { $0 > 0 })
 
             DispatchQueue.main.async {
                 self.weeks = weeks
-                self.hasData = hasData
             }
         }
     }

@@ -17,21 +17,19 @@ struct ListeningHeatmapView: View {
     private var columnWidth: CGFloat { cellSize + cellSpacing }
 
     var body: some View {
-        if viewModel.hasData {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(L10n.listeningActivity)
-                    .font(size: 14, style: .subheadline, weight: .semibold)
-                    .foregroundColor(theme.primaryText01)
-                    .padding(.horizontal, 16)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(L10n.listeningActivity)
+                .font(size: 14, style: .subheadline, weight: .semibold)
+                .foregroundColor(theme.primaryText01)
+                .padding(.horizontal, 16)
 
-                heatmapGrid
+            heatmapGrid
 
-                legendRow
-                    .padding(.horizontal, 16)
-            }
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            legendRow
+                .padding(.horizontal, 16)
         }
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var heatmapGrid: some View {
