@@ -5,8 +5,16 @@ struct ListeningHeatmapView: View {
     @EnvironmentObject private var theme: Theme
     @ObservedObject var viewModel: ListeningHeatmapViewModel
 
+    private let calendar = Calendar.current
     private let cellSize: CGFloat = 12
     private let cellSpacing: CGFloat = 3
+    private let dayLabelWidth: CGFloat = 24
+    private let gridLeadingPadding: CGFloat = 4
+    private let gridTrailingPadding: CGFloat = 16
+    private let monthLabelHeight: CGFloat = 14
+    private let monthLabelBottomPadding: CGFloat = 4
+
+    private var columnWidth: CGFloat { cellSize + cellSpacing }
 
     var body: some View {
         if viewModel.hasData {
@@ -26,54 +34,51 @@ struct ListeningHeatmapView: View {
         }
     }
 
-    // MARK: - Heatmap Grid
-
     private var heatmapGrid: some View {
-        ScrollViewReader { proxy in
-            ScrollView(.horizontal, showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
-                    monthLabels
-                        .padding(.leading, dayLabelWidth + cellSpacing)
-                        .padding(.bottom, 4)
+        GeometryReader { geometry in
+            let visibleWeeks = computeVisibleWeeks(availableWidth: geometry.size.width)
+            VStack(alignment: .leading, spacing: 0) {
+                monthLabels(weeks: visibleWeeks)
+                    .padding(.leading, dayLabelWidth + cellSpacing)
+                    .padding(.bottom, monthLabelBottomPadding)
 
-                    HStack(alignment: .top, spacing: cellSpacing) {
-                        dayLabels
+                HStack(alignment: .top, spacing: cellSpacing) {
+                    dayLabels
 
-                        ForEach(Array(viewModel.weeks.enumerated()), id: \.offset) { weekIndex, week in
-                            VStack(spacing: cellSpacing) {
-                                ForEach(week) { day in
-                                    RoundedRectangle(cornerRadius: 2)
-                                        .fill(colorForIntensity(day.intensity))
-                                        .frame(width: cellSize, height: cellSize)
-                                }
+                    ForEach(visibleWeeks.indices, id: \.self) { weekIndex in
+                        VStack(spacing: cellSpacing) {
+                            ForEach(visibleWeeks[weekIndex]) { day in
+                                RoundedRectangle(cornerRadius: 2)
+                                    .fill(colorForIntensity(day.intensity))
+                                    .frame(width: cellSize, height: cellSize)
                             }
-                            .id(weekIndex)
                         }
                     }
                 }
-                .padding(.leading, 4)
-                .padding(.trailing, 16)
             }
-            .onAppear {
-                if !viewModel.weeks.isEmpty {
-                    proxy.scrollTo(viewModel.weeks.count - 1, anchor: .trailing)
-                }
-            }
+            .padding(.leading, gridLeadingPadding)
+            .padding(.trailing, gridTrailingPadding)
         }
+        .frame(height: gridHeight)
     }
 
-    // MARK: - Day Labels
+    private var gridHeight: CGFloat {
+        7 * cellSize + 6 * cellSpacing + monthLabelHeight + monthLabelBottomPadding
+    }
 
-    private let dayLabelWidth: CGFloat = 24
+    private func computeVisibleWeeks(availableWidth: CGFloat) -> [[HeatmapDay]] {
+        guard availableWidth > 0 else { return [] }
+        let usable = availableWidth - dayLabelWidth - cellSpacing - gridLeadingPadding - gridTrailingPadding
+        let maxVisible = max(0, Int((usable + cellSpacing) / columnWidth))
+        guard maxVisible > 0 else { return [] }
+        return Array(viewModel.weeks.suffix(maxVisible))
+    }
 
     private var dayLabels: some View {
-        let calendar = Calendar.current
         let symbols = calendar.shortWeekdaySymbols
-        // Label every other row starting from firstWeekday (rows 0, 2, 4, 6).
-        let labeledRows: Set<Int> = [0, 2, 4, 6]
         return VStack(spacing: cellSpacing) {
             ForEach(0..<7, id: \.self) { rowIndex in
-                if labeledRows.contains(rowIndex) {
+                if rowIndex % 2 == 0 {
                     let symbolIndex = (calendar.firstWeekday - 1 + rowIndex) % 7
                     Text(symbols[symbolIndex])
                         .font(size: 10, style: .caption2, weight: .regular)
@@ -87,15 +92,10 @@ struct ListeningHeatmapView: View {
         }
     }
 
-    // MARK: - Month Labels
-
-    private var monthLabels: some View {
-        let calendar = Calendar.current
-        let monthPositions = computeMonthPositions(calendar: calendar)
-        let columnWidth = cellSize + cellSpacing
-
+    private func monthLabels(weeks: [[HeatmapDay]]) -> some View {
+        let monthPositions = computeMonthPositions(weeks: weeks)
         return ZStack(alignment: .leading) {
-            Color.clear.frame(height: 14)
+            Color.clear.frame(height: monthLabelHeight)
 
             ForEach(monthPositions, id: \.weekIndex) { position in
                 Text(position.label)
@@ -105,8 +105,6 @@ struct ListeningHeatmapView: View {
             }
         }
     }
-
-    // MARK: - Legend
 
     private var legendRow: some View {
         HStack(spacing: 4) {
@@ -143,11 +141,11 @@ struct ListeningHeatmapView: View {
         let label: String
     }
 
-    private func computeMonthPositions(calendar: Calendar) -> [MonthPosition] {
+    private func computeMonthPositions(weeks: [[HeatmapDay]]) -> [MonthPosition] {
         var positions: [MonthPosition] = []
         let shortMonths = calendar.shortMonthSymbols
 
-        for (weekIndex, week) in viewModel.weeks.enumerated() {
+        for (weekIndex, week) in weeks.enumerated() {
             guard let firstDay = week.first else { continue }
             let day = calendar.component(.day, from: firstDay.date)
             if day <= 7 {
