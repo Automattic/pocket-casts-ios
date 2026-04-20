@@ -9,7 +9,7 @@ struct HeatmapDay: Identifiable {
     let intensity: Int // 0-4
 }
 
-class ListeningHeatmapViewModel: ObservableObject {
+final class ListeningHeatmapViewModel: ObservableObject {
     @Published var weeks: [[HeatmapDay]] = []
     @Published var hasData = false
 
