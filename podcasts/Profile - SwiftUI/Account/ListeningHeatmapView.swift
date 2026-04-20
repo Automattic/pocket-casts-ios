@@ -22,7 +22,7 @@ struct ListeningHeatmapView: View {
             heatmapGrid
 
             legendRow
-                .padding(.horizontal, 16)
+                .padding(.horizontal, gridTrailingPadding)
         }
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)

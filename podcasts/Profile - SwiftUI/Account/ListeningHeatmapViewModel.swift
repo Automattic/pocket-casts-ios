@@ -19,7 +19,8 @@ final class ListeningHeatmapViewModel: ObservableObject {
     private let now: Date
     private let dateFormatter: DateFormatter
 
-    private let daysOfHistory = 365
+    // Make sure we have enough to cover the largest iPad screen
+    private let daysOfHistory = 2 * 365
 
     init(
         dataManager: DataManager = DataManager.sharedManager,
