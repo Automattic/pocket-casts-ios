@@ -51,6 +51,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     var deleteFileOnRelease = false
     var hasRetriedWithoutUserAgent = false
 
+    #if DEBUG
+    private var debugHasCorrupted = false
+    #endif
+
     private let saveFilePath: String
     private let callback: FileExporterProgressReport?
 
@@ -353,11 +357,44 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         do {
             try fileHandle.append(data: bufferData)
             bufferData = Data()
+            #if DEBUG
+            debugCorruptStreamingBufferIfNeeded()
+            #endif
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             invalidateAndCancelSession()
         }
     }
+
+    #if DEBUG
+    // Debug-only: flip `debugCorruptionMode` to a non-`.disabled` case to reproduce the error
+    // paths guarded by the read-handle changes. Do NOT merge with a non-`.disabled` default.
+    private enum DebugCorruptionMode { case disabled, delete, truncate, revokeRead }
+    private static let debugCorruptionMode: DebugCorruptionMode = .delete
+    private static let debugCorruptionAfterBytes = 512 * 1024
+
+    private func debugCorruptStreamingBufferIfNeeded() {
+        guard Self.debugCorruptionMode != .disabled, !debugHasCorrupted else { return }
+        guard fileHandle.safeFileSize >= Self.debugCorruptionAfterBytes else { return }
+        debugHasCorrupted = true
+
+        switch Self.debugCorruptionMode {
+        case .disabled:
+            return
+        case .delete:
+            try? FileManager.default.removeItem(atPath: saveFilePath)
+        case .truncate:
+            if let fh = FileHandle(forWritingAtPath: saveFilePath) {
+                try? fh.truncate(atOffset: 0)
+                try? fh.close()
+            }
+        case .revokeRead:
+            _ = chmod(saveFilePath, 0o000)
+        }
+
+        FileLog.shared.addMessage("DEBUG: corrupted streaming buffer at \(saveFilePath) via \(Self.debugCorruptionMode)")
+    }
+    #endif
 
     func releaseIfDownloadComplete() {
         if isDownloadComplete {
