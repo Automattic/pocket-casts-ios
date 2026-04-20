@@ -53,6 +53,16 @@ struct ListeningHeatmapView: View {
             .padding(.trailing, gridTrailingPadding)
         }
         .frame(height: gridHeight)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        let count = viewModel.weeks.reduce(0) { partial, week in
+            partial + week.reduce(0) { $0 + ($1.seconds > 0 ? 1 : 0) }
+        }
+        let formatted = NumberFormatter.localizedString(from: NSNumber(value: count), number: .decimal)
+        return L10n.statsListeningActivityAccessibilityLabel(formatted)
     }
 
     private var gridHeight: CGFloat {
