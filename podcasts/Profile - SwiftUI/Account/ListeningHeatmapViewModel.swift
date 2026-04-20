@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 struct HeatmapDay: Identifiable {
     var id: Date { date }
@@ -54,15 +55,24 @@ class ListeningHeatmapViewModel: ObservableObject {
         let today = calendar.startOfDay(for: now)
 
         // Align to the start of the week (locale-aware) containing the oldest day in the window.
-        let startDay = calendar.date(byAdding: .day, value: -(daysOfHistory - 1), to: today)!
-        let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startDay)!.start
+        guard let startDay = calendar.date(byAdding: .day, value: -(daysOfHistory - 1), to: today),
+              let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startDay)?.start else {
+            assertionFailure("ListeningHeatmapViewModel: failed to compute heatmap date range")
+            FileLog.shared.addMessage("ListeningHeatmapViewModel: failed to compute heatmap date range")
+            return []
+        }
 
         var rawDays: [(date: Date, seconds: Double)] = []
         var current = startOfWeek
         while current <= today {
             let key = dateFormatter.string(from: current)
             rawDays.append((current, data[key] ?? 0))
-            current = calendar.date(byAdding: .day, value: 1, to: current)!
+            guard let next = calendar.date(byAdding: .day, value: 1, to: current) else {
+                assertionFailure("ListeningHeatmapViewModel: failed to advance date by one day")
+                FileLog.shared.addMessage("ListeningHeatmapViewModel: failed to advance date by one day")
+                return []
+            }
+            current = next
         }
 
         // Compute intensity quartiles from non-zero days
