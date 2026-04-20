@@ -64,13 +64,18 @@ struct ListeningHeatmapView: View {
 
     // MARK: - Day Labels
 
-    private let dayLabelWidth: CGFloat = 18
+    private let dayLabelWidth: CGFloat = 24
 
     private var dayLabels: some View {
-        VStack(spacing: cellSpacing) {
-            ForEach(0..<7, id: \.self) { dayIndex in
-                if dayIndex == 1 || dayIndex == 3 || dayIndex == 5 {
-                    Text(dayAbbreviation(dayIndex))
+        let calendar = Calendar.current
+        let symbols = calendar.shortWeekdaySymbols
+        // Label every other row starting from firstWeekday (rows 0, 2, 4, 6).
+        let labeledRows: Set<Int> = [0, 2, 4, 6]
+        return VStack(spacing: cellSpacing) {
+            ForEach(0..<7, id: \.self) { rowIndex in
+                if labeledRows.contains(rowIndex) {
+                    let symbolIndex = (calendar.firstWeekday - 1 + rowIndex) % 7
+                    Text(symbols[symbolIndex])
                         .font(size: 10, style: .caption2, weight: .regular)
                         .foregroundColor(theme.primaryText02)
                         .frame(width: dayLabelWidth, height: cellSize, alignment: .trailing)
@@ -131,11 +136,6 @@ struct ListeningHeatmapView: View {
         case 4: return theme.primaryInteractive01
         default: return theme.primaryUi05.opacity(0.3)
         }
-    }
-
-    private func dayAbbreviation(_ index: Int) -> String {
-        let symbols = Calendar.current.veryShortWeekdaySymbols
-        return symbols[index]
     }
 
     private struct MonthPosition {
