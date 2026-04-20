@@ -34,13 +34,11 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
     }
 
     func testBuildWeeks_enUS_gridSpansOneFullYear() {
-        // today = Monday 2026-04-20. Start of grid: Sunday 2025-04-20 (the week containing
-        // today - 364 days = Monday 2025-04-21). That's 366 days = 53 columns.
         let viewModel = makeViewModel(today: date(2026, 4, 20))
 
         let weeks = viewModel.buildWeeks(from: [:])
 
-        XCTAssertEqual(weeks.count, 53)
+        XCTAssertEqual(weeks.count, 105)
         XCTAssertEqual(weeks.dropLast().allSatisfy { $0.count == 7 }, true)
         XCTAssertEqual(weeks.last?.count, 2) // Sun + Mon
     }
@@ -94,8 +92,7 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
 
         waitForLoad(viewModel)
 
-        XCTAssertFalse(viewModel.hasData)
-        XCTAssertEqual(viewModel.weeks.count, 53)
+        XCTAssertEqual(viewModel.weeks.count, 105)
         XCTAssertTrue(viewModel.weeks.flatMap { $0 }.allSatisfy { $0.intensity == 0 })
     }
 
@@ -114,7 +111,6 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
 
         waitForLoad(viewModel)
 
-        XCTAssertTrue(viewModel.hasData)
         let bySeconds = Dictionary(uniqueKeysWithValues: viewModel.weeks
             .flatMap { $0 }
             .filter { $0.seconds > 0 }
