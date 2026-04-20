@@ -24,7 +24,7 @@ struct ListeningHeatmapView: View {
             legendRow
                 .padding(.horizontal, gridTrailingPadding)
         }
-        .padding(.vertical, 12)
+        .padding(.vertical, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -85,7 +85,7 @@ struct ListeningHeatmapView: View {
                 if rowIndex % 2 == 0 {
                     let symbolIndex = (calendar.firstWeekday - 1 + rowIndex) % 7
                     Text(symbols[symbolIndex])
-                        .font(size: 10, style: .caption2, weight: .regular)
+                        .font(size: 10, style: .caption2, weight: .medium)
                         .foregroundColor(theme.primaryText02)
                         .frame(width: dayLabelWidth, height: cellSize, alignment: .trailing)
                 } else {
@@ -103,7 +103,7 @@ struct ListeningHeatmapView: View {
 
             ForEach(monthPositions, id: \.weekIndex) { position in
                 Text(position.label)
-                    .font(size: 10, style: .caption2, weight: .regular)
+                    .font(size: 10, style: .caption2, weight: .medium)
                     .foregroundColor(theme.primaryText02)
                     .offset(x: CGFloat(position.weekIndex) * columnWidth)
             }
