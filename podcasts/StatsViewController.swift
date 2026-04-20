@@ -21,7 +21,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         didSet {
             statsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             statsTable.register(UINib(nibName: "StatsTopCell", bundle: nil), forCellReuseIdentifier: statsHeaderCellId)
-            statsTable.register(UITableViewCell.self, forCellReuseIdentifier: heatmapCellId)
+            statsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: heatmapCellId)
             statsTable.contentInset = UIEdgeInsets(top: -35, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
         }
     }
@@ -117,7 +117,6 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
-            cell.selectionStyle = .none
             cell.contentConfiguration = UIHostingConfiguration {
                 ListeningHeatmapView(viewModel: heatmapViewModel)
                     .environmentObject(Theme.sharedTheme)
