@@ -135,7 +135,7 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
         dataManager: DataManager = DataManagerMock(),
         today: Date
     ) -> ListeningHeatmapViewModel {
-        ListeningHeatmapViewModel(dataManager: dataManager, calendar: enUSCalendar, now: today)
+        ListeningHeatmapViewModel(dataManager: dataManager, calendar: enUSCalendar, now: { today })
     }
 
     private func date(_ year: Int, _ month: Int, _ day: Int) -> Date {

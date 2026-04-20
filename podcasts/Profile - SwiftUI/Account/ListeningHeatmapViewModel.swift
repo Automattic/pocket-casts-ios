@@ -16,7 +16,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
 
     private var isLoading = false
     private let dataManager: DataManager
-    private let now: Date
+    private let now: () -> Date
     private let dateFormatter: DateFormatter
 
     // Make sure we have enough to cover the largest iPad screen
@@ -25,7 +25,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
     init(
         dataManager: DataManager = DataManager.sharedManager,
         calendar: Calendar = .current,
-        now: Date = Date()
+        now: @escaping () -> Date = { Date() }
     ) {
         self.dataManager = dataManager
         self.calendar = calendar
@@ -56,7 +56,7 @@ final class ListeningHeatmapViewModel: ObservableObject {
     }
 
     func buildWeeks(from data: [String: Double]) -> [[HeatmapDay]] {
-        let today = calendar.startOfDay(for: now)
+        let today = calendar.startOfDay(for: now())
 
         // Align to the start of the week (locale-aware) containing the oldest day in the window.
         guard let startDay = calendar.date(byAdding: .day, value: -(daysOfHistory - 1), to: today),
