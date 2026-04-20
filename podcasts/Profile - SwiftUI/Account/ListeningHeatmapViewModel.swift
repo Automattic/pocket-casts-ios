@@ -12,6 +12,7 @@ struct HeatmapDay: Identifiable {
 final class ListeningHeatmapViewModel: ObservableObject {
     @Published private(set) var weeks: [[HeatmapDay]] = []
 
+    private var isLoading = false
     private let dataManager: DataManager
     private let calendar: Calendar
     private let now: Date
@@ -38,14 +39,16 @@ final class ListeningHeatmapViewModel: ObservableObject {
     }
 
     func load() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self else { return }
+        guard !isLoading else { return }
+        isLoading = true
 
+        DispatchQueue.global(qos: .userInitiated).async {
             let rawData = self.dataManager.dailyListeningTime(forLast: self.daysOfHistory)
             let weeks = self.buildWeeks(from: rawData)
 
             DispatchQueue.main.async {
                 self.weeks = weeks
+                self.isLoading = false
             }
         }
     }

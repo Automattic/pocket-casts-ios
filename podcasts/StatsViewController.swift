@@ -31,13 +31,12 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         title = L10n.settingsStats
         Analytics.track(.statsShown)
-
-        heatmapViewModel.load()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        heatmapViewModel.load()
         loadStats()
     }
 
