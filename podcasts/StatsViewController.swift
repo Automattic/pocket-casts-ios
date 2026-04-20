@@ -115,27 +115,13 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
-            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
-
-            let heatmapView = ListeningHeatmapView(viewModel: heatmapViewModel)
-                .environmentObject(Theme.sharedTheme)
-            let hostingController = UIHostingController(rootView: heatmapView)
-            hostingController.view.backgroundColor = .clear
-            hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-
-            addChild(hostingController)
-            cell.contentView.addSubview(hostingController.view)
-            hostingController.didMove(toParent: self)
-
-            NSLayoutConstraint.activate([
-                hostingController.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                hostingController.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                hostingController.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                hostingController.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
-            ])
-
+            cell.contentConfiguration = UIHostingConfiguration {
+                ListeningHeatmapView(viewModel: heatmapViewModel)
+                    .environmentObject(Theme.sharedTheme)
+            }
+            .margins(.all, 0)
             return cell
         }
         if indexPath.section == 2 {
