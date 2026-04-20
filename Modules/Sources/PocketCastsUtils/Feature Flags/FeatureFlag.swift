@@ -125,6 +125,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
+    /// Enable synced transcripts with playback timing
+    case syncedTranscripts
+
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -397,6 +400,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
+        case .syncedTranscripts:
+            false
         case .libroFm:
             false
         case .encourageAccountCreation:
