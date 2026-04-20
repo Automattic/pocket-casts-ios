@@ -2,10 +2,10 @@ import Foundation
 import PocketCastsDataModel
 
 struct HeatmapDay: Identifiable {
-    let id: Date
+    var id: Date { date }
     let date: Date
     let seconds: Double
-    var intensity: Int // 0-4
+    let intensity: Int // 0-4
 }
 
 class ListeningHeatmapViewModel: ObservableObject {
