@@ -121,6 +121,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.contentConfiguration = UIHostingConfiguration {
                 ListeningHeatmapView(viewModel: heatmapViewModel)
                     .environmentObject(Theme.sharedTheme)
+                    .dynamicTypeSize(DynamicTypeSize.medium...DynamicTypeSize.accessibility2)
             }
             .margins(.all, 0)
             return cell

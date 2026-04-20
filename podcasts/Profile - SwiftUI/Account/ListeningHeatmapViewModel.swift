@@ -12,9 +12,10 @@ struct HeatmapDay: Identifiable {
 final class ListeningHeatmapViewModel: ObservableObject {
     @Published private(set) var weeks: [[HeatmapDay]] = []
 
+    let calendar: Calendar
+
     private var isLoading = false
     private let dataManager: DataManager
-    private let calendar: Calendar
     private let now: Date
     private let dateFormatter: DateFormatter
 

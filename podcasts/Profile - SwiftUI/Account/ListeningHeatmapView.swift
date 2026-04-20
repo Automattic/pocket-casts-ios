@@ -5,15 +5,16 @@ struct ListeningHeatmapView: View {
     @EnvironmentObject private var theme: Theme
     @ObservedObject var viewModel: ListeningHeatmapViewModel
 
-    private let calendar = Calendar.current
-    @ScaledMetric(relativeTo: .caption2) private var cellSize: CGFloat = 12
-    @ScaledMetric(relativeTo: .caption2) private var cellSpacing: CGFloat = 3
+    @ScaledMetric private var cellSize: CGFloat = 12
+    @ScaledMetric private var cellSpacing: CGFloat = 3
     @ScaledMetric(relativeTo: .caption2) private var dayLabelWidth: CGFloat = 28
     @ScaledMetric(relativeTo: .caption2) private var monthLabelHeight: CGFloat = 14
+
     private let gridLeadingPadding: CGFloat = 4
     private let gridTrailingPadding: CGFloat = 8
     private let monthLabelBottomPadding: CGFloat = 4
 
+    private var calendar: Calendar { viewModel.calendar }
     private var columnWidth: CGFloat { cellSize + cellSpacing }
 
     var body: some View {
@@ -25,7 +26,6 @@ struct ListeningHeatmapView: View {
         }
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .dynamicTypeSize(...DynamicTypeSize.xxLarge)
     }
 
     private var heatmapGrid: some View {
@@ -160,4 +160,14 @@ struct ListeningHeatmapView: View {
 
         return positions
     }
+}
+
+// MARK: - Previews
+#Preview {
+    VStack {
+        ListeningHeatmapView(viewModel: .init())
+        Spacer()
+    }
+    .setupDefaultEnvironment()
+    .dynamicTypeSize(DynamicTypeSize.medium...DynamicTypeSize.accessibility2)
 }
