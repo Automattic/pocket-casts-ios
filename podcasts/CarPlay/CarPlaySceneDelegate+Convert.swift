@@ -21,6 +21,20 @@ extension CarPlaySceneDelegate {
                 }
             }
 
+            // On iOS 26.4 there is this new property that set the playback progress correctly
+            if #available(iOS 26.4, *) {
+                let duration = episode.duration
+                var elapsedTime = min(episode.playedUpTo, episode.duration)
+                if episode.unplayed() {
+                    elapsedTime = 0
+                } else if episode.played() {
+                    elapsedTime = episode.duration
+                }
+                if duration > 0 {
+                    item.playbackConfiguration = CPPlaybackConfiguration(preferredPresentation: .audio, playbackAction: .none, elapsedTime: CMTime(seconds: elapsedTime, preferredTimescale: 1), duration: CMTime(seconds: duration, preferredTimescale: 1))
+                }
+            }
+
             if episode.episodeStatus != DownloadStatus.downloaded.rawValue {
                 item.accessoryType = .cloud
             }
