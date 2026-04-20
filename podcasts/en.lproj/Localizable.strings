@@ -1223,13 +1223,13 @@
 "keycommand_play_pause" = "Play/Pause";
 
 /* Title for the listening activity heatmap on the account screen */
-"listening_activity" = "Listening Activity";
+"stats_listening_activity_section_title" = "Listening Activity";
 
 /* Label for the low end of the heatmap legend */
-"less" = "Less";
+"stats_listening_activity_legend_less" = "Less";
 
 /* Label for the high end of the heatmap legend */
-"more" = "More";
+"stats_listening_activity_legend_more" = "More";
 
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";

@@ -1710,10 +1710,6 @@ internal enum L10n {
   internal static var learnAboutRatings: String { return L10n.tr("Localizable", "learn_about_ratings", fallback: "Learn about ratings") }
   /// Text for a button where you learn more about a feature
   internal static var learnMore: String { return L10n.tr("Localizable", "learn_more", fallback: "Learn More") }
-  /// Label for the low end of the heatmap legend
-  internal static var less: String { return L10n.tr("Localizable", "less", fallback: "Less") }
-  /// Title for the listening activity heatmap on the account screen
-  internal static var listeningActivity: String { return L10n.tr("Localizable", "listening_activity", fallback: "Listening Activity") }
   /// A common string used throughout the app. Often refers to the Listening History screen.
   internal static var listeningHistory: String { return L10n.tr("Localizable", "listening_history", fallback: "Listening History") }
   /// Title for action to remove episode from listening history
@@ -1768,8 +1764,6 @@ internal enum L10n {
   internal static var month: String { return L10n.tr("Localizable", "month", fallback: "month") }
   /// Basic string used to callout payment intervals like yearly vs monthly
   internal static var monthly: String { return L10n.tr("Localizable", "monthly", fallback: "Monthly") }
-  /// Label for the high end of the heatmap legend
-  internal static var more: String { return L10n.tr("Localizable", "more", fallback: "More") }
   /// A title used to a show a list of the most popular podcasts in a category.
   internal static var mostPopular: String { return L10n.tr("Localizable", "most_popular", fallback: "Most Popular") }
   /// A title used to a show a list of the most popular podcasts in a category with the provided name of that category.
@@ -4059,6 +4053,12 @@ internal enum L10n {
   internal static var statsListenHistoryLoading: String { return L10n.tr("Localizable", "stats_listen_history_loading", fallback: "You’ve listened for") }
   /// Header for the cell displaying the time for how long they've listened to Pocket Casts.
   internal static var statsListenHistoryNoDate: String { return L10n.tr("Localizable", "stats_listen_history_no_date", fallback: "You’ve listened for") }
+  /// Label for the low end of the heatmap legend
+  internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
+  /// Label for the high end of the heatmap legend
+  internal static var statsListeningActivityLegendMore: String { return L10n.tr("Localizable", "stats_listening_activity_legend_more", fallback: "More") }
+  /// Title for the listening activity heatmap on the account screen
+  internal static var statsListeningActivitySectionTitle: String { return L10n.tr("Localizable", "stats_listening_activity_section_title", fallback: "Listening Activity") }
   /// Row header that displays the amount of time saved from the Skip forward feature.
   internal static var statsSkipping: String { return L10n.tr("Localizable", "stats_skipping", fallback: "Skipping") }
   /// Section header that breaks down how much listening time has been saved across a variety of features.

@@ -67,7 +67,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
         if section == 1 {
-            return SettingsTableHeader(frame: headerFrame, title: L10n.listeningActivity)
+            return SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
         }
         if section == 2 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)

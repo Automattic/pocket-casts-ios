@@ -102,7 +102,7 @@ struct ListeningHeatmapView: View {
     private var legendRow: some View {
         HStack(spacing: 4) {
             Spacer()
-            Text(L10n.less)
+            Text(L10n.statsListeningActivityLegendLess)
                 .font(size: 10, style: .caption2, weight: .regular)
                 .foregroundColor(theme.primaryText02)
             ForEach(0..<5, id: \.self) { level in
@@ -110,7 +110,7 @@ struct ListeningHeatmapView: View {
                     .fill(colorForIntensity(level))
                     .frame(width: cellSize, height: cellSize)
             }
-            Text(L10n.more)
+            Text(L10n.statsListeningActivityLegendMore)
                 .font(size: 10, style: .caption2, weight: .regular)
                 .foregroundColor(theme.primaryText02)
         }
