@@ -67,6 +67,9 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
+        if section == 1 {
+            return SettingsTableHeader(frame: headerFrame, title: L10n.listeningActivity)
+        }
         if section == 2 {
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
         }
@@ -116,7 +119,6 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
             cell.selectionStyle = .none
-            cell.backgroundColor = .clear
             cell.contentConfiguration = UIHostingConfiguration {
                 ListeningHeatmapView(viewModel: heatmapViewModel)
                     .environmentObject(Theme.sharedTheme)

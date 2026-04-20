@@ -10,7 +10,7 @@ struct ListeningHeatmapView: View {
     private let cellSpacing: CGFloat = 3
     private let dayLabelWidth: CGFloat = 24
     private let gridLeadingPadding: CGFloat = 4
-    private let gridTrailingPadding: CGFloat = 16
+    private let gridTrailingPadding: CGFloat = 8
     private let monthLabelHeight: CGFloat = 14
     private let monthLabelBottomPadding: CGFloat = 4
 
@@ -18,11 +18,6 @@ struct ListeningHeatmapView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(L10n.listeningActivity)
-                .font(size: 14, style: .subheadline, weight: .semibold)
-                .foregroundColor(theme.primaryText01)
-                .padding(.horizontal, 16)
-
             heatmapGrid
 
             legendRow
