@@ -5,6 +5,7 @@ import PocketCastsServer
 struct AccountHeaderView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: AccountHeaderViewModel
+
     @State private var showingChampion = false
 
     var body: some View {
