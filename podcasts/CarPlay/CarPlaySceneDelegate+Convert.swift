@@ -1,6 +1,7 @@
 import CarPlay
 import Foundation
 import PocketCastsDataModel
+import CoreMedia
 
 extension CarPlaySceneDelegate {
     func convertToListItems(episodes: [BaseEpisode], showArtwork: Bool, playlist: AutoplayHelper.Playlist?) -> [CPListItem] {
@@ -21,7 +22,8 @@ extension CarPlaySceneDelegate {
                 }
             }
 
-            // On iOS 26.4 there is this new property that set the playback progress correctly
+            // On iOS 26.4 and later, CarPlay uses `playbackConfiguration` to display
+            // elapsed time and duration, which lets it show playback progress correctly.
             if #available(iOS 26.4, *) {
                 let duration = episode.duration
                 var elapsedTime = min(episode.playedUpTo, episode.duration)
@@ -31,7 +33,7 @@ extension CarPlaySceneDelegate {
                     elapsedTime = episode.duration
                 }
                 if duration > 0 {
-                    item.playbackConfiguration = CPPlaybackConfiguration(preferredPresentation: .audio, playbackAction: .none, elapsedTime: CMTime(seconds: elapsedTime, preferredTimescale: 1), duration: CMTime(seconds: duration, preferredTimescale: 1))
+                    item.playbackConfiguration = CPPlaybackConfiguration(preferredPresentation: .audio, playbackAction: .none, elapsedTime: CMTime(seconds: elapsedTime, preferredTimescale: .audio), duration: CMTime(seconds: duration, preferredTimescale: .audio))
                 }
             }
 
