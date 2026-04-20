@@ -61,7 +61,6 @@ final class ListeningHeatmapViewModel: ObservableObject {
         guard let startDay = calendar.date(byAdding: .day, value: -(daysOfHistory - 1), to: today),
               let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startDay)?.start else {
             assertionFailure("ListeningHeatmapViewModel: failed to compute heatmap date range")
-            FileLog.shared.addMessage("ListeningHeatmapViewModel: failed to compute heatmap date range")
             return []
         }
 
@@ -72,7 +71,6 @@ final class ListeningHeatmapViewModel: ObservableObject {
             rawDays.append((current, data[key] ?? 0))
             guard let next = calendar.date(byAdding: .day, value: 1, to: current) else {
                 assertionFailure("ListeningHeatmapViewModel: failed to advance date by one day")
-                FileLog.shared.addMessage("ListeningHeatmapViewModel: failed to advance date by one day")
                 return []
             }
             current = next
