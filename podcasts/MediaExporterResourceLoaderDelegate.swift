@@ -288,7 +288,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // Remove fulfilled requests from pending requests
             requestsFulfilled.forEach { pendingRequests.remove($0) }
         } catch {
-            downloadFailed(with: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: [NSLocalizedDescriptionKey: "Failed reading data. Reason: \(error.localizedDescription)"]))
+            downloadFailed(with: error, notify: true)
         }
     }
 
@@ -358,7 +358,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             #endif
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
-            invalidateAndCancelSession(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotWriteToFile, userInfo: [NSLocalizedDescriptionKey: "Failed writing data. Reason: \(error.localizedDescription)"]))
+            downloadFailed(with: error, notify: true)
         }
     }
 
@@ -466,8 +466,11 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
     }
 
-    private func downloadFailed(with error: Error) {
+    private func downloadFailed(with error: Error, notify: Bool = false) {
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download failed with error: \(error)")
+        if notify {
+            NotificationCenter.default.post(name: AVPlayerItem.failedToPlayToEndTimeNotification, object: nil, userInfo: [AVPlayerItemFailedToPlayToEndTimeErrorKey: error])
+        }
         invalidateAndCancelSession(error: error)
         let contentType = self.response?.mimeType
         callbackQueue.async { [weak self] in

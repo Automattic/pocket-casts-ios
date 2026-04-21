@@ -70,7 +70,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
             expectation.fulfill()
         }
 
-        let eofError = MediaFileHandleError.tryToReadAfterEndOfFile
+        let eofError = MediaFileHandleError.readAfterEndOfFile
         delegate.urlSession(.shared, task: MockURLSessionTask(), didCompleteWithError: eofError)
 
         wait(for: [expectation], timeout: 1.0)
@@ -79,7 +79,7 @@ final class MediaExporterResourceLoaderDelegateErrorHandlingTests: XCTestCase {
             XCTFail("Expected .failed status, got \(String(describing: capturedStatus))")
             return
         }
-        XCTAssertEqual(receivedError as? MediaFileHandleError, .tryToReadAfterEndOfFile)
+        XCTAssertEqual(receivedError as? MediaFileHandleError, .readAfterEndOfFile)
     }
 
     func testCallback_isNotCalledWithFailed_whenSessionCompletesSuccessfully() {
