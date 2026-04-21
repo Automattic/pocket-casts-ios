@@ -325,14 +325,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
 
         // Read data from disk and pass it to the dataRequest
-        do {
-            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
-                throw MediaFileHandleError.tryToReadAfterEndOfFile
-            }
-            dataRequest.respond(with: data)
-        } catch {
-            throw error
+        guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
+            throw MediaFileHandleError.readAfterEndOfFile
         }
+        dataRequest.respond(with: data)
 
         return dataRequest.currentOffset >= requestedLength + requestedOffset
     }
@@ -340,7 +336,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func validateCurrentOffset(_ currentOffset: Int, bytesCached: Int) throws {
         if isDownloadComplete, currentOffset >= bytesCached {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
-            throw MediaFileHandleError.tryToReadAfterEndOfFile
+            throw MediaFileHandleError.readAfterEndOfFile
         }
     }
 
