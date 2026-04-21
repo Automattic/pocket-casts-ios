@@ -288,7 +288,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // Remove fulfilled requests from pending requests
             requestsFulfilled.forEach { pendingRequests.remove($0) }
         } catch {
-            downloadFailed(with: error)
+            downloadFailed(with: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: [NSLocalizedDescriptionKey: "Failed reading data. Reason: \(error.localizedDescription)"]))
         }
     }
 
@@ -329,14 +329,10 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
 
         // Read data from disk and pass it to the dataRequest
-        do {
-            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
-                throw MediaFileHandleError.tryToReadAfterEndOfFile
-            }
-            dataRequest.respond(with: data)
-        } catch {
-            throw error
+        guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
+            throw MediaFileHandleError.readAfterEndOfFile
         }
+        dataRequest.respond(with: data)
 
         return dataRequest.currentOffset >= requestedLength + requestedOffset
     }
@@ -344,7 +340,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func validateCurrentOffset(_ currentOffset: Int, bytesCached: Int) throws {
         if isDownloadComplete, currentOffset >= bytesCached {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read a position after the end of a file")
-            throw MediaFileHandleError.tryToReadAfterEndOfFile
+            throw MediaFileHandleError.readAfterEndOfFile
         }
     }
 
@@ -362,7 +358,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             #endif
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
-            invalidateAndCancelSession()
+            invalidateAndCancelSession(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotWriteToFile, userInfo: [NSLocalizedDescriptionKey: "Failed writing data. Reason: \(error.localizedDescription)"]))
         }
     }
 
