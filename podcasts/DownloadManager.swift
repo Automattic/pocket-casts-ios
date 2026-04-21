@@ -457,6 +457,9 @@ class DownloadManager: NSObject, FilePathProtocol {
             if exportStatus.error == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
                 processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType, copyFile: true)
+                // The tmp file is intentionally left in place here. The OS reclaims files in the system
+                // tmp directory under memory pressure, and DownloadedFilesViewController.performDelete()
+                // cleans up orphans older than 1 week on the next user-triggered cleanup.
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
