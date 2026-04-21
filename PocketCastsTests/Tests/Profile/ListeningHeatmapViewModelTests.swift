@@ -50,7 +50,7 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
 
         let weeks = viewModel.buildWeeks(from: [:])
 
-        XCTAssertTrue(weeks.flatMap { $0 }.allSatisfy { $0.intensity == 0 })
+        XCTAssertTrue(weeks.flatMap { $0 }.allSatisfy { $0.intensity == .none })
     }
 
     func testBuildWeeks_intensityAssignsLevels1Through4() {
@@ -77,10 +77,10 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
             .filter { $0.seconds > 0 }
             .map { ($0.seconds, $0.intensity) })
 
-        XCTAssertEqual(bySeconds[10], 1)
-        XCTAssertEqual(bySeconds[50], 2)
-        XCTAssertEqual(bySeconds[70], 3)
-        XCTAssertEqual(bySeconds[100], 4)
+        XCTAssertEqual(bySeconds[10], .minimal)
+        XCTAssertEqual(bySeconds[50], .light)
+        XCTAssertEqual(bySeconds[70], .moderate)
+        XCTAssertEqual(bySeconds[100], .heavy)
     }
 
     // MARK: - load() end-to-end with injected DataManager
@@ -93,7 +93,7 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
         waitForLoad(viewModel)
 
         XCTAssertEqual(viewModel.weeks.count, 105)
-        XCTAssertTrue(viewModel.weeks.flatMap { $0 }.allSatisfy { $0.intensity == 0 })
+        XCTAssertTrue(viewModel.weeks.flatMap { $0 }.allSatisfy { $0.intensity == .none })
     }
 
     func testLoad_withData_computesIntensitiesFromQuartiles() {
@@ -115,10 +115,10 @@ final class ListeningHeatmapViewModelTests: XCTestCase {
             .flatMap { $0 }
             .filter { $0.seconds > 0 }
             .map { ($0.seconds, $0.intensity) })
-        XCTAssertEqual(bySeconds[100], 1)
-        XCTAssertEqual(bySeconds[300], 1)
-        XCTAssertEqual(bySeconds[600], 2)
-        XCTAssertEqual(bySeconds[1200], 3)
+        XCTAssertEqual(bySeconds[100], .minimal)
+        XCTAssertEqual(bySeconds[300], .minimal)
+        XCTAssertEqual(bySeconds[600], .light)
+        XCTAssertEqual(bySeconds[1200], .moderate)
     }
 
     // MARK: - Helpers

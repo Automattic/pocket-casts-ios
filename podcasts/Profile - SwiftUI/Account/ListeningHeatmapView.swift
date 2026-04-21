@@ -116,7 +116,7 @@ struct ListeningHeatmapView: View {
             Text(L10n.statsListeningActivityLegendLess)
                 .font(size: 10, style: .caption2, weight: .regular)
                 .foregroundColor(theme.primaryText02)
-            ForEach(0..<5, id: \.self) { level in
+            ForEach(HeatmapIntensity.allCases, id: \.self) { level in
                 RoundedRectangle(cornerRadius: 2)
                     .fill(colorForIntensity(level))
                     .frame(width: cellSize, height: cellSize)
@@ -129,14 +129,13 @@ struct ListeningHeatmapView: View {
 
     // MARK: - Helpers
 
-    private func colorForIntensity(_ level: Int) -> Color {
+    private func colorForIntensity(_ level: HeatmapIntensity) -> Color {
         switch level {
-        case 0: return theme.primaryUi05.opacity(0.3)
-        case 1: return theme.primaryInteractive01.opacity(0.3)
-        case 2: return theme.primaryInteractive01.opacity(0.5)
-        case 3: return theme.primaryInteractive01.opacity(0.75)
-        case 4: return theme.primaryInteractive01
-        default: return theme.primaryUi05.opacity(0.3)
+        case .none: return theme.primaryUi05.opacity(0.3)
+        case .minimal: return theme.primaryInteractive01.opacity(0.3)
+        case .light: return theme.primaryInteractive01.opacity(0.5)
+        case .moderate: return theme.primaryInteractive01.opacity(0.75)
+        case .heavy: return theme.primaryInteractive01
         }
     }
 

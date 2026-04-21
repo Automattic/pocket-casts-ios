@@ -2,11 +2,19 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
+enum HeatmapIntensity: CaseIterable {
+    case none
+    case minimal
+    case light
+    case moderate
+    case heavy
+}
+
 struct HeatmapDay: Identifiable {
     var id: Date { date }
     let date: Date
     let seconds: Double
-    let intensity: Int // 0-4
+    let intensity: HeatmapIntensity
 }
 
 final class ListeningHeatmapViewModel: ObservableObject {
@@ -116,12 +124,12 @@ final class ListeningHeatmapViewModel: ObservableObject {
         ]
     }
 
-    private func intensityLevel(for seconds: Double, thresholds: [Double]) -> Int {
-        guard seconds > 0 else { return 0 }
-        guard thresholds.count == 3 else { return 1 }
-        if seconds <= thresholds[0] { return 1 }
-        if seconds <= thresholds[1] { return 2 }
-        if seconds <= thresholds[2] { return 3 }
-        return 4
+    private func intensityLevel(for seconds: Double, thresholds: [Double]) -> HeatmapIntensity {
+        guard seconds > 0 else { return .none }
+        guard thresholds.count == 3 else { return .minimal }
+        if seconds <= thresholds[0] { return .minimal }
+        if seconds <= thresholds[1] { return .light }
+        if seconds <= thresholds[2] { return .moderate }
+        return .heavy
     }
 }
