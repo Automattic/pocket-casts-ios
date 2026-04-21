@@ -284,7 +284,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // Remove fulfilled requests from pending requests
             requestsFulfilled.forEach { pendingRequests.remove($0) }
         } catch {
-            downloadFailed(with: error)
+            downloadFailed(with: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotOpenFile, userInfo: [NSLocalizedDescriptionKey: "Failed reading data. Reason: \(error.localizedDescription)"]))
         }
     }
 
@@ -351,7 +351,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             bufferData = Data()
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
-            invalidateAndCancelSession()
+            invalidateAndCancelSession(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotWriteToFile, userInfo: [NSLocalizedDescriptionKey: "Failed writing data. Reason: \(error.localizedDescription)"]))
         }
     }
 
