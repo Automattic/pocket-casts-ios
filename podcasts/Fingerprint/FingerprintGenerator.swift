@@ -90,8 +90,8 @@ final class FingerprintGenerator {
         cancellationToken: FingerprintCancellationToken?,
         progress: ProgressHandler?
     ) -> Result<ReferenceFingerprint, GenerationError> {
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            FileLog.shared.addMessage("FingerprintGenerator: file not found at \(fileURL.path)")
+        guard fileURL.isFileURL, FileManager.default.fileExists(atPath: fileURL.path) else {
+            FileLog.shared.addMessage("FingerprintGenerator: file not found at \(fileURL.absoluteString)")
             return .failure(.fileNotFound(fileURL))
         }
 
