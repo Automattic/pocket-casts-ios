@@ -104,11 +104,14 @@ final class FingerprintGenerator {
             let fileData = try Data(contentsOf: fileURL, options: .mappedIfSafe)
 
             if let byteRange {
-                let lower = Int(byteRange.lowerBound)
-                let upper = Int(byteRange.upperBound)
-                guard lower < fileData.count, upper <= fileData.count else {
+                guard
+                    let lower = Int(exactly: byteRange.lowerBound),
+                    let upper = Int(exactly: byteRange.upperBound),
+                    lower < upper,
+                    upper <= fileData.count
+                else {
                     FileLog.shared.addMessage(
-                        "FingerprintGenerator: byte range \(lower)..<\(upper) out of bounds for file of size \(fileData.count)"
+                        "FingerprintGenerator: byte range \(byteRange.lowerBound)..<\(byteRange.upperBound) invalid for file of size \(fileData.count)"
                     )
                     return .failure(.invalidByteRange)
                 }
