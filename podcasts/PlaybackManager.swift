@@ -1010,8 +1010,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
                 return L10n.chromecastError
-            case .playbackError(_, let isLocalFile):
-                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorInternetConnection
+            case .playbackError:
+                return L10n.playerErrorShortPlaybackError
             }
         }
 
