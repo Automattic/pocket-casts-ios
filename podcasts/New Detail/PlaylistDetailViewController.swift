@@ -408,9 +408,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         if animated, contentChanged {
             do {
-                try SJCommonUtils.catchException { [weak self] in
-                    self?.tableView.reload(using: data, with: .fade) { [weak self] newData in
-                        self?.viewModel.update(data: newData) {
+                try SJCommonUtils.catchException {
+                    tableView.reload(using: data, with: .fade) { newData in
+                        viewModel.update(data: newData) { [weak self] in
                             self?.reloadRefreshControlColor()
                         }
                     }
