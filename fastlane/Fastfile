@@ -42,6 +42,12 @@ APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_
 APP_STORE_CONNECT_BUILD_IPA_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.ipa")
 APP_STORE_CONNECT_BUILD_DSYMS_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.app.dSYM.zip")
 
+APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME = 'pocket-casts-tvos'
+APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.xcarchive")
+APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.xcarchive.zip")
+APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.ipa")
+APP_STORE_CONNECT_TVOS_BUILD_DSYMS_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.app.dSYM.zip")
+
 CODE_SIGNING_STORAGE_OPTIONS = {
   storage_mode: 's3',
   s3_bucket: 'a8c-fastlane-match',
@@ -54,8 +60,11 @@ DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
 SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
+SCHEME_TVOS = 'Pocket Casts TV App'
+SCHEME_ENTERPRISE_TVOS = 'Pocket Casts TV Prototype Build'
 
 PROTOTYPE_BUILD_NAME = 'pocket-casts-prototype'
+PROTOTYPE_BUILD_NAME_TVOS = 'pocket-casts-prototype-tvos'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -667,6 +676,34 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
+  # Builds the tvOS app binary for distribution to App Store Connect
+  #
+  # Once the app binary is built by this lane, you might want to call:
+  #  - `symbols_upload` to upload dSYMs to Sentry
+  #
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store_tvos` before building. Recommended on CI.
+  #
+  lane :build_app_store_connect_tvos do |set_up_code_signing: true|
+    configure_code_signing_app_store_tvos if set_up_code_signing
+
+    build_app(
+      scheme: SCHEME_TVOS,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      export_options: {
+        method: 'app-store',
+        manageAppVersionAndBuildNumber: false
+      },
+      archive_path: APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH,
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME
+    )
+
+    UI.message("Zipping #{APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH} to #{APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH}...")
+    zip(path: APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH)
+  end
+
   # Uploads the binary to TestFlight and distributes it to testers
   #
   # Typically called after having built the binary with `build_app_store_connect`
@@ -723,6 +760,35 @@ platform :ios do
       xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
       output_directory: ARTIFACTS_FOLDER,
       output_name: PROTOTYPE_BUILD_NAME,
+      export_options: {
+        method: 'enterprise',
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+  end
+
+  # Builds the tvOS app binary for Enterprise distribution (Prototype Build)
+  #
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_enterprise_tvos` before building. Recommended on CI.
+  #
+  lane :build_enterprise_tvos do |set_up_code_signing: true|
+    if set_up_code_signing
+      configure_code_signing_enterprise_tvos
+    else
+      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
+    end
+
+    build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', '0')
+    pr_or_branch = pull_request_number&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
+
+    build_app(
+      scheme: SCHEME_ENTERPRISE_TVOS,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: PROTOTYPE_BUILD_NAME_TVOS,
       export_options: {
         method: 'enterprise',
         manageAppVersionAndBuildNumber: false
