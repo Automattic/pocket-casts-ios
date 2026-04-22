@@ -31,10 +31,10 @@ class FingerprintDebugOverlay: UIView {
     }
 
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        guard totalDuration > 0 else { return }
+        guard totalDuration > 0, bounds.width > 0 else { return }
         let x = gesture.location(in: self).x
         let time = Double(x / bounds.width) * totalDuration
-        PlaybackManager.shared.seekTo(time: max(0, time))
+        PlaybackManager.shared.seekTo(time: min(max(0, time), totalDuration))
     }
 
     override func draw(_ rect: CGRect) {
