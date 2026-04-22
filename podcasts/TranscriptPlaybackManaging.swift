@@ -24,6 +24,10 @@ extension PlaybackManager: TranscriptPlaybackManaging {
     var isPlayingEpisode: Bool {
         isActivelyPlaying(episodeUuid: episodeUUID)
     }
+
+    func seekTo(time: TimeInterval) {
+        seekTo(time: time, startPlaybackAfterSeek: false, seekHint: nil)
+    }
 }
 
 struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
