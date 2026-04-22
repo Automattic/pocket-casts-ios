@@ -10,8 +10,14 @@ enum FingerprintConstants {
     /// Minimum match score to accept a fingerprint match result.
     static let matchScoreThreshold: Float = 0.5
 
-    /// Number of fingerprint windows processed per batch.
-    static let batchSize: Int = 50
+    /// Duration of each windowed fingerprint produced during live matching, in milliseconds.
+    static let windowDurationMs: UInt32 = 8000
+
+    /// Interval between windowed fingerprints produced during live matching, in milliseconds.
+    static let windowIntervalMs: UInt32 = 2000
+
+    /// Number of seconds of audio fingerprinted per batch.
+    static let batchDurationSeconds: Double = 60
 
     /// Seconds between polls when waiting for the streaming buffer to grow.
     static let bufferGrowPollCadenceSeconds: TimeInterval = 1.0

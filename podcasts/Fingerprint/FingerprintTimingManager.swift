@@ -1,4 +1,5 @@
 import Foundation
+import Fingerprint
 import PocketCastsDataModel
 import PocketCastsUtils
 
@@ -22,18 +23,16 @@ final class FingerprintTimingManager: NSObject {
 
     private(set) var state: State = .idle
 
-    var generator: FingerprintGenerator?
-
     // MARK: - Internal Types
 
     private struct GenerationContext {
         let episodeUuid: String
-        let reference: ReferenceFingerprint
         let audioFileURL: URL
         let fileSize: UInt64
         let duration: Double
-        let generator: FingerprintGenerator
-        let cancellationToken: FingerprintCancellationToken
+        let matcher: CheckpointMatcher
+        let fingerprinter: Fingerprinter
+        let isCancelled: () -> Bool
     }
 
     struct TimeMappingEntry {
@@ -44,7 +43,12 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - Private State
 
     private let queue = DispatchQueue(label: "au.com.pocketcasts.FingerprintTimingManager")
+    private let generationQueue = DispatchQueue(
+        label: "au.com.pocketcasts.FingerprintTimingManager.generation",
+        qos: .utility
+    )
     private var context: GenerationContext?
+    private var cancellationFlag = CancellationFlag()
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastPlaybackTime: Double = -1
@@ -103,12 +107,11 @@ final class FingerprintTimingManager: NSObject {
 
     @objc private func handleTrackChanged() {
         let episode = PlaybackManager.shared.currentEpisode()
-        let gen = generator
 
         queue.async { [weak self] in
             guard let self else { return }
             self.resetState()
-            self.prepareForEpisode(episode, generator: gen)
+            self.prepareForEpisode(episode)
         }
     }
 
@@ -126,7 +129,8 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - State Management
 
     private func resetState() {
-        context?.cancellationToken.cancel()
+        cancellationFlag.cancel()
+        cancellationFlag = CancellationFlag()
         context = nil
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
@@ -143,17 +147,11 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Track Preparation
 
-    private func prepareForEpisode(_ episode: BaseEpisode?, generator: FingerprintGenerator?) {
+    private func prepareForEpisode(_ episode: BaseEpisode?) {
         updateState(.idle)
 
         guard let episode else {
             updateState(.unavailable)
-            return
-        }
-
-        guard let generator else {
-            updateState(.unavailable)
-            FileLog.shared.addMessage("FingerprintTimingManager: no generator configured")
             return
         }
 
@@ -187,20 +185,39 @@ final class FingerprintTimingManager: NSObject {
             return
         }
 
+        let matcher = CheckpointMatcher()
+        let duration_s = reference.checkpointDurationSeconds
+        let libraryCheckpoints = reference.libraryCheckpoints()
+
+        guard !libraryCheckpoints.isEmpty else {
+            updateState(.unavailable)
+            FileLog.shared.addMessage("FingerprintTimingManager: reference for \(uuid) has no usable checkpoints")
+            return
+        }
+
+        for checkpoint in libraryCheckpoints {
+            matcher.add(
+                timestamp: checkpoint.timestampSeconds,
+                hashes: checkpoint.hashes,
+                duration: duration_s
+            )
+        }
+
+        let flag = cancellationFlag
         let newContext = GenerationContext(
             episodeUuid: uuid,
-            reference: reference,
             audioFileURL: audioFileURL,
             fileSize: fileSize,
             duration: duration,
-            generator: generator,
-            cancellationToken: FingerprintCancellationToken()
+            matcher: matcher,
+            fingerprinter: Fingerprinter(),
+            isCancelled: { flag.isCancelled }
         )
         context = newContext
 
         updateState(.preparing)
         FileLog.shared.addMessage(
-            "FingerprintTimingManager: preparing for \(uuid) (\(reference.checkpoints.count) checkpoints)"
+            "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
     }
 
@@ -224,7 +241,7 @@ final class FingerprintTimingManager: NSObject {
         if isWithinMappedRange(playbackTime) { return }
         guard !isProcessingBatch else { return }
 
-        let batchDur = batchDuration(for: ctx.reference)
+        let batchDur = FingerprintConstants.batchDurationSeconds
         guard batchDur > 0 else { return }
         let batchIndex = Int(playbackTime / batchDur)
         guard batchIndex != lastProcessedBatchIndex else { return }
@@ -256,13 +273,8 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Batch Generation & Matching
 
-    private func batchDuration(for reference: ReferenceFingerprint) -> Double {
-        let intervalSeconds = Double(reference.checkpointInterval) * Double(reference.timestampQuantum) / 1000.0
-        return Double(FingerprintConstants.batchSize) * intervalSeconds
-    }
-
     private func generateAndMatchBatch(batchIndex: Int, context ctx: GenerationContext) {
-        let batchDur = batchDuration(for: ctx.reference)
+        let batchDur = FingerprintConstants.batchDurationSeconds
         let startTime = Double(batchIndex) * batchDur
         let endTime = min(startTime + batchDur, ctx.duration)
 
@@ -275,22 +287,24 @@ final class FingerprintTimingManager: NSObject {
             return
         }
 
-        ctx.generator.generate(
-            for: ctx.audioFileURL,
-            byteRange: startByte..<endByte,
-            cancellationToken: ctx.cancellationToken
-        ) { [weak self] result in
+        generationQueue.async { [weak self] in
             guard let self else { return }
+            let result = Self.fingerprintBatch(
+                fileURL: ctx.audioFileURL,
+                byteRange: startByte..<endByte,
+                fingerprinter: ctx.fingerprinter,
+                isCancelled: ctx.isCancelled
+            )
 
             self.queue.async {
                 defer { self.isProcessingBatch = false }
                 guard self.context?.episodeUuid == ctx.episodeUuid else { return }
 
                 switch result {
-                case .success(let windowFingerprint):
+                case .success(let windows):
                     self.processMatches(
-                        windowFingerprint: windowFingerprint,
-                        windowStartTime: startTime,
+                        windows: windows,
+                        batchStartTime: startTime,
                         context: ctx
                     )
                 case .failure(let error):
@@ -302,36 +316,68 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    private func processMatches(
-        windowFingerprint: ReferenceFingerprint,
-        windowStartTime: Double,
-        context ctx: GenerationContext
-    ) {
-        let matches = CheckpointMatcher.findTopMatches(
-            windowFingerprint: windowFingerprint,
-            reference: ctx.reference
-        )
+    private static func fingerprintBatch(
+        fileURL: URL,
+        byteRange: Range<UInt64>,
+        fingerprinter: Fingerprinter,
+        isCancelled: () -> Bool
+    ) -> Result<[WindowedFingerprint], Error> {
+        if isCancelled() { return .failure(BatchError.cancelled) }
 
-        guard let bestMatch = matches.first else {
-            FileLog.shared.addMessage(
-                "FingerprintTimingManager: no matches for window at \(String(format: "%.1f", windowStartTime))s"
-            )
-            return
+        let slice: Data
+        do {
+            let fileData = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+            guard
+                let lower = Int(exactly: byteRange.lowerBound),
+                let upper = Int(exactly: byteRange.upperBound),
+                lower < upper,
+                upper <= fileData.count
+            else {
+                return .failure(BatchError.invalidByteRange)
+            }
+            slice = fileData[lower..<upper]
+        } catch {
+            return .failure(error)
         }
 
-        let quantum = ctx.reference.timestampQuantum
-        let windowTimes = Self.absoluteTimes(for: windowFingerprint.checkpoints, quantum: quantum)
-        let refTimes = Self.absoluteTimes(for: ctx.reference.checkpoints, quantum: quantum)
+        if isCancelled() { return .failure(BatchError.cancelled) }
 
-        let startIdx = bestMatch.referenceStartIndex
-        for i in 0..<windowFingerprint.checkpoints.count {
-            let refIdx = startIdx + i
-            guard refIdx < refTimes.count, i < windowTimes.count else { break }
+        do {
+            let windows = try fingerprinter.fingerprintDataWindowed(
+                data: slice,
+                windowDurationMs: FingerprintConstants.windowDurationMs,
+                windowIntervalMs: FingerprintConstants.windowIntervalMs
+            )
+            return .success(windows)
+        } catch {
+            return .failure(error)
+        }
+    }
+
+    private enum BatchError: Error {
+        case cancelled
+        case invalidByteRange
+    }
+
+    private func processMatches(
+        windows: [WindowedFingerprint],
+        batchStartTime: Double,
+        context ctx: GenerationContext
+    ) {
+        var inserted = 0
+        for window in windows {
+            let matches = ctx.matcher.findTopMatches(
+                queryHashes: window.hashes,
+                maxResults: 1
+            )
+            guard let best = matches.first,
+                  best.score >= FingerprintConstants.matchScoreThreshold else { continue }
 
             insertMapping(TimeMappingEntry(
-                playbackTime: windowStartTime + windowTimes[i],
-                referenceTime: refTimes[refIdx]
+                playbackTime: batchStartTime + Double(window.timestampMs) / 1000.0,
+                referenceTime: Double(best.timestamp)
             ))
+            inserted += 1
         }
 
         let coverage = playbackToReference.count
@@ -340,8 +386,8 @@ final class FingerprintTimingManager: NSObject {
         }
 
         FileLog.shared.addMessage(
-            "FingerprintTimingManager: matched at \(String(format: "%.1f", windowStartTime))s "
-                + "(score: \(String(format: "%.2f", bestMatch.score)), coverage: \(coverage))"
+            "FingerprintTimingManager: batch at \(String(format: "%.1f", batchStartTime))s "
+                + "matched \(inserted)/\(windows.count) windows (coverage: \(coverage))"
         )
     }
 
@@ -397,19 +443,6 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Helpers
 
-    private static func absoluteTimes(
-        for checkpoints: [ReferenceFingerprint.Checkpoint],
-        quantum: Int
-    ) -> [Double] {
-        var times: [Double] = []
-        var accumulated = 0
-        for checkpoint in checkpoints {
-            accumulated += checkpoint.delta
-            times.append(Double(accumulated) * Double(quantum) / 1000.0)
-        }
-        return times
-    }
-
     private func loadReference(for episode: BaseEpisode) -> ReferenceFingerprint? {
         let audioPath = DownloadManager.shared.pathForEpisode(episode)
         let fpPath = (audioPath as NSString).deletingPathExtension + ".fp.json"
@@ -429,6 +462,21 @@ final class FingerprintTimingManager: NSObject {
         }
 
         return nil
+    }
+}
+
+// MARK: - Cancellation
+
+private final class CancellationFlag {
+    private let lock = NSLock()
+    private var cancelled = false
+
+    var isCancelled: Bool {
+        lock.withLock { cancelled }
+    }
+
+    func cancel() {
+        lock.withLock { cancelled = true }
     }
 }
 
