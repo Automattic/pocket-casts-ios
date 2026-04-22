@@ -89,6 +89,11 @@ BUNDLE_IDENTIFIERS_ENTERPRISE = [
   *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_ENTERPRISE}.#{suffix}" }
 ].freeze
 
+# The tvOS app shares the root bundle identifiers with iOS and currently has no extensions,
+# but it needs its own `match` profiles because code signing is scoped by platform.
+BUNDLE_IDENTIFIERS_APP_STORE_TVOS = [APP_BUNDLE_IDENTIFIER_APP_STORE].freeze
+BUNDLE_IDENTIFIERS_ENTERPRISE_TVOS = [APP_BUNDLE_IDENTIFIER_ENTERPRISE].freeze
+
 ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_KEY_ID
   APP_STORE_CONNECT_API_KEY_ISSUER_ID
@@ -259,6 +264,44 @@ platform :ios do
       app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
+      readonly: readonly,
+      **CODE_SIGNING_STORAGE_OPTIONS
+    )
+  end
+
+  # Download and configure code signing certificates and provisioning profiles for the tvOS App Store build.
+  #
+  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
+  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
+  #
+  lane :configure_code_signing_app_store_tvos do |readonly: true|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    sync_code_signing(
+      type: 'appstore',
+      platform: 'tvos',
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE_TVOS,
+      readonly: readonly,
+      **CODE_SIGNING_STORAGE_OPTIONS
+    )
+  end
+
+  # Download and configure code signing certificates and provisioning profiles for the tvOS Enterprise build, i.e. Prototype Builds.
+  #
+  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
+  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
+  #
+  lane :configure_code_signing_enterprise_tvos do |readonly: true|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    sync_code_signing(
+      type: 'enterprise',
+      platform: 'tvos',
+      team_id: TEAM_ID_ENTERPRISE,
+      api_key: app_store_connect_api_key(in_house: true),
+      app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE_TVOS,
       readonly: readonly,
       **CODE_SIGNING_STORAGE_OPTIONS
     )
