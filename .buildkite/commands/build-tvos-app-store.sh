@@ -1,4 +1,6 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+
+set -eu
 
 if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type build; then
   exit 0
