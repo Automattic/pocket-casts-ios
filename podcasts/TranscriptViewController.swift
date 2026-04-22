@@ -187,11 +187,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             overlay.heightAnchor.constraint(equalToConstant: 12)
         ])
         debugOverlay = overlay
-        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak overlay] _ in
-            overlay?.update()
-        }
-        RunLoop.main.add(timer, forMode: .common)
-        debugTimer = timer
         #endif
 
         stackView.addArrangedSubview(closeButton)
@@ -451,6 +446,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
+        #if DEBUG
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+            self?.debugOverlay?.update()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        debugTimer = timer
+        #endif
     }
 
     override func willBeRemovedFromPlayer() {
