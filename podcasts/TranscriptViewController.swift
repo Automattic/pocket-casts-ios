@@ -23,6 +23,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    #if DEBUG
+    private var debugOverlay: FingerprintDebugOverlay?
+    private var debugTimer: Timer?
+    #endif
+
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
     private var topGradientHeightConstraint: NSLayoutConstraint?
@@ -170,6 +175,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         )
 
         view.addSubview(hiddenTextView)
+
+        #if DEBUG
+        let overlay = FingerprintDebugOverlay()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(overlay)
+        NSLayoutConstraint.activate([
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            overlay.heightAnchor.constraint(equalToConstant: 12)
+        ])
+        debugOverlay = overlay
+        #endif
 
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
@@ -428,10 +446,21 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
+        #if DEBUG
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+            self?.debugOverlay?.update()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        debugTimer = timer
+        #endif
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        #if DEBUG
+        debugTimer?.invalidate()
+        debugTimer = nil
+        #endif
     }
 
     override func themeDidChange() {
