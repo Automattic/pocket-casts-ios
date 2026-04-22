@@ -1,0 +1,4 @@
+framework module FingerprintFFI {
+    header "../Headers/FingerprintFFI.h"
+    export *
+}
