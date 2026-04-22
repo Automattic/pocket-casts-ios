@@ -12,6 +12,23 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private enum LoadingStatus { case loading, loaded, failed }
     private var loadingState = LoadingStatus.loading
 
+    private enum StatsSection {
+        case header
+        case heatmap
+        case timeSavedBreakdown
+        case timeSavedTotal
+    }
+
+    private var sections: [StatsSection] {
+        guard loadingState == .loaded else { return [.header] }
+        var sections: [StatsSection] = [.header]
+        if FeatureFlag.statsHeatmap.enabled {
+            sections.append(.heatmap)
+        }
+        sections.append(contentsOf: [.timeSavedBreakdown, .timeSavedTotal])
+        return sections
+    }
+
     private var localOnly = !SyncManager.isUserLoggedIn()
 
     let playbackTimeHelper = PlaybackTimeHelper()
@@ -21,7 +38,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         didSet {
             statsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: statsCellId)
             statsTable.register(UINib(nibName: "StatsTopCell", bundle: nil), forCellReuseIdentifier: statsHeaderCellId)
-            statsTable.register(UITableViewCell.self, forCellReuseIdentifier: heatmapCellId)
+            statsTable.register(UINib(nibName: "StatsCell", bundle: nil), forCellReuseIdentifier: heatmapCellId)
             statsTable.contentInset = UIEdgeInsets(top: -35, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
         }
     }
@@ -31,13 +48,14 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         title = L10n.settingsStats
         Analytics.track(.statsShown)
-
-        heatmapViewModel.load()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        if FeatureFlag.statsHeatmap.enabled {
+            heatmapViewModel.load()
+        }
         loadStats()
     }
 
@@ -46,32 +64,30 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         Analytics.track(.statsDismissed)
     }
 
-    // MARK: - Sections
-    // Section 0: Header (total listening time)
-    // Section 1: Heatmap (listening activity graph)
-    // Section 2: Time Saved breakdown
-    // Section 3: Time Saved total
-
     func numberOfSections(in tableView: UITableView) -> Int {
-        loadingState == LoadingStatus.loaded ? 4 : 1
+        sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 || section == 1 || section == 3 {
+        switch sections[section] {
+        case .header, .heatmap, .timeSavedTotal:
             return 1
+        case .timeSavedBreakdown:
+            return 4
         }
-
-        return 4
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
 
-        if section == 2 {
+        switch sections[section] {
+        case .heatmap:
+            return SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
+        case .timeSavedBreakdown:
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
+        case .header, .timeSavedTotal:
+            return nil
         }
-
-        return nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -79,14 +95,17 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
+        switch sections[section] {
+        case .header:
             return UITableView.automaticDimension
+        default:
+            return 18
         }
-        return 18
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch sections[indexPath.section] {
+        case .header:
             let castCell = tableView.dequeueReusableCell(withIdentifier: statsHeaderCellId, for: indexPath) as! StatsTopCell
             if loadingState == LoadingStatus.failed {
                 castCell.loadingIndicator.stopAnimating()
@@ -112,33 +131,16 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
             }
             return castCell
-        }
-        if indexPath.section == 1 {
+        case .heatmap:
             let cell = tableView.dequeueReusableCell(withIdentifier: heatmapCellId, for: indexPath)
-            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-            cell.selectionStyle = .none
-            cell.backgroundColor = .clear
-
-            let heatmapView = ListeningHeatmapView(viewModel: heatmapViewModel)
-                .environmentObject(Theme.sharedTheme)
-            let hostingController = UIHostingController(rootView: heatmapView)
-            hostingController.view.backgroundColor = .clear
-            hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-
-            addChild(hostingController)
-            cell.contentView.addSubview(hostingController.view)
-            hostingController.didMove(toParent: self)
-
-            NSLayoutConstraint.activate([
-                hostingController.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                hostingController.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                hostingController.view.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-                hostingController.view.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
-            ])
-
+            cell.contentConfiguration = UIHostingConfiguration {
+                ListeningHeatmapView(viewModel: heatmapViewModel)
+                    .environmentObject(Theme.sharedTheme)
+                    .dynamicTypeSize(DynamicTypeSize.medium...DynamicTypeSize.accessibility2)
+            }
+            .margins(.all, 0)
             return cell
-        }
-        if indexPath.section == 2 {
+        case .timeSavedBreakdown:
             let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
             castCell.showIcon()
             if indexPath.row == 0 {
@@ -160,13 +162,14 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             castCell.statValue.style = .primaryText01
             return castCell
+        case .timeSavedTotal:
+            let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
+            castCell.statName.text = L10n.statsTotal
+            castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
+            castCell.statValue.style = .support01
+            castCell.hideIcon()
+            return castCell
         }
-        let castCell = tableView.dequeueReusableCell(withIdentifier: statsCellId, for: indexPath) as! StatsCell
-        castCell.statName.text = L10n.statsTotal
-        castCell.statValue.text = formatStat(skippedStat() + variableSpeedStat() + silenceRemovedStat() + autoSkipStat())
-        castCell.statValue.style = .support01
-        castCell.hideIcon()
-        return castCell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -174,14 +177,14 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+        switch sections[indexPath.section] {
+        case .header:
             return 200
-        }
-        if indexPath.section == 1 {
+        case .heatmap:
             return 180
+        case .timeSavedBreakdown, .timeSavedTotal:
+            return 44
         }
-
-        return 44
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

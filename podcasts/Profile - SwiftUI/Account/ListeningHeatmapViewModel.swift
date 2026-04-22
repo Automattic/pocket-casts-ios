@@ -1,68 +1,103 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
-struct HeatmapDay: Identifiable {
-    let id: Date
-    let date: Date
-    let seconds: Double
-    var intensity: Int // 0-4
+enum HeatmapIntensity: CaseIterable {
+    case none
+    case minimal
+    case light
+    case moderate
+    case heavy
 }
 
-class ListeningHeatmapViewModel: ObservableObject {
-    @Published var weeks: [[HeatmapDay]] = []
-    @Published var hasData = false
+struct HeatmapDay: Identifiable {
+    var id: Date { date }
+    let date: Date
+    let seconds: Double
+    let intensity: HeatmapIntensity
+}
 
-    private static let dateFormatter: DateFormatter = {
+final class ListeningHeatmapViewModel: ObservableObject {
+    @Published private(set) var weeks: [[HeatmapDay]] = []
+
+    let calendar: Calendar
+
+    private var isLoading = false
+    private let dataManager: DataManager
+    private let now: () -> Date
+    private let dateFormatter: DateFormatter
+
+    // Make sure we have enough to cover the largest iPad screen
+    private let daysOfHistory = 2 * 365
+
+    init(
+        dataManager: DataManager = DataManager.sharedManager,
+        calendar: Calendar = .current,
+        now: @escaping () -> Date = { Date() }
+    ) {
+        self.dataManager = dataManager
+        self.calendar = calendar
+        self.now = now
+
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
+        formatter.timeZone = calendar.timeZone
+        self.dateFormatter = formatter
+
+        self.weeks = buildWeeks(from: [:])
+    }
 
     func load() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self else { return }
+        guard !isLoading else { return }
+        isLoading = true
 
-            let rawData = DataManager.sharedManager.dailyListeningTime(forLast: 365)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let rawData = self.dataManager.dailyListeningTime(forLast: self.daysOfHistory)
             let weeks = self.buildWeeks(from: rawData)
-            let hasData = rawData.values.contains(where: { $0 > 0 })
 
             DispatchQueue.main.async {
                 self.weeks = weeks
-                self.hasData = hasData
+                self.isLoading = false
             }
         }
     }
 
-    private func buildWeeks(from data: [String: Double]) -> [[HeatmapDay]] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
+    func buildWeeks(from data: [String: Double]) -> [[HeatmapDay]] {
+        let today = calendar.startOfDay(for: now())
 
-        // Find the Sunday that starts the week containing the day 364 days ago
-        let startDay = calendar.date(byAdding: .day, value: -364, to: today)!
-        let weekday = calendar.component(.weekday, from: startDay)
-        // weekday: 1 = Sunday. We want to align to Sunday.
-        let startSunday = calendar.date(byAdding: .day, value: -(weekday - 1), to: startDay)!
+        // Align to the start of the week (locale-aware) containing the oldest day in the window.
+        guard let startDay = calendar.date(byAdding: .day, value: -(daysOfHistory - 1), to: today),
+              let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startDay)?.start else {
+            assertionFailure("ListeningHeatmapViewModel: failed to compute heatmap date range")
+            return []
+        }
 
-        // Build all days from startSunday to today
-        var allDays: [HeatmapDay] = []
-        var current = startSunday
+        var rawDays: [(date: Date, seconds: Double)] = []
+        var current = startOfWeek
         while current <= today {
-            let key = Self.dateFormatter.string(from: current)
-            let seconds = data[key] ?? 0
-            allDays.append(HeatmapDay(id: current, date: current, seconds: seconds, intensity: 0))
-            current = calendar.date(byAdding: .day, value: 1, to: current)!
+            let key = dateFormatter.string(from: current)
+            rawDays.append((current, data[key] ?? 0))
+            guard let next = calendar.date(byAdding: .day, value: 1, to: current) else {
+                assertionFailure("ListeningHeatmapViewModel: failed to advance date by one day")
+                return []
+            }
+            current = next
         }
 
         // Compute intensity quartiles from non-zero days
-        let nonZeroValues = allDays.compactMap { $0.seconds > 0 ? $0.seconds : nil }.sorted()
+        let nonZeroValues = rawDays.compactMap { $0.seconds > 0 ? $0.seconds : nil }.sorted()
         let thresholds = quartileThresholds(from: nonZeroValues)
 
-        for i in allDays.indices {
-            allDays[i].intensity = intensityLevel(for: allDays[i].seconds, thresholds: thresholds)
+        let allDays = rawDays.map { day in
+            HeatmapDay(
+                date: day.date,
+                seconds: day.seconds,
+                intensity: intensityLevel(for: day.seconds, thresholds: thresholds)
+            )
         }
 
-        // Group into weeks (columns of 7 days, Sunday-Saturday)
+        // Group into weeks (columns of 7 days, aligned to calendar.firstWeekday).
         var weeks: [[HeatmapDay]] = []
         var week: [HeatmapDay] = []
         for day in allDays {
@@ -89,12 +124,12 @@ class ListeningHeatmapViewModel: ObservableObject {
         ]
     }
 
-    private func intensityLevel(for seconds: Double, thresholds: [Double]) -> Int {
-        guard seconds > 0 else { return 0 }
-        guard thresholds.count == 3 else { return 1 }
-        if seconds <= thresholds[0] { return 1 }
-        if seconds <= thresholds[1] { return 2 }
-        if seconds <= thresholds[2] { return 3 }
-        return 4
+    private func intensityLevel(for seconds: Double, thresholds: [Double]) -> HeatmapIntensity {
+        guard seconds > 0 else { return .none }
+        guard thresholds.count == 3 else { return .minimal }
+        if seconds <= thresholds[0] { return .minimal }
+        if seconds <= thresholds[1] { return .light }
+        if seconds <= thresholds[2] { return .moderate }
+        return .heavy
     }
 }
