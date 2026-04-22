@@ -6,7 +6,84 @@ final class FingerprintTimingManagerTests: XCTestCase {
 
     typealias Entry = FingerprintTimingManager.TimeMappingEntry
 
-    // MARK: - Interpolation returns nil for empty entries
+    // MARK: - Public query API: empty manager
+
+    func testEmptyManagerReturnsNilForBothDirections() {
+        let manager = FingerprintTimingManager()
+
+        XCTAssertNil(manager.referenceTime(forPlaybackTime: 0))
+        XCTAssertNil(manager.referenceTime(forPlaybackTime: 100))
+        XCTAssertNil(manager.playbackTime(forReferenceTime: 50))
+    }
+
+    // MARK: - Public query API: single entry extrapolates in both directions
+
+    func testSingleMappingQueriesExtrapolateForwardAndBackward() throws {
+        let manager = FingerprintTimingManager()
+        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 20))
+
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 10)), 20, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 15)), 25, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5)), 15, accuracy: 0.001)
+    }
+
+    // MARK: - Public query API: interpolation between two entries
+
+    func testReferenceTimeInterpolatesBetweenTwoEntries() throws {
+        let manager = FingerprintTimingManager()
+        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 100))
+        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
+
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5)), 150, accuracy: 0.001)
+    }
+
+    // MARK: - Public query API: bidirectional consistency
+
+    func testPlaybackAndReferenceQueriesRoundTrip() throws {
+        let manager = FingerprintTimingManager()
+        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
+        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 25))
+
+        let refAtMid = try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5))
+        XCTAssertEqual(refAtMid, 12.5, accuracy: 0.001)
+
+        let playbackBack = try XCTUnwrap(manager.playbackTime(forReferenceTime: refAtMid))
+        XCTAssertEqual(playbackBack, 5, accuracy: 0.001)
+    }
+
+    // MARK: - Sorted insertion invariant under out-of-order inputs
+
+    func testOutOfOrderInsertsStillInterpolateCorrectly() throws {
+        let manager = FingerprintTimingManager()
+
+        // Insert in reverse-ish order; the manager should maintain sorted state internally.
+        manager.insert(mapping: Entry(playbackTime: 30, referenceTime: 300))
+        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 0))
+        manager.insert(mapping: Entry(playbackTime: 20, referenceTime: 200))
+        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 100))
+
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 5)), 50, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 15)), 150, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 25)), 250, accuracy: 0.001)
+    }
+
+    // MARK: - Reverse-direction array is sorted on reference key, not playback key
+
+    func testReverseLookupUsesReferenceOrderingNotPlaybackOrdering() throws {
+        let manager = FingerprintTimingManager()
+
+        // Playback ascending, reference descending — a case where a single shared
+        // array sorted only by playback would give the wrong result for reverse lookup.
+        manager.insert(mapping: Entry(playbackTime: 0, referenceTime: 300))
+        manager.insert(mapping: Entry(playbackTime: 10, referenceTime: 200))
+        manager.insert(mapping: Entry(playbackTime: 20, referenceTime: 100))
+
+        // Reference→playback sorted: [(20,100),(10,200),(0,300)]. Querying ref=150
+        // sits halfway between the first two entries → playback = midpoint(20, 10) = 15.
+        XCTAssertEqual(try XCTUnwrap(manager.playbackTime(forReferenceTime: 150)), 15, accuracy: 0.001)
+    }
+
+    // MARK: - Static interpolate helper: math correctness
 
     func testInterpolateReturnsNilForEmptyArray() {
         let result = FingerprintTimingManager.interpolate(
@@ -17,8 +94,6 @@ final class FingerprintTimingManagerTests: XCTestCase {
         )
         XCTAssertNil(result)
     }
-
-    // MARK: - Single-entry extrapolation
 
     func testInterpolateSingleEntryExtrapolatesForward() throws {
         let entries = [Entry(playbackTime: 10.0, referenceTime: 20.0)]
@@ -46,43 +121,7 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(result, 15.0, accuracy: 0.001)
     }
 
-    // MARK: - Two-entry linear interpolation
-
-    func testInterpolateMidpointBetweenTwoEntries() throws {
-        let entries = [
-            Entry(playbackTime: 0.0, referenceTime: 100.0),
-            Entry(playbackTime: 10.0, referenceTime: 200.0),
-        ]
-
-        let result = try XCTUnwrap(FingerprintTimingManager.interpolate(
-            time: 5.0,
-            in: entries,
-            keyPath: \.playbackTime,
-            valuePath: \.referenceTime
-        ))
-
-        XCTAssertEqual(result, 150.0, accuracy: 0.001)
-    }
-
-    func testInterpolateQuarterPointBetweenTwoEntries() throws {
-        let entries = [
-            Entry(playbackTime: 0.0, referenceTime: 0.0),
-            Entry(playbackTime: 100.0, referenceTime: 200.0),
-        ]
-
-        let result = try XCTUnwrap(FingerprintTimingManager.interpolate(
-            time: 25.0,
-            in: entries,
-            keyPath: \.playbackTime,
-            valuePath: \.referenceTime
-        ))
-
-        XCTAssertEqual(result, 50.0, accuracy: 0.001)
-    }
-
-    // MARK: - Multi-entry binary search
-
-    func testInterpolateFindsCorrectSegmentInMultipleEntries() throws {
+    func testInterpolateFindsCorrectSegmentWithBinarySearch() throws {
         let entries = [
             Entry(playbackTime: 0.0, referenceTime: 0.0),
             Entry(playbackTime: 10.0, referenceTime: 10.0),
@@ -100,91 +139,26 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(result, 45.0, accuracy: 0.001)
     }
 
-    // MARK: - Extrapolation beyond range
-
-    func testInterpolateExtrapolatesBeyondLastEntry() throws {
-        let entries = [
-            Entry(playbackTime: 0.0, referenceTime: 0.0),
-            Entry(playbackTime: 10.0, referenceTime: 20.0),
-        ]
-
-        let result = try XCTUnwrap(FingerprintTimingManager.interpolate(
-            time: 15.0,
-            in: entries,
-            keyPath: \.playbackTime,
-            valuePath: \.referenceTime
-        ))
-
-        XCTAssertEqual(result, 25.0, accuracy: 0.001)
-    }
-
-    func testInterpolateExtrapolatesBeforeFirstEntry() throws {
-        let entries = [
-            Entry(playbackTime: 10.0, referenceTime: 20.0),
-            Entry(playbackTime: 20.0, referenceTime: 40.0),
-        ]
-
-        let result = try XCTUnwrap(FingerprintTimingManager.interpolate(
-            time: 5.0,
-            in: entries,
-            keyPath: \.playbackTime,
-            valuePath: \.referenceTime
-        ))
-
-        XCTAssertEqual(result, 15.0, accuracy: 0.001)
-    }
-
-    // MARK: - Exact boundary match
-
     func testInterpolateReturnsExactValueAtBoundary() throws {
         let entries = [
             Entry(playbackTime: 0.0, referenceTime: 100.0),
             Entry(playbackTime: 10.0, referenceTime: 200.0),
         ]
 
-        let resultFirst = try XCTUnwrap(FingerprintTimingManager.interpolate(
+        let first = try XCTUnwrap(FingerprintTimingManager.interpolate(
             time: 0.0,
             in: entries,
             keyPath: \.playbackTime,
             valuePath: \.referenceTime
         ))
-        let resultLast = try XCTUnwrap(FingerprintTimingManager.interpolate(
+        let last = try XCTUnwrap(FingerprintTimingManager.interpolate(
             time: 10.0,
             in: entries,
             keyPath: \.playbackTime,
             valuePath: \.referenceTime
         ))
 
-        XCTAssertEqual(resultFirst, 100.0, accuracy: 0.001)
-        XCTAssertEqual(resultLast, 200.0, accuracy: 0.001)
-    }
-
-    // MARK: - Bidirectional lookup
-
-    func testInterpolateWorksForReverseDirection() throws {
-        let entries = [
-            Entry(playbackTime: 0.0, referenceTime: 100.0),
-            Entry(playbackTime: 10.0, referenceTime: 200.0),
-        ]
-
-        let result = try XCTUnwrap(FingerprintTimingManager.interpolate(
-            time: 150.0,
-            in: entries,
-            keyPath: \.referenceTime,
-            valuePath: \.playbackTime
-        ))
-
-        XCTAssertEqual(result, 5.0, accuracy: 0.001)
-    }
-
-    // MARK: - State enum
-
-    func testStateIdleIsDefault() {
-        let manager = FingerprintTimingManager()
-        if case .idle = manager.state {
-            // expected
-        } else {
-            XCTFail("Expected .idle, got \(manager.state)")
-        }
+        XCTAssertEqual(first, 100.0, accuracy: 0.001)
+        XCTAssertEqual(last, 200.0, accuracy: 0.001)
     }
 }

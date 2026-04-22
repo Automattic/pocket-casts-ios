@@ -393,6 +393,12 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Time Mapping
 
+    /// Test seam: inserts a mapping on the manager's serial queue so queries are
+    /// consistent with production insertions that happen from within `processMatches`.
+    func insert(mapping: TimeMappingEntry) {
+        queue.sync { insertMapping(mapping) }
+    }
+
     private func insertMapping(_ entry: TimeMappingEntry) {
         let pbIdx = playbackToReference.sortedInsertionIndex { $0.playbackTime < entry.playbackTime }
         playbackToReference.insert(entry, at: pbIdx)
