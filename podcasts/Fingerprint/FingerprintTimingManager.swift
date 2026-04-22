@@ -326,16 +326,14 @@ final class FingerprintTimingManager: NSObject {
 
         let slice: Data
         do {
-            let fileData = try Data(contentsOf: fileURL, options: .mappedIfSafe)
-            guard
-                let lower = Int(exactly: byteRange.lowerBound),
-                let upper = Int(exactly: byteRange.upperBound),
-                lower < upper,
-                upper <= fileData.count
-            else {
+            let fileHandle = try FileHandle(forReadingFrom: fileURL)
+            defer { try? fileHandle.close() }
+            try fileHandle.seek(toOffset: byteRange.lowerBound)
+            let length = Int(byteRange.upperBound - byteRange.lowerBound)
+            slice = try fileHandle.read(upToCount: length)
+            guard slice.count == length else {
                 return .failure(BatchError.invalidByteRange)
             }
-            slice = fileData[lower..<upper]
         } catch {
             return .failure(error)
         }
