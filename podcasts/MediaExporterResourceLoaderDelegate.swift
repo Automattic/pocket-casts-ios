@@ -125,13 +125,18 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // We start loading the file on first request only.
             startDataRequest(with: originalURL)
         }
-
+        if let dataRequest = loadingRequest.dataRequest {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Adding Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \(loadingRequest)")
+        }
         pendingRequests.insert(loadingRequest)
         processPendingRequests()
         return true
     }
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, didCancel loadingRequest: AVAssetResourceLoadingRequest) {
+        if let dataRequest = loadingRequest.dataRequest {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cancel Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \(loadingRequest)")
+        }
         pendingRequests.remove(loadingRequest)
     }
 
@@ -272,8 +277,15 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                 return false
             }
             fillInContentInformationRequest($0.contentInformationRequest)
-            guard haveEnoughDataToFulfillRequest($0.dataRequest!) else { return false }
-
+            guard haveEnoughDataToFulfillRequest($0.dataRequest!) else {
+                if let dataRequest = $0.dataRequest {
+                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Partial Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \($0)")
+                }
+                return false
+            }
+            if let dataRequest = $0.dataRequest {
+                FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Finish Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \($0)")
+            }
             $0.finishLoading()
             return true
         }
@@ -294,7 +306,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func haveEnoughDataToFulfillRequest(_ dataRequest: AVAssetResourceLoadingDataRequest) -> Bool {
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
-        let currentOffset = Int(dataRequest.currentOffset)
+        var currentOffset = Int(dataRequest.currentOffset)
         let bytesCached = fileHandle.fileSize
 
         // Is there enough data cached to fulfill the request?
@@ -313,12 +325,15 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             return false
         }
 
-        // Data length to be loaded into memory with maximum size of readDataLimit.
-        let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
+        //while currentOffset < min(requestedOffset + requestedLength, bytesCached) {
+            // Data length to be loaded into memory with maximum size of readDataLimit.
+            let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
 
-        // Read data from disk and pass it to the dataRequest
-        guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
-        dataRequest.respond(with: data)
+            // Read data from disk and pass it to the dataRequest
+            guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
+            dataRequest.respond(with: data)
+            currentOffset = Int(dataRequest.currentOffset)
+        //}
 
         return bytesCached >= requestedLength + requestedOffset
     }
@@ -346,7 +361,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private func downloadComplete() {
         processPendingRequests()
-
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: download finished")
         isDownloadComplete = true
         let contentType = self.response?.mimeType
         callbackQueue.async {
