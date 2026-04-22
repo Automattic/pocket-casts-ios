@@ -19,7 +19,7 @@ steps:
           missing-error: 0
           api-token-env-name: BUILDKITE_ANALYTICS_TOKEN
 
-  - label: ":appletv: Build tvOS (App Store Connect)"
+  - label: "Build tvOS (App Store Connect)"
     command: .buildkite/commands/build-tvos-app-store.sh
     agents:
       queue: mac
