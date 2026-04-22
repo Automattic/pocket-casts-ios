@@ -498,6 +498,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
     }
 
     @objc private func closeTapped() {
@@ -740,14 +743,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
-            if !showFromEpisode {
-                addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(prepareFingerprintForCurrentEpisode))
-            }
         }
-    }
-
-    @objc private func prepareFingerprintForCurrentEpisode() {
-        FingerprintTimingManager.shared.prepareForCurrentEpisode()
     }
 
     @objc private func updateTranscriptPosition() {
