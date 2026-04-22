@@ -7,27 +7,30 @@ actor FingerprintReferenceRetriever {
 
     static let shared = FingerprintReferenceRetriever()
 
-    private var inFlightRequests: [String: Task<Data?, Never>] = [:]
+    private var inFlightRequests: [String: Task<Data?, any Error>] = [:]
     private static let maxRetries = 3
 
     func fetchReferenceData(podcastUuid: String, episodeUuid: String) async -> Data? {
         let key = "\(podcastUuid)/\(episodeUuid)"
 
         if let existing = inFlightRequests[key] {
-            return await existing.value
+            return try? await existing.value
         }
 
-        let task = Task<Data?, Never> {
-            await performFetch(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
+        let task = Task<Data?, any Error> {
+            try await performFetch(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
         }
 
         inFlightRequests[key] = task
-        let result = await task.value
-        inFlightRequests[key] = nil
-        return result
+        defer { inFlightRequests[key] = nil }
+        return await withTaskCancellationHandler {
+            try? await task.value
+        } onCancel: {
+            task.cancel()
+        }
     }
 
-    private func performFetch(podcastUuid: String, episodeUuid: String) async -> Data? {
+    private func performFetch(podcastUuid: String, episodeUuid: String) async throws -> Data? {
         let urlString = "\(ServerConstants.Urls.generatedTranscripts)\(podcastUuid)/\(episodeUuid)-fingerprints.json.gz"
         guard let url = URL(string: urlString) else {
             FileLog.shared.addMessage("FingerprintReferenceRetriever: invalid URL for \(episodeUuid)")
@@ -35,6 +38,7 @@ actor FingerprintReferenceRetriever {
         }
 
         for attempt in 0..<Self.maxRetries {
+            try Task.checkCancellation()
             if attempt > 0 {
                 let delay = UInt64(pow(2.0, Double(attempt))) * 1_000_000_000
                 try? await Task.sleep(nanoseconds: delay)
@@ -72,6 +76,8 @@ actor FingerprintReferenceRetriever {
                     "FingerprintReferenceRetriever: reference fetched for \(episodeUuid) (\(jsonData.count) bytes)"
                 )
                 return jsonData
+            } catch is CancellationError {
+                throw CancellationError()
             } catch {
                 if Self.isTransientError(error) {
                     FileLog.shared.addMessage(
