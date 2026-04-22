@@ -38,6 +38,13 @@ final class FingerprintTimingManager: NSObject {
     struct TimeMappingEntry {
         let playbackTime: Double
         let referenceTime: Double
+        let score: Float
+
+        init(playbackTime: Double, referenceTime: Double, score: Float = 0) {
+            self.playbackTime = playbackTime
+            self.referenceTime = referenceTime
+            self.score = score
+        }
     }
 
     // MARK: - Private State
@@ -104,6 +111,18 @@ final class FingerprintTimingManager: NSObject {
             )
         }
     }
+
+    #if DEBUG
+    var totalDuration: Double? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync { context?.duration }
+    }
+
+    func debugMappingSnapshot() -> [TimeMappingEntry] {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync { playbackToReference }
+    }
+    #endif
 
     // MARK: - Notification Handlers
 
@@ -389,7 +408,8 @@ final class FingerprintTimingManager: NSObject {
 
             insertMapping(TimeMappingEntry(
                 playbackTime: batchStartTime + Double(window.timestampMs) / 1000.0,
-                referenceTime: Double(best.timestamp)
+                referenceTime: Double(best.timestamp),
+                score: best.score
             ))
             inserted += 1
         }
