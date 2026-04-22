@@ -242,25 +242,10 @@ platform :ios do
   lane :configure_code_signing_enterprise do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
-    if readonly
-      # In readonly mode, we can use the API key.
-      #
-      # Notice the `in_house: true` parameter.
-      # Unfortunately, even using it, the API does not allow modifying certs or profiles via API key.
-      # It's here for reference and future-proofing.
-      api_key = app_store_connect_api_key(in_house: true)
-    else
-      # The Enterprise account APIs do not support authentication via API key.
-      # If we want to modify data (readonly = false) we need to authenticate manually.
-      prompt_user_for_app_store_connect_credentials
-      # We also need to pass no API key, otherwise Fastlane will give precedence to that authentication mode.
-      api_key = nil
-    end
-
     sync_code_signing(
       type: 'enterprise',
       team_id: TEAM_ID_ENTERPRISE,
-      api_key: api_key,
+      api_key: app_store_connect_api_key(in_house: true),
       app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
