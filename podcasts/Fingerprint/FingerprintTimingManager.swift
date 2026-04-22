@@ -56,6 +56,7 @@ final class FingerprintTimingManager: NSObject {
     )
     private var context: GenerationContext?
     private var cancellationFlag = CancellationFlag()
+    private var fetchTask: Task<Void, Never>?
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastPlaybackTime: Double = -1
@@ -150,6 +151,8 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - State Management
 
     private func resetState() {
+        fetchTask?.cancel()
+        fetchTask = nil
         cancellationFlag.cancel()
         cancellationFlag = CancellationFlag()
         context = nil
@@ -192,7 +195,7 @@ final class FingerprintTimingManager: NSObject {
         FileLog.shared.addMessage("FingerprintTimingManager: fetching reference from server for \(uuid)")
 
         let flag = cancellationFlag
-        Task { [weak self] in
+        fetchTask = Task { [weak self] in
             guard !flag.isCancelled else { return }
 
             let data = await FingerprintReferenceRetriever.shared.fetchReferenceData(
