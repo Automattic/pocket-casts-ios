@@ -732,9 +732,12 @@ platform :ios do
     )
   end
 
-  # Uploads the tvOS binary to TestFlight and distributes it to testers
+  # Uploads the tvOS binary to TestFlight for internal testers only.
   #
-  # Typically called after having built the binary with `build_app_store_connect_tvos`
+  # Typically called after having built the binary with `build_app_store_connect_tvos`.
+  #
+  # The tvOS app is in early-days territory, so we skip external distribution and the Beta App Review submission.
+  # Revisit once the app is ready for wider testing.
   #
   # @param ipa_path [String] Path to the `.ipa` file to upload to TestFlight
   #
@@ -750,10 +753,8 @@ platform :ios do
 
     upload_to_testflight(
       ipa: ipa_path,
-      reject_build_waiting_for_review: true,
-      distribute_external: true,
-      groups: EXTERNAL_BETA_TESTER_GROUPS,
-      notify_external_testers: true,
+      distribute_external: false,
+      skip_submission: true,
       changelog: changelog,
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key
