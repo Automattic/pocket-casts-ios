@@ -9612,7 +9612,7 @@
 		FF4B83B62F981D8F001B8C56 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
-			baseConfigurationReferenceRelativePath = PocketCastsTV.debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -9661,7 +9661,7 @@
 		FF4B83B72F981D8F001B8C56 /* StagingDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
-			baseConfigurationReferenceRelativePath = PocketCastsTV.staging.xcconfig;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.staging.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -9712,7 +9712,7 @@
 		FF4B83B82F981D8F001B8C56 /* Prototype */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
-			baseConfigurationReferenceRelativePath = PocketCastsTV.prototype.xcconfig;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.prototype.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -9759,7 +9759,7 @@
 		FF4B83B92F981D8F001B8C56 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
-			baseConfigurationReferenceRelativePath = PocketCastsTV.release.xcconfig;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
