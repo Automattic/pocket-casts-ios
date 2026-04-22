@@ -171,6 +171,11 @@ final class FingerprintTimingManager: NSObject {
     private func prepareForEpisode(_ episode: BaseEpisode?) {
         updateState(.idle)
 
+        guard FeatureFlag.syncedTranscripts.enabled else {
+            updateState(.unavailable)
+            return
+        }
+
         guard let episode else {
             updateState(.unavailable)
             return
@@ -178,11 +183,40 @@ final class FingerprintTimingManager: NSObject {
 
         let uuid = episode.uuid
 
-        guard let reference = loadReference(for: episode) else {
-            updateState(.unavailable)
-            FileLog.shared.addMessage("FingerprintTimingManager: no reference fingerprint for \(uuid)")
+        if let reference = loadReference(for: episode) {
+            configureForReference(reference, episode: episode)
             return
         }
+
+        updateState(.preparing)
+        FileLog.shared.addMessage("FingerprintTimingManager: fetching reference from server for \(uuid)")
+
+        let flag = cancellationFlag
+        Task { [weak self] in
+            guard !flag.isCancelled else { return }
+
+            let data = await FingerprintReferenceRetriever.shared.fetchReferenceData(
+                podcastUuid: episode.parentIdentifier(),
+                episodeUuid: uuid
+            )
+
+            self?.queue.async { [weak self] in
+                guard let self, !flag.isCancelled else { return }
+
+                guard let data, let reference = ReferenceFingerprint.decode(from: data) else {
+                    self.updateState(.unavailable)
+                    FileLog.shared.addMessage("FingerprintTimingManager: no reference available for \(uuid)")
+                    return
+                }
+
+                self.saveReferenceData(data, for: episode)
+                self.configureForReference(reference, episode: episode)
+            }
+        }
+    }
+
+    private func configureForReference(_ reference: ReferenceFingerprint, episode: BaseEpisode) {
+        let uuid = episode.uuid
 
         guard let audioFileURL = resolveAudioFileURL(for: episode) else {
             updateState(.unavailable)
@@ -484,10 +518,24 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - Helpers
 
     private func loadReference(for episode: BaseEpisode) -> ReferenceFingerprint? {
-        let audioPath = DownloadManager.shared.pathForEpisode(episode)
-        let fpPath = (audioPath as NSString).deletingPathExtension + ".fp.json"
-        guard let data = FileManager.default.contents(atPath: fpPath) else { return nil }
+        let path = referencePath(for: episode)
+        guard let data = FileManager.default.contents(atPath: path) else { return nil }
         return ReferenceFingerprint.decode(from: data)
+    }
+
+    private func referencePath(for episode: BaseEpisode) -> String {
+        let audioPath = DownloadManager.shared.pathForEpisode(episode)
+        return (audioPath as NSString).deletingPathExtension + ".ref.fp.json"
+    }
+
+    private func saveReferenceData(_ data: Data, for episode: BaseEpisode) {
+        let path = referencePath(for: episode)
+        do {
+            try data.write(to: URL(fileURLWithPath: path), options: .atomic)
+            FileLog.shared.addMessage("FingerprintTimingManager: saved reference to disk for \(episode.uuid)")
+        } catch {
+            FileLog.shared.addMessage("FingerprintTimingManager: failed to save reference — \(error.localizedDescription)")
+        }
     }
 
     private func resolveAudioFileURL(for episode: BaseEpisode) -> URL? {
