@@ -1,14 +1,13 @@
 {
   "images" : [
     {
+      "filename" : "Layer 1.png",
       "idiom" : "tv",
-      "scale" : "1x",
-      "filename" : "AppIcon-Back.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "tv",
-      "scale" : "2x",
-      "filename" : "AppIcon-Back@2x.png"
+      "scale" : "2x"
     }
   ],
   "info" : {
