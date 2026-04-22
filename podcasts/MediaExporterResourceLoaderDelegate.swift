@@ -10,7 +10,7 @@ import PocketCastsUtils
 enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
-        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 256.KB
     }
 
     /// How much data is allowed to be read in memory at a time.
@@ -313,7 +313,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         guard bytesCached > currentOffset else {
             if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
                 let start = currentOffset - bytesCached
-                let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
+                let end = min(currentOffset + (requestedLength - (currentOffset - requestedOffset)) - bytesCached, bufferData.count)
                 if start >= end {
                     FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
                     return false
@@ -325,15 +325,15 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             return false
         }
 
-        //while currentOffset < min(requestedOffset + requestedLength, bytesCached) {
+        while currentOffset < min(requestedOffset + requestedLength, bytesCached) {
             // Data length to be loaded into memory with maximum size of readDataLimit.
-            let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
+            let bytesToRespond = min(bytesCached - currentOffset, requestedLength - (currentOffset - requestedOffset), readDataLimit)
 
             // Read data from disk and pass it to the dataRequest
             guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
             dataRequest.respond(with: data)
             currentOffset = Int(dataRequest.currentOffset)
-        //}
+        }
 
         return bytesCached >= requestedLength + requestedOffset
     }
