@@ -41,7 +41,16 @@ actor FingerprintReferenceRetriever {
             try Task.checkCancellation()
             if attempt > 0 {
                 let delay = UInt64(pow(2.0, Double(attempt))) * 1_000_000_000
-                try? await Task.sleep(nanoseconds: delay)
+                do {
+                    try await Task.sleep(nanoseconds: delay)
+                } catch is CancellationError {
+                    throw CancellationError()
+                } catch {
+                    FileLog.shared.addMessage(
+                        "FingerprintReferenceRetriever: retry delay failed for \(episodeUuid) — \(error.localizedDescription)"
+                    )
+                    return nil
+                }
             }
 
             do {
