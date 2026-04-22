@@ -446,6 +446,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
+        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -737,7 +740,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+            if !showFromEpisode {
+                addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(prepareFingerprintForCurrentEpisode))
+            }
         }
+    }
+
+    @objc private func prepareFingerprintForCurrentEpisode() {
+        FingerprintTimingManager.shared.prepareForCurrentEpisode()
     }
 
     @objc private func updateTranscriptPosition() {
