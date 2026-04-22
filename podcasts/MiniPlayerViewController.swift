@@ -86,7 +86,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func aboutToDisplayFullScreenPlayer() {
-        guard let rootVC = rootViewController() else { return }
+        guard rootViewController() != nil else { return }
 
         if fullScreenPlayer == nil {
             fullScreenPlayer = PlayerContainerViewController()
@@ -94,7 +94,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func finishedWithFullScreenPlayer() {
-        guard let rootVC = rootViewController() else { return }
+        guard rootViewController() != nil else { return }
 
         rootViewController()?.setNeedsStatusBarAppearanceUpdate()
         rootViewController()?.setNeedsUpdateOfHomeIndicatorAutoHidden()

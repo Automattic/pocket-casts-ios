@@ -234,8 +234,8 @@ private extension PlusPurchaseModel {
     func handlePurchaseCancelled(_ notification: Notification) {
         defer { state = .cancelled }
         guard
-            let purchasedProduct,
-            let error = notification.userInfo?["error"] as? NSError
+            purchasedProduct != nil,
+            notification.userInfo?["error"] as? NSError != nil
         else { return }
     }
 
