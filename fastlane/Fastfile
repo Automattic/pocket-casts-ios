@@ -744,6 +744,7 @@ platform :ios do
   lane :upload_app_store_connect_build_to_testflight_tvos do |ipa_path: APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
+    # TODO: This is currently the same as the iOS changelog. We'll need a mechanism to filter tvOS-only notes (or just accept the compromise.)
     changelog = extract_release_notes_for_version(
       version: release_version_current,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
