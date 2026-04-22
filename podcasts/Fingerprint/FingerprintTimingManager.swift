@@ -74,12 +74,6 @@ final class FingerprintTimingManager: NSObject {
     func setup() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleTrackChanged),
-            name: Constants.Notifications.playbackTrackChanged,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
             selector: #selector(handlePlaybackProgress),
             name: Constants.Notifications.playbackProgress,
             object: nil
@@ -88,6 +82,16 @@ final class FingerprintTimingManager: NSObject {
     }
 
     // MARK: - Public API
+
+    func prepareForCurrentEpisode() {
+        let episode = PlaybackManager.shared.currentEpisode()
+
+        queue.async { [weak self] in
+            guard let self else { return }
+            self.resetState()
+            self.prepareForEpisode(episode)
+        }
+    }
 
     func referenceTime(forPlaybackTime playbackTime: Double) -> Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
@@ -126,16 +130,6 @@ final class FingerprintTimingManager: NSObject {
     #endif
 
     // MARK: - Notification Handlers
-
-    @objc private func handleTrackChanged() {
-        let episode = PlaybackManager.shared.currentEpisode()
-
-        queue.async { [weak self] in
-            guard let self else { return }
-            self.resetState()
-            self.prepareForEpisode(episode)
-        }
-    }
 
     @objc private func handlePlaybackProgress() {
         let playbackTime = PlaybackManager.shared.currentTime()
