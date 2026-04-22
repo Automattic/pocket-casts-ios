@@ -1,14 +1,14 @@
 import Foundation
+import Fingerprint
 import PocketCastsUtils
 
-struct ReferenceFingerprint: Codable {
+struct ReferenceFingerprint: Decodable {
     static let supportedFormat = "fingerprint-compact-v2"
 
     let format: String
     let totalDuration: Double
     let checkpointInterval: Int
     let checkpointDuration: Int
-    let topK: Int
     let timestampQuantum: Int
     let checkpoints: [Checkpoint]
 
@@ -17,31 +17,24 @@ struct ReferenceFingerprint: Codable {
         case totalDuration = "total_duration"
         case checkpointInterval = "checkpoint_interval"
         case checkpointDuration = "checkpoint_duration"
-        case topK = "top_k"
         case timestampQuantum = "timestamp_quantum"
         case checkpoints
     }
 
-    struct Checkpoint: Codable {
+    struct Checkpoint: Decodable {
         let delta: Int
         let data: String
-
-        init(delta: Int, data: String) {
-            self.delta = delta
-            self.data = data
-        }
 
         init(from decoder: Decoder) throws {
             var container = try decoder.unkeyedContainer()
             delta = try container.decode(Int.self)
             data = try container.decode(String.self)
         }
+    }
 
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.unkeyedContainer()
-            try container.encode(delta)
-            try container.encode(data)
-        }
+    struct LibraryCheckpoint {
+        let timestampSeconds: Float
+        let hashes: [UInt32]
     }
 
     static func decode(from data: Data) -> ReferenceFingerprint? {
@@ -59,5 +52,26 @@ struct ReferenceFingerprint: Codable {
         }
 
         return fingerprint
+    }
+
+    /// Decode every v2 checkpoint into the library's `(timestamp, hashes)` shape.
+    /// Returns an empty array if none of the checkpoints parse.
+    func libraryCheckpoints() -> [LibraryCheckpoint] {
+        var accumulated = 0
+        var result: [LibraryCheckpoint] = []
+        result.reserveCapacity(checkpoints.count)
+
+        for checkpoint in checkpoints {
+            accumulated += checkpoint.delta
+            guard let payload = Data(base64Encoded: checkpoint.data) else { continue }
+            guard let decoded = fingerprintFromBytes(data: payload) else { continue }
+            let timestamp = Float(Double(accumulated) * Double(timestampQuantum) / 1000.0)
+            result.append(LibraryCheckpoint(timestampSeconds: timestamp, hashes: decoded.hashes))
+        }
+        return result
+    }
+
+    var checkpointDurationSeconds: Float {
+        Float(checkpointDuration)
     }
 }

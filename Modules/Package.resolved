@@ -1,5 +1,5 @@
 {
-  "originHash" : "acc9e2c9728adfd6b4edffe38fc3d04529a8a3777fe5f732bb3910bec2dfefec",
+  "originHash" : "9077ebfa0969207b23f521a34cb30d603bb748fe74e8ba62e0d54fe8f0de0d7d",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -215,6 +215,15 @@
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
+      }
+    },
+    {
+      "identity" : "pocket-casts-ios-fingerprint",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Automattic/pocket-casts-ios-fingerprint",
+      "state" : {
+        "branch" : "trunk",
+        "revision" : "ca130afdbe21e1e5a207cf12246668ba40127a30"
       }
     },
     {
