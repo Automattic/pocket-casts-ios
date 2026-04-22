@@ -243,6 +243,7 @@ public class ServerPodcastManager: NSObject {
                 episode.episodeNumber = updatedEpisode.episodeNumber
                 episode.seasonNumber = updatedEpisode.seasonNumber
                 episode.episodeType = updatedEpisode.episodeType
+                episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
 
                 if episode.addedDate == nil {
                     episode.addedDate = updatedEpisode.addedDate

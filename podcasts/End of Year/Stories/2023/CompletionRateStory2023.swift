@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct CompletionRateStory2023: ShareableStory {
     let identifier: String = "completion_rate"

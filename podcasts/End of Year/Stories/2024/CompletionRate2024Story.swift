@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import EndOfYear
 
 struct CompletionRate2024Story: ShareableStory {
     @Environment(\.animated) var animated: Bool

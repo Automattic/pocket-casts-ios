@@ -42,6 +42,10 @@ public enum ServerConstants {
             production() ? "https://search.pocketcasts.com/" : "https://search.pocketcasts.net/"
         }
 
+        public static var generatedTranscripts: String {
+            production() ? "https://shownotes.pocketcasts.com/generated_transcripts/" : "https://shownotes.pocketcasts.net/generated_transcripts/"
+        }
+
         public static let support = "https://support.pocketcasts.com/ios/"
         public static let cancelSubscription = "https://support.pocketcasts.com/knowledge-base/how-to-cancel-a-subscription/"
         public static let termsOfUse = "https://support.pocketcasts.com/article/terms-of-use/"
@@ -54,6 +58,9 @@ public enum ServerConstants {
         public static let appStoreReview = "https://apps.apple.com/app/id414834813?action=write-review"
         public static let podrollLearnMore = "https://support.pocketcasts.com/knowledge-base/podroll/"
         public static let supportPlaybackDownloadErrors = "https://support.pocketcasts.com/knowledge-base/download-and-playback-errors/"
+        public static let supportEpisodeAccessIssues = "https://support.pocketcasts.com/knowledge-base/episode-access-issues/"
+        public static let supportEpisodeNotFound = "https://support.pocketcasts.com/knowledge-base/episode-not-found/"
+        public static let supportEpisodeServerProblem = "https://support.pocketcasts.com/knowledge-base/episode-server-problem/"
     }
 
     private static func production() -> Bool {

@@ -8,7 +8,7 @@ let package = Package(
     platforms: [
         .iOS(.v16), .watchOS(.v9), .macOS(.v10_15)
     ],
-    products: [
+    products: XcodeSupport.products + [
         .library(
             name: "PocketCastsDependencyInjection",
             targets: ["PocketCastsDependencyInjection"]
@@ -30,6 +30,10 @@ let package = Package(
             targets: ["PocketCastsServer"]
         ),
         .library(
+            name: "EndOfYear",
+            targets: ["EndOfYear"]
+        ),
+        .library(
             name: "Modules",
             targets: ["Modules"]
         )
@@ -39,8 +43,22 @@ let package = Package(
         .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.0.0"),
         .package(url: "https://github.com/danielebogo/Swime", branch: "master"),
+        .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.4.0"),
+        .package(url: "https://github.com/ra1028/DifferenceKit", from: "1.2.0"),
+        .package(url: "https://github.com/krisk/fuse-swift", from: "1.4.0"),
+        .package(url: "https://github.com/shiftyjelly/SwipeCellKit", from: "2.7.6"),
+        .package(url: "https://github.com/Automattic/Automattic-Tracks-iOS", from: "4.2.1"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.23.0"),
+        .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "7.1.0"),
+        .package(url: "https://github.com/Automattic/Agrume", from: "5.6.12"),
+        .package(url: "https://github.com/joeldev/JLRoutes", from: "2.1.1"),
+        .package(url: "https://github.com/onevcat/Kingfisher", from: "7.10.2"),
+        .package(url: "https://github.com/dagronf/SwiftSubtitles", from: "1.8.3"),
+        .package(url: "https://github.com/Automattic/google-cast", from: "1.0.1"),
+        .package(url: "https://github.com/ksemianov/WrappingHStack", from: "0.2.0"),
+        .package(url: "https://github.com/Automattic/pocket-casts-ios-fingerprint", branch: "trunk"),
     ],
-    targets: [
+    targets: XcodeSupport.targets + [
         .target(
             name: "PocketCastsDependencyInjection",
             path: "Sources/PocketCastsDependencyInjection"
@@ -128,6 +146,16 @@ let package = Package(
             resources: [.copy("Fixtures")]
         ),
         .target(
+            name: "EndOfYear",
+            dependencies: [
+                "PocketCastsDataModel",
+                "PocketCastsServer",
+                "PocketCastsUtils",
+                .product(name: "Kingfisher", package: "Kingfisher"),
+            ],
+            path: "Sources/EndOfYear"
+        ),
+        .target(
             name: "Modules",
             path: "Sources/Modules"
         ),
@@ -138,3 +166,147 @@ let package = Package(
         )
     ]
 )
+
+// MARK: - XcodeSupport (Xcode Targets)
+
+// Below are dependencies for the respective Xcode targets.
+//
+// You can add internal or third-party dependencies to these targets or even
+// source files and resources.
+//
+// - note: SwiftPM automatically detects which modules are shared between
+//   multiple targets and decides when to use dynamic frameworks.
+
+enum XcodeTargetNames {
+    static let appClip = "Pocket Casts App Clip"
+    static let notificationExtension = "NotificationExtension"
+    static let podcasts = "podcasts"
+    static let pocketCastsWatchApp = "Pocket Casts Watch App"
+    static let podcastsIntents = "PodcastsIntents"
+    static let podcastsIntentsUI = "PodcastsIntentsUI"
+    static let widgetExtension = "WidgetExtension"
+}
+
+enum XcodeSupport {
+    static var products: [Product] {
+        [
+            XcodeTargetNames.appClip,
+            XcodeTargetNames.notificationExtension,
+            XcodeTargetNames.podcasts,
+            XcodeTargetNames.pocketCastsWatchApp,
+            XcodeTargetNames.podcastsIntents,
+            XcodeTargetNames.podcastsIntentsUI,
+            XcodeTargetNames.widgetExtension,
+        ].map { .supportingProduct(forXcodeTarget: $0) }
+    }
+
+    static var targets: [Target] {
+        [
+            .xcodeTarget(
+                XcodeTargetNames.podcasts,
+                dependencies: [
+                    "PocketCastsDataModel",
+                    "PocketCastsServer",
+                    "PocketCastsUtils",
+                    "PocketCastsDependencyInjection",
+                    .product(name: "Lottie", package: "lottie-ios"),
+                    .product(name: "DifferenceKit", package: "DifferenceKit"),
+                    .product(name: "Fuse", package: "fuse-swift"),
+                    .product(name: "SwipeCellKit", package: "SwipeCellKit"),
+                    .product(name: "AutomatticEncryptedLogs", package: "Automattic-Tracks-iOS"),
+                    .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
+                    .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
+                    .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+                    .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                    .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
+                    .product(name: "Agrume", package: "Agrume"),
+                    .product(name: "JLRoutes", package: "JLRoutes"),
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                    .product(name: "SwiftSubtitles", package: "SwiftSubtitles"),
+                    .product(name: "GoogleCast", package: "google-cast"),
+                    .product(name: "WrappingHStack", package: "WrappingHStack"),
+                    .product(name: "Fingerprint", package: "pocket-casts-ios-fingerprint"),
+                    "EndOfYear",
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.appClip,
+                dependencies: [
+                    "PocketCastsDataModel",
+                    "PocketCastsServer",
+                    "PocketCastsUtils",
+                    "PocketCastsDependencyInjection",
+                    .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
+                    .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
+                    .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                    .product(name: "Lottie", package: "lottie-ios"),
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.pocketCastsWatchApp,
+                dependencies: [
+                    "PocketCastsDataModel",
+                    "PocketCastsServer",
+                    "PocketCastsUtils",
+                    "PocketCastsDependencyInjection",
+                    .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.notificationExtension,
+                dependencies: [
+                    "PocketCastsServer",
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.podcastsIntents,
+                dependencies: [
+                    .product(name: "Fuse", package: "fuse-swift"),
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.podcastsIntentsUI,
+                dependencies: [
+                    .product(name: "Fuse", package: "fuse-swift"),
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.widgetExtension,
+                dependencies: [
+                    "PocketCastsUtils",
+                ]
+            ),
+        ]
+    }
+}
+
+extension Product {
+    static func supportingProduct(forXcodeTarget targetName: String) -> Product {
+        .library(
+            name: "XcodeTarget_\(targetName)",
+            targets: ["XcodeTarget_\(targetName)"]
+        )
+    }
+}
+
+extension Target {
+    static func xcodeTarget(_ name: String, dependencies: [Dependency]) -> Target {
+        .target(
+            name: name.supportingName,
+            dependencies: dependencies,
+            path: "Sources/XcodeSupport/\(name.replacing(" ", with: "-").supportingName)"
+        )
+    }
+}
+
+extension String {
+    var supportingName: String {
+        "XcodeTarget_\(self)"
+    }
+
+    var asDependency: Target.Dependency {
+        .target(name: self.supportingName)
+    }
+}

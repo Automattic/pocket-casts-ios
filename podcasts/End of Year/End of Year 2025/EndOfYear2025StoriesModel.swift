@@ -2,6 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
+import EndOfYear
 
 class EndOfYear2025StoriesModel: StoryModel {
     static let year = 2025

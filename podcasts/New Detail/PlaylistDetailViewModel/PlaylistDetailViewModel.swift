@@ -135,7 +135,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
-        if isSearching {
+        if isSearching, !searchTerm.isEmpty {
             searchEpisodes(for: searchTerm)
             return
         }
@@ -153,7 +153,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(animated: Bool = true) {
-        if isSearching {
+        if isSearching, !searchTerm.isEmpty {
             searchEpisodes(for: searchTerm)
             return
         }
@@ -366,6 +366,7 @@ extension PlaylistDetailViewModel {
             model: .episodes,
             elements: tempEpisodes
         )
+        reloadEpisodeList()
     }
 
     func endSearch() {

@@ -1,6 +1,13 @@
+8.11
+-----
+- Fix an issue with Playlist not reloading after archiving entries during empty search [#4136](https://github.com/Automattic/pocket-casts-ios/pull/4136)
+- Fix smart playlist not refreshing when clearing search field [#4138](https://github.com/Automattic/pocket-casts-ios/pull/4138)
+
 8.10
 -----
-
+- Support new transcripts generated episode field [#4116](https://github.com/Automattic/pocket-casts-ios/pull/4116)
+- Watch Stop playing a sound on play. [#4118](https://github.com/Automattic/pocket-casts-ios/pull/4118)
+- Update when the offline error message is shown on the error banner [#4135](https://github.com/Automattic/pocket-casts-ios/pull/4135)
 
 8.9
 -----

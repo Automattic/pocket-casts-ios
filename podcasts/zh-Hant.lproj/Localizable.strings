@@ -2108,6 +2108,8 @@ Pocket Casts Plus</string>
     <string>本集可能已損壞，但你可以嘗試重新播放。</string>
     <key>player_error_internet_connection</key>
     <string>請檢查你的網際網路連線並再試一次。</string>
+    <key>player_error_short_no_connection</key>
+    <string>你目前為離線狀態</string>
     <key>player_increment_time</key>
     <string>遞增時間</string>
     <key>player_mark_as_played_confirmation</key>

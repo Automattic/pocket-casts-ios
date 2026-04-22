@@ -282,21 +282,25 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
-        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
 
         if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-           playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
-            let episodeUuid {
+           let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
+           let episodeUuid {
             if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
-                return true
+                return false
             }
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
-        var error: PlaybackManager.PlaybackError = .internetConnection(logMessage: logMessage)
+        var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
         if let playerNSError,
-           playerNSError.domain == NSURLErrorDomain,
-           playerNSError.code == NSURLErrorResourceUnavailable || playerNSError.code == NSURLErrorZeroByteResource {
-            error = .episodeNotAvailable(logMessage: logMessage)
+           playerNSError.domain == NSURLErrorDomain {
+            if PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            } else if playerNSError.code == NSURLErrorNotConnectedToInternet {
+                error = .internetConnection(logMessage: logMessage)
+            } else {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            }
         }
         PlaybackManager.shared.playbackDidFail(error: error)
 
@@ -860,10 +864,11 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             PlaybackManager.shared.playbackDidFail(error: .playbackError(logMessage: errorMessage, isLocalFile: isPlayingLocalFile))
         }
 
-        _ = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
+        playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
             guard let self = self else { return }
-
+            FileLog.shared.addMessage("Received notification of playback stall")
             if self.shouldKeepPlaying {
+                FileLog.shared.addMessage("Trying to recover from stall by playing")
                 self.play(completion: nil)
             }
         }

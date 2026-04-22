@@ -2108,6 +2108,8 @@ ACTUALIZACIONES</string>
     <string>Es posible que el episodio esté dañado, pero puedes intentar reproducirlo de nuevo.</string>
     <key>player_error_internet_connection</key>
     <string>Comprueba tu conexión a Internet y vuelve a intentarlo.</string>
+    <key>player_error_short_no_connection</key>
+    <string>No tienes conexión a Internet</string>
     <key>player_increment_time</key>
     <string>Tiempo de incremento</string>
     <key>player_mark_as_played_confirmation</key>

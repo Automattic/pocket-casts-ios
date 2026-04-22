@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import EndOfYear
 
 struct TopListenedCategoriesStory2023: ShareableStory {
     let identifier: String = "top_categories"

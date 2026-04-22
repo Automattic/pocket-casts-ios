@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
+import EndOfYear
 
 struct TopSpotStory2024: ShareableStory {
     let topPodcast: TopPodcast

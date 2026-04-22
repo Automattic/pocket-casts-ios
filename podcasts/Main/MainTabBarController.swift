@@ -67,15 +67,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
+        label.adjustsFontForContentSizeCategory = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         return label
-    }()
-
-    private let errorChevron: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "chevron-small-right"))
-        view.tintColor = AppTheme.mainTextColor()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     // MARK: - State
@@ -1028,7 +1023,6 @@ extension MainTabBarController {
     private func setupErrorBanner() {
         view.addSubview(errorBanner)
         errorBanner.addSubview(errorLabel)
-        errorBanner.addSubview(errorChevron)
 
         let bottomSpacing = errorBanner.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         bottomSpacing.priority = .defaultLow
@@ -1047,17 +1041,10 @@ extension MainTabBarController {
 
             // Error label
             errorLabel.leadingAnchor.constraint(greaterThanOrEqualTo: errorBanner.leadingAnchor, constant: 16),
-            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -40),
+            errorLabel.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
             errorLabel.centerXAnchor.constraint(equalTo: errorBanner.centerXAnchor),
             errorLabel.topAnchor.constraint(equalTo: errorBanner.topAnchor, constant: 0),
             errorLabel.bottomAnchor.constraint(equalTo: errorBanner.bottomAnchor, constant: 0),
-
-            // Error Action button
-            errorChevron.leadingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: 8),
-            errorChevron.trailingAnchor.constraint(lessThanOrEqualTo: errorBanner.trailingAnchor, constant: -16),
-            errorChevron.centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
-            errorChevron.widthAnchor.constraint(equalToConstant: 24),
-            errorChevron.heightAnchor.constraint(equalToConstant: 24),
         ])
     }
 
@@ -1087,8 +1074,7 @@ extension MainTabBarController {
             // do not track this if the full screen player is visible
             AnalyticsPlaybackHelper.shared.playbackErrorShown(playerSource: .miniPlayer)
         }
-        errorLabel.text = error.shortUserMessage
-        errorChevron.isHidden = error.userAction == nil
+        errorLabel.attributedText = error.shortUserAttributedMessage(mainColor: AppTheme.mainTextColor(), interactiveColor: ThemeColor.primaryInteractive01())
         errorBanner.isUserInteractionEnabled = error.userAction != nil
         errorBanner.layoutIfNeeded()
         errorBanner.isHidden = false
@@ -1147,6 +1133,5 @@ extension MainTabBarController {
     private func updateErrorColor() {
         errorBanner.backgroundColor = AppTheme.tabBarBackgroundColor()
         errorLabel.textColor = AppTheme.mainTextColor()
-        errorChevron.tintColor = AppTheme.mainTextColor()
     }
 }

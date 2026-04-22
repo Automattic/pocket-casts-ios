@@ -2108,6 +2108,8 @@ Det är engagemang!</string>
     <string>Det här avsnittet kan vara skadat, men du kan försöka spela upp det igen.</string>
     <key>player_error_internet_connection</key>
     <string>Kontrollera din Internetanslutning och försök igen.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Du är offline</string>
     <key>player_increment_time</key>
     <string>Öka tid</string>
     <key>player_mark_as_played_confirmation</key>

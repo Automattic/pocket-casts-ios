@@ -2104,6 +2104,8 @@ Dat is waar we voor staan!</string>
     <string>De aflevering is mogelijk beschadigd, maar je kan proberen deze opnieuw af te spelen.</string>
     <key>player_error_internet_connection</key>
     <string>Controleer je netwerkverbinding en probeer het nogmaals.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Je bent offline</string>
     <key>player_increment_time</key>
     <string>Duur van toename</string>
     <key>player_mark_as_played_confirmation</key>

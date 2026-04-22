@@ -2108,6 +2108,8 @@ Isso que é compromisso!</string>
     <string>O episódio talvez esteja corrompido, mas você pode tentar reproduzi-lo novamente.</string>
     <key>player_error_internet_connection</key>
     <string>Verifique sua conexão com a Internet e tente novamente.</string>
+    <key>player_error_short_no_connection</key>
+    <string>Você está offline</string>
     <key>player_increment_time</key>
     <string>Avançar no episódio</string>
     <key>player_mark_as_played_confirmation</key>

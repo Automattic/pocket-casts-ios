@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct StoryShareButton: View {
     let shareable: Bool

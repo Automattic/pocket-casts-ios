@@ -7,7 +7,7 @@ import PocketCastsUtils
 
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
-private enum MediaExporterItemConfiguration {
+enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
         FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
@@ -19,9 +19,9 @@ private enum MediaExporterItemConfiguration {
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
 
-    /// If set greater than 0, the set value with be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
-    /// Default value is `0`.
-    public static var minimumExpectedFileSize: Int = 0
+    /// If set greater than 0, the set value will be compared with the downloaded media size. If the size of the downloaded media is lower, an error will be thrown. Useful when `expectedContentLength` is unavailable.
+    /// Default value is `DownloadManager.badEpisodeSize` (10KB).
+    public static var minimumExpectedFileSize: Int = DownloadManager.badEpisodeSize
 }
 
 fileprivate extension Int {
@@ -268,6 +268,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         // Filter out the unfullfilled requests
         let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = pendingRequests.filter {
+            guard response != nil else {
+                return false
+            }
             fillInContentInformationRequest($0.contentInformationRequest)
             guard haveEnoughDataToFulfillRequest($0.dataRequest!) else { return false }
 
@@ -359,7 +362,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         var error: NSError?
 
         if response.statusCode >= 400 {
-            error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: response status code \(response.statusCode)."])
+            error = errorFromStatusCode(response.statusCode)
         } else if shouldVerifyDownloadedFileSize && response.expectedContentLength != -1 && response.expectedContentLength != fileHandle.fileSize {
             error = NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed downloading asset. Reason: wrong file size, expected: \(response.expectedContentLength), actual: \(fileHandle.fileSize)."])
         } else if minimumExpectedFileSize > 0 && minimumExpectedFileSize > fileHandle.fileSize {
@@ -367,6 +370,19 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
 
         return error
+    }
+
+    func errorFromStatusCode(_ statusCode: Int) -> NSError {
+        switch statusCode {
+        case 401, 403:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorUserAuthenticationRequired, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        case 404, 410:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        case 400, 405, 408, 409, 429, 500..<1000:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorBadServerResponse, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        default:
+            return NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: [NSLocalizedDescriptionKey: "Failed stream/downloading asset. Reason: response status code \(statusCode)."])
+        }
     }
 
     func shouldRetryWithoutUserAgent() -> Bool {

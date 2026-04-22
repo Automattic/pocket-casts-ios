@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import SwiftUI
+import EndOfYear
 
 struct ActivityDialog: ViewModifier {
     @EnvironmentObject var theme: Theme

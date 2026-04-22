@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import Combine
+import EndOfYear
 
 @MainActor
 class ReferralClaimPassModel: ObservableObject {

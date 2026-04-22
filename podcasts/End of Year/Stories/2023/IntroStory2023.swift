@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct IntroStory2023: ShareableStory {
     @Environment(\.renderForSharing) var renderForSharing: Bool

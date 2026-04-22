@@ -2106,6 +2106,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードが破損している可能性がありますが、後ほど、もう一度お試しください。</string>
     <key>player_error_internet_connection</key>
     <string>インターネット接続を確認して、もう一度お試しください。</string>
+    <key>player_error_short_no_connection</key>
+    <string>オフラインになっています</string>
     <key>player_increment_time</key>
     <string>早送りする時間幅</string>
     <key>player_mark_as_played_confirmation</key>

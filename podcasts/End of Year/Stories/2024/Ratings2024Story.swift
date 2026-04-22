@@ -1,4 +1,5 @@
 import SwiftUI
+import EndOfYear
 
 struct Ratings2024Story: ShareableStory {
 

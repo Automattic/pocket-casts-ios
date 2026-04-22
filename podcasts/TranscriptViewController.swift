@@ -118,6 +118,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             ]
         )
 
+        if FeatureFlag.syncedTranscripts.enabled {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(transcriptTapped(_:)))
+            transcriptView.addGestureRecognizer(tap)
+        }
+
         updateTextMargins()
         transcriptView.scrollIndicatorInsets = .init(top: 0.75 * Sizes.topGradientHeight, left: 0, bottom: bottomContainerInset, right: 0)
 
@@ -701,28 +706,70 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //We disabled the method bellow until we find a way to resync/shift transcript positions
-        //addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        if FeatureFlag.syncedTranscripts.enabled {
+            addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+        }
     }
 
     @objc private func updateTranscriptPosition() {
-        let position = playbackManager.currentTime()
+        let rawTime = playbackManager.currentTime()
+        let position: TimeInterval
+        if case .active = FingerprintTimingManager.shared.state,
+           let referenceTime = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) {
+            position = referenceTime
+        } else {
+            position = rawTime
+        }
         guard let transcript else {
             return
         }
         if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
             let range = cue.characterRange
-            //Comment this line out if you want to check the player position and cues in range
-            //print("Transcript position: \(position) in [\(cue.startTime) <-> \(cue.endTime)]")
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
-            // adjusting the scroll to range so it shows more text
             let scrollRange = NSRange(location: range.location, length: range.length * 2)
             transcriptView.scrollRangeToVisible(scrollRange)
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
             transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
+    }
+
+    @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
+        guard let transcript, playbackManager.isPlayingEpisode else { return }
+
+        let location = gesture.location(in: transcriptView)
+        let layoutManager = transcriptView.layoutManager
+        let textContainer = transcriptView.textContainer
+        let offset = CGPoint(
+            x: location.x - transcriptView.textContainerInset.left,
+            y: location.y - transcriptView.textContainerInset.top
+        )
+        let charIndex = layoutManager.characterIndex(
+            for: offset,
+            in: textContainer,
+            fractionOfDistanceBetweenInsertionPoints: nil
+        )
+
+        guard let cue = transcript.cues.first(where: { NSLocationInRange(charIndex, $0.characterRange) }) else { return }
+
+        let fraction: Double
+        if cue.characterRange.length > 0 {
+            fraction = Double(charIndex - cue.characterRange.location) / Double(cue.characterRange.length)
+        } else {
+            fraction = 0
+        }
+        let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
+
+        let seekTime: TimeInterval
+        if let playbackTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) {
+            seekTime = playbackTime
+        } else {
+            seekTime = referenceTime
+        }
+
+        playbackManager.seekTo(time: seekTime)
+        track(.syncedTranscriptSeekUsed)
     }
 
     // MARK: - Search
