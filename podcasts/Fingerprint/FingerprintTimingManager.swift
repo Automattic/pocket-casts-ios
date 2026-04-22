@@ -82,7 +82,8 @@ final class FingerprintTimingManager: NSObject {
     // MARK: - Public API
 
     func referenceTime(forPlaybackTime playbackTime: Double) -> Double? {
-        queue.sync {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
             Self.interpolate(
                 time: playbackTime,
                 in: playbackToReference,
@@ -93,7 +94,8 @@ final class FingerprintTimingManager: NSObject {
     }
 
     func playbackTime(forReferenceTime referenceTime: Double) -> Double? {
-        queue.sync {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
             Self.interpolate(
                 time: referenceTime,
                 in: referenceToPlayback,
