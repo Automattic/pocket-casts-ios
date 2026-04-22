@@ -768,7 +768,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             seekTime = referenceTime
         }
 
-        PlaybackManager.shared.seekTo(time: seekTime)
+        playbackManager.seekTo(time: seekTime)
         track(.syncedTranscriptSeekUsed)
     }
 

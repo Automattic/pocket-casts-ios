@@ -5,6 +5,7 @@ protocol TranscriptPlaybackManaging {
     var isPlayingEpisode: Bool { get }
 
     func currentTime() -> TimeInterval
+    func seekTo(time: TimeInterval)
 }
 
 extension PlaybackManager: TranscriptPlaybackManaging {
@@ -41,6 +42,8 @@ struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
     func currentTime() -> TimeInterval {
         0
     }
+
+    func seekTo(time: TimeInterval) {}
 
     var isPlayingEpisode: Bool {
         PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID)
