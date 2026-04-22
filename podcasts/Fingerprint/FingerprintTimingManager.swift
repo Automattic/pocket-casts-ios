@@ -253,6 +253,20 @@ final class FingerprintTimingManager: NSObject {
     }
 
     private func restartFromCurrentPosition(playbackTime: Double) {
+        cancellationFlag.cancel()
+        cancellationFlag = CancellationFlag()
+        if let existingCtx = context {
+            let flag = cancellationFlag
+            context = GenerationContext(
+                episodeUuid: existingCtx.episodeUuid,
+                audioFileURL: existingCtx.audioFileURL,
+                fileSize: existingCtx.fileSize,
+                duration: existingCtx.duration,
+                matcher: existingCtx.matcher,
+                fingerprinter: existingCtx.fingerprinter,
+                isCancelled: { flag.isCancelled }
+            )
+        }
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
         lastProcessedBatchIndex = -1
