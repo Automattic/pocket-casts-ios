@@ -21,7 +21,11 @@ class FingerprintDebugOverlay: UIView {
 
     func update() {
         entries = FingerprintTimingManager.shared.debugMappingSnapshot()
-        totalDuration = FingerprintTimingManager.shared.totalDuration ?? 0
+        // Fingerprint generation may not have started yet (no context → nil duration).
+        // Fall back to the episode's duration so the playback cursor and tap-to-seek
+        // work regardless of fingerprint state.
+        let fingerprintDuration = FingerprintTimingManager.shared.totalDuration ?? 0
+        totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration()
         playbackPosition = PlaybackManager.shared.currentTime()
         setNeedsDisplay()
     }
