@@ -597,9 +597,15 @@ final class FingerprintTimingManager: NSObject {
         }
 
         #if DEBUG
+        // `inserted` is the mapping count committed during this call, not a
+        // ratio to windows processed — the drift filter holds candidates in a
+        // pool across batches and can flush several at once on confirmation, so
+        // `inserted` may exceed `windows.count` (or be zero while the pool is
+        // still accumulating). Report them as independent quantities.
         let avgNonZero = nonZeroScoreCount > 0 ? scoreSum / Float(nonZeroScoreCount) : 0
         FileLog.shared.addMessage(
-            "FingerprintTimingManager: matched \(inserted)/\(windows.count) windows "
+            "FingerprintTimingManager: processed \(windows.count) windows, "
+                + "committed \(inserted) mappings "
                 + "(coverage: \(coverage), bestScore: \(String(format: "%.3f", bestScoreOverall)), "
                 + "nonZero: \(nonZeroScoreCount), avgNonZero: \(String(format: "%.3f", avgNonZero)))"
         )
