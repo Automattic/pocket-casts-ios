@@ -58,6 +58,7 @@ final class FingerprintTimingManager: NSObject {
     private var fetchTask: Task<Void, Never>?
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
+    private var lastProgressPosition: Double = -1
 
     // MARK: - Init
 
@@ -67,6 +68,12 @@ final class FingerprintTimingManager: NSObject {
             self,
             selector: #selector(handleEpisodeDownloaded(_:)),
             name: Constants.Notifications.episodeDownloaded,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handlePlaybackProgress),
+            name: Constants.Notifications.playbackProgress,
             object: nil
         )
     }
@@ -99,6 +106,68 @@ final class FingerprintTimingManager: NSObject {
             )
             self.prepareForCurrentEpisode()
         }
+    }
+
+    /// Re-anchor fingerprint generation to wherever the listener is now: if playback
+    /// jumps suddenly (seek/skip), or drifts beyond the mapped range, restart the
+    /// stream from the new position so coverage stays close to what's playing.
+    @objc private func handlePlaybackProgress() {
+        let playbackTime = PlaybackManager.shared.currentTime()
+        guard playbackTime >= 0 else { return }
+
+        let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid
+        queue.async { [weak self] in
+            self?.processProgress(playbackTime: playbackTime, episodeUuid: episodeUuid)
+        }
+    }
+
+    private func processProgress(playbackTime: Double, episodeUuid: String?) {
+        guard let ctx = context, ctx.episodeUuid == episodeUuid else { return }
+
+        if lastProgressPosition >= 0 {
+            let delta = abs(playbackTime - lastProgressPosition)
+            if delta > FingerprintConstants.restartDeltaSeconds {
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: playback jumped \(String(format: "%.1f", delta))s — restarting from \(String(format: "%.1f", playbackTime))s"
+                )
+                restart(from: playbackTime, context: ctx)
+                lastProgressPosition = playbackTime
+                return
+            }
+        }
+        lastProgressPosition = playbackTime
+
+        if isWithinMappedRange(playbackTime) { return }
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: playback at \(String(format: "%.1f", playbackTime))s outside mapped range — restarting"
+        )
+        restart(from: playbackTime, context: ctx)
+    }
+
+    private func isWithinMappedRange(_ playbackTime: Double) -> Bool {
+        guard let first = playbackToReference.first,
+              let last = playbackToReference.last else { return false }
+        let margin = FingerprintConstants.playbackRangeMarginSeconds
+        return playbackTime >= first.playbackTime - margin
+            && playbackTime <= last.playbackTime + margin
+    }
+
+    /// Cancel the in-flight stream and start a new one anchored at `position`.
+    /// Existing mappings are kept — they're still valid, we just refocus
+    /// coverage growth around the listener's new position.
+    private func restart(from position: Double, context ctx: GenerationContext) {
+        cancellationFlag.cancel()
+        cancellationFlag = CancellationFlag()
+        let flag = cancellationFlag
+        let newContext = GenerationContext(
+            episodeUuid: ctx.episodeUuid,
+            audioFileURL: ctx.audioFileURL,
+            duration: ctx.duration,
+            matcher: ctx.matcher,
+            isCancelled: { flag.isCancelled }
+        )
+        context = newContext
+        startStream(context: newContext, fromPosition: position)
     }
 
     func referenceTime(forPlaybackTime playbackTime: Double) -> Double? {
@@ -147,6 +216,7 @@ final class FingerprintTimingManager: NSObject {
         context = nil
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
+        lastProgressPosition = -1
     }
 
     private func updateState(_ newState: State) {
@@ -269,22 +339,27 @@ final class FingerprintTimingManager: NSObject {
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
 
-        processAllBatches(context: newContext)
+        let startPosition = PlaybackManager.shared.currentTime()
+        startStream(context: newContext, fromPosition: startPosition)
     }
 
     // MARK: - Streaming Fingerprint Processing
 
     /// Stream-decode the downloaded file with `AVAudioFile`, push PCM into the
     /// streaming fingerprinter chunk-by-chunk, and match each batch of windows
-    /// as soon as it's emitted. This populates the playback↔reference mapping
-    /// progressively so highlighting/tap-to-seek become usable well before the
-    /// whole file has been processed.
-    private func processAllBatches(context ctx: GenerationContext) {
+    /// as soon as it's emitted. We start near the current playback position
+    /// (snapped to a 2s grid so window timestamps line up with the reference
+    /// checkpoints), so highlighting becomes usable for what the listener is
+    /// actually hearing — without waiting for the entire file to be processed.
+    private func startStream(context ctx: GenerationContext, fromPosition position: Double) {
+        let aligned = Self.alignToWindowGrid(position)
         generationQueue.async { [weak self] in
             guard let self else { return }
             do {
-                try self.streamFingerprint(context: ctx)
-                FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint completed")
+                try self.streamFingerprint(context: ctx, startingAt: aligned)
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: streaming fingerprint completed (started at \(String(format: "%.1f", aligned))s)"
+                )
             } catch StreamError.cancelled {
                 FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint cancelled")
             } catch {
@@ -295,11 +370,27 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    private func streamFingerprint(context ctx: GenerationContext) throws {
+    /// Snap a playback time to the window-interval grid so that the windows we
+    /// emit align with the reference checkpoint timestamps. The reference is
+    /// produced with the same `windowIntervalMs` stride starting at 0, so any
+    /// off-grid start would yield windows whose audio content is shifted
+    /// relative to the reference and would fail to match.
+    private static func alignToWindowGrid(_ time: Double) -> Double {
+        let stride = Double(FingerprintConstants.windowIntervalMs) / 1000.0
+        guard stride > 0 else { return max(0, time) }
+        return max(0, floor(time / stride) * stride)
+    }
+
+    private func streamFingerprint(context ctx: GenerationContext, startingAt startSeconds: Double) throws {
         let audioFile = try AVAudioFile(forReading: ctx.audioFileURL)
         let format = audioFile.processingFormat
         let sampleRate = UInt32(format.sampleRate)
         let channels = UInt16(format.channelCount)
+
+        let startFrame = AVAudioFramePosition(startSeconds * format.sampleRate)
+        if startFrame > 0, startFrame < audioFile.length {
+            audioFile.framePosition = startFrame
+        }
 
         let streamer = StreamingWindowedFingerprinter(
             sampleRate: sampleRate,
@@ -321,21 +412,25 @@ final class FingerprintTimingManager: NSObject {
             let interleaved = Self.interleavedSamples(from: buffer)
             let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
             if !windows.isEmpty {
-                dispatchProcessMatches(windows: windows, context: ctx)
+                dispatchProcessMatches(windows: windows, startOffset: startSeconds, context: ctx)
             }
         }
 
         if ctx.isCancelled() { throw StreamError.cancelled }
         let tail = streamer.flush()
         if !tail.isEmpty {
-            dispatchProcessMatches(windows: tail, context: ctx)
+            dispatchProcessMatches(windows: tail, startOffset: startSeconds, context: ctx)
         }
     }
 
-    private func dispatchProcessMatches(windows: [WindowedFingerprint], context ctx: GenerationContext) {
+    private func dispatchProcessMatches(
+        windows: [WindowedFingerprint],
+        startOffset: Double,
+        context ctx: GenerationContext
+    ) {
         queue.async { [weak self] in
             guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
-            self.processMatches(windows: windows, context: ctx)
+            self.processMatches(windows: windows, startOffset: startOffset, context: ctx)
         }
     }
 
@@ -362,6 +457,7 @@ final class FingerprintTimingManager: NSObject {
 
     private func processMatches(
         windows: [WindowedFingerprint],
+        startOffset: Double,
         context ctx: GenerationContext
     ) {
         var inserted = 0
@@ -382,8 +478,9 @@ final class FingerprintTimingManager: NSObject {
                 if best.score > bestScoreOverall { bestScoreOverall = best.score }
 
                 if best.score >= FingerprintConstants.matchScoreThreshold {
+                    let absolutePlaybackTime = startOffset + Double(window.timestampMs) / 1000.0
                     insertMapping(TimeMappingEntry(
-                        playbackTime: Double(window.timestampMs) / 1000.0,
+                        playbackTime: absolutePlaybackTime,
                         referenceTime: Double(best.timestamp),
                         score: best.score
                     ))
