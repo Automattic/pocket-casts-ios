@@ -63,6 +63,12 @@ final class FingerprintTimingManager: NSObject {
 
     override init() {
         super.init()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleEpisodeDownloaded(_:)),
+            name: Constants.Notifications.episodeDownloaded,
+            object: nil
+        )
     }
 
     // MARK: - Public API
@@ -74,6 +80,24 @@ final class FingerprintTimingManager: NSObject {
             guard let self else { return }
             self.resetState()
             self.prepareForEpisode(episode)
+        }
+    }
+
+    /// When an episode download completes while the transcript flow has already requested
+    /// preparation, retry. If we previously gave up because no local file existed, or were
+    /// processing a partial streaming buffer, we now have a complete file to fingerprint.
+    @objc private func handleEpisodeDownloaded(_ notification: Notification) {
+        guard let downloadedUuid = notification.object as? String,
+              let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid,
+              currentUuid == downloadedUuid else { return }
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if case .active = self.state { return }
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: episode \(downloadedUuid) finished downloading — re-preparing"
+            )
+            self.prepareForCurrentEpisode()
         }
     }
 
@@ -185,7 +209,7 @@ final class FingerprintTimingManager: NSObject {
 
         guard let audioFileURL = resolveAudioFileURL(for: episode) else {
             updateState(.unavailable)
-            FileLog.shared.addMessage("FingerprintTimingManager: episode \(uuid) is not downloaded — skipping fingerprinting")
+            FileLog.shared.addMessage("FingerprintTimingManager: no local audio file for \(uuid) — skipping fingerprinting")
             return
         }
 
@@ -460,12 +484,20 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Downloaded-only: the full-file processing path requires the complete audio file on disk.
-    /// Streaming-buffer support is intentionally out of scope for POC-531.
+    /// Resolves the local audio file for an episode. Pocket Casts always writes a
+    /// local copy — either at the downloaded path (explicit download) or at the
+    /// streaming-buffer path (auto-cached during streaming). Either is a complete
+    /// file that AVAudioFile can decode.
     private func resolveAudioFileURL(for episode: BaseEpisode) -> URL? {
         let downloadPath = DownloadManager.shared.pathForEpisode(episode)
-        guard FileManager.default.fileExists(atPath: downloadPath) else { return nil }
-        return URL(fileURLWithPath: downloadPath)
+        if FileManager.default.fileExists(atPath: downloadPath) {
+            return URL(fileURLWithPath: downloadPath)
+        }
+        let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+        if FileManager.default.fileExists(atPath: streamingPath) {
+            return URL(fileURLWithPath: streamingPath)
+        }
+        return nil
     }
 }
 
