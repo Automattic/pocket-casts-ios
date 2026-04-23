@@ -621,10 +621,12 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Resolves the local audio file for an episode. Pocket Casts always writes a
-    /// local copy — either at the downloaded path (explicit download) or at the
-    /// streaming-buffer path (auto-cached during streaming). Either is a complete
-    /// file that AVAudioFile can decode.
+    /// Resolves the local audio file for an episode. The downloaded path is always
+    /// a complete file. The streaming-buffer path may still be growing — `AVAudioFile`
+    /// only sees the bytes present at open time, so we'll fingerprint up to that point
+    /// and stop; the rest of the buffer (if it fills in later) is not picked up. Full
+    /// streaming support would need file-growth tracking, which is out of scope for
+    /// this PR (see `bufferGrowPollCadenceSeconds` in `FingerprintConstants`).
     private func resolveAudioFileURL(for episode: BaseEpisode) -> URL? {
         let downloadPath = DownloadManager.shared.pathForEpisode(episode)
         if FileManager.default.fileExists(atPath: downloadPath) {
