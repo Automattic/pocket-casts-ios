@@ -1,5 +1,7 @@
 #include "PocketCastsTV.base.xcconfig"
 
+// Same code signing configuration as the Debug build
 PRODUCT_BUNDLE_IDENTIFIER = $(PRODUCT_BUNDLE_IDENTIFIER_ROOT)
+PROVISIONING_PROFILE_SPECIFIER = Pocket Casts tvOS Development
 
 OTHER_SWIFT_FLAGS = -D STAGING -D DEBUG

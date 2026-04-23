@@ -1,5 +1,7 @@
 #include "../../config/PocketCasts.base.xcconfig"
 
 SDKROOT = appletvos
-TVOS_DEPLOYMENT_TARGET = 26.4
+TVOS_DEPLOYMENT_TARGET = 26.0
 TARGETED_DEVICE_FAMILY = 3
+
+PRODUCT_NAME = $(TARGET_NAME)
