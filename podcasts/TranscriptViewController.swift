@@ -298,8 +298,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         searchView.textField.resignFirstResponder()
 
         resignFirstResponder()
-
-        scheduleAutoScrollBack()
     }
 
     private lazy var bannerLabel: UILabel = {
@@ -1011,6 +1009,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
         dismissSearch()
         resetSearch()
         searchView.removeFromSuperview()
+        scheduleAutoScrollBack()
     }
 
     func searchButtonTapped() {
