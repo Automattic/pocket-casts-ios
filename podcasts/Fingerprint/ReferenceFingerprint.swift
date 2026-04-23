@@ -1,5 +1,4 @@
 import Foundation
-import Fingerprint
 import PocketCastsUtils
 
 struct ReferenceFingerprint: Decodable {
@@ -55,6 +54,11 @@ struct ReferenceFingerprint: Decodable {
     }
 
     /// Decode every v2 checkpoint into the library's `(timestamp, hashes)` shape.
+    ///
+    /// The `data` payload in compact-v2 is the raw little-endian byte packing of
+    /// `[UInt32]` hashes (not the `fingerprintFromBytes` framed format), and
+    /// `timestampQuantum` is the number of seconds per delta unit (so the resulting
+    /// timestamp is `accumulated * quantum` seconds — no /1000 conversion).
     /// Returns an empty array if none of the checkpoints parse.
     func libraryCheckpoints() -> [LibraryCheckpoint] {
         var accumulated = 0
@@ -64,9 +68,14 @@ struct ReferenceFingerprint: Decodable {
         for checkpoint in checkpoints {
             accumulated += checkpoint.delta
             guard let payload = Data(base64Encoded: checkpoint.data) else { continue }
-            guard let decoded = fingerprintFromBytes(data: payload) else { continue }
-            let timestamp = Float(Double(accumulated) * Double(timestampQuantum) / 1000.0)
-            result.append(LibraryCheckpoint(timestampSeconds: timestamp, hashes: decoded.hashes))
+            guard payload.count % 4 == 0 else { continue }
+            let hashes = payload.withUnsafeBytes { rawBuffer -> [UInt32] in
+                let count = rawBuffer.count / 4
+                let typed = rawBuffer.bindMemory(to: UInt32.self)
+                return (0..<count).map { UInt32(littleEndian: typed[$0]) }
+            }
+            let timestamp = Float(accumulated) * Float(timestampQuantum)
+            result.append(LibraryCheckpoint(timestampSeconds: timestamp, hashes: hashes))
         }
         return result
     }

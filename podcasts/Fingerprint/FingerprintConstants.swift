@@ -2,9 +2,12 @@ import Foundation
 
 enum FingerprintConstants {
     /// Seconds of playback jump that triggers a re-fingerprint from the current position.
+    /// Reserved for future streaming support — unused on the downloaded-files path, which
+    /// fingerprints the whole file upfront.
     static let restartDeltaSeconds: Double = 10
 
     /// Seconds of margin beyond the mapped range before triggering a restart.
+    /// Reserved for future streaming support — unused on the downloaded-files path.
     static let playbackRangeMarginSeconds: Double = 30
 
     /// Minimum match score to accept a fingerprint match result.
@@ -16,10 +19,8 @@ enum FingerprintConstants {
     /// Interval between windowed fingerprints produced during live matching, in milliseconds.
     static let windowIntervalMs: UInt32 = 2000
 
-    /// Number of seconds of audio fingerprinted per batch.
-    static let batchDurationSeconds: Double = 60
-
     /// Seconds between polls when waiting for the streaming buffer to grow.
+    /// Reserved for future streaming support — unused on the downloaded-files path.
     static let bufferGrowPollCadenceSeconds: TimeInterval = 1.0
 
     /// Score at or above which the debug overlay shows green (high confidence).

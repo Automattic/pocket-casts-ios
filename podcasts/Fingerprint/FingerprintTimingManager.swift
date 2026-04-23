@@ -28,7 +28,6 @@ final class FingerprintTimingManager: NSObject {
     private struct GenerationContext {
         let episodeUuid: String
         let audioFileURL: URL
-        let fileSize: UInt64
         let duration: Double
         let matcher: CheckpointMatcher
         let fingerprinter: Fingerprinter
@@ -59,26 +58,11 @@ final class FingerprintTimingManager: NSObject {
     private var fetchTask: Task<Void, Never>?
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
-    private var lastPlaybackTime: Double = -1
-    private var lastProcessedBatchIndex: Int = -1
-    private var isProcessingBatch = false
 
     // MARK: - Init
 
     override init() {
         super.init()
-    }
-
-    // MARK: - Lifecycle
-
-    func setup() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handlePlaybackProgress),
-            name: Constants.Notifications.playbackProgress,
-            object: nil
-        )
-        FileLog.shared.addMessage("FingerprintTimingManager: setup complete")
     }
 
     // MARK: - Public API
@@ -129,19 +113,6 @@ final class FingerprintTimingManager: NSObject {
     }
     #endif
 
-    // MARK: - Notification Handlers
-
-    @objc private func handlePlaybackProgress() {
-        let playbackTime = PlaybackManager.shared.currentTime()
-        guard playbackTime >= 0 else { return }
-
-        let episodeUuid = PlaybackManager.shared.currentEpisode()?.uuid
-
-        queue.async { [weak self] in
-            self?.processProgress(playbackTime: playbackTime, episodeUuid: episodeUuid)
-        }
-    }
-
     // MARK: - State Management
 
     private func resetState() {
@@ -152,9 +123,6 @@ final class FingerprintTimingManager: NSObject {
         context = nil
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
-        lastPlaybackTime = -1
-        lastProcessedBatchIndex = -1
-        isProcessingBatch = false
     }
 
     private func updateState(_ newState: State) {
@@ -217,29 +185,36 @@ final class FingerprintTimingManager: NSObject {
 
         guard let audioFileURL = resolveAudioFileURL(for: episode) else {
             updateState(.unavailable)
-            FileLog.shared.addMessage("FingerprintTimingManager: no audio file for \(uuid)")
-            return
-        }
-
-        let fileSize: UInt64
-        do {
-            let attrs = try FileManager.default.attributesOfItem(atPath: audioFileURL.path)
-            fileSize = attrs[.size] as? UInt64 ?? 0
-        } catch {
-            updateState(.failed(error))
-            FileLog.shared.addMessage("FingerprintTimingManager: cannot read file attributes — \(error.localizedDescription)")
+            FileLog.shared.addMessage("FingerprintTimingManager: episode \(uuid) is not downloaded — skipping fingerprinting")
             return
         }
 
         let duration = episode.duration
-        guard fileSize > 0, duration > 0 else {
+        guard duration > 0 else {
             updateState(.unavailable)
             return
         }
 
         let matcher = CheckpointMatcher()
         let duration_s = reference.checkpointDurationSeconds
+        let rawCheckpointCount = reference.checkpoints.count
         let libraryCheckpoints = reference.libraryCheckpoints()
+
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: reference for \(uuid) — "
+                + "totalDuration=\(reference.totalDuration)s, "
+                + "checkpointInterval=\(reference.checkpointInterval), "
+                + "checkpointDuration=\(reference.checkpointDuration)s, "
+                + "timestampQuantum=\(reference.timestampQuantum), "
+                + "raw=\(rawCheckpointCount), decoded=\(libraryCheckpoints.count)"
+        )
+        if let first = libraryCheckpoints.first, let last = libraryCheckpoints.last {
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: checkpoint timestamps span "
+                    + "\(String(format: "%.1f", first.timestampSeconds))s..\(String(format: "%.1f", last.timestampSeconds))s "
+                    + "(audio duration \(String(format: "%.1f", duration))s)"
+            )
+        }
 
         guard !libraryCheckpoints.isEmpty else {
             updateState(.unavailable)
@@ -259,7 +234,6 @@ final class FingerprintTimingManager: NSObject {
         let newContext = GenerationContext(
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
-            fileSize: fileSize,
             duration: duration,
             matcher: matcher,
             fingerprinter: Fingerprinter(),
@@ -271,135 +245,53 @@ final class FingerprintTimingManager: NSObject {
         FileLog.shared.addMessage(
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
+
+        processAllBatches(context: newContext)
     }
 
-    // MARK: - Progress Processing
+    // MARK: - Full-File Processing
 
-    private func processProgress(playbackTime: Double, episodeUuid: String?) {
-        guard let ctx = context, ctx.episodeUuid == episodeUuid else { return }
-
-        if lastPlaybackTime >= 0 {
-            let delta = abs(playbackTime - lastPlaybackTime)
-            if delta > FingerprintConstants.restartDeltaSeconds {
-                FileLog.shared.addMessage(
-                    "FingerprintTimingManager: jump detected (\(String(format: "%.1f", delta))s), restarting"
-                )
-                restartFromCurrentPosition(playbackTime: playbackTime)
-                return
-            }
-        }
-        lastPlaybackTime = playbackTime
-
-        if isWithinMappedRange(playbackTime) { return }
-        guard !isProcessingBatch else { return }
-
-        let batchDur = FingerprintConstants.batchDurationSeconds
-        guard batchDur > 0 else { return }
-        let batchIndex = Int(playbackTime / batchDur)
-        guard batchIndex != lastProcessedBatchIndex else { return }
-
-        lastProcessedBatchIndex = batchIndex
-        isProcessingBatch = true
-
-        generateAndMatchBatch(batchIndex: batchIndex, context: ctx)
-    }
-
-    private func restartFromCurrentPosition(playbackTime: Double) {
-        cancellationFlag.cancel()
-        cancellationFlag = CancellationFlag()
-        if let existingCtx = context {
-            let flag = cancellationFlag
-            context = GenerationContext(
-                episodeUuid: existingCtx.episodeUuid,
-                audioFileURL: existingCtx.audioFileURL,
-                fileSize: existingCtx.fileSize,
-                duration: existingCtx.duration,
-                matcher: existingCtx.matcher,
-                fingerprinter: existingCtx.fingerprinter,
-                isCancelled: { flag.isCancelled }
-            )
-        }
-        playbackToReference.removeAll()
-        referenceToPlayback.removeAll()
-        lastProcessedBatchIndex = -1
-        isProcessingBatch = false
-        lastPlaybackTime = playbackTime
-        updateState(.preparing)
-    }
-
-    private func isWithinMappedRange(_ playbackTime: Double) -> Bool {
-        guard let first = playbackToReference.first,
-              let last = playbackToReference.last else {
-            return false
-        }
-        let margin = FingerprintConstants.playbackRangeMarginSeconds
-        return playbackTime >= first.playbackTime - margin
-            && playbackTime <= last.playbackTime + margin
-    }
-
-    // MARK: - Batch Generation & Matching
-
-    private func generateAndMatchBatch(batchIndex: Int, context ctx: GenerationContext) {
-        let batchDur = FingerprintConstants.batchDurationSeconds
-        let startTime = Double(batchIndex) * batchDur
-        let endTime = min(startTime + batchDur, ctx.duration)
-
-        let bytesPerSecond = Double(ctx.fileSize) / ctx.duration
-        let startByte = UInt64(max(0, startTime * bytesPerSecond))
-        let endByte = min(UInt64(endTime * bytesPerSecond), ctx.fileSize)
-
-        guard startByte < endByte else {
-            isProcessingBatch = false
-            return
-        }
-
+    /// Fingerprint the whole downloaded file in one pass. We can't byte-slice and feed
+    /// arbitrary chunks to the fingerprinter — the codec needs a real container/header
+    /// to detect format, which only exists at file start. Memory-mapping the file keeps
+    /// peak resident memory bounded.
+    private func processAllBatches(context ctx: GenerationContext) {
         generationQueue.async { [weak self] in
             guard let self else { return }
-            let result = Self.fingerprintBatch(
+            let result = Self.fingerprintWholeFile(
                 fileURL: ctx.audioFileURL,
-                byteRange: startByte..<endByte,
                 fingerprinter: ctx.fingerprinter,
                 isCancelled: ctx.isCancelled
             )
 
-            self.queue.async {
-                defer { self.isProcessingBatch = false }
-                guard self.context?.episodeUuid == ctx.episodeUuid else { return }
+            self.queue.async { [weak self] in
+                guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
 
                 switch result {
                 case .success(let windows):
-                    self.processMatches(
-                        windows: windows,
-                        batchStartTime: startTime,
-                        context: ctx
+                    self.processMatches(windows: windows, context: ctx)
+                    FileLog.shared.addMessage(
+                        "FingerprintTimingManager: full-file processing completed (\(windows.count) windows)"
                     )
                 case .failure(let error):
                     FileLog.shared.addMessage(
-                        "FingerprintTimingManager: batch \(batchIndex) failed — \(error)"
+                        "FingerprintTimingManager: full-file processing failed — \(error)"
                     )
                 }
             }
         }
     }
 
-    private static func fingerprintBatch(
+    private static func fingerprintWholeFile(
         fileURL: URL,
-        byteRange: Range<UInt64>,
         fingerprinter: Fingerprinter,
         isCancelled: () -> Bool
     ) -> Result<[WindowedFingerprint], Error> {
         if isCancelled() { return .failure(BatchError.cancelled) }
 
-        let slice: Data
+        let data: Data
         do {
-            let fileHandle = try FileHandle(forReadingFrom: fileURL)
-            defer { try? fileHandle.close() }
-            try fileHandle.seek(toOffset: byteRange.lowerBound)
-            let length = Int(byteRange.upperBound - byteRange.lowerBound)
-            guard let data = try fileHandle.read(upToCount: length), data.count == length else {
-                return .failure(BatchError.invalidByteRange)
-            }
-            slice = data
+            data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
         } catch {
             return .failure(error)
         }
@@ -408,7 +300,7 @@ final class FingerprintTimingManager: NSObject {
 
         do {
             let windows = try fingerprinter.fingerprintDataWindowed(
-                data: slice,
+                data: data,
                 windowDurationMs: FingerprintConstants.windowDurationMs,
                 windowIntervalMs: FingerprintConstants.windowIntervalMs
             )
@@ -420,29 +312,38 @@ final class FingerprintTimingManager: NSObject {
 
     private enum BatchError: Error {
         case cancelled
-        case invalidByteRange
     }
 
     private func processMatches(
         windows: [WindowedFingerprint],
-        batchStartTime: Double,
         context ctx: GenerationContext
     ) {
         var inserted = 0
+        var bestScoreOverall: Float = 0
+        var nonZeroScoreCount = 0
+        var scoreSum: Float = 0
+
         for window in windows {
             let matches = ctx.matcher.findTopMatches(
                 queryHashes: window.hashes,
                 maxResults: 1
             )
-            guard let best = matches.first,
-                  best.score >= FingerprintConstants.matchScoreThreshold else { continue }
+            if let best = matches.first {
+                if best.score > 0 {
+                    nonZeroScoreCount += 1
+                    scoreSum += best.score
+                }
+                if best.score > bestScoreOverall { bestScoreOverall = best.score }
 
-            insertMapping(TimeMappingEntry(
-                playbackTime: batchStartTime + Double(window.timestampMs) / 1000.0,
-                referenceTime: Double(best.timestamp),
-                score: best.score
-            ))
-            inserted += 1
+                if best.score >= FingerprintConstants.matchScoreThreshold {
+                    insertMapping(TimeMappingEntry(
+                        playbackTime: Double(window.timestampMs) / 1000.0,
+                        referenceTime: Double(best.timestamp),
+                        score: best.score
+                    ))
+                    inserted += 1
+                }
+            }
         }
 
         let coverage = playbackToReference.count
@@ -450,9 +351,11 @@ final class FingerprintTimingManager: NSObject {
             updateState(.active(coverage: coverage))
         }
 
+        let avgNonZero = nonZeroScoreCount > 0 ? scoreSum / Float(nonZeroScoreCount) : 0
         FileLog.shared.addMessage(
-            "FingerprintTimingManager: batch at \(String(format: "%.1f", batchStartTime))s "
-                + "matched \(inserted)/\(windows.count) windows (coverage: \(coverage))"
+            "FingerprintTimingManager: matched \(inserted)/\(windows.count) windows "
+                + "(coverage: \(coverage), bestScore: \(String(format: "%.3f", bestScoreOverall)), "
+                + "nonZero: \(nonZeroScoreCount), avgNonZero: \(String(format: "%.3f", avgNonZero)))"
         )
     }
 
@@ -535,18 +438,12 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Downloaded-only: the full-file processing path requires the complete audio file on disk.
+    /// Streaming-buffer support is intentionally out of scope for POC-531.
     private func resolveAudioFileURL(for episode: BaseEpisode) -> URL? {
         let downloadPath = DownloadManager.shared.pathForEpisode(episode)
-        if FileManager.default.fileExists(atPath: downloadPath) {
-            return URL(fileURLWithPath: downloadPath)
-        }
-
-        let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
-        if FileManager.default.fileExists(atPath: streamingPath) {
-            return URL(fileURLWithPath: streamingPath)
-        }
-
-        return nil
+        guard FileManager.default.fileExists(atPath: downloadPath) else { return nil }
+        return URL(fileURLWithPath: downloadPath)
     }
 }
 
