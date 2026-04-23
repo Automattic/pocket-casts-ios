@@ -20,14 +20,14 @@ final class MediaFileHandleTests: XCTestCase {
         super.tearDown()
     }
 
-    // MARK: - throwableFileSize
+    // MARK: - fileSize
 
-    func testThrowableFileSize_returnsZeroForNewFile() throws {
+    func testFileSize_returnsZeroForNewFile() throws {
         let size = try sut.fileSize()
         XCTAssertEqual(size, 0)
     }
 
-    func testThrowableFileSize_returnsCorrectSizeAfterWrite() throws {
+    func testFileSize_returnsCorrectSizeAfterWrite() throws {
         let data = Data(repeating: 0xAB, count: 1024)
         try sut.append(data: data)
         sut.synchronize()
@@ -36,7 +36,7 @@ final class MediaFileHandleTests: XCTestCase {
         XCTAssertEqual(size, 1024)
     }
 
-    func testThrowableFileSize_throwsWhenFileIsDeleted() throws {
+    func testFileSize_throwsWhenFileIsDeleted() throws {
         try FileManager.default.removeItem(atPath: tempFilePath)
 
         XCTAssertThrowsError(try sut.fileSize(), "throwableFileSize should throw when the file no longer exists")
