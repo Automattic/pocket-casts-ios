@@ -53,7 +53,7 @@ struct SmartPlaylistRuleRowView: View {
                     .padding(.trailing, 8.0)
             }
             .padding(.leading, 16.0)
-            .padding(.vertical, 8.0)
+            .padding(.vertical, 12.0)
             .contentShape(Rectangle())
             .onTapGesture {
                 action(rule)

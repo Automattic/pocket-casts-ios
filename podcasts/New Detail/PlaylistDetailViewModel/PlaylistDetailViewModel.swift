@@ -42,10 +42,6 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.podcastCount() > 0
     }
 
-    var numberOfSection: Int {
-        isManualPlaylist ? 3 : 2
-    }
-
     var isPlaylistFull: Bool {
 #if DEBUG
         playlistEpisodesCount >= Settings.debugPlaylistsLimit
@@ -91,6 +87,7 @@ class PlaylistDetailViewModel: ObservableObject {
         self.episodesDataManager = episodesDataManager
         self.onChange = onChange
         self.onButtonTapped = onButtonTapped
+        self.dataSource = makeSections(episodes: [])
     }
 
     func update(data: DataSourceValue, then block: (() -> Void)? = nil) {
@@ -135,7 +132,7 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
-        if isSearching {
+        if isSearching, !searchTerm.isEmpty {
             searchEpisodes(for: searchTerm)
             return
         }
@@ -148,12 +145,12 @@ class PlaylistDetailViewModel: ObservableObject {
                     self?.playlistName = reloadedPlaylist.playlistName
                 }
             }
-            reloadEpisodeList(animated: false)
+            reloadEpisodeList(animated: true)
         }
     }
 
     func reloadEpisodeList(animated: Bool = true) {
-        if isSearching {
+        if isSearching, !searchTerm.isEmpty {
             searchEpisodes(for: searchTerm)
             return
         }
@@ -168,15 +165,14 @@ class PlaylistDetailViewModel: ObservableObject {
             guard let self else { return }
             DispatchQueue.main.async {
                 self.archivedEpisodesCount = archivedEpisodeCount
-                if self.firstTimeLoading {
-                    self.firstTimeLoading.toggle()
-                }
+                let isFirstReload = self.firstTimeLoading
+                self.firstTimeLoading = false
                 let changeSetTuple = self.buildChangeSet(source: self.episodes, newData: newData)
                 let contentHasChanged = changeSetTuple.0
                 if contentHasChanged {
                     self.dataManager.updatePlaylistUpdateDate(for: self.playlist)
                 }
-                self.onChange(changeSetTuple.1, animated, contentHasChanged)
+                self.onChange(changeSetTuple.1, animated && !isFirstReload, contentHasChanged)
             }
         }
         operationQueue.addOperation(refreshOperation)
@@ -231,19 +227,26 @@ class PlaylistDetailViewModel: ObservableObject {
         newData: [ListEpisode]
     ) -> (Bool, StagedChangeset<DataSourceValue>) {
         let oldSections = dataSource
-        var newSections: [ArraySection<Section, ListItem>] = []
+        let contentChanged = !source.isContentEqual(to: newData)
+        let effectiveEpisodes = contentChanged ? newData : episodes
+        let newSections = makeSections(episodes: effectiveEpisodes)
 
-        // Header section (always included)
-        newSections.append(
-            ArraySection(
-                model: .header,
-                elements: [PlaylistHeaderViewCellPlaceholder()]
-            )
+        let changeset = StagedChangeset(
+            source: oldSections,
+            target: newSections
         )
 
-        // Archive section (only for manual playlists)
+        let contentHasChanged = !newSections.isContentEqual(to: oldSections) || contentChanged
+        return (contentHasChanged, changeset)
+    }
+
+    private func makeSections(episodes: [ListEpisode]) -> DataSourceValue {
+        var sections: DataSourceValue = [
+            ArraySection(model: .header, elements: [PlaylistHeaderViewCellPlaceholder()])
+        ]
+
         if isManualPlaylist {
-            newSections.append(
+            sections.append(
                 ArraySection(
                     model: .archive,
                     elements: [
@@ -256,13 +259,8 @@ class PlaylistDetailViewModel: ObservableObject {
             )
         }
 
-        // Episodes section (always included: it shows placeholder in case of empty episodes)
-        let contentChanged = !source.isContentEqual(to: newData)
-        let effectiveEpisodes = contentChanged ? newData : episodes
-
         let episodeElements: [ListItem]
-
-        if newData.isEmpty {
+        if episodes.isEmpty {
             if isSearching {
                 episodeElements = [NoSearchResultsPlaceholder()]
             } else if isManualPlaylist, !shouldShowArchived {
@@ -278,23 +276,11 @@ class PlaylistDetailViewModel: ObservableObject {
                 episodeElements = []
             }
         } else {
-            episodeElements = effectiveEpisodes
+            episodeElements = episodes
         }
 
-        newSections.append(
-            ArraySection(
-                model: .episodes,
-                elements: episodeElements
-            )
-        )
-
-        let changeset = StagedChangeset(
-            source: oldSections,
-            target: newSections
-        )
-
-        let contentHasChanged = !newSections.isContentEqual(to: oldSections) || contentChanged
-        return (contentHasChanged, changeset)
+        sections.append(ArraySection(model: .episodes, elements: episodeElements))
+        return sections
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
@@ -366,6 +352,7 @@ extension PlaylistDetailViewModel {
             model: .episodes,
             elements: tempEpisodes
         )
+        reloadEpisodeList()
     }
 
     func endSearch() {

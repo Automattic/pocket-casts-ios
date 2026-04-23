@@ -44,7 +44,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSection
+        return viewModel.dataSource.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -125,6 +125,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
+    /// Enable synced transcripts with playback timing
+    case syncedTranscripts
+
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -307,6 +310,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Track network data usage per episode/connection type in the NetworkDataUsage table
     case trackNetworkDataUsage
 
+    /// Show the listening activity heatmap on the Stats screen
+    case statsHeatmap
     /// If enabled, send explicit watch-related error logs to Sentry.
     /// This does not control automatic crash reporting.
     case watchSentryLogs
@@ -397,6 +402,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
+        case .syncedTranscripts:
+            false
         case .libroFm:
             false
         case .encourageAccountCreation:
@@ -516,9 +523,11 @@ public enum FeatureFlag: String, CaseIterable {
         case .displayErrorsOnPlayer:
             true
         case .detectTruncatedBackgroundSyncDownloads:
-			true
+            true
         case .trackNetworkDataUsage:
             true
+        case .statsHeatmap:
+            false
         case .watchSentryLogs:
             false
         }

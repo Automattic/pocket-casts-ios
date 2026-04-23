@@ -1222,6 +1222,18 @@
 /* Title for the hardware keyboard command that toggles play and pause of playback. */
 "keycommand_play_pause" = "Play/Pause";
 
+/* Title for the listening activity heatmap on the account screen */
+"stats_listening_activity_section_title" = "Listening Activity";
+
+/* Label for the low end of the heatmap legend */
+"stats_listening_activity_legend_less" = "Less";
+
+/* Label for the high end of the heatmap legend */
+"stats_listening_activity_legend_more" = "More";
+
+/* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
+"stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -5865,3 +5877,6 @@
 
 /* Generic error used when no internet connection is available. */
 "player_error_short_no_connection" = "You’re offline";
+
+/* Generic error used when playback fails. */
+"player_error_short_playback_error" = "Playback failed, please try again";
