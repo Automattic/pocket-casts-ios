@@ -111,6 +111,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         return components.url
     }
 
+    func debugLogRequestInfo(_ loadingRequest: AVAssetResourceLoadingRequest, state: String) {
+        #if DEBUG
+        if let dataRequest = loadingRequest.dataRequest {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: \(state) Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+        }
+        #endif
+    }
     // MARK: AVAssetResourceLoaderDelegate
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, shouldWaitForLoadingOfRequestedResource loadingRequest: AVAssetResourceLoadingRequest) -> Bool {
@@ -125,18 +132,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // We start loading the file on first request only.
             startDataRequest(with: originalURL)
         }
-        if let dataRequest = loadingRequest.dataRequest {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Adding Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
-        }
+        debugLogRequestInfo(loadingRequest, state: "Add")
         pendingRequests.insert(loadingRequest)
         processPendingRequests()
         return true
     }
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, didCancel loadingRequest: AVAssetResourceLoadingRequest) {
-        if let dataRequest = loadingRequest.dataRequest {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cancel Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
-        }
+        debugLogRequestInfo(loadingRequest, state: "Cancel")
         pendingRequests.remove(loadingRequest)
     }
 
@@ -279,11 +282,11 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                 fillInContentInformationRequest(loadingRequest.contentInformationRequest)
                 if let dataRequest = loadingRequest.dataRequest {
                     if try haveEnoughDataToFulfillRequest(dataRequest) {
-                        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Finish Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+                        debugLogRequestInfo(loadingRequest, state: "Finish")
                         loadingRequest.finishLoading()
                         requestsFulfilled.insert(loadingRequest)
                     } else {
-                        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Partial Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+                        debugLogRequestInfo(loadingRequest, state: "Partial")
                     }
                 } else if loadingRequest.dataRequest == nil {
                     loadingRequest.finishLoading()
