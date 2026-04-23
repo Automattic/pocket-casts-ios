@@ -93,15 +93,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         highlightDisplayLink?.invalidate()
     }
 
-    private func startHighlightPollTimer() {
+    private func startHighlightDisplayLink() {
         guard FeatureFlag.syncedTranscripts.enabled else { return }
-        stopHighlightPollTimer()
+        stopHighlightDisplayLink()
         let link = CADisplayLink(target: self, selector: #selector(highlightTick))
         link.add(to: .main, forMode: .common)
         highlightDisplayLink = link
     }
 
-    private func stopHighlightPollTimer() {
+    private func stopHighlightDisplayLink() {
         highlightDisplayLink?.invalidate()
         highlightDisplayLink = nil
     }
@@ -489,7 +489,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
             FingerprintTimingManager.shared.prepareForCurrentEpisode()
         }
-        startHighlightPollTimer()
+        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -501,7 +501,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
-        stopHighlightPollTimer()
+        stopHighlightDisplayLink()
         if FeatureFlag.syncedTranscripts.enabled {
             FingerprintTimingManager.shared.stop()
         }
