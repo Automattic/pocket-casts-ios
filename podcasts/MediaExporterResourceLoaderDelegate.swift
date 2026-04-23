@@ -320,7 +320,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         guard let data = fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
         dataRequest.respond(with: data)
 
-        return dataRequest.currentOffset >= requestedLength + requestedOffset
+        return bytesCached >= requestedLength + requestedOffset
     }
 
     private func writeBufferDataToFileIfNeeded() {
