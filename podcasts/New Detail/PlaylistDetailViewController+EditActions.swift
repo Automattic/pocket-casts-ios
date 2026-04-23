@@ -89,7 +89,7 @@ extension PlaylistDetailViewController {
         let action = OptionAction(label: sortOrder.description, selected: viewModel.playlist.sortType == sortOrder.rawValue) { [weak self] in
             guard let self else { return }
             self.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
-            let playlist = self.viewModel.playlist!
+            let playlist = self.viewModel.playlist
             playlist.sortType = sortOrder.rawValue
             self.viewModel.update(playlist: playlist)
             self.savePlaylist()
@@ -98,7 +98,7 @@ extension PlaylistDetailViewController {
     }
 
     private func savePlaylist() {
-        let playlist = self.viewModel.playlist!
+        let playlist = self.viewModel.playlist
         playlist.syncStatus = SyncStatus.notSynced.rawValue
         viewModel.update(playlist: playlist)
         DataManager.sharedManager.save(playlist: viewModel.playlist)

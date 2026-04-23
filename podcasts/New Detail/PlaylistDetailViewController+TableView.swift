@@ -68,7 +68,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
             self.track(selected ? .filterShowArchivedTapped : .filterHideArchivedTapped)
             self.viewModel.updateShowArchivedEpisodes(show: selected)
-            self.viewModel.reloadEpisodeList(animated: true)
+            self.viewModel.reloadEpisodeList()
         }
 
         if let placeholder = itemAtRow as? PlaylistArchiveViewCellPlaceholder,
