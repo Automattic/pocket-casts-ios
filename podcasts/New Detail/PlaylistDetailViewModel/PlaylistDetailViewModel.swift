@@ -25,6 +25,12 @@ class PlaylistDetailViewModel: ObservableObject {
         case playAll
     }
 
+    struct ReloadParameters {
+        var reloadingPlaylist = false
+        var searchTerm: String?
+        var animated = true
+    }
+
     let onButtonTapped: (ButtonTag) -> Void
     let dataManager: DataManager
     let episodesDataManager: EpisodesDataManager
@@ -65,7 +71,6 @@ class PlaylistDetailViewModel: ObservableObject {
     private var reloadTask: Task<Void, Never>?
     private let imageManager: ImageManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
-    private var tempEpisodes: [ListEpisode] = []
     private let artworkImagesLimit = 4
 
     init(
@@ -131,43 +136,63 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadEpisodeList(reloadingPlaylist: Bool = false) {
-        if isSearching, !searchTerm.isEmpty {
-            searchEpisodes(for: searchTerm)
-            return
-        }
+        let activeSearchTerm = (isSearching && !searchTerm.isEmpty) ? searchTerm : nil
+        performReload(ReloadParameters(
+            reloadingPlaylist: reloadingPlaylist,
+            searchTerm: activeSearchTerm,
+            animated: activeSearchTerm == nil
+        ))
+    }
+
+    private func performReload(_ parameters: ReloadParameters) {
         reloadTask?.cancel()
         reloadTask = Task { [weak self] in
-            await self?.performReload(reloadingPlaylist: reloadingPlaylist)
+            await self?.runReload(parameters)
         }
     }
 
     @MainActor
-    private func performReload(reloadingPlaylist: Bool) async {
-        if reloadingPlaylist, let reloaded = await fetchPlaylist() {
+    private func runReload(_ parameters: ReloadParameters) async {
+        if parameters.reloadingPlaylist, let reloaded = await fetchPlaylist() {
             playlist = reloaded
             playlistName = reloaded.playlistName
         }
         guard !Task.isCancelled else { return }
 
-        let (newData, archivedCount) = await fetchEpisodes()
+        let (newData, archivedCount) = await fetchEpisodes(searchTerm: parameters.searchTerm)
         guard !Task.isCancelled else { return }
 
         archivedEpisodesCount = archivedCount
-        let isFirstReload = firstTimeLoading
-        firstTimeLoading = false
         let (contentHasChanged, changeset) = buildChangeSet(source: episodes, newData: newData)
-        if contentHasChanged {
+        if contentHasChanged, parameters.searchTerm == nil {
             dataManager.updatePlaylistUpdateDate(for: playlist)
         }
-        onChange(changeset, !isFirstReload, contentHasChanged)
+
+        let isFirstReload = firstTimeLoading
+        firstTimeLoading = false
+        onChange(changeset, parameters.animated && !isFirstReload, contentHasChanged)
     }
 
     @concurrent private func fetchPlaylist() async -> EpisodeFilter? {
         dataManager.findPlaylist(uuid: playlist.uuid)
     }
 
-    @concurrent private func fetchEpisodes() async -> ([ListEpisode], Int) {
-        let data = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: playlist.showArchivedEpisodes)
+    @concurrent private func fetchEpisodes(searchTerm: String?) async -> ([ListEpisode], Int) {
+        let data: [ListEpisode]
+        if let searchTerm {
+            let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
+            data = episodesDataManager.playlistEpisodes(
+                for: playlist,
+                limit: 0,
+                shouldShowArchived: true,
+                search: escapedSearch
+            )
+        } else {
+            data = episodesDataManager.playlistEpisodes(
+                for: playlist,
+                shouldShowArchived: playlist.showArchivedEpisodes
+            )
+        }
         let count = dataManager.playlistArchivedEpisodeCount(
             for: playlist,
             episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
@@ -344,33 +369,17 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        let index = index(for: .episodes)
-        dataSource[index] = ArraySection(
-            model: .episodes,
-            elements: tempEpisodes
-        )
-        reloadEpisodeList()
+        performReload(ReloadParameters(animated: false))
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        let index = index(for: .episodes)
-        dataSource[index] = ArraySection(
-            model: .episodes,
-            elements: tempEpisodes
-        )
-        tempEpisodes.removeAll()
-
-        reloadPlaylistAndEpisodes()
+        performReload(ReloadParameters(animated: false))
     }
 
     func startSearch() {
-        if isSearching {
-            return
-        }
         isSearching = true
-        tempEpisodes = episodes
     }
 
     func searchEpisodes(for searchTerm: String) {
@@ -378,12 +387,6 @@ extension PlaylistDetailViewModel {
             return
         }
         self.searchTerm = searchTerm
-        let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
-        let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
-        DispatchQueue.main.async { [weak self] in
-            // Avoid animation as long we use the current diffable framework
-            self?.onChange(changeSetTuple.1, false, changeSetTuple.0)
-        }
+        performReload(ReloadParameters(searchTerm: searchTerm, animated: false))
     }
 }

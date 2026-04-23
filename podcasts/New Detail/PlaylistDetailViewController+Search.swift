@@ -15,7 +15,6 @@ extension PlaylistDetailViewController: PCSearchBarDelegate {
         Analytics.track(.searchCleared, source: analyticsSource)
 
         viewModel.clearSearch()
-        tableView.reloadData()
     }
 
     func searchTermChanged(_ searchTerm: String) { }
