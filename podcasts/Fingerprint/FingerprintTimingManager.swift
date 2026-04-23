@@ -416,7 +416,13 @@ final class FingerprintTimingManager: NSObject {
     }
 
     private func streamFingerprint(context ctx: GenerationContext, startingAt startSeconds: Double) throws {
-        let audioFile = try AVAudioFile(forReading: ctx.audioFileURL)
+        // Force the reader to hand us non-interleaved Float32 PCM so
+        // `buffer.floatChannelData` is never nil regardless of the on-disk format.
+        let audioFile = try AVAudioFile(
+            forReading: ctx.audioFileURL,
+            commonFormat: .pcmFormatFloat32,
+            interleaved: false
+        )
         let format = audioFile.processingFormat
         let sampleRate = UInt32(format.sampleRate)
         let channels = UInt16(format.channelCount)
