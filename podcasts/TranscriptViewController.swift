@@ -80,18 +80,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        startHighlightPollTimer()
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
         cancelAutoScrollBack()
-        stopHighlightPollTimer()
     }
 
     deinit {
@@ -495,6 +489,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
             FingerprintTimingManager.shared.prepareForCurrentEpisode()
         }
+        startHighlightPollTimer()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -506,6 +501,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        stopHighlightPollTimer()
         if FeatureFlag.syncedTranscripts.enabled {
             FingerprintTimingManager.shared.stop()
         }
