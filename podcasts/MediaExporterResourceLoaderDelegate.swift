@@ -367,9 +367,8 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadComplete() {
-        processPendingRequests()
-
         isDownloadComplete = true
+        processPendingRequests()
         let contentType = self.response?.mimeType
         let fileSize = self.fileHandle.safeFileSize
         callbackQueue.async { [weak self] in
