@@ -68,32 +68,20 @@ class FingerprintDebugOverlay: UIView {
         ctx?.setFillColor(UIColor.darkGray.withAlphaComponent(0.5).cgColor)
         ctx?.fill(rect)
 
-        // Rejected-candidate ticks at half-height on the bottom — "matcher fired
-        // here but the drift filter dropped it as noise". Drawn underneath the
-        // accepted-match bars so any accepted segment visually covers its slot.
-        let tickHeight = rect.height / 2
-        let tickY = rect.height - tickHeight
+        // Rejected-candidate ticks — "matcher fired here but the drift filter
+        // dropped it as noise". Drawn underneath the accepted-match bars so any
+        // accepted segment visually covers its slot.
         for entry in rejections {
             let x = CGFloat(entry.playbackTime / totalDuration) * rect.width
             let tickWidth = max(CGFloat(1.0 / totalDuration) * rect.width, 1.5)
-            ctx?.setFillColor(UIColor.systemPurple.withAlphaComponent(0.75).cgColor)
-            ctx?.fill(CGRect(x: x, y: tickY, width: tickWidth, height: tickHeight))
+            ctx?.setFillColor(UIColor.systemRed.cgColor)
+            ctx?.fill(CGRect(x: x, y: 0, width: tickWidth, height: rect.height))
         }
 
         for entry in entries {
             let x = CGFloat(entry.playbackTime / totalDuration) * rect.width
             let segmentWidth = max(CGFloat(2.0 / totalDuration) * rect.width, 2)
-
-            let color: UIColor
-            if entry.score >= FingerprintConstants.debugOverlayHighScoreThreshold {
-                color = .systemGreen
-            } else if entry.score >= FingerprintConstants.debugOverlayMediumScoreThreshold {
-                color = .systemOrange
-            } else {
-                color = .systemRed
-            }
-
-            ctx?.setFillColor(color.cgColor)
+            ctx?.setFillColor(UIColor.systemGreen.cgColor)
             ctx?.fill(CGRect(x: x, y: 0, width: segmentWidth, height: rect.height))
         }
 

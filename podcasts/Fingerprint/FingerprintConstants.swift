@@ -29,12 +29,6 @@ enum FingerprintConstants {
     /// lives here so the knob is discoverable when we pick that path up.
     static let bufferGrowPollCadenceSeconds: TimeInterval = 1.0
 
-    /// Score at or above which the debug overlay shows green (high confidence).
-    static let debugOverlayHighScoreThreshold: Float = 0.85
-
-    /// Score at or above which the debug overlay shows orange (medium confidence).
-    static let debugOverlayMediumScoreThreshold: Float = 0.7
-
     /// Minimum number of mapping entries before the timing manager transitions to `.active`.
     static let minimumCoverageForActive: Int = 2
 
