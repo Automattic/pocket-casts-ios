@@ -126,7 +126,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             startDataRequest(with: originalURL)
         }
         if let dataRequest = loadingRequest.dataRequest {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Adding Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \(loadingRequest)")
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Adding Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
         }
         pendingRequests.insert(loadingRequest)
         processPendingRequests()
