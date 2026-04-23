@@ -130,7 +130,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         }
 
         // we need to allow enough room to show 2 buttons on the right
-        var buttonsWidth = CGFloat(220)
+        let buttonsWidth = CGFloat(220)
 
         let maxTitleWidth = fakeNavView.bounds.width - buttonsWidth
         if navTitleMaxWidth.constant != maxTitleWidth {

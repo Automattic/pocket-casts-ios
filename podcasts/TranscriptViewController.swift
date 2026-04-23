@@ -446,6 +446,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
+        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -495,6 +498,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
     }
 
     @objc private func closeTapped() {

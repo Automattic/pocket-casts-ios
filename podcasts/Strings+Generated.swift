@@ -4053,6 +4053,16 @@ internal enum L10n {
   internal static var statsListenHistoryLoading: String { return L10n.tr("Localizable", "stats_listen_history_loading", fallback: "You’ve listened for") }
   /// Header for the cell displaying the time for how long they've listened to Pocket Casts.
   internal static var statsListenHistoryNoDate: String { return L10n.tr("Localizable", "stats_listen_history_no_date", fallback: "You’ve listened for") }
+  /// VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365.
+  internal static func statsListeningActivityAccessibilityLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "stats_listening_activity_accessibility_label", String(describing: p1), fallback: "Listening activity heatmap. Days listened: %1$@ of 365.")
+  }
+  /// Label for the low end of the heatmap legend
+  internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
+  /// Label for the high end of the heatmap legend
+  internal static var statsListeningActivityLegendMore: String { return L10n.tr("Localizable", "stats_listening_activity_legend_more", fallback: "More") }
+  /// Title for the listening activity heatmap on the account screen
+  internal static var statsListeningActivitySectionTitle: String { return L10n.tr("Localizable", "stats_listening_activity_section_title", fallback: "Listening Activity") }
   /// Row header that displays the amount of time saved from the Skip forward feature.
   internal static var statsSkipping: String { return L10n.tr("Localizable", "stats_skipping", fallback: "Skipping") }
   /// Section header that breaks down how much listening time has been saved across a variety of features.

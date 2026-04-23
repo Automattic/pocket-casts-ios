@@ -565,7 +565,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func updateColors() {
         reloadData()
-        if let podcast = podcast {
+        if podcast != nil {
             updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
 
             multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
@@ -1032,7 +1032,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func showOptionsFor(season: Int) {
-        guard let podcast else {
+        guard podcast != nil else {
             return
         }
 
