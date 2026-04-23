@@ -19,6 +19,10 @@ enum FingerprintConstants {
     /// Interval between windowed fingerprints produced during live matching, in milliseconds.
     static let windowIntervalMs: UInt32 = 2000
 
+    /// Seconds of decoded PCM read per AVAudioFile chunk during streaming
+    /// fingerprint generation. Smaller = more responsive UI, larger = less per-call overhead.
+    static let streamChunkSeconds: Double = 5
+
     /// Seconds between polls when waiting for the streaming buffer to grow.
     /// Reserved for future streaming support — unused on the downloaded-files path.
     static let bufferGrowPollCadenceSeconds: TimeInterval = 1.0

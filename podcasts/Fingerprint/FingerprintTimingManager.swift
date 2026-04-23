@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 import Fingerprint
 import PocketCastsDataModel
@@ -30,7 +31,6 @@ final class FingerprintTimingManager: NSObject {
         let audioFileURL: URL
         let duration: Double
         let matcher: CheckpointMatcher
-        let fingerprinter: Fingerprinter
         let isCancelled: () -> Bool
     }
 
@@ -236,7 +236,6 @@ final class FingerprintTimingManager: NSObject {
             audioFileURL: audioFileURL,
             duration: duration,
             matcher: matcher,
-            fingerprinter: Fingerprinter(),
             isCancelled: { flag.isCancelled }
         )
         context = newContext
@@ -249,69 +248,92 @@ final class FingerprintTimingManager: NSObject {
         processAllBatches(context: newContext)
     }
 
-    // MARK: - Full-File Processing
+    // MARK: - Streaming Fingerprint Processing
 
-    /// Fingerprint the whole downloaded file in one pass. We can't byte-slice and feed
-    /// arbitrary chunks to the fingerprinter — the codec needs a real container/header
-    /// to detect format, which only exists at file start. Memory-mapping the file keeps
-    /// peak resident memory bounded.
+    /// Stream-decode the downloaded file with `AVAudioFile`, push PCM into the
+    /// streaming fingerprinter chunk-by-chunk, and match each batch of windows
+    /// as soon as it's emitted. This populates the playback↔reference mapping
+    /// progressively so highlighting/tap-to-seek become usable well before the
+    /// whole file has been processed.
     private func processAllBatches(context ctx: GenerationContext) {
         generationQueue.async { [weak self] in
             guard let self else { return }
-            let result = Self.fingerprintWholeFile(
-                fileURL: ctx.audioFileURL,
-                fingerprinter: ctx.fingerprinter,
-                isCancelled: ctx.isCancelled
-            )
-
-            self.queue.async { [weak self] in
-                guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
-
-                switch result {
-                case .success(let windows):
-                    self.processMatches(windows: windows, context: ctx)
-                    FileLog.shared.addMessage(
-                        "FingerprintTimingManager: full-file processing completed (\(windows.count) windows)"
-                    )
-                case .failure(let error):
-                    FileLog.shared.addMessage(
-                        "FingerprintTimingManager: full-file processing failed — \(error)"
-                    )
-                }
+            do {
+                try self.streamFingerprint(context: ctx)
+                FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint completed")
+            } catch StreamError.cancelled {
+                FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint cancelled")
+            } catch {
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: streaming fingerprint failed — \(error.localizedDescription)"
+                )
             }
         }
     }
 
-    private static func fingerprintWholeFile(
-        fileURL: URL,
-        fingerprinter: Fingerprinter,
-        isCancelled: () -> Bool
-    ) -> Result<[WindowedFingerprint], Error> {
-        if isCancelled() { return .failure(BatchError.cancelled) }
+    private func streamFingerprint(context ctx: GenerationContext) throws {
+        let audioFile = try AVAudioFile(forReading: ctx.audioFileURL)
+        let format = audioFile.processingFormat
+        let sampleRate = UInt32(format.sampleRate)
+        let channels = UInt16(format.channelCount)
 
-        let data: Data
-        do {
-            data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
-        } catch {
-            return .failure(error)
+        let streamer = StreamingWindowedFingerprinter(
+            sampleRate: sampleRate,
+            channels: channels,
+            windowDurationMs: FingerprintConstants.windowDurationMs,
+            windowIntervalMs: FingerprintConstants.windowIntervalMs
+        )
+
+        let chunkFrames = AVAudioFrameCount(format.sampleRate * FingerprintConstants.streamChunkSeconds)
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: chunkFrames) else {
+            throw StreamError.bufferAllocationFailed
         }
 
-        if isCancelled() { return .failure(BatchError.cancelled) }
+        while true {
+            if ctx.isCancelled() { throw StreamError.cancelled }
+            try audioFile.read(into: buffer, frameCount: chunkFrames)
+            if buffer.frameLength == 0 { break }
 
-        do {
-            let windows = try fingerprinter.fingerprintDataWindowed(
-                data: data,
-                windowDurationMs: FingerprintConstants.windowDurationMs,
-                windowIntervalMs: FingerprintConstants.windowIntervalMs
-            )
-            return .success(windows)
-        } catch {
-            return .failure(error)
+            let interleaved = Self.interleavedSamples(from: buffer)
+            let windows = streamer.pushSamplesF32(samples: interleaved, channels: channels)
+            if !windows.isEmpty {
+                dispatchProcessMatches(windows: windows, context: ctx)
+            }
+        }
+
+        if ctx.isCancelled() { throw StreamError.cancelled }
+        let tail = streamer.flush()
+        if !tail.isEmpty {
+            dispatchProcessMatches(windows: tail, context: ctx)
         }
     }
 
-    private enum BatchError: Error {
+    private func dispatchProcessMatches(windows: [WindowedFingerprint], context ctx: GenerationContext) {
+        queue.async { [weak self] in
+            guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            self.processMatches(windows: windows, context: ctx)
+        }
+    }
+
+    private static func interleavedSamples(from buffer: AVAudioPCMBuffer) -> [Float] {
+        let frameCount = Int(buffer.frameLength)
+        let channelCount = Int(buffer.format.channelCount)
+        guard frameCount > 0, channelCount > 0,
+              let channelData = buffer.floatChannelData else { return [] }
+
+        var result = [Float](repeating: 0, count: frameCount * channelCount)
+        for ch in 0..<channelCount {
+            let src = channelData[ch]
+            for frame in 0..<frameCount {
+                result[frame * channelCount + ch] = src[frame]
+            }
+        }
+        return result
+    }
+
+    private enum StreamError: Error {
         case cancelled
+        case bufferAllocationFailed
     }
 
     private func processMatches(
