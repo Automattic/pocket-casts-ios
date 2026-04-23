@@ -682,14 +682,14 @@ platform :ios do
   #  - `symbols_upload` to upload dSYMs to Sentry
   #
   # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store_tvos` before building. Recommended on CI.
+  # @param build_number [String, nil] When given, overrides `VERSION_LONG` (i.e. `CURRENT_PROJECT_VERSION`). Defaults to the `xcconfig` value.
   #
-  lane :build_app_store_connect_tvos do |set_up_code_signing: true|
+  lane :build_app_store_connect_tvos do |set_up_code_signing: true, build_number: nil|
     configure_code_signing_app_store_tvos if set_up_code_signing
 
-    # Override `VERSION_LONG` (mapped to `CURRENT_PROJECT_VERSION`) with a CI-unique value.
-    # The `0.` prefix keeps CI-driven builds lexicographically below any real release build code.
-    build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', nil)
-    xcargs = build_number ? { VERSION_LONG: "0.#{build_number}" } : {}
+    # When given, override `VERSION_LONG` (mapped to `CURRENT_PROJECT_VERSION` via `xcconfig`).
+    # Callers are responsible for picking a value that doesn't collide with previous uploads.
+    xcargs = build_number ? { VERSION_LONG: build_number } : {}
 
     build_app(
       scheme: SCHEME_TVOS,
