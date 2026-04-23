@@ -78,6 +78,10 @@ final class FingerprintTimingManager: NSObject {
         )
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     // MARK: - Public API
 
     func prepareForCurrentEpisode() {
