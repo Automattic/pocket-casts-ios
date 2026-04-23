@@ -25,12 +25,6 @@ class PlaylistDetailViewModel: ObservableObject {
         case playAll
     }
 
-    struct ReloadParameters {
-        var reloadingPlaylist = false
-        var searchTerm: String?
-        var animated = true
-    }
-
     let onButtonTapped: (ButtonTag) -> Void
     let dataManager: DataManager
     let episodesDataManager: EpisodesDataManager
@@ -67,6 +61,7 @@ class PlaylistDetailViewModel: ObservableObject {
     private(set) var archivedEpisodesCount: Int = 0
 
     private var searchTerm: String = ""
+    private var needsPlaylistReload = false
     private var artworkLoadingTask: Task<Void, Never>?
     private var reloadTask: Task<Void, Never>?
     private let imageManager: ImageManager
@@ -132,45 +127,43 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
-        reloadEpisodeList(reloadingPlaylist: true)
+        needsPlaylistReload = true
+        reloadEpisodeList()
     }
 
-    func reloadEpisodeList(reloadingPlaylist: Bool = false) {
-        let activeSearchTerm = (isSearching && !searchTerm.isEmpty) ? searchTerm : nil
-        performReload(ReloadParameters(
-            reloadingPlaylist: reloadingPlaylist,
-            searchTerm: activeSearchTerm,
-            animated: activeSearchTerm == nil
-        ))
-    }
-
-    private func performReload(_ parameters: ReloadParameters) {
+    func reloadEpisodeList(animated: Bool = true) {
         reloadTask?.cancel()
         reloadTask = Task { [weak self] in
-            await self?.runReload(parameters)
+            await self?.runReload(animated: animated)
         }
     }
 
     @MainActor
-    private func runReload(_ parameters: ReloadParameters) async {
-        if parameters.reloadingPlaylist, let reloaded = await fetchPlaylist() {
-            playlist = reloaded
-            playlistName = reloaded.playlistName
+    private func runReload(animated: Bool) async {
+        if needsPlaylistReload {
+            let reloaded = await fetchPlaylist()
+            guard !Task.isCancelled else { return }
+            needsPlaylistReload = false
+            if let reloaded {
+                playlist = reloaded
+                playlistName = reloaded.playlistName
+            }
         }
-        guard !Task.isCancelled else { return }
 
-        let (newData, archivedCount) = await fetchEpisodes(searchTerm: parameters.searchTerm)
+        let activeSearchTerm = (isSearching && !searchTerm.isEmpty) ? searchTerm : nil
+        let (newData, archivedCount) = await fetchEpisodes(searchTerm: activeSearchTerm)
         guard !Task.isCancelled else { return }
 
         archivedEpisodesCount = archivedCount
         let (contentHasChanged, changeset) = buildChangeSet(source: episodes, newData: newData)
-        if contentHasChanged, parameters.searchTerm == nil {
+        if contentHasChanged, activeSearchTerm == nil {
             dataManager.updatePlaylistUpdateDate(for: playlist)
         }
 
         let isFirstReload = firstTimeLoading
         firstTimeLoading = false
-        onChange(changeset, parameters.animated && !isFirstReload, contentHasChanged)
+        let shouldAnimate = animated && !isFirstReload && activeSearchTerm == nil
+        onChange(changeset, shouldAnimate, contentHasChanged)
     }
 
     @concurrent private func fetchPlaylist() async -> EpisodeFilter? {
@@ -357,13 +350,13 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        performReload(ReloadParameters(animated: false))
+        reloadEpisodeList(animated: false)
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        performReload(ReloadParameters(animated: false))
+        reloadEpisodeList(animated: false)
     }
 
     func startSearch() {
@@ -375,6 +368,6 @@ extension PlaylistDetailViewModel {
             return
         }
         self.searchTerm = searchTerm
-        performReload(ReloadParameters(searchTerm: searchTerm, animated: false))
+        reloadEpisodeList(animated: false)
     }
 }
