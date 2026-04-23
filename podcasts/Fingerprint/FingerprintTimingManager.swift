@@ -153,9 +153,11 @@ final class FingerprintTimingManager: NSObject {
         if lastProgressPosition >= 0 {
             let delta = abs(playbackTime - lastProgressPosition)
             if delta > FingerprintConstants.restartDeltaSeconds {
+                #if DEBUG
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: playback jumped \(String(format: "%.1f", delta))s — restarting from \(String(format: "%.1f", playbackTime))s"
                 )
+                #endif
                 restart(from: playbackTime, context: ctx)
                 lastProgressPosition = playbackTime
                 return
@@ -164,9 +166,11 @@ final class FingerprintTimingManager: NSObject {
         lastProgressPosition = playbackTime
 
         if isWithinMappedRange(playbackTime) { return }
+        #if DEBUG
         FileLog.shared.addMessage(
             "FingerprintTimingManager: playback at \(String(format: "%.1f", playbackTime))s outside mapped range — restarting"
         )
+        #endif
         restart(from: playbackTime, context: ctx)
     }
 
@@ -403,12 +407,16 @@ final class FingerprintTimingManager: NSObject {
             guard let self else { return }
             do {
                 try self.streamFingerprint(context: ctx, startingAt: aligned)
+                #if DEBUG
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: streaming fingerprint completed (started at \(String(format: "%.1f", aligned))s)"
                 )
+                #endif
                 self.finishIfStillPreparing(terminalState: .unavailable, context: ctx)
             } catch StreamError.cancelled {
+                #if DEBUG
                 FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint cancelled")
+                #endif
                 // State will be reset by whatever cancelled us (restart / stop / new episode).
             } catch {
                 FileLog.shared.addMessage(
@@ -530,9 +538,11 @@ final class FingerprintTimingManager: NSObject {
         context ctx: GenerationContext
     ) {
         var inserted = 0
+        #if DEBUG
         var bestScoreOverall: Float = 0
         var nonZeroScoreCount = 0
         var scoreSum: Float = 0
+        #endif
 
         for window in windows {
             // Pull top-2 so we can check how dominant the winner is — ambiguous
@@ -544,11 +554,13 @@ final class FingerprintTimingManager: NSObject {
             )
             guard let best = matches.first else { continue }
 
+            #if DEBUG
             if best.score > 0 {
                 nonZeroScoreCount += 1
                 scoreSum += best.score
             }
             if best.score > bestScoreOverall { bestScoreOverall = best.score }
+            #endif
             guard best.score >= FingerprintConstants.matchScoreThreshold else { continue }
 
             let absolutePlaybackTime = startOffset + Double(window.timestampMs) / 1000.0
@@ -584,12 +596,14 @@ final class FingerprintTimingManager: NSObject {
             updateState(.active(coverage: coverage))
         }
 
+        #if DEBUG
         let avgNonZero = nonZeroScoreCount > 0 ? scoreSum / Float(nonZeroScoreCount) : 0
         FileLog.shared.addMessage(
             "FingerprintTimingManager: matched \(inserted)/\(windows.count) windows "
                 + "(coverage: \(coverage), bestScore: \(String(format: "%.3f", bestScoreOverall)), "
                 + "nonZero: \(nonZeroScoreCount), avgNonZero: \(String(format: "%.3f", avgNonZero)))"
         )
+        #endif
     }
 
     // MARK: - Drift Filter
@@ -637,12 +651,14 @@ final class FingerprintTimingManager: NSObject {
                     recordRejection(entry, reason: "pool evicted by confirmed anchor")
                 }
             }
+            #if DEBUG
             FileLog.shared.addMessage(
                 "FingerprintTimingManager: drift filter confirmed anchor "
                     + "at playback \(String(format: "%.1f", recent.first!.playbackTime))s → "
                     + "\(String(format: "%.1f", recent.last!.playbackTime))s "
                     + "(\(n) consistent)"
             )
+            #endif
             for entry in recent {
                 insertMapping(entry)
             }
@@ -682,12 +698,12 @@ final class FingerprintTimingManager: NSObject {
     }
 
     private func recordRejection(_ entry: TimeMappingEntry, reason: String) {
+        #if DEBUG
         FileLog.shared.addMessage(
             "FingerprintTimingManager: drift filter dropped \(reason) "
                 + "at playback \(String(format: "%.1f", entry.playbackTime))s "
                 + "(matched reference \(String(format: "%.1f", entry.referenceTime))s)"
         )
-        #if DEBUG
         debugRejections.append(entry)
         if debugRejections.count > Self.debugRejectionCap {
             debugRejections.removeFirst(debugRejections.count - Self.debugRejectionCap)
