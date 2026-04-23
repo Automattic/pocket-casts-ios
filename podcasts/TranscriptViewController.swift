@@ -821,15 +821,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 let scrollRange = NSRange(location: range.location, length: range.length * 2)
                 transcriptView.scrollRangeToVisible(scrollRange)
             }
-            #if DEBUG
-            let intoCue = position - cue.startTime
-            FileLog.shared.addMessage(
-                "[transcript-offset] playback=\(String(format: "%.3f", rawTime))" +
-                " reference=\(String(format: "%.3f", position))" +
-                " cue=[\(String(format: "%.3f", cue.startTime))..\(String(format: "%.3f", cue.endTime))]" +
-                " intoCue=\(String(format: "%+.3f", intoCue))"
-            )
-            #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
