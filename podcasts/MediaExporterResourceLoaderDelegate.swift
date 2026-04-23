@@ -265,25 +265,24 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func processPendingRequests() {
         lock.lock()
         defer { lock.unlock() }
-
+        var requestsFulfilled: Set<AVAssetResourceLoadingRequest> = []
         do {
-            // Filter out the unfulfilled requests
-            let requestsFulfilled: Set<AVAssetResourceLoadingRequest> = try pendingRequests.filter {
-                guard response != nil else {
-                    return false
-                }
-                fillInContentInformationRequest($0.contentInformationRequest)
-                guard let dataRequest = $0.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) else {
-                    return false
-                }
-
-                $0.finishLoading()
-                return true
+            guard response != nil else {
+                return
             }
 
+            for request in pendingRequests {
+                fillInContentInformationRequest(request.contentInformationRequest)
+                if let dataRequest = request.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) {
+                    request.finishLoading()
+                    requestsFulfilled.insert(request)
+                }
+            }
             // Remove fulfilled requests from pending requests
             requestsFulfilled.forEach { pendingRequests.remove($0) }
         } catch {
+            // Remove fulfilled requests from pending requests
+            requestsFulfilled.forEach { pendingRequests.remove($0) }
             downloadFailed(with: error, notify: true)
         }
     }
