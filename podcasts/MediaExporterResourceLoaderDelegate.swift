@@ -340,7 +340,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // Data length to be loaded into memory with maximum size of readDataLimit.
             let bytesToRespond = min(bytesCached - currentOffset, requestedLength - (currentOffset - requestedOffset), readDataLimit)
             // Read data from disk and pass it to the dataRequest
-            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else { return false }
+            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
+                throw MediaFileHandleError.readAfterEndOfFile
+            }
             dataRequest.respond(with: data)
             let newOffset = Int(dataRequest.currentOffset)
             guard bytesToRespond != 0, newOffset != currentOffset else {
