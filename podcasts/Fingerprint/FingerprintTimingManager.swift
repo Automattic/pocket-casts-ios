@@ -377,12 +377,29 @@ final class FingerprintTimingManager: NSObject {
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: streaming fingerprint completed (started at \(String(format: "%.1f", aligned))s)"
                 )
+                self.finishIfStillPreparing(terminalState: .unavailable, context: ctx)
             } catch StreamError.cancelled {
                 FileLog.shared.addMessage("FingerprintTimingManager: streaming fingerprint cancelled")
+                // State will be reset by whatever cancelled us (restart / stop / new episode).
             } catch {
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: streaming fingerprint failed — \(error.localizedDescription)"
                 )
+                self.finishIfStillPreparing(terminalState: .failed(error), context: ctx)
+            }
+        }
+    }
+
+    /// Only override state if the stream for `ctx` is still the current one AND we
+    /// haven't already reached `.active` — otherwise a late completion for an
+    /// abandoned context would clobber a healthy state.
+    private func finishIfStillPreparing(terminalState: State, context ctx: GenerationContext) {
+        queue.async { [weak self] in
+            guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if case .active = self.state { return }
+                self.state = terminalState
             }
         }
     }
