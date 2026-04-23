@@ -10,11 +10,11 @@ import PocketCastsUtils
 enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
-        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 256.KB
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 128.KB
     }
 
     /// How much data is allowed to be read in memory at a time.
-    public static var readDataLimit: Int = 5.MB
+    public static var readDataLimit: Int = 20.MB
 
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
