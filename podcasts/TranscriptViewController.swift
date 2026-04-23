@@ -13,6 +13,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var canScrollToDismiss = true
 
     private var isUserScrolling = false
+    // Stays `true` for the entire scroll-back grace period, not just while the
+    // user's finger is on the view. `isUserScrolling` flips back to false the
+    // instant the drag ends, so without this, the next playback tick would
+    // snap the view back to the highlight before the 5s return fires.
+    private var isAutoScrollSuppressed = false
     private var autoScrollBackWorkItem: DispatchWorkItem?
     private static let autoScrollBackDelay: TimeInterval = 5.0
 
@@ -779,13 +784,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             let range = cue.characterRange
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
-            if !isUserScrolling, !isSearching {
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
                 let scrollRange = NSRange(location: range.location, length: range.length * 2)
                 transcriptView.scrollRangeToVisible(scrollRange)
             }
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
-            if !isUserScrolling, !isSearching {
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
                 transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
             }
         }
@@ -797,8 +802,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         cancelAutoScrollBack()
         guard FeatureFlag.syncedTranscripts.enabled else { return }
         guard !isSearching else { return }
+        isAutoScrollSuppressed = true
         let workItem = DispatchWorkItem { [weak self] in
-            self?.scrollBackToCurrentHighlight()
+            guard let self else { return }
+            self.isAutoScrollSuppressed = false
+            self.autoScrollBackWorkItem = nil
+            self.scrollBackToCurrentHighlight()
         }
         autoScrollBackWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.autoScrollBackDelay, execute: workItem)
@@ -807,6 +816,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func cancelAutoScrollBack() {
         autoScrollBackWorkItem?.cancel()
         autoScrollBackWorkItem = nil
+        isAutoScrollSuppressed = false
     }
 
     private func scrollBackToCurrentHighlight() {
