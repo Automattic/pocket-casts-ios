@@ -60,6 +60,15 @@ final class FingerprintTimingManager: NSObject {
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastProgressPosition: Double = -1
 
+    // Drift-filter state — see `consider(candidate:)`.
+    private var filterLastTrusted: TimeMappingEntry?
+    private var filterCandidatePool: [TimeMappingEntry] = []
+
+    #if DEBUG
+    private static let debugRejectionCap = 500
+    private var debugRejections: [TimeMappingEntry] = []
+    #endif
+
     // MARK: - Init
 
     override init() {
@@ -171,7 +180,9 @@ final class FingerprintTimingManager: NSObject {
 
     /// Cancel the in-flight stream and start a new one anchored at `position`.
     /// Existing mappings are kept — they're still valid, we just refocus
-    /// coverage growth around the listener's new position.
+    /// coverage growth around the listener's new position. Filter state is
+    /// reset because the new stream's first matches live in a region that has
+    /// no rate relationship to the old trusted anchor.
     private func restart(from position: Double, context ctx: GenerationContext) {
         cancellationFlag.cancel()
         cancellationFlag = CancellationFlag()
@@ -184,6 +195,7 @@ final class FingerprintTimingManager: NSObject {
             isCancelled: { flag.isCancelled }
         )
         context = newContext
+        resetFilterState()
         startStream(context: newContext, fromPosition: position)
     }
 
@@ -221,6 +233,14 @@ final class FingerprintTimingManager: NSObject {
         dispatchPrecondition(condition: .notOnQueue(queue))
         return queue.sync { playbackToReference }
     }
+
+    /// Candidates that reached the drift filter but were rejected. The debug
+    /// overlay uses this to distinguish "matcher never fired here" from
+    /// "matcher fired but everything was filtered out as noise".
+    func debugRejectionsSnapshot() -> [TimeMappingEntry] {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync { debugRejections }
+    }
     #endif
 
     // MARK: - State Management
@@ -234,6 +254,15 @@ final class FingerprintTimingManager: NSObject {
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
         lastProgressPosition = -1
+        resetFilterState()
+        #if DEBUG
+        debugRejections.removeAll()
+        #endif
+    }
+
+    private func resetFilterState() {
+        filterLastTrusted = nil
+        filterCandidatePool.removeAll()
     }
 
     private func updateState(_ newState: State) {
@@ -519,12 +548,12 @@ final class FingerprintTimingManager: NSObject {
 
                 if best.score >= FingerprintConstants.matchScoreThreshold {
                     let absolutePlaybackTime = startOffset + Double(window.timestampMs) / 1000.0
-                    insertMapping(TimeMappingEntry(
+                    let candidate = TimeMappingEntry(
                         playbackTime: absolutePlaybackTime,
                         referenceTime: Double(best.timestamp),
                         score: best.score
-                    ))
-                    inserted += 1
+                    )
+                    inserted += consider(candidate: candidate)
                 }
             }
         }
@@ -542,12 +571,126 @@ final class FingerprintTimingManager: NSObject {
         )
     }
 
+    // MARK: - Drift Filter
+
+    /// Routes a score-passing candidate through the drift filter. Returns the
+    /// number of entries actually inserted into the mapping arrays this call.
+    ///
+    /// Invariant the filter enforces:
+    /// **no anchor — bootstrap or post-jump — is admitted until we've seen
+    /// `driftBootstrapCount` consecutive rate-≈1 candidates in a row.**
+    ///
+    /// - Fast path: candidate is in-trend with `filterLastTrusted` → commit
+    ///   immediately, flush any pooled candidates as rejections (a prior jump
+    ///   attempt that didn't pan out turned out to be noise).
+    /// - Slow path: candidate goes into `filterCandidatePool`. Once the pool's
+    ///   tail is `driftBootstrapCount` consecutive consistent entries, commit
+    ///   them all and drop anything before as rejections. Otherwise evict the
+    ///   oldest and keep rolling.
+    ///
+    /// This is the same rule for the initial bootstrap (no `lastTrusted` yet)
+    /// and for post-trusted jumps, so a single lucky pair can never admit an
+    /// anchor — what the user was seeing as "jump-arounds" in the debug UI.
+    @discardableResult
+    private func consider(candidate: TimeMappingEntry) -> Int {
+        if let trusted = filterLastTrusted, Self.isInTrend(candidate, relativeTo: trusted) {
+            // Sequential continuation. Anything that had collected in the pool
+            // was a jump attempt that never stabilized — reject it.
+            flushPoolAsRejected(reason: "returned to trend")
+            insertMapping(candidate)
+            filterLastTrusted = candidate
+            return 1
+        }
+
+        filterCandidatePool.append(candidate)
+        let n = FingerprintConstants.driftBootstrapCount
+
+        guard filterCandidatePool.count >= n else { return 0 }
+
+        let recent = Array(filterCandidatePool.suffix(n))
+        if Self.formsConsistentSequence(recent) {
+            // Confirmed new anchor. Anything older in the pool is noise.
+            let keepStart = filterCandidatePool.count - n
+            if keepStart > 0 {
+                for entry in filterCandidatePool.prefix(keepStart) {
+                    recordRejection(entry, reason: "pool evicted by confirmed anchor")
+                }
+            }
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: drift filter confirmed anchor "
+                    + "at playback \(String(format: "%.1f", recent.first!.playbackTime))s → "
+                    + "\(String(format: "%.1f", recent.last!.playbackTime))s "
+                    + "(\(n) consistent)"
+            )
+            for entry in recent {
+                insertMapping(entry)
+            }
+            filterLastTrusted = recent.last
+            filterCandidatePool.removeAll()
+            return n
+        }
+
+        // Not consistent yet — evict oldest and keep waiting for the window to
+        // roll onto a consistent stretch.
+        let evicted = filterCandidatePool.removeFirst()
+        recordRejection(evicted, reason: "pool evicted, no consistent run")
+        return 0
+    }
+
+    private func flushPoolAsRejected(reason: String) {
+        for entry in filterCandidatePool {
+            recordRejection(entry, reason: reason)
+        }
+        filterCandidatePool.removeAll()
+    }
+
+    /// Two entries are in-trend when `Δreference ≈ Δplayback` (rate ≈ 1),
+    /// within `driftToleranceSeconds` of residual slack.
+    private static func isInTrend(_ candidate: TimeMappingEntry, relativeTo anchor: TimeMappingEntry) -> Bool {
+        let deltaPlayback = candidate.playbackTime - anchor.playbackTime
+        let deltaReference = candidate.referenceTime - anchor.referenceTime
+        return abs(deltaReference - deltaPlayback) <= FingerprintConstants.driftToleranceSeconds
+    }
+
+    private static func formsConsistentSequence(_ entries: [TimeMappingEntry]) -> Bool {
+        guard entries.count >= 2 else { return true }
+        for i in 1..<entries.count where !isInTrend(entries[i], relativeTo: entries[i - 1]) {
+            return false
+        }
+        return true
+    }
+
+    private func recordRejection(_ entry: TimeMappingEntry, reason: String) {
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: drift filter dropped \(reason) "
+                + "at playback \(String(format: "%.1f", entry.playbackTime))s "
+                + "(matched reference \(String(format: "%.1f", entry.referenceTime))s)"
+        )
+        #if DEBUG
+        debugRejections.append(entry)
+        if debugRejections.count > Self.debugRejectionCap {
+            debugRejections.removeFirst(debugRejections.count - Self.debugRejectionCap)
+        }
+        #endif
+    }
+
     // MARK: - Time Mapping
 
     /// Test seam: inserts a mapping on the manager's serial queue so queries are
     /// consistent with production insertions that happen from within `processMatches`.
     func insert(mapping: TimeMappingEntry) {
         queue.sync { insertMapping(mapping) }
+    }
+
+    /// Test seam: routes a sequence of candidates through the drift filter
+    /// synchronously on the manager's serial queue, the way `processMatches`
+    /// does in production.
+    func stubMatches(_ entries: [TimeMappingEntry]) {
+        queue.sync {
+            for entry in entries {
+                _ = consider(candidate: entry)
+            }
+        }
     }
 
     private func insertMapping(_ entry: TimeMappingEntry) {

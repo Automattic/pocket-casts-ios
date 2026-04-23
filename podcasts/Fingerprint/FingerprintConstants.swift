@@ -37,4 +37,15 @@ enum FingerprintConstants {
 
     /// Minimum number of mapping entries before the timing manager transitions to `.active`.
     static let minimumCoverageForActive: Int = 2
+
+    /// Residual tolerance, in seconds, on the rate-≈1 drift filter. This is **not**
+    /// a jump size cap — a jump of any magnitude is accepted as long as the next
+    /// candidate projects from the jump position at rate 1 within this tolerance.
+    /// What this rejects is "candidate sits off any recent rate-1 line", i.e.
+    /// jump-around noise.
+    static let driftToleranceSeconds: Double = 5
+
+    /// Number of consecutive rate-≈1 candidates required to establish the first
+    /// trusted anchor before we have one to project from.
+    static let driftBootstrapCount: Int = 3
 }
