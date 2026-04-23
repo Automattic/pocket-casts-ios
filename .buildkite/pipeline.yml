@@ -19,14 +19,34 @@ steps:
           missing-error: 0
           api-token-env-name: BUILDKITE_ANALYTICS_TOKEN
 
-  - label: "Build tvOS (App Store Connect)"
-    command: .buildkite/commands/build-tvos-app-store.sh
-    agents:
-      queue: mac
-    plugins: [$CI_TOOLKIT]
-    artifact_paths:
-      - artifacts/*.ipa
-      - artifacts/*.app.dSYM.zip
+  - group: "tvOS App Store"
+    steps:
+      - label: "Build tvOS (App Store Connect)"
+        key: build_tvos_app_store
+        command: .buildkite/commands/build-tvos-app-store.sh
+        agents:
+          queue: mac
+        plugins: [$CI_TOOLKIT]
+        artifact_paths:
+          - artifacts/*.ipa
+          - artifacts/*.app.dSYM.zip
+
+      # Manual gate on non-trunk branches. On `trunk`, the step is skipped and
+      # `depends_on` treats it as satisfied, so the upload runs automatically.
+      - input: "Upload tvOS to TestFlight"
+        prompt: "Upload the tvOS build to TestFlight?"
+        key: upload_tvos_testflight_input
+        if: "build.branch != 'trunk'"
+
+      - label: "Upload tvOS to TestFlight"
+        key: upload_tvos_testflight
+        depends_on:
+          - build_tvos_app_store
+          - upload_tvos_testflight_input
+        command: .buildkite/commands/upload-tvos-app-store.sh
+        agents:
+          queue: mac
+        plugins: [$CI_TOOLKIT]
 
   - group: "Linters"
     steps:
