@@ -39,7 +39,7 @@ final class MediaFileHandleTests: XCTestCase {
     func testFileSize_throwsWhenFileIsDeleted() throws {
         try FileManager.default.removeItem(atPath: tempFilePath)
 
-        XCTAssertThrowsError(try sut.fileSize(), "throwableFileSize should throw when the file no longer exists")
+        XCTAssertThrowsError(try sut.fileSize(), "fileSize should throw when the file no longer exists")
     }
 
     // MARK: - readData
