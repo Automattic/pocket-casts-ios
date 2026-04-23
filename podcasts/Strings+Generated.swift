@@ -2404,6 +2404,8 @@ internal enum L10n {
   internal static var playerErrorInternetConnection: String { return L10n.tr("Localizable", "player_error_internet_connection", fallback: "Check your Internet connection and try again.") }
   /// Generic error used when no internet connection is available.
   internal static var playerErrorShortNoConnection: String { return L10n.tr("Localizable", "player_error_short_no_connection", fallback: "You’re offline") }
+  /// Generic error used when playback fails.
+  internal static var playerErrorShortPlaybackError: String { return L10n.tr("Localizable", "player_error_short_playback_error", fallback: "Playback failed, please try again") }
   /// Accessibility label for the player control that fast-forwards the current playback position by a customizable time.
   internal static var playerIncrementTime: String { return L10n.tr("Localizable", "player_increment_time", fallback: "Increment time") }
   /// Confirmation prompt for marking an episode as played.

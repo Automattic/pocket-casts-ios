@@ -5870,6 +5870,9 @@
 /* Generic error used when no internet connection is available. */
 "player_error_short_no_connection" = "You’re offline";
 
+/* Generic error used when playback fails. */
+"player_error_short_playback_error" = "Playback failed, please try again";
+
 /* MARK: - InfoPlist.strings */
 
 /* A message that tells the user why the app is requesting access to the device’s camera. */
