@@ -17,7 +17,7 @@ class SubscriptionStatusTask: ApiBaseTask {
                 return
             }
             do {
-                let status = try Api_SubscriptionsStatusResponse(serializedData: responseData)
+                let status = try Api_SubscriptionsStatusResponse(serializedBytes: responseData)
                 let originalSubscriptionStatus = SubscriptionHelper.hasActiveSubscription()
                 SubscriptionHelper.setSubscriptionPaid(Int(status.paid))
                 SubscriptionHelper.setSubscriptionPlatform(Int(status.platform))

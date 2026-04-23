@@ -166,7 +166,7 @@ class UpNextSyncTask: ApiBaseTask {
         defer { objc_sync_exit(UpNextSyncTask.processDataLock) }
 
         do {
-            let response = try Api_UpNextResponse(serializedData: serverData)
+            let response = try Api_UpNextResponse(serializedBytes: serverData)
             applyServerChanges(episodes: response.episodes)
 
             // save the server last modified so we can send it back next time. For legacy compatibility this is stored as a string

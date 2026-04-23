@@ -34,7 +34,7 @@ class SyncSettingsTaskTests: XCTestCase {
         let task = SyncSettingsTask(appSettings: store, urlConnection: URLConnection { urlRequest in
 
             let data = try XCTUnwrap(urlRequest.httpBody, "Request body should exist")
-            let request = try Api_NamedSettingsRequest(serializedData: data)
+            let request = try Api_NamedSettingsRequest(serializedBytes: data)
 
             XCTAssertTrue(request.changedSettings.openLinks.hasValue, "Change value should be included")
             XCTAssertEqual(request.changedSettings.openLinks.modifiedAt.timeIntervalSinceReferenceDate, changedDate.timeIntervalSinceReferenceDate, accuracy: 0.01, "Modified at should be around the time the value was updated")

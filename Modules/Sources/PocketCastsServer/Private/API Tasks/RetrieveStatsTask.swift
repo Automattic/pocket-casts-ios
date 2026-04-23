@@ -31,7 +31,7 @@ class RetrieveStatsTask: ApiBaseTask {
             }
 
             do {
-                let result = try Api_StatsResponse(serializedData: responseData)
+                let result = try Api_StatsResponse(serializedBytes: responseData)
 
                 let remoteStats = RemoteStats(silenceRemovalTime: result.timeSilenceRemoval,
                                               totalListenTime: result.timeListened,

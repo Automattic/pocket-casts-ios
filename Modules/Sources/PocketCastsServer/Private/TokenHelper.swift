@@ -176,7 +176,7 @@ class TokenHelper {
             }
 
             if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
-                let userLoginResponse = try Api_UserLoginResponse(serializedData: validData)
+                let userLoginResponse = try Api_UserLoginResponse(serializedBytes: validData)
                 return AuthenticationResponse(from: userLoginResponse)
             }
 

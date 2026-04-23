@@ -72,7 +72,7 @@ class UserPodcastRatingGetTask: ApiBaseTask {
             }
 
             do {
-                let result = try Api_PodcastRating(serializedData: responseData)
+                let result = try Api_PodcastRating(serializedBytes: responseData)
                 let userRating = UserPodcastRating(podcastRating: result.podcastRating,
                                                    podcastUuid: result.podcastUuid,
                                                    modifiedAt: result.modifiedAt.date)

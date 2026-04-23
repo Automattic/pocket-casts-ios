@@ -35,7 +35,7 @@ class ChangePasswordTask: ApiBaseTask {
             }
 
             do {
-                let result = try Api_UserChangeResponse(serializedData: responseData)
+                let result = try Api_UserChangeResponse(serializedBytes: responseData)
                 completion?(result.success.value)
                 FileLog.shared.addMessage("API change password response \(result)")
             } catch {

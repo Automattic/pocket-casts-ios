@@ -21,7 +21,7 @@ class RetrieveLastSyncDateTask: ApiBaseTask {
             }
 
             do {
-                let lasySyncAt = try Api_UserLastSyncAtResponse(serializedData: responseData).lastSyncAt
+                let lasySyncAt = try Api_UserLastSyncAtResponse(serializedBytes: responseData).lastSyncAt
 
                 completion?(lasySyncAt)
             } catch {

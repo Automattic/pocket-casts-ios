@@ -23,7 +23,7 @@ class ReferralGetCodeTask: ApiBaseTask, @unchecked Sendable {
                 completion?(nil)
                 return
             }
-            let apiCode = try Api_ReferralCode(serializedData: responseData)
+            let apiCode = try Api_ReferralCode(serializedBytes: responseData)
             completion?(ReferralCode(code: apiCode.code, url: apiCode.url))
         } catch {
             FileLog.shared.addMessage("Failed to parse  Api_GetRererralCodeRequest \(error.localizedDescription)")

@@ -20,7 +20,7 @@ class DeleteAccountTask: ApiBaseTask {
                 return
             }
 
-            let changeResponse = try Api_UserChangeResponse(serializedData: responseData)
+            let changeResponse = try Api_UserChangeResponse(serializedBytes: responseData)
             let success = changeResponse.success.value
             let message = changeResponse.message
 

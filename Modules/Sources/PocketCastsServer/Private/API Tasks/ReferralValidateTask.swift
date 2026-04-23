@@ -42,7 +42,7 @@ class ReferralValidateTask: ApiBaseTask, @unchecked Sendable {
                 completion?(nil)
                 return
             }
-            let validationResponse = try Api_ReferralValidationResponse(serializedData: responseData)
+            let validationResponse = try Api_ReferralValidationResponse(serializedBytes: responseData)
             let details = try? JSONDecoder().decode(ReferralOfferDetail.self, from: validationResponse.details.data(using: .utf8)!)
             completion?(ReferralValidate(offer: validationResponse.offer, platform: Int(validationResponse.platform), details: details))
         } catch {

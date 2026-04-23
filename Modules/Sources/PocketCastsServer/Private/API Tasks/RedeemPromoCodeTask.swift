@@ -29,7 +29,7 @@ class RedeemPromoCodeTask: ApiBaseTask {
 
             do {
                 if httpStatus == ServerConstants.HttpConstants.ok {
-                    let promotion = try Api_Promotion(serializedData: responseData)
+                    let promotion = try Api_Promotion(serializedBytes: responseData)
                     completion?(httpStatus, promotion.description_p, nil)
                     FileLog.shared.addMessage("Redeem promo code response \n \(httpStatus)")
                 } else if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: String], let errorMessageId = json["errorMessageId"] {
