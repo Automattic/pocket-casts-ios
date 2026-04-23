@@ -280,14 +280,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
                     requestsFulfilled.insert(loadingRequest)
                 }
             }
-            removeFullfilledRequests(requestsFulfilled)
+            removeFulfilledRequests(requestsFulfilled)
         } catch {
-            removeFullfilledRequests(requestsFulfilled)
+            removeFulfilledRequests(requestsFulfilled)
             downloadFailed(with: error, notify: true)
         }
     }
 
-    private func removeFullfilledRequests(_ requestsFulfilled: Set<AVAssetResourceLoadingRequest>) {
+    private func removeFulfilledRequests(_ requestsFulfilled: Set<AVAssetResourceLoadingRequest>) {
         var updatedPendingRequests = pendingRequests
         updatedPendingRequests.subtract(requestsFulfilled)
         pendingRequests = updatedPendingRequests
