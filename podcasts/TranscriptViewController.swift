@@ -750,17 +750,21 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func updateTranscriptPosition() {
+        guard let transcript else { return }
+
+        // Only highlight when the fingerprint flow has an actual mapping for this
+        // playback time. Without that, falling back to raw playback time would
+        // highlight arbitrary VTT lines during ads and other non-matching audio.
         let rawTime = playbackManager.currentTime()
-        let position: TimeInterval
-        if case .active = FingerprintTimingManager.shared.state,
-           let referenceTime = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) {
-            position = referenceTime
-        } else {
-            position = rawTime
-        }
-        guard let transcript else {
+        guard case .active = FingerprintTimingManager.shared.state,
+              let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
+            if previousRange != nil {
+                previousRange = nil
+                transcriptView.attributedText = styleText(transcript: transcript)
+            }
             return
         }
+
         if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
