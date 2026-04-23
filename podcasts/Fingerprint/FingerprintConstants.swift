@@ -1,13 +1,14 @@
 import Foundation
 
 enum FingerprintConstants {
-    /// Seconds of playback jump that triggers a re-fingerprint from the current position.
-    /// Reserved for future streaming support — unused on the downloaded-files path, which
-    /// fingerprints the whole file upfront.
+    /// If consecutive playback-progress notifications differ by more than this,
+    /// treat it as a seek/skip and restart fingerprint generation at the new position
+    /// so coverage stays close to what the listener is hearing.
     static let restartDeltaSeconds: Double = 10
 
-    /// Seconds of margin beyond the mapped range before triggering a restart.
-    /// Reserved for future streaming support — unused on the downloaded-files path.
+    /// When playback drifts further than this beyond the already-mapped range,
+    /// restart fingerprint generation from the new position. Also acts as the
+    /// slack window around the mapped range before we consider playback "outside".
     static let playbackRangeMarginSeconds: Double = 30
 
     /// Minimum match score to accept a fingerprint match result.
@@ -24,7 +25,8 @@ enum FingerprintConstants {
     static let streamChunkSeconds: Double = 5
 
     /// Seconds between polls when waiting for the streaming buffer to grow.
-    /// Reserved for future streaming support — unused on the downloaded-files path.
+    /// Reserved for future streaming support — not yet referenced, but the hook
+    /// lives here so the knob is discoverable when we pick that path up.
     static let bufferGrowPollCadenceSeconds: TimeInterval = 1.0
 
     /// Score at or above which the debug overlay shows green (high confidence).
