@@ -270,21 +270,27 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             guard response != nil else {
                 return
             }
-
-            for request in pendingRequests {
-                fillInContentInformationRequest(request.contentInformationRequest)
-                if let dataRequest = request.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) {
-                    request.finishLoading()
-                    requestsFulfilled.insert(request)
+            for loadingRequest in pendingRequests {
+                fillInContentInformationRequest(loadingRequest.contentInformationRequest)
+                if let dataRequest = loadingRequest.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) {
+                    loadingRequest.finishLoading()
+                    requestsFulfilled.insert(loadingRequest)
+                } else if loadingRequest.dataRequest == nil {
+                    loadingRequest.finishLoading()
+                    requestsFulfilled.insert(loadingRequest)
                 }
             }
-            // Remove fulfilled requests from pending requests
-            requestsFulfilled.forEach { pendingRequests.remove($0) }
+            removeFullfilledRequests(requestsFulfilled)
         } catch {
-            // Remove fulfilled requests from pending requests
-            requestsFulfilled.forEach { pendingRequests.remove($0) }
+            removeFullfilledRequests(requestsFulfilled)
             downloadFailed(with: error, notify: true)
         }
+    }
+
+    private func removeFullfilledRequests(_ requestsFulfilled: Set<AVAssetResourceLoadingRequest>) {
+        var updatedPendingRequests = pendingRequests
+        updatedPendingRequests.subtract(requestsFulfilled)
+        pendingRequests = updatedPendingRequests
     }
 
     private func fillInContentInformationRequest(_ contentInformationRequest: AVAssetResourceLoadingContentInformationRequest?) {
