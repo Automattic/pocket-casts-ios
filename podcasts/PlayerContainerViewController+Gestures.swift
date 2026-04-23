@@ -69,7 +69,7 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         if let window = view.window {
             let bottomSafeAreaOffset = window.safeAreaInsets.bottom
             let deviceSpecificPadding = bottomSafeAreaOffset > 0 ? (bottomSafeAreaOffset / 2) : -UIUtil.statusBarHeight(in: window)
-            let offset = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
+            _ = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
         }
 
         if yPosition > PlayerContainerViewController.pullDownThreshold {

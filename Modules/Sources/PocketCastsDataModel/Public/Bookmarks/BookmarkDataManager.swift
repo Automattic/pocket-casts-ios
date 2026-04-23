@@ -133,7 +133,7 @@ public struct BookmarkDataManager {
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery(query, values: [episodeUuid])
-                resultSet.next()
+                _ = resultSet.next()
                 count = resultSet.long(forColumnIndex: 0)
                 resultSet.close()
             } catch {

@@ -79,7 +79,7 @@ class SessionManager: NSObject, WCSessionDelegate {
 
     private func sendLogFileViaTransfer() {
         FileLog.shared.loadLogFileAsString { [weak self] logContents in
-            guard let self else { return }
+            guard self != nil else { return }
 
             // Write log contents to a temporary file for transfer
             let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("watch-log-transfer.txt")
