@@ -135,7 +135,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, didCancel loadingRequest: AVAssetResourceLoadingRequest) {
         if let dataRequest = loadingRequest.dataRequest {
-            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cancel Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \(loadingRequest)")
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cancel Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
         }
         pendingRequests.remove(loadingRequest)
     }
@@ -279,12 +279,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             fillInContentInformationRequest($0.contentInformationRequest)
             guard haveEnoughDataToFulfillRequest($0.dataRequest!) else {
                 if let dataRequest = $0.dataRequest {
-                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Partial Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \($0)")
+                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Partial Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
                 }
                 return false
             }
             if let dataRequest = $0.dataRequest {
-                FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Finish Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))\n \($0)")
+                FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Finish Answer \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
             }
             $0.finishLoading()
             return true
