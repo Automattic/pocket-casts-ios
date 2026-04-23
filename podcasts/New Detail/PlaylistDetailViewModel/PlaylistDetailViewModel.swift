@@ -312,18 +312,6 @@ class PlaylistDetailViewModel: ObservableObject {
         }
     }
 
-    private func getPlaylistEpisodesCount() async -> Int {
-        let playlist = self.playlist!
-        let dataManager = self.dataManager
-        return await Task.detached(priority: .userInitiated) {
-            dataManager.allPlaylistEpisodeCount(
-                for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
-                includingArchivedEpisodes: playlist.manual
-            )
-        }.value
-    }
-
     private func firstDistinctPodcasts(from episodes: [ListEpisode], limit: Int) -> [ListEpisode] {
         var seen = Set<String>()
         var list: [ListEpisode] = []
