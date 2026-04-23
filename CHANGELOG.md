@@ -5,6 +5,7 @@
 - Fix smart playlist not refreshing when clearing search field [#4138](https://github.com/Automattic/pocket-casts-ios/pull/4138)
 - Fix animations in Playlist Details when the episode list is updated [#4174](https://github.com/Automattic/pocket-casts-ios/pull/4174)
 - Fix Now Playing showing podcast author instead of podcast title [#4168](https://github.com/Automattic/pocket-casts-ios/pull/4168)
+- Fix race conditions in Playlist search that could leave the screen in an inconsistent state [#4178](https://github.com/Automattic/pocket-casts-ios/pull/4178) 
 
 8.10
 -----

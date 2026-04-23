@@ -61,9 +61,9 @@ class PlaylistDetailViewModel: ObservableObject {
     private(set) var archivedEpisodesCount: Int = 0
 
     private var searchTerm: String = ""
-    private var needsPlaylistReload = false
+    private var isPlaylistReloadNeeded = false
     private var artworkLoadingTask: Task<Void, Never>?
-    private var reloadTask: Task<Void, Never>?
+    private var refreshTask: Task<Void, Never>?
     private let imageManager: ImageManager
     private let onChange: (StagedChangeset<DataSourceValue>, Bool, Bool) -> Void
     private let artworkImagesLimit = 4
@@ -127,26 +127,26 @@ class PlaylistDetailViewModel: ObservableObject {
     }
 
     func reloadPlaylistAndEpisodes() {
-        needsPlaylistReload = true
+        isPlaylistReloadNeeded = true
         reloadEpisodeList()
     }
 
     func reloadEpisodeList(animated: Bool = true) {
-        reloadTask?.cancel()
-        reloadTask = Task { [weak self] in
-            await self?.runReload(animated: animated)
+        refreshTask?.cancel()
+        refreshTask = Task { [weak self] in
+            await self?.refresh(animated: animated)
         }
     }
 
     @MainActor
-    private func runReload(animated: Bool) async {
-        if needsPlaylistReload {
-            let reloaded = await fetchPlaylist()
+    private func refresh(animated: Bool) async {
+        if isPlaylistReloadNeeded {
+            let playlist = await fetchPlaylist()
             guard !Task.isCancelled else { return }
-            needsPlaylistReload = false
-            if let reloaded {
-                playlist = reloaded
-                playlistName = reloaded.playlistName
+            isPlaylistReloadNeeded = false
+            if let playlist {
+                self.playlist = playlist
+                playlistName = playlist.playlistName
             }
         }
 
