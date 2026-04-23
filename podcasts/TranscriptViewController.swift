@@ -21,6 +21,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var autoScrollBackWorkItem: DispatchWorkItem?
     private static let autoScrollBackDelay: TimeInterval = 5.0
 
+    // `playbackProgress` fires roughly once per second, which means the highlight
+    // can land up to ~1s after a cue boundary. Drive updates off the display
+    // refresh instead so transitions land within one frame (~16ms at 60Hz).
+    // The cue-equality guard inside updateTranscriptPosition makes each tick
+    // effectively free when nothing has changed.
+    private var highlightDisplayLink: CADisplayLink?
+
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
@@ -73,16 +80,40 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startHighlightPollTimer()
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
         cancelAutoScrollBack()
+        stopHighlightPollTimer()
     }
 
     deinit {
         autoScrollBackWorkItem?.cancel()
+        highlightDisplayLink?.invalidate()
+    }
+
+    private func startHighlightPollTimer() {
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        stopHighlightPollTimer()
+        let link = CADisplayLink(target: self, selector: #selector(highlightTick))
+        link.add(to: .main, forMode: .common)
+        highlightDisplayLink = link
+    }
+
+    private func stopHighlightPollTimer() {
+        highlightDisplayLink?.invalidate()
+        highlightDisplayLink = nil
+    }
+
+    @objc private func highlightTick() {
+        updateTranscriptPosition()
     }
 
     func didDisappear() {
@@ -780,7 +811,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
 
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+        let currentCue = transcript.firstCue(containing: position)
+
+        if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
@@ -788,6 +821,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 let scrollRange = NSRange(location: range.location, length: range.length * 2)
                 transcriptView.scrollRangeToVisible(scrollRange)
             }
+            #if DEBUG
+            let intoCue = position - cue.startTime
+            FileLog.shared.addMessage(
+                "[transcript-offset] playback=\(String(format: "%.3f", rawTime))" +
+                " reference=\(String(format: "%.3f", position))" +
+                " cue=[\(String(format: "%.3f", cue.startTime))..\(String(format: "%.3f", cue.endTime))]" +
+                " intoCue=\(String(format: "%+.3f", intoCue))"
+            )
+            #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
