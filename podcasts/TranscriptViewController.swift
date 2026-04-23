@@ -28,6 +28,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     // effectively free when nothing has changed.
     private var highlightDisplayLink: CADisplayLink?
 
+    // Cursor into `transcript.cues` used by `currentCue(at:)` to avoid an O(n)
+    // linear scan on every display-link tick. Valid while the active cue is at
+    // or ahead of this index; reset when a new transcript is loaded.
+    private var cachedCueIndex: Int = 0
+
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
@@ -697,6 +702,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func show(transcript: TranscriptModel, resetPosition: Bool) {
         setupShowTranscriptState()
         previousRange = nil
+        cachedCueIndex = 0
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
@@ -807,7 +813,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
 
-        let currentCue = transcript.firstCue(containing: position)
+        let currentCue = currentCue(at: position, in: transcript.cues)
 
         if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
@@ -823,6 +829,39 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
             }
         }
+    }
+
+    // Resolves the cue containing `position` in O(1) amortized for normal
+    // forward playback by starting from `cachedCueIndex` rather than scanning
+    // from the beginning on every display-link tick. Falls back to a full
+    // scan only on backward seeks.
+    private func currentCue(at position: Double, in cues: [TranscriptCue]) -> TranscriptCue? {
+        guard !cues.isEmpty else { return nil }
+        let cached = min(cachedCueIndex, cues.count - 1)
+
+        if cues[cached].contains(timeInSeconds: position) {
+            return cues[cached]
+        }
+
+        // Backward seek — match the original `first { contains }` semantics
+        // so overlapping cues resolve to the earliest match.
+        if position < cues[cached].startTime {
+            if let idx = cues.firstIndex(where: { $0.contains(timeInSeconds: position) }) {
+                cachedCueIndex = idx
+                return cues[idx]
+            }
+            return nil
+        }
+
+        var i = cached + 1
+        while i < cues.count, cues[i].startTime <= position {
+            if cues[i].contains(timeInSeconds: position) {
+                cachedCueIndex = i
+                return cues[i]
+            }
+            i += 1
+        }
+        return nil
     }
 
     // MARK: - Auto-scroll back to highlight
