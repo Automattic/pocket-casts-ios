@@ -39,7 +39,7 @@ extension MediaFileHandle {
     func fileSize() throws -> Int {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
-            return attributes[.size] as? Int ?? 0
+            return (attributes[.size] as? NSNumber)?.intValue ?? 0
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: Failed to read file size of [\(filePath)] error: \(error)")
             throw error
