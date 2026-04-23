@@ -48,4 +48,21 @@ enum FingerprintConstants {
     /// Number of consecutive rate-≈1 candidates required to establish the first
     /// trusted anchor before we have one to project from.
     static let driftBootstrapCount: Int = 3
+
+    /// Minimum matcher score for a match to even reach the drift filter. This is
+    /// stricter than `matchScoreThreshold` on purpose: `matchScoreThreshold` is
+    /// the matcher's minimum-confidence floor, this is the filter's "is this
+    /// actually a good enough match to build a mapping on" bar. Set high enough
+    /// that low-confidence hits in non-matching audio (ads, music beds, intros
+    /// not in the transcript) don't feed the filter.
+    static let driftAnchorScoreThreshold: Float = 0.75
+
+    /// Minimum score gap between the top-1 and top-2 matcher candidates for a
+    /// window. Real audio matches have a unique winner — top-1 scores much
+    /// higher than top-2 because only one region of the reference truly lines
+    /// up. Spurious matches from non-matching audio score similarly against
+    /// several nearby reference windows (weak evidence smeared across the
+    /// reference), so the gap is small. Rejecting those avoids admitting
+    /// correlated false positives produced by overlapping query windows.
+    static let driftScoreDominanceGap: Float = 0.15
 }

@@ -535,27 +535,48 @@ final class FingerprintTimingManager: NSObject {
         var scoreSum: Float = 0
 
         for window in windows {
+            // Pull top-2 so we can check how dominant the winner is — ambiguous
+            // wins (top-1 barely beats top-2) are the hallmark of correlated
+            // false positives from non-matching audio.
             let matches = ctx.matcher.findTopMatches(
                 queryHashes: window.hashes,
-                maxResults: 1
+                maxResults: 2
             )
-            if let best = matches.first {
-                if best.score > 0 {
-                    nonZeroScoreCount += 1
-                    scoreSum += best.score
-                }
-                if best.score > bestScoreOverall { bestScoreOverall = best.score }
+            guard let best = matches.first else { continue }
 
-                if best.score >= FingerprintConstants.matchScoreThreshold {
-                    let absolutePlaybackTime = startOffset + Double(window.timestampMs) / 1000.0
-                    let candidate = TimeMappingEntry(
-                        playbackTime: absolutePlaybackTime,
-                        referenceTime: Double(best.timestamp),
-                        score: best.score
-                    )
-                    inserted += consider(candidate: candidate)
-                }
+            if best.score > 0 {
+                nonZeroScoreCount += 1
+                scoreSum += best.score
             }
+            if best.score > bestScoreOverall { bestScoreOverall = best.score }
+            guard best.score >= FingerprintConstants.matchScoreThreshold else { continue }
+
+            let absolutePlaybackTime = startOffset + Double(window.timestampMs) / 1000.0
+            let candidate = TimeMappingEntry(
+                playbackTime: absolutePlaybackTime,
+                referenceTime: Double(best.timestamp),
+                score: best.score
+            )
+
+            // Pre-filter gates. Low-score and ambiguous matches are recorded as
+            // rejections so the debug overlay can visualize "matcher fired but
+            // we didn't trust it" distinctly from "matcher never fired here".
+            if best.score < FingerprintConstants.driftAnchorScoreThreshold {
+                recordRejection(candidate, reason: "low score \(String(format: "%.2f", best.score))")
+                continue
+            }
+            let runnerUpScore = matches.dropFirst().first?.score ?? 0
+            let dominance = best.score - runnerUpScore
+            if dominance < FingerprintConstants.driftScoreDominanceGap {
+                recordRejection(
+                    candidate,
+                    reason: "ambiguous top-1 vs top-2 "
+                        + "(\(String(format: "%.2f", best.score)) vs \(String(format: "%.2f", runnerUpScore)))"
+                )
+                continue
+            }
+
+            inserted += consider(candidate: candidate)
         }
 
         let coverage = playbackToReference.count
