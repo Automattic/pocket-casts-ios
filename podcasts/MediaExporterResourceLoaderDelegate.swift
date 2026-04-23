@@ -277,9 +277,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             }
             for loadingRequest in pendingRequests {
                 fillInContentInformationRequest(loadingRequest.contentInformationRequest)
-                if let dataRequest = loadingRequest.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) {
-                    loadingRequest.finishLoading()
-                    requestsFulfilled.insert(loadingRequest)
+                if let dataRequest = loadingRequest.dataRequest {
+                    if try haveEnoughDataToFulfillRequest(dataRequest) {
+                        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Finish Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+                        loadingRequest.finishLoading()
+                        requestsFulfilled.insert(loadingRequest)
+                    } else {
+                        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Partial Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+                    }
                 } else if loadingRequest.dataRequest == nil {
                     loadingRequest.finishLoading()
                     requestsFulfilled.insert(loadingRequest)
