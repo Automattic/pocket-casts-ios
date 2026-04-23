@@ -460,6 +460,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.stop()
+        }
         #if DEBUG
         debugTimer?.invalidate()
         debugTimer = nil

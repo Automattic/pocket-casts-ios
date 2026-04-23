@@ -90,6 +90,19 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Cancel any in-flight reference fetch and streaming fingerprint work, discard
+    /// the current context and mappings, and return to `.idle`. Called when the
+    /// transcript view is torn down so we don't keep burning CPU/memory on audio
+    /// the listener is no longer looking at.
+    func stop() {
+        queue.async { [weak self] in
+            guard let self else { return }
+            self.resetState()
+            self.updateState(.idle)
+            FileLog.shared.addMessage("FingerprintTimingManager: stopped")
+        }
+    }
+
     /// When an episode download completes while the transcript flow has already requested
     /// preparation, retry. If we previously gave up because no local file existed, or were
     /// processing a partial streaming buffer, we now have a complete file to fingerprint.
