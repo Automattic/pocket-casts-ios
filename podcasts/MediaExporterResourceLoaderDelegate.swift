@@ -335,7 +335,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             currentOffset = Int(dataRequest.currentOffset)
         }
 
-        return bytesCached >= requestedLength + requestedOffset
+        return currentOffset >= requestedLength + requestedOffset
     }
 
     private func writeBufferDataToFileIfNeeded() {
