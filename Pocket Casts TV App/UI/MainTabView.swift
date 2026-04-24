@@ -1,0 +1,137 @@
+import SwiftUI
+
+enum MainTab: Int, CaseIterable, Identifiable {
+    case home = 0
+    case podcasts
+    case playlists
+    case upNext
+    case search
+
+    var id: Int { return self.rawValue }
+
+    var title: String? {
+        switch self {
+        case .home: "Home"
+        case .podcasts: "Your Podcasts"
+        case .playlists: "Playlists"
+        case .upNext: "Up Next"
+        case .search: nil
+        }
+    }
+
+    var icon: String? {
+        switch self {
+        case .search: "magnifyingglass"
+        default: nil
+        }
+    }
+}
+
+struct ContentView: View {
+    let tab: MainTab
+
+    var body: some View {
+        if let title = tab.title {
+            CenterButton(title: title)
+        }
+    }
+}
+
+struct CenterButton: View {
+    let title: String
+
+    var body: some View {
+        VStack {
+            Spacer()
+            Button(title) {
+
+            }
+            Spacer()
+        }
+    }
+}
+
+struct MainTabView: View {
+
+    @State private var selection: MainTab = .home
+    @Namespace private var tabBarNamespace
+    @FocusState private var focusedArea: FocusArea?
+
+    enum FocusArea: Hashable {
+        case tabBar
+        case profile
+        case content
+    }
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            TabView(selection: $selection) {
+                ForEach(MainTab.allCases) { tab in
+                    Tab(value: tab) {
+                        ContentView(tab: tab)
+                    } label: {
+                        Label {
+                            if let title = tab.title { Text(title) }
+                        } icon: {
+                            if let icon = tab.icon { Image(systemName: icon) }
+                        }
+                    }
+                }
+            }
+            .focused($focusedArea, equals: .tabBar)
+            rightAccessory
+        }.overlay(alignment: .topLeading) {
+            leftAccessory
+        }.onAppear {
+            focusedArea = .tabBar
+        }
+        // Intercept right-swipe from tab bar to profile
+        .onMoveCommand { direction in
+            handleMove(direction)
+        }
+        .ignoresSafeArea()
+    }
+
+    private func handleMove(_ direction: MoveCommandDirection) {
+        switch (focusedArea, direction) {
+        case (.tabBar, .right):
+            // Only jump to profile if we're on the rightmost tab
+            if selection == MainTab.allCases.last {
+                focusedArea = .profile
+            }
+        case (.profile, .left):
+            focusedArea = .tabBar
+        default:
+            break
+        }
+    }
+
+    var rightAccessory: some View {
+        Button() {
+
+        } label: {
+            Image("user-placeholder")
+        }
+        .buttonStyle(.card)
+        .focused($focusedArea, equals: .profile)
+        .padding(.top, 50)
+        .padding(.trailing, 84)
+        .focusSection()
+    }
+
+    var leftAccessory: some View {
+        VStack(alignment: .leading) {
+            Spacer().frame(height: 40)
+            HStack {
+                Spacer().frame(width: 84)
+                Image("pc-logo")
+                Spacer()
+            }.frame(height: 78)
+            Spacer()
+        }
+    }
+}
+
+#Preview {
+    MainTabView()
+}

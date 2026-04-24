@@ -4,7 +4,7 @@ import SwiftUI
 struct PocketCastsTVApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
