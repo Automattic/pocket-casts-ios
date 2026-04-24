@@ -54,7 +54,6 @@ struct CenterButton: View {
 struct MainTabView: View {
 
     @State private var selection: MainTab = .home
-    @Namespace private var tabBarNamespace
     @FocusState private var focusedArea: FocusArea?
 
     enum FocusArea: Hashable {
