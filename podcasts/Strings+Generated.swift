@@ -4235,7 +4235,7 @@ internal enum L10n {
   internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
     return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1), fallback: "Sorry, but this transcript format is not supported: %1$@")
   }
-  /// Toast shown when the user taps inside the transcript of a streaming (not-yet-downloaded) episode. Tap-to-seek requires a fully downloaded file.
+  /// Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target.
   internal static var transcriptTapToSeekStreamingUnavailable: String { return L10n.tr("Localizable", "transcript_tap_to_seek_streaming_unavailable", fallback: "Tap to seek not available while streaming") }
   /// Label indicating that the trial period for the subscription or promotion has ended.
   internal static var trialFinished: String { return L10n.tr("Localizable", "trial_finished", fallback: "Trial Finished") }

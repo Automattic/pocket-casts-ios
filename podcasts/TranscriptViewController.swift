@@ -930,23 +930,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
-        let coveredPlaybackTime = FingerprintTimingManager.shared.playbackTimeIfCovered(forReferenceTime: referenceTime)
-
-        if coveredPlaybackTime == nil,
-           FeatureFlag.syncedTranscripts.enabled,
-           let episode = PlaybackManager.shared.currentEpisode(),
-           !episode.downloaded(pathFinder: DownloadManager.shared) {
+        guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
-        }
-
-        let seekTime: TimeInterval
-        if let coveredPlaybackTime {
-            seekTime = coveredPlaybackTime
-        } else if let extrapolated = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) {
-            seekTime = extrapolated
-        } else {
-            seekTime = referenceTime
         }
 
         playbackManager.seekTo(time: seekTime)

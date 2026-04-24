@@ -241,28 +241,6 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Strict-range variant of `playbackTime(forReferenceTime:)`. Returns `nil`
-    /// when `referenceTime` falls outside the already-mapped range instead of
-    /// extrapolating with an identity offset. Use this for tap-to-seek where a
-    /// wrong guess would land the listener in the wrong place.
-    func playbackTimeIfCovered(forReferenceTime referenceTime: Double) -> Double? {
-        dispatchPrecondition(condition: .notOnQueue(queue))
-        return queue.sync {
-            guard let first = referenceToPlayback.first,
-                  let last = referenceToPlayback.last,
-                  referenceTime >= first.referenceTime,
-                  referenceTime <= last.referenceTime else {
-                return nil
-            }
-            return Self.interpolate(
-                time: referenceTime,
-                in: referenceToPlayback,
-                keyPath: \.referenceTime,
-                valuePath: \.playbackTime
-            )
-        }
-    }
-
     #if DEBUG
     var totalDuration: Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
