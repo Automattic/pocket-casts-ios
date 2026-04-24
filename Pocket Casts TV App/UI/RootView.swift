@@ -2,12 +2,17 @@ import SwiftUI
 
 @Observable
 class RootViewModel {
-    var isLoading: Bool = false
-    var isSignedIn: Bool = false
+    enum State {
+        case loading
+        case welcome
+        case browsing
+        case signed
+    }
+
+    var state: State = .welcome
 
     init() {
-        isLoading = false
-        isSignedIn = true
+
     }
 }
 
@@ -15,18 +20,17 @@ struct RootView: View {
     @State private var viewModel = RootViewModel()
 
     var body: some View {
-        if viewModel.isLoading {
+        switch viewModel.state{
+        case .loading:
             VStack {
                 Spacer()
                 ProgressView()
                 Spacer()
             }
-        } else {
-            if viewModel.isSignedIn {
-                MainTabView()
-            } else {
-                LoginView()
-            }
+        case .welcome:
+            WelcomeView().environment(viewModel)
+        case .browsing, .signed:
+            MainTabView()
         }
     }
 }
