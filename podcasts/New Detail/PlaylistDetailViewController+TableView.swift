@@ -21,9 +21,8 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     @objc private func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             let touchPoint = sender.location(in: tableView)
-            let section = viewModel.index(for: .episodes)
             guard let indexPath = tableView.indexPathForRow(at: touchPoint),
-                  indexPath.section == section,
+                  sectionModel(at: indexPath.section) == .episodes,
                   let episode = viewModel.episodes[safe: indexPath.row]?.episode,
                   episode.wasDeleted == false else { return }
             if isMultiSelectEnabled {
@@ -52,17 +51,6 @@ extension PlaylistDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == viewModel.index(for: .header) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistHeaderViewCell.reuseIdentifier, for: indexPath) as! PlaylistHeaderViewCell
-            cell.configure(viewModel: viewModel)
-            return cell
-        }
-
-        guard let itemAtRow = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
-            FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
-            return UITableViewCell()
-        }
-
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
             guard let self = self else { return }
 
@@ -71,9 +59,17 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             self.viewModel.reloadEpisodeList(animated: true)
         }
 
-        if let placeholder = itemAtRow as? PlaylistArchiveViewCellPlaceholder,
-           viewModel.isManualPlaylist,
-           indexPath.section == viewModel.index(for: .archive) {
+        switch sectionModel(at: indexPath.section) {
+        case .header:
+            let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistHeaderViewCell.reuseIdentifier, for: indexPath) as! PlaylistHeaderViewCell
+            cell.configure(viewModel: viewModel)
+            return cell
+
+        case .archive:
+            guard let placeholder = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? PlaylistArchiveViewCellPlaceholder else {
+                FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+                return UITableViewCell()
+            }
             if viewModel.archivedEpisodesCount == 0 {
                 return tableView.dequeueReusableCell(withIdentifier: DummyEmptyCell.reuseIdentifier, for: indexPath) as! DummyEmptyCell
             }
@@ -89,42 +85,52 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistArchiveViewCell.reuseIdentifier, for: indexPath) as! PlaylistArchiveViewCell
             cell.configure(archivedEpisodesCount: placeholder.archived, isSelected: isSelected)
             return cell
-        }
 
-        if itemAtRow is NoSearchResultsPlaceholder {
-            return configuredEmptyCell(
-                for: tableView,
-                at: indexPath,
-                title: L10n.discoverNoEpisodesFound,
-                message: L10n.discoverNoPodcastsFoundMsg
-            )
-        } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
-            return configuredEmptyCell(
-                for: tableView,
-                at: indexPath,
-                title: FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle,
-                message: archivedPlaceholder.message,
-                actions: [
-                    .init(title: FeatureFlag.playlistsRebranding.enabled ? L10n.podcastShowArchived.sentenceCased : L10n.podcastShowArchived, action: { [weak self] in
-                        self?.track(.filterShowArchivedCtaEmptyTapped)
-                        onToggleChange(true)
-                    })
-                ]
-            )
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
-        cell.episodeImageLeadConstraint.constant = 16.0
-        cell.playlist = .filter(uuid: viewModel.playlist.uuid)
-        cell.delegate = self
-        if let listEpisode = itemAtRow as? ListEpisode {
-            cell.populateFrom(episode: listEpisode.episode, tintColor: nil, playlistUuid: viewModel.playlist.uuid)
-            cell.shouldShowSelect = isMultiSelectEnabled
-            if isMultiSelectEnabled {
-                cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
+        case .episodes:
+            guard let itemAtRow = viewModel.dataSource[safe: indexPath.section]?.elements[safe: indexPath.row] as? ListItem else {
+                FileLog.shared.addMessage("Playlist Detail tableView: missing ListItem in section \(indexPath.section), row \(indexPath.row)")
+                return UITableViewCell()
             }
+
+            if itemAtRow is NoSearchResultsPlaceholder {
+                return configuredEmptyCell(
+                    for: tableView,
+                    at: indexPath,
+                    title: L10n.discoverNoEpisodesFound,
+                    message: L10n.discoverNoPodcastsFoundMsg
+                )
+            } else if let archivedPlaceholder = itemAtRow as? AllArchivedPlaceholder {
+                return configuredEmptyCell(
+                    for: tableView,
+                    at: indexPath,
+                    title: FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle,
+                    message: archivedPlaceholder.message,
+                    actions: [
+                        .init(title: FeatureFlag.playlistsRebranding.enabled ? L10n.podcastShowArchived.sentenceCased : L10n.podcastShowArchived, action: { [weak self] in
+                            self?.track(.filterShowArchivedCtaEmptyTapped)
+                            onToggleChange(true)
+                        })
+                    ]
+                )
+            }
+
+            let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellIdentifier, for: indexPath) as! EpisodeCell
+            cell.episodeImageLeadConstraint.constant = 16.0
+            cell.playlist = .filter(uuid: viewModel.playlist.uuid)
+            cell.delegate = self
+            if let listEpisode = itemAtRow as? ListEpisode {
+                cell.populateFrom(episode: listEpisode.episode, tintColor: nil, playlistUuid: viewModel.playlist.uuid)
+                cell.shouldShowSelect = isMultiSelectEnabled
+                if isMultiSelectEnabled {
+                    cell.showTick = selectedEpisodesContains(uuid: listEpisode.episode.uuid)
+                }
+            }
+            return cell
+
+        case .none:
+            FileLog.shared.addMessage("Playlist Detail tableView: unknown section \(indexPath.section)")
+            return UITableViewCell()
         }
-        return cell
     }
 
     private func configuredEmptyCell(
@@ -151,20 +157,18 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
 extension PlaylistDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewModel.isManualPlaylist, indexPath.section == viewModel.index(for: .archive) {
+        if sectionModel(at: indexPath.section) == .archive {
             return viewModel.archivedEpisodesCount == 0 ? 1 : 49.0
         }
         return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let searchSection: PlaylistDetailViewModel.Section = viewModel.isManualPlaylist ? .archive : .episodes
-        return section == viewModel.index(for: searchSection) ? searchHeaderView : nil
+        return sectionModel(at: section) == searchHeaderSection ? searchHeaderView : nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let searchSection: PlaylistDetailViewModel.Section = viewModel.isManualPlaylist ? .archive : .episodes
-        return section == viewModel.index(for: searchSection) ? PCSearchBarController.defaultHeight : 0
+        return sectionModel(at: section) == searchHeaderSection ? PCSearchBarController.defaultHeight : 0
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -178,11 +182,11 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     // MARK: - Selection
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.section == viewModel.index(for: .episodes)
+        return sectionModel(at: indexPath.section) == .episodes
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.section != viewModel.index(for: .episodes) { return nil }
+        if sectionModel(at: indexPath.section) != .episodes { return nil }
         if tableView.isEditing,
            let episode = viewModel.episodes[safe: indexPath.row]?.episode,
            episode.wasDeleted {
@@ -197,7 +201,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section != viewModel.index(for: .episodes) { return }
+        if sectionModel(at: indexPath.section) != .episodes { return }
         guard let selectedEpisode = viewModel.episodes[safe: indexPath.row]?.episode, let parentPodcast = selectedEpisode.parentPodcast() else { return }
 
         if isMultiSelectEnabled {
@@ -245,7 +249,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if indexPath.section != viewModel.index(for: .episodes) { return }
+        if sectionModel(at: indexPath.section) != .episodes { return }
         guard isMultiSelectEnabled else { return }
         if let listEpisode = viewModel.episodes[safe: indexPath.row], let index = selectedEpisodes.firstIndex(of: listEpisode) {
             selectedEpisodes.remove(at: index)
@@ -258,7 +262,7 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     // MARK: - multi select support
 
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        if indexPath.section != viewModel.index(for: .episodes) { return false }
+        if sectionModel(at: indexPath.section) != .episodes { return false }
         if let episode = viewModel.episodes[safe: indexPath.row]?.episode, episode.wasDeleted {
             return false
         }
@@ -266,13 +270,23 @@ extension PlaylistDetailViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
-        if indexPath.section != viewModel.index(for: .episodes) { return }
+        if sectionModel(at: indexPath.section) != .episodes { return }
         isMultiSelectEnabled = true
         multiSelectGestureInProgress = true
     }
 
     func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
         multiSelectGestureInProgress = false
+    }
+}
+
+private extension PlaylistDetailViewController {
+    func sectionModel(at index: Int) -> PlaylistDetailViewModel.Section? {
+        viewModel.dataSource[safe: index]?.model
+    }
+
+    var searchHeaderSection: PlaylistDetailViewModel.Section {
+        viewModel.isManualPlaylist ? .archive : .episodes
     }
 }
 

@@ -30,8 +30,7 @@ class PlaylistDetailViewModel: ObservableObject {
     let episodesDataManager: EpisodesDataManager
 
     var episodes: [ListEpisode] {
-        let index = index(for: .episodes)
-        return dataSource[safe: index]?.elements as? [ListEpisode] ?? []
+        dataSource.first(where: { $0.model == .episodes })?.elements as? [ListEpisode] ?? []
     }
 
     var isManualPlaylist: Bool {
@@ -211,17 +210,6 @@ class PlaylistDetailViewModel: ObservableObject {
         dataManager.save(playlist: playlist)
     }
 
-    func index(for section: Section) -> Int {
-        switch section {
-        case .header:
-            return 0
-        case .archive:
-            return 1
-        case .episodes:
-            return isManualPlaylist ? 2 : 1
-        }
-    }
-
     private func buildChangeSet(
         source: [ListEpisode],
         newData: [ListEpisode]
@@ -335,25 +323,22 @@ class PlaylistDetailViewModel: ObservableObject {
 extension PlaylistDetailViewModel {
     func clearSearch() {
         searchTerm = ""
-        let index = index(for: .episodes)
-        dataSource[index] = ArraySection(
-            model: .episodes,
-            elements: tempEpisodes
-        )
+        replaceEpisodesSection(with: tempEpisodes)
         reloadEpisodeList()
     }
 
     func endSearch() {
         isSearching = false
         searchTerm = ""
-        let index = index(for: .episodes)
-        dataSource[index] = ArraySection(
-            model: .episodes,
-            elements: tempEpisodes
-        )
+        replaceEpisodesSection(with: tempEpisodes)
         tempEpisodes.removeAll()
 
         reloadPlaylistAndEpisodes()
+    }
+
+    private func replaceEpisodesSection(with episodes: [ListEpisode]) {
+        guard let index = dataSource.firstIndex(where: { $0.model == .episodes }) else { return }
+        dataSource[index] = ArraySection(model: .episodes, elements: episodes)
     }
 
     func startSearch() {
