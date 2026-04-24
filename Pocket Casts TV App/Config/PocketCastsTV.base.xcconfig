@@ -1,5 +1,8 @@
 #include "../../config/PocketCasts.base.xcconfig"
 
+// tvOS tracks its own marketing version — still early-days, so we don't piggyback on the iOS `VERSION_SHORT` release automation.
+MARKETING_VERSION = 0.1
+
 SDKROOT = appletvos
 TVOS_DEPLOYMENT_TARGET = 26.0
 TARGETED_DEVICE_FAMILY = 3
