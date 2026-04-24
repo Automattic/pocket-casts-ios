@@ -5893,3 +5893,18 @@
 /* tv app Up Next tab */
 "tv_tab_up_next" = "Up Next";
 
+/* tv welcome title */
+"tv_welcome_title" = "Welcome to Pocket Casts TV";
+
+/* tv welcome subtitle */
+"tv_welcome_subtitle" = "Your podcasts on the big screen";
+
+/* tv welcome sign in */
+"tv_welcome_sign_in" = "Sign in";
+
+/* tv welcome create free account */
+"tv_welcome_create_free_account" = "Create free account";
+
+/* tv welcome browse without account */
+"tv_welcome_browse_without_account" = "Browse without an account";
+
