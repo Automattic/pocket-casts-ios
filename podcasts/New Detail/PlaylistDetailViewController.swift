@@ -173,7 +173,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private weak var delegate: FilterCreatedDelegate?
 
-    private lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
+    lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
         self?.reload(with: $0)
     }
 
@@ -214,6 +214,10 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
 
         track(.filterShown)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            RefreshManager.shared.refreshPodcasts { [weak self] _ in }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -453,7 +457,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                 self?.refreshControl?.alpha = 0
             }, completion: { _ in
                 self?.refreshControl?.endRefreshing()
-                self?.reloader.resume(after: .milliseconds(500)) // Reload after animations settle
+                self?.reloader.resume(after: .milliseconds(600)) // Reload after animations settle
             })
         }
     }
