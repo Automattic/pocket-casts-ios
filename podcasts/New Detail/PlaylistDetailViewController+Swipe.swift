@@ -31,7 +31,7 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
     }
 
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
-        reloader.pause(for: .seconds(8)) // Adding a timeout just in case
+        reloader.pause(for: .seconds(8)) // Adding a timeout just in case calling `resume` for whatever reason
     }
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
