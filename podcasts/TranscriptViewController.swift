@@ -184,7 +184,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            overlay.heightAnchor.constraint(equalToConstant: 12)
+            overlay.heightAnchor.constraint(equalToConstant: 16)
         ])
         debugOverlay = overlay
         #endif
@@ -460,6 +460,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.stop()
+        }
         #if DEBUG
         debugTimer?.invalidate()
         debugTimer = nil

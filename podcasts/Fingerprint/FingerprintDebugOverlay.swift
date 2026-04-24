@@ -7,12 +7,30 @@ class FingerprintDebugOverlay: UIView {
     private var totalDuration: Double = 0
     private var playbackPosition: Double = 0
 
+    private let statusLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 9, weight: .semibold)
+        label.textColor = .white
+        // swiftlint:disable:next inverse_text_alignment
+        label.textAlignment = .right
+        label.shadowColor = .black
+        label.shadowOffset = CGSize(width: 0, height: 1)
+        label.isUserInteractionEnabled = false
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
         layer.cornerRadius = 4
         clipsToBounds = true
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        addSubview(statusLabel)
+        NSLayoutConstraint.activate([
+            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
+            statusLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
 
     required init?(coder: NSCoder) {
@@ -27,6 +45,7 @@ class FingerprintDebugOverlay: UIView {
         let fingerprintDuration = FingerprintTimingManager.shared.totalDuration ?? 0
         totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration()
         playbackPosition = PlaybackManager.shared.currentTime()
+        statusLabel.text = describe(state: FingerprintTimingManager.shared.state)
         setNeedsDisplay()
     }
 
@@ -41,6 +60,11 @@ class FingerprintDebugOverlay: UIView {
         guard totalDuration > 0 else { return }
 
         let ctx = UIGraphicsGetCurrentContext()
+
+        // Backdrop spanning the whole timeline so processed-vs-remaining is visible
+        // as the full-file walk fills coverage in.
+        ctx?.setFillColor(UIColor.darkGray.withAlphaComponent(0.5).cgColor)
+        ctx?.fill(rect)
 
         for entry in entries {
             let x = CGFloat(entry.playbackTime / totalDuration) * rect.width
@@ -63,6 +87,16 @@ class FingerprintDebugOverlay: UIView {
             let px = CGFloat(playbackPosition / totalDuration) * rect.width
             ctx?.setFillColor(UIColor.white.cgColor)
             ctx?.fill(CGRect(x: px - 1, y: 0, width: 2, height: rect.height))
+        }
+    }
+
+    private func describe(state: FingerprintTimingManager.State) -> String {
+        switch state {
+        case .idle: return "idle"
+        case .preparing: return "preparing"
+        case .active(let coverage): return "active (\(coverage))"
+        case .failed: return "failed"
+        case .unavailable: return "unavailable"
         }
     }
 }
