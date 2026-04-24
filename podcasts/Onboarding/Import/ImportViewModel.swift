@@ -71,8 +71,7 @@ class ImportViewModel: OnboardingModel {
         var isSourceAvailable: Bool {
             #if targetEnvironment(simulator)
             return true
-            #endif
-
+            #else
             // Always available - Others and opml from url are always available
             // Note: Even if Apple podcasts has been uninstalled by the user, the system will always report
             // that it's installed.
@@ -85,6 +84,7 @@ class ImportViewModel: OnboardingModel {
             }
 
             return UIApplication.shared.canOpenURL(url)
+            #endif
         }
 
         var hideButton: Bool {

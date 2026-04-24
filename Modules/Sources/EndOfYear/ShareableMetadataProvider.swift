@@ -14,7 +14,7 @@ public protocol ShareableMetadataDataSource: AnyObject {
     var hashtags: [String] { get }
 }
 
-public class ShareableMetadataProvider: UIActivityItemProvider {
+public class ShareableMetadataProvider: UIActivityItemProvider, @unchecked Sendable {
     public weak var dataSource: ShareableMetadataDataSource?
 
     public init() {
