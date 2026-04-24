@@ -1041,7 +1041,17 @@ final class FingerprintTimingManager: NSObject {
         if FileManager.default.fileExists(atPath: downloadPath) {
             return .downloaded(URL(fileURLWithPath: downloadPath))
         }
-        // Two different streaming systems write to different locations:
+        // A stream-downloaded episode keeps a complete file at the streaming
+        // buffer path. It isn't growing, so route it through the one-shot
+        // fingerprint path instead of the grow-loop — same path trunk took.
+        if let episode = episode as? Episode,
+           episode.streamDownloaded(pathFinder: DownloadManager.shared) {
+            let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+            if FileManager.default.fileExists(atPath: streamingPath) {
+                return .downloaded(URL(fileURLWithPath: streamingPath))
+            }
+        }
+        // Active streaming: the file is either absent or still growing.
         // `MediaExporterResourceLoaderDelegate` (stream-and-cache, default on)
         // writes to `tempPathForEpisode`, while the legacy URLSession path writes
         // to `streamingBufferPathForEpisode`. Prefer whichever file already
