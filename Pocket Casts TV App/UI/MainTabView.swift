@@ -27,7 +27,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
     }
 }
 
-struct ContentView: View {
+struct MainTabContentView: View {
     let tab: MainTab
 
     var body: some View {
@@ -54,7 +54,6 @@ struct CenterButton: View {
 struct MainTabView: View {
 
     @State private var selection: MainTab = .home
-    @Namespace private var tabBarNamespace
     @FocusState private var focusedArea: FocusArea?
 
     enum FocusArea: Hashable {
@@ -68,7 +67,7 @@ struct MainTabView: View {
             TabView(selection: $selection) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        ContentView(tab: tab)
+                        MainTabContentView(tab: tab)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
@@ -107,7 +106,7 @@ struct MainTabView: View {
     }
 
     var rightAccessory: some View {
-        Button() {
+        Button {
 
         } label: {
             Image("user-placeholder")

@@ -6,7 +6,7 @@ class RootViewModel {
         case loading
         case welcome
         case browsing
-        case signed
+        case signedIn
     }
 
     var state: State = .welcome
@@ -20,7 +20,7 @@ struct RootView: View {
     @State private var viewModel = RootViewModel()
 
     var body: some View {
-        switch viewModel.state{
+        switch viewModel.state {
         case .loading:
             VStack {
                 Spacer()
@@ -29,7 +29,7 @@ struct RootView: View {
             }
         case .welcome:
             WelcomeView().environment(viewModel)
-        case .browsing, .signed:
+        case .browsing, .signedIn:
             MainTabView()
         }
     }
