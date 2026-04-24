@@ -316,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// This does not control automatic crash reporting.
     case watchSentryLogs
 
+    /// Guard playedUpTo sync writes with playedUpToModified timestamp to prevent stale remote positions from overwriting newer local progress
+    case syncPlayedUpToTimestampCheck
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -530,6 +533,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .watchSentryLogs:
             false
+        case .syncPlayedUpToTimestampCheck:
+            true
         }
     }
 

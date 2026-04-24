@@ -228,10 +228,21 @@ extension SyncTask {
 
         if episodeItem.hasPlayedUpTo, Int64(episode.playedUpTo) != episodeItem.playedUpTo.value {
             let playedUpTo = Double(episodeItem.playedUpTo.value)
-            DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
+
+            let shouldApply: Bool
+            if FeatureFlag.syncPlayedUpToTimestampCheck.enabled {
+                let remoteModified = episodeItem.hasPlayedUpToModified ? episodeItem.playedUpToModified.value : 0
+                shouldApply = DataManager.sharedManager.saveIfNotModified(playedUpTo: playedUpTo, remoteModified: remoteModified, episodeUuid: episode.uuid)
+                if !shouldApply {
+                    FileLog.shared.addMessage("importEpisode: rejected stale playedUpTo \(playedUpTo) (remoteModified \(remoteModified) not newer than local) for \(episode.displayableTitle())")
+                }
+            } else {
+                DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: false)
+                shouldApply = true
+            }
 
             // if the episode is loaded into the player, and is currently paused seek to the new up to time
-            if let delegate = ServerConfig.shared.playbackDelegate, delegate.isNowPlayingEpisode(episodeUuid: episode.uuid), !delegate.playing() {
+            if shouldApply, let delegate = ServerConfig.shared.playbackDelegate, delegate.isNowPlayingEpisode(episodeUuid: episode.uuid), !delegate.playing() {
                 if playedUpTo < 1 {
                     FileLog.shared.addMessage("Saving a time of \(playedUpTo) for episode \(episode.displayableTitle()) because that's what the server sent us during a sync")
                 }

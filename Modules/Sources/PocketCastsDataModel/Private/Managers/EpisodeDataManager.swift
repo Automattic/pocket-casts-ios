@@ -412,6 +412,26 @@ class EpisodeDataManager {
         saveFieldIfNotModified(fieldName: "deselectedChapters", modifiedFieldName: "deselectedChaptersModified", value: chapters, remoteModified: remoteModified, episodeUuid: episodeUuid, dbQueue: dbQueue)
     }
 
+    /// Atomically updates playedUpTo AND playedUpToModified only if the remote
+    /// timestamp is newer than the local one. This ensures both the value and
+    /// its recency marker are updated together, so subsequent stale remote
+    /// writes are correctly rejected.
+    func saveIfNotModified(playedUpTo: Double, remoteModified: Int64, episodeUuid: String, dbQueue: PCDBQueue) -> Bool {
+        var saved = false
+        dbQueue.write { db in
+            do {
+                try db.executeUpdate(
+                    "UPDATE \(DataManager.episodeTableName) SET playedUpTo = ?, playedUpToModified = ? WHERE uuid = ? AND playedUpToModified < ?",
+                    values: [playedUpTo, remoteModified, episodeUuid, remoteModified]
+                )
+                saved = (db.changes > 0)
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.saveIfNotModified(playedUpTo:) error: \(error)")
+            }
+        }
+        return saved
+    }
+
     func save(episode: Episode, dbQueue: PCDBQueue) {
         let isInsert = episode.id == 0
         if isInsert {
@@ -883,20 +903,35 @@ class EpisodeDataManager {
         }
     }
 
+    /// SQL fragment for columns to zero when marking episodes as synced.
+    /// When syncPlayedUpToTimestampCheck is enabled, playedUpToModified is
+    /// preserved so that the timestamp guard in importEpisode can reject stale
+    /// remote positions across sync cycles. The trade-off is that the episode
+    /// remains in unsyncedEpisodes queries and its playedUpTo will be re-sent
+    /// in subsequent sync requests (idempotent and harmless).
+    private var markSyncedSetClause: String {
+        if FeatureFlag.syncPlayedUpToTimestampCheck.enabled {
+            return "playingStatusModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0"
+        } else {
+            return "playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0"
+        }
+    }
+
     func markAllSynced(episodes: [Episode], dbQueue: PCDBQueue) {
         if episodes.isEmpty {
             return
         }
 
+        let setClause = markSyncedSetClause
         dbQueue.write { db in
             do {
                 db.beginTransaction()
                 if FeatureFlag.markAllSyncedInSingleStatement.enabled {
                     let ids = episodes.map({"\($0.id)"})
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id IN (\(ids.joined(separator: ",")))", values: nil)
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setClause) WHERE id IN (\(ids.joined(separator: ",")))", values: nil)
                 } else {
                     for episode in episodes {
-                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE id = ?", values: [episode.id])
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setClause) WHERE id = ?", values: [episode.id])
                     }
                 }
                 db.commit()
@@ -911,14 +946,15 @@ class EpisodeDataManager {
             return
         }
 
+        let setClause = markSyncedSetClause
         dbQueue.write { db in
             do {
                 db.beginTransaction()
                 if FeatureFlag.markAllSyncedInSingleStatement.enabled {
-                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid IN (\(ids.map { "'\($0)'"}.joined(separator: ",")))", values: nil)
+                    try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setClause) WHERE uuid IN (\(ids.map { "'\($0)'"}.joined(separator: ",")))", values: nil)
                 } else {
                     for episodeId in ids {
-                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET playingStatusModified = 0, playedUpToModified = 0, durationModified = 0, keepEpisodeModified = 0, archivedModified = 0 WHERE uuid = ?", values: ["'\(episodeId)'"])
+                        try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(setClause) WHERE uuid = ?", values: ["'\(episodeId)'"])
                     }
                 }
                 db.commit()
