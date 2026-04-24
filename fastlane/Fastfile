@@ -61,10 +61,8 @@ DEFAULT_BRANCH = 'trunk'
 SCHEME = 'pocketcasts'
 SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
 SCHEME_TVOS = 'Pocket Casts TV App'
-SCHEME_ENTERPRISE_TVOS = 'Pocket Casts TV Prototype Build'
 
 PROTOTYPE_BUILD_NAME = 'pocket-casts-prototype'
-PROTOTYPE_BUILD_NAME_TVOS = 'pocket-casts-prototype-tvos'
 
 # Instanstiate versioning classes
 VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
@@ -101,7 +99,6 @@ BUNDLE_IDENTIFIERS_ENTERPRISE = [
 # The tvOS app shares the root bundle identifiers with iOS and currently has no extensions,
 # but it needs its own `match` profiles because code signing is scoped by platform.
 BUNDLE_IDENTIFIERS_APP_STORE_TVOS = [APP_BUNDLE_IDENTIFIER_APP_STORE].freeze
-BUNDLE_IDENTIFIERS_ENTERPRISE_TVOS = [APP_BUNDLE_IDENTIFIER_ENTERPRISE].freeze
 
 ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_KEY_ID
@@ -277,25 +274,6 @@ platform :ios do
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key,
       app_identifier: BUNDLE_IDENTIFIERS_APP_STORE_TVOS,
-      readonly: readonly,
-      **CODE_SIGNING_STORAGE_OPTIONS
-    )
-  end
-
-  # Download and configure code signing certificates and provisioning profiles for the tvOS Enterprise build, i.e. Prototype Builds.
-  #
-  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
-  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
-  #
-  lane :configure_code_signing_enterprise_tvos do |readonly: true|
-    require_env_vars!(*ASC_API_KEY_ENV_VARS)
-
-    sync_code_signing(
-      type: 'enterprise',
-      platform: 'tvos',
-      team_id: TEAM_ID_ENTERPRISE,
-      api_key: app_store_connect_api_key(in_house: true),
-      app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE_TVOS,
       readonly: readonly,
       **CODE_SIGNING_STORAGE_OPTIONS
     )
@@ -796,35 +774,6 @@ platform :ios do
       xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
       output_directory: ARTIFACTS_FOLDER,
       output_name: PROTOTYPE_BUILD_NAME,
-      export_options: {
-        method: 'enterprise',
-        manageAppVersionAndBuildNumber: false
-      }
-    )
-  end
-
-  # Builds the tvOS app binary for Enterprise distribution (Prototype Build)
-  #
-  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_enterprise_tvos` before building. Recommended on CI.
-  #
-  lane :build_enterprise_tvos do |set_up_code_signing: true|
-    if set_up_code_signing
-      configure_code_signing_enterprise_tvos
-    else
-      UI.message('Skipping fetch certificates and provisioning profiles as requested.')
-    end
-
-    build_number = ENV.fetch('BUILDKITE_BUILD_NUMBER', '0')
-    pr_or_branch = pull_request_number&.then { |num| "PR ##{num}" } || ENV.fetch('BUILDKITE_BRANCH', nil)
-
-    build_app(
-      scheme: SCHEME_ENTERPRISE_TVOS,
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      xcargs: { VERSION_SHORT: pr_or_branch, VERSION_LONG: build_number },
-      output_directory: ARTIFACTS_FOLDER,
-      output_name: PROTOTYPE_BUILD_NAME_TVOS,
       export_options: {
         method: 'enterprise',
         manageAppVersionAndBuildNumber: false
