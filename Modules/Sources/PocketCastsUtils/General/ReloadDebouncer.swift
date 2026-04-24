@@ -1,0 +1,93 @@
+import Foundation
+
+/// Coalesces and debounces reload requests from notification bursts, with a
+/// pause hook so callers can briefly defer flushes while UI animations run.
+/// When the pause ends, any requests that arrived in the meantime are flushed
+/// as a single call with the union of the requested scopes.
+@MainActor
+public final class ReloadDebouncer<Scope: OptionSet> {
+    private let debounce: TimeInterval
+    private let onReload: (Scope) -> Void
+    private var pending: Scope?
+    private var flushTask: Task<Void, Never>?
+    private var resumeTask: Task<Void, Never>?
+    private var isPaused = false
+
+    public init(debounce: TimeInterval = 0.1, onReload: @escaping (Scope) -> Void) {
+        self.debounce = debounce
+        self.onReload = onReload
+    }
+
+    /// Flushed with the union of requested scopes after the debounce window.
+    public func request(_ scope: Scope) {
+        if pending == nil {
+            pending = scope
+        } else {
+            pending?.formUnion(scope)
+        }
+        scheduleFlush()
+    }
+
+    /// Schedules a flush with no additional scope flags. Useful when the caller
+    /// only wants to trigger the debounced reload without narrowing scope.
+    public func request() {
+        request(Scope())
+    }
+
+    /// Suspends flushes; auto-resumes after `duration`, or stays paused until `resume()`.
+    public func pause(for duration: TimeInterval? = nil) {
+        isPaused = true
+        flushTask?.cancel()
+        flushTask = nil
+        resumeTask?.cancel()
+        resumeTask = nil
+        guard let duration else { return }
+        resumeTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(duration))
+            guard !Task.isCancelled else { return }
+            self?.resume()
+        }
+    }
+
+    /// Resumes flushing; any request queued while paused is flushed next.
+    public func resume() {
+        isPaused = false
+        resumeTask?.cancel()
+        resumeTask = nil
+        if pending != nil {
+            scheduleFlush()
+        }
+    }
+
+    /// Awaits any scheduled flush or auto-resume work. For tests.
+    func waitForIdle() async {
+        while true {
+            if let resumeTask {
+                await resumeTask.value
+                continue
+            }
+            if let flushTask {
+                await flushTask.value
+                continue
+            }
+            return
+        }
+    }
+
+    private func scheduleFlush() {
+        guard !isPaused else { return }
+        flushTask?.cancel()
+        flushTask = Task { [weak self, debounce] in
+            try? await Task.sleep(for: .seconds(debounce))
+            guard !Task.isCancelled else { return }
+            self?.flush()
+        }
+    }
+
+    private func flush() {
+        flushTask = nil
+        guard !isPaused, let scope = pending else { return }
+        pending = nil
+        onReload(scope)
+    }
+}
