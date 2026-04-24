@@ -13,12 +13,10 @@ struct WelcomeView: View {
                 .font(.headline)
                 .foregroundColor(Color.textSecondary)
             HStack {
-                Button("Sign in") { }
+                Button("Sign in") { viewModel.state = .signedIn }
                     .buttonStyle(.borderedProminent)
-                    .disabled(true)
-                Button("Create Free Account") { }
+                Button("Create Free Account") { viewModel.state = .signedIn }
                     .buttonStyle(.borderedProminent)
-                    .disabled(true)
             }
             Spacer()
             Button("Browse without an account") {
