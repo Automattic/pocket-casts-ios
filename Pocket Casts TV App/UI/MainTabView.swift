@@ -27,7 +27,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
     }
 }
 
-struct ContentView: View {
+struct MainTabContentView: View {
     let tab: MainTab
 
     var body: some View {
@@ -67,7 +67,7 @@ struct MainTabView: View {
             TabView(selection: $selection) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        ContentView(tab: tab)
+                        MainTabContentView(tab: tab)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
