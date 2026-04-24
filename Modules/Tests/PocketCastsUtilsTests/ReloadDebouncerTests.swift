@@ -12,7 +12,7 @@ struct ReloadDebouncerTests {
 
     @Test func singleRequestFiresAfterDebounce() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.request(.a)
         #expect(received == [], "Callback should not fire synchronously")
@@ -23,7 +23,7 @@ struct ReloadDebouncerTests {
 
     @Test func burstCoalescesToUnionOfScopes() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.request(.a)
         debouncer.request(.b)
@@ -35,7 +35,7 @@ struct ReloadDebouncerTests {
 
     @Test func pauseDefersFlushUntilResume() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.pause()
         debouncer.request(.a)
@@ -50,10 +50,10 @@ struct ReloadDebouncerTests {
 
     @Test func pauseWithDurationAutoResumes() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.request(.b)
-        debouncer.pause(for: 0)
+        debouncer.pause(for: .zero)
 
         await debouncer.waitForIdle()
         #expect(received == [.b])
@@ -61,7 +61,7 @@ struct ReloadDebouncerTests {
 
     @Test func resumeWithNoPendingRequestsDoesNothing() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.pause()
         debouncer.resume()
@@ -72,7 +72,7 @@ struct ReloadDebouncerTests {
 
     @Test func requestDuringPauseIsCoalescedWithLaterRequest() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: 0) { received.append($0) }
+        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
 
         debouncer.pause()
         debouncer.request(.a)

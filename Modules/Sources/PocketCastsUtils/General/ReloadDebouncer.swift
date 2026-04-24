@@ -6,14 +6,14 @@ import Foundation
 /// as a single call with the union of the requested scopes.
 @MainActor
 public final class ReloadDebouncer<Scope: OptionSet> {
-    private let debounce: TimeInterval
+    private let debounce: Duration
     private let onReload: (Scope) -> Void
     private var pending: Scope?
     private var flushTask: Task<Void, Never>?
     private var resumeTask: Task<Void, Never>?
     private var isPaused = false
 
-    public init(debounce: TimeInterval = 0.1, onReload: @escaping (Scope) -> Void) {
+    public init(debounce: Duration = .milliseconds(100), onReload: @escaping (Scope) -> Void) {
         self.debounce = debounce
         self.onReload = onReload
     }
@@ -35,7 +35,7 @@ public final class ReloadDebouncer<Scope: OptionSet> {
     }
 
     /// Suspends flushes; auto-resumes after `duration`, or stays paused until `resume()`.
-    public func pause(for duration: TimeInterval? = nil) {
+    public func pause(for duration: Duration? = nil) {
         isPaused = true
         flushTask?.cancel()
         flushTask = nil
@@ -43,7 +43,7 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         resumeTask = nil
         guard let duration else { return }
         resumeTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(duration))
+            try? await Task.sleep(for: duration)
             guard !Task.isCancelled else { return }
             self?.resume()
         }
@@ -78,7 +78,7 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         guard !isPaused else { return }
         flushTask?.cancel()
         flushTask = Task { [weak self, debounce] in
-            try? await Task.sleep(for: .seconds(debounce))
+            try? await Task.sleep(for: debounce)
             guard !Task.isCancelled else { return }
             self?.flush()
         }
