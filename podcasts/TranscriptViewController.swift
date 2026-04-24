@@ -820,7 +820,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func scrollBackToCurrentHighlight() {
-        guard !isSearching, !isUserScrolling, let previousRange else { return }
+        // Only catch up to the highlight if audio is moving. When paused, the
+        // highlight is static and yanking the view back to it would fight the
+        // user who deliberately scrolled elsewhere to read.
+        guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
         transcriptView.scrollToRange(previousRange)
     }
 
