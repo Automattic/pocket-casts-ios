@@ -6,7 +6,7 @@ import CompilerPluginSupport
 let package = Package(
     name: "Modules",
     platforms: [
-        .iOS(.v16), .watchOS(.v9), .macOS(.v10_15)
+        .iOS(.v16), .watchOS(.v9), .macOS(.v10_15), .tvOS(.v17)
     ],
     products: XcodeSupport.products + [
         .library(
@@ -185,6 +185,7 @@ enum XcodeTargetNames {
     static let podcastsIntents = "PodcastsIntents"
     static let podcastsIntentsUI = "PodcastsIntentsUI"
     static let widgetExtension = "WidgetExtension"
+    static let pocketCastsTvApp = "Pocket Casts TV App"
 }
 
 enum XcodeSupport {
@@ -197,6 +198,7 @@ enum XcodeSupport {
             XcodeTargetNames.podcastsIntents,
             XcodeTargetNames.podcastsIntentsUI,
             XcodeTargetNames.widgetExtension,
+            XcodeTargetNames.pocketCastsTvApp,
         ].map { .supportingProduct(forXcodeTarget: $0) }
     }
 
@@ -276,6 +278,12 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.pocketCastsTvApp,
+                dependencies: [
+                    "PocketCastsUtils"
                 ]
             ),
         ]
