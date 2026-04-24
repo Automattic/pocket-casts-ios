@@ -214,10 +214,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
 
         track(.filterShown)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            RefreshManager.shared.refreshPodcasts { [weak self] _ in }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
