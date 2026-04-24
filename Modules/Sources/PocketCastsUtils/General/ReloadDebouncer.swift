@@ -34,19 +34,11 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         request(Scope())
     }
 
-    /// Suspends flushes; auto-resumes after `duration`, or stays paused until `resume()`.
+    /// Suspends flushes.
     public func pause(for duration: Duration? = nil) {
         isPaused = true
         flushTask?.cancel()
         flushTask = nil
-        resumeTask?.cancel()
-        resumeTask = nil
-        guard let duration else { return }
-        resumeTask = Task { [weak self] in
-            try? await Task.sleep(for: duration)
-            guard !Task.isCancelled else { return }
-            self?.resume()
-        }
     }
 
     /// Resumes flushing; any request queued while paused is flushed next.
@@ -59,18 +51,19 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         }
     }
 
-    /// Awaits any scheduled flush or auto-resume work. For tests.
-    func waitForIdle() async {
-        while true {
-            if let resumeTask {
-                await resumeTask.value
-                continue
-            }
-            if let flushTask {
-                await flushTask.value
-                continue
-            }
-            return
+    // Suspends flushes for the given duration, then auto-resumes.
+    public func pause(for duration: Duration) {
+        pause()
+        resume(after: duration)
+    }
+
+    public func resume(after duration: Duration) {
+        guard isPaused else { return }
+        resumeTask?.cancel()
+        resumeTask = Task { [weak self] in
+            try? await Task.sleep(for: duration)
+            guard !Task.isCancelled else { return }
+            self?.resume()
         }
     }
 
@@ -89,5 +82,21 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         guard !isPaused, let scope = pending else { return }
         pending = nil
         onReload(scope)
+    }
+
+
+    /// Awaits any scheduled flush or auto-resume work. For tests.
+    func waitForIdle() async {
+        while true {
+            if let resumeTask {
+                await resumeTask.value
+                continue
+            }
+            if let flushTask {
+                await flushTask.value
+                continue
+            }
+            return
+        }
     }
 }
