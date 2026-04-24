@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -171,6 +172,10 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private weak var delegate: FilterCreatedDelegate?
+
+    private lazy var reloadDebouncer = ReloadDebouncer<PlaylistReloadScope> { [weak self] in
+        self?.reload(with: $0)
+    }
 
     init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
         self.delegate = delegate
@@ -462,12 +467,20 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        reloadNavTitle()
-        viewModel.reloadPlaylistAndEpisodes()
+        reloadDebouncer.request(.playlist)
     }
 
     @objc func refreshEpisodesFromNotification(notification: Notification) {
-        viewModel.reloadEpisodeList()
+        reloadDebouncer.request(.episodes)
+    }
+
+    private func reload(with scopes: PlaylistReloadScope) {
+        if scopes.contains(.playlist) {
+            reloadNavTitle()
+            viewModel.reloadPlaylistAndEpisodes() // It also reloads the episode list
+        } else if scopes.contains(.episodes) {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func editPlaylist() {
