@@ -5880,3 +5880,16 @@
 
 /* Generic error used when playback fails. */
 "player_error_short_playback_error" = "Playback failed, please try again";
+
+/* tv app home tab */
+"tv_tab_home" = "Home";
+
+/* tv app podcasts tab */
+"tv_tab_podcasts" = "Your Podcasts";
+
+/* tv app Playlists tab */
+"tv_tab_playlists" = "Playlists";
+
+/* tv app Up Next tab */
+"tv_tab_up_next" = "Up Next";
+

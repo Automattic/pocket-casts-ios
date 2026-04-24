@@ -11,10 +11,10 @@ enum MainTab: Int, CaseIterable, Identifiable {
 
     var title: String? {
         switch self {
-        case .home: "Home"
-        case .podcasts: "Your Podcasts"
-        case .playlists: "Playlists"
-        case .upNext: "Up Next"
+        case .home: L10n.tvTabHome
+        case .podcasts: L10n.tvTabPodcasts
+        case .playlists: L10n.tvTabPlaylists
+        case .upNext: L10n.tvTabUpNext
         case .search: nil
         }
     }

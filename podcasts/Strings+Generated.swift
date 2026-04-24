@@ -4243,6 +4243,14 @@ internal enum L10n {
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again", fallback: "Try Again") }
   /// Button label for a feature that the user can enable
   internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now", fallback: "Try It Now") }
+  /// tv app home tab
+  internal static var tvTabHome: String { return L10n.tr("Localizable", "tv_tab_home", fallback: "Home") }
+  /// tv app Playlists tab
+  internal static var tvTabPlaylists: String { return L10n.tr("Localizable", "tv_tab_playlists", fallback: "Playlists") }
+  /// tv app podcasts tab
+  internal static var tvTabPodcasts: String { return L10n.tr("Localizable", "tv_tab_podcasts", fallback: "Your Podcasts") }
+  /// tv app Up Next tab
+  internal static var tvTabUpNext: String { return L10n.tr("Localizable", "tv_tab_up_next", fallback: "Up Next") }
   /// A common string used throughout the app. Prompt to restore the selected item(s) from an archived state.
   internal static var unarchive: String { return L10n.tr("Localizable", "unarchive", fallback: "Unarchive") }
   /// Label indicating that the user is currently following to the selected podcast.
