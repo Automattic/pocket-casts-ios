@@ -21,6 +21,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var autoScrollBackWorkItem: DispatchWorkItem?
     private static let autoScrollBackDelay: TimeInterval = 5.0
 
+    // `playbackProgress` fires roughly once per second, which means the highlight
+    // can land up to ~1s after a cue boundary. Drive updates off the display
+    // refresh instead so transitions land within one frame (~16ms at 60Hz).
+    // The cue-equality guard inside updateTranscriptPosition makes each tick
+    // effectively free when nothing has changed.
+    private var highlightDisplayLink: CADisplayLink?
+
+    // Cursor into `transcript.cues` used by `currentCue(at:)` to avoid an O(n)
+    // linear scan on every display-link tick. Valid while the active cue is at
+    // or ahead of this index; reset when a new transcript is loaded.
+    private var cachedCueIndex: Int = 0
+
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
@@ -83,6 +95,24 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     deinit {
         autoScrollBackWorkItem?.cancel()
+        highlightDisplayLink?.invalidate()
+    }
+
+    private func startHighlightDisplayLink() {
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        stopHighlightDisplayLink()
+        let link = CADisplayLink(target: self, selector: #selector(highlightTick))
+        link.add(to: .main, forMode: .common)
+        highlightDisplayLink = link
+    }
+
+    private func stopHighlightDisplayLink() {
+        highlightDisplayLink?.invalidate()
+        highlightDisplayLink = nil
+    }
+
+    @objc private func highlightTick() {
+        updateTranscriptPosition()
     }
 
     func didDisappear() {
@@ -464,6 +494,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
             FingerprintTimingManager.shared.prepareForCurrentEpisode()
         }
+        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -475,6 +506,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        stopHighlightDisplayLink()
         if FeatureFlag.syncedTranscripts.enabled {
             FingerprintTimingManager.shared.stop()
         }
@@ -670,6 +702,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func show(transcript: TranscriptModel, resetPosition: Bool) {
         setupShowTranscriptState()
         previousRange = nil
+        cachedCueIndex = 0
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
@@ -780,7 +813,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
 
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+        let currentCue = currentCue(at: position, in: transcript.cues)
+
+        if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
@@ -788,12 +823,54 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 let scrollRange = NSRange(location: range.location, length: range.length * 2)
                 transcriptView.scrollRangeToVisible(scrollRange)
             }
+            #if DEBUG
+            let intoCue = position - cue.startTime
+            FileLog.shared.addMessage(
+                "[transcript-offset] playback=\(String(format: "%.3f", rawTime))" +
+                " reference=\(String(format: "%.3f", position))" +
+                " cue=[\(String(format: "%.3f", cue.startTime))..\(String(format: "%.3f", cue.endTime))]" +
+                " intoCue=\(String(format: "%+.3f", intoCue))"
+            )
+            #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
                 transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
             }
         }
+    }
+
+    // Resolves the cue containing `position` in O(1) amortized for normal
+    // forward playback by starting from `cachedCueIndex` rather than scanning
+    // from the beginning on every display-link tick. Falls back to a full
+    // scan only on backward seeks.
+    private func currentCue(at position: Double, in cues: [TranscriptCue]) -> TranscriptCue? {
+        guard !cues.isEmpty else { return nil }
+        let cached = min(cachedCueIndex, cues.count - 1)
+
+        if cues[cached].contains(timeInSeconds: position) {
+            return cues[cached]
+        }
+
+        // Backward seek — match the original `first { contains }` semantics
+        // so overlapping cues resolve to the earliest match.
+        if position < cues[cached].startTime {
+            if let idx = cues.firstIndex(where: { $0.contains(timeInSeconds: position) }) {
+                cachedCueIndex = idx
+                return cues[idx]
+            }
+            return nil
+        }
+
+        var i = cached + 1
+        while i < cues.count, cues[i].startTime <= position {
+            if cues[i].contains(timeInSeconds: position) {
+                cachedCueIndex = i
+                return cues[i]
+            }
+            i += 1
+        }
+        return nil
     }
 
     // MARK: - Auto-scroll back to highlight
