@@ -4,6 +4,7 @@ import UIKit
 class FingerprintDebugOverlay: UIView {
 
     private var entries: [FingerprintTimingManager.TimeMappingEntry] = []
+    private var rejections: [FingerprintTimingManager.TimeMappingEntry] = []
     private var totalDuration: Double = 0
     private var playbackPosition: Double = 0
 
@@ -39,6 +40,7 @@ class FingerprintDebugOverlay: UIView {
 
     func update() {
         entries = FingerprintTimingManager.shared.debugMappingSnapshot()
+        rejections = FingerprintTimingManager.shared.debugRejectionsSnapshot()
         // Fingerprint generation may not have started yet (no context → nil duration).
         // Fall back to the episode's duration so the playback cursor and tap-to-seek
         // work regardless of fingerprint state.
@@ -65,6 +67,18 @@ class FingerprintDebugOverlay: UIView {
         // as the full-file walk fills coverage in.
         ctx?.setFillColor(UIColor.darkGray.withAlphaComponent(0.5).cgColor)
         ctx?.fill(rect)
+
+        // Rejected-candidate ticks at half-height on the bottom — "matcher fired
+        // here but the drift filter dropped it as noise". Drawn underneath the
+        // accepted-match bars so any accepted segment visually covers its slot.
+        let tickHeight = rect.height / 2
+        let tickY = rect.height - tickHeight
+        for entry in rejections {
+            let x = CGFloat(entry.playbackTime / totalDuration) * rect.width
+            let tickWidth = max(CGFloat(1.0 / totalDuration) * rect.width, 1.5)
+            ctx?.setFillColor(UIColor.systemPurple.withAlphaComponent(0.75).cgColor)
+            ctx?.fill(CGRect(x: x, y: tickY, width: tickWidth, height: tickHeight))
+        }
 
         for entry in entries {
             let x = CGFloat(entry.playbackTime / totalDuration) * rect.width
