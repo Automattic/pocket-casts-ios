@@ -2,7 +2,7 @@ import Foundation
 
 /// Coalesces reload requests from notification bursts. The first request in
 /// a quiet period fires on the next run-loop turn; any further requests that
-/// arrive within `debounce` of that flush are unioned and fire once at the
+/// arrive within `interval` of that flush are unioned and fire once at the
 /// end of the window. A pause hook lets callers defer flushes while UI
 /// animations run; pending requests are flushed on resume.
 @MainActor

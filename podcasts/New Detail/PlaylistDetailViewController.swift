@@ -399,7 +399,11 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
             self?.reloader.pause()
-            RefreshManager.shared.refreshPodcasts()
+            RefreshManager.shared.refreshPodcasts { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.didFinishRefresh()
+                }
+            }
         }
         tableView.refreshControl = refreshControl
     }
@@ -410,12 +414,12 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        removeLoadingIndicators()
+        loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
             do {
                 try SJCommonUtils.catchException {
-                    tableView.reload(using: data, with: .automatic) { newData in
+                    tableView.reload(using: data, with: .fade) { newData in
                         viewModel.update(data: newData) { [weak self] in
                             self?.reloadRefreshControlColor()
                         }
@@ -442,16 +446,14 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshMultiSelectEpisodes()
     }
 
-    private func removeLoadingIndicators() {
-        loadingIndicator.stopAnimating()
+    private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
             UIView.animate(withDuration: 0.2, animations: {
                 self?.refreshControl?.alpha = 0
             }, completion: { _ in
                 self?.refreshControl?.endRefreshing()
-                // Defer any queued reload until the hide animation settles.
-                self?.reloader.pause(for: .milliseconds(750))
+                self?.reloader.resume(after: .milliseconds(500)) // Reload after animations settle
             })
         }
     }
