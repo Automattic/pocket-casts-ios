@@ -686,13 +686,17 @@ final class FingerprintTimingManager: NSObject {
     }
 
     /// Sleep on the generation queue in small slices so cancellation is
-    /// observed within at most one slice.
+    /// observed within at most one slice. Tracks remaining time rather than
+    /// ceiling-rounding the slice count so we don't oversleep the requested
+    /// duration by up to one slice (e.g. 0.21s → 0.4s).
     private func sleepWithCancellation(seconds: TimeInterval, context ctx: GenerationContext) throws {
         let sliceSeconds: TimeInterval = 0.2
-        let slices = max(1, Int(ceil(seconds / sliceSeconds)))
-        for _ in 0..<slices {
+        var remaining = max(0, seconds)
+        while remaining > 0 {
             if ctx.isCancelled() { throw StreamError.cancelled }
-            Thread.sleep(forTimeInterval: sliceSeconds)
+            let sleepDuration = min(sliceSeconds, remaining)
+            Thread.sleep(forTimeInterval: sleepDuration)
+            remaining -= sleepDuration
         }
     }
 
