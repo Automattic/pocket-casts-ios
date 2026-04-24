@@ -30,7 +30,7 @@ class RetrieveStarredTask: ApiBaseTask {
             }
 
             do {
-                let serverEpisodes = try Api_StarredEpisodesResponse(serializedData: responseData).episodes
+                let serverEpisodes = try Api_StarredEpisodesResponse(serializedBytes: responseData).episodes
                 if serverEpisodes.isEmpty {
                     completion?(convertedEpisodes)
 

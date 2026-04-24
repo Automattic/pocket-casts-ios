@@ -47,7 +47,7 @@ class UploadImageRequestTask: ApiBaseTask {
             }
 
             do {
-                let uploadResponse = try Files_ImageUploadResponse(serializedData: responseData)
+                let uploadResponse = try Files_ImageUploadResponse(serializedBytes: responseData)
                 FileLog.shared.addMessage("Upload image request response \(uploadResponse)")
                 completion?(URL(string: uploadResponse.url))
                 return

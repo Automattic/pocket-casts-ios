@@ -47,7 +47,7 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_UserChangeResponse(serializedData: responseData)
+                    let response = try Api_UserChangeResponse(serializedBytes: responseData)
                     completion(response.success.value, nil)
                 } catch {
                     completion(false, nil)
@@ -83,7 +83,7 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_RegisterResponse(serializedData: responseData)
+                    let response = try Api_RegisterResponse(serializedBytes: responseData)
                     completion(response.success.value, response.uuid, nil)
                 } catch {
                     completion(false, nil, nil)
@@ -122,7 +122,7 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_UserLoginResponse(serializedData: responseData)
+                    let response = try Api_UserLoginResponse(serializedBytes: responseData)
                     completion(response.token, response.uuid, nil)
                 } catch {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
@@ -159,10 +159,10 @@ public extension ApiServerHandler {
 
                 do {
                     if usingRefreshToken {
-                        let response = try Api_TokenLoginResponse(serializedData: responseData)
+                        let response = try Api_TokenLoginResponse(serializedBytes: responseData)
                         continuation.resume(returning: AuthenticationResponse(from: response))
                     } else {
-                        let userLoginResponse = try Api_UserLoginResponse(serializedData: responseData)
+                        let userLoginResponse = try Api_UserLoginResponse(serializedBytes: responseData)
                         continuation.resume(returning: AuthenticationResponse(from: userLoginResponse))
                     }
                 } catch {

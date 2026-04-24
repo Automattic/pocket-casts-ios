@@ -23,7 +23,7 @@ class RetrievePlaylistsTask: ApiBaseTask {
             }
 
             do {
-                let serverPlaylists = try Api_UserPlaylistListResponse(serializedData: responseData).playlists
+                let serverPlaylists = try Api_UserPlaylistListResponse(serializedBytes: responseData).playlists
                 if serverPlaylists.isEmpty {
                     completion?(nil)
 

@@ -170,7 +170,7 @@ class SyncSettingsTask: ApiBaseTask {
 
     private func process(serverData: Data) {
         do {
-            let settings = try Api_NamedSettingsResponse(serializedData: serverData)
+            let settings = try Api_NamedSettingsResponse(serializedBytes: serverData)
 
             if FeatureFlag.settingsSync.enabled {
                 appSettings.settings.update(with: settings)
