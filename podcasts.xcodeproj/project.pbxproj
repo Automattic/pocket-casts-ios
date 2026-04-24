@@ -1283,6 +1283,8 @@
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
+		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
+		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
 		FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
 		FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
 		FF49FEAE2F9BBCB400E68E0C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
@@ -2978,6 +2980,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5816,6 +5819,7 @@
 			);
 			name = "Pocket Casts TV App";
 			packageProductDependencies = (
+				FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */,
 			);
 			productName = "Pocket Casts TV App";
 			productReference = FF4B83AE2F981D8E001B8C56 /* Pocket Casts TV App.app */;
@@ -7519,6 +7523,7 @@
 				FF49FEAE2F9BBCB400E68E0C /* Strings+Generated.swift in Sources */,
 				FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */,
 				FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */,
+				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10034,6 +10039,10 @@
 		3FC668CB2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "XcodeTarget_Pocket Casts App Clip";
+		};
+		FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "XcodeTarget_Pocket Casts TV App";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
