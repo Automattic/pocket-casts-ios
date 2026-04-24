@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct Pocket_Casts_TV_AppApp: App {
+struct PocketCastsTVApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
