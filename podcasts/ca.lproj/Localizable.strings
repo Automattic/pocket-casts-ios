@@ -2106,6 +2106,8 @@ Això sí que és compromís!</string>
     <string>Comprova la teva connexió a Internet i torna-ho a intentar.</string>
     <key>player_error_short_no_connection</key>
     <string>Estàs desconectat</string>
+    <key>player_error_short_playback_error</key>
+    <string>La reproducció ha fallat, torna-ho a provar</string>
     <key>player_increment_time</key>
     <string>Temps addicional</string>
     <key>player_mark_as_played_confirmation</key>
