@@ -4670,6 +4670,9 @@
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
 
+/* Toast shown when the user taps inside the transcript of a streaming (not-yet-downloaded) episode. Tap-to-seek requires a fully downloaded file. */
+"transcript_tap_to_seek_streaming_unavailable" = "Tap to seek not available while streaming";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
