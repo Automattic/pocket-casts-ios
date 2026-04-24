@@ -173,7 +173,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private weak var delegate: FilterCreatedDelegate?
 
-    private lazy var reloadDebouncer = ReloadDebouncer<PlaylistReloadScope> { [weak self] in
+    private lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
         self?.reload(with: $0)
     }
 
@@ -396,8 +396,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         refreshControl = CustomRefreshControl()
         refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { refreshControl in
+        refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
+            self?.reloader.pause()
             RefreshManager.shared.refreshPodcasts()
         }
         tableView.refreshControl = refreshControl
@@ -449,6 +450,8 @@ class PlaylistDetailViewController: FakeNavViewController {
                 self?.refreshControl?.alpha = 0
             }, completion: { _ in
                 self?.refreshControl?.endRefreshing()
+                // Defer any queued reload until the hide animation settles.
+                self?.reloader.pause(for: .milliseconds(750))
             })
         }
     }
@@ -467,11 +470,11 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        reloadDebouncer.request(.playlist)
+        reloader.request(.playlist)
     }
 
     @objc func refreshEpisodesFromNotification(notification: Notification) {
-        reloadDebouncer.request(.episodes)
+        reloader.request(.episodes)
     }
 
     private func reload(with scopes: PlaylistReloadScope) {

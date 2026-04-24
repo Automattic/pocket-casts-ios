@@ -1,24 +1,27 @@
 import Foundation
 
-/// Coalesces and debounces reload requests from notification bursts, with a
-/// pause hook so callers can briefly defer flushes while UI animations run.
-/// When the pause ends, any requests that arrived in the meantime are flushed
-/// as a single call with the union of the requested scopes.
+/// Coalesces reload requests from notification bursts. The first request in
+/// a quiet period fires on the next run-loop turn; any further requests that
+/// arrive within `debounce` of that flush are unioned and fire once at the
+/// end of the window. A pause hook lets callers defer flushes while UI
+/// animations run; pending requests are flushed on resume.
 @MainActor
-public final class ReloadDebouncer<Scope: OptionSet> {
-    private let debounce: Duration
+public final class ReloadScheduler<Scope: OptionSet> {
+    private let interval: Duration
     private let onReload: (Scope) -> Void
     private var pending: Scope?
     private var flushTask: Task<Void, Never>?
     private var resumeTask: Task<Void, Never>?
     private var isPaused = false
+    private var lastFlushAt: ContinuousClock.Instant?
 
-    public init(debounce: Duration = .milliseconds(100), onReload: @escaping (Scope) -> Void) {
-        self.debounce = debounce
+    public init(interval: Duration = .milliseconds(100), onReload: @escaping (Scope) -> Void) {
+        self.interval = interval
         self.onReload = onReload
     }
 
-    /// Flushed with the union of requested scopes after the debounce window.
+    /// Fires on the leading edge of a quiet window, then coalesces further
+    /// requests into a single trailing flush at the end of the cooldown.
     public func request(_ scope: Scope) {
         if pending == nil {
             pending = scope
@@ -68,10 +71,12 @@ public final class ReloadDebouncer<Scope: OptionSet> {
     }
 
     private func scheduleFlush() {
-        guard !isPaused else { return }
-        flushTask?.cancel()
-        flushTask = Task { [weak self, debounce] in
-            try? await Task.sleep(for: debounce)
+        guard !isPaused, flushTask == nil else { return }
+        let delay: Duration = lastFlushAt.map {
+            max(.zero, ContinuousClock.now.duration(to: $0.advanced(by: interval)))
+        } ?? .zero
+        flushTask = Task { [weak self, delay] in
+            try? await Task.sleep(for: delay)
             guard !Task.isCancelled else { return }
             self?.flush()
         }
@@ -81,6 +86,7 @@ public final class ReloadDebouncer<Scope: OptionSet> {
         flushTask = nil
         guard !isPaused, let scope = pending else { return }
         pending = nil
+        lastFlushAt = ContinuousClock.now
         onReload(scope)
     }
 

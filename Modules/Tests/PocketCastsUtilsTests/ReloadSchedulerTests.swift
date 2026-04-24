@@ -2,7 +2,7 @@ import Testing
 @testable import PocketCastsUtils
 
 @MainActor
-struct ReloadDebouncerTests {
+struct ReloadSchedulerTests {
     private struct Scope: OptionSet, Equatable {
         let rawValue: Int
 
@@ -12,74 +12,74 @@ struct ReloadDebouncerTests {
 
     @Test func singleRequestFiresAfterDebounce() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.request(.a)
+        scheduler.request(.a)
         #expect(received == [], "Callback should not fire synchronously")
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [.a])
     }
 
     @Test func burstCoalescesToUnionOfScopes() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.request(.a)
-        debouncer.request(.b)
-        debouncer.request(.a)
+        scheduler.request(.a)
+        scheduler.request(.b)
+        scheduler.request(.a)
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [[.a, .b]], "Burst of requests should flush once with the union of scopes")
     }
 
     @Test func pauseDefersFlushUntilResume() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.pause()
-        debouncer.request(.a)
+        scheduler.pause()
+        scheduler.request(.a)
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [], "Requests should not fire while paused")
 
-        debouncer.resume()
-        await debouncer.waitForIdle()
+        scheduler.resume()
+        await scheduler.waitForIdle()
         #expect(received == [.a], "Pending request should flush after resume")
     }
 
     @Test func pauseWithDurationAutoResumes() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.request(.b)
-        debouncer.pause(for: .zero)
+        scheduler.request(.b)
+        scheduler.pause(for: .zero)
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [.b])
     }
 
     @Test func resumeWithNoPendingRequestsDoesNothing() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.pause()
-        debouncer.resume()
+        scheduler.pause()
+        scheduler.resume()
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [])
     }
 
     @Test func requestDuringPauseIsCoalescedWithLaterRequest() async throws {
         var received: [Scope] = []
-        let debouncer = ReloadDebouncer<Scope>(debounce: .zero) { received.append($0) }
+        let scheduler = ReloadScheduler<Scope>(interval: .zero) { received.append($0) }
 
-        debouncer.pause()
-        debouncer.request(.a)
-        debouncer.request(.b)
-        debouncer.resume()
+        scheduler.pause()
+        scheduler.request(.a)
+        scheduler.request(.b)
+        scheduler.resume()
 
-        await debouncer.waitForIdle()
+        await scheduler.waitForIdle()
         #expect(received == [[.a, .b]])
     }
 }
