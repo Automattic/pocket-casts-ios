@@ -106,7 +106,7 @@ struct MainTabView: View {
     }
 
     var rightAccessory: some View {
-        Button() {
+        Button {
 
         } label: {
             Image("user-placeholder")
