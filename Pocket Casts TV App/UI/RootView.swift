@@ -20,7 +20,7 @@ struct RootView: View {
     @State private var viewModel = RootViewModel()
 
     var body: some View {
-        switch viewModel.state{
+        switch viewModel.state {
         case .loading:
             VStack {
                 Spacer()
