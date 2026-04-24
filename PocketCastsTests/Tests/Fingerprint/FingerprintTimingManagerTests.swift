@@ -139,6 +139,114 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(result, 45.0, accuracy: 0.001)
     }
 
+    // MARK: - Drift filter
+
+    func testDriftFilterSequentialStreamInsertsAllInOrder() throws {
+        let manager = FingerprintTimingManager()
+        // Seven sequential candidates (rate 1), well under the 5 s tolerance.
+        let stream = (0..<7).map { i in Entry(playbackTime: Double(i) * 2, referenceTime: Double(i) * 2) }
+
+        manager.stubMatches(stream)
+
+        // All seven should be committed in order, queryable across the range.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 0)), 0, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 12)), 12, accuracy: 0.001)
+    }
+
+    func testDriftFilterDropsLoneOutlier() throws {
+        let manager = FingerprintTimingManager()
+        // Three sequential (bootstrap), one outlier, three more sequential.
+        let stream: [Entry] = [
+            Entry(playbackTime: 0, referenceTime: 0),
+            Entry(playbackTime: 2, referenceTime: 2),
+            Entry(playbackTime: 4, referenceTime: 4),
+            Entry(playbackTime: 6, referenceTime: 500), // lone outlier
+            Entry(playbackTime: 8, referenceTime: 8),   // back on trend
+            Entry(playbackTime: 10, referenceTime: 10),
+            Entry(playbackTime: 12, referenceTime: 12),
+        ]
+
+        manager.stubMatches(stream)
+
+        // The outlier at playback=6 should have been dropped, not interpolated.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 4, accuracy: 0.001)
+        // A query right where the outlier was should interpolate between 4 and 8 → 6,
+        // not land near 500.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 6)), 6, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 12)), 12, accuracy: 0.001)
+    }
+
+    func testDriftFilterConfirmsRealJump() throws {
+        let manager = FingerprintTimingManager()
+        // Three sequential, then a 90 s transcript-only ad break jump.
+        let stream: [Entry] = [
+            Entry(playbackTime: 0, referenceTime: 0),
+            Entry(playbackTime: 2, referenceTime: 2),
+            Entry(playbackTime: 4, referenceTime: 4),
+            Entry(playbackTime: 6, referenceTime: 96),  // jump — pending
+            Entry(playbackTime: 8, referenceTime: 98),  // confirms the jump
+            Entry(playbackTime: 10, referenceTime: 100),
+        ]
+
+        manager.stubMatches(stream)
+
+        // Pre-jump region intact.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 4, accuracy: 0.001)
+        // Post-jump region also committed.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 8)), 98, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 10)), 100, accuracy: 0.001)
+    }
+
+    func testDriftFilterRejectsJumpAroundNoise() throws {
+        let manager = FingerprintTimingManager()
+        // Three sequential, then four candidates all over the place, none consistent
+        // with each other or with the trusted anchor.
+        let stream: [Entry] = [
+            Entry(playbackTime: 0, referenceTime: 0),
+            Entry(playbackTime: 2, referenceTime: 2),
+            Entry(playbackTime: 4, referenceTime: 4),
+            Entry(playbackTime: 6, referenceTime: 500),
+            Entry(playbackTime: 8, referenceTime: 150),
+            Entry(playbackTime: 10, referenceTime: 800),
+            Entry(playbackTime: 12, referenceTime: 220),
+        ]
+
+        manager.stubMatches(stream)
+
+        // The three bootstrap entries are the only things in the mapping; none of
+        // the noise lands. Had any of the noise been accepted, queries in that
+        // region would snap to the bogus reference value (e.g. 500 / 150 / 800).
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 2)), 2, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 6)), 6, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 10)), 10, accuracy: 0.001)
+    }
+
+    func testDriftFilterBootstrapRollsForwardPastEarlyJump() throws {
+        let manager = FingerprintTimingManager()
+        // First two candidates would form a consistent pair, but the third breaks
+        // rate 1. The window rolls forward until a consistent trio arrives.
+        let stream: [Entry] = [
+            Entry(playbackTime: 0, referenceTime: 0),
+            Entry(playbackTime: 2, referenceTime: 2),
+            Entry(playbackTime: 4, referenceTime: 400),  // breaks the trio
+            Entry(playbackTime: 6, referenceTime: 402),
+            Entry(playbackTime: 8, referenceTime: 404),  // now (4, 400) / (6, 402) / (8, 404) form a rate-1 trio
+        ]
+
+        manager.stubMatches(stream)
+
+        // The first two candidates (0→0, 2→2) must NOT be in the mapping — if
+        // they had been committed, a query at playback=4 would be 3-ish
+        // (midway between (2,2) and the next anchor). Instead the trio
+        // (4,400)/(6,402)/(8,404) is the only committed region, so
+        // playback=4 pins to 400.
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 4)), 400, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 6)), 402, accuracy: 0.001)
+        XCTAssertEqual(try XCTUnwrap(manager.referenceTime(forPlaybackTime: 8)), 404, accuracy: 0.001)
+    }
+
+    // MARK: - Static interpolate helper: math correctness
+
     func testInterpolateReturnsExactValueAtBoundary() throws {
         let entries = [
             Entry(playbackTime: 0.0, referenceTime: 100.0),

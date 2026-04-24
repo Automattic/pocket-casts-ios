@@ -234,7 +234,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 setupFileDetails()
                 imageSaveErrorLabel.isHidden = true
                 setupScrollViewOffset()
-            } catch let error {
+            } catch {
                 showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
             }
         }

@@ -2404,6 +2404,8 @@ internal enum L10n {
   internal static var playerErrorInternetConnection: String { return L10n.tr("Localizable", "player_error_internet_connection", fallback: "Check your Internet connection and try again.") }
   /// Generic error used when no internet connection is available.
   internal static var playerErrorShortNoConnection: String { return L10n.tr("Localizable", "player_error_short_no_connection", fallback: "You’re offline") }
+  /// Generic error used when playback fails.
+  internal static var playerErrorShortPlaybackError: String { return L10n.tr("Localizable", "player_error_short_playback_error", fallback: "Playback failed, please try again") }
   /// Accessibility label for the player control that fast-forwards the current playback position by a customizable time.
   internal static var playerIncrementTime: String { return L10n.tr("Localizable", "player_increment_time", fallback: "Increment time") }
   /// Confirmation prompt for marking an episode as played.
@@ -4053,6 +4055,16 @@ internal enum L10n {
   internal static var statsListenHistoryLoading: String { return L10n.tr("Localizable", "stats_listen_history_loading", fallback: "You’ve listened for") }
   /// Header for the cell displaying the time for how long they've listened to Pocket Casts.
   internal static var statsListenHistoryNoDate: String { return L10n.tr("Localizable", "stats_listen_history_no_date", fallback: "You’ve listened for") }
+  /// VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365.
+  internal static func statsListeningActivityAccessibilityLabel(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "stats_listening_activity_accessibility_label", String(describing: p1), fallback: "Listening activity heatmap. Days listened: %1$@ of 365.")
+  }
+  /// Label for the low end of the heatmap legend
+  internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
+  /// Label for the high end of the heatmap legend
+  internal static var statsListeningActivityLegendMore: String { return L10n.tr("Localizable", "stats_listening_activity_legend_more", fallback: "More") }
+  /// Title for the listening activity heatmap on the account screen
+  internal static var statsListeningActivitySectionTitle: String { return L10n.tr("Localizable", "stats_listening_activity_section_title", fallback: "Listening Activity") }
   /// Row header that displays the amount of time saved from the Skip forward feature.
   internal static var statsSkipping: String { return L10n.tr("Localizable", "stats_skipping", fallback: "Skipping") }
   /// Section header that breaks down how much listening time has been saved across a variety of features.

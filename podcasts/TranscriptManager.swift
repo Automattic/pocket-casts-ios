@@ -78,11 +78,13 @@ class TranscriptManager {
             throw TranscriptError.failedToLoad
         }
 
-        let crumb = Breadcrumb()
-        crumb.level = SentryLevel.info
-        crumb.category = "transcript"
-        crumb.message = "Transcript file \(transcriptURL)"
-        SentrySDK.addBreadcrumb(crumb)
+        await MainActor.run {
+            let crumb = Breadcrumb()
+            crumb.level = SentryLevel.info
+            crumb.category = "transcript"
+            crumb.message = "Transcript file \(transcriptURL)"
+            SentrySDK.addBreadcrumb(crumb)
+        }
 
         guard let model = TranscriptModel.makeModel(from: transcriptText, format: transcriptFormat) else {
             throw TranscriptError.failedToParse

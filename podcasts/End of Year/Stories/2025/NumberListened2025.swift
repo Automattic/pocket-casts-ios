@@ -57,7 +57,6 @@ struct NumberListened2025: ShareableStory {
 
     var body: some View {
         GeometryReader { proxy in
-            let safeBottom = proxy.safeAreaInsets.bottom
             VStack(alignment: .center) {
                 headerView
                 Spacer()

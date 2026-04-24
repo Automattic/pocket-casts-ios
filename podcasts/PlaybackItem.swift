@@ -17,7 +17,7 @@ class PlaybackItem: NSObject {
         guard let url = EpisodeManager.urlForEpisode(episode) else { return nil }
         // there is now an official, working way to set the user-agent for every request
         // https://developer.apple.com/documentation/avfoundation/avurlassethttpuseragentkey
-        var options: [String: Any] = [AVURLAssetHTTPUserAgentKey: ServerConstants.Values.appUserAgent]
+        let options: [String: Any] = [AVURLAssetHTTPUserAgentKey: ServerConstants.Values.appUserAgent]
         let asset = AVURLAsset(url: url, options: options)
         return AVPlayerItem(asset: asset)
     }

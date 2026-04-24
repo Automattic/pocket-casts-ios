@@ -215,6 +215,38 @@ class EpisodeDataManager {
         loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate > 0 ORDER BY lastPlaybackInteractionDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
     }
 
+    /// Returns daily listening totals as `[dateString: totalSeconds]` for the past N days.
+    /// Date strings are formatted as "yyyy-MM-dd" in the device's local timezone.
+    func dailyListeningTime(forLast days: Int, dbQueue: PCDBQueue) -> [String: Double] {
+        var result: [String: Double] = [:]
+
+        dbQueue.read { db in
+            do {
+                let query = """
+                    SELECT date(lastPlaybackInteractionDate, 'unixepoch', 'localtime') as listenDate,
+                           SUM(playedUpTo) as totalTime
+                    FROM \(DataManager.episodeTableName)
+                    WHERE lastPlaybackInteractionDate IS NOT NULL
+                      AND lastPlaybackInteractionDate >= strftime('%s', 'now', '-\(days) days')
+                    GROUP BY listenDate
+                    ORDER BY listenDate ASC
+                    """
+                let resultSet = try db.executeQuery(query, values: nil)
+                defer { resultSet.close() }
+
+                while resultSet.next() {
+                    if let day = resultSet.string(forColumn: "listenDate") {
+                        result[day] = resultSet.double(forColumn: "totalTime")
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.dailyListeningTime error: \(error)")
+            }
+        }
+
+        return result
+    }
+
     func findLatestEpisode(podcast: Podcast, dbQueue: PCDBQueue) -> Episode? {
         loadSingle(query: "SELECT * from \(DataManager.episodeTableName) WHERE podcast_id = ? AND wasDeleted = 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT 1", values: [podcast.id], dbQueue: dbQueue)
     }

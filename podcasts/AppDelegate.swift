@@ -119,8 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        FingerprintTimingManager.shared.setup()
-
         badgeHelper.setup()
         WatchManager.shared.setup()
         shortcutManager.listenForShortcutChanges()

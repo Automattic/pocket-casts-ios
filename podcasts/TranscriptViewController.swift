@@ -23,6 +23,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    #if DEBUG
+    private var debugOverlay: FingerprintDebugOverlay?
+    private var debugTimer: Timer?
+    #endif
+
     private var transcriptViewTopConstraint: NSLayoutConstraint?
     private var topGradientTopConstraint: NSLayoutConstraint?
     private var topGradientHeightConstraint: NSLayoutConstraint?
@@ -170,6 +175,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         )
 
         view.addSubview(hiddenTextView)
+
+        #if DEBUG
+        let overlay = FingerprintDebugOverlay()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(overlay)
+        NSLayoutConstraint.activate([
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            overlay.heightAnchor.constraint(equalToConstant: 16)
+        ])
+        debugOverlay = overlay
+        #endif
 
         stackView.addArrangedSubview(closeButton)
         stackView.addArrangedSubview(UIView())
@@ -428,10 +446,27 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
+        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
+        #if DEBUG
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+            self?.debugOverlay?.update()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        debugTimer = timer
+        #endif
     }
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.stop()
+        }
+        #if DEBUG
+        debugTimer?.invalidate()
+        debugTimer = nil
+        #endif
     }
 
     override func themeDidChange() {
@@ -466,6 +501,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+        }
     }
 
     @objc private func closeTapped() {
@@ -712,17 +750,21 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func updateTranscriptPosition() {
+        guard let transcript else { return }
+
+        // Only highlight when the fingerprint flow has an actual mapping for this
+        // playback time. Without that, falling back to raw playback time would
+        // highlight arbitrary VTT lines during ads and other non-matching audio.
         let rawTime = playbackManager.currentTime()
-        let position: TimeInterval
-        if case .active = FingerprintTimingManager.shared.state,
-           let referenceTime = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) {
-            position = referenceTime
-        } else {
-            position = rawTime
-        }
-        guard let transcript else {
+        guard case .active = FingerprintTimingManager.shared.state,
+              let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
+            if previousRange != nil {
+                previousRange = nil
+                transcriptView.attributedText = styleText(transcript: transcript)
+            }
             return
         }
+
         if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
