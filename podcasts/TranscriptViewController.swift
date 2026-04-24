@@ -12,6 +12,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var canScrollToDismiss = true
 
+    private var isUserScrolling = false
+    // Stays `true` for the entire scroll-back grace period, not just while the
+    // user's finger is on the view. `isUserScrolling` flips back to false the
+    // instant the drag ends, so without this, the next playback tick would
+    // snap the view back to the highlight before the 5s return fires.
+    private var isAutoScrollSuppressed = false
+    private var autoScrollBackWorkItem: DispatchWorkItem?
+    private static let autoScrollBackDelay: TimeInterval = 5.0
+
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
@@ -69,6 +78,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
+        cancelAutoScrollBack()
+    }
+
+    deinit {
+        autoScrollBackWorkItem?.cancel()
     }
 
     func didDisappear() {
@@ -249,6 +263,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     @objc private func displaySearch() {
         isSearching = true
+        cancelAutoScrollBack()
 
         // Keep the inputAccessoryView dark
         parent?.view.overrideUserInterfaceStyle = .dark
@@ -769,12 +784,47 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             let range = cue.characterRange
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
-            let scrollRange = NSRange(location: range.location, length: range.length * 2)
-            transcriptView.scrollRangeToVisible(scrollRange)
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                let scrollRange = NSRange(location: range.location, length: range.length * 2)
+                transcriptView.scrollRangeToVisible(scrollRange)
+            }
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
-            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            }
         }
+    }
+
+    // MARK: - Auto-scroll back to highlight
+
+    private func scheduleAutoScrollBack() {
+        cancelAutoScrollBack()
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        guard !isSearching else { return }
+        isAutoScrollSuppressed = true
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.isAutoScrollSuppressed = false
+            self.autoScrollBackWorkItem = nil
+            self.scrollBackToCurrentHighlight()
+        }
+        autoScrollBackWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.autoScrollBackDelay, execute: workItem)
+    }
+
+    private func cancelAutoScrollBack() {
+        autoScrollBackWorkItem?.cancel()
+        autoScrollBackWorkItem = nil
+        isAutoScrollSuppressed = false
+    }
+
+    private func scrollBackToCurrentHighlight() {
+        // Only catch up to the highlight if audio is moving. When paused, the
+        // highlight is static and yanking the view back to it would fight the
+        // user who deliberately scrolled elsewhere to read.
+        guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
+        transcriptView.scrollToRange(previousRange)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
@@ -947,6 +997,23 @@ extension TranscriptViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+        isUserScrolling = true
+        cancelAutoScrollBack()
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            userScrollDidEnd()
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        userScrollDidEnd()
+    }
+
+    private func userScrollDidEnd() {
+        isUserScrolling = false
+        scheduleAutoScrollBack()
     }
 }
 
@@ -955,6 +1022,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
         dismissSearch()
         resetSearch()
         searchView.removeFromSuperview()
+        scheduleAutoScrollBack()
     }
 
     func searchButtonTapped() {
