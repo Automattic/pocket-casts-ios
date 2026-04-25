@@ -10,11 +10,11 @@ import PocketCastsUtils
 enum MediaExporterItemConfiguration {
     /// How much data is downloaded in memory before stored on a file.
     public static var downloadBufferLimit: Int {
-        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 16.KB
+        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 128.KB
     }
 
     /// How much data is allowed to be read in memory at a time.
-    public static var readDataLimit: Int = 5.MB
+    public static var readDataLimit: Int = 20.MB
 
     /// Flag for deciding whether an error should be thrown when URLResponse's expectedContentLength is not equal with the downloaded media file bytes count. Defaults to `false`.
     public static var shouldVerifyDownloadedFileSize: Bool = false
@@ -111,6 +111,13 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         return components.url
     }
 
+    func debugLogRequestInfo(_ loadingRequest: AVAssetResourceLoadingRequest, state: String) {
+        #if DEBUG
+        if let dataRequest = loadingRequest.dataRequest {
+            FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: \(state) Request \(dataRequest.currentOffset) - \(dataRequest.requestedOffset + Int64(dataRequest.requestedLength))")
+        }
+        #endif
+    }
     // MARK: AVAssetResourceLoaderDelegate
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, shouldWaitForLoadingOfRequestedResource loadingRequest: AVAssetResourceLoadingRequest) -> Bool {
@@ -125,13 +132,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             // We start loading the file on first request only.
             startDataRequest(with: originalURL)
         }
-
+        debugLogRequestInfo(loadingRequest, state: "Add")
         pendingRequests.insert(loadingRequest)
         processPendingRequests()
         return true
     }
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, didCancel loadingRequest: AVAssetResourceLoadingRequest) {
+        debugLogRequestInfo(loadingRequest, state: "Cancel")
         pendingRequests.remove(loadingRequest)
     }
 
@@ -272,9 +280,14 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             }
             for loadingRequest in pendingRequests {
                 fillInContentInformationRequest(loadingRequest.contentInformationRequest)
-                if let dataRequest = loadingRequest.dataRequest, try haveEnoughDataToFulfillRequest(dataRequest) {
-                    loadingRequest.finishLoading()
-                    requestsFulfilled.insert(loadingRequest)
+                if let dataRequest = loadingRequest.dataRequest {
+                    if try haveEnoughDataToFulfillRequest(dataRequest) {
+                        debugLogRequestInfo(loadingRequest, state: "Finish")
+                        loadingRequest.finishLoading()
+                        requestsFulfilled.insert(loadingRequest)
+                    } else {
+                        debugLogRequestInfo(loadingRequest, state: "Partial")
+                    }
                 } else if loadingRequest.dataRequest == nil {
                     loadingRequest.finishLoading()
                     requestsFulfilled.insert(loadingRequest)
@@ -305,16 +318,16 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     private func haveEnoughDataToFulfillRequest(_ dataRequest: AVAssetResourceLoadingDataRequest) throws -> Bool {
         let requestedOffset = Int(dataRequest.requestedOffset)
         let requestedLength = dataRequest.requestedLength
-        let currentOffset = Int(dataRequest.currentOffset)
+        var currentOffset = Int(dataRequest.currentOffset)
         let bytesCached = try fileHandle.fileSize()
 
         try validateCurrentOffset(currentOffset, bytesCached: bytesCached)
 
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {
-            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached {
+            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached, currentOffset < requestedOffset + requestedLength {
                 let start = currentOffset - bytesCached
-                let end = min(currentOffset + requestedLength - bytesCached, bufferData.count)
+                let end = min(currentOffset + (requestedLength - (currentOffset - requestedOffset)) - bytesCached, bufferData.count)
                 if start >= end {
                     FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
                     return false
@@ -326,16 +339,22 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             return false
         }
 
-        // Data length to be loaded into memory with maximum size of readDataLimit.
-        let bytesToRespond = min(bytesCached - currentOffset, requestedLength, readDataLimit)
-
-        // Read data from disk and pass it to the dataRequest
-        guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
-            throw MediaFileHandleError.readAfterEndOfFile
+        while currentOffset < min(requestedOffset + requestedLength, bytesCached) {
+            // Data length to be loaded into memory with maximum size of readDataLimit.
+            let bytesToRespond = min(bytesCached - currentOffset, requestedLength - (currentOffset - requestedOffset), readDataLimit)
+            // Read data from disk and pass it to the dataRequest
+            guard let data = try fileHandle.readData(withOffset: currentOffset, forLength: bytesToRespond) else {
+                throw MediaFileHandleError.readAfterEndOfFile
+            }
+            dataRequest.respond(with: data)
+            let newOffset = Int(dataRequest.currentOffset)
+            guard bytesToRespond != 0, newOffset != currentOffset else {
+                break
+            }
+            currentOffset = newOffset
         }
-        dataRequest.respond(with: data)
 
-        return bytesCached >= requestedLength + requestedOffset
+        return currentOffset >= requestedLength + requestedOffset
     }
 
     private func validateCurrentOffset(_ currentOffset: Int, bytesCached: Int) throws {
@@ -367,6 +386,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadComplete() {
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download completed")
         isDownloadComplete = true
         processPendingRequests()
         let contentType = self.response?.mimeType
