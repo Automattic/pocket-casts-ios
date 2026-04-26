@@ -165,7 +165,7 @@ class FoldersCoordinator: NSObject {
 
     private var currentPodcastsHash: String {
         let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
-        let md5 = String(uuids.joined(separator: "")).md5
+        let md5 = uuids.joined().md5
         return md5
     }
 
