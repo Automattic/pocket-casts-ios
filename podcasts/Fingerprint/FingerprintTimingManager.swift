@@ -296,7 +296,8 @@ final class FingerprintTimingManager: NSObject {
 
     private func updateState(_ newState: State) {
         DispatchQueue.main.async { [weak self] in
-            self?.state = newState
+            guard let self else { return }
+            self.state = newState
             NotificationCenter.default.post(name: Self.stateDidChange, object: self)
         }
     }
