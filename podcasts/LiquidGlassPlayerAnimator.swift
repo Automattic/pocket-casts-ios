@@ -21,12 +21,12 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
     private var duration: TimeInterval {
         if isPresenting {
-            return 0.45
+            return 0.55
         }
         // Dismiss: scale duration with gesture velocity so slow flicks get a
         // longer settle (no rushed feel) while fast flicks finish quickly and
         // keep up with the user's intent.
-        return 0.33 - min(0.15, dismissVelocity / 8000)
+        return 0.45 - min(0.15, dismissVelocity / 8000)
     }
 
     private var isPresenting: Bool {
