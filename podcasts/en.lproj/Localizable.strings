@@ -5932,5 +5932,12 @@
 /* tv create account enter code */
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
 
+/* tv create account title */
+"tv_signing_in_title" = "Welcome back!";
+
+/* tv create account subtitle */
+"tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
+
+
 
 

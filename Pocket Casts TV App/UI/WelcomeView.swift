@@ -81,8 +81,8 @@ struct WelcomeView: View {
           .background(
             LinearGradient(
               stops: [
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14), location: 0.00),
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14).opacity(0.5), location: 1.00),
+                Gradient.Stop(color: Color.backgroundSurface, location: 0.00),
+                Gradient.Stop(color: Color.backgroundSurface.opacity(0.5), location: 1.00),
               ],
               startPoint: UnitPoint(x: 0.5, y: 0.41),
               endPoint: UnitPoint(x: 0.5, y: 0.13)
