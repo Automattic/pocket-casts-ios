@@ -42,13 +42,13 @@ extension SyncTask {
         DataManager.sharedManager.clearAllFolderInformation()
 
         // import any folders first, since that's fast and needs no extra calls
-        if let folders = folders {
+        if let folders {
             for folder in folders {
                 processFolder(folder)
             }
         }
 
-        guard let podcasts = podcasts else { return }
+        guard let podcasts else { return }
 
         totalToImport = podcasts.count
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
@@ -120,7 +120,7 @@ extension SyncTask {
             retrieveEpisodesTask.completion = { episodes in
                 DataManager.sharedManager.save(podcast: localPodcast)
 
-                guard let episodes = episodes else { return }
+                guard let episodes else { return }
 
                 DataManager.sharedManager.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
             }

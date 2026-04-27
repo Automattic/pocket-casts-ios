@@ -59,7 +59,7 @@ class UpNextSyncTask: ApiBaseTask {
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 // no changes that we need to process
                 FileLog.shared.addMessage("UpNextSyncTask: Server returned not modified to Up Next sync, no changes required")
-            } else if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
+            } else if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response, latestActionTime: latestActionTime)
             } else {
                 FileLog.shared.addMessage("UpNextSyncTask: Unable to sync with server got status \(httpStatus)")
@@ -369,7 +369,7 @@ class UpNextSyncTask: ApiBaseTask {
         ServerConfig.shared.playbackDelegate?.queueRefreshList(checkForAutoDownload: true)
 
         ServerConfig.shared.playbackDelegate?.upNextQueueChanged()
-        if let episodePlayingBeforeChanges = episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
+        if let episodePlayingBeforeChanges, let currentlyPlaying = ServerConfig.shared.playbackDelegate?.isNowPlayingEpisode(episodeUuid: episodePlayingBeforeChanges.uuid), currentlyPlaying == false {
             // currently playing episode has changed
             ServerConfig.shared.playbackDelegate?.playingEpisodeChangedExternally()
         } else if episodePlayingBeforeChanges == nil, !modifiedList.isEmpty {

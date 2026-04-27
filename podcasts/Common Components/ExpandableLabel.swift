@@ -111,7 +111,7 @@ class ExpandableLabel: ThemeableLabel {
 
             return Int(ceil(CGFloat(labelSize.height) / (font.lineHeight * desiredLinedHeightMultiple)))
         } else {
-            guard let text = text else { return 1 }
+            guard let text else { return 1 }
 
             layoutIfNeeded()
 

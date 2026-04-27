@@ -63,7 +63,7 @@ class TinyPageControl: UIControl {
                 }
             }
 
-            if let delegate = delegate {
+            if let delegate {
                 delegate.pageDidChange(currentPage)
             }
         }

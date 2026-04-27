@@ -26,7 +26,7 @@ class ArchiveHelper {
     }
 
     class func applyAutoArchivingToPodcast(_ podcast: Podcast?) {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         let afterPlayedTime = podcast.isAutoArchiveOverridden ? podcast.autoArchivePlayedAfterTime : Settings.autoArchivePlayedAfter()
         let afterInactiveTime = podcast.isAutoArchiveOverridden ? podcast.autoArchiveInactiveAfterTime : Settings.autoArchiveInactiveAfter()

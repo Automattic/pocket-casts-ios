@@ -4,7 +4,7 @@ class ShiftyLoadingAlert {
     private var titleToSet = ""
     var title = "" {
         didSet {
-            if let alertController = alertController {
+            if let alertController {
                 alertController.title = "\(title)\n\n\n"
             }
         }
@@ -12,7 +12,7 @@ class ShiftyLoadingAlert {
 
     var progress = 0 as CGFloat {
         didSet {
-            if let progressIndicator = progressIndicator {
+            if let progressIndicator {
                 progressIndicator.progress = progress
             }
         }
@@ -39,7 +39,7 @@ class ShiftyLoadingAlert {
                 self.progressIndicator?.center = CGPoint(x: parentFrame.width / 2.0, y: (parentFrame.height / 2.0) + 10)
                 self.progressIndicator?.progress = 0.01
 
-                if let completion = completion {
+                if let completion {
                     completion()
                 }
             }
@@ -53,7 +53,7 @@ class ShiftyLoadingAlert {
                 indeterminantIndicator.center = CGPoint(x: parentFrame.width / 2.0, y: (parentFrame.height / 2.0) + 10)
                 indeterminantIndicator.startAnimating()
 
-                if let completion = completion {
+                if let completion {
                     completion()
                 }
             }

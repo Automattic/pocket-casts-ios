@@ -108,7 +108,7 @@ class DiscoverCollectionHeader: UICollectionReusableView {
     }
 
     func populate(podcastCollection: PodcastCollection?) {
-        guard let podcastCollection = podcastCollection else {
+        guard let podcastCollection else {
             headerView.isHidden = true
             return
         }

@@ -34,7 +34,7 @@ class UploadedSettingsViewController: PCViewController, UITableViewDelegate, UIT
 
     @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.settingsTable.reloadData()
         }

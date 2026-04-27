@@ -9,7 +9,7 @@ extension PCSearchBarController {
     }
 
     func parentScrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let searchControllerTopConstant = searchControllerTopConstant else { return }
+        guard let searchControllerTopConstant else { return }
 
         let yPos = scrollView.contentOffset.y + (view.superview?.safeAreaInsets.top ?? 0)
 

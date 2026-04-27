@@ -351,7 +351,7 @@ class AnalyticsHelper {
             }
 
             let price = product.price
-            let currency = product.priceLocale.currencyCode ?? ""
+            let currency = product.priceLocale.currency?.identifier ?? ""
             let name = product.localizedTitle
 
             let item: [String: Any] = [
@@ -441,7 +441,7 @@ private extension AnalyticsHelper {
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
         if FeatureFlag.firebaseLogging.enabled {
-                if let parameters = parameters {
+                if let parameters {
                     logger.debug("🟢 Tracked: \(name) \(parameters)")
                 } else {
                     logger.debug("🟢 Tracked: \(name)")

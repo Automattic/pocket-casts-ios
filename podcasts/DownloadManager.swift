@@ -301,7 +301,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             }
         } else if let episode = episode as? UserEpisode {
             ApiServerHandler.shared.uploadFilePlayRequest(episode: episode, completion: { [weak self] url in
-                guard let url = url else {
+                guard let url else {
                     self?.dataManager.saveEpisode(downloadStatus: .downloadFailed, downloadError: L10n.downloadErrorTryAgain, downloadTaskId: nil, episode: episode)
                     NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
                     return
@@ -690,7 +690,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     private func cancelTaskId(_ taskId: String?, episode: BaseEpisode, session: URLSession) {
-        guard let taskId = taskId else { return }
+        guard let taskId else { return }
 
         session.getTasksWithCompletionHandler { [weak self] _, _, downloadTasks in
             if downloadTasks.isEmpty { return }
@@ -706,7 +706,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     private func cancelTask(_ task: URLSessionDownloadTask, for episode: BaseEpisode) {
         task.cancel { [weak self] data in
-            if let data = data, !data.isEmpty, let tempFilePath = self?.tempPathForEpisode(episode) {
+            if let data, !data.isEmpty, let tempFilePath = self?.tempPathForEpisode(episode) {
                 do {
                     try data.write(to: URL(fileURLWithPath: tempFilePath), options: .atomic)
                 } catch {

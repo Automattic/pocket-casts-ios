@@ -225,7 +225,7 @@ extension DiscoverCollectionViewController {
     private func configureDataSource() {
 
         let footerRegistrationCountrySummary = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let countrySummary = CountrySummaryViewController()
             countrySummary.discoverLayout = self.discoverLayout
@@ -279,7 +279,7 @@ extension DiscoverCollectionViewController {
         }
 
         dataSource.supplementaryViewProvider = { [weak self] collectionView, elementKind, indexPath in
-            guard let self = self else { return nil }
+            guard let self else { return nil }
 
             if elementKind == UICollectionView.elementKindSectionFooter {
                 if self.selectedCategory == nil && self.discoverLayout != nil {

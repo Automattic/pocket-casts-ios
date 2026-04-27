@@ -53,7 +53,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
 
     var lastSelectedIndexPath: IndexPath?
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let filter = filter else { return }
+        guard let filter else { return }
         let chip = FilterChipCollectionView.chipData[indexPath.row]
         if !isChipSelected(chip: chip) {
             deselectItem(at: indexPath, animated: false)
@@ -101,7 +101,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     }
 
     private func titleForChip(chip: ChipType) -> String {
-        guard let filter = filter else { return "" }
+        guard let filter else { return "" }
         var returnedString = ""
         switch chip {
         case .podcast:
@@ -162,7 +162,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     }
 
     private func isChipSelected(chip: ChipType) -> Bool {
-        guard let filter = filter else { return false }
+        guard let filter else { return false }
         var result = false
         switch chip {
         case .podcast:
@@ -195,7 +195,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     }
 
     func saveFilterAndNotify() {
-        guard let filter = filter else { return }
+        guard let filter else { return }
         filter.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(playlist: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playlistChanged, object: filter)
@@ -206,7 +206,7 @@ class FilterChipCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     }
 
     func scrollToLastSelected() {
-        guard let lastSelectedIndexPath = lastSelectedIndexPath else { return }
+        guard let lastSelectedIndexPath else { return }
         scrollToItem(at: lastSelectedIndexPath, at: .left, animated: false)
     }
 

@@ -514,10 +514,10 @@ extension AppDelegate {
             }
 
             PodcastManager.shared.importSharedItemFromUrl(path) { item in
-                guard let item = item else {
+                guard let item else {
                     self.hideProgressDialog()
                     FileLog.shared.addMessage("Unable to load shared item \(path)")
-                    if let onErrorOpen = onErrorOpen {
+                    if let onErrorOpen {
                         UIApplication.shared.open(onErrorOpen, options: [:], completionHandler: nil)
                     }
 

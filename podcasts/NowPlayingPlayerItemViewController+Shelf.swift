@@ -513,7 +513,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
 
-        if let starBtn = starBtn {
+        if let starBtn {
             let starImage = episode.keepEpisode ? UIImage(named: "player_star_filled") : UIImage(named: "player_star_empty")
 
             UIView.transition(with: starBtn, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
@@ -541,7 +541,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     private func sharePodcast(source: UIView, podcast: Podcast?) {
-        guard let _ = source.superview, let podcast = podcast else { return }
+        guard let _ = source.superview, let podcast else { return }
 
         SharingModal.show(option: .podcast(podcast), from: analyticsSource, in: self)
     }

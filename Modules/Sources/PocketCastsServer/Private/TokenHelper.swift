@@ -29,7 +29,7 @@ class TokenHelper {
     func callSecureUrl(request: URLRequest) async throws -> (HTTPURLResponse?, Data?) {
         try await withCheckedThrowingContinuation { continuation in
             performCallSecureUrl(request: request, retryOnUnauthorized: true) { response, data, error in
-                if let error = error {
+                if let error {
                     continuation.resume(throwing: error)
                     return
                 }

@@ -62,7 +62,7 @@ class PlaybackQueue: NSObject {
     }
 
     func removeTopEpisode(fireNotification: Bool) {
-        guard let topEpisode = topEpisode else { return }
+        guard let topEpisode else { return }
 
         FileLog.shared.addMessage("Remove Top Episode \(topEpisode.title ?? "Untitled")")
         remove(episode: topEpisode, fireNotification: fireNotification)
@@ -252,7 +252,7 @@ class PlaybackQueue: NSObject {
     }
 
     func clearUpNextList() {
-        guard let topEpisode = topEpisode else { return }
+        guard let topEpisode else { return }
 
         DataManager.sharedManager.snapshotUpNext()
 
@@ -363,7 +363,7 @@ class PlaybackQueue: NSObject {
         if !Settings.downloadUpNextEpisodes() { return }
 
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             let episodes = self.allEpisodes(includeNowPlaying: !FeatureFlag.streamAndCachePlayingEpisode.enabled)
             for episode in episodes {
                 self.autoDownloadIfRequired(episode: episode)

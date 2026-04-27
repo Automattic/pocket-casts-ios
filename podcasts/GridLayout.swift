@@ -90,7 +90,7 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
 
     override func prepare() {
         // On rotation, UICollectionView sometimes calls prepare without calling invalidateLayout
-        guard itemAttributesCache.isEmpty, headerAttributesCache.isEmpty, let collectionView = collectionView else { return }
+        guard itemAttributesCache.isEmpty, headerAttributesCache.isEmpty, let collectionView else { return }
 
         let fixedDimension: CGFloat
         if scrollDirection == .vertical {

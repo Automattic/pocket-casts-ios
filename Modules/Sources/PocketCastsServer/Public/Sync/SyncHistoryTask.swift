@@ -42,7 +42,7 @@ class SyncHistoryTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
-            } else if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
+            } else if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
             } else {
                 print("SyncHistoryTask Unable to sync with server got status \(httpStatus)")

@@ -374,7 +374,7 @@ class Settings: NSObject {
     }
 
     private class func convertRegion(userRegion: String?, discoverLayout: DiscoverLayout) -> String {
-        guard let userRegion = userRegion else { return discoverLayout.defaultRegionCode }
+        guard let userRegion else { return discoverLayout.defaultRegionCode }
 
         if let _ = discoverLayout.regions?[userRegion.lowercased()] {
             return userRegion

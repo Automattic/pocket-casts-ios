@@ -8,7 +8,7 @@ extension PlaylistDetailViewModel {
 
     func saveUpNextAndPlay() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             let batches = await self.batchedUpNextEpisodes()
             await MainActor.run {
                 self.playAllEpisodes()

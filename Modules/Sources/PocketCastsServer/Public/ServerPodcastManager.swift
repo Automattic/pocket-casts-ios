@@ -62,7 +62,7 @@ public class ServerPodcastManager: NSObject {
 
     public func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
-            if let podcastInfo = podcastInfo {
+            if let podcastInfo {
                 self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, completion: completion)
             } else {
                 completion?(false)
@@ -297,7 +297,7 @@ public class ServerPodcastManager: NSObject {
             return nil
         }
 
-        guard let data = data else {
+        guard let data else {
             return nil
         }
 

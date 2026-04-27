@@ -115,7 +115,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         populateHeader()
         tableView.tableHeaderView = headerView
 
-        if let firstPodcastSubscription = firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
+        if let firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
             tableView.tableFooterView = footerView
         }
 
@@ -144,7 +144,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         var sections = [TableSection]()
         if isSingleBundleSubscription() {
             sections.append(.manageSubscription)
-        } else if !isSingleBundleSubscription(), let firstPodcastSubscription = firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
+        } else if !isSingleBundleSubscription(), let firstPodcastSubscription, firstPodcastSubscription.autoRenewing, firstPodcastSubscription.platformIsWeb() {
             sections.append(.manageSubscription)
         }
 
@@ -156,7 +156,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     }
 
     private func rows(_ section: TableSection) -> [TableRow] {
-        guard let firstPodcastSubscription = firstPodcastSubscription else {
+        guard let firstPodcastSubscription else {
             return [TableRow]()
         }
 
@@ -263,7 +263,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         switch section {
         case .bundlePodcasts:
             let headerFrame = CGRect(x: 0, y: 0, width: 0, height: 54)
-            if let firstPodcastSubscription = firstPodcastSubscription, !firstPodcastSubscription.isExpired() {
+            if let firstPodcastSubscription, !firstPodcastSubscription.isExpired() {
                 let podcastCount = bundleSubscription.podcasts.count.localized()
                 let subscribedPodcastCount = bundleSubscription.podcasts.filter { DataManager.sharedManager.findPodcast(uuid: $0.uuid) != nil }.count.localized()
                 let title = L10n.paidPodcastBundledSubscriptions(subscribedPodcastCount, podcastCount)
@@ -320,7 +320,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         progressAlert = ShiftyLoadingAlert(title: L10n.canceling)
         progressAlert?.showAlert(self, hasProgress: false, completion: nil)
         ApiServerHandler.shared.cancelPaidPodcastSubcription(bundleUuid: firstPodcastSubscription.bundleUuid) { [weak self] success in
-            guard let self = self else { return }
+            guard let self else { return }
 
             DispatchQueue.main.async {
                 self.progressAlert?.hideAlert(true)
@@ -491,7 +491,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     private func loadBundleCollection(uuid: String) {
         let bundleUrl = ServerHelper.bundleUrl(bundleUuid: uuid)
         DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
-            guard let podcastCollection = podcastCollection else { return }
+            guard let podcastCollection else { return }
             self.bundleCollection = podcastCollection
             DispatchQueue.main.async {
                 self.populateHeader()

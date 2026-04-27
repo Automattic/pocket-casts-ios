@@ -46,7 +46,7 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func actionPerformed(willBeRemoved: Bool) {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         loadLocalEpisodes(podcast: podcast, animated: true)
     }

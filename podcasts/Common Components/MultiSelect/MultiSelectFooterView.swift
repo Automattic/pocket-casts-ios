@@ -146,7 +146,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
     }
 
     @IBAction func moreTapped(_ sender: Any) {
-        guard let delegate = delegate else { return }
+        guard let delegate else { return }
 
         let actions = getActionsFunc()
 
@@ -176,12 +176,12 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
     }
 
     @IBAction func rightActionTapped(_ sender: Any) {
-        guard let delegate = delegate, let rightAction = rightAction else { return }
+        guard let delegate, let rightAction else { return }
         MultiSelectHelper.performAction(rightAction, actionDelegate: delegate, view: rightActionButton)
     }
 
     @IBAction func leftActionTapped(_ sender: Any) {
-        guard let delegate = delegate, let leftAction = leftAction else { return }
+        guard let delegate, let leftAction else { return }
         MultiSelectHelper.performAction(leftAction, actionDelegate: delegate, view: leftActionButton)
     }
 
@@ -209,7 +209,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         let newLeftAction = MultiSelectHelper.invertActionIfRequired(action: actions[0], actionDelegate: actionDelegate)
         if leftAction != newLeftAction {
             leftAction = newLeftAction
-            if let leftAction = leftAction {
+            if let leftAction {
                 leftActionButton.setImage(UIImage(named: leftAction.iconName()), for: .normal)
                 leftActionButton.accessibilityLabel = leftAction.title()
             }
@@ -219,7 +219,7 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         if rightAction != newRightAction {
             rightAction = newRightAction
 
-            if let rightAction = rightAction {
+            if let rightAction {
                 rightActionButton.setImage(UIImage(named: rightAction.iconName()), for: .normal)
                 rightActionButton.accessibilityLabel = rightAction.title()
             }

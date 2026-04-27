@@ -23,7 +23,7 @@ extension PodcastViewController {
     }
 
     func checkIfPodcastNeedsUpdating() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
         let addMissingEpisodes = Settings.addMissingEpisodes
         ServerPodcastManager.shared.updatePodcastIfRequired(podcast: podcast, addMissingEpisodes: addMissingEpisodes) { [weak self] updated in
             if updated {
@@ -33,7 +33,7 @@ extension PodcastViewController {
     }
 
     private func processPodcastAdded(added: Bool, uuid: String?) {
-        guard let uuid = uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
+        guard let uuid, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) else {
             loadingEnded(successfully: false)
 
             return

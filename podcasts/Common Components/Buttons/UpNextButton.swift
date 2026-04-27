@@ -143,7 +143,7 @@ class UpNextButton: UIButton {
     }
 
     private func isDarkTheme() -> Bool {
-        if let themeOverride = themeOverride {
+        if let themeOverride {
             return themeOverride.isDark
         }
         return Theme.isDarkTheme()

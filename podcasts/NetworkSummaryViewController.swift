@@ -72,7 +72,7 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
             preloadedImage = cell.networkImage.image
         }
         let networkViewController = NetworkViewController(network: network, preloadedImage: preloadedImage)
-        if let delegate = delegate {
+        if let delegate {
             networkViewController.registerDiscoverDelegate(delegate)
             delegate.navController()?.pushViewController(networkViewController, animated: true)
         }
@@ -90,7 +90,7 @@ class NetworkSummaryViewController: DiscoverPeekViewController, DiscoverSummaryP
         guard let source = item.source else { return }
 
         DiscoverServerHandler.shared.discoverNetworkList(source: source, authenticated: item.authenticated) { [weak self] podcastNetworks in
-            guard let strongSelf = self, let podcastNetworks = podcastNetworks else { return }
+            guard let strongSelf = self, let podcastNetworks else { return }
 
             strongSelf.networks = podcastNetworks
             DispatchQueue.main.async {

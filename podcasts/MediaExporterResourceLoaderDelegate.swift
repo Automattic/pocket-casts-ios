@@ -154,7 +154,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error {
             downloadFailed(with: error)
             return
         }
@@ -406,7 +406,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func retryWithoutUserAgent(originalURL: URL?) {
-        guard let originalURL = originalURL else {
+        guard let originalURL else {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Cannot retry without User-Agent - no original URL")
             return
         }

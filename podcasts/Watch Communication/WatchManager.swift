@@ -43,7 +43,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard WCSession.isSupported() else { return }
 
         sessionQueue.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             // Prevent multiple setup calls
             guard !self.isSettingUp else { return }

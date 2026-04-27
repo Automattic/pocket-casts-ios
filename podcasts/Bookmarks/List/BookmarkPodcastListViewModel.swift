@@ -27,7 +27,7 @@ class BookmarkPodcastListViewModel: BookmarkListViewModel {
         }
 
         var items: [Bookmark]
-        if let podcast = podcast {
+        if let podcast {
             items = bookmarkManager.bookmarks(for: podcast, sorted: sortOption).includeEpisodes()
         } else {
             items = bookmarkManager.allBookmarks(sorted: sortOption).includeEpisodes().includePodcasts()

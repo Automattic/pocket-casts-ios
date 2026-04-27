@@ -438,7 +438,7 @@ struct DeveloperMenu_Previews: PreviewProvider {
 extension Bundle {
 
     var identifier: String {
-        guard let infoDictionary = infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
+        guard let infoDictionary, let identifier = infoDictionary["CFBundleIdentifier"] as? String else {
             return "Cound not load bundle id."
         }
 

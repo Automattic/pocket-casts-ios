@@ -8,7 +8,7 @@ class LenticularViewController: UIViewController {
 
         view.isUserInteractionEnabled = false
         overlayView = LenticularOverlayView(frame: view.bounds)
-        if let overlayView = overlayView {
+        if let overlayView {
             overlayView.backgroundColor = UIColor.clear
 
             view.addSubview(overlayView)

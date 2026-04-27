@@ -7,7 +7,7 @@ public extension String {
     }
 
     func startsWith(string: String?) -> Bool {
-        guard let string = string else { return false }
+        guard let string else { return false }
 
         guard let range = range(of: string, options: .caseInsensitive) else { return false }
 

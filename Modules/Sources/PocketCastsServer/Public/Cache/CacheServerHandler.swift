@@ -37,7 +37,7 @@ public class CacheServerHandler {
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
             guard let strongSelf = self else { return }
 
-            if let data = data, let response = response {
+            if let data, let response {
                 let responseToCache = CachedURLResponse(response: response, data: data)
                 strongSelf.colorsUrlsCache.storeCachedResponse(responseToCache, for: request)
 
@@ -72,7 +72,7 @@ public class CacheServerHandler {
         tokenHelper.callSecureUrl(request: request) { [weak self] response, data, _ in
             guard let strongSelf = self else { return }
 
-            if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let podcastInfo = strongSelf.asJson(data: data) {
+            if response?.statusCode == ServerConstants.HttpConstants.ok, let data, let podcastInfo = strongSelf.asJson(data: data) {
                 if let lastModified = response?.allHeaderFields[ServerConstants.HttpHeaders.lastModified] as? String {
                     completion(podcastInfo, lastModified)
                 } else {
@@ -92,7 +92,7 @@ public class CacheServerHandler {
         request.addLocalizationHeaders()
 
         tokenHelper.callSecureUrl(request: request) { response, data, _ in
-            if response?.statusCode == ServerConstants.HttpConstants.ok, let data = data, let url = String(data: data, encoding: .utf8) {
+            if response?.statusCode == ServerConstants.HttpConstants.ok, let data, let url = String(data: data, encoding: .utf8) {
                 completion(url)
 
                 return
@@ -118,7 +118,7 @@ public class CacheServerHandler {
             }
 
             guard let strongSelf = self else { return }
-            if let data = data, let podcastInfo = strongSelf.asJson(data: data) {
+            if let data, let podcastInfo = strongSelf.asJson(data: data) {
                 if let lastModified = response?.allHeaderFields[ServerConstants.HttpHeaders.lastModified] as? String {
                     completion(podcastInfo, lastModified)
                 } else {
@@ -160,7 +160,7 @@ public class CacheServerHandler {
         }
 
         tokenHelper.callSecureUrl(request: request) { response, data, _ in
-            guard response?.statusCode == ServerConstants.HttpConstants.ok, let data = data else {
+            guard response?.statusCode == ServerConstants.HttpConstants.ok, let data else {
                 completion?(nil)
                 return
             }
@@ -181,7 +181,7 @@ public class CacheServerHandler {
     }
 
     private func topLevelValue<T>(data: Data?, name: String, ofType: T.Type) -> T? {
-        guard let data = data else { return nil }
+        guard let data else { return nil }
 
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -194,7 +194,7 @@ public class CacheServerHandler {
     }
 
     private func asJson(data: Data?) -> [String: Any]? {
-        guard let data = data else { return nil }
+        guard let data else { return nil }
 
         do {
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] { return json }

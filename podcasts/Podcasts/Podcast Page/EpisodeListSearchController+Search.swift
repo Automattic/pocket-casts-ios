@@ -23,7 +23,7 @@ extension EpisodeListSearchController: UITextFieldDelegate {
     func handleTextFieldDidChange() {
         let searchTerm = searchTextField.text
 
-        if let searchTerm = searchTerm, !searchTerm.isEmpty {
+        if let searchTerm, !searchTerm.isEmpty {
             clearSearchBtn.isHidden = false
             resetSearchTimer()
         } else {

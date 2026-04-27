@@ -248,7 +248,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func refreshComplete() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.refreshControl?.endRefreshing(true)
             self.isRefreshAnimating = false
@@ -258,7 +258,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func handleDataChangedNotification() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateDisplayedData()
         }

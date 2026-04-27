@@ -85,8 +85,8 @@ class FoldersCoordinator: NSObject {
         }
 
         let creatFolderView = CreateFolderView { [weak vc, weak self] folderUuid in
-            guard let self = self else { return }
-            if let folderUuid = folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
+            guard let self else { return }
+            if let folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
                 vc?.dismiss(animated: true, completion: { [weak self] in
                     self?.navigationManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })

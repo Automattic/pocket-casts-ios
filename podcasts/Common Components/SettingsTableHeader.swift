@@ -63,7 +63,7 @@ class SettingsTableHeader: ThemeableView {
             self.lockImage = lockImage
         }
 
-        if let rightBtnTitle = rightBtnTitle, let rightBtnSelector = rightBtnSelector, let rightBtnTarget = rightBtnTarget {
+        if let rightBtnTitle, let rightBtnSelector, let rightBtnTarget {
             let rightBtn = ThemeableUIButton()
             rightBtn.setTitle(rightBtnTitle, for: .normal)
             rightBtn.titleLabel?.font = titleLabel.font

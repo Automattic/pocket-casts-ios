@@ -24,7 +24,7 @@ extension PCSearchBarController: UITextFieldDelegate {
     @objc func textFieldDidChange() {
         let searchTerm = searchTextField.text
 
-        if let searchTerm = searchTerm, !searchTerm.isEmpty {
+        if let searchTerm, !searchTerm.isEmpty {
             clearSearchBtn.isHidden = false
             searchDelegate?.searchTermChanged(searchTerm)
             resetSearchTimer()

@@ -22,7 +22,7 @@ public class MetadataUpdater {
     }
 
     public func updateMetadataFrom(response: HTTPURLResponse?, episode: Episode?) {
-        guard let episode = episode, let response = response else { return }
+        guard let episode, let response else { return }
 
         MetadataTask.updateEpisodeFrom(response: response, episode: episode)
     }
