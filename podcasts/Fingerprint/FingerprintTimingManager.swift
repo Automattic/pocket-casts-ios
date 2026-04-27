@@ -20,6 +20,11 @@ final class FingerprintTimingManager: NSObject {
 
     static let shared = FingerprintTimingManager()
 
+    /// Posted on the main queue whenever `state` transitions. Subscribers can
+    /// avoid polling and only do work when the manager actually has (or loses)
+    /// a usable mapping — used to gate the transcript view's CADisplayLink.
+    static let stateDidChange = NSNotification.Name("FingerprintTimingManagerStateDidChange")
+
     // MARK: - Public Properties
 
     private(set) var state: State = .idle
@@ -63,6 +68,9 @@ final class FingerprintTimingManager: NSObject {
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastProgressPosition: Double = -1
+    private var currentReferenceData: Data?
+    private var lastCacheSave: Date?
+    private static let cacheSaveDebounceSeconds: TimeInterval = 5
 
     // Drift-filter state — see `consider(candidate:)`.
     private var filterLastTrusted: TimeMappingEntry?
@@ -114,6 +122,7 @@ final class FingerprintTimingManager: NSObject {
     func stop() {
         queue.async { [weak self] in
             guard let self else { return }
+            self.saveCacheIfNeeded(force: true)
             self.resetState()
             self.updateState(.idle)
             FileLog.shared.addMessage("FingerprintTimingManager: stopped")
@@ -272,6 +281,8 @@ final class FingerprintTimingManager: NSObject {
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
         lastProgressPosition = -1
+        currentReferenceData = nil
+        lastCacheSave = nil
         resetFilterState()
         #if DEBUG
         debugRejections.removeAll()
@@ -286,6 +297,7 @@ final class FingerprintTimingManager: NSObject {
     private func updateState(_ newState: State) {
         DispatchQueue.main.async { [weak self] in
             self?.state = newState
+            NotificationCenter.default.post(name: Self.stateDidChange, object: self)
         }
     }
 
@@ -306,8 +318,8 @@ final class FingerprintTimingManager: NSObject {
 
         let uuid = episode.uuid
 
-        if let reference = loadReference(for: episode) {
-            configureForReference(reference, episode: episode)
+        if let (reference, referenceData) = loadReference(for: episode) {
+            configureForReference(reference, referenceData: referenceData, episode: episode)
             return
         }
 
@@ -333,12 +345,16 @@ final class FingerprintTimingManager: NSObject {
                 }
 
                 self.saveReferenceData(data, for: episode)
-                self.configureForReference(reference, episode: episode)
+                self.configureForReference(reference, referenceData: data, episode: episode)
             }
         }
     }
 
-    private func configureForReference(_ reference: ReferenceFingerprint, episode: BaseEpisode) {
+    private func configureForReference(
+        _ reference: ReferenceFingerprint,
+        referenceData: Data,
+        episode: BaseEpisode
+    ) {
         let uuid = episode.uuid
 
         let source = resolveAudioSource(for: episode)
@@ -404,6 +420,7 @@ final class FingerprintTimingManager: NSObject {
             isCancelled: { flag.isCancelled }
         )
         context = newContext
+        currentReferenceData = referenceData
 
         updateState(.preparing)
         FileLog.shared.addMessage(
@@ -411,6 +428,36 @@ final class FingerprintTimingManager: NSObject {
         )
 
         let startPosition = PlaybackManager.shared.currentTime()
+
+        // Cache short-circuit: for fully-downloaded audio, seed any previously
+        // committed mappings from disk. The drift-filter anchor picks up where
+        // we left off so a re-stream after a seek extends the existing trend.
+        // Only kick the live stream if playback is outside the cached coverage.
+        if !isStreaming, !FingerprintConstants.eagerFingerprintingEnabled,
+           let cached = FingerprintMappingCache.load(
+               audioFilePath: audioFileURL.path,
+               referenceData: referenceData
+           ) {
+            for entry in cached {
+                insertMapping(entry)
+            }
+            filterLastTrusted = cached.last
+            let coverage = playbackToReference.count
+            if coverage >= FingerprintConstants.minimumCoverageForActive {
+                updateState(.active(coverage: coverage))
+            }
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: cache hit for \(uuid) — seeded \(coverage) mappings"
+            )
+            if isWithinMappedRange(startPosition) {
+                return
+            }
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: playback @ \(String(format: "%.1f", startPosition))s "
+                    + "outside cached range — starting stream"
+            )
+        }
+
         startStream(context: newContext, fromPosition: startPosition)
     }
 
@@ -506,8 +553,18 @@ final class FingerprintTimingManager: NSObject {
             throw StreamError.bufferAllocationFailed
         }
 
+        var wasGated = false
         while true {
             if ctx.isCancelled() { throw StreamError.cancelled }
+
+            if try waitForLookaheadRoom(
+                nextChunkStartSeconds: Double(audioFile.framePosition) / format.sampleRate,
+                context: ctx,
+                wasGated: &wasGated
+            ) {
+                continue
+            }
+
             try audioFile.read(into: buffer, frameCount: chunkFrames)
             if buffer.frameLength == 0 { break }
 
@@ -546,6 +603,7 @@ final class FingerprintTimingManager: NSObject {
         var announcedFileAppeared = false
         var totalFramesRead: AVAudioFramePosition = 0
         var windowsEmitted = 0
+        var wasGated = false
 
         FileLog.shared.addMessage(
             "FingerprintTimingManager: streaming grow-loop starting at \(String(format: "%.1f", startSeconds))s "
@@ -634,6 +692,14 @@ final class FingerprintTimingManager: NSObject {
                 continue
             }
 
+            if try waitForLookaheadRoom(
+                nextChunkStartSeconds: Double(lastProcessedFrame) / fmt.sampleRate,
+                context: ctx,
+                wasGated: &wasGated
+            ) {
+                continue
+            }
+
             audioFile.framePosition = lastProcessedFrame
             let framesAvailable = AVAudioFrameCount(safeEnd - lastProcessedFrame)
             let framesToRead = min(framesAvailable, chunkFrames)
@@ -683,6 +749,48 @@ final class FingerprintTimingManager: NSObject {
                 + "emitted \(windowsEmitted) windows, "
                 + "stall accum \(String(format: "%.1f", stallAccumSeconds))s"
         )
+    }
+
+    /// Returns `true` if the caller should `continue` its loop — i.e. we slept
+    /// because the next chunk is too far ahead of where the listener is. The
+    /// gate keeps the streaming fingerprint loop within `lookaheadSeconds` of
+    /// `PlaybackManager.currentTime()` so we don't fingerprint material the
+    /// listener may never reach. Bypassed when `eagerFingerprintingEnabled`.
+    /// Logs only on entry/exit (`wasGated` toggle) to avoid log spam during
+    /// long pauses.
+    private func waitForLookaheadRoom(
+        nextChunkStartSeconds: Double,
+        context ctx: GenerationContext,
+        wasGated: inout Bool
+    ) throws -> Bool {
+        if FingerprintConstants.eagerFingerprintingEnabled { return false }
+
+        let currentPlayback = PlaybackManager.shared.currentTime()
+        guard currentPlayback >= 0 else { return false }
+
+        let lead = nextChunkStartSeconds - currentPlayback
+        if lead > FingerprintConstants.lookaheadSeconds {
+            if !wasGated {
+                wasGated = true
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: lookahead reached "
+                        + "(next chunk @ \(String(format: "%.1f", nextChunkStartSeconds))s, "
+                        + "playback @ \(String(format: "%.1f", currentPlayback))s, "
+                        + "lead \(String(format: "%.1f", lead))s) — sleeping until playback catches up"
+                )
+            }
+            try sleepWithCancellation(seconds: 1.0, context: ctx)
+            return true
+        }
+
+        if wasGated {
+            wasGated = false
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: lookahead room available again "
+                    + "(playback @ \(String(format: "%.1f", currentPlayback))s) — resuming"
+            )
+        }
+        return false
     }
 
     /// Sleep on the generation queue in small slices so cancellation is
@@ -794,6 +902,10 @@ final class FingerprintTimingManager: NSObject {
         let coverage = playbackToReference.count
         if coverage >= FingerprintConstants.minimumCoverageForActive {
             updateState(.active(coverage: coverage))
+        }
+
+        if inserted > 0 {
+            saveCacheIfNeeded(force: false)
         }
 
         #if DEBUG
@@ -986,10 +1098,11 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Helpers
 
-    private func loadReference(for episode: BaseEpisode) -> ReferenceFingerprint? {
+    private func loadReference(for episode: BaseEpisode) -> (ReferenceFingerprint, Data)? {
         let path = referencePath(for: episode)
         guard let data = FileManager.default.contents(atPath: path) else { return nil }
-        return ReferenceFingerprint.decode(from: data)
+        guard let reference = ReferenceFingerprint.decode(from: data) else { return nil }
+        return (reference, data)
     }
 
     private func referencePath(for episode: BaseEpisode) -> String {
@@ -1005,6 +1118,28 @@ final class FingerprintTimingManager: NSObject {
         } catch {
             FileLog.shared.addMessage("FingerprintTimingManager: failed to save reference — \(error.localizedDescription)")
         }
+    }
+
+    /// Persist the current `playbackToReference` mapping to disk so the next
+    /// transcript open of this downloaded episode can skip the audio decode +
+    /// match work. Debounced to avoid I/O on every batch; called with
+    /// `force: true` from `stop()` to flush before tear-down.
+    /// Streaming buffers are skipped — they may be partial, deleted, or
+    /// resized, so caching their mappings is not worth the validation cost.
+    private func saveCacheIfNeeded(force: Bool) {
+        guard let ctx = context, !ctx.isStreaming else { return }
+        guard let referenceData = currentReferenceData else { return }
+        guard !playbackToReference.isEmpty else { return }
+        if !force, let last = lastCacheSave,
+           Date().timeIntervalSince(last) < Self.cacheSaveDebounceSeconds {
+            return
+        }
+        FingerprintMappingCache.save(
+            playbackToReference,
+            audioFilePath: ctx.audioFileURL.path,
+            referenceData: referenceData
+        )
+        lastCacheSave = Date()
     }
 
     /// Which local file backs the fingerprint loop for this episode.

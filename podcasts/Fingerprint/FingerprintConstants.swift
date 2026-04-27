@@ -68,4 +68,17 @@ enum FingerprintConstants {
     /// to reject near-ties, not demand a huge dominance (which would kill real
     /// matches whose nearby reference windows also score decently).
     static let driftScoreDominanceGap: Float = 0.05
+
+    /// How far ahead of `PlaybackManager.currentTime()` the streaming
+    /// fingerprint loop is allowed to read before pausing. Capping this avoids
+    /// fingerprinting an entire 60-minute episode in the background when the
+    /// listener is only going to use the next minute or two of highlighting.
+    /// Bypassed when `eagerFingerprintingEnabled` is true.
+    static let lookaheadSeconds: Double = 60
+
+    /// Flip to `true` (and rebuild) to restore the original pre-lookahead
+    /// behavior: fingerprint generation reads to EOF and the mapping-cache
+    /// short-circuit in `prepareForEpisode` is skipped. For developer use
+    /// when iterating on the matcher or the debug overlay.
+    static let eagerFingerprintingEnabled = false
 }

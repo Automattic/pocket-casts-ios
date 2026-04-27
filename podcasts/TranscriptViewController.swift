@@ -104,11 +104,28 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let link = CADisplayLink(target: self, selector: #selector(highlightTick))
         link.add(to: .main, forMode: .common)
         highlightDisplayLink = link
+        updateDisplayLinkRunState()
     }
 
     private func stopHighlightDisplayLink() {
         highlightDisplayLink?.invalidate()
         highlightDisplayLink = nil
+    }
+
+    /// The 60 Hz tick is only useful while playback is actually advancing AND
+    /// we have a fingerprint mapping to interpolate against. Gating on both
+    /// avoids burning CPU/wakeups when the listener leaves the transcript open
+    /// while paused, or while the matcher is still bootstrapping its first
+    /// trusted anchor.
+    @objc private func updateDisplayLinkRunState() {
+        guard let link = highlightDisplayLink else { return }
+        let isActive: Bool
+        if case .active = FingerprintTimingManager.shared.state {
+            isActive = true
+        } else {
+            isActive = false
+        }
+        link.isPaused = !(playbackManager.isPlayingEpisode && isActive)
     }
 
     @objc private func highlightTick() {
@@ -794,6 +811,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+            addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateDisplayLinkRunState))
+            addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateDisplayLinkRunState))
+            addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateDisplayLinkRunState))
+            addCustomObserver(FingerprintTimingManager.stateDidChange, selector: #selector(updateDisplayLinkRunState))
         }
     }
 
