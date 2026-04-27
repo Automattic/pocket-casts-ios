@@ -135,7 +135,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         NSLayoutConstraint.activate([
             effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12),
+            effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
             effectView.heightAnchor.constraint(equalToConstant: 48),
 
             podcastArtwork.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
