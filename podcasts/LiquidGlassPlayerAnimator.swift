@@ -67,17 +67,24 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
                                     width: containerView.frame.width,
                                     height: containerView.frame.height)
 
-        // Add the full player at its starting frame and force a layout pass so
-        // we can read the artwork's resolved position.
-        let startingPlayerFrame = isPresenting ? offScreenFrame : onScreenFrame
+        // Add the full player to the container. On present, place it offscreen
+        // and force a layout pass so we can read the artwork's resolved
+        // position. On dismiss, leave the frame alone — an interactive gesture
+        // may have already moved it, and snapping back to onScreenFrame would
+        // jump the player (and the artwork inside it) to the top before
+        // animating.
         containerView.addSubview(playerView)
-        playerView.frame = startingPlayerFrame
-        playerView.setNeedsLayout()
-        playerView.layoutIfNeeded()
+        if isPresenting {
+            playerView.frame = offScreenFrame
+            playerView.setNeedsLayout()
+            playerView.layoutIfNeeded()
+        }
 
-        // Compute the artwork target frame in window coords for the full player
-        // at its on-screen position. When presenting, the player is offscreen
-        // by containerView.frame.height — back that out.
+        // Compute the artwork frame in window coords. On present, this is the
+        // target on-screen position — the player is currently offscreen by
+        // containerView.frame.height, so back that out. On dismiss, this is
+        // the artwork's actual (possibly gesture-dragged) position, which is
+        // exactly where the morph should start from.
         var fullPlayerArtworkFrame = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
         if isPresenting {
             fullPlayerArtworkFrame.origin.y -= containerView.frame.height
@@ -109,18 +116,13 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
         animate(withDuration: duration) { [self] in
             playerView.frame = self.isPresenting ? onScreenFrame : offScreenFrame
+            artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
+            artwork?.layer.cornerRadius = self.isPresenting ? self.fullPlayerArtwork.layer.cornerRadius : (self.miniPlayerArtwork.imageView?.layer.cornerRadius ?? 0)
         } completion: { _ in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
             artwork?.removeFromSuperview()
             transitionContext.completeTransition(true)
-        }
-
-        // Artwork morph: smooth ease, no spring overshoot, so the icon doesn't
-        // bounce as it lands in its destination.
-        UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState]) {
-            artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
-            artwork?.layer.cornerRadius = self.isPresenting ? fullPlayerArtwork.layer.cornerRadius : (miniPlayerArtwork.imageView?.layer.cornerRadius ?? 0)
         }
 
         // Mini player bounce: own spring with low damping so the overshoot reads,
