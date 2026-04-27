@@ -14,7 +14,7 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
     }
 }
 
-extension FileLog: EventLoggingDelegate {
+extension FileLog: @retroactive EventLoggingDelegate {
     static let genericErrorMessage = "No log file uploaded: Error generating logs"
 
     static let noWearableLogsAvailable = "No wearable logs were available"
