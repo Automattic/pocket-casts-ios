@@ -5883,3 +5883,31 @@
 
 /* Generic error used when playback fails. */
 "player_error_short_playback_error" = "Playback failed, please try again";
+
+/* tv app home tab */
+"tv_tab_home" = "Home";
+
+/* tv app podcasts tab */
+"tv_tab_podcasts" = "Your Podcasts";
+
+/* tv app Playlists tab */
+"tv_tab_playlists" = "Playlists";
+
+/* tv app Up Next tab */
+"tv_tab_up_next" = "Up Next";
+
+/* tv welcome title */
+"tv_welcome_title" = "Welcome to Pocket Casts TV";
+
+/* tv welcome subtitle */
+"tv_welcome_subtitle" = "Your podcasts on the big screen";
+
+/* tv welcome sign in */
+"tv_welcome_sign_in" = "Sign in";
+
+/* tv welcome create free account */
+"tv_welcome_create_free_account" = "Create free account";
+
+/* tv welcome browse without account */
+"tv_welcome_browse_without_account" = "Browse without an account";
+

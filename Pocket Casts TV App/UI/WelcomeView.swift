@@ -25,19 +25,19 @@ struct WelcomeView: View {
             VStack(spacing: 32) {
                 Spacer()
                 Image(ImageResource.pcLogo)
-                Text("Welcome to Pocket Casts TV")
+                Text(L10n.tvWelcomeTitle)
                     .font(.title)
-                Text("Your podcasts on the big screen")
+                Text(L10n.tvWelcomeSubtitle)
                     .font(.headline)
                     .foregroundColor(Color.textSecondary)
                 HStack {
-                    Button("Sign in") { viewModel.state = .signedIn }
+                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signedIn }
                         .buttonStyle(.borderedProminent)
-                    Button("Create Free Account") { viewModel.state = .signedIn }
+                    Button(L10n.tvWelcomeCreateFreeAccount) { viewModel.state = .signedIn }
                         .buttonStyle(.borderedProminent)
                 }
                 Spacer()
-                Button("Browse without an account") {
+                Button(L10n.tvWelcomeBrowseWithoutAccount) {
                     viewModel.state = .browsing
                 }
                 .buttonStyle(.plain)
