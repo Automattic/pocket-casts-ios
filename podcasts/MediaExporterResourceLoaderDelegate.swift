@@ -34,7 +34,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private var session: URLSession?
     var response: URLResponse?
-    private let queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate", qos: .userInitiated, attributes: .concurrent)
     private var pendingRequests: Set<AVAssetResourceLoadingRequest> = Set<AVAssetResourceLoadingRequest>()
     private var isDownloadComplete = false
     var deleteFileOnRelease = false
