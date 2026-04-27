@@ -351,7 +351,7 @@ class AnalyticsHelper {
             }
 
             let price = product.price
-            let currency = product.priceLocale.currencyCode ?? ""
+            let currency = product.priceLocale.currency?.identifier ?? ""
             let name = product.localizedTitle
 
             let item: [String: Any] = [

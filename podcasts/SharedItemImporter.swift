@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsServer
 
-class SharedItemImporter: Operation {
+class SharedItemImporter: Operation, @unchecked Sendable {
     private var urlToImport: String
     private var completion: (IncomingShareItem?) -> Void
 
