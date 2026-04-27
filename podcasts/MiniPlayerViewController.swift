@@ -384,14 +384,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func updateColorsLegacy() {
         gradientView.colors = [ThemeColor.primaryUi02().withAlphaComponent(0), ThemeColor.primaryUi02()]
 
-        let actionColor: UIColor
-        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
-            actionColor = Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
-        } else if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
-            actionColor = AppTheme.userEpisodeColor(number: Int(episode.imageColor))
-        } else {
-            actionColor = AppTheme.userEpisodeColor(number: 1)
-        }
+        let actionColor = currentPodcastTintColor()
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
         let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
 
@@ -409,8 +402,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @available(iOS 26.0, *)
     private func updateColorsLiquidGlass() {
+        let actionColor = currentPodcastTintColor()
+        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
-        let iconColor = ThemeColor.primaryText01()
 
         episodeTitleLabel?.textColor = ThemeColor.primaryText01()
         episodeTimeLeftLabel?.textColor = ThemeColor.primaryText01()
@@ -420,6 +414,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         skipBackBtn.tintColor = iconColor
         skipFwdBtn.tintColor = iconColor
+    }
+
+    private func currentPodcastTintColor() -> UIColor {
+        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
+            return Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        } else if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
+            return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
+        } else {
+            return AppTheme.userEpisodeColor(number: 1)
+        }
     }
 
     private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {
