@@ -26,7 +26,7 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
         // Dismiss: scale duration with gesture velocity so slow flicks get a
         // longer settle (no rushed feel) while fast flicks finish quickly and
         // keep up with the user's intent.
-        return 0.45 - min(0.25, dismissVelocity / 8000)
+        return 0.33 - min(0.15, dismissVelocity / 8000)
     }
 
     private var isPresenting: Bool {
@@ -116,11 +116,14 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
         let miniPlayerView = fromViewController.view
         let restingTransform: CGAffineTransform = .identity
-        // Negative y: mini player drops in from above on dismiss (mimicking the
-        // full player's downward exit), and lifts upward as it's covered on
-        // present (mimicking the full player's upward entry).
-        let collapsedTransform = CGAffineTransform(translationX: 0, y: -20).scaledBy(x: 0.92, y: 0.92)
-        miniPlayerView?.transform = isPresenting ? restingTransform : collapsedTransform
+        // Present-end: mini player lifts upward and shrinks slightly as it's
+        // covered, mimicking the full player's upward entry.
+        let coveredTransform = CGAffineTransform(translationX: 0, y: -20).scaledBy(x: 0.92, y: 0.92)
+        // Dismiss-start: mini player begins expanded and offset upward, then
+        // springs back to rest — as if absorbing the full player zooming back
+        // into it. Paired with a bouncy spring so it settles with overshoot.
+        let absorbingTransform = CGAffineTransform(translationX: 0, y: -36).scaledBy(x: 1.12, y: 1.12)
+        miniPlayerView?.transform = isPresenting ? restingTransform : absorbingTransform
 
         animate(withDuration: duration) { [self] in
             playerView.frame = self.isPresenting ? onScreenFrame : offScreenFrame
@@ -134,7 +137,11 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
             playerView.alpha = self.isPresenting ? 1 : 0.33
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
             artwork?.layer.cornerRadius = self.isPresenting ? self.fullPlayerArtwork.layer.cornerRadius : (self.miniPlayerArtwork.imageView?.layer.cornerRadius ?? 0)
-            miniPlayerView?.transform = self.isPresenting ? collapsedTransform : restingTransform
+            // Present-only here — dismiss runs the mini player on a separate
+            // bouncier spring below.
+            if self.isPresenting {
+                miniPlayerView?.transform = coveredTransform
+            }
         } completion: { _ in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
@@ -146,22 +153,36 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
             playerView.alpha = 1
             transitionContext.completeTransition(true)
         }
+
+        // Dismiss only: bouncy absorb spring on the mini player itself, so it
+        // visibly settles after the full player "collapses" into it.
+        if !isPresenting {
+            animateMiniPlayerAbsorb {
+                miniPlayerView?.transform = restingTransform
+            }
+        }
     }
 
-    /// Spring shape modeled on Apple Music / Podcasts: present has a small
-    /// lively settle, non-interactive dismiss is critically damped so it falls
-    /// cleanly to rest with no overshoot. Interactive dismiss loosens the
-    /// damping a touch so the gesture feels lively. Dismiss carries gesture
-    /// momentum via initialVelocity; present starts from rest.
+    private func animateMiniPlayerAbsorb(animations: @escaping () -> Void) {
+        // Higher damping + longer duration trades a sharp wobble for a softer
+        // settle — still a visible overshoot, but it eases out instead of
+        // bouncing.
+        let timingParameters = UISpringTimingParameters(
+            dampingRatio: 0.6,
+            initialVelocity: CGVector(dx: 0, dy: springVelocity)
+        )
+        let animator = UIViewPropertyAnimator(duration: duration * 1.75, timingParameters: timingParameters)
+        animator.addAnimations(animations)
+        animator.startAnimation()
+    }
+
+    /// Critically damped spring (no overshoot) used for the main present and
+    /// dismiss move. On dismiss, initialVelocity carries the gesture's
+    /// momentum into the animation so it doesn't lurch when the user lets go;
+    /// on present we start from rest. The mini player's absorb on dismiss uses
+    /// a separate bouncier spring — see `animateMiniPlayerAbsorb`.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        let dampingRatio: CGFloat
-        if isPresenting {
-            dampingRatio = 1.0
-        } else if dismissVelocity > 0 {
-            dampingRatio = 0.78
-        } else {
-            dampingRatio = 0.88
-        }
+        let dampingRatio: CGFloat = 1.0
         let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
         let timingParameters = UISpringTimingParameters(dampingRatio: dampingRatio, initialVelocity: velocity)
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
