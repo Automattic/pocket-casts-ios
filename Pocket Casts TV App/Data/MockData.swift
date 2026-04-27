@@ -17,5 +17,3 @@ struct MockData {
         return results
     }
 }
-
-
