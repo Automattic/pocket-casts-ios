@@ -153,7 +153,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             buttonStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
         ])
     }
 
