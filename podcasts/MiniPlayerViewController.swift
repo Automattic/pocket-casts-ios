@@ -100,7 +100,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         podcastArtwork.layer.cornerRadius = 6
         podcastArtwork.layer.masksToBounds = true
 
-        playPauseBtn.visualSize = 28
+        playPauseBtn.visualSize = 26
 
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
