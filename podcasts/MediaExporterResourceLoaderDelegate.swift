@@ -8,11 +8,6 @@ import PocketCastsUtils
 #if !os(watchOS)
 /// MediaExporterItemConfiguration global configuration.
 enum MediaExporterItemConfiguration {
-    /// How much data is downloaded in memory before stored on a file.
-    public static var downloadBufferLimit: Int {
-        FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled ? 256.KB : 128.KB
-    }
-
     /// How much data is allowed to be read in memory at a time.
     public static var readDataLimit: Int = 20.MB
 
@@ -33,20 +28,13 @@ fileprivate extension Int {
 class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelegate, URLSessionDelegate, URLSessionDataDelegate, URLSessionTaskDelegate {
     private let lock = NSLock()
 
-    var bufferData = Data()
-    private let downloadBufferLimit = MediaExporterItemConfiguration.downloadBufferLimit
     private let readDataLimit = MediaExporterItemConfiguration.readDataLimit
 
     private var fileHandle: MediaFileHandle
 
     private var session: URLSession?
     var response: URLResponse?
-    private let queue = DispatchQueue(label: "com.pocketcasts.MediaExporterResourceLoaderDelegate", qos: .userInitiated, attributes: .concurrent)
-    private var pendingRequests: Set<AVAssetResourceLoadingRequest> {
-        get { queue.sync { return pendingRequestsValue } }
-        set { queue.async(flags: .barrier) { [weak self] in self?.pendingRequestsValue = newValue } }
-    }
-    private var pendingRequestsValue = Set<AVAssetResourceLoadingRequest>()
+    private var pendingRequests: Set<AVAssetResourceLoadingRequest> = Set<AVAssetResourceLoadingRequest>()
     private var isDownloadComplete = false
     var deleteFileOnRelease = false
     var hasRetriedWithoutUserAgent = false
@@ -133,21 +121,24 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             startDataRequest(with: originalURL)
         }
         debugLogRequestInfo(loadingRequest, state: "Add")
+        lock.lock()
         pendingRequests.insert(loadingRequest)
+        lock.unlock()
         processPendingRequests()
         return true
     }
 
     func resourceLoader(_ resourceLoader: AVAssetResourceLoader, didCancel loadingRequest: AVAssetResourceLoadingRequest) {
         debugLogRequestInfo(loadingRequest, state: "Cancel")
+        lock.lock()
         pendingRequests.remove(loadingRequest)
+        lock.unlock()
     }
 
     // MARK: URLSessionDelegate
 
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        bufferData.append(data)
-        writeBufferDataToFileIfNeeded()
+        writeDataToFile(data)
         processPendingRequests()
         let contentType = response?.mimeType
         callbackQueue.async { [weak self] in
@@ -166,15 +157,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         if let error {
             downloadFailed(with: error)
             return
-        }
-
-        if !bufferData.isEmpty {
-            do {
-                try fileHandle.append(data: bufferData)
-            } catch {
-                downloadFailed(with: error)
-                return
-            }
         }
 
         let error = verifyResponse()
@@ -255,7 +237,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         session = nil
 
         if shouldResetData {
-            bufferData = Data()
             pendingRequests.forEach { request in
                 request.finishLoading(with: error)
             }
@@ -308,11 +289,16 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private func fillInContentInformationRequest(_ contentInformationRequest: AVAssetResourceLoadingContentInformationRequest?) {
         // Do we have response from the server?
-        guard let response else { return }
+        guard let response,
+              let contentInformationRequest
+        else {
+            return
+        }
+        contentInformationRequest.contentType = response.mimeType
+        contentInformationRequest.contentLength = response.expectedContentLength
+        contentInformationRequest.isByteRangeAccessSupported = true
 
-        contentInformationRequest?.contentType = response.mimeType
-        contentInformationRequest?.contentLength = response.expectedContentLength
-        contentInformationRequest?.isByteRangeAccessSupported = true
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Content Information Request filled: \(contentInformationRequest.contentLength)")
     }
 
     private func haveEnoughDataToFulfillRequest(_ dataRequest: AVAssetResourceLoadingDataRequest) throws -> Bool {
@@ -325,17 +311,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
         // Is there enough data cached to fulfill the request?
         guard bytesCached > currentOffset else {
-            if FeatureFlag.streamAndDownloadReadFromMemoryBuffer.enabled, currentOffset < bufferData.count + bytesCached, currentOffset < requestedOffset + requestedLength {
-                let start = currentOffset - bytesCached
-                let end = min(currentOffset + (requestedLength - (currentOffset - requestedOffset)) - bytesCached, bufferData.count)
-                if start >= end {
-                    FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: try to read from memory with wrong indeces: \(start):\(end)")
-                    return false
-                }
-                let dataRequested = bufferData.subdata(in: start..<end)
-                dataRequest.respond(with: dataRequested)
-                return dataRequest.currentOffset >= requestedLength + requestedOffset
-            }
             return false
         }
 
@@ -364,15 +339,12 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         }
     }
 
-    private func writeBufferDataToFileIfNeeded() {
+    private func writeDataToFile(_ data: Data) {
         lock.lock()
         defer { lock.unlock() }
 
-        guard bufferData.count >= downloadBufferLimit else { return }
-
         do {
-            try fileHandle.append(data: bufferData)
-            bufferData = Data()
+            try fileHandle.append(data: data)
         } catch {
             FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: failed to write data to file: \(error)")
             downloadFailed(with: error, notify: true)
@@ -386,7 +358,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadComplete() {
-        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download completed")
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download completed. File Size:\(fileHandle.safeFileSize) ExpectedSize:\(response?.expectedContentLength ?? 0)")
         isDownloadComplete = true
         processPendingRequests()
         let contentType = self.response?.mimeType
@@ -446,7 +418,6 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
         invalidateAndCancelSession(shouldResetData: false)
 
         response = nil
-        bufferData = Data()
 
         fileHandle = MediaFileHandle(filePath: saveFilePath)
 

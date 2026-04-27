@@ -191,7 +191,6 @@ extension MediaExporterResourceLoaderDelegate {
         invalidateAndCancelSession(shouldResetData: false)
 
         response = nil
-        bufferData = Data()
 
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
     }
