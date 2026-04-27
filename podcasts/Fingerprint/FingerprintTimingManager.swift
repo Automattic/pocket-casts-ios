@@ -433,7 +433,10 @@ final class FingerprintTimingManager: NSObject {
         // Cache short-circuit: for fully-downloaded audio, seed any previously
         // committed mappings from disk. The drift-filter anchor picks up where
         // we left off so a re-stream after a seek extends the existing trend.
-        // Only kick the live stream if playback is outside the cached coverage.
+        // Skip the live stream only when the cache has enough coverage to be
+        // .active AND playback is inside that coverage — otherwise we'd sit in
+        // .preparing forever with a partial mapping the transcript view can't
+        // use. Below threshold, kick the stream regardless so coverage grows.
         if !isStreaming, !FingerprintConstants.eagerFingerprintingEnabled,
            let cached = FingerprintMappingCache.load(
                audioFilePath: audioFileURL.path,
@@ -444,18 +447,20 @@ final class FingerprintTimingManager: NSObject {
             }
             filterLastTrusted = cached.last
             let coverage = playbackToReference.count
-            if coverage >= FingerprintConstants.minimumCoverageForActive {
+            let reachedActive = coverage >= FingerprintConstants.minimumCoverageForActive
+            if reachedActive {
                 updateState(.active(coverage: coverage))
             }
             FileLog.shared.addMessage(
                 "FingerprintTimingManager: cache hit for \(uuid) — seeded \(coverage) mappings"
             )
-            if isWithinMappedRange(startPosition) {
+            if reachedActive, isWithinMappedRange(startPosition) {
                 return
             }
             FileLog.shared.addMessage(
-                "FingerprintTimingManager: playback @ \(String(format: "%.1f", startPosition))s "
-                    + "outside cached range — starting stream"
+                "FingerprintTimingManager: cache coverage \(coverage) "
+                    + "(active=\(reachedActive), inRange=\(isWithinMappedRange(startPosition))) "
+                    + "— starting stream from \(String(format: "%.1f", startPosition))s"
             )
         }
 
