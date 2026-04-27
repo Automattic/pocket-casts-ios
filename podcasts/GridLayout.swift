@@ -34,7 +34,7 @@ extension GridLayoutDelegate {
     }
 
     func sizeForItem(inCollectionView collectionView: UICollectionView, withLayout layout: UICollectionViewLayout, atIndexPath indexPath: IndexPath) -> CGSize {
-        CGSize(width: 0, height: 0)
+        CGSize.zero
     }
 }
 
