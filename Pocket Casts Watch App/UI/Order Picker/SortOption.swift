@@ -21,7 +21,7 @@ extension LibrarySort: @retroactive Identifiable, SortOption {
     }
 }
 
-extension UploadedSort: SortOption {
+extension UploadedSort: @retroactive Identifiable, SortOption {
     static var pickerTitle: String = L10n.filesSort
     public var id: Int32 { rawValue }
 }
