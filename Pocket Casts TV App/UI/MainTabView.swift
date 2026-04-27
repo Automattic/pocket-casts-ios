@@ -109,7 +109,7 @@ struct MainTabView: View {
         Button {
 
         } label: {
-            Image("user-placeholder")
+            Image(ImageResource.userPlaceholder)
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
@@ -123,7 +123,7 @@ struct MainTabView: View {
             Spacer().frame(height: 40)
             HStack {
                 Spacer().frame(width: 84)
-                Image("pc-logo")
+                Image(ImageResource.pcLogo)
                 Spacer()
             }.frame(height: 78)
             Spacer()
