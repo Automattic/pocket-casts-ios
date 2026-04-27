@@ -107,14 +107,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         title.font = .font(ofSize: 12, weight: .medium, scalingWith: .subheadline)
         title.numberOfLines = 1
         title.lineBreakMode = .byTruncatingTail
-        title.adjustsFontForContentSizeCategory = true
+        title.adjustsFontForContentSizeCategory = false
         episodeTitleLabel = title
 
         let timeLeft = UILabel()
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
         timeLeft.font = .font(ofSize: 11, weight: .regular, scalingWith: .footnote)
         timeLeft.numberOfLines = 1
-        timeLeft.adjustsFontForContentSizeCategory = true
+        timeLeft.adjustsFontForContentSizeCategory = false
         episodeTimeLeftLabel = timeLeft
 
         let textStack = UIStackView(arrangedSubviews: [title, timeLeft])
