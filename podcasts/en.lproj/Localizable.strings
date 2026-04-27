@@ -5923,5 +5923,14 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
+/* tv create account title */
+"tv_create_account_title" = "Create your free account";
+
+/* tv create account subtitle */
+"tv_create_account_subtitle" = "Scan this code to get started on your phone, it only takes a minute.";
+
+/* tv create account enter code */
+"tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
+
 
 

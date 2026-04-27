@@ -59,7 +59,7 @@ struct WelcomeView: View {
                 case .signIn:
                     SignInView()
                 case .createAccount:
-                    SignInView()
+                    CreateAccountView()
                 }
             }
         }
