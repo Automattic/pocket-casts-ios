@@ -510,6 +510,7 @@ final class FingerprintTimingManager: NSObject {
                 guard let self else { return }
                 if case .active = self.state { return }
                 self.state = terminalState
+                NotificationCenter.default.post(name: Self.stateDidChange, object: self)
             }
         }
     }
