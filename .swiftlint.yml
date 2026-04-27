@@ -57,6 +57,9 @@ only_rules:
   # the declaration.
   - opening_brace
 
+  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
+  - prefer_zero_over_explicit_init
+
   # Files should have a single trailing newline.
   - trailing_newline
 
