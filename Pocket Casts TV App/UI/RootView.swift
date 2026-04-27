@@ -7,7 +7,6 @@ class RootViewModel {
         case welcome
         case browsing
         case signedIn
-        case signIn
     }
 
     var state: State = .welcome
@@ -32,8 +31,6 @@ struct RootView: View {
             WelcomeView().environment(viewModel)
         case .browsing, .signedIn:
             MainTabView().environment(viewModel)
-        case .signIn:
-            SignInView().environment(viewModel)
         }
     }
 }

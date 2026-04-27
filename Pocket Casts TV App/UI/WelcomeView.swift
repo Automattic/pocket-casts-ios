@@ -10,6 +10,8 @@ struct WelcomeView: View {
 
     @State var model = WelcomeViewModel()
 
+    @State var presentSignIn: Bool = false
+
     enum Layout {
         static let gridSize = CGFloat(272)
     }
@@ -18,30 +20,47 @@ struct WelcomeView: View {
         GridItem(.fixed(Layout.gridSize))
     }
 
+    enum Destination: Hashable {
+        case signIn
+        case createAccount
+    }
+
     var body: some View {
-        ZStack(alignment: .top) {
-            podcastGrid
-            gradientView
-            VStack(spacing: 32) {
-                Spacer()
-                Image(ImageResource.pcLogo)
-                Text(L10n.tvWelcomeTitle)
-                    .font(.title)
-                Text(L10n.tvWelcomeSubtitle)
-                    .font(.headline)
+        NavigationStack {
+            ZStack(alignment: .top) {
+                podcastGrid
+                gradientView
+                VStack(spacing: 32) {
+                    Spacer()
+                    Image(ImageResource.pcLogo)
+                    Text(L10n.tvWelcomeTitle)
+                        .font(.title)
+                    Text(L10n.tvWelcomeSubtitle)
+                        .font(.headline)
+                        .foregroundColor(Color.textSecondary)
+                    HStack {
+                        NavigationLink(value: Destination.signIn) {
+                            Text(L10n.tvWelcomeSignIn)
+                        }
+                        NavigationLink(value: Destination.createAccount) {
+                            Text(L10n.tvWelcomeCreateFreeAccount)
+                        }
+                    }
+                    Spacer()
+                    Button(L10n.tvWelcomeBrowseWithoutAccount) {
+                        viewModel.state = .browsing
+                    }
+                    .buttonStyle(.plain)
                     .foregroundColor(Color.textSecondary)
-                HStack {
-                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signIn }
-                        .buttonStyle(.borderedProminent)
-                    Button(L10n.tvWelcomeCreateFreeAccount) { viewModel.state = .signedIn }
-                        .buttonStyle(.borderedProminent)
                 }
-                Spacer()
-                Button(L10n.tvWelcomeBrowseWithoutAccount) {
-                    viewModel.state = .browsing
+            }
+            .navigationDestination(for: Destination.self) { destination in
+                switch destination {
+                case .signIn:
+                    SignInView()
+                case .createAccount:
+                    SignInView()
                 }
-                .buttonStyle(.plain)
-                .foregroundColor(Color.textSecondary)
             }
         }
     }
