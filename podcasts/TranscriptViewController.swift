@@ -930,11 +930,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
-        let seekTime: TimeInterval
-        if let playbackTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) {
-            seekTime = playbackTime
-        } else {
-            seekTime = referenceTime
+        guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
+            Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
+            return
         }
 
         playbackManager.seekTo(time: seekTime)
