@@ -358,7 +358,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     }
 
     private func downloadComplete() {
-        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download completed")
+        FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Download completed. File Size:\(fileHandle.safeFileSize) ExpectedSize:\(response?.expectedContentLength ?? 0)")
         isDownloadComplete = true
         processPendingRequests()
         let contentType = self.response?.mimeType
