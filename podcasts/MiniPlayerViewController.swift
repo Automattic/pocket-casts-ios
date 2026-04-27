@@ -73,7 +73,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playbackProgressView.isHidden = true
         upNextBtn.isHidden = true
 
-        let effectView = UIVisualEffectView(effect: UIGlassEffect(style: .regular))
+
+        let effectView = UIVisualEffectView(effect: {
+            let effect = UIGlassEffect(style: .regular)
+            effect.isInteractive = true
+            return effect
+        }())
         effectView.translatesAutoresizingMaskIntoConstraints = false
         effectView.clipsToBounds = true
         effectView.layer.cornerCurve = .continuous
