@@ -84,17 +84,6 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
         }
         playerView.alpha = 1
 
-        // Scrim: dim what's behind the player while it travels. Match the
-        // initial alpha to how much of the player is off-screen so an
-        // interactive dismiss in progress doesn't pop the dim in at full
-        // strength.
-        let scrim = UIView(frame: containerView.bounds)
-        scrim.backgroundColor = .black
-        scrim.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        let offscreenProgress = max(0, min(1, playerView.frame.origin.y / containerView.frame.height))
-        scrim.alpha = 0.3 * (1 - offscreenProgress)
-        containerView.insertSubview(scrim, belowSubview: playerView)
-
         // Compute the artwork frame in window coords. On present, this is the
         // target on-screen position — the player is currently offscreen by
         // containerView.frame.height, so back that out. On dismiss, this is
@@ -142,8 +131,7 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
             // Subtle fade on dismiss (not all the way to 0) so the seam where
             // the morphing artwork hands back to the mini player is masked
             // without making the player feel like it's vanishing.
-            playerView.alpha = self.isPresenting ? 1 : 0.25
-            scrim.alpha = self.isPresenting ? 0.3 : 0
+            playerView.alpha = self.isPresenting ? 1 : 0.33
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
             artwork?.layer.cornerRadius = self.isPresenting ? self.fullPlayerArtwork.layer.cornerRadius : (self.miniPlayerArtwork.imageView?.layer.cornerRadius ?? 0)
             miniPlayerView?.transform = self.isPresenting ? collapsedTransform : restingTransform
@@ -154,7 +142,6 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
                 miniPlayerView?.transform = .identity
             }
             artwork?.removeFromSuperview()
-            scrim.removeFromSuperview()
             playerView.transform = .identity
             playerView.alpha = 1
             transitionContext.completeTransition(true)
@@ -162,11 +149,19 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
     }
 
     /// Spring shape modeled on Apple Music / Podcasts: present has a small
-    /// lively settle, dismiss is critically damped so it falls cleanly to
-    /// rest with no overshoot. Dismiss carries gesture momentum via
-    /// initialVelocity; present starts from rest.
+    /// lively settle, non-interactive dismiss is critically damped so it falls
+    /// cleanly to rest with no overshoot. Interactive dismiss loosens the
+    /// damping a touch so the gesture feels lively. Dismiss carries gesture
+    /// momentum via initialVelocity; present starts from rest.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        let dampingRatio: CGFloat = isPresenting ? 1.0 : 0.88
+        let dampingRatio: CGFloat
+        if isPresenting {
+            dampingRatio = 1.0
+        } else if dismissVelocity > 0 {
+            dampingRatio = 0.78
+        } else {
+            dampingRatio = 0.88
+        }
         let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
         let timingParameters = UISpringTimingParameters(dampingRatio: dampingRatio, initialVelocity: velocity)
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
