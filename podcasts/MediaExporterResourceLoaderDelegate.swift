@@ -296,10 +296,9 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
             return
         }
         contentInformationRequest.contentType = response.mimeType
-        contentInformationRequest.contentLength = isDownloadComplete ? Int64(fileHandle.safeFileSize) : response.expectedContentLength
+        contentInformationRequest.contentLength = response.expectedContentLength
         contentInformationRequest.isByteRangeAccessSupported = true
-        print("MediaExporterResourceLoaderDelegate: File size: \(Int64(fileHandle.safeFileSize))")
-        print("MediaExporterResourceLoaderDelegate: Length size: \(response.expectedContentLength)")
+
         FileLog.shared.addMessage("MediaExporterResourceLoaderDelegate: Content Information Request filled: \(contentInformationRequest.contentLength)")
     }
 
