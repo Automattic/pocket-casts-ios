@@ -218,7 +218,7 @@ class SyncTask: ApiBaseTask {
                 await dataManager.bookmarks.markAllBookmarksAsSynced()
             }
 
-            let response = try Api_SyncUpdateResponse(serializedData: responseData)
+            let response = try Api_SyncUpdateResponse(serializedBytes: responseData)
             processServerData(response: response)
 
             StatsManager.shared.setSyncStatus(.synced)

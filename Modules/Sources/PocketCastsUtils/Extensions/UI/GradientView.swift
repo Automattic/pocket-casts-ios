@@ -43,7 +43,7 @@ public class GradientView: UIView {
         ]
 
         gradientLayer.locations = [0, 1]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.startPoint = CGPoint.zero
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         gradientLayer.frame = bounds
         layer.addSublayer(gradientLayer)

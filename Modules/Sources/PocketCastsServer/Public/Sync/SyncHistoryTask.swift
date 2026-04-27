@@ -54,7 +54,7 @@ class SyncHistoryTask: ApiBaseTask {
 
     private func process(serverData: Data) {
         do {
-            let response = try Api_HistoryResponse(serializedData: serverData)
+            let response = try Api_HistoryResponse(serializedBytes: serverData)
 
             // on watchOS, we don't show history, so we also don't process server changes we only want to push changes up, not down
             #if !os(watchOS)

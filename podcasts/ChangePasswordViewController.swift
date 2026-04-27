@@ -330,7 +330,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets.zero
         var animationDuration = 0.3
         if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
             animationDuration = keyboardDuration

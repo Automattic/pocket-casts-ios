@@ -40,7 +40,7 @@ class PurchaseReceiptTask: ApiBaseTask {
                 return
             }
             do {
-                let status = try Api_SubscriptionsStatusResponse(serializedData: responseData)
+                let status = try Api_SubscriptionsStatusResponse(serializedBytes: responseData)
                 SubscriptionHelper.setSubscriptionPaid(Int(status.paid))
                 SubscriptionHelper.setSubscriptionPlatform(Int(status.platform))
                 SubscriptionHelper.setSubscriptionExpiryDate(status.expiryDate.timeIntervalSince1970)

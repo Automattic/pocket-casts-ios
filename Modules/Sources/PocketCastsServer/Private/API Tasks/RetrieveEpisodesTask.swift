@@ -39,7 +39,7 @@ class RetrieveEpisodesTask: ApiBaseTask {
             }
 
             do {
-                let syncEpisodes = try Api_SyncEpisodesResponse(serializedData: responseData).episodes
+                let syncEpisodes = try Api_SyncEpisodesResponse(serializedBytes: responseData).episodes
 
                 for syncEpisode in syncEpisodes {
                     let convertedEpisode = convertFromProto(syncEpisode)

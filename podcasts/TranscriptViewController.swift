@@ -12,6 +12,27 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var canScrollToDismiss = true
 
+    private var isUserScrolling = false
+    // Stays `true` for the entire scroll-back grace period, not just while the
+    // user's finger is on the view. `isUserScrolling` flips back to false the
+    // instant the drag ends, so without this, the next playback tick would
+    // snap the view back to the highlight before the 5s return fires.
+    private var isAutoScrollSuppressed = false
+    private var autoScrollBackWorkItem: DispatchWorkItem?
+    private static let autoScrollBackDelay: TimeInterval = 5.0
+
+    // `playbackProgress` fires roughly once per second, which means the highlight
+    // can land up to ~1s after a cue boundary. Drive updates off the display
+    // refresh instead so transitions land within one frame (~16ms at 60Hz).
+    // The cue-equality guard inside updateTranscriptPosition makes each tick
+    // effectively free when nothing has changed.
+    private var highlightDisplayLink: CADisplayLink?
+
+    // Cursor into `transcript.cues` used by `currentCue(at:)` to avoid an O(n)
+    // linear scan on every display-link tick. Valid while the active cue is at
+    // or ahead of this index; reset when a new transcript is loaded.
+    private var cachedCueIndex: Int = 0
+
     private var isSearching = false
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
@@ -69,6 +90,29 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         parent?.view.overrideUserInterfaceStyle = .unspecified
         dismissSearch()
         resetSearch()
+        cancelAutoScrollBack()
+    }
+
+    deinit {
+        autoScrollBackWorkItem?.cancel()
+        highlightDisplayLink?.invalidate()
+    }
+
+    private func startHighlightDisplayLink() {
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        stopHighlightDisplayLink()
+        let link = CADisplayLink(target: self, selector: #selector(highlightTick))
+        link.add(to: .main, forMode: .common)
+        highlightDisplayLink = link
+    }
+
+    private func stopHighlightDisplayLink() {
+        highlightDisplayLink?.invalidate()
+        highlightDisplayLink = nil
+    }
+
+    @objc private func highlightTick() {
+        updateTranscriptPosition()
     }
 
     func didDisappear() {
@@ -184,7 +228,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             overlay.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            overlay.heightAnchor.constraint(equalToConstant: 12)
+            overlay.heightAnchor.constraint(equalToConstant: 16)
         ])
         debugOverlay = overlay
         #endif
@@ -249,6 +293,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     @objc private func displaySearch() {
         isSearching = true
+        cancelAutoScrollBack()
 
         // Keep the inputAccessoryView dark
         parent?.view.overrideUserInterfaceStyle = .dark
@@ -449,6 +494,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
             FingerprintTimingManager.shared.prepareForCurrentEpisode()
         }
+        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -460,6 +506,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     override func willBeRemovedFromPlayer() {
         removeAllCustomObservers()
+        stopHighlightDisplayLink()
+        if FeatureFlag.syncedTranscripts.enabled {
+            FingerprintTimingManager.shared.stop()
+        }
         #if DEBUG
         debugTimer?.invalidate()
         debugTimer = nil
@@ -652,6 +702,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func show(transcript: TranscriptModel, resetPosition: Bool) {
         setupShowTranscriptState()
         previousRange = nil
+        cachedCueIndex = 0
         self.transcript = transcript
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
@@ -747,27 +798,110 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func updateTranscriptPosition() {
+        guard let transcript else { return }
+
+        // Only highlight when the fingerprint flow has an actual mapping for this
+        // playback time. Without that, falling back to raw playback time would
+        // highlight arbitrary VTT lines during ads and other non-matching audio.
         let rawTime = playbackManager.currentTime()
-        let position: TimeInterval
-        if case .active = FingerprintTimingManager.shared.state,
-           let referenceTime = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) {
-            position = referenceTime
-        } else {
-            position = rawTime
-        }
-        guard let transcript else {
+        guard case .active = FingerprintTimingManager.shared.state,
+              let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
+            if previousRange != nil {
+                previousRange = nil
+                transcriptView.attributedText = styleText(transcript: transcript)
+            }
             return
         }
-        if let cue = transcript.firstCue(containing: position), cue.characterRange != previousRange {
+
+        let currentCue = currentCue(at: position, in: transcript.cues)
+
+        if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
-            let scrollRange = NSRange(location: range.location, length: range.length * 2)
-            transcriptView.scrollRangeToVisible(scrollRange)
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                let scrollRange = NSRange(location: range.location, length: range.length * 2)
+                transcriptView.scrollRangeToVisible(scrollRange)
+            }
+            #if DEBUG
+            let intoCue = position - cue.startTime
+            FileLog.shared.addMessage(
+                "[transcript-offset] playback=\(String(format: "%.3f", rawTime))" +
+                " reference=\(String(format: "%.3f", position))" +
+                " cue=[\(String(format: "%.3f", cue.startTime))..\(String(format: "%.3f", cue.endTime))]" +
+                " intoCue=\(String(format: "%+.3f", intoCue))"
+            )
+            #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
             previousRange = nil
-            transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
+                transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
+            }
         }
+    }
+
+    // Resolves the cue containing `position` in O(1) amortized for normal
+    // forward playback by starting from `cachedCueIndex` rather than scanning
+    // from the beginning on every display-link tick. Falls back to a full
+    // scan only on backward seeks.
+    private func currentCue(at position: Double, in cues: [TranscriptCue]) -> TranscriptCue? {
+        guard !cues.isEmpty else { return nil }
+        let cached = min(cachedCueIndex, cues.count - 1)
+
+        if cues[cached].contains(timeInSeconds: position) {
+            return cues[cached]
+        }
+
+        // Backward seek — match the original `first { contains }` semantics
+        // so overlapping cues resolve to the earliest match.
+        if position < cues[cached].startTime {
+            if let idx = cues.firstIndex(where: { $0.contains(timeInSeconds: position) }) {
+                cachedCueIndex = idx
+                return cues[idx]
+            }
+            return nil
+        }
+
+        var i = cached + 1
+        while i < cues.count, cues[i].startTime <= position {
+            if cues[i].contains(timeInSeconds: position) {
+                cachedCueIndex = i
+                return cues[i]
+            }
+            i += 1
+        }
+        return nil
+    }
+
+    // MARK: - Auto-scroll back to highlight
+
+    private func scheduleAutoScrollBack() {
+        cancelAutoScrollBack()
+        guard FeatureFlag.syncedTranscripts.enabled else { return }
+        guard !isSearching else { return }
+        isAutoScrollSuppressed = true
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.isAutoScrollSuppressed = false
+            self.autoScrollBackWorkItem = nil
+            self.scrollBackToCurrentHighlight()
+        }
+        autoScrollBackWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.autoScrollBackDelay, execute: workItem)
+    }
+
+    private func cancelAutoScrollBack() {
+        autoScrollBackWorkItem?.cancel()
+        autoScrollBackWorkItem = nil
+        isAutoScrollSuppressed = false
+    }
+
+    private func scrollBackToCurrentHighlight() {
+        // Only catch up to the highlight if audio is moving. When paused, the
+        // highlight is static and yanking the view back to it would fight the
+        // user who deliberately scrolled elsewhere to read.
+        guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
+        transcriptView.scrollToRange(previousRange)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
@@ -940,6 +1074,23 @@ extension TranscriptViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         canScrollToDismiss = scrollView.contentOffset.y == 0
+        isUserScrolling = true
+        cancelAutoScrollBack()
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            userScrollDidEnd()
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        userScrollDidEnd()
+    }
+
+    private func userScrollDidEnd() {
+        isUserScrolling = false
+        scheduleAutoScrollBack()
     }
 }
 
@@ -948,6 +1099,7 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
         dismissSearch()
         resetSearch()
         searchView.removeFromSuperview()
+        scheduleAutoScrollBack()
     }
 
     func searchButtonTapped() {

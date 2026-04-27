@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "Layer1.png",
       "idiom" : "tv",
       "scale" : "1x"
     },
     {
+      "filename" : "Layer1@2x.png",
       "idiom" : "tv",
       "scale" : "2x"
     }

@@ -359,7 +359,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     // The closeOverlay and controlOverlay are anchored to the safe area
     // when we move the view the overlays flicker
     // To prevent this, anchor to the view instead of the safe area
-    var initialTouchPoint = CGPoint(x: 0, y: 0)
+    var initialTouchPoint = CGPoint.zero
 
     private static let pullDownThreshold: CGFloat = 100
 
