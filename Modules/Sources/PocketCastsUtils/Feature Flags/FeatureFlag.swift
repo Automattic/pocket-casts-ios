@@ -245,9 +245,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
-    /// Read streaming data from memory buffer it's available
-    case streamAndDownloadReadFromMemoryBuffer
-
     /// activates the audio session in the background to avoid locks in the main thread
     case activateAudioSessionInBackground
 
@@ -481,8 +478,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .playlistDataCacheBeforeQuery:
             true
         case .ignorePlayWithOtherAudio:
-            true
-        case .streamAndDownloadReadFromMemoryBuffer:
             true
         case .activateAudioSessionInBackground:
             true
