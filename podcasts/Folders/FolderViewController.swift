@@ -144,7 +144,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         optionsPicker.addAction(action: editAction)
 
         let addRemoveAction = OptionAction(label: L10n.folderAddRemovePodcasts, icon: "folder-podcasts") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.showPodcastSelectionDialog()
 

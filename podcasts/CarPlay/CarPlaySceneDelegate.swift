@@ -91,7 +91,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
 
     @objc private func handlePlaybackStateChanged() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let nowPlayingTemplate = CPNowPlayingTemplate.shared
             self.updateNowPlayingButtons(template: nowPlayingTemplate)

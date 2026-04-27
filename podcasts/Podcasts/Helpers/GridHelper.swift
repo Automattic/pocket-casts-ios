@@ -111,7 +111,7 @@ class GridHelper {
         movingIndexPath = collectionView.indexPathForItem(at: location)
 
         if gesture.state == .began {
-            if let movingIndexPath = movingIndexPath {
+            if let movingIndexPath {
                 collectionView.beginInteractiveMovementForItem(at: movingIndexPath)
                 animatePickingUpCell(pickedUpCell(collectionView: collectionView))
             }
@@ -136,7 +136,7 @@ class GridHelper {
     }
 
     private func animatePickingUpCell(_ cell: UICollectionViewCell?) {
-        guard let cell = cell else { return }
+        guard let cell else { return }
 
         UIView.animate(withDuration: 0.1, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
             cell.alpha = GridHelper.moveAlpha
@@ -145,7 +145,7 @@ class GridHelper {
     }
 
     private func animatePuttingDownCell(_ cell: UICollectionViewCell?) {
-        guard let cell = cell else { return }
+        guard let cell else { return }
 
         UIView.animate(withDuration: 0.1, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
             cell.alpha = 1

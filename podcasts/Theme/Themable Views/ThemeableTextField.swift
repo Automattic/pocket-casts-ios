@@ -47,7 +47,7 @@ class ThemeableTextField: UITextField {
 
     private func updateColor() {
         textColor = AppTheme.colorForStyle(textStyle)
-        if let placeholder = placeholder {
+        if let placeholder {
             attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(placeholderStyle).withAlphaComponent(0.5)])
         }
         if let background = backgroundStyle {

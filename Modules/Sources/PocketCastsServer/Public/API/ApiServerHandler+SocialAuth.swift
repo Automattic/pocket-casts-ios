@@ -38,7 +38,7 @@ public enum AuthenticationScope: String {
 
 public extension ApiServerHandler {
     func validateLogin(identityToken: String?, scope: AuthenticationScope = .mobile) async throws -> AuthenticationResponse {
-        guard let identityToken = identityToken,
+        guard let identityToken,
               let request = tokenRequest(identityToken: identityToken, scope: scope)
         else {
             FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")

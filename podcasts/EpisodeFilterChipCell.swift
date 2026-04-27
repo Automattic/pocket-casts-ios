@@ -33,7 +33,7 @@ class EpisodeFilterChipCell: ThemeableCollectionCell {
     }
 
     private func updateColors() {
-        guard let filterColor = filterColor else { return }
+        guard let filterColor else { return }
 
         if backgroundIsPrimaryUI01 {
             titleLabel.textColor = isChipEnabled ? ThemeColor.filterInteractive02(filterColor: filterColor) : ThemeColor.filterInteractive06(filterColor: filterColor)

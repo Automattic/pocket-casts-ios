@@ -184,7 +184,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             textFieldToToggle = confirmField
         }
 
-        if let textFieldToToggle = textFieldToToggle {
+        if let textFieldToToggle {
             textFieldToToggle.isSecureTextEntry.toggle()
             if textFieldToToggle.isSecureTextEntry {
                 tappedButton.setImage(UIImage(named: "eye-crossed"), for: .normal)

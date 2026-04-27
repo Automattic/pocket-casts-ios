@@ -195,7 +195,7 @@ extension ConfettiView {
 
         let confettiView = Self()
 
-        if let frame = frame {
+        if let frame {
             confettiView.frame = frame
         }
 

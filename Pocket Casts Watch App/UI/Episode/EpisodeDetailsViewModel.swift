@@ -113,7 +113,7 @@ class EpisodeDetailsViewModel: EpisodeViewModel {
             }
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] fetchedEpisode in
-                if let fetchedEpisode = fetchedEpisode {
+                if let fetchedEpisode {
                     self.episode = fetchedEpisode
                 } else {
                     self.shouldDismiss = true

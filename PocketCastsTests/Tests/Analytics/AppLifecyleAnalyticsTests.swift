@@ -275,7 +275,7 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 
             XCTAssertEqual(event, .applicationClosed)
 
-            guard let properties = properties, let time = properties["time_in_app"] as? String else {
+            guard let properties, let time = properties["time_in_app"] as? String else {
                 XCTFail("Properties and time_in_app should not be nil")
                 return
             }

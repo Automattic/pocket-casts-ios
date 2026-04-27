@@ -120,7 +120,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ImportOpmlResponse.failedResponse())
                 return
             }
@@ -154,7 +154,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ExportPodcastsResponse.failedResponse())
                 return
             }
@@ -185,7 +185,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ShareListResponse.failedResponse())
                 return
             }
@@ -210,8 +210,8 @@ public class MainServerHandler {
         tokenHelper.callSecureUrl(request: request) { response, data, error in
             let statusCode = response?.statusCode ?? 0
 
-            guard statusCode == ServerConstants.HttpConstants.ok, let data = data else {
-                if let error = error {
+            guard statusCode == ServerConstants.HttpConstants.ok, let data else {
+                if let error {
                     FileLog.shared.addMessage("Refresh failed: with error \(error.localizedDescription), status code \(statusCode)")
                 } else {
                     FileLog.shared.addMessage("Refresh failed: response returned no data, status code \(statusCode)")
@@ -338,7 +338,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(nil)
                 return
             }

@@ -141,7 +141,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
         SharingServerHandler.shared.loadList(listUrl: url) { podcastList in
             DispatchQueue.main.async {
-                guard let podcastList = podcastList else {
+                guard let podcastList else {
                     self.handleLoadFailed()
 
                     return

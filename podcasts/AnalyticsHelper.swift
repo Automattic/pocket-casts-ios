@@ -441,7 +441,7 @@ private extension AnalyticsHelper {
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
         if FeatureFlag.firebaseLogging.enabled {
-                if let parameters = parameters {
+                if let parameters {
                     logger.debug("🟢 Tracked: \(name) \(parameters)")
                 } else {
                     logger.debug("🟢 Tracked: \(name)")

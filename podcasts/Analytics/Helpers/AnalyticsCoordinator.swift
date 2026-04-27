@@ -74,7 +74,7 @@ class AnalyticsCoordinator {
     }
 
     var currentAnalyticsSource: AnalyticsSource {
-        if let currentSource = currentSource {
+        if let currentSource {
             self.currentSource = nil
             return currentSource
         }

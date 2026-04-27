@@ -16,7 +16,7 @@ struct UserEpisodeManager {
             episode.uuid = uuid
             episode.sizeInBytes = Int64(fileSize)
             episode.episodeStatus = DownloadStatus.downloaded.rawValue
-            if let artwork = artwork {
+            if let artwork {
                 episode.imageColor = 0
                 do {
                     let filePath = episode.urlForImage()
@@ -80,7 +80,7 @@ struct UserEpisodeManager {
         NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
 
         ApiServerHandler.shared.uploadFileDelete(episode: episode, completion: { success in
-            guard let success = success, success else { return }
+            guard let success, success else { return }
             DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: episode)
             NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
             UserEpisodeManager.updateUserEpisodes()
@@ -116,7 +116,7 @@ struct UserEpisodeManager {
         }
 
         ApiServerHandler.shared.uploadFileDelete(episode: userEpisode, completion: { success in
-            guard let success = success else { return }
+            guard let success else { return }
             if success {
                 DataManager.sharedManager.saveEpisode(uploadStatus: .notUploaded, episode: userEpisode)
                 UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode, removeFromPlaybackQueue: false)
@@ -200,7 +200,7 @@ struct UserEpisodeManager {
                     }
 
                     let filePath = episode.urlForImage()
-                    if let artwork = artwork {
+                    if let artwork {
                         do {
                             try artwork.jpegData(compressionQuality: 1)?.write(to: filePath)
                             episode.imageModified = TimeFormatter.currentUTCTimeInMillis()

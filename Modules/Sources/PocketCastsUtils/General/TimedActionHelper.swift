@@ -17,7 +17,7 @@ public class TimedActionHelper {
     }
 
     public func isTimerValid() -> Bool {
-        guard let timer = timer else {
+        guard let timer else {
             return false
         }
         return timer.isValid

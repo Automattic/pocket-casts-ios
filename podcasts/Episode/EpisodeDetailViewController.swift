@@ -375,7 +375,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
             performUpdateDisplayedData(reloadingEpisode: reloadingEpisode)
         } else {
             DispatchQueue.main.sync { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.performUpdateDisplayedData(reloadingEpisode: reloadingEpisode)
             }

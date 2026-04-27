@@ -1,13 +1,13 @@
 import Foundation
 class DBUtils {
     class func convertDate(value: TimeInterval?) -> Date? {
-        guard let value = value, value > 0 else { return nil }
+        guard let value, value > 0 else { return nil }
 
         return Date(timeIntervalSince1970: value)
     }
 
     class func nullIfNil(value: Any?) -> Any {
-        guard let value = value else { return NSNull() }
+        guard let value else { return NSNull() }
 
         return value
     }

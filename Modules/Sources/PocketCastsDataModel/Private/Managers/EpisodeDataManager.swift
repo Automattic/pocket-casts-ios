@@ -773,7 +773,7 @@ class EpisodeDataManager {
         var values = [episode.keepEpisode] as [Any]
 
         fields.append("starredModified")
-        if let starredModified = starredModified {
+        if let starredModified {
             values.append(starredModified)
         } else {
             let starredModifiedValue = starred ? DBUtils.currentUTCTimeInMillis() : 0
@@ -1148,7 +1148,7 @@ class EpisodeDataManager {
         dbQueue.write { db in
             do {
                 var query = "UPDATE \(DataManager.episodeTableName) SET \(fields.joined(separator: " = ?, ")) = ?"
-                if let whereClause = whereClause {
+                if let whereClause {
                     query += " WHERE \(whereClause)"
                 }
                 try db.executeUpdate(query, values: values)

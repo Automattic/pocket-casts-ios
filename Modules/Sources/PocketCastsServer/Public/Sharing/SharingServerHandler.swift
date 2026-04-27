@@ -91,7 +91,7 @@ public class SharingServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok, let data = data, error == nil else {
+            guard (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok, let data, error == nil else {
                 completion(nil)
 
                 return
@@ -108,7 +108,7 @@ public class SharingServerHandler {
 
     public func loadList(listUrl: URL, completion: @escaping (_ podcastList: PodcastList?) -> Void) {
         URLSession.shared.dataTask(with: listUrl) { data, response, error in
-            guard (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok, let data = data, error == nil else {
+            guard (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok, let data, error == nil else {
                 completion(nil)
 
                 return

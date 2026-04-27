@@ -105,13 +105,13 @@ public class DiscoverServerHandler: DiscoverServerHandling {
     }
 
     public func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
-        guard let source = source else {
+        guard let source else {
             return Fail(error: DiscoverServerError.badRequest).eraseToAnyPublisher()
         }
 
         return Future { [unowned self] promise in
             self.discoverRequest(path: source, type: type, authenticated: authenticated) { discoverList, _ in
-                if let discoverList = discoverList {
+                if let discoverList {
                     promise(.success(discoverList))
                 } else {
                     promise(.failure(DiscoverServerError.unknown))
@@ -211,9 +211,9 @@ public class DiscoverServerHandler: DiscoverServerHandling {
 
         performDiscoverRequest(path: path, authenticated: authenticated) { [weak self] data, response, error, useCache in
             guard
-                let self = self,
-                let data = data,
-                let response = response,
+                let self,
+                let data,
+                let response,
                 error == nil
             else {
                 completion(nil, false)

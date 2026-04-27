@@ -86,11 +86,11 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
         MainServerHandler.shared.exportPodcasts(uuids: uuids) { exportResponse in
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.loadingAlert?.hideAlert(false)
                 self.loadingAlert = nil
 
-                guard let exportResponse = exportResponse, exportResponse.success(), let mapping = exportResponse.result else {
+                guard let exportResponse, exportResponse.success(), let mapping = exportResponse.result else {
                     self.presentError()
                     Analytics.track(.settingsImportExportFailed)
                     return

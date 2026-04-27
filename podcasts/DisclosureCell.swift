@@ -54,7 +54,7 @@ class DisclosureCell: ThemeableCell {
     }
 
     func setImage(imageName: String?, tintColor: UIColor? = nil) {
-        if let imageName = imageName {
+        if let imageName {
             cellTextToImageConstraint.isActive = true
             cellTextToMarginConstraint.isActive = false
             cellTextToImageConstraint.priority = .required

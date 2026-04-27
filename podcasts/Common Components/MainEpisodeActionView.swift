@@ -73,7 +73,7 @@ class MainEpisodeActionView: UIView {
     // MARK: - User Actions
 
     @objc private func buttonTapped() {
-        guard let delegate = delegate else { return }
+        guard let delegate else { return }
 
         if state == .play {
             delegate.playTapped()

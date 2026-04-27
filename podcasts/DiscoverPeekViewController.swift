@@ -39,7 +39,7 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard isPeekEnabled == true else { return }
 
-        guard let currentScrollOffset = currentScrollOffset else { return }
+        guard let currentScrollOffset else { return }
         let target = targetContentOffset.pointee
         let currentScrollDistance = target.x - currentScrollOffset.x
         let coefficent = Int(max(-1, min(currentScrollDistance / scrollThreshold, 1)))

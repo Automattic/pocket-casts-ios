@@ -120,7 +120,7 @@ class NavigationManager {
         lastNavData = data
 
         if place == NavigationManager.podcastPageKey {
-            guard let data = data else { return }
+            guard let data else { return }
 
             if let podcast = data[NavigationManager.podcastKey] as? Podcast {
                 mainController?.navigateToPodcast(podcast)
@@ -145,13 +145,13 @@ class NavigationManager {
                 mainController?.navigateTo(podcast: searchResult)
             }
         } else if place == NavigationManager.folderPageKey {
-            guard let data = data else { return }
+            guard let data else { return }
 
             if let folder = data[NavigationManager.folderKey] as? Folder {
                 mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true)
             }
         } else if place == NavigationManager.episodePageKey {
-            guard let data = data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
+            guard let data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }
 
             mainController?.navigateToEpisode(uuid, podcastUuid: data[NavigationManager.podcastKey] as? String, timestamp: data[NavigationManager.episodeTimestamp] as? TimeInterval)
         } else if place == NavigationManager.podcastListPageKey {
@@ -159,7 +159,7 @@ class NavigationManager {
         } else if place == NavigationManager.discoverPageKey {
             navigateToDiscover(data: data, animated: animated)
         } else if place == NavigationManager.filterPageKey {
-            if let data = data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) {
+            if let data, let filterUuid = data[NavigationManager.filterUuidKey] as? String, let filter = DataManager.sharedManager.findPlaylist(uuid: filterUuid) {
                 mainController?.navigateToFilter(filter, animated: animated)
             } else {
                 mainController?.navigateToFilter(nil, animated: animated)
@@ -167,7 +167,7 @@ class NavigationManager {
         } else if place == NavigationManager.filterAddKey {
             mainController?.navigateToAddFilter()
         } else if place == NavigationManager.uploadedPageKey {
-            if let data = data, let fileURL = data[NavigationManager.uploadFileKey] as? URL {
+            if let data, let fileURL = data[NavigationManager.uploadFileKey] as? URL {
                 mainController?.navigateToAddCustom(fileURL)
             }
         } else if place == NavigationManager.filesPageKey {
@@ -175,7 +175,7 @@ class NavigationManager {
         } else if place == NavigationManager.subscriptionCancelledAcknowledgePageKey {
             mainController?.showSubscriptionCancelledAcknowledge()
         } else if place == NavigationManager.subscriptionRequiredPageKey {
-            if let data = data, let rootVC = data[NavigationManager.subscriptionUpgradeVCKey] as? UIViewController {
+            if let data, let rootVC = data[NavigationManager.subscriptionUpgradeVCKey] as? UIViewController {
                 let source = (data["source"] as? PlusUpgradeViewSource) ?? .unknown
                 let context = data["context"] as? OnboardingFlow.Context
                 let flow = data["flow"] as? OnboardingFlow.Flow
@@ -188,12 +188,12 @@ class NavigationManager {
         } else if place == NavigationManager.showTermsOfUsePageKey {
             mainController?.showTermsOfUse()
         } else if place == NavigationManager.showWhatsNewPageKey {
-            if let data = data, let whatsNewInfo = data[NavigationManager.whatsNewInfoKey] as? WhatsNewInfo {
+            if let data, let whatsNewInfo = data[NavigationManager.whatsNewInfoKey] as? WhatsNewInfo {
                 mainController?.showWhatsNew(whatsNewInfo: whatsNewInfo)
             }
         } else if place == NavigationManager.settingsAppearanceKey {
             var showThemeSelection = false
-            if let data = data, let showThemeSelectionValue = data[NavigationManager.settingsAppearanceShowThemeKey] as? Bool {
+            if let data, let showThemeSelectionValue = data[NavigationManager.settingsAppearanceShowThemeKey] as? Bool {
                 showThemeSelection = showThemeSelectionValue
             }
             mainController?.showSettingsAppearance(showThemeSelection: showThemeSelection)
@@ -204,21 +204,21 @@ class NavigationManager {
             mainController?.showHeadphoneSettings()
         }
         else if place == NavigationManager.settingsRedeemGuestPassKey {
-            guard let data = data, let url = data[NavigationManager.redeemGuestPassURLKey] as? URL else {
+            guard let data, let url = data[NavigationManager.redeemGuestPassURLKey] as? URL else {
                 return
             }
             mainController?.showRedeemGuestPass(url: url)
         }
         else if place == NavigationManager.showPromotionPageKey {
             var promoCode: String?
-            if let data = data, let promoString = data[NavigationManager.promotionInfoKey] as? String {
+            if let data, let promoString = data[NavigationManager.promotionInfoKey] as? String {
                 promoCode = promoString
             }
             mainController?.showPromotionPage(promoCode: promoCode)
         } else if place == NavigationManager.showPromotionFinishedPageKey {
             mainController?.showPromotionFinishedAcknowledge()
         } else if place == NavigationManager.supporterSignInKey {
-            if let data = data {
+            if let data {
                 if let podcastInfo = data[NavigationManager.supporterPodcastInfo] as? PodcastInfo {
                     mainController?.showSupporterSignIn(podcastInfo: podcastInfo)
                 } else if let bundleUuid = data[NavigationManager.supporterBundleUuid] as? String {
@@ -227,12 +227,12 @@ class NavigationManager {
             }
         } else if place == NavigationManager.supporterBundlePageKey {
             var bundleUuid: String?
-            if let data = data, let uuid = data[NavigationManager.supporterBundleUuid] as? String {
+            if let data, let uuid = data[NavigationManager.supporterBundleUuid] as? String {
                 bundleUuid = uuid
             }
             mainController?.showSupporterBundleDetails(bundleUuid: bundleUuid)
         } else if place == NavigationManager.openUrlInSafariVCKey {
-            if let data = data, let urlString = data[NavigationManager.safariVCUrlKey] as? String {
+            if let data, let urlString = data[NavigationManager.safariVCUrlKey] as? String {
                 mainController?.showInSafariViewController(urlString: urlString)
             }
         } else if place == NavigationManager.endOfYearStories {
@@ -261,7 +261,7 @@ class NavigationManager {
     }
 
     func navigateToDiscover(data: NSDictionary?, animated: Bool) {
-        guard let data = data else {
+        guard let data else {
             mainController?.navigateToDiscover(animated)
             return
         }

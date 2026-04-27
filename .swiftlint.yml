@@ -57,6 +57,9 @@ only_rules:
   # the declaration.
   - opening_brace
 
+  # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
+  - shorthand_optional_binding
+
   # Files should have a single trailing newline.
   - trailing_newline
 

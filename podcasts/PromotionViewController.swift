@@ -234,7 +234,7 @@ class PromotionViewController: UIViewController, SyncSigninDelegate, AccountUpda
     }
 
     private func redeemCode() { // called for signed in users only
-        guard let promoCode = promoCode else {
+        guard let promoCode else {
             promoStatus = .codeInvalid
             return
         }

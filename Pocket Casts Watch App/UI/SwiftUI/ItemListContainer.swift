@@ -28,7 +28,7 @@ struct ItemListContainer<Content: View>: View {
                 Text(noItemsTitle)
                     .font(.dynamic(size: 16, weight: .medium))
 
-                if let noItemsSubtitle = noItemsSubtitle {
+                if let noItemsSubtitle {
                     Text(noItemsSubtitle)
                         .font(.dynamic(size: 14))
                         .multilineTextAlignment(.center)

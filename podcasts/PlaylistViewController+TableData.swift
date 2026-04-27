@@ -109,7 +109,7 @@ extension PlaylistViewController: UITableViewDelegate, UITableViewDataSource {
             if selectedEpisode.wasDeleted {
                 let episodeUuid = selectedEpisode.uuid
                 let view = ModalMessageViewController.episodeUnavailableAlert { [weak self] in
-                    guard let self = self else { return }
+                    guard let self else { return }
                     DataManager.sharedManager.deleteEpisodes([episodeUuid], from: self.filter)
                     self.refreshEpisodes(animated: true)
                 }

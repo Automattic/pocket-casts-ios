@@ -167,7 +167,7 @@ extension ImportViewModel {
 extension ImportViewModel {
     func importFromURL(_ url: URL, completion: @escaping ((Bool) -> Void)) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
+            guard let data else {
                 print("Error downloading data: \(error?.localizedDescription ?? "Unknown error")")
                 completion(false)
                 return

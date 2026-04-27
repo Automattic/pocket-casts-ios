@@ -128,7 +128,7 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
     // MARK: Actions
 
     @objc func showCollection() {
-        guard let delegate = delegate, let item = item else { return }
+        guard let delegate, let item else { return }
 
         if let podcasts = podcastCollection?.podcasts, !podcasts.isEmpty {
             delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: podcastCollection)

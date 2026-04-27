@@ -135,7 +135,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
     private func addTrimLevelAction(level: TrimSilenceAmount, to: OptionsPicker) {
         let selectedAmount = TrimSilenceAmount(rawValue: Int32(podcast.trimSilenceAmount)) ?? .low
         let action = OptionAction(label: level.description, selected: selectedAmount == level) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if FeatureFlag.newSettingsStorage.enabled {
                 self.podcast.settings.trimSilence = TrimSilence(amount: level)

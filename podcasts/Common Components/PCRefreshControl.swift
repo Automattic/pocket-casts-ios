@@ -159,7 +159,7 @@ class PCRefreshControl: UIView {
     // MARK: - Table Offset
 
     func offsetToPullDown() {
-        if let scrollView = scrollView {
+        if let scrollView {
             let searchHeight = searchBar != nil ? PCSearchBarController.defaultHeight : 0
             let offset = searchHeight + viewHeight
             scrollView.contentInset = UIEdgeInsets(top: offset, left: scrollView.contentInset.left, bottom: scrollView.contentInset.bottom, right: scrollView.contentInset.right)
@@ -167,7 +167,7 @@ class PCRefreshControl: UIView {
     }
 
     func resetOffset() {
-        guard let scrollView = scrollView else {
+        guard let scrollView else {
             return
         }
 
@@ -281,7 +281,7 @@ class PCRefreshControl: UIView {
 
     func processRefreshCompleted(_ message: String) {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.refreshLabel.text = message
             self.perform(#selector(self.refreshEndTimerFired), with: nil, afterDelay: 1.0)

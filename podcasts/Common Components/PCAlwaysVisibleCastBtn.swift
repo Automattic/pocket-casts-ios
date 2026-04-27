@@ -47,7 +47,7 @@ class PCAlwaysVisibleCastBtn: UIButton {
     }
 
     @objc private func statusDidChange() {
-        guard let imageView = imageView else { return }
+        guard let imageView else { return }
 
         if GoogleCastManager.sharedManager.connecting() {
             if !imageView.isAnimating {

@@ -191,7 +191,7 @@ struct AboutRow: View {
                 Text(mainText)
                     .textStyle(PrimaryText())
                 Spacer()
-                if let secondaryText = secondaryText {
+                if let secondaryText {
                     Text(secondaryText)
                         .textStyle(SecondaryText())
                 }
