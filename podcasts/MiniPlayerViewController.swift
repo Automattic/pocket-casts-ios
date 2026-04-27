@@ -38,6 +38,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
     private var glassContainer: UIVisualEffectView?
+    private var glassGradientLayer: CAGradientLayer?
     private var episodeTitleLabel: UILabel?
     private var episodeTimeLeftLabel: UILabel?
 
@@ -86,6 +87,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         glassContainer = effectView
 
         let contentView = effectView.contentView
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        contentView.layer.insertSublayer(gradientLayer, at: 0)
+        glassGradientLayer = gradientLayer
 
         podcastArtwork.removeFromSuperview()
         skipBackBtn.removeFromSuperview()
@@ -162,6 +169,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         if let glassContainer {
             glassContainer.layer.cornerRadius = glassContainer.bounds.height / 2
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            glassGradientLayer?.frame = glassContainer.contentView.bounds
+            CATransaction.commit()
         }
     }
 
@@ -414,6 +425,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         skipBackBtn.tintColor = iconColor
         skipFwdBtn.tintColor = iconColor
+
+        glassGradientLayer?.colors = [
+            actionColor.withAlphaComponent(0.06).cgColor,
+            actionColor.withAlphaComponent(0.09).cgColor,
+        ]
     }
 
     private func currentPodcastTintColor() -> UIColor {
