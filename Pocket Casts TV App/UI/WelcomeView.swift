@@ -31,7 +31,7 @@ struct WelcomeView: View {
                     .font(.headline)
                     .foregroundColor(Color.textSecondary)
                 HStack {
-                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signedIn }
+                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signIn }
                         .buttonStyle(.borderedProminent)
                     Button(L10n.tvWelcomeCreateFreeAccount) { viewModel.state = .signedIn }
                         .buttonStyle(.borderedProminent)
