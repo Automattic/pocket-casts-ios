@@ -316,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// This does not control automatic crash reporting.
     case watchSentryLogs
 
+    /// Enable the Liquid Glass UI redesign
+    case liquidGlass
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -529,6 +532,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .statsHeatmap:
             false
         case .watchSentryLogs:
+            false
+        case .liquidGlass:
             false
         }
     }
