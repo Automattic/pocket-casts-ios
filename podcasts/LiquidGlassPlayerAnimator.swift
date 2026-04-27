@@ -20,10 +20,13 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
     }()
 
     private var duration: TimeInterval {
-        guard !isPresenting || dismissVelocity != 0 else {
-            return 0.3
+        if isPresenting {
+            return 0.45
         }
-        return 0.2
+        // Dismiss: scale duration with gesture velocity so slow flicks get a
+        // longer settle (no rushed feel) while fast flicks finish quickly and
+        // keep up with the user's intent.
+        return 0.45 - min(0.25, dismissVelocity / 8000)
     }
 
     private var isPresenting: Bool {
@@ -79,6 +82,18 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
             playerView.setNeedsLayout()
             playerView.layoutIfNeeded()
         }
+        playerView.alpha = 1
+
+        // Scrim: dim what's behind the player while it travels. Match the
+        // initial alpha to how much of the player is off-screen so an
+        // interactive dismiss in progress doesn't pop the dim in at full
+        // strength.
+        let scrim = UIView(frame: containerView.bounds)
+        scrim.backgroundColor = .black
+        scrim.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        let offscreenProgress = max(0, min(1, playerView.frame.origin.y / containerView.frame.height))
+        scrim.alpha = 0.3 * (1 - offscreenProgress)
+        containerView.insertSubview(scrim, belowSubview: playerView)
 
         // Compute the artwork frame in window coords. On present, this is the
         // target on-screen position — the player is currently offscreen by
@@ -89,7 +104,11 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
         if isPresenting {
             fullPlayerArtworkFrame.origin.y -= containerView.frame.height
         }
-        let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
+        // Use the presentation layer so the source frame reflects the
+        // interactive UIGlassEffect press/zoom that's in flight at tap time —
+        // the model frame would start the morph from the un-zoomed position.
+        let miniPlayerArtworkLayer = miniPlayerArtwork.layer.presentation() ?? miniPlayerArtwork.layer
+        let miniPlayerArtworkFrame = miniPlayerArtworkLayer.convert(miniPlayerArtwork.bounds, to: nil)
 
         var artwork: UIImageView?
         if !isVideoPodcast, fullPlayerArtwork.image != nil {
@@ -116,39 +135,40 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
         animate(withDuration: duration) { [self] in
             playerView.frame = self.isPresenting ? onScreenFrame : offScreenFrame
+            // Slight scale-down on dismiss adds an Apple Music-like "lift away"
+            // feel; on present we settle back to identity in case anything left
+            // a residual transform from a previous dismiss.
+            playerView.transform = self.isPresenting ? .identity : CGAffineTransform(scaleX: 0.97, y: 0.97)
+            // Subtle fade on dismiss (not all the way to 0) so the seam where
+            // the morphing artwork hands back to the mini player is masked
+            // without making the player feel like it's vanishing.
+            playerView.alpha = self.isPresenting ? 1 : 0.25
+            scrim.alpha = self.isPresenting ? 0.3 : 0
             artwork?.frame = self.isPresenting ? fullPlayerArtworkFrame : miniPlayerArtworkFrame
             artwork?.layer.cornerRadius = self.isPresenting ? self.fullPlayerArtwork.layer.cornerRadius : (self.miniPlayerArtwork.imageView?.layer.cornerRadius ?? 0)
+            miniPlayerView?.transform = self.isPresenting ? collapsedTransform : restingTransform
         } completion: { _ in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
-            artwork?.removeFromSuperview()
-            transitionContext.completeTransition(true)
-        }
-
-        // Mini player bounce: own spring with low damping so the overshoot reads,
-        // and a small delay on dismiss so the bounce isn't hidden behind the
-        // descending full player. On present, completion forces back to identity
-        // because the mini player is fully covered by then.
-        UIView.animate(withDuration: 0.5,
-                       delay: isPresenting ? 0 : 0.08,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0,
-                       options: [.allowUserInteraction, .beginFromCurrentState]) {
-            miniPlayerView?.transform = self.isPresenting ? collapsedTransform : restingTransform
-        } completion: { _ in
             if self.isPresenting {
                 miniPlayerView?.transform = .identity
             }
+            artwork?.removeFromSuperview()
+            scrim.removeFromSuperview()
+            playerView.transform = .identity
+            playerView.alpha = 1
+            transitionContext.completeTransition(true)
         }
     }
 
-    /// Spring physics matching the legacy animator: dismiss carries gesture
-    /// momentum via initialVelocity; present starts from rest.
+    /// Spring shape modeled on Apple Music / Podcasts: present has a small
+    /// lively settle, dismiss is critically damped so it falls cleanly to
+    /// rest with no overshoot. Dismiss carries gesture momentum via
+    /// initialVelocity; present starts from rest.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        let stiffness: CGFloat = isPresenting ? 400 : 500
-        let damping: CGFloat = isPresenting ? 38 : 35
+        let dampingRatio: CGFloat = isPresenting ? 1.0 : 0.88
         let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
-        let timingParameters = UISpringTimingParameters(mass: 1, stiffness: stiffness, damping: damping, initialVelocity: velocity)
+        let timingParameters = UISpringTimingParameters(dampingRatio: dampingRatio, initialVelocity: velocity)
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
         animator.addCompletion { position in
             switch position {
