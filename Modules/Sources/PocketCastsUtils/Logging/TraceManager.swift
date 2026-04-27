@@ -14,7 +14,7 @@ public class TraceManager {
     }
 
     public func endTracing(trace: AnyObject?) {
-        guard let trace = trace else { return }
+        guard let trace else { return }
 
         traceHandler?.endTracing(trace: trace)
     }

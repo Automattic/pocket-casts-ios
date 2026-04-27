@@ -3,7 +3,7 @@
 
     public extension UIView {
         func anchorToAllSidesOf(view: UIView?) {
-            guard let view = view else { return }
+            guard let view else { return }
 
             translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -15,7 +15,7 @@
         }
 
         func anchorToAllSidesOf(view: UIView?, padding: CGFloat) {
-            guard let view = view else { return }
+            guard let view else { return }
 
             translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([

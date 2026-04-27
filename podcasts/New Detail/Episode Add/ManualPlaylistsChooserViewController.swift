@@ -269,7 +269,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
             let playlist = manualPlaylists[indexPath.row]
             let episodeIsInPlaylist = initialSelectedPlaylists.contains(playlist.uuid)
             let onToggleChange: (Bool) -> Void = { [weak self] selected in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if selected {
                     let maxPlaylistItems = Constants.Limits.maxFilterItems
@@ -285,7 +285,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
-                    guard let self = self else { return false }
+                    guard let self else { return false }
                     return self.newSelectedPlaylists.contains(playlist.uuid)
                 },
                 set: { newValue in

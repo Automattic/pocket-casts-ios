@@ -41,7 +41,7 @@ class ListeningHistoryViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.listeningHistoryTable.beginUpdates()
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)

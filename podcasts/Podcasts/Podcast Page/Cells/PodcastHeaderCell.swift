@@ -40,7 +40,7 @@ class PodcastHeaderCell: UITableViewCell {
                     .setupDefaultEnvironment()
                     .ignoresSafeArea()//Needs to be done in order to allow expansion of the view to navigation area when scrolling up
             } contentSizeUpdated: { [weak self] size in
-                guard let self = self else { return }
+                guard let self else { return }
                 calculatedHeight = size.height
                 if firstTime {
                     firstTime = false

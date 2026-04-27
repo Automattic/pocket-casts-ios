@@ -154,7 +154,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func subscriptionStatusDidChange() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateNavigationButtons()
             self.loadBannerAd()
@@ -166,7 +166,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         if SubscriptionHelper.shouldDisplayBannerAd {
             DiscoverServerHandler.shared.blazePromotion(for: .podcastList) { [weak self] promotion, shouldAnimate in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if shouldAnimate {
                     self.bannerTask = Task { [weak self] in

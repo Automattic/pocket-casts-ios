@@ -313,7 +313,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func shareEpisode() {
-        guard let transcript = transcript else { return }
+        guard let transcript else { return }
 
         let transcriptText = transcript.attributedText.string
         let activityViewController = UIActivityViewController(activityItems: [transcriptText], applicationActivities: nil)
@@ -622,7 +622,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             if FeatureFlag.generatedTranscripts.enabled,
                transcriptManager?.hasGeneratedTranscripts == true {
                 self.stackView.alpha = 1.0

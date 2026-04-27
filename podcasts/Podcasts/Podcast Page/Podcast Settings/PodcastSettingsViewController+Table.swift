@@ -246,7 +246,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             playlistSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
             playlistSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
             playlistSelectionViewController.playlistSelected = { [weak self] playlist in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 playlist.addPodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(playlist: playlist)
@@ -255,7 +255,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
                 Analytics.track(.filterUpdated, properties: ["group": "podcasts", "source": "podcast_settings"])
             }
             playlistSelectionViewController.playlistUnselected = { [weak self] playlist in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 playlist.removePodcast(podcastUuid: self.podcast.uuid)
                 DataManager.sharedManager.save(playlist: playlist)

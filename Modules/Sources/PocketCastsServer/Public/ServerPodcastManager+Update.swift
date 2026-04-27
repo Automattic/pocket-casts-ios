@@ -12,7 +12,7 @@ extension ServerPodcastManager {
     ///   - completion: a completion block that receives a `Bool`
     public func updatePodcastIfRequired(podcast: Podcast, addMissingEpisodes: Bool = false, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastIfModified(podcast: podcast) { [weak self] podcastInfo, lastModified in
-            if let podcastInfo = podcastInfo {
+            if let podcastInfo {
                 self?.updatePodcast(podcast: podcast, lastModified: lastModified, podcastInfo: podcastInfo, addMissingEpisodes: addMissingEpisodes, completion: {
                     FileLog.shared.addMessage("\(podcast.title ?? "") updated from cache server")
                     completion?(true)

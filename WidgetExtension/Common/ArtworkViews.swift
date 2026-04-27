@@ -20,7 +20,7 @@ struct LargeArtworkView: View {
                     .backwardWidgetAccentable(isAccentedRenderingMode)
             }
 
-            if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+            if let imageData, let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .backwardWidgetFullColorRenderingMode()
@@ -57,7 +57,7 @@ struct SmallArtworkView: View {
                 .cornerRadius(5)
                 .secondaryShadow()
                 .backwardWidgetAccentable(isAccentedRenderingMode)
-            if let imageData = imageData, let uiImage = UIImage(data: imageData) {
+            if let imageData, let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .backwardWidgetFullColorRenderingMode()

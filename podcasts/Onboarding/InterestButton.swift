@@ -26,7 +26,7 @@ struct InterestButton: View {
             doAnimationAndAction()
         }) {
             HStack {
-                if let icon = icon, let url = URL(string: icon) {
+                if let icon, let url = URL(string: icon) {
                     ZStack {
                         if isSelected {
                             KFImage(url)

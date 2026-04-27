@@ -502,7 +502,7 @@ public struct DiscoverEpisode: Decodable {
     public let number: Int?
 
     public var isTrailer: Bool {
-        guard let type = type else { return false }
+        guard let type else { return false }
         return type == "trailer"
     }
 }

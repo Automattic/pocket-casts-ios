@@ -10,9 +10,9 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     init(rootViewController: UIViewController, navStyle: ThemeStyle? = nil, titleStyle: ThemeStyle? = nil, iconStyle: ThemeStyle? = nil, themeOverride: Theme.ThemeType? = nil) {
         super.init(rootViewController: rootViewController)
 
-        if let navStyle = navStyle { self.navStyle = navStyle }
-        if let titleStyle = titleStyle { self.titleStyle = titleStyle }
-        if let iconStyle = iconStyle { self.iconStyle = iconStyle }
+        if let navStyle { self.navStyle = navStyle }
+        if let titleStyle { self.titleStyle = titleStyle }
+        if let iconStyle { self.iconStyle = iconStyle }
         self.themeOverride = themeOverride
 
         updateNavColors()
@@ -86,7 +86,7 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     // MARK: - Orientation
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if let topViewController = topViewController {
+        if let topViewController {
             return topViewController.supportedInterfaceOrientations
         }
 

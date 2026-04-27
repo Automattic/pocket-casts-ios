@@ -64,7 +64,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error {
             FileLog.shared.addMessage("URLSession didCompleteWithError \(error.localizedDescription)")
             return
         }
@@ -107,7 +107,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     // MARK: - Up Next Processing
 
     private func processUpNextSyncData(_ data: Data?) {
-        guard let data = data else { return }
+        guard let data else { return }
 
         syncProcessQueue.addOperation {
             let upNextTask = UpNextSyncTask()
@@ -141,7 +141,7 @@ extension BackgroundSyncManager: URLSessionDelegate, URLSessionDownloadDelegate 
     // MARK: - Refresh Processing
 
     private func processRefreshResponse(data: Data?) {
-        guard let data = data else { return }
+        guard let data else { return }
 
         syncProcessQueue.addOperation {
             let response = ServerHelper.decodeRefreshResponse(from: data)

@@ -83,7 +83,7 @@ class ApiBaseTask: Operation {
         let requestUrl = ServerHelper.asUrl(url)
         let method = "GET"
         var request = createRequest(url: requestUrl, method: method, token: token)
-        if let customHeaders = customHeaders {
+        if let customHeaders {
             for header in customHeaders {
                 request.setValue(header.value, forHTTPHeaderField: header.key)
             }
@@ -137,7 +137,7 @@ class ApiBaseTask: Operation {
     }
 
     func formatDate(_ date: Date?) -> String {
-        if let date = date {
+        if let date {
             return isoDateFormatter.string(from: date)
         }
 
@@ -152,7 +152,7 @@ class ApiBaseTask: Operation {
         request.addLocalizationHeaders()
         let privateUserAgent = ServerConfig.shared.syncDelegate?.privateUserAgent() ?? ""
         request.setValue(privateUserAgent, forHTTPHeaderField: ServerConstants.HttpHeaders.userAgent)
-        if let token = token {
+        if let token {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         return request

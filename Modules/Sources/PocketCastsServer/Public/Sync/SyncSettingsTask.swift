@@ -158,7 +158,7 @@ class SyncSettingsTask: ApiBaseTask {
             let data = try settingsRequest.serializedData()
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
 
-            if let response = response, httpStatus == ServerConstants.HttpConstants.ok {
+            if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
             } else {
                 FileLog.shared.addMessage("SyncSettingsTask Unable to sync with server got status \(httpStatus)")

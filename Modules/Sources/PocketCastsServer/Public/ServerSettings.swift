@@ -242,7 +242,7 @@ public class ServerSettings {
     }
 
     public class func setSyncingEmail(email: String?) {
-        if let email = email {
+        if let email {
             KeychainHelper.save(string: email, key: ServerConstants.Values.syncingEmailKey, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         } else {
             KeychainHelper.removeKey(ServerConstants.Values.syncingEmailKey)

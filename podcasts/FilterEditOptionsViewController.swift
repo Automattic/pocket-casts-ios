@@ -327,7 +327,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             title: L10n.delete,
             style: .destructive
         ) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             PlaylistManager.delete(playlist: self.filterToEdit, fireEvent: true)
             self.navigationController?.popToRootViewController(animated: true)
         }

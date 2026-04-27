@@ -76,14 +76,14 @@ class SyncTask: ApiBaseTask {
                 return
             }
 
-            if let folders = folders {
+            if let folders {
                 for folder in folders {
                     FolderHelper.addFolderToDatabase(folder)
                 }
             }
 
             // then update the podcasts with folder info as well as addedDate if required
-            if let podcasts = podcasts {
+            if let podcasts {
                 // If the server returns ALL `sortPosition` as `0`
                 // It means we should keep the local order for them to be synced later
                 let serverReturnsSortPosition: Bool = podcasts.compactMap { $0.sortPosition }.map { Int($0) }.reduce(0, +) > 0
@@ -153,7 +153,7 @@ class SyncTask: ApiBaseTask {
         // next we need their playlists
         let retrievePlaylistsTask = RetrievePlaylistsTask()
         retrievePlaylistsTask.completion = { playlists in
-            guard let playlists = playlists else { return }
+            guard let playlists else { return }
 
             self.processServerPlaylists(playlists)
         }

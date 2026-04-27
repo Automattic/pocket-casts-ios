@@ -20,7 +20,7 @@ class SharedItemImporter: Operation {
         autoreleasepool {
             dispatchGroup.enter()
             MainServerHandler.shared.lookupShareLink(sharePath: urlToImport) { [weak self] listResponse in
-                guard let listResponse = listResponse, listResponse.success() else {
+                guard let listResponse, listResponse.success() else {
                     self?.sendResponse()
                     return
                 }

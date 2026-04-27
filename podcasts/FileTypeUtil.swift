@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 
 class FileTypeUtil {
     public class func fileExtension(forType type: String?) -> String {
-        guard let type = type else { return ".mp3" }
+        guard let type else { return ".mp3" }
 
         if type.contains("video/3gpp") { return ".3gp" }
         else if type.contains("video/3gpp2") { return ".3g2" }

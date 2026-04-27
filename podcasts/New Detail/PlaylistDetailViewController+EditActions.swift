@@ -109,7 +109,7 @@ extension PlaylistDetailViewController {
 
     private func reorderEpisodesAction() -> OptionAction {
         OptionAction(label: L10n.playlistManualEpisodesOrderOption, icon: "filter_manual_episode_order") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.track(.filterRearrangeEpisodesTapped)
             self.showCustomOrderList()
         }
@@ -124,7 +124,7 @@ extension PlaylistDetailViewController {
 
     private func downloadAllOption() -> OptionAction {
         OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.track(.filterDownloadAllTapped)
 
             let downloadableCount = self.downloadableCount(listEpisodes: self.viewModel.episodes)
@@ -180,7 +180,7 @@ extension PlaylistDetailViewController {
 
     private func start(action: ActionType, forAllEpisodes episodes: [ListEpisode]) {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if self.viewModel.episodes.isEmpty { return }
 
@@ -229,7 +229,7 @@ extension PlaylistDetailViewController {
 
     private func unarchiveAllPlaylistEpisodes() {
         Task { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             let newData = self.viewModel.episodesDataManager.playlistEpisodes(for: self.viewModel.playlist, shouldShowArchived: true)
             let episodes = newData.map { $0.episode }
             EpisodeManager.bulkUnarchive(episodes: episodes)

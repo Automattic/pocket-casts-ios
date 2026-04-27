@@ -84,7 +84,7 @@ private extension SonosLinkController {
             let token = await ApiServerHandler.shared.exchangeSonosToken()
 
             DispatchQueue.main.async { [weak self] in
-                guard let token = token else {
+                guard let token else {
                     self?.updateConnectButtonTitle(L10n.retry.localizedUppercase)
                     SJUIUtils.showAlert(title: L10n.sonosConnectionFailedTitle, message: L10n.sonosConnectionFailedAccountLink, from: self)
                     return

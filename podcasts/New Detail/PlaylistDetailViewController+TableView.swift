@@ -52,7 +52,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.track(selected ? .filterShowArchivedTapped : .filterHideArchivedTapped)
             self.viewModel.updateShowArchivedEpisodes(show: selected)
@@ -75,7 +75,7 @@ extension PlaylistDetailViewController: UITableViewDataSource {
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
-                    guard let self = self else { return false }
+                    guard let self else { return false }
                     return self.viewModel.shouldShowArchived
                 },
                 set: { newValue in

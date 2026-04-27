@@ -80,7 +80,7 @@ public class DateFormatHelper: NSObject {
     // MARK: - Long d MMMM yyyy
 
     public func longLocalizedFormat(_ date: Date?) -> String {
-        guard let date = date else { return "" }
+        guard let date else { return "" }
 
         return fullDateFormatter.string(from: date)
     }
@@ -88,13 +88,13 @@ public class DateFormatHelper: NSObject {
     // MARK: - Short dd MMMM
 
     public func shortLocalizedFormat(_ date: Date?) -> String {
-        guard let date = date else { return "" }
+        guard let date else { return "" }
 
         return shortLocalizedFormatter.string(from: date)
     }
 
     public func aboutPageFormat(_ date: Date?) -> String {
-        guard let date = date else { return "" }
+        guard let date else { return "" }
 
         if !date.isCurrentYear() {
             return fullDateFormatter.string(from: date)
@@ -112,7 +112,7 @@ public class DateFormatHelper: NSObject {
     }()
 
     public func tinyLocalizedFormat(_ date: Date?) -> String {
-        guard let date = date else { return "" }
+        guard let date else { return "" }
 
         if !date.isCurrentYear() {
             return fullDateFormatter.string(from: date)
@@ -143,13 +143,13 @@ public class DateFormatHelper: NSObject {
     }()
 
     public func jsonFormat(_ date: Date?) -> String {
-        guard let date = date else { return "" }
+        guard let date else { return "" }
 
         return jsonDateFormatter.string(from: date)
     }
 
     public func jsonDate(_ string: String?) -> Date? {
-        guard let string = string else { return nil }
+        guard let string else { return nil }
 
         return jsonDateFormatter.date(from: string)
     }
@@ -165,7 +165,7 @@ public class DateFormatHelper: NSObject {
     }()
 
     public func httpDate(_ string: String?) -> Date? {
-        guard let string = string else { return nil }
+        guard let string else { return nil }
 
         return httpDateFormatter.date(from: string)
     }

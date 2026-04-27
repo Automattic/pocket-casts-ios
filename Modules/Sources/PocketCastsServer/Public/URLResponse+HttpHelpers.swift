@@ -16,7 +16,7 @@ extension URLResponse {
 
     // The following directives indicate the response must not be cached.
     var cacheControlNoCache: Bool {
-        guard let cacheControl = cacheControl else {
+        guard let cacheControl else {
             return false
         }
         return cacheControl.contains("no-cache") || cacheControl.contains("no-store") || cacheControl.contains("must-revalidate")
@@ -24,7 +24,7 @@ extension URLResponse {
 
     // The number of seconds from the time of the request the data is refresh.
     var cacheControlMaxAge: Int? {
-        guard let cacheControl = cacheControl else {
+        guard let cacheControl else {
             return nil
         }
         // Split into directives ["public", "max-age=604800", "immutable"]
@@ -60,11 +60,11 @@ extension URLResponse {
             return nil
         }
         // check http header Cache-Control max-age
-        else if let date = date, let maxAge = cacheControlMaxAge, maxAge > 0 {
+        else if let date, let maxAge = cacheControlMaxAge, maxAge > 0 {
             return date.addingTimeInterval(TimeInterval(maxAge))
         }
         // check http header Expires
-        else if let expiresDate = expiresDate {
+        else if let expiresDate {
             return expiresDate
         }
         return nil

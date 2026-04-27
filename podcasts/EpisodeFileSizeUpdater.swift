@@ -4,7 +4,7 @@ import PocketCastsDataModel
 
 class EpisodeFileSizeUpdater {
     class func updateEpisodeDuration(episode: BaseEpisode?) {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         let fileLocation = episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)
         let url = URL(fileURLWithPath: fileLocation)

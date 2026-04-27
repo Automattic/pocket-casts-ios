@@ -118,7 +118,7 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         let listInfo = SharingServerHandler.PodcastShareInfo(title: title, description: listDescription.text, podcasts: shareUuids)
         SharingServerHandler.shared.sharePodcastList(listInfo: listInfo) { shareUrl in
             DispatchQueue.main.async {
-                guard let shareUrl = shareUrl else {
+                guard let shareUrl else {
                     self.sharingDidFail()
 
                     return

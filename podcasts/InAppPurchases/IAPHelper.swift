@@ -676,7 +676,7 @@ private extension IAPHelper {
         let flow = OnboardingFlow.shared.currentFlow
         properties["flow"] = flow.rawValue
 
-        if let error = error {
+        if let error {
             properties["error_code"] = error.code
         }
 

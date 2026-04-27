@@ -113,7 +113,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - API
 
     func isNowPlayingEpisode(episodeUuid: String?) -> Bool {
-        if let episodeUuid = episodeUuid, let playingEpisode = currentEpisode() {
+        if let episodeUuid, let playingEpisode = currentEpisode() {
             return playingEpisode.uuid == episodeUuid
         }
 
@@ -139,13 +139,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         return player.playing()
     }
 
     func buffering() -> Bool {
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         return player.buffering()
     }
@@ -279,7 +279,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
 
-        if let player = player {
+        if let player {
             player.pause()
         }
         updateNowPlayingInfo()
@@ -445,7 +445,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
 
         let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
-        if let player = player, isReadyToPlay {
+        if let player, isReadyToPlay {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
@@ -521,7 +521,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func duration() -> TimeInterval {
         guard let currentEpisode = currentEpisode() else { return 0 }
 
-        if let player = player, !aboutToPlay.value, !buffering() {
+        if let player, !aboutToPlay.value, !buffering() {
             let episodeDuration = currentEpisode.duration
             let playerDuration = player.duration()
             return (playerDuration > 0) ? playerDuration : episodeDuration
@@ -535,7 +535,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if APPCLIP
         return false
         #else
-        guard let episode = episode else { return false }
+        guard let episode else { return false }
 
         return queue.contains(episode: episode)
         #endif
@@ -605,7 +605,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        if let episode = episode {
+        if let episode {
             queue.remove(episode: episode, fireNotification: fireNotification)
         }
     }
@@ -706,7 +706,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             haveCalledPlayerLoad = true
         }
 
-        if let player = player {
+        if let player {
             // in order for things like Picture in Picture to work properly, an audio session needs to be activated. If the UI is asking for the internal AVPlayer, then make sure we do this
             activateAudioSession(completion: nil)
             return player.internalPlayerForVideoPlayback()
@@ -746,7 +746,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         shouldDeactivateSession.value = true
         // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
         deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let audioSession = AVAudioSession.sharedInstance()
             if !self.shouldDeactivateSession.value { return }
@@ -902,7 +902,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: episode, autoPlay: playing(), overrideUpNext: false)
         }
 
-        if let player = player {
+        if let player {
             player.effectsDidChange()
         }
         updateAllNowPlayingData()
@@ -971,7 +971,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         aboutToPlay.value = false
 
         // make sure we load the saved speed for this track
-        if let player = player {
+        if let player {
             player.setPlaybackRate(effects().playbackSpeed)
         }
 
@@ -1316,7 +1316,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func playerSwitchRequired() -> Bool {
         let possiblePlayers = supportedPlayers()
-        if let player = player, let firstSupportedPlayer = possiblePlayers.first {
+        if let player, let firstSupportedPlayer = possiblePlayers.first {
             return type(of: player) != firstSupportedPlayer
         }
 
@@ -1390,7 +1390,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         haveCalledPlayerLoad = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
-        if let player = player {
+        if let player {
             player.endPlayback(permanent: permanent)
         }
 
@@ -1404,12 +1404,12 @@ class PlaybackManager: ServerPlaybackDelegate {
                 playersToCleanUp.append(player)
             }
             playerCleanupQueue.asyncAfter(deadline: .now() + 5.seconds) { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 let index = self.playersToCleanUp.firstIndex(where: { listPlayer -> Bool in
                     listPlayer == player
                 })
-                if let index = index {
+                if let index {
                     self.playersToCleanUp.remove(at: index)
                 }
 
@@ -1446,7 +1446,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if FeatureFlag.activateAudioSessionInBackground.enabled {
             // Perform audio session activation on a background queue to avoid blocking the main thread
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self = self else {
+                guard let self else {
                     completion?(false)
                     return
                 }
@@ -1571,7 +1571,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func progressTimerFired() {
-        guard let player = player, let episode = currentEpisode() else { return }
+        guard let player, let episode = currentEpisode() else { return }
 
         StatsManager.shared.addTotalListeningTime(updateTimerInterval)
         if player.playbackRate() > 1 {
@@ -2039,7 +2039,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         command.isEnabled = true
         command.preferredIntervals = [NSNumber(value: intervalAmount)]
 
-        if let handler = handler {
+        if let handler {
             command.addTarget(handler: handler)
         }
     }
@@ -2130,7 +2130,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
 
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
-            if let player = player {
+            if let player {
                 wasPlayingBeforeInterruption = player.shouldBePlaying()
                 player.interruptionDidStart()
             }

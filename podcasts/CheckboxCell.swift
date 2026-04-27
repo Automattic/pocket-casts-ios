@@ -42,7 +42,7 @@ class CheckboxCell: ThemeableCell {
     }
 
     private func updateButtonColor() {
-        guard let filterColor = filterColor else { return }
+        guard let filterColor else { return }
 
         selectButton.tintColor = ThemeColor.filterInteractive01(filterColor: filterColor)
     }

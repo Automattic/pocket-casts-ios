@@ -149,7 +149,7 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
             self.enabledShortcuts = []
             self.availableRows = [.playTopEpisode, .playAll, .openPlaylist]
 
-            if let allVoiceShortcuts = allVoiceShortcuts {
+            if let allVoiceShortcuts {
                 for voiceShortcut in allVoiceShortcuts {
                     if let playIntent = voiceShortcut.shortcut.intent as? INPlayMediaIntent {
                         if playIntent.mediaContainer?.identifier == self.playlist.uuid {
@@ -179,7 +179,7 @@ class PlaylistShortcutsViewController: PCViewController, UITableViewDelegate, UI
 
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
-                if let error = error {
+                if let error {
                     FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
                     self.errorView.isHidden = false
                 } else {
