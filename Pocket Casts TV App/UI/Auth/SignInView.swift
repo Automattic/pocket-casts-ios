@@ -1,15 +1,34 @@
 import SwiftUI
+import Combine
 
 @Observable
 class SignInViewModel {
+    private var cancellable: AnyCancellable?
+
+    enum State: Equatable, Hashable {
+        case waiting
+        case finished
+    }
+    var state: State = .waiting
 
     var codes: [String] = ["J", "M", "R", "S", "3", "W"]
+
+    func signinWait() {
+        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
+                    .autoconnect()
+                    .sink { [weak self] _ in
+                        guard let self else { return }
+                        state = .finished
+                    }
+    }
 }
 
 struct SignInView: View {
     @Environment(RootViewModel.self) var viewModel
 
     @State private var model = SignInViewModel()
+
+    @Environment(\.dismiss) private var dismiss
 
     enum Layout {
         static let gridSize = CGFloat(272)
@@ -52,6 +71,13 @@ struct SignInView: View {
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
             }
+        }
+        .task {
+            model.signinWait()
+        }
+        .onChange(of: model.state) {
+            dismiss()
+            viewModel.state = .userSync
         }
     }
 
