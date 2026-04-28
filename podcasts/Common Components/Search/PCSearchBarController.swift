@@ -36,9 +36,13 @@ class PCSearchBarController: UIViewController {
 
     @IBOutlet var clearSearchBtn: UIButton!
 
+    private static let pillHeight: CGFloat = 32
+    private static let pillBottomInset: CGFloat = 16
+
     static var defaultHeight: CGFloat {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
-        return max(54, metric.scaledValue(for: 54))
+        let base = pillHeight + pillBottomInset
+        return max(base, metric.scaledValue(for: base))
     }
 
     static let peekAmountBeforeAutoOpen: CGFloat = 20
@@ -72,37 +76,11 @@ class PCSearchBarController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollapseLayout()
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
         updateSize()
         updateCollapseAppearance()
-    }
-
-    /// Pill stays the same shape ratio as the bar collapses.
-    private static let pillToBarHeightRatio: CGFloat = 32.0 / 54.0
-
-    private func configureCollapseLayout() {
-        view.clipsToBounds = true
-
-        // Drop the XIB's `pill.height >= 32` and `pill.bottom == view.bottom - 15`, which would
-        // pin the pill at full size and let it slide off the bottom. We replace them with
-        // proportional sizing so the pill itself shrinks with the bar.
-        for constraint in roundedBackgroundView.constraints where constraint.firstAttribute == .height && constraint.secondItem == nil {
-            constraint.isActive = false
-        }
-        for constraint in view.constraints where constraint.firstAttribute == .bottom && constraint.secondItem === roundedBackgroundView {
-            constraint.isActive = false
-        }
-
-        let proportionalHeight = roundedBackgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: Self.pillToBarHeightRatio)
-        proportionalHeight.priority = .required - 1
-        NSLayoutConstraint.activate([
-            proportionalHeight,
-            roundedBackgroundView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
-            roundedBackgroundView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
     }
 
     func updateCollapseAppearance() {
