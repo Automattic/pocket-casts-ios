@@ -154,13 +154,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
 
-            skipBackBtn.widthAnchor.constraint(equalToConstant: 68),
-            playPauseBtn.widthAnchor.constraint(equalToConstant: 68),
-            skipFwdBtn.widthAnchor.constraint(equalToConstant: 68),
+            skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
+            playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
+            skipFwdBtn.widthAnchor.constraint(equalToConstant: 70),
 
             buttonStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ])
     }
 
