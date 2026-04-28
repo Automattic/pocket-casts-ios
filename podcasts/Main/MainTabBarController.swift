@@ -262,16 +262,25 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
         NavigationManager.sharedManager.miniPlayer = miniPlayer
 
-        miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+        if miniPlayer.isUsingTabAccessory, #available(iOS 26.0, *) {
+            addChild(miniPlayer)
+            miniPlayer.didMove(toParent: self)
+            tabBarMinimizeBehavior = .onScrollDown
+            // Load the view so XIB outlets and observers are wired up before
+            // it's installed as a tab accessory contentView.
+            miniPlayer.loadViewIfNeeded()
+        } else {
+            miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(miniPlayer.view, belowSubview: tabBar)
 
-        NSLayoutConstraint.activate([
-            miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
-        ])
+            NSLayoutConstraint.activate([
+                miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+            ])
 
-        miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+            miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+        }
     }
 
     // MARK: - UITabBarDelegate

@@ -3,6 +3,13 @@ import PocketCastsUtils
 
 extension MiniPlayerViewController {
     func hideMiniPlayer(_ animated: Bool) {
+        if isUsingTabAccessory, #available(iOS 26.0, *) {
+            guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
+            tabBarController.setBottomAccessory(nil, animated: animated)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
+            return
+        }
+
         if !miniPlayerShowing() { return } // already hidden
 
         if animated {
@@ -21,10 +28,18 @@ extension MiniPlayerViewController {
     }
 
     func showMiniPlayer() {
-        if miniPlayerShowing() { return }
-
         // only show if something is playing
         if PlaybackManager.shared.currentEpisode() == nil { return }
+
+        if isUsingTabAccessory, #available(iOS 26.0, *) {
+            guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
+            let accessory = UITabAccessory(contentView: view)
+            tabBarController.setBottomAccessory(accessory, animated: true)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
+            return
+        }
+
+        if miniPlayerShowing() { return }
 
         changeHeightTo(desiredHeight())
         moveToHiddenBottomPosition()
