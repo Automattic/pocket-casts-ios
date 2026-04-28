@@ -105,6 +105,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         link.add(to: .main, forMode: .common)
         link.isPaused = !playbackManager.isPlayingEpisode
         highlightDisplayLink = link
+        // Opening the transcript while paused leaves the link paused, so
+        // `playbackProgress` won't fire and the initial highlight wouldn't
+        // appear. Force one position update so the current cue is shown even
+        // if playback never resumes.
+        updateTranscriptPosition()
     }
 
     private func stopHighlightDisplayLink() {
