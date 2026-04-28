@@ -1,3 +1,7 @@
+8.12
+-----
+
+
 8.11
 -----
 - Fix smart rules too small cell height [#4171](https://github.com/Automattic/pocket-casts-ios/pull/4171)
