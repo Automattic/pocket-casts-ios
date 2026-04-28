@@ -194,12 +194,36 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
+        animateSkipButton(skipBackBtn, clockwise: false)
     }
 
     @IBAction func skipForwardTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
+        animateSkipButton(skipFwdBtn, clockwise: true)
+    }
+
+    private func animateSkipButton(_ button: UIButton, clockwise: Bool) {
+        guard let imageView = button.imageView else { return }
+        let duration: CFTimeInterval = 0.5
+
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.fromValue = 0
+        rotation.toValue = clockwise ? CGFloat.pi * 2 : -CGFloat.pi * 2
+        rotation.duration = duration
+        rotation.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.3, 1.0)
+        imageView.layer.add(rotation, forKey: "skipRotation")
+
+        let scale = CAKeyframeAnimation(keyPath: "transform.scale")
+        scale.values = [1.0, 0.85, 1.0]
+        scale.keyTimes = [0, 0.4, 1]
+        scale.duration = duration
+        scale.timingFunctions = [
+            CAMediaTimingFunction(name: .easeInEaseOut),
+            CAMediaTimingFunction(name: .easeInEaseOut),
+        ]
+        imageView.layer.add(scale, forKey: "skipScale")
     }
 
     func desiredHeight() -> CGFloat {
