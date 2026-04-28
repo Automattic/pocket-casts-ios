@@ -1,15 +1,6 @@
 import SwiftUI
 
-@Observable
-class CreateAccountViewModel {
-
-    var codes: [String] = ["J", "M", "R", "S", "3", "W"]
-}
-
 struct CreateAccountView: View {
-    @Environment(AppCoordinator.self) var coordinator
-
-    @State private var model = SignInViewModel()
 
     enum Layout {
         static let gridSize = CGFloat(272)

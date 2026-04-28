@@ -10,8 +10,6 @@ struct WelcomeView: View {
 
     @State var model = WelcomeViewModel()
 
-    @State var presentSignIn: Bool = false
-
     enum Layout {
         static let gridSize = CGFloat(272)
     }
