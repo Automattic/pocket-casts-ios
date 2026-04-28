@@ -41,6 +41,10 @@ extension UIImage {
         guard let outputCGImage = context.makeImage() else { return nil }
         return UIImage(cgImage: outputCGImage, scale: self.scale, orientation: self.imageOrientation)
     }
+
+    static var podcastPlaceholderImage: UIImage? {
+        return UIImage(named: "logo-transparent")?.withRenderingMode(.alwaysTemplate)
+    }
 }
 
 struct LargeArtworkView: View {
@@ -52,6 +56,7 @@ struct LargeArtworkView: View {
     var showShadow: Bool = true
 
     var imageToUse: UIImage? {
+        return nil
         guard let imageData else {
             return nil
         }
@@ -59,6 +64,14 @@ struct LargeArtworkView: View {
             return UIImage(data: imageData)?.addingAlphaFromLuminance()
         } else {
             return UIImage(data: imageData)
+        }
+    }
+
+    var placeholderImageToUse: UIImage? {
+        if isAccentedRenderingMode {
+            return UIImage.podcastPlaceholderImage
+        } else {
+            return UIImage(named: "no-podcast-artwork")
         }
     }
 
@@ -86,14 +99,17 @@ struct LargeArtworkView: View {
                         view.artworkShadow()
                     }
             } else {
-                Image("no-podcast-artwork")
+                Image(uiImage: placeholderImageToUse!)
                     .resizable()
-                    .renderingMode(.template)
-                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                    .if(isAccentedRenderingMode) { content in
+                        content
+                            .renderingMode(.template)
+                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                    }
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: size)
                     .cornerRadius(8)
-                    .if(showShadow) { view in
+                    .if(!isAccentedRenderingMode && showShadow) { view in
                         view.artworkShadow()
                     }
             }
@@ -117,6 +133,14 @@ struct SmallArtworkView: View {
         }
     }
 
+    var placeholderImageToUse: UIImage? {
+        if isAccentedRenderingMode {
+            return UIImage.podcastPlaceholderImage
+        } else {
+            return UIImage(named: "no-podcast-artwork")
+        }
+    }
+
     var body: some View {
         ZStack {
             if !isAccentedRenderingMode {
@@ -137,10 +161,12 @@ struct SmallArtworkView: View {
                     .cornerRadius(4)
                     .artworkShadow()
             } else {
-                Image("no-podcast-artwork")
+                Image(uiImage: placeholderImageToUse!)
                     .resizable()
-                    .renderingMode(.template)
-                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
+                    .if(isAccentedRenderingMode) { content in
+                        content
+                            .backwardWidgetAccentable(isAccentedRenderingMode)
+                    }
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
                     .artworkShadow()
