@@ -434,9 +434,12 @@ final class FingerprintTimingManager: NSObject {
                audioFilePath: audioFileURL.path,
                referenceData: referenceData
            ) {
-            for entry in cached.entries {
-                insertMapping(entry)
-            }
+            // The cache is produced from `playbackToReference` (already sorted
+            // by `playbackTime`), so assign it directly and sort once for the
+            // reference-keyed view — avoids the O(n²) cost of routing every
+            // entry through `insertMapping`'s per-entry `Array.insert`.
+            playbackToReference = cached.entries
+            referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
             filterLastTrusted = cached.entries.last
             updateState(.active(coverage: cached.entries.count))
             FileLog.shared.addMessage(
