@@ -7,7 +7,7 @@ class CreateAccountViewModel {
 }
 
 struct CreateAccountView: View {
-    @Environment(RootViewModel.self) var viewModel
+    @Environment(AppCoordinator.self) var coordinator
 
     @State private var model = SignInViewModel()
 
@@ -52,5 +52,5 @@ struct CreateAccountView: View {
 
 #Preview {
     CreateAccountView()
-        .environment(RootViewModel())
+        .environment(AppCoordinator())
 }

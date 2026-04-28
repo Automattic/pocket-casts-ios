@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class RootViewModel {
+class AppCoordinator {
     enum State {
         case loading
         case welcome
@@ -18,23 +18,25 @@ class RootViewModel {
 }
 
 struct RootView: View {
-    @State private var viewModel = RootViewModel()
+    @State private var coordinator = AppCoordinator()
 
     var body: some View {
-        switch viewModel.state {
-        case .loading:
-            VStack {
-                Spacer()
-                ProgressView()
-                Spacer()
+        ZStack {
+            switch coordinator.state {
+            case .loading:
+                VStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+            case .welcome:
+                WelcomeView()
+            case .browsing, .signedIn:
+                MainTabView()
+            case .userSync:
+                SigningInView()
             }
-        case .welcome:
-            WelcomeView().environment(viewModel)
-        case .browsing, .signedIn:
-            MainTabView().environment(viewModel)
-        case .userSync:
-            SigningInView().environment(viewModel)
-        }
+        }.environment(coordinator)
     }
 }
 

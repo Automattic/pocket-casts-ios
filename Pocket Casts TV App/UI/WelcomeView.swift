@@ -6,7 +6,7 @@ class WelcomeViewModel {
 }
 
 struct WelcomeView: View {
-    @Environment(RootViewModel.self) var viewModel
+    @Environment(AppCoordinator.self) var coordinator
 
     @State var model = WelcomeViewModel()
 
@@ -48,7 +48,7 @@ struct WelcomeView: View {
                     }
                     Spacer()
                     Button(L10n.tvWelcomeBrowseWithoutAccount) {
-                        viewModel.state = .browsing
+                        coordinator.state = .browsing
                     }
                     .buttonStyle(.plain)
                     .foregroundColor(Color.textSecondary)
@@ -93,5 +93,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
-        .environment(RootViewModel())
+        .environment(AppCoordinator())
 }

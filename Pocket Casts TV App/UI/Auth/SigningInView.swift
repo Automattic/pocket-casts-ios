@@ -24,7 +24,7 @@ class SigningInViewModel {
 }
 
 struct SigningInView: View {
-    @Environment(RootViewModel.self) var viewModel
+    @Environment(AppCoordinator.self) var coordinator
 
     @State private var model = SigningInViewModel()
 
@@ -50,7 +50,7 @@ struct SigningInView: View {
             model.sync()
         }
         .onChange(of: model.state) {
-            viewModel.state = .signedIn
+            coordinator.state = .signedIn
         }
     }
 
@@ -67,5 +67,5 @@ struct SigningInView: View {
 
 #Preview {
     SigningInView()
-        .environment(RootViewModel())
+        .environment(AppCoordinator())
 }
