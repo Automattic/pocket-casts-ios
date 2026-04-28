@@ -367,19 +367,27 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
+        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            heightConstraint
         ])
+        searchController.searchControllerHeightConstraint = heightConstraint
 
         searchController.placeholderText = L10n.playlistSearch
         searchController.setupScrollView(tableView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
+    }
 
-        tableView.verticalScrollIndicatorInsets.top = PCSearchBarController.defaultHeight
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        searchController?.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
 }
 
