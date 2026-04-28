@@ -62,6 +62,13 @@ final class FingerprintTimingManager: NSObject {
         label: "au.com.pocketcasts.FingerprintTimingManager.generation",
         qos: .utility
     )
+    /// Separate queue for tap-to-seek probes so they don't sit behind the
+    /// long-running live stream loop on `generationQueue`. `userInitiated`
+    /// because the probe is the seek's critical path — the user is waiting.
+    private let probeQueue = DispatchQueue(
+        label: "au.com.pocketcasts.FingerprintTimingManager.probe",
+        qos: .userInitiated
+    )
     private var context: GenerationContext?
     private var cancellationFlag = CancellationFlag()
     private var fetchTask: Task<Void, Never>?
@@ -246,6 +253,49 @@ final class FingerprintTimingManager: NSObject {
                 in: referenceToPlayback,
                 keyPath: \.referenceTime,
                 valuePath: \.playbackTime
+            )
+        }
+    }
+
+    /// Tap-to-seek resolver. Decodes a window of the local audio around the
+    /// cue's estimated playback position, fingerprints it, asks the matcher
+    /// what reference content that audio actually contains, and returns the
+    /// playback time of the window whose match is closest to `referenceTime`.
+    /// The existing playback↔reference mapping is *not* consulted — linear
+    /// interpolation across sparse anchors masks ad-insertion discontinuities
+    /// and lands the seek in the wrong place. Resolves with `nil` when the
+    /// audio at the guess position doesn't yield a confident match near the
+    /// tapped cue. Always calls `completion` on the main queue. `tag` is a
+    /// short id propagated through every log line so a single tap's trace
+    /// can be grepped by key.
+    func resolvePlaybackTime(
+        forReferenceTime referenceTime: Double,
+        tag: String,
+        completion: @escaping (Double?) -> Void
+    ) {
+        queue.async { [weak self] in
+            guard let self else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] resolve targetRef="
+                    + "\(String(format: "%.2f", referenceTime))s"
+            )
+            guard let ctx = self.context, !ctx.isStreaming else {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] no probe context "
+                        + "(context=\(self.context != nil), "
+                        + "isStreaming=\(self.context?.isStreaming ?? false)) — giving up"
+                )
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            self.runProbe(
+                targetReferenceTime: referenceTime,
+                context: ctx,
+                tag: tag,
+                completion: completion
             )
         }
     }
@@ -1190,6 +1240,288 @@ final class FingerprintTimingManager: NSObject {
         }
         let preferred = FeatureFlag.streamAndCachePlayingEpisode.enabled ? tempPath : streamingPath
         return .streaming(URL(fileURLWithPath: preferred))
+    }
+
+    // MARK: - Tap-to-Seek Probe
+
+    private struct ProbeResult {
+        let playbackTime: Double
+        let referenceTime: Double
+        let score: Float
+    }
+
+    /// How many seconds of audio the probe decodes, centered on the guess
+    /// position. Long enough to absorb ad-shifts of up to ~half this
+    /// value in either direction, short enough that the wall-clock wait
+    /// stays imperceptible on modern hardware.
+    private static let probeDurationSeconds: Double = 120
+
+    /// Maximum acceptable distance between a probe candidate's reference
+    /// time and the user's target. Wider than `driftToleranceSeconds`
+    /// because the probe is searching across an unknown ad shift; we only
+    /// need to confirm the candidate landed in the same neighborhood as
+    /// the tapped cue, not that it pinpoints it.
+    private static let probeMatchWindowSeconds: Double = 90
+
+    private func runProbe(
+        targetReferenceTime: Double,
+        context ctx: GenerationContext,
+        tag: String,
+        completion: @escaping (Double?) -> Void
+    ) {
+        // Center the scan on a 1:1 guess for the cue's playback time. With
+        // a symmetric window we catch the cue regardless of which way the
+        // audio shifted (ads added past the cue, or intro trimmed before).
+        // Clamped to the file bounds; near the start the scan slides
+        // forward, near the end it slides backward.
+        let halfDuration = Self.probeDurationSeconds / 2
+        let raw = max(0, min(ctx.duration - Self.probeDurationSeconds, targetReferenceTime - halfDuration))
+        let probeStart = Self.alignToWindowGrid(raw)
+        let audioFileURL = ctx.audioFileURL
+        let matcher = ctx.matcher
+
+        probeQueue.async { [weak self] in
+            guard let self else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] probe start "
+                    + "targetRef=\(String(format: "%.2f", targetReferenceTime))s "
+                    + "guessPlayback=\(String(format: "%.2f", probeStart))s "
+                    + "duration=\(String(format: "%.2f", ctx.duration))s "
+                    + "file=\(audioFileURL.lastPathComponent)"
+            )
+            let result = self.probeAudio(
+                audioFileURL: audioFileURL,
+                startSeconds: probeStart,
+                targetReferenceTime: targetReferenceTime,
+                matcher: matcher,
+                tag: tag
+            )
+            if let result {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] probe accepted "
+                        + "ref=\(String(format: "%.2f", result.referenceTime))s "
+                        + "→ playback=\(String(format: "%.2f", result.playbackTime))s "
+                        + "score=\(String(format: "%.3f", result.score))"
+                )
+                self.queue.async { [weak self] in
+                    self?.insertMapping(TimeMappingEntry(
+                        playbackTime: result.playbackTime,
+                        referenceTime: result.referenceTime,
+                        score: result.score
+                    ))
+                }
+            } else {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] probe failed — no confident match near "
+                        + "\(String(format: "%.2f", targetReferenceTime))s"
+                )
+            }
+            DispatchQueue.main.async { completion(result?.playbackTime) }
+        }
+    }
+
+    private func probeAudio(
+        audioFileURL: URL,
+        startSeconds: Double,
+        targetReferenceTime: Double,
+        matcher: CheckpointMatcher,
+        tag: String
+    ) -> ProbeResult? {
+        do {
+            let audioFile = try AVAudioFile(
+                forReading: audioFileURL,
+                commonFormat: .pcmFormatFloat32,
+                interleaved: false
+            )
+            let format = audioFile.processingFormat
+            let startFrame = AVAudioFramePosition(startSeconds * format.sampleRate)
+            guard startFrame >= 0, startFrame < audioFile.length else {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] probe out-of-range "
+                        + "startFrame=\(startFrame) audioLength=\(audioFile.length)"
+                )
+                return nil
+            }
+            audioFile.framePosition = startFrame
+
+            let streamer = StreamingWindowedFingerprinter(
+                sampleRate: UInt32(format.sampleRate),
+                channels: UInt16(format.channelCount),
+                windowDurationMs: FingerprintConstants.windowDurationMs,
+                windowIntervalMs: FingerprintConstants.windowIntervalMs
+            )
+
+            let chunkFrames = AVAudioFrameCount(format.sampleRate * FingerprintConstants.streamChunkSeconds)
+            guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: chunkFrames) else {
+                return nil
+            }
+
+            let endFrame = startFrame + AVAudioFramePosition(Self.probeDurationSeconds * format.sampleRate)
+            var candidates: [TimeMappingEntry] = []
+            var windowsSeen = 0
+            var rejectedLowScore = 0
+            var rejectedAmbiguous = 0
+            var rejectedNoMatch = 0
+
+            while audioFile.framePosition < endFrame, audioFile.framePosition < audioFile.length {
+                try audioFile.read(into: buffer, frameCount: chunkFrames)
+                if buffer.frameLength == 0 { break }
+                let interleaved = Self.interleavedSamples(from: buffer)
+                let windows = streamer.pushSamplesF32(samples: interleaved, channels: UInt16(format.channelCount))
+                windowsSeen += windows.count
+                Self.collectProbeCandidates(
+                    windows: windows,
+                    startSeconds: startSeconds,
+                    matcher: matcher,
+                    into: &candidates,
+                    rejectedLowScore: &rejectedLowScore,
+                    rejectedAmbiguous: &rejectedAmbiguous,
+                    rejectedNoMatch: &rejectedNoMatch
+                )
+            }
+            let tail = streamer.flush()
+            windowsSeen += tail.count
+            Self.collectProbeCandidates(
+                windows: tail,
+                startSeconds: startSeconds,
+                matcher: matcher,
+                into: &candidates,
+                rejectedLowScore: &rejectedLowScore,
+                rejectedAmbiguous: &rejectedAmbiguous,
+                rejectedNoMatch: &rejectedNoMatch
+            )
+
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] probe windows=\(windowsSeen) "
+                    + "accepted=\(candidates.count) "
+                    + "rejected[low=\(rejectedLowScore), ambig=\(rejectedAmbiguous), none=\(rejectedNoMatch)]"
+            )
+            for (i, c) in candidates.prefix(20).enumerated() {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] cand[\(i)] "
+                        + "playback=\(String(format: "%.2f", c.playbackTime))s "
+                        + "ref=\(String(format: "%.2f", c.referenceTime))s "
+                        + "score=\(String(format: "%.3f", c.score))"
+                )
+            }
+
+            return Self.bestProbeMatch(in: candidates, near: targetReferenceTime, tag: tag)
+        } catch {
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] probe error — \(error.localizedDescription)"
+            )
+            return nil
+        }
+    }
+
+    private static func collectProbeCandidates(
+        windows: [WindowedFingerprint],
+        startSeconds: Double,
+        matcher: CheckpointMatcher,
+        into candidates: inout [TimeMappingEntry],
+        rejectedLowScore: inout Int,
+        rejectedAmbiguous: inout Int,
+        rejectedNoMatch: inout Int
+    ) {
+        for window in windows {
+            let matches = matcher.findTopMatches(queryHashes: window.hashes, maxResults: 2)
+            guard let best = matches.first else {
+                rejectedNoMatch += 1
+                continue
+            }
+            guard best.score >= FingerprintConstants.driftAnchorScoreThreshold else {
+                rejectedLowScore += 1
+                continue
+            }
+            let runnerUpScore = matches.dropFirst().first?.score ?? 0
+            guard best.score - runnerUpScore >= FingerprintConstants.driftScoreDominanceGap else {
+                rejectedAmbiguous += 1
+                continue
+            }
+            candidates.append(TimeMappingEntry(
+                playbackTime: startSeconds + Double(window.timestampMs) / 1000.0,
+                referenceTime: Double(best.timestamp),
+                score: best.score
+            ))
+        }
+    }
+
+    /// From the probe's collected candidates, pick the one closest to
+    /// `targetReferenceTime` that's part of a `driftBootstrapCount`-length
+    /// rate-1 consistent run. Symmetric scans can produce *multiple* runs
+    /// separated by an ad break, so we don't just pick the longest run —
+    /// we pick the trusted candidate with the smallest reference-time
+    /// distance to the user's target. The match must land within
+    /// `probeMatchWindowSeconds` to be accepted.
+    private static func bestProbeMatch(
+        in candidates: [TimeMappingEntry],
+        near targetReferenceTime: Double,
+        tag: String
+    ) -> ProbeResult? {
+        let sorted = candidates.sorted { $0.playbackTime < $1.playbackTime }
+        guard sorted.count >= FingerprintConstants.driftBootstrapCount else {
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] not enough candidates "
+                    + "(\(sorted.count) < \(FingerprintConstants.driftBootstrapCount))"
+            )
+            return nil
+        }
+
+        var runs: [[TimeMappingEntry]] = []
+        var current: [TimeMappingEntry] = []
+        for candidate in sorted {
+            if let last = current.last, !isInTrend(candidate, relativeTo: last) {
+                if current.count >= FingerprintConstants.driftBootstrapCount {
+                    runs.append(current)
+                }
+                current = []
+            }
+            current.append(candidate)
+        }
+        if current.count >= FingerprintConstants.driftBootstrapCount {
+            runs.append(current)
+        }
+
+        guard !runs.isEmpty else {
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] no consistent run of "
+                    + "\(FingerprintConstants.driftBootstrapCount)"
+            )
+            return nil
+        }
+
+        let trusted = runs.flatMap { $0 }
+        let closest = trusted.min(by: {
+            abs($0.referenceTime - targetReferenceTime) < abs($1.referenceTime - targetReferenceTime)
+        })!
+        let delta = abs(closest.referenceTime - targetReferenceTime)
+
+        let runSummary = runs.enumerated().map { idx, run in
+            "run\(idx)[len=\(run.count), "
+                + "ref=\(String(format: "%.2f", run.first!.referenceTime))..\(String(format: "%.2f", run.last!.referenceTime))s]"
+        }.joined(separator: " ")
+        FileLog.shared.addMessage(
+            "[tap-to-seek \(tag)] runs=\(runs.count) trusted=\(trusted.count) \(runSummary) "
+                + "closest ref=\(String(format: "%.2f", closest.referenceTime))s "
+                + "playback=\(String(format: "%.2f", closest.playbackTime))s "
+                + "Δ=\(String(format: "%.2f", delta))s"
+        )
+
+        guard delta <= probeMatchWindowSeconds else {
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] closest Δ=\(String(format: "%.2f", delta))s "
+                    + "> max=\(String(format: "%.2f", probeMatchWindowSeconds))s — rejecting"
+            )
+            return nil
+        }
+        return ProbeResult(
+            playbackTime: closest.playbackTime,
+            referenceTime: closest.referenceTime,
+            score: closest.score
+        )
     }
 }
 

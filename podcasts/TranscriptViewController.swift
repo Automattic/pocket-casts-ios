@@ -950,14 +950,34 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             fraction = 0
         }
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
+        let tag = String(UUID().uuidString.prefix(8))
 
-        guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
-            Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
-            return
+        FileLog.shared.addMessage(
+            "[tap-to-seek \(tag)] tap "
+                + "cue=[\(String(format: "%.2f", cue.startTime))..\(String(format: "%.2f", cue.endTime))]s "
+                + "fraction=\(String(format: "%.3f", fraction)) "
+                + "targetRef=\(String(format: "%.2f", referenceTime))s "
+                + "currentPlayback=\(String(format: "%.2f", playbackManager.currentTime()))s"
+        )
+
+        FingerprintTimingManager.shared.resolvePlaybackTime(
+            forReferenceTime: referenceTime,
+            tag: tag
+        ) { [weak self] seekTime in
+            guard let self else { return }
+            guard let seekTime else {
+                FileLog.shared.addMessage(
+                    "[tap-to-seek \(tag)] resolve returned nil — showing toast"
+                )
+                Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
+                return
+            }
+            FileLog.shared.addMessage(
+                "[tap-to-seek \(tag)] seeking to playback=\(String(format: "%.2f", seekTime))s"
+            )
+            self.playbackManager.seekTo(time: seekTime)
+            self.track(.syncedTranscriptSeekUsed)
         }
-
-        playbackManager.seekTo(time: seekTime)
-        track(.syncedTranscriptSeekUsed)
     }
 
     // MARK: - Search
