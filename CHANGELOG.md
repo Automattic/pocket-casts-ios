@@ -1,6 +1,6 @@
 8.12
 -----
-
+- Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
 
 8.11
 -----
