@@ -1,6 +1,6 @@
 8.12
 -----
-
+- Fix an issue with refresh control triggering haptics without your input [#4213](https://github.com/Automattic/pocket-casts-ios/pull/4213)
 
 8.11
 -----
