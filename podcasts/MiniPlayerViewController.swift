@@ -37,11 +37,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var glassContainer: UIVisualEffectView?
-    private var glassGradientLayer: CAGradientLayer?
     private var episodeTitleLabel: UILabel?
     private var episodeTimeLeftLabel: UILabel?
     private var glassProgressView: MiniPlayerGlassProgressView?
+
+    var isUsingTabAccessory: Bool {
+        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+            return true
+        }
+        return false
+    }
 
 
     override func viewDidLoad() {
@@ -70,30 +75,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func setupLiquidGlassLayout() {
         gradientView.isHidden = true
         shadowView.isHidden = true
-        mainView.backgroundColor = .clear
-        mainView.layer.cornerRadius = 0
+        mainView.isHidden = true
         playbackProgressView.isHidden = true
         upNextBtn.isHidden = true
 
-
-        let effectView = UIVisualEffectView(effect: {
-            let effect = UIGlassEffect(style: .regular)
-            effect.isInteractive = true
-            return effect
-        }())
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        effectView.clipsToBounds = true
-        effectView.layer.cornerCurve = .continuous
-        view.addSubview(effectView)
-        glassContainer = effectView
-
-        let contentView = effectView.contentView
-
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
-        glassGradientLayer = gradientLayer
+        view.backgroundColor = .clear
 
         podcastArtwork.removeFromSuperview()
         skipBackBtn.removeFromSuperview()
@@ -112,7 +98,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.font = .font(ofSize: 12, weight: .medium, scalingWith: .subheadline)
+        title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
         title.numberOfLines = 1
         title.lineBreakMode = .byTruncatingTail
         title.adjustsFontForContentSizeCategory = false
@@ -145,24 +131,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         buttonStack.axis = .horizontal
         buttonStack.alignment = .center
 
-        contentView.addSubview(podcastArtwork)
-        contentView.addSubview(textStack)
-        contentView.addSubview(buttonStack)
+        view.addSubview(podcastArtwork)
+        view.addSubview(textStack)
+        view.addSubview(buttonStack)
 
         NSLayoutConstraint.activate([
-            effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
-            effectView.heightAnchor.constraint(equalToConstant: 48),
-
-            podcastArtwork.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            podcastArtwork.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            podcastArtwork.widthAnchor.constraint(equalToConstant: 30),
-            podcastArtwork.heightAnchor.constraint(equalToConstant: 30),
+            podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            podcastArtwork.widthAnchor.constraint(equalToConstant: 32),
+            podcastArtwork.heightAnchor.constraint(equalToConstant: 32),
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
-            textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
+            textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: -4),
 
             progressView.widthAnchor.constraint(equalToConstant: 50),
             progressView.heightAnchor.constraint(equalToConstant: 5),
@@ -171,22 +152,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
             skipFwdBtn.widthAnchor.constraint(equalToConstant: 70),
 
-            buttonStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            buttonStack.topAnchor.constraint(equalTo: view.topAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
+            buttonStack.heightAnchor.constraint(equalToConstant: 56),
         ])
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let glassContainer {
-            glassContainer.layer.cornerRadius = glassContainer.bounds.height / 2
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            glassGradientLayer?.frame = glassContainer.contentView.bounds
-            CATransaction.commit()
-        }
     }
 
     deinit {
@@ -324,7 +294,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func miniPlayerShowing() -> Bool {
-        !view.isHidden
+        if isUsingTabAccessory, #available(iOS 26, *) {
+            return (parent as? UITabBarController)?.bottomAccessory != nil
+        }
+        return !view.isHidden
     }
 
     private func setupForEpisode(_ episode: BaseEpisode) {
@@ -476,7 +449,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let bgColor = ThemeColor.primaryUi02()
 
         episodeTitleLabel?.textColor = ThemeColor.primaryText01()
-        episodeTimeLeftLabel?.textColor = ThemeColor.primaryText01()
+        episodeTimeLeftLabel?.textColor = ThemeColor.primaryText02()
 
         playPauseBtn.playButtonColor = bgColor
         playPauseBtn.circleColor = iconColor
@@ -485,11 +458,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         skipFwdBtn.tintColor = iconColor
 
         glassProgressView?.tintColorOverride = actionColor
-
-        glassGradientLayer?.colors = [
-            actionColor.withAlphaComponent(0.06).cgColor,
-            actionColor.withAlphaComponent(0.09).cgColor,
-        ]
     }
 
     private func currentPodcastTintColor() -> UIColor {
