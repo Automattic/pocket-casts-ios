@@ -335,7 +335,10 @@ private extension PCRefreshControl {
 extension PCRefreshControl {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
+        // Only react while the user's finger is on the scroll view; ignore
+        // momentum-driven bounce-back so a fast flick to the top doesn't fire
+        // the pull-to-refresh haptic without an actual pull gesture.
+        if scrollAmount > 0, scrollView.isTracking {
             didPullDown(scrollAmount)
         } else if scrollAmount < 0 {
             endRefreshing(false)
