@@ -731,17 +731,24 @@ final class FingerprintTimingManager: NSObject {
     /// audio file. The cache is then a complete replacement on next open —
     /// `FingerprintMappingCache.save` enforces the same coverage threshold the
     /// load path requires, keeping the round-trip safe.
+    ///
+    /// Only the snapshot read runs on `queue`; JSON encoding + disk I/O happen
+    /// on `generationQueue` so they don't stall `queue.sync` callers (the
+    /// `referenceTime(forPlaybackTime:)` / `playbackTime(forReferenceTime:)`
+    /// queries that drive transcript highlighting and tap-to-seek).
     private func persistMappingCacheIfFull(context ctx: GenerationContext) {
         guard !ctx.isStreaming else { return }
         queue.async { [weak self] in
             guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
             let snapshot = self.playbackToReference
-            FingerprintMappingCache.save(
-                snapshot,
-                audioFilePath: ctx.audioFileURL.path,
-                referenceData: ctx.referenceData,
-                referenceDuration: ctx.referenceDuration
-            )
+            self.generationQueue.async {
+                FingerprintMappingCache.save(
+                    snapshot,
+                    audioFilePath: ctx.audioFileURL.path,
+                    referenceData: ctx.referenceData,
+                    referenceDuration: ctx.referenceDuration
+                )
+            }
         }
     }
 
