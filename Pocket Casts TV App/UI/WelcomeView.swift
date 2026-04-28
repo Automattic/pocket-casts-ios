@@ -6,7 +6,7 @@ class WelcomeViewModel {
 }
 
 struct WelcomeView: View {
-    @Environment(RootViewModel.self) var viewModel
+    @Environment(AppCoordinator.self) var coordinator
 
     @State var model = WelcomeViewModel()
 
@@ -18,30 +18,47 @@ struct WelcomeView: View {
         GridItem(.fixed(Layout.gridSize))
     }
 
+    enum Destination: Hashable {
+        case signIn
+        case createAccount
+    }
+
     var body: some View {
-        ZStack(alignment: .top) {
-            podcastGrid
-            gradientView
-            VStack(spacing: 32) {
-                Spacer()
-                Image(ImageResource.pcLogo)
-                Text(L10n.tvWelcomeTitle)
-                    .font(.title)
-                Text(L10n.tvWelcomeSubtitle)
-                    .font(.headline)
+        NavigationStack {
+            ZStack(alignment: .top) {
+                podcastGrid
+                gradientView
+                VStack(spacing: 32) {
+                    Spacer()
+                    Image(ImageResource.pcLogo)
+                    Text(L10n.tvWelcomeTitle)
+                        .font(.title)
+                    Text(L10n.tvWelcomeSubtitle)
+                        .font(.headline)
+                        .foregroundColor(Color.textSecondary)
+                    HStack {
+                        NavigationLink(value: Destination.signIn) {
+                            Text(L10n.tvWelcomeSignIn)
+                        }
+                        NavigationLink(value: Destination.createAccount) {
+                            Text(L10n.tvWelcomeCreateFreeAccount)
+                        }
+                    }
+                    Spacer()
+                    Button(L10n.tvWelcomeBrowseWithoutAccount) {
+                        coordinator.state = .browsing
+                    }
+                    .buttonStyle(.plain)
                     .foregroundColor(Color.textSecondary)
-                HStack {
-                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signedIn }
-                        .buttonStyle(.borderedProminent)
-                    Button(L10n.tvWelcomeCreateFreeAccount) { viewModel.state = .signedIn }
-                        .buttonStyle(.borderedProminent)
                 }
-                Spacer()
-                Button(L10n.tvWelcomeBrowseWithoutAccount) {
-                    viewModel.state = .browsing
+            }
+            .navigationDestination(for: Destination.self) { destination in
+                switch destination {
+                case .signIn:
+                    SignInView()
+                case .createAccount:
+                    CreateAccountView()
                 }
-                .buttonStyle(.plain)
-                .foregroundColor(Color.textSecondary)
             }
         }
     }
@@ -62,8 +79,8 @@ struct WelcomeView: View {
           .background(
             LinearGradient(
               stops: [
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14), location: 0.00),
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14).opacity(0.5), location: 1.00),
+                Gradient.Stop(color: Color.backgroundSurface, location: 0.00),
+                Gradient.Stop(color: Color.backgroundSurface.opacity(0.5), location: 1.00),
               ],
               startPoint: UnitPoint(x: 0.5, y: 0.41),
               endPoint: UnitPoint(x: 0.5, y: 0.13)
@@ -74,5 +91,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
-        .environment(RootViewModel())
+        .environment(AppCoordinator())
 }
