@@ -134,7 +134,7 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func setupNavBar(animated: Bool) {
-        guard let navController = navigationController else { return }
+        guard !Theme.isLiquidGlass, let navController = navigationController else { return }
 
         let navigationBar = navController.navigationBar
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
