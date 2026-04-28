@@ -295,4 +295,11 @@ class Theme: ObservableObject {
 
         return UIBezierPath(roundedRect: circleRect, cornerRadius: size / 2.0)
     }
+
+    static var isLiquidGlass: Bool {
+        guard #available(iOS 26, *) else {
+            return false // Use legacy styles
+        }
+        return FeatureFlag.liquidGlass.enabled
+    }
 }
