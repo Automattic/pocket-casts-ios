@@ -120,7 +120,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         let timeLeft = UILabel()
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
-        timeLeft.font = .font(ofSize: 11, weight: .regular, scalingWith: .footnote)
+        timeLeft.font = .font(ofSize: 10, weight: .regular, scalingWith: .footnote)
         timeLeft.numberOfLines = 1
         timeLeft.adjustsFontForContentSizeCategory = false
         episodeTimeLeftLabel = timeLeft
