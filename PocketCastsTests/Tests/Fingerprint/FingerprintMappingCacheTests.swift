@@ -82,6 +82,24 @@ final class FingerprintMappingCacheTests: XCTestCase {
         XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData))
     }
 
+    func testCacheIsRejectedWhenAudioFileMTimeChanges() throws {
+        FingerprintMappingCache.save(
+            makeFullCoverageEntries(),
+            audioFilePath: audioPath,
+            referenceData: referenceData,
+            referenceDuration: 100
+        )
+
+        // Bump mtime well beyond the load path's 1.0s tolerance, leaving size untouched.
+        let bumpedDate = Date(timeIntervalSinceNow: 60)
+        try FileManager.default.setAttributes(
+            [.modificationDate: bumpedDate],
+            ofItemAtPath: audioPath
+        )
+
+        XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData))
+    }
+
     func testPartialCoverageCacheIsNotPersisted() {
         let partial = [
             Entry(playbackTime: 0, referenceTime: 0, score: 0.9),
