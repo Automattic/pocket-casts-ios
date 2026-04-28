@@ -18,7 +18,7 @@ struct CreateAccountView: View {
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
                 Spacer()
-                qrCode
+                QRCodeView()
                 Spacer()
                 Text(L10n.tvCreateAccountComeBack)
                     .font(.headline)
@@ -28,16 +28,6 @@ struct CreateAccountView: View {
                 }
             }
         }
-    }
-
-    var qrCode: some View {
-        ZStack {
-            Image(ImageResource.qrCode)
-                .resizable()
-                .frame(width: Layout.qrSize, height: Layout.qrSize)
-        }
-        .padding()
-        .background(.white)
     }
 }
 

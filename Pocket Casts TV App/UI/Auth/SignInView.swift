@@ -60,7 +60,7 @@ struct SignInView: View {
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
                 Spacer()
-                qrCode
+                QRCodeView()
                 Spacer()
                 separator
                 Text(L10n.tvSignInEnterCode)
@@ -79,16 +79,6 @@ struct SignInView: View {
             dismiss()
             coordinator.state = .userSync
         }
-    }
-
-    var qrCode: some View {
-        ZStack {
-            Image(ImageResource.qrCode)
-                .resizable()
-                .frame(width: Layout.qrSize, height: Layout.qrSize)
-        }
-        .padding()
-        .background(.white)
     }
 
     var qrCodeDigits: some View {
