@@ -1,5 +1,7 @@
 8.12
 -----
+- Improve search bar collapse animations [#4212](https://github.com/Automattic/pocket-casts-ios/pull/4212)
+
 
 
 8.11
