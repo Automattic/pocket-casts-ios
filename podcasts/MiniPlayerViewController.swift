@@ -41,6 +41,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var glassGradientLayer: CAGradientLayer?
     private var episodeTitleLabel: UILabel?
     private var episodeTimeLeftLabel: UILabel?
+    private var glassProgressView: MiniPlayerGlassProgressView?
 
 
     override func viewDidLoad() {
@@ -124,11 +125,20 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         timeLeft.adjustsFontForContentSizeCategory = false
         episodeTimeLeftLabel = timeLeft
 
-        let textStack = UIStackView(arrangedSubviews: [title, timeLeft])
+        let progressView = MiniPlayerGlassProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        glassProgressView = progressView
+
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
+        bottomRow.axis = .horizontal
+        bottomRow.alignment = .center
+        bottomRow.spacing = 8
+
+        let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
-        textStack.spacing = 1
+        textStack.spacing = 2
 
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +163,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
             textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
+
+            progressView.widthAnchor.constraint(equalToConstant: 50),
+            progressView.heightAnchor.constraint(equalToConstant: 5),
 
             skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
             playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
@@ -366,6 +379,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
         }
 
+        if let glassProgressView {
+            let downloadProgress: CGFloat
+            if duration > 0 {
+                downloadProgress = min(1, CGFloat((currentTime + amountBuferred) / duration))
+            } else {
+                downloadProgress = 0
+            }
+            glassProgressView.playbackProgress = progress
+            glassProgressView.downloadProgress = downloadProgress
+        }
+
         if let episodeTimeLeftLabel {
             let remaining = max(0, duration - currentTime)
             let newText: String?
@@ -425,6 +449,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         skipBackBtn.tintColor = iconColor
         skipFwdBtn.tintColor = iconColor
+
+        glassProgressView?.tintColorOverride = actionColor
 
         glassGradientLayer?.colors = [
             actionColor.withAlphaComponent(0.06).cgColor,
