@@ -45,7 +45,12 @@ class PCSearchBarController: UIViewController {
 
     var shouldShowCancelButton = true
     var cancelButtonShowing = false
-    var searchControllerTopConstant: NSLayoutConstraint?
+
+    /// When set, the scrolling extension drives this constraint's `constant` between `0` and
+    /// `defaultHeight` to collapse/expand the bar in place — the bar's top stays anchored to
+    /// the safe area, and the pill, icons and placeholder fade and shrink together.
+    var searchControllerHeightConstraint: NSLayoutConstraint?
+
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
@@ -67,10 +72,49 @@ class PCSearchBarController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureCollapseLayout()
         updateColors()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
         updateSize()
+        updateCollapseAppearance()
+    }
+
+    /// Pill stays the same shape ratio as the bar collapses.
+    private static let pillToBarHeightRatio: CGFloat = 32.0 / 54.0
+
+    private func configureCollapseLayout() {
+        view.clipsToBounds = true
+
+        // Drop the XIB's `pill.height >= 32` and `pill.bottom == view.bottom - 15`, which would
+        // pin the pill at full size and let it slide off the bottom. We replace them with
+        // proportional sizing so the pill itself shrinks with the bar.
+        for constraint in roundedBackgroundView.constraints where constraint.firstAttribute == .height && constraint.secondItem == nil {
+            constraint.isActive = false
+        }
+        for constraint in view.constraints where constraint.firstAttribute == .bottom && constraint.secondItem === roundedBackgroundView {
+            constraint.isActive = false
+        }
+
+        let proportionalHeight = roundedBackgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: Self.pillToBarHeightRatio)
+        proportionalHeight.priority = .required - 1
+        NSLayoutConstraint.activate([
+            proportionalHeight,
+            roundedBackgroundView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            roundedBackgroundView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func updateCollapseAppearance() {
+        let height = searchControllerHeightConstraint?.constant ?? Self.defaultHeight
+        let progress = min(1, max(0, height / Self.defaultHeight))
+        // Pill itself shrinks in place; contents fade on a steeper curve so the text/icons are
+        // gone well before the pill finishes collapsing — closer to the native bar.
+        let contentAlpha = max(0, progress * 2 - 1)
+        searchIcon.alpha = contentAlpha
+        searchTextField.alpha = contentAlpha
+        clearSearchBtn.alpha = contentAlpha
+        loadingSpinner.alpha = contentAlpha
     }
 
     override func viewDidAppear(_ animated: Bool) {

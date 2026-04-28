@@ -302,7 +302,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
-        searchController.searchControllerTopConstant = topAnchor
 
         multiSelectHeaderView = ThemeableView()
         view.addSubview(multiSelectHeaderView)
