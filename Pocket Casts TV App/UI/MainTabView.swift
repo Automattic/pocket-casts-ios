@@ -105,7 +105,7 @@ struct MainTabView: View {
         .ignoresSafeArea()
         .onScrollGeometryChange(for: Double.self) { geometry in
             geometry.contentOffset.y
-        } action: { before, after in            
+        } action: { before, after in
             self.scrollOffset = 150 + after
         }
     }

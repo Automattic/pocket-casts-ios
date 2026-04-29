@@ -64,7 +64,7 @@ struct PodcastsView: View {
                     .foregroundStyle(Color.textPrimary)
                 podcastGrid
             }
-        }        
+        }
     }
 
     var emptyView: some View {
