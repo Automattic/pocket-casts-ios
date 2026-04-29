@@ -30,6 +30,8 @@ extension AppDelegate {
 
         Analytics.register(adapters: adapters)
         Analytics.add(analyticsAppThemeProvider: AnalyticsAppThemeProvider())
+
+        ListeningTimeTracker.shared.recoverPendingSession()
     }
 
     func logActiveDownloadTasks() {

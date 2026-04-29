@@ -124,6 +124,7 @@ struct Constants {
         static let appBadgeFilterUuid = "SJEppBadgeFilterId"
         static let lastAppCloseDate = "SJLastAppCloseDate"
         static let lastPlayEvent = "SJLastPlayEvent"
+        static let listeningTimeTrackerSession = "SJListeningTimeTrackerSession"
         static let cleanupUnplayed = "CleanupUnplayed"
         static let cleanupInProgress = "CleanupInProgress"
         static let cleanupPlayed = "CleanupPlayed"

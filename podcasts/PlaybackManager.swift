@@ -230,7 +230,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         aboutToPlay.value = true
-        ListeningTimeTracker.shared.start(episode: currEpisode)
 
         if playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
@@ -245,6 +244,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 self.aboutToPlay.value = false
                 return
             }
+
+            ListeningTimeTracker.shared.start(episode: currEpisode)
 
             self.player?.play {
                 completion?()
