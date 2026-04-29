@@ -150,15 +150,7 @@ struct MainTabView: View {
     }
 
     var leftAccessory: some View {
-        //VStack(alignment: .leading) {
-        //    Spacer().frame(height: 40)
-        //    HStack {
-        //        Spacer().frame(width: 84)
-                Image(ImageResource.pcLogo)
-        //        Spacer()
-        //    }.frame(height: 78)
-        //    Spacer()
-       // }
+        Image(ImageResource.pcLogo)
     }
 }
 
