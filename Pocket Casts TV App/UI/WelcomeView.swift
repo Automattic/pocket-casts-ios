@@ -25,9 +25,7 @@ struct WelcomeView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .top) {
-                podcastGrid
-                gradientView
+            ZStack(alignment: .center) {
                 VStack(spacing: 32) {
                     Spacer()
                     Image(ImageResource.pcLogo)
@@ -60,6 +58,12 @@ struct WelcomeView: View {
                     CreateAccountView()
                 }
             }
+            .background {
+                ZStack {
+                    podcastGrid
+                    gradientView
+                }
+            }
         }
     }
 
@@ -70,7 +74,8 @@ struct WelcomeView: View {
                     .resizable()
                     .frame(width: Layout.gridSize, height: Layout.gridSize)
             }
-        }).ignoresSafeArea()
+        })
+        //.ignoresSafeArea()
     }
 
     var gradientView: some View {
