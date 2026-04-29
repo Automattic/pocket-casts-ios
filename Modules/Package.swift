@@ -155,6 +155,11 @@ let package = Package(
             ],
             path: "Sources/EndOfYear"
         ),
+        .binaryTarget(
+            name: "EventHorizonSDK",
+            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocket-casts-2026-04-29-11-49-37/EventHorizon-pocket-casts-2026-04-29-11-49-37.xcframework.zip",
+            checksum: "6e4630ea17092f4dacf573b1f33b68d689d5123496b0d27dc869363733e67f92"
+        ),
         .target(
             name: "Modules",
             path: "Sources/Modules"
@@ -211,6 +216,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
                     .product(name: "Fuse", package: "fuse-swift"),
