@@ -72,7 +72,7 @@ struct MainTabView: View {
             TabView(selection: $selection) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        MainTabContentView(tab: tab)                            
+                        MainTabContentView(tab: tab)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
