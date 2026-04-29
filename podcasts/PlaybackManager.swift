@@ -230,6 +230,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         aboutToPlay.value = true
+        ListeningTimeTracker.shared.start(episode: currEpisode)
 
         if playerSwitchRequired() {
             load(episode: currEpisode, autoPlay: false, overrideUpNext: false)
@@ -266,6 +267,8 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func pause(userInitiated: Bool = true) {
         guard let episode = currentEpisode() else { return }
+
+        ListeningTimeTracker.shared.stop()
 
         // Only trigger the event if we are already playing
         if playing(), userInitiated == true {
@@ -717,6 +720,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func endPlayback(saveCurrentEpisode: Bool = true) {
+        ListeningTimeTracker.shared.stop()
         cancelUpdateTimer()
         cancelSleepTimer()
         chapterManager.clearChapterInfo()
@@ -1142,6 +1146,9 @@ class PlaybackManager: ServerPlaybackDelegate {
             cancelSleepTimer()
             return
         }
+
+        ListeningTimeTracker.shared.stop()
+
         // once playback is over iOS can be agressive about killing off our app, so start a short lived background task to let it know we're doing stuff
         startBackgroundTask()
         defer {
@@ -1222,6 +1229,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func playerDidRequestTermination() {
+        ListeningTimeTracker.shared.stop()
+
         guard let currEpisode = currentEpisode() else { return }
 
         let upTo = currentTime()
@@ -2134,6 +2143,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 wasPlayingBeforeInterruption = player.shouldBePlaying()
                 player.interruptionDidStart()
             }
+
+            ListeningTimeTracker.shared.stop()
 
             if let episode = currentEpisode() {
                 catchUpHelper.playbackDidPause(of: episode)
