@@ -68,6 +68,8 @@ struct MainTabView: View {
     @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
 
+    @State private var scrollOffset: Double = 0
+
     enum FocusArea: Hashable {
         case tabBar
         case profile
@@ -91,9 +93,8 @@ struct MainTabView: View {
                 }
             }
             .focused($focusedArea, equals: .tabBar)
-            rightAccessory
-        }.overlay(alignment: .topLeading) {
-            leftAccessory
+        }.background(alignment: .top) {
+            accessoryView
         }.onAppear {
             focusedArea = .tabBar
         }
@@ -102,6 +103,25 @@ struct MainTabView: View {
             handleMove(direction)
         }
         .ignoresSafeArea()
+        .onScrollGeometryChange(for: Double.self) { geometry in
+            geometry.contentOffset.y
+        } action: { before, after in            
+            self.scrollOffset = 150 + after
+        }
+    }
+
+    var accessoryView: some View {
+        VStack() {
+            HStack() {
+                leftAccessory
+                Spacer()
+                rightAccessory
+            }
+            .padding(.vertical, 48)
+            .padding(.horizontal, 84)
+            .offset(x: 0, y: -scrollOffset)
+            Spacer()
+        }
     }
 
     private func handleMove(_ direction: MoveCommandDirection) {
@@ -126,21 +146,19 @@ struct MainTabView: View {
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
-        .padding(.top, 50)
-        .padding(.trailing, 84)
         .focusSection()
     }
 
     var leftAccessory: some View {
-        VStack(alignment: .leading) {
-            Spacer().frame(height: 40)
-            HStack {
-                Spacer().frame(width: 84)
+        //VStack(alignment: .leading) {
+        //    Spacer().frame(height: 40)
+        //    HStack {
+        //        Spacer().frame(width: 84)
                 Image(ImageResource.pcLogo)
-                Spacer()
-            }.frame(height: 78)
-            Spacer()
-        }
+        //        Spacer()
+        //    }.frame(height: 78)
+        //    Spacer()
+       // }
     }
 }
 

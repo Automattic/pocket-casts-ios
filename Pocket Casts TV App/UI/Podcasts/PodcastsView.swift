@@ -57,18 +57,14 @@ struct PodcastsView: View {
     }
 
     var podcastsView: some View {
-        ZStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvTabPodcasts)
-                        .font(.title)
-                        .foregroundStyle(Color.textPrimary)
-                    podcastGrid
-                }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 40) {
+                Text(L10n.tvTabPodcasts)
+                    .font(.title)
+                    .foregroundStyle(Color.textPrimary)
+                podcastGrid
             }
-            .contentMargins(.vertical, 100, for: .scrollContent)
-        }
-        .tabBarMinimizeBehavior(.automatic)
+        }        
     }
 
     var emptyView: some View {
