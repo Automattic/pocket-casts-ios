@@ -395,7 +395,7 @@ class EpisodeManager: NSObject {
         var totalFilesSize: UInt64 = 0
         enumerateTmpFolder(folderPath: folderPath) { tmpFile, attributes in
             guard let date = attributes[.modificationDate] as? Date,
-                  Date.now.timeIntervalSince(date) > 1.week
+                  Date.now.timeIntervalSince(date) > 1.week // A file that is on the tmp folder more than a week should not been actively used
             else {
                 return
             }
