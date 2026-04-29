@@ -145,7 +145,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
 
-            progressView.widthAnchor.constraint(equalToConstant: 44),
+            progressView.widthAnchor.constraint(equalToConstant: 40),
             progressView.heightAnchor.constraint(equalToConstant: 5),
 
             skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
