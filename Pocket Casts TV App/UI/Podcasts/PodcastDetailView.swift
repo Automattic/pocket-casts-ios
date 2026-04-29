@@ -30,7 +30,7 @@ class PodcastDetailViewModel {
                 cancellable?.cancel()
                 cancellable = nil
             }
-    }    
+    }
 
     func follow() {
 
