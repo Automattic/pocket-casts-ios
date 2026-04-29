@@ -24,19 +24,21 @@ struct SmartPlaylistRulesContainerView: View {
                     }
                 } else {
                     SmartPlaylistRuleRowView(rule: rule.type, hideDivider: isLast) {
-                        if let description = rule.description {
-                            Text(description)
-                                .foregroundStyle(theme.primaryText02)
-                                .font(size: 17, style: .body)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.8)
+                        HStack(spacing: 0) {
+                            if let description = rule.description {
+                                Text(description)
+                                    .foregroundStyle(theme.primaryText02)
+                                    .font(size: 17, style: .body)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.8)
+                            }
+                            Image("cs-chevron")
+                                .renderingMode(.template)
+                                .resizable()
+                                .foregroundStyle(theme.primaryIcon02)
+                                .frame(width: iconSize - 5, height: iconSize)
+                                .padding(.trailing, 11.0)
                         }
-                        Image("cs-chevron")
-                            .renderingMode(.template)
-                            .resizable()
-                            .foregroundStyle(theme.primaryIcon02)
-                            .frame(width: iconSize, height: iconSize)
-                            .padding(.trailing, 8.0)
                     }
                     .onTapGesture {
                         action(rule.type)
