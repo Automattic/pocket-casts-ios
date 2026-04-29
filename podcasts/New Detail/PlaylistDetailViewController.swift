@@ -318,7 +318,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
-        multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+        multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
         view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
 
