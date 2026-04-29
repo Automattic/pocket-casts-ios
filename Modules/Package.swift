@@ -157,8 +157,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "EventHorizonSDK",
-            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocket-casts-2026-04-29-11-49-37/EventHorizon-pocket-casts-2026-04-29-11-49-37.xcframework.zip",
-            checksum: "6e4630ea17092f4dacf573b1f33b68d689d5123496b0d27dc869363733e67f92"
+            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocket-casts-2026-04-29-13-55-38/EventHorizon-pocket-casts-2026-04-29-13-55-38.xcframework.zip",
+            checksum: "773066f52a81fcc6405efbdeaf825a67d36cfe2b4d3e1855f508b6cf8faa7133"
         ),
         .target(
             name: "Modules",
@@ -244,6 +244,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
@@ -258,6 +259,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
                 ]
