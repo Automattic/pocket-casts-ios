@@ -39,7 +39,7 @@ struct EpisodeRow: View {
             Spacer()
         }
         .padding(24)
-        .backgroundStyle(Color.backgroundSunken)
+        .background(Color.backgroundSunken)
     }
 }
 
