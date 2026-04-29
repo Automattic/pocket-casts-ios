@@ -75,7 +75,6 @@ struct WelcomeView: View {
                     .frame(width: Layout.gridSize, height: Layout.gridSize)
             }
         })
-        //.ignoresSafeArea()
     }
 
     var gradientView: some View {

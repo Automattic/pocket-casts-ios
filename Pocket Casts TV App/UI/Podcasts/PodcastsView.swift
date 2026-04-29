@@ -68,19 +68,8 @@ struct PodcastsView: View {
     }
 
     var emptyView: some View {
-        VStack(spacing: 32) {
-            Spacer()
-            Text(L10n.tvPodcastsEmptyTitle)
-                .font(.title)
-                .foregroundStyle(Color.textPrimary)
-            Text(L10n.tvPodcastsEmptySubtitle)
-                .font(.headline)
-                .foregroundStyle(Color.textSecondary)
-            Spacer()
-            Button(L10n.tvPodcastsEmptyActionTitle) {
+        EmptyView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
 
-            }
-            Spacer()
         }
     }
 
