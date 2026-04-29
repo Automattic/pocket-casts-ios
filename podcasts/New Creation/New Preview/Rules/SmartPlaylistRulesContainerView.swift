@@ -16,13 +16,28 @@ struct SmartPlaylistRulesContainerView: View {
             ForEach(rules, id: \.id) { rule in
                 let isLast = rule.type == rules.last?.type
                 if rule.type.isMenuCompatible {
-                    menuRow(rule: rule.type, hideDivider: isLast)
+                    SmartPlaylistRuleRowView(rule: rule.type, hideDivider: isLast) {
+                        inlinePicker(for: rule.type)
+                            .fixedSize(horizontal: true, vertical: false)
+                            .frame(height: iconSize)
+                            .padding(.trailing, 16.0)
+                    }
                 } else {
-                    SmartPlaylistRuleRowView(
-                        rule: rule.type,
-                        description: rule.description,
-                        hideDivider: isLast
-                    )
+                    SmartPlaylistRuleRowView(rule: rule.type, hideDivider: isLast) {
+                        if let description = rule.description {
+                            Text(description)
+                                .foregroundStyle(theme.primaryText02)
+                                .font(size: 17, style: .body)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                        }
+                        Image("cs-chevron")
+                            .renderingMode(.template)
+                            .resizable()
+                            .foregroundStyle(theme.primaryIcon02)
+                            .frame(width: iconSize, height: iconSize)
+                            .padding(.trailing, 8.0)
+                    }
                     .onTapGesture {
                         action(rule.type)
                     }
@@ -33,48 +48,6 @@ struct SmartPlaylistRulesContainerView: View {
             RoundedRectangle(cornerRadius: 8.0, style: .continuous)
                 .fill(theme.primaryUi02Active)
         )
-    }
-
-    // MARK: - Menu Row
-
-    @ViewBuilder
-    private func menuRow(rule: SmartPlaylistRule, hideDivider: Bool) -> some View {
-        ZStack {
-            if !hideDivider {
-                VStack {
-                    Spacer()
-                    Rectangle()
-                        .fill(theme.primaryUi05)
-                        .frame(height: 1)
-                        .padding(.leading, 56)
-                }
-            }
-
-            HStack(alignment: .center) {
-                Image(rule.iconName)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(theme.primaryIcon03)
-                    .frame(width: iconSize, height: iconSize)
-                    .padding(.trailing, 8.0)
-
-                Text(rule.title)
-                    .foregroundStyle(theme.primaryText01)
-                    .font(size: 17, style: .body)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Spacer()
-
-                inlinePicker(for: rule)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .frame(height: iconSize)
-                    .padding(.trailing, 16.0)
-            }
-            .padding(.leading, 16.0)
-            .padding(.vertical, 12.0)
-            .contentShape(Rectangle())
-        }
     }
 
     // MARK: - Inline Pickers

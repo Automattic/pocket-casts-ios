@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct SmartPlaylistRuleRowView: View {
+struct SmartPlaylistRuleRowView<ContentView: View>: View {
     @EnvironmentObject var theme: Theme
 
     let rule: SmartPlaylistRule
-    let description: String?
     let hideDivider: Bool
+    @ViewBuilder let trailing: () -> ContentView
 
     @ScaledMetric(relativeTo: .largeTitle) var iconSize = CGFloat(24)
 
@@ -36,27 +36,7 @@ struct SmartPlaylistRuleRowView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
 
-                if let description {
-                    Text(description)
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 17, style: .body)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                }
-
-                if rule.isMenuCompatible {
-                    Image(systemName: "chevron.up.chevron.down")
-                        .foregroundStyle(theme.primaryIcon02)
-                        .font(.system(size: 12, weight: .semibold))
-                        .padding(.trailing, 8.0)
-                } else {
-                    Image("cs-chevron")
-                        .renderingMode(.template)
-                        .resizable()
-                        .foregroundStyle(theme.primaryIcon02)
-                        .frame(width: iconSize, height: iconSize)
-                        .padding(.trailing, 8.0)
-                }
+                trailing()
             }
             .padding(.leading, 16.0)
             .padding(.vertical, 12.0)
