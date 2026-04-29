@@ -206,7 +206,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func animateSkipButton(_ button: UIButton, clockwise: Bool) {
         guard let imageView = button.imageView else { return }
-        let duration: CFTimeInterval = 0.5
+        let duration: CFTimeInterval = 0.7
 
         let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotation.fromValue = 0
