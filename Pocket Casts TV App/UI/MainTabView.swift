@@ -31,8 +31,13 @@ struct MainTabContentView: View {
     let tab: MainTab
 
     var body: some View {
-        if let title = tab.title {
-            CenterButton(title: title)
+        switch tab {
+        case .podcasts:
+            PodcastsView()
+        default:
+            if let title = tab.title {
+                CenterButton(title: title)
+            }
         }
     }
 }
@@ -67,7 +72,7 @@ struct MainTabView: View {
             TabView(selection: $selection) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        MainTabContentView(tab: tab)
+                        MainTabContentView(tab: tab)                            
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
