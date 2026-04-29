@@ -8,7 +8,7 @@ final class MiniPlayerGlassProgressView: UIView {
     }
 
     var tintColorOverride: UIColor = .black {
-        didSet { applyColors() }
+        didSet { playbackLayer.backgroundColor = tintColorOverride.cgColor }
     }
 
     private let trackLayer = CALayer()
@@ -18,16 +18,12 @@ final class MiniPlayerGlassProgressView: UIView {
         super.init(frame: frame)
         layer.addSublayer(trackLayer)
         layer.addSublayer(playbackLayer)
-        applyColors()
+        trackLayer.backgroundColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        playbackLayer.backgroundColor = tintColorOverride.cgColor
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    private func applyColors() {
-        trackLayer.backgroundColor = tintColorOverride.withAlphaComponent(0.1).cgColor
-        playbackLayer.backgroundColor = tintColorOverride.cgColor
     }
 
     override func layoutSubviews() {

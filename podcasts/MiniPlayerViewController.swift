@@ -41,14 +41,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var episodeTimeLeftLabel: UILabel?
     private var glassProgressView: MiniPlayerGlassProgressView?
 
-    var isUsingTabAccessory: Bool {
-        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
-            return true
-        }
-        return false
-    }
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -294,9 +286,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func miniPlayerShowing() -> Bool {
-        if isUsingTabAccessory, #available(iOS 26, *) {
-            return (parent as? UITabBarController)?.bottomAccessory != nil
-        }
+        assert(!LiquidGlass.isEnabled, "Should never be used when Liquid Glass is on")
         return !view.isHidden
     }
 
@@ -341,7 +331,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func statusBarHeightDidChange() {
-        if miniPlayerShowing() {
+        if !LiquidGlass.isEnabled, miniPlayerShowing() {
             hideMiniPlayer(false)
             showMiniPlayer()
         }
