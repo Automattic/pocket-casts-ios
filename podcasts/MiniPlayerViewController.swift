@@ -14,6 +14,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var skipBackBtn: UIButton!
     @IBOutlet var skipFwdBtn: UIButton!
 
+    @IBOutlet var skipBackBtnWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var playPauseBtnWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var skipFwdBtnWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet var upNextBtn: UpNextButton!
 
     @IBOutlet var playbackProgressView: ProgressLine!
@@ -40,6 +44,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var episodeTitleLabel: UILabel?
     private var episodeTimeLeftLabel: UILabel?
     private var glassProgressView: MiniPlayerGlassProgressView?
+
+    private var glassButtonStack: UIStackView?
+    private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,6 +129,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
         buttonStack.alignment = .center
+        glassButtonStack = buttonStack
 
         view.addSubview(podcastArtwork)
         view.addSubview(textStack)
@@ -137,18 +145,34 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
 
-            progressView.widthAnchor.constraint(equalToConstant: 40),
             progressView.heightAnchor.constraint(equalToConstant: 5),
-
-            skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
-            playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
-            skipFwdBtn.widthAnchor.constraint(equalToConstant: 70),
 
             buttonStack.topAnchor.constraint(equalTo: view.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             buttonStack.heightAnchor.constraint(equalToConstant: 56),
         ])
+
+        view.registerForTraitChanges([UITraitTabAccessoryEnvironment.self]) { (view: UIView, _) in
+            view.setNeedsUpdateConstraints()
+        }
+    }
+
+    override func updateViewConstraints() {
+        if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
+            let isInline = view.traitCollection.tabAccessoryEnvironment == .inline
+            let buttonWidth: CGFloat = isInline ? 40 : 44
+            skipBackBtnWidthConstraint.constant = buttonWidth
+            playPauseBtnWidthConstraint.constant = buttonWidth
+            skipFwdBtnWidthConstraint.constant = buttonWidth
+
+            NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
+            accessoryEnvironmentConstraints = [
+                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 40),
+                glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
+            ]
+            NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
+        }
+        super.updateViewConstraints()
     }
 
     deinit {
