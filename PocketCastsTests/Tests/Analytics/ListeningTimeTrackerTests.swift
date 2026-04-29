@@ -1,18 +1,19 @@
-import XCTest
+import EventHorizonSDK
 import PocketCastsDataModel
+import XCTest
 
 @testable import podcasts
 
 class ListeningTimeTrackerTests: XCTestCase {
-    private var capturedEvents: [(event: AnalyticsEvent, properties: [AnyHashable: Any]?)] = []
+    private var capturedEvents: [ListeningTimeEvent] = []
     private var now = Date(timeIntervalSince1970: 1_700_000_000)
 
     private func makeTracker() -> ListeningTimeTracker {
         capturedEvents = []
         return ListeningTimeTracker(
             dateProvider: { self.now },
-            track: { event, properties in
-                self.capturedEvents.append((event, properties))
+            send: { event in
+                self.capturedEvents.append(event)
             }
         )
     }
@@ -34,14 +35,11 @@ class ListeningTimeTrackerTests: XCTestCase {
 
         XCTAssertEqual(capturedEvents.count, 1)
         let event = capturedEvents[0]
-        XCTAssertEqual(event.event, .listeningTime)
-        let props = event.properties
-        XCTAssertEqual(props?["episode_uuid"] as? String, "ep-uuid")
-        XCTAssertEqual(props?["podcast_uuid"] as? String, "pod-uuid")
-        XCTAssertEqual(props?["duration_ms"] as? Int64, 12_500)
-        XCTAssertEqual(props?["started_at_ms"] as? Int64, 1_700_000_000_000)
-        XCTAssertNotNil(props?["event_uuid"] as? String)
-        XCTAssertNotNil(props?["device_type"] as? DeviceType)
+        XCTAssertEqual(event.episodeUuid, "ep-uuid")
+        XCTAssertEqual(event.podcastUuid, "pod-uuid")
+        XCTAssertEqual(event.durationMs, 12_500)
+        XCTAssertEqual(event.startedAtMs, 1_700_000_000_000)
+        XCTAssertFalse(event.eventUuid.isEmpty)
     }
 
     func testStartIsIdempotentForSameEpisode() {
@@ -53,8 +51,8 @@ class ListeningTimeTrackerTests: XCTestCase {
         tracker.stop()
 
         XCTAssertEqual(capturedEvents.count, 1)
-        XCTAssertEqual(capturedEvents[0].properties?["episode_uuid"] as? String, "ep")
-        XCTAssertEqual(capturedEvents[0].properties?["duration_ms"] as? Int64, 10_000)
+        XCTAssertEqual(capturedEvents[0].episodeUuid, "ep")
+        XCTAssertEqual(capturedEvents[0].durationMs, 10_000)
     }
 
     func testStartWithDifferentEpisodeFlushesOldSession() {
@@ -66,12 +64,12 @@ class ListeningTimeTrackerTests: XCTestCase {
         tracker.stop()
 
         XCTAssertEqual(capturedEvents.count, 2)
-        XCTAssertEqual(capturedEvents[0].properties?["episode_uuid"] as? String, "A")
-        XCTAssertEqual(capturedEvents[0].properties?["podcast_uuid"] as? String, "podA")
-        XCTAssertEqual(capturedEvents[0].properties?["duration_ms"] as? Int64, 7_000)
-        XCTAssertEqual(capturedEvents[1].properties?["episode_uuid"] as? String, "B")
-        XCTAssertEqual(capturedEvents[1].properties?["podcast_uuid"] as? String, "podB")
-        XCTAssertEqual(capturedEvents[1].properties?["duration_ms"] as? Int64, 3_000)
+        XCTAssertEqual(capturedEvents[0].episodeUuid, "A")
+        XCTAssertEqual(capturedEvents[0].podcastUuid, "podA")
+        XCTAssertEqual(capturedEvents[0].durationMs, 7_000)
+        XCTAssertEqual(capturedEvents[1].episodeUuid, "B")
+        XCTAssertEqual(capturedEvents[1].podcastUuid, "podB")
+        XCTAssertEqual(capturedEvents[1].durationMs, 3_000)
     }
 
     func testStopWithoutStartIsNoOp() {
@@ -99,8 +97,8 @@ class ListeningTimeTrackerTests: XCTestCase {
         now = now.addingTimeInterval(7)
         tracker.stop()
 
-        XCTAssertEqual(capturedEvents[0].properties?["episode_uuid"] as? String, "A")
-        XCTAssertEqual(capturedEvents[0].properties?["podcast_uuid"] as? String, "podA")
+        XCTAssertEqual(capturedEvents[0].episodeUuid, "A")
+        XCTAssertEqual(capturedEvents[0].podcastUuid, "podA")
     }
 
     func testTwoSessionsHaveDifferentEventUuids() {
@@ -115,17 +113,13 @@ class ListeningTimeTrackerTests: XCTestCase {
         tracker.stop()
 
         XCTAssertEqual(capturedEvents.count, 2)
-        let uuid1 = capturedEvents[0].properties?["event_uuid"] as? String
-        let uuid2 = capturedEvents[1].properties?["event_uuid"] as? String
-        XCTAssertNotNil(uuid1)
-        XCTAssertNotNil(uuid2)
-        XCTAssertNotEqual(uuid1, uuid2)
+        XCTAssertNotEqual(capturedEvents[0].eventUuid, capturedEvents[1].eventUuid)
     }
 
     func testZeroDurationSessionEmitsNoEvent() {
         let tracker = makeTracker()
         tracker.start(episode: makeEpisode())
-        // No time advance — duration_ms == 0, should be filtered out.
+        // No time advance — durationMs == 0, should be filtered out.
         tracker.stop()
         XCTAssertTrue(capturedEvents.isEmpty)
     }
@@ -136,7 +130,7 @@ class ListeningTimeTrackerTests: XCTestCase {
         now = now.addingTimeInterval(1)
         tracker.stop()
 
-        let uuid = capturedEvents[0].properties?["event_uuid"] as? String
-        XCTAssertEqual(uuid, uuid?.lowercased())
+        let uuid = capturedEvents[0].eventUuid
+        XCTAssertEqual(uuid, uuid.lowercased())
     }
 }

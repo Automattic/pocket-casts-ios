@@ -1,10 +1,12 @@
+import AVFoundation
+import EventHorizonSDK
 import Foundation
 import PocketCastsDataModel
+import UIKit
 
-/// Tracks wall-clock listening time per playback session and emits a `listening_time`
-/// analytics event when the session ends. State lives in memory only — there is no
-/// local DB, so events that don't reach `stop()` (force-quit, OS suspension) are lost
-/// by design.
+/// Tracks wall-clock listening time per playback session and emits a `ListeningTimeEvent`
+/// when the session ends. State lives in memory only — there is no local DB, so events
+/// that don't reach `stop()` (force-quit, OS suspension) are lost by design.
 final class ListeningTimeTracker {
     static let shared = ListeningTimeTracker()
 
@@ -12,21 +14,21 @@ final class ListeningTimeTracker {
         let startedAt: Date
         let podcastUuid: String
         let episodeUuid: String
-        let deviceType: DeviceType
+        let deviceType: EventHorizonSDK.DeviceType
     }
 
     private let lock = NSLock()
     private var session: Session?
 
     private let dateProvider: () -> Date
-    private let track: (AnalyticsEvent, [AnyHashable: Any]?) -> Void
+    private let send: (ListeningTimeEvent) -> Void
 
     init(
         dateProvider: @escaping () -> Date = Date.init,
-        track: @escaping (AnalyticsEvent, [AnyHashable: Any]?) -> Void = { Analytics.track($0, properties: $1) }
+        send: @escaping (ListeningTimeEvent) -> Void = { Analytics.send($0) }
     ) {
         self.dateProvider = dateProvider
-        self.track = track
+        self.send = send
     }
 
     func start(episode: BaseEpisode) {
@@ -60,16 +62,28 @@ final class ListeningTimeTracker {
     }
 
     private func emit(session: Session, endedAt: Date) {
-        let durationMs = Int64(endedAt.timeIntervalSince(session.startedAt) * 1000)
+        let durationMs = Int(endedAt.timeIntervalSince(session.startedAt) * 1000)
         guard durationMs > 0 else { return }
 
-        track(.listeningTime, [
-            "started_at_ms": Int64(session.startedAt.timeIntervalSince1970 * 1000),
-            "duration_ms": durationMs,
-            "event_uuid": UUID().uuidString.lowercased(),
-            "podcast_uuid": session.podcastUuid,
-            "episode_uuid": session.episodeUuid,
-            "device_type": session.deviceType
-        ])
+        let event = ListeningTimeEvent(
+            startedAtMs: Int(session.startedAt.timeIntervalSince1970 * 1000),
+            durationMs: durationMs,
+            eventUuid: UUID().uuidString.lowercased(),
+            podcastUuid: session.podcastUuid,
+            episodeUuid: session.episodeUuid,
+            deviceType: session.deviceType
+        )
+        send(event)
+    }
+}
+
+private extension EventHorizonSDK.DeviceType {
+    static var current: EventHorizonSDK.DeviceType {
+        if isCarPlayConnected() { return .car }
+        return .phone
+    }
+
+    private static func isCarPlayConnected() -> Bool {
+        AVAudioSession.sharedInstance().currentRoute.outputs.contains { $0.portType == .carAudio }
     }
 }
