@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 enum MainTab: Int, CaseIterable, Identifiable {
     case home = 0
@@ -104,9 +103,9 @@ struct MainTabView: View {
         }
         .ignoresSafeArea()
         .onScrollGeometryChange(for: Double.self) { geometry in
-            geometry.contentOffset.y
+            geometry.contentInsets.top + geometry.contentOffset.y
         } action: { before, after in
-            self.scrollOffset = 150 + after
+            self.scrollOffset = after
         }
     }
 
