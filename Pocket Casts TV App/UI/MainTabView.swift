@@ -92,7 +92,7 @@ struct MainTabView: View {
                 }
             }
             .focused($focusedArea, equals: .tabBar)
-        }.background(alignment: .top) {
+        }.overlay(alignment: .top) {
             accessoryView
         }.onAppear {
             focusedArea = .tabBar
