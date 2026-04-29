@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EmptyView: View {
+struct EmptyDataView: View {
 
     let title: String
     let subtitle: String?
@@ -31,5 +31,5 @@ struct EmptyView: View {
 }
 
 #Preview {
-    EmptyView(title: "Empty Title", subtitle: "No results to see here!", actionTitle: "Do something", action: nil)
+    EmptyDataView(title: "Empty Title", subtitle: "No results to see here!", actionTitle: "Do something", action: nil)
 }

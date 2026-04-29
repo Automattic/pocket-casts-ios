@@ -17,11 +17,14 @@ class PodcastsViewModel {
     var podcasts: [MockPodcast] = MockData.makePodcasts()
 
     func load() {
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common)
+        //Mock data load
+        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
                 state = .ready
+                cancellable?.cancel()
+                cancellable = nil
             }
     }
 }
@@ -68,7 +71,7 @@ struct PodcastsView: View {
     }
 
     var emptyView: some View {
-        EmptyView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
+        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
             tabRouter.selectedTab = .home
         }
     }
@@ -76,6 +79,8 @@ struct PodcastsView: View {
     private let items: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)
     }
+
+    @Namespace private var podcastGridNamespace
 
     var podcastGrid: some View {
         LazyVGrid(columns: items, spacing: 48, content: {
@@ -86,13 +91,17 @@ struct PodcastsView: View {
                     Image(podcast.image)
                         .resizable()
                         .frame(width: Layout.gridSize, height: Layout.gridSize)
-                }.buttonStyle(.card)
+                }
+                .buttonStyle(.card)
+                .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
             }
         })
+        .focusScope(podcastGridNamespace)
     }
 }
 
 #Preview {
     PodcastsView()
         .environment(AppCoordinator())
+        .environment(MainTabRouter())
 }

@@ -4254,7 +4254,7 @@ internal enum L10n {
   /// tv podcasts_empty button action title
   internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Add podcasts") }
   /// tv podcasts_empty subtitle
-  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Follow some podcasts at the home page") }
+  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Follow some podcasts from the Home page") }
   /// tv podcasts_empty title
   internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to add some podcasts!") }
   /// tv sign enter code
