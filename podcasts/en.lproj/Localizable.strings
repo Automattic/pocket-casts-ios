@@ -1384,6 +1384,9 @@
 /* A common string used throughout the app. Indicates that the feature is not enabled. */
 "off" = "Off";
 
+/* A common string used throughout the app. Indicates that the feature is enabled. */
+"on" = "On";
+
 /* A common string used throughout the app. Used as a confirmation or acceptance. */
 "ok" = "OK";
 

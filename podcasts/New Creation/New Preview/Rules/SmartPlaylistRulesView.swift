@@ -16,7 +16,7 @@ struct SmartPlaylistRulesView: View {
                     SmartPlaylistRulesInPreviewSection(
                         enabledRules: viewModel.enabledRules,
                         availableRules: viewModel.availableRules,
-                        action: viewModel.action
+                        viewModel: viewModel
                     )
 
                     SmartPlaylistRulesEpisodesSection(
@@ -28,7 +28,7 @@ struct SmartPlaylistRulesView: View {
                         title: viewModel.newPlaylist.playlistName,
                         description: L10n.playlistSmartPreviewDescription,
                         availableRules: viewModel.availableRules,
-                        action: viewModel.action
+                        viewModel: viewModel
                     )
                 }
             case .edit:
@@ -36,7 +36,7 @@ struct SmartPlaylistRulesView: View {
                     title: L10n.playlistSmartRulesTitle,
                     description: nil,
                     availableRules: viewModel.availableRules,
-                    action: viewModel.action
+                    viewModel: viewModel
                 )
 
                 if viewModel.newPlaylistHasChanged {
@@ -58,7 +58,7 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
     let title: String
     let description: String?
     let availableRules: [SmartPlaylistRuleInfo]
-    let action: (SmartPlaylistRule) -> Void
+    let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
         Group {
@@ -80,7 +80,8 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
             }
             SmartPlaylistRulesContainerView(
                 rules: availableRules,
-                action: action
+                viewModel: viewModel,
+                action: viewModel.action
             )
             .padding(.top, 24.0)
             .padding(.bottom, 16.0)
@@ -96,14 +97,15 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
 
     let enabledRules: [SmartPlaylistRuleInfo]
     let availableRules: [SmartPlaylistRuleInfo]
-    let action: (SmartPlaylistRule) -> Void
+    let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
         Group {
             if !enabledRules.isEmpty {
                 SmartPlaylistRulesContainerView(
                     rules: enabledRules,
-                    action: action
+                    viewModel: viewModel,
+                    action: viewModel.action
                 )
                 .padding(.vertical, 16.0)
                 .listRowClearStyle()
@@ -113,7 +115,8 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
                 DisclosureGroup(isExpanded: $isExpanded) {
                     SmartPlaylistRulesContainerView(
                         rules: availableRules,
-                        action: action
+                        viewModel: viewModel,
+                        action: viewModel.action
                     )
                     .listRowClearStyle()
                     .padding(.vertical, 16.0)

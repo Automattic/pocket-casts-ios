@@ -6,7 +6,6 @@ struct SmartPlaylistRuleRowView: View {
     let rule: SmartPlaylistRule
     let description: String?
     let hideDivider: Bool
-    let action: (SmartPlaylistRule) -> Void
 
     @ScaledMetric(relativeTo: .largeTitle) var iconSize = CGFloat(24)
 
@@ -45,19 +44,23 @@ struct SmartPlaylistRuleRowView: View {
                         .minimumScaleFactor(0.8)
                 }
 
-                Image("cs-chevron")
-                    .renderingMode(.template)
-                    .resizable()
-                    .foregroundStyle(theme.primaryIcon02)
-                    .frame(width: iconSize, height: iconSize)
-                    .padding(.trailing, 8.0)
+                if rule.isMenuCompatible {
+                    Image(systemName: "chevron.up.chevron.down")
+                        .foregroundStyle(theme.primaryIcon02)
+                        .font(.system(size: 12, weight: .semibold))
+                        .padding(.trailing, 8.0)
+                } else {
+                    Image("cs-chevron")
+                        .renderingMode(.template)
+                        .resizable()
+                        .foregroundStyle(theme.primaryIcon02)
+                        .frame(width: iconSize, height: iconSize)
+                        .padding(.trailing, 8.0)
+                }
             }
             .padding(.leading, 16.0)
             .padding(.vertical, 12.0)
             .contentShape(Rectangle())
-            .onTapGesture {
-                action(rule)
-            }
         }
     }
 }
