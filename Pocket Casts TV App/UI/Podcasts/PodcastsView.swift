@@ -88,9 +88,9 @@ struct PodcastsView: View {
         LazyVGrid(columns: items, spacing: 48, content: {
             ForEach(model.podcasts) { podcast in
                 NavigationLink(value: podcast) {
-                    Image(podcast.image)
-                        .resizable()
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                        Image(podcast.image)
+                            .resizable()
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
                 .buttonStyle(.card)
                 .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)

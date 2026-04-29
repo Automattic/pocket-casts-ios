@@ -30,17 +30,7 @@ class PodcastDetailViewModel {
                 cancellable?.cancel()
                 cancellable = nil
             }
-    }
-
-    func displayDate(for date: Date) -> String {
-        let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase
-        return episodeDate
-    }
-
-    func displayDuration(for time: Double) -> String {
-        let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: time)
-        return time
-    }
+    }    
 
     func follow() {
 
@@ -77,7 +67,7 @@ struct PodcastDetailView: View {
     var podcastView: some View {
         HStack(alignment: .top) {
             podcastInfo
-            VStack {                
+            VStack {
                 episodeList
             }
         }
@@ -100,7 +90,7 @@ struct PodcastDetailView: View {
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }
-            HStack {
+            HStack(spacing: 8) {
                 Button() {
                     model.follow()
                 } label: {
@@ -121,24 +111,16 @@ struct PodcastDetailView: View {
         ScrollView {
             LazyVStack() {
                 ForEach(model.podcast.episodes) { episode in
-                    Button() {
-
-                    } label: {
-                        HStack {
-                            Image(model.podcast.image)
-                                .resizable()
-                                .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
-                            VStack(alignment: .leading) {
-                                Text(model.displayDate(for: episode.publishedDate))
-                                Text(episode.title)
-                                Text(model.displayDuration(for: episode.duration))
-                            }
-                            Spacer()
-                        }
+                    NavigationLink(value: episode) {
+                        EpisodeRow(episode: episode)
                     }
                     .buttonStyle(.card)
                 }
             }
+            .navigationDestination(for: MockEpisode.self) { episode in
+                Text(episode.title)
+            }
+            .padding(24)
         }
     }
 }

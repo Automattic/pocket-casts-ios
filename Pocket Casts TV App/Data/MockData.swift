@@ -14,6 +14,8 @@ struct MockEpisode: Identifiable, Hashable, Equatable {
     func displayableTitle() -> String {
         return title
     }
+
+    var image: String
 }
 
 struct MockPodcast: Identifiable, Hashable, Equatable {
@@ -32,10 +34,11 @@ struct MockData {
         var results = [MockPodcast]()
         for i in (0..<numberOfPodcasts) {
             var episodes: [MockEpisode] = []
+            let podcastImageName = "Covers/login-cover-\( (i % 10) + 1)"
             for i in (0..<numberOfPodcasts) {
-                episodes.append(MockEpisode(uuid: UUID().uuidString, title: "Episode \(i+1)", publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours))))
+                episodes.append(MockEpisode(uuid: UUID().uuidString, title: "Episode \(i+1)", publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
             }
-            results.append(MockPodcast(id: UUID().uuidString, title: "Podcast \(i+1)", author: "Author \(i+1)", podcastDescription: "Here is a fun description for this", image: "Covers/login-cover-\( (i % 10) + 1)", episodes: episodes))
+            results.append(MockPodcast(id: UUID().uuidString, title: "Podcast \(i+1)", author: "Author \(i+1)", podcastDescription: "Here is a fun description for this", image: podcastImageName, episodes: episodes))
         }
         return results
     }
