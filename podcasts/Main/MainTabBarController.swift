@@ -265,7 +265,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if miniPlayer.isUsingTabAccessory, #available(iOS 26.0, *) {
             addChild(miniPlayer)
             miniPlayer.didMove(toParent: self)
-            tabBarMinimizeBehavior = .onScrollDown
             // Load the view so XIB outlets and observers are wired up before
             // it's installed as a tab accessory contentView.
             miniPlayer.loadViewIfNeeded()

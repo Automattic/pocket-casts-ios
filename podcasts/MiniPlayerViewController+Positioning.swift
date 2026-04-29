@@ -6,6 +6,7 @@ extension MiniPlayerViewController {
         if isUsingTabAccessory, #available(iOS 26.0, *) {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
             tabBarController.setBottomAccessory(nil, animated: animated)
+            tabBarController.tabBarMinimizeBehavior = .never
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidDisappear)
             return
         }
@@ -35,6 +36,7 @@ extension MiniPlayerViewController {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
             let accessory = UITabAccessory(contentView: view)
             tabBarController.setBottomAccessory(accessory, animated: true)
+            tabBarController.tabBarMinimizeBehavior = .onScrollDown
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
             return
         }
