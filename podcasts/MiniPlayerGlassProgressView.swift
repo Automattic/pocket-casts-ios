@@ -26,7 +26,7 @@ final class MiniPlayerGlassProgressView: UIView {
     }
 
     private func applyColors() {
-        trackLayer.backgroundColor = tintColorOverride.withAlphaComponent(0.25).cgColor
+        trackLayer.backgroundColor = tintColorOverride.withAlphaComponent(0.1).cgColor
         playbackLayer.backgroundColor = tintColorOverride.cgColor
     }
 
