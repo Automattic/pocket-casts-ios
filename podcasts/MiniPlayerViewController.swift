@@ -352,16 +352,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
         }
 
-        if let glassProgressView {
-            let downloadProgress: CGFloat
-            if duration > 0 {
-                downloadProgress = min(1, CGFloat((currentTime + amountBuferred) / duration))
-            } else {
-                downloadProgress = 0
-            }
-            glassProgressView.playbackProgress = progress
-            glassProgressView.downloadProgress = downloadProgress
-        }
+        glassProgressView?.playbackProgress = progress
 
         if let episodeTimeLeftLabel {
             let remaining = max(0, duration - currentTime)
