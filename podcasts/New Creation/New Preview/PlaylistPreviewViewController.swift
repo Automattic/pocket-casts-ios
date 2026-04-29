@@ -108,19 +108,29 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        guard let navigationBar = navigationController?.navigationBar else { return }
+        if FeatureFlag.liquidGlass.enabled {
+            guard let navigationBar = navigationController?.navigationBar else { return }
 
-        title = nil
-        navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .never
-        navigationItem.titleView = smallTitleLabel
-        navigationItem.titleView?.isHidden = true
+            title = nil
+            navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .never
+            navigationItem.titleView = smallTitleLabel
+            navigationItem.titleView?.isHidden = true
 
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        navigationBar.standardAppearance = appearance
-        navigationBar.scrollEdgeAppearance = appearance
-        navigationBar.tintColor = AppTheme.colorForStyle(.primaryIcon03)
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+            navigationBar.tintColor = AppTheme.colorForStyle(.primaryIcon03)
+        } else {
+            let backgroundColor = AppTheme.viewBackgroundColor()
+            changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+
+            title = nil
+            navigationItem.largeTitleDisplayMode = .never
+            navigationItem.titleView = smallTitleLabel
+            navigationItem.titleView?.isHidden = true
+        }
     }
 
     override func handleThemeChanged() {
