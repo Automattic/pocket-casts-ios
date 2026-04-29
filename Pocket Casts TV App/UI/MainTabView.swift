@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 enum MainTab: Int, CaseIterable, Identifiable {
     case home = 0
@@ -56,9 +57,15 @@ struct CenterButton: View {
     }
 }
 
+@MainActor
+@Observable
+final class MainTabRouter {
+    var selectedTab: MainTab = .home
+}
+
 struct MainTabView: View {
 
-    @State private var selection: MainTab = .home
+    @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
 
     enum FocusArea: Hashable {
@@ -69,10 +76,11 @@ struct MainTabView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TabView(selection: $selection) {
+            TabView(selection: $tabSelection.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
                         MainTabContentView(tab: tab)
+                            .environment(tabSelection)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
@@ -100,7 +108,7 @@ struct MainTabView: View {
         switch (focusedArea, direction) {
         case (.tabBar, .right):
             // Only jump to profile if we're on the rightmost tab
-            if selection == MainTab.allCases.last {
+            if tabSelection.selectedTab == MainTab.allCases.last {
                 focusedArea = .profile
             }
         case (.profile, .left):

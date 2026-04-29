@@ -21,13 +21,14 @@ class PodcastsViewModel {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                state = .empty
+                state = .ready
             }
     }
 }
 
 struct PodcastsView: View {
     @Environment(AppCoordinator.self) var coordinator
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
     @State private var model = PodcastsViewModel()
 
@@ -69,7 +70,7 @@ struct PodcastsView: View {
 
     var emptyView: some View {
         EmptyView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-
+            tabRouter.selectedTab = .home
         }
     }
 
