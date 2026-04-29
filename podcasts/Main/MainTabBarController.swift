@@ -262,7 +262,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
         NavigationManager.sharedManager.miniPlayer = miniPlayer
 
-        if miniPlayer.isUsingTabAccessory, #available(iOS 26.0, *) {
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
             addChild(miniPlayer)
             miniPlayer.didMove(toParent: self)
             // Load the view so XIB outlets and observers are wired up before
