@@ -21,7 +21,7 @@ class PodcastsViewModel {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                state = .ready
+                state = .empty
             }
     }
 }
@@ -57,7 +57,7 @@ struct PodcastsView: View {
 
     var podcastsView: some View {
         VStack(alignment: .leading, spacing: 40) {
-            Text("Your Podcasts")
+            Text(L10n.tvTabPodcasts)
                 .font(.title)
                 .foregroundStyle(Color.textPrimary)
             ScrollView {
@@ -70,14 +70,14 @@ struct PodcastsView: View {
     var emptyView: some View {
         VStack(spacing: 32) {
             Spacer()
-            Text("Time to add some podcasts!")
+            Text(L10n.tvPodcastsEmptyTitle)
                 .font(.title)
                 .foregroundStyle(Color.textPrimary)
-            Text("Follow some podcasts at the home page")
+            Text(L10n.tvPodcastsEmptySubtitle)
                 .font(.headline)
                 .foregroundStyle(Color.textSecondary)
             Spacer()
-            Button("Add podcasts") {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
 
             }
             Spacer()
