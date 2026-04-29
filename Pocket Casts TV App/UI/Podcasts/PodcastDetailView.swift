@@ -75,9 +75,11 @@ struct PodcastDetailView: View {
     }
 
     var podcastView: some View {
-        HStack {
+        HStack(alignment: .top) {
             podcastInfo
-            episodeList
+            VStack {                
+                episodeList
+            }
         }
     }
 
@@ -116,24 +118,26 @@ struct PodcastDetailView: View {
     }
 
     var episodeList: some View {
-        List() {
-            ForEach(model.podcast.episodes) { episode in
-                Button() {
+        ScrollView {
+            LazyVStack() {
+                ForEach(model.podcast.episodes) { episode in
+                    Button() {
 
-                } label: {
-                    HStack {
-                        Image(model.podcast.image)
-                            .resizable()
-                            .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
-                        VStack(alignment: .leading) {
-                            Text(model.displayDate(for: episode.publishedDate))
-                            Text(episode.title)
-                            Text(model.displayDuration(for: episode.duration))
+                    } label: {
+                        HStack {
+                            Image(model.podcast.image)
+                                .resizable()
+                                .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
+                            VStack(alignment: .leading) {
+                                Text(model.displayDate(for: episode.publishedDate))
+                                Text(episode.title)
+                                Text(model.displayDuration(for: episode.duration))
+                            }
+                            Spacer()
                         }
-                        Spacer()
                     }
+                    .buttonStyle(.card)
                 }
-                .buttonStyle(.card)
             }
         }
     }
