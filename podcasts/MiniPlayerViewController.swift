@@ -206,6 +206,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func animateSkipButton(_ button: UIButton, clockwise: Bool) {
         guard let imageView = button.imageView else { return }
+
+        if UIAccessibility.isReduceMotionEnabled {
+            let alpha = CAKeyframeAnimation(keyPath: "opacity")
+            alpha.values = [1.0, 0.4, 1.0]
+            alpha.keyTimes = [0, 0.4, 1]
+            alpha.duration = 0.3
+            imageView.layer.add(alpha, forKey: "skipAlpha")
+            return
+        }
+
         let duration: CFTimeInterval = 0.7
 
         let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
