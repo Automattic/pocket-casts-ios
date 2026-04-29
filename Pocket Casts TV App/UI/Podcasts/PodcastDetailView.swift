@@ -1,6 +1,5 @@
 import SwiftUI
 import Combine
-import PocketCastsUtils
 
 @Observable
 class PodcastDetailViewModel {
@@ -71,6 +70,7 @@ struct PodcastDetailView: View {
                 episodeList
             }
         }
+        .toolbar(.visible, for: .tabBar)
     }
 
     var podcastInfo: some View {
@@ -94,13 +94,13 @@ struct PodcastDetailView: View {
                 Button() {
                     model.follow()
                 } label: {
-                    Text("Follow")
+                    Text(L10n.tvPodcastDetailFollowTitle)
                         .font(.caption2)
                 }
                 Button() {
                     model.follow()
                 } label: {
-                    Text("More Info")
+                    Text(L10n.tvPodcastDetailMoreInfoTitle)
                         .font(.caption2)
                 }
             }
