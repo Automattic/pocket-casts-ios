@@ -143,9 +143,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: -4),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
 
-            progressView.widthAnchor.constraint(equalToConstant: 50),
+            progressView.widthAnchor.constraint(equalToConstant: 44),
             progressView.heightAnchor.constraint(equalToConstant: 5),
 
             skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
@@ -154,7 +154,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             buttonStack.topAnchor.constraint(equalTo: view.topAnchor),
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
+            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             buttonStack.heightAnchor.constraint(equalToConstant: 56),
         ])
     }
