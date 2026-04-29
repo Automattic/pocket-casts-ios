@@ -103,12 +103,30 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         stopHighlightDisplayLink()
         let link = CADisplayLink(target: self, selector: #selector(highlightTick))
         link.add(to: .main, forMode: .common)
+        link.isPaused = !playbackManager.isPlayingEpisode
         highlightDisplayLink = link
+        // Opening the transcript while paused leaves the link paused, so
+        // `playbackProgress` won't fire and the initial highlight wouldn't
+        // appear. Force one position update so the current cue is shown even
+        // if playback never resumes.
+        updateTranscriptPosition()
     }
 
     private func stopHighlightDisplayLink() {
         highlightDisplayLink?.invalidate()
         highlightDisplayLink = nil
+    }
+
+    /// Toggle the highlight display link based purely on whether playback is
+    /// advancing. We deliberately don't gate on `FingerprintTimingManager.state`
+    /// here — the existing `guard case .active = ...` inside
+    /// `updateTranscriptPosition` already short-circuits the per-tick highlight
+    /// work when the manager isn't ready, and stacking a second gate at the
+    /// display-link level is what trapped the manager in `.preparing` on the
+    /// prior POC-546 attempt (the link would pause before the manager could
+    /// post a state change).
+    @objc private func updateHighlightDisplayLinkPauseState() {
+        highlightDisplayLink?.isPaused = !playbackManager.isPlayingEpisode
     }
 
     @objc private func highlightTick() {
@@ -794,6 +812,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+            addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateHighlightDisplayLinkPauseState))
         }
     }
 
