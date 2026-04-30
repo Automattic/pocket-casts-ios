@@ -275,10 +275,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshControl?.scrollViewDidScroll(scrollView)
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        refreshControl?.scrollViewDidEndDragging(scrollView)
-    }
-
     private func setupNavigation() {
         supportsGoogleCast = false
 

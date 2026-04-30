@@ -9,7 +9,7 @@ import SafariServices
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
-    var refreshControl: PCRefreshControl?
+    var refreshController: FullSyncRefreshController?
     var bannerAdModel: BannerAdModel?
 
     /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
@@ -82,8 +82,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        refreshControl?.parentViewControllerDidAppear()
-
         updateInsets()
         refreshGridItems()
         addEventObservers()
@@ -128,7 +126,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         bannerTask?.cancel()
-        refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
     }
@@ -498,15 +495,14 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 // MARK: - Refresh Control
 
 extension PodcastListViewController {
-    private func setupRefreshControl() {
-        guard let navController = navigationController else {
-            return
-        }
-
-        refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
-                                          navBar: navController.navigationBar,
-                                          searchBar: searchController,
-                                          source: .podcastsList)
+    func setupRefreshControl() {
+        let controller = FullSyncRefreshController(source: .podcastsList)
+        let refreshControl = controller.refreshControl
+        refreshControl.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+        refreshControl.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+        refreshControl.topInset = 5
+        podcastsCollectionView.refreshControl = refreshControl
+        self.refreshController = controller
     }
 }
 
