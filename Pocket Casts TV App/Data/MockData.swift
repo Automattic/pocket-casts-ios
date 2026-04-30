@@ -56,10 +56,10 @@ struct MockData {
         let numberOfEpisodes = 12
         var results = [MockPlaylist]()
         let playlistsSpec: [(String, Bool, Color)] = [
-            ("New Releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),
-            ("InProgress", true, Color(red: 0.5, green: 0.17, blue: 0.15)),
+            ("New releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),
+            ("In progress", true, Color(red: 0.5, green: 0.17, blue: 0.15)),
             ("TV Stuff", false, Color(red: 0.21, green: 0.22, blue: 0.14)),
-            ("My Favories", true, Color(red: 0.5, green: 0.35, blue: 0.12))
+            ("My favorites", true, Color(red: 0.5, green: 0.35, blue: 0.12))
         ]
         for (name, smart, color) in playlistsSpec {
             var episodes: [MockEpisode] = []
