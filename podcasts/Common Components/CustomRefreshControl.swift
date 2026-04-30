@@ -14,6 +14,12 @@ class CustomRefreshControl: UIRefreshControl {
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
     private var didTriggerThresholdHaptic = false
     private var didPrepareHaptic = false
+    private var isDismissalPending = false
+
+    private enum Dismissal {
+        static let messageDwell: TimeInterval = 0.25
+        static let fadeDuration: TimeInterval = 0.2
+    }
 
     var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
         didSet {
@@ -52,10 +58,23 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     override func endRefreshing() {
-        super.endRefreshing()
+        // Defer dismissal until the user releases their touch so the
+        // completion message doesn't disappear mid-pull on a fast network —
+        // matches native UIRefreshControl behaviour. `scrollViewDidScroll`
+        // (forwarded by the host view controller) re-enters here once
+        // `isTracking` flips to false during the bounce-back.
+        if let scrollView = superview as? UIScrollView, scrollView.isTracking {
+            isDismissalPending = true
+            return
+        }
+        isDismissalPending = false
 
-        endRefreshAnimation()
-        alpha = 0
+        UIView.animate(withDuration: Dismissal.fadeDuration, delay: Dismissal.messageDwell, options: [], animations: {
+            self.alpha = 0
+        }, completion: { _ in
+            super.endRefreshing()
+            self.endRefreshAnimation()
+        })
     }
 
     func set(text: String) {
@@ -152,13 +171,7 @@ extension CustomRefreshControl {
 
     private func processRefreshCompleted(_ message: String) {
         refreshLabel.text = message.uppercased()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.alpha = 0
-            }, completion: { _ in
-                self?.endRefreshing()
-            })
-        }
+        endRefreshing()
     }
 
     @objc private func loading() {
@@ -178,6 +191,15 @@ extension CustomRefreshControl {
 
 extension CustomRefreshControl {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // A deferred dismissal is waiting for the user to release. Once the
+        // scroll view stops tracking, run the dismissal — re-entering
+        // `endRefreshing` proceeds past the tracking guard now that
+        // `isTracking` is false.
+        if isDismissalPending && !scrollView.isTracking {
+            endRefreshing()
+            return
+        }
+
         guard !isRefreshing else { return }
 
         // Only respond to interactive drag; ignore programmatic scrolls (e.g. scroll-to-top).
