@@ -5939,18 +5939,27 @@
 "tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
 
 /* tv podcasts empty title */
-"tv_podcasts_empty_title" = "Time to add some podcasts!";
+"tv_podcasts_empty_title" = "Time to fill this up.";
 
 /* tv podcasts empty subtitle */
-"tv_podcasts_empty_subtitle" = "Follow some podcasts from the Home page";
+"tv_podcasts_empty_subtitle" = "Followed podcasts show up here, ready to play.";
 
 /* tv podcasts empty button action title */
-"tv_podcasts_empty_action_title" = "Add podcasts";
+"tv_podcasts_empty_action_title" = "Discover podcasts";
 
 /* tv podcast details follow button title */
 "tv_podcast_detail_follow_title" = "Follow this podcast";
 
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
+
+/* tv playlists empty title */
+"tv_playlists_empty_title" = "Your playlists live here";
+
+/* tv playlists empty subtitle */
+"tv_playlists_empty_subtitle" = "Build one manually or let Smart Rules do the sorting for you.";
+
+/* tv playlists empty button action title */
+"tv_playlists_empty_action_title" = "Create a playlist";
 
 

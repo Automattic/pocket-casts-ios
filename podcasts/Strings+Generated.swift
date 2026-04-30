@@ -4251,16 +4251,22 @@ internal enum L10n {
   internal static var tvCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_create_account_subtitle", fallback: "Scan this code to get started on your phone, it only takes a minute.") }
   /// tv create account title
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
+  /// tv playlists empty button action title
+  internal static var tvPlaylistsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_action_title", fallback: "Create a playlist") }
+  /// tv playlists empty subtitle
+  internal static var tvPlaylistsEmptySubtitle: String { return L10n.tr("Localizable", "tv_playlists_empty_subtitle", fallback: "Build one manually or let Smart Rules do the sorting for you.") }
+  /// tv playlists empty title
+  internal static var tvPlaylistsEmptyTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_title", fallback: "Your playlists live here") }
   /// tv podcast details follow button title
   internal static var tvPodcastDetailFollowTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_follow_title", fallback: "Follow this podcast") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
   /// tv podcasts empty button action title
-  internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Add podcasts") }
+  internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Discover podcasts") }
   /// tv podcasts empty subtitle
-  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Follow some podcasts from the Home page") }
+  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
-  internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to add some podcasts!") }
+  internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
   /// tv sign enter code
   internal static var tvSignInEnterCode: String { return L10n.tr("Localizable", "tv_sign_in_enter_code", fallback: "or enter the following code") }
   /// tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code

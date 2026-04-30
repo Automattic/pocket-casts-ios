@@ -34,6 +34,8 @@ struct MainTabContentView: View {
         switch tab {
         case .podcasts:
             PodcastsView()
+        case .playlists:
+            PlaylistsView()
         default:
             if let title = tab.title {
                 CenterButton(title: title)
