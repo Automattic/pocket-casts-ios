@@ -42,6 +42,8 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     }
 
     private func updateNavColors() {
+        guard !Theme.isLiquidGlass else { return }
+
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.colorForStyle(navStyle, themeOverride: themeOverride)
