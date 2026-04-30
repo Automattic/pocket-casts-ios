@@ -7,8 +7,13 @@ class CustomRefreshControl: UIRefreshControl {
     private var refreshOuterImage = UIImageView()
     private var innerRotationAngle: CGFloat = 0
     private var outerRotationAngle: CGFloat = 0
-    private let pullDownAmountForRefresh: CGFloat = 170
+    private let pullDownAmountForRefresh: CGFloat = 148
+    private let iconFadeDistance: CGFloat = 70
+    private let labelFadeDistance: CGFloat = 45
     private let refreshLabel = UILabel()
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private var didTriggerThresholdHaptic = false
+    private var didPrepareHaptic = false
 
     var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
         didSet {
@@ -175,16 +180,44 @@ extension CustomRefreshControl {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !isRefreshing else { return }
 
-        let scrollAmount = -scrollView.contentOffset.y
-        guard scrollAmount > 100 else { return }
+        // Only respond to interactive drag; ignore programmatic scrolls (e.g. scroll-to-top).
+        guard scrollView.isTracking else {
+            alpha = 0
+            didTriggerThresholdHaptic = false
+            didPrepareHaptic = false
+            return
+        }
 
-        let adjustedAmount = min(pullDownAmountForRefresh, scrollAmount)
-        let alphaValue = scrollAmount / pullDownAmountForRefresh
+        // Measure pull relative to the scroll view's rest position so we account for
+        // safe area and any custom contentInset (e.g. PCSearchBarController's pinned bar).
+        let scrollAmount = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
 
-        if adjustedAmount < pullDownAmountForRefresh {
+        if scrollAmount > 30 && !didPrepareHaptic {
+            feedbackGenerator.prepare()
+            didPrepareHaptic = true
+        }
+
+        // Icon and label fade on independent curves so the label appears slightly after
+        // the icon — closer to the native pull-to-refresh behaviour.
+        let iconStart = pullDownAmountForRefresh - iconFadeDistance
+        let labelStart = pullDownAmountForRefresh - labelFadeDistance
+        let iconAlpha = max(0, min(1, (scrollAmount - iconStart) / iconFadeDistance))
+        let labelAlpha = max(0, min(1, (scrollAmount - labelStart) / labelFadeDistance))
+
+        alpha = 1
+        refreshInnerImage.alpha = iconAlpha
+        refreshOuterImage.alpha = iconAlpha
+        refreshLabel.alpha = labelAlpha
+
+        if scrollAmount < pullDownAmountForRefresh {
             refreshLabel.text = L10n.refreshControlPullToRefresh
+            didTriggerThresholdHaptic = false
         } else {
             refreshLabel.text = L10n.refreshControlReleaseToRefresh
+            if !didTriggerThresholdHaptic {
+                feedbackGenerator.impactOccurred()
+                didTriggerThresholdHaptic = true
+            }
         }
 
         innerRotationAngle = (scrollAmount * 4).degreesToRadians
@@ -192,7 +225,5 @@ extension CustomRefreshControl {
 
         outerRotationAngle = (scrollAmount * 2).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
-
-        alpha = scrollAmount >= 150.0 ? alphaValue : 0.0
     }
 }
