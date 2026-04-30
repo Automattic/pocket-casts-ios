@@ -2006,6 +2006,8 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off", fallback: "Off") }
   /// A common string used throughout the app. Used as a confirmation or acceptance.
   internal static var ok: String { return L10n.tr("Localizable", "ok", fallback: "OK") }
+  /// A common string used throughout the app. Indicates that the feature is enabled.
+  internal static var on: String { return L10n.tr("Localizable", "on", fallback: "On") }
   /// A generic label representing the authour of the onboarding quotes describing users of the app
   internal static var onboardingQuoteAuthor: String { return L10n.tr("Localizable", "onboarding_quote_author", fallback: "Pocket Casts user") }
   /// A user review quote shown during onboarding
