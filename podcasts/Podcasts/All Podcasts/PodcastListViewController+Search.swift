@@ -11,14 +11,13 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
+        refreshController?.refreshControl.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
-        refreshControl?.scrollViewDidEndDragging(scrollView)
     }
 
     func setupSearchBar() {

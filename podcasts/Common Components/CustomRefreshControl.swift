@@ -5,14 +5,28 @@ class CustomRefreshControl: UIRefreshControl {
 
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
-    private let innerStartingAngle = -90 as CGFloat
-    private let innerEndingAngle = 90 as CGFloat
-    private var innerRotationAngle = 0 as CGFloat
-    private var outerRotationAngle = 0 as CGFloat
-    private var pullDownAmountForRefresh = 170 as CGFloat
-    private var refreshLabel = UILabel()
-    private var isAnimating = false
-    private var didTriggerHaptic = true
+    private var innerRotationAngle: CGFloat = 0
+    private var outerRotationAngle: CGFloat = 0
+    private let refreshLabel = UILabel()
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private var isPastThreshold = false
+    private var didPrepareHaptic = false
+    private var isDismissalPending = false
+
+    private enum Constants {
+        // MARK: Pull
+        static let triggerDistance: CGFloat = 140
+        static let iconFadeDistance: CGFloat = 70
+        static let labelFadeDistance: CGFloat = 45
+        static let hapticPrepareDistance: CGFloat = 30
+        static let innerRotationMultiplier: CGFloat = 4
+        static let outerRotationMultiplier: CGFloat = 2
+
+        // MARK: Dismissal
+        static let messageDwell: TimeInterval = 0.25
+        static let fadeDuration: TimeInterval = 0.2
+    }
+
     var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
         didSet {
             refreshLabel.textColor = customTintColor
@@ -21,10 +35,23 @@ class CustomRefreshControl: UIRefreshControl {
         }
     }
 
+    /// Top inset for the spinner icon. The label sits a fixed distance below the icon.
+    var topInset: CGFloat = 15 {
+        didSet {
+            guard topInset != oldValue else { return }
+            setNeedsUpdateConstraints()
+        }
+    }
+
+    private enum Layout {
+        static let iconToLabelSpacing: CGFloat = 35
+    }
+
+    private var customConstraints: [NSLayoutConstraint] = []
+
     override init() {
         super.init(frame: .zero)
         setupView()
-        setupLayout()
         alpha = 0
     }
 
@@ -36,21 +63,24 @@ class CustomRefreshControl: UIRefreshControl {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func startRefreshing() {
-        beginRefreshing()
-        isAnimating = true
-        startRefreshAnimation()
-        perform?(self)
-    }
-
     override func endRefreshing() {
-        super.endRefreshing()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            self?.endRefreshAnimation()
-            self?.isAnimating = false
-            self?.alpha = 0
+        // Defer dismissal until the user releases their touch so the
+        // completion message doesn't disappear mid-pull on a fast network —
+        // matches native UIRefreshControl behaviour. `scrollViewDidScroll`
+        // (forwarded by the host view controller) re-enters here once
+        // `isTracking` flips to false during the bounce-back.
+        if let scrollView = superview as? UIScrollView, scrollView.isTracking {
+            isDismissalPending = true
+            return
         }
+        isDismissalPending = false
+
+        UIView.animate(withDuration: Constants.fadeDuration, delay: Constants.messageDwell, options: [], animations: {
+            self.alpha = 0
+        }, completion: { _ in
+            super.endRefreshing()
+            self.endRefreshAnimation()
+        })
     }
 
     func set(text: String) {
@@ -61,52 +91,60 @@ class CustomRefreshControl: UIRefreshControl {
         tintColor = .clear
 
         refreshLabel.text = L10n.refreshControlPullToRefresh
-        refreshLabel.textAlignment = NSTextAlignment.center
-        refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
+        refreshLabel.textAlignment = .center
+        refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         refreshLabel.textColor = customTintColor
+        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshLabel)
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")?.withRenderingMode(.alwaysTemplate)
         refreshInnerImage.tintColor = customTintColor
+        refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshInnerImage)
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")?.withRenderingMode(.alwaysTemplate)
         refreshOuterImage.tintColor = customTintColor
+        refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
 
-        addTarget(self, action: #selector(beginRefreshing), for: .valueChanged)
+        addTarget(self, action: #selector(didTriggerRefresh), for: .valueChanged)
     }
 
-    private func setupLayout() {
-        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
-        refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
+    @objc private func didTriggerRefresh() {
+        startRefreshAnimation()
+        perform?(self)
+    }
 
-        refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
-        refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-
-        refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
-        refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+    override func updateConstraints() {
+        NSLayoutConstraint.deactivate(customConstraints)
+        customConstraints = [
+            refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: topInset + Layout.iconToLabelSpacing),
+            refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: topInset),
+            refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
+        ]
+        NSLayoutConstraint.activate(customConstraints)
+        super.updateConstraints()
     }
 
     private func startRefreshAnimation() {
-        let cfDuration = CFTimeInterval(1.0)
+        let duration: CFTimeInterval = 1.0
 
         let innerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
         innerRotation.fromValue = innerRotationAngle
         innerRotation.toValue = Double(innerRotationAngle) + (Double.pi * 2)
-        innerRotation.duration = cfDuration
-        innerRotation.repeatCount = Float.infinity
+        innerRotation.duration = duration
+        innerRotation.repeatCount = .infinity
         refreshInnerImage.layer.add(innerRotation, forKey: nil)
 
         let outerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
         outerRotation.fromValue = outerRotationAngle
         outerRotation.toValue = Double(outerRotationAngle) + (Double.pi * 2)
-        outerRotation.duration = cfDuration * 1.5
-        outerRotation.repeatCount = Float.infinity
+        outerRotation.duration = duration * 1.5
+        outerRotation.repeatCount = .infinity
         refreshOuterImage.layer.add(outerRotation, forKey: nil)
     }
 
@@ -132,20 +170,14 @@ extension CustomRefreshControl {
         notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.episodesFound, object: nil)
         notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.noEpisodesFound, object: nil)
 
-        if isAnimating {
+        if isRefreshing {
             endRefreshing()
         }
     }
 
     private func processRefreshCompleted(_ message: String) {
         refreshLabel.text = message.uppercased()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.alpha = 0
-            }, completion: { _ in
-                self?.endRefreshing()
-            })
-        }
+        endRefreshing()
     }
 
     @objc private func loading() {
@@ -165,52 +197,60 @@ extension CustomRefreshControl {
 
 extension CustomRefreshControl {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 100 {
-            didPullDown(scrollAmount)
-        }
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView) {
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            didEndDraggingAt(scrollAmount)
-        }
-    }
-
-    private func didPullDown(_ amount: CGFloat) {
-        if isAnimating {
+        // A deferred dismissal is waiting for the user to release. Once the
+        // scroll view stops tracking, run the dismissal — re-entering
+        // `endRefreshing` proceeds past the tracking guard now that
+        // `isTracking` is false.
+        if isDismissalPending && !scrollView.isTracking {
+            endRefreshing()
             return
         }
 
-        let adjustedAmount = min(pullDownAmountForRefresh, amount)
-        let alphaValue = amount / pullDownAmountForRefresh
-        if adjustedAmount < pullDownAmountForRefresh {
-            refreshLabel.text = L10n.refreshControlPullToRefresh
-            didTriggerHaptic = false
-        } else {
-            refreshLabel.text = L10n.refreshControlReleaseToRefresh
+        guard !isRefreshing else { return }
 
-            // Only fire the haptic once per "release" state
-            if !didTriggerHaptic {
-                didTriggerHaptic = true
+        // Only respond to interactive drag; ignore programmatic scrolls (e.g. scroll-to-top).
+        guard scrollView.isTracking else {
+            alpha = 0
+            didPrepareHaptic = false
+            return
+        }
 
-                HapticsHelper.triggerPullToRefreshHaptic()
+        // Measure pull relative to the scroll view's rest position so we account for
+        // safe area and any custom contentInset (e.g. PCSearchBarController's pinned bar).
+        let scrollAmount = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+
+        if scrollAmount > Constants.hapticPrepareDistance && !didPrepareHaptic {
+            feedbackGenerator.prepare()
+            didPrepareHaptic = true
+        }
+
+        // Icon and label fade on independent curves so the label appears slightly after
+        // the icon — closer to the native pull-to-refresh behaviour.
+        let iconStart = Constants.triggerDistance - Constants.iconFadeDistance
+        let labelStart = Constants.triggerDistance - Constants.labelFadeDistance
+        let iconAlpha = max(0, min(1, (scrollAmount - iconStart) / Constants.iconFadeDistance))
+        let labelAlpha = max(0, min(1, (scrollAmount - labelStart) / Constants.labelFadeDistance))
+
+        alpha = 1
+        refreshInnerImage.alpha = iconAlpha
+        refreshOuterImage.alpha = iconAlpha
+        refreshLabel.alpha = labelAlpha
+
+        let pastThreshold = scrollAmount >= Constants.triggerDistance
+        if pastThreshold != isPastThreshold {
+            isPastThreshold = pastThreshold
+            refreshLabel.text = pastThreshold
+                ? L10n.refreshControlReleaseToRefresh
+                : L10n.refreshControlPullToRefresh
+            if pastThreshold {
+                feedbackGenerator.impactOccurred()
             }
         }
 
-        innerRotationAngle = (amount * 4).degreesToRadians
+        innerRotationAngle = (scrollAmount * Constants.innerRotationMultiplier).degreesToRadians
         refreshInnerImage.transform = CGAffineTransform(rotationAngle: innerRotationAngle)
 
-        outerRotationAngle = (amount * 2).degreesToRadians
+        outerRotationAngle = (scrollAmount * Constants.outerRotationMultiplier).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
-
-        alpha = amount >= 150.0 ? alphaValue : 0.0
-    }
-
-    private func didEndDraggingAt(_ position: CGFloat) {
-        if position > pullDownAmountForRefresh {
-            startRefreshing()
-        }
     }
 }
