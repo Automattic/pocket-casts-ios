@@ -3,8 +3,12 @@ import SwiftUI
 struct PlaylistCell: View {
     let playlist: MockPlaylist
 
+    @Environment(\.isFocused) var isFocused: Bool
+
     enum Layout {
         static let imageSize = CGFloat(156)
+        static let rotationEffect = CGFloat(15)
+        static let cardHeight = CGFloat(258)
     }
 
     var body: some View {
@@ -12,15 +16,15 @@ struct PlaylistCell: View {
             VStack(alignment: .leading) {
                 Text(playlist.title)
                     .font(.headline)
-                    .foregroundColor(Color.textPrimary)
+                    .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
                 Text(playlist.manual ? " " : L10n.smartPlaylist)
                     .font(.caption)
-                    .foregroundColor(Color.textSecondary)
+                    .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                 Spacer()
                 HStack(alignment: .bottom) {
                     Text( L10n.playlistEpisodesCount(playlist.episodes.count))
                         .font(.caption)
-                        .foregroundColor(Color.textSecondary)
+                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                     Spacer()
                 }
             }
@@ -32,15 +36,17 @@ struct PlaylistCell: View {
                         .frame(width: Layout.imageSize, height: Layout.imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
-                        .offset(x: CGFloat(1-index) * 25.0, y: (CGFloat(2-index) * 25.0))
+                        .rotationEffect(Angle(degrees: isFocused ? (index == 0 ? Layout.rotationEffect : -Layout.rotationEffect) : 0))
+                        .offset(x: CGFloat(1-index) * 25.0, y: 50 + (CGFloat(2-index) * 25.0))
                 }
             }
             .padding(.horizontal, 36)
 
         }
         .padding(.horizontal, 36)
-        .frame(height: 210)
-        .background(playlist.color)
+        .frame(height: Layout.cardHeight)
+        .background(isFocused ? Color.backgroundActive : playlist.color)
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
         .clipped()
     }
 

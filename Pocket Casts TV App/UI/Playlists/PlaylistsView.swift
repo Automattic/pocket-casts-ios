@@ -79,7 +79,7 @@ struct PlaylistsView: View {
     }
 
     private let items: [GridItem] = (0..<3).map { _ in
-        GridItem(.fixed(Layout.gridSize), spacing: 48)
+        GridItem(.flexible(minimum: Layout.gridSize), spacing: 48)
     }
 
     @Namespace private var listNamespace
