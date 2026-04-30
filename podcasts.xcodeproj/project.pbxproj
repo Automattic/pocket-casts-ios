@@ -348,7 +348,6 @@
 		8B87C47C29F0129A00257B96 /* EpisodeArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */; };
 		8B907F182AA8E1F100926F4F /* MiniPlayerViewController+TransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B907F172AA8E1F100926F4F /* MiniPlayerViewController+TransitionDelegate.swift */; };
 		8B907F1A2AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */; };
-		FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */; };
 		8B9D233F2C41B1BE004CD57D /* TranscriptShelfButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9D233E2C41B1BE004CD57D /* TranscriptShelfButton.swift */; };
 		8B9DEFD62906D1CE00075EAB /* EndOfYear.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B9DEFD52906D1CE00075EAB /* EndOfYear.xcassets */; };
 		8BA55A1528CA8FEB002BECC5 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */; };
@@ -1281,6 +1280,8 @@
 		FF1F27052F224C5C001908BE /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
+		FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */; };
+		FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
@@ -1857,7 +1858,6 @@
 		8B87C47B29F0129A00257B96 /* EpisodeArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeArtwork.swift; sourceTree = "<group>"; };
 		8B907F172AA8E1F100926F4F /* MiniPlayerViewController+TransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MiniPlayerViewController+TransitionDelegate.swift"; sourceTree = "<group>"; };
 		8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerToFullPlayerAnimator.swift; sourceTree = "<group>"; };
-		FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPlayerAnimator.swift; sourceTree = "<group>"; };
 		8B9D233E2C41B1BE004CD57D /* TranscriptShelfButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptShelfButton.swift; sourceTree = "<group>"; };
 		8B9DEFD52906D1CE00075EAB /* EndOfYear.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = EndOfYear.xcassets; sourceTree = "<group>"; };
 		8BA55A1428CA8FEB002BECC5 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
@@ -2630,6 +2630,8 @@
 		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF1EC6852CECBC73006FBF9B /* ManageDownloadsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsCoordinator.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
+		FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPlayerAnimator.swift; sourceTree = "<group>"; };
+		FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerGlassProgressView.swift; sourceTree = "<group>"; };
 		FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus.mp4; sourceTree = "<group>"; };
 		FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus_background.mp4; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
@@ -4741,6 +4743,7 @@
 				BD3EB3AD179E622A00D0731C /* MiniPlayerViewController.xib */,
 				BD1F977B1FD7894C00F89CCD /* MiniPlayerShadowView.swift */,
 				FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */,
+				FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
 				FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */,
 			);
@@ -6885,6 +6888,7 @@
 				8BC060082AB1FA0400A4FEC6 /* PlayEpisodeIntent.swift in Sources */,
 				40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */,
 				BD1F977C1FD7894C00F89CCD /* MiniPlayerShadowView.swift in Sources */,
+				FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */,
 				9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */,
 				BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				9AA14FA72E37EA5900464A5A /* PlaylistsOnboardingCardView.swift in Sources */,
@@ -8942,6 +8946,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";

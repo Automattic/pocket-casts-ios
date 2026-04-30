@@ -41,6 +41,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var glassGradientLayer: CAGradientLayer?
     private var episodeTitleLabel: UILabel?
     private var episodeTimeLeftLabel: UILabel?
+    private var glassProgressView: MiniPlayerGlassProgressView?
 
 
     override func viewDidLoad() {
@@ -119,16 +120,25 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         let timeLeft = UILabel()
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
-        timeLeft.font = .font(ofSize: 11, weight: .regular, scalingWith: .footnote)
+        timeLeft.font = .font(ofSize: 10, weight: .regular, scalingWith: .footnote)
         timeLeft.numberOfLines = 1
         timeLeft.adjustsFontForContentSizeCategory = false
         episodeTimeLeftLabel = timeLeft
 
-        let textStack = UIStackView(arrangedSubviews: [title, timeLeft])
+        let progressView = MiniPlayerGlassProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        glassProgressView = progressView
+
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
+        bottomRow.axis = .horizontal
+        bottomRow.alignment = .center
+        bottomRow.spacing = 8
+
+        let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
-        textStack.spacing = 1
+        textStack.spacing = 2
 
         let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +163,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
             textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
+
+            progressView.widthAnchor.constraint(equalToConstant: 50),
+            progressView.heightAnchor.constraint(equalToConstant: 5),
 
             skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
             playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
@@ -194,12 +207,46 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
+        animateSkipButton(skipBackBtn, clockwise: false)
     }
 
     @IBAction func skipForwardTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
+        animateSkipButton(skipFwdBtn, clockwise: true)
+    }
+
+    private func animateSkipButton(_ button: UIButton, clockwise: Bool) {
+        guard let imageView = button.imageView else { return }
+
+        if UIAccessibility.isReduceMotionEnabled {
+            let alpha = CAKeyframeAnimation(keyPath: "opacity")
+            alpha.values = [1.0, 0.4, 1.0]
+            alpha.keyTimes = [0, 0.4, 1]
+            alpha.duration = 0.3
+            imageView.layer.add(alpha, forKey: "skipAlpha")
+            return
+        }
+
+        let duration: CFTimeInterval = 0.7
+
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.fromValue = 0
+        rotation.toValue = clockwise ? CGFloat.pi * 2 : -CGFloat.pi * 2
+        rotation.duration = duration
+        rotation.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.3, 1.0)
+        imageView.layer.add(rotation, forKey: "skipRotation")
+
+        let scale = CAKeyframeAnimation(keyPath: "transform.scale")
+        scale.values = [1.0, 0.85, 1.0]
+        scale.keyTimes = [0, 0.4, 1]
+        scale.duration = duration
+        scale.timingFunctions = [
+            CAMediaTimingFunction(name: .easeInEaseOut),
+            CAMediaTimingFunction(name: .easeInEaseOut),
+        ]
+        imageView.layer.add(scale, forKey: "skipScale")
     }
 
     func desiredHeight() -> CGFloat {
@@ -366,6 +413,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
         }
 
+        if let glassProgressView {
+            let downloadProgress: CGFloat
+            if duration > 0 {
+                downloadProgress = min(1, CGFloat((currentTime + amountBuferred) / duration))
+            } else {
+                downloadProgress = 0
+            }
+            glassProgressView.playbackProgress = progress
+            glassProgressView.downloadProgress = downloadProgress
+        }
+
         if let episodeTimeLeftLabel {
             let remaining = max(0, duration - currentTime)
             let newText: String?
@@ -425,6 +483,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         skipBackBtn.tintColor = iconColor
         skipFwdBtn.tintColor = iconColor
+
+        glassProgressView?.tintColorOverride = actionColor
 
         glassGradientLayer?.colors = [
             actionColor.withAlphaComponent(0.06).cgColor,

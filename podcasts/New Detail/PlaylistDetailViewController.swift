@@ -317,7 +317,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
-        multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+        multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
         view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
 
@@ -325,7 +325,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             blurHeaderView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize),
             blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
