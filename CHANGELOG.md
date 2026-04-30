@@ -1,6 +1,7 @@
 8.12
 -----
 - Add animations when tapping backward or forward in mini player [#4214](https://github.com/Automattic/pocket-casts-ios/pull/4214)
+- Improve pull-to-refresh stability and polish on the podcasts list [#4225](https://github.com/Automattic/pocket-casts-ios/pull/4225)
 
 8.11
 -----
