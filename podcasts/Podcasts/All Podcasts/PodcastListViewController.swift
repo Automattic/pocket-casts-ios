@@ -500,7 +500,7 @@ extension PodcastListViewController {
         let refreshControl = controller.refreshControl
         refreshControl.customTintColor = AppTheme.colorForStyle(.secondaryText02)
         refreshControl.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-        refreshControl.topInset = 5
+        refreshControl.topInset = 0
         podcastsCollectionView.refreshControl = refreshControl
         self.refreshController = controller
     }
