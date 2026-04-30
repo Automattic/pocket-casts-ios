@@ -21,10 +21,23 @@ class CustomRefreshControl: UIRefreshControl {
         }
     }
 
+    /// Top inset for the spinner icon. The label sits a fixed distance below the icon.
+    var topInset: CGFloat = 15 {
+        didSet {
+            guard topInset != oldValue else { return }
+            setNeedsUpdateConstraints()
+        }
+    }
+
+    private enum Layout {
+        static let iconToLabelSpacing: CGFloat = 35
+    }
+
+    private var customConstraints: [NSLayoutConstraint] = []
+
     override init() {
         super.init(frame: .zero)
         setupView()
-        setupLayout()
         alpha = 0
     }
 
@@ -64,32 +77,35 @@ class CustomRefreshControl: UIRefreshControl {
         refreshLabel.textAlignment = NSTextAlignment.center
         refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
         refreshLabel.textColor = customTintColor
+        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshLabel)
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")?.withRenderingMode(.alwaysTemplate)
         refreshInnerImage.tintColor = customTintColor
+        refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshInnerImage)
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")?.withRenderingMode(.alwaysTemplate)
         refreshOuterImage.tintColor = customTintColor
+        refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
 
         addTarget(self, action: #selector(beginRefreshing), for: .valueChanged)
     }
 
-    private func setupLayout() {
-        refreshLabel.translatesAutoresizingMaskIntoConstraints = false
-        refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
-
-        refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
-        refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-
-        refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
-        refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        refreshOuterImage.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+    override func updateConstraints() {
+        NSLayoutConstraint.deactivate(customConstraints)
+        customConstraints = [
+            refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: topInset + Layout.iconToLabelSpacing),
+            refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: topInset),
+            refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
+        ]
+        NSLayoutConstraint.activate(customConstraints)
+        super.updateConstraints()
     }
 
     private func startRefreshAnimation() {
