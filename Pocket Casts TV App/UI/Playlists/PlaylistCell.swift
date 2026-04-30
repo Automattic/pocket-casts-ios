@@ -35,6 +35,7 @@ struct PlaylistCell: View {
                         .offset(x: CGFloat(1-index) * 25.0, y: (CGFloat(2-index) * 25.0))
                 }
             }
+            .padding(.horizontal, 36)
 
         }
         .padding(.horizontal, 36)
