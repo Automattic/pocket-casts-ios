@@ -7,7 +7,7 @@ class CustomRefreshControl: UIRefreshControl {
     private var refreshOuterImage = UIImageView()
     private var innerRotationAngle: CGFloat = 0
     private var outerRotationAngle: CGFloat = 0
-    private let pullDownAmountForRefresh: CGFloat = 148
+    private let pullDownAmountForRefresh: CGFloat = 140
     private let iconFadeDistance: CGFloat = 70
     private let labelFadeDistance: CGFloat = 45
     private let refreshLabel = UILabel()
