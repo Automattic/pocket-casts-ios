@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsUtils
 
-struct SmartPlaylistRulesContainerView: View {
+struct SmartPlaylistRulesSectionView: View {
     @EnvironmentObject var theme: Theme
 
     let rules: [SmartPlaylistRuleInfo]
@@ -12,44 +12,104 @@ struct SmartPlaylistRulesContainerView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var iconSize = CGFloat(24)
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ForEach(rules, id: \.id) { rule in
-                let isLast = rule.type == rules.last?.type
-                if rule.type.isMenuCompatible {
-                    SmartPlaylistRuleRowView(rule: rule.type, hideDivider: isLast) {
-                        inlinePicker(for: rule.type)
-                            .fixedSize(horizontal: true, vertical: false)
-                            .frame(height: iconSize)
-                            .padding(.trailing, 16.0)
-                    }
-                } else {
-                    SmartPlaylistRuleRowView(rule: rule.type, hideDivider: isLast) {
-                        HStack(spacing: 0) {
-                            if let description = rule.description {
-                                Text(description)
-                                    .foregroundStyle(theme.primaryText02)
-                                    .font(size: 17, style: .body)
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.8)
-                            }
-                            Image("cs-chevron")
-                                .renderingMode(.template)
-                                .resizable()
-                                .foregroundStyle(theme.primaryIcon02)
-                                .frame(width: iconSize - 5, height: iconSize)
-                                .padding(.trailing, 11.0)
-                        }
-                    }
-                    .onTapGesture {
-                        action(rule.type)
-                    }
+        ForEach(Array(rules.enumerated()), id: \.element.id) { index, rule in
+            makeRow(for: rule)
+                .padding(.horizontal, 32)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(
+                    backgroundSlice(at: index)
+                        .padding(.horizontal, 16)
+                )
+                .listRowSeparatorTint(theme.primaryUi05)
+                .listRowSeparator(index == 0 ? .hidden : .visible, edges: .top)
+                .listRowSeparator(index == rules.count - 1 ? .hidden : .visible, edges: .bottom)
+        }
+    }
+
+    @ViewBuilder
+    private func makeRow(for rule: SmartPlaylistRuleInfo) -> some View {
+        if rule.type.isMenuCompatible {
+            pickerRow(for: rule.type)
+        } else {
+            Button {
+                action(rule.type)
+            } label: {
+                makeRowLabel(for: rule)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    // MARK: - Button Row
+
+    private func makeRowLabel(for rule: SmartPlaylistRuleInfo) -> some View {
+        HStack(alignment: .center) {
+            Image(rule.type.iconName)
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(theme.primaryIcon03)
+                .frame(width: iconSize, height: iconSize)
+                .padding(.trailing, 8.0)
+
+            Text(rule.type.title)
+                .foregroundStyle(theme.primaryText01)
+                .font(size: 17, style: .body)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
+
+            HStack(spacing: 0) {
+                if let description = rule.description {
+                    Text(description)
+                        .foregroundStyle(theme.primaryText02)
+                        .font(size: 17, style: .body)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
+                Image("cs-chevron")
+                    .renderingMode(.template)
+                    .resizable()
+                    .foregroundStyle(theme.primaryIcon02)
+                    .frame(width: iconSize, height: iconSize)
+                    .padding(.trailing, -8)
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 8.0, style: .continuous)
-                .fill(theme.primaryUi02Active)
+        .contentShape(Rectangle())
+    }
+
+    // MARK: - Picker Row
+
+    private func pickerRow(for rule: SmartPlaylistRule) -> some View {
+        HStack(alignment: .center) {
+            Image(rule.iconName)
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(theme.primaryIcon03)
+                .frame(width: iconSize, height: iconSize)
+                .padding(.trailing, 8.0)
+
+            inlinePicker(for: rule)
+        }
+    }
+
+    // MARK: - Background Slices
+
+    private func backgroundSlice(at index: Int) -> some View {
+        let isFirst = index == 0
+        let isLast = index == rules.count - 1
+        let radius: CGFloat = 8
+        return UnevenRoundedRectangle(
+            cornerRadii: RectangleCornerRadii(
+                topLeading: isFirst ? radius : 0,
+                bottomLeading: isLast ? radius : 0,
+                bottomTrailing: isLast ? radius : 0,
+                topTrailing: isFirst ? radius : 0
+            ),
+            style: .continuous
         )
+        .fill(theme.primaryUi02Active)
     }
 
     // MARK: - Inline Pickers
@@ -90,8 +150,7 @@ struct SmartPlaylistRulesContainerView: View {
         } label: {
             Text(SmartPlaylistRule.releaseDate.title)
         }
-        .labelsHidden()
-        .pickerStyle(.menu)
+        .pickerStyle(.automatic)
         .tint(theme.primaryText02)
     }
 
@@ -130,8 +189,7 @@ struct SmartPlaylistRulesContainerView: View {
         } label: {
             Text(SmartPlaylistRule.downloadStatus.title)
         }
-        .labelsHidden()
-        .pickerStyle(.menu)
+        .pickerStyle(.automatic)
         .tint(theme.primaryText02)
     }
 
@@ -151,8 +209,7 @@ struct SmartPlaylistRulesContainerView: View {
         } label: {
             Text(SmartPlaylistRule.mediaType.title)
         }
-        .labelsHidden()
-        .pickerStyle(.menu)
+        .pickerStyle(.automatic)
         .tint(theme.primaryText02)
     }
 
@@ -169,8 +226,7 @@ struct SmartPlaylistRulesContainerView: View {
         } label: {
             Text(SmartPlaylistRule.starred.title)
         }
-        .labelsHidden()
-        .pickerStyle(.menu)
+        .pickerStyle(.automatic)
         .tint(theme.primaryText02)
     }
 
@@ -225,16 +281,21 @@ struct SmartPlaylistRulesContainerView: View {
             }
         } label: {
             HStack(spacing: 4) {
+                Text(SmartPlaylistRule.episode.title)
+                    .foregroundStyle(theme.primaryText01)
+                    .font(size: 17, style: .body)
+                Spacer()
                 if let description = viewModel.ruleText(for: .episode) {
                     Text(description)
+                        .foregroundStyle(theme.primaryText02)
                         .font(size: 17, style: .body)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                 }
                 Image(systemName: "chevron.up.chevron.down")
-                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(theme.primaryText02)
+                    .font(.system(size: 12, weight: .medium))
             }
-            .foregroundStyle(theme.primaryText02)
         }
     }
 }

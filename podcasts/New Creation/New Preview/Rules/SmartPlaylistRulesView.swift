@@ -61,12 +61,11 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
     let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
-        Group {
+        VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(size: 22.0, style: .title2, weight: .bold)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(theme.primaryText01)
-                .listRowClearStyle()
             if let description {
                 Text(description)
                     .font(size: 14.0, style: .body, weight: .regular)
@@ -74,20 +73,17 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText02)
                     .multilineTextAlignment(.leading)
-                    .padding(.top, 4.0)
-                    .padding(.trailing, 8.0)
-                    .listRowClearStyle()
             }
-            SmartPlaylistRulesContainerView(
-                rules: availableRules,
-                viewModel: viewModel,
-                action: viewModel.action
-            )
-            .padding(.top, 24.0)
-            .padding(.bottom, 16.0)
-            .listRowClearStyle()
         }
-        .padding(.horizontal, 16.0)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+        .listRowClearStyle()
+
+        SmartPlaylistRulesSectionView(
+            rules: availableRules,
+            viewModel: viewModel,
+            action: viewModel.action
+        )
     }
 }
 
@@ -100,39 +96,28 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
     let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
-        Group {
-            if !enabledRules.isEmpty {
-                SmartPlaylistRulesContainerView(
-                    rules: enabledRules,
+        if !enabledRules.isEmpty {
+            SmartPlaylistRulesSectionView(
+                rules: enabledRules,
+                viewModel: viewModel,
+                action: viewModel.action
+            )
+        }
+        if !availableRules.isEmpty {
+            DisclosureGroup(isExpanded: $isExpanded) {
+                SmartPlaylistRulesSectionView(
+                    rules: availableRules,
                     viewModel: viewModel,
                     action: viewModel.action
                 )
-                .padding(.vertical, 16.0)
-                .listRowClearStyle()
+            } label: {
+                Text(L10n.playlistSmartPreviewMoreRules)
+                    .font(size: 22.0, style: .title2, weight: .bold)
+                    .foregroundStyle(theme.primaryText01)
             }
-
-            if !availableRules.isEmpty {
-                DisclosureGroup(isExpanded: $isExpanded) {
-                    SmartPlaylistRulesContainerView(
-                        rules: availableRules,
-                        viewModel: viewModel,
-                        action: viewModel.action
-                    )
-                    .listRowClearStyle()
-                    .padding(.vertical, 16.0)
-                    .padding(.leading, -18.0)
-                } label: {
-                    Text(L10n.playlistSmartPreviewMoreRules)
-                        .font(size: 22.0, style: .title2, weight: .bold)
-                        .foregroundStyle(theme.primaryText01)
-                        .listRowClearStyle()
-                }
-                .accentColor(theme.primaryIcon01)
-                .animation(.default, value: isExpanded)
-                .listRowClearStyle()
-            }
+            .accentColor(theme.primaryIcon01)
+            .animation(.default, value: isExpanded)
         }
-        .padding(.horizontal, 16.0)
     }
 }
 
@@ -148,7 +133,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
                 .font(size: 22.0, style: .title2, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 16.0)
+                .padding(.top, 32.0)
                 .padding(.bottom, 16.0)
                 .padding(.horizontal, 16.0)
                 .listRowClearStyle()
