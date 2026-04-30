@@ -7,36 +7,23 @@ final class MiniPlayerGlassProgressView: UIView {
         }
     }
 
-    var downloadProgress: CGFloat = 0 {
-        didSet {
-            if downloadProgress != oldValue { setNeedsLayout() }
-        }
-    }
-
     var tintColorOverride: UIColor = .black {
-        didSet { applyColors() }
+        didSet { playbackLayer.backgroundColor = tintColorOverride.cgColor }
     }
 
     private let trackLayer = CALayer()
-    private let downloadLayer = CALayer()
     private let playbackLayer = CALayer()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.addSublayer(trackLayer)
-        layer.addSublayer(downloadLayer)
         layer.addSublayer(playbackLayer)
-        applyColors()
+        trackLayer.backgroundColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        playbackLayer.backgroundColor = tintColorOverride.cgColor
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    private func applyColors() {
-        trackLayer.backgroundColor = tintColorOverride.withAlphaComponent(0.10).cgColor
-        downloadLayer.backgroundColor = tintColorOverride.withAlphaComponent(0.25).cgColor
-        playbackLayer.backgroundColor = tintColorOverride.cgColor
     }
 
     override func layoutSubviews() {
@@ -51,10 +38,6 @@ final class MiniPlayerGlassProgressView: UIView {
 
         trackLayer.frame = bounds
         trackLayer.cornerRadius = radius
-
-        let clampedDownload = max(0, min(1, downloadProgress))
-        downloadLayer.frame = CGRect(x: 0, y: 0, width: width * clampedDownload, height: height)
-        downloadLayer.cornerRadius = radius
 
         let clampedPlayback = max(0, min(1, playbackProgress))
         playbackLayer.frame = CGRect(x: 0, y: 0, width: width * clampedPlayback, height: height)
