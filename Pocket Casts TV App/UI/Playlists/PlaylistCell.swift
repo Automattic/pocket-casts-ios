@@ -4,17 +4,23 @@ struct PlaylistCell: View {
     let playlist: MockPlaylist
 
     enum Layout {
-        static let gridSize = CGFloat(496)
+        static let imageSize = CGFloat(156)
     }
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading) {
                 Text(playlist.title)
-                Text(playlist.manual ? " " : "Smart Playlist")
+                    .font(.headline)
+                    .foregroundColor(Color.textPrimary)
+                Text(playlist.manual ? " " : L10n.smartPlaylist)
+                    .font(.caption)
+                    .foregroundColor(Color.textSecondary)
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text("\(playlist.episodes.count) episodes")
+                    Text( L10n.playlistEpisodesCount(playlist.episodes.count))
+                        .font(.caption)
+                        .foregroundColor(Color.textSecondary)
                     Spacer()
                 }
             }
@@ -23,7 +29,7 @@ struct PlaylistCell: View {
                 ForEach(Array(playlist.episodes.prefix(2).enumerated()), id: \.element) { index, episode in
                     Image(episode.image)
                         .resizable()
-                        .frame(width: 156, height: 156)
+                        .frame(width: Layout.imageSize, height: Layout.imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
                         .offset(x: CGFloat(1-index) * 25.0, y: (CGFloat(2-index) * 25.0))
