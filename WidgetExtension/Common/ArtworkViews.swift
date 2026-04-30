@@ -41,10 +41,6 @@ extension UIImage {
         guard let outputCGImage = context.makeImage() else { return nil }
         return UIImage(cgImage: outputCGImage, scale: self.scale, orientation: self.imageOrientation)
     }
-
-    static var podcastPlaceholderImage: UIImage? {
-        return UIImage(named: "logo-transparent")?.withRenderingMode(.alwaysTemplate)
-    }
 }
 
 struct LargeArtworkView: View {
@@ -69,9 +65,9 @@ struct LargeArtworkView: View {
 
     var placeholderImageToUse: UIImage? {
         if isAccentedRenderingMode {
-            return UIImage.podcastPlaceholderImage
+            return UIImage(named: "no-podcast-artwork-transparent")
         } else {
-            return UIImage(named: "no-podcast-artwork")
+            return UIImage(named: "no-podcast-artwork-transparent")
         }
     }
 
@@ -135,9 +131,9 @@ struct SmallArtworkView: View {
 
     var placeholderImageToUse: UIImage? {
         if isAccentedRenderingMode {
-            return UIImage.podcastPlaceholderImage
+            return UIImage(named: "no-podcast-artwork-transparent")
         } else {
-            return UIImage(named: "no-podcast-artwork")
+            return UIImage(named: "no-podcast-artwork-transparent")
         }
     }
 
