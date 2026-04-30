@@ -7,16 +7,22 @@ class CustomRefreshControl: UIRefreshControl {
     private var refreshOuterImage = UIImageView()
     private var innerRotationAngle: CGFloat = 0
     private var outerRotationAngle: CGFloat = 0
-    private let pullDownAmountForRefresh: CGFloat = 140
-    private let iconFadeDistance: CGFloat = 70
-    private let labelFadeDistance: CGFloat = 45
     private let refreshLabel = UILabel()
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-    private var didTriggerThresholdHaptic = false
+    private var isPastThreshold = false
     private var didPrepareHaptic = false
     private var isDismissalPending = false
 
-    private enum Dismissal {
+    private enum Constants {
+        // MARK: Pull
+        static let triggerDistance: CGFloat = 140
+        static let iconFadeDistance: CGFloat = 70
+        static let labelFadeDistance: CGFloat = 45
+        static let hapticPrepareDistance: CGFloat = 30
+        static let innerRotationMultiplier: CGFloat = 4
+        static let outerRotationMultiplier: CGFloat = 2
+
+        // MARK: Dismissal
         static let messageDwell: TimeInterval = 0.25
         static let fadeDuration: TimeInterval = 0.2
     }
@@ -69,7 +75,7 @@ class CustomRefreshControl: UIRefreshControl {
         }
         isDismissalPending = false
 
-        UIView.animate(withDuration: Dismissal.fadeDuration, delay: Dismissal.messageDwell, options: [], animations: {
+        UIView.animate(withDuration: Constants.fadeDuration, delay: Constants.messageDwell, options: [], animations: {
             self.alpha = 0
         }, completion: { _ in
             super.endRefreshing()
@@ -205,7 +211,6 @@ extension CustomRefreshControl {
         // Only respond to interactive drag; ignore programmatic scrolls (e.g. scroll-to-top).
         guard scrollView.isTracking else {
             alpha = 0
-            didTriggerThresholdHaptic = false
             didPrepareHaptic = false
             return
         }
@@ -214,38 +219,38 @@ extension CustomRefreshControl {
         // safe area and any custom contentInset (e.g. PCSearchBarController's pinned bar).
         let scrollAmount = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
 
-        if scrollAmount > 30 && !didPrepareHaptic {
+        if scrollAmount > Constants.hapticPrepareDistance && !didPrepareHaptic {
             feedbackGenerator.prepare()
             didPrepareHaptic = true
         }
 
         // Icon and label fade on independent curves so the label appears slightly after
         // the icon — closer to the native pull-to-refresh behaviour.
-        let iconStart = pullDownAmountForRefresh - iconFadeDistance
-        let labelStart = pullDownAmountForRefresh - labelFadeDistance
-        let iconAlpha = max(0, min(1, (scrollAmount - iconStart) / iconFadeDistance))
-        let labelAlpha = max(0, min(1, (scrollAmount - labelStart) / labelFadeDistance))
+        let iconStart = Constants.triggerDistance - Constants.iconFadeDistance
+        let labelStart = Constants.triggerDistance - Constants.labelFadeDistance
+        let iconAlpha = max(0, min(1, (scrollAmount - iconStart) / Constants.iconFadeDistance))
+        let labelAlpha = max(0, min(1, (scrollAmount - labelStart) / Constants.labelFadeDistance))
 
         alpha = 1
         refreshInnerImage.alpha = iconAlpha
         refreshOuterImage.alpha = iconAlpha
         refreshLabel.alpha = labelAlpha
 
-        if scrollAmount < pullDownAmountForRefresh {
-            refreshLabel.text = L10n.refreshControlPullToRefresh
-            didTriggerThresholdHaptic = false
-        } else {
-            refreshLabel.text = L10n.refreshControlReleaseToRefresh
-            if !didTriggerThresholdHaptic {
+        let pastThreshold = scrollAmount >= Constants.triggerDistance
+        if pastThreshold != isPastThreshold {
+            isPastThreshold = pastThreshold
+            refreshLabel.text = pastThreshold
+                ? L10n.refreshControlReleaseToRefresh
+                : L10n.refreshControlPullToRefresh
+            if pastThreshold {
                 feedbackGenerator.impactOccurred()
-                didTriggerThresholdHaptic = true
             }
         }
 
-        innerRotationAngle = (scrollAmount * 4).degreesToRadians
+        innerRotationAngle = (scrollAmount * Constants.innerRotationMultiplier).degreesToRadians
         refreshInnerImage.transform = CGAffineTransform(rotationAngle: innerRotationAngle)
 
-        outerRotationAngle = (scrollAmount * 2).degreesToRadians
+        outerRotationAngle = (scrollAmount * Constants.outerRotationMultiplier).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
     }
 }
