@@ -125,8 +125,6 @@ struct SmartPlaylistRulesSectionView: View {
             mediaTypePicker
         case .starred:
             starredPicker
-        case .episode:
-            episodeStatusMenu
         default:
             EmptyView()
         }
@@ -228,75 +226,6 @@ struct SmartPlaylistRulesSectionView: View {
         }
         .pickerStyle(.automatic)
         .tint(theme.primaryText02)
-    }
-
-    @ViewBuilder
-    private var episodeStatusMenu: some View {
-        let unplayedBinding = Binding(
-            get: { viewModel.newPlaylist.filterUnplayed },
-            set: { newValue in
-                if !newValue && !viewModel.newPlaylist.filterPartiallyPlayed && !viewModel.newPlaylist.filterFinished {
-                    return
-                }
-                viewModel.newPlaylist.filterUnplayed = newValue
-                viewModel.newPlaylist.episodesSmartRuleApplied = true
-                viewModel.saveFilter(analyticsGroup: "episode_status")
-            }
-        )
-        let inProgressBinding = Binding(
-            get: { viewModel.newPlaylist.filterPartiallyPlayed },
-            set: { newValue in
-                if !newValue && !viewModel.newPlaylist.filterUnplayed && !viewModel.newPlaylist.filterFinished {
-                    return
-                }
-                viewModel.newPlaylist.filterPartiallyPlayed = newValue
-                viewModel.newPlaylist.episodesSmartRuleApplied = true
-                viewModel.saveFilter(analyticsGroup: "episode_status")
-            }
-        )
-        let playedBinding = Binding(
-            get: { viewModel.newPlaylist.filterFinished },
-            set: { newValue in
-                if !newValue && !viewModel.newPlaylist.filterUnplayed && !viewModel.newPlaylist.filterPartiallyPlayed {
-                    return
-                }
-                viewModel.newPlaylist.filterFinished = newValue
-                viewModel.newPlaylist.episodesSmartRuleApplied = true
-                viewModel.saveFilter(analyticsGroup: "episode_status")
-            }
-        )
-
-        Menu {
-            if #available(iOS 16.4, *) {
-                Toggle(L10n.statusUnplayed, isOn: unplayedBinding)
-                    .menuActionDismissBehavior(.disabled)
-                Toggle(L10n.inProgress, isOn: inProgressBinding)
-                    .menuActionDismissBehavior(.disabled)
-                Toggle(L10n.statusPlayed, isOn: playedBinding)
-                    .menuActionDismissBehavior(.disabled)
-            } else {
-                Toggle(L10n.statusUnplayed, isOn: unplayedBinding)
-                Toggle(L10n.inProgress, isOn: inProgressBinding)
-                Toggle(L10n.statusPlayed, isOn: playedBinding)
-            }
-        } label: {
-            HStack(spacing: 4) {
-                Text(SmartPlaylistRule.episode.title)
-                    .foregroundStyle(theme.primaryText01)
-                    .font(size: 17, style: .body)
-                Spacer()
-                if let description = viewModel.ruleText(for: .episode) {
-                    Text(description)
-                        .foregroundStyle(theme.primaryText02)
-                        .font(size: 17, style: .body)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-                }
-                Image(systemName: "chevron.up.chevron.down")
-                    .foregroundStyle(theme.primaryText02)
-                    .font(.system(size: 12, weight: .medium))
-            }
-        }
     }
 }
 
