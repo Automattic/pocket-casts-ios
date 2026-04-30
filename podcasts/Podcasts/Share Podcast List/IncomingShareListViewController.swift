@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 import UIKit
 
 class IncomingShareListViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
@@ -77,17 +78,24 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
     @IBAction func subscribeToAllTapped(_ sender: AnyObject) {
         if podcasts.count > 2 {
-            let optionPicker = OptionsPicker(title: nil)
-
-            let subscribeAction = OptionAction(label: L10n.sharedListSubscribeConfAction, icon: nil, action: { [weak self] in
-                self?.performSubscribeAll()
-            })
-            optionPicker.addDescriptiveActions(title: L10n.sharedListSubscribeConfTitle,
-                                               message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()),
-                                               icon: "option-podcasts",
-                                               actions: [subscribeAction])
-
-            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+            if FeatureFlag.liquidGlass.enabled {
+                let alert = UIAlertController(title: L10n.sharedListSubscribeConfTitle, message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.sharedListSubscribeConfAction, style: .default) { [weak self] _ in
+                    self?.performSubscribeAll()
+                })
+                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+                present(alert, animated: true)
+            } else {
+                let optionPicker = OptionsPicker(title: nil)
+                let subscribeAction = OptionAction(label: L10n.sharedListSubscribeConfAction, icon: nil, action: { [weak self] in
+                    self?.performSubscribeAll()
+                })
+                optionPicker.addDescriptiveActions(title: L10n.sharedListSubscribeConfTitle,
+                                                   message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()),
+                                                   icon: "option-podcasts",
+                                                   actions: [subscribeAction])
+                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+            }
         } else {
             performSubscribeAll()
         }

@@ -892,6 +892,8 @@ internal enum L10n {
   internal static var downloadAll: String { return L10n.tr("Localizable", "download_all", fallback: "Download All") }
   /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi.
   internal static var downloadDataWarning: String { return L10n.tr("Localizable", "download_data_warning", fallback: "Downloading will use data.") }
+  /// Alert message warning the user that downloading will use mobile data.
+  internal static var downloadDataWarningAlert: String { return L10n.tr("Localizable", "download_data_warning_alert", fallback: "This download will use mobile data. You can turn off this warning in Settings.") }
   /// A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. The %@ is the placeholder for the URL
   internal static func downloadDataWarningWithSettingsLink(_ p1: Any) -> String {
     return L10n.tr("Localizable", "download_data_warning_with_settings_link", String(describing: p1), fallback: "This download will use mobile data. You can turn off this warning in [Settings](%@).")
@@ -2841,6 +2843,8 @@ internal enum L10n {
   internal static var podcastDetailsQueued: String { return L10n.tr("Localizable", "podcast_details_queued", fallback: "Queued") }
   /// Confirmation prompt to remove the episode file for the selected podcast episode.
   internal static var podcastDetailsRemoveDownload: String { return L10n.tr("Localizable", "podcast_details_remove_download", fallback: "REMOVE DOWNLOADED FILE?") }
+  /// Alert title for removing the downloaded episode file.
+  internal static var podcastDetailsRemoveDownloadAlertTitle: String { return L10n.tr("Localizable", "podcast_details_remove_download_alert_title", fallback: "Remove Downloaded File?") }
   /// Prompt to download the selected podcast now.
   internal static var podcastDownloadNow: String { return L10n.tr("Localizable", "podcast_download_now", fallback: "Download Now") }
   /// Indicates that a file is being downloaded and includes the completed percentage. '%1$@' is a placeholder for percentage that has been downloaded so far.
@@ -2953,6 +2957,8 @@ internal enum L10n {
   internal static var podcastSortOrderTitle: String { return L10n.tr("Localizable", "podcast_sort_order_title", fallback: "SORT ORDER") }
   /// Confirmation option to stream the selected episode. Used in tandem with a notice that the user is not on WiFi.
   internal static var podcastStreamConfirmation: String { return L10n.tr("Localizable", "podcast_stream_confirmation", fallback: "Stream Anyway") }
+  /// Alert message warning the user that streaming will use data.
+  internal static var podcastStreamDataWarningAlert: String { return L10n.tr("Localizable", "podcast_stream_data_warning_alert", fallback: "Streaming this episode will use data. You can turn off this warning in Settings.") }
   /// Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi.
   internal static func podcastStreamDataWarningWithSettings(_ p1: Any) -> String {
     return L10n.tr("Localizable", "podcast_stream_data_warning_with_settings", String(describing: p1), fallback: "Streaming this episode will use data. You can turn off this warning in [Settings](%@).")

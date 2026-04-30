@@ -460,15 +460,25 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func markPlayed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
-        let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-
-        let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
-            EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+        if FeatureFlag.liquidGlass.enabled {
+            let alert = UIAlertController(title: L10n.playerMarkAsPlayedConfirmation, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.markPlayedShort, style: .destructive) { [weak self] _ in
+                guard let self else { return }
+                AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
+                EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            present(alert, animated: true)
+        } else {
+            let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
+            let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+                AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
+                EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+            }
+            markPlayedAction.destructive = true
+            optionsPicker.addDescriptiveActions(title: L10n.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
+            optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
         }
-        markPlayedAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func delete() {
@@ -483,14 +493,22 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
-        let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-
-        let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
-            EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+        if FeatureFlag.liquidGlass.enabled {
+            let alert = UIAlertController(title: L10n.playerArchivedConfirmation, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.archive, style: .destructive) { _ in
+                EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            present(alert, animated: true)
+        } else {
+            let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
+            let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
+                EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+            }
+            archiveAction.destructive = true
+            optionsPicker.addDescriptiveActions(title: L10n.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
+            optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
         }
-        archiveAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
     #endif
 

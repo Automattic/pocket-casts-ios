@@ -72,63 +72,110 @@ class MultiSelectHelper {
         let downloadedEpisodes = selectedEpisodes.filter { $0.downloaded(pathFinder: DownloadManager.shared) }
         let uploadedEpisodes = selectedEpisodes.filter { $0.uploaded() }
 
-        let confirmPicker: OptionsPicker
-        if downloadedEpisodes.isEmpty {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteFromCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil) { () in
-                DispatchQueue.global().async {
-                    for episode in uploadedEpisodes {
-                        UserEpisodeManager.deleteFromCloud(episode: episode)
-                    }
+        if FeatureFlag.liquidGlass.enabled {
+            let title: String
+            let warningMessage: String
+            let alert: UIAlertController
 
-                    actionDelegate.multiSelectActionCompleted()
-                }
+            if downloadedEpisodes.isEmpty {
+                title = L10n.deleteFromCloud
+                warningMessage = deleteFileMessage(uploadedEpisodes.count)
+                alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.deleteFromCloud, style: .destructive) { _ in
+                    DispatchQueue.global().async {
+                        for episode in uploadedEpisodes {
+                            UserEpisodeManager.deleteFromCloud(episode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                })
+            } else if uploadedEpisodes.isEmpty {
+                title = L10n.deleteFromDevice
+                warningMessage = deleteFileMessage(downloadedEpisodes.count)
+                alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .destructive) { _ in
+                    DispatchQueue.global().async {
+                        for episode in downloadedEpisodes {
+                            UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                })
+            } else {
+                title = L10n.deleteFile
+                warningMessage = deleteFileMessage(downloadedEpisodes.count)
+                alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .default) { _ in
+                    DispatchQueue.global().async {
+                        for episode in downloadedEpisodes {
+                            UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                })
+                alert.addAction(UIAlertAction(title: L10n.deleteEverywhere, style: .destructive) { _ in
+                    DispatchQueue.global().async {
+                        for episode in selectedEpisodes {
+                            UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                })
             }
 
-            let warningMessage = deleteFileMessage(uploadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
-        } else if uploadedEpisodes.isEmpty {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
-                DispatchQueue.global().async {
-                    for episode in downloadedEpisodes {
-                        UserEpisodeManager.deleteFromDevice(userEpisode: episode)
-                    }
-
-                    actionDelegate.multiSelectActionCompleted()
-                }
-            }
-
-            let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            actionDelegate.multiSelectPresentingViewController().present(alert, animated: true)
         } else {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteEverwhereAction = OptionAction(label: L10n.deleteEverywhere, icon: nil) { () in
-                DispatchQueue.global().async {
-                    for episode in selectedEpisodes {
-                        UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
+            let confirmPicker: OptionsPicker
+            if downloadedEpisodes.isEmpty {
+                confirmPicker = OptionsPicker(title: nil)
+                let deleteFromCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil) { () in
+                    DispatchQueue.global().async {
+                        for episode in uploadedEpisodes {
+                            UserEpisodeManager.deleteFromCloud(episode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
                     }
-
-                    actionDelegate.multiSelectActionCompleted()
                 }
+                let warningMessage = deleteFileMessage(uploadedEpisodes.count)
+                confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
+            } else if uploadedEpisodes.isEmpty {
+                confirmPicker = OptionsPicker(title: nil)
+                let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
+                    DispatchQueue.global().async {
+                        for episode in downloadedEpisodes {
+                            UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                }
+                let warningMessage = deleteFileMessage(downloadedEpisodes.count)
+                confirmPicker.addDescriptiveActions(title: L10n.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
+            } else {
+                confirmPicker = OptionsPicker(title: nil)
+                let deleteEverywhereAction = OptionAction(label: L10n.deleteEverywhere, icon: nil) { () in
+                    DispatchQueue.global().async {
+                        for episode in selectedEpisodes {
+                            UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                }
+                let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
+                    DispatchQueue.global().async {
+                        for episode in downloadedEpisodes {
+                            UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+                        }
+                        actionDelegate.multiSelectActionCompleted()
+                    }
+                }
+                deleteFromDeviceAction.outline = true
+                let warningMessage = deleteFileMessage(downloadedEpisodes.count)
+                confirmPicker.addDescriptiveActions(title: L10n.deleteFile, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction, deleteEverywhereAction])
             }
 
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
-                DispatchQueue.global().async {
-                    for episode in downloadedEpisodes {
-                        UserEpisodeManager.deleteFromDevice(userEpisode: episode)
-                    }
-
-                    actionDelegate.multiSelectActionCompleted()
-                }
-            }
-            deleteFromDeviceAction.outline = true
-
-            let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFile, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction, deleteEverwhereAction])
+            confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
         }
-
-        confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
     }
 
     private class func archiveEpisodes(actionDelegate: MultiSelectActionDelegate) {
@@ -221,40 +268,71 @@ class MultiSelectHelper {
             return
         }
 
-        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
-        let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+        let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
+
+        if onWifi, downloadableCount < 5 {
+            let status = L10n.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
+            actionDelegate.multiSelectActionBegan(status: status)
             MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-            actionDelegate.multiSelectActionCompleted()
+            return
         }
 
-        let confirmPicker = OptionsPicker(title: nil)
-        var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
 
-        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-            if downloadableCount < 5 {
-                let status = L10n.multiSelectDownloadingEpisodesFormat(selectedEpisodes.count.localized())
-                actionDelegate.multiSelectActionBegan(status: status)
+        if FeatureFlag.liquidGlass.enabled {
+            let title = onWifi ? L10n.download : L10n.notOnWifi
+            var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+            if !onWifi, !Settings.mobileDataAllowed() {
+                message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)
+            }
+
+            let alert = UIAlertController(title: title, message: message.isEmpty ? nil : message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: downloadText, style: onWifi ? .default : .destructive) { _ in
                 MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-                return
-            } else {
-                confirmPicker.addDescriptiveActions(title: L10n.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+                actionDelegate.multiSelectActionCompleted()
+            })
+            if !onWifi {
+                alert.addAction(UIAlertAction(title: L10n.queueForLater, style: .default) { _ in
+                    let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
+                    actionDelegate.multiSelectActionBegan(status: status)
+                    queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
+                })
+                if !Settings.mobileDataAllowed() {
+                    alert.addAction(UIAlertAction(title: L10n.settings, style: .default) { _ in
+                        if let url = URL(string: "pktc://settings/storage-and-data") {
+                            UIApplication.shared.open(url)
+                        }
+                    })
+                }
             }
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            actionDelegate.multiSelectPresentingViewController().present(alert, animated: true)
         } else {
-            let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
-                actionDelegate.multiSelectActionBegan(status: status)
-                queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-            }
-            queueAction.outline = true
-
-            if !Settings.mobileDataAllowed() {
-                warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
+            let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
+                actionDelegate.multiSelectActionCompleted()
             }
 
-            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+            let confirmPicker = OptionsPicker(title: nil)
+            var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+
+            if onWifi {
+                confirmPicker.addDescriptiveActions(title: L10n.download, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+            } else {
+                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+                    let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
+                    actionDelegate.multiSelectActionBegan(status: status)
+                    queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
+                }
+                queueAction.outline = true
+                if !Settings.mobileDataAllowed() {
+                    warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
+                }
+                confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+            }
+
+            confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
         }
-
-        confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
     }
 
     private class func downloadEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {

@@ -101,19 +101,40 @@ class PodcastSettingsViewController: PCViewController {
                 downloadedCount += 1
             }
         }
-        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
+
         let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
-        let unsubscribeAction = OptionAction(label: label, icon: nil, action: { [weak self] in
-            self?.performUnsubscribe()
-        })
-        if downloadedCount > 0 {
-            unsubscribeAction.destructive = true
-            let message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
-            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: message, icon: "option-alert", actions: [unsubscribeAction])
+
+        if FeatureFlag.liquidGlass.enabled {
+            let title: String
+            let message: String?
+            if downloadedCount > 0 {
+                title = L10n.downloadedFilesConf(downloadedCount)
+                message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
+            } else {
+                title = L10n.areYouSure
+                message = nil
+            }
+
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: label, style: .destructive) { [weak self] _ in
+                self?.performUnsubscribe()
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            present(alert, animated: true)
         } else {
-            optionPicker.addAction(action: unsubscribeAction)
+            let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
+            let unsubscribeAction = OptionAction(label: label, icon: nil, action: { [weak self] in
+                self?.performUnsubscribe()
+            })
+            if downloadedCount > 0 {
+                unsubscribeAction.destructive = true
+                let message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
+                optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: message, icon: "option-alert", actions: [unsubscribeAction])
+            } else {
+                optionPicker.addAction(action: unsubscribeAction)
+            }
+            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
         }
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func performUnsubscribe() {

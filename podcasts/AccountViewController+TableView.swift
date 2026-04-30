@@ -224,22 +224,37 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     private func showSignOutWarning() {
         let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
 
-        let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
-            SignOutHelper.signout()
-            self?.navigationController?.popViewController(animated: true)
-        }
-        signOutAction.destructive = true
+        if FeatureFlag.liquidGlass.enabled {
+            let message: String?
+            if numSubscriptionPodcasts > 0 {
+                message = L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle
+            } else {
+                message = nil
+            }
 
-        if numSubscriptionPodcasts > 0 {
-            let options = OptionsPicker(title: "", iconTintStyle: .support05)
-            options.addDescriptiveActions(title: L10n.accountSignOut, message: L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle, icon: "signout", actions: [signOutAction])
-
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            let alert = UIAlertController(title: L10n.areYouSure, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.accountSignOut, style: .destructive) { [weak self] _ in
+                SignOutHelper.signout()
+                self?.navigationController?.popViewController(animated: true)
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            present(alert, animated: true)
         } else {
-            let options = OptionsPicker(title: L10n.areYouSure)
-            options.addAction(action: signOutAction)
+            let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
+                SignOutHelper.signout()
+                self?.navigationController?.popViewController(animated: true)
+            }
+            signOutAction.destructive = true
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            if numSubscriptionPodcasts > 0 {
+                let options = OptionsPicker(title: "", iconTintStyle: .support05)
+                options.addDescriptiveActions(title: L10n.accountSignOut, message: L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle, icon: "signout", actions: [signOutAction])
+                options.show(statusBarStyle: preferredStatusBarStyle)
+            } else {
+                let options = OptionsPicker(title: L10n.areYouSure)
+                options.addAction(action: signOutAction)
+                options.show(statusBarStyle: preferredStatusBarStyle)
+            }
         }
     }
 

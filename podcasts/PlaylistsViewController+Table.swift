@@ -174,28 +174,28 @@ extension PlaylistsViewController {
         let playlistType = playlist.manual ? "manual" : "smart"
         let analyticsProperties = ["filter_type": playlistType]
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
-        let delete = OptionAction(
-            label: L10n.delete,
-            icon: nil,
-            action: { [weak self] in
-                self?.delete(playlist: playlist, at: indexPath, in: tableView)
-            }
-        )
-        delete.destructive = true
 
-        let picker = OptionsPicker(title: "")
-        picker.addDescriptiveActions(
-            title: L10n.playlistsDeleteAlertTitle,
-            message: L10n.playlistsDeleteAlertMessage,
-            icon: "option-alert",
-            actions: [
-                delete
-            ]
-        )
-        picker.setNoActionCallback {
-            Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+        if FeatureFlag.liquidGlass.enabled {
+            let alert = UIAlertController(title: L10n.playlistsDeleteAlertTitle, message: L10n.playlistsDeleteAlertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
+                self?.delete(playlist: playlist, at: indexPath, in: tableView)
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
+                Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+            })
+            present(alert, animated: true)
+        } else {
+            let delete = OptionAction(label: L10n.delete, icon: nil, action: { [weak self] in
+                self?.delete(playlist: playlist, at: indexPath, in: tableView)
+            })
+            delete.destructive = true
+            let picker = OptionsPicker(title: "")
+            picker.addDescriptiveActions(title: L10n.playlistsDeleteAlertTitle, message: L10n.playlistsDeleteAlertMessage, icon: "option-alert", actions: [delete])
+            picker.setNoActionCallback {
+                Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
+            }
+            picker.show(statusBarStyle: .default)
         }
-        picker.show(statusBarStyle: .default)
     }
 
     fileprivate func delete(playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {

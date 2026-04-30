@@ -52,35 +52,55 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
     private func showLongPressMenu(_ touchPoint: CGPoint) {
         Analytics.track(.miniPlayerLongPressMenuShown)
 
-        let optionsPicker = OptionsPicker(title: nil)
-        let markAsPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") {
-            Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
-            if let episode = PlaybackManager.shared.currentEpisode() {
-                AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
-                EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+        if FeatureFlag.liquidGlass.enabled {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.markPlayedShort, style: .default) { [weak self] _ in
+                Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
+                if let episode = PlaybackManager.shared.currentEpisode() {
+                    guard let self else { return }
+                    AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
+                    EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+                }
+            })
+            alert.addAction(UIAlertAction(title: L10n.miniPlayerClose, style: .destructive) { [weak self] _ in
+                Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "close_and_clear_up_next"])
+                FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
+                self?.removeAllCustomObservers()
+                self?.hideMiniPlayer(true)
+                PlaybackManager.shared.endPlayback()
+                self?.addUINotificationObservers()
+            })
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
+                Analytics.track(.miniPlayerLongPressMenuDismissed)
+            })
+            present(alert, animated: true)
+        } else {
+            let optionsPicker = OptionsPicker(title: nil)
+            let markAsPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: "episode-markasplayed") {
+                Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
+                if let episode = PlaybackManager.shared.currentEpisode() {
+                    AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
+                    EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+                }
             }
+            optionsPicker.addAction(action: markAsPlayedAction)
+
+            let closeAction = OptionAction(label: L10n.miniPlayerClose, icon: "close") {
+                Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "close_and_clear_up_next"])
+                FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
+                self.removeAllCustomObservers()
+                self.hideMiniPlayer(true)
+                PlaybackManager.shared.endPlayback()
+                self.addUINotificationObservers()
+            }
+            closeAction.destructive = true
+            optionsPicker.addAction(action: closeAction)
+
+            optionsPicker.setNoActionCallback {
+                Analytics.track(.miniPlayerLongPressMenuDismissed)
+            }
+            optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
         }
-        optionsPicker.addAction(action: markAsPlayedAction)
-
-        let closeAction = OptionAction(label: L10n.miniPlayerClose, icon: "close") {
-            Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "close_and_clear_up_next"])
-
-            FileLog.shared.addMessage("Close and Clear Up Next pressed from the mini player")
-            self.removeAllCustomObservers()
-
-            self.hideMiniPlayer(true)
-            PlaybackManager.shared.endPlayback()
-
-            self.addUINotificationObservers()
-        }
-        closeAction.destructive = true
-        optionsPicker.addAction(action: closeAction)
-
-        optionsPicker.setNoActionCallback {
-            Analytics.track(.miniPlayerLongPressMenuDismissed)
-        }
-
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     @objc private func miniPlayerTapped() {

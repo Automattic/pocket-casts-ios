@@ -95,15 +95,24 @@ extension EpisodeDetailViewController {
 
     @IBAction func downloadTapped(_ sender: UIButton) {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
-            let yesAction = OptionAction(label: L10n.remove, icon: nil) {
-                self.deleteDownloadedFile()
-                self.updateColors()
+            if FeatureFlag.liquidGlass.enabled {
+                let alert = UIAlertController(title: L10n.podcastDetailsRemoveDownloadAlertTitle, message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.remove, style: .destructive) { [weak self] _ in
+                    self?.deleteDownloadedFile()
+                    self?.updateColors()
+                })
+                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+                present(alert, animated: true)
+            } else {
+                let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
+                let yesAction = OptionAction(label: L10n.remove, icon: nil) {
+                    self.deleteDownloadedFile()
+                    self.updateColors()
+                }
+                yesAction.destructive = true
+                confirmation.addAction(action: yesAction)
+                confirmation.show(statusBarStyle: preferredStatusBarStyle)
             }
-            yesAction.destructive = true
-            confirmation.addAction(action: yesAction)
-
-            confirmation.show(statusBarStyle: preferredStatusBarStyle)
         } else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
         } else {

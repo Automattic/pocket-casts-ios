@@ -763,6 +763,9 @@
 /* A common string used throughout the app. Prompt to warn the user that continuing with the download will consume data. Used in tandem with a notice that the user is not on WiFi. The word Settings will be linked to an internal URL which redirects the user to the correct Settings. The %@ is the placeholder for the URL */
 "download_data_warning_with_settings_link" = "This download will use mobile data. You can turn off this warning in [Settings](%@).";
 
+/* Alert message warning the user that downloading will use mobile data. */
+"download_data_warning_alert" = "This download will use mobile data. You can turn off this warning in Settings.";
+
 /* A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one. */
 "download_episode_plural_format" = "Download %1$@ Episodes";
 
@@ -1896,6 +1899,9 @@
 /* Confirmation prompt to remove the episode file for the selected podcast episode. */
 "podcast_details_remove_download" = "REMOVE DOWNLOADED FILE?";
 
+/* Alert title for removing the downloaded episode file. */
+"podcast_details_remove_download_alert_title" = "Remove Downloaded File?";
+
 /* Prompt to download the selected podcast now. */
 "podcast_download_now" = "Download Now";
 
@@ -2012,6 +2018,9 @@
 
 /* Prompt to warn the user that continuing with the option to stream will consume data. Used in tandem with a notice that the user is not on WiFi. */
 "podcast_stream_data_warning_with_settings" = "Streaming this episode will use data. You can turn off this warning in [Settings](%@).";
+
+/* Alert message warning the user that streaming will use data. */
+"podcast_stream_data_warning_alert" = "Streaming this episode will use data. You can turn off this warning in Settings.";
 
 /* Used to reference the episode was published this month. */
 "podcast_this_month" = "This Month";
