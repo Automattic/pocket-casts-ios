@@ -5,14 +5,11 @@ class CustomRefreshControl: UIRefreshControl {
 
     private var refreshInnerImage = UIImageView()
     private var refreshOuterImage = UIImageView()
-    private let innerStartingAngle = -90 as CGFloat
-    private let innerEndingAngle = 90 as CGFloat
-    private var innerRotationAngle = 0 as CGFloat
-    private var outerRotationAngle = 0 as CGFloat
-    private var pullDownAmountForRefresh = 170 as CGFloat
-    private var refreshLabel = UILabel()
-    private var isAnimating = false
-    private var didTriggerHaptic = true
+    private var innerRotationAngle: CGFloat = 0
+    private var outerRotationAngle: CGFloat = 0
+    private let pullDownAmountForRefresh: CGFloat = 170
+    private let refreshLabel = UILabel()
+
     var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
         didSet {
             refreshLabel.textColor = customTintColor
@@ -49,21 +46,11 @@ class CustomRefreshControl: UIRefreshControl {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func startRefreshing() {
-        beginRefreshing()
-        isAnimating = true
-        startRefreshAnimation()
-        perform?(self)
-    }
-
     override func endRefreshing() {
         super.endRefreshing()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            self?.endRefreshAnimation()
-            self?.isAnimating = false
-            self?.alpha = 0
-        }
+        endRefreshAnimation()
+        alpha = 0
     }
 
     func set(text: String) {
@@ -74,8 +61,8 @@ class CustomRefreshControl: UIRefreshControl {
         tintColor = .clear
 
         refreshLabel.text = L10n.refreshControlPullToRefresh
-        refreshLabel.textAlignment = NSTextAlignment.center
-        refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.semibold)
+        refreshLabel.textAlignment = .center
+        refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         refreshLabel.textColor = customTintColor
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshLabel)
@@ -90,7 +77,12 @@ class CustomRefreshControl: UIRefreshControl {
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
 
-        addTarget(self, action: #selector(beginRefreshing), for: .valueChanged)
+        addTarget(self, action: #selector(didTriggerRefresh), for: .valueChanged)
+    }
+
+    @objc private func didTriggerRefresh() {
+        startRefreshAnimation()
+        perform?(self)
     }
 
     override func updateConstraints() {
@@ -109,20 +101,20 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     private func startRefreshAnimation() {
-        let cfDuration = CFTimeInterval(1.0)
+        let duration: CFTimeInterval = 1.0
 
         let innerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
         innerRotation.fromValue = innerRotationAngle
         innerRotation.toValue = Double(innerRotationAngle) + (Double.pi * 2)
-        innerRotation.duration = cfDuration
-        innerRotation.repeatCount = Float.infinity
+        innerRotation.duration = duration
+        innerRotation.repeatCount = .infinity
         refreshInnerImage.layer.add(innerRotation, forKey: nil)
 
         let outerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
         outerRotation.fromValue = outerRotationAngle
         outerRotation.toValue = Double(outerRotationAngle) + (Double.pi * 2)
-        outerRotation.duration = cfDuration * 1.5
-        outerRotation.repeatCount = Float.infinity
+        outerRotation.duration = duration * 1.5
+        outerRotation.repeatCount = .infinity
         refreshOuterImage.layer.add(outerRotation, forKey: nil)
     }
 
@@ -148,7 +140,7 @@ extension CustomRefreshControl {
         notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.episodesFound, object: nil)
         notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.noEpisodesFound, object: nil)
 
-        if isAnimating {
+        if isRefreshing {
             endRefreshing()
         }
     }
@@ -181,52 +173,26 @@ extension CustomRefreshControl {
 
 extension CustomRefreshControl {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isRefreshing else { return }
+
         let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 100 {
-            didPullDown(scrollAmount)
-        }
-    }
+        guard scrollAmount > 100 else { return }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView) {
-        let scrollAmount = -scrollView.contentOffset.y
-        if scrollAmount > 0 {
-            didEndDraggingAt(scrollAmount)
-        }
-    }
+        let adjustedAmount = min(pullDownAmountForRefresh, scrollAmount)
+        let alphaValue = scrollAmount / pullDownAmountForRefresh
 
-    private func didPullDown(_ amount: CGFloat) {
-        if isAnimating {
-            return
-        }
-
-        let adjustedAmount = min(pullDownAmountForRefresh, amount)
-        let alphaValue = amount / pullDownAmountForRefresh
         if adjustedAmount < pullDownAmountForRefresh {
             refreshLabel.text = L10n.refreshControlPullToRefresh
-            didTriggerHaptic = false
         } else {
             refreshLabel.text = L10n.refreshControlReleaseToRefresh
-
-            // Only fire the haptic once per "release" state
-            if !didTriggerHaptic {
-                didTriggerHaptic = true
-
-                HapticsHelper.triggerPullToRefreshHaptic()
-            }
         }
 
-        innerRotationAngle = (amount * 4).degreesToRadians
+        innerRotationAngle = (scrollAmount * 4).degreesToRadians
         refreshInnerImage.transform = CGAffineTransform(rotationAngle: innerRotationAngle)
 
-        outerRotationAngle = (amount * 2).degreesToRadians
+        outerRotationAngle = (scrollAmount * 2).degreesToRadians
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
 
-        alpha = amount >= 150.0 ? alphaValue : 0.0
-    }
-
-    private func didEndDraggingAt(_ position: CGFloat) {
-        if position > pullDownAmountForRefresh {
-            startRefreshing()
-        }
+        alpha = scrollAmount >= 150.0 ? alphaValue : 0.0
     }
 }

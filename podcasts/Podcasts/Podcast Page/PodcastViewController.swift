@@ -354,12 +354,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidEndDragging(scrollView)
-        }
-    }
-
     private func setupLogin() {
         podcastRatingViewModel.presentLogin = { [weak self] viewModel in
             self?.showLogin(message: L10n.ratingLoginRequired)
