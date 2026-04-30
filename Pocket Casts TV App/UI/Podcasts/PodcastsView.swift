@@ -60,12 +60,14 @@ struct PodcastsView: View {
     }
 
     var podcastsView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 40) {
-                Text(L10n.tvTabPodcasts)
-                    .font(.title)
-                    .foregroundStyle(Color.textPrimary)
-                podcastGrid
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 40) {
+                    Text(L10n.tvTabPodcasts)
+                        .font(.title)
+                        .foregroundStyle(Color.textPrimary)
+                    podcastGrid
+                }
             }
         }
     }
@@ -85,18 +87,19 @@ struct PodcastsView: View {
     var podcastGrid: some View {
         LazyVGrid(columns: items, spacing: 48, content: {
             ForEach(model.podcasts) { podcast in
-                Button() {
-
-                } label: {
-                    Image(podcast.image)
-                        .resizable()
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                NavigationLink(value: podcast) {
+                        Image(podcast.image)
+                            .resizable()
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
                 .buttonStyle(.card)
                 .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
             }
         })
         .focusScope(podcastGridNamespace)
+        .navigationDestination(for: MockPodcast.self) { podcast in
+            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+        }
     }
 }
 
