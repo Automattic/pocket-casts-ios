@@ -104,19 +104,34 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
             )
         }
         if !availableRules.isEmpty {
-            DisclosureGroup(isExpanded: $isExpanded) {
+            Button {
+                withAnimation(.default) {
+                    isExpanded.toggle()
+                }
+            } label: {
+                HStack {
+                    Text(L10n.playlistSmartPreviewMoreRules)
+                        .font(size: 22.0, style: .title2, weight: .bold)
+                        .foregroundStyle(theme.primaryText01)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 14.0, weight: .semibold))
+                        .foregroundStyle(theme.primaryIcon01)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 16)
+            .listRowClearStyle()
+
+            if isExpanded {
                 SmartPlaylistRulesSectionView(
                     rules: availableRules,
                     viewModel: viewModel,
                     action: viewModel.action
                 )
-            } label: {
-                Text(L10n.playlistSmartPreviewMoreRules)
-                    .font(size: 22.0, style: .title2, weight: .bold)
-                    .foregroundStyle(theme.primaryText01)
             }
-            .accentColor(theme.primaryIcon01)
-            .animation(.default, value: isExpanded)
         }
     }
 }
