@@ -39,6 +39,7 @@ struct SigningInView: View {
             Image(ImageResource.pcLogo)
             Text(L10n.tvSigningInTitle)
                 .font(.title)
+                .foregroundStyle(Color.textPrimary)
             Text(L10n.tvSigningInSubtitle)
                 .font(.headline)
                 .foregroundStyle(Color.textSecondary)

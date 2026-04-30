@@ -5938,6 +5938,13 @@
 /* tv signing in subtitle */
 "tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
 
+/* tv podcasts_empty title */
+"tv_podcasts_empty_title" = "Time to add some podcasts!";
 
+/* tv podcasts_empty subtitle */
+"tv_podcasts_empty_subtitle" = "Follow some podcasts from the Home page";
+
+/* tv podcasts_empty button action title */
+"tv_podcasts_empty_action_title" = "Add podcasts";
 
 

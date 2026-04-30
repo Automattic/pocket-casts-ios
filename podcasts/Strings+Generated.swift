@@ -4251,6 +4251,12 @@ internal enum L10n {
   internal static var tvCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_create_account_subtitle", fallback: "Scan this code to get started on your phone, it only takes a minute.") }
   /// tv create account title
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
+  /// tv podcasts_empty button action title
+  internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Add podcasts") }
+  /// tv podcasts_empty subtitle
+  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Follow some podcasts from the Home page") }
+  /// tv podcasts_empty title
+  internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to add some podcasts!") }
   /// tv sign enter code
   internal static var tvSignInEnterCode: String { return L10n.tr("Localizable", "tv_sign_in_enter_code", fallback: "or enter the following code") }
   /// tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code
