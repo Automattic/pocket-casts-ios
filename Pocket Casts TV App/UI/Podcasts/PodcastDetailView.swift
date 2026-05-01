@@ -118,7 +118,9 @@ struct PodcastDetailView: View {
                 }
             }
             .navigationDestination(for: MockEpisode.self) { episode in
-                Text(episode.title)
+                Button(episode.title) {
+                    
+                }
             }
             .padding(24)
         }
