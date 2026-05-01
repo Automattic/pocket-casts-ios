@@ -173,7 +173,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
             if FeatureFlag.liquidGlass.enabled {
                 let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
-                let title = onWifi ? L10n.downloadAll : L10n.notOnWifi
+                let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
                 var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
                 if !onWifi, !Settings.mobileDataAllowed() {
                     message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)
@@ -269,11 +269,12 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let actionLabel = episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized())
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: title, message: L10n.podcastArchivePromptMsg, preferredStyle: .alert)
+            let alertTitle = playedOnly ? L10n.alertArchiveAllPlayed : L10n.alertArchiveAll
+            let alert = UIAlertController(title: alertTitle, message: L10n.podcastArchivePromptMsg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             alert.addAction(UIAlertAction(title: actionLabel, style: .destructive) { _ in
                 podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
             })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             present(alert, animated: true)
         } else {
             let archiveAllConfirm = OptionsPicker(title: nil)

@@ -461,13 +461,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.playerMarkAsPlayedConfirmation, message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.markPlayedShort, style: .destructive) { [weak self] _ in
+            let alert = UIAlertController(title: L10n.playerMarkAsPlayedAlertTitle, message: L10n.playerMarkAsPlayedAlertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            alert.addAction(UIAlertAction(title: L10n.markPlayed, style: .destructive) { [weak self] _ in
                 guard let self else { return }
                 AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             present(alert, animated: true)
         } else {
             let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
@@ -494,11 +494,11 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.playerArchivedConfirmation, message: nil, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.playerArchivedConfirmation, message: L10n.playerArchiveAlertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             alert.addAction(UIAlertAction(title: L10n.archive, style: .destructive) { _ in
                 EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
             })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             present(alert, animated: true)
         } else {
             let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)

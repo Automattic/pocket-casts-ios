@@ -355,7 +355,7 @@ extension FilterEditOptionsViewController {
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.playlistsDeleteAlertTitle, message: L10n.playlistsDeleteAlertMessage, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertDeletePlaylist, message: L10n.playlistsDeleteAlertMessage, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
                 self?.delete(playlist: playlist)
             })

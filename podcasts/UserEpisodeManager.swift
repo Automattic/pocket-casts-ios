@@ -260,7 +260,15 @@ struct UserEpisodeManager {
             }
 
             if FeatureFlag.liquidGlass.enabled {
-                let alert = UIAlertController(title: title, message: L10n.deleteFileMessage, preferredStyle: .alert)
+                let alertTitle: String
+                if episode.uploaded(), !episode.downloaded(pathFinder: DownloadManager.shared) {
+                    alertTitle = L10n.alertDeleteFromCloud
+                } else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
+                    alertTitle = L10n.alertDeleteFromDevice
+                } else {
+                    alertTitle = L10n.alertDeleteFile
+                }
+                let alert = UIAlertController(title: alertTitle, message: L10n.deleteFileMessage, preferredStyle: .alert)
 
                 if episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
                     alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .default) { _ in

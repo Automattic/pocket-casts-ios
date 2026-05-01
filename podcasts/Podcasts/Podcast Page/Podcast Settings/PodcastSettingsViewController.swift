@@ -111,15 +111,15 @@ class PodcastSettingsViewController: PCViewController {
                 title = L10n.downloadedFilesConf(downloadedCount)
                 message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
             } else {
-                title = L10n.areYouSure
+                title = L10n.alertAreYouSure
                 message = nil
             }
 
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             alert.addAction(UIAlertAction(title: label, style: .destructive) { [weak self] _ in
                 self?.performUnsubscribe()
             })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             present(alert, animated: true)
         } else {
             let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)

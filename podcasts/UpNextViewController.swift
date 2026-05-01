@@ -239,7 +239,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             performClearAll()
         } else if FeatureFlag.liquidGlass.enabled {
             let actionLabel = actionLabelText(queueCount)
-            let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertClearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: actionLabel, style: .destructive) { [weak self] _ in
                 self?.performClearAll()
             })

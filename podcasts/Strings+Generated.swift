@@ -134,6 +134,10 @@ internal enum L10n {
   internal static var accountSelectType: String { return L10n.tr("Localizable", "account_select_type", fallback: "Select Account Type") }
   /// Prompt to allow the user to sign out of their account.
   internal static var accountSignOut: String { return L10n.tr("Localizable", "account_sign_out", fallback: "Sign Out") }
+  /// Message for the sign out confirmation alert
+  internal static var accountSignOutAlertMessage: String { return L10n.tr("Localizable", "account_sign_out_alert_message", fallback: "Your podcasts, progress, and data will be here when you get back.") }
+  /// Title for the sign out confirmation alert
+  internal static var accountSignOutAlertTitle: String { return L10n.tr("Localizable", "account_sign_out_alert_title", fallback: "Sign out?") }
   /// Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. '%1$@' is a placeholder for the number of supported podcasts.
   internal static func accountSignOutSupporterPrompt(_ p1: Any) -> String {
     return L10n.tr("Localizable", "account_sign_out_supporter_prompt", String(describing: p1), fallback: "Signing out will remove %1$@ supported podcasts from this device. Are you sure?")
@@ -162,6 +166,40 @@ internal enum L10n {
   internal static var addToUpNext: String { return L10n.tr("Localizable", "add_to_up_next", fallback: "Add to Up Next") }
   /// A common string used throughout the app. Option that determines the behavior of the app after playing an item.
   internal static var afterPlaying: String { return L10n.tr("Localizable", "after_playing", fallback: "After Playing") }
+  /// Alert title for archiving all episodes
+  internal static var alertArchiveAll: String { return L10n.tr("Localizable", "alert_archive_all", fallback: "Archive all?") }
+  /// Alert title for archiving all played episodes
+  internal static var alertArchiveAllPlayed: String { return L10n.tr("Localizable", "alert_archive_all_played", fallback: "Archive all played?") }
+  /// Alert title for confirming an action
+  internal static var alertAreYouSure: String { return L10n.tr("Localizable", "alert_are_you_sure", fallback: "Are you sure?") }
+  /// Alert title for cleaning up downloaded files
+  internal static var alertCleanUp: String { return L10n.tr("Localizable", "alert_clean_up", fallback: "Clean up?") }
+  /// Alert title for clearing listening history
+  internal static var alertClearListeningHistory: String { return L10n.tr("Localizable", "alert_clear_listening_history", fallback: "Clear listening history?") }
+  /// Alert title for clearing Up Next
+  internal static var alertClearUpNext: String { return L10n.tr("Localizable", "alert_clear_up_next", fallback: "Clear Up Next?") }
+  /// Alert title for deleting a file
+  internal static var alertDeleteFile: String { return L10n.tr("Localizable", "alert_delete_file", fallback: "Delete file?") }
+  /// Alert title for deleting from cloud
+  internal static var alertDeleteFromCloud: String { return L10n.tr("Localizable", "alert_delete_from_cloud", fallback: "Delete from cloud?") }
+  /// Alert title for deleting from device
+  internal static var alertDeleteFromDevice: String { return L10n.tr("Localizable", "alert_delete_from_device", fallback: "Delete from device?") }
+  /// Alert title for deleting a playlist
+  internal static var alertDeletePlaylist: String { return L10n.tr("Localizable", "alert_delete_playlist", fallback: "Delete playlist?") }
+  /// Alert title for downloading all episodes
+  internal static var alertDownloadAll: String { return L10n.tr("Localizable", "alert_download_all", fallback: "Download all?") }
+  /// Alert title for playing all episodes
+  internal static var alertPlayAll: String { return L10n.tr("Localizable", "alert_play_all", fallback: "Play all?") }
+  /// Alert action button for subscribing to all podcasts in a shared list
+  internal static var alertSharedListSubscribeAction: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_action", fallback: "Subscribe to All") }
+  /// Alert message for subscribing to a shared podcast list
+  internal static var alertSharedListSubscribeMessage: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_message", fallback: "They’ll all show up in Your Podcasts.") }
+  /// Alert title for subscribing to a shared podcast list. '%1$@' is a placeholder for the number of podcasts.
+  internal static func alertSharedListSubscribeTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "alert_shared_list_subscribe_title", String(describing: p1), fallback: "%1$@ podcasts incoming.")
+  }
+  /// Alert title for unsubscribing from a podcast
+  internal static var alertUnsubscribe: String { return L10n.tr("Localizable", "alert_unsubscribe", fallback: "Unsubscribe?") }
   /// Search Results filter option
   internal static var allResults: String { return L10n.tr("Localizable", "all_results", fallback: "Top Results") }
   /// Autoplay feature announcement description
@@ -2374,6 +2412,8 @@ internal enum L10n {
   internal static var playerActionTitleUnstarEpisode: String { return L10n.tr("Localizable", "player_action_title_unstar_episode", fallback: "Unstar Episode") }
   /// Title for a page where you can rearrange common actions (eg sort/reorder and move the ones you like more to the top)
   internal static var playerActionsRearrangeTitle: String { return L10n.tr("Localizable", "player_actions_rearrange_title", fallback: "Rearrange Actions") }
+  /// Message for the archive episode confirmation alert
+  internal static var playerArchiveAlertMessage: String { return L10n.tr("Localizable", "player_archive_alert_message", fallback: "Hidden from your feed, not deleted.") }
   /// Confirmation prompt for archiving an episode.
   internal static var playerArchivedConfirmation: String { return L10n.tr("Localizable", "player_archived_confirmation", fallback: "Archive this episode?") }
   /// Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title.
@@ -2410,6 +2450,10 @@ internal enum L10n {
   internal static var playerErrorShortPlaybackError: String { return L10n.tr("Localizable", "player_error_short_playback_error", fallback: "Playback failed, please try again") }
   /// Accessibility label for the player control that fast-forwards the current playback position by a customizable time.
   internal static var playerIncrementTime: String { return L10n.tr("Localizable", "player_increment_time", fallback: "Increment time") }
+  /// Message for the mark as played confirmation alert
+  internal static var playerMarkAsPlayedAlertMessage: String { return L10n.tr("Localizable", "player_mark_as_played_alert_message", fallback: "It’ll move out of Up Next and into your history.") }
+  /// Title for the mark as played confirmation alert
+  internal static var playerMarkAsPlayedAlertTitle: String { return L10n.tr("Localizable", "player_mark_as_played_alert_title", fallback: "Mark as played?") }
   /// Confirmation prompt for marking an episode as played.
   internal static var playerMarkAsPlayedConfirmation: String { return L10n.tr("Localizable", "player_mark_as_played_confirmation", fallback: "Mark this episode as played?") }
   /// Warning that comes along with selecting to play all. Informs the user that their queue will be cleared.
@@ -2843,8 +2887,12 @@ internal enum L10n {
   internal static var podcastDetailsQueued: String { return L10n.tr("Localizable", "podcast_details_queued", fallback: "Queued") }
   /// Confirmation prompt to remove the episode file for the selected podcast episode.
   internal static var podcastDetailsRemoveDownload: String { return L10n.tr("Localizable", "podcast_details_remove_download", fallback: "REMOVE DOWNLOADED FILE?") }
+  /// Message for the remove downloaded file confirmation alert. '%1$@' is a placeholder for the file size (e.g. '42 MB').
+  internal static func podcastDetailsRemoveDownloadAlertMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "podcast_details_remove_download_alert_message", String(describing: p1), fallback: "This frees up %1$@. You can re-download anytime.")
+  }
   /// Alert title for removing the downloaded episode file.
-  internal static var podcastDetailsRemoveDownloadAlertTitle: String { return L10n.tr("Localizable", "podcast_details_remove_download_alert_title", fallback: "Remove Downloaded File?") }
+  internal static var podcastDetailsRemoveDownloadAlertTitle: String { return L10n.tr("Localizable", "podcast_details_remove_download_alert_title", fallback: "Remove downloaded file?") }
   /// Prompt to download the selected podcast now.
   internal static var podcastDownloadNow: String { return L10n.tr("Localizable", "podcast_download_now", fallback: "Download Now") }
   /// Indicates that a file is being downloaded and includes the completed percentage. '%1$@' is a placeholder for percentage that has been downloaded so far.

@@ -124,6 +124,51 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title for the sign out confirmation alert */
+"account_sign_out_alert_title" = "Sign out?";
+
+/* Message for the sign out confirmation alert */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you get back.";
+
+/* Alert title for confirming an action */
+"alert_are_you_sure" = "Are you sure?";
+
+/* Alert title for archiving all episodes */
+"alert_archive_all" = "Archive all?";
+
+/* Alert title for archiving all played episodes */
+"alert_archive_all_played" = "Archive all played?";
+
+/* Alert title for cleaning up downloaded files */
+"alert_clean_up" = "Clean up?";
+
+/* Alert title for clearing Up Next */
+"alert_clear_up_next" = "Clear Up Next?";
+
+/* Alert title for clearing listening history */
+"alert_clear_listening_history" = "Clear listening history?";
+
+/* Alert title for deleting a file */
+"alert_delete_file" = "Delete file?";
+
+/* Alert title for deleting from cloud */
+"alert_delete_from_cloud" = "Delete from cloud?";
+
+/* Alert title for deleting from device */
+"alert_delete_from_device" = "Delete from device?";
+
+/* Alert title for deleting a playlist */
+"alert_delete_playlist" = "Delete playlist?";
+
+/* Alert title for downloading all episodes */
+"alert_download_all" = "Download all?";
+
+/* Alert title for playing all episodes */
+"alert_play_all" = "Play all?";
+
+/* Alert title for unsubscribing from a podcast */
+"alert_unsubscribe" = "Unsubscribe?";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
@@ -1537,6 +1582,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message for the archive episode confirmation alert */
+"player_archive_alert_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1563,6 +1611,12 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Title for the mark as played confirmation alert */
+"player_mark_as_played_alert_title" = "Mark as played?";
+
+/* Message for the mark as played confirmation alert */
+"player_mark_as_played_alert_message" = "It\U2019ll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";
@@ -1900,7 +1954,10 @@
 "podcast_details_remove_download" = "REMOVE DOWNLOADED FILE?";
 
 /* Alert title for removing the downloaded episode file. */
-"podcast_details_remove_download_alert_title" = "Remove Downloaded File?";
+"podcast_details_remove_download_alert_title" = "Remove downloaded file?";
+
+/* Message for the remove downloaded file confirmation alert. '%1$@' is a placeholder for the file size (e.g. '42 MB'). */
+"podcast_details_remove_download_alert_message" = "This frees up %1$@. You can re-download anytime.";
 
 /* Prompt to download the selected podcast now. */
 "podcast_download_now" = "Download Now";
@@ -3000,6 +3057,15 @@
 
 /* Title for a dialog presented when a user selects to subscribe to all podcasts in a list. */
 "shared_list_subscribe_conf_title" = "That's a lot of podcasts!";
+
+/* Alert title for subscribing to a shared podcast list. '%1$@' is a placeholder for the number of podcasts. */
+"alert_shared_list_subscribe_title" = "%1$@ podcasts incoming.";
+
+/* Alert message for subscribing to a shared podcast list */
+"alert_shared_list_subscribe_message" = "They\U2019ll all show up in Your Podcasts.";
+
+/* Alert action button for subscribing to all podcasts in a shared list */
+"alert_shared_list_subscribe_action" = "Subscribe to All";
 
 /* A common string used throughout the app. Refers to the Notes (show notes) tab in the player. */
 "show_notes" = "Notes";

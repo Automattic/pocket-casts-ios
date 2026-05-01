@@ -162,7 +162,7 @@ class ListeningHistoryViewController: PCViewController {
 
     @objc func clearTapped() {
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertClearListeningHistory, message: L10n.historyClearAllDetailsMsg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.historyClearAll, style: .destructive) { [weak self] _ in
                 Analytics.track(.listeningHistoryCleared)
                 DataManager.sharedManager.clearAllEpisodePlayInteractions()

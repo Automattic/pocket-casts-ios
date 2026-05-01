@@ -156,7 +156,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     private func confirmCleanup() {
         Analytics.track(.downloadsCleanUpButtonTapped)
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.cleanUp, message: L10n.downloadedFilesCleanupConfirmation, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertCleanUp, message: L10n.downloadedFilesCleanupConfirmation, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
                 self?.performDelete()
             })

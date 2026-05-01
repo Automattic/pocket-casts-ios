@@ -54,7 +54,7 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
 
         if FeatureFlag.liquidGlass.enabled {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.markPlayedShort, style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: L10n.markPlayed, style: .default) { [weak self] _ in
                 Analytics.track(.miniPlayerLongPressMenuOptionTapped, properties: ["option": "mark_played"])
                 if let episode = PlaybackManager.shared.currentEpisode() {
                     guard let self else { return }

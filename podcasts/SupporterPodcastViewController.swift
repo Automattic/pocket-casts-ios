@@ -305,7 +305,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.paidPodcastCancelMsgRetainAccess(expiryDateStr)
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.areYouSure, message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertAreYouSure, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.paidPodcastCancel, style: .destructive) { [weak self] _ in
                 self?.performCancel()
             })
@@ -470,7 +470,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
 
     @objc func unsubscribeWarning() {
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.unsubscribe, message: L10n.paidPodcastUnsubscribeMsg, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertUnsubscribe, message: L10n.paidPodcastUnsubscribeMsg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.unsubscribeAll, style: .destructive) { [weak self] _ in
                 self?.unsubscribeAll()
             })

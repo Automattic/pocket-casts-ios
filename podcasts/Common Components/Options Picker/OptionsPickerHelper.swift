@@ -11,7 +11,7 @@ class OptionsPickerHelper {
         let playableEpisodesLabel = episodeCount == 1 ? L10n.playerOptionsPlayEpisodeSingular : L10n.playerOptionsPlayEpisodesPlural(episodeCount.localized())
 
         if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.playAll, message: L10n.playerOptionsPlayAllMessage, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.alertPlayAll, message: L10n.playerOptionsPlayAllMessage, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: playableEpisodesLabel, style: .default) { _ in
                 confirmAction()
             })

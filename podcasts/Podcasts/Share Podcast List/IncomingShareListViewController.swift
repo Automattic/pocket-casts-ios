@@ -79,11 +79,11 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     @IBAction func subscribeToAllTapped(_ sender: AnyObject) {
         if podcasts.count > 2 {
             if FeatureFlag.liquidGlass.enabled {
-                let alert = UIAlertController(title: L10n.sharedListSubscribeConfTitle, message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: L10n.sharedListSubscribeConfAction, style: .default) { [weak self] _ in
+                let alert = UIAlertController(title: L10n.alertSharedListSubscribeTitle(podcasts.count.localized()), message: L10n.alertSharedListSubscribeMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+                alert.addAction(UIAlertAction(title: L10n.alertSharedListSubscribeAction, style: .default) { [weak self] _ in
                     self?.performSubscribeAll()
                 })
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
                 present(alert, animated: true)
             } else {
                 let optionPicker = OptionsPicker(title: nil)

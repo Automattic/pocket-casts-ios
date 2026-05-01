@@ -78,7 +78,7 @@ class MultiSelectHelper {
             let alert: UIAlertController
 
             if downloadedEpisodes.isEmpty {
-                title = L10n.deleteFromCloud
+                title = L10n.alertDeleteFromCloud
                 warningMessage = deleteFileMessage(uploadedEpisodes.count)
                 alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: L10n.deleteFromCloud, style: .destructive) { _ in
@@ -90,7 +90,7 @@ class MultiSelectHelper {
                     }
                 })
             } else if uploadedEpisodes.isEmpty {
-                title = L10n.deleteFromDevice
+                title = L10n.alertDeleteFromDevice
                 warningMessage = deleteFileMessage(downloadedEpisodes.count)
                 alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .destructive) { _ in
@@ -102,7 +102,7 @@ class MultiSelectHelper {
                     }
                 })
             } else {
-                title = L10n.deleteFile
+                title = L10n.alertDeleteFile
                 warningMessage = deleteFileMessage(downloadedEpisodes.count)
                 alert = UIAlertController(title: title, message: warningMessage, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .default) { _ in
@@ -280,7 +280,7 @@ class MultiSelectHelper {
         let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
 
         if FeatureFlag.liquidGlass.enabled {
-            let title = onWifi ? L10n.download : L10n.notOnWifi
+            let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
             var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
             if !onWifi, !Settings.mobileDataAllowed() {
                 message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)

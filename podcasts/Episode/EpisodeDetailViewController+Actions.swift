@@ -96,12 +96,13 @@ extension EpisodeDetailViewController {
     @IBAction func downloadTapped(_ sender: UIButton) {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             if FeatureFlag.liquidGlass.enabled {
-                let alert = UIAlertController(title: L10n.podcastDetailsRemoveDownloadAlertTitle, message: nil, preferredStyle: .alert)
+                let sizeStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
+                let alert = UIAlertController(title: L10n.podcastDetailsRemoveDownloadAlertTitle, message: L10n.podcastDetailsRemoveDownloadAlertMessage(sizeStr), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
                 alert.addAction(UIAlertAction(title: L10n.remove, style: .destructive) { [weak self] _ in
                     self?.deleteDownloadedFile()
                     self?.updateColors()
                 })
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
                 present(alert, animated: true)
             } else {
                 let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)

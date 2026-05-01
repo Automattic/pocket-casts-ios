@@ -225,19 +225,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
 
         if FeatureFlag.liquidGlass.enabled {
-            let message: String?
-            if numSubscriptionPodcasts > 0 {
-                message = L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle
-            } else {
-                message = nil
-            }
-
-            let alert = UIAlertController(title: L10n.areYouSure, message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.accountSignOutAlertTitle, message: L10n.accountSignOutAlertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             alert.addAction(UIAlertAction(title: L10n.accountSignOut, style: .destructive) { [weak self] _ in
                 SignOutHelper.signout()
                 self?.navigationController?.popViewController(animated: true)
             })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             present(alert, animated: true)
         } else {
             let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
