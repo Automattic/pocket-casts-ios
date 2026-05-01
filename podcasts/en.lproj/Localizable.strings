@@ -5950,6 +5950,9 @@
 /* tv podcast details follow button title */
 "tv_podcast_detail_follow_title" = "Follow this podcast";
 
+/* tv podcast details following button title */
+"tv_podcast_detail_following_title" = "Following";
+
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
 
@@ -5989,7 +5992,29 @@
 /* tv home new releases section title */
 "tv_home_new_releases" = "New releases";
 
+/* tv player playback speed menu title */
+"tv_player_playback_speed" = "Playback speed";
 
+/* tv player playback effects menu title */
+"tv_player_playback_effects" = "Playback effects";
+
+/* tv player volume boost toggle title */
+"tv_player_volume_boost" = "Volume boost";
+
+/* tv player trim silence section title */
+"tv_player_trim_silence" = "Trim silence";
+
+/* tv player trim silence off option */
+"tv_player_trim_silence_off" = "Off";
+
+/* tv player trim silence mild option */
+"tv_player_trim_silence_mild" = "Mild";
+
+/* tv player trim silence medium option */
+"tv_player_trim_silence_medium" = "Medium";
+
+/* tv player trim silence mad max option */
+"tv_player_trim_silence_mad_max" = "Mad Max";
 
 
 

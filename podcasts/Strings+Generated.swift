@@ -4259,6 +4259,22 @@ internal enum L10n {
   internal static var tvHomeRecentlyPlayed: String { return L10n.tr("Localizable", "tv_home_recently_played", fallback: "Recently played") }
   /// tv home recommended for you title
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
+  /// tv player playback effects menu title
+  internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
+  /// tv player playback speed menu title
+  internal static var tvPlayerPlaybackSpeed: String { return L10n.tr("Localizable", "tv_player_playback_speed", fallback: "Playback speed") }
+  /// tv player trim silence section title
+  internal static var tvPlayerTrimSilence: String { return L10n.tr("Localizable", "tv_player_trim_silence", fallback: "Trim silence") }
+  /// tv player trim silence mad max option
+  internal static var tvPlayerTrimSilenceMadMax: String { return L10n.tr("Localizable", "tv_player_trim_silence_mad_max", fallback: "Mad Max") }
+  /// tv player trim silence medium option
+  internal static var tvPlayerTrimSilenceMedium: String { return L10n.tr("Localizable", "tv_player_trim_silence_medium", fallback: "Medium") }
+  /// tv player trim silence mild option
+  internal static var tvPlayerTrimSilenceMild: String { return L10n.tr("Localizable", "tv_player_trim_silence_mild", fallback: "Mild") }
+  /// tv player trim silence off option
+  internal static var tvPlayerTrimSilenceOff: String { return L10n.tr("Localizable", "tv_player_trim_silence_off", fallback: "Off") }
+  /// tv player volume boost toggle title
+  internal static var tvPlayerVolumeBoost: String { return L10n.tr("Localizable", "tv_player_volume_boost", fallback: "Volume boost") }
   /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.
   internal static func tvPlaylistDetailEpisodeCount(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_playlist_detail_episode_count", String(describing: p1), fallback: "%1$@ episodes")
@@ -4275,6 +4291,8 @@ internal enum L10n {
   internal static var tvPodcastDetailAllEpisodes: String { return L10n.tr("Localizable", "tv_podcast_detail_all_episodes", fallback: "All episodes") }
   /// tv podcast details follow button title
   internal static var tvPodcastDetailFollowTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_follow_title", fallback: "Follow this podcast") }
+  /// tv podcast details following button title
+  internal static var tvPodcastDetailFollowingTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_following_title", fallback: "Following") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
   /// tv podcast detail recommended episode section title

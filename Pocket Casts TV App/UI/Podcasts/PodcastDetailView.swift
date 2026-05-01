@@ -33,14 +33,26 @@ class PodcastDetailViewModel {
             }
     }
 
-    func follow() {
+    var isFollowing: Bool = false
 
+    func follow() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            isFollowing.toggle()
+        }
     }
 }
 
 struct PodcastDetailView: View {
 
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
     let model: PodcastDetailViewModel
+    @FocusState private var focusedSection: FocusSection?
+
+    enum FocusSection: Hashable {
+        case episodes
+    }
 
     enum Layout {
         static let podcastImageSize = CGFloat(418)
@@ -59,6 +71,9 @@ struct PodcastDetailView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .defaultFocus($focusedSection, .episodes)
+        .onAppear { tabRouter.isShowingDetail = true }
+        .onDisappear { tabRouter.isShowingDetail = false }
         .task {
             model.load()
         }
@@ -97,8 +112,11 @@ struct PodcastDetailView: View {
                 Button() {
                     model.follow()
                 } label: {
-                    Text(L10n.tvPodcastDetailFollowTitle)
-                        .font(.caption2)
+                    Label(
+                        model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle,
+                        systemImage: model.isFollowing ? "checkmark" : "plus"
+                    )
+                    .font(.caption2)
                 }
                 Button() {
                     model.follow()
@@ -108,6 +126,7 @@ struct PodcastDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .focusSection()
     }
 
@@ -154,11 +173,13 @@ struct PodcastDetailView: View {
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
         }
+        .focused($focusedSection, equals: .episodes)
     }
 }
 
 #Preview {
+    let router = MainTabRouter()
     PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makePodcasts().first!))
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(router)
 }

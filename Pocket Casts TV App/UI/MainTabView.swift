@@ -64,6 +64,7 @@ struct CenterButton: View {
 @Observable
 final class MainTabRouter {
     var selectedTab: MainTab = .home
+    var isShowingDetail: Bool = false
 }
 
 struct MainTabView: View {
@@ -111,17 +112,20 @@ struct MainTabView: View {
         }
     }
 
+    @ViewBuilder
     var accessoryView: some View {
-        VStack() {
-            HStack() {
-                leftAccessory
+        if !tabSelection.isShowingDetail {
+            VStack() {
+                HStack() {
+                    leftAccessory
+                    Spacer()
+                    rightAccessory
+                }
+                .padding(.vertical, 48)
+                .padding(.horizontal, 84)
+                .offset(x: 0, y: -scrollOffset)
                 Spacer()
-                rightAccessory
             }
-            .padding(.vertical, 48)
-            .padding(.horizontal, 84)
-            .offset(x: 0, y: -scrollOffset)
-            Spacer()
         }
     }
 

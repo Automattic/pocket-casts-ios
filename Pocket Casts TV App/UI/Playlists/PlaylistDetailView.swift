@@ -62,7 +62,13 @@ class PlaylistDetailViewModel {
 
 struct PlaylistDetailView: View {
 
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
     let model: PlaylistDetailViewModel
+    @FocusState private var focusedSection: FocusSection?
+
+    enum FocusSection: Hashable {
+        case episodes
+    }
 
     enum Layout {
         static let mosaicSize = CGFloat(418)
@@ -81,6 +87,9 @@ struct PlaylistDetailView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .defaultFocus($focusedSection, .episodes)
+        .onAppear { tabRouter.isShowingDetail = true }
+        .onDisappear { tabRouter.isShowingDetail = false }
         .task {
             model.load()
         }
@@ -163,11 +172,13 @@ struct PlaylistDetailView: View {
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
         }
+        .focused($focusedSection, equals: .episodes)
     }
 }
 
 #Preview {
+    let router = MainTabRouter()
     PlaylistDetailView(model: PlaylistDetailViewModel(playlist: MockData.makePlaylists().first!))
         .environment(AppCoordinator())
-        .environment(MainTabRouter())
+        .environment(router)
 }
