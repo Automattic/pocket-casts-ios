@@ -63,7 +63,7 @@ struct PlaylistsView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.playlists)
+                    Text(L10n.tvTabPlaylists)
                         .font(.title)
                         .foregroundStyle(Color.textPrimary)
                     playlistsCollection
@@ -91,11 +91,22 @@ struct PlaylistsView: View {
                     PlaylistCell(playlist: playlist)
                 }
                 .buttonStyle(.card)
+                .prefersDefaultFocus(playlist.id == model.playlists.first?.id, in: listNamespace)
             }
         })
         .focusScope(listNamespace)
         .navigationDestination(for: MockPlaylist.self) { playlist in
+            VStack {
+                Button {
 
+                } label: {
+                    Text("Playlist \(playlist.title) details coming soon")
+                        .font(.title2)
+                        .foregroundStyle(Color.textPrimary)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .padding()
         }
     }
 }

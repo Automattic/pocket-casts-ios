@@ -17,12 +17,14 @@ struct PlaylistCell: View {
                 Text(playlist.title)
                     .font(.headline)
                     .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
-                Text(playlist.manual ? " " : L10n.smartPlaylist)
-                    .font(.caption)
-                    .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                if playlist.manual {
+                    Text(L10n.smartPlaylist)
+                        .font(.caption)
+                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text( L10n.playlistEpisodesCount(playlist.episodes.count))
+                    Text(L10n.playlistEpisodesCount(playlist.episodes.count))
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                     Spacer()

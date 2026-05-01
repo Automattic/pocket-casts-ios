@@ -118,8 +118,14 @@ struct PodcastDetailView: View {
                 }
             }
             .navigationDestination(for: MockEpisode.self) { episode in
-                Button(episode.title) {
-                    
+                VStack {
+                    Button {
+
+                    } label: {
+                        Text("Episode \(episode.title) details coming soon")
+                            .font(.title2)
+                            .foregroundStyle(Color.textPrimary)
+                    }
                 }
             }
             .padding(24)
