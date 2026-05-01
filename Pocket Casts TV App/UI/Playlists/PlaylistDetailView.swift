@@ -80,6 +80,7 @@ struct PlaylistDetailView: View {
                 playlistView
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .task {
             model.load()
         }
@@ -145,27 +146,20 @@ struct PlaylistDetailView: View {
         .focusSection()
     }
 
+    @Namespace private var episodeListNamespace
+
     var episodeList: some View {
         ScrollView {
             LazyVStack {
                 ForEach(model.playlist.episodes) { episode in
-                    NavigationLink(value: episode) {
-                        EpisodeRow(episode: episode)
-                    }
-                    .buttonStyle(EpisodeRowButtonStyle())
+                    EpisodePlayerButton(
+                        episode: episode,
+                        podcastTitle: model.playlist.title
+                    )
+                    .prefersDefaultFocus(episode.id == model.playlist.episodes.first?.id, in: episodeListNamespace)
                 }
             }
-            .navigationDestination(for: MockEpisode.self) { episode in
-                VStack {
-                    Button {
-
-                    } label: {
-                        Text("Episode \(episode.title) details coming soon")
-                            .font(.title2)
-                            .foregroundStyle(Color.textPrimary)
-                    }
-                }
-            }
+            .focusScope(episodeListNamespace)
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
         }

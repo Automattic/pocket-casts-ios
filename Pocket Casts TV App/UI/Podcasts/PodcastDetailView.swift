@@ -14,9 +14,11 @@ class PodcastDetailViewModel {
     var state: State = .loading
 
     let podcast: MockPodcast
+    let recommendedEpisode: MockEpisode?
 
     init(podcast: MockPodcast) {
         self.podcast = podcast
+        self.recommendedEpisode = podcast.episodes.randomElement()
     }
 
     func load() {
@@ -56,6 +58,7 @@ struct PodcastDetailView: View {
                 podcastView
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .task {
             model.load()
         }
@@ -69,7 +72,7 @@ struct PodcastDetailView: View {
         HStack(alignment: .top, spacing: Layout.gutter) {
             podcastInfo
                 .frame(width: Layout.infoPanelWidth)
-            episodeList
+            episodeContent
         }
     }
 
@@ -108,27 +111,46 @@ struct PodcastDetailView: View {
         .focusSection()
     }
 
-    var episodeList: some View {
-        ScrollView {
-            LazyVStack() {
-                ForEach(model.podcast.episodes) { episode in
-                    NavigationLink(value: episode) {
-                        EpisodeRow(episode: episode)
-                    }
-                    .buttonStyle(EpisodeRowButtonStyle())
-                }
-            }
-            .navigationDestination(for: MockEpisode.self) { episode in
-                VStack {
-                    Button {
+    @Namespace private var episodeListNamespace
 
-                    } label: {
-                        Text("Episode \(episode.title) details coming soon")
-                            .font(.title2)
-                            .foregroundStyle(Color.textPrimary)
+    var episodeContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 40) {
+                if let recommended = model.recommendedEpisode {
+                    VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(L10n.tvPodcastDetailStartHere)
+                                .font(.title3)
+                                .foregroundStyle(Color.textPrimary)
+                            Text(L10n.tvPodcastDetailStartHereSubtitle)
+                                .font(.caption)
+                                .foregroundStyle(Color.textSecondary)
+                        }
+                        EpisodePlayerButton(
+                            episode: recommended,
+                            podcastTitle: model.podcast.title,
+                            podcastDescription: model.podcast.podcastDescription
+                        )
+                        .prefersDefaultFocus(in: episodeListNamespace)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 16) {
+                    Text(L10n.tvPodcastDetailAllEpisodes)
+                        .font(.title3)
+                        .foregroundStyle(Color.textPrimary)
+                    LazyVStack {
+                        ForEach(model.podcast.episodes) { episode in
+                            EpisodePlayerButton(
+                                episode: episode,
+                                podcastTitle: model.podcast.title,
+                                podcastDescription: model.podcast.podcastDescription
+                            )
+                        }
                     }
                 }
             }
+            .focusScope(episodeListNamespace)
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
         }

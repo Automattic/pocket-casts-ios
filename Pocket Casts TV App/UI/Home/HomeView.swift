@@ -75,11 +75,8 @@ struct HomeView: View {
                         .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                     if let currentPlaying = model.currentPlaying {
-                        NavigationLink(value: currentPlaying) {
-                            EpisodeRow(episode: currentPlaying)
-                        }
-                        .buttonStyle(EpisodeRowButtonStyle())
-                        .frame(maxWidth: 864, alignment: .leading)
+                        EpisodePlayerButton(episode: currentPlaying)
+                            .frame(maxWidth: 864, alignment: .leading)
                     }
                     Text(L10n.tvHomeRecommendedForYouTitle)
                         .font(.title3)
@@ -89,16 +86,8 @@ struct HomeView: View {
                         .font(.title3)
                         .foregroundStyle(Color.textPrimary)
                     if let upNext = model.upNext {
-                        NavigationLink(value: upNext) {
-                            EpisodeRow(episode: upNext)
-                        }
-                        .buttonStyle(EpisodeRowButtonStyle())
-                        .frame(maxWidth: 864, alignment: .leading)
-                    }
-                }
-                .navigationDestination(for: MockEpisode.self) { episode in
-                    Button(episode.title) {
-
+                        EpisodePlayerButton(episode: upNext)
+                            .frame(maxWidth: 864, alignment: .leading)
                     }
                 }
             }

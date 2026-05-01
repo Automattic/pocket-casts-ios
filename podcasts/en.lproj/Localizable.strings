@@ -5953,6 +5953,15 @@
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
 
+/* tv podcast detail recommended episode section title */
+"tv_podcast_detail_start_here" = "The episode to try first";
+
+/* tv podcast detail recommended episode section subtitle */
+"tv_podcast_detail_start_here_subtitle" = "This is the one that gets people hooked";
+
+/* tv podcast detail all episodes section title */
+"tv_podcast_detail_all_episodes" = "All episodes";
+
 /* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
 "tv_playlist_detail_episode_count" = "%1$@ episodes";
 
