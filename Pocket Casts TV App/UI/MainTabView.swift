@@ -70,7 +70,6 @@ struct MainTabView: View {
 
     @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
-
     @State private var scrollOffset: Double = 0
 
     enum FocusArea: Hashable {
@@ -107,7 +106,7 @@ struct MainTabView: View {
         .ignoresSafeArea()
         .onScrollGeometryChange(for: Double.self) { geometry in
             geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { before, after in
+        } action: { _, after in
             self.scrollOffset = after
         }
     }

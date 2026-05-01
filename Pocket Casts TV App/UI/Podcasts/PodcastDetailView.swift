@@ -71,7 +71,6 @@ struct PodcastDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeList
         }
-        .toolbar(.hidden, for: .tabBar)
     }
 
     var podcastInfo: some View {

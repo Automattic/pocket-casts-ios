@@ -95,7 +95,6 @@ struct PlaylistDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeList
         }
-        .toolbar(.hidden, for: .tabBar)
     }
 
     var mosaicCover: some View {
