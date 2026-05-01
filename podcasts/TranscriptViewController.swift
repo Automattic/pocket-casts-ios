@@ -21,6 +21,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var autoScrollBackWorkItem: DispatchWorkItem?
     private static let autoScrollBackDelay: TimeInterval = 5.0
 
+    // Position the active cue ~30% from the top of the visible area so a few
+    // upcoming lines are always visible below it.
+    private static let highlightVerticalAnchor: CGFloat = 0.3
+
     // `playbackProgress` fires roughly once per second, which means the highlight
     // can land up to ~1s after a cue boundary. Drive updates off the display
     // refresh instead so transitions land within one frame (~16ms at 60Hz).
@@ -841,8 +845,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
-                let scrollRange = NSRange(location: range.location, length: range.length * 2)
-                transcriptView.scrollRangeToVisible(scrollRange)
+                transcriptView.scrollToRange(range, verticalAnchor: Self.highlightVerticalAnchor)
             }
             #if DEBUG
             let intoCue = position - cue.startTime
@@ -922,7 +925,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // highlight is static and yanking the view back to it would fight the
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
-        transcriptView.scrollToRange(previousRange)
+        transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
