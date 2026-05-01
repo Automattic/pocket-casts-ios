@@ -71,7 +71,7 @@ struct PodcastDetailView: View {
             }
             Spacer()
         }
-        .toolbar(.visible, for: .tabBar)
+        .toolbar(.hidden, for: .tabBar)
     }
 
     var podcastInfo: some View {
@@ -79,7 +79,7 @@ struct PodcastDetailView: View {
             Image(model.podcast.image)
                 .resizable()
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.podcast.author ?? "")
                     .font(.caption)
@@ -106,6 +106,7 @@ struct PodcastDetailView: View {
                 }
             }
         }
+        .focusSection()
     }
 
     var episodeList: some View {
@@ -115,7 +116,7 @@ struct PodcastDetailView: View {
                     NavigationLink(value: episode) {
                         EpisodeRow(episode: episode)
                     }
-                    .buttonStyle(.card)
+                    .buttonStyle(EpisodeRowButtonStyle())
                 }
             }
             .navigationDestination(for: MockEpisode.self) { episode in
