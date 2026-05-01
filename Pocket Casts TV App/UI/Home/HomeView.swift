@@ -71,20 +71,20 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
-                    Text("Keep listening")
-                        .font(.title)
+                    Text(L10n.tvHomeKeepListeningTitle)
+                        .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                     if let currentPlaying = model.currentPlaying {
                         NavigationLink(value: currentPlaying) {
                             EpisodeRow(episode: currentPlaying)
                         }.buttonStyle(.card)
                     }
-                    Text("Recommended for you")
-                        .font(.title)
+                    Text(L10n.tvHomeRecommendedForYouTitle)
+                        .font(.title3)
                         .foregroundStyle(Color.textPrimary)
                     discoverCollection
-                    Text("Up next")
-                        .font(.title)
+                    Text(L10n.tvTabUpNext)
+                        .font(.title3)
                         .foregroundStyle(Color.textPrimary)
                     if let upNext = model.upNext {
                         NavigationLink(value: upNext) {
