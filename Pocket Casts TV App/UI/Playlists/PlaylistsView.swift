@@ -3,19 +3,19 @@ import Combine
 
 @Observable
 class PlaylistsViewModel {
-
+    
     private var cancellable: AnyCancellable?
-
+    
     enum State: Equatable, Hashable {
         case loading
         case ready
         case empty
     }
-
+    
     var state: State = .loading
-
+    
     var playlists: [MockPlaylist] = MockData.makePlaylists()
-
+    
     func load() {
         //Mock data load
         cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
@@ -32,13 +32,13 @@ class PlaylistsViewModel {
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-
+    
     @State private var model = PlaylistsViewModel()
-
+    
     enum Layout {
         static let gridSize = CGFloat(496)
     }
-
+    
     var body: some View {
         ZStack {
             switch model.state {
@@ -54,16 +54,16 @@ struct PlaylistsView: View {
             model.load()
         }
     }
-
+    
     var loadingView: some View {
         ProgressView()
     }
-
+    
     var playlistsView: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.playlists)
+                    Text(L10n.tvTabPlaylists)
                         .font(.title)
                         .foregroundStyle(Color.textPrimary)
                     playlistsCollection
@@ -71,19 +71,19 @@ struct PlaylistsView: View {
             }
         }
     }
-
+    
     var emptyView: some View {
         EmptyDataView(title: L10n.tvPlaylistsEmptyTitle, subtitle: L10n.tvPlaylistsEmptySubtitle, actionTitle: L10n.tvPlaylistsEmptyActionTitle) {
             tabRouter.selectedTab = .home
         }
     }
-
+    
     private let items: [GridItem] = (0..<3).map { _ in
         GridItem(.flexible(minimum: Layout.gridSize), spacing: 48)
     }
-
+    
     @Namespace private var listNamespace
-
+    
     var playlistsCollection: some View {
         LazyVGrid(columns: items, spacing: 48, content: {
             ForEach(model.playlists) { playlist in
@@ -91,11 +91,18 @@ struct PlaylistsView: View {
                     PlaylistCell(playlist: playlist)
                 }
                 .buttonStyle(.card)
+                .prefersDefaultFocus(playlist.id == model.playlists.first?.id, in: listNamespace)
             }
         })
         .focusScope(listNamespace)
         .navigationDestination(for: MockPlaylist.self) { playlist in
-
+            VStack {
+                Text("Playlist (\(playlist.title) details coming soon")
+                    .font(.title2)
+                    .foregroundStyle(Color.textPrimary)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .padding()
         }
     }
 }
