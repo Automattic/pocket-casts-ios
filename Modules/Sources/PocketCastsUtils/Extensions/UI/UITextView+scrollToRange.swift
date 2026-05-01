@@ -3,6 +3,8 @@ import UIKit
 
 extension UITextView {
     public func scrollToRange(_ range: NSRange, verticalAnchor: CGFloat = 0.5) {
+        let clampedAnchor = min(max(verticalAnchor, 0), 1)
+
         // Ensure layout is up-to-date
         layoutManager.ensureLayout(for: textContainer)
 
@@ -14,7 +16,7 @@ extension UITextView {
 
         var visibleRect = CGRect(
             x: finalRect.origin.x - (bounds.width / 2) + (finalRect.width / 2),
-            y: finalRect.origin.y - (bounds.height * verticalAnchor) + (finalRect.height / 2),
+            y: finalRect.origin.y - (bounds.height * clampedAnchor) + (finalRect.height / 2),
             width: bounds.width,
             height: bounds.height
         ).inset(by: contentInset)
