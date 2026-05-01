@@ -4253,6 +4253,10 @@ internal enum L10n {
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
   /// tv keep listening title
   internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Keep listening") }
+  /// tv home new releases section title
+  internal static var tvHomeNewReleases: String { return L10n.tr("Localizable", "tv_home_new_releases", fallback: "New releases") }
+  /// tv home recently played section title
+  internal static var tvHomeRecentlyPlayed: String { return L10n.tr("Localizable", "tv_home_recently_played", fallback: "Recently played") }
   /// tv home recommended for you title
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
   /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.

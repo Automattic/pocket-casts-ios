@@ -14,9 +14,14 @@ class HomeViewModel {
 
     var state: State = .loading
 
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
-    var currentPlaying: MockEpisode? = MockData.makePlaylists().first?.episodes.first
-    var upNext: MockEpisode? = MockData.makePlaylists().last?.episodes.first
+    private static let allPodcasts = MockData.makePodcasts()
+    private static let allPlaylists = MockData.makePlaylists()
+
+    var podcasts: [MockPodcast] = allPodcasts
+    var currentPlaying: MockEpisode? = allPlaylists.first?.episodes.first
+    var upNext: [MockEpisode] = Array(allPlaylists.flatMap(\.episodes).prefix(3))
+    var recentlyPlayed: [MockPodcast] = Array(allPodcasts.shuffled().prefix(10))
+    var newReleases: [MockEpisode] = allPodcasts.prefix(8).compactMap(\.episodes.first)
 
     func load() {
         //Mock data load
@@ -78,17 +83,26 @@ struct HomeView: View {
                         EpisodePlayerButton(episode: currentPlaying)
                             .frame(maxWidth: 864, alignment: .leading)
                     }
-                    Text(L10n.tvHomeRecommendedForYouTitle)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    discoverCollection
+                    VStack(alignment: .leading, spacing: 24) {
+                        Text(L10n.tvHomeRecommendedForYouTitle)
+                            .font(.title3)
+                            .foregroundStyle(Color.textPrimary)
+                        discoverCollection
+                    }
                     Text(L10n.tvTabUpNext)
                         .font(.title3)
                         .foregroundStyle(Color.textPrimary)
-                    if let upNext = model.upNext {
-                        EpisodePlayerButton(episode: upNext)
-                            .frame(maxWidth: 864, alignment: .leading)
+                    upNextRow
+                    VStack(alignment: .leading, spacing: 24) {
+                        Text(L10n.tvHomeRecentlyPlayed)
+                            .font(.title3)
+                            .foregroundStyle(Color.textPrimary)
+                        recentlyPlayedRow
                     }
+                    Text(L10n.tvHomeNewReleases)
+                        .font(.title3)
+                        .foregroundStyle(Color.textPrimary)
+                    newReleasesRow
                 }
             }
         }
@@ -114,6 +128,45 @@ struct HomeView: View {
             .navigationDestination(for: MockPodcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
             }
+        }
+    }
+    var upNextRow: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 24) {
+                ForEach(model.upNext) { episode in
+                    EpisodePlayerButton(episode: episode)
+                        .frame(width: 864)
+                }
+            }
+            .padding(.horizontal, 24)
+        }
+    }
+
+    var recentlyPlayedRow: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 0) {
+                ForEach(model.recentlyPlayed) { podcast in
+                    NavigationLink(value: podcast) {
+                        Image(podcast.image)
+                            .resizable()
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    }
+                    .buttonStyle(.card)
+                    .padding(24)
+                }
+            }
+        }
+    }
+
+    var newReleasesRow: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 24) {
+                ForEach(model.newReleases) { episode in
+                    EpisodePlayerButton(episode: episode)
+                        .frame(width: 864)
+                }
+            }
+            .padding(.horizontal, 24)
         }
     }
 }

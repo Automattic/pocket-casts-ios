@@ -5983,6 +5983,12 @@
 /* tv home recommended for you title */
 "tv_home_recommended_for_you_title" = "Recommended for you";
 
+/* tv home recently played section title */
+"tv_home_recently_played" = "Recently played";
+
+/* tv home new releases section title */
+"tv_home_new_releases" = "New releases";
+
 
 
 
