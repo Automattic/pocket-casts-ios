@@ -96,17 +96,7 @@ struct PlaylistsView: View {
         })
         .focusScope(listNamespace)
         .navigationDestination(for: MockPlaylist.self) { playlist in
-            VStack {
-                Button {
-
-                } label: {
-                    Text("Playlist \(playlist.title) details coming soon")
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .padding()
+            PlaylistDetailView(model: PlaylistDetailViewModel(playlist: playlist))
         }
     }
 }

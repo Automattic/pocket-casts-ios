@@ -5953,6 +5953,12 @@
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
 
+/* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
+"tv_playlist_detail_episode_count" = "%1$@ episodes";
+
+/* tv playlist detail play all button title */
+"tv_playlist_detail_play_all" = "Play all episodes";
+
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
 

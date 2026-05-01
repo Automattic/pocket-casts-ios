@@ -4255,6 +4255,12 @@ internal enum L10n {
   internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Keep listening") }
   /// tv home recommended for you title
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
+  /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.
+  internal static func tvPlaylistDetailEpisodeCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_playlist_detail_episode_count", String(describing: p1), fallback: "%1$@ episodes")
+  }
+  /// tv playlist detail play all button title
+  internal static var tvPlaylistDetailPlayAll: String { return L10n.tr("Localizable", "tv_playlist_detail_play_all", fallback: "Play all episodes") }
   /// tv playlists empty button action title
   internal static var tvPlaylistsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_action_title", fallback: "Create a playlist") }
   /// tv playlists empty subtitle
