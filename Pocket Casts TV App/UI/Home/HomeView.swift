@@ -77,7 +77,7 @@ struct HomeView: View {
                     if let currentPlaying = model.currentPlaying {
                         NavigationLink(value: currentPlaying) {
                             EpisodeRow(episode: currentPlaying)
-                        }.buttonStyle(.card)
+                        }.buttonStyle(EpisodeRowButtonStyle())
                     }
                     Text(L10n.tvHomeRecommendedForYouTitle)
                         .font(.title3)
@@ -89,7 +89,7 @@ struct HomeView: View {
                     if let upNext = model.upNext {
                         NavigationLink(value: upNext) {
                             EpisodeRow(episode: upNext)
-                        }.buttonStyle(.card)
+                        }.buttonStyle(EpisodeRowButtonStyle())
                     }
                 }
                 .navigationDestination(for: MockEpisode.self) { episode in
