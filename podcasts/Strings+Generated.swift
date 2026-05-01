@@ -4287,6 +4287,8 @@ internal enum L10n {
   internal static var tvPlaylistsEmptySubtitle: String { return L10n.tr("Localizable", "tv_playlists_empty_subtitle", fallback: "Build one manually or let Smart Rules do the sorting for you.") }
   /// tv playlists empty title
   internal static var tvPlaylistsEmptyTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_title", fallback: "Your playlists live here") }
+  /// tv podcast more info about section title
+  internal static var tvPodcastDetailAbout: String { return L10n.tr("Localizable", "tv_podcast_detail_about", fallback: "About") }
   /// tv podcast detail all episodes section title
   internal static var tvPodcastDetailAllEpisodes: String { return L10n.tr("Localizable", "tv_podcast_detail_all_episodes", fallback: "All episodes") }
   /// tv podcast details follow button title
@@ -4295,10 +4297,18 @@ internal enum L10n {
   internal static var tvPodcastDetailFollowingTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_following_title", fallback: "Following") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
+  /// tv podcast more info network label
+  internal static var tvPodcastDetailNetwork: String { return L10n.tr("Localizable", "tv_podcast_detail_network", fallback: "Network") }
+  /// tv podcast more info next episode label
+  internal static var tvPodcastDetailNextEpisode: String { return L10n.tr("Localizable", "tv_podcast_detail_next_episode", fallback: "Next episode") }
+  /// tv podcast more info schedule label
+  internal static var tvPodcastDetailSchedule: String { return L10n.tr("Localizable", "tv_podcast_detail_schedule", fallback: "Schedule") }
   /// tv podcast detail recommended episode section title
   internal static var tvPodcastDetailStartHere: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here", fallback: "The episode to try first") }
   /// tv podcast detail recommended episode section subtitle
   internal static var tvPodcastDetailStartHereSubtitle: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here_subtitle", fallback: "This is the one that gets people hooked") }
+  /// tv podcast more info website label
+  internal static var tvPodcastDetailWebsite: String { return L10n.tr("Localizable", "tv_podcast_detail_website", fallback: "Website") }
   /// tv podcasts empty button action title
   internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Discover podcasts") }
   /// tv podcasts empty subtitle

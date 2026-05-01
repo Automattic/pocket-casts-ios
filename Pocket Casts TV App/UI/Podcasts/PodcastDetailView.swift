@@ -49,6 +49,7 @@ struct PodcastDetailView: View {
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
     let model: PodcastDetailViewModel
     @FocusState private var focusedSection: FocusSection?
+    @State private var isShowingMoreInfo = false
 
     enum FocusSection: Hashable {
         case episodes
@@ -119,7 +120,7 @@ struct PodcastDetailView: View {
                     .font(.caption2)
                 }
                 Button() {
-                    model.follow()
+                    isShowingMoreInfo = true
                 } label: {
                     Text(L10n.tvPodcastDetailMoreInfoTitle)
                         .font(.caption2)
@@ -128,6 +129,9 @@ struct PodcastDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .focusSection()
+        .sheet(isPresented: $isShowingMoreInfo) {
+            PodcastMoreInfoView(podcast: model.podcast)
+        }
     }
 
     @Namespace private var episodeListNamespace

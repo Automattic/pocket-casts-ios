@@ -26,6 +26,10 @@ struct MockPodcast: Identifiable, Hashable, Equatable {
     var podcastDescription: String?
     var image: String
     var episodes: [MockEpisode]
+    var network: String?
+    var website: String?
+    var frequency: String?
+    var nextEpisodeDate: String?
 }
 
 struct MockPlaylist: Identifiable, Hashable, Equatable {
@@ -133,7 +137,20 @@ struct MockData {
                 let titleIndex = (i + j) % episodeTitles.count
                 episodes.append(MockEpisode(uuid: UUID().uuidString, title: episodeTitles[titleIndex], publishedDate: Date.now.weeksAgo(j), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
             }
-            results.append(MockPodcast(id: UUID().uuidString, title: podcastNames[i % podcastNames.count], author: authorNames[i % authorNames.count], podcastDescription: "Here is a fun description for this", image: podcastImageName, episodes: episodes))
+            let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
+            let nextDays = ["Next episode Monday", "Next episode Tuesday", "Next episode Wednesday", "Next episode Thursday", "Next episode Friday"]
+            results.append(MockPodcast(
+                id: UUID().uuidString,
+                title: podcastNames[i % podcastNames.count],
+                author: authorNames[i % authorNames.count],
+                podcastDescription: "Here is a fun description for this",
+                image: podcastImageName,
+                episodes: episodes,
+                network: authorNames[i % authorNames.count],
+                website: "https://\(podcastNames[i % podcastNames.count].lowercased().replacingOccurrences(of: " ", with: "")).com",
+                frequency: frequencies[i % frequencies.count],
+                nextEpisodeDate: nextDays[i % nextDays.count]
+            ))
         }
         return results
     }
