@@ -98,9 +98,8 @@ struct MainTabView: View {
             .focused($focusedArea, equals: .tabBar)
         }.overlay(alignment: .top) {
             accessoryView
-        }.onAppear {
-            focusedArea = .tabBar
         }
+        .defaultFocus($focusedArea, .tabBar)
         // Intercept right-swipe from tab bar to profile
         .onMoveCommand { direction in
             handleMove(direction)

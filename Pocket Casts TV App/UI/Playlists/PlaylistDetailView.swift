@@ -67,6 +67,8 @@ struct PlaylistDetailView: View {
     enum Layout {
         static let mosaicSize = CGFloat(418)
         static let mosaicTileSize = CGFloat(209)
+        static let infoPanelWidth = CGFloat(568)
+        static let gutter = CGFloat(24)
     }
 
     var body: some View {
@@ -88,12 +90,10 @@ struct PlaylistDetailView: View {
     }
 
     var playlistView: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top, spacing: Layout.gutter) {
             playlistInfo
-            VStack {
-                episodeList
-            }
-            Spacer()
+                .frame(width: Layout.infoPanelWidth)
+            episodeList
         }
         .toolbar(.hidden, for: .tabBar)
     }
@@ -167,7 +167,8 @@ struct PlaylistDetailView: View {
                     }
                 }
             }
-            .padding(24)
+            .padding(.horizontal, 24)
+            .padding(.bottom, 24)
         }
     }
 }

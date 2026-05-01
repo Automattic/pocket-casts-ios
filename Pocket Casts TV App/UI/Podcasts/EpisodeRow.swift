@@ -53,7 +53,6 @@ struct EpisodeRow: View {
         .padding(24)
         .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .frame(maxWidth: 864)
     }
 }
 

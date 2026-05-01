@@ -77,7 +77,9 @@ struct HomeView: View {
                     if let currentPlaying = model.currentPlaying {
                         NavigationLink(value: currentPlaying) {
                             EpisodeRow(episode: currentPlaying)
-                        }.buttonStyle(EpisodeRowButtonStyle())
+                        }
+                        .buttonStyle(EpisodeRowButtonStyle())
+                        .frame(maxWidth: 864, alignment: .leading)
                     }
                     Text(L10n.tvHomeRecommendedForYouTitle)
                         .font(.title3)
@@ -89,7 +91,9 @@ struct HomeView: View {
                     if let upNext = model.upNext {
                         NavigationLink(value: upNext) {
                             EpisodeRow(episode: upNext)
-                        }.buttonStyle(EpisodeRowButtonStyle())
+                        }
+                        .buttonStyle(EpisodeRowButtonStyle())
+                        .frame(maxWidth: 864, alignment: .leading)
                     }
                 }
                 .navigationDestination(for: MockEpisode.self) { episode in
