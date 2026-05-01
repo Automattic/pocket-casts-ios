@@ -929,7 +929,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
-        guard let transcript else { return }
+        // Gate on `canSeek` rather than `isPlayingEpisode` so taps still seek
+        // while audio is paused, but stay inert in the Episode Detail flow
+        // where the playback manager's `seekTo` is a no-op (avoids firing
+        // analytics or showing toasts for a seek that can't happen).
+        guard let transcript, playbackManager.canSeek else { return }
 
         let location = gesture.location(in: transcriptView)
         let layoutManager = transcriptView.layoutManager
