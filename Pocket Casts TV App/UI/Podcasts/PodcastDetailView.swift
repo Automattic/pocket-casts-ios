@@ -69,6 +69,7 @@ struct PodcastDetailView: View {
             VStack {
                 episodeList
             }
+            Spacer()
         }
         .toolbar(.visible, for: .tabBar)
     }
