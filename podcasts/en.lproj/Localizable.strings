@@ -5900,7 +5900,7 @@
 "tv_welcome_title" = "Welcome to Pocket Casts TV";
 
 /* tv welcome subtitle */
-"tv_welcome_subtitle" = "Your podcasts on the big screen";
+"tv_welcome_subtitle" = "Your podcasts. On the big screen. Obviously.";
 
 /* tv welcome sign in */
 "tv_welcome_sign_in" = "Sign in";

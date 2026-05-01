@@ -4306,7 +4306,7 @@ internal enum L10n {
   /// tv welcome sign in
   internal static var tvWelcomeSignIn: String { return L10n.tr("Localizable", "tv_welcome_sign_in", fallback: "Sign in") }
   /// tv welcome subtitle
-  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts on the big screen") }
+  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts. On the big screen. Obviously.") }
   /// tv welcome title
   internal static var tvWelcomeTitle: String { return L10n.tr("Localizable", "tv_welcome_title", fallback: "Welcome to Pocket Casts TV") }
   /// A common string used throughout the app. Prompt to restore the selected item(s) from an archived state.
