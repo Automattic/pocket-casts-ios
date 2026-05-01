@@ -841,8 +841,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
-                let scrollRange = NSRange(location: range.location, length: range.length * 2)
-                transcriptView.scrollRangeToVisible(scrollRange)
+                transcriptView.scrollToRange(range, verticalAnchor: 0.3)
             }
             #if DEBUG
             let intoCue = position - cue.startTime
@@ -922,7 +921,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // highlight is static and yanking the view back to it would fight the
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
-        transcriptView.scrollToRange(previousRange)
+        transcriptView.scrollToRange(previousRange, verticalAnchor: 0.3)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
