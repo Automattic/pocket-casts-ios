@@ -929,7 +929,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
-        guard let transcript, playbackManager.isPlayingEpisode else { return }
+        guard let transcript else { return }
 
         let location = gesture.location(in: transcriptView)
         let layoutManager = transcriptView.layoutManager
