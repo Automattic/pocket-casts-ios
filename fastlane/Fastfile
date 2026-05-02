@@ -906,7 +906,7 @@ platform :ios do
   #
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'podcasts')
+    version = release_version_current
 
     files = {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
