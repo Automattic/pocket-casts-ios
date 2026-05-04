@@ -281,10 +281,19 @@ class MultiSelectHelper {
 
         if FeatureFlag.liquidGlass.enabled {
             let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
-            var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-            if !onWifi, !Settings.mobileDataAllowed() {
-                message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)
+            let totalSize = downloadableEpisodes.prefix(actualDownloadCount).reduce(Int64(0)) { $0 + $1.sizeInBytes }
+            var messageParts = [String]()
+            if totalSize > 0 {
+                let sizeString = SizeFormatter.shared.noDecimalFormat(bytes: totalSize)
+                messageParts.append(L10n.downloadEstimatedSize(sizeString))
             }
+            if downloadLimitExceeded {
+                messageParts.append(L10n.bulkDownloadMax)
+            }
+            if !onWifi, !Settings.mobileDataAllowed() {
+                messageParts.append(L10n.downloadDataWarningAlert)
+            }
+            let message = messageParts.joined(separator: "\n")
 
             let alert = UIAlertController(title: title, message: message.isEmpty ? nil : message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: downloadText, style: onWifi ? .default : .destructive) { _ in

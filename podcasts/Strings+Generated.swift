@@ -956,6 +956,10 @@ internal enum L10n {
   }
   /// The episode failed to download but the app wasn't able to determine why. Suggesting to try again after waiting for a bit.
   internal static var downloadErrorTryAgain: String { return L10n.tr("Localizable", "download_error_try_again", fallback: "Unable to download episode. Please try again later.") }
+  /// Alert message showing estimated download size. '%1$@' is a placeholder for the formatted size (e.g. '250 MB').
+  internal static func downloadEstimatedSize(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "download_estimated_size", String(describing: p1), fallback: "This will use approximately %1$@ of storage.")
+  }
   /// A common string used throughout the app. Informs the user the download has failed.
   internal static var downloadFailed: String { return L10n.tr("Localizable", "download_failed", fallback: "Download Failed") }
   /// A common string used throughout the app. Title for screens and prompts related to storage and downloaded files.

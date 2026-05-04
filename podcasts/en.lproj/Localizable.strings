@@ -811,6 +811,9 @@
 /* Alert message warning the user that downloading will use mobile data. */
 "download_data_warning_alert" = "This download will use mobile data. You can turn off this warning in Settings.";
 
+/* Alert message showing estimated download size. '%1$@' is a placeholder for the formatted size (e.g. '250 MB'). */
+"download_estimated_size" = "This will use approximately %1$@ of storage.";
+
 /* A common string used throughout the app. Prompts the user that they have selected multiple episodes to download. '%1$@' is a placeholder for the count of the selected items, will be more than one. */
 "download_episode_plural_format" = "Download %1$@ Episodes";
 
