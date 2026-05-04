@@ -36,16 +36,25 @@ class PCSearchBarController: UIViewController {
 
     @IBOutlet var clearSearchBtn: UIButton!
 
+    private static let pillHeight: CGFloat = 32
+    private static let pillBottomInset: CGFloat = 16
+
     static var defaultHeight: CGFloat {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
-        return max(54, metric.scaledValue(for: 54))
+        let base = pillHeight + pillBottomInset
+        return max(base, metric.scaledValue(for: base))
     }
 
     static let peekAmountBeforeAutoOpen: CGFloat = 20
 
     var shouldShowCancelButton = true
     var cancelButtonShowing = false
-    var searchControllerTopConstant: NSLayoutConstraint?
+
+    /// When set, the scrolling extension drives this constraint's `constant` between `0` and
+    /// `defaultHeight` to collapse/expand the bar in place — the bar's top stays anchored to
+    /// the safe area, and the pill, icons and placeholder fade and shrink together.
+    var searchControllerHeightConstraint: NSLayoutConstraint?
+
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
@@ -71,6 +80,19 @@ class PCSearchBarController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequest), name: Constants.Notifications.podcastSearchRequest, object: nil)
         updateSize()
+        updateCollapseAppearance()
+    }
+
+    func updateCollapseAppearance() {
+        let height = searchControllerHeightConstraint?.constant ?? Self.defaultHeight
+        let progress = min(1, max(0, height / Self.defaultHeight))
+        // Pill itself shrinks in place; contents fade on a steeper curve so the text/icons are
+        // gone well before the pill finishes collapsing — closer to the native bar.
+        let contentAlpha = max(0, progress * 2 - 1)
+        searchIcon.alpha = contentAlpha
+        searchTextField.alpha = contentAlpha
+        clearSearchBtn.alpha = contentAlpha
+        loadingSpinner.alpha = contentAlpha
     }
 
     override func viewDidAppear(_ animated: Bool) {

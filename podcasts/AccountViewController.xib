@@ -34,7 +34,7 @@
                 <constraint firstItem="LDy-dc-GWZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Hsu-MD-VIW"/>
                 <constraint firstItem="LDy-dc-GWZ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Ppn-J2-73Q"/>
                 <constraint firstItem="LDy-dc-GWZ" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Z0r-84-seL"/>
-                <constraint firstItem="LDy-dc-GWZ" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="m2H-O3-JgV"/>
+                <constraint firstItem="LDy-dc-GWZ" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="m2H-O3-JgV"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
         </view>

@@ -263,13 +263,13 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
 
             if FeatureFlag.playlistsRebranding.enabled {
                 let oldData = self.listPlaylistItems
-
-                let changeSet = StagedChangeset(source: oldData, target: newData)
+                let isFirstLoad = self.firstTimeLoading
 
                 if oldData.isContentEqual(to: newData) {
                     DispatchQueue.main.async {
                         self.newFilterButton.isHidden = false
                         self.loadingIndicator.stopAnimating()
+                        self.firstTimeLoading = false
                     }
                     return
                 }
@@ -277,17 +277,25 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                 DispatchQueue.main.async {
                     self.newFilterButton.isHidden = false
                     self.loadingIndicator.stopAnimating()
-                    do {
-                        try SJCommonUtils.catchException { [weak self] in
-                            self?.filtersTable.reload(using: changeSet, with: .fade) { [weak self] newData in
-                                self?.listPlaylistItems = newData
-                            }
-                        }
-                    } catch {
-                        if let data = changeSet.last?.data {
-                            self.listPlaylistItems = data
-                        }
+
+                    if isFirstLoad {
+                        self.listPlaylistItems = newData
                         self.filtersTable.reloadData()
+                        self.firstTimeLoading = false
+                    } else {
+                        let changeSet = StagedChangeset(source: oldData, target: newData)
+                        do {
+                            try SJCommonUtils.catchException { [weak self] in
+                                self?.filtersTable.reload(using: changeSet, with: .fade) { [weak self] newData in
+                                    self?.listPlaylistItems = newData
+                                }
+                            }
+                        } catch {
+                            if let data = changeSet.last?.data {
+                                self.listPlaylistItems = data
+                            }
+                            self.filtersTable.reloadData()
+                        }
                     }
                 }
                 return

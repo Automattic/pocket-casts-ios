@@ -30,6 +30,14 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
         return options
     }
 
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        reloader.pause(for: .seconds(8)) // Adding a timeout just in case calling `resume` for whatever reason
+    }
+
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        reloader.resume(after: .seconds(1))
+    }
+
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
@@ -41,6 +49,7 @@ extension PlaylistDetailViewController: SwipeTableViewCellDelegate, SwipeHandler
     }
 
     func actionPerformed(willBeRemoved: Bool) {
+        reloader.resume(after: .seconds(1))
         if willBeRemoved {
             viewModel.reloadEpisodeList()
         }
