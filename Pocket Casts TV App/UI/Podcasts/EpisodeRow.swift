@@ -40,6 +40,7 @@ struct EpisodeRow: View {
         }
         .padding(24)
         .background(Color.backgroundSunken)
+        .frame(maxWidth: 864)
     }
 }
 

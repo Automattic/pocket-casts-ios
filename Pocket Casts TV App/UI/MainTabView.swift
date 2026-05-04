@@ -32,6 +32,8 @@ struct MainTabContentView: View {
 
     var body: some View {
         switch tab {
+        case .home:
+            HomeView()
         case .podcasts:
             PodcastsView()
         case .playlists:
