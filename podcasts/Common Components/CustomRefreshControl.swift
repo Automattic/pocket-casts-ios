@@ -3,28 +3,21 @@ import Foundation
 class CustomRefreshControl: UIRefreshControl {
     var perform: ((CustomRefreshControl) -> Void)?
 
-    private var refreshInnerImage = UIImageView()
-    private var refreshOuterImage = UIImageView()
-    private var innerRotationAngle: CGFloat = 0
-    private var outerRotationAngle: CGFloat = 0
+    private let refreshInnerImage = UIImageView()
+    private let refreshOuterImage = UIImageView()
     private let refreshLabel = UILabel()
-    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-    private var isPastThreshold = false
-    private var didPrepareHaptic = false
-    private var isDismissalPending = false
 
     private enum Constants {
-        // MARK: Pull
         static let triggerDistance: CGFloat = 140
         static let iconFadeDistance: CGFloat = 70
         static let labelFadeDistance: CGFloat = 45
-        static let hapticPrepareDistance: CGFloat = 30
         static let innerRotationMultiplier: CGFloat = 4
         static let outerRotationMultiplier: CGFloat = 2
-
-        // MARK: Dismissal
         static let messageDwell: TimeInterval = 0.25
-        static let fadeDuration: TimeInterval = 0.2
+    }
+
+    private enum Layout {
+        static let iconToLabelSpacing: CGFloat = 35
     }
 
     var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
@@ -43,16 +36,13 @@ class CustomRefreshControl: UIRefreshControl {
         }
     }
 
-    private enum Layout {
-        static let iconToLabelSpacing: CGFloat = 35
-    }
-
     private var customConstraints: [NSLayoutConstraint] = []
+    private var hasPendingLabelReset = false
+    private var isFinishingRefresh = false
 
     override init() {
         super.init(frame: .zero)
         setupView()
-        alpha = 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -63,47 +53,31 @@ class CustomRefreshControl: UIRefreshControl {
         NotificationCenter.default.removeObserver(self)
     }
 
-    override func endRefreshing() {
-        // Defer dismissal until the user releases their touch so the
-        // completion message doesn't disappear mid-pull on a fast network —
-        // matches native UIRefreshControl behaviour. `scrollViewDidScroll`
-        // (forwarded by the host view controller) re-enters here once
-        // `isTracking` flips to false during the bounce-back.
-        if let scrollView = superview as? UIScrollView, scrollView.isTracking {
-            isDismissalPending = true
-            return
-        }
-        isDismissalPending = false
-
-        UIView.animate(withDuration: Constants.fadeDuration, delay: Constants.messageDwell, options: [], animations: {
-            self.alpha = 0
-        }, completion: { _ in
-            super.endRefreshing()
-            self.endRefreshAnimation()
-        })
-    }
-
     func set(text: String) {
         refreshLabel.text = text
     }
 
     private func setupView() {
+        // Hide the default spinner; we draw our own visuals on top.
         tintColor = .clear
 
         refreshLabel.text = L10n.refreshControlPullToRefresh
         refreshLabel.textAlignment = .center
         refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         refreshLabel.textColor = customTintColor
+        refreshLabel.alpha = 0
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshLabel)
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")?.withRenderingMode(.alwaysTemplate)
         refreshInnerImage.tintColor = customTintColor
+        refreshInnerImage.alpha = 0
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshInnerImage)
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")?.withRenderingMode(.alwaysTemplate)
         refreshOuterImage.tintColor = customTintColor
+        refreshOuterImage.alpha = 0
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
 
@@ -111,6 +85,7 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     @objc private func didTriggerRefresh() {
+        hasPendingLabelReset = true
         startRefreshAnimation()
         perform?(self)
     }
@@ -130,19 +105,62 @@ class CustomRefreshControl: UIRefreshControl {
         super.updateConstraints()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard !isRefreshing, let scrollView = superview as? UIScrollView else { return }
+
+        // Measure pull relative to the scroll view's rest position so we account
+        // for safe area and any custom contentInset.
+        let pull = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+
+        // Restore the default label once the control fully retracts after a refresh.
+        if pull <= 0, hasPendingLabelReset {
+            refreshLabel.text = L10n.refreshControlPullToRefresh
+            hasPendingLabelReset = false
+        }
+
+        // Icon and label fade on independent curves so the label appears slightly
+        // after the icon — closer to native pull-to-refresh.
+        let iconStart = Constants.triggerDistance - Constants.iconFadeDistance
+        let labelStart = Constants.triggerDistance - Constants.labelFadeDistance
+        let iconAlpha = max(0, min(1, (pull - iconStart) / Constants.iconFadeDistance))
+        refreshInnerImage.alpha = iconAlpha
+        refreshOuterImage.alpha = iconAlpha
+        refreshLabel.alpha = max(0, min(1, (pull - labelStart) / Constants.labelFadeDistance))
+
+        refreshInnerImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.innerRotationMultiplier).degreesToRadians)
+        refreshOuterImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.outerRotationMultiplier).degreesToRadians)
+    }
+
+    override func endRefreshing() {
+        // Re-entry from the delayed dispatch: actually retract now.
+        if isFinishingRefresh {
+            isFinishingRefresh = false
+            super.endRefreshing()
+            endRefreshAnimation()
+            return
+        }
+        // First call: hold the completion message visible briefly before the native retract.
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.messageDwell) { [weak self] in
+            guard let self else { return }
+            self.isFinishingRefresh = true
+            self.endRefreshing()
+        }
+    }
+
     private func startRefreshAnimation() {
         let duration: CFTimeInterval = 1.0
 
         let innerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
-        innerRotation.fromValue = innerRotationAngle
-        innerRotation.toValue = Double(innerRotationAngle) + (Double.pi * 2)
+        innerRotation.fromValue = 0
+        innerRotation.toValue = Double.pi * 2
         innerRotation.duration = duration
         innerRotation.repeatCount = .infinity
         refreshInnerImage.layer.add(innerRotation, forKey: nil)
 
         let outerRotation = CABasicAnimation(keyPath: "transform.rotation.z")
-        outerRotation.fromValue = outerRotationAngle
-        outerRotation.toValue = Double(outerRotationAngle) + (Double.pi * 2)
+        outerRotation.fromValue = 0
+        outerRotation.toValue = Double.pi * 2
         outerRotation.duration = duration * 1.5
         outerRotation.repeatCount = .infinity
         refreshOuterImage.layer.add(outerRotation, forKey: nil)
@@ -190,67 +208,5 @@ extension CustomRefreshControl {
 
     @objc private func noEpisodesFound() {
         processRefreshCompleted(L10n.podcastFeedReloadNoEpisodesFound)
-    }
-}
-
-// MARK: - Scroll Handling
-
-extension CustomRefreshControl {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // A deferred dismissal is waiting for the user to release. Once the
-        // scroll view stops tracking, run the dismissal — re-entering
-        // `endRefreshing` proceeds past the tracking guard now that
-        // `isTracking` is false.
-        if isDismissalPending && !scrollView.isTracking {
-            endRefreshing()
-            return
-        }
-
-        guard !isRefreshing else { return }
-
-        // Only respond to interactive drag; ignore programmatic scrolls (e.g. scroll-to-top).
-        guard scrollView.isTracking else {
-            alpha = 0
-            didPrepareHaptic = false
-            return
-        }
-
-        // Measure pull relative to the scroll view's rest position so we account for
-        // safe area and any custom contentInset (e.g. PCSearchBarController's pinned bar).
-        let scrollAmount = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
-
-        if scrollAmount > Constants.hapticPrepareDistance && !didPrepareHaptic {
-            feedbackGenerator.prepare()
-            didPrepareHaptic = true
-        }
-
-        // Icon and label fade on independent curves so the label appears slightly after
-        // the icon — closer to the native pull-to-refresh behaviour.
-        let iconStart = Constants.triggerDistance - Constants.iconFadeDistance
-        let labelStart = Constants.triggerDistance - Constants.labelFadeDistance
-        let iconAlpha = max(0, min(1, (scrollAmount - iconStart) / Constants.iconFadeDistance))
-        let labelAlpha = max(0, min(1, (scrollAmount - labelStart) / Constants.labelFadeDistance))
-
-        alpha = 1
-        refreshInnerImage.alpha = iconAlpha
-        refreshOuterImage.alpha = iconAlpha
-        refreshLabel.alpha = labelAlpha
-
-        let pastThreshold = scrollAmount >= Constants.triggerDistance
-        if pastThreshold != isPastThreshold {
-            isPastThreshold = pastThreshold
-            refreshLabel.text = pastThreshold
-                ? L10n.refreshControlReleaseToRefresh
-                : L10n.refreshControlPullToRefresh
-            if pastThreshold {
-                feedbackGenerator.impactOccurred()
-            }
-        }
-
-        innerRotationAngle = (scrollAmount * Constants.innerRotationMultiplier).degreesToRadians
-        refreshInnerImage.transform = CGAffineTransform(rotationAngle: innerRotationAngle)
-
-        outerRotationAngle = (scrollAmount * Constants.outerRotationMultiplier).degreesToRadians
-        refreshOuterImage.transform = CGAffineTransform(rotationAngle: outerRotationAngle)
     }
 }

@@ -349,9 +349,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if scrollView.isDragging || scrollView.isDecelerating {
             dismissKeyboardForScrollIfNeeded()
         }
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidScroll(scrollView)
-        }
     }
 
     private func setupLogin() {
