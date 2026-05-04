@@ -83,7 +83,7 @@ struct SignInView: View {
 
     var qrCodeDigits: some View {
         HStack(spacing: 8) {
-            ForEach(Array(model.codes.enumerated()), id: \.offset) { index, code in
+            ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
                 Text(code)
                     .font(.caption2)
                     .foregroundStyle(Color.textSecondary)

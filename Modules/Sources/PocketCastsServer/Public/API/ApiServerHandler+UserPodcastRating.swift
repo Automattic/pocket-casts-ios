@@ -15,7 +15,7 @@ public extension ApiServerHandler {
     func getRating(uuid: String) async -> UserPodcastRating? {
         return await withCheckedContinuation { continuation in
             let operation = UserPodcastRatingGetTask(uuid: uuid)
-            operation.completion = { success, userRating in
+            operation.completion = { _, userRating in
                 continuation.resume(returning: userRating)
             }
             apiQueue.addOperation(operation)

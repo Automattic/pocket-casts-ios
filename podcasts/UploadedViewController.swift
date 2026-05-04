@@ -409,7 +409,7 @@ private extension UploadedViewController {
 
         PaidFeature.bookmarks.objectWillChange
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.handleReloadFromNotification()
             }
             .store(in: &cancellables)
