@@ -1,34 +1,4 @@
 import SwiftUI
-import Combine
-
-@Observable
-class UpNextViewModel {
-
-    private var cancellable: AnyCancellable?
-
-    enum State: Equatable, Hashable {
-        case loading
-        case ready
-        case empty
-    }
-
-    var state: State = .loading
-
-    var episodes: [MockEpisode] = []
-
-    func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                episodes = MockData.makeUpNext()
-                state = .ready
-                cancellable?.cancel()
-                cancellable = nil
-            }
-    }
-}
 
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -60,9 +30,12 @@ struct UpNextView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(L10n.tvTabUpNext)
-                        .font(.title)
-                        .foregroundStyle(Color.textPrimary)
+                    HStack {
+                        Text(L10n.tvTabUpNext)
+                            .font(.title2)
+                            .foregroundStyle(Color.textPrimary)
+                        Spacer()
+                    }
                     upNextListView
                         .frame(maxWidth: 1160)
                 }
@@ -78,7 +51,7 @@ struct UpNextView: View {
 
     @Namespace private var rowNamespace
     var upNextListView: some View {
-        LazyVStack() {
+        LazyVStack(alignment: .leading) {
             ForEach(Array(model.episodes.enumerated()), id: \.element.id) { index, episode in
                 NavigationLink(value: episode) {
                     EpisodeRow(episode: episode)
