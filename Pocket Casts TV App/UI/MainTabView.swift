@@ -38,6 +38,8 @@ struct MainTabContentView: View {
             PodcastsView()
         case .playlists:
             PlaylistsView()
+        case .upNext:
+            UpNextView()
         default:
             if let title = tab.title {
                 CenterButton(title: title)
