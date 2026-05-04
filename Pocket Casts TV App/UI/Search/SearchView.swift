@@ -26,11 +26,6 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 }
             }
             .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
-            .searchScopes($viewModel.scope) {
-                ForEach(SearchScope.allCases, id: \.self) { scope in
-                    Text(scope.rawValue).tag(scope)
-                }
-            }
             .searchSuggestions {
                 if searchText.isEmpty {
                     Section("Recent") {

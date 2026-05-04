@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import EventHorizonSDK
 
 class Analytics {
     static let shared = Analytics()
@@ -33,6 +34,10 @@ class Analytics {
     }
 
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        _track(event.eventName, properties: properties)
+    }
+
+    private func _track(_ eventName: String, properties: [AnyHashable: Any]? = nil) {
         var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
 #if !os(watchOS) && !APPCLIP
         if FeatureFlag.appThemePropertiesLogging.enabled {
@@ -42,7 +47,7 @@ class Analytics {
         }
 #endif
         adapters?.forEach {
-            $0.track(name: event.eventName, properties: newProperties)
+            $0.track(name: eventName, properties: newProperties)
         }
     }
 
@@ -55,6 +60,14 @@ class Analytics {
     fileprivate func setAdaptersRegisteredStatus(_ value: Bool) {
         adaptersRegistered = value
         Self.logCurrentAdapters()
+    }
+}
+
+// MARK: Analytics (EventHorizon)
+
+extension Analytics {
+    static func send(_ event: some EventHorizonSDK.Trackable) {
+        Analytics.shared._track(event.analyticsName, properties: event.analyticsProperties)
     }
 }
 

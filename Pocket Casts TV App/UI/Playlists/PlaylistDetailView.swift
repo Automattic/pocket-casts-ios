@@ -53,9 +53,6 @@ class PlaylistDetailViewModel {
             }
             if unique.count == 4 { break }
         }
-        while unique.count < 4, let first = unique.first {
-            unique.append(first)
-        }
         return unique
     }
 }
@@ -107,28 +104,42 @@ struct PlaylistDetailView: View {
         }
     }
 
+    @ViewBuilder
     var mosaicCover: some View {
         let images = model.coverImages
-        return VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                Image(images[0])
-                    .resizable()
-                    .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                Image(images[1])
-                    .resizable()
-                    .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
+        switch images.count {
+        case 0:
+            Image(ImageResource.pcLogo)
+                .resizable()
+                .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        case 1...3:
+            Image(images[0])
+                .resizable()
+                .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        default:
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    Image(images[0])
+                        .resizable()
+                        .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
+                    Image(images[1])
+                        .resizable()
+                        .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
+                }
+                HStack(spacing: 0) {
+                    Image(images[2])
+                        .resizable()
+                        .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
+                    Image(images[3])
+                        .resizable()
+                        .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
+                }
             }
-            HStack(spacing: 0) {
-                Image(images[2])
-                    .resizable()
-                    .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                Image(images[3])
-                    .resizable()
-                    .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-            }
+            .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     var playlistInfo: some View {
@@ -145,11 +156,13 @@ struct PlaylistDetailView: View {
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }
-            Button {
-                model.playAll()
-            } label: {
-                Text(L10n.tvPlaylistDetailPlayAll)
-                    .font(.caption2)
+            if !model.playlist.episodes.isEmpty {
+                Button {
+                    model.playAll()
+                } label: {
+                    Text(L10n.tvPlaylistDetailPlayAll)
+                        .font(.caption2)
+                }
             }
         }
         .focusSection()
