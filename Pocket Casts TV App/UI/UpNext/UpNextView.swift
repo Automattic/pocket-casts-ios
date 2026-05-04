@@ -75,30 +75,32 @@ struct UpNextView: View {
         }
     }
 
+    @Namespace private var rowNamespace
     var upNextListView: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading) {
-                ForEach(model.episodes) { episode in
-                    NavigationLink(value: episode) {
-                        EpisodeRow(episode: episode)
-                    }
-                    .buttonStyle(.card)
+        LazyVStack(alignment: .leading) {
+            ForEach(Array(model.episodes.enumerated()), id: \.element.id) { index, episode in
+                NavigationLink(value: episode) {
+                    EpisodeRow(episode: episode)
                 }
+                .buttonStyle(.card)
+                .prefersDefaultFocus(index == 0, in: rowNamespace)
             }
-            .navigationDestination(for: MockEpisode.self) { episode in
-                VStack {
-                    Button {
+        }
+        .focusScope(rowNamespace)
+        .padding(24)
+        .navigationDestination(for: MockEpisode.self) { episode in
+            VStack {
+                Button {
 
-                    } label: {
-                        Text("Episode \(episode.title) details coming soon")
-                            .font(.title2)
-                            .foregroundStyle(Color.textPrimary)
-                    }
+                } label: {
+                    Text("Episode \(episode.title) details coming soon")
+                        .font(.title2)
+                        .foregroundStyle(Color.textPrimary)
                 }
             }
-            .padding(24)
         }
     }
+
 }
 
 #Preview {
