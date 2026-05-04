@@ -25,7 +25,6 @@ class CustomRefreshControl: UIRefreshControl {
         }
     }
 
-    private var customConstraints: [NSLayoutConstraint] = []
     private var isFinishingRefresh = false
 
     override init() {
@@ -65,17 +64,7 @@ class CustomRefreshControl: UIRefreshControl {
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
 
-        addTarget(self, action: #selector(didTriggerRefresh), for: .valueChanged)
-    }
-
-    @objc private func didTriggerRefresh() {
-        startRefreshAnimation()
-        perform?(self)
-    }
-
-    override func updateConstraints() {
-        NSLayoutConstraint.deactivate(customConstraints)
-        customConstraints = [
+        NSLayoutConstraint.activate([
             refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.iconToLabelSpacing),
@@ -83,9 +72,14 @@ class CustomRefreshControl: UIRefreshControl {
             refreshInnerImage.topAnchor.constraint(equalTo: topAnchor),
             refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
-        ]
-        NSLayoutConstraint.activate(customConstraints)
-        super.updateConstraints()
+        ])
+
+        addTarget(self, action: #selector(didTriggerRefresh), for: .valueChanged)
+    }
+
+    @objc private func didTriggerRefresh() {
+        startRefreshAnimation()
+        perform?(self)
     }
 
     override func layoutSubviews() {
