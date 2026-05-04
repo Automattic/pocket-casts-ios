@@ -8,6 +8,7 @@ final class FingerprintMappingCacheTests: XCTestCase {
 
     private var tempDir: URL!
     private var audioPath: String!
+    private var referencePath: String!
     private var referenceData: Data!
 
     override func setUpWithError() throws {
@@ -21,12 +22,16 @@ final class FingerprintMappingCacheTests: XCTestCase {
         audioPath = audioURL.path
 
         referenceData = Data("reference-bytes-v1".utf8)
+        let refURL = tempDir.appendingPathComponent("episode.ref.fp.json")
+        try referenceData.write(to: refURL)
+        referencePath = refURL.path
     }
 
     override func tearDownWithError() throws {
         try? FileManager.default.removeItem(at: tempDir)
         tempDir = nil
         audioPath = nil
+        referencePath = nil
         referenceData = nil
         try super.tearDownWithError()
     }
@@ -38,12 +43,17 @@ final class FingerprintMappingCacheTests: XCTestCase {
         FingerprintMappingCache.save(
             entries,
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
 
         let loaded = try XCTUnwrap(
-            FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData)
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
         )
         XCTAssertEqual(loaded.entries.count, entries.count)
         XCTAssertEqual(loaded.referenceDuration, 100, accuracy: 0.001)
@@ -60,18 +70,26 @@ final class FingerprintMappingCacheTests: XCTestCase {
         FingerprintMappingCache.save(
             makeFullCoverageEntries(),
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
 
         let differentReference = Data("different-reference".utf8)
-        XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: differentReference))
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: differentReference
+            )
+        )
     }
 
     func testCacheIsRejectedWhenAudioFileSizeChanges() throws {
         FingerprintMappingCache.save(
             makeFullCoverageEntries(),
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
@@ -79,13 +97,20 @@ final class FingerprintMappingCacheTests: XCTestCase {
         let url = URL(fileURLWithPath: audioPath)
         try Data(repeating: 0xcd, count: 4096).write(to: url)
 
-        XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData))
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
     }
 
     func testCacheIsRejectedWhenAudioFileMTimeChanges() throws {
         FingerprintMappingCache.save(
             makeFullCoverageEntries(),
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
@@ -97,7 +122,89 @@ final class FingerprintMappingCacheTests: XCTestCase {
             ofItemAtPath: audioPath
         )
 
-        XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData))
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
+    }
+
+    func testCacheIsRejectedWhenAudioContentChanges() throws {
+        FingerprintMappingCache.save(
+            makeFullCoverageEntries(),
+            audioFilePath: audioPath,
+            referenceFilePath: referencePath,
+            referenceData: referenceData,
+            referenceDuration: 100
+        )
+
+        // Preserve original attributes so size/mtime checks pass.
+        let attrs = try FileManager.default.attributesOfItem(atPath: audioPath)
+        let originalDate = attrs[.modificationDate] as! Date
+
+        // Rewrite with different content but same size.
+        try Data(repeating: 0xff, count: 1024).write(to: URL(fileURLWithPath: audioPath))
+        try FileManager.default.setAttributes(
+            [.modificationDate: originalDate],
+            ofItemAtPath: audioPath
+        )
+
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
+    }
+
+    func testCacheIsRejectedWhenReferenceFileSizeChanges() throws {
+        FingerprintMappingCache.save(
+            makeFullCoverageEntries(),
+            audioFilePath: audioPath,
+            referenceFilePath: referencePath,
+            referenceData: referenceData,
+            referenceDuration: 100
+        )
+
+        // Replace the reference file with different-sized content.
+        try Data("much-longer-reference-content-that-changes-the-file-size".utf8)
+            .write(to: URL(fileURLWithPath: referencePath))
+
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
+    }
+
+    func testCacheIsRejectedWhenReferenceFileMTimeChanges() throws {
+        FingerprintMappingCache.save(
+            makeFullCoverageEntries(),
+            audioFilePath: audioPath,
+            referenceFilePath: referencePath,
+            referenceData: referenceData,
+            referenceDuration: 100
+        )
+
+        // Bump mtime well beyond the 1.0s tolerance.
+        let bumpedDate = Date(timeIntervalSinceNow: 60)
+        try FileManager.default.setAttributes(
+            [.modificationDate: bumpedDate],
+            ofItemAtPath: referencePath
+        )
+
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
     }
 
     func testPartialCoverageCacheIsNotPersisted() {
@@ -108,6 +215,7 @@ final class FingerprintMappingCacheTests: XCTestCase {
         FingerprintMappingCache.save(
             partial,
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
@@ -121,6 +229,7 @@ final class FingerprintMappingCacheTests: XCTestCase {
         FingerprintMappingCache.save(
             [],
             audioFilePath: audioPath,
+            referenceFilePath: referencePath,
             referenceData: referenceData,
             referenceDuration: 100
         )
@@ -130,7 +239,13 @@ final class FingerprintMappingCacheTests: XCTestCase {
     }
 
     func testMissingCacheLoadsAsNil() {
-        XCTAssertNil(FingerprintMappingCache.load(audioFilePath: audioPath, referenceData: referenceData))
+        XCTAssertNil(
+            FingerprintMappingCache.load(
+                audioFilePath: audioPath,
+                referenceFilePath: referencePath,
+                referenceData: referenceData
+            )
+        )
     }
 
     // MARK: - Helpers

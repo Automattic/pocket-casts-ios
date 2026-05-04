@@ -38,6 +38,9 @@ final class FingerprintTimingManager: NSObject {
         /// Raw bytes of the reference fingerprint JSON, used to validate the
         /// persistent mapping cache via SHA-256.
         let referenceData: Data
+        /// On-disk path of the reference fingerprint file, used to validate
+        /// the persistent mapping cache via file identity (size+mtime).
+        let referenceFilePath: String
         /// Total duration of the reference timeline, used to gate the persistent
         /// mapping cache on full coverage.
         let referenceDuration: Double
@@ -217,6 +220,7 @@ final class FingerprintTimingManager: NSObject {
             duration: ctx.duration,
             matcher: ctx.matcher,
             referenceData: ctx.referenceData,
+            referenceFilePath: ctx.referenceFilePath,
             referenceDuration: ctx.referenceDuration,
             isCancelled: { flag.isCancelled }
         )
@@ -407,6 +411,7 @@ final class FingerprintTimingManager: NSObject {
         }
 
         let flag = cancellationFlag
+        let refPath = referencePath(for: episode)
         let newContext = GenerationContext(
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
@@ -414,6 +419,7 @@ final class FingerprintTimingManager: NSObject {
             duration: duration,
             matcher: matcher,
             referenceData: referenceData,
+            referenceFilePath: refPath,
             referenceDuration: reference.totalDuration,
             isCancelled: { flag.isCancelled }
         )
@@ -432,6 +438,7 @@ final class FingerprintTimingManager: NSObject {
         if !isStreaming,
            let cached = FingerprintMappingCache.load(
                audioFilePath: audioFileURL.path,
+               referenceFilePath: refPath,
                referenceData: referenceData
            ) {
             // The cache is produced from `playbackToReference` (already sorted
@@ -748,6 +755,7 @@ final class FingerprintTimingManager: NSObject {
                 FingerprintMappingCache.save(
                     snapshot,
                     audioFilePath: ctx.audioFileURL.path,
+                    referenceFilePath: ctx.referenceFilePath,
                     referenceData: ctx.referenceData,
                     referenceDuration: ctx.referenceDuration
                 )
