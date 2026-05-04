@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -171,6 +172,10 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private weak var delegate: FilterCreatedDelegate?
+
+    lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
+        self?.reload(with: $0)
+    }
 
     init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
         self.delegate = delegate
@@ -390,9 +395,14 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         refreshControl = CustomRefreshControl()
         refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { refreshControl in
+        refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
-            RefreshManager.shared.refreshPodcasts()
+            self?.reloader.pause()
+            RefreshManager.shared.refreshPodcasts { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.didFinishRefresh()
+                }
+            }
         }
         tableView.refreshControl = refreshControl
     }
@@ -403,12 +413,12 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        removeLoadingIndicators()
+        loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
             do {
                 try SJCommonUtils.catchException {
-                    tableView.reload(using: data, with: .automatic) { newData in
+                    tableView.reload(using: data, with: .fade) { newData in
                         viewModel.update(data: newData) { [weak self] in
                             self?.reloadRefreshControlColor()
                         }
@@ -435,14 +445,14 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshMultiSelectEpisodes()
     }
 
-    private func removeLoadingIndicators() {
-        loadingIndicator.stopAnimating()
+    private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
             UIView.animate(withDuration: 0.2, animations: {
                 self?.refreshControl?.alpha = 0
             }, completion: { _ in
                 self?.refreshControl?.endRefreshing()
+                self?.reloader.resume(after: .milliseconds(600)) // Reload after animations settle
             })
         }
     }
@@ -461,12 +471,20 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        reloadNavTitle()
-        viewModel.reloadPlaylistAndEpisodes()
+        reloader.request(.playlist)
     }
 
     @objc func refreshEpisodesFromNotification(notification: Notification) {
-        viewModel.reloadEpisodeList()
+        reloader.request(.episodes)
+    }
+
+    private func reload(with scopes: PlaylistReloadScope) {
+        if scopes.contains(.playlist) {
+            reloadNavTitle()
+            viewModel.reloadPlaylistAndEpisodes() // It also reloads the episode list
+        } else if scopes.contains(.episodes) {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func editPlaylist() {

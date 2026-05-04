@@ -4,6 +4,8 @@
 - Improve search bar collapse animations [#4212](https://github.com/Automattic/pocket-casts-ios/pull/4212)
 - Fix first reload of the Playlists screen always being animated [#4228](https://github.com/Automattic/pocket-casts-ios/pull/4228)
 - Make it easier and faster to change smart playlist rules [#4221](https://github.com/Automattic/pocket-casts-ios/pull/4221)
+- Fix an issue with episodes sometimes refreshing under you on the Playlist screen while your are performing swipe actions [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)
+- Fix an issue with pull-to-refresh sometimes skipping the refresh on the Smart Playlist screen [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)  
 
 8.11
 -----
