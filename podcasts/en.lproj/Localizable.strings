@@ -5903,7 +5903,7 @@
 "tv_welcome_title" = "Welcome to Pocket Casts TV";
 
 /* tv welcome subtitle */
-"tv_welcome_subtitle" = "Your podcasts on the big screen";
+"tv_welcome_subtitle" = "Your podcasts. On the big screen. Obviously.";
 
 /* tv welcome sign in */
 "tv_welcome_sign_in" = "Sign in";
@@ -5953,8 +5953,41 @@
 /* tv podcast details follow button title */
 "tv_podcast_detail_follow_title" = "Follow this podcast";
 
+/* tv podcast details following button title */
+"tv_podcast_detail_following_title" = "Following";
+
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
+
+/* tv podcast more info network label */
+"tv_podcast_detail_network" = "Network";
+
+/* tv podcast more info website label */
+"tv_podcast_detail_website" = "Website";
+
+/* tv podcast more info schedule label */
+"tv_podcast_detail_schedule" = "Schedule";
+
+/* tv podcast more info about section title */
+"tv_podcast_detail_about" = "About";
+
+/* tv podcast more info next episode label */
+"tv_podcast_detail_next_episode" = "Next episode";
+
+/* tv podcast detail recommended episode section title */
+"tv_podcast_detail_start_here" = "The episode to try first";
+
+/* tv podcast detail recommended episode section subtitle */
+"tv_podcast_detail_start_here_subtitle" = "This is the one that gets people hooked";
+
+/* tv podcast detail all episodes section title */
+"tv_podcast_detail_all_episodes" = "All episodes";
+
+/* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
+"tv_playlist_detail_episode_count" = "%1$@ episodes";
+
+/* tv playlist detail play all button title */
+"tv_playlist_detail_play_all" = "Play all episodes";
 
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
@@ -5971,7 +6004,35 @@
 /* tv home recommended for you title */
 "tv_home_recommended_for_you_title" = "Recommended for you";
 
+/* tv home recently played section title */
+"tv_home_recently_played" = "Recently played";
 
+/* tv home new releases section title */
+"tv_home_new_releases" = "New releases";
+
+/* tv player playback speed menu title */
+"tv_player_playback_speed" = "Playback speed";
+
+/* tv player playback effects menu title */
+"tv_player_playback_effects" = "Playback effects";
+
+/* tv player volume boost toggle title */
+"tv_player_volume_boost" = "Volume boost";
+
+/* tv player trim silence section title */
+"tv_player_trim_silence" = "Trim silence";
+
+/* tv player trim silence off option */
+"tv_player_trim_silence_off" = "Off";
+
+/* tv player trim silence mild option */
+"tv_player_trim_silence_mild" = "Mild";
+
+/* tv player trim silence medium option */
+"tv_player_trim_silence_medium" = "Medium";
+
+/* tv player trim silence mad max option */
+"tv_player_trim_silence_mad_max" = "Mad Max";
 
 
 

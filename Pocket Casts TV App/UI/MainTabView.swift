@@ -64,13 +64,13 @@ struct CenterButton: View {
 @Observable
 final class MainTabRouter {
     var selectedTab: MainTab = .home
+    var isShowingDetail: Bool = false
 }
 
 struct MainTabView: View {
 
     @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
-
     @State private var scrollOffset: Double = 0
 
     enum FocusArea: Hashable {
@@ -98,9 +98,8 @@ struct MainTabView: View {
             .focused($focusedArea, equals: .tabBar)
         }.overlay(alignment: .top) {
             accessoryView
-        }.onAppear {
-            focusedArea = .tabBar
         }
+        .defaultFocus($focusedArea, .tabBar)
         // Intercept right-swipe from tab bar to profile
         .onMoveCommand { direction in
             handleMove(direction)
@@ -108,22 +107,25 @@ struct MainTabView: View {
         .ignoresSafeArea()
         .onScrollGeometryChange(for: Double.self) { geometry in
             geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { before, after in
+        } action: { _, after in
             self.scrollOffset = after
         }
     }
 
+    @ViewBuilder
     var accessoryView: some View {
-        VStack() {
-            HStack() {
-                leftAccessory
+        if !tabSelection.isShowingDetail {
+            VStack() {
+                HStack() {
+                    leftAccessory
+                    Spacer()
+                    rightAccessory
+                }
+                .padding(.vertical, 48)
+                .padding(.horizontal, 84)
+                .offset(x: 0, y: -scrollOffset)
                 Spacer()
-                rightAccessory
             }
-            .padding(.vertical, 48)
-            .padding(.horizontal, 84)
-            .offset(x: 0, y: -scrollOffset)
-            Spacer()
         }
     }
 

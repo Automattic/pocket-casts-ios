@@ -4255,18 +4255,62 @@ internal enum L10n {
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
   /// tv keep listening title
   internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Keep listening") }
+  /// tv home new releases section title
+  internal static var tvHomeNewReleases: String { return L10n.tr("Localizable", "tv_home_new_releases", fallback: "New releases") }
+  /// tv home recently played section title
+  internal static var tvHomeRecentlyPlayed: String { return L10n.tr("Localizable", "tv_home_recently_played", fallback: "Recently played") }
   /// tv home recommended for you title
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
+  /// tv player playback effects menu title
+  internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
+  /// tv player playback speed menu title
+  internal static var tvPlayerPlaybackSpeed: String { return L10n.tr("Localizable", "tv_player_playback_speed", fallback: "Playback speed") }
+  /// tv player trim silence section title
+  internal static var tvPlayerTrimSilence: String { return L10n.tr("Localizable", "tv_player_trim_silence", fallback: "Trim silence") }
+  /// tv player trim silence mad max option
+  internal static var tvPlayerTrimSilenceMadMax: String { return L10n.tr("Localizable", "tv_player_trim_silence_mad_max", fallback: "Mad Max") }
+  /// tv player trim silence medium option
+  internal static var tvPlayerTrimSilenceMedium: String { return L10n.tr("Localizable", "tv_player_trim_silence_medium", fallback: "Medium") }
+  /// tv player trim silence mild option
+  internal static var tvPlayerTrimSilenceMild: String { return L10n.tr("Localizable", "tv_player_trim_silence_mild", fallback: "Mild") }
+  /// tv player trim silence off option
+  internal static var tvPlayerTrimSilenceOff: String { return L10n.tr("Localizable", "tv_player_trim_silence_off", fallback: "Off") }
+  /// tv player volume boost toggle title
+  internal static var tvPlayerVolumeBoost: String { return L10n.tr("Localizable", "tv_player_volume_boost", fallback: "Volume boost") }
+  /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.
+  internal static func tvPlaylistDetailEpisodeCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_playlist_detail_episode_count", String(describing: p1), fallback: "%1$@ episodes")
+  }
+  /// tv playlist detail play all button title
+  internal static var tvPlaylistDetailPlayAll: String { return L10n.tr("Localizable", "tv_playlist_detail_play_all", fallback: "Play all episodes") }
   /// tv playlists empty button action title
   internal static var tvPlaylistsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_action_title", fallback: "Create a playlist") }
   /// tv playlists empty subtitle
   internal static var tvPlaylistsEmptySubtitle: String { return L10n.tr("Localizable", "tv_playlists_empty_subtitle", fallback: "Build one manually or let Smart Rules do the sorting for you.") }
   /// tv playlists empty title
   internal static var tvPlaylistsEmptyTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_title", fallback: "Your playlists live here") }
+  /// tv podcast more info about section title
+  internal static var tvPodcastDetailAbout: String { return L10n.tr("Localizable", "tv_podcast_detail_about", fallback: "About") }
+  /// tv podcast detail all episodes section title
+  internal static var tvPodcastDetailAllEpisodes: String { return L10n.tr("Localizable", "tv_podcast_detail_all_episodes", fallback: "All episodes") }
   /// tv podcast details follow button title
   internal static var tvPodcastDetailFollowTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_follow_title", fallback: "Follow this podcast") }
+  /// tv podcast details following button title
+  internal static var tvPodcastDetailFollowingTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_following_title", fallback: "Following") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
+  /// tv podcast more info network label
+  internal static var tvPodcastDetailNetwork: String { return L10n.tr("Localizable", "tv_podcast_detail_network", fallback: "Network") }
+  /// tv podcast more info next episode label
+  internal static var tvPodcastDetailNextEpisode: String { return L10n.tr("Localizable", "tv_podcast_detail_next_episode", fallback: "Next episode") }
+  /// tv podcast more info schedule label
+  internal static var tvPodcastDetailSchedule: String { return L10n.tr("Localizable", "tv_podcast_detail_schedule", fallback: "Schedule") }
+  /// tv podcast detail recommended episode section title
+  internal static var tvPodcastDetailStartHere: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here", fallback: "The episode to try first") }
+  /// tv podcast detail recommended episode section subtitle
+  internal static var tvPodcastDetailStartHereSubtitle: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here_subtitle", fallback: "This is the one that gets people hooked") }
+  /// tv podcast more info website label
+  internal static var tvPodcastDetailWebsite: String { return L10n.tr("Localizable", "tv_podcast_detail_website", fallback: "Website") }
   /// tv podcasts empty button action title
   internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Discover podcasts") }
   /// tv podcasts empty subtitle
@@ -4302,7 +4346,7 @@ internal enum L10n {
   /// tv welcome sign in
   internal static var tvWelcomeSignIn: String { return L10n.tr("Localizable", "tv_welcome_sign_in", fallback: "Sign in") }
   /// tv welcome subtitle
-  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts on the big screen") }
+  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts. On the big screen. Obviously.") }
   /// tv welcome title
   internal static var tvWelcomeTitle: String { return L10n.tr("Localizable", "tv_welcome_title", fallback: "Welcome to Pocket Casts TV") }
   /// A common string used throughout the app. Prompt to restore the selected item(s) from an archived state.
