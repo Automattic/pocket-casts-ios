@@ -65,7 +65,10 @@ class SearchViewModel: SearchableViewModel {
                 guard !Task.isCancelled else { return }
                 results = podcasts
                 state = results.isEmpty ? .empty : .results
+            }  catch is CancellationError {
+                return
             } catch {
+                guard !Task.isCancelled else { return }
                 state  = .error(error)
             }
         }
