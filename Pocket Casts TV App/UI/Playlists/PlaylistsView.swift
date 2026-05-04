@@ -64,7 +64,7 @@ struct PlaylistsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
-                        .font(.title)
+                        .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                     playlistsCollection
                 }

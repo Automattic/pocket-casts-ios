@@ -4339,6 +4339,12 @@ internal enum L10n {
   internal static var tvTabPodcasts: String { return L10n.tr("Localizable", "tv_tab_podcasts", fallback: "Your Podcasts") }
   /// tv app Up Next tab
   internal static var tvTabUpNext: String { return L10n.tr("Localizable", "tv_tab_up_next", fallback: "Up Next") }
+  /// tv up next empty button action title
+  internal static var tvUpNextEmptyActionTitle: String { return L10n.tr("Localizable", "tv_up_next_empty_action_title", fallback: "Add episodes") }
+  /// tv up next empty subtitle
+  internal static var tvUpNextEmptySubtitle: String { return L10n.tr("Localizable", "tv_up_next_empty_subtitle", fallback: "Add episodes to Up Next and they'll play in order, back to back") }
+  /// tv up next empty title
+  internal static var tvUpNextEmptyTitle: String { return L10n.tr("Localizable", "tv_up_next_empty_title", fallback: "Nothing queued up") }
   /// tv welcome browse without account
   internal static var tvWelcomeBrowseWithoutAccount: String { return L10n.tr("Localizable", "tv_welcome_browse_without_account", fallback: "Browse without an account") }
   /// tv welcome create free account

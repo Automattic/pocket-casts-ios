@@ -30,14 +30,38 @@ enum MainTab: Int, CaseIterable, Identifiable {
 struct MainTabContentView: View {
     let tab: MainTab
 
+    @Binding var scrollOffset: Double
+
     var body: some View {
         switch tab {
         case .home:
             HomeView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
         case .podcasts:
             PodcastsView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
         case .playlists:
             PlaylistsView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .upNext:
+            UpNextView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
         default:
             if let title = tab.title {
                 CenterButton(title: title)
@@ -84,7 +108,7 @@ struct MainTabView: View {
             TabView(selection: $tabSelection.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        MainTabContentView(tab: tab)
+                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
                             .environment(tabSelection)
                     } label: {
                         Label {
@@ -105,11 +129,6 @@ struct MainTabView: View {
             handleMove(direction)
         }
         .ignoresSafeArea()
-        .onScrollGeometryChange(for: Double.self) { geometry in
-            geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { _, after in
-            self.scrollOffset = after
-        }
     }
 
     @ViewBuilder
