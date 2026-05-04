@@ -182,7 +182,7 @@ struct MockData {
         for i in (0..<numberOfEpisodes) {
             let podcastImageName = "Covers/login-cover-\( (Int.random(in: 1...10)))"
             episodes.append(MockEpisode(uuid: UUID().uuidString, title: "Episode \(i+1)", publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
-        }        
+        }
         return episodes
     }
 }

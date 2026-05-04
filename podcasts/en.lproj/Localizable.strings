@@ -6034,5 +6034,11 @@
 /* tv player trim silence mad max option */
 "tv_player_trim_silence_mad_max" = "Mad Max";
 
+/* tv up next empty title */
+"tv_up_next_empty_title" = "Nothing queued up";
 
+/* tv up next empty subtitle */
+"tv_up_next_empty_subtitle" = "Add episodes to Up Next and they'll play in order, back to back";
 
+/* tv up next empty button action title */
+"tv_up_next_empty_action_title" = "Add episodes";
