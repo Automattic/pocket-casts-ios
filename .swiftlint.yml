@@ -46,6 +46,9 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # Prefer `first(where:)` over `filter { }.first`.
+  - first_where
+
   # When calling the `joined` method on an array of strings, omit an
   # explicit empty-string separator since that is the default.
   - joined_default_parameter

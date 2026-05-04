@@ -398,9 +398,9 @@ extension IAPHelper {
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     func getPromoOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
-            let offer = getProduct(for: identifier)?.discounts.filter({ discount in
+            let offer = getProduct(for: identifier)?.discounts.first(where: { discount in
                 discount.type != .introductory
-            }).first,
+            }),
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil

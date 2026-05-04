@@ -2,7 +2,7 @@ import SwiftUI
 
 extension UIApplication {
     func endEditing(_ force: Bool) {
-        (connectedScenes.first as? UIWindowScene)?.windows.filter { $0.isKeyWindow }.first?.endEditing(force)
+        (connectedScenes.first as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow })?.endEditing(force)
     }
 }
 

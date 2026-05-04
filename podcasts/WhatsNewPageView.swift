@@ -53,7 +53,7 @@ class WhatsNewPageView: ThemeableView {
                     horizontalStack.addArrangedSubview(imageView)
                     constraintsToActivate.append(horizontalStack.widthAnchor.constraint(equalTo: stackView.widthAnchor))
 
-                    if let secondaryIcon = pageInfo.items.filter({ $0.type == "secondary_image" }).first, let secondaryResource = secondaryIcon.resource {
+                    if let secondaryIcon = pageInfo.items.first(where: { $0.type == "secondary_image" }), let secondaryResource = secondaryIcon.resource {
                         let imageView = WhatsNewThemeableImageView(imageName: secondaryResource)
                         imageView.contentMode = .bottomRight
                         imageView.translatesAutoresizingMaskIntoConstraints = false

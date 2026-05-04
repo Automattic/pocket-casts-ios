@@ -150,8 +150,7 @@ class HeadphoneSettingsViewController: PCTableViewController {
         // This will only fire once, and only if the feature is unlocked.
         feature.objectWillChange
             .receive(on: DispatchQueue.main)
-            .filter { feature.isUnlocked }
-            .first()
+            .first(where: { feature.isUnlocked })
             .sink { unlocked() }
             .store(in: &cancellables)
 
