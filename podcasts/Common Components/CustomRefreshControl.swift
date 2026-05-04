@@ -14,9 +14,6 @@ class CustomRefreshControl: UIRefreshControl {
         static let innerRotationMultiplier: CGFloat = 4
         static let outerRotationMultiplier: CGFloat = 2
         static let messageDwell: TimeInterval = 0.25
-    }
-
-    private enum Layout {
         static let iconToLabelSpacing: CGFloat = 35
     }
 
@@ -25,14 +22,6 @@ class CustomRefreshControl: UIRefreshControl {
             refreshLabel.textColor = customTintColor
             refreshInnerImage.tintColor = customTintColor
             refreshOuterImage.tintColor = customTintColor
-        }
-    }
-
-    /// Top inset for the spinner icon. The label sits a fixed distance below the icon.
-    var topInset: CGFloat = 15 {
-        didSet {
-            guard topInset != oldValue else { return }
-            setNeedsUpdateConstraints()
         }
     }
 
@@ -95,9 +84,9 @@ class CustomRefreshControl: UIRefreshControl {
         customConstraints = [
             refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: topInset + Layout.iconToLabelSpacing),
+            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.iconToLabelSpacing),
             refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: topInset),
+            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor),
             refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
         ]
