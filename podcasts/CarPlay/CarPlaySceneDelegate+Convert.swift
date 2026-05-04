@@ -65,7 +65,7 @@ extension CarPlaySceneDelegate {
         }
 
         item.handler = { [weak self] _, completion in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.upNextTapped(showNowPlaying: true)
             completion()

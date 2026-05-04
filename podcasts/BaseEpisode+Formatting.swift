@@ -99,7 +99,7 @@ extension BaseEpisode {
 
     func shortDateFor(date: Date?) -> String {
         let noDate = L10n.podcastNoDate
-        guard let date = date, date.timeIntervalSince1970 > 0 else { return noDate }
+        guard let date, date.timeIntervalSince1970 > 0 else { return noDate }
 
         if Calendar.current.isDateInToday(date) {
             return L10n.today

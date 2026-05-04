@@ -133,7 +133,7 @@ class SimpleActionView: UIView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         UIView.animate(withDuration: 0.2) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.backgroundColor = ThemeColor.primaryUi01Active(for: self.themeOverride)
         }
@@ -159,7 +159,7 @@ class SimpleActionView: UIView {
         action.action()
 
         if action.onOffAction {
-            guard let onOffSwitch = onOffSwitch else { return }
+            guard let onOffSwitch else { return }
 
             onOffSwitch.isOn = !onOffSwitch.isOn
         } else {

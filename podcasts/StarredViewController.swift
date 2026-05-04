@@ -29,7 +29,7 @@ class StarredViewController: PCViewController {
     var isMultiSelectEnabled: Bool = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.starredTable.beginUpdates()
                 self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -89,7 +89,7 @@ class StarredViewController: PCViewController {
         loadingIndicator.startAnimating()
         refreshQueue.addOperation {
             ApiServerHandler.shared.retrieveStarred { episodes in
-                guard let episodes = episodes else {
+                guard let episodes else {
                     DispatchQueue.main.sync {
                         self.loadingIndicator.stopAnimating()
                     }

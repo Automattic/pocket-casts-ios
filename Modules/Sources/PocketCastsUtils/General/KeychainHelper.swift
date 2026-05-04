@@ -57,7 +57,7 @@ public class KeychainHelper {
         let fullKey = prefix + key
 
         // If the value is nil, delete the item
-        guard let value = value else {
+        guard let value else {
             var query = createQuery()
             query[kSecAttrService as String] = fullKey
             let status = SecItemDelete(query as CFDictionary)

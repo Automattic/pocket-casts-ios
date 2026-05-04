@@ -64,7 +64,7 @@ class OptionsPicker {
     }
 
     func controllerDidAnimateOut(optionChosen: Bool) {
-        if let noActionCallback = noActionCallback, !optionChosen {
+        if let noActionCallback, !optionChosen {
             noActionCallback()
         }
 

@@ -144,7 +144,7 @@ extension NowPlayingPlayerItemViewController {
     }
 
     private func updateChapterProgress(for chapter: ChapterInfo?, playheadPosition: TimeInterval) {
-        guard let chapter = chapter else {
+        guard let chapter else {
             return
         }
 

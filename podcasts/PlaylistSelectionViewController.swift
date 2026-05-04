@@ -60,7 +60,7 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let playlist = allPlaylists[indexPath.row]
         let onToggleChange: (Bool) -> Void = { [weak self] selected in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if selected {
                 self.selectedPlaylists.append(playlist.uuid)
@@ -76,7 +76,7 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
         if FeatureFlag.playlistsRebranding.enabled {
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
-                    guard let self = self else { return false }
+                    guard let self else { return false }
                     return self.selectedPlaylists.contains(playlist.uuid)
                 },
                 set: { newValue in

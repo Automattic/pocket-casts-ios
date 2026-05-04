@@ -184,7 +184,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
             textFieldToToggle = confirmField
         }
 
-        if let textFieldToToggle = textFieldToToggle {
+        if let textFieldToToggle {
             textFieldToToggle.isSecureTextEntry.toggle()
             if textFieldToToggle.isSecureTextEntry {
                 tappedButton.setImage(UIImage(named: "eye-crossed"), for: .normal)
@@ -330,7 +330,7 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets.zero
         var animationDuration = 0.3
         if let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double) {
             animationDuration = keyboardDuration

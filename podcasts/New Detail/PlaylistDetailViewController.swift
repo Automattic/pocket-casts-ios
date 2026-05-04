@@ -84,7 +84,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -307,7 +307,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
-        searchController.searchControllerTopConstant = topAnchor
 
         multiSelectHeaderView = ThemeableView()
         view.addSubview(multiSelectHeaderView)
@@ -323,7 +322,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
-        multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+        multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
         view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
 
@@ -331,7 +330,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             blurHeaderView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize),
             blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),

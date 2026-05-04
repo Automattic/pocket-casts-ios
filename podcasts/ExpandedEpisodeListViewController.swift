@@ -88,7 +88,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
-                guard let podcast = podcast else {
+                guard let podcast else {
                     self?.delegate?.failedToLoadEpisode()
                     return
                 }

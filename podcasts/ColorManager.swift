@@ -43,7 +43,7 @@ class ColorManager {
 
     class func darkThemeTintColorForPodcastUuid(_ uuid: String, completion: @escaping ((UIColor) -> Void)) {
         CacheServerHandler.shared.loadPodcastColors(podcastUuid: uuid, allowCachedVersion: true, completion: { _, _, darkThemeTint in
-            guard let darkThemeTint = darkThemeTint else {
+            guard let darkThemeTint else {
                 completion(ColorManager.sharedManager.defaultDarkTintColor)
 
                 return
@@ -151,7 +151,7 @@ class ColorManager {
             dispatchGroup.enter()
 
             CacheServerHandler.shared.loadPodcastColors(podcastUuid: podcastUuid, allowCachedVersion: false, completion: { backgroundColor, lightThemeTint, darkThemeTint in
-                guard let backgroundColor = backgroundColor, let lightThemeTint = lightThemeTint, let darkThemeTint = darkThemeTint else {
+                guard let backgroundColor, let lightThemeTint, let darkThemeTint else {
                     strongSelf.handleDownloadError(podcastUuid: podcastUuid)
                     dispatchGroup.leave()
 

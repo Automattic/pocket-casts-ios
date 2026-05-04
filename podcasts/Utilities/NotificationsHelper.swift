@@ -137,7 +137,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         if downloadEpisodeActionId == response.actionIdentifier {
             AnalyticsHelper.downloadFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
-                if let episode = episode {
+                if let episode {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
                 }
 
@@ -148,7 +148,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             AnalyticsHelper.addToUpNextFromNotification(playFirst: playFirst)
 
             findEpisode(episodeUuid: episodeUuid) { episode in
-                if let episode = episode {
+                if let episode {
                     PlaybackManager.shared.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: playFirst, userInitiated: true)
                 }
 
@@ -157,7 +157,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         } else if playNowActionid == response.actionIdentifier {
             AnalyticsHelper.playNowFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
-                if let episode = episode {
+                if let episode {
                     PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
                 }
 
@@ -175,7 +175,7 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         } else {
             // none of the actions where 3D Touched, the user just wants to open this episode if there is one
             findEpisode(episodeUuid: episodeUuid) { [weak self] episode in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if let episode = episode as? Episode, let podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid) {
                     self.appDelegate()?.openEpisode(episode.uuid, from: podcast)

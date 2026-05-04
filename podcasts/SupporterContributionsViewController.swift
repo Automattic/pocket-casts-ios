@@ -169,7 +169,7 @@ class SupporterContributionsViewController: PCViewController, UITableViewDelegat
             let bundleUrl = ServerHelper.bundleUrl(bundleUuid: bundle.bundleUuid)
             DiscoverServerHandler.shared.discoverPodcastCollection(source: bundleUrl.absoluteString, authenticated: nil, completion: { podcastCollection in
 
-                guard let podcastCollection = podcastCollection else { return }
+                guard let podcastCollection else { return }
                 self.bundleInfo[bundle.bundleUuid] = podcastCollection
                 DispatchQueue.main.async {
                     self.tableView.reloadData()

@@ -179,7 +179,7 @@ public extension ApiServerHandler {
     }
 
     class func extractErrorResponse(data: Data?, response: URLResponse?, error: Error? = nil) -> APIError? {
-        if let data = data {
+        if let data {
             do {
                 let errorJson = try JSONDecoder().decode(ErrorResponse.self, from: data)
                 return APIError(rawValue: errorJson.errorMessageId ?? "unknown")

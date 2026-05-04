@@ -858,7 +858,7 @@ public class PlaylistQueryBuilder {
         var queryString = "archived = 0 "
         var addedUuid = false
 
-        if let episodeUuidToAdd = episodeUuidToAdd {
+        if let episodeUuidToAdd {
             queryString += "AND ((uuid = '\(episodeUuidToAdd)') OR ("
             addedUuid = true
         } else {

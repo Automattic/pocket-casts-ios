@@ -23,7 +23,7 @@ class AudioUtils {
     }
 
     class func performFade(_ fadeOut: Bool, length: vDSP_Length, data: UnsafeMutablePointer<Float32>?) {
-        guard let data = data else { return }
+        guard let data else { return }
 
         var ramp = [Float32](repeating: 0, count: Int(length))
 

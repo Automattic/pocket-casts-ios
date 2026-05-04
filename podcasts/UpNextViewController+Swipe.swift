@@ -12,7 +12,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
         switch orientation {
         case .left:
             let moveToTopAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
-                guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
+                guard let self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
                 Analytics.track(.episodeSwipeActionPerformed, properties: ["action": "up_next_move_up", "source": "up_next"])
 
@@ -24,7 +24,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             moveToTopAction.accessibilityLabel = L10n.moveToTop
             moveToTopAction.hidesWhenSelected = true
             let moveToBottomAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
-                guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
+                guard let self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
                 let queueCount = PlaybackManager.shared.queue.upNextCount()
                 PlaybackManager.shared.queue.move(episode: episode, to: queueCount - 1, fireNotification: false)
@@ -38,7 +38,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
             return [moveToTopAction, moveToBottomAction]
         case .right:
             let deleteAction = SwipeAction(style: .destructive, title: nil) { [weak self] _, indexPath in
-                guard let self = self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
+                guard let self, let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
                 self.changedViaSwipeToRemove = true
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)

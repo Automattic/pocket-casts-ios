@@ -104,7 +104,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         }
     }
 
-    var initialTouchPoint = CGPoint(x: 0, y: 0)
+    var initialTouchPoint = CGPoint.zero
 
     var showingChapters = false
     var showingNotes = false

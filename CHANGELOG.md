@@ -1,3 +1,10 @@
+8.12
+-----
+- Add animations when tapping backward or forward in mini player [#4214](https://github.com/Automattic/pocket-casts-ios/pull/4214)
+- Improve search bar collapse animations [#4212](https://github.com/Automattic/pocket-casts-ios/pull/4212)
+- Fix first reload of the Playlists screen always being animated [#4228](https://github.com/Automattic/pocket-casts-ios/pull/4228)
+- Make it easier and faster to change smart playlist rules [#4221](https://github.com/Automattic/pocket-casts-ios/pull/4221)
+
 8.11
 -----
 - Fix smart rules too small cell height [#4171](https://github.com/Automattic/pocket-casts-ios/pull/4171)

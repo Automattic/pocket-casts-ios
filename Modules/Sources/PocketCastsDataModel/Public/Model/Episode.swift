@@ -161,7 +161,7 @@ public class Episode: NSObject, BaseEpisode {
     // MARK: - Meta
 
     @objc public func videoPodcast() -> Bool {
-        if let fileType = fileType, fileType.startsWith(string: "video/") {
+        if let fileType, fileType.startsWith(string: "video/") {
             return true
         }
 
@@ -171,7 +171,7 @@ public class Episode: NSObject, BaseEpisode {
     // MARK: - Helpers
 
     public func mayContainChapters() -> Bool {
-        guard let fileType = fileType else { return false }
+        guard let fileType else { return false }
 
         return (fileType.caseInsensitiveCompare("audio/x-m4a") == .orderedSame ||
             fileType.caseInsensitiveCompare("audio/x-m4b") == .orderedSame ||

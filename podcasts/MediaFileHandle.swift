@@ -78,7 +78,7 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        guard let writeHandle = writeHandle else { return }
+        guard let writeHandle else { return }
 
         try writeHandle.seekToEnd()
 
@@ -89,7 +89,7 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        guard let writeHandle = writeHandle else { return }
+        guard let writeHandle else { return }
 
         do {
             try writeHandle.synchronize()

@@ -53,7 +53,7 @@ class UserEpisodeDataManager {
     func findAll(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: PCDBQueue) -> [UserEpisode] {
         let whereClause = "WHERE uploadStatus != \(UploadStatus.deleteFromCloudPending.rawValue) AND uploadStatus != \(UploadStatus.deleteFromCloudAndLocalPending.rawValue)"
         var limitClause = ""
-        if let limit = limit {
+        if let limit {
             limitClause = " LIMIT \(limit)"
         }
         switch sortedBy {
@@ -74,7 +74,7 @@ class UserEpisodeDataManager {
 
     func findAllDownloaded(sortedBy: UploadedSort, limit: Int? = nil, dbQueue: PCDBQueue) -> [UserEpisode] {
         var limitClause = ""
-        if let limit = limit {
+        if let limit {
             limitClause = " LIMIT \(limit)"
         }
 
@@ -245,13 +245,13 @@ class UserEpisodeDataManager {
         var fields = [String]()
         var values = [Any]()
 
-        if let duration = duration, duration > 0 {
+        if let duration, duration > 0 {
             fields.append("duration")
             values.append(duration)
         }
 
         // this field defaults to non-null 0, which is not a valid playing status so we need to handle this
-        if let playingStatus = playingStatus {
+        if let playingStatus {
             let status = PlayingStatus(rawValue: Int32(playingStatus)) ?? .notPlayed
             let actualStatus = Int(status.rawValue)
             fields.append("playingStatus")
@@ -261,7 +261,7 @@ class UserEpisodeDataManager {
             values.append(PlayingStatus.notPlayed.rawValue)
         }
 
-        if let playedUpTo = playedUpTo, playedUpTo > 0 {
+        if let playedUpTo, playedUpTo > 0 {
             fields.append("playedUpTo")
             values.append(playedUpTo)
         }

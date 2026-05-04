@@ -135,7 +135,7 @@ extension PlusPricingInfoModel.PlusProductPricingInfo {
     fileprivate var formattedMonthlyPrice: String? {
         switch identifier {
         case .yearly, .yearlyReferral, .patronYearly:
-            if let monthlyPrice = monthlyPrice, !monthlyPrice.isEmpty {
+            if let monthlyPrice, !monthlyPrice.isEmpty {
                 return L10n.iapProductMonthlyPricingFormat(monthlyPrice)
             }
             return nil

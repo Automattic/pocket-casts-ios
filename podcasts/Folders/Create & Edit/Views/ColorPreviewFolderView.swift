@@ -87,7 +87,7 @@ struct PodcastPreviewImage: View {
                 .frame(width: 40, height: 40)
                 .foregroundColor(.gray)
                 .opacity(0.5)
-            if let podcastUuid = podcastUuid {
+            if let podcastUuid {
                 KFImage(ServerHelper.imageUrl(podcastUuid: podcastUuid, size: 130))
                     .resizable()
                     .frame(width: 40, height: 40)

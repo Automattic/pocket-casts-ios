@@ -390,7 +390,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 class MultiLineButton: ThemeableUIButton {
 
     override var intrinsicContentSize: CGSize {
-        guard let titleLabel = titleLabel else {
+        guard let titleLabel else {
             return super.intrinsicContentSize
         }
 

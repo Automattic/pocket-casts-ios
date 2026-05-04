@@ -65,7 +65,7 @@ class PlaylistManager {
     }
 
     class func delete(playlist: EpisodeFilter?, fireEvent: Bool) {
-        guard let playlist = playlist else { return }
+        guard let playlist else { return }
 
         if SyncManager.isUserLoggedIn() {
             playlist.wasDeleted = true

@@ -33,7 +33,7 @@ class MultipleActionView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
 
-        if let icon = icon, let image = UIImage(named: icon)?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride)) {
+        if let icon, let image = UIImage(named: icon)?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride)) {
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)

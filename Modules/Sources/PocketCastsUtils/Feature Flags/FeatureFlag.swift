@@ -245,9 +245,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
-    /// Read streaming data from memory buffer it's available
-    case streamAndDownloadReadFromMemoryBuffer
-
     /// activates the audio session in the background to avoid locks in the main thread
     case activateAudioSessionInBackground
 
@@ -315,6 +312,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// If enabled, send explicit watch-related error logs to Sentry.
     /// This does not control automatic crash reporting.
     case watchSentryLogs
+
+    /// Enable the Liquid Glass UI redesign
+    case liquidGlass
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -482,8 +482,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignorePlayWithOtherAudio:
             true
-        case .streamAndDownloadReadFromMemoryBuffer:
-            true
         case .activateAudioSessionInBackground:
             true
         case .useCellularNetworkApis:
@@ -529,6 +527,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .statsHeatmap:
             false
         case .watchSentryLogs:
+            false
+        case .liquidGlass:
             false
         }
     }

@@ -82,7 +82,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.setupNavBar()
                 self.tableView.beginUpdates()
@@ -327,7 +327,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
 
         let playAllAction = OptionAction(label: L10n.playAll, icon: "filter_play") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
             let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
@@ -337,7 +337,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
 
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "download_all"])
 
             let downloadableCount = self.downloadableCount(listEpisodes: self.episodes)
@@ -509,7 +509,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     func archiveAll(startingAt: Episode) {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if self.episodes.isEmpty { return }
 
@@ -529,7 +529,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     func downloadAll() {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if self.episodes.isEmpty { return }
 
@@ -539,7 +539,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     func queueAll() {
         DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if self.episodes.isEmpty { return }
             self.queueItems(allEpisodes: self.episodes)

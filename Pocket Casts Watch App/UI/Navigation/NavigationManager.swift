@@ -20,7 +20,7 @@ class NavigationManager: ObservableObject {
 
         if interfaceType == .nowPlaying {
             navigateToNowPlaying(source: SourceManager.shared.currentSource(), fromLaunchEvent: true)
-        } else if let interfaceType = interfaceType {
+        } else if let interfaceType {
             navigateTo(interfaceType, context: context)
         }
     }

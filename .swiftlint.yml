@@ -46,12 +46,22 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # When calling the `joined` method on an array of strings, omit an
+  # explicit empty-string separator since that is the default.
+  - joined_default_parameter
+
   # MARK comment should be in valid format.
   - mark
 
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace
+
+  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
+  - prefer_zero_over_explicit_init
+
+  # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
+  - shorthand_optional_binding
 
   # Files should have a single trailing newline.
   - trailing_newline

@@ -209,7 +209,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
                     self.activityIndicator.stopAnimating()
                     self.errorView.isHidden = false
                 }
-                if let error = error {
+                if let error {
                     FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
                 }
             }
@@ -248,7 +248,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
     // MARK: INUIAddVoiceShortcutViewController
 
     func addVoiceShortcutViewController(_ controller: INUIAddVoiceShortcutViewController, didFinishWith voiceShortcut: INVoiceShortcut?, error: Error?) {
-        if let voiceShortcut = voiceShortcut {
+        if let voiceShortcut {
             enabledShortcuts.append(voiceShortcut)
             if let index = suggestedShortcuts.firstIndex(of: voiceShortcut.shortcut) {
                 suggestedShortcuts.remove(at: index)

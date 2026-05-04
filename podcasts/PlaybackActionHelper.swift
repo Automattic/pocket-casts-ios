@@ -103,9 +103,9 @@ class PlaybackActionHelper {
             }
         }
 
-        if let playlistUuid = playlistUuid {
+        if let playlistUuid {
             SiriShortcutsManager.shared.donatePlaylistPlayed(playlistUuid: playlistUuid)
-        } else if let podcastUuid = podcastUuid {
+        } else if let podcastUuid {
             SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
         }
     }

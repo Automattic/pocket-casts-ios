@@ -61,7 +61,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.uploadsTable.beginUpdates()
                 self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -141,7 +141,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         reloadAllFiles()
         addUIObservers()
 
-        if let fileURL = fileURL {
+        if let fileURL {
             let addCustomVC = AddCustomViewController(fileUrl: fileURL)
 
             present(SJUIUtils.popupNavController(for: addCustomVC), animated: true, completion: nil)
@@ -228,7 +228,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     @objc private func handleReloadFromNotification() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.reloadLocalFiles()
         }

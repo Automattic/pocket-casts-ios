@@ -97,7 +97,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
     @objc private func subscribeRequested(_ notification: Notification) {
         let cell = notification.object as! PodcastGroupCell
         let indexPath = networksTable.indexPath(for: cell)
-        if let indexPath = indexPath, indexPath.row < podcasts?.count ?? 0, let podcastUuid = podcasts?[indexPath.row].uuid {
+        if let indexPath, indexPath.row < podcasts?.count ?? 0, let podcastUuid = podcasts?[indexPath.row].uuid {
             ServerPodcastManager.shared.subscribe(to: podcastUuid, completion: nil)
         }
     }
@@ -130,7 +130,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if let delegate = delegate, let podcast = podcasts?[indexPath.row] {
+        if let delegate, let podcast = podcasts?[indexPath.row] {
             let cell = tableView.cellForRow(at: indexPath) as! PodcastGroupCell?
             delegate.show(discoverPodcast: podcast, placeholderImage: cell?.podcastImage.image, isFeatured: false, listUuid: nil)
         }
@@ -169,7 +169,7 @@ class NetworkViewController: PCViewController, UITableViewDataSource, UITableVie
 
         loadingIndicator.startAnimating()
         DiscoverServerHandler.shared.discoverPodcastList(source: source, authenticated: nil) { [weak self] podcastList in
-            guard let strongSelf = self, let podcastList = podcastList else { return }
+            guard let strongSelf = self, let podcastList else { return }
 
             DispatchQueue.main.async {
                 strongSelf.loadingIndicator.stopAnimating()

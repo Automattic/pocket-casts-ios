@@ -27,7 +27,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         delegate = nil
 
         // Clean up temporary file
-        if let tempFilePath = tempFilePath {
+        if let tempFilePath {
             try? FileManager.default.removeItem(atPath: tempFilePath)
         }
 
@@ -186,12 +186,11 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
 extension MediaExporterResourceLoaderDelegate {
 
     func retryWithoutUserAgent(originalURL: URL?) {
-        guard let originalURL = originalURL else { return }
+        guard let originalURL else { return }
 
         invalidateAndCancelSession(shouldResetData: false)
 
         response = nil
-        bufferData = Data()
 
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
     }

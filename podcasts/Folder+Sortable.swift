@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-extension Folder: Sortable {
+extension Folder: @retroactive Sortable {
     public var itemUUID: String {
         uuid
     }

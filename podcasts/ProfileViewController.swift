@@ -220,7 +220,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func checkForScrollTap(_ notification: Notification) {
         if let index = notification.object as? Int, index == tabBarItem.tag, profileTable.contentOffset.y > 0 {
-            profileTable.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            profileTable.setContentOffset(CGPoint.zero, animated: true)
         }
     }
 
@@ -248,7 +248,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func refreshComplete() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.refreshControl?.endRefreshing(true)
             self.isRefreshAnimating = false
@@ -258,7 +258,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     @objc private func handleDataChangedNotification() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateDisplayedData()
         }

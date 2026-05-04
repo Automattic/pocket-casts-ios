@@ -21,7 +21,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="586" height="58"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -71,7 +71,6 @@
                         <constraint firstItem="QRc-ea-EJF" firstAttribute="leading" secondItem="10s-RN-5J0" secondAttribute="trailing" constant="10" id="LvC-ZN-ICe"/>
                         <constraint firstItem="lc3-E3-LOP" firstAttribute="centerY" secondItem="QRc-ea-EJF" secondAttribute="centerY" id="QKK-8O-dMA"/>
                         <constraint firstItem="QRc-ea-EJF" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="ejX-m0-uF4"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="fuQ-8X-1eF"/>
                         <constraint firstItem="gMz-BX-N8B" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="gvc-GU-aik"/>
                         <constraint firstItem="10s-RN-5J0" firstAttribute="leading" secondItem="iXt-pK-0hH" secondAttribute="leading" constant="10" id="j5w-Xu-14M"/>
                         <constraint firstItem="10s-RN-5J0" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="su5-gy-6fw"/>
@@ -96,7 +95,8 @@
                 <constraint firstAttribute="trailing" secondItem="iXt-pK-0hH" secondAttribute="trailing" constant="16" id="3fD-b3-0XO"/>
                 <constraint firstItem="Cpm-2R-PJM" firstAttribute="leading" secondItem="iXt-pK-0hH" secondAttribute="trailing" constant="8" id="BZL-hf-0a7"/>
                 <constraint firstAttribute="bottom" secondItem="Cpm-2R-PJM" secondAttribute="bottom" constant="16" id="S29-sS-5Ao"/>
-                <constraint firstAttribute="bottom" secondItem="iXt-pK-0hH" secondAttribute="bottom" constant="15" id="XAU-gT-LsF"/>
+                <constraint firstItem="iXt-pK-0hH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="pTp-PI-l01"/>
+                <constraint firstItem="iXt-pK-0hH" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.66666666666666666" priority="999" id="pPh-PI-l02"/>
                 <constraint firstItem="iXt-pK-0hH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="bqj-xC-Ccd"/>
                 <constraint firstAttribute="trailing" secondItem="Cpm-2R-PJM" secondAttribute="trailing" constant="10" id="fku-Ku-xaI"/>
                 <constraint firstItem="Cpm-2R-PJM" firstAttribute="centerY" secondItem="iXt-pK-0hH" secondAttribute="centerY" id="y39-ab-DF6"/>

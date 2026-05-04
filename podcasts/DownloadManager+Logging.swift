@@ -69,7 +69,7 @@ extension DownloadManager {
     }
 }
 
-extension tls_ciphersuite_t: CustomDebugStringConvertible {
+extension tls_ciphersuite_t: @retroactive CustomDebugStringConvertible {
     public var debugDescription: String {
         switch self {
         case .RSA_WITH_3DES_EDE_CBC_SHA:

@@ -29,8 +29,18 @@ final class FingerprintTimingManager: NSObject {
     private struct GenerationContext {
         let episodeUuid: String
         let audioFileURL: URL
+        /// True when `audioFileURL` points at a streaming buffer that may still be
+        /// growing. The fingerprint loop polls for new bytes instead of quitting
+        /// at EOF.
+        let isStreaming: Bool
         let duration: Double
         let matcher: CheckpointMatcher
+        /// Raw bytes of the reference fingerprint JSON, used to validate the
+        /// persistent mapping cache via SHA-256.
+        let referenceData: Data
+        /// Total duration of the reference timeline, used to gate the persistent
+        /// mapping cache on full coverage.
+        let referenceDuration: Double
         let isCancelled: () -> Bool
     }
 
@@ -166,6 +176,15 @@ final class FingerprintTimingManager: NSObject {
         lastProgressPosition = playbackTime
 
         if isWithinMappedRange(playbackTime) { return }
+
+        // If we haven't produced any anchors yet, the current stream is still
+        // building the first window around the listener's initial position —
+        // restarting every progress tick (which happens each second while the
+        // map is empty) cancels that in-flight work before it can finish. The
+        // delta-based branch above still catches real seeks. Once we have
+        // coverage the drift-restart resumes as before.
+        if playbackToReference.isEmpty { return }
+
         #if DEBUG
         FileLog.shared.addMessage(
             "FingerprintTimingManager: playback at \(String(format: "%.1f", playbackTime))s outside mapped range — restarting"
@@ -194,8 +213,11 @@ final class FingerprintTimingManager: NSObject {
         let newContext = GenerationContext(
             episodeUuid: ctx.episodeUuid,
             audioFileURL: ctx.audioFileURL,
+            isStreaming: ctx.isStreaming,
             duration: ctx.duration,
             matcher: ctx.matcher,
+            referenceData: ctx.referenceData,
+            referenceDuration: ctx.referenceDuration,
             isCancelled: { flag.isCancelled }
         )
         context = newContext
@@ -292,8 +314,8 @@ final class FingerprintTimingManager: NSObject {
 
         let uuid = episode.uuid
 
-        if let reference = loadReference(for: episode) {
-            configureForReference(reference, episode: episode)
+        if let loaded = loadReference(for: episode) {
+            configureForReference(loaded.reference, referenceData: loaded.data, episode: episode)
             return
         }
 
@@ -319,18 +341,28 @@ final class FingerprintTimingManager: NSObject {
                 }
 
                 self.saveReferenceData(data, for: episode)
-                self.configureForReference(reference, episode: episode)
+                self.configureForReference(reference, referenceData: data, episode: episode)
             }
         }
     }
 
-    private func configureForReference(_ reference: ReferenceFingerprint, episode: BaseEpisode) {
+    private func configureForReference(
+        _ reference: ReferenceFingerprint,
+        referenceData: Data,
+        episode: BaseEpisode
+    ) {
         let uuid = episode.uuid
 
-        guard let audioFileURL = resolveAudioFileURL(for: episode) else {
-            updateState(.unavailable)
-            FileLog.shared.addMessage("FingerprintTimingManager: no local audio file for \(uuid) — skipping fingerprinting")
-            return
+        let source = resolveAudioSource(for: episode)
+        let audioFileURL: URL
+        let isStreaming: Bool
+        switch source {
+        case .downloaded(let url):
+            audioFileURL = url
+            isStreaming = false
+        case .streaming(let url):
+            audioFileURL = url
+            isStreaming = true
         }
 
         let duration = episode.duration
@@ -378,8 +410,11 @@ final class FingerprintTimingManager: NSObject {
         let newContext = GenerationContext(
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
+            isStreaming: isStreaming,
             duration: duration,
             matcher: matcher,
+            referenceData: referenceData,
+            referenceDuration: reference.totalDuration,
             isCancelled: { flag.isCancelled }
         )
         context = newContext
@@ -388,6 +423,30 @@ final class FingerprintTimingManager: NSObject {
         FileLog.shared.addMessage(
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
+
+        // All-or-nothing cache: only short-circuit the stream if a previous
+        // session persisted a mapping that covers the whole reference timeline
+        // for this exact audio file + reference. Partial caches are ignored
+        // (the failed branch's `inRange` short-circuit on partial coverage was
+        // what trapped the manager in `.preparing`).
+        if !isStreaming,
+           let cached = FingerprintMappingCache.load(
+               audioFilePath: audioFileURL.path,
+               referenceData: referenceData
+           ) {
+            // The cache is produced from `playbackToReference` (already sorted
+            // by `playbackTime`), so assign it directly and sort once for the
+            // reference-keyed view — avoids the O(n²) cost of routing every
+            // entry through `insertMapping`'s per-entry `Array.insert`.
+            playbackToReference = cached.entries
+            referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
+            filterLastTrusted = cached.entries.last
+            updateState(.active(coverage: cached.entries.count))
+            FileLog.shared.addMessage(
+                "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+            )
+            return
+        }
 
         let startPosition = PlaybackManager.shared.currentTime()
         startStream(context: newContext, fromPosition: startPosition)
@@ -406,12 +465,17 @@ final class FingerprintTimingManager: NSObject {
         generationQueue.async { [weak self] in
             guard let self else { return }
             do {
-                try self.streamFingerprint(context: ctx, startingAt: aligned)
+                if ctx.isStreaming {
+                    try self.streamFingerprintGrowing(context: ctx, startingAt: aligned)
+                } else {
+                    try self.streamFingerprint(context: ctx, startingAt: aligned)
+                }
                 #if DEBUG
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: streaming fingerprint completed (started at \(String(format: "%.1f", aligned))s)"
                 )
                 #endif
+                self.persistMappingCacheIfFull(context: ctx)
                 self.finishIfStillPreparing(terminalState: .unavailable, context: ctx)
             } catch StreamError.cancelled {
                 #if DEBUG
@@ -483,6 +547,8 @@ final class FingerprintTimingManager: NSObject {
 
         while true {
             if ctx.isCancelled() { throw StreamError.cancelled }
+            let nextChunkStartSeconds = Double(audioFile.framePosition) / format.sampleRate
+            try throttleIfBeyondLookahead(nextChunkStartSeconds: nextChunkStartSeconds, context: ctx)
             try audioFile.read(into: buffer, frameCount: chunkFrames)
             if buffer.frameLength == 0 { break }
 
@@ -497,6 +563,230 @@ final class FingerprintTimingManager: NSObject {
         let tail = streamer.flush()
         if !tail.isEmpty {
             dispatchProcessMatches(windows: tail, startOffset: startSeconds, context: ctx)
+        }
+    }
+
+    /// Streaming-buffer variant of `streamFingerprint`. Same pipeline, but the
+    /// file may not exist yet when we start, and grows while we read — so we
+    /// reopen `AVAudioFile` each pass to refresh its length, seek to where we
+    /// left off, and consume whatever new frames are available. Exits when the
+    /// buffer has been stalled for `bufferGrowMaxStallSeconds` or the context
+    /// is cancelled; a later `handlePlaybackProgress` restart will pick up
+    /// again if the listener keeps playing.
+    private func streamFingerprintGrowing(context ctx: GenerationContext, startingAt startSeconds: Double) throws {
+        let pollCadence = FingerprintConstants.bufferGrowPollCadenceSeconds
+        let maxStallSeconds = FingerprintConstants.bufferGrowMaxStallSeconds
+        let trailingMarginSeconds = FingerprintConstants.bufferGrowTrailingMarginSeconds
+
+        var streamer: StreamingWindowedFingerprinter?
+        var format: AVAudioFormat?
+        var buffer: AVAudioPCMBuffer?
+        var chunkFrames: AVAudioFrameCount = 0
+        var lastProcessedFrame: AVAudioFramePosition = 0
+        var stallAccumSeconds: Double = 0
+        var announcedFileAppeared = false
+        var totalFramesRead: AVAudioFramePosition = 0
+        var windowsEmitted = 0
+
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: streaming grow-loop starting at \(String(format: "%.1f", startSeconds))s "
+                + "(buffer path: \(ctx.audioFileURL.lastPathComponent))"
+        )
+
+        while true {
+            if ctx.isCancelled() { throw StreamError.cancelled }
+
+            guard FileManager.default.fileExists(atPath: ctx.audioFileURL.path) else {
+                // Streaming buffer not created yet — AVPlayer will write it
+                // once it actually begins fetching bytes.
+                stallAccumSeconds += pollCadence
+                if stallAccumSeconds >= maxStallSeconds { break }
+                try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                continue
+            }
+
+            let audioFile: AVAudioFile
+            do {
+                audioFile = try AVAudioFile(
+                    forReading: ctx.audioFileURL,
+                    commonFormat: .pcmFormatFloat32,
+                    interleaved: false
+                )
+            } catch {
+                // Partial frame at the tail can make `AVAudioFile` refuse to
+                // open momentarily — wait and retry.
+                stallAccumSeconds += pollCadence
+                if stallAccumSeconds >= maxStallSeconds { break }
+                try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                continue
+            }
+
+            if !announcedFileAppeared {
+                announcedFileAppeared = true
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: streaming buffer opened "
+                        + "(length \(audioFile.length) frames @ \(Int(audioFile.processingFormat.sampleRate))Hz, "
+                        + "\(audioFile.processingFormat.channelCount)ch)"
+                )
+            }
+
+            if streamer == nil {
+                let fmt = audioFile.processingFormat
+                let desiredStartFrame = max(0, AVAudioFramePosition(startSeconds * fmt.sampleRate))
+
+                // The streaming buffer on disk is sequential from byte 0, so the
+                // local file's frame `N` maps to audio timeline `N / sampleRate`.
+                // If the buffer hasn't grown to `startSeconds` yet, reading from
+                // the current tail and tagging those windows as `startSeconds +
+                // windowTimestamp` would attribute them to the wrong reference
+                // time — matches would fail. Wait until the file covers the
+                // target position, then anchor `lastProcessedFrame` exactly there.
+                guard audioFile.length >= desiredStartFrame else {
+                    stallAccumSeconds += pollCadence
+                    if stallAccumSeconds >= maxStallSeconds { break }
+                    try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                    continue
+                }
+
+                format = fmt
+                streamer = StreamingWindowedFingerprinter(
+                    sampleRate: UInt32(fmt.sampleRate),
+                    channels: UInt16(fmt.channelCount),
+                    windowDurationMs: FingerprintConstants.windowDurationMs,
+                    windowIntervalMs: FingerprintConstants.windowIntervalMs
+                )
+                chunkFrames = AVAudioFrameCount(fmt.sampleRate * FingerprintConstants.streamChunkSeconds)
+                guard let b = AVAudioPCMBuffer(pcmFormat: fmt, frameCapacity: chunkFrames) else {
+                    throw StreamError.bufferAllocationFailed
+                }
+                buffer = b
+                lastProcessedFrame = desiredStartFrame
+            }
+
+            guard let fmt = format, let str = streamer, let buf = buffer else { break }
+
+            let trailingMarginFrames = AVAudioFramePosition(trailingMarginSeconds * fmt.sampleRate)
+            let safeEnd = audioFile.length - trailingMarginFrames
+
+            guard lastProcessedFrame < safeEnd else {
+                stallAccumSeconds += pollCadence
+                if stallAccumSeconds >= maxStallSeconds { break }
+                try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                continue
+            }
+
+            audioFile.framePosition = lastProcessedFrame
+            let framesAvailable = AVAudioFrameCount(safeEnd - lastProcessedFrame)
+            let framesToRead = min(framesAvailable, chunkFrames)
+
+            let nextChunkStartSeconds = Double(lastProcessedFrame) / fmt.sampleRate
+            try throttleIfBeyondLookahead(nextChunkStartSeconds: nextChunkStartSeconds, context: ctx)
+
+            do {
+                try audioFile.read(into: buf, frameCount: framesToRead)
+            } catch {
+                stallAccumSeconds += pollCadence
+                if stallAccumSeconds >= maxStallSeconds { break }
+                try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                continue
+            }
+
+            if buf.frameLength == 0 {
+                stallAccumSeconds += pollCadence
+                if stallAccumSeconds >= maxStallSeconds { break }
+                try sleepWithCancellation(seconds: pollCadence, context: ctx)
+                continue
+            }
+
+            stallAccumSeconds = 0
+            let framesJustRead = audioFile.framePosition - lastProcessedFrame
+            lastProcessedFrame = audioFile.framePosition
+            totalFramesRead += framesJustRead
+
+            let interleaved = Self.interleavedSamples(from: buf)
+            let windows = str.pushSamplesF32(samples: interleaved, channels: UInt16(fmt.channelCount))
+            if !windows.isEmpty {
+                windowsEmitted += windows.count
+                dispatchProcessMatches(windows: windows, startOffset: startSeconds, context: ctx)
+            }
+        }
+
+        if ctx.isCancelled() { throw StreamError.cancelled }
+        if let str = streamer {
+            let tail = str.flush()
+            if !tail.isEmpty {
+                windowsEmitted += tail.count
+                dispatchProcessMatches(windows: tail, startOffset: startSeconds, context: ctx)
+            }
+        }
+
+        let readSeconds = (format.map { Double(totalFramesRead) / $0.sampleRate }) ?? 0
+        FileLog.shared.addMessage(
+            "FingerprintTimingManager: streaming grow-loop ending — "
+                + "read \(String(format: "%.1f", readSeconds))s of audio, "
+                + "emitted \(windowsEmitted) windows, "
+                + "stall accum \(String(format: "%.1f", stallAccumSeconds))s"
+        )
+    }
+
+    /// Once the streaming loop reaches EOF, persist the committed mapping to
+    /// disk if (and only if) it covers the whole reference timeline for this
+    /// audio file. The cache is then a complete replacement on next open —
+    /// `FingerprintMappingCache.save` enforces the same coverage threshold the
+    /// load path requires, keeping the round-trip safe.
+    ///
+    /// Only the snapshot read runs on `queue`; JSON encoding + disk I/O happen
+    /// on `generationQueue` so they don't stall `queue.sync` callers (the
+    /// `referenceTime(forPlaybackTime:)` / `playbackTime(forReferenceTime:)`
+    /// queries that drive transcript highlighting and tap-to-seek).
+    private func persistMappingCacheIfFull(context ctx: GenerationContext) {
+        guard !ctx.isStreaming else { return }
+        queue.async { [weak self] in
+            guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            let snapshot = self.playbackToReference
+            self.generationQueue.async {
+                FingerprintMappingCache.save(
+                    snapshot,
+                    audioFilePath: ctx.audioFileURL.path,
+                    referenceData: ctx.referenceData,
+                    referenceDuration: ctx.referenceDuration
+                )
+            }
+        }
+    }
+
+    /// Yield CPU briefly when the next chunk to fingerprint sits more than
+    /// `lookaheadSeconds` ahead of the listener's current playback time. This
+    /// keeps coverage growing to EOF — the chunk is **never** skipped — while
+    /// bounding peak CPU on long episodes the listener hasn't reached yet.
+    /// Capping the loop instead of throttling it (the prior POC-546 attempt)
+    /// dropped tail regions from the mapping and broke tap-to-seek for any cue
+    /// further than `lookaheadSeconds` ahead.
+    private func throttleIfBeyondLookahead(
+        nextChunkStartSeconds: Double,
+        context ctx: GenerationContext
+    ) throws {
+        let currentPlayback = PlaybackManager.shared.currentTime()
+        let lead = nextChunkStartSeconds - currentPlayback
+        guard lead > FingerprintConstants.lookaheadSeconds else { return }
+        try sleepWithCancellation(
+            seconds: FingerprintConstants.outsideLookaheadSleepSeconds,
+            context: ctx
+        )
+    }
+
+    /// Sleep on the generation queue in small slices so cancellation is
+    /// observed within at most one slice. Tracks remaining time rather than
+    /// ceiling-rounding the slice count so we don't oversleep the requested
+    /// duration by up to one slice (e.g. 0.21s → 0.4s).
+    private func sleepWithCancellation(seconds: TimeInterval, context ctx: GenerationContext) throws {
+        let sliceSeconds: TimeInterval = 0.2
+        var remaining = max(0, seconds)
+        while remaining > 0 {
+            if ctx.isCancelled() { throw StreamError.cancelled }
+            let sleepDuration = min(sliceSeconds, remaining)
+            Thread.sleep(forTimeInterval: sleepDuration)
+            remaining -= sleepDuration
         }
     }
 
@@ -786,10 +1076,11 @@ final class FingerprintTimingManager: NSObject {
 
     // MARK: - Helpers
 
-    private func loadReference(for episode: BaseEpisode) -> ReferenceFingerprint? {
+    private func loadReference(for episode: BaseEpisode) -> (data: Data, reference: ReferenceFingerprint)? {
         let path = referencePath(for: episode)
-        guard let data = FileManager.default.contents(atPath: path) else { return nil }
-        return ReferenceFingerprint.decode(from: data)
+        guard let data = FileManager.default.contents(atPath: path),
+              let reference = ReferenceFingerprint.decode(from: data) else { return nil }
+        return (data, reference)
     }
 
     private func referencePath(for episode: BaseEpisode) -> String {
@@ -807,22 +1098,47 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Resolves the local audio file for an episode. The downloaded path is always
-    /// a complete file. The streaming-buffer path may still be growing — `AVAudioFile`
-    /// only sees the bytes present at open time, so we'll fingerprint up to that point
-    /// and stop; the rest of the buffer (if it fills in later) is not picked up. Full
-    /// streaming support would need file-growth tracking, which is out of scope for
-    /// this PR (see `bufferGrowPollCadenceSeconds` in `FingerprintConstants`).
-    private func resolveAudioFileURL(for episode: BaseEpisode) -> URL? {
+    /// Which local file backs the fingerprint loop for this episode.
+    ///
+    /// - `.downloaded` is a complete file — the existing read-to-EOF loop handles it.
+    /// - `.streaming` points at the AVPlayer-written buffer, which may be absent at
+    ///   call time or still growing. The grow-loop waits for it to appear and
+    ///   polls for new bytes.
+    private enum AudioSource {
+        case downloaded(URL)
+        case streaming(URL)
+    }
+
+    private func resolveAudioSource(for episode: BaseEpisode) -> AudioSource {
         let downloadPath = DownloadManager.shared.pathForEpisode(episode)
         if FileManager.default.fileExists(atPath: downloadPath) {
-            return URL(fileURLWithPath: downloadPath)
+            return .downloaded(URL(fileURLWithPath: downloadPath))
         }
+        // A stream-downloaded episode keeps a complete file at the streaming
+        // buffer path. It isn't growing, so route it through the one-shot
+        // fingerprint path instead of the grow-loop — same path trunk took.
+        if let episode = episode as? Episode,
+           episode.streamDownloaded(pathFinder: DownloadManager.shared) {
+            let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
+            if FileManager.default.fileExists(atPath: streamingPath) {
+                return .downloaded(URL(fileURLWithPath: streamingPath))
+            }
+        }
+        // Active streaming: the file is either absent or still growing.
+        // `MediaExporterResourceLoaderDelegate` (stream-and-cache, default on)
+        // writes to `tempPathForEpisode`, while the legacy URLSession path writes
+        // to `streamingBufferPathForEpisode`. Prefer whichever file already
+        // exists; otherwise pick the one the active feature flag selects.
+        let tempPath = DownloadManager.shared.tempPathForEpisode(episode)
         let streamingPath = DownloadManager.shared.streamingBufferPathForEpisode(episode)
-        if FileManager.default.fileExists(atPath: streamingPath) {
-            return URL(fileURLWithPath: streamingPath)
+        if FileManager.default.fileExists(atPath: tempPath) {
+            return .streaming(URL(fileURLWithPath: tempPath))
         }
-        return nil
+        if FileManager.default.fileExists(atPath: streamingPath) {
+            return .streaming(URL(fileURLWithPath: streamingPath))
+        }
+        let preferred = FeatureFlag.streamAndCachePlayingEpisode.enabled ? tempPath : streamingPath
+        return .streaming(URL(fileURLWithPath: preferred))
     }
 }
 

@@ -10,7 +10,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         case .grid:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.gridCellId, for: indexPath) as! LargeListCell
             let thisPodcast = podcasts[indexPath.row]
-            if let delegate = delegate {
+            if let delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
                 cell.onSubscribe = { [weak self] in
                     if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {
@@ -23,7 +23,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         case .descriptive_list:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExpandedCollectionViewController.descriptiveCellId, for: indexPath) as! DescriptiveCollectionCell
             let thisPodcast = podcasts[indexPath.row]
-            if let delegate = delegate {
+            if let delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
                 cell.onSubscribe = { [weak self] in
                     if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {

@@ -191,7 +191,7 @@ class UserEpisodeDetailViewController: UIViewController {
 
     @objc private func updateFromNotification() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let oldEpisode = self.episode
 
@@ -270,7 +270,7 @@ class UserEpisodeDetailViewController: UIViewController {
         guard UploadManager.shared.progressManager.hasProgressForUserEpisode(episode.uuid) else { return }
 
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if !self.episode.uploading() {
                 self.reloadEpisode()
@@ -320,7 +320,7 @@ class UserEpisodeDetailViewController: UIViewController {
     private var isAnimatingOut = false
     func animateIn() {
         window = SceneHelper.newMainScreenWindow()
-        guard let window = window else { return }
+        guard let window else { return }
 
         window.rootViewController = self
         window.windowLevel = UIWindow.Level.alert
@@ -329,7 +329,7 @@ class UserEpisodeDetailViewController: UIViewController {
         containerViewBottomConstraint.constant = -containerHeight()
         view.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, delay: 0, options: .curveEaseOut, animations: { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.containerViewBottomConstraint.constant = 0
             self.greyBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -346,7 +346,7 @@ class UserEpisodeDetailViewController: UIViewController {
         isAnimatingOut = true
         view?.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, animations: { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.greyBackgroundView.backgroundColor = UIColor.clear
             self.containerViewBottomConstraint.constant = -self.containerHeight()
@@ -363,13 +363,13 @@ class UserEpisodeDetailViewController: UIViewController {
         errorContainerView.isHidden = false
 
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithError
             self.view.layoutIfNeeded()
         }) { [weak self] _ in
             self?.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithError
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.errorContainerView.alpha = 1
             }) { [weak self] _ in
                 self?.errorContainerView.alpha = 1
@@ -381,12 +381,12 @@ class UserEpisodeDetailViewController: UIViewController {
     func animateOutError() {
         errorContainerView.alpha = 1
         UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.errorContainerView.alpha = 0
         }) { [weak self] _ in
 
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime / 2, animations: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithoutError
                 self.view.layoutIfNeeded()
 

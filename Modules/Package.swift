@@ -6,7 +6,7 @@ import CompilerPluginSupport
 let package = Package(
     name: "Modules",
     platforms: [
-        .iOS(.v16), .watchOS(.v9), .macOS(.v10_15)
+        .iOS(.v16), .watchOS(.v9), .macOS(.v10_15), .tvOS(.v17)
     ],
     products: XcodeSupport.products + [
         .library(
@@ -155,6 +155,11 @@ let package = Package(
             ],
             path: "Sources/EndOfYear"
         ),
+        .binaryTarget(
+            name: "EventHorizonSDK",
+            url: "https://a8c-libs.s3.amazonaws.com/ios/EventHorizon/pocket-casts-2026-04-29-13-55-38/EventHorizon-pocket-casts-2026-04-29-13-55-38.xcframework.zip",
+            checksum: "773066f52a81fcc6405efbdeaf825a67d36cfe2b4d3e1855f508b6cf8faa7133"
+        ),
         .target(
             name: "Modules",
             path: "Sources/Modules"
@@ -185,6 +190,7 @@ enum XcodeTargetNames {
     static let podcastsIntents = "PodcastsIntents"
     static let podcastsIntentsUI = "PodcastsIntentsUI"
     static let widgetExtension = "WidgetExtension"
+    static let pocketCastsTvApp = "Pocket Casts TV App"
 }
 
 enum XcodeSupport {
@@ -197,6 +203,7 @@ enum XcodeSupport {
             XcodeTargetNames.podcastsIntents,
             XcodeTargetNames.podcastsIntentsUI,
             XcodeTargetNames.widgetExtension,
+            XcodeTargetNames.pocketCastsTvApp,
         ].map { .supportingProduct(forXcodeTarget: $0) }
     }
 
@@ -209,6 +216,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
                     .product(name: "DifferenceKit", package: "DifferenceKit"),
                     .product(name: "Fuse", package: "fuse-swift"),
@@ -236,6 +244,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
@@ -250,6 +259,7 @@ enum XcodeSupport {
                     "PocketCastsServer",
                     "PocketCastsUtils",
                     "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "Kingfisher", package: "Kingfisher"),
                 ]
@@ -276,6 +286,12 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
+                ]
+            ),
+            .xcodeTarget(
+                XcodeTargetNames.pocketCastsTvApp,
+                dependencies: [
+                    "PocketCastsUtils"
                 ]
             ),
         ]

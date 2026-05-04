@@ -53,7 +53,7 @@ public class EpisodeFilter: NSObject {
     override public init() {}
 
     public func setTitle(_ title: String?, defaultTitle: String) {
-        guard let title = title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard let title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             playlistName = defaultTitle
 
             return

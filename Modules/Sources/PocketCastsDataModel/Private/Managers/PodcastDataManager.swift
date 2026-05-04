@@ -139,7 +139,7 @@ class PodcastDataManager {
             do {
                 var values: [Any]?
                 var whereClause = "WHERE p.subscribed = 1"
-                if let inFolderUuid = inFolderUuid {
+                if let inFolderUuid {
                     whereClause += " AND p.folderUuid = ?"
                     values = [inFolderUuid]
                 }
@@ -167,7 +167,7 @@ class PodcastDataManager {
             do {
                 var values: [Any]?
                 var whereClause = "WHERE p.subscribed = 1"
-                if let inFolderUuid = inFolderUuid {
+                if let inFolderUuid {
                     whereClause += " AND p.folderUuid = ?"
                     values = [inFolderUuid]
                 }

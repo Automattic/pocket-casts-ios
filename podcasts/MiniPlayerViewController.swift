@@ -37,6 +37,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
+    private var glassContainer: UIVisualEffectView?
+    private var glassGradientLayer: CAGradientLayer?
+    private var episodeTitleLabel: UILabel?
+    private var episodeTimeLeftLabel: UILabel?
+    private var glassProgressView: MiniPlayerGlassProgressView?
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,7 +51,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
-        setupCorners()
+        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+            setupLiquidGlassLayout()
+        } else {
+            setupCorners()
+        }
         addUINotificationObservers()
         playbackStateDidChange()
         themeChanged()
@@ -53,6 +64,129 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func setupCorners() {
         mainView.layer.cornerRadius = MiniPlayerShadowView.Constants.shadowCornerRadius
         mainView.layer.masksToBounds = true
+    }
+
+    @available(iOS 26.0, *)
+    private func setupLiquidGlassLayout() {
+        gradientView.isHidden = true
+        shadowView.isHidden = true
+        mainView.backgroundColor = .clear
+        mainView.layer.cornerRadius = 0
+        playbackProgressView.isHidden = true
+        upNextBtn.isHidden = true
+
+
+        let effectView = UIVisualEffectView(effect: {
+            let effect = UIGlassEffect(style: .regular)
+            effect.isInteractive = true
+            return effect
+        }())
+        effectView.translatesAutoresizingMaskIntoConstraints = false
+        effectView.clipsToBounds = true
+        effectView.layer.cornerCurve = .continuous
+        view.addSubview(effectView)
+        glassContainer = effectView
+
+        let contentView = effectView.contentView
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        contentView.layer.insertSublayer(gradientLayer, at: 0)
+        glassGradientLayer = gradientLayer
+
+        podcastArtwork.removeFromSuperview()
+        skipBackBtn.removeFromSuperview()
+        playPauseBtn.removeFromSuperview()
+        skipFwdBtn.removeFromSuperview()
+
+        podcastArtwork.translatesAutoresizingMaskIntoConstraints = false
+        skipBackBtn.translatesAutoresizingMaskIntoConstraints = false
+        playPauseBtn.translatesAutoresizingMaskIntoConstraints = false
+        skipFwdBtn.translatesAutoresizingMaskIntoConstraints = false
+
+        podcastArtwork.layer.cornerRadius = 6
+        podcastArtwork.layer.masksToBounds = true
+
+        playPauseBtn.visualSize = 28
+
+        let title = UILabel()
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.font = .font(ofSize: 12, weight: .medium, scalingWith: .subheadline)
+        title.numberOfLines = 1
+        title.lineBreakMode = .byTruncatingTail
+        title.adjustsFontForContentSizeCategory = false
+        episodeTitleLabel = title
+
+        let timeLeft = UILabel()
+        timeLeft.translatesAutoresizingMaskIntoConstraints = false
+        timeLeft.font = .font(ofSize: 10, weight: .regular, scalingWith: .footnote)
+        timeLeft.numberOfLines = 1
+        timeLeft.adjustsFontForContentSizeCategory = false
+        episodeTimeLeftLabel = timeLeft
+
+        let progressView = MiniPlayerGlassProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        glassProgressView = progressView
+
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
+        bottomRow.axis = .horizontal
+        bottomRow.alignment = .center
+        bottomRow.spacing = 8
+
+        let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
+        textStack.translatesAutoresizingMaskIntoConstraints = false
+        textStack.axis = .vertical
+        textStack.alignment = .leading
+        textStack.spacing = 2
+
+        let buttonStack = UIStackView(arrangedSubviews: [skipBackBtn, playPauseBtn, skipFwdBtn])
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.axis = .horizontal
+        buttonStack.alignment = .center
+
+        contentView.addSubview(podcastArtwork)
+        contentView.addSubview(textStack)
+        contentView.addSubview(buttonStack)
+
+        NSLayoutConstraint.activate([
+            effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+            effectView.heightAnchor.constraint(equalToConstant: 48),
+
+            podcastArtwork.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            podcastArtwork.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            podcastArtwork.widthAnchor.constraint(equalToConstant: 30),
+            podcastArtwork.heightAnchor.constraint(equalToConstant: 30),
+
+            textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
+            textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
+
+            progressView.widthAnchor.constraint(equalToConstant: 50),
+            progressView.heightAnchor.constraint(equalToConstant: 5),
+
+            skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
+            playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
+            skipFwdBtn.widthAnchor.constraint(equalToConstant: 70),
+
+            buttonStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+        ])
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let glassContainer {
+            glassContainer.layer.cornerRadius = glassContainer.bounds.height / 2
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            glassGradientLayer?.frame = glassContainer.contentView.bounds
+            CATransaction.commit()
+        }
     }
 
     deinit {
@@ -73,12 +207,46 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
+        animateSkipButton(skipBackBtn, clockwise: false)
     }
 
     @IBAction func skipForwardTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
+        animateSkipButton(skipFwdBtn, clockwise: true)
+    }
+
+    private func animateSkipButton(_ button: UIButton, clockwise: Bool) {
+        guard let imageView = button.imageView else { return }
+
+        if UIAccessibility.isReduceMotionEnabled {
+            let alpha = CAKeyframeAnimation(keyPath: "opacity")
+            alpha.values = [1.0, 0.4, 1.0]
+            alpha.keyTimes = [0, 0.4, 1]
+            alpha.duration = 0.3
+            imageView.layer.add(alpha, forKey: "skipAlpha")
+            return
+        }
+
+        let duration: CFTimeInterval = 0.7
+
+        let rotation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.fromValue = 0
+        rotation.toValue = clockwise ? CGFloat.pi * 2 : -CGFloat.pi * 2
+        rotation.duration = duration
+        rotation.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.3, 1.0)
+        imageView.layer.add(rotation, forKey: "skipRotation")
+
+        let scale = CAKeyframeAnimation(keyPath: "transform.scale")
+        scale.values = [1.0, 0.85, 1.0]
+        scale.keyTimes = [0, 0.4, 1]
+        scale.duration = duration
+        scale.timingFunctions = [
+            CAMediaTimingFunction(name: .easeInEaseOut),
+            CAMediaTimingFunction(name: .easeInEaseOut),
+        ]
+        imageView.layer.add(scale, forKey: "skipScale")
     }
 
     func desiredHeight() -> CGFloat {
@@ -166,6 +334,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             lastEpisodeUuidImageLoaded = episode.uuid
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
+
+        if let episodeTitleLabel, episodeTitleLabel.text != episode.title {
+            episodeTitleLabel.text = episode.title
+        }
     }
 
     @objc private func playbackStarted() {
@@ -240,37 +412,94 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if amountBuferred > 0 {
             playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
         }
+
+        if let glassProgressView {
+            let downloadProgress: CGFloat
+            if duration > 0 {
+                downloadProgress = min(1, CGFloat((currentTime + amountBuferred) / duration))
+            } else {
+                downloadProgress = 0
+            }
+            glassProgressView.playbackProgress = progress
+            glassProgressView.downloadProgress = downloadProgress
+        }
+
+        if let episodeTimeLeftLabel {
+            let remaining = max(0, duration - currentTime)
+            let newText: String?
+            if remaining > 0 {
+                let formatted = TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining)
+                newText = L10n.podcastTimeLeft(formatted)
+            } else {
+                newText = nil
+            }
+            if episodeTimeLeftLabel.text != newText {
+                episodeTimeLeftLabel.text = newText
+            }
+        }
     }
 
     private func updateColors() {
-        let actionColor: UIColor
-        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
-            actionColor = Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
-        } else {
-            if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
-                actionColor = AppTheme.userEpisodeColor(number: Int(episode.imageColor))
-            } else {
-                actionColor = AppTheme.userEpisodeColor(number: 1)
-            }
-        }
         view.backgroundColor = .clear
+        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
 
+        if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
+            updateColorsLiquidGlass()
+        } else {
+            updateColorsLegacy()
+        }
+    }
+
+    private func updateColorsLegacy() {
         gradientView.colors = [ThemeColor.primaryUi02().withAlphaComponent(0), ThemeColor.primaryUi02()]
 
+        let actionColor = currentPodcastTintColor()
         let bgColor = ThemeColor.podcastUi02(podcastColor: actionColor)
+        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
+
         mainView.backgroundColor = bgColor
+
         playPauseBtn.playButtonColor = bgColor
+        playPauseBtn.circleColor = iconColor
 
         playbackProgressView.updateColors()
-
-        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
-        playPauseBtn.circleColor = iconColor
 
         skipBackBtn.tintColor = iconColor
         skipFwdBtn.tintColor = iconColor
         upNextBtn.iconColor = iconColor
+    }
 
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
+    @available(iOS 26.0, *)
+    private func updateColorsLiquidGlass() {
+        let actionColor = currentPodcastTintColor()
+        let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
+        let bgColor = ThemeColor.primaryUi02()
+
+        episodeTitleLabel?.textColor = ThemeColor.primaryText01()
+        episodeTimeLeftLabel?.textColor = ThemeColor.primaryText01()
+
+        playPauseBtn.playButtonColor = bgColor
+        playPauseBtn.circleColor = iconColor
+
+        skipBackBtn.tintColor = iconColor
+        skipFwdBtn.tintColor = iconColor
+
+        glassProgressView?.tintColorOverride = actionColor
+
+        glassGradientLayer?.colors = [
+            actionColor.withAlphaComponent(0.06).cgColor,
+            actionColor.withAlphaComponent(0.09).cgColor,
+        ]
+    }
+
+    private func currentPodcastTintColor() -> UIColor {
+        if let podcast = podcastForEpisode(PlaybackManager.shared.currentEpisode()) {
+            return Theme.isDarkTheme() ? ColorManager.darkThemeTintForPodcast(podcast) : ColorManager.lightThemeTintForPodcast(podcast)
+        } else if let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode, episode.imageColor > 0 {
+            return AppTheme.userEpisodeColor(number: Int(episode.imageColor))
+        } else {
+            return AppTheme.userEpisodeColor(number: 1)
+        }
     }
 
     private func podcastForEpisode(_ episode: BaseEpisode?) -> Podcast? {

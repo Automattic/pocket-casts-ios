@@ -276,7 +276,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         let episode = dataManager.findBaseEpisode(downloadTaskId: taskDescription)
-        if let episode = episode {
+        if let episode {
             downloadingEpisodesCache[taskDescription] = episode
         }
 
