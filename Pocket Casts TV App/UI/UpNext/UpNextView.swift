@@ -59,11 +59,12 @@ struct UpNextView: View {
     var upNextView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(L10n.tvTabUpNext)
                         .font(.title)
                         .foregroundStyle(Color.textPrimary)
                     upNextListView
+                        .frame(maxWidth: 1160)
                 }
             }
         }
@@ -77,7 +78,7 @@ struct UpNextView: View {
 
     @Namespace private var rowNamespace
     var upNextListView: some View {
-        List() {
+        LazyVStack() {
             ForEach(Array(model.episodes.enumerated()), id: \.element.id) { index, episode in
                 NavigationLink(value: episode) {
                     EpisodeRow(episode: episode)
