@@ -27,6 +27,9 @@ only_rules:
   # There should be no space before and one after any comma.
   - comma
 
+  # Prefer `contains` over `first(where:) != nil`.
+  - contains_over_first_not_nil
+
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
 
