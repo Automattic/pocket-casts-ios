@@ -270,11 +270,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         addObservers()
     }
 
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
-    }
-
     private func setupNavigation() {
         supportsGoogleCast = false
 
