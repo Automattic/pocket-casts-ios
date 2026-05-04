@@ -39,7 +39,7 @@ struct MainTabContentView: View {
         case .playlists:
             PlaylistsView()
         case .search:
-            SearchView()
+            SearchView(viewModel: SearchViewModel())
         default:
             if let title = tab.title {
                 CenterButton(title: title)
