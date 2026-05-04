@@ -62,10 +62,8 @@ struct MainTabContentView: View {
                 } action: { _, after in
                     self.scrollOffset = after
                 }
-        default:
-            if let title = tab.title {
-                CenterButton(title: title)
-            }
+        case .search:
+            SearchView(viewModel: SearchViewModel())
         }
     }
 }
@@ -110,6 +108,7 @@ struct MainTabView: View {
                     Tab(value: tab) {
                         MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
                             .environment(tabSelection)
+                            .focused($focusedArea, equals: .content)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
