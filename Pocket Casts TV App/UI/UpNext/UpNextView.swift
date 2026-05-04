@@ -77,7 +77,7 @@ struct UpNextView: View {
 
     @Namespace private var rowNamespace
     var upNextListView: some View {
-        LazyVStack(alignment: .leading) {
+        List() {
             ForEach(Array(model.episodes.enumerated()), id: \.element.id) { index, episode in
                 NavigationLink(value: episode) {
                     EpisodeRow(episode: episode)
