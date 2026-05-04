@@ -32,7 +32,7 @@ class LoginCoordinator: NSObject, OnboardingModel {
             // Limit to the number of bundled images we have
             .prefix(maxCount)
             // Convert the podcasts into the model, we use enumerated because we need the index to map to the placeholder
-            .enumerated().map { (index, item) in
+            .enumerated().map { index, item in
                 LoginHeaderImage(podcast: item, imageName: nil, placeholderImageName: bundledImages[index].imageName ?? "")
             }
 

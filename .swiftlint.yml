@@ -72,6 +72,9 @@ only_rules:
   # Lines should not have trailing whitespace.
   - trailing_whitespace
 
+  # Closure parameters shouldn't be wrapped in unneeded parentheses.
+  - unneeded_parentheses_in_closure_argument
+
   - custom_rules
 
 # Rules configuration

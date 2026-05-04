@@ -130,7 +130,7 @@ struct FoldersAnimationView: View {
             VStack {
                 Spacer()
                 HStack(spacing: 0) {
-                    ForEach(Array(zip(folders.indices, folders)), id: \.0) { (index, folder) in
+                    ForEach(Array(zip(folders.indices, folders)), id: \.0) { index, folder in
                         FolderPodcastAnimation(folder: folder)
                         Spacer().frame(width: (animationProgress * 20) + 10)
                     }

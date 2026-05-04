@@ -43,7 +43,7 @@ class MotionManager: ObservableObject {
         self.motionManager.stopDeviceMotionUpdates()
 
         self.motionManager.deviceMotionUpdateInterval = Config.updateInterval
-        self.motionManager.startDeviceMotionUpdates(to: .main) { (data, error) in
+        self.motionManager.startDeviceMotionUpdates(to: .main) { data, error in
             guard let data else { return }
 
             self.update(data)

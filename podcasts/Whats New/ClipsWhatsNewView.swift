@@ -17,7 +17,7 @@ struct ClipsWhatsNewView: View {
 
     var body: some View {
         ZStack {
-            ForEach(Array(logos.enumerated()), id: \.self.element.image) { (idx, logo) in
+            ForEach(Array(logos.enumerated()), id: \.self.element.image) { idx, logo in
                 AnimatedLogoImageView(logo: logo, index: idx, delay: Constants.fadeInDuration)
             }
             VStack {

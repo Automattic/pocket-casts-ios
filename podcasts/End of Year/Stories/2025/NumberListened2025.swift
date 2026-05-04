@@ -105,7 +105,7 @@ struct NumberListened2025: ShareableStory {
 
     @ViewBuilder var podcastsAnimation: some View {
         ZStack() {
-            ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
+            ForEach(Array(zip(indices.indices, indices)), id: \.0) { index, pos in
                 let result = calculateDimensions(for: index)
                 podcastCover(pos, shadow: true)
                     .frame(width: result.0 + (Constants.xOffset * result.3 * progress), height: result.0 + (Constants.xOffset * result.3 * progress))
