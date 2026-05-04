@@ -38,6 +38,8 @@ struct MainTabContentView: View {
             PodcastsView()
         case .playlists:
             PlaylistsView()
+        case .search:
+            SearchView()
         default:
             if let title = tab.title {
                 CenterButton(title: title)
@@ -86,6 +88,7 @@ struct MainTabView: View {
                     Tab(value: tab) {
                         MainTabContentView(tab: tab)
                             .environment(tabSelection)
+                            .focused($focusedArea, equals: .content)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
