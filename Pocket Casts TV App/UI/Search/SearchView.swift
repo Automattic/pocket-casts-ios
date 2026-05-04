@@ -122,8 +122,10 @@ struct SearchView: View {
                     }
                 }
             }
+            .onSubmit(of: .search) {
+                viewModel.search(query: searchText)
+            }
             .onChange(of: searchText) { _, newValue in
-                viewModel.search(query: newValue)
                 viewModel.autoComplete(query: newValue)
             }
         }
