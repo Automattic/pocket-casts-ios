@@ -230,14 +230,15 @@ class PlaylistDetailViewController: FakeNavViewController {
         super.viewDidAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
-        refreshControl?.parentViewControllerDidAppear()
         delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDisappear()
+        if let refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -438,14 +439,8 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.refreshControl?.alpha = 0
-            }, completion: { _ in
-                self?.refreshControl?.endRefreshing()
-                self?.reloader.resume(after: .milliseconds(600)) // Reload after animations settle
-            })
-        }
+        refreshControl?.endRefreshing()
+        reloader.resume(after: .milliseconds(600))
     }
 
     private func reloadRefreshControlColor() {
