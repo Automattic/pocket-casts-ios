@@ -8,7 +8,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
         }
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
-            return LiquidGlassPlayerAnimator(fromViewController: self, toViewController: dismissed, transition: .dismissing, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage, dismissVelocity: fullPlayer.dismissVelocity, fullPlayerYPosition: fullPlayer.finalYPositionWhenDismissing)
+            return LiquidGlassPlayerAnimator(fromViewController: self, toViewController: dismissed, transition: .dismissing, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage, gestureVelocity: fullPlayer.dismissVelocity, fullPlayerYPosition: fullPlayer.finalYPositionWhenDismissing)
         }
 
         return MiniPlayerToFullPlayerAnimator(fromViewController: self, toViewController: dismissed, transition: .dismissing, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage, dismissVelocity: fullPlayer.dismissVelocity, fullPlayerYPosition: fullPlayer.finalYPositionWhenDismissing)
@@ -19,8 +19,13 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             return nil
         }
 
+        // Consume the gesture velocity exactly once — taps and programmatic
+        // opens reach this delegate with pendingPresentVelocity == 0.
+        let presentVelocity = pendingPresentVelocity
+        pendingPresentVelocity = 0
+
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
-            return LiquidGlassPlayerAnimator(fromViewController: self, toViewController: presented, transition: .presenting, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage)
+            return LiquidGlassPlayerAnimator(fromViewController: self, toViewController: presented, transition: .presenting, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage, gestureVelocity: presentVelocity)
         }
 
         return MiniPlayerToFullPlayerAnimator(fromViewController: self, toViewController: presented, transition: .presenting, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage)

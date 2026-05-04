@@ -39,6 +39,10 @@ extension MiniPlayerViewController: UIGestureRecognizerDelegate {
         // rather than waiting for the gesture to end. This makes the transition
         // feel immediate and responsive.
         if recognizer.state == .began {
+            // Recognizer y-velocity is negative for an upward flick; pass it
+            // through verbatim so the present spring carries the gesture's
+            // momentum (and a fast flick shortens the duration).
+            pendingPresentVelocity = recognizer.velocity(in: view).y
             openFullScreenPlayer()
         }
     }

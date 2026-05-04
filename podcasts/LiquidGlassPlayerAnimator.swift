@@ -9,24 +9,37 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
     private let miniPlayerArtwork: PodcastImageView
     private let fullPlayerArtwork: UIImageView
 
-    private let dismissVelocity: CGFloat
+    /// Signed y-velocity of the gesture handing off to the animation.
+    /// Positive = downward (dismiss flick), negative = upward (present flick),
+    /// zero for taps and programmatic transitions. The sign matches UIKit
+    /// screen-space, so it can be fed straight into a CGVector dy and the
+    /// spring will move with the gesture rather than against it.
+    private let gestureVelocity: CGFloat
     private let fullPlayerYPosition: CGFloat
 
     private lazy var springVelocity: CGFloat = {
-        let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
-        let distance = miniplayerFrame.origin.y - fullPlayerYPosition
+        let distance: CGFloat
+        if isPresenting {
+            // Present travels the full container height (offscreen-bottom → top).
+            distance = fromViewController.view.window?.bounds.height
+                ?? fromViewController.view.bounds.height
+        } else {
+            let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
+            distance = miniplayerFrame.origin.y - fullPlayerYPosition
+        }
         guard distance > 0 else { return 0 }
-        return dismissVelocity / distance
+        // distance is always positive; gestureVelocity carries the sign, so the
+        // resulting spring dy points in the same direction as the gesture.
+        return gestureVelocity / distance
     }()
 
     private var duration: TimeInterval {
-        if isPresenting {
-            return 0.55
-        }
-        // Dismiss: scale duration with gesture velocity so slow flicks get a
-        // longer settle (no rushed feel) while fast flicks finish quickly and
-        // keep up with the user's intent.
-        return 0.45 - min(0.15, dismissVelocity / 8000)
+        // Scale duration with gesture speed so slow flicks get a longer settle
+        // (no rushed feel) while fast flicks finish quickly and keep up with
+        // the user's intent. Taps (speed = 0) hold the resting duration.
+        let speed = abs(gestureVelocity)
+        let base: TimeInterval = isPresenting ? 0.55 : 0.45
+        return base - min(0.15, speed / 8000)
     }
 
     private var isPresenting: Bool {
@@ -42,14 +55,14 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
           transition: MiniPlayerToFullPlayerAnimator.Transition,
           miniPlayerArtwork: PodcastImageView,
           fullPlayerArtwork: UIImageView,
-          dismissVelocity: CGFloat = 0,
+          gestureVelocity: CGFloat = 0,
           fullPlayerYPosition: CGFloat = 0) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
         self.transition = transition
         self.miniPlayerArtwork = miniPlayerArtwork
         self.fullPlayerArtwork = fullPlayerArtwork
-        self.dismissVelocity = dismissVelocity
+        self.gestureVelocity = gestureVelocity
         self.fullPlayerYPosition = fullPlayerYPosition
     }
 
@@ -177,13 +190,14 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
     }
 
     /// Critically damped spring (no overshoot) used for the main present and
-    /// dismiss move. On dismiss, initialVelocity carries the gesture's
-    /// momentum into the animation so it doesn't lurch when the user lets go;
-    /// on present we start from rest. The mini player's absorb on dismiss uses
+    /// dismiss move. initialVelocity carries the gesture's momentum into the
+    /// animation so it doesn't lurch when the user lets go — positive dy for
+    /// downward dismiss flicks, negative dy for upward present flicks. Taps
+    /// pass zero and start from rest. The mini player's absorb on dismiss uses
     /// a separate bouncier spring — see `animateMiniPlayerAbsorb`.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
         let dampingRatio: CGFloat = 1.0
-        let velocity = isPresenting ? CGVector.zero : CGVector(dx: 0, dy: springVelocity)
+        let velocity = CGVector(dx: 0, dy: springVelocity)
         let timingParameters = UISpringTimingParameters(dampingRatio: dampingRatio, initialVelocity: velocity)
         let animator = UIViewPropertyAnimator(duration: duration, timingParameters: timingParameters)
         animator.addCompletion { position in
