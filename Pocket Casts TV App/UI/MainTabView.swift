@@ -63,7 +63,7 @@ struct MainTabContentView: View {
                     self.scrollOffset = after
                 }
         case .search:
-            SearchView(viewModel: SearchViewModel())                
+            SearchView(viewModel: SearchViewModel())
         }
     }
 }
