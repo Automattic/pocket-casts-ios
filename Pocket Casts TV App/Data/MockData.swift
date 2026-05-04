@@ -166,7 +166,7 @@ struct MockData {
         ]
         for (index, (name, smart, color)) in playlistsSpec.enumerated() {
             var episodes: [MockEpisode] = []
-            for i in (0..<Int.random(in: 3..<numberOfEpisodes)) {
+            for i in (0..<Int.random(in: 0..<numberOfEpisodes)) {
                 let podcastImageName = "Covers/login-cover-\( Int.random(in: (1...10)))"
                 let titleIndex = (index * 7 + i) % episodeTitles.count
                 episodes.append(MockEpisode(uuid: UUID().uuidString, title: episodeTitles[titleIndex], publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
