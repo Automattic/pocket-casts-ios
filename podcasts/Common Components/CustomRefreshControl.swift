@@ -8,12 +8,14 @@ class CustomRefreshControl: UIRefreshControl {
     private let refreshLabel = UILabel()
 
     private enum Constants {
-        static let triggerDistance: CGFloat = 140
+        static let iconFadeStart: CGFloat = 70
         static let iconFadeDistance: CGFloat = 70
+        static let labelFadeStart: CGFloat = 95
         static let labelFadeDistance: CGFloat = 45
         static let innerRotationMultiplier: CGFloat = 4
         static let outerRotationMultiplier: CGFloat = 2
         static let messageDwell: TimeInterval = 0.25
+        static let fadeOutDuration: TimeInterval = 0.2
         static let iconToLabelSpacing: CGFloat = 35
     }
 
@@ -26,6 +28,7 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     private var isFinishingRefresh = false
+    private var isHiding = false
 
     override init() {
         super.init(frame: .zero)
@@ -90,6 +93,9 @@ class CustomRefreshControl: UIRefreshControl {
         // for safe area and any custom contentInset.
         let pull = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
 
+        // Skip alpha updates while the fade-out animation is running.
+        if isHiding { return }
+
         // While refreshing, the hold position sits at pull == 0 (the inset is
         // expanded by UIKit). As the user scrolls past it, pull goes negative;
         // fade out over the control's own height so the visuals don't overlay
@@ -110,31 +116,35 @@ class CustomRefreshControl: UIRefreshControl {
 
         // Icon and label fade on independent curves so the label appears slightly
         // after the icon — closer to native pull-to-refresh.
-        let iconStart = Constants.triggerDistance - Constants.iconFadeDistance
-        let labelStart = Constants.triggerDistance - Constants.labelFadeDistance
-        let iconAlpha = max(0, min(1, (pull - iconStart) / Constants.iconFadeDistance))
+        let iconAlpha = max(0, min(1, (pull - Constants.iconFadeStart) / Constants.iconFadeDistance))
         refreshInnerImage.alpha = iconAlpha
         refreshOuterImage.alpha = iconAlpha
-        refreshLabel.alpha = max(0, min(1, (pull - labelStart) / Constants.labelFadeDistance))
+        refreshLabel.alpha = max(0, min(1, (pull - Constants.labelFadeStart) / Constants.labelFadeDistance))
 
         refreshInnerImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.innerRotationMultiplier).degreesToRadians)
         refreshOuterImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.outerRotationMultiplier).degreesToRadians)
     }
 
     override func endRefreshing() {
-        // Re-entry from the delayed dispatch: actually retract now.
+        // Re-entry from the fade-out completion: actually retract now.
         if isFinishingRefresh {
             isFinishingRefresh = false
+            isHiding = false
             super.endRefreshing()
             endRefreshAnimation()
             return
         }
-        // First call: hold the completion message visible briefly before the native retract.
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.messageDwell) { [weak self] in
+        // Hold the completion message briefly, then fade the visuals out before the native retract.
+        isHiding = true
+        UIView.animate(withDuration: Constants.fadeOutDuration, delay: Constants.messageDwell, animations: { [weak self] in
+            self?.refreshInnerImage.alpha = 0
+            self?.refreshOuterImage.alpha = 0
+            self?.refreshLabel.alpha = 0
+        }, completion: { [weak self] _ in
             guard let self else { return }
             self.isFinishingRefresh = true
             self.endRefreshing()
-        }
+        })
     }
 
     private func startRefreshAnimation() {
