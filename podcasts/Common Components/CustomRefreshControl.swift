@@ -26,7 +26,6 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     private var customConstraints: [NSLayoutConstraint] = []
-    private var hasPendingLabelReset = false
     private var isFinishingRefresh = false
 
     override init() {
@@ -70,7 +69,6 @@ class CustomRefreshControl: UIRefreshControl {
     }
 
     @objc private func didTriggerRefresh() {
-        hasPendingLabelReset = true
         startRefreshAnimation()
         perform?(self)
     }
@@ -99,9 +97,8 @@ class CustomRefreshControl: UIRefreshControl {
         let pull = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
 
         // Restore the default label once the control fully retracts after a refresh.
-        if pull <= 0, hasPendingLabelReset {
+        if pull <= 0, refreshLabel.text != L10n.refreshControlPullToRefresh {
             refreshLabel.text = L10n.refreshControlPullToRefresh
-            hasPendingLabelReset = false
         }
 
         // Icon and label fade on independent curves so the label appears slightly
