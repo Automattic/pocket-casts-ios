@@ -84,11 +84,24 @@ class CustomRefreshControl: UIRefreshControl {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        guard !isRefreshing, let scrollView = superview as? UIScrollView else { return }
+        guard let scrollView = superview as? UIScrollView else { return }
 
         // Measure pull relative to the scroll view's rest position so we account
         // for safe area and any custom contentInset.
         let pull = -(scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+
+        // While refreshing, the hold position sits at pull == 0 (the inset is
+        // expanded by UIKit). As the user scrolls past it, pull goes negative;
+        // fade out over the control's own height so the visuals don't overlay
+        // the content below.
+        if isRefreshing {
+            let fadeDistance = max(1, bounds.height)
+            let alpha = max(0, min(1, (pull + fadeDistance) / fadeDistance))
+            refreshInnerImage.alpha = alpha
+            refreshOuterImage.alpha = alpha
+            refreshLabel.alpha = alpha
+            return
+        }
 
         // Restore the default label once the control fully retracts after a refresh.
         if pull <= 0, refreshLabel.text != L10n.refreshControlPullToRefresh {
