@@ -163,6 +163,8 @@ final class MiniPlayerScrollingTitleView: UIView {
                 let cycleDistance = textWidth + gap
                 guard cycleDistance > 0 else { return }
                 let cycleDuration = TimeInterval(cycleDistance / scrollSpeed)
+                let preGapDuration = TimeInterval(textWidth / scrollSpeed)
+                let gapDuration = TimeInterval(gap / scrollSpeed)
 
                 UIView.animate(withDuration: maskTransitionDuration, delay: 0, options: [.curveEaseInOut]) {
                     self.applyMask(showLeading: true, showTrailing: true)
@@ -175,11 +177,16 @@ final class MiniPlayerScrollingTitleView: UIView {
                 animation.timingFunction = CAMediaTimingFunction(name: .linear)
                 scrollContainer.layer.add(animation, forKey: "marquee")
 
-                try await Task.sleep(for: .seconds(cycleDuration))
+                // Fade the leading mask out while the gap (not text) occupies the
+                // leading edge — otherwise the start of the title is visibly
+                // obscured as it loops back into view.
+                try await Task.sleep(for: .seconds(preGapDuration))
 
-                UIView.animate(withDuration: maskTransitionDuration, delay: 0, options: [.curveEaseInOut]) {
+                UIView.animate(withDuration: min(maskTransitionDuration, gapDuration), delay: 0, options: [.curveEaseInOut]) {
                     self.applyMask(showLeading: false, showTrailing: true)
                 }
+
+                try await Task.sleep(for: .seconds(gapDuration))
 
                 try await Task.sleep(for: betweenCyclesDelay)
             }
