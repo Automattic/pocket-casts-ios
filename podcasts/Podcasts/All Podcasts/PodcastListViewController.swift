@@ -499,7 +499,6 @@ extension PodcastListViewController {
         let controller = FullSyncRefreshController(source: .podcastsList)
         let refreshControl = controller.refreshControl
         refreshControl.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl.topInset = 0
         podcastsCollectionView.refreshControl = refreshControl
         self.refreshController = controller
     }
