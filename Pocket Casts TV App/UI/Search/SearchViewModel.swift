@@ -48,6 +48,8 @@ class SearchViewModel: SearchableViewModel {
 
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             results = []
+            autoCompleteSuggestions = []
+            state = .query
             return
         }
 
@@ -62,7 +64,7 @@ class SearchViewModel: SearchableViewModel {
                 let podcasts = try await fetchPodcasts(query: query)
                 guard !Task.isCancelled else { return }
                 results = podcasts
-                state = .results
+                state = results.isEmpty ? .empty : .results
             } catch {
                 state  = .error(error)
             }

@@ -9,7 +9,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
         NavigationStack {
             VStack {
                 if searchText.isEmpty {
-                    EmptyDataView(title: "Search for something", subtitle: "", actionTitle: nil, action: nil)
+                    EmptyDataView(title: "No results found", subtitle: "Search for something more specific", actionTitle: nil, action: nil)
                 } else {
                     switch viewModel.state {
                     case .searching:
