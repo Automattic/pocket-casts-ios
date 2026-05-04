@@ -38,10 +38,6 @@ class CustomRefreshControl: UIRefreshControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
     func set(text: String) {
         refreshLabel.text = text
     }
@@ -158,44 +154,5 @@ class CustomRefreshControl: UIRefreshControl {
     private func endRefreshAnimation() {
         refreshInnerImage.layer.removeAllAnimations()
         refreshOuterImage.layer.removeAllAnimations()
-    }
-}
-
-// MARK: - Notifications Handling
-
-extension CustomRefreshControl {
-    func parentViewControllerDidAppear() {
-        let notifCenter = NotificationCenter.default
-        notifCenter.addObserver(self, selector: #selector(loading), name: PodcastFeedReloadNotification.loading, object: nil)
-        notifCenter.addObserver(self, selector: #selector(episodesFound), name: PodcastFeedReloadNotification.episodesFound, object: nil)
-        notifCenter.addObserver(self, selector: #selector(noEpisodesFound), name: PodcastFeedReloadNotification.noEpisodesFound, object: nil)
-    }
-
-    func parentViewControllerDidDisappear() {
-        let notifCenter = NotificationCenter.default
-        notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.loading, object: nil)
-        notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.episodesFound, object: nil)
-        notifCenter.removeObserver(self, name: PodcastFeedReloadNotification.noEpisodesFound, object: nil)
-
-        if isRefreshing {
-            endRefreshing()
-        }
-    }
-
-    private func processRefreshCompleted(_ message: String) {
-        refreshLabel.text = message.uppercased()
-        endRefreshing()
-    }
-
-    @objc private func loading() {
-        refreshLabel.text = L10n.podcastFeedReloadLoading.uppercased()
-    }
-
-    @objc private func episodesFound() {
-        processRefreshCompleted(L10n.podcastFeedReloadNewEpisodesFound)
-    }
-
-    @objc private func noEpisodesFound() {
-        processRefreshCompleted(L10n.podcastFeedReloadNoEpisodesFound)
     }
 }
