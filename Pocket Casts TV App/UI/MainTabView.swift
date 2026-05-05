@@ -82,13 +82,6 @@ struct CenterButton: View {
     }
 }
 
-@MainActor
-@Observable
-final class MainTabRouter {
-    var selectedTab: MainTab = .home
-    var isShowingDetail: Bool = false
-}
-
 struct MainTabView: View {
 
     @State private var tabSelection: MainTabRouter = MainTabRouter()
