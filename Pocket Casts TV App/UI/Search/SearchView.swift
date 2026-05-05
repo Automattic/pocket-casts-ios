@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SearchView<ViewModel: SearchableViewModel>: View {
 
-    @Bindable var viewModel: ViewModel
+    @Bindable var model: ViewModel
     @State private var searchText = ""
 
     var body: some View {
@@ -11,13 +11,13 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 if searchText.isEmpty {
                     EmptyDataView(title: "No results found", subtitle: "Search for something more specific", actionTitle: nil, action: nil)
                 } else {
-                    switch viewModel.state {
+                    switch model.state {
                     case .searching:
                         ProgressView("Searching...")
                     case .empty:
                         ContentUnavailableView.search(text: searchText)
                     case .results:
-                        SearchPodcastsResultsView(podcasts: viewModel.results)
+                        SearchPodcastsResultsView(podcasts: model.results)
                     case .error(let error):
                         Text("Search failed: \(error.localizedDescription)")
                     case .query:
@@ -29,29 +29,29 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             .searchSuggestions {
                 if searchText.isEmpty {
                     Section("Recent") {
-                        ForEach(viewModel.searchHistory, id: \.self) { search in
+                        ForEach(model.searchHistory, id: \.self) { search in
                             Label(search, systemImage: "clock")
                                 .searchCompletion(search)
                         }
                     }
                 } else {
                     // Live suggestions based on query
-                    ForEach(viewModel.autoCompleteSuggestions, id: \.self) { suggestion in
+                    ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
                         Text(suggestion)
                             .searchCompletion(suggestion)
                     }
                 }
             }
             .onSubmit(of: .search) {
-                viewModel.search(query: searchText)
+                model.search(query: searchText)
             }
             .onChange(of: searchText) { _, newValue in
-                viewModel.autoComplete(query: newValue)
+                model.autoComplete(query: newValue)
             }
         }
     }
 }
 
 #Preview {
-    SearchView(viewModel: SearchViewModel())
+    SearchView(model: SearchViewModel())
 }
