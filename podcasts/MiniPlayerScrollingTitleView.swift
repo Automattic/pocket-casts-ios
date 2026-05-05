@@ -77,9 +77,20 @@ final class MiniPlayerScrollingTitleView: UIView {
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         setContentHuggingPriority(.defaultLow, for: .horizontal)
         setContentCompressionResistancePriority(.required, for: .vertical)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reduceMotionStatusDidChange),
+            name: UIAccessibility.reduceMotionStatusDidChangeNotification,
+            object: nil
+        )
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    @objc private func reduceMotionStatusDidChange() {
+        scheduleAnimation()
+    }
 
     override var intrinsicContentSize: CGSize {
         let textWidth = primaryLabel.intrinsicContentSize.width
@@ -142,7 +153,7 @@ final class MiniPlayerScrollingTitleView: UIView {
         let textWidth = primaryLabel.intrinsicContentSize.width
         let needsScrolling = textWidth > bounds.width + 0.5
 
-        guard needsScrolling, window != nil else {
+        guard needsScrolling, window != nil, !UIAccessibility.isReduceMotionEnabled else {
             applyMask(showLeading: false, showTrailing: needsScrolling)
             return
         }
