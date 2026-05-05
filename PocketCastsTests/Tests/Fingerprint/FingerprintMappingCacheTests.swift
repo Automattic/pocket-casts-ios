@@ -142,7 +142,7 @@ final class FingerprintMappingCacheTests: XCTestCase {
 
         // Preserve original attributes so size/mtime checks pass.
         let attrs = try FileManager.default.attributesOfItem(atPath: audioPath)
-        let originalDate = attrs[.modificationDate] as! Date
+        let originalDate = try XCTUnwrap(attrs[.modificationDate] as? Date)
 
         // Rewrite with different content but same size.
         try Data(repeating: 0xff, count: 1024).write(to: URL(fileURLWithPath: audioPath))
