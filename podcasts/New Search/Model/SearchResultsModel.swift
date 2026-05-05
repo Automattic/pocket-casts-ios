@@ -210,10 +210,8 @@ class SearchResultsModel: ObservableObject {
         }
         let uuids = episodes.map { $0.uuid }
         return dataMangager.findPlayedEpisodes(uuids: uuids)
-            .reduce(Set<String>()) { list, uuid in
-                var set = list
-                set.insert(uuid)
-                return set
+            .reduce(into: Set<String>()) { list, uuid in
+                list.insert(uuid)
         }
     }
 
