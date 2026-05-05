@@ -45,7 +45,28 @@ struct PlaylistDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeList
         }
-        .blurredCoverBackground(model.coverImages.first, size: Layout.mosaicSize)
+        .blurredCoverBackground(size: Layout.mosaicSize) {
+            blurredMosaic
+        }
+    }
+
+    @ViewBuilder
+    private var blurredMosaic: some View {
+        let images = model.coverImages
+        if images.count >= 4 {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    Image(images[0]).resizable().aspectRatio(contentMode: .fill)
+                    Image(images[1]).resizable().aspectRatio(contentMode: .fill)
+                }
+                HStack(spacing: 0) {
+                    Image(images[2]).resizable().aspectRatio(contentMode: .fill)
+                    Image(images[3]).resizable().aspectRatio(contentMode: .fill)
+                }
+            }
+        } else if let first = images.first {
+            Image(first).resizable().aspectRatio(contentMode: .fill)
+        }
     }
 
     @ViewBuilder
@@ -89,6 +110,7 @@ struct PlaylistDetailView: View {
     var playlistInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
             mosaicCover
+                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.playlist.manual ? "" : L10n.smartPlaylist)
                     .font(.caption)
