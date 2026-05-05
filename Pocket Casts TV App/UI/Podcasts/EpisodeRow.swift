@@ -159,7 +159,6 @@ struct EpisodeRowWithActions: View {
             Button(L10n.markPlayed) {}
             Button(L10n.archive) {}
             Button(L10n.tvEpisodeInfo) {}
-            Button(L10n.cancel, role: .cancel) {}
         }
     }
 }
