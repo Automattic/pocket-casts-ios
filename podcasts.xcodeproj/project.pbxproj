@@ -1090,7 +1090,6 @@
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
-		F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */; };
 		F518BC6D2E71252300E84711 /* BookmarkActionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
@@ -2586,7 +2585,6 @@
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
-		F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MiniPlayerInsets.swift; path = Shared/MiniPlayerInsets.swift; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
@@ -3787,7 +3785,6 @@
 			isa = PBXGroup;
 			children = (
 				F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */,
-				F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */,
 				FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */,
 				3F7479452F555197004C7FF6 /* ABTest */,
 				3F7479522F55519F004C7FF6 /* Unlockable */,
@@ -7229,7 +7226,6 @@
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */,
-				F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
 				BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */,
 				BD2DE2321E65224900BE21A4 /* ShowNotesUpdater.swift in Sources */,
