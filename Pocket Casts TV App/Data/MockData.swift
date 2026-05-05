@@ -127,7 +127,12 @@ struct MockData {
         "The Invention of Money"
     ]
 
+    private static var podcasts: [MockPodcast] = []
+
     static func makePodcasts() -> [MockPodcast] {
+        guard podcasts.isEmpty else {
+            return podcasts
+        }
         let numberOfPodcasts = 48
         var results = [MockPodcast]()
         for i in (0..<numberOfPodcasts) {
@@ -152,10 +157,16 @@ struct MockData {
                 nextEpisodeDate: nextDays[i % nextDays.count]
             ))
         }
-        return results
+        self.podcasts = results
+        return self.podcasts
     }
 
+    static private var playlists: [MockPlaylist] = []
+
     static func makePlaylists() -> [MockPlaylist] {
+        guard playlists.isEmpty else {
+            return playlists
+        }
         let numberOfEpisodes = 12
         var results = [MockPlaylist]()
         let playlistsSpec: [(String, Bool, Color)] = [
@@ -164,25 +175,36 @@ struct MockData {
             ("TV Stuff", false, Color(red: 0.21, green: 0.22, blue: 0.14)),
             ("My favorites", true, Color(red: 0.5, green: 0.35, blue: 0.12))
         ]
+        let podcasts = makePodcasts()
         for (index, (name, smart, color)) in playlistsSpec.enumerated() {
             var episodes: [MockEpisode] = []
             for i in (0..<Int.random(in: 0..<numberOfEpisodes)) {
-                let podcastImageName = "Covers/login-cover-\( Int.random(in: (1...10)))"
-                let titleIndex = (index * 7 + i) % episodeTitles.count
-                episodes.append(MockEpisode(uuid: UUID().uuidString, title: episodeTitles[titleIndex], publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
+                let podcast = podcasts.randomElement()
+                if let episode = podcast?.episodes.randomElement() {
+                    episodes.append(episode)
+                }
             }
             results.append(MockPlaylist(id: UUID().uuidString, title: name, manual: !smart, episodes: episodes, color: color))
         }
+        self.playlists = results
         return results
     }
 
+    static var upNext: [MockEpisode] = []
+
     static func makeUpNext() -> [MockEpisode] {
+        guard upNext.isEmpty else {
+            return upNext
+        }
         let numberOfEpisodes = 48
         var episodes: [MockEpisode] = []
         for i in (0..<numberOfEpisodes) {
-            let podcastImageName = "Covers/login-cover-\( (Int.random(in: 1...10)))"
-            episodes.append(MockEpisode(uuid: UUID().uuidString, title: "Episode \(i+1)", publishedDate: Date.now.weeksAgo(i), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
+            let podcast = podcasts.randomElement()
+            if let episode = podcast?.episodes.randomElement() {
+                episodes.append(episode)
+            }
         }
+        upNext = episodes
         return episodes
     }
 }

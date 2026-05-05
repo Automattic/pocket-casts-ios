@@ -14,14 +14,11 @@ class HomeViewModel {
 
     var state: State = .loading
 
-    private static let allPodcasts = MockData.makePodcasts()
-    private static let allPlaylists = MockData.makePlaylists()
-
-    var podcasts: [MockPodcast] = allPodcasts
-    var currentPlaying: MockEpisode? = allPlaylists.first?.episodes.first
-    var upNext: [MockEpisode] = Array(allPlaylists.flatMap(\.episodes).prefix(3))
-    var recentlyPlayed: [MockPodcast] = Array(allPodcasts.shuffled().prefix(10))
-    var newReleases: [MockEpisode] = allPodcasts.prefix(8).compactMap(\.episodes.first)
+    var podcasts: [MockPodcast] = []
+    var currentPlaying: MockEpisode?
+    var upNext: [MockEpisode] = []
+    var recentlyPlayed: [MockPodcast] = []
+    var newReleases: [MockEpisode] = []
 
     func load() {
         //Mock data load
@@ -29,6 +26,11 @@ class HomeViewModel {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
+                podcasts = MockData.makePodcasts()
+                currentPlaying = MockData.makePlaylists().first?.episodes.first
+                upNext = Array(MockData.makeUpNext().prefix(3))
+                recentlyPlayed = Array(podcasts.shuffled().prefix(10))
+                newReleases = podcasts.prefix(8).compactMap(\.episodes.first)
                 state = .ready
                 cancellable?.cancel()
                 cancellable = nil

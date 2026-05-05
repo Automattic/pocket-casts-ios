@@ -14,7 +14,7 @@ class PlaylistsViewModel {
 
     var state: State = .loading
 
-    var playlists: [MockPlaylist] = MockData.makePlaylists()
+    var playlists: [MockPlaylist] = []
 
     func load() {
         //Mock data load
@@ -23,6 +23,7 @@ class PlaylistsViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 state = .ready
+                playlists = MockData.makePlaylists()
                 cancellable?.cancel()
                 cancellable = nil
             }

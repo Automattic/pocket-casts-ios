@@ -14,7 +14,7 @@ class PodcastsViewModel {
 
     var state: State = .loading
 
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
+    var podcasts: [MockPodcast] = []
 
     func load() {
         //Mock data load
@@ -22,7 +22,8 @@ class PodcastsViewModel {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                state = .ready
+                podcasts = MockData.makePodcasts()
+                state = podcasts.isEmpty ? .empty : .ready
                 cancellable?.cancel()
                 cancellable = nil
             }
