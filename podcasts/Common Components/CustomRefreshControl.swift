@@ -80,7 +80,7 @@ class CustomRefreshControl: UIRefreshControl {
             refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.iconToLabelSpacing),
             refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor),
+            refreshInnerImage.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
         ])
