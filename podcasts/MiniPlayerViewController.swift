@@ -41,7 +41,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var episodeTitleLabel: UILabel?
+    private var episodeTitleLabel: MiniPlayerScrollingTitleView?
     private var episodeTimeLeftLabel: UILabel?
     private var glassProgressView: MiniPlayerGlassProgressView?
 
@@ -95,12 +95,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         playPauseBtn.visualSize = 28
 
-        let title = UILabel()
+        let title = MiniPlayerScrollingTitleView()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
-        title.numberOfLines = 1
-        title.lineBreakMode = .byTruncatingTail
-        title.adjustsFontForContentSizeCategory = false
         episodeTitleLabel = title
 
         let timeLeft = UILabel()
