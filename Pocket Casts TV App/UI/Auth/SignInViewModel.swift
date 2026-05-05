@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import PocketCastsServer
 
 @Observable
 class SignInViewModel {
@@ -20,5 +21,11 @@ class SignInViewModel {
                         guard let self else { return }
                         state = .finished
                     }
+    }
+
+    func manualSignIn(username: String, password: String) {
+        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
+            print("Success: \(success), userId: \(userId ?? "") error: \(error)")
+        }
     }
 }
