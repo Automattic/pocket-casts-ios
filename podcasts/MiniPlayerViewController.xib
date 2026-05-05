@@ -16,6 +16,8 @@
                 <outlet property="playPauseBtn" destination="CjL-4C-tuh" id="Y8g-6z-ZoN"/>
                 <outlet property="playbackProgressView" destination="aWD-bx-vF2" id="vpI-fM-bgO"/>
                 <outlet property="podcastArtwork" destination="tJx-CO-hRe" id="Kzl-ZM-bdq"/>
+                <outlet property="podcastArtworkHeightConstraint" destination="dnA-Im-DKw" id="Kzl-ZM-hgt"/>
+                <outlet property="podcastArtworkWidthConstraint" destination="nch-ve-CD6" id="Kzl-ZM-wdt"/>
                 <outlet property="shadowView" destination="H6s-IT-ngQ" id="r3I-mU-Ie7"/>
                 <outlet property="playPauseBtnWidthConstraint" destination="Q9t-vc-8fw" id="WP2-Mn-Ply"/>
                 <outlet property="skipBackBtn" destination="92g-6h-Yd9" id="i61-v9-wgd"/>
