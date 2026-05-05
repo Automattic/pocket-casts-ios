@@ -63,7 +63,7 @@ struct MainTabContentView: View {
                     self.scrollOffset = after
                 }
         case .search:
-            SearchView(viewModel: SearchViewModel())
+            SearchView(model: SearchViewModel())
         }
     }
 }
@@ -80,13 +80,6 @@ struct CenterButton: View {
             Spacer()
         }
     }
-}
-
-@MainActor
-@Observable
-final class MainTabRouter {
-    var selectedTab: MainTab = .home
-    var isShowingDetail: Bool = false
 }
 
 struct MainTabView: View {
