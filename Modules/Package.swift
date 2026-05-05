@@ -291,7 +291,9 @@ enum XcodeSupport {
             .xcodeTarget(
                 XcodeTargetNames.pocketCastsTvApp,
                 dependencies: [
-                    "PocketCastsUtils"
+                    "PocketCastsUtils",
+                    "PocketCastsDataModel",
+                    "PocketCastsServer",
                 ]
             ),
         ]
