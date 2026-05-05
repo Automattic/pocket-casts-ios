@@ -5,8 +5,7 @@ import Foundation
 /// `PodcastFeedReloadNotification` to update the status text and dismiss the
 /// control when the reload finishes.
 ///
-/// The owner is responsible for assigning `refreshControl` to a scroll view
-/// and customising its appearance.
+/// The owner is responsible for assigning `refreshControl` to a scroll view.
 final class PodcastFeedRefreshController {
     let refreshControl = CustomRefreshControl()
 

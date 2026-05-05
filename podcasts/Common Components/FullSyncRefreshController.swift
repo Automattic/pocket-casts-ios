@@ -6,8 +6,7 @@ import PocketCastsServer
 /// the resulting server/sync notifications to update the status text and
 /// dismiss the control when the sync finishes.
 ///
-/// The owner is responsible for assigning `refreshControl` to a scroll view
-/// (and forwarding scroll events) and customising its appearance.
+/// The owner is responsible for assigning `refreshControl` to a scroll view.
 final class FullSyncRefreshController {
     let refreshControl = CustomRefreshControl()
 
