@@ -2,6 +2,7 @@ import Foundation
 import Intents
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsSharedModels
 import PocketCastsUtils
 
 class SiriShortcutsManager: CustomObserver {

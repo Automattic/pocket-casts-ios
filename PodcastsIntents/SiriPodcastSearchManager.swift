@@ -1,5 +1,6 @@
 import Foundation
 import Fuse
+import PocketCastsSharedModels
 
 class SiriPodcastSearchManager {
     func matchUtteranceToPodcast(searchString: String) -> SiriPodcastItem? {

@@ -1,5 +1,5 @@
 import Foundation
-@testable import podcasts
+@testable import PocketCastsSharedModels
 import XCTest
 
 final class SiriPodcastItemTests: XCTestCase {
