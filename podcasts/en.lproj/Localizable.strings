@@ -3064,11 +3064,11 @@
 /* Alert title for subscribing to a shared podcast list. '%1$@' is a placeholder for the number of podcasts. */
 "alert_shared_list_subscribe_title" = "%1$@ podcasts incoming.";
 
-/* Alert message for subscribing to a shared podcast list */
-"alert_shared_list_subscribe_message" = "They\U2019ll all show up in Your Podcasts.";
+/* Alert message for following all podcasts in a shared list */
+"alert_shared_list_subscribe_message" = "They\U2019ll be added to your Podcasts.";
 
-/* Alert action button for subscribing to all podcasts in a shared list */
-"alert_shared_list_subscribe_action" = "Subscribe to All";
+/* Alert action button for following all podcasts in a shared list */
+"alert_shared_list_subscribe_action" = "Follow All";
 
 /* A common string used throughout the app. Refers to the Notes (show notes) tab in the player. */
 "show_notes" = "Notes";

@@ -190,10 +190,10 @@ internal enum L10n {
   internal static var alertDownloadAll: String { return L10n.tr("Localizable", "alert_download_all", fallback: "Download all?") }
   /// Alert title for playing all episodes
   internal static var alertPlayAll: String { return L10n.tr("Localizable", "alert_play_all", fallback: "Play all?") }
-  /// Alert action button for subscribing to all podcasts in a shared list
-  internal static var alertSharedListSubscribeAction: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_action", fallback: "Subscribe to All") }
-  /// Alert message for subscribing to a shared podcast list
-  internal static var alertSharedListSubscribeMessage: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_message", fallback: "They’ll all show up in Your Podcasts.") }
+  /// Alert action button for following all podcasts in a shared list
+  internal static var alertSharedListSubscribeAction: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_action", fallback: "Follow All") }
+  /// Alert message for following all podcasts in a shared list
+  internal static var alertSharedListSubscribeMessage: String { return L10n.tr("Localizable", "alert_shared_list_subscribe_message", fallback: "They’ll be added to your Podcasts.") }
   /// Alert title for subscribing to a shared podcast list. '%1$@' is a placeholder for the number of podcasts.
   internal static func alertSharedListSubscribeTitle(_ p1: Any) -> String {
     return L10n.tr("Localizable", "alert_shared_list_subscribe_title", String(describing: p1), fallback: "%1$@ podcasts incoming.")
