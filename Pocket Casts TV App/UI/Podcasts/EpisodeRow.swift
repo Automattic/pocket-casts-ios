@@ -26,14 +26,12 @@ struct EpisodeRow: View {
         static let episodeImageSize = CGFloat(124)
     }
 
-    func displayDate(for date: Date) -> String {
-        let episodeDate = DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase
-        return episodeDate
+    private func displayDate(for date: Date) -> String {
+        DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase
     }
 
-    func displayDuration(for time: Double) -> String {
-        let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: time)
-        return time
+    private func displayDuration(for time: Double) -> String {
+        TimeFormatter.shared.multipleUnitFormattedShortTime(time: time)
     }
 
     var body: some View {
@@ -134,14 +132,13 @@ struct EpisodeRowWithActions: View {
         .defaultFocus($focusedElement, .episode)
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
         .onChange(of: isShowingActions) { _, showing in
-            if !showing {
-                DispatchQueue.main.async {
-                    var transaction = Transaction()
-                    transaction.disablesAnimations = true
-                    withTransaction(transaction) {
-                        focusedElement = .more
-                        restoreFocus = false
-                    }
+            guard !showing else { return }
+            DispatchQueue.main.async {
+                var transaction = Transaction()
+                transaction.disablesAnimations = true
+                withTransaction(transaction) {
+                    focusedElement = .more
+                    restoreFocus = false
                 }
             }
         }
