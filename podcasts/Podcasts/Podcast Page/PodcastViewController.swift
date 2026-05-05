@@ -361,7 +361,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func setupLogin() {
-        podcastRatingViewModel.presentLogin = { [weak self] viewModel in
+        podcastRatingViewModel.presentLogin = { [weak self] _ in
             self?.showLogin(message: L10n.ratingLoginRequired)
         }
     }

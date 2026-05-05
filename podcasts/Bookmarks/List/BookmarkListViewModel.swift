@@ -76,14 +76,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
 
         ServerNotifications.syncCompleted.publisher()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.reload()
             }
             .store(in: &cancellables)
 
         feature.objectWillChange
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.reload()
                 self?.objectWillChange.send()
             }

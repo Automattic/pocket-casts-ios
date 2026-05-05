@@ -132,7 +132,7 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
 
         return await withCheckedContinuation { continuation in
-            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { data, response, error, _ in
+            performDiscoverRequest(path: source, authenticated: item.isAuthenticated) { _, response, _, _ in
                 let success = response?.extractStatusCode() == 200
                 continuation.resume(returning: success)
             }

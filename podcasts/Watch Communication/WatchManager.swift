@@ -531,7 +531,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             guard let self else { return }
             self.sendStateToWatch()
             if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                WatchManager.shared.requestLogFile { log in
+                WatchManager.shared.requestLogFile { _ in
                     // We do nothing here, the log file will be cached as a result of requesting
                 }
             }

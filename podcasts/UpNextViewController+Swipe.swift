@@ -70,7 +70,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
 
             if FeatureFlag.playlistsRebranding.enabled,
                let episode = DataManager.sharedManager.episodeInUpNextAt(index: indexPath.row + 1) as? Episode {
-                let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, indexPath in
+                let shareAction = SwipeAction(style: .default, title: nil) { [weak self] _, _ in
                     guard let self else { return }
                     Analytics.track(
                         .episodeSwipeActionPerformed,
