@@ -18,19 +18,26 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
     private let fullPlayerYPosition: CGFloat
 
     private lazy var springVelocity: CGFloat = {
-        let distance: CGFloat
+        // UISpringTimingParameters.initialVelocity is normalized against the
+        // signed animation displacement (end − start), not absolute distance.
+        // A positive normalized value means "moving toward the end state."
+        // Present moves up from y = containerHeight to y = 0, so displacement
+        // is negative; dismiss moves down from the player's current y to the
+        // mini player's y, so displacement is positive. Dividing an upward
+        // present-flick's negative screen-space velocity by a positive
+        // distance would give UIKit a velocity that points away from the end
+        // and the spring would fight the motion at handoff.
+        let displacement: CGFloat
         if isPresenting {
-            // Present travels the full container height (offscreen-bottom → top).
-            distance = fromViewController.view.window?.bounds.height
+            let height = fromViewController.view.window?.bounds.height
                 ?? fromViewController.view.bounds.height
+            displacement = -height
         } else {
             let miniplayerFrame = fromViewController.view.superview?.convert(fromViewController.view.frame, to: nil) ?? .zero
-            distance = miniplayerFrame.origin.y - fullPlayerYPosition
+            displacement = miniplayerFrame.origin.y - fullPlayerYPosition
         }
-        guard distance > 0 else { return 0 }
-        // distance is always positive; gestureVelocity carries the sign, so the
-        // resulting spring dy points in the same direction as the gesture.
-        return gestureVelocity / distance
+        guard displacement != 0 else { return 0 }
+        return gestureVelocity / displacement
     }()
 
     private var duration: TimeInterval {
@@ -191,10 +198,12 @@ class LiquidGlassPlayerAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
     /// Critically damped spring (no overshoot) used for the main present and
     /// dismiss move. initialVelocity carries the gesture's momentum into the
-    /// animation so it doesn't lurch when the user lets go — positive dy for
-    /// downward dismiss flicks, negative dy for upward present flicks. Taps
-    /// pass zero and start from rest. The mini player's absorb on dismiss uses
-    /// a separate bouncier spring — see `animateMiniPlayerAbsorb`.
+    /// animation so it doesn't lurch when the user lets go. springVelocity is
+    /// already normalized against signed displacement, so a gesture moving
+    /// toward the animation's end state produces a positive dy regardless of
+    /// transition direction. Taps pass zero and start from rest. The mini
+    /// player's absorb on dismiss uses a separate bouncier spring — see
+    /// `animateMiniPlayerAbsorb`.
     private func animate(withDuration duration: TimeInterval, animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
         let dampingRatio: CGFloat = 1.0
         let velocity = CGVector(dx: 0, dy: springVelocity)
