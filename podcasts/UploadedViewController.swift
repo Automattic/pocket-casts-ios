@@ -71,7 +71,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.uploadedFilesMultiSelectEntered)
                     self.multiSelectActionBar.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.uploadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil

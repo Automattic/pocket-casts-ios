@@ -93,7 +93,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.filterMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     self.shouldShowChipsAfterMulitSelect = !self.isChipHidden
                     if !self.isChipHidden {
                         self.hideFilterChips()
