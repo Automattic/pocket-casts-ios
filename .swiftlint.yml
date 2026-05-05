@@ -72,6 +72,9 @@ only_rules:
   # `nil` coalescing on a non-optional is redundant.
   - redundant_nil_coalescing
 
+  # Type annotations are redundant when the type can be inferred.
+  - redundant_type_annotation
+
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
 

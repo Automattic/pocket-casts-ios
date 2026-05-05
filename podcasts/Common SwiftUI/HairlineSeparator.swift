@@ -2,7 +2,7 @@ import SwiftUI
 
 /// A separator which is drawn as 1 physical pixel. This mirrors the separator used in UITableView
 struct HairlineSeparator: View {
-    var color: Color = Color(UIColor.separator)
+    var color = Color(UIColor.separator)
 
     @Environment(\.displayScale) private var scale
 

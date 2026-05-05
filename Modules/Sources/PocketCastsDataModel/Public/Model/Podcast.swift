@@ -61,7 +61,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var fundingURL: String?
 
     @GRDBIgnore
-    public var settings: PodcastSettings = PodcastSettings.defaults
+    public var settings = PodcastSettings.defaults
 
     // transient not saved to database
     @GRDBIgnore

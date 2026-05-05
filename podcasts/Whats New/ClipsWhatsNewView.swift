@@ -4,7 +4,7 @@ struct ClipsWhatsNewView: View {
     @State private var isVisible = false
 
     enum Constants {
-        static var previewSize: CGSize = CGSize(width: 138, height: 175)
+        static var previewSize = CGSize(width: 138, height: 175)
         static var fadeInDuration: Double = 0.8 // Used for fade-in of preview + delay of logos
     }
 

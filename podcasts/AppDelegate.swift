@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var backgroundSignOutListener: BackgroundSignOutListener?
     private(set) var appInstallState: AppLifecycleAnalytics.AppInstallState?
 
-    lazy var whatsNew: WhatsNew = WhatsNew()
+    lazy var whatsNew = WhatsNew()
 
     // MARK: - App Lifecycle
 

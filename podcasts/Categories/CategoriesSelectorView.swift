@@ -88,8 +88,8 @@ struct CategoriesPillsView: View {
     @Namespace private var animation
 
     fileprivate enum Constants {
-        static let buttonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
-        static let selectedButtonInsets: EdgeInsets = EdgeInsets(top: 2, leading: 16, bottom: 0, trailing: 16)
+        static let buttonInsets = EdgeInsets(top: 2, leading: 16, bottom: 16, trailing: 16)
+        static let selectedButtonInsets = EdgeInsets(top: 2, leading: 16, bottom: 0, trailing: 16)
     }
 
     var body: some View {

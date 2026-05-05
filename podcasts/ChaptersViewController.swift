@@ -19,7 +19,7 @@ class ChaptersViewController: PlayerItemViewController {
         return header
     }()
 
-    lazy var playbackManager: PlaybackManager = PlaybackManager.shared
+    lazy var playbackManager = PlaybackManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()

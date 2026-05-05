@@ -34,7 +34,7 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
 
     private var session: URLSession?
     var response: URLResponse?
-    private var pendingRequests: Set<AVAssetResourceLoadingRequest> = Set<AVAssetResourceLoadingRequest>()
+    private var pendingRequests = Set<AVAssetResourceLoadingRequest>()
     private var isDownloadComplete = false
     var deleteFileOnRelease = false
     var hasRetriedWithoutUserAgent = false
