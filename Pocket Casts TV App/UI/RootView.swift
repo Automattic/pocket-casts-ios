@@ -19,7 +19,12 @@ struct RootView: View {
             case .userSync:
                 SigningInView()
             }
-        }.environment(coordinator)
+        }
+        .environment(coordinator)
+        .task {
+            await coordinator.load()
+        }
+
     }
 }
 

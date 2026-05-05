@@ -1,4 +1,6 @@
 import SwiftUI
+import PocketCastsServer
+import PocketCastsDataModel
 
 @Observable
 class AppCoordinator {
@@ -10,9 +12,10 @@ class AppCoordinator {
         case userSync
     }
 
-    var state: State = .welcome
+    var state: State = .loading
 
-    init() {
-
+    func load() async {
+        let _ = DataManager.sharedManager
+        state = .welcome
     }
 }
