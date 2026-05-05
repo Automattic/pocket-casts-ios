@@ -386,7 +386,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.isManualPlaylist { return }
 
         refreshControl = CustomRefreshControl()
-        refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
         refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
             self?.reloader.pause()
@@ -445,9 +444,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func reloadRefreshControlColor() {
         if let snapshot = blurHeaderView.sj_snapshotImage() {
-            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+            refreshControl?.customTintColor = snapshot.isDark ? .white : .black
         } else {
-            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+            refreshControl?.customTintColor = nil
         }
     }
 

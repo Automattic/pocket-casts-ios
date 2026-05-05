@@ -7,7 +7,7 @@ class CustomRefreshControl: UIRefreshControl {
     private let refreshOuterImage = UIImageView()
     private let refreshLabel = UILabel()
 
-    private enum Constants {
+    private enum Layout {
         static let iconFadeStart: CGFloat = 70
         static let iconFadeDistance: CGFloat = 70
         static let labelFadeStart: CGFloat = 95
@@ -19,12 +19,17 @@ class CustomRefreshControl: UIRefreshControl {
         static let iconToLabelSpacing: CGFloat = 35
     }
 
-    var customTintColor: UIColor = UIColor(hex: "#B8C3C9") {
-        didSet {
-            refreshLabel.textColor = customTintColor
-            refreshInnerImage.tintColor = customTintColor
-            refreshOuterImage.tintColor = customTintColor
-        }
+    var style: ThemeStyle = .secondaryText02 {
+        didSet { updateTintColor() }
+    }
+
+    var themeOverride: Theme.ThemeType? {
+        didSet { updateTintColor() }
+    }
+
+    /// When set, overrides the theme-based tint color. Set to `nil` to fall back to the theme.
+    var customTintColor: UIColor? {
+        didSet { updateTintColor() }
     }
 
     private var isFinishingRefresh = false
@@ -33,10 +38,15 @@ class CustomRefreshControl: UIRefreshControl {
     override init() {
         super.init(frame: .zero)
         setupView()
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func set(text: String) {
@@ -50,19 +60,16 @@ class CustomRefreshControl: UIRefreshControl {
         refreshLabel.text = L10n.refreshControlPullToRefresh
         refreshLabel.textAlignment = .center
         refreshLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        refreshLabel.textColor = customTintColor
         refreshLabel.alpha = 0
         refreshLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshLabel)
 
         refreshInnerImage.image = UIImage(named: "refresh_inner")?.withRenderingMode(.alwaysTemplate)
-        refreshInnerImage.tintColor = customTintColor
         refreshInnerImage.alpha = 0
         refreshInnerImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshInnerImage)
 
         refreshOuterImage.image = UIImage(named: "refresh_outer")?.withRenderingMode(.alwaysTemplate)
-        refreshOuterImage.tintColor = customTintColor
         refreshOuterImage.alpha = 0
         refreshOuterImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(refreshOuterImage)
@@ -70,14 +77,27 @@ class CustomRefreshControl: UIRefreshControl {
         NSLayoutConstraint.activate([
             refreshLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             refreshLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.iconToLabelSpacing),
+            refreshLabel.topAnchor.constraint(equalTo: topAnchor, constant: Layout.iconToLabelSpacing),
             refreshInnerImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             refreshInnerImage.topAnchor.constraint(equalTo: topAnchor),
             refreshOuterImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             refreshOuterImage.topAnchor.constraint(equalTo: refreshInnerImage.topAnchor),
         ])
 
+        updateTintColor()
+
         addTarget(self, action: #selector(didTriggerRefresh), for: .valueChanged)
+    }
+
+    @objc private func themeDidChange() {
+        updateTintColor()
+    }
+
+    private func updateTintColor() {
+        let color = customTintColor ?? AppTheme.colorForStyle(style, themeOverride: themeOverride)
+        refreshLabel.textColor = color
+        refreshInnerImage.tintColor = color
+        refreshOuterImage.tintColor = color
     }
 
     @objc private func didTriggerRefresh() {
@@ -116,13 +136,13 @@ class CustomRefreshControl: UIRefreshControl {
 
         // Icon and label fade on independent curves so the label appears slightly
         // after the icon — closer to native pull-to-refresh.
-        let iconAlpha = max(0, min(1, (pull - Constants.iconFadeStart) / Constants.iconFadeDistance))
+        let iconAlpha = max(0, min(1, (pull - Layout.iconFadeStart) / Layout.iconFadeDistance))
         refreshInnerImage.alpha = iconAlpha
         refreshOuterImage.alpha = iconAlpha
-        refreshLabel.alpha = max(0, min(1, (pull - Constants.labelFadeStart) / Constants.labelFadeDistance))
+        refreshLabel.alpha = max(0, min(1, (pull - Layout.labelFadeStart) / Layout.labelFadeDistance))
 
-        refreshInnerImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.innerRotationMultiplier).degreesToRadians)
-        refreshOuterImage.transform = CGAffineTransform(rotationAngle: (pull * Constants.outerRotationMultiplier).degreesToRadians)
+        refreshInnerImage.transform = CGAffineTransform(rotationAngle: (pull * Layout.innerRotationMultiplier).degreesToRadians)
+        refreshOuterImage.transform = CGAffineTransform(rotationAngle: (pull * Layout.outerRotationMultiplier).degreesToRadians)
     }
 
     override func endRefreshing() {
@@ -136,7 +156,7 @@ class CustomRefreshControl: UIRefreshControl {
         }
         // Hold the completion message briefly, then fade the visuals out before the native retract.
         isHiding = true
-        UIView.animate(withDuration: Constants.fadeOutDuration, delay: Constants.messageDwell, animations: { [weak self] in
+        UIView.animate(withDuration: Layout.fadeOutDuration, delay: Layout.messageDwell, animations: { [weak self] in
             self?.refreshInnerImage.alpha = 0
             self?.refreshOuterImage.alpha = 0
             self?.refreshLabel.alpha = 0

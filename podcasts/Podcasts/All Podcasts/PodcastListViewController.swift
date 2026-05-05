@@ -497,9 +497,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 extension PodcastListViewController {
     func setupRefreshControl() {
         let controller = FullSyncRefreshController(source: .podcastsList)
-        let refreshControl = controller.refreshControl
-        refreshControl.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        podcastsCollectionView.refreshControl = refreshControl
+        podcastsCollectionView.refreshControl = controller.refreshControl
         self.refreshController = controller
     }
 }
