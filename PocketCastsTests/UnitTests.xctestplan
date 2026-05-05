@@ -51,6 +51,13 @@
         "identifier" : "PocketCastsUtilsTests",
         "name" : "PocketCastsUtilsTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "PocketCastsSharedModelsTests",
+        "name" : "PocketCastsSharedModelsTests"
+      }
     }
   ],
   "version" : 1

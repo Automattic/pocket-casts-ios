@@ -1,6 +1,7 @@
 import Foundation
-import WidgetKit
+import PocketCastsSharedModels
 import SwiftUI
+import WidgetKit
 
 struct NowPlayingWidgetEntryView: View {
     @State var entry: NowPlayingProvider.Entry
