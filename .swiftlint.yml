@@ -63,6 +63,9 @@ only_rules:
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
 
+  # Prefer `min(by:)` / `max(by:)` over `sorted { ... }.first` / `.last`.
+  - sorted_first_last
+
   # Files should have a single trailing newline.
   - trailing_newline
 
