@@ -32,6 +32,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var lastEpisodeUuidAutoOpened = ""
     var fullScreenPlayer: PlayerContainerViewController?
 
+    /// Carries the upward pan velocity from the open-gesture recognizer to
+    /// the transition delegate so the present animation can match the flick's
+    /// momentum. Negative = upward (the gesture direction). Reset to 0 after
+    /// the delegate consumes it so a subsequent tap-driven open starts at rest.
+    var pendingPresentVelocity: CGFloat = 0
+
     var panUpRecognizer: UIPanGestureRecognizer!
     var longPressRecognizer: UILongPressGestureRecognizer!
 
