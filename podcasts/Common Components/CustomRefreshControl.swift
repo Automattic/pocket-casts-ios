@@ -39,6 +39,7 @@ class CustomRefreshControl: UIRefreshControl {
         super.init(frame: .zero)
         setupView()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(restartAnimationIfNeeded), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -91,6 +92,18 @@ class CustomRefreshControl: UIRefreshControl {
 
     @objc private func themeDidChange() {
         updateTintColor()
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        restartAnimationIfNeeded()
+    }
+
+    @objc private func restartAnimationIfNeeded() {
+        // CAAnimations are stripped when the layer leaves the window or the app
+        // backgrounds; re-add them so the spinner keeps animating on return.
+        guard isRefreshing, window != nil else { return }
+        startRefreshAnimation()
     }
 
     private func updateTintColor() {
