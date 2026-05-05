@@ -46,6 +46,16 @@ struct PodcastDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeContent
         }
+        .background(alignment: .topLeading) {
+            Image(model.podcast.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: Layout.podcastImageSize * 1.5, height: Layout.podcastImageSize * 1.5)
+                .blur(radius: 100)
+                .opacity(0.75)
+                .offset(x: -(Layout.podcastImageSize * 0.5), y: -(Layout.podcastImageSize * 0.5))
+                .allowsHitTesting(false)
+        }
     }
 
     var podcastInfo: some View {

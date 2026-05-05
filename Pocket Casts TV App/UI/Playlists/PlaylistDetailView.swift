@@ -45,6 +45,18 @@ struct PlaylistDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeList
         }
+        .background(alignment: .topLeading) {
+            if let firstImage = model.coverImages.first {
+                Image(firstImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: Layout.mosaicSize * 1.5, height: Layout.mosaicSize * 1.5)
+                    .blur(radius: 100)
+                    .opacity(0.75)
+                    .offset(x: -(Layout.mosaicSize * 0.5), y: -(Layout.mosaicSize * 0.5))
+                    .allowsHitTesting(false)
+            }
+        }
     }
 
     @ViewBuilder
