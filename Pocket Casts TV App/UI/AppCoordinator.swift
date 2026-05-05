@@ -19,11 +19,25 @@ class AppCoordinator {
         let _ = DataManager.sharedManager
 
         setupCredentials()
-        
+
+        setupUniqueAppId()
+
         state = .welcome
     }
 
     private func setupCredentials() {
         ServerCredentials.sharing = ApiCredentials.sharingServerSecret
+    }
+
+    private func setupUniqueAppId() {
+        let defaults = UserDefaults.standard
+
+        // check to see that this app has a unique ID, if not create one
+        let uniqueId = defaults.string(forKey: Constants.UserDefaults.appId)
+        if uniqueId?.count ?? 0 < 1 {
+            let uuid = UUID().uuidString
+            defaults.set(uuid, forKey: Constants.UserDefaults.appId)
+            defaults.synchronize()
+        }
     }
 }
