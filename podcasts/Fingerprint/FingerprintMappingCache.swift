@@ -132,6 +132,12 @@ enum FingerprintMappingCache {
             )
             return
         }
+        guard let audioContentHash = contentSampleHash(at: audioFilePath) else {
+            FileLog.shared.addMessage(
+                "FingerprintMappingCache: cannot hash audio content at \(audioFilePath) — skipping save"
+            )
+            return
+        }
         let path = mappingPath(forAudioFilePath: audioFilePath)
         let cached = CachedMapping(
             schemaVersion: FingerprintConstants.mappingCacheSchemaVersion,
@@ -140,7 +146,7 @@ enum FingerprintMappingCache {
             referenceMTime: refAttrs.mtime,
             audioByteSize: audioAttrs.size,
             audioMTime: audioAttrs.mtime,
-            audioContentHash: contentSampleHash(at: audioFilePath) ?? "",
+            audioContentHash: audioContentHash,
             referenceDuration: referenceDuration,
             entries: entries.map {
                 CachedMapping.CachedEntry(p: $0.playbackTime, r: $0.referenceTime, s: $0.score)
