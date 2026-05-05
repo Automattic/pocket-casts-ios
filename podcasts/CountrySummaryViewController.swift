@@ -54,7 +54,7 @@ class CountrySummaryViewController: UIViewController, DiscoverSummaryProtocol {
         countryChooser.changed = { [weak self] region in
             self?.updateRegion(region)
         }
-        let regions = Array(serverRegions().values.map { $0 })
+        let regions = Array(serverRegions().values)
         countryChooser.regions = regions.sorted(by: { region1, region2 -> Bool in
             region1.name.localized.compare(region2.name.localized) == .orderedAscending
         })
