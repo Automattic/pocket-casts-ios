@@ -421,6 +421,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         gridItems[safe: indexPath.row]?.folder
     }
 
+    func cell(for folder: Folder) -> UIView? {
+        guard let row = gridItems.firstIndex(where: { $0.folder?.uuid == folder.uuid }) else { return nil }
+        return podcastsCollectionView.cellForItem(at: IndexPath(row: row, section: 0))
+    }
+
     func itemAt(indexPath: IndexPath) -> HomeGridListItem? {
         gridItems[safe: indexPath.row]
     }

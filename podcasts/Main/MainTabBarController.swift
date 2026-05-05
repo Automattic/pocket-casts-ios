@@ -325,6 +325,15 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         let folderController = FolderViewController(folder: folder)
+
+        if #available(iOS 18.0, *),
+           Settings.libraryType() != .list,
+           let listVC = navController.topViewController as? PodcastListViewController {
+            folderController.preferredTransition = .zoom { [weak listVC] _ in
+                listVC?.cell(for: folder)
+            }
+        }
+
         navController.pushViewController(folderController, animated: true)
     }
 
