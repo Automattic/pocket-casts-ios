@@ -22,6 +22,10 @@ let package = Package(
             targets: ["PocketCastsUtils"]
         ),
         .library(
+            name: "PocketCastsSharedModels",
+            targets: ["PocketCastsSharedModels"]
+        ),
+        .library(
             name: "PocketCastsDataModel",
             targets: ["PocketCastsDataModel"]
         ),
@@ -104,6 +108,15 @@ let package = Package(
             name: "PocketCastsUtilsTests",
             dependencies: ["PocketCastsUtils"],
             path: "Tests/PocketCastsUtilsTests"
+        ),
+        .target(
+            name: "PocketCastsSharedModels",
+            path: "Sources/PocketCastsSharedModels"
+        ),
+        .testTarget(
+            name: "PocketCastsSharedModelsTests",
+            dependencies: ["PocketCastsSharedModels"],
+            path: "Tests/PocketCastsSharedModelsTests"
         ),
         .target(
             name: "PocketCastsDataModel",
@@ -215,6 +228,7 @@ enum XcodeSupport {
                     "PocketCastsDataModel",
                     "PocketCastsServer",
                     "PocketCastsUtils",
+                    "PocketCastsSharedModels",
                     "PocketCastsDependencyInjection",
                     "EventHorizonSDK",
                     .product(name: "Lottie", package: "lottie-ios"),
@@ -273,6 +287,7 @@ enum XcodeSupport {
             .xcodeTarget(
                 XcodeTargetNames.podcastsIntents,
                 dependencies: [
+                    "PocketCastsSharedModels",
                     .product(name: "Fuse", package: "fuse-swift"),
                 ]
             ),
@@ -286,6 +301,7 @@ enum XcodeSupport {
                 XcodeTargetNames.widgetExtension,
                 dependencies: [
                     "PocketCastsUtils",
+                    "PocketCastsSharedModels",
                 ]
             ),
             .xcodeTarget(

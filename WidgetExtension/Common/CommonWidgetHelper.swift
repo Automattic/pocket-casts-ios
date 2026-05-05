@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsSharedModels
 import PocketCastsUtils
 import UIKit
 

@@ -1,6 +1,7 @@
 import CoreSpotlight
 import Intents
 import MediaPlayer
+import PocketCastsSharedModels
 import UIKit
 
 class PlayMediaIntentHandler: NSObject, INPlayMediaIntentHandling {

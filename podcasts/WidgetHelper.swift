@@ -1,6 +1,7 @@
 
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsSharedModels
 import PocketCastsUtils
 import WidgetKit
 
