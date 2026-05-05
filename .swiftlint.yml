@@ -60,6 +60,9 @@ only_rules:
   # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
   - prefer_zero_over_explicit_init
 
+  # `nil` coalescing on a non-optional is redundant.
+  - redundant_nil_coalescing
+
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
 
