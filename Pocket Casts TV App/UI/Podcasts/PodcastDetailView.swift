@@ -105,7 +105,7 @@ struct PodcastDetailView: View {
                                 .font(.caption)
                                 .foregroundStyle(Color.textSecondary)
                         }
-                        EpisodePlayerButton(
+                        EpisodeRowWithActions(
                             episode: recommended,
                             podcastTitle: model.podcast.title,
                             podcastDescription: model.podcast.podcastDescription
@@ -120,7 +120,7 @@ struct PodcastDetailView: View {
                         .foregroundStyle(Color.textPrimary)
                     LazyVStack {
                         ForEach(model.podcast.episodes) { episode in
-                            EpisodePlayerButton(
+                            EpisodeRowWithActions(
                                 episode: episode,
                                 podcastTitle: model.podcast.title,
                                 podcastDescription: model.podcast.podcastDescription

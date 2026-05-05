@@ -117,7 +117,7 @@ struct PlaylistDetailView: View {
         ScrollView {
             LazyVStack {
                 ForEach(model.playlist.episodes) { episode in
-                    EpisodePlayerButton(
+                    EpisodeRowWithActions(
                         episode: episode,
                         podcastTitle: model.playlist.title
                     )
