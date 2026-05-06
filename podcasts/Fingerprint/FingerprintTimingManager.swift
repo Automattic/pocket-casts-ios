@@ -430,6 +430,9 @@ final class FingerprintTimingManager: NSObject {
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
 
+        // Capture once so the range check, log, and stream start all use the same position.
+        let currentTime = PlaybackManager.shared.currentTime()
+
         // All-or-nothing cache: only short-circuit the stream if a previous
         // session persisted a mapping that covers the whole reference timeline
         // for this exact audio file + reference. Partial caches are ignored
@@ -447,16 +450,23 @@ final class FingerprintTimingManager: NSObject {
             // entry through `insertMapping`'s per-entry `Array.insert`.
             playbackToReference = cached.entries
             referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
-            filterLastTrusted = cached.entries.last
-            updateState(.active(coverage: cached.entries.count))
+
+            if isWithinMappedRange(currentTime) {
+                filterLastTrusted = cached.entries.last
+                updateState(.active(coverage: cached.entries.count))
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                )
+                return
+            }
+
             FileLog.shared.addMessage(
-                "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                "FingerprintTimingManager: cache loaded for \(uuid) but playback at "
+                    + "\(String(format: "%.1f", currentTime))s is outside cached range — starting stream"
             )
-            return
         }
 
-        let startPosition = PlaybackManager.shared.currentTime()
-        startStream(context: newContext, fromPosition: startPosition)
+        startStream(context: newContext, fromPosition: currentTime)
     }
 
     // MARK: - Streaming Fingerprint Processing
