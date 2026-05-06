@@ -20,6 +20,10 @@ struct SigningInView: View {
             Text(L10n.tvSigningInSubtitle)
                 .font(.headline)
                 .foregroundStyle(Color.textSecondary)
+            if let title = model.title {
+                Text(title)
+            }
+            ProgressView(value: model.progress)
             Spacer()
             podcastGrid
             Spacer().frame(height: 100)
@@ -28,18 +32,22 @@ struct SigningInView: View {
             model.sync()
         }
         .onChange(of: model.state) {
-            coordinator.state = .signedIn
+            if model.state == .finished {
+                coordinator.state = .signedIn
+            }
         }
     }
 
     var podcastGrid: some View {
-        HStack(spacing: 24, content: {
-            ForEach(model.podcasts) { podcast in
-                Image(podcast.image)
-                    .resizable()
-                    .frame(width: Layout.gridSize, height: Layout.gridSize)
-            }
-        }).ignoresSafeArea()
+        ScrollView(.horizontal) {
+            HStack(spacing: 24, content: {
+                ForEach(model.podcasts) { podcast in
+                    Image(podcast.image)
+                        .resizable()
+                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                }
+            }).ignoresSafeArea()
+        }
     }
 }
 
