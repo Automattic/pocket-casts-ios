@@ -336,7 +336,7 @@ extension DiscoverCollectionViewController {
     }
 
     @objc func miniPlayerStatusDidChange() {
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+        let miniPlayerOffset = Constants.effectiveMiniPlayerOffset
         collectionView.contentInset = UIEdgeInsets(top: PCSearchBarController.defaultHeight, left: 0, bottom: miniPlayerOffset, right: 0)
         collectionView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
     }

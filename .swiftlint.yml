@@ -27,6 +27,12 @@ only_rules:
   # There should be no space before and one after any comma.
   - comma
 
+  # Prefer `contains` over `filter(where:).count`.
+  - contains_over_filter_count
+
+  # Prefer `contains` over `first(where:) != nil`.
+  - contains_over_first_not_nil
+
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
 
@@ -46,9 +52,15 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # Prefer `flatMap { ... }` over `map { ... }.reduce([], +)`.
+  - flatmap_over_map_reduce
+
   # When calling the `joined` method on an array of strings, omit an
   # explicit empty-string separator since that is the default.
   - joined_default_parameter
+
+  # Prefer `last(where:)` over `filter { }.last`.
+  - last_where
 
   # MARK comment should be in valid format.
   - mark
@@ -60,8 +72,14 @@ only_rules:
   # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
   - prefer_zero_over_explicit_init
 
+  # `nil` coalescing on a non-optional is redundant.
+  - redundant_nil_coalescing
+
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
+
+  # Prefer `min(by:)` / `max(by:)` over `sorted { ... }.first` / `.last`.
+  - sorted_first_last
 
   # Files should have a single trailing newline.
   - trailing_newline

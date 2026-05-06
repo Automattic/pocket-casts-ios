@@ -5983,6 +5983,9 @@
 /* tv podcast detail all episodes section title */
 "tv_podcast_detail_all_episodes" = "All episodes";
 
+/* tv episode action to view episode info */
+"tv_episode_info" = "Episode info";
+
 /* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
 "tv_playlist_detail_episode_count" = "%1$@ episodes";
 

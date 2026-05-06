@@ -248,7 +248,6 @@
 		40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B26ABC213BB29100386173 /* FeaturedTableViewCell.swift */; };
 		40B26ABF213BB29200386173 /* FeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40B26ABD213BB29100386173 /* FeaturedTableViewCell.xib */; };
 		40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */; };
-		40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */; };
 		40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */; };
 		40D1EF9922DC38E2000B9291 /* CustomStorage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */; };
 		40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D6CD1E247CD79400F1E665 /* SupporterPodcastViewController.swift */; };
@@ -1090,7 +1089,6 @@
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
-		F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */; };
 		F518BC6D2E71252300E84711 /* BookmarkActionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
@@ -1281,6 +1279,7 @@
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */; };
 		FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */; };
+		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
 		FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
@@ -1816,7 +1815,6 @@
 		40B26ABC213BB29100386173 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
 		40B26ABD213BB29100386173 /* FeaturedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedTableViewCell.xib; sourceTree = "<group>"; };
 		40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPeekViewController.swift; sourceTree = "<group>"; };
-		40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadedRefreshControl.swift; sourceTree = "<group>"; };
 		40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadedViewController.+MultiSelect.swift"; sourceTree = "<group>"; };
 		40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CustomStorage.xcassets; sourceTree = "<group>"; };
 		40D6CD1E247CD79400F1E665 /* SupporterPodcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPodcastViewController.swift; sourceTree = "<group>"; };
@@ -2656,7 +2654,6 @@
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
-		F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MiniPlayerInsets.swift; path = Shared/MiniPlayerInsets.swift; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
@@ -2702,6 +2699,7 @@
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
 		FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPlayerAnimator.swift; sourceTree = "<group>"; };
 		FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerGlassProgressView.swift; sourceTree = "<group>"; };
+		FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerScrollingTitleView.swift; sourceTree = "<group>"; };
 		FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus.mp4; sourceTree = "<group>"; };
 		FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus_background.mp4; sourceTree = "<group>"; };
@@ -3226,7 +3224,6 @@
 				BDCF3C8124283C78005B6933 /* UploadedViewController+Swipe.swift */,
 				40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */,
 				400AB2FC220BA3050003EE21 /* UploadedViewController.xib */,
-				40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */,
 				40256C31223486A10091EFC6 /* UploadedStorageHeaderView.swift */,
 				40256C33223486DA0091EFC6 /* UploadedStorageHeaderView.xib */,
 				409C7915220D33E500386495 /* AddCustomViewController.swift */,
@@ -3933,7 +3930,6 @@
 			isa = PBXGroup;
 			children = (
 				F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */,
-				F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */,
 				FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */,
 				3F7479452F555197004C7FF6 /* ABTest */,
 				3F7479522F55519F004C7FF6 /* Unlockable */,
@@ -4893,6 +4889,7 @@
 				BD1F977B1FD7894C00F89CCD /* MiniPlayerShadowView.swift */,
 				FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */,
 				FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */,
+				FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
 				FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */,
 			);
@@ -6968,7 +6965,6 @@
 				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
-				40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */,
 				9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */,
 				BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */,
 				BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */,
@@ -7038,6 +7034,7 @@
 				40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */,
 				BD1F977C1FD7894C00F89CCD /* MiniPlayerShadowView.swift in Sources */,
 				FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */,
+				FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */,
 				9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */,
 				BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				9AA14FA72E37EA5900464A5A /* PlaylistsOnboardingCardView.swift in Sources */,
@@ -7375,7 +7372,6 @@
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */,
-				F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
 				BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */,
 				BD2DE2321E65224900BE21A4 /* ShowNotesUpdater.swift in Sources */,

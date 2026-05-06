@@ -110,7 +110,7 @@ class StatusPageViewModel: ObservableObject {
             }
 
             // If any response code is different from 200, it's a failure
-            service.status = responseCodes.first(where: { $0 != 200 }) != nil ? .failure : .success
+            service.status = responseCodes.contains(where: { $0 != 200 }) ? .failure : .success
         }
     }
 }

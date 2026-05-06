@@ -23,6 +23,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var playbackProgressView: ProgressLine!
 
     @IBOutlet var podcastArtwork: PodcastImageView!
+    @IBOutlet var podcastArtworkWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var podcastArtworkHeightConstraint: NSLayoutConstraint!
     @IBOutlet var mainView: UIView!
     @IBOutlet var shadowView: UIView!
 
@@ -31,6 +33,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
     var fullScreenPlayer: PlayerContainerViewController?
+
+    /// Carries the upward pan velocity from the open-gesture recognizer to
+    /// the transition delegate so the present animation can match the flick's
+    /// momentum. Negative = upward (the gesture direction). Reset to 0 after
+    /// the delegate consumes it so a subsequent tap-driven open starts at rest.
+    var pendingPresentVelocity: CGFloat = 0
 
     var panUpRecognizer: UIPanGestureRecognizer!
     var longPressRecognizer: UILongPressGestureRecognizer!
@@ -41,7 +49,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var episodeTitleLabel: UILabel?
+    private var episodeTitleLabel: MiniPlayerScrollingTitleView?
     private var episodeTimeLeftLabel: UILabel?
     private var glassProgressView: MiniPlayerGlassProgressView?
 
@@ -85,6 +93,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playPauseBtn.removeFromSuperview()
         skipFwdBtn.removeFromSuperview()
 
+        podcastArtworkWidthConstraint.constant = 32
+        podcastArtworkHeightConstraint.constant = 32
+
         podcastArtwork.translatesAutoresizingMaskIntoConstraints = false
         skipBackBtn.translatesAutoresizingMaskIntoConstraints = false
         playPauseBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -95,12 +106,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         playPauseBtn.visualSize = 28
 
-        let title = UILabel()
+        let title = MiniPlayerScrollingTitleView()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
-        title.numberOfLines = 1
-        title.lineBreakMode = .byTruncatingTail
-        title.adjustsFontForContentSizeCategory = false
         episodeTitleLabel = title
 
         let timeLeft = UILabel()
@@ -138,8 +146,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         NSLayoutConstraint.activate([
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            podcastArtwork.widthAnchor.constraint(equalToConstant: 32),
-            podcastArtwork.heightAnchor.constraint(equalToConstant: 32),
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),

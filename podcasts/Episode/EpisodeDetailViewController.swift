@@ -58,7 +58,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var mainScrollView: UIScrollView! {
         didSet {
-            mainScrollView.contentInset = UIEdgeInsets(top: EpisodeDetailConstants.topPadding, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
+            mainScrollView.contentInset = UIEdgeInsets(top: EpisodeDetailConstants.topPadding, left: 0, bottom: Constants.effectiveMiniPlayerOffset, right: 0)
             mainScrollView.delegate = self
         }
     }
