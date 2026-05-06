@@ -52,9 +52,22 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     @IBOutlet var starIndicator: UIImageView! {
         didSet {
-            starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
+            starIndicator.image = EpisodeCell.starIndicatorImage(for: Theme.sharedTheme.activeTheme)
         }
     }
+
+    private static var starIndicatorImageCache: [Theme.ThemeType: UIImage] = [:]
+
+    private static func starIndicatorImage(for theme: Theme.ThemeType) -> UIImage? {
+        if let cached = starIndicatorImageCache[theme] {
+            return cached
+        }
+        let image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10(for: theme))
+        starIndicatorImageCache[theme] = image
+        return image
+    }
+
+    private var lastAppliedTheme: Theme.ThemeType?
 
     @IBOutlet var videoIndicator: UIImageView!
     @IBOutlet var actionButton: MainEpisodeActionView! {
@@ -570,10 +583,14 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     // Handle theme change
     override func handleThemeDidChange() {
-        selectCircleView.layer.borderColor = ThemeColor.primaryIcon02().cgColor
-        selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
-        selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
-        starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
+        let theme = themeOverride ?? Theme.sharedTheme.activeTheme
+        guard lastAppliedTheme != theme else { return }
+        lastAppliedTheme = theme
+
+        selectCircleView.layer.borderColor = ThemeColor.primaryIcon02(for: theme).cgColor
+        selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01(for: theme)
+        selectTickImageView.tintColor = ThemeColor.primaryInteractive02(for: theme)
+        starIndicator.image = EpisodeCell.starIndicatorImage(for: theme)
     }
 
     private func updateSize() {
