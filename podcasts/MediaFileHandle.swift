@@ -1,6 +1,11 @@
 import Foundation
 import PocketCastsUtils
 
+enum MediaFileHandleError: Error, Equatable {
+    case unableToOpenFile
+    case readAfterEndOfFile
+}
+
 /// File handle for local file operations.
 final class MediaFileHandle {
     private let filePath: String
@@ -30,40 +35,42 @@ final class MediaFileHandle {
 // MARK: Internal methods
 
 extension MediaFileHandle {
-    var attributes: [FileAttributeKey: Any]? {
+
+    func fileSize() throws -> Int {
         do {
-            return try FileManager.default.attributesOfItem(atPath: filePath)
-        } catch let error as NSError {
-            FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] attribute error: \(error)")
+            let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
+            return (attributes[.size] as? NSNumber)?.intValue ?? 0
+        } catch {
+            FileLog.shared.addMessage("MediaFileHandle: Failed to read file size of [\(filePath)] error: \(error)")
+            throw error
         }
-        return nil
     }
 
-    var fileSize: Int {
-        return attributes?[.size] as? Int ?? 0
+    var safeFileSize: Int {
+        return (try? fileSize()) ?? 0
     }
 
-    func readData(withOffset offset: Int, forLength length: Int) -> Data? {
+    func readData(withOffset offset: Int, forLength length: Int) throws -> Data? {
         lock.lock()
         defer { lock.unlock() }
 
         guard let readHandle else {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read handle is nil")
-            return nil
+            throw MediaFileHandleError.unableToOpenFile
         }
 
         do {
             try readHandle.seek(toOffset: UInt64(offset))
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] seek error: \(error)")
-            return nil
+            throw error
         }
 
         do {
             return try readHandle.read(upToCount: length)
         } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] read error: \(error)")
-            return nil
+            throw error
         }
     }
 
@@ -71,7 +78,7 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        guard let writeHandle = writeHandle else { return }
+        guard let writeHandle else { return }
 
         try writeHandle.seekToEnd()
 
@@ -82,7 +89,7 @@ extension MediaFileHandle {
         lock.lock()
         defer { lock.unlock() }
 
-        guard let writeHandle = writeHandle else { return }
+        guard let writeHandle else { return }
 
         do {
             try writeHandle.synchronize()

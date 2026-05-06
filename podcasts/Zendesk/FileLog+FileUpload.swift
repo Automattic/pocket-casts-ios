@@ -14,7 +14,7 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
     }
 }
 
-extension FileLog: EventLoggingDelegate {
+extension FileLog: @retroactive EventLoggingDelegate {
     static let genericErrorMessage = "No log file uploaded: Error generating logs"
 
     static let noWearableLogsAvailable = "No wearable logs were available"
@@ -71,7 +71,7 @@ extension FileLog: EventLoggingDelegate {
     public func encryptedWatchLogUUID() -> AnyPublisher<String, Never> {
         watchLogFileForUpload()
             .tryMap { [unowned self] filePath in
-                guard let filePath = filePath else {
+                guard let filePath else {
                     return Self.noWearableLogsAvailable
                 }
 

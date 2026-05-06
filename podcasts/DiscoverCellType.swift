@@ -57,7 +57,7 @@ enum DiscoverCellType: CaseIterable {
     }
 
     func createCellRegistration(parentViewController: UIViewController, delegate: DiscoverDelegate) -> UICollectionView.CellRegistration<UICollectionViewCell, ItemType> {
-        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, indexPath, item in
+        return UICollectionView.CellRegistration<UICollectionViewCell, ItemType> { cell, _, item in
 
             let existingViewController = (cell.contentConfiguration as? UIViewControllerContentConfiguration)?.viewController as? (UIViewController & DiscoverSummaryProtocol)
 

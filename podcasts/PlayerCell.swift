@@ -118,7 +118,7 @@ class PlayerCell: ThemeableSwipeCell {
     }
 
     private func labelForAccessibility(episode: BaseEpisode?) -> String {
-        guard let episode = episode else { return "" }
+        guard let episode else { return "" }
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
         let subtitle = episode.subTitle()

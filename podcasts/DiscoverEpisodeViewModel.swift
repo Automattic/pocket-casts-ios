@@ -52,7 +52,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         $discoverEpisode
             .receive(on: ImmediateScheduler.shared)
             .sink(receiveValue: { [weak self] episode in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.episodeUUID = episode?.uuid
                 self.title = episode?.title ?? ""
                 self.imageUUID = episode?.podcastUuid
@@ -108,7 +108,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
                 if self.playbackManager.isActivelyPlaying(episodeUuid: episodeUuid) {
                     PlaybackActionHelper.pause()
                 } else if let baseEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
-                    if let listId = listId {
+                    if let listId {
                         AnalyticsHelper.podcastEpisodePlayedFromList(listId: listId, podcastUuid: podcastUuid)
                     }
                     PlaybackActionHelper.play(episode: baseEpisode, podcastUuid: podcastUuid)
@@ -129,7 +129,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid, episodeUuid: episodeUuid)
             .receive(on: RunLoop.main)
             .sink { [weak self] podcast in
-                guard let podcast = podcast else {
+                guard let podcast else {
                     self?.delegate?.failedToLoadEpisode()
                     return
                 }

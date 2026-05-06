@@ -42,6 +42,12 @@ APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_
 APP_STORE_CONNECT_BUILD_IPA_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.ipa")
 APP_STORE_CONNECT_BUILD_DSYMS_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_BUILD_OUTPUT_NAME}.app.dSYM.zip")
 
+APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME = 'pocket-casts-tvos'
+APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.xcarchive")
+APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.xcarchive.zip")
+APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.ipa")
+APP_STORE_CONNECT_TVOS_BUILD_DSYMS_PATH = File.join(ARTIFACTS_FOLDER, "#{APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME}.app.dSYM.zip")
+
 CODE_SIGNING_STORAGE_OPTIONS = {
   storage_mode: 's3',
   s3_bucket: 'a8c-fastlane-match',
@@ -54,6 +60,7 @@ DEFAULT_BRANCH = 'trunk'
 
 SCHEME = 'pocketcasts'
 SCHEME_ENTERPRISE = 'Pocket Casts Prototype Build'
+SCHEME_TVOS = 'Pocket Casts TV App'
 
 PROTOTYPE_BUILD_NAME = 'pocket-casts-prototype'
 
@@ -88,6 +95,10 @@ BUNDLE_IDENTIFIERS_ENTERPRISE = [
   APP_BUNDLE_IDENTIFIER_ENTERPRISE,
   *EXTENSIONS.map { |suffix| "#{APP_BUNDLE_IDENTIFIER_ENTERPRISE}.#{suffix}" }
 ].freeze
+
+# The tvOS app shares the root bundle identifiers with iOS and currently has no extensions,
+# but it needs its own `match` profiles because code signing is scoped by platform.
+BUNDLE_IDENTIFIERS_APP_STORE_TVOS = [APP_BUNDLE_IDENTIFIER_APP_STORE].freeze
 
 ASC_API_KEY_ENV_VARS = %w[
   APP_STORE_CONNECT_API_KEY_KEY_ID
@@ -238,28 +249,32 @@ platform :ios do
   lane :configure_code_signing_enterprise do |readonly: true|
     require_env_vars!(*ASC_API_KEY_ENV_VARS)
 
-    if readonly
-      # In readonly mode, we can use the API key.
-      #
-      # Notice the `in_house: true` parameter.
-      # Unfortunately, even using it, the API does not allow modifying certs or profiles via API key.
-      # It's here for reference and future-proofing.
-      api_key = app_store_connect_api_key(in_house: true)
-    else
-      # The Enterprise account APIs do not support authentication via API key.
-      # If we want to modify data (readonly = false) we need to authenticate manually.
-      prompt_user_for_app_store_connect_credentials
-      # We also need to pass no API key, otherwise Fastlane will give precedence to that authentication mode.
-      api_key = nil
-    end
-
     sync_code_signing(
       type: 'enterprise',
       team_id: TEAM_ID_ENTERPRISE,
-      api_key: api_key,
+      api_key: app_store_connect_api_key(in_house: true),
       app_identifier: BUNDLE_IDENTIFIERS_ENTERPRISE,
       # This might turn out to be useful in the future
       # template_name: 'CarPlay audio app (CarPlay + Media Player frameworks)iOS (Dist)'
+      readonly: readonly,
+      **CODE_SIGNING_STORAGE_OPTIONS
+    )
+  end
+
+  # Download and configure code signing certificates and provisioning profiles for the tvOS App Store build.
+  #
+  # @param readonly [Boolean] Use `true` when you only want to **fetch** existing profiles and certificates from out S3 bucket via `match`
+  #                           Use `false` only if you need `match` to **regenerate** profiles and/or certificates in the Dev Portal and upload the updated ones to S3
+  #
+  lane :configure_code_signing_app_store_tvos do |readonly: true|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    sync_code_signing(
+      type: 'appstore',
+      platform: 'tvos',
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key,
+      app_identifier: BUNDLE_IDENTIFIERS_APP_STORE_TVOS,
       readonly: readonly,
       **CODE_SIGNING_STORAGE_OPTIONS
     )
@@ -640,6 +655,40 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
+  # Builds the tvOS app binary for distribution to App Store Connect
+  #
+  # Once the app binary is built by this lane, you might want to call:
+  #  - `symbols_upload` to upload dSYMs to Sentry
+  #
+  # @param set_up_code_signing [Boolean] If true, will call `configure_code_signing_app_store_tvos` before building. Recommended on CI.
+  # @param build_number [String, nil] When given, overrides `VERSION_LONG` (i.e. `CURRENT_PROJECT_VERSION`). Defaults to the `xcconfig` value.
+  #
+  lane :build_app_store_connect_tvos do |set_up_code_signing: true, build_number: nil|
+    configure_code_signing_app_store_tvos if set_up_code_signing
+
+    # When given, override `VERSION_LONG` (mapped to `CURRENT_PROJECT_VERSION` via `xcconfig`).
+    # Callers are responsible for picking a value that doesn't collide with previous uploads.
+    xcargs = build_number ? { VERSION_LONG: build_number } : {}
+
+    build_app(
+      scheme: SCHEME_TVOS,
+      include_bitcode: false,
+      include_symbols: true,
+      clean: true,
+      xcargs: xcargs,
+      export_options: {
+        method: 'app-store',
+        manageAppVersionAndBuildNumber: false
+      },
+      archive_path: APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH,
+      output_directory: ARTIFACTS_FOLDER,
+      output_name: APP_STORE_CONNECT_TVOS_BUILD_OUTPUT_NAME
+    )
+
+    UI.message("Zipping #{APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH} to #{APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH}...")
+    zip(path: APP_STORE_CONNECT_TVOS_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_TVOS_XCARCHIVE_ZIP_PATH)
+  end
+
   # Uploads the binary to TestFlight and distributes it to testers
   #
   # Typically called after having built the binary with `build_app_store_connect`
@@ -662,6 +711,36 @@ platform :ios do
       distribute_external: true,
       groups: EXTERNAL_BETA_TESTER_GROUPS,
       notify_external_testers: true,
+      changelog: changelog,
+      team_id: TEAM_ID_APP_STORE,
+      api_key: app_store_connect_api_key
+    )
+  end
+
+  # Uploads the tvOS binary to TestFlight for internal testers only.
+  #
+  # Typically called after having built the binary with `build_app_store_connect_tvos`.
+  #
+  # The tvOS app is in early-days territory, so we skip external distribution and the Beta App Review submission.
+  # Revisit once the app is ready for wider testing.
+  #
+  # @param ipa_path [String] Path to the `.ipa` file to upload to TestFlight
+  #
+  lane :upload_app_store_connect_build_to_testflight_tvos do |ipa_path: APP_STORE_CONNECT_TVOS_BUILD_IPA_PATH|
+    require_env_vars!(*ASC_API_KEY_ENV_VARS)
+
+    # TODO: This is currently the same as the iOS changelog. We'll need a mechanism to filter tvOS-only notes (or just accept the compromise.)
+    changelog = extract_release_notes_for_version(
+      version: release_version_current,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
+    changelog = +'Minor changes.' if changelog.empty?
+    changelog.gsub!(/ ?\[#[0-9]+\]\(https:.*\)/, '') # Remove GitHub links
+
+    upload_to_testflight(
+      ipa: ipa_path,
+      distribute_external: false,
+      skip_submission: true,
       changelog: changelog,
       team_id: TEAM_ID_APP_STORE,
       api_key: app_store_connect_api_key
@@ -907,19 +986,29 @@ platform :ios do
   #
   lane :update_app_store_strings do
     source_metadata_folder = File.join(APP_STORE_METADATA_FOLDER, 'default')
-    version = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'podcasts')
+    version = release_version_current
 
     files = {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
-      app_store_subtitle: File.join(source_metadata_folder, 'subtitle.txt'),
-      app_store_desc: File.join(source_metadata_folder, 'description.txt'),
-      app_store_keywords: File.join(source_metadata_folder, 'keywords.txt')
+      app_store_subtitle: {
+        path: File.join(source_metadata_folder, 'subtitle.txt'),
+        comment: 'translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas!'
+      },
+      app_store_desc: {
+        path: File.join(source_metadata_folder, 'description.txt'),
+        comment: 'translators: Multi-paragraph text used to display in the Apple App Store.'
+      },
+      app_store_keywords: {
+        path: File.join(source_metadata_folder, 'keywords.txt'),
+        comment: 'translators: Comma separated Keywords used for Search Engine Optimization in the Apple App Store. Limit to 100 characters including spaces and commas!'
+      }
     }
 
-    ios_update_metadata_source(
+    gp_update_metadata_source(
       po_file_path: File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'AppStoreStrings.po'),
       source_files: files,
-      release_version: version
+      release_version: version,
+      commit_changes: true
     )
   end
 

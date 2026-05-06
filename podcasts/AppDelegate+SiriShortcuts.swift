@@ -86,7 +86,7 @@ extension AppDelegate {
                 }
             }
 
-            if let urlString = urlString, let url = URL(string: urlString) {
+            if let urlString, let url = URL(string: urlString) {
                 JLRoutes.routeURL(url)
             }
         } else if intent is SJOpenFilterIntent {

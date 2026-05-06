@@ -98,7 +98,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         let duration: Double
         let currentTime: TimeInterval
 
-        if let episode = episode {
+        if let episode {
             duration = episode.duration
             currentTime = PlaybackManager.shared.currentTime()
         }
@@ -178,7 +178,7 @@ class UpNextNowPlayingCell: ThemeableCell {
         defer {
             setNeedsUpdateConstraints()
         }
-        guard let episode = episode else {
+        guard let episode else {
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
             return

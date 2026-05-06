@@ -251,7 +251,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
     // MARK: - Notification handler
 
     @objc func podcastUpdated(_ notification: Notification) {
-        guard let podcastChooserController = podcastChooserController else { return }
+        guard let podcastChooserController else { return }
         let allPodcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
         podcastChooserController.selectedUuids = allPodcasts.filter(\.isPushEnabled).map(\.uuid)
         podcastChooserController.selectedUuidsUpdated = true

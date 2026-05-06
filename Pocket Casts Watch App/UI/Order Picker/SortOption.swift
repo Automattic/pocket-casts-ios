@@ -6,13 +6,13 @@ protocol SortOption: Identifiable, CaseIterable, Equatable {
     var description: String { get }
 }
 
-extension PodcastEpisodeSortOrder: SortOption {
+extension PodcastEpisodeSortOrder: @retroactive Identifiable, SortOption {
     static var pickerTitle: String = L10n.sortEpisodes
 
     public var id: Int32 { rawValue }
 }
 
-extension LibrarySort: SortOption {
+extension LibrarySort: @retroactive Identifiable, SortOption {
     static var pickerTitle: String = L10n.podcastsSort
     public var id: Int { Int(rawValue) }
 
@@ -21,7 +21,7 @@ extension LibrarySort: SortOption {
     }
 }
 
-extension UploadedSort: SortOption {
+extension UploadedSort: @retroactive Identifiable, SortOption {
     static var pickerTitle: String = L10n.filesSort
     public var id: Int32 { rawValue }
 }

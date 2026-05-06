@@ -45,7 +45,7 @@ struct UpNextProvider: TimelineProvider {
     }
 
     private func upNextEntry(episodes: [WidgetEpisode]?, data: WidgetData, imageCountToCache: Int = 0) -> UpNextEntry {
-        if let episodes = episodes, !episodes.isEmpty, imageCountToCache > 0 {
+        if let episodes, !episodes.isEmpty, imageCountToCache > 0 {
             for episode in episodes.prefix(imageCountToCache) {
                 episode.loadImageData()
             }

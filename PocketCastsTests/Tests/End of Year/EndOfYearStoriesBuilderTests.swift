@@ -229,7 +229,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let model = EndOfYear2023StoriesModel()
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { year in syncCalled = true; return true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { _ in syncCalled = true; return true })
         Settings.setHasSyncedEpisodesForPlayback(true, year: 2023)
 
         endOfYearManager.isFullListeningHistoryToReturn = false
@@ -243,7 +243,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let model = EndOfYear2023StoriesModel()
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { year in syncCalled = true; return true })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { _ in syncCalled = true; return true })
         Settings.setHasSyncedEpisodesForPlayback(true, year: 2023)
 
         endOfYearManager.isFullListeningHistoryToReturn = false
@@ -261,7 +261,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let model = EndOfYear2023StoriesModel()
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { year in syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { _ in syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
         Settings.setHasSyncedEpisodesForPlayback(false, year: 2023)
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()
@@ -278,7 +278,7 @@ class EndOfYearStoriesBuilderTests: XCTestCase {
         let endOfYearManager = EndOfYearManagerMock()
         let dataManager = DataManagerMock(endOfYearManager: endOfYearManager)
         let model = EndOfYear2023StoriesModel()
-        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { year in syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
+        let builder = EndOfYearStoriesBuilder(dataManager: dataManager, model: model, sync: { _ in syncCalledTimes += 1; return true }, hasActiveSubscription: { plusUser })
         Settings.setHasSyncedEpisodesForPlayback(false, year: 2023)
         endOfYearManager.isFullListeningHistoryToReturn = false
         _ = await builder.build()

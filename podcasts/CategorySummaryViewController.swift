@@ -45,7 +45,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
 
         DiscoverServerHandler.shared.discoverCategories(source: source, authenticated: item.authenticated, completion: { [weak self] discoverCategories in
             DispatchQueue.main.async {
-                guard let strongSelf = self, let discoverCategories = discoverCategories else { return }
+                guard let strongSelf = self, let discoverCategories else { return }
 
                 strongSelf.titleLabel.text = item.title?.localized
                 strongSelf.categories = discoverCategories
@@ -73,7 +73,7 @@ class CategorySummaryViewController: UIViewController, UITableViewDataSource, UI
         let category = categories[indexPath.row]
 
         let categoryPodcastsController = CategoryPodcastsViewController(category: category, region: regionCode)
-        if let delegate = delegate {
+        if let delegate {
             categoryPodcastsController.registerDiscoverDelegate(delegate)
             delegate.navController()?.pushViewController(categoryPodcastsController, animated: true)
 

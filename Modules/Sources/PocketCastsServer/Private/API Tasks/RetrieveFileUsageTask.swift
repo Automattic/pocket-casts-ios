@@ -26,7 +26,7 @@ class RetrieveFileUsageTask: ApiBaseTask {
             }
 
             do {
-                let serverResponse = try Files_AccountUsage(serializedData: responseData)
+                let serverResponse = try Files_AccountUsage(serializedBytes: responseData)
 
                 ServerSettings.setCustomStorageUserLimit(Int(serverResponse.totalSize))
                 ServerSettings.setCustomStorageUsed(Int(serverResponse.usedSize))

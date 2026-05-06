@@ -85,8 +85,8 @@ class FoldersCoordinator: NSObject {
         }
 
         let creatFolderView = CreateFolderView { [weak vc, weak self] folderUuid in
-            guard let self = self else { return }
-            if let folderUuid = folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
+            guard let self else { return }
+            if let folderUuid, let folder = dataManager.findFolder(uuid: folderUuid) {
                 vc?.dismiss(animated: true, completion: { [weak self] in
                     self?.navigationManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
                 })
@@ -165,7 +165,7 @@ class FoldersCoordinator: NSObject {
 
     private var currentPodcastsHash: String {
         let uuids = dataManager.allPodcastsOrderedByAddedDate().map { $0.uuid }.sorted()
-        let md5 = String(uuids.joined(separator: "")).md5
+        let md5 = uuids.joined().md5
         return md5
     }
 
@@ -209,7 +209,7 @@ class FoldersCoordinator: NSObject {
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
         )
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)
@@ -217,7 +217,7 @@ class FoldersCoordinator: NSObject {
         //Observe Login/Signup notification
         NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)

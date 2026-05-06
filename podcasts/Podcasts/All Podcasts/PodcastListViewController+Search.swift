@@ -11,14 +11,12 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard searchControllerView?.superview == nil else { return } // don't send scroll events while the search results are up
 
         searchController.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
-        refreshControl?.scrollViewDidEndDragging(scrollView)
     }
 
     func setupSearchBar() {
@@ -29,14 +27,14 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
-        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
+        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
+            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            heightConstraint
         ])
-        searchController.searchControllerTopConstant = topAnchor
+        searchController.searchControllerHeightConstraint = heightConstraint
 
         searchController.setupScrollView(podcastsCollectionView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()

@@ -1,4 +1,4 @@
-#if !os(watchOS)
+#if !os(watchOS) && !os(tvOS)
 import UIKit
 
 /// A UIScrollView subclass that provides additional functionality for adding and managing horizontal pages.

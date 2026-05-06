@@ -47,7 +47,7 @@ class NowPlayingViewModel: ObservableObject {
         )
         .map { [unowned self] episode in
             guard
-                let episode = episode,
+                let episode,
                 let title = self.playSource.nowPlayingTitle(forEpisode: episode)
             else {
                 return L10n.loading
@@ -63,7 +63,7 @@ class NowPlayingViewModel: ObservableObject {
         )
         .receive(on: RunLoop.main)
         .sink { [unowned self] episode in
-            guard let episode = episode else { return }
+            guard let episode else { return }
             self.progress = self.playSource.playbackProgress
             self.progressTitle = self.playSource.nowPlayingSubTitle(forEpisode: episode) ?? ""
             self.timeRemaining = self.playSource.nowPlayingTimeRemaining(forEpisode: episode)
@@ -72,7 +72,7 @@ class NowPlayingViewModel: ObservableObject {
 
         playbackChanged
             .map { [unowned self] episode in
-                guard let episode = episode else { return false }
+                guard let episode else { return false }
                 return self.playSource.isPlaying(forEpisode: episode)
             }
             .receive(on: RunLoop.main)
@@ -87,7 +87,7 @@ class NowPlayingViewModel: ObservableObject {
 
         $episode
             .map { [unowned self] episode in
-                guard let episode = episode else { return Color.white }
+                guard let episode else { return Color.white }
                 return self.playSource.nowPlayingTint(forEpisode: episode)
             }
             .receive(on: RunLoop.main)
@@ -126,12 +126,12 @@ class NowPlayingViewModel: ObservableObject {
     }
 
     func playPauseTapped() {
-        guard let episode = episode else { return }
+        guard let episode else { return }
         playSource.playPauseTapped(withEpisode: episode, playlist: nil)
     }
 
     func markPlayed() {
-        guard let episode = episode else { return }
+        guard let episode else { return }
         playSource.markPlayed(episode: episode)
     }
 

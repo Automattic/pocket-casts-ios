@@ -1226,6 +1226,18 @@
 /* Title for the hardware keyboard command that toggles play and pause of playback. */
 "keycommand_play_pause" = "Play/Pause";
 
+/* Title for the listening activity heatmap on the account screen */
+"stats_listening_activity_section_title" = "Listening Activity";
+
+/* Label for the low end of the heatmap legend */
+"stats_listening_activity_legend_less" = "Less";
+
+/* Label for the high end of the heatmap legend */
+"stats_listening_activity_legend_more" = "More";
+
+/* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
+"stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -4662,6 +4674,9 @@
 /* Transcript error message when transcript is empty*/
 "transcript_error_empty" = "Sorry, but it looks this transcript is empty";
 
+/* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
+"transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -5869,6 +5884,37 @@
 
 /* Generic error used when no internet connection is available. */
 "player_error_short_no_connection" = "You’re offline";
+
+/* Generic error used when playback fails. */
+"player_error_short_playback_error" = "Playback failed, please try again";
+
+/* tv app home tab */
+"tv_tab_home" = "Home";
+
+/* tv app podcasts tab */
+"tv_tab_podcasts" = "Your Podcasts";
+
+/* tv app Playlists tab */
+"tv_tab_playlists" = "Playlists";
+
+/* tv app Up Next tab */
+"tv_tab_up_next" = "Up Next";
+
+/* tv welcome title */
+"tv_welcome_title" = "Welcome to Pocket Casts TV";
+
+/* tv welcome subtitle */
+"tv_welcome_subtitle" = "Your podcasts on the big screen";
+
+/* tv welcome sign in */
+"tv_welcome_sign_in" = "Sign in";
+
+/* tv welcome create free account */
+"tv_welcome_create_free_account" = "Create free account";
+
+/* tv welcome browse without account */
+"tv_welcome_browse_without_account" = "Browse without an account";
+
 
 /* MARK: - InfoPlist.strings */
 

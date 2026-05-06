@@ -88,14 +88,14 @@ extension UploadManager: URLSessionDelegate, URLSessionDataDelegate {
         }
 
         var episode = DataManager.sharedManager.findUserEpisode(uploadTaskId: uploadId)
-        if let episode = episode {
+        if let episode {
             uploadingEpisodesCache[uploadId] = episode
         } else {
             if includeImageTasks {
                 let imageUuid = uploadId.replacingOccurrences(of: imageTaskPrefix, with: "")
 
                 let imageEpisode = DataManager.sharedManager.findUserEpisode(uuid: imageUuid)
-                if let imageEpisode = imageEpisode {
+                if let imageEpisode {
                     episode = imageEpisode
                     uploadingEpisodesCache[uploadId] = episode
                 }

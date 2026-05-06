@@ -33,7 +33,7 @@ class RetrieveFileUploadStatusTask: ApiBaseTask {
             }
 
             do {
-                let serverResponse = try Files_SuccessResponse(serializedData: responseData)
+                let serverResponse = try Files_SuccessResponse(serializedBytes: responseData)
                 FileLog.shared.addMessage("RetrieveFileUploadStatusTask  - server returned upload success =\(serverResponse.self)")
                 if serverResponse.success {
                     DataManager.sharedManager.saveEpisode(uploadStatus: .uploaded, episode: episode)

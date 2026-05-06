@@ -146,7 +146,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     private func loadShowNotes() {
         if downloadingShowNotes { return }
 
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         loadingIndicator.startAnimating()
 
@@ -170,14 +170,14 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
     }
 
     private func displayShowNotes(_ showNotes: String?, shouldResetScrollOffset: Bool = true) {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.loadingIndicator.stopAnimating()
             let tintColor = strongSelf.linkTintColor()
-            if let showNotes = showNotes {
+            if let showNotes {
                 let isCurrentEpisode = PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid)
                 let formattedNotes = ShowNotesFormatter.format(showNotes: showNotes, tintColor: tintColor, convertTimesToLinks: isCurrentEpisode, bgColor: nil, textColor: ThemeColor.playerContrast01())
                 strongSelf.showNotesWebView.loadHTMLString(formattedNotes, baseURL: URL(fileURLWithPath: Bundle.main.bundlePath))
@@ -239,7 +239,7 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         showNotesWebView.evaluateJavaScript("document.readyState", completionHandler: { [weak self] complete, _ in
-            guard let self = self,
+            guard let self,
                   let result = complete as? String,
                   result == "complete" // ensure that the load of HTML is complete and not in another loading state
             else {

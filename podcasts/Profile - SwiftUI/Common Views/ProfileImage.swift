@@ -17,7 +17,7 @@ struct ProfileImage: View {
                     .placeholder { _ in defaultProfileView }
                     .resizable()
                     .forceRefresh(forceRefresh)
-                    .onSuccess { result in
+                    .onSuccess { _ in
                         forceRefresh = false
                     }
                     .aspectRatio(contentMode: .fill)

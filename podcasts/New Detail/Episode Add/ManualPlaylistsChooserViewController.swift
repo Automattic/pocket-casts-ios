@@ -269,7 +269,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
             let playlist = manualPlaylists[indexPath.row]
             let episodeIsInPlaylist = initialSelectedPlaylists.contains(playlist.uuid)
             let onToggleChange: (Bool) -> Void = { [weak self] selected in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if selected {
                     let maxPlaylistItems = Constants.Limits.maxFilterItems
@@ -285,7 +285,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
             }
             let isSelected = Binding<Bool>(
                 get: { [weak self] in
-                    guard let self = self else { return false }
+                    guard let self else { return false }
                     return self.newSelectedPlaylists.contains(playlist.uuid)
                 },
                 set: { newValue in
@@ -367,16 +367,14 @@ extension ManualPlaylistsChooserViewController: PCSearchBarDelegate {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
-        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
+            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
 
         searchController.placeholderText = L10n.playlistSearch
-        searchController.searchControllerTopConstant = topAnchor
         searchController.setupScrollView(tableView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self

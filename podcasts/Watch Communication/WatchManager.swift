@@ -43,7 +43,7 @@ class WatchManager: NSObject, WCSessionDelegate {
         guard WCSession.isSupported() else { return }
 
         sessionQueue.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             // Prevent multiple setup calls
             guard !self.isSettingUp else { return }
@@ -316,17 +316,13 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
 
-        do {
-            if let userEpisode = baseEpisode as? UserEpisode {
-                UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
-            } else if let episode = baseEpisode as? Episode {
-                EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
-            }
-            sendStateToWatchInBackground()
-        } catch {
-            FileLog.shared.addMessage("WatchManager: Error deleting download for episode \(episodeUuid): \(error)")
+        if let userEpisode = baseEpisode as? UserEpisode {
+            UserEpisodeManager.deleteFromDevice(userEpisode: userEpisode)
+        } else if let episode = baseEpisode as? Episode {
+            EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeDownloadStatusChanged, object: episode.uuid)
         }
+        sendStateToWatchInBackground()
     }
 
     private func handleArchive(episodeUuid: String) {
@@ -415,12 +411,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             return
         }
 
-        do {
-            AutoplayHelper.shared.playedFrom(playlist: playlist)
-            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-        } catch {
-            FileLog.shared.addMessage("WatchManager: Error playing episode \(episodeUuid): \(error)")
-        }
+        AutoplayHelper.shared.playedFrom(playlist: playlist)
+        PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
     }
 
     private func handlePlaylistRequest(playlistUuid: String) -> [String: Any] {
@@ -539,7 +531,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             guard let self else { return }
             self.sendStateToWatch()
             if FeatureFlag.refreshAndSaveWatchLogsOnSend.enabled {
-                WatchManager.shared.requestLogFile { log in
+                WatchManager.shared.requestLogFile { _ in
                     // We do nothing here, the log file will be cached as a result of requesting
                 }
             }

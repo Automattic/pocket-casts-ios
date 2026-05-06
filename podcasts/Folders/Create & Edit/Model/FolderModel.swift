@@ -8,7 +8,7 @@ class FolderModel: ObservableObject {
     @Published var folderUuid: String?
     @Published var selectedPodcastUuids: [String] = [] {
         didSet {
-            guard let folderUuid = folderUuid, saveOnChange else { return }
+            guard let folderUuid, saveOnChange else { return }
 
             updateFoldersBasedOnSelection()
 
@@ -19,7 +19,7 @@ class FolderModel: ObservableObject {
 
     @Published var name: String = "" {
         didSet {
-            guard let folderUuid = folderUuid, saveOnChange else { return }
+            guard let folderUuid, saveOnChange else { return }
 
             if let folder = DataManager.sharedManager.findFolder(uuid: folderUuid) {
                 folder.name = nameForFolder()
@@ -35,7 +35,7 @@ class FolderModel: ObservableObject {
         didSet {
             color = color(for: colorInt)
 
-            guard let folderUuid = folderUuid, saveOnChange else { return }
+            guard let folderUuid, saveOnChange else { return }
 
             DataManager.sharedManager.updateFolderColor(folderUuid: folderUuid, color: Int32(colorInt), syncModified: TimeFormatter.currentUTCTimeInMillis())
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: folderUuid)
@@ -87,7 +87,7 @@ class FolderModel: ObservableObject {
     }
 
     func deleteFolder() {
-        guard let folderUuid = folderUuid else { return }
+        guard let folderUuid else { return }
 
         DataManager.sharedManager.delete(folderUuid: folderUuid, markAsDeleted: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderDeleted, object: folderUuid)
@@ -109,7 +109,7 @@ class FolderModel: ObservableObject {
 
     private func updateFoldersBasedOnSelection() {
         var foldersChanged: Set<String> = []
-        if let folderUuid = folderUuid { foldersChanged.insert(folderUuid) }
+        if let folderUuid { foldersChanged.insert(folderUuid) }
 
         // look for other folders that our selected podcasts may have come from, to update their syncModified dates
         for uuid in selectedPodcastUuids {

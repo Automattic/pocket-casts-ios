@@ -100,7 +100,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     // MARK: Populate UI
 
     func populate() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         if let title = podcast.title?.localized {
             podcastTitle?.text = title
@@ -141,7 +141,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     // MARK: Actions
 
     @IBAction func subscribeTapped(_ sender: Any) {
-        guard !subscribeButton.currentlyOn, let podcast = podcast else { return }
+        guard !subscribeButton.currentlyOn, let podcast else { return }
 
         subscribeButton.currentlyOn = true
 
@@ -154,7 +154,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     }
 
     @objc func showPodcast() {
-        guard let podcast = podcast else { return }
+        guard let podcast else { return }
 
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: item?.uuid)
 

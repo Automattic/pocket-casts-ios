@@ -125,6 +125,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the generated transcript
     case generatedTranscripts
 
+    /// Enable synced transcripts with playback timing
+    case syncedTranscripts
+
     /// Encourage Account Creation
     case encourageAccountCreation
 
@@ -242,9 +245,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignores play remote commands when other audio is playing
     case ignorePlayWithOtherAudio
 
-    /// Read streaming data from memory buffer it's available
-    case streamAndDownloadReadFromMemoryBuffer
-
     /// activates the audio session in the background to avoid locks in the main thread
     case activateAudioSessionInBackground
 
@@ -307,9 +307,14 @@ public enum FeatureFlag: String, CaseIterable {
     /// Track network data usage per episode/connection type in the NetworkDataUsage table
     case trackNetworkDataUsage
 
+    /// Show the listening activity heatmap on the Stats screen
+    case statsHeatmap
     /// If enabled, send explicit watch-related error logs to Sentry.
     /// This does not control automatic crash reporting.
     case watchSentryLogs
+
+    /// Enable the Liquid Glass UI redesign
+    case liquidGlass
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -397,6 +402,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .generatedTranscripts:
             true
+        case .syncedTranscripts:
+            false
         case .libroFm:
             false
         case .encourageAccountCreation:
@@ -475,8 +482,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignorePlayWithOtherAudio:
             true
-        case .streamAndDownloadReadFromMemoryBuffer:
-            true
         case .activateAudioSessionInBackground:
             true
         case .useCellularNetworkApis:
@@ -516,10 +521,14 @@ public enum FeatureFlag: String, CaseIterable {
         case .displayErrorsOnPlayer:
             true
         case .detectTruncatedBackgroundSyncDownloads:
-			true
+            true
         case .trackNetworkDataUsage:
             true
+        case .statsHeatmap:
+            false
         case .watchSentryLogs:
+            false
+        case .liquidGlass:
             false
         }
     }

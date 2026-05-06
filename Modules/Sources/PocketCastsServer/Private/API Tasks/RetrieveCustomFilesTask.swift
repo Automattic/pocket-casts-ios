@@ -28,7 +28,7 @@ class RetrieveCustomFilesTask: ApiBaseTask {
             }
 
             do {
-                let serverResponse = try Files_FileListResponse(serializedData: responseData)
+                let serverResponse = try Files_FileListResponse(serializedBytes: responseData)
                 #if !os(watchOS) // WatchOS doesn't handle the 10GB user File limits
                     ServerSettings.setCustomStorageUserLimit(Int(serverResponse.account.totalSize))
                     ServerSettings.setCustomStorageUsed(Int(serverResponse.account.usedSize))

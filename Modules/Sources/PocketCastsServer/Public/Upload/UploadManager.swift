@@ -138,7 +138,7 @@ public class UploadManager: NSObject {
     }
 
     private func cancelTaskId(_ taskId: String?, episode: UserEpisode, session: URLSession) {
-        guard let taskId = taskId else { return }
+        guard let taskId else { return }
 
         session.getTasksWithCompletionHandler { [weak self] _, uploadTasks, _ in
             if uploadTasks.isEmpty { return }
@@ -209,7 +209,7 @@ public class UploadManager: NSObject {
             DataManager.sharedManager.saveEpisode(uploadStatus: UploadStatus.uploading, episode: episode)
 
             uploadTask.taskDescription = taskId
-            if let taskId = taskId {
+            if let taskId {
                 self.uploadingEpisodesCache[taskId] = episode
             }
             uploadTask.resume()

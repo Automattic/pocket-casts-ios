@@ -198,7 +198,7 @@ class CreateFilterViewController: PCViewController, UITextFieldDelegate, UIScrol
     // MARK: - UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let filterNameTextField = filterNameTextField else { return }
+        guard let filterNameTextField else { return }
 
         // dismiss the keyboard on scroll up
         if scrollView.contentOffset.y > 40, filterNameTextField.isFirstResponder {

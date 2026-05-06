@@ -62,7 +62,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
-        if let player = player {
+        if let player {
             return player.isPlaying
         }
 
@@ -213,7 +213,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func setPlaybackRate(_ rate: Double) {
-        if let timePitch = timePitch {
+        if let timePitch {
             playbackSpeed = rate
             timePitch.rate = Float(rate)
         }
@@ -246,7 +246,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
             return lastSeekTime
         }
 
-        if let audioFile = audioFile, let curFrame = currentFrame() {
+        if let audioFile, let curFrame = currentFrame() {
             return Double(curFrame) / audioFile.fileFormat.sampleRate
         }
 
@@ -254,7 +254,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     private func currentFrame() -> AVAudioFramePosition? {
-        if let audioPlayTask = audioPlayTask {
+        if let audioPlayTask {
             return audioPlayTask.lastFrameRendered()
         }
 
@@ -262,7 +262,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     }
 
     func duration() -> TimeInterval {
-        if let audioFile = audioFile {
+        if let audioFile {
             return (Double(cachedFrameCount) / audioFile.fileFormat.sampleRate)
         }
 
@@ -370,7 +370,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         audioReadTask?.shutdown()
         audioPlayTask?.shutdown()
 
-        guard let audioFile = audioFile, let player = player, let playBufferManager = playBufferManager else { return }
+        guard let audioFile, let player, let playBufferManager else { return }
         let requiredStartTime = PlaybackManager.shared.requiredStartingPosition()
         audioReadTask = AudioReadTask(trimSilence: effects.trimSilence, audioFile: audioFile, outputFormat: audioFile.processingFormat, bufferManager: playBufferManager, playPositionHint: requiredStartTime, frameCount: cachedFrameCount, useVoiceBoostN: useVoiceBoostN, sampleRate: audioFileSampleRate)
         audioPlayTask = AudioPlayTask(player: player, bufferManager: playBufferManager)
@@ -427,7 +427,7 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
     // MARK: - Audio Units
 
     private func setFloatParameter(_ audioUnit: AudioUnit?, key: AudioUnitParameterID, value: Float) {
-        if let audioUnit = audioUnit {
+        if let audioUnit {
             AudioUnitSetParameter(audioUnit, key, kAudioUnitScope_Global, 0, value, 0)
         }
     }

@@ -68,7 +68,10 @@ class PlaylistPreviewViewController: PCViewController {
         setupContent()
     }
 
-    override func viewWillAppear(_ animated: Bool) { }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavBar()
+    }
 
     private func createNewPlaylist() {
         let playlist: EpisodeFilter
@@ -105,13 +108,23 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     private func setupNavBar() {
-        let backgroundColor = AppTheme.viewBackgroundColor()
-        changeNavTint(titleColor: AppTheme.colorForStyle(.primaryText01), iconsColor: AppTheme.colorForStyle(.primaryIcon03), backgroundColor: backgroundColor)
+        guard let navigationBar = navigationController?.navigationBar else { return }
 
         title = nil
+        navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.titleView = smallTitleLabel
         navigationItem.titleView?.isHidden = true
+
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+        navigationBar.tintColor = AppTheme.colorForStyle(.primaryIcon03)
+    }
+
+    override func handleThemeChanged() {
+        setupNavBar()
     }
 
     private func setupContent() {

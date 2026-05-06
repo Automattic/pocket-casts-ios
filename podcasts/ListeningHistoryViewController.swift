@@ -41,7 +41,7 @@ class ListeningHistoryViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.listeningHistoryTable.beginUpdates()
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -50,7 +50,7 @@ class ListeningHistoryViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.listeningHistoryMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.listeningHistoryTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
@@ -318,16 +318,14 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
-        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
+            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
 
         searchController.placeholderText = L10n.search
-        searchController.searchControllerTopConstant = topAnchor
         searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self

@@ -29,7 +29,7 @@ class StarredViewController: PCViewController {
     var isMultiSelectEnabled: Bool = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.starredTable.beginUpdates()
                 self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -38,7 +38,7 @@ class StarredViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.starredMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.starredTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
@@ -89,7 +89,7 @@ class StarredViewController: PCViewController {
         loadingIndicator.startAnimating()
         refreshQueue.addOperation {
             ApiServerHandler.shared.retrieveStarred { episodes in
-                guard let episodes = episodes else {
+                guard let episodes else {
                     DispatchQueue.main.sync {
                         self.loadingIndicator.stopAnimating()
                     }

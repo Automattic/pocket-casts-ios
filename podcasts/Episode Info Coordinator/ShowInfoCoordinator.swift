@@ -73,8 +73,17 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         if FeatureFlag.generatedTranscripts.enabled {
             let externalTranscripts = metadata?.transcripts ?? []
             var pocketCastsTranscripts: [Episode.Metadata.Transcript] = []
-            if let episode = dataManager.findEpisode(uuid: episodeUuid),
-               let hasTranscript = episode.hasGeneratedTranscript {
+
+            #if DEBUG
+            let forceGeneratedTranscript = FeatureFlag.syncedTranscripts.enabled
+            #else
+            let forceGeneratedTranscript = false
+            #endif
+
+            if forceGeneratedTranscript {
+                pocketCastsTranscripts = [buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)]
+            } else if let episode = dataManager.findEpisode(uuid: episodeUuid),
+                      let hasTranscript = episode.hasGeneratedTranscript {
                 if hasTranscript {
                     let transcript = buildGeneratedTranscript(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
                     pocketCastsTranscripts = [transcript]

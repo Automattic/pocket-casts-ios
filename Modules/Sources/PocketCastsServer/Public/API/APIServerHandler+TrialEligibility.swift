@@ -15,12 +15,12 @@ public extension ApiServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, urlResponse, error in
-            guard let data = data, error == nil, urlResponse?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
+            guard let data, error == nil, urlResponse?.extractStatusCode() == ServerConstants.HttpConstants.ok else {
                 completion(nil)
                 return
             }
 
-            let eligible = (try? Api_CheckEligibleResponse(serializedData: data))?.eligible
+            let eligible = (try? Api_CheckEligibleResponse(serializedBytes: data))?.eligible
 
             completion(eligible)
         }.resume()

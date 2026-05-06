@@ -9,7 +9,7 @@ import SafariServices
 
 class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
     let gridHelper = GridHelper()
-    var refreshControl: PCRefreshControl?
+    var refreshController: FullSyncRefreshController?
     var bannerAdModel: BannerAdModel?
 
     /// Indicates whether the banner ad is currently animating to indicate to the collection view layout which size to use
@@ -82,8 +82,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        refreshControl?.parentViewControllerDidAppear()
-
         updateInsets()
         refreshGridItems()
         addEventObservers()
@@ -128,7 +126,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         bannerTask?.cancel()
-        refreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
     }
@@ -154,7 +151,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func subscriptionStatusDidChange() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateNavigationButtons()
             self.loadBannerAd()
@@ -166,7 +163,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
         if SubscriptionHelper.shouldDisplayBannerAd {
             DiscoverServerHandler.shared.blazePromotion(for: .podcastList) { [weak self] promotion, shouldAnimate in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 if shouldAnimate {
                     self.bannerTask = Task { [weak self] in
@@ -286,7 +283,7 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         updateInsets()
         gridHelper.configureLayout(collectionView: podcastsCollectionView)
         if let themeableCollectionView = podcastsCollectionView as? ThemeableCollectionView {
-            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
+            themeableCollectionView.style = .primaryUi02
         }
     }
 
@@ -498,15 +495,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 // MARK: - Refresh Control
 
 extension PodcastListViewController {
-    private func setupRefreshControl() {
-        guard let navController = navigationController else {
-            return
-        }
-
-        refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
-                                          navBar: navController.navigationBar,
-                                          searchBar: searchController,
-                                          source: .podcastsList)
+    func setupRefreshControl() {
+        let controller = FullSyncRefreshController(source: .podcastsList)
+        podcastsCollectionView.refreshControl = controller.refreshControl
+        self.refreshController = controller
     }
 }
 

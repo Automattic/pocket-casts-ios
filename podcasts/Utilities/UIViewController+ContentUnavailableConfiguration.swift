@@ -11,7 +11,7 @@ extension UIViewController {
         pc_contentUnavailableView?.removeFromSuperview()
         pc_contentUnavailableView = nil
 
-        guard let configuration = configuration else { return }
+        guard let configuration else { return }
 
         let configView = configuration.makeContentView()
         configView.translatesAutoresizingMaskIntoConstraints = false

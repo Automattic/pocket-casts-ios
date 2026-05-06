@@ -3,8 +3,10 @@ protocol TranscriptPlaybackManaging {
     var podcastUUID: String? { get }
     var parentIdentifier: String? { get }
     var isPlayingEpisode: Bool { get }
+    var canSeek: Bool { get }
 
     func currentTime() -> TimeInterval
+    func seekTo(time: TimeInterval)
 }
 
 extension PlaybackManager: TranscriptPlaybackManaging {
@@ -22,6 +24,12 @@ extension PlaybackManager: TranscriptPlaybackManaging {
 
     var isPlayingEpisode: Bool {
         isActivelyPlaying(episodeUuid: episodeUUID)
+    }
+
+    var canSeek: Bool { true }
+
+    func seekTo(time: TimeInterval) {
+        seekTo(time: time, startPlaybackAfterSeek: false, seekHint: nil)
     }
 }
 
@@ -41,6 +49,10 @@ struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
     func currentTime() -> TimeInterval {
         0
     }
+
+    func seekTo(time: TimeInterval) {}
+
+    var canSeek: Bool { false }
 
     var isPlayingEpisode: Bool {
         PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID)

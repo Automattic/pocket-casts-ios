@@ -234,7 +234,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 setupFileDetails()
                 imageSaveErrorLabel.isHidden = true
                 setupScrollViewOffset()
-            } catch let error {
+            } catch {
                 showError(message: L10n.pleaseTryAgain) // TODO: update error meessage
             }
         }
@@ -261,7 +261,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         avFileUtil = AVFileUtil(fileURL: destinationUrl, durationHandler: { duration in
             self.duration = duration
         }, titleHandler: { embeddedName in
-            if let embeddedName = embeddedName {
+            if let embeddedName {
                 self.name = embeddedName
             }
             DispatchQueue.main.async {
@@ -292,7 +292,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     @objc private func setupUserAccess() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if SubscriptionHelper.hasActiveSubscription() {
                 self.addCustomlock.isHidden = true
@@ -322,7 +322,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
         Analytics.track(.userFileEditDismissed)
         navigationController?.navigationBar.isHidden = false
         if episodeToEdit == nil {
-            if let destinationUrl = destinationUrl {
+            if let destinationUrl {
                 StorageManager.removeItem(at: destinationUrl)
             }
             dismiss(animated: true, completion: nil)
@@ -339,7 +339,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
         let selectedColor = greyIndexPath.item == 0 ? selectedColorIndex + 1 : selectedColorIndex
 
-        if let episodeToEdit = episodeToEdit {
+        if let episodeToEdit {
             if artworkNeedsUpdating {
                 do {
                     try UserEpisodeManager.updateUserEpisodeImage(uuid: episodeToEdit.uuid, artwork: artwork, completion: {

@@ -97,7 +97,7 @@ class PlusLockedInfoView: ThemeableView {
 
     @IBAction func closeTapped() {
         Analytics.track(.upgradeBannerDismissed, properties: ["source": delegate?.displaySource.rawValue ?? PlusUpgradeViewSource.unknown.rawValue])
-        if let delegate = delegate {
+        if let delegate {
             delegate.closeInfoTapped()
         } else {
             contentView.isHidden = true

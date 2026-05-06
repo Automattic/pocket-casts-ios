@@ -23,6 +23,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0CCC37A62FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */; };
 		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */; };
 		102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */; };
@@ -247,7 +248,6 @@
 		40B26ABE213BB29200386173 /* FeaturedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B26ABC213BB29100386173 /* FeaturedTableViewCell.swift */; };
 		40B26ABF213BB29200386173 /* FeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40B26ABD213BB29100386173 /* FeaturedTableViewCell.xib */; };
 		40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */; };
-		40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */; };
 		40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */; };
 		40D1EF9922DC38E2000B9291 /* CustomStorage.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */; };
 		40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D6CD1E247CD79400F1E665 /* SupporterPodcastViewController.swift */; };
@@ -453,8 +453,6 @@
 		9AF355822E535A180083ECA7 /* SmartPlaylistRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */; };
 		9AF355842E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */; };
 		9AF355862E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355852E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift */; };
-		9AF3558D2E5493E50083ECA7 /* SmartPlaylistRuleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3558C2E5493E50083ECA7 /* SmartPlaylistRuleRowView.swift */; };
-		9AF3558F2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3558E2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift */; };
 		9AF355922E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF355912E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift */; };
 		9AF4152D2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF4152C2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json */; };
 		9AF4152E2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF4152B2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json */; };
@@ -475,6 +473,8 @@
 		9AF646952E5E081600627836 /* PlaylistDetailViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */; };
 		9AF646972E5E0BB800627836 /* PlaylistDetailViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF646962E5E0BB700627836 /* PlaylistDetailViewController+Search.swift */; };
 		9E2A72C35884B71C45856DFA /* VoiceBoostN.c in Sources */ = {isa = PBXBuildFile; fileRef = 14DD11DB5830A48ACE6928B2 /* VoiceBoostN.c */; };
+		AA1B2C3D4E5F607100HEAT01 /* ListeningHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */; };
+		AA1B2C3D4E5F607100HEAT02 /* ListeningHeatmapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */; };
 		B7E0F1A52D4A1B5600123456 /* ProfileRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0F1A42D4A1B5600123456 /* ProfileRefreshButton.swift */; };
 		BD00CB2B24BD20CD00A10257 /* TimeStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */; };
 		BD00CB2C24BD20CD00A10257 /* TimeStepperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */; };
@@ -1089,7 +1089,6 @@
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
-		F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */; };
 		F518BC6D2E71252300E84711 /* BookmarkActionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */; };
 		F5197A402B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
 		F5197A412B995A1E007C8D0A /* DownloadManager+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */; };
@@ -1278,9 +1277,19 @@
 		FF1F27052F224C5C001908BE /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
+		FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */; };
+		FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */; };
+		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
+		FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
+		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
+		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
+		FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
+		FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
+		FF49FEAE2F9BBCB400E68E0C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
+		FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
 		FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */; };
 		FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D72C87694300587128 /* ReferralCardView.swift */; };
 		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
@@ -1306,7 +1315,6 @@
 		FF9CBAF22EC9293000989151 /* playback2025_listening_time_numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = FF9CBAF12EC9293000989151 /* playback2025_listening_time_numbers.json */; };
 		FF9ED3552C86010F00B6E630 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED3542C86010F00B6E630 /* TipView.swift */; };
 		FFB74B0F2E993A8C00F16857 /* end_of_year_2025_intro.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */; };
-		FFBCADEB2E6578F900EA8287 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = FFBCADEA2E6578F900EA8287 /* WrappingHStack */; };
 		FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
@@ -1422,6 +1430,13 @@
 			remoteGlobalIDString = 462EE0C02702532E003D67DC;
 			remoteInfo = PreBuildActions;
 		};
+		FF49FEAA2F9BBC7600E68E0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBD53E417019B290048C8C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 462EE0C02702532E003D67DC;
+			remoteInfo = PreBuildActions;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1516,6 +1531,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesSectionView.swift; sourceTree = "<group>"; };
 		10097D272CC7DADA00E682A3 /* UpNext.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UpNext.xcassets; sourceTree = "<group>"; };
 		100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionView.swift; sourceTree = "<group>"; };
 		102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionViewRow.swift; sourceTree = "<group>"; };
@@ -1728,7 +1744,6 @@
 		40B26ABC213BB29100386173 /* FeaturedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedTableViewCell.swift; sourceTree = "<group>"; };
 		40B26ABD213BB29100386173 /* FeaturedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedTableViewCell.xib; sourceTree = "<group>"; };
 		40B26AC6213FED4300386173 /* DiscoverPeekViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverPeekViewController.swift; sourceTree = "<group>"; };
-		40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadedRefreshControl.swift; sourceTree = "<group>"; };
 		40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UploadedViewController.+MultiSelect.swift"; sourceTree = "<group>"; };
 		40D1EF9822DC38E2000B9291 /* CustomStorage.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CustomStorage.xcassets; sourceTree = "<group>"; };
 		40D6CD1E247CD79400F1E665 /* SupporterPodcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterPodcastViewController.swift; sourceTree = "<group>"; };
@@ -1940,8 +1955,6 @@
 		9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRule.swift; sourceTree = "<group>"; };
 		9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRuleInfo.swift; sourceTree = "<group>"; };
 		9AF355852E535A5A0083ECA7 /* PlaylistPreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPreviewViewModel.swift; sourceTree = "<group>"; };
-		9AF3558C2E5493E50083ECA7 /* SmartPlaylistRuleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRuleRowView.swift; sourceTree = "<group>"; };
-		9AF3558E2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesContainerView.swift; sourceTree = "<group>"; };
 		9AF355912E54DB0A0083ECA7 /* PlaylistEpisodePreviewRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistEpisodePreviewRowView.swift; sourceTree = "<group>"; };
 		9AF4152B2EBA0B1F003D3677 /* 2025_top_5_podcasts_a.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_top_5_podcasts_a.json; sourceTree = "<group>"; };
 		9AF4152C2EBA0B1F003D3677 /* 2025_top_5_podcasts_b.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2025_top_5_podcasts_b.json; sourceTree = "<group>"; };
@@ -1961,6 +1974,8 @@
 		9AF646922E5DEB1300627836 /* PlaylistDetailViewController+MultiSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+MultiSelect.swift"; sourceTree = "<group>"; };
 		9AF646942E5E081400627836 /* PlaylistDetailViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+TableView.swift"; sourceTree = "<group>"; };
 		9AF646962E5E0BB700627836 /* PlaylistDetailViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaylistDetailViewController+Search.swift"; sourceTree = "<group>"; };
+		AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningHeatmapView.swift; sourceTree = "<group>"; };
+		AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListeningHeatmapViewModel.swift; sourceTree = "<group>"; };
 		B7E0F1A42D4A1B5600123456 /* ProfileRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRefreshButton.swift; sourceTree = "<group>"; };
 		BD00CB2924BD20CD00A10257 /* TimeStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStepperCell.swift; sourceTree = "<group>"; };
 		BD00CB2A24BD20CD00A10257 /* TimeStepperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeStepperCell.xib; sourceTree = "<group>"; };
@@ -2568,7 +2583,6 @@
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
-		F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MiniPlayerInsets.swift; path = Shared/MiniPlayerInsets.swift; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
 		F5197A3F2B995A1E007C8D0A /* DownloadManager+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+Logging.swift"; sourceTree = "<group>"; };
 		F51D3A0B2CA62D3C000F3B78 /* DiscoverCollectionViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverCollectionViewController+Search.swift"; sourceTree = "<group>"; };
@@ -2612,6 +2626,10 @@
 		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF1EC6852CECBC73006FBF9B /* ManageDownloadsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsCoordinator.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
+		FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPlayerAnimator.swift; sourceTree = "<group>"; };
+		FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerGlassProgressView.swift; sourceTree = "<group>"; };
+		FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerScrollingTitleView.swift; sourceTree = "<group>"; };
+		FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus.mp4; sourceTree = "<group>"; };
 		FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = playback_2025_plus_background.mp4; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
@@ -2619,6 +2637,7 @@
 		FF4A73D72C87694300587128 /* ReferralCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardView.swift; sourceTree = "<group>"; };
 		FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassVC.swift; sourceTree = "<group>"; };
 		FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptFilter.swift; sourceTree = "<group>"; };
+		FF4B83AE2F981D8E001B8C56 /* Pocket Casts TV App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pocket Casts TV App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerGradientView.swift; sourceTree = "<group>"; };
 		FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerTableCell.swift; sourceTree = "<group>"; };
 		FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralCardMiniView.swift; sourceTree = "<group>"; };
@@ -2811,6 +2830,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		371E0318452B7C751D0C5611 /* Fingerprint */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Fingerprint; sourceTree = "<group>"; };
 		3F26BB7B2F4FC23E0007119B /* PocketCastsTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BBBE2F4FC23E0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PocketCastsTests; sourceTree = "<group>"; };
 		3F26BBE52F4FC3090007119B /* WidgetExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BC052F4FC3090007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WidgetExtension; sourceTree = "<group>"; };
 		3F26BC112F4FC3C90007119B /* PodcastsIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F26BC1B2F4FC3CA0007119B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PodcastsIntents; sourceTree = "<group>"; };
@@ -2857,6 +2877,7 @@
 		3FDAD5042F46D78E00CC3259 /* Share Extension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD5072F46D78E00CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Share Extension"; sourceTree = "<group>"; };
 		3FDAD5122F46D79100CC3259 /* Pocket Casts App Clip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD51A2F46D79100CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Pocket Casts App Clip"; sourceTree = "<group>"; };
 		3FDAD5A22F46D82100CC3259 /* Test Plans */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3FDAD5A42F46D82200CC3259 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Test Plans"; sourceTree = "<group>"; };
+		FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Pocket Casts TV App"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2957,6 +2978,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4B83AB2F981D8E001B8C56 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -3047,7 +3076,6 @@
 				BDCF3C8124283C78005B6933 /* UploadedViewController+Swipe.swift */,
 				40C2B6C124CFD69800549663 /* UploadedViewController.+MultiSelect.swift */,
 				400AB2FC220BA3050003EE21 /* UploadedViewController.xib */,
-				40C2188022C44D1F005B8367 /* UploadedRefreshControl.swift */,
 				40256C31223486A10091EFC6 /* UploadedStorageHeaderView.swift */,
 				40256C33223486DA0091EFC6 /* UploadedStorageHeaderView.xib */,
 				409C7915220D33E500386495 /* AddCustomViewController.swift */,
@@ -3604,8 +3632,7 @@
 			isa = PBXGroup;
 			children = (
 				9AF355742E4E152C0083ECA7 /* SmartPlaylistRulesView.swift */,
-				9AF3558C2E5493E50083ECA7 /* SmartPlaylistRuleRowView.swift */,
-				9AF3558E2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift */,
+				0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */,
 				9AF355812E535A180083ECA7 /* SmartPlaylistRule.swift */,
 				9AF355832E535A3C0083ECA7 /* SmartPlaylistRuleInfo.swift */,
 				9AF355902E54DB010083ECA7 /* Episode Preview */,
@@ -3755,7 +3782,6 @@
 			isa = PBXGroup;
 			children = (
 				F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */,
-				F518BC6A2E71251C00E84711 /* MiniPlayerInsets.swift */,
 				FF0F40792D5E328B0036FFE9 /* ThreadSafeDictionary.swift */,
 				3F7479452F555197004C7FF6 /* ABTest */,
 				3F7479522F55519F004C7FF6 /* Unlockable */,
@@ -3765,6 +3791,7 @@
 				BDB5F0CC20450FDC00437669 /* Enumerations.swift */,
 				BDD525372047782600AAD211 /* SJUIUtils.swift */,
 				BDF15A4D1B54E8F0000EC323 /* Constants.swift */,
+				FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */,
 				BDD3018D1EFB9574004A9972 /* WatchConstants.swift */,
 				BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */,
 				C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */,
@@ -4510,6 +4537,7 @@
 				3F26BB7B2F4FC23E0007119B /* PocketCastsTests */,
 				3FDAD5042F46D78E00CC3259 /* Share Extension */,
 				3FDAD5122F46D79100CC3259 /* Pocket Casts App Clip */,
+				FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */,
 				BDBD53EE17019B2A0048C8C5 /* Frameworks */,
 				BDBD53ED17019B2A0048C8C5 /* Products */,
 			);
@@ -4530,6 +4558,7 @@
 				45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */,
 				2F90990B2A4F88B00044FC55 /* Share Extension.appex */,
 				F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */,
+				FF4B83AE2F981D8E001B8C56 /* Pocket Casts TV App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4574,6 +4603,7 @@
 			isa = PBXGroup;
 			children = (
 				3F584E4F2F568314005A3593 /* CarPlay */,
+				371E0318452B7C751D0C5611 /* Fingerprint */,
 				3F584E4D2F5682BA005A3593 /* Google Cast */,
 				3F584E492F568154005A3593 /* Theme */,
 				3F747A542F5598A2004C7FF6 /* Playback */,
@@ -4709,7 +4739,10 @@
 				BD3EB3AD179E622A00D0731C /* MiniPlayerViewController.xib */,
 				BD1F977B1FD7894C00F89CCD /* MiniPlayerShadowView.swift */,
 				FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */,
+				FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */,
+				FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
+				FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */,
 			);
 			name = "Mini Player";
 			sourceTree = "<group>";
@@ -4886,6 +4919,8 @@
 				C713D4EE2A04C90400A78468 /* AccountHeaderView.swift */,
 				C713D4F22A04C90500A78468 /* AccountHeaderViewModel.swift */,
 				8BF622FE2C529F3C00D10F57 /* ChampionView.swift */,
+				AA1B2C3D4E5F607100HEAT03 /* ListeningHeatmapView.swift */,
+				AA1B2C3D4E5F607100HEAT04 /* ListeningHeatmapViewModel.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -5653,6 +5688,7 @@
 				9AB645122D51368300A842C8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				371E0318452B7C751D0C5611 /* Fingerprint */,
 				3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */,
 				3F584D242F567E73005A3593 /* InAppPurchases */,
 				3F584D252F567EA6005A3593 /* Watch Communication */,
@@ -5768,6 +5804,30 @@
 			productReference = F5D5F7792CEBE769001F492D /* Pocket Casts App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
+		FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF4B83BA2F981D8F001B8C56 /* Build configuration list for PBXNativeTarget "Pocket Casts TV App" */;
+			buildPhases = (
+				FF4B83AA2F981D8E001B8C56 /* Sources */,
+				FF4B83AB2F981D8E001B8C56 /* Frameworks */,
+				FF4B83AC2F981D8E001B8C56 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF49FEAB2F9BBC7600E68E0C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */,
+			);
+			name = "Pocket Casts TV App";
+			packageProductDependencies = (
+				FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */,
+			);
+			productName = "Pocket Casts TV App";
+			productReference = FF4B83AE2F981D8E001B8C56 /* Pocket Casts TV App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -5775,7 +5835,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SJ;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 1520;
 				ORGANIZATIONNAME = "Shifty Jelly";
 				TargetAttributes = {
@@ -5852,6 +5912,9 @@
 					F5D5F7782CEBE769001F492D = {
 						CreatedOnToolsVersion = 16.0;
 					};
+					FF4B83AD2F981D8E001B8C56 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
 				};
 			};
 			buildConfigurationList = BDBD53E717019B290048C8C5 /* Build configuration list for PBXProject "podcasts" */;
@@ -5896,6 +5959,7 @@
 				45ECEF7A27E910E300C65030 /* PocketCastsTests */,
 				2F90990A2A4F88B00044FC55 /* Share Extension */,
 				F5D5F7782CEBE769001F492D /* Pocket Casts App Clip */,
+				FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */,
 			);
 		};
 /* End PBXProject section */
@@ -6489,6 +6553,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4B83AC2F981D8E001B8C56 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -6744,7 +6816,6 @@
 				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
-				40C2188122C44D1F005B8367 /* UploadedRefreshControl.swift in Sources */,
 				9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */,
 				BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */,
 				BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */,
@@ -6792,6 +6863,8 @@
 				4053A827249F72CF009387C9 /* PlaylistViewController+MultiSelect.swift in Sources */,
 				BD1EBD6E1CB7770B004F83D6 /* AppearanceViewController.swift in Sources */,
 				C713D4FA2A04C90500A78468 /* AccountHeaderViewModel.swift in Sources */,
+				AA1B2C3D4E5F607100HEAT01 /* ListeningHeatmapView.swift in Sources */,
+				AA1B2C3D4E5F607100HEAT02 /* ListeningHeatmapViewModel.swift in Sources */,
 				10756F882C59449C0089D34F /* Folder+Sortable.swift in Sources */,
 				9AB2900E2ECB82F9006086F9 /* PlaylistPlayAllSheet.swift in Sources */,
 				BDF09F041E669E16009E9845 /* BasePlayPauseButton.swift in Sources */,
@@ -6811,6 +6884,8 @@
 				8BC060082AB1FA0400A4FEC6 /* PlayEpisodeIntent.swift in Sources */,
 				40DD88ED215DB18300277A4E /* PlaylistIconChooserCell.swift in Sources */,
 				BD1F977C1FD7894C00F89CCD /* MiniPlayerShadowView.swift in Sources */,
+				FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */,
+				FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */,
 				9AF6468D2E5B57D800627836 /* PlaylistHeaderView.swift in Sources */,
 				BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */,
 				9AA14FA72E37EA5900464A5A /* PlaylistsOnboardingCardView.swift in Sources */,
@@ -6842,7 +6917,6 @@
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
 				BD542C222403845500F35D26 /* PlaylistEpisode+Formatting.swift in Sources */,
-				9AF3558F2E5494110083ECA7 /* SmartPlaylistRulesContainerView.swift in Sources */,
 				BD2CB3E32418B48600E2D762 /* ArrayExtension.swift in Sources */,
 				BDF9DDDA1B8AD29C00E77B35 /* TimeSliderDelegate.swift in Sources */,
 				408426392138DBD50076D82E /* DiscoverFeaturedView.swift in Sources */,
@@ -7043,6 +7117,7 @@
 				BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */,
 				102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */,
 				BDE954E9236684E300CEB6DA /* ChaptersViewController.swift in Sources */,
+				0CCC37A62FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift in Sources */,
 				BDF7BDD21CA2248E0045AB6D /* StatsTopCell.swift in Sources */,
 				BDDA72D61C9BA7E2003A3BEB /* Theme.swift in Sources */,
 				F565602F2B7ACD9B003E76D5 /* DataManager+Import.swift in Sources */,
@@ -7096,6 +7171,8 @@
 				409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */,
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				8B907F1A2AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift in Sources */,
+				FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */,
+				FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
@@ -7145,7 +7222,6 @@
 				461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */,
 				404D74AD24809BC9009DF761 /* SupporterGratitudeViewController.swift in Sources */,
 				9A5778122E969B4F0094B194 /* PlaylistArchiveView.swift in Sources */,
-				F518BC6B2E71251C00E84711 /* MiniPlayerInsets.swift in Sources */,
 				40B26AC7213FED4300386173 /* DiscoverPeekViewController.swift in Sources */,
 				BDCF3C8224283C78005B6933 /* UploadedViewController+Swipe.swift in Sources */,
 				BD2DE2321E65224900BE21A4 /* ShowNotesUpdater.swift in Sources */,
@@ -7169,7 +7245,6 @@
 				9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */,
 				BD874EF71C9A428B00F5B2A5 /* GeneralSettingsViewController.swift in Sources */,
 				BD98C54B1BA802AA00E85D3B /* DiscoverDisclosureCell.swift in Sources */,
-				9AF3558D2E5493E50083ECA7 /* SmartPlaylistRuleRowView.swift in Sources */,
 				4065143E2485EB8E00B7E789 /* LastSupporterPodcastCell.swift in Sources */,
 				BDE5B8D81E6401F80039B409 /* EpisodeFileSizeUpdater.swift in Sources */,
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,
@@ -7445,6 +7520,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4B83AA2F981D8E001B8C56 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF49FEAE2F9BBCB400E68E0C /* Strings+Generated.swift in Sources */,
+				FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */,
+				FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */,
+				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -7522,6 +7608,11 @@
 			isa = PBXTargetDependency;
 			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
 			targetProxy = FF2CD5792B9F4B2D009B58B5 /* PBXContainerItemProxy */;
+		};
+		FF49FEAB2F9BBC7600E68E0C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 462EE0C02702532E003D67DC /* PreBuildActions */;
+			targetProxy = FF49FEAA2F9BBC7600E68E0C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8851,6 +8942,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
+				DEVELOPMENT_TEAM = PZYM8XX95Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				FIREBASE_SECRETS_PATH = "$(HOME)/.configure/pocketcasts-ios/secrets/GoogleService-Info.plist";
@@ -9556,6 +9648,204 @@
 			};
 			name = Release;
 		};
+		FF4B83B62F981D8F001B8C56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.debug.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pocket-Casts-TV-App-Info.plist";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FF4B83B72F981D8F001B8C56 /* StagingDebug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.staging.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pocket-Casts-TV-App-Info.plist";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = StagingDebug;
+		};
+		FF4B83B82F981D8F001B8C56 /* Prototype */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.prototype.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pocket-Casts-TV-App-Info.plist";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Prototype;
+		};
+		FF4B83B92F981D8F001B8C56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */;
+			baseConfigurationReferenceRelativePath = Config/PocketCastsTV.release.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pocket-Casts-TV-App-Info.plist";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -9713,6 +10003,17 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		FF4B83BA2F981D8F001B8C56 /* Build configuration list for PBXNativeTarget "Pocket Casts TV App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF4B83B62F981D8F001B8C56 /* Debug */,
+				FF4B83B72F981D8F001B8C56 /* StagingDebug */,
+				FF4B83B82F981D8F001B8C56 /* Prototype */,
+				FF4B83B92F981D8F001B8C56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -9743,6 +10044,10 @@
 		3FC668CB2F7CD5A20072EBA8 /* XcodeTarget_Pocket Casts App Clip */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "XcodeTarget_Pocket Casts App Clip";
+		};
+		FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "XcodeTarget_Pocket Casts TV App";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

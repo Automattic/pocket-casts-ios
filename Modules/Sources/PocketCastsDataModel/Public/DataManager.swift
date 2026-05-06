@@ -115,7 +115,7 @@ public class DataManager {
         //Do a vacuum before doing db changes
         vacuumDatabase()
         let duration = DBUtils.measureTime {
-            dbQueue.inTransaction { db, rollback in
+            dbQueue.inTransaction { db, _ in
                 do {
 
                     try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
@@ -540,6 +540,10 @@ public class DataManager {
 
     public func episodesWithListenHistory(limit: Int) -> [Episode] {
         episodeManager.episodesWithListenHistory(limit: limit, dbQueue: dbQueue)
+    }
+
+    public func dailyListeningTime(forLast days: Int = 365) -> [String: Double] {
+        episodeManager.dailyListeningTime(forLast: days, dbQueue: dbQueue)
     }
 
     public func failedDownloadedEpisodesCount() -> Int {

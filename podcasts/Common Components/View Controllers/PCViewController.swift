@@ -60,7 +60,7 @@ class PCViewController: SimpleNotificationsViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let title = title, !title.isEmpty {
+        if let title, !title.isEmpty {
             setupNavBar(animated: animated)
         }
         refreshRightButtons()
@@ -101,10 +101,10 @@ class PCViewController: SimpleNotificationsViewController {
     @objc func refreshRightButtons() {
         if supportsGoogleCast || !extraRightButtons.isEmpty {
             var buttons = [UIBarButtonItem]()
-            if let customRightBtn = customRightBtn {
+            if let customRightBtn {
                 buttons.append(customRightBtn)
             }
-            if let googleCastBtn = googleCastBtn, supportsGoogleCast {
+            if let googleCastBtn, supportsGoogleCast {
                 buttons.append(googleCastBtn)
             }
             buttons.append(contentsOf: extraRightButtons)

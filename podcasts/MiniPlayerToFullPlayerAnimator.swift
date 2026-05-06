@@ -271,7 +271,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             tabBarSnapshot?.frame = !self.isPresenting ? tabBarFrame : hiddenTabBarFrame
 
             gradientView.layer.opacity = isPresenting ? 0 : 1
-        } completion: { completed in
+        } completion: { _ in
             self.fullPlayerArtwork.layer.opacity = !self.isVideoPodcast ? 1 : 0
             self.miniPlayerArtwork.layer.opacity = 1
 

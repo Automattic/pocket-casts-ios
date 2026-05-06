@@ -11,7 +11,7 @@ class CastDeviceVolumeView: UIStackView {
         devices = GoogleCastManager.sharedManager.allMultiZoneDevices()
 
         // there's no point in controlling multi-room audio that only has 1 speaker, so check for that here
-        guard let devices = devices, devices.count > 1 else { return }
+        guard let devices, devices.count > 1 else { return }
 
         for (index, device) in devices.enumerated() {
             addDevice(device, index: index)

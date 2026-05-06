@@ -15,6 +15,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     private var unplayedSize = 0 as UInt64
     private var playedSize = 0 as UInt64
     private var inProgressSize = 0 as UInt64
+    private var tmpFilesSize = 0 as UInt64
 
     @IBOutlet var settingsTable: UITableView! {
         didSet {
@@ -174,9 +175,18 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
         Analytics.track(.downloadsCleanUpCompleted, properties: ["unplayed": deleteUnplayed, "in_progress": deleteInProgress, "played": deletePlayed, "include_starred": includeStarred])
 
+        let formattedUnplayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(unplayedSize))
+        let formattedInProgressSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
+        let formattedPlayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
+        let formattedTmpFilesSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(tmpFilesSize))
+        FileLog.shared.addMessage("[DownloadedFilesViewController] space being used:\n - Unplayed: \(formattedUnplayedSize)\n - InProgress: \(formattedInProgressSize)\n - Played: \(formattedPlayedSize)\n - Temporary: \(formattedTmpFilesSize)")
+
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)
-
+            if FeatureFlag.cleanUpTmpFiles.enabled {
+                // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
+                EpisodeManager.cleanUpTmpFolder()
+            }
             self.performRefresh()
         }
     }
@@ -191,6 +201,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         unplayedSize = EpisodeManager.downloadSizeOfUnplayedEpisodes(includeStarred: includeStarred)
         inProgressSize = EpisodeManager.downloadSizeOfInProgressEpisodes(includeStarred: includeStarred)
         playedSize = EpisodeManager.downloadSizeOfPlayedEpisodes(includeStarred: includeStarred)
+        tmpFilesSize = FeatureFlag.cleanUpTmpFiles.enabled ? EpisodeManager.tmpFolderSize() : 0
 
         DispatchQueue.main.async { () in
             self.settingsTable.reloadData()

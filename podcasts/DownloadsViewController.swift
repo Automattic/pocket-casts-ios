@@ -32,7 +32,7 @@ class DownloadsViewController: PCViewController {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.setupNavBar()
                 self.downloadsTable.beginUpdates()
                 self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -42,7 +42,7 @@ class DownloadsViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.downloadsMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.downloadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil

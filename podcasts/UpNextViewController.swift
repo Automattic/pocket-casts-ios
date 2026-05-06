@@ -32,7 +32,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             let didChange = oldValue != isMultiSelectEnabled
 
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.updateNavBarButtons()
                 contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
                 if !self.isMultiSelectEnabled {
@@ -45,7 +45,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
                 if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? Self.bottomMargin : Constants.Values.miniPlayerOffset + Self.bottomMargin
+                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
                 }
                 reloadTable()
             }
@@ -300,7 +300,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc private func subscriptionStatusDidChange() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             if FeatureFlag.upNextShuffle.enabled {
                 // Update UI
                 FileLog.shared.addMessage("UpNext subscriptionStatusDidChange: user has active subscription: \(SubscriptionHelper.hasActiveSubscription()) and is logged in: \(SyncManager.isUserLoggedIn())")

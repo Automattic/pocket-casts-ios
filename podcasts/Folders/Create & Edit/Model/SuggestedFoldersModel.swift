@@ -127,7 +127,7 @@ class SuggestedFoldersModel: ObservableObject {
               let folders = try? JSONDecoder().decode([SuggestedFolder].self, from: data) else {
             return
         }
-        var previousUuids = folders.reduce(into: [String]()) { result, folder in
+        let previousUuids = folders.reduce(into: [String]()) { result, folder in
             result.append(contentsOf: folder.podcastUuids)
         }
         self.folders = folders

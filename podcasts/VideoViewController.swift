@@ -217,7 +217,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     // MARK: - Picture In Picture
 
     @IBAction func pictureInPictureTapped(_ sender: Any) {
-        guard let pipController = pipController else { return }
+        guard let pipController else { return }
 
         if pipController.isPictureInPictureActive {
             pipController.stopPictureInPicture()
@@ -227,7 +227,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func setupPictureInPicturePlayback() {
-        if let videoPlayerView = videoPlayerView, AVPictureInPictureController.isPictureInPictureSupported() {
+        if let videoPlayerView, AVPictureInPictureController.isPictureInPictureSupported() {
             pipController = AVPictureInPictureController(playerLayer: videoPlayerView.playerLayer)
             pipController?.delegate = self
             pipButton.isHidden = false
@@ -237,7 +237,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     private func teardownPictureInPicturePlayback() {
-        if let pipController = pipController {
+        if let pipController {
             pipController.delegate = nil
         }
 
@@ -359,7 +359,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     // The closeOverlay and controlOverlay are anchored to the safe area
     // when we move the view the overlays flicker
     // To prevent this, anchor to the view instead of the safe area
-    var initialTouchPoint = CGPoint(x: 0, y: 0)
+    var initialTouchPoint = CGPoint.zero
 
     private static let pullDownThreshold: CGFloat = 100
 

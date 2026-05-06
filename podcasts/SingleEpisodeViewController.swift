@@ -65,7 +65,7 @@ class SingleEpisodeViewController: UIViewController {
         viewModel.$imageUUID
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [unowned self] uuid in
-                if let uuid = uuid {
+                if let uuid {
                     self.podcastImage.setPodcast(uuid: uuid, size: .grid)
                 }
             })

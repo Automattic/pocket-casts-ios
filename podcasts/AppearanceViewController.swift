@@ -54,7 +54,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     @objc func subscriptionStatusChanged() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateTableAndData()
         }
@@ -167,7 +167,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
     func presentThemePicker(selectedTheme: Theme.ThemeType, persistThemeChange: @escaping (Theme.ThemeType) -> Void) {
         let themeSelector = ThemeSelectorView(title: L10n.appearanceThemeSelect, onThemeSelected: { [weak self] theme in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if theme.isPlusOnly, !SubscriptionHelper.hasActiveSubscription() {
                 self.dismiss(animated: true) {

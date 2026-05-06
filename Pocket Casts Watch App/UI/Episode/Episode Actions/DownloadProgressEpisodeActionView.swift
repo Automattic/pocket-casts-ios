@@ -8,7 +8,7 @@ struct DownloadProgressEpisodeActionView: View {
     }
 
     private func downloadIconForProgress(_ progress: DownloadProgress?) -> String {
-        guard let progress = progress else {
+        guard let progress else {
             return EpisodeAction.pauseDownload.iconName
         }
 

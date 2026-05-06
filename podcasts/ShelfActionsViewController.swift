@@ -168,7 +168,7 @@ class ShelfActionsViewController: UIViewController, CheckTranscriptAvailability 
 
     @objc private func episodeTranscriptAvailabilityChanged(notification: NSNotification) {
         guard let episodeUuid = notification.userInfo?["episodeUuid"] as? String,
-              let isAvailable = notification.userInfo?["isAvailable"] as? Bool,
+              notification.userInfo?["isAvailable"] as? Bool != nil,
               episodeUuid == PlaybackManager.shared.currentEpisode()?.uuid else {
             return
         }

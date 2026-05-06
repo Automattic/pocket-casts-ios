@@ -89,7 +89,7 @@ public class RefreshManager {
 
         DispatchQueue.global().async {
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.processPodcastRefreshResponse(refreshResponse) { _ in
                     completion?()
@@ -122,7 +122,7 @@ public class RefreshManager {
             }
 
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.processPodcastRefreshResponse(refreshResponse) { _ in
                     completion?()
@@ -136,7 +136,7 @@ public class RefreshManager {
         DispatchQueue.global().async {
             let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.processPodcastRefreshResponse(refreshResponse, completion: completion)
             }

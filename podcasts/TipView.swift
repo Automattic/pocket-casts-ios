@@ -10,7 +10,7 @@ struct TipView: View {
     @EnvironmentObject var theme: Theme
 
     var body: some View {
-        ContentSizeGeometryReader { proxy in
+        ContentSizeGeometryReader { _ in
             TipViewStatic(title: title, message: message, onTap: onTap)
         } contentSizeUpdated: { size in
             sizeChanged(size)
@@ -80,7 +80,7 @@ struct TipView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { size in }, onTap: nil).setupDefaultEnvironment()
+            TipView(title: L10n.referralsTipTitle(3), message: L10n.referralsTipMessage("2 Months"), sizeChanged: { _ in }, onTap: nil).setupDefaultEnvironment()
             Spacer()
         }
     }

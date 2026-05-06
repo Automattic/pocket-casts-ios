@@ -82,10 +82,9 @@ class NowPlayingHelper {
         if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
             // some car stereo's do weird things with the % character, so here we replace it with pct to work around those bugs
             let safeCharacterPodcastTitle = parentPodcast.title?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
-            let safeCharacterPodcastAuthor = parentPodcast.author?.replacingOccurrences(of: "%", with: "pct") ?? "Pocket Casts"
 
-            nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastAuthor as NSString
-            nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastAuthor as NSString
+            nowPlayingInfo[MPMediaItemPropertyArtist] = safeCharacterPodcastTitle as NSString
+            nowPlayingInfo[MPMediaItemPropertyComposer] = safeCharacterPodcastTitle as NSString
 
             // we purposely show the date here instead, but as with the above there's a car stereo bug we need to work around as well where we don't show the word "Wednesday" in the artist field
             // because on some car stereos that have embedded image databases, this comes up with a really grotesque image (more info: https://github.com/shiftyjelly/pocketcasts-ios/issues/3874)
@@ -114,7 +113,7 @@ class NowPlayingHelper {
 
         nowPlayingClone[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: duration)
         nowPlayingClone[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: upTo)
-        if let playbackRate = playbackRate {
+        if let playbackRate {
             nowPlayingClone[MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: playbackRate)
             nowPlayingClone[MPNowPlayingInfoPropertyDefaultPlaybackRate] = NSNumber(value: playbackRate)
         } else {

@@ -85,7 +85,7 @@ class SettingsOptionsViewController: UIViewController, UITableViewDataSource, UI
     }
 
     private func saveChanges() {
-        if let settingsKey = settingsKey {
+        if let settingsKey {
             UserDefaults.standard.set(selectedItem, forKey: settingsKey)
         } else {
             itemSelected?(selectedItem)

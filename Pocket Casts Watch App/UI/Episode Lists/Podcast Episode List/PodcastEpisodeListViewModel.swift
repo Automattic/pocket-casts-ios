@@ -5,7 +5,7 @@ import PocketCastsUtils
 
 class PodcastEpisodeListViewModel: ObservableObject {
     static func createEpisodesQuery(forPodcast podcast: Podcast?) -> String {
-        guard let podcast = podcast else { return "" }
+        guard let podcast else { return "" }
 
         let episodeSortOrder = podcast.podcastSortOrder
 

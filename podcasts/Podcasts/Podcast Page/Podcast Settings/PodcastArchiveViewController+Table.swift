@@ -149,7 +149,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     private func addEpisodeLimitAction(limit: Int32, to: OptionsPicker) {
         let selectedSetting = podcast.autoArchiveEpisodeLimitCount
         let action = OptionAction(label: stringForLimit(limit), selected: selectedSetting == limit) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.podcast.autoArchiveEpisodeLimitCount = limit
             DataManager.sharedManager.saveAutoArchiveLimit(podcast: self.podcast, limit: limit)
@@ -166,7 +166,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     private func addArchivePlayedAction(time: TimeInterval, to: OptionsPicker) {
         let selectedSetting = podcast.autoArchivePlayedAfterTime
         let action = OptionAction(label: ArchiveHelper.archiveTimeToText(time), selected: selectedSetting == time) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.podcast.autoArchivePlayedAfterTime = time
             DataManager.sharedManager.save(podcast: self.podcast)
@@ -184,7 +184,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
     private func addArchiveInactiveAction(time: TimeInterval, to: OptionsPicker) {
         let selectedSetting = podcast.autoArchiveInactiveAfterTime
         let action = OptionAction(label: ArchiveHelper.archiveTimeToText(time), selected: selectedSetting == time) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.podcast.autoArchiveInactiveAfterTime = time
             DataManager.sharedManager.save(podcast: self.podcast)

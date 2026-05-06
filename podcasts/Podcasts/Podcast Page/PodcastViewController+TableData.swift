@@ -195,7 +195,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = podcastHeaderCell
                 return cell
             } else {
-                guard let bookmarkViewModel = bookmarkViewModel else {
+                guard let bookmarkViewModel else {
                     return UITableViewCell()
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: BookmarksHostingCell.reuseIdentifier, for: indexPath) as! BookmarksHostingCell
@@ -317,7 +317,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.deselectRow(at: indexPath, animated: true)
 
                 if indexPath.section == PodcastViewController.allEpisodesSection {
-                    guard let podcast = podcast, let episode = episodeAtIndexPath(indexPath) else { return }
+                    guard let podcast, let episode = episodeAtIndexPath(indexPath) else { return }
 
                     if searchController?.searchBarActive() == true {
                         hideSearchKeyboard()
@@ -397,7 +397,7 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
             let image = UIImage(systemName: "mic")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold))
             let headerView = YouMightLikeSectionHeaderView(image: image, title: L10n.podcastPodrollHeader)
             headerView.onTapped = { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 BottomSheetSwiftUIWrapper.present(
                     PodrollInformationModalView(onDismiss: { [weak self] in
                         self?.presentedViewController?.dismiss(animated: true, completion: nil)

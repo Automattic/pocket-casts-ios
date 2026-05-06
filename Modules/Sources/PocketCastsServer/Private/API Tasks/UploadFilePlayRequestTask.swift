@@ -25,7 +25,7 @@ class UploadFilePlayRequestTask: ApiBaseTask {
             }
 
             do {
-                let playResponse = try Files_FilePlayResponse(serializedData: responseData)
+                let playResponse = try Files_FilePlayResponse(serializedBytes: responseData)
                 guard httpStatus?.statusCode == ServerConstants.HttpConstants.ok else {
                     FileLog.shared.addMessage("Upload file play request failed \(httpStatus?.statusCode ?? -1) with message: \(playResponse.textFormatString())")
                     completion?(nil)

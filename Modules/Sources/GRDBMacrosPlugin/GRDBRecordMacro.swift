@@ -68,7 +68,7 @@ public struct GRDBRecordMacro: MemberMacro, ExtensionMacro {
         var members: [DeclSyntax] = []
 
         // 1. Generate databaseTableName if table parameter provided
-        if let tableName = tableName {
+        if let tableName {
             members.append("""
                 \(raw: accessModifier)static let databaseTableName = "\(raw: tableName)"
                 """)
