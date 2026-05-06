@@ -30,6 +30,9 @@ only_rules:
   # Prefer `contains` over `filter(where:).count`.
   - contains_over_filter_count
 
+  # Prefer `contains` over `first(where:) != nil`.
+  - contains_over_first_not_nil
+
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
 

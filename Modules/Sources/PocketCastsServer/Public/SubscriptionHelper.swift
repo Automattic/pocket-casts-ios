@@ -235,7 +235,7 @@ open class SubscriptionHelper: NSObject {
             return nil
         }
         for bundle in bundles {
-            if bundle.podcasts.first(where: { $0.uuid == podcastUuid }) != nil {
+            if bundle.podcasts.contains(where: { $0.uuid == podcastUuid }) {
                 return bundle
             }
         }

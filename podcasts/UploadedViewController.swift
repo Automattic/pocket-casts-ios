@@ -371,7 +371,7 @@ private extension UploadedViewController {
             .store(in: &cancellables)
 
         manager.onBookmarksDeleted
-            .filter { $0.items.first(where: { $0.podcast == nil }) != nil }
+            .filter { $0.items.contains(where: { $0.podcast == nil }) }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.handleReloadFromNotification()
