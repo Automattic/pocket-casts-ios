@@ -15,6 +15,7 @@ class PodcastsViewModel {
     var state: State = .loading
 
     var podcasts: [MockPodcast] = []
+    var folders: [MockFolder] = []
 
     func load() {
         //Mock data load
@@ -23,6 +24,7 @@ class PodcastsViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 podcasts = MockData.makePodcasts()
+                folders = MockData.makeFolders()
                 state = podcasts.isEmpty ? .empty : .ready
                 cancellable?.cancel()
                 cancellable = nil

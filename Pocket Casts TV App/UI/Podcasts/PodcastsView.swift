@@ -1,5 +1,17 @@
 import SwiftUI
 
+private enum GridCellItem {
+    case podcast(MockPodcast)
+    case folder(MockFolder)
+
+    var id: String {
+        switch self {
+        case .podcast(let p): return p.id
+        case .folder(let f): return f.id
+        }
+    }
+}
+
 struct PodcastsView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
@@ -55,21 +67,42 @@ struct PodcastsView: View {
 
     @Namespace private var podcastGridNamespace
 
+    private var gridItems: [GridCellItem] {
+        var result: [GridCellItem] = model.podcasts.map { .podcast($0) }
+        for (offset, folder) in model.folders.enumerated() {
+            let insertionIndex = min(2 + offset, result.count)
+            result.insert(.folder(folder), at: insertionIndex)
+        }
+        return result
+    }
+
     var podcastGrid: some View {
-        LazyVGrid(columns: items, spacing: 48, content: {
-            ForEach(model.podcasts) { podcast in
-                NavigationLink(value: podcast) {
+        let items = gridItems
+        return LazyVGrid(columns: self.items, spacing: 48, content: {
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                switch item {
+                case .podcast(let podcast):
+                    NavigationLink(value: podcast) {
                         Image(podcast.image)
                             .resizable()
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    }
+                    .buttonStyle(.card)
+                    .prefersDefaultFocus(index == 0, in: podcastGridNamespace)
+                case .folder(let folder):
+                    NavigationLink(value: folder) {
+                        FolderCardView(folder: folder)
+                    }
+                    .buttonStyle(.card)
                 }
-                .buttonStyle(.card)
-                .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
             }
         })
         .focusScope(podcastGridNamespace)
         .navigationDestination(for: MockPodcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+        }
+        .navigationDestination(for: MockFolder.self) { folder in
+            FolderDetailView(folder: folder)
         }
     }
 }
