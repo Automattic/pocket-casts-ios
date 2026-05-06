@@ -18,6 +18,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
             makePlaybackEffectsMenu()
         ]
         controller.allowedSubtitleOptionLanguages = []
+        TVToast.shared.configure(with: controller.contentOverlayView)
         player.play()
         return controller
     }
@@ -52,6 +53,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
                 action.state = .on
+                TVToast.shared.show(String(format: "Playback speed set to %.1fx", speed))
             }
         }
         return UIMenu(
@@ -62,13 +64,17 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
     }
 
     private func makePlaybackEffectsMenu() -> UIMenu {
-        let volumeBoostAction = UIAction(
-            title: L10n.tvPlayerVolumeBoost,
-            image: UIImage(systemName: "speaker.wave.3"),
-            state: .off
-        ) { action in
-            action.state = action.state == .off ? .on : .off
+        let volumeBoostOff = UIAction(title: L10n.off, state: .on) { _ in
+            TVToast.shared.show("Volume boost off")
         }
+        let volumeBoostOn = UIAction(title: L10n.on, state: .off) { _ in
+            TVToast.shared.show("Volume boost on")
+        }
+        let volumeBoostSection = UIMenu(
+            title: L10n.tvPlayerVolumeBoost,
+            options: [.displayInline, .singleSelection],
+            children: [volumeBoostOff, volumeBoostOn]
+        )
 
         let trimOptions: [(String, UIAction.State)] = [
             (L10n.tvPlayerTrimSilenceOff, .on),
@@ -77,18 +83,20 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
             (L10n.tvPlayerTrimSilenceMadMax, .off)
         ]
         let trimActions = trimOptions.map { title, state in
-            UIAction(title: title, state: state) { _ in }
+            UIAction(title: title, state: state) { _ in
+                TVToast.shared.show("Trim silence: \(title)")
+            }
         }
-        let trimSubmenu = UIMenu(
+        let trimSection = UIMenu(
             title: L10n.tvPlayerTrimSilence,
             options: [.displayInline, .singleSelection],
             children: trimActions
         )
 
         return UIMenu(
-            title: L10n.tvPlayerPlaybackEffects,
-            image: UIImage(systemName: "slider.horizontal.3"),
-            children: [volumeBoostAction, trimSubmenu]
+            title: L10n.tvPlayerVolumeBoost,
+            image: UIImage(systemName: "speaker.wave.3"),
+            children: [volumeBoostSection, trimSection]
         )
     }
 
