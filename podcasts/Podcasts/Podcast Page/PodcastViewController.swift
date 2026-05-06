@@ -186,6 +186,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.multiSelectHeaderView.isHidden = true
                 self.selectedEpisodes.removeAll()
             }
+            if !isUsingFakeNavBar {
+                navigationController?.setNavigationBarHidden(isMultiSelectEnabled, animated: true)
+            }
             searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
         }
     }

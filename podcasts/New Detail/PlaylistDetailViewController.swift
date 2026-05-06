@@ -120,6 +120,9 @@ class PlaylistDetailViewController: FakeNavViewController {
                     self.multiSelectHeaderView.isHidden = true
                     self.selectedEpisodes.removeAll()
                 }
+                if !self.isUsingFakeNavBar {
+                    self.navigationController?.setNavigationBarHidden(self.isMultiSelectEnabled, animated: true)
+                }
             }
         }
     }
