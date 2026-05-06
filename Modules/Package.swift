@@ -294,6 +294,7 @@ enum XcodeSupport {
                     "PocketCastsUtils",
                     "PocketCastsDataModel",
                     "PocketCastsServer",
+                    "PocketCastsDependencyInjection",
                     "EventHorizonSDK",
                     .product(name: "Kingfisher", package: "Kingfisher"),
                     .product(name: "SwiftSubtitles", package: "SwiftSubtitles"),
