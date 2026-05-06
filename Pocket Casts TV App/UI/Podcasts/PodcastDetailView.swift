@@ -13,7 +13,6 @@ struct PodcastDetailView: View {
 
     enum Layout {
         static let podcastImageSize = CGFloat(418)
-        static let episodeImageSize = CGFloat(124)
         static let infoPanelWidth = CGFloat(568)
         static let gutter = CGFloat(24)
     }
@@ -46,6 +45,11 @@ struct PodcastDetailView: View {
                 .frame(width: Layout.infoPanelWidth)
             episodeContent
         }
+        .blurredCoverBackground(size: Layout.podcastImageSize) {
+            Image(model.podcast.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        }
     }
 
     var podcastInfo: some View {
@@ -54,6 +58,7 @@ struct PodcastDetailView: View {
                 .resizable()
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.podcast.author ?? "")
                     .font(.caption)
@@ -105,7 +110,7 @@ struct PodcastDetailView: View {
                                 .font(.caption)
                                 .foregroundStyle(Color.textSecondary)
                         }
-                        EpisodePlayerButton(
+                        EpisodeRowWithActions(
                             episode: recommended,
                             podcastTitle: model.podcast.title,
                             podcastDescription: model.podcast.podcastDescription
@@ -120,7 +125,7 @@ struct PodcastDetailView: View {
                         .foregroundStyle(Color.textPrimary)
                     LazyVStack {
                         ForEach(model.podcast.episodes) { episode in
-                            EpisodePlayerButton(
+                            EpisodeRowWithActions(
                                 episode: episode,
                                 podcastTitle: model.podcast.title,
                                 podcastDescription: model.podcast.podcastDescription
