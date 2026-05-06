@@ -1310,6 +1310,8 @@
 		FF6024A22FAB46EE00EB3AD5 /* Episode+Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5BD0B72C50235400C687CB /* Episode+Transcript.swift */; };
 		FF6033FC2FAB4C8300EB3AD5 /* AutoplayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B472E012A4B83CE005905F4 /* AutoplayHelper.swift */; };
 		FF6033FD2FAB4C9700EB3AD5 /* EpisodesDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB271F2A40B3340079E5B3 /* EpisodesDataManager.swift */; };
+		FF603BAE2FAB500700EB3AD5 /* Podcast+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD56102C200DA4BC002F2D53 /* Podcast+Formatting.swift */; };
+		FF603BB02FAB506F00EB3AD5 /* PlaylistDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF6468A2E5B571900627836 /* PlaylistDetailViewModel.swift */; };
 		FF6505892FAA950300C3662E /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9FF6111B8EC90C009F075E /* ImageManager.swift */; };
 		FF65058A2FAA95D500C3662E /* UserEpisode+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FE395E229CF424004526CD /* UserEpisode+Formatting.swift */; };
 		FF65058B2FAA963100C3662E /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C4CAF228ABFD0900CFC8CF /* Notifications.swift */; };
@@ -2895,6 +2897,7 @@
 		FF6033FA2FAB4B0200EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"String+Differentiable.swift",
 				"String+SentenceCase.swift",
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
@@ -2903,6 +2906,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Pocket-Casts-TV-App-Info.plist",
+			);
+			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
+		};
+		FF603BAA2FAB4F7100EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				EpisodeTableHelper.swift,
+				ListEpisode.swift,
+				ListHeader.swift,
+				ListItem.swift,
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
 		};
@@ -2975,7 +2988,7 @@
 		3F584D1D2F567E4A005A3593 /* Episode Info Coordinator */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF8FFE672FAA8E650086A867 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Episode Info Coordinator"; sourceTree = "<group>"; };
 		3F584D242F567E73005A3593 /* InAppPurchases */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InAppPurchases; sourceTree = "<group>"; };
 		3F584D252F567EA6005A3593 /* Watch Communication */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Watch Communication"; sourceTree = "<group>"; };
-		3F584D262F567EE1005A3593 /* Lists */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Lists; sourceTree = "<group>"; };
+		3F584D262F567EE1005A3593 /* Lists */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF603BAA2FAB4F7100EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Lists; sourceTree = "<group>"; };
 		3F584DED2F56811B005A3593 /* End of Year */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "End of Year"; sourceTree = "<group>"; };
 		3F584E3E2F568131005A3593 /* Whats New */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Whats New"; sourceTree = "<group>"; };
 		3F584E492F568154005A3593 /* Theme */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Theme; sourceTree = "<group>"; };
@@ -7693,6 +7706,8 @@
 				FF6024A02FAB45D400EB3AD5 /* UIColor+SwiftUI.swift in Sources */,
 				FF8FFE602FAA62D50086A867 /* ThreadSafeDictionary.swift in Sources */,
 				FF8FFE682FAA8E760086A867 /* ChapterInfo.swift in Sources */,
+				FF603BAE2FAB500700EB3AD5 /* Podcast+Formatting.swift in Sources */,
+				FF603BB02FAB506F00EB3AD5 /* PlaylistDetailViewModel.swift in Sources */,
 				FF6505892FAA950300C3662E /* ImageManager.swift in Sources */,
 				FF65058F2FAA973E00C3662E /* Theme.swift in Sources */,
 				FF65058C2FAA965000C3662E /* SJMediaMetadataHelper.m in Sources */,
