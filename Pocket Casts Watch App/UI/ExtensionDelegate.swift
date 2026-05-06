@@ -18,7 +18,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
 
     private func setupCrashLogging() {
         crashLogging = try? CrashLogging(dataProvider: WatchCrashLoggingDataProvider()).start()
-        if let crashLogging = crashLogging {
+        if let crashLogging {
             ServerConfig.shared.errorLogger = WatchCrashLoggingErrorLogger(crashLogging: crashLogging)
         }
     }
@@ -107,7 +107,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
         FileLog.shared.addMessage("Scheduling next refresh for 60 minutes time")
         let preferredDate = Date(timeIntervalSinceNow: 60.minutes)
         WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: preferredDate, userInfo: nil) { error in
-            if let error = error {
+            if let error {
                 FileLog.shared.addMessage("Task scheduling error \(error.localizedDescription)")
             }
         }

@@ -305,7 +305,7 @@ extension PlaylistsViewController {
             sourceView: cell.artworkImageSource,
             sourceRect: cell.artworkImageSource.bounds
         )
-        guard let tip = tip else { return }
+        guard let tip else { return }
         newFilterTip = tip
 
         //TODO: Add analytics

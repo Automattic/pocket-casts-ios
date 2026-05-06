@@ -148,7 +148,7 @@ struct CategoriesPillsView: View {
     }
 }
 
-extension DiscoverCategory: Hashable {
+extension DiscoverCategory {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

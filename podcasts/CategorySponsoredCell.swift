@@ -85,7 +85,7 @@ class CategorySponsoredCell: ThemeableCell {
     @IBAction func subscribeTapped(_ sender: AnyObject) {
         subscribeButton.currentlyOn = true
 
-        guard let discoverPromotion = discoverPromotion else { return }
+        guard let discoverPromotion else { return }
 
         if let uuid = discoverPromotion.podcast_uuid {
             ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)

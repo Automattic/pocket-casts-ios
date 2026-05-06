@@ -129,7 +129,7 @@ struct PatronAppIconUnlock: View {
                     .frame(maxWidth: .infinity)
 
                 HighlightedText(L10n.patronUnlockInstructions)
-                    .highlight(L10n.patronUnlockWord, { highlight in
+                    .highlight(L10n.patronUnlockWord, { _ in
                             .init(weight: .bold, color: Color.patronBackgroundColor)
                     })
                     .font(style: .subheadline)

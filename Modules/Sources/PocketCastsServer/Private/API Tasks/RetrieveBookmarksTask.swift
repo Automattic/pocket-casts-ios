@@ -34,7 +34,7 @@ class RetrieveBookmarksTask: ApiBaseTask {
 
     private func parse(response: Data) {
         do {
-            let bookmarksResponse = try Api_BookmarksResponse(serializedData: response)
+            let bookmarksResponse = try Api_BookmarksResponse(serializedBytes: response)
             onBookmarksRetrieved(bookmarksResponse.bookmarks.nilIfEmpty())
         } catch {
             failed("Decoding BookmarksResponse failed \(error.localizedDescription)")

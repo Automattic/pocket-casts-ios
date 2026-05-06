@@ -33,7 +33,7 @@ extension DiscoverServerHandler {
         let path = ServerConstants.Urls.discover() + "blaze/promotions.json"
         let fetchResult: (BlazePromotion, Bool)? = await withCheckedContinuation { continuation in
             discoverRequest(path: path, type: BlazePromotions.self, authenticated: false) { promotions, useCache in
-                if let promotions = promotions,
+                if let promotions,
                    let promotion = promotions.promotions.first(where: { $0.location == location }) {
                     continuation.resume(returning: (promotion, useCache))
                 } else {

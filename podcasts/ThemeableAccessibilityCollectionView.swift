@@ -2,7 +2,7 @@ import UIKit
 
 class ThemeableAccessibilityCollectionView: ThemeableCollectionView {
     override func accessibilityElementCount() -> Int {
-        guard let dataSource = dataSource else {
+        guard let dataSource else {
             return 0
         }
 

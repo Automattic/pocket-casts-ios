@@ -3,6 +3,7 @@ import PocketCastsServer
 import SafariServices
 import UIKit
 import Combine
+import Kingfisher
 import PocketCastsUtils
 import SwiftUI
 
@@ -127,6 +128,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatar), name: .userLoginDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatarForcingReload), name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
+        refreshProfileTabAvatar()
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
@@ -258,16 +262,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
         NavigationManager.sharedManager.miniPlayer = miniPlayer
 
-        miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            addChild(miniPlayer)
+            miniPlayer.didMove(toParent: self)
+            // Load the view so XIB outlets and observers are wired up before
+            // it's installed as a tab accessory contentView.
+            miniPlayer.loadViewIfNeeded()
+        } else {
+            miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(miniPlayer.view, belowSubview: tabBar)
 
-        NSLayoutConstraint.activate([
-            miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
-        ])
+            NSLayoutConstraint.activate([
+                miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+            ])
 
-        miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+            miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+        }
     }
 
     // MARK: - UITabBarDelegate
@@ -751,7 +763,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { _ in
             self.endOfYear.resetStateIfNeeded()
         }
 
@@ -761,7 +773,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             self.showEndOfYearPromptIfNeeded()
         }
 
-        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { _ in
             self.endOfYear.showPromptBasedOnState(in: self)
 
             self.displayEndOfYearBadgeIfNeeded()
@@ -908,7 +920,7 @@ private extension MainTabBarController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
-            .filter { event in
+            .filter { _ in
                 UIApplication.shared.applicationState == .active
                 && !SceneHelper.isConnectedToCarPlay
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
@@ -929,7 +941,7 @@ private extension MainTabBarController {
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
         let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, cancel in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, _ in
                 guard title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
@@ -1133,5 +1145,47 @@ extension MainTabBarController {
     private func updateErrorColor() {
         errorBanner.backgroundColor = AppTheme.tabBarBackgroundColor()
         errorLabel.textColor = AppTheme.mainTextColor()
+    }
+}
+
+// MARK: - Profile tab avatar
+
+private extension MainTabBarController {
+    static let profileTabIconSize: CGFloat = 26
+
+    @objc func refreshProfileTabAvatar() {
+        loadProfileTabAvatar(forceRefresh: false)
+    }
+
+    @objc func refreshProfileTabAvatarForcingReload() {
+        loadProfileTabAvatar(forceRefresh: true)
+    }
+
+    func loadProfileTabAvatar(forceRefresh: Bool) {
+        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+
+        guard let email = ServerSettings.syncingEmail(), !email.isEmpty,
+              let url = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=256") else {
+            resetProfileTabImage()
+            return
+        }
+
+        let resource = KF.ImageResource(downloadURL: url, cacheKey: email)
+        var options: KingfisherOptionsInfo = []
+        if forceRefresh {
+            options.append(.forceRefresh)
+        }
+
+        KingfisherManager.shared.retrieveImage(with: resource, options: options) { [weak self] result in
+            guard let self, case .success(let value) = result else { return }
+            let icon = value.image.gravatarIcon(size: Self.profileTabIconSize)
+            self.profileTabBarItem.image = icon
+            self.profileTabBarItem.selectedImage = icon
+        }
+    }
+
+    func resetProfileTabImage() {
+        profileTabBarItem.image = UIImage(named: "profile_tab")
+        profileTabBarItem.selectedImage = nil
     }
 }

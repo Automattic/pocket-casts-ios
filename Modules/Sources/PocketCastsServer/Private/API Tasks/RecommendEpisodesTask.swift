@@ -22,7 +22,7 @@ class RecommendEpisodesTask: ApiBaseTask {
             }
 
             do {
-                if let topEpisode = try Api_EpisodesResponse(serializedData: responseData).episodes.first {
+                if let topEpisode = try Api_EpisodesResponse(serializedBytes: responseData).episodes.first {
                     let episode = Episode()
                     episode.uuid = topEpisode.uuid
                     episode.podcastUuid = topEpisode.podcastUuid

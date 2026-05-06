@@ -116,7 +116,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     }
 
     func buffering() -> Bool {
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         if let item = player.currentItem {
             return item.isPlaybackBufferEmpty || !item.isPlaybackLikelyToKeepUp
@@ -282,21 +282,25 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         // Give priority to player item error
         let playerError: Error? = (player.currentItem?.error ?? player.error)
         let playerNSError = playerError as? NSError
-        let playerNSUnderlyingError = playerNSError?.underlyingErrors.first as? NSError
 
         if FeatureFlag.whenPlayingOnlyUpdateEpisodeIfPlaybackFails.enabled,
-           playerNSError?.domain == NSURLErrorDomain || playerNSUnderlyingError?.domain == NSURLErrorDomain,
-            let episodeUuid {
+           let playerNSError, playerNSError.domain == NSURLErrorDomain, playerNSError.code != NSURLErrorNotConnectedToInternet,
+           let episodeUuid {
             if PlaybackManager.shared.retryUrlLoad(for: episodeUuid) {
-                return true
+                return false
             }
         }
         let logMessage = "AVPlayerItemStatusFailed on currentItem: \(playerErrorMessage) - \(playerItemErrorMessage)"
-        var error: PlaybackManager.PlaybackError = .internetConnection(logMessage: logMessage)
+        var error: PlaybackManager.PlaybackError = .playbackError(logMessage: logMessage, isLocalFile: isPlayingLocalFile)
         if let playerNSError,
-           playerNSError.domain == NSURLErrorDomain,
-           PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
-            error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+           playerNSError.domain == NSURLErrorDomain {
+            if PlaybackManager.PlaybackError.knownURLErrors.contains(playerNSError.code) {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            } else if playerNSError.code == NSURLErrorNotConnectedToInternet {
+                error = .internetConnection(logMessage: logMessage)
+            } else {
+                error = .episodeNotAvailable(errorCode: playerNSError.code, logMessage: logMessage)
+            }
         }
         PlaybackManager.shared.playbackDidFail(error: error)
 
@@ -585,7 +589,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard
                 let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
                 let tap = referenceToSelf.audioMix?.inputParameters.first?.audioTapProcessor,
-                let ioData = ioData
+                let ioData
             else {
                 return -1
             }
@@ -645,7 +649,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard
                 let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: inRefCon),
                 let peakLimiter = referenceToSelf.peakLimiter,
-                let ioData = ioData
+                let ioData
             else {
                 return -1
             }
@@ -696,7 +700,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             // do this on the main thread because timers require run loops
             DispatchQueue.main.async {
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                    guard let self = self else {
+                    guard let self else {
                         timer.invalidate()
                         return
                     }
@@ -775,7 +779,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         rateObserver = player?.observe(\.rate) { [weak self] player, _ in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if player.rate == 1 {
                 // there's a bug where playback can be resumed from outside our app, and Apple sets the wrong playback rate, fix that here
@@ -807,7 +811,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         let nc = NotificationCenter.default
         playToEndObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if !FeatureFlag.checkFinishedTimeBeforeShouldKeepPlaying.enabled {
                 self.shouldKeepPlaying = false
@@ -851,7 +855,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         playFailedObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemFailedToPlayToEndTime, object: nil, queue: nil) { [weak self] notification in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.shouldKeepPlaying = false
 
@@ -861,7 +865,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         playStalledObserver = nc.addObserver(forName: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil, queue: nil) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             FileLog.shared.addMessage("Received notification of playback stall")
             if self.shouldKeepPlaying {
                 FileLog.shared.addMessage("Trying to recover from stall by playing")

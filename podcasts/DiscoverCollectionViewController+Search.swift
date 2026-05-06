@@ -12,14 +12,14 @@ extension DiscoverCollectionViewController {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
-        let topAnchor = searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -PCSearchBarController.defaultHeight)
+        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
-            topAnchor
+            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            heightConstraint
         ])
-        searchController.searchControllerTopConstant = topAnchor
+        searchController.searchControllerHeightConstraint = heightConstraint
 
         searchController.setupScrollView(collectionView, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()

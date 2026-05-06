@@ -8,6 +8,6 @@ extension String {
 
         return self
             .components(separatedBy: invalidCharacters)
-            .joined(separator: "")
+            .joined()
     }
 }

@@ -44,7 +44,7 @@ struct LocalSearchEpisodeResultsView: View {
                         cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01)
                     )
                     .listRowBackground(theme.primaryUi01)
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
                     }
                 }

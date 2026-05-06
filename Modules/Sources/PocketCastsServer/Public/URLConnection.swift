@@ -36,7 +36,7 @@ public class URLConnection {
         }
 
         _ = semaphore.wait(timeout: .distantFuture)
-        if let error = error {
+        if let error {
             throw error
         }
         return (data, response)
@@ -49,7 +49,7 @@ public class URLConnection {
     public func send(request: URLRequest) async throws -> (Data?, URLResponse?) {
         try await withCheckedThrowingContinuation { continuation in
             send(request: request) { data, response, error in
-                if let error = error {
+                if let error {
                     continuation.resume(throwing: error)
                 } else {
                     continuation.resume(returning: (data, response))

@@ -3,6 +3,7 @@ import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 class PlaylistDetailViewController: FakeNavViewController {
     private(set) var viewModel: PlaylistDetailViewModel!
@@ -83,7 +84,7 @@ class PlaylistDetailViewController: FakeNavViewController {
     var isMultiSelectEnabled = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
@@ -172,6 +173,10 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private weak var delegate: FilterCreatedDelegate?
 
+    lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
+        self?.reload(with: $0)
+    }
+
     init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
@@ -225,14 +230,15 @@ class PlaylistDetailViewController: FakeNavViewController {
         super.viewDidAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
-        refreshControl?.parentViewControllerDidAppear()
         delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDisappear()
+        if let refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -265,15 +271,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         addObservers()
     }
 
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        refreshControl?.scrollViewDidEndDragging(scrollView)
-    }
-
     private func setupNavigation() {
         supportsGoogleCast = false
 
@@ -302,7 +299,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         searchController.didMove(toParent: self)
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
-        searchController.searchControllerTopConstant = topAnchor
 
         multiSelectHeaderView = ThemeableView()
         view.addSubview(multiSelectHeaderView)
@@ -318,7 +314,7 @@ class PlaylistDetailViewController: FakeNavViewController {
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
-        multiSelectFooterBottomConstraint = tableView.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
+        multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
 
         view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
 
@@ -326,7 +322,7 @@ class PlaylistDetailViewController: FakeNavViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             blurHeaderView.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: PodcastHeaderView.Constants.largeImageSize),
             blurHeaderView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: 40),
@@ -390,10 +386,14 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.isManualPlaylist { return }
 
         refreshControl = CustomRefreshControl()
-        refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { refreshControl in
+        refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
-            RefreshManager.shared.refreshPodcasts()
+            self?.reloader.pause()
+            RefreshManager.shared.refreshPodcasts { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.didFinishRefresh()
+                }
+            }
         }
         tableView.refreshControl = refreshControl
     }
@@ -404,13 +404,13 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        removeLoadingIndicators()
+        loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
             do {
-                try SJCommonUtils.catchException { [weak self] in
-                    self?.tableView.reload(using: data, with: .fade) { [weak self] newData in
-                        self?.viewModel.update(data: newData) {
+                try SJCommonUtils.catchException {
+                    tableView.reload(using: data, with: .fade) { newData in
+                        viewModel.update(data: newData) { [weak self] in
                             self?.reloadRefreshControlColor()
                         }
                     }
@@ -436,23 +436,17 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshMultiSelectEpisodes()
     }
 
-    private func removeLoadingIndicators() {
-        loadingIndicator.stopAnimating()
+    private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.refreshControl?.alpha = 0
-            }, completion: { _ in
-                self?.refreshControl?.endRefreshing()
-            })
-        }
+        refreshControl?.endRefreshing()
+        reloader.resume(after: .milliseconds(600))
     }
 
     private func reloadRefreshControlColor() {
         if let snapshot = blurHeaderView.sj_snapshotImage() {
-            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+            refreshControl?.customTintColor = snapshot.isDark ? .white : .black
         } else {
-            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+            refreshControl?.customTintColor = nil
         }
     }
 
@@ -462,12 +456,20 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        reloadNavTitle()
-        viewModel.reloadPlaylistAndEpisodes()
+        reloader.request(.playlist)
     }
 
     @objc func refreshEpisodesFromNotification(notification: Notification) {
-        viewModel.reloadEpisodeList()
+        reloader.request(.episodes)
+    }
+
+    private func reload(with scopes: PlaylistReloadScope) {
+        if scopes.contains(.playlist) {
+            reloadNavTitle()
+            viewModel.reloadPlaylistAndEpisodes() // It also reloads the episode list
+        } else if scopes.contains(.episodes) {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func editPlaylist() {

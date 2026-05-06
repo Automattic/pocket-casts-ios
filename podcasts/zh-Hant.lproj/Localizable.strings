@@ -2106,8 +2106,6 @@ Pocket Casts Plus</string>
     <string>單集已移除</string>
     <key>player_error_corrupted_file</key>
     <string>本集可能已損壞，但你可以嘗試重新播放。</string>
-    <key>player_error_episode_not_available</key>
-    <string>本集無法收聽</string>
     <key>player_error_internet_connection</key>
     <string>請檢查你的網際網路連線並再試一次。</string>
     <key>player_error_short_no_connection</key>

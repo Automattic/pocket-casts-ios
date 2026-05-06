@@ -112,7 +112,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
     }
 
     func subscribeButtonTapped() {
-        guard let delegate = delegate else { return }
+        guard let delegate else { return }
 
         if podcast.isSubscribed() || isSubscribed {
             delegate.unsubscribe()

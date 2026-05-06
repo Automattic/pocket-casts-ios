@@ -119,7 +119,7 @@ class TimeSlider: UIView {
                 }
                 recalculatePositionRects(true)
 
-                if let delegate = delegate {
+                if let delegate {
                     delegate.sliderDidBeginSliding()
                 }
             }
@@ -132,7 +132,7 @@ class TimeSlider: UIView {
             if shouldPopupOnDrag { timeLayer().popupScale = 0 }
             recalculatePositionRects(true)
 
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidEndSliding()
             }
         }
@@ -144,7 +144,7 @@ class TimeSlider: UIView {
             if shouldPopupOnDrag { timeLayer().popupScale = 0 }
             recalculatePositionRects(true)
 
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidSlide(to: currentTime)
                 delegate.sliderDidEndSliding()
             }
@@ -168,7 +168,7 @@ class TimeSlider: UIView {
 
             timeLayer().popupValue = TimeFormatter.shared.playTimeFormat(time: currentTime) as NSString
             recalculatePositionRects(false)
-            if let delegate = delegate {
+            if let delegate {
                 delegate.sliderDidProvisionallySlide(to: currentTime)
             }
         }

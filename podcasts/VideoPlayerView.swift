@@ -39,7 +39,7 @@ class VideoPlayerView: UIView {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard keyPath == "videoRect", playerLayer.videoRect.size != CGSize.zero else { return }
 
-        if let videoSizeKnown = videoSizeKnown, player != nil {
+        if let videoSizeKnown, player != nil {
             videoSizeKnown(playerLayer.videoRect.size)
         }
     }

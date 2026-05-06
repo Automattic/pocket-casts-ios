@@ -16,7 +16,7 @@ struct SmartPlaylistRulesView: View {
                     SmartPlaylistRulesInPreviewSection(
                         enabledRules: viewModel.enabledRules,
                         availableRules: viewModel.availableRules,
-                        action: viewModel.action
+                        viewModel: viewModel
                     )
 
                     SmartPlaylistRulesEpisodesSection(
@@ -28,7 +28,7 @@ struct SmartPlaylistRulesView: View {
                         title: viewModel.newPlaylist.playlistName,
                         description: L10n.playlistSmartPreviewDescription,
                         availableRules: viewModel.availableRules,
-                        action: viewModel.action
+                        viewModel: viewModel
                     )
                 }
             case .edit:
@@ -36,7 +36,7 @@ struct SmartPlaylistRulesView: View {
                     title: L10n.playlistSmartRulesTitle,
                     description: nil,
                     availableRules: viewModel.availableRules,
-                    action: viewModel.action
+                    viewModel: viewModel
                 )
 
                 if viewModel.newPlaylistHasChanged {
@@ -58,15 +58,14 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
     let title: String
     let description: String?
     let availableRules: [SmartPlaylistRuleInfo]
-    let action: (SmartPlaylistRule) -> Void
+    let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
-        Group {
+        VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(size: 22.0, style: .title2, weight: .bold)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(theme.primaryText01)
-                .listRowClearStyle()
             if let description {
                 Text(description)
                     .font(size: 14.0, style: .body, weight: .regular)
@@ -74,19 +73,17 @@ fileprivate struct SmartPlaylistRulesDefaultSection: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(theme.primaryText02)
                     .multilineTextAlignment(.leading)
-                    .padding(.top, 4.0)
-                    .padding(.trailing, 8.0)
-                    .listRowClearStyle()
             }
-            SmartPlaylistRulesContainerView(
-                rules: availableRules,
-                action: action
-            )
-            .padding(.top, 24.0)
-            .padding(.bottom, 16.0)
-            .listRowClearStyle()
         }
-        .padding(.horizontal, 16.0)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+        .listRowClearStyle()
+
+        SmartPlaylistRulesSectionView(
+            rules: availableRules,
+            viewModel: viewModel,
+            action: viewModel.action
+        )
     }
 }
 
@@ -96,40 +93,46 @@ fileprivate struct SmartPlaylistRulesInPreviewSection: View {
 
     let enabledRules: [SmartPlaylistRuleInfo]
     let availableRules: [SmartPlaylistRuleInfo]
-    let action: (SmartPlaylistRule) -> Void
+    let viewModel: PlaylistPreviewViewModel
 
     var body: some View {
-        Group {
-            if !enabledRules.isEmpty {
-                SmartPlaylistRulesContainerView(
-                    rules: enabledRules,
-                    action: action
-                )
-                .padding(.vertical, 16.0)
-                .listRowClearStyle()
-            }
-
-            if !availableRules.isEmpty {
-                DisclosureGroup(isExpanded: $isExpanded) {
-                    SmartPlaylistRulesContainerView(
-                        rules: availableRules,
-                        action: action
-                    )
-                    .listRowClearStyle()
-                    .padding(.vertical, 16.0)
-                    .padding(.leading, -18.0)
-                } label: {
+        if !enabledRules.isEmpty {
+            SmartPlaylistRulesSectionView(
+                rules: enabledRules,
+                viewModel: viewModel,
+                action: viewModel.action
+            )
+        }
+        if !availableRules.isEmpty {
+            Button {
+                withAnimation(.default) {
+                    isExpanded.toggle()
+                }
+            } label: {
+                HStack {
                     Text(L10n.playlistSmartPreviewMoreRules)
                         .font(size: 22.0, style: .title2, weight: .bold)
                         .foregroundStyle(theme.primaryText01)
-                        .listRowClearStyle()
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 14.0, weight: .semibold))
+                        .foregroundStyle(theme.primaryIcon01)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 }
-                .accentColor(theme.primaryIcon01)
-                .animation(.default, value: isExpanded)
-                .listRowClearStyle()
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 16)
+            .listRowClearStyle()
+
+            if isExpanded {
+                SmartPlaylistRulesSectionView(
+                    rules: availableRules,
+                    viewModel: viewModel,
+                    action: viewModel.action
+                )
             }
         }
-        .padding(.horizontal, 16.0)
     }
 }
 
@@ -145,7 +148,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
                 .font(size: 22.0, style: .title2, weight: .bold)
                 .foregroundStyle(theme.primaryText01)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 16.0)
+                .padding(.top, 32.0)
                 .padding(.bottom, 16.0)
                 .padding(.horizontal, 16.0)
                 .listRowClearStyle()

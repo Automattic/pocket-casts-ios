@@ -9,7 +9,7 @@ struct PlusPaywallReviewsStars: View {
                 .fill(Color.plusGradient)
                 .mask {
                     HStack(spacing: Constants.containerSpacing) {
-                        ForEach(0..<Constants.maxStars, id: \.self) { index in
+                        ForEach(0..<Constants.maxStars, id: \.self) { _ in
                             Constants.starImage
                                 .renderingMode(.template)
                                 .resizable()

@@ -75,7 +75,7 @@ class PodcastGridCell: UICollectionViewCell {
     }
 
     private func setImage() {
-        guard let podcastUuid = podcastUuid else { return }
+        guard let podcastUuid else { return }
 
         ImageManager.sharedManager.loadImage(podcastUuid: podcastUuid, imageView: podcastImage, size: .grid, showPlaceHolder: false)
     }

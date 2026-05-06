@@ -117,7 +117,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LargeListSummaryViewController.cellId, for: indexPath) as! LargeListCell
         let thisPodcast = podcasts[indexPath.row]
-        if let delegate = delegate {
+        if let delegate {
             cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
             cell.onSubscribe = { [weak self] in
                 if let listId = self?.item?.uuid, let podcastUuid = thisPodcast.uuid {
@@ -134,7 +134,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = item else { return }
+        guard let item else { return }
 
         let podcast = podcasts[indexPath.row]
 
@@ -239,7 +239,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     // MARK: - IBActions
 
     @IBAction func showAllTapped(_ sender: Any) {
-        guard let delegate = delegate, let item = item else { return }
+        guard let delegate, let item else { return }
 
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil, datetime: datetime)
     }

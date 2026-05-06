@@ -24,7 +24,7 @@ class RetrievePodcastsTask: ApiBaseTask {
             }
 
             do {
-                let response = try Api_UserPodcastListResponse(serializedData: responseData)
+                let response = try Api_UserPodcastListResponse(serializedBytes: responseData)
 
                 var podcasts = [PodcastSyncInfo]()
                 for serverPodcast in response.podcasts {

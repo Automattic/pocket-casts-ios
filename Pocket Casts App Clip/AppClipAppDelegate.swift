@@ -34,7 +34,7 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+        FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateRemoteFeatureFlags()
         }
     }

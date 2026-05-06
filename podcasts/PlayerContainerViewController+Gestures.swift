@@ -27,8 +27,13 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
             // If the swipe is too quick, we dismiss
             let translation = sender.translation(in: view)
             let velocity = sender.velocity(in: view)
-            let closing = (translation.y > view.frame.size.height * Self.minimumScreenRatioToHide) ||
-            (velocity.y > Self.minimumVelocityToHide) || velocity.y > 1000
+            // An upward flick at release cancels the dismiss even if the
+            // player was dragged past the threshold — the user is flicking
+            // back up to keep the player open.
+            let pastThreshold = translation.y > view.frame.size.height * Self.minimumScreenRatioToHide
+            let downwardFlick = velocity.y > Self.minimumVelocityToHide
+            let upwardFlick = velocity.y < 0
+            let closing = !upwardFlick && (pastThreshold || downwardFlick)
             dismissVelocity = velocity.y
 
             if closing {
@@ -69,7 +74,7 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         if let window = view.window {
             let bottomSafeAreaOffset = window.safeAreaInsets.bottom
             let deviceSpecificPadding = bottomSafeAreaOffset > 0 ? (bottomSafeAreaOffset / 2) : -UIUtil.statusBarHeight(in: window)
-            let offset = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
+            _ = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
         }
 
         if yPosition > PlayerContainerViewController.pullDownThreshold {

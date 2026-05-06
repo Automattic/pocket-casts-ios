@@ -82,7 +82,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         let backgroundColor = ThemeColor.filterUi01(filterColor: folderColor)
 
         if let themeableCollectionView = mainGrid as? ThemeableCollectionView {
-            themeableCollectionView.style = Settings.libraryType() == .list ?  ThemeStyle.primaryUi04 : ThemeStyle.primaryUi02
+            themeableCollectionView.style = ThemeStyle.primaryUi02
         }
 
         changeNavTint(titleColor: titleColor, iconsColor: iconColor, backgroundColor: backgroundColor)
@@ -144,7 +144,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         optionsPicker.addAction(action: editAction)
 
         let addRemoveAction = OptionAction(label: L10n.folderAddRemovePodcasts, icon: "folder-podcasts") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.showPodcastSelectionDialog()
 

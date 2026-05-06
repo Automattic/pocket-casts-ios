@@ -27,7 +27,7 @@ public class ValidatePromoCodeTask {
                 print("Server response is \(httpResponse.statusCode)")
                 if httpResponse.statusCode == ServerConstants.HttpConstants.ok {
                     do {
-                        let promotion = try Api_Promotion(serializedData: responseData)
+                        let promotion = try Api_Promotion(serializedBytes: responseData)
                         completion(true, promotion.description_p, nil)
 
                         FileLog.shared.addMessage("Validate promo code response \n \(httpResponse.statusCode)")

@@ -71,7 +71,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
     private func compareNumberOfEpisodes(serverData: Data) {
         do {
-            let response = try Api_YearHistoryResponse(serializedData: serverData)
+            let response = try Api_YearHistoryResponse(serializedBytes: serverData)
 
             let localNumberOfEpisodes = DataManager.sharedManager.numberOfEpisodes(year: Int(yearToSync))
 
@@ -88,7 +88,7 @@ class SyncYearListeningHistoryTask: ApiBaseTask {
 
     private func syncMissingEpisodes(serverData: Data) {
         do {
-            let response = try Api_YearHistoryResponse(serializedData: serverData)
+            let response = try Api_YearHistoryResponse(serializedBytes: serverData)
 
             // on watchOS, we don't show history, so we also don't process server changes we only want to push changes up, not down
             #if !os(watchOS)

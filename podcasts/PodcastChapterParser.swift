@@ -128,7 +128,7 @@ class PodcastChapterParser {
 
     private func isValidUrl(_ urlStr: String?) -> Bool {
         // first check can we actually make a URL out of this string and does it have a scheme?
-        guard let urlStr = urlStr, let url = URL(string: urlStr), let scheme = url.scheme else { return false }
+        guard let urlStr, let url = URL(string: urlStr), let scheme = url.scheme else { return false }
 
         // next see if the scheme is http or https, we don't support any others
         return scheme.caseInsensitiveCompare("http") == .orderedSame || scheme.caseInsensitiveCompare("https") == .orderedSame

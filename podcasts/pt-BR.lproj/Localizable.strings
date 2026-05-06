@@ -2106,8 +2106,6 @@ Isso que é compromisso!</string>
     <string>Episódio removido</string>
     <key>player_error_corrupted_file</key>
     <string>O episódio talvez esteja corrompido, mas você pode tentar reproduzi-lo novamente.</string>
-    <key>player_error_episode_not_available</key>
-    <string>Episódio não disponível</string>
     <key>player_error_internet_connection</key>
     <string>Verifique sua conexão com a Internet e tente novamente.</string>
     <key>player_error_short_no_connection</key>

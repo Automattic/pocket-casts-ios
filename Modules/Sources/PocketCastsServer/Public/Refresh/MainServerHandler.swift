@@ -120,7 +120,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ImportOpmlResponse.failedResponse())
                 return
             }
@@ -154,7 +154,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ExportPodcastsResponse.failedResponse())
                 return
             }
@@ -185,7 +185,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(ShareListResponse.failedResponse())
                 return
             }
@@ -210,8 +210,8 @@ public class MainServerHandler {
         tokenHelper.callSecureUrl(request: request) { response, data, error in
             let statusCode = response?.statusCode ?? 0
 
-            guard statusCode == ServerConstants.HttpConstants.ok, let data = data else {
-                if let error = error {
+            guard statusCode == ServerConstants.HttpConstants.ok, let data else {
+                if let error {
                     FileLog.shared.addMessage("Refresh failed: with error \(error.localizedDescription), status code \(statusCode)")
                 } else {
                     FileLog.shared.addMessage("Refresh failed: response returned no data, status code \(statusCode)")
@@ -338,7 +338,7 @@ public class MainServerHandler {
         }
 
         URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
+            guard let data, error == nil else {
                 completion(nil)
                 return
             }
@@ -423,8 +423,8 @@ public class MainServerHandler {
     private func jsonWithStandardParams(uniqueId: String) -> [String: Any] {
         var json: [String: Any] = [:]
         let locale = Locale.current
-        json["l"] = locale.languageCode
-        json["c"] = locale.regionCode
+        json["l"] = locale.language.languageCode?.identifier
+        json["c"] = locale.region?.identifier
 
         #if os(watchOS)
             json["m"] = WKInterfaceDevice.current().systemVersion
@@ -442,8 +442,8 @@ public class MainServerHandler {
 
     private func addStandardParams(baseRequest: inout BaseRequest, uniqueId: String) {
         let locale = Locale.current
-        baseRequest.l = locale.languageCode
-        baseRequest.c = locale.regionCode
+        baseRequest.l = locale.language.languageCode?.identifier
+        baseRequest.c = locale.region?.identifier
 
         #if os(watchOS)
             baseRequest.m = WKInterfaceDevice.current().systemVersion

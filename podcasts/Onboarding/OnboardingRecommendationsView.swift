@@ -143,7 +143,7 @@ struct OnboardingRecommendationsView: View {
                             } else {
                                 if #available(iOS 17.0, *) {
                                     podcastList()
-                                        .onChange(of: searchTerm) { oldValue, newValue in
+                                        .onChange(of: searchTerm) { _, newValue in
                                             performSearch(term: newValue)
                                         }
                                 } else {

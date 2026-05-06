@@ -2104,8 +2104,6 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードが削除されました</string>
     <key>player_error_corrupted_file</key>
     <string>エピソードが破損している可能性がありますが、後ほど、もう一度お試しください。</string>
-    <key>player_error_episode_not_available</key>
-    <string>エピソードは利用できません</string>
     <key>player_error_internet_connection</key>
     <string>インターネット接続を確認して、もう一度お試しください。</string>
     <key>player_error_short_no_connection</key>

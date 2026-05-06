@@ -38,7 +38,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var player: PlaybackProtocol?
 
     private var switchingToDifferentUpNextEpisode = false
-    private let interruptInProgress = AtomicBool()
+    private var interruptInProgress = false
 
     private var wasPlayingBeforeInterruption = false
     private let aboutToPlay = AtomicBool()
@@ -113,7 +113,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - API
 
     func isNowPlayingEpisode(episodeUuid: String?) -> Bool {
-        if let episodeUuid = episodeUuid, let playingEpisode = currentEpisode() {
+        if let episodeUuid, let playingEpisode = currentEpisode() {
             return playingEpisode.uuid == episodeUuid
         }
 
@@ -139,13 +139,13 @@ class PlaybackManager: ServerPlaybackDelegate {
     func playing() -> Bool {
         if aboutToPlay.value { return true }
 
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         return player.playing()
     }
 
     func buffering() -> Bool {
-        guard let player = player else { return false }
+        guard let player else { return false }
 
         return player.buffering()
     }
@@ -279,7 +279,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         recordPlaybackPosition(sendToServerImmediately: playing(), fireNotifications: true)
 
-        if let player = player {
+        if let player {
             player.pause()
         }
         updateNowPlayingInfo()
@@ -445,7 +445,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("seek to \(time) startPlaybackAfterSeek \(startPlaybackAfterSeek)")
 
         let isReadyToPlay = FeatureFlag.playerIsReadyToPlay.enabled ? (player?.isReadyToPlay() == true) : true
-        if let player = player, isReadyToPlay {
+        if let player, isReadyToPlay {
             player.seekTo(time, completion: { [weak self] () in
                 guard let strongSelf = self else { return }
 
@@ -521,7 +521,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func duration() -> TimeInterval {
         guard let currentEpisode = currentEpisode() else { return 0 }
 
-        if let player = player, !aboutToPlay.value, !buffering() {
+        if let player, !aboutToPlay.value, !buffering() {
             let episodeDuration = currentEpisode.duration
             let playerDuration = player.duration()
             return (playerDuration > 0) ? playerDuration : episodeDuration
@@ -535,7 +535,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if APPCLIP
         return false
         #else
-        guard let episode = episode else { return false }
+        guard let episode else { return false }
 
         return queue.contains(episode: episode)
         #endif
@@ -605,7 +605,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        if let episode = episode {
+        if let episode {
             queue.remove(episode: episode, fireNotification: fireNotification)
         }
     }
@@ -706,7 +706,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             haveCalledPlayerLoad = true
         }
 
-        if let player = player {
+        if let player {
             // in order for things like Picture in Picture to work properly, an audio session needs to be activated. If the UI is asking for the internal AVPlayer, then make sure we do this
             activateAudioSession(completion: nil)
             return player.internalPlayerForVideoPlayback()
@@ -746,7 +746,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         shouldDeactivateSession.value = true
         // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
         deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             let audioSession = AVAudioSession.sharedInstance()
             if !self.shouldDeactivateSession.value { return }
@@ -902,7 +902,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: episode, autoPlay: playing(), overrideUpNext: false)
         }
 
-        if let player = player {
+        if let player {
             player.effectsDidChange()
         }
         updateAllNowPlayingData()
@@ -971,7 +971,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         aboutToPlay.value = false
 
         // make sure we load the saved speed for this track
-        if let player = player {
+        if let player {
             player.setPlaybackRate(effects().playbackSpeed)
         }
 
@@ -1010,8 +1010,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 return L10n.playerErrorCorruptedFile
             case .chromecastError:
                 return L10n.chromecastError
-            case .playbackError(_, let isLocalFile):
-                return isLocalFile ? L10n.playerErrorCorruptedFile : L10n.playerErrorShortNoConnection
+            case .playbackError:
+                return L10n.playerErrorShortPlaybackError
             }
         }
 
@@ -1316,7 +1316,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func playerSwitchRequired() -> Bool {
         let possiblePlayers = supportedPlayers()
-        if let player = player, let firstSupportedPlayer = possiblePlayers.first {
+        if let player, let firstSupportedPlayer = possiblePlayers.first {
             return type(of: player) != firstSupportedPlayer
         }
 
@@ -1390,7 +1390,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         haveCalledPlayerLoad = false
         seekingTo = PlaybackManager.notSeeking
         FileLog.shared.addMessage("cleanupCurrentPlayer permanent? \(permanent)")
-        if let player = player {
+        if let player {
             player.endPlayback(permanent: permanent)
         }
 
@@ -1404,12 +1404,12 @@ class PlaybackManager: ServerPlaybackDelegate {
                 playersToCleanUp.append(player)
             }
             playerCleanupQueue.asyncAfter(deadline: .now() + 5.seconds) { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 let index = self.playersToCleanUp.firstIndex(where: { listPlayer -> Bool in
                     listPlayer == player
                 })
-                if let index = index {
+                if let index {
                     self.playersToCleanUp.remove(at: index)
                 }
 
@@ -1446,7 +1446,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if FeatureFlag.activateAudioSessionInBackground.enabled {
             // Perform audio session activation on a background queue to avoid blocking the main thread
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self = self else {
+                guard let self else {
                     completion?(false)
                     return
                 }
@@ -1571,7 +1571,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func progressTimerFired() {
-        guard let player = player, let episode = currentEpisode() else { return }
+        guard let player, let episode = currentEpisode() else { return }
 
         StatsManager.shared.addTotalListeningTime(updateTimerInterval)
         if player.playbackRate() > 1 {
@@ -1781,14 +1781,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
-            // Don't start playback during an active audio interruption (e.g. phone call).
-            // Bluetooth devices like Garmin watches with mic/speaker trigger route changes
-            // during calls, which cause iOS to send spurious playCommand events.
-            if strongSelf.interruptInProgress.value {
-                FileLog.shared.addMessage("Remote control: playCommand, ignored because an audio interruption is in progress")
-                return .success
-            }
-
             strongSelf.analyticsPlaybackHelper.currentSource = strongSelf.commandCenterSource
 
             if Settings.legacyBluetoothModeEnabled() {
@@ -1810,10 +1802,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                             return .commandFailed
                         }
                     }
-                    // For non-legacy Bluetooth and when not playing over AirPlay, treat playCommand
-                    // as a play/pause toggle to preserve compatibility with accessories that send
-                    // playCommand as a toggle (play while paused, play again to pause).
-                    FileLog.shared.addMessage("Remote control: playCommand, treating as play/pause toggle")
+                    // we hook play up to play/pause because that's how some headphones/car stereos do it instead of sending distinct play/pause events
+                    FileLog.shared.addMessage("Remote control: playCommand, treating as playPause")
                     strongSelf.playPause()
                 }
             }
@@ -2049,7 +2039,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         command.isEnabled = true
         command.preferredIntervals = [NSNumber(value: intervalAmount)]
 
-        if let handler = handler {
+        if let handler {
             command.addTarget(handler: handler)
         }
     }
@@ -2112,7 +2102,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
         let interruptionReason = userInfo[AVAudioSessionInterruptionReasonKey] as? UInt
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
-            interruptInProgress.value = false
+            interruptInProgress = false
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt ended, should attempt to restart audio: \(interruptionOption) reason: \(interruptionReason?.description ?? "unknown")")
             if interruptionOption.uintValue == AVAudioSession.InterruptionOptions.shouldResume.rawValue, wasPlayingBeforeInterruption {
@@ -2130,17 +2120,17 @@ class PlaybackManager: ServerPlaybackDelegate {
             // we run into any issues
             if #available(iOS 17, watchOS 10, *), FeatureFlag.ignoreRouteDisconnectedInterruption.enabled {
                 if interruptionReason != AVAudioSession.InterruptionReason.routeDisconnected.rawValue {
-                    interruptInProgress.value = true
+                    interruptInProgress = true
                 }
             } else {
                 // We do not get the InterruptionReason.routeDisconnected notification on older versions, so
                 // no need to perform the same check for older versions.
                 // Also, will default to the old behaviour if the feature flag is disabled on newer versions.
-                interruptInProgress.value = true
+                interruptInProgress = true
             }
 
             FileLog.shared.addMessage("PlaybackManager handleAudioInterrupt began reason: \(interruptionReason?.description ?? "unknown")")
-            if let player = player {
+            if let player {
                 wasPlayingBeforeInterruption = player.shouldBePlaying()
                 player.interruptionDidStart()
             }
@@ -2296,7 +2286,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Interruptions
 
     func interruptionInProgress() -> Bool {
-        interruptInProgress.value
+        interruptInProgress
     }
 
     // MARK: - Private helpers

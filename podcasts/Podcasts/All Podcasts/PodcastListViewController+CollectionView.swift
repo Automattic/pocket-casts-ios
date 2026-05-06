@@ -185,7 +185,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             // Remove existing subviews
             headerView.subviews.forEach { $0.removeFromSuperview() }
 
-            if let bannerAdModel = bannerAdModel {
+            if let bannerAdModel {
                 let bannerAdView = bannerAdView(bannerAdModel: bannerAdModel)
                 let hostingController = PCHostingController(rootView: bannerAdView)
                 hostingController.view.translatesAutoresizingMaskIntoConstraints = false

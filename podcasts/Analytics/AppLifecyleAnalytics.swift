@@ -121,7 +121,7 @@ extension AppLifecycleAnalytics {
         }
 
         // If we can't determine which version then default to no version
-        guard let version = version else {
+        guard let version else {
             return nil
         }
 

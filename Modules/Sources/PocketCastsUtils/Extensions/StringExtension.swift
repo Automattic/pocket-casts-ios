@@ -7,7 +7,7 @@ public extension String {
     }
 
     func startsWith(string: String?) -> Bool {
-        guard let string = string else { return false }
+        guard let string else { return false }
 
         guard let range = range(of: string, options: .caseInsensitive) else { return false }
 
@@ -64,7 +64,7 @@ public extension String {
     /// Returns a lowercased copy of the string with punctuation removed and spaces replaced
     /// by a single underscore, e.g., "the_quick_brown_fox_jumps_over_the_lazy_dog".
     func lowerSnakeCased() -> String {
-        return enumerated().map { index, character in
+        return enumerated().map { _, character in
             character.isUppercase ? "_\(character.lowercased())" : "\(character)"
         }.joined()
     }

@@ -288,7 +288,7 @@ class GoogleCastManager: NSObject, GCKRemoteMediaClientListener, GCKSessionManag
     // MARK: - GCKRemoteMediaClientListener
 
     func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
-        guard let mediaStatus = mediaStatus else { return }
+        guard let mediaStatus else { return }
         AnalyticsPlaybackHelper.shared.currentSource = .chromecast
 
         if mediaStatus.playerState == .playing {

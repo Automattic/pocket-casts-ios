@@ -134,7 +134,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         if delegate.shouldDisplayPodcastFeedReloadButton() {
             let reloadPodcastFeedAction = OptionAction(label: L10n.podcastFeedReloadButton, icon: "stats_skipping") { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.podcastDelegate?.reloadPodcastFeed(source: .menu)
             }
             optionPicker.addAction(action: reloadPodcastFeedAction)
@@ -232,13 +232,13 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
     }
 
     private func performUnarchiveAll() {
-        guard let podcastDelegate = podcastDelegate else { return }
+        guard let podcastDelegate else { return }
 
         podcastDelegate.unarchiveAllTapped()
     }
 
     private func confirmArchiveAll(episodeCount: Int, playedOnly: Bool) {
-        guard let podcastDelegate = podcastDelegate else { return }
+        guard let podcastDelegate else { return }
 
         let archiveAllConfirm = OptionsPicker(title: nil)
         let archiveAllAction = OptionAction(label: episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized()), icon: nil, action: {

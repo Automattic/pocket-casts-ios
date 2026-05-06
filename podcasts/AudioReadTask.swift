@@ -73,13 +73,13 @@ class AudioReadTask {
 
     func startup() {
         readQueue.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             // there are some Core Audio errors that aren't marked as throws in the Swift code, so they'll crash the app
             // that's why we have an Objective-C try/catch block here to catch them (see https://github.com/shiftyjelly/pocketcasts-ios/issues/1493 for more details)
             do {
                 try SJCommonUtils.catchException { [weak self] in
-                    guard let self = self else { return }
+                    guard let self else { return }
 
                     do {
                         while !self.cancelled.value {
@@ -199,7 +199,8 @@ class AudioReadTask {
             try audioFile.read(into: audioPCMBuffer!)
         } catch {
             objc_sync_exit(lock)
-            throw PlaybackError.errorDuringPlayback
+            FileLog.shared.addMessage("[AudioReadTask] read failed: \(error.localizedDescription)")
+            throw error
         }
 
         // check that we actually read something
@@ -259,7 +260,7 @@ class AudioReadTask {
         // In order to prevent this issue, we convert a mono buffer to stereo buffer
         // For more info, see: https://github.com/Automattic/pocket-casts-ios/issues/62
         var audioBuffer: BufferedAudio
-        if let audioPCMBuffer = audioPCMBuffer,
+        if let audioPCMBuffer,
            audioPCMBuffer.audioBufferList.pointee.mNumberBuffers == 1,
            let twoChannelsFormat = AVAudioFormat(standardFormatWithSampleRate: audioFile.processingFormat.sampleRate, channels: 2),
            let twoChannnelBuffer = AVAudioPCMBuffer(pcmFormat: twoChannelsFormat, frameCapacity: audioPCMBuffer.frameCapacity) {

@@ -1,11 +1,26 @@
+8.12
+-----
+- Add animations when tapping backward or forward in mini player [#4214](https://github.com/Automattic/pocket-casts-ios/pull/4214)
+- Improve search bar collapse animations [#4212](https://github.com/Automattic/pocket-casts-ios/pull/4212)
+- Fix first reload of the Playlists screen always being animated [#4228](https://github.com/Automattic/pocket-casts-ios/pull/4228)
+- Make it easier and faster to change smart playlist rules [#4221](https://github.com/Automattic/pocket-casts-ios/pull/4221)
+- Fix an issue with episodes sometimes refreshing under you on the Playlist screen while your are performing swipe actions [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)
+- Fix an issue with pull-to-refresh sometimes skipping the refresh on the Smart Playlist screen [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)  
+- Improve pull-to-refresh stability and polish on the podcasts list [#4225](https://github.com/Automattic/pocket-casts-ios/pull/4225)
+
 8.11
 -----
-
+- Fix smart rules too small cell height [#4171](https://github.com/Automattic/pocket-casts-ios/pull/4171)
+- Fix an issue with Playlist not reloading after archiving entries during empty search [#4136](https://github.com/Automattic/pocket-casts-ios/pull/4136)
+- Fix smart playlist not refreshing when clearing search field [#4138](https://github.com/Automattic/pocket-casts-ios/pull/4138)
+- Fix animations in Playlist Details when the episode list is updated [#4174](https://github.com/Automattic/pocket-casts-ios/pull/4174)
+- Fix Now Playing showing podcast author instead of podcast title [#4168](https://github.com/Automattic/pocket-casts-ios/pull/4168)
 
 8.10
 -----
 - Support new transcripts generated episode field [#4116](https://github.com/Automattic/pocket-casts-ios/pull/4116)
 - Watch Stop playing a sound on play. [#4118](https://github.com/Automattic/pocket-casts-ios/pull/4118)
+- Update when the offline error message is shown on the error banner [#4135](https://github.com/Automattic/pocket-casts-ios/pull/4135)
 
 8.9
 -----

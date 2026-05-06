@@ -71,7 +71,7 @@ class UploadedStorageHeaderView: UIView {
     }
 
     @objc private func headerTapped() {
-        if let controllerForPresenting = controllerForPresenting {
+        if let controllerForPresenting {
             NavigationManager.sharedManager.showUpsellView(from: controllerForPresenting, source: .files)
         }
     }

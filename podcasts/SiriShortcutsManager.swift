@@ -73,7 +73,7 @@ class SiriShortcutsManager: CustomObserver {
                     }
                 }
             }
-            if let error = error {
+            if let error {
                 FileLog.shared.addMessage("Failed INVoiceShortcutCenter.getAllVoiceShortcuts with error \(error.localizedDescription)")
             }
             completion(nil)

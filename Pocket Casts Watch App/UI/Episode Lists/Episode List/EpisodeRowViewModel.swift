@@ -69,7 +69,7 @@ class EpisodeRowViewModel: EpisodeViewModel, Identifiable {
         informationLabel.append(info)
         accessibilityLabel.append(info)
 
-        if let statusText = statusText {
+        if let statusText {
             accessibilityLabel.append(statusText)
         }
 

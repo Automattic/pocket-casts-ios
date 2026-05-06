@@ -28,9 +28,9 @@ class HomeGridListItem: ListItem {
     static let empty = HomeGridListItem(gridItem: nil, badgeType: .off, theme: Theme.sharedTheme.activeTheme)
 
     override var differenceIdentifier: String {
-        if let podcast = podcast {
+        if let podcast {
             return "podcast-\(podcast.uuid)"
-        } else if let folder = folder {
+        } else if let folder {
             return "folder-\(folder.uuid)"
         }
         return "empty"
@@ -47,7 +47,7 @@ class HomeGridListItem: ListItem {
     override func handleIsEqual(_ otherItem: ListItem) -> Bool {
         guard let rhs = otherItem as? HomeGridListItem else { return false }
 
-        if let otherPodcast = rhs.podcast, let podcast = podcast {
+        if let otherPodcast = rhs.podcast, let podcast {
             return differenceIdentifier == rhs.differenceIdentifier &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&
@@ -62,7 +62,7 @@ class HomeGridListItem: ListItem {
                 podcast.boostVolume == otherPodcast.boostVolume &&
                 podcast.trimSilenceAmount == otherPodcast.trimSilenceAmount &&
                 podcast.settings == otherPodcast.settings
-        } else if let otherFolder = rhs.folder, let folder = folder {
+        } else if let otherFolder = rhs.folder, let folder {
             return differenceIdentifier == rhs.differenceIdentifier &&
                 frozenBadgeCount == rhs.frozenBadgeCount &&
                 badgeType == rhs.badgeType &&

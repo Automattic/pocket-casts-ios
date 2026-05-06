@@ -33,7 +33,7 @@ extension DownloadManager {
                     let oldAttempt = self.downloadAttempts.removeValue(forKey: foregroundTask.taskIdentifier)
 
                     let backgroundTask: URLSessionDownloadTask
-                    if let data = data {
+                    if let data {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(withResumeData: data)
                     } else {
                         backgroundTask = self.cellularBackgroundSession.downloadTask(with: request)

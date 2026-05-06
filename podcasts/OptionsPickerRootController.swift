@@ -118,7 +118,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         dismissGestureRecognizer.delegate = self
         dismissView.addGestureRecognizer(dismissGestureRecognizer)
 
-        if let title = title {
+        if let title {
             addTitle(title, titleColor: colors.title)
         }
 

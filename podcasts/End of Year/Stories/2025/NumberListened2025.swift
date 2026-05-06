@@ -56,8 +56,7 @@ struct NumberListened2025: ShareableStory {
     let identifier: String = "number_of_shows"
 
     var body: some View {
-        GeometryReader { proxy in
-            let safeBottom = proxy.safeAreaInsets.bottom
+        GeometryReader { _ in
             VStack(alignment: .center) {
                 headerView
                 Spacer()
@@ -69,7 +68,7 @@ struct NumberListened2025: ShareableStory {
         }
         .background(content: {
             LottieView(animation: .named("playback_2025_listened"))
-                .animationDidFinish({ completed in
+                .animationDidFinish({ _ in
                 })
                 .configure({ animationView in
                     animationView.contentMode = .scaleToFill
@@ -123,7 +122,7 @@ struct NumberListened2025: ShareableStory {
                 stepCounter.start()
             }
         }
-        .onChange(of: stepCounter.counter) { value in
+        .onChange(of: stepCounter.counter) { _ in
             startCoverAnimation()
         }
     }

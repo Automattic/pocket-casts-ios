@@ -2106,12 +2106,10 @@ ACTUALIZACIONES</string>
     <string>Se ha eliminado el episodio</string>
     <key>player_error_corrupted_file</key>
     <string>Es posible que el episodio esté dañado, pero puedes intentar reproducirlo de nuevo.</string>
-    <key>player_error_episode_not_available</key>
-    <string>Episodio no disponible</string>
     <key>player_error_internet_connection</key>
     <string>Comprueba tu conexión a Internet e inténtalo de nuevo.</string>
     <key>player_error_short_no_connection</key>
-    <string>No tienes conexión a Internet.</string>
+    <string>No tienes conexión a Internet</string>
     <key>player_increment_time</key>
     <string>Tiempo adicional</string>
     <key>player_mark_as_played_confirmation</key>

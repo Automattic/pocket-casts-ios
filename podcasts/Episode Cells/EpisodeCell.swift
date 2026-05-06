@@ -192,7 +192,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func populate(progressOnly: Bool) {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         if !progressOnly {
             setEpisodeTitle(episode: episode)
@@ -324,7 +324,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func labelForAccessibility(episode: BaseEpisode?) -> String {
-        guard let episode = episode else { return "" }
+        guard let episode else { return "" }
         let heading = dayName.text?.replacingOccurrences(of: "•", with: ",") ?? ""
         let title = episodeTitle.text ?? ""
         let info = episode.accessibilityDisplayableInfo()
@@ -382,7 +382,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     // MARK: - Event Handling
 
     @objc private func updateCellFromGenericEvent() {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         updateCell(episodeUuid: episode.uuid)
     }
@@ -402,7 +402,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             populateFrom(episode: newEpisode, tintColor: mainTintColor, playlistUuid: playlistUuid, podcastUuid: podcastUuid)
         } else {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.populateFrom(episode: newEpisode, tintColor: self.mainTintColor, playlistUuid: self.playlistUuid, podcastUuid: self.podcastUuid)
             }
@@ -432,7 +432,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             populate(progressOnly: true)
         } else {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
 
                 self.populate(progressOnly: true)
             }
@@ -461,10 +461,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     func playTapped() {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         // if the user tapped play from a featured list, record that. We just want the first play, if they are unpausing it, that's not relevant (hence the last check below)
-        if let podcastUuid = podcastUuid, let listUuid = listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
+        if let podcastUuid, let listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
         }
 
@@ -476,7 +476,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     func errorTapped() {
-        guard let episode = episode else { return }
+        guard let episode else { return }
 
         let statusBarStyle = playlistUuid == nil ? UIStatusBarStyle.lightContent : AppTheme.defaultStatusBarStyle()
         if episode.playbackError() {

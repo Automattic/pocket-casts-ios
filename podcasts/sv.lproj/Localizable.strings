@@ -2106,8 +2106,6 @@ Det är engagemang!</string>
     <string>Avsnittet togs bort</string>
     <key>player_error_corrupted_file</key>
     <string>Det här avsnittet kan vara skadat, men du kan försöka spela upp det igen.</string>
-    <key>player_error_episode_not_available</key>
-    <string>Avsnittet är inte tillgängligt</string>
     <key>player_error_internet_connection</key>
     <string>Kontrollera din Internetanslutning och försök igen.</string>
     <key>player_error_short_no_connection</key>

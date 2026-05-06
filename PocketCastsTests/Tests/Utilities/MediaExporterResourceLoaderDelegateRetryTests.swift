@@ -18,7 +18,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
 
         testURL = URL(string: "https://example.com/test.mp3")!
 
-        delegate = MediaExporterResourceLoaderDelegate(saveFilePath: tempFilePath) { status, contentType, downloaded, total in
+        delegate = MediaExporterResourceLoaderDelegate(saveFilePath: tempFilePath) { _, _, _, _ in
             // No-op for the mock callback
         }
     }
@@ -27,7 +27,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         delegate = nil
 
         // Clean up temporary file
-        if let tempFilePath = tempFilePath {
+        if let tempFilePath {
             try? FileManager.default.removeItem(atPath: tempFilePath)
         }
 
@@ -70,7 +70,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
 
         let testDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: tempFilePath) { _, _, _, _ in }
 
-        testDelegate.startDataRequest(with: testURL, retryWithoutUserAgent: false) { url, retryWithoutUserAgent in
+        testDelegate.startDataRequest(with: testURL, retryWithoutUserAgent: false) { _, retryWithoutUserAgent in
             didCreateRequestWithUserAgent = !retryWithoutUserAgent
             expectation.fulfill()
         }
@@ -86,7 +86,7 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
         var didCreateRequestWithUserAgent = false
         let testDelegate = MediaExporterResourceLoaderDelegate(saveFilePath: tempFilePath) { _, _, _, _ in }
 
-        testDelegate.startDataRequest(with: testURL, retryWithoutUserAgent: true) { url, retryWithoutUserAgent in
+        testDelegate.startDataRequest(with: testURL, retryWithoutUserAgent: true) { _, retryWithoutUserAgent in
             // Simulate request creation and check for User-Agent header
             if !retryWithoutUserAgent {
                 didCreateRequestWithUserAgent = true
@@ -186,12 +186,11 @@ final class MediaExporterResourceLoaderDelegateRetryTests: XCTestCase {
 extension MediaExporterResourceLoaderDelegate {
 
     func retryWithoutUserAgent(originalURL: URL?) {
-        guard let originalURL = originalURL else { return }
+        guard let originalURL else { return }
 
         invalidateAndCancelSession(shouldResetData: false)
 
         response = nil
-        bufferData = Data()
 
         startDataRequest(with: originalURL, retryWithoutUserAgent: true)
     }
