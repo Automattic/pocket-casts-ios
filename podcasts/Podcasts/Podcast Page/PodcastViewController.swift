@@ -201,6 +201,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     private let operationQueue = OperationQueue()
 
     private var defaultRightBarButton: UIBarButtonItem?
+    private var defaultBackBarButton: UIBarButtonItem?
     var multiSelectAllBarButton: UIBarButtonItem?
     var multiSelectCancelBarButton: UIBarButtonItem?
 
@@ -211,8 +212,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         label.alpha = 0
         return label
     }()
-
-    private var isNavTitleVisible = false
 
     static let headerSection = 0
     static let allEpisodesSection = 1
@@ -314,9 +313,22 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             navTitleLabel.anchorToAllSidesOf(view: view)
             return view
         }()
-        defaultRightBarButton = UIBarButtonItem(image: UIImage(named: "podcast-share"), style: .plain, target: self, action: #selector(shareTapped(_:)))
-        defaultRightBarButton?.accessibilityLabel = L10n.share
+        defaultRightBarButton = UIBarButtonItem(customView: NavBarButton(
+            image: UIImage(named: "podcast-share"),
+            accessibilityLabel: L10n.share,
+            target: self,
+            action: #selector(shareTapped(_:))
+        ))
         customRightBtn = defaultRightBarButton
+
+        defaultBackBarButton = UIBarButtonItem(customView: NavBarButton(
+            image: UIImage(systemName: "chevron.backward"),
+            accessibilityLabel: L10n.back,
+            target: self,
+            action: #selector(backButtonTapped)
+        ))
+        navigationItem.leftBarButtonItem = defaultBackBarButton
+        navigationItem.setHidesBackButton(true, animated: false)
 
         loadPodcastInfo()
 
@@ -334,24 +346,22 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
+    private var isNavBarBlurred = false
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavTitleVisibility(for: scrollView.contentOffset.y + scrollView.adjustedContentInset.top)
+        let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
+        let scrolled = offset > 220
+        if scrolled != isNavBarBlurred {
+            isNavBarBlurred = scrolled
+            setTransparentNavBarScrolled(scrolled)
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+                self.navTitleLabel.alpha = scrolled ? 1 : 0
+            }
+        }
 
         if scrollView.isDragging || scrollView.isDecelerating {
             dismissKeyboardForScrollIfNeeded()
         }
-    }
-
-    private func updateNavTitleVisibility(for offset: CGFloat) {
-        let shouldShow = offset > 220
-        guard shouldShow != isNavTitleVisible else { return }
-        isNavTitleVisible = shouldShow
-
-        let transition = CATransition()
-        transition.duration = Constants.Animation.defaultAnimationTime
-        transition.type = .fade
-        navTitleLabel.layer.add(transition, forKey: "fadeText")
-        navTitleLabel.alpha = shouldShow ? 1 : 0
     }
 
     private func setupLogin() {
@@ -802,17 +812,19 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             let selectAll = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
             multiSelectAllBarButton = selectAll
             navigationItem.setLeftBarButton(selectAll, animated: false)
-            navigationItem.setHidesBackButton(true, animated: false)
             updateSelectAllBtn()
         } else {
             multiSelectCancelBarButton = nil
             multiSelectAllBarButton = nil
             customRightBtn = defaultRightBarButton
-            navigationItem.setLeftBarButton(nil, animated: false)
-            navigationItem.setHidesBackButton(false, animated: false)
+            navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
             supportsGoogleCast = true
             refreshRightButtons()
         }
+    }
+
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 
     func isSummaryExpanded() -> Bool {

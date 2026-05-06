@@ -37,9 +37,13 @@ class PCViewController: SimpleNotificationsViewController {
 
         if supportsGoogleCast {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-            castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
-            googleCastBtn = UIBarButtonItem(customView: castButton)
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
+            if useTransparentNavigationBarAppearance {
+                NavBarButton.applyStyle(to: castButton)
+            } else {
+                castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
+            }
+            googleCastBtn = UIBarButtonItem(customView: castButton)
 
             refreshRightButtons()
         } else if customRightBtn != nil || !extraRightButtons.isEmpty {
@@ -180,27 +184,34 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func configureTransparentAppearance() {
+        setTransparentNavBarScrolled(false)
+    }
+
+    /// Toggles the navigation bar between its at-edge (transparent) and scrolled (blurred) styles,
+    /// and forwards the new state to any `NavBarStylable` bar buttons so their tint and background
+    /// crossfade in step. Subclasses using `useTransparentNavigationBarAppearance` should call this
+    /// from `scrollViewDidScroll` when the scroll position crosses their header threshold;
+    /// UIKit animates the appearance swap. On iOS 26 the default Liquid Glass background adapts on
+    /// its own, so the bar appearance change is a no-op there but the buttons still update.
+    func setTransparentNavBarScrolled(_ scrolled: Bool) {
         guard let navigationBar = navigationController?.navigationBar else {
             return assertionFailure("navigationBar is missing")
         }
+        let appearance = UINavigationBarAppearance()
         if #available(iOS 26, *) {
-            let appearance = UINavigationBarAppearance()
             appearance.configureWithDefaultBackground()
-
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
         } else {
-            navigationBar.standardAppearance = {
-                let appearance = UINavigationBarAppearance()
-                appearance.configureWithTransparentBackground()
+            appearance.configureWithTransparentBackground()
+            if scrolled {
                 appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-                return appearance
-            }()
-            navigationBar.scrollEdgeAppearance = {
-                let appearance = UINavigationBarAppearance()
-                appearance.configureWithTransparentBackground()
-                return appearance
-            }()
+            }
+        }
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+
+        let allItems = ([navigationItem.leftBarButtonItem, customRightBtn, googleCastBtn].compactMap { $0 }) + extraRightButtons
+        for item in allItems {
+            (item.customView as? NavBarStylable)?.setNavBarScrolled(scrolled, animated: true)
         }
     }
 
