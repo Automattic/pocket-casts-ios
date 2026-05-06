@@ -346,22 +346,35 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
+    private var isScrolledPastHeader = false
     private var isNavBarBlurred = false
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
         let scrolled = offset > 220
-        if scrolled != isNavBarBlurred {
-            isNavBarBlurred = scrolled
-            setTransparentNavBarScrolled(scrolled)
+        if scrolled != isScrolledPastHeader {
+            isScrolledPastHeader = scrolled
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
                 self.navTitleLabel.alpha = scrolled ? 1 : 0
             }
+            updateNavBarBlur()
         }
 
         if scrollView.isDragging || scrollView.isDecelerating {
             dismissKeyboardForScrollIfNeeded()
         }
+    }
+
+    /// Forces the standard (blurred) navigation bar appearance whenever multi-select is on or the
+    /// user has scrolled past the header. Multi-select uses plain text bar buttons that can't sit
+    /// on the transparent over-artwork chrome (pre-iOS 26), so we lock the bar to its blurred state
+    /// while it's active. On iOS 26 `setTransparentNavBarScrolled` is a no-op for the bar visuals,
+    /// so this is effectively a pre-26 fix.
+    private func updateNavBarBlur() {
+        let shouldBlur = isMultiSelectEnabled || isScrolledPastHeader
+        guard shouldBlur != isNavBarBlurred else { return }
+        isNavBarBlurred = shouldBlur
+        setTransparentNavBarScrolled(shouldBlur)
     }
 
     private func setupLogin() {
@@ -821,6 +834,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             supportsGoogleCast = true
             refreshRightButtons()
         }
+        updateNavBarBlur()
     }
 
     @objc private func backButtonTapped() {

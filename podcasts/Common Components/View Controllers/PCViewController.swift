@@ -203,7 +203,7 @@ class PCViewController: SimpleNotificationsViewController {
         } else {
             appearance.configureWithTransparentBackground()
             if scrolled {
-                appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+                appearance.backgroundEffect = UIBlurEffect(style: .regular)
             }
         }
         navigationBar.standardAppearance = appearance
