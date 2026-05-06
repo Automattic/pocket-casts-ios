@@ -23,6 +23,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var playbackProgressView: ProgressLine!
 
     @IBOutlet var podcastArtwork: PodcastImageView!
+    @IBOutlet var podcastArtworkWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var podcastArtworkHeightConstraint: NSLayoutConstraint!
     @IBOutlet var mainView: UIView!
     @IBOutlet var shadowView: UIView!
 
@@ -91,6 +93,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playPauseBtn.removeFromSuperview()
         skipFwdBtn.removeFromSuperview()
 
+        podcastArtworkWidthConstraint.constant = 32
+        podcastArtworkHeightConstraint.constant = 32
+
         podcastArtwork.translatesAutoresizingMaskIntoConstraints = false
         skipBackBtn.translatesAutoresizingMaskIntoConstraints = false
         playPauseBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -141,8 +146,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         NSLayoutConstraint.activate([
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            podcastArtwork.widthAnchor.constraint(equalToConstant: 32),
-            podcastArtwork.heightAnchor.constraint(equalToConstant: 32),
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
