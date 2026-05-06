@@ -40,6 +40,11 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var gridItems = [HomeGridListItem]()
     var gridLayout: LibraryType = Settings.libraryType()
 
+    var isEditingOrder = false
+    var reorderLongPress: UILongPressGestureRecognizer?
+    var savedLeftBarButtonItem: UIBarButtonItem?
+    var savedRightBarButtonItem: UIBarButtonItem?
+
     private var lastWillLayoutWidth: CGFloat = 0
 
     private var homeGridDataHelper = HomeGridDataHelper()
@@ -72,8 +77,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupRefreshControl()
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture.isEnabled = false
         podcastsCollectionView.addGestureRecognizer(longPressGesture)
         longPressGesture.delegate = self
+        reorderLongPress = longPressGesture
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
@@ -128,6 +135,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         bannerTask?.cancel()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
+        if isEditingOrder {
+            setEditingOrder(false)
+        }
     }
 
     private func addEventObservers() {
@@ -404,6 +414,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         gridHelper.handleLongPress(gesture, from: podcastsCollectionView, isList: Settings.libraryType() == .list, containerView: view)
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Allow the reorder long-press to coexist with the cell's context-menu long-press
+        // so reordering still starts when the long-press is detected during edit mode.
+        gestureRecognizer == reorderLongPress
     }
 
     func itemCount() -> Int {

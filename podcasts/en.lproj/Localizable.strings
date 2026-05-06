@@ -3629,6 +3629,9 @@
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
 
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
+
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";
 
