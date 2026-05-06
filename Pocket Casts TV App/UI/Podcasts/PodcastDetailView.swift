@@ -74,10 +74,12 @@ struct PodcastDetailView: View {
                 Button() {
                     model.follow()
                 } label: {
-                    Label(
-                        model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle,
-                        systemImage: model.isFollowing ? "checkmark" : "plus"
-                    )
+                    HStack(spacing: 6) {
+                        Image(systemName: model.isFollowing ? "checkmark" : "plus")
+                            .contentTransition(.symbolEffect(.replace))
+                        Text(model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle)
+                            .contentTransition(.interpolate)
+                    }
                     .font(.caption2)
                 }
                 Button() {
