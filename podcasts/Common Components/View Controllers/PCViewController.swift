@@ -180,19 +180,28 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func configureTransparentAppearance() {
-        guard #available(iOS 26, *), let navigationBar = navigationController?.navigationBar else {
-            return assertionFailure("nope")
+        guard let navigationBar = navigationController?.navigationBar else {
+            return assertionFailure("navigationBar is missing")
         }
-        navigationBar.standardAppearance = {
+        if #available(iOS 26, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithDefaultBackground()
-            return appearance
-        }()
-        navigationBar.scrollEdgeAppearance = {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithDefaultBackground()
-            return appearance
-        }()
+
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+        } else {
+            navigationBar.standardAppearance = {
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithTransparentBackground()
+                appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+                return appearance
+            }()
+            navigationBar.scrollEdgeAppearance = {
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithTransparentBackground()
+                return appearance
+            }()
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
