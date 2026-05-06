@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 class DownloadProgressManager {

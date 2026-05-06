@@ -1,6 +1,6 @@
 import PocketCastsDataModel
 #if !os(watchOS)
-    import Firebase
+import Firebase
 #endif
 import PocketCastsServer
 import UIKit
@@ -1566,7 +1566,7 @@ class Settings: NSObject {
     static var shouldEnableIAPInTestFlightBuilds: Bool = false
 
     // MARK: - Informational Banner
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
     static func dismissBanner(for type: InformationalBannerType) {
         UserDefaults.standard.set(true, forKey: "kInformational\(type.rawValue.capitalized)Banner")
     }
@@ -1747,7 +1747,7 @@ extension Settings {
     }
 }
 
-#if !os(watchOS)
+#if !os(watchOS) && !os(tvOS)
 extension L10n {
     static var plusCloudStorageLimit: String {
         plusCloudStorageLimitFormat(Settings.plusCloudStorageLimit.localized())

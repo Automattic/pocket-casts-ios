@@ -3,12 +3,12 @@ import UIKit
 #endif
 import Foundation
 import PocketCastsDataModel
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
 import EndOfYear
 #endif
 
 extension EpisodeFilter {
-    #if !os(watchOS)
+    #if !os(watchOS) && !os(tvOS)
         class func indexOf(color: UIColor) -> Int {
             if AppTheme.playlistRedColor().isEqual(color) {
                 return 0
@@ -47,7 +47,7 @@ extension EpisodeFilter {
         return EpisodeFilter.imageName(forPlaylistIcon: icon)
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !os(tvOS)
         func iconImageNameCarPlay() -> String {
             guard let regularName = iconImageName() else { return "" }
 
@@ -70,7 +70,7 @@ extension EpisodeFilter {
         }
     #endif
 
-    #if !os(watchOS) && !APPCLIP
+    #if !os(watchOS) && !APPCLIP && !os(tvOS)
     @MainActor func grid() -> UIImage {
         let episodes = DataManager.sharedManager.playlistEpisodes(for: self)
 
@@ -126,7 +126,7 @@ extension EpisodeFilter {
         return nil
     }
 
-    #if !os(watchOS)
+    #if !os(watchOS) && !os(tvOS)
         func setPlaylistColor(color: UIColor) {
             let currentIcon = Int(customIcon)
             let currentIconRow = Int(currentIcon / EpisodeFilter.iconsPerType)

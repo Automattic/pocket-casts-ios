@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsServer
+import PocketCastsUtils
 
 public struct PodcastIndexEvelope: Decodable {
     let chapters: [PodcastIndexChapter]

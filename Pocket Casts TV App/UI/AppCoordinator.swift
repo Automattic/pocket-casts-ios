@@ -18,6 +18,8 @@ class AppCoordinator {
         // Ensure database and tables are setup before we go forward
         let _ = DataManager.sharedManager
 
+        ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+
         setupCredentials()
 
         setupUniqueAppId()

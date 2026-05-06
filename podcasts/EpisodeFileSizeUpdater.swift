@@ -1,6 +1,7 @@
 import AVFoundation
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 class EpisodeFileSizeUpdater {
     class func updateEpisodeDuration(episode: BaseEpisode?) {

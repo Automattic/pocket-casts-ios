@@ -294,6 +294,11 @@ enum XcodeSupport {
                     "PocketCastsUtils",
                     "PocketCastsDataModel",
                     "PocketCastsServer",
+                    "EventHorizonSDK",
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                    .product(name: "SwiftSubtitles", package: "SwiftSubtitles"),
+                    .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                    .product(name: "DifferenceKit", package: "DifferenceKit"),
                 ]
             ),
         ]

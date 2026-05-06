@@ -1,5 +1,6 @@
 import Foundation
 import UniformTypeIdentifiers
+import PocketCastsUtils
 
 class FileTypeUtil {
     public class func fileExtension(forType type: String?) -> String {

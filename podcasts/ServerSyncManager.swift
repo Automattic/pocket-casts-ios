@@ -86,8 +86,10 @@ class ServerSyncManager: ServerSyncDelegate {
         DispatchQueue.main.async {
             Analytics.shared.refreshRegistered()
             PlaybackManager.shared.effectsChangedExternally()
+            #if !os(tvOS)
             Theme.sharedTheme.toggleTheme()
-            #if !APPCLIP
+            #endif
+            #if !APPCLIP && !os(tvOS)
             NotificationsHelper.shared.register(checkToken: true)
             #endif
         }
@@ -143,7 +145,7 @@ class ServerSyncManager: ServerSyncDelegate {
     // MARK: - Settings
 
     func isPushEnabled() -> Bool {
-        #if APPCLIP
+        #if APPCLIP || os(tvOS)
         false
         #else
         NotificationsHelper.shared.pushEnabled()

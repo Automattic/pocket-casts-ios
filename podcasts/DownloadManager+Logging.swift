@@ -1,5 +1,7 @@
 import PocketCastsDataModel
 import PocketCastsUtils
+import PocketCastsServer
+import Combine
 
 extension DownloadManager {
     func logDownload(_ episode: BaseEpisode, failure: FailureReason, extraProperties: [String: Any?] = [:]) {

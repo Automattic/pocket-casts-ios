@@ -1,4 +1,4 @@
-#if !os(watchOS)
+#if !os(watchOS) && !os(tvOS)
     import Firebase
 #endif
 
@@ -267,7 +267,7 @@ class AnalyticsHelper {
         logEvent("\(tourName)_tour_cancelled_\(step)", parameters: nil)
     }
 
-    #if !os(watchOS) && !APPCLIP
+    #if !os(watchOS) && !APPCLIP && !os(tvOS)
         class func tabSelected(tab: MainTabBarController.Tab) {
             switch tab {
             case .podcasts:
@@ -437,7 +437,7 @@ private extension AnalyticsHelper {
         guard optedOut == false else { return }
 
         // assuming for now we don't want analytics on a watch
-        #if !os(watchOS)
+        #if !os(watchOS) && !os(tvOS)
             Firebase.Analytics.logEvent(name, parameters: parameters)
 
         if FeatureFlag.firebaseLogging.enabled {

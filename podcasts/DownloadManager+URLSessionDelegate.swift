@@ -18,7 +18,7 @@ extension DownloadManager: URLSessionDelegate, URLSessionDownloadDelegate {
 
             task.setTaskCompletedWithSnapshot(true)
         }
-#elseif APPCLIP
+#elseif APPCLIP || os(tvOS)
         //TODO: Check this and see whether anything should be done
 #else
         DispatchQueue.main.async { [weak self] in
