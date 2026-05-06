@@ -108,10 +108,16 @@ struct SignInView: View {
                 .textContentType(.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.done)
-                .onSubmit { model.manualSignIn(username: username, password: password) }
+                .onSubmit {
+                    Task {
+                        await model.manualSignIn(username: username, password: password)
+                    }
+                }
 
             Button() {
-                model.manualSignIn(username: username, password: password)
+                Task {
+                    await model.manualSignIn(username: username, password: password)
+                }
             } label: {
                 Text("Sign In")
                     .frame(minWidth: 300)

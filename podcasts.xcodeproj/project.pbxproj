@@ -1296,6 +1296,7 @@
 		FF32F3E62FAB851800226E58 /* PlaylistHeaderViewCellPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF32F3E42FAB850E00226E58 /* PlaylistHeaderViewCellPlaceholder.swift */; };
 		FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		FF32F3E92FAB86C700226E58 /* PlayerColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F3B9F2366C01400416633 /* PlayerColorHelper.swift */; };
+		FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647623028F70CD0006D005A /* AuthenticationHelper.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
 		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
@@ -7790,6 +7791,7 @@
 				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
 				FF8FFE6E2FAA8F240086A867 /* TranscriptFormat.swift in Sources */,
 				FF65058B2FAA963100C3662E /* Notifications.swift in Sources */,
+				FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */,
 				FF32F3DA2FAB834500226E58 /* PlaylistDetailViewModel+Archive.swift in Sources */,
 				FF32F3D82FAB830100226E58 /* PlaylistArtworkView.swift in Sources */,
 				FF6505A32FAA9F4100C3662E /* TranscriptManager.swift in Sources */,

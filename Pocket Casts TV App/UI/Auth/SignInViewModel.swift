@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 import PocketCastsServer
 
+@MainActor
 @Observable
 class SignInViewModel {
     private var cancellable: AnyCancellable?
@@ -23,9 +24,16 @@ class SignInViewModel {
                     }
     }
 
-    func manualSignIn(username: String, password: String) {
-        ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
-            print("Success: \(success), userId: \(userId ?? "") error: \(error)")
+    func manualSignIn(username: String, password: String) async {
+        do {
+            let response = try await AuthenticationHelper.validateLogin(username: username, password: password, scope: .mobile)
+            if response.token != nil {
+                self.state = .finished
+            }
+        } catch let apiError as APIError {
+            print(apiError)
+        } catch {
+            print(error)
         }
     }
 }
