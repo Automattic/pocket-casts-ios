@@ -11,7 +11,7 @@ struct WelcomeView: View {
         static let gridSpacing = CGFloat(16)
         static let columnsPerRow = 8
         static let animationOffset = CGFloat(200)
-        static let animationDuration = 30.0
+        static let animationDuration = 20.0
     }
 
     enum Destination: Hashable {
@@ -87,6 +87,7 @@ struct WelcomeView: View {
                     : (rowIndex.isMultiple(of: 2) ? -Layout.animationOffset : Layout.animationOffset))
             }
         }
+        .offset(y: 40)
         .onAppear {
             withAnimation(.linear(duration: Layout.animationDuration).repeatForever(autoreverses: true)) {
                 animating = true
@@ -103,8 +104,8 @@ struct WelcomeView: View {
                 Gradient.Stop(color: Color.backgroundSurface, location: 0.00),
                 Gradient.Stop(color: Color.backgroundSurface.opacity(0.5), location: 1.00),
               ],
-              startPoint: UnitPoint(x: 0.5, y: 0.41),
-              endPoint: UnitPoint(x: 0.5, y: 0.13)
+              startPoint: UnitPoint(x: 0.5, y: 0.45),
+              endPoint: UnitPoint(x: 0.5, y: 0.17)
             )
           )
     }

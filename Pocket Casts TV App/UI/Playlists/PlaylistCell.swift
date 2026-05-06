@@ -39,7 +39,11 @@ struct PlaylistCell: View {
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
                         .rotationEffect(Angle(degrees: isFocused ? (index == 0 ? Layout.rotationEffect : -Layout.rotationEffect) : 0))
-                        .offset(x: CGFloat(1-index) * 25.0, y: 50 + (CGFloat(2-index) * 25.0))
+                        .scaleEffect(isFocused ? 1.25 : 1.0)
+                        .offset(
+                            x: CGFloat(1 - index) * 25.0 - 24 + (index == 0 && !isFocused ? 8 : 0),
+                            y: 50 + CGFloat(2 - index) * 25.0 + (index == 0 && !isFocused ? 8 : 0) - (index == 1 ? 8 : 0)
+                        )
                 }
             }
             .padding(.horizontal, 36)

@@ -36,9 +36,7 @@ class PodcastDetailViewModel {
     var isFollowing: Bool = false
 
     func follow() {
-        var transaction = Transaction()
-        transaction.disablesAnimations = true
-        withTransaction(transaction) {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
             isFollowing.toggle()
         }
     }
