@@ -74,10 +74,12 @@ struct PodcastDetailView: View {
                 Button() {
                     model.follow()
                 } label: {
-                    Label(
-                        model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle,
-                        systemImage: model.isFollowing ? "checkmark" : "plus"
-                    )
+                    HStack(spacing: 6) {
+                        Image(systemName: model.isFollowing ? "checkmark" : "plus")
+                            .contentTransition(.symbolEffect(.replace))
+                        Text(model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle)
+                            .contentTransition(.interpolate)
+                    }
                     .font(.caption2)
                 }
                 Button() {
@@ -95,6 +97,14 @@ struct PodcastDetailView: View {
         }
     }
 
+    private func episodeRow(for episode: MockEpisode) -> some View {
+        EpisodeRowWithActions(
+            episode: episode,
+            podcastTitle: model.podcast.title,
+            podcastDescription: model.podcast.podcastDescription
+        )
+    }
+
     @Namespace private var episodeListNamespace
 
     var episodeContent: some View {
@@ -110,11 +120,7 @@ struct PodcastDetailView: View {
                                 .font(.caption)
                                 .foregroundStyle(Color.textSecondary)
                         }
-                        EpisodeRowWithActions(
-                            episode: recommended,
-                            podcastTitle: model.podcast.title,
-                            podcastDescription: model.podcast.podcastDescription
-                        )
+                        episodeRow(for: recommended)
                         .prefersDefaultFocus(in: episodeListNamespace)
                     }
                 }
@@ -125,11 +131,7 @@ struct PodcastDetailView: View {
                         .foregroundStyle(Color.textPrimary)
                     LazyVStack {
                         ForEach(model.podcast.episodes) { episode in
-                            EpisodeRowWithActions(
-                                episode: episode,
-                                podcastTitle: model.podcast.title,
-                                podcastDescription: model.podcast.podcastDescription
-                            )
+                            episodeRow(for: episode)
                         }
                     }
                 }
