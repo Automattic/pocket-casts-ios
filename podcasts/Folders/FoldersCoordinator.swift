@@ -209,7 +209,7 @@ class FoldersCoordinator: NSObject {
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
         )
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)
@@ -217,7 +217,7 @@ class FoldersCoordinator: NSObject {
         //Observe Login/Signup notification
         NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)

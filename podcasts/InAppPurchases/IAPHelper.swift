@@ -111,10 +111,9 @@ class IAPHelper: NSObject {
     func findLastSubscriptionPurchased() async -> StoreKit.Transaction? {
         return await findLastSubscriptionsPurchased()
             .filter { $0.expirationDate != nil }
-            .sorted {
+            .max {
                 return $0.purchaseDate < $1.purchaseDate
             }
-            .last
     }
 
     func winbackOfferPrice(for mainProductId: String, offerId: String) async -> String? {

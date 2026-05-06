@@ -35,7 +35,7 @@ struct ListeningTime2025Story: ShareableStory {
     @State private var playModeNumbers: LottiePlaybackMode = .paused(at: .progress(0))
 
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
@@ -46,7 +46,7 @@ struct ListeningTime2025Story: ShareableStory {
             .background(content: {
                 ZStack {
                     LottieView(animation: .named("playback2025_listening_time"))
-                        .animationDidFinish({ completed in
+                        .animationDidFinish({ _ in
                         })
                         .configure({ animationView in
                             animationView.contentMode = .scaleAspectFill
@@ -55,7 +55,7 @@ struct ListeningTime2025Story: ShareableStory {
                         .scaledToFill()
                         .ignoresSafeArea()
                     LottieView(animation: .named("playback2025_listening_time_numbers"))
-                        .animationDidFinish({ completed in
+                        .animationDidFinish({ _ in
                         })
                         .configure({ animationView in
                             animationView.contentMode = .scaleAspectFill

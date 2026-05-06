@@ -378,33 +378,47 @@ class EpisodeManager: NSObject {
                 deleteDownloadedFiles(episode: episode)
             }
         }
+    }
 
-        if FeatureFlag.cleanUpTmpFiles.enabled {
-            // Remove any lingering files in the temporary folder that were not removed above, those should be orphan files
-            cleanUpTmpFolder()
+    private class func enumerateTmpFolder(folderPath: String, _ body: (String, [FileAttributeKey: Any]) -> Void) {
+        let fileManager = FileManager.default
+        guard let folderEnum = fileManager.enumerator(atPath: folderPath) else { return }
+        while let tmpFile = folderEnum.nextObject() as? String {
+            let fullFilePath = (folderPath as NSString).appendingPathComponent(tmpFile)
+            guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath) else { continue }
+            body(tmpFile, attributes)
         }
     }
 
     class func cleanUpTmpFolder(folderPath: String = DownloadManager.shared.tempDownloadFolder) {
-        let fileManager = FileManager.default
-        let tmpPath = folderPath
-        guard let folderEnum = fileManager.enumerator(atPath: tmpPath) else {
-            return
-        }
         FileLog.shared.addMessage("Episode Manager: Starting removing the temporary orphan files")
-        while let tmpFile = folderEnum.nextObject() as? String {
-            let fullFilePath = (tmpPath as NSString).appendingPathComponent(tmpFile)
-            guard let attributes = try? fileManager.attributesOfItem(atPath: fullFilePath),
-                  let date = attributes[.modificationDate] as? Date,
-                  Date.now.timeIntervalSince(date) > 1.week
+        var totalFilesSize: UInt64 = 0
+        enumerateTmpFolder(folderPath: folderPath) { tmpFile, attributes in
+            guard let date = attributes[.modificationDate] as? Date,
+                  Date.now.timeIntervalSince(date) > 1.week //A file that has been in the tmp folder for more than a week should no longer be actively used
             else {
-                continue
+                return
             }
-
+            let fileSize = attributes[.size] as? UInt64 ?? 0
+            let fullFilePath = (folderPath as NSString).appendingPathComponent(tmpFile)
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
             StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
+            if StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath)) {
+                totalFilesSize += fileSize
+            } else {
+                FileLog.shared.addMessage("Episode Manager: Failed to remove the following orphan file \(tmpFile)")
+            }
         }
-        FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files")
+        let formatFileSizes = SizeFormatter.shared.noDecimalFormat(bytes: Int64(totalFilesSize))
+        FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files. Removed \(formatFileSizes)")
+    }
+
+    class func tmpFolderSize(folderPath: String = DownloadManager.shared.tempDownloadFolder) -> UInt64 {
+        var totalFilesSize: UInt64 = 0
+        enumerateTmpFolder(folderPath: folderPath) { _, attributes in
+            totalFilesSize += attributes[.size] as? UInt64 ?? 0
+        }
+        return totalFilesSize
     }
 
     class func urlForEpisode(_ episode: BaseEpisode, streamingOnly: Bool = false) -> URL? {

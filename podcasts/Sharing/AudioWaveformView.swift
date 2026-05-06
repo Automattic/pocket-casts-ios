@@ -31,7 +31,7 @@ struct AudioWaveformView: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             Canvas { context, size in
                 let lineCount = Int(width / (lineWidth + lineSpacing))
                 let midY = size.height / 2

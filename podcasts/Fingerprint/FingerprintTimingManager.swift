@@ -38,6 +38,9 @@ final class FingerprintTimingManager: NSObject {
         /// Raw bytes of the reference fingerprint JSON, used to validate the
         /// persistent mapping cache via SHA-256.
         let referenceData: Data
+        /// On-disk path of the reference fingerprint file, used to validate
+        /// the persistent mapping cache via file identity (size+mtime).
+        let referenceFilePath: String
         /// Total duration of the reference timeline, used to gate the persistent
         /// mapping cache on full coverage.
         let referenceDuration: Double
@@ -217,6 +220,7 @@ final class FingerprintTimingManager: NSObject {
             duration: ctx.duration,
             matcher: ctx.matcher,
             referenceData: ctx.referenceData,
+            referenceFilePath: ctx.referenceFilePath,
             referenceDuration: ctx.referenceDuration,
             isCancelled: { flag.isCancelled }
         )
@@ -407,6 +411,7 @@ final class FingerprintTimingManager: NSObject {
         }
 
         let flag = cancellationFlag
+        let refPath = referencePath(for: episode)
         let newContext = GenerationContext(
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
@@ -414,6 +419,7 @@ final class FingerprintTimingManager: NSObject {
             duration: duration,
             matcher: matcher,
             referenceData: referenceData,
+            referenceFilePath: refPath,
             referenceDuration: reference.totalDuration,
             isCancelled: { flag.isCancelled }
         )
@@ -424,6 +430,9 @@ final class FingerprintTimingManager: NSObject {
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
 
+        // Capture once so the range check, log, and stream start all use the same position.
+        let currentTime = PlaybackManager.shared.currentTime()
+
         // All-or-nothing cache: only short-circuit the stream if a previous
         // session persisted a mapping that covers the whole reference timeline
         // for this exact audio file + reference. Partial caches are ignored
@@ -432,6 +441,7 @@ final class FingerprintTimingManager: NSObject {
         if !isStreaming,
            let cached = FingerprintMappingCache.load(
                audioFilePath: audioFileURL.path,
+               referenceFilePath: refPath,
                referenceData: referenceData
            ) {
             // The cache is produced from `playbackToReference` (already sorted
@@ -440,16 +450,23 @@ final class FingerprintTimingManager: NSObject {
             // entry through `insertMapping`'s per-entry `Array.insert`.
             playbackToReference = cached.entries
             referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
-            filterLastTrusted = cached.entries.last
-            updateState(.active(coverage: cached.entries.count))
+
+            if isWithinMappedRange(currentTime) {
+                filterLastTrusted = cached.entries.last
+                updateState(.active(coverage: cached.entries.count))
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                )
+                return
+            }
+
             FileLog.shared.addMessage(
-                "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                "FingerprintTimingManager: cache loaded for \(uuid) but playback at "
+                    + "\(String(format: "%.1f", currentTime))s is outside cached range — starting stream"
             )
-            return
         }
 
-        let startPosition = PlaybackManager.shared.currentTime()
-        startStream(context: newContext, fromPosition: startPosition)
+        startStream(context: newContext, fromPosition: currentTime)
     }
 
     // MARK: - Streaming Fingerprint Processing
@@ -748,6 +765,7 @@ final class FingerprintTimingManager: NSObject {
                 FingerprintMappingCache.save(
                     snapshot,
                     audioFilePath: ctx.audioFileURL.path,
+                    referenceFilePath: ctx.referenceFilePath,
                     referenceData: ctx.referenceData,
                     referenceDuration: ctx.referenceDuration
                 )
