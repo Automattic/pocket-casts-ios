@@ -97,6 +97,12 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
                 castCell.populateFrom(folder: folder, badgeType: badgeType, libraryType: libraryType)
             }
         }
+
+        // Reapply (or clear) reorder-edit treatment so reused/recycled cells stay in sync.
+        removeEditingTreatment(from: cell)
+        if isEditingOrder, item.isEmpty == false {
+            applyEditingTreatment(to: cell)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

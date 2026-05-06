@@ -1423,6 +1423,8 @@ internal enum L10n {
   internal static var folderAddPodcastsSingular: String { return L10n.tr("Localizable", "folder_add_podcasts_singular", fallback: "Add 1 Podcast") }
   /// Label for the option to add and remove podcasts from a folder
   internal static var folderAddRemovePodcasts: String { return L10n.tr("Localizable", "folder_add_remove_podcasts", fallback: "Add or Remove Podcasts") }
+  /// Context menu action title for adding a podcast to a folder
+  internal static var folderAddTo: String { return L10n.tr("Localizable", "folder_add_to", fallback: "Add to Folder") }
   /// Text shown on button to change the folder a podcast is in
   internal static var folderChange: String { return L10n.tr("Localizable", "folder_change", fallback: "Change folder") }
   /// Prompt to choose a folder color
