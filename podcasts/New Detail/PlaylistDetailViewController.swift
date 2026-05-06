@@ -203,7 +203,9 @@ class PlaylistDetailViewController: FakeNavViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.isNavigationBarHidden = true
+        if isUsingFakeNavBar {
+            self.navigationController?.isNavigationBarHidden = true
+        }
 
         setupContent()
         setupNavigation()
@@ -218,7 +220,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        if isUsingFakeNavBar {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         addObservers()
         updateColors()
         reloadNavTitle()
@@ -228,7 +232,9 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        if isUsingFakeNavBar {
+            self.navigationController?.isNavigationBarHidden = true
+        }
         updateColors()
         delegate?.presentingPlaylistDetail = false
     }

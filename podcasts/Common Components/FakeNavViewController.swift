@@ -4,11 +4,19 @@ import UIKit
 class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     private static let navBarBaseHeight: CGFloat = 45
 
-    private var navBar: LegacyFakeNavigationBar!
+    /// `true` when the screen is using the legacy fake navigation bar, `false` when it's relying on the
+    /// system navigation bar (e.g. under Liquid Glass). Subclasses can branch on this to skip nav-bar
+    /// hiding tricks they did to make room for the fake bar.
+    var isUsingFakeNavBar: Bool { !LiquidGlass.isEnabled }
 
-    var fakeNavView: UIView { navBar }
-    var backBtn: UIButton { navBar.backButton }
-    var rightActionButtons: [UIButton] { navBar.rightActionButtons }
+    private var navBar: LegacyFakeNavigationBar?
+
+    private lazy var placeholderNavView = UIView()
+    private lazy var placeholderBackButton = UIButton()
+
+    var fakeNavView: UIView { navBar ?? placeholderNavView }
+    var backBtn: UIButton { navBar?.backButton ?? placeholderBackButton }
+    var rightActionButtons: [UIButton] { navBar?.rightActionButtons ?? [] }
 
     private var navigationTitleSetOnScroll = false
 
@@ -31,6 +39,21 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if !isUsingFakeNavBar {
+            useTransparentScrollEdgeAppearance = true
+            if displayMode == .card {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(
+                    barButtonSystemItem: .close,
+                    target: self,
+                    action: #selector(handleCloseTapped)
+                )
+            }
+        } else {
+            configureLegacyFakeNavBar()
+        }
+    }
+
+    private func configureLegacyFakeNavBar() {
         let navBar = LegacyFakeNavigationBar(displayMode: displayMode)
         navBar.onCloseTapped = { [weak self] in
             self?.closeTapped?()
@@ -44,9 +67,18 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         self.navBar = navBar
     }
 
+    @objc private func handleCloseTapped() {
+        closeTapped?()
+    }
+
     private var haveHiddenOnce = false
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        guard let navBar else {
+            navigationItem.title = navTitle
+            return
+        }
 
         navigationController?.setNavigationBarHidden(true, animated: !haveHiddenOnce)
         haveHiddenOnce = true
@@ -57,6 +89,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     override func addChild(_ childController: UIViewController) {
         super.addChild(childController)
 
+        guard isUsingFakeNavBar else { return }
+
         /// Hide the child nav bar on the next run loop since this doesn't have any effect if called immediately
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             childController.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -65,6 +99,8 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        guard isUsingFakeNavBar else { return }
 
         if displayMode == .navController, showNavBarOnHide {
             if let navController = navigationController {
@@ -79,17 +115,26 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let window = view.window {
+        if let navBar, let window = view.window {
             let statusBarHeight = displayMode == .card ? 9 : UIUtil.statusBarHeight(in: window)
             navBar.height = FakeNavViewController.navBarBaseHeight + statusBarHeight
         }
     }
 
     func navBarHeight(window: UIWindow) -> CGFloat {
-        navBar.height - window.safeAreaInsets.top
+        guard let navBar else { return 0 }
+        return navBar.height - window.safeAreaInsets.top
     }
 
     func addGoogleCastBtn() {
+        guard let navBar else {
+            // PCViewController owns `navigationItem.rightBarButtonItems` and rebuilds it from
+            // `supportsGoogleCast` + `googleCastBtn` + `extraRightButtons` in `refreshRightButtons()`.
+            // Its viewDidLoad has already run, so set `supportsGoogleCast` and seed `googleCastBtn`
+            // ourselves before triggering a refresh.
+            return
+        }
+
         let button = PCGoogleCastButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
         button.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
         navBar.addRightActionButton(button)
@@ -100,33 +145,43 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         button.setImage(image, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         button.accessibilityLabel = accessibilityLabel
-        navBar.addRightActionButton(button)
+        if let navBar {
+            navBar.addRightActionButton(button)
+        } else {
+            // Use a standard system bar button item; appending to PCViewController's
+            button.tintColor = UIColor.label
+            extraRightButtons.append(UIBarButtonItem(customView: button))
+        }
 
         return button
     }
 
     /// Removes all the right button actions from the view
     func removeAllButtons() {
-        navBar.removeAllRightActionButtons()
+        if let navBar {
+            navBar.removeAllRightActionButtons()
+        } else {
+            extraRightButtons = []
+        }
     }
 
     func updateNavColors(bgColor: UIColor, titleColor: UIColor, buttonColor: UIColor, buttonBackgroundColor: UIColor) {
-        navBar.updateColors(background: bgColor, title: titleColor, button: buttonColor, buttonBackground: buttonBackgroundColor)
+        navBar?.updateColors(background: bgColor, title: titleColor, button: buttonColor, buttonBackground: buttonBackgroundColor)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if navigationTitleSetOnScroll {
+        if let navBar, navigationTitleSetOnScroll {
             navBar.updateForScroll(offset: scrollView.contentOffset.y, threshold: scrollPointToChangeTitle, title: navTitle)
         }
         setShadowVisible(false)
     }
 
     func setShadowVisible(_ visible: Bool) {
-        navBar.setShadowVisible(visible)
+        navBar?.setShadowVisible(visible)
     }
 
     func updateNavigationBar(position: CGFloat) {
-        navBar.snapToScroll(offset: position, threshold: scrollPointToChangeTitle)
+        navBar?.snapToScroll(offset: position, threshold: scrollPointToChangeTitle)
     }
 }
 
