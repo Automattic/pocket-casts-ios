@@ -1,9 +1,21 @@
 import SwiftUI
 import PocketCastsUtils
 
+struct EpisodeRowButtonStyle: ButtonStyle {
+    @Environment(\.isFocused) var isFocused: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(isFocused ? 1.02 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: isFocused)
+    }
+}
+
 struct EpisodeRow: View {
 
     let episode: MockEpisode
+
+    @Environment(\.isFocused) var isFocused: Bool
 
     enum Layout {
         static let episodeImageSize = CGFloat(124)
@@ -28,18 +40,19 @@ struct EpisodeRow: View {
             VStack(alignment: .leading) {
                 Text(displayDate(for: episode.publishedDate))
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
                 Text(episode.title)
                     .font(.body)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(isFocused ? .textPrimaryActive : .textPrimary)
                 Text(displayDuration(for: episode.duration))
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
             }
             Spacer()
         }
         .padding(24)
-        .background(Color.backgroundSunken)
+        .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 

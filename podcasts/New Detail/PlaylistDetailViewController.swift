@@ -230,14 +230,15 @@ class PlaylistDetailViewController: FakeNavViewController {
         super.viewDidAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         updateColors()
-        refreshControl?.parentViewControllerDidAppear()
         delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDisappear()
+        if let refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -268,15 +269,6 @@ class PlaylistDetailViewController: FakeNavViewController {
     override func handleAppWillBecomeActive() {
         viewModel.reloadEpisodeList()
         addObservers()
-    }
-
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        refreshControl?.scrollViewDidEndDragging(scrollView)
     }
 
     private func setupNavigation() {
@@ -394,7 +386,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.isManualPlaylist { return }
 
         refreshControl = CustomRefreshControl()
-        refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
         refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
             self?.reloader.pause()
@@ -447,21 +438,15 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.refreshControl?.alpha = 0
-            }, completion: { _ in
-                self?.refreshControl?.endRefreshing()
-                self?.reloader.resume(after: .milliseconds(600)) // Reload after animations settle
-            })
-        }
+        refreshControl?.endRefreshing()
+        reloader.resume(after: .milliseconds(600))
     }
 
     private func reloadRefreshControlColor() {
         if let snapshot = blurHeaderView.sj_snapshotImage() {
-            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+            refreshControl?.customTintColor = snapshot.isDark ? .white : .black
         } else {
-            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+            refreshControl?.customTintColor = nil
         }
     }
 

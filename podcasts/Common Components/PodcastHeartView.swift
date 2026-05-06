@@ -23,6 +23,7 @@ class PodcastHeartView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        setupViews()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,7 +38,10 @@ class PodcastHeartView: UIView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupViews()
+    }
 
+    private func setupViews() {
         backgroundColor = UIColor.clear
 
         shadowView = UIView(frame: bounds)

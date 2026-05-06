@@ -224,7 +224,7 @@ extension DiscoverCollectionViewController {
 
     private func configureDataSource() {
 
-        let footerRegistrationCountrySummary = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
+        let footerRegistrationCountrySummary = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, _, _ in
             guard let self else { return }
 
             let countrySummary = CountrySummaryViewController()
@@ -234,7 +234,7 @@ extension DiscoverCollectionViewController {
             supplementaryView.contentConfiguration = UIViewControllerContentConfiguration(parentViewController: self, viewController: countrySummary)
         }
 
-        let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, elementKind, indexPath in
+        let footerRegistrationEmpty = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionFooter) { supplementaryView, _, _ in
             supplementaryView.contentConfiguration = UIHostingConfiguration {
                 EmptyView()
             }
@@ -244,21 +244,21 @@ extension DiscoverCollectionViewController {
             partialResult[cellType] = cellType.createCellRegistration(parentViewController: self, delegate: self)
         }
 
-        let loadingRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+        let loadingRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.loading()
         }
 
-        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+        let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
                 self?.reloadData()
             }
         }
 
-        let noResultsRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+        let noResultsRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noResults()
         }
 
-        let emptyRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, indexPath, item in
+        let emptyRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.empty()
         }
 
@@ -293,8 +293,8 @@ extension DiscoverCollectionViewController {
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int,
-                                                      layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+        return UICollectionViewCompositionalLayout { [weak self] (_: Int,
+                                                      _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: self?.discoverLayout == nil ? .fractionalHeight(0.8) : .estimated(100))
 

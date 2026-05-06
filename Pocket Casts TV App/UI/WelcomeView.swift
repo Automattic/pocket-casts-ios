@@ -1,21 +1,17 @@
 import SwiftUI
 
-@Observable
-class WelcomeViewModel {
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
-}
-
 struct WelcomeView: View {
     @Environment(AppCoordinator.self) var coordinator
 
     @State var model = WelcomeViewModel()
+    @State private var animating = false
 
     enum Layout {
         static let gridSize = CGFloat(272)
-    }
-
-    let items: [GridItem] = (0..<8).map { _ in
-        GridItem(.fixed(Layout.gridSize))
+        static let gridSpacing = CGFloat(16)
+        static let columnsPerRow = 8
+        static let animationOffset = CGFloat(200)
+        static let animationDuration = 30.0
     }
 
     enum Destination: Hashable {
@@ -26,15 +22,19 @@ struct WelcomeView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .center) {
-                VStack(spacing: 32) {
+                VStack(spacing: 24) {
                     Spacer()
                     Image(ImageResource.pcLogo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 108)
                     Text(L10n.tvWelcomeTitle)
                         .font(.title)
                     Text(L10n.tvWelcomeSubtitle)
                         .font(.headline)
                         .foregroundColor(Color.textSecondary)
-                    HStack {
+                        .padding(.bottom, 16)
+                    HStack(spacing: 16) {
                         NavigationLink(value: Destination.signIn) {
                             Text(L10n.tvWelcomeSignIn)
                         }
@@ -46,8 +46,6 @@ struct WelcomeView: View {
                     Button(L10n.tvWelcomeBrowseWithoutAccount) {
                         coordinator.state = .browsing
                     }
-                    .buttonStyle(.plain)
-                    .foregroundColor(Color.textSecondary)
                 }
             }
             .navigationDestination(for: Destination.self) { destination in
@@ -67,14 +65,33 @@ struct WelcomeView: View {
         }
     }
 
+    var podcastRows: [[MockPodcast]] {
+        stride(from: 0, to: model.podcasts.count, by: Layout.columnsPerRow).map {
+            Array(model.podcasts[$0..<min($0 + Layout.columnsPerRow, model.podcasts.count)])
+        }
+    }
+
     var podcastGrid: some View {
-        LazyVGrid(columns: items, content: {
-            ForEach(model.podcasts) { podcast in
-                Image(podcast.image)
-                    .resizable()
-                    .frame(width: Layout.gridSize, height: Layout.gridSize)
+        VStack(spacing: Layout.gridSpacing) {
+            ForEach(Array(podcastRows.enumerated()), id: \.offset) { rowIndex, row in
+                HStack(spacing: Layout.gridSpacing) {
+                    ForEach(row) { podcast in
+                        Image(podcast.image)
+                            .resizable()
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
+                .offset(x: animating
+                    ? (rowIndex.isMultiple(of: 2) ? Layout.animationOffset : -Layout.animationOffset)
+                    : (rowIndex.isMultiple(of: 2) ? -Layout.animationOffset : Layout.animationOffset))
             }
-        })
+        }
+        .onAppear {
+            withAnimation(.linear(duration: Layout.animationDuration).repeatForever(autoreverses: true)) {
+                animating = true
+            }
+        }
     }
 
     var gradientView: some View {

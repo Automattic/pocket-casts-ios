@@ -26,8 +26,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
     let headerView = UploadedStorageHeaderView()
 
-    private var tableRefreshControl: UploadedRefreshControl?
-    private var noEpisodeRefreshControl: UploadedRefreshControl?
+    private var tableRefreshController: UploadedFilesRefreshController?
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
 
     private func refreshContentUnavailable() {
@@ -112,10 +111,10 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         registerCells()
         title = L10n.files
 
-        if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
-            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: .files)
-            //TODO: Check that we don't need a refresh control
-//            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFiles)
+        if SubscriptionHelper.hasActiveSubscription() {
+            let controller = UploadedFilesRefreshController(source: .files)
+            tableRefreshController = controller
+            uploadsTable.refreshControl = controller.refreshControl
         }
 
         headerView.controllerForPresenting = self
@@ -133,8 +132,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        tableRefreshControl?.parentViewControllerDidAppear()
-        noEpisodeRefreshControl?.parentViewControllerDidAppear()
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.shadowImage = nil
 
@@ -152,8 +149,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDisappear()
-        noEpisodeRefreshControl?.parentViewControllerDidDisappear()
     }
 
     // MARK: - App Backgrounding
@@ -350,30 +345,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         uploadsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
 
-    // MARK: - UIScrollView
-
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let selectedRefreshControl: UploadedRefreshControl?
-//        if scrollView == noEpisodesScrollView {
-//            selectedRefreshControl = noEpisodeRefreshControl
-//        } else {
-//            selectedRefreshControl = tableRefreshControl
-//        }
-//
-//        selectedRefreshControl?.scrollViewDidScroll(scrollView)
-//    }
-//
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        let selectedRefreshControl: UploadedRefreshControl?
-//        if scrollView == noEpisodesScrollView {
-//            selectedRefreshControl = noEpisodeRefreshControl
-//        } else {
-//            selectedRefreshControl = tableRefreshControl
-//        }
-//
-//        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
-//    }
-
     override func handleThemeChanged() {
         uploadsTable.reloadData()
     }
@@ -409,7 +380,7 @@ private extension UploadedViewController {
 
         PaidFeature.bookmarks.objectWillChange
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] bookmark in
+            .sink { [weak self] _ in
                 self?.handleReloadFromNotification()
             }
             .store(in: &cancellables)

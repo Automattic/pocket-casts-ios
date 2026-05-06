@@ -155,7 +155,7 @@ class BackgroundShakeObserver {
         if manager.isDeviceMotionAvailable {
             manager.deviceMotionUpdateInterval = motionUpdateInterval
 
-            manager.startDeviceMotionUpdates(to: .main) { [weak self] data, error in
+            manager.startDeviceMotionUpdates(to: .main) { [weak self] data, _ in
                 guard let data else {
                     return
                 }

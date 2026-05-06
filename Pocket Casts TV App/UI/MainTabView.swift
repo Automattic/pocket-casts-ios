@@ -30,14 +30,40 @@ enum MainTab: Int, CaseIterable, Identifiable {
 struct MainTabContentView: View {
     let tab: MainTab
 
+    @Binding var scrollOffset: Double
+
     var body: some View {
         switch tab {
+        case .home:
+            HomeView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
         case .podcasts:
             PodcastsView()
-        default:
-            if let title = tab.title {
-                CenterButton(title: title)
-            }
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .playlists:
+            PlaylistsView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .upNext:
+            UpNextView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .search:
+            SearchView(model: SearchViewModel())
         }
     }
 }
@@ -56,17 +82,10 @@ struct CenterButton: View {
     }
 }
 
-@MainActor
-@Observable
-final class MainTabRouter {
-    var selectedTab: MainTab = .home
-}
-
 struct MainTabView: View {
 
     @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
-
     @State private var scrollOffset: Double = 0
 
     enum FocusArea: Hashable {
@@ -80,8 +99,9 @@ struct MainTabView: View {
             TabView(selection: $tabSelection.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        MainTabContentView(tab: tab)
+                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
                             .environment(tabSelection)
+                            .focused($focusedArea, equals: .content)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
@@ -94,32 +114,29 @@ struct MainTabView: View {
             .focused($focusedArea, equals: .tabBar)
         }.overlay(alignment: .top) {
             accessoryView
-        }.onAppear {
-            focusedArea = .tabBar
         }
+        .defaultFocus($focusedArea, .tabBar)
         // Intercept right-swipe from tab bar to profile
         .onMoveCommand { direction in
             handleMove(direction)
         }
         .ignoresSafeArea()
-        .onScrollGeometryChange(for: Double.self) { geometry in
-            geometry.contentInsets.top + geometry.contentOffset.y
-        } action: { before, after in
-            self.scrollOffset = after
-        }
     }
 
+    @ViewBuilder
     var accessoryView: some View {
-        VStack() {
-            HStack() {
-                leftAccessory
+        if !tabSelection.isShowingDetail {
+            VStack() {
+                HStack() {
+                    leftAccessory
+                    Spacer()
+                    rightAccessory
+                }
+                .padding(.vertical, 48)
+                .padding(.horizontal, 84)
+                .offset(x: 0, y: -scrollOffset)
                 Spacer()
-                rightAccessory
             }
-            .padding(.vertical, 48)
-            .padding(.horizontal, 84)
-            .offset(x: 0, y: -scrollOffset)
-            Spacer()
         }
     }
 

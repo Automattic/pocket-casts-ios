@@ -57,7 +57,7 @@ struct ToastView<Style: ToastTheme>: View {
             .font(size: 14, style: .subheadline, weight: .medium)
         }
         // Wait for the initial content size to be calculated before appearing so we can animate in
-        .onChange(of: contentSize, perform: { newValue in
+        .onChange(of: contentSize, perform: { _ in
             guard !isVisible else { return }
 
             isVisible = true

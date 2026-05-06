@@ -262,16 +262,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
         NavigationManager.sharedManager.miniPlayer = miniPlayer
 
-        miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            addChild(miniPlayer)
+            miniPlayer.didMove(toParent: self)
+            // Load the view so XIB outlets and observers are wired up before
+            // it's installed as a tab accessory contentView.
+            miniPlayer.loadViewIfNeeded()
+        } else {
+            miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(miniPlayer.view, belowSubview: tabBar)
 
-        NSLayoutConstraint.activate([
-            miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
-        ])
+            NSLayoutConstraint.activate([
+                miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+            ])
 
-        miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+            miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+        }
     }
 
     // MARK: - UITabBarDelegate
@@ -755,7 +763,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { _ in
             self.endOfYear.resetStateIfNeeded()
         }
 
@@ -765,7 +773,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             self.showEndOfYearPromptIfNeeded()
         }
 
-        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { _ in
             self.endOfYear.showPromptBasedOnState(in: self)
 
             self.displayEndOfYearBadgeIfNeeded()
@@ -912,7 +920,7 @@ private extension MainTabBarController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
-            .filter { event in
+            .filter { _ in
                 UIApplication.shared.applicationState == .active
                 && !SceneHelper.isConnectedToCarPlay
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
@@ -933,7 +941,7 @@ private extension MainTabBarController {
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
         let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, cancel in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, _ in
                 guard title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)

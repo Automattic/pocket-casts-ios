@@ -83,7 +83,7 @@ extension PodcastViewController {
             self.loadingIndicator.stopAnimating()
             UIView.animate(withDuration: 0.5) {
                 self.episodesTable.alpha = 1
-            } completion: { success in
+            } completion: { _ in
                 if FeatureFlag.podcastFeedUpdate.enabled {
                     self.showPodcastFeedReloadTipIfNeeded()
                 }
