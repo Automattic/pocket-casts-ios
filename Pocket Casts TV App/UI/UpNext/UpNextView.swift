@@ -27,18 +27,16 @@ struct UpNextView: View {
     }
 
     var upNextView: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack {
-                        Text(L10n.tvTabUpNext)
-                            .font(.title2)
-                            .foregroundStyle(Color.textPrimary)
-                        Spacer()
-                    }
-                    upNextListView
-                        .frame(maxWidth: 1160)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    Text(L10n.tvTabUpNext)
+                        .font(.title2)
+                        .foregroundStyle(Color.textPrimary)
+                    Spacer()
                 }
+                upNextListView
+                    .frame(maxWidth: 1160)
             }
         }
     }
@@ -52,27 +50,13 @@ struct UpNextView: View {
     @Namespace private var rowNamespace
     var upNextListView: some View {
         LazyVStack(alignment: .leading) {
-            ForEach(Array(model.episodes.enumerated()), id: \.element.id) { index, episode in
-                NavigationLink(value: episode) {
-                    EpisodeRow(episode: episode)
-                }
-                .buttonStyle(.card)
-                .prefersDefaultFocus(index == 0, in: rowNamespace)
+            ForEach(model.episodes) { episode in
+                EpisodeRowWithActions(episode: episode, context: .upNext)
+                    .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
             }
         }
         .focusScope(rowNamespace)
         .padding(24)
-        .navigationDestination(for: MockEpisode.self) { episode in
-            VStack {
-                Button {
-
-                } label: {
-                    Text("Episode \(episode.title) details coming soon")
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
-                }
-            }
-        }
     }
 
 }
