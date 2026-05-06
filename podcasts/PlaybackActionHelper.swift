@@ -9,10 +9,12 @@ class PlaybackActionHelper {
 
         AutoplayHelper.shared.playedFrom(playlist: playlist)
 
+        #if !os(tvOS)
         if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             return
         }
+        #endif
 
         if !episode.downloaded(pathFinder: DownloadManager.shared) {
             NetworkUtils.shared.streamEpisodeRequested({
@@ -102,11 +104,12 @@ class PlaybackActionHelper {
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }
-
+        #if !os(tvOS)
         if let playlistUuid {
             SiriShortcutsManager.shared.donatePlaylistPlayed(playlistUuid: playlistUuid)
         } else if let podcastUuid {
             SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
         }
+        #endif
     }
 }
