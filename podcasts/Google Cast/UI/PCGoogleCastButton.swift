@@ -59,8 +59,8 @@ class PCGoogleCastButton: UIButton {
     }
 }
 
-extension PCGoogleCastButton: NavBarStylable {
+extension PCGoogleCastButton: FakeNavBarStylable {
     func setNavBarScrolled(_ scrolled: Bool, animated: Bool) {
-        NavBarButton.applyChrome(to: self, scrolled: scrolled, animated: animated)
+        FakeNavBarButton.applyChrome(to: self, scrolled: scrolled, animated: animated)
     }
 }

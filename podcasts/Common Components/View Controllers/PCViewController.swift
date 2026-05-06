@@ -39,7 +39,7 @@ class PCViewController: SimpleNotificationsViewController {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
             if useTransparentNavigationBarAppearance {
-                NavBarButton.applyStyle(to: castButton)
+                FakeNavBarButton.applyStyle(to: castButton)
             } else {
                 castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
             }
@@ -188,7 +188,7 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     /// Toggles the navigation bar between its at-edge (transparent) and scrolled (blurred) styles,
-    /// and forwards the new state to any `NavBarStylable` bar buttons so their tint and background
+    /// and forwards the new state to any `FakeNavBarStylable` bar buttons so their tint and background
     /// crossfade in step. Subclasses using `useTransparentNavigationBarAppearance` should call this
     /// from `scrollViewDidScroll` when the scroll position crosses their header threshold;
     /// UIKit animates the appearance swap. On iOS 26 the default Liquid Glass background adapts on
@@ -211,7 +211,7 @@ class PCViewController: SimpleNotificationsViewController {
 
         let allItems = ([navigationItem.leftBarButtonItem, customRightBtn, googleCastBtn].compactMap { $0 }) + extraRightButtons
         for item in allItems {
-            (item.customView as? NavBarStylable)?.setNavBarScrolled(scrolled, animated: true)
+            (item.customView as? FakeNavBarStylable)?.setNavBarScrolled(scrolled, animated: true)
         }
     }
 
