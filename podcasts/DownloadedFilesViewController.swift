@@ -179,7 +179,7 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         let formattedInProgressSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(inProgressSize))
         let formattedPlayedSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(playedSize))
         let formattedTmpFilesSize = SizeFormatter.shared.noDecimalFormat(bytes: Int64(tmpFilesSize))
-        FileLog.shared.addMessage("[DownloadFilesViewController] space being used:\n - Unplayed: \(formattedUnplayedSize)\n - InProgress: \(formattedInProgressSize)\n - Played: \(formattedPlayedSize)\n - Temporary: \(formattedTmpFilesSize)")
+        FileLog.shared.addMessage("[DownloadedFilesViewController] space being used:\n - Unplayed: \(formattedUnplayedSize)\n - InProgress: \(formattedInProgressSize)\n - Played: \(formattedPlayedSize)\n - Temporary: \(formattedTmpFilesSize)")
 
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)

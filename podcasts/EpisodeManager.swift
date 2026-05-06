@@ -395,14 +395,19 @@ class EpisodeManager: NSObject {
         var totalFilesSize: UInt64 = 0
         enumerateTmpFolder(folderPath: folderPath) { tmpFile, attributes in
             guard let date = attributes[.modificationDate] as? Date,
-                  Date.now.timeIntervalSince(date) > 1.week // A file that is on the tmp folder more than a week should not been actively used
+                  Date.now.timeIntervalSince(date) > 1.week //A file that has been in the tmp folder for more than a week should no longer be actively used
             else {
                 return
             }
-            totalFilesSize += attributes[.size] as? UInt64 ?? 0
+            let fileSize = attributes[.size] as? UInt64 ?? 0
             let fullFilePath = (folderPath as NSString).appendingPathComponent(tmpFile)
             FileLog.shared.addMessage("Episode Manager: Removing the following orphan file \(tmpFile)")
             StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath))
+            if StorageManager.removeItem(at: URL(fileURLWithPath: fullFilePath)) {
+                totalFilesSize += fileSize
+            } else {
+                FileLog.shared.addMessage("Episode Manager: Failed to remove the following orphan file \(tmpFile)")
+            }
         }
         let formatFileSizes = SizeFormatter.shared.noDecimalFormat(bytes: Int64(totalFilesSize))
         FileLog.shared.addMessage("Episode Manager: Ending removing the temporary orphan files. Removed \(formatFileSizes)")
