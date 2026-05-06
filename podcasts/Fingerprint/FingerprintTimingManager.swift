@@ -447,12 +447,21 @@ final class FingerprintTimingManager: NSObject {
             // entry through `insertMapping`'s per-entry `Array.insert`.
             playbackToReference = cached.entries
             referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
-            filterLastTrusted = cached.entries.last
-            updateState(.active(coverage: cached.entries.count))
+
+            let currentTime = PlaybackManager.shared.currentTime()
+            if isWithinMappedRange(currentTime) {
+                filterLastTrusted = cached.entries.last
+                updateState(.active(coverage: cached.entries.count))
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                )
+                return
+            }
+
             FileLog.shared.addMessage(
-                "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                "FingerprintTimingManager: cache loaded for \(uuid) but playback at "
+                    + "\(String(format: "%.1f", currentTime))s is outside cached range — starting stream"
             )
-            return
         }
 
         let startPosition = PlaybackManager.shared.currentTime()
