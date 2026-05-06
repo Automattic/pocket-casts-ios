@@ -313,20 +313,20 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             navTitleLabel.anchorToAllSidesOf(view: view)
             return view
         }()
-        defaultRightBarButton = UIBarButtonItem(customView: FakeNavBarButton(
+        defaultRightBarButton = FakeNavBarButton.makeBarButtonItem(
             image: UIImage(named: "podcast-share"),
             accessibilityLabel: L10n.share,
             target: self,
             action: #selector(shareTapped(_:))
-        ))
+        )
         customRightBtn = defaultRightBarButton
 
-        defaultBackBarButton = UIBarButtonItem(customView: FakeNavBarButton(
+        defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
             image: UIImage(systemName: "chevron.backward"),
             accessibilityLabel: L10n.back,
             target: self,
             action: #selector(backButtonTapped)
-        ))
+        )
         navigationItem.leftBarButtonItem = defaultBackBarButton
         navigationItem.setHidesBackButton(true, animated: false)
 

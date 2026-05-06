@@ -39,7 +39,10 @@ class PCViewController: SimpleNotificationsViewController {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
             if useTransparentNavigationBarAppearance {
-                FakeNavBarButton.applyStyle(to: castButton)
+                if !LiquidGlass.isEnabled {
+                    FakeNavBarButton.applyStyle(to: castButton)
+                }
+                // On Liquid Glass, the bar's default tint already gives the cast button proper contrast.
             } else {
                 castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
             }
@@ -191,20 +194,22 @@ class PCViewController: SimpleNotificationsViewController {
     /// and forwards the new state to any `FakeNavBarStylable` bar buttons so their tint and background
     /// crossfade in step. Subclasses using `useTransparentNavigationBarAppearance` should call this
     /// from `scrollViewDidScroll` when the scroll position crosses their header threshold;
-    /// UIKit animates the appearance swap. On iOS 26 the default Liquid Glass background adapts on
-    /// its own, so the bar appearance change is a no-op there but the buttons still update.
+    /// UIKit animates the appearance swap. When Liquid Glass is enabled the system handles the
+    /// at-edge/scrolled transition on its own, so we just install its default background once.
     func setTransparentNavBarScrolled(_ scrolled: Bool) {
         guard let navigationBar = navigationController?.navigationBar else {
             return assertionFailure("navigationBar is missing")
         }
         let appearance = UINavigationBarAppearance()
-        if #available(iOS 26, *) {
+        if LiquidGlass.isEnabled {
             appearance.configureWithDefaultBackground()
-        } else {
-            appearance.configureWithTransparentBackground()
-            if scrolled {
-                appearance.backgroundEffect = UIBlurEffect(style: .regular)
-            }
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+            return
+        }
+        appearance.configureWithTransparentBackground()
+        if scrolled {
+            appearance.backgroundEffect = UIBlurEffect(style: .regular)
         }
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance
