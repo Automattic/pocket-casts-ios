@@ -230,7 +230,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
 
     @objc private func miniPlayerStatusDidChange() {
         let horizontalMargin: CGFloat = Settings.libraryType() == .list ? 0 : 16
-        let bottomMargin: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset + 8
+        let bottomMargin: CGFloat = Constants.effectiveMiniPlayerOffset + 8
         mainGrid.contentInset = UIEdgeInsets(top: mainGrid.contentInset.top, left: horizontalMargin, bottom: bottomMargin, right: horizontalMargin)
     }
 

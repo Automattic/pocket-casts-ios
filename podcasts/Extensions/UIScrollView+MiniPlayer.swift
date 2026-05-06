@@ -16,7 +16,7 @@ extension UIScrollView {
 
         let existingInset = contentInset
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = (ignoreMiniPlayer || PlaybackManager.shared.currentEpisode() == nil) ? 0 : Constants.Values.miniPlayerOffset
+        let miniPlayerOffset: CGFloat = ignoreMiniPlayer ? 0 : Constants.effectiveMiniPlayerOffset
         contentInset = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: miniPlayerOffset + multiSelectFooterOffset, right: existingInset.right)
 
         let existingScrollIndicatorInset = verticalScrollIndicatorInsets

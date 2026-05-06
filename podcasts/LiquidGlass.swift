@@ -8,3 +8,14 @@ enum LiquidGlass {
         return false
     }
 }
+
+extension Constants {
+    static var effectiveMiniPlayerOffset: CGFloat {
+        if LiquidGlass.isEnabled {
+            // The player is shown using `UITabAccessory`, so it automatically gets
+            // added to bottom safe area.
+            return 0
+        }
+        return PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
+    }
+}

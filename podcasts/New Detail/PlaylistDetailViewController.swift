@@ -108,7 +108,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                     self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                     self.updateSelectAllBtn()
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     self.multiSelectHeaderView.isHidden = false
                     self.view.bringSubviewToFront(self.multiSelectHeaderView)
 
@@ -247,9 +247,8 @@ class PlaylistDetailViewController: FakeNavViewController {
         guard let window = view.window else { return }
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         let keyBoardHeight = viewModel.isSearching ? keyBoardHeight : 0
-        tableView.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset + keyBoardHeight, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset + keyBoardHeight, right: 0)
         tableView.verticalScrollIndicatorInsets = tableView.contentInset
     }
 
