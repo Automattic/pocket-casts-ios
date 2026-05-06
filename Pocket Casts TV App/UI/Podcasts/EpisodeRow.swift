@@ -81,9 +81,15 @@ struct MoreButtonStyle: ButtonStyle {
 
 struct EpisodeRowWithActions: View {
 
+    enum Context {
+        case `default`
+        case upNext
+    }
+
     let episode: MockEpisode
     var podcastTitle: String?
     var podcastDescription: String?
+    var context: Context = .default
 
     @FocusState private var focusedElement: FocusElement?
     @State private var isPlaying = false
@@ -105,6 +111,22 @@ struct EpisodeRowWithActions: View {
 
     private var isEpisodeFocused: Bool {
         focusedElement == .episode
+    }
+
+    @ViewBuilder
+    private var actionButtons: some View {
+        switch context {
+        case .default:
+            Button(L10n.playNextInUpNext) {}
+            Button(L10n.playLastInUpNext) {}
+            Button(L10n.markPlayed) {}
+            Button(L10n.archive) {}
+        case .upNext:
+            Button(L10n.playNext) {}
+            Button(L10n.playLast) {}
+            Button(L10n.removeFromUpNext) {}
+        }
+        Button(L10n.tvEpisodeInfo) {}
     }
 
     var body: some View {
@@ -151,11 +173,7 @@ struct EpisodeRowWithActions: View {
             .ignoresSafeArea()
         }
         .confirmationDialog(episode.title, isPresented: $isShowingActions) {
-            Button(L10n.playNextInUpNext) {}
-            Button(L10n.playLastInUpNext) {}
-            Button(L10n.markPlayed) {}
-            Button(L10n.archive) {}
-            Button(L10n.tvEpisodeInfo) {}
+            actionButtons
         }
     }
 }
