@@ -67,7 +67,7 @@ struct PlaylistsView: View {
         })
         .focusScope(listNamespace)
         .navigationDestination(for: MockPlaylist.self) { playlist in
-            PlaylistDetailView(model: PlaylistDetailViewModel(playlist: playlist))
+            PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist))
         }
     }
 }

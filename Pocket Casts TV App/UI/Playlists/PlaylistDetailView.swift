@@ -3,7 +3,7 @@ import SwiftUI
 struct PlaylistDetailView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    let model: PlaylistDetailViewModel
+    let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
 
     enum FocusSection: Hashable {
@@ -157,7 +157,7 @@ struct PlaylistDetailView: View {
 
 #Preview {
     let router = MainTabRouter()
-    PlaylistDetailView(model: PlaylistDetailViewModel(playlist: MockData.makePlaylists().first!))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makePlaylists().first!))
         .environment(AppCoordinator())
         .environment(router)
 }

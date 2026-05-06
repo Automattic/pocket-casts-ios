@@ -3,7 +3,7 @@ import Combine
 import PocketCastsUtils
 
 @Observable
-class PlaylistDetailViewModel {
+class PlaylistDetailsViewModel {
 
     private var cancellable: AnyCancellable?
 

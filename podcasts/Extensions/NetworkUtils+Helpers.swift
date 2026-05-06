@@ -4,6 +4,20 @@ import PocketCastsServer
 import PocketCastsUtils
 
 extension NetworkUtils {
+#if os(tvOS)
+    //On tvOS it's allways allowed to download upload
+    func downloadEpisodeRequested(autoDownloadStatus: AutoDownloadStatus, _ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
+        allowed?(true)
+    }
+
+    func streamEpisodeRequested(_ allowed: (() -> Void)?, disallowed: (() -> Void)?) {
+        allowed?()
+    }
+
+    func uploadEpisodeRequested(_ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
+        allowed?(true)
+    }
+#else
     func downloadEpisodeRequested(autoDownloadStatus: AutoDownloadStatus, _ allowed: ((_ later: Bool) -> Void)?, disallowed: (() -> Void)?) {
         let mobileDataAllowed = autoDownloadStatus == .autoDownloaded ? Settings.autoDownloadMobileDataAllowed() : Settings.mobileDataAllowed()
 
@@ -78,4 +92,5 @@ extension NetworkUtils {
 
         optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
     }
+#endif
 }
