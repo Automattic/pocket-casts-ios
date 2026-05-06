@@ -10,6 +10,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     var isUsingFakeNavBar: Bool { !LiquidGlass.isEnabled }
 
     private var navBar: LegacyFakeNavigationBar?
+    private var customTitleLabel: UILabel?
 
     private lazy var placeholderNavView = UIView()
     private lazy var placeholderBackButton = UIButton()
@@ -48,9 +49,20 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
                     action: #selector(handleCloseTapped)
                 )
             }
+            configureCustomTitleView()
         } else {
             configureLegacyFakeNavBar()
         }
+    }
+
+    private func configureCustomTitleView() {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textAlignment = .center
+        label.textColor = AppTheme.navBarTitleColor()
+        label.alpha = 0
+        navigationItem.titleView = label
+        customTitleLabel = label
     }
 
     private func configureLegacyFakeNavBar() {
@@ -76,7 +88,13 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         super.viewWillAppear(animated)
 
         guard let navBar else {
-            navigationItem.title = navTitle
+            if let customTitleLabel {
+                customTitleLabel.text = navTitle
+                customTitleLabel.sizeToFit()
+                if !navigationTitleSetOnScroll {
+                    customTitleLabel.alpha = 1
+                }
+            }
             return
         }
 
@@ -172,8 +190,23 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let navBar, navigationTitleSetOnScroll {
             navBar.updateForScroll(offset: scrollView.contentOffset.y, threshold: scrollPointToChangeTitle, title: navTitle)
+        } else if let customTitleLabel, navigationTitleSetOnScroll {
+            updateCustomTitleForScroll(scrollView, label: customTitleLabel)
         }
         setShadowVisible(false)
+    }
+
+    private func updateCustomTitleForScroll(_ scrollView: UIScrollView, label: UILabel) {
+        if label.text != navTitle {
+            label.text = navTitle
+            label.sizeToFit()
+        }
+        let scrolledToY = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
+        let targetAlpha: CGFloat = scrolledToY > scrollPointToChangeTitle ? 1 : 0
+        guard label.alpha != targetAlpha else { return }
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+            label.alpha = targetAlpha
+        }
     }
 
     func setShadowVisible(_ visible: Bool) {
