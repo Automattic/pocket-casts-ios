@@ -17,10 +17,9 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
-    /// When `true`, `scrollEdgeAppearance` is configured with a transparent background so the nav bar
-    /// blends with the underlying content at the top of scroll, while `standardAppearance` (used when
-    /// scrolled) keeps the regular opaque chrome.
-    var useTransparentScrollEdgeAppearance = false {
+    /// When `true`, uses fully transparent appearance designed as
+    /// FakeNavBarViewController replacement.
+    var useTransparentNavigationBarAppearance = false {
         didSet {
             setupNavBar(animated: false)
         }
@@ -146,6 +145,12 @@ class PCViewController: SimpleNotificationsViewController {
         guard let navController = navigationController else { return }
 
         let navigationBar = navController.navigationBar
+
+        guard !useTransparentNavigationBarAppearance else {
+            configureTransparentAppearance()
+            return
+        }
+
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
         let iconsColor = navIconsColor ?? AppTheme.navBarIconsColor()
         let backgroundColor = navBgColor ?? ThemeColor.secondaryUi01()
@@ -154,35 +159,43 @@ class PCViewController: SimpleNotificationsViewController {
         navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav-back")?.tintedImage(iconsColor)
         googleCastBtn?.customView?.tintColor = iconsColor
 
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.configureWithOpaqueBackground()
-        standardAppearance.backgroundColor = backgroundColor
-        standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: titleColor]
-        standardAppearance.largeTitleTextAttributes = [
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = backgroundColor
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: titleColor]
+        appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: titleColor,
             NSAttributedString.Key.font: largeTitleFont
         ]
-        standardAppearance.shadowColor = nil
-
-        let scrollEdgeAppearance: UINavigationBarAppearance
-        if useTransparentScrollEdgeAppearance {
-            scrollEdgeAppearance = UINavigationBarAppearance()
-            scrollEdgeAppearance.configureWithTransparentBackground()
-        } else {
-            scrollEdgeAppearance = standardAppearance
-        }
+        appearance.shadowColor = nil
 
         if animated {
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                navigationBar.standardAppearance = standardAppearance
-                navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+                navigationBar.standardAppearance = appearance
+                navigationBar.scrollEdgeAppearance = appearance
                 navigationBar.tintColor = iconsColor
             })
         } else {
-            navigationBar.standardAppearance = standardAppearance
-            navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor
         }
+    }
+
+    private func configureTransparentAppearance() {
+        guard #available(iOS 26, *), let navigationBar = navigationController?.navigationBar else {
+            return assertionFailure("nope")
+        }
+        navigationBar.standardAppearance = {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            return appearance
+        }()
+        navigationBar.scrollEdgeAppearance = {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            return appearance
+        }()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

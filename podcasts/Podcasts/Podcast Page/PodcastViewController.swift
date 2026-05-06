@@ -351,6 +351,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        episodesTable // Can't find it in a complex view hierarchy otherwise
+    }
+
     private func setupLogin() {
         podcastRatingViewModel.presentLogin = { [weak self] _ in
             self?.showLogin(message: L10n.ratingLoginRequired)

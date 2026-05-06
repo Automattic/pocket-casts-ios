@@ -40,7 +40,7 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         super.viewDidLoad()
 
         if !isUsingFakeNavBar {
-            useTransparentScrollEdgeAppearance = true
+            useTransparentNavigationBarAppearance = true
             if displayMode == .card {
                 navigationItem.leftBarButtonItem = UIBarButtonItem(
                     barButtonSystemItem: .close,

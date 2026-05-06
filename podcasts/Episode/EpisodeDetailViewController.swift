@@ -167,6 +167,10 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     let fromPlaylist: AutoplayHelper.Playlist?
 
+    override var isUsingFakeNavBar: Bool {
+        true // It doesn't support native nav bar
+    }
+
     private var currentTab: Tab = .details
 
     // MARK: - Init
