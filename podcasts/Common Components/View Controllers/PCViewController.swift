@@ -17,6 +17,12 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
+    var useTransparentNavigationBarAppearance = false {
+        didSet {
+            setupNavBar(animated: false)
+        }
+    }
+
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
@@ -136,6 +142,11 @@ class PCViewController: SimpleNotificationsViewController {
     private func setupNavBar(animated: Bool) {
         guard let navController = navigationController else { return }
 
+        guard !useTransparentNavigationBarAppearance else {
+            configureTransparentAppearance()
+            return
+        }
+
         let navigationBar = navController.navigationBar
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
         let iconsColor = navIconsColor ?? AppTheme.navBarIconsColor()
@@ -166,6 +177,22 @@ class PCViewController: SimpleNotificationsViewController {
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor
         }
+    }
+
+    private func configureTransparentAppearance() {
+        guard #available(iOS 26, *), let navigationBar = navigationController?.navigationBar else {
+            return assertionFailure("nope")
+        }
+        navigationBar.standardAppearance = {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            return appearance
+        }()
+        navigationBar.scrollEdgeAppearance = {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithDefaultBackground()
+            return appearance
+        }()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
