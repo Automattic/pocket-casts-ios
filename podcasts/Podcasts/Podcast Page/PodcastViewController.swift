@@ -520,6 +520,10 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         return .default
     }
 
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        episodesTable
+    }
+
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         dismissKeyboardForScrollIfNeeded()
     }
