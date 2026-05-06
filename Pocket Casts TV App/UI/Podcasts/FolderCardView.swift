@@ -81,6 +81,7 @@ private struct MarqueeText: View {
                 label
                     .offset(x: offset)
                     .onAppear { startScrolling() }
+                    .onDisappear { offset = 0 }
             } else {
                 label
             }

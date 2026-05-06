@@ -1,13 +1,13 @@
 import SwiftUI
 
-private enum GridCellItem {
+private enum GridCellItem: Identifiable {
     case podcast(MockPodcast)
     case folder(MockFolder)
 
     var id: String {
         switch self {
-        case .podcast(let p): return p.id
-        case .folder(let f): return f.id
+        case .podcast(let p): p.id
+        case .folder(let f): f.id
         }
     }
 }
@@ -22,6 +22,10 @@ struct PodcastsView: View {
         static let gridSize = CGFloat(250)
     }
 
+    private static let gridColumns: [GridItem] = (0..<6).map { _ in
+        GridItem(.fixed(Layout.gridSize), spacing: 48)
+    }
+
     var body: some View {
         ZStack {
             switch model.state {
@@ -34,7 +38,7 @@ struct PodcastsView: View {
             }
         }
         .task {
-            model.load()
+            await model.load()
         }
     }
 
@@ -61,10 +65,6 @@ struct PodcastsView: View {
         }
     }
 
-    private let items: [GridItem] = (0..<6).map { _ in
-        GridItem(.fixed(Layout.gridSize), spacing: 48)
-    }
-
     @Namespace private var podcastGridNamespace
 
     private var gridItems: [GridCellItem] {
@@ -78,8 +78,8 @@ struct PodcastsView: View {
 
     var podcastGrid: some View {
         let items = gridItems
-        return LazyVGrid(columns: self.items, spacing: 48, content: {
-            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+        return LazyVGrid(columns: Self.gridColumns, spacing: 48) {
+            ForEach(items) { item in
                 switch item {
                 case .podcast(let podcast):
                     NavigationLink(value: podcast) {
@@ -88,7 +88,7 @@ struct PodcastsView: View {
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
-                    .prefersDefaultFocus(index == 0, in: podcastGridNamespace)
+                    .prefersDefaultFocus(item.id == items.first?.id, in: podcastGridNamespace)
                 case .folder(let folder):
                     NavigationLink(value: folder) {
                         FolderCardView(folder: folder)
@@ -96,7 +96,7 @@ struct PodcastsView: View {
                     .buttonStyle(.card)
                 }
             }
-        })
+        }
         .focusScope(podcastGridNamespace)
         .navigationDestination(for: MockPodcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
