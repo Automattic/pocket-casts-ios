@@ -18,4 +18,8 @@ extension Constants {
         }
         return PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
     }
+
+    static var effectiveFooterViewPadding: CGFloat {
+        Constants.effectiveMiniPlayerOffset + (LiquidGlass.isEnabled ? 8 : 16)
+    }
 }

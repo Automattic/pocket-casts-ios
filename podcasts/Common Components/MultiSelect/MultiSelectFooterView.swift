@@ -97,6 +97,12 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
         contentView.frame = bounds
         contentView.backgroundColor = UIColor.clear
         backgroundColor = UIColor.clear
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            let glass = UIGlassEffect()
+            glass.isInteractive = true
+            blurView.effect = glass
+            containerView.backgroundColor = .clear
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 

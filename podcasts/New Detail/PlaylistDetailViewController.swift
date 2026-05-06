@@ -108,7 +108,7 @@ class PlaylistDetailViewController: FakeNavViewController {
                     self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                     self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                     self.updateSelectAllBtn()
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                     self.multiSelectHeaderView.isHidden = false
                     self.view.bringSubviewToFront(self.multiSelectHeaderView)
 
