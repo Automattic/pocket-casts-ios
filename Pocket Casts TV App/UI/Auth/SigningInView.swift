@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct SigningInView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -42,8 +43,7 @@ struct SigningInView: View {
         ScrollView(.horizontal) {
             HStack(spacing: 24, content: {
                 ForEach(model.podcasts) { podcast in
-                    Image(podcast.image)
-                        .resizable()
+                    PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                         .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
             }).ignoresSafeArea()

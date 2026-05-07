@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 protocol SigningInViewModelInterface: AnyObject, Observation.Observable {
     var totalPodcastsToImport: Int { get }
@@ -19,14 +20,20 @@ enum SigningInState: Equatable, Hashable {
 class SigningInViewModel: SigningInViewModelInterface {
     private var cancellables: Set<AnyCancellable> = []
 
-    var state: SigningInState = .waiting
+    private(set) var state: SigningInState = .waiting
 
-    var podcasts: [MockPodcast] = []
+    var podcasts: [Podcast] = []
 
     var totalPodcastsToImport: Int = -1
     var totalPodcastsImported: Int = 0
     var title: String?
     var progress: CGFloat = 0
+
+    private let dataManager: DataManager
+
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
+    }
 
     func sync() {
         guard cancellables.isEmpty else {
@@ -42,10 +49,9 @@ class SigningInViewModel: SigningInViewModelInterface {
 
     private func fetchPodcasts() {
         Task {
-            let numberOfPodcasts = MockData.makePodcasts().count
-            let podcasts = MockData.makePodcasts().prefix(upTo: Int((CGFloat(numberOfPodcasts) * progress).rounded()) )
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
             await MainActor.run {
-                self.podcasts = Array(podcasts)
+                self.podcasts = podcasts
             }
         }
     }
@@ -139,23 +145,35 @@ class SigningInViewModel: SigningInViewModelInterface {
 }
 
 @Observable
-class SigningInViewModelMock {
+class SigningInViewModelMock: SigningInViewModelInterface {
+
     private var cancellable: AnyCancellable?
 
-    enum State: Equatable, Hashable {
-        case waiting
-        case finished
-    }
-    var state: State = .waiting
+    var state: SigningInState = .waiting
+
+    var totalPodcastsToImport: Int = MockData.makePodcasts().count
+
+    var totalPodcastsImported: Int = 0
+
+    var title: String?
+
+    var progress: CGFloat = 0
 
     var podcasts: [MockPodcast] = MockData.makePodcasts()
 
     func sync() {
-        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
+        cancellable = Timer.publish(every: 1.0, on: .main, in: .common)
                     .autoconnect()
                     .sink { [weak self] _ in
                         guard let self else { return }
-                        state = .finished
+
+                        if totalPodcastsImported < totalPodcastsToImport {
+                            totalPodcastsImported += 1
+                        } else {
+                            state = .finished
+                        }
+
+                        progress = CGFloat(totalPodcastsImported) / CGFloat(totalPodcastsToImport)
                     }
     }
 }
