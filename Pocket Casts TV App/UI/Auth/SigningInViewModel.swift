@@ -3,17 +3,25 @@ import Combine
 import PocketCastsServer
 import PocketCastsUtils
 
+protocol SigningInViewModelInterface: AnyObject, Observation.Observable {
+    var totalPodcastsToImport: Int { get }
+    var totalPodcastsImported: Int { get }
+    var title: String? { get }
+    var progress: CGFloat { get }
+}
+
+enum SigningInState: Equatable, Hashable {
+    case waiting
+    case finished
+}
+
 @Observable
-class SigningInViewModel {
+class SigningInViewModel: SigningInViewModelInterface {
     private var cancellables: Set<AnyCancellable> = []
 
-    enum State: Equatable, Hashable {
-        case waiting
-        case finished
-    }
-    var state: State = .waiting
+    var state: SigningInState = .waiting
 
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
+    var podcasts: [MockPodcast] = []
 
     var totalPodcastsToImport: Int = -1
     var totalPodcastsImported: Int = 0
@@ -24,7 +32,7 @@ class SigningInViewModel {
         guard cancellables.isEmpty else {
             return
         }
-        observeSyncProgressProgressPodcastsCount()
+        observeSyncProgressPodcastsCount()
         observeSyncProgressProgressPodcasts()
         observeSyncProgressImported()
         observeSyncCompleted()
@@ -32,7 +40,17 @@ class SigningInViewModel {
         observeUserLoginDidChange()
     }
 
-    private func observeSyncProgressProgressPodcastsCount() {
+    private func fetchPodcasts() {
+        Task {
+            let numberOfPodcasts = MockData.makePodcasts().count
+            let podcasts = MockData.makePodcasts().prefix(upTo: Int((CGFloat(numberOfPodcasts) * progress).rounded()) )
+            await MainActor.run {
+                self.podcasts = Array(podcasts)
+            }
+        }
+    }
+
+    private func observeSyncProgressPodcastsCount() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastCount)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] notification in
@@ -59,11 +77,12 @@ class SigningInViewModel {
                 totalPodcastsImported = number.intValue
                 if totalPodcastsToImport > 0 {
                     title = L10n.syncProgress(totalPodcastsImported.localized(), totalPodcastsToImport.localized())
-                    progress = CGFloat(totalPodcastsImported / totalPodcastsToImport)
+                    progress = CGFloat(totalPodcastsImported) / CGFloat(totalPodcastsToImport)
                 } else {
                     // Used when the total number of podcasts to sync isn't known.
                     title = totalPodcastsImported == 1 ? L10n.syncProgressUnknownCountSingular : L10n.syncProgressUnknownCountPluralFormat(totalPodcastsImported.localized())
                 }
+                fetchPodcasts()
             }
             .store(in: &cancellables)
     }
@@ -118,3 +137,26 @@ class SigningInViewModel {
             .store(in: &cancellables)
     }
 }
+
+@Observable
+class SigningInViewModelMock {
+    private var cancellable: AnyCancellable?
+
+    enum State: Equatable, Hashable {
+        case waiting
+        case finished
+    }
+    var state: State = .waiting
+
+    var podcasts: [MockPodcast] = MockData.makePodcasts()
+
+    func sync() {
+        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
+                    .autoconnect()
+                    .sink { [weak self] _ in
+                        guard let self else { return }
+                        state = .finished
+                    }
+    }
+}
+
