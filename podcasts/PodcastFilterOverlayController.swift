@@ -131,17 +131,19 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             navigationItem.largeTitleDisplayMode = .always
         }
 
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = backgroundColor
-        appearance.largeTitleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
-            NSAttributedString.Key.font: UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
-        ]
-        appearance.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
+        if !LiquidGlass.isEnabled {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = backgroundColor
+            appearance.largeTitleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01),
+                NSAttributedString.Key.font: UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
+            ]
+            appearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.standardAppearance = appearance
+        }
     }
 
     func setupCloseButton() {

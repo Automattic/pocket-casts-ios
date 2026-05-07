@@ -129,8 +129,14 @@ class NewPlaylistViewController: PCViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
+        if !LiquidGlass.isEnabled {
+            configureLegacyOpqaueNavBarAppearance()
+        }
+    }
+
+    private func configureLegacyOpqaueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = backgroundColor
+        appearance.backgroundColor = AppTheme.viewBackgroundColor()
         appearance.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
         ]

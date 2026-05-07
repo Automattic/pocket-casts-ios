@@ -147,6 +147,8 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func setupNavBar(animated: Bool) {
+        guard !LiquidGlass.isEnabled else { return }
+
         guard let navController = navigationController else { return }
 
         guard !useTransparentNavigationBarAppearance else {
@@ -197,16 +199,14 @@ class PCViewController: SimpleNotificationsViewController {
     /// UIKit animates the appearance swap. When Liquid Glass is enabled the system handles the
     /// at-edge/scrolled transition on its own, so we just install its default background once.
     func setTransparentNavBarScrolled(_ scrolled: Bool) {
+        guard !LiquidGlass.isEnabled else {
+            return // It's a no-op since on iOS 26 we already use default transparent bars
+        }
+
         guard let navigationBar = navigationController?.navigationBar else {
             return assertionFailure("navigationBar is missing")
         }
         let appearance = UINavigationBarAppearance()
-        if LiquidGlass.isEnabled {
-            appearance.configureWithDefaultBackground()
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-            return
-        }
         appearance.configureWithTransparentBackground()
         if scrolled {
             appearance.backgroundEffect = UIBlurEffect(style: .regular)
