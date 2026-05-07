@@ -584,8 +584,10 @@ final class FingerprintTimingManager: NSObject {
                         "duration_ms": durationMs
                     ])
                 case .unavailable:
+                    let reason = ctx.isStreaming ? "streaming_unsupported" : "no_matches"
                     self.track(.syncedTranscriptUnavailable, properties: [
-                        "reason": "streaming_unsupported"
+                        "reason": reason,
+                        "is_streaming": ctx.isStreaming
                     ])
                 default:
                     break
