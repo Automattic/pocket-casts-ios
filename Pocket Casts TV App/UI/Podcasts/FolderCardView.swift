@@ -1,7 +1,8 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct FolderCardView: View {
-    let folder: MockFolder
+    let folder: Folder
 
     private let cardSize: CGFloat = 250
     private let coverSize: CGFloat = 80
@@ -23,7 +24,7 @@ struct FolderCardView: View {
                 .padding(.bottom, 16)
         }
         .frame(width: cardSize, height: cardSize)
-        .background(gradient)
+        .background(Color(uiColor: AppTheme.folderColor(colorInt: folder.color)))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
@@ -42,17 +43,17 @@ struct FolderCardView: View {
 
     @ViewBuilder
     private func coverImage(at index: Int) -> some View {
-        if index < folder.podcastImages.count {
-            Image(folder.podcastImages[index])
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: coverSize, height: coverSize)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-        } else {
+//        if index < folder.podcastImages.count {
+//            Image(folder.podcastImages[index])
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//                .frame(width: coverSize, height: coverSize)
+//                .clipShape(RoundedRectangle(cornerRadius: 6))
+//        } else {
             Color.black.opacity(0.2)
                 .frame(width: coverSize, height: coverSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
+//        }
     }
 
     private var folderName: some View {
@@ -109,13 +110,13 @@ private struct MarqueeText: View {
     }
 }
 
-#Preview {
-    let folders = MockData.makeFolders()
-    LazyVGrid(columns: [GridItem(.fixed(250), spacing: 48), GridItem(.fixed(250), spacing: 48)], spacing: 48) {
-        ForEach(folders) { folder in
-            FolderCardView(folder: folder)
-        }
-    }
-    .padding()
-    .background(Color.black)
-}
+//#Preview {
+//    let folders = MockData.makeFolders()
+//    LazyVGrid(columns: [GridItem(.fixed(250), spacing: 48), GridItem(.fixed(250), spacing: 48)], spacing: 48) {
+//        ForEach(folders) { folder in
+//            FolderCardView(folder: folder)
+//        }
+//    }
+//    .padding()
+//    .background(Color.black)
+//}

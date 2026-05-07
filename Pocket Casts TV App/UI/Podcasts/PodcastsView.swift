@@ -63,15 +63,13 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
     var podcastGrid: some View {
         LazyVGrid(columns: gridColumns, spacing: 48) {
             ForEach(model.items) { item in
-                switch item {
-                case .podcast(let podcast):
+                if let podcast = item.podcast {
                     NavigationLink(value: podcast) {
                         PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
-                    //.prefersDefaultFocus(item.id == items.first?.id, in: podcastGridNamespace)
-                case .folder(let folder):
+                } else if let folder = item.folder {
                     NavigationLink(value: folder) {
                         FolderCardView(folder: folder)
                     }

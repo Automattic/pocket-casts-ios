@@ -4,18 +4,6 @@ import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
 
-enum GridCellItem: Identifiable {
-    case podcast(Podcast)
-    case folder(MockFolder)
-
-    var id: String {
-        switch self {
-        case .podcast(let p): p.uuid
-        case .folder(let f): f.id
-        }
-    }
-}
-
 enum PodcastViewModelState: Equatable, Hashable {
     case loading
     case ready
@@ -26,7 +14,7 @@ protocol PodcastsViewModelInterface: AnyObject, Observation.Observable {
 
     var state: PodcastViewModelState { get }
 
-    var items: [GridCellItem] { get }
+    var items: [HomeGridItem] { get }
 
     func load() async
 }
@@ -37,7 +25,7 @@ class PodcastsViewModel: PodcastsViewModelInterface {
 
     private(set) var state: PodcastViewModelState = .loading
 
-    var items: [GridCellItem] = []
+    var items: [HomeGridItem] = []
 
     private let dataManager: DataManager
 
@@ -51,9 +39,9 @@ class PodcastsViewModel: PodcastsViewModelInterface {
 
     private func fetchPodcasts() async {
         Task {
-            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false)
+            let gridItems = HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
             await MainActor.run {
-                self.items = podcasts.map { GridCellItem.podcast($0) }
+                self.items = gridItems
                 self.state = .ready
             }
         }
@@ -67,7 +55,7 @@ class PodcastsViewModelMock: PodcastsViewModelInterface {
 
     var state: PodcastViewModelState = .loading
 
-    var items: [GridCellItem] = []
+    var items: [HomeGridItem] = []
 
     func load() async {
         //Mock data load
@@ -75,7 +63,7 @@ class PodcastsViewModelMock: PodcastsViewModelInterface {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                items = MockData.makeStubPodcasts().map { GridCellItem.podcast($0)}
+                items = MockData.makeStubPodcasts().map { HomeGridItem(podcast: $0) }
                 state = items.isEmpty ? .empty : .ready
                 cancellable?.cancel()
                 cancellable = nil
