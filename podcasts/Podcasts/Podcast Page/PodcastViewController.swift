@@ -74,7 +74,10 @@ protocol PodcastActionsDelegate: AnyObject {
 
 class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
     var podcast: Podcast?
-    var episodeInfo = [ArraySection<String, ListItem>]()
+    var episodeInfo: [ArraySection<String, ListItem>] = {
+        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
+        return [ArraySection<String, ListItem>(model: searchHeader.headerTitle, elements: [searchHeader])]
+    }()
     var uuidsThatMatchSearch = [String]()
     var featuredPodcast = false
     var listUuid: String?
@@ -337,6 +340,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         setupBookmarkViewModel()
 
         setupRefreshControl()
+        reloadData()
 
         // Keep external action bar aligned with mini player
         NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidAppear, object: nil)
