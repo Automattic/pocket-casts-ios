@@ -147,9 +147,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             "synced_state_at_dismiss": syncedState.analyticsName,
             "synced_seeks_count": syncedSeeksCount
         ]
-        if let coverage = syncedState.coverageCount {
-            properties["coverage_count_at_dismiss"] = coverage
-        }
         if let appear = appearDate {
             properties["engagement_seconds"] = Int(Date().timeIntervalSince(appear))
         }
