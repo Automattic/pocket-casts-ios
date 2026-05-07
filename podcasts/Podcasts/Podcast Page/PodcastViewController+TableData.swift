@@ -259,7 +259,16 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+        if indexPath.section == PodcastViewController.headerSection {
+            return podcastHeaderCell.rowHeight
+        }
+
+        if currentViewMode == .bookmarks && indexPath.section != PodcastViewController.headerSection {
+            // For bookmarks, we need to calculate the height dynamically
+            return UITableView.automaticDimension
+        }
+
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
