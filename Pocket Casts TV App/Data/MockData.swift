@@ -216,7 +216,6 @@ struct MockData {
             return stubPodcasts
         }
         let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
-        let nextDays = ["Next episode Monday", "Next episode Tuesday", "Next episode Wednesday", "Next episode Thursday", "Next episode Friday"]
         let numberOfPodcasts = 48
         var results = [Podcast]()
         for i in (0..<numberOfPodcasts) {
