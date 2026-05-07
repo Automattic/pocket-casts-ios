@@ -13,16 +13,17 @@ final class MiniPlayerScrollingTitleView: UIView {
     private let trailingLabel = UILabel()
     private let gradientMask = CAGradientLayer()
 
-    private var animationTask: Task<Void, Never>?
-    private var lastText: String?
-    private var lastBoundsWidth: CGFloat = 0
+    private var lastTextWidth: CGFloat = -1
+    private var lastBoundsWidth: CGFloat = -1
 
     private let fadeWidth: CGFloat = 16
     private let scrollSpeed: CGFloat = 30
     private let gap: CGFloat = 28
-    private let initialDelay: Duration = .seconds(5.0)
-    private let betweenCyclesDelay: Duration = .seconds(5.0)
+    private let pauseDuration: TimeInterval = 5.0
     private let maskTransitionDuration: TimeInterval = 0.35
+
+    private static let transformAnimationKey = "marquee.transform"
+    private static let maskAnimationKey = "marquee.mask"
 
     var text: String? {
         get { primaryLabel.text }
@@ -117,102 +118,125 @@ final class MiniPlayerScrollingTitleView: UIView {
 
         if needsScrolling {
             if layer.mask !== gradientMask {
-                applyMask(showLeading: false, showTrailing: true)
                 layer.mask = gradientMask
+            }
+            if gradientMask.animation(forKey: Self.maskAnimationKey) == nil {
+                applyStaticMask()
             }
         } else {
             layer.mask = nil
         }
 
-        if primaryLabel.text != lastText || bounds.width != lastBoundsWidth {
-            lastText = primaryLabel.text
+        if textWidth != lastTextWidth || bounds.width != lastBoundsWidth {
+            lastTextWidth = textWidth
             lastBoundsWidth = bounds.width
             scheduleAnimation()
         }
     }
 
-    private func applyMask(showLeading: Bool, showTrailing: Bool) {
-        let width = bounds.width
-        guard width > 0 else { return }
-        let fadeFraction = min(0.4, fadeWidth / width)
-        let leadingEnd = showLeading ? fadeFraction : 0
-        let trailingStart = showTrailing ? (1 - fadeFraction) : 1
-        gradientMask.locations = [
+    private func maskLocations(leadingOpen: Bool) -> [NSNumber] {
+        let fadeFraction = Float(min(0.4, fadeWidth / bounds.width))
+        return [
             0,
-            NSNumber(value: Float(leadingEnd)),
-            NSNumber(value: Float(trailingStart)),
+            NSNumber(value: leadingOpen ? fadeFraction : 0),
+            NSNumber(value: 1 - fadeFraction),
             1,
         ]
     }
 
+    private func applyStaticMask() {
+        guard bounds.width > 0 else { return }
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        gradientMask.locations = maskLocations(leadingOpen: false)
+        CATransaction.commit()
+    }
+
     private func scheduleAnimation() {
-        animationTask?.cancel()
-        animationTask = nil
-        scrollContainer.layer.removeAnimation(forKey: "marquee")
+        scrollContainer.layer.removeAnimation(forKey: Self.transformAnimationKey)
+        gradientMask.removeAnimation(forKey: Self.maskAnimationKey)
 
         let textWidth = primaryLabel.intrinsicContentSize.width
         let needsScrolling = textWidth > bounds.width + 0.5
 
-        guard needsScrolling, window != nil, !UIAccessibility.isReduceMotionEnabled else {
-            applyMask(showLeading: false, showTrailing: needsScrolling)
+        guard needsScrolling, bounds.width > 0, window != nil, !UIAccessibility.isReduceMotionEnabled else {
             return
         }
 
-        applyMask(showLeading: false, showTrailing: true)
-
-        animationTask = Task { @MainActor [weak self] in
-            await self?.runAnimationLoop()
-        }
+        addMarqueeAnimations()
     }
 
-    @MainActor
-    private func runAnimationLoop() async {
-        do {
-            try await Task.sleep(for: initialDelay)
-            while !Task.isCancelled {
-                let textWidth = primaryLabel.intrinsicContentSize.width
-                let cycleDistance = textWidth + gap
-                guard cycleDistance > 0 else { return }
-                let cycleDuration = TimeInterval(cycleDistance / scrollSpeed)
-                let preGapDuration = TimeInterval(textWidth / scrollSpeed)
-                let gapDuration = TimeInterval(gap / scrollSpeed)
+    private func addMarqueeAnimations() {
+        let textWidth = primaryLabel.intrinsicContentSize.width
+        let cycleDistance = textWidth + gap
+        let scrollDuration = TimeInterval(cycleDistance / scrollSpeed)
+        let preGapDuration = TimeInterval(textWidth / scrollSpeed)
+        let gapDuration = TimeInterval(gap / scrollSpeed)
+        let totalDuration = pauseDuration + scrollDuration
 
-                UIView.animate(withDuration: maskTransitionDuration, delay: 0, options: [.curveEaseInOut]) {
-                    self.applyMask(showLeading: true, showTrailing: true)
-                }
+        guard totalDuration > 0 else { return }
 
-                let animation = CABasicAnimation(keyPath: "transform.translation.x")
-                animation.fromValue = 0
-                animation.toValue = -cycleDistance
-                animation.duration = cycleDuration
-                animation.timingFunction = CAMediaTimingFunction(name: .linear)
-                scrollContainer.layer.add(animation, forKey: "marquee")
+        let beginTime = CACurrentMediaTime()
 
-                // Fade the leading mask out while the gap (not text) occupies the
-                // leading edge — otherwise the start of the title is visibly
-                // obscured as it loops back into view.
-                try await Task.sleep(for: .seconds(preGapDuration))
+        let transformAnim = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        transformAnim.values = [0, 0, -cycleDistance]
+        transformAnim.keyTimes = [
+            0,
+            NSNumber(value: pauseDuration / totalDuration),
+            1,
+        ]
+        transformAnim.timingFunctions = [
+            CAMediaTimingFunction(name: .linear),
+            CAMediaTimingFunction(name: .linear),
+        ]
+        transformAnim.duration = totalDuration
+        transformAnim.repeatCount = .infinity
+        transformAnim.beginTime = beginTime
+        transformAnim.isRemovedOnCompletion = false
+        transformAnim.fillMode = .both
 
-                UIView.animate(withDuration: min(maskTransitionDuration, gapDuration), delay: 0, options: [.curveEaseInOut]) {
-                    self.applyMask(showLeading: false, showTrailing: true)
-                }
+        scrollContainer.layer.add(transformAnim, forKey: Self.transformAnimationKey)
 
-                try await Task.sleep(for: .seconds(gapDuration))
+        let closed = maskLocations(leadingOpen: false)
+        let open = maskLocations(leadingOpen: true)
 
-                try await Task.sleep(for: betweenCyclesDelay)
-            }
-        } catch {
-            scrollContainer.layer.removeAnimation(forKey: "marquee")
-            applyMask(showLeading: false, showTrailing: true)
-        }
+        let scrollStart = pauseDuration
+        let fadeInEnd = scrollStart + maskTransitionDuration
+        let holdEnd = scrollStart + preGapDuration
+        let fadeOutDur = min(maskTransitionDuration, gapDuration)
+        let fadeOutEnd = scrollStart + preGapDuration + fadeOutDur
+
+        let maskAnim = CAKeyframeAnimation(keyPath: "locations")
+        maskAnim.values = [closed, closed, open, open, closed, closed]
+        maskAnim.keyTimes = [
+            0,
+            NSNumber(value: scrollStart / totalDuration),
+            NSNumber(value: fadeInEnd / totalDuration),
+            NSNumber(value: holdEnd / totalDuration),
+            NSNumber(value: fadeOutEnd / totalDuration),
+            1,
+        ]
+        maskAnim.timingFunctions = [
+            CAMediaTimingFunction(name: .linear),
+            CAMediaTimingFunction(name: .easeInEaseOut),
+            CAMediaTimingFunction(name: .linear),
+            CAMediaTimingFunction(name: .easeInEaseOut),
+            CAMediaTimingFunction(name: .linear),
+        ]
+        maskAnim.duration = totalDuration
+        maskAnim.repeatCount = .infinity
+        maskAnim.beginTime = beginTime
+        maskAnim.isRemovedOnCompletion = false
+        maskAnim.fillMode = .both
+
+        gradientMask.add(maskAnim, forKey: Self.maskAnimationKey)
     }
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
         if window == nil {
-            animationTask?.cancel()
-            animationTask = nil
-            scrollContainer.layer.removeAnimation(forKey: "marquee")
+            scrollContainer.layer.removeAnimation(forKey: Self.transformAnimationKey)
+            gradientMask.removeAnimation(forKey: Self.maskAnimationKey)
         } else {
             scheduleAnimation()
         }
