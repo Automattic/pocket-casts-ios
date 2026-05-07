@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 
 extension Episode {
     func checkTranscriptAvailability() {
