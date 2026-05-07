@@ -9,8 +9,10 @@ class SignInViewModel {
 
     enum State: Equatable, Hashable {
         case waiting
+        case error
         case finished
     }
+
     var state: State = .waiting
 
     var codes: [String] = ["J", "M", "R", "S", "3", "W"]
@@ -28,12 +30,12 @@ class SignInViewModel {
         do {
             let response = try await AuthenticationHelper.validateLogin(username: username, password: password, scope: .mobile)
             if response.token != nil {
-                self.state = .finished
+                state = .finished
             }
         } catch let apiError as APIError {
-            print(apiError)
+            state = .error
         } catch {
-            print(error)
+            state = .error
         }
     }
 }
