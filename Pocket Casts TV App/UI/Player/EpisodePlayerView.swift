@@ -53,7 +53,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
                 action.state = .on
-                TVToast.shared.show(String(format: "Playback speed set to %.1fx", speed))
+                TVToast.shared.show(L10n.tvPlayerPlaybackSpeedSet(String(format: "%.1fx", speed)))
             }
         }
         return UIMenu(
@@ -65,10 +65,10 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 
     private func makePlaybackEffectsMenu() -> UIMenu {
         let volumeBoostOff = UIAction(title: L10n.off, state: .on) { _ in
-            TVToast.shared.show("Volume boost off")
+            TVToast.shared.show(L10n.tvPlayerVolumeBoostOff)
         }
         let volumeBoostOn = UIAction(title: L10n.on, state: .off) { _ in
-            TVToast.shared.show("Volume boost on")
+            TVToast.shared.show(L10n.tvPlayerVolumeBoostOn)
         }
         let volumeBoostSection = UIMenu(
             title: L10n.tvPlayerVolumeBoost,
@@ -84,7 +84,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
         ]
         let trimActions = trimOptions.map { title, state in
             UIAction(title: title, state: state) { _ in
-                TVToast.shared.show("Trim silence: \(title)")
+                TVToast.shared.show(L10n.tvPlayerTrimSilenceSet(title))
             }
         }
         let trimSection = UIMenu(
