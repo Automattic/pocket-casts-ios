@@ -1283,6 +1283,9 @@
 		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
+		FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */; };
+		FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
+		FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
 		FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */; };
 		FF32F3CE2FAB7F8E00226E58 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
@@ -2924,6 +2927,7 @@
 			membershipExceptions = (
 				"Array+Episode.swift",
 				"NetworkUtils+Helpers.swift",
+				"Server+Strings.swift",
 				"String+Differentiable.swift",
 				"String+SentenceCase.swift",
 			);
@@ -2941,6 +2945,7 @@
 			membershipExceptions = (
 				AllArchivedPlaceholder.swift,
 				EpisodeTableHelper.swift,
+				HomeGridListItem.swift,
 				ListEpisode.swift,
 				ListHeader.swift,
 				ListItem.swift,
@@ -7723,6 +7728,7 @@
 				FF8FFE622FAA63900086A867 /* SharedConstants.swift in Sources */,
 				FF8FF6A52FAA46D40086A867 /* Settings.swift in Sources */,
 				FF8FFE712FAA8F7C0086A867 /* SJCommonUtils.m in Sources */,
+				FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */,
 				FF6024A12FAB46DE00EB3AD5 /* TranscriptFilter.swift in Sources */,
 				FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */,
 				FF8FF6A92FAA489E0086A867 /* UserEpisodeManager.swift in Sources */,
@@ -7771,8 +7777,10 @@
 				FF60249D2FAB443300EB3AD5 /* AppTheme.swift in Sources */,
 				FF8FFE452FAA49D90086A867 /* AnalyticsHelper.swift in Sources */,
 				FF8FFE562FAA5FEC0086A867 /* BackgroundShakeObserver.swift in Sources */,
+				FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */,
 				FF8FFE632FAA63D10086A867 /* EpisodeFilter+Formatting.swift in Sources */,
 				FF6505962FAA9A3000C3662E /* Debounce.swift in Sources */,
+				FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */,
 				FF8FFE492FAA4B310086A867 /* BaseEpisode+Formatting.swift in Sources */,
 				FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */,
 				FF8FFE4E2FAA4C510086A867 /* FadeOutManager.swift in Sources */,
