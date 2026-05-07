@@ -200,7 +200,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     private let operationQueue = OperationQueue()
 
-    private var defaultRightBarButton: UIBarButtonItem?
+    private var shareBarButtonItem: UIBarButtonItem?
     private var defaultBackBarButton: UIBarButtonItem?
     var multiSelectAllBarButton: UIBarButtonItem?
     var multiSelectCancelBarButton: UIBarButtonItem?
@@ -313,13 +313,13 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             navTitleLabel.anchorToAllSidesOf(view: view)
             return view
         }()
-        defaultRightBarButton = FakeNavBarButton.makeBarButtonItem(
+        shareBarButtonItem = FakeNavBarButton.makeBarButtonItem(
             image: UIImage(named: "podcast-share"),
             accessibilityLabel: L10n.share,
             target: self,
-            action: #selector(shareTapped(_:))
+            action: #selector(shareTapped)
         )
-        customRightBtn = defaultRightBarButton
+        customRightBtn = shareBarButtonItem
 
         defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
             image: UIImage(systemName: "chevron.backward"),
@@ -614,10 +614,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         reloadData()
     }
 
-    @objc private func shareTapped(_ sender: UIBarButtonItem) {
+    @objc private func shareTapped() {
         guard let podcast else { return }
 
-        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, barButtonItem: sender)
+        // - warning: important to pass shareBarButtonItem
+        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, barButtonItem: shareBarButtonItem)
         Analytics.track(.podcastScreenShareTapped, properties: ["podcast_uuid": podcast.uuid, "is_private": podcast.isPrivate])
     }
 
@@ -829,7 +830,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         } else {
             multiSelectCancelBarButton = nil
             multiSelectAllBarButton = nil
-            customRightBtn = defaultRightBarButton
+            customRightBtn = shareBarButtonItem
             navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
             supportsGoogleCast = true
             refreshRightButtons()
