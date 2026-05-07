@@ -1,13 +1,18 @@
 import SwiftUI
+import PocketCastsDataModel
 
-struct PodcastsView: View {
+fileprivate enum Layout {
+    static let gridSize = CGFloat(250)
+}
+
+struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
-    @State private var model = PodcastsViewModel()
+    @Bindable private var model: ViewModel
 
-    enum Layout {
-        static let gridSize = CGFloat(250)
+    init(model: ViewModel = PodcastsViewModelMock()) {
+        self.model = model
     }
 
     var body: some View {
@@ -22,7 +27,7 @@ struct PodcastsView: View {
             }
         }
         .task {
-            model.load()
+            await model.load()
         }
     }
 
@@ -57,17 +62,14 @@ struct PodcastsView: View {
 
     var podcastGrid: some View {
         LazyVGrid(columns: items, spacing: 48, content: {
-            ForEach(model.podcasts) { podcast in
+            ForEach(model.podcasts, id: \.uuid) { podcast in
                 NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
-                            .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                        .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
                 .buttonStyle(.card)
-                .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
             }
         })
-        .focusScope(podcastGridNamespace)
         .navigationDestination(for: MockPodcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
         }
@@ -75,7 +77,7 @@ struct PodcastsView: View {
 }
 
 #Preview {
-    PodcastsView()
+    PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }
