@@ -9,7 +9,7 @@ fileprivate enum Layout {
 struct SigningInView<ViewModel: SigningInViewModelInterface>: View {
     @Environment(AppCoordinator.self) var coordinator
 
-    @Bindable private var model: ViewModel
+    @State private var model: ViewModel
 
     init(model: ViewModel = SigningInViewModel()) {
         self.model = model
