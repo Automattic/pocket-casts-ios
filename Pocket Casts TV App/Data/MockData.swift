@@ -222,6 +222,7 @@ struct MockData {
         for i in (0..<numberOfPodcasts) {
             let podcast = Podcast()
             podcast.id = Int64(i)
+            podcast.uuid = UUID().uuidString
             podcast.title = podcastNames[i % podcastNames.count]
             podcast.author = authorNames[i % authorNames.count]
             podcast.podcastDescription = "Here is a fun description for this"
