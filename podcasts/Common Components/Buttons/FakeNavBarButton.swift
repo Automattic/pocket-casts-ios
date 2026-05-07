@@ -3,7 +3,7 @@ import UIKit
 /// Implemented by buttons that participate in the navigation bar's scroll-edge chrome transition.
 /// `PCViewController` walks its bar items and forwards `setTransparentNavBarScrolled` to any
 /// custom view that conforms.
-protocol FakeNavBarStylable: UIButton {
+protocol FakeNavBarStylable {
     func setNavBarScrolled(_ scrolled: Bool, animated: Bool)
 }
 
