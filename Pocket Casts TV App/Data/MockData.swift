@@ -33,6 +33,14 @@ struct MockPodcast: Identifiable, Hashable, Equatable {
     var nextEpisodeDate: String?
 }
 
+struct MockFolder: Identifiable, Hashable, Equatable {
+    var id: String
+    var name: String
+    var podcasts: [MockPodcast]
+
+    var podcastImages: [String] { podcasts.map(\.image) }
+}
+
 struct MockPlaylist: Identifiable, Hashable, Equatable {
     var id: String
     var title: String
@@ -160,6 +168,31 @@ struct MockData {
         }
         self.podcasts = results
         return self.podcasts
+    }
+
+    private static var folders: [MockFolder] = []
+
+    static func makeFolders() -> [MockFolder] {
+        guard folders.isEmpty else { return folders }
+        let allPodcasts = makePodcasts()
+        let result = [
+            makeFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
+            makeFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
+            makeFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
+            makeFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
+            makeFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
+        ]
+        self.folders = result
+        return result
+    }
+
+    private static func makeFolder(name: String, podcastCount: Int, from allPodcasts: [MockPodcast], startIndex: Int) -> MockFolder {
+        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
+        return MockFolder(
+            id: UUID().uuidString,
+            name: name,
+            podcasts: folderPodcasts
+        )
     }
 
     static private var playlists: [MockPlaylist] = []
