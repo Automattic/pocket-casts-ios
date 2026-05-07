@@ -1286,6 +1286,7 @@
 		FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */; };
 		FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
 		FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
+		FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
 		FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */; };
 		FF32F3CE2FAB7F8E00226E58 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
@@ -2904,6 +2905,13 @@
 			);
 			target = 4694FA5F2799C80300E9CF70 /* Screenshot Automation */;
 		};
+		FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Create & Edit/Views/PodcastImageViewWrapper.swift",
+			);
+			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
+		};
 		FF32F3D72FAB82D100226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -3040,7 +3048,7 @@
 		3F584FF02F5685EB005A3593 /* Sonos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sonos; sourceTree = "<group>"; };
 		3F584FF12F568604005A3593 /* Main */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Main; sourceTree = "<group>"; };
 		3F584FF22F568621005A3593 /* Syncing */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Syncing; sourceTree = "<group>"; };
-		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
+		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
 		3F584FFA2F5687F9005A3593 /* Common Components */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Common Components"; sourceTree = "<group>"; };
 		3F5850042F5689C2005A3593 /* Podcasts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Podcasts; sourceTree = "<group>"; };
 		3F585D252F568CF8005A3593 /* Episode */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Episode; sourceTree = "<group>"; };
@@ -7727,6 +7735,7 @@
 				FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */,
 				FF8FFE622FAA63900086A867 /* SharedConstants.swift in Sources */,
 				FF8FF6A52FAA46D40086A867 /* Settings.swift in Sources */,
+				FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */,
 				FF8FFE712FAA8F7C0086A867 /* SJCommonUtils.m in Sources */,
 				FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */,
 				FF6024A12FAB46DE00EB3AD5 /* TranscriptFilter.swift in Sources */,

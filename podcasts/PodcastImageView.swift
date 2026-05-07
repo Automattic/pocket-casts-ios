@@ -1,5 +1,7 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
+import Kingfisher
 
 class PodcastImageView: UIView {
     private var shadowView: UIView?
