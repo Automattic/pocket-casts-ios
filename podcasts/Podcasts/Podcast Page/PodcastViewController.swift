@@ -321,14 +321,22 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         )
         customRightBtn = shareBarButtonItem
 
-        defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"),
-            accessibilityLabel: L10n.back,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-        navigationItem.leftBarButtonItem = defaultBackBarButton
-        navigationItem.setHidesBackButton(true, animated: false)
+        if !LiquidGlass.isEnabled {
+            defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
+                image: UIImage(systemName: "chevron.backward"),
+                accessibilityLabel: L10n.back,
+                target: self,
+                action: #selector(backButtonTapped)
+            )
+            navigationItem.leftBarButtonItem = defaultBackBarButton
+            navigationItem.setHidesBackButton(true, animated: false)
+
+            if let navController = navigationController as? PCNavigationController {
+                navController.enableInteractivePopGestureWorkaround()
+            } else {
+                assertionFailure("Expected PCNavigationController")
+            }
+        }
 
         loadPodcastInfo()
 
@@ -825,13 +833,21 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
             let selectAll = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
             multiSelectAllBarButton = selectAll
-            navigationItem.setLeftBarButton(selectAll, animated: false)
+            navigationItem.setLeftBarButton(selectAll, animated: true)
+            if LiquidGlass.isEnabled {
+                navigationItem.setHidesBackButton(true, animated: true)
+            }
             updateSelectAllBtn()
         } else {
             multiSelectCancelBarButton = nil
             multiSelectAllBarButton = nil
             customRightBtn = shareBarButtonItem
-            navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
+            if LiquidGlass.isEnabled {
+                navigationItem.setLeftBarButton(nil, animated: true)
+                navigationItem.setHidesBackButton(false, animated: true)
+            } else {
+                navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
+            }
             supportsGoogleCast = true
             refreshRightButtons()
         }
