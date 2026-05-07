@@ -6,9 +6,23 @@ extension Episode {
         Task.init {
             let metadata = try? await ShowInfoCoordinator.shared.loadTranscriptsMetadata(podcastUuid: parentIdentifier(), episodeUuid: uuid)
 
+            let transcriptsAvailable: Bool
+            let hasGeneratedTranscripts: Bool
+
+            #if DEBUG
+            if FeatureFlag.syncedTranscripts.enabled {
+                transcriptsAvailable = true
+                hasGeneratedTranscripts = metadata?.hasGeneratedTranscripts ?? false
+            } else {
+                guard let metadata else { return }
+                transcriptsAvailable = !metadata.transcripts.isEmpty
+                hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
+            }
+            #else
             guard let metadata else { return }
-            let transcriptsAvailable = !metadata.transcripts.isEmpty
-            let hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
+            transcriptsAvailable = !metadata.transcripts.isEmpty
+            hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
+            #endif
 
             let userInfo: [AnyHashable: Any] = [
                 "episodeUuid": uuid,
