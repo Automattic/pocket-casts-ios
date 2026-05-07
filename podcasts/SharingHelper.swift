@@ -35,6 +35,11 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, fromSource: AnalyticsSource, barButtonItem: UIBarButtonItem?) {
+        guard !podcast.isPrivate else {
+            Toast.show(L10n.sharePodcastPrivateNotAvailable)
+            return
+        }
+
         AnalyticsHelper.sharedPodcast()
 
         SharingModal.show(option: .podcast(podcast), from: fromSource, in: fromController)
