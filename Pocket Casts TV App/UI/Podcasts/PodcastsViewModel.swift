@@ -4,6 +4,18 @@ import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
 
+enum GridCellItem: Identifiable {
+    case podcast(Podcast)
+    case folder(MockFolder)
+
+    var id: String {
+        switch self {
+        case .podcast(let p): p.uuid
+        case .folder(let f): f.id
+        }
+    }
+}
+
 enum PodcastViewModelState: Equatable, Hashable {
     case loading
     case ready
@@ -14,7 +26,7 @@ protocol PodcastsViewModelInterface: AnyObject, Observation.Observable {
 
     var state: PodcastViewModelState { get }
 
-    var podcasts: [Podcast] { get }
+    var items: [GridCellItem] { get }
 
     func load() async
 }
@@ -25,7 +37,7 @@ class PodcastsViewModel: PodcastsViewModelInterface {
 
     private(set) var state: PodcastViewModelState = .loading
 
-    var podcasts: [Podcast] = []
+    var items: [GridCellItem] = []
 
     private let dataManager: DataManager
 
@@ -41,7 +53,7 @@ class PodcastsViewModel: PodcastsViewModelInterface {
         Task {
             let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false)
             await MainActor.run {
-                self.podcasts = podcasts
+                self.items = podcasts.map { GridCellItem.podcast($0) }
                 self.state = .ready
             }
         }
@@ -55,7 +67,7 @@ class PodcastsViewModelMock: PodcastsViewModelInterface {
 
     var state: PodcastViewModelState = .loading
 
-    var podcasts: [Podcast] = []
+    var items: [GridCellItem] = []
 
     func load() async {
         //Mock data load
@@ -63,8 +75,8 @@ class PodcastsViewModelMock: PodcastsViewModelInterface {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                podcasts = MockData.makeStubPodcasts()
-                state = podcasts.isEmpty ? .empty : .ready
+                items = MockData.makeStubPodcasts().map { GridCellItem.podcast($0)}
+                state = items.isEmpty ? .empty : .ready
                 cancellable?.cancel()
                 cancellable = nil
             }

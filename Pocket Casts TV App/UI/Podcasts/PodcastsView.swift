@@ -15,6 +15,10 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
         self.model = model
     }
 
+    let gridColumns: [GridItem] = (0..<6).map { _ in
+        GridItem(.fixed(Layout.gridSize), spacing: 48)
+    }
+
     var body: some View {
         ZStack {
             switch model.state {
@@ -54,24 +58,33 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
         }
     }
 
-    private let items: [GridItem] = (0..<6).map { _ in
-        GridItem(.fixed(Layout.gridSize), spacing: 48)
-    }
-
     @Namespace private var podcastGridNamespace
 
     var podcastGrid: some View {
-        LazyVGrid(columns: items, spacing: 48, content: {
-            ForEach(model.podcasts, id: \.uuid) { podcast in
-                NavigationLink(value: podcast) {
-                    PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+        LazyVGrid(columns: gridColumns, spacing: 48) {
+            ForEach(model.items) { item in
+                switch item {
+                case .podcast(let podcast):
+                    NavigationLink(value: podcast) {
+                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    }
+                    .buttonStyle(.card)
+                    //.prefersDefaultFocus(item.id == items.first?.id, in: podcastGridNamespace)
+                case .folder(let folder):
+                    NavigationLink(value: folder) {
+                        FolderCardView(folder: folder)
+                    }
+                    .buttonStyle(.card)
                 }
-                .buttonStyle(.card)
             }
-        })
+        }
+        .focusScope(podcastGridNamespace)
         .navigationDestination(for: MockPodcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+        }
+        .navigationDestination(for: MockFolder.self) { folder in
+            FolderDetailView(folder: folder)
         }
     }
 }
