@@ -579,7 +579,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     private func updateColors() {
         reloadData()
-        navTitleLabel.textColor = AppTheme.navBarTitleColor()
+        navTitleLabel.textColor = ThemeColor.primaryText01()
     }
 
     override func handleThemeChanged() {
