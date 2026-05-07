@@ -92,7 +92,7 @@ class PodcastFilterOverlayController: PodcastChooserViewController, PodcastSelec
             viewModel.$toggleIsOn
                 .dropFirst()
                 .receive(on: RunLoop.main)
-                .sink { [weak self] newValue in
+                .sink { [weak self] _ in
                     self?.selectAllSwitchValueChanged()
                 }
                 .store(in: &cancellables)

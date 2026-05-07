@@ -76,7 +76,7 @@ enum ShareDestination: Hashable {
             let receiver = rect.sink { rect in
                 activityViewController.popoverPresentationController?.sourceRect = rect
             }
-            activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+            activityViewController.completionWithItemsHandler = { _, _, _, _ in
                 receiver.cancel()
             }
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {

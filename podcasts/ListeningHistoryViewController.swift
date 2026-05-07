@@ -50,7 +50,7 @@ class ListeningHistoryViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.listeningHistoryMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.listeningHistoryTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil

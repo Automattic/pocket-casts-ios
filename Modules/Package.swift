@@ -291,7 +291,15 @@ enum XcodeSupport {
             .xcodeTarget(
                 XcodeTargetNames.pocketCastsTvApp,
                 dependencies: [
-                    "PocketCastsUtils"
+                    "PocketCastsUtils",
+                    "PocketCastsDataModel",
+                    "PocketCastsServer",
+                    "PocketCastsDependencyInjection",
+                    "EventHorizonSDK",
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                    .product(name: "SwiftSubtitles", package: "SwiftSubtitles"),
+                    .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                    .product(name: "DifferenceKit", package: "DifferenceKit"),
                 ]
             ),
         ]

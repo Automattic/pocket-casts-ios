@@ -8,8 +8,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     var filter: EpisodeFilter
     var isNewFilter = false
 
-    private var tableRefreshControl: PCRefreshControl?
-    private var noEpisodesRefreshControl: PCRefreshControl?
+    private var tableRefreshController: FullSyncRefreshController?
+    private var noEpisodesRefreshController: FullSyncRefreshController?
 
     private lazy var operationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -93,7 +93,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.filterMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                     self.shouldShowChipsAfterMulitSelect = !self.isChipHidden
                     if !self.isChipHidden {
                         self.hideFilterChips()
@@ -158,10 +158,13 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: tableView)
 
-        if let navController = navigationController {
-            tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar, source: analyticsSource)
-            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: .noFilters)
-        }
+        let tableController = FullSyncRefreshController(source: analyticsSource)
+        tableRefreshController = tableController
+        tableView.refreshControl = tableController.refreshControl
+
+        let noEpisodesController = FullSyncRefreshController(source: .noFilters)
+        noEpisodesRefreshController = noEpisodesController
+        noEpisodesScrollView.refreshControl = noEpisodesController.refreshControl
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(navTitleTapped(shortPress:)))
         navigationController?.navigationBar.addGestureRecognizer(tap)
@@ -204,9 +207,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         addEventObservers()
 
-        tableRefreshControl?.parentViewControllerDidAppear()
-        noEpisodesRefreshControl?.parentViewControllerDidAppear()
-
         updateNavTintColor()
 
         AnalyticsHelper.filterOpened()
@@ -215,8 +215,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        tableRefreshControl?.parentViewControllerDidDisappear()
-        noEpisodesRefreshControl?.parentViewControllerDidDisappear()
         navigationController?.navigationBar.shadowImage = nil
     }
 
@@ -277,32 +275,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
             refreshEpisodes(animated: animated)
         }
-    }
-
-    // MARK: - UIScrollView
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isMultiSelectEnabled else { return }
-        let selectedRefreshControl: PCRefreshControl?
-        if scrollView == noEpisodesScrollView {
-            selectedRefreshControl = noEpisodesRefreshControl
-        } else {
-            selectedRefreshControl = tableRefreshControl
-        }
-
-        selectedRefreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard !isMultiSelectEnabled else { return }
-        let selectedRefreshControl: PCRefreshControl?
-        if scrollView == noEpisodesScrollView {
-            selectedRefreshControl = noEpisodesRefreshControl
-        } else {
-            selectedRefreshControl = tableRefreshControl
-        }
-
-        selectedRefreshControl?.scrollViewDidEndDragging(scrollView)
     }
 
     @objc func moreTapped() {

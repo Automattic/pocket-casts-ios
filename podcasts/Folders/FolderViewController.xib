@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="47A-43-GRI" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="47A-43-GRI" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SKr-CT-xsa" customClass="ReorderableFlowLayout" customModule="podcasts" customModuleProvider="target">

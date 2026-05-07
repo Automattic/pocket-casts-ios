@@ -403,37 +403,37 @@ extension AppDelegate {
     }
 
     func setupOnboardingRoutes() {
-        JLRoutes.global().addRoute("/settings/themes") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/settings/themes") {[weak self] _ -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsAppearanceKey, data: [NavigationManager.settingsAppearanceShowThemeKey: true])
             return true
         }
 
-        JLRoutes.global().addRoute("/signup") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/signup") {[weak self] _ -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.signUpPageKey)
             return true
         }
 
-        JLRoutes.global().addRoute("/settings/import") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/settings/import") {[weak self] _ -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.importSteps])
             return true
         }
 
-        JLRoutes.global().addRoute("/settings/storage-and-data") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/settings/storage-and-data") {[weak self] _ -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.settingsPageKey, data: [NavigationManager.settingsRowKey: SettingsViewController.TableRow.storageAndDataUse])
             return true
         }
 
-        JLRoutes.global().addRoute("/filters") {[weak self] parameters -> Bool in
+        JLRoutes.global().addRoute("/filters") {[weak self] _ -> Bool in
             guard self != nil else { return false }
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey)
             return true
         }
 
-        JLRoutes.global().addRoute("/upsell") { parameters -> Bool in
+        JLRoutes.global().addRoute("/upsell") { _ -> Bool in
             guard let viewController = SceneHelper.rootViewController() else { return false }
             let source = PlusUpgradeViewSource(rawValue: ["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
             NavigationManager.sharedManager.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, NavigationManager.subscriptionUpgradeVCKey: viewController])

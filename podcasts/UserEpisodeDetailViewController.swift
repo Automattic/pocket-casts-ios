@@ -156,11 +156,7 @@ class UserEpisodeDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if PlaybackManager.shared.currentEpisode() != nil {
-            actionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
-        } else {
-            actionTable.contentInset = UIEdgeInsets.zero
-        }
+        actionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.effectiveMiniPlayerOffset, right: 0)
         view.layoutIfNeeded()
 
         updateColors()

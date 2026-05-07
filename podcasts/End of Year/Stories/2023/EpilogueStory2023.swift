@@ -186,7 +186,7 @@ private struct GradientHolographicEffect<Content>: View where Content: View {
 
     @ViewBuilder
     private var gradientView: some View {
-        GeometryReader { proxy in
+        GeometryReader { _ in
             LinearGradient(
                 stops: [
                     Gradient.Stop(color: Color(red: 0.25, green: 0.11, blue: 0.92), location: 0.00),

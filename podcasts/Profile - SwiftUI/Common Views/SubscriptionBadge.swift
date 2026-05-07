@@ -140,7 +140,7 @@ struct SubscriptionBadge: View {
 // MARK: - Preview
 struct SubscriptionBadge_Preview: PreviewProvider {
     static var previews: some View {
-        GeometryReader { proxy in
+        GeometryReader { _ in
             VStack(alignment: .leading) {
                 HStack {
                     SubscriptionBadge(tier: .none) // Won't display

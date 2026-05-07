@@ -53,6 +53,7 @@ class CarPlaySceneDelegate: CustomObserver, CPTemplateApplicationSceneDelegate, 
             Constants.Notifications.playlistChanged,
 
             // Episode changes
+            Constants.Notifications.playbackPositionSaved,
             Constants.Notifications.episodeDownloaded,
             Constants.Notifications.episodePlayStatusChanged,
             Constants.Notifications.episodeArchiveStatusChanged,

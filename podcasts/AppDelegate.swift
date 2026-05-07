@@ -295,7 +295,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+        FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
         }
