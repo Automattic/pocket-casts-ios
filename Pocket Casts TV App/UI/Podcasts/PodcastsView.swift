@@ -9,9 +9,9 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
-    @Bindable private var model: ViewModel
+    @State private var model: ViewModel
 
-    init(model: ViewModel = PodcastsViewModelMock()) {
+    init(model: ViewModel = PodcastsViewModel()) {
         self.model = model
     }
 
