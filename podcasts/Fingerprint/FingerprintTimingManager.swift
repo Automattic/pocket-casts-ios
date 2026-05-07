@@ -24,11 +24,6 @@ final class FingerprintTimingManager: NSObject {
             case .unavailable: return "unavailable"
             }
         }
-
-        var coverageCount: Int? {
-            if case .active(let coverage) = self { return coverage }
-            return nil
-        }
     }
 
     // MARK: - Singleton
@@ -514,7 +509,6 @@ final class FingerprintTimingManager: NSObject {
                 if !hasReachedActive {
                     hasReachedActive = true
                     track(.syncedTranscriptPreparationCompleted, properties: [
-                        "coverage_count": coverage,
                         "duration_ms": preparationDurationMs,
                         "is_streaming": isStreaming
                     ])
@@ -989,7 +983,6 @@ final class FingerprintTimingManager: NSObject {
             if !hasReachedActive {
                 hasReachedActive = true
                 track(.syncedTranscriptPreparationCompleted, properties: [
-                    "coverage_count": coverage,
                     "duration_ms": preparationDurationMs,
                     "is_streaming": context?.isStreaming ?? false
                 ])

@@ -996,11 +996,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let fromPosition = playbackManager.currentTime()
         playbackManager.seekTo(time: seekTime)
         syncedSeeksCount += 1
-        let coverage = FingerprintTimingManager.shared.state.coverageCount ?? 0
         track(.syncedTranscriptSeekUsed, properties: [
             "from_position_seconds": Int(fromPosition),
-            "to_position_seconds": Int(seekTime),
-            "coverage_count": coverage
+            "to_position_seconds": Int(seekTime)
         ])
     }
 
