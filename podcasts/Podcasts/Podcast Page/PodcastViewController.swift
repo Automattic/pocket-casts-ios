@@ -351,7 +351,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
-        let scrolled = offset > 220
+        let scrolled = offset > PodcastHeaderView.Constants.smallImageSize + view.safeAreaInsets.top
         if scrolled != isScrolledPastHeader {
             isScrolledPastHeader = scrolled
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
