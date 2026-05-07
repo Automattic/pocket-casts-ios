@@ -147,8 +147,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             "synced_state_at_dismiss": syncedState.analyticsName,
             "synced_seeks_count": syncedSeeksCount
         ]
-        if let coverage = syncedState.coveragePercent {
-            properties["coverage_percent_at_dismiss"] = coverage
+        if let coverage = syncedState.coverageCount {
+            properties["coverage_count_at_dismiss"] = coverage
         }
         if let appear = appearDate {
             properties["engagement_seconds"] = Int(Date().timeIntervalSince(appear))
@@ -999,11 +999,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let fromPosition = playbackManager.currentTime()
         playbackManager.seekTo(time: seekTime)
         syncedSeeksCount += 1
-        let coverage = FingerprintTimingManager.shared.state.coveragePercent ?? 0
+        let coverage = FingerprintTimingManager.shared.state.coverageCount ?? 0
         track(.syncedTranscriptSeekUsed, properties: [
             "from_position_seconds": Int(fromPosition),
             "to_position_seconds": Int(seekTime),
-            "coverage_percent": coverage
+            "coverage_count": coverage
         ])
     }
 
