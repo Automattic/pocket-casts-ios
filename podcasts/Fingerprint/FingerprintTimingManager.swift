@@ -14,6 +14,21 @@ final class FingerprintTimingManager: NSObject {
         case active(coverage: Int)
         case failed(Error)
         case unavailable
+
+        var analyticsName: String {
+            switch self {
+            case .idle: return "idle"
+            case .preparing: return "preparing"
+            case .active: return "active"
+            case .failed: return "failed"
+            case .unavailable: return "unavailable"
+            }
+        }
+
+        var coveragePercent: Int? {
+            if case .active(let coverage) = self { return coverage }
+            return nil
+        }
     }
 
     // MARK: - Singleton
@@ -72,6 +87,9 @@ final class FingerprintTimingManager: NSObject {
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastProgressPosition: Double = -1
+
+    private var preparationStartDate: Date?
+    private var hasReachedActive = false
 
     // Drift-filter state — see `consider(candidate:)`.
     private var filterLastTrusted: TimeMappingEntry?
@@ -284,6 +302,8 @@ final class FingerprintTimingManager: NSObject {
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
         lastProgressPosition = -1
+        preparationStartDate = nil
+        hasReachedActive = false
         resetFilterState()
         #if DEBUG
         debugRejections.removeAll()
@@ -293,6 +313,19 @@ final class FingerprintTimingManager: NSObject {
     private func resetFilterState() {
         filterLastTrusted = nil
         filterCandidatePool.removeAll()
+    }
+
+    private func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+        var properties = properties
+        if let episodeUuid = context?.episodeUuid {
+            properties["episode_uuid"] = episodeUuid
+        }
+        Analytics.track(event, properties: properties)
+    }
+
+    private var preparationDurationMs: Int {
+        guard let start = preparationStartDate else { return 0 }
+        return Int(Date().timeIntervalSince(start) * 1000)
     }
 
     private func updateState(_ newState: State) {
@@ -308,11 +341,13 @@ final class FingerprintTimingManager: NSObject {
 
         guard FeatureFlag.syncedTranscripts.enabled else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "feature_disabled"])
             return
         }
 
         guard let episode else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "no_episode"])
             return
         }
 
@@ -323,6 +358,7 @@ final class FingerprintTimingManager: NSObject {
             return
         }
 
+        preparationStartDate = Date()
         updateState(.preparing)
         FileLog.shared.addMessage("FingerprintTimingManager: fetching reference from server for \(uuid)")
 
@@ -340,6 +376,7 @@ final class FingerprintTimingManager: NSObject {
 
                 guard let data, let reference = ReferenceFingerprint.decode(from: data) else {
                     self.updateState(.unavailable)
+                    self.track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
                     FileLog.shared.addMessage("FingerprintTimingManager: no reference available for \(uuid)")
                     return
                 }
@@ -372,6 +409,7 @@ final class FingerprintTimingManager: NSObject {
         let duration = episode.duration
         guard duration > 0 else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "invalid_duration"])
             return
         }
 
@@ -398,6 +436,7 @@ final class FingerprintTimingManager: NSObject {
 
         guard !libraryCheckpoints.isEmpty else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
             FileLog.shared.addMessage("FingerprintTimingManager: reference for \(uuid) has no usable checkpoints")
             return
         }
@@ -425,7 +464,14 @@ final class FingerprintTimingManager: NSObject {
         )
         context = newContext
 
+        if preparationStartDate == nil {
+            preparationStartDate = Date()
+        }
         updateState(.preparing)
+        track(.syncedTranscriptPreparationStarted, properties: [
+            "is_streaming": isStreaming,
+            "episode_duration_seconds": duration
+        ])
         FileLog.shared.addMessage(
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
@@ -453,7 +499,16 @@ final class FingerprintTimingManager: NSObject {
 
             if isWithinMappedRange(currentTime) {
                 filterLastTrusted = cached.entries.last
-                updateState(.active(coverage: cached.entries.count))
+                let coverage = cached.entries.count
+                updateState(.active(coverage: coverage))
+                if !hasReachedActive {
+                    hasReachedActive = true
+                    track(.syncedTranscriptPreparationCompleted, properties: [
+                        "coverage_percent": coverage,
+                        "duration_ms": preparationDurationMs,
+                        "is_streaming": isStreaming
+                    ])
+                }
                 FileLog.shared.addMessage(
                     "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
                 )
@@ -514,10 +569,27 @@ final class FingerprintTimingManager: NSObject {
     private func finishIfStillPreparing(terminalState: State, context ctx: GenerationContext) {
         queue.async { [weak self] in
             guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            let durationMs = self.preparationDurationMs
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 if case .active = self.state { return }
                 self.state = terminalState
+                switch terminalState {
+                case .failed(let error):
+                    let nsError = error as NSError
+                    self.track(.syncedTranscriptPreparationFailed, properties: [
+                        "error_code": nsError.code,
+                        "error_domain": nsError.domain,
+                        "stage": "fingerprint_generation",
+                        "duration_ms": durationMs
+                    ])
+                case .unavailable:
+                    self.track(.syncedTranscriptUnavailable, properties: [
+                        "reason": "streaming_unsupported"
+                    ])
+                default:
+                    break
+                }
             }
         }
     }
@@ -902,6 +974,14 @@ final class FingerprintTimingManager: NSObject {
         let coverage = playbackToReference.count
         if coverage >= FingerprintConstants.minimumCoverageForActive {
             updateState(.active(coverage: coverage))
+            if !hasReachedActive {
+                hasReachedActive = true
+                track(.syncedTranscriptPreparationCompleted, properties: [
+                    "coverage_percent": coverage,
+                    "duration_ms": preparationDurationMs,
+                    "is_streaming": context?.isStreaming ?? false
+                ])
+            }
         }
 
         #if DEBUG

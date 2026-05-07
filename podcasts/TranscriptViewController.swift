@@ -46,6 +46,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var kmpSearch: KMPSearch?
 
+    private var syncedSeeksCount = 0
+    private var appearDate: Date?
+    private var autoScrollSuppressedDate: Date?
+
     private var transcriptManager: TranscriptManager?
 
     #if DEBUG
@@ -138,7 +142,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func didDisappear() {
-        track(.transcriptDismissed)
+        let syncedState = FingerprintTimingManager.shared.state
+        var properties: [AnyHashable: Any] = [
+            "synced_state_at_dismiss": syncedState.analyticsName,
+            "synced_seeks_count": syncedSeeksCount
+        ]
+        if let coverage = syncedState.coveragePercent {
+            properties["coverage_percent_at_dismiss"] = coverage
+        }
+        if let appear = appearDate {
+            properties["engagement_seconds"] = Int(Date().timeIntervalSince(appear))
+        }
+        track(.transcriptDismissed, properties: properties)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -622,7 +637,14 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                             self.stackView.alpha = 0
                             self.showGeneratedTranscriptsPremiumOverlay?()
                         } else {
-                            self.track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
+                            self.appearDate = Date()
+                            let syncedState = FingerprintTimingManager.shared.state
+                            self.track(.transcriptShown, properties: [
+                                "type": transcript.type,
+                                "show_as_webpage": transcript.hasJavascript,
+                                "synced_flag_enabled": FeatureFlag.syncedTranscripts.enabled,
+                                "synced_state": syncedState.analyticsName
+                            ])
                         }
                         self.bannerView.isHidden = !hasGeneratedTranscripts
                     }
@@ -904,6 +926,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         guard FeatureFlag.syncedTranscripts.enabled else { return }
         guard !isSearching else { return }
         isAutoScrollSuppressed = true
+        autoScrollSuppressedDate = Date()
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.isAutoScrollSuppressed = false
@@ -926,6 +949,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
         transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
+        var properties: [AnyHashable: Any] = [:]
+        if let suppressedDate = autoScrollSuppressedDate {
+            properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
+        }
+        track(.syncedTranscriptAutoScrollResumed, properties: properties)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
@@ -959,12 +987,24 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
         guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
+            let syncedState = FingerprintTimingManager.shared.state
+            track(.syncedTranscriptSeekFailed, properties: [
+                "reason": "mapping_unavailable",
+                "synced_state": syncedState.analyticsName
+            ])
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
 
+        let fromPosition = playbackManager.currentTime()
         playbackManager.seekTo(time: seekTime)
-        track(.syncedTranscriptSeekUsed)
+        syncedSeeksCount += 1
+        let coverage = FingerprintTimingManager.shared.state.coveragePercent ?? 0
+        track(.syncedTranscriptSeekUsed, properties: [
+            "from_position_seconds": Int(fromPosition),
+            "to_position_seconds": Int(seekTime),
+            "coverage_percent": coverage
+        ])
     }
 
     // MARK: - Search
