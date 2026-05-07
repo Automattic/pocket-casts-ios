@@ -90,6 +90,7 @@ final class FingerprintTimingManager: NSObject {
 
     private var preparationStartDate: Date?
     private var hasReachedActive = false
+    private var hasEmittedPreparationStarted = false
 
     // Drift-filter state — see `consider(candidate:)`.
     private var filterLastTrusted: TimeMappingEntry?
@@ -304,6 +305,7 @@ final class FingerprintTimingManager: NSObject {
         lastProgressPosition = -1
         preparationStartDate = nil
         hasReachedActive = false
+        hasEmittedPreparationStarted = false
         resetFilterState()
         #if DEBUG
         debugRejections.removeAll()
@@ -360,6 +362,11 @@ final class FingerprintTimingManager: NSObject {
 
         preparationStartDate = Date()
         updateState(.preparing)
+        track(.syncedTranscriptPreparationStarted, properties: [
+            "episode_uuid": uuid,
+            "episode_duration_seconds": episode.duration
+        ])
+        hasEmittedPreparationStarted = true
         FileLog.shared.addMessage("FingerprintTimingManager: fetching reference from server for \(uuid)")
 
         let flag = cancellationFlag
@@ -468,10 +475,13 @@ final class FingerprintTimingManager: NSObject {
             preparationStartDate = Date()
         }
         updateState(.preparing)
-        track(.syncedTranscriptPreparationStarted, properties: [
-            "is_streaming": isStreaming,
-            "episode_duration_seconds": duration
-        ])
+        if !hasEmittedPreparationStarted {
+            track(.syncedTranscriptPreparationStarted, properties: [
+                "is_streaming": isStreaming,
+                "episode_duration_seconds": duration
+            ])
+            hasEmittedPreparationStarted = true
+        }
         FileLog.shared.addMessage(
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
