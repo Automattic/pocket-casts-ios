@@ -1,14 +1,18 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct SigningInView: View {
+fileprivate enum Layout {
+    static let gridSize = CGFloat(272)
+    static let qrSize = CGFloat(240)
+}
+
+struct SigningInView<ViewModel: SigningInViewModelInterface>: View {
     @Environment(AppCoordinator.self) var coordinator
 
-    @State private var model = SigningInViewModel()
+    @Bindable private var model: ViewModel
 
-    enum Layout {
-        static let gridSize = CGFloat(272)
-        static let qrSize = CGFloat(240)
+    init(model: ViewModel = SigningInViewModel()) {
+        self.model = model
     }
 
     var body: some View {
@@ -52,6 +56,6 @@ struct SigningInView: View {
 }
 
 #Preview {
-    SigningInView()
+    SigningInView(model: SigningInViewModelMock())
         .environment(AppCoordinator())
 }

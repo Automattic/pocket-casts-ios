@@ -5,10 +5,17 @@ import PocketCastsUtils
 import PocketCastsDataModel
 
 protocol SigningInViewModelInterface: AnyObject, Observation.Observable {
+
+    var state: SigningInState { get }
+
+    var podcasts: [Podcast] { get }
+
     var totalPodcastsToImport: Int { get }
     var totalPodcastsImported: Int { get }
     var title: String? { get }
     var progress: CGFloat { get }
+
+    func sync()
 }
 
 enum SigningInState: Equatable, Hashable {
@@ -151,7 +158,7 @@ class SigningInViewModelMock: SigningInViewModelInterface {
 
     var state: SigningInState = .waiting
 
-    var totalPodcastsToImport: Int = MockData.makePodcasts().count
+    var totalPodcastsToImport: Int = MockData.makeStubPodcasts().count
 
     var totalPodcastsImported: Int = 0
 
@@ -159,7 +166,7 @@ class SigningInViewModelMock: SigningInViewModelInterface {
 
     var progress: CGFloat = 0
 
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
+    var podcasts: [Podcast] = []
 
     func sync() {
         cancellable = Timer.publish(every: 1.0, on: .main, in: .common)
@@ -172,9 +179,8 @@ class SigningInViewModelMock: SigningInViewModelInterface {
                         } else {
                             state = .finished
                         }
-
+                        podcasts = Array(MockData.makeStubPodcasts().prefix(totalPodcastsImported))
                         progress = CGFloat(totalPodcastsImported) / CGFloat(totalPodcastsToImport)
                     }
     }
 }
-
