@@ -21,6 +21,18 @@ class SigningInViewModel {
     var progress: CGFloat = 0
 
     func sync() {
+        guard cancellables.isEmpty else {
+            return
+        }
+        observeSyncProgressProgressPodcastsCount()
+        observeSyncProgressProgressPodcasts()
+        observeSyncProgressImported()
+        observeSyncCompleted()
+        observeSyncFailed()
+        observeUserLoginDidChange()
+    }
+
+    private func observeSyncProgressProgressPodcastsCount() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastCount)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] notification in
@@ -32,7 +44,9 @@ class SigningInViewModel {
                 }
             }
             .store(in: &cancellables)
+    }
 
+    private func observeSyncProgressProgressPodcasts() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressPodcastUpto)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] notification in
@@ -52,7 +66,9 @@ class SigningInViewModel {
                 }
             }
             .store(in: &cancellables)
+    }
 
+    fileprivate func observeSyncProgressImported() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncProgressImportedPodcasts)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -63,7 +79,9 @@ class SigningInViewModel {
                 title = L10n.syncInProgress
             }
             .store(in: &cancellables)
+    }
 
+    fileprivate func observeUserLoginDidChange() {
         NotificationCenter.default.publisher(for: .userLoginDidChange)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -74,7 +92,9 @@ class SigningInViewModel {
                 title = L10n.syncAccountLogin
             }
             .store(in: &cancellables)
+    }
 
+    fileprivate func observeSyncCompleted() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncCompleted)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -84,7 +104,9 @@ class SigningInViewModel {
                 state = .finished
             }
             .store(in: &cancellables)
+    }
 
+    fileprivate func observeSyncFailed() {
         NotificationCenter.default.publisher(for: ServerNotifications.syncFailed)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
