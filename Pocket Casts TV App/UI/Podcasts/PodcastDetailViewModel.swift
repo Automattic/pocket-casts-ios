@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
 
 @Observable
 class PodcastDetailViewModel {
@@ -13,24 +14,19 @@ class PodcastDetailViewModel {
 
     var state: State = .loading
 
-    let podcast: MockPodcast
+    let podcast: Podcast
+    let episodes: [MockEpisode]
+
     let recommendedEpisode: MockEpisode?
 
-    init(podcast: MockPodcast) {
+    init(podcast: Podcast) {
         self.podcast = podcast
-        self.recommendedEpisode = podcast.episodes.randomElement()
+        self.episodes = MockData.makePodcasts().first?.episodes ?? []
+        self.recommendedEpisode = MockData.makePodcasts().first?.episodes.randomElement()
     }
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                state = .ready
-                cancellable?.cancel()
-                cancellable = nil
-            }
+        state = .ready
     }
 
     var isFollowing: Bool = false

@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
@@ -46,16 +47,13 @@ struct PodcastDetailView: View {
             episodeContent
         }
         .blurredCoverBackground(size: Layout.podcastImageSize) {
-            Image(model.podcast.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
         }
     }
 
     var podcastInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
-            Image(model.podcast.image)
-                .resizable()
+            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
@@ -63,7 +61,7 @@ struct PodcastDetailView: View {
                 Text(model.podcast.author ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
-                Text(model.podcast.title)
+                Text(model.podcast.title ?? "")
                     .font(.title2)
                     .foregroundColor(.textPrimary)
                 Text(model.podcast.podcastDescription ?? "")
@@ -93,7 +91,7 @@ struct PodcastDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .focusSection()
         .sheet(isPresented: $isShowingMoreInfo) {
-            PodcastMoreInfoView(podcast: model.podcast)
+            //PodcastMoreInfoView(podcast: model.podcast)
         }
     }
 
@@ -130,7 +128,7 @@ struct PodcastDetailView: View {
                         .font(.title3)
                         .foregroundStyle(Color.textPrimary)
                     LazyVStack {
-                        ForEach(model.podcast.episodes) { episode in
+                        ForEach(model.episodes) { episode in
                             episodeRow(for: episode)
                         }
                     }
@@ -146,7 +144,7 @@ struct PodcastDetailView: View {
 
 #Preview {
     let router = MainTabRouter()
-    PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makePodcasts().first!))
+    PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makeStubPodcasts().first!))
         .environment(AppCoordinator())
         .environment(router)
 }

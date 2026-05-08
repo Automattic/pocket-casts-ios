@@ -78,7 +78,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
             }
         }
         .focusScope(podcastGridNamespace)
-        .navigationDestination(for: MockPodcast.self) { podcast in
+        .navigationDestination(for: Podcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
         }
         .navigationDestination(for: MockFolder.self) { folder in
