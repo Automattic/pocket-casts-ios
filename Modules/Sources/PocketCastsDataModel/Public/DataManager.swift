@@ -115,7 +115,7 @@ public class DataManager {
         //Do a vacuum before doing db changes
         vacuumDatabase()
         let duration = DBUtils.measureTime {
-            dbQueue.inTransaction { db, rollback in
+            dbQueue.inTransaction { db, _ in
                 do {
 
                     try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)

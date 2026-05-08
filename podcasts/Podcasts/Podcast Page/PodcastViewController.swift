@@ -176,7 +176,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                 self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
                 self.updateSelectAllBtn()
-                self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                 self.multiSelectHeaderView.isHidden = false
                 self.view.bringSubviewToFront(self.multiSelectHeaderView)
 
@@ -233,7 +233,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
     private var podcastFeedViewModel: PodcastFeedViewModel?
-    private var refreshControl: CustomRefreshControl?
+    private var refreshController: PodcastFeedRefreshController?
     private var podcastFeedReloadTooltip: UIViewController?
 
     // Hosting for the SwiftUI action bar used by the Bookmarks list when embedded
@@ -349,19 +349,10 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if scrollView.isDragging || scrollView.isDecelerating {
             dismissKeyboardForScrollIfNeeded()
         }
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidScroll(scrollView)
-        }
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidEndDragging(scrollView)
-        }
     }
 
     private func setupLogin() {
-        podcastRatingViewModel.presentLogin = { [weak self] viewModel in
+        podcastRatingViewModel.presentLogin = { [weak self] _ in
             self?.showLogin(message: L10n.ratingLoginRequired)
         }
     }
@@ -485,7 +476,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Analytics.track(.podcastScreenShown, properties: properties)
 
         if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
         self.navigationController?.isNavigationBarHidden = true
@@ -513,8 +503,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         removeAllCustomObservers()
 
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.parentViewControllerDidDisappear()
+        if FeatureFlag.podcastFeedUpdate.enabled, let refreshControl = refreshController?.refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
         }
     }
 
@@ -524,8 +514,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         guard let window = view.window else { return }
 
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, right: 0)
         episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
     }
 
@@ -1292,8 +1281,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func bookmarksActionBarBottomOffset() -> CGFloat {
-        let miniPlayerOffset = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        return miniPlayerOffset
+        Constants.effectiveMiniPlayerOffset
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
@@ -1366,20 +1354,25 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
-            refreshControl = CustomRefreshControl()
-            refreshControl?.customTintColor = contrastColorForPodcastImage
-            refreshControl?.perform = { [weak self] _ in
+            let controller = PodcastFeedRefreshController()
+            controller.refreshControl.customTintColor = UIColor.label
+            controller.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
-            episodesTable.refreshControl = refreshControl
-        }
-    }
+            episodesTable.refreshControl = controller.refreshControl
+            refreshController = controller
 
-    private var contrastColorForPodcastImage: UIColor {
-        guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: self.podcastUUID, size: .grid) else {
-            return .white
+            // `UIImage.isDark` walks every byte of the artwork (~40 ms for grid-size art),
+            // so resolve the contrast color off the main thread and apply when ready.
+            let uuid = podcastUUID
+            Task.detached(priority: .utility) { [refreshControl = controller.refreshControl] in
+                guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
+                let isDark = image.isDark
+                await MainActor.run {
+                    refreshControl.customTintColor = isDark ? .white : .black
+                }
+            }
         }
-        return image.isDark ? .white : .black
     }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {
@@ -1389,7 +1382,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func reloadPodcastFeed(source: PodcastFeedReloadSource) {
         // In case the FF is switched off
         guard shouldDisplayPodcastFeedReloadButton() else {
-            refreshControl?.endRefreshing()
+            refreshController?.refreshControl.endRefreshing()
             return
         }
         if podcastFeedViewModel?.loadingState == .loading {
@@ -1409,7 +1402,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func refreshPodcastFeed() {
         // In case the FF is switched off
         guard shouldDisplayPodcastFeedReloadButton() else {
-            refreshControl?.endRefreshing()
+            refreshController?.refreshControl.endRefreshing()
             return
         }
         reloadPodcastFeed(source: .refreshControl)

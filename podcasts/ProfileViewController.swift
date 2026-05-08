@@ -7,7 +7,7 @@ import SwiftUI
 class ProfileViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     fileprivate enum StatValueType { case listened, saved }
 
-    var refreshControl: PCRefreshControl?
+    private var refreshController: FullSyncRefreshController?
 
     @IBOutlet var footerView: UIView!
     @IBOutlet var alertIcon: UIImageView!
@@ -156,8 +156,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        refreshControl?.parentViewControllerDidAppear()
-
         addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshComplete))
         addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(handleDataChangedNotification))
         addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(handleDataChangedNotification))
@@ -200,7 +198,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDisappear()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -250,7 +247,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
 
-            self.refreshControl?.endRefreshing(true)
             self.isRefreshAnimating = false
             self.updateLastRefreshDetails()
         }
@@ -667,20 +663,8 @@ extension ProfileViewController: PlusLockedInfoDelegate {
 
 extension ProfileViewController {
     private func setupRefreshControl() {
-        guard let navController = navigationController else {
-            return
-        }
-
-        refreshControl = PCRefreshControl(scrollView: profileTable,
-                                          navBar: navController.navigationBar,
-                                          source: .profile)
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        refreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        refreshControl?.scrollViewDidEndDragging(scrollView)
+        let controller = FullSyncRefreshController(source: .profile)
+        refreshController = controller
+        profileTable.refreshControl = controller.refreshControl
     }
 }

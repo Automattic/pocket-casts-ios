@@ -156,14 +156,14 @@ struct NewSearchResultsView: View {
                 case .podcast(let podcast):
                     SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
                 case .episode(let episode):
                     let played = searchResults.playedEpisodesUUIDs.contains(episode.uuid)
                     SearchResultCell(episode: episode, result: nil, played: played, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
             }
@@ -175,7 +175,7 @@ struct NewSearchResultsView: View {
         ForEach(searchResults.podcasts, id: \.self) { localPodcast in
             SearchResultCell(episode: nil, result: localPodcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                 .listRowBackground(theme.primaryUi01)
-                .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                .alignmentGuide(.listRowSeparatorLeading) { _ in
                     return 0
                 }
         }
@@ -187,13 +187,13 @@ struct NewSearchResultsView: View {
                 case .term(let searchTerm):
                     termRow(term: searchTerm)
                     .listRowBackground(theme.primaryUi01)
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
                         return 0
                     }
                 case .podcast:
                     SearchResultCell(episode: nil, result: PodcastFolderSearchResult(from: predictiveSearch), played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .primaryUi01))
                         .listRowBackground(theme.primaryUi01)
-                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
                             return 0
                         }
                 default:

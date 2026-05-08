@@ -35,7 +35,7 @@ class PodcastHeaderCell: UITableViewCell {
         self.backgroundColor = .clear
         self.selectionStyle = .none
         configureCellFromSwiftUIView(cell: self, viewController: viewController, rootView: {
-            ContentSizeGeometryReader { proxy in
+            ContentSizeGeometryReader { _ in
                 PodcastHeaderView(viewModel: self.viewModel)
                     .setupDefaultEnvironment()
                     .ignoresSafeArea()//Needs to be done in order to allow expansion of the view to navigation area when scrolling up

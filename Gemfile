@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'commonmarker'
 gem 'danger-dangermattic', '~> 1.0'
-gem 'fastlane', '~> 2.216'
+gem 'fastlane', '~> 2.233'
 gem 'fastlane-plugin-firebase_app_distribution', '~> 0.10'
 gem 'fastlane-plugin-sentry', '~> 1.14'
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.3'

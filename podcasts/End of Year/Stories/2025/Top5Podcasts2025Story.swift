@@ -105,7 +105,7 @@ fileprivate struct PodcastCellView: View {
         ZStack {
             HStack(spacing: 0) {
                 LottieView(animation: .named(animationName))
-                    .animationDidFinish({ completed in
+                    .animationDidFinish({ _ in
                     })
                     .configure({ animationView in
                         animationView.contentMode = .scaleToFill

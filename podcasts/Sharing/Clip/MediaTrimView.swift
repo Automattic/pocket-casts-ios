@@ -69,7 +69,7 @@ struct MediaTrimView: View {
     private func a11yLabel(time: Binding<TimeInterval>) -> Binding<String> {
         Binding<String>(
             get: { time.wrappedValue.localizedTimeDescription ?? "Unknown" },
-            set: { newValue in
+            set: { _ in
                 () // Read-only
             }
         )
