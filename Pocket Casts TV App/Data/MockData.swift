@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsDataModel
 import SwiftUI
 
 struct MockEpisode: Identifiable, Hashable, Equatable {
@@ -239,5 +240,32 @@ struct MockData {
         }
         upNext = episodes
         return episodes
+    }
+
+    static var stubPodcasts: [Podcast] = []
+
+    static func makeStubPodcasts() -> [Podcast] {
+        guard stubPodcasts.isEmpty else {
+            return stubPodcasts
+        }
+        let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
+        let numberOfPodcasts = 48
+        var results = [Podcast]()
+        for i in (0..<numberOfPodcasts) {
+            let podcast = Podcast()
+            podcast.id = Int64(i)
+            podcast.uuid = UUID().uuidString
+            podcast.title = podcastNames[i % podcastNames.count]
+            podcast.author = authorNames[i % authorNames.count]
+            podcast.podcastDescription = "Here is a fun description for this"
+            podcast.podcastUrl = "https://\(podcastNames[i % podcastNames.count].lowercased().replacingOccurrences(of: " ", with: "")).com"
+            podcast.episodeFrequency = frequencies[i % frequencies.count]
+            podcast.estimatedNextEpisode = Date.now.advanced(by: 1.days)
+            results.append(podcast)
+        }
+        self.stubPodcasts = results
+        return self.stubPodcasts
+
+
     }
 }

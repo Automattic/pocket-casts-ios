@@ -1283,6 +1283,11 @@
 		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
+		FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */; };
+		FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
+		FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
+		FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
+		FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */; };
 		FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */; };
 		FF32F3CE2FAB7F8E00226E58 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
@@ -1296,6 +1301,7 @@
 		FF32F3E62FAB851800226E58 /* PlaylistHeaderViewCellPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF32F3E42FAB850E00226E58 /* PlaylistHeaderViewCellPlaceholder.swift */; };
 		FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		FF32F3E92FAB86C700226E58 /* PlayerColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F3B9F2366C01400416633 /* PlayerColorHelper.swift */; };
+		FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647623028F70CD0006D005A /* AuthenticationHelper.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
 		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
@@ -2900,6 +2906,13 @@
 			);
 			target = 4694FA5F2799C80300E9CF70 /* Screenshot Automation */;
 		};
+		FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Create & Edit/Views/PodcastImageViewWrapper.swift",
+			);
+			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
+		};
 		FF32F3D72FAB82D100226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -2923,6 +2936,7 @@
 			membershipExceptions = (
 				"Array+Episode.swift",
 				"NetworkUtils+Helpers.swift",
+				"Server+Strings.swift",
 				"String+Differentiable.swift",
 				"String+SentenceCase.swift",
 			);
@@ -2940,6 +2954,7 @@
 			membershipExceptions = (
 				AllArchivedPlaceholder.swift,
 				EpisodeTableHelper.swift,
+				HomeGridListItem.swift,
 				ListEpisode.swift,
 				ListHeader.swift,
 				ListItem.swift,
@@ -3034,7 +3049,7 @@
 		3F584FF02F5685EB005A3593 /* Sonos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sonos; sourceTree = "<group>"; };
 		3F584FF12F568604005A3593 /* Main */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Main; sourceTree = "<group>"; };
 		3F584FF22F568621005A3593 /* Syncing */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Syncing; sourceTree = "<group>"; };
-		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
+		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
 		3F584FFA2F5687F9005A3593 /* Common Components */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Common Components"; sourceTree = "<group>"; };
 		3F5850042F5689C2005A3593 /* Podcasts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Podcasts; sourceTree = "<group>"; };
 		3F585D252F568CF8005A3593 /* Episode */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Episode; sourceTree = "<group>"; };
@@ -6740,6 +6755,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */,
 				FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7721,7 +7737,9 @@
 				FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */,
 				FF8FFE622FAA63900086A867 /* SharedConstants.swift in Sources */,
 				FF8FF6A52FAA46D40086A867 /* Settings.swift in Sources */,
+				FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */,
 				FF8FFE712FAA8F7C0086A867 /* SJCommonUtils.m in Sources */,
+				FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */,
 				FF6024A12FAB46DE00EB3AD5 /* TranscriptFilter.swift in Sources */,
 				FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */,
 				FF8FF6A92FAA489E0086A867 /* UserEpisodeManager.swift in Sources */,
@@ -7770,8 +7788,10 @@
 				FF60249D2FAB443300EB3AD5 /* AppTheme.swift in Sources */,
 				FF8FFE452FAA49D90086A867 /* AnalyticsHelper.swift in Sources */,
 				FF8FFE562FAA5FEC0086A867 /* BackgroundShakeObserver.swift in Sources */,
+				FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */,
 				FF8FFE632FAA63D10086A867 /* EpisodeFilter+Formatting.swift in Sources */,
 				FF6505962FAA9A3000C3662E /* Debounce.swift in Sources */,
+				FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */,
 				FF8FFE492FAA4B310086A867 /* BaseEpisode+Formatting.swift in Sources */,
 				FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */,
 				FF8FFE4E2FAA4C510086A867 /* FadeOutManager.swift in Sources */,
@@ -7790,6 +7810,7 @@
 				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
 				FF8FFE6E2FAA8F240086A867 /* TranscriptFormat.swift in Sources */,
 				FF65058B2FAA963100C3662E /* Notifications.swift in Sources */,
+				FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */,
 				FF32F3DA2FAB834500226E58 /* PlaylistDetailViewModel+Archive.swift in Sources */,
 				FF32F3D82FAB830100226E58 /* PlaylistArtworkView.swift in Sources */,
 				FF6505A32FAA9F4100C3662E /* TranscriptManager.swift in Sources */,
