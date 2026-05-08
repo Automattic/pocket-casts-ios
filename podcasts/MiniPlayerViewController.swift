@@ -425,13 +425,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func updateColors() {
         view.backgroundColor = .clear
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
             updateColorsLiquidGlass()
         } else {
             updateColorsLegacy()
         }
+
+        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
     }
 
     private func updateColorsLegacy() {
