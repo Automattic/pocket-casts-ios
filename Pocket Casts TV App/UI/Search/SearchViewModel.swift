@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 enum SearchScope: String, CaseIterable {
     case all = "All"
@@ -17,7 +18,7 @@ enum SearchState {
 protocol SearchableViewModel: AnyObject, Observation.Observable {
     var state: SearchState { get }
     var scope: SearchScope { get set }
-    var results: [MockPodcast] { get }
+    var results: [Podcast] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -30,11 +31,13 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
+    private var dataManager: DataManager = DataManager.sharedManager
+
     var state: SearchState = .query
 
     var scope: SearchScope = .all
 
-    var results: [MockPodcast] = []
+    var results: [Podcast] = []
 
     var searchHistory: [String] = ["Conan"]
 
@@ -75,18 +78,24 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func autoComplete(query: String) {
-        autoCompleteSuggestions = MockData.makePodcasts().filter() { podcast in
-            podcast.title.localizedCaseInsensitiveContains(query)
-        }.map {
+        let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
+        autoCompleteSuggestions = podcasts.filter() { podcast in
+            if let title = podcast.title {
+                return title.localizedCaseInsensitiveContains(query)
+            }
+            return false
+        }.compactMap {
             $0.title
         }
     }
 
-    private func fetchPodcasts(query: String) async throws -> [MockPodcast] {
-        // Replace with your actual API call
-        try await Task.sleep(nanoseconds: 500_000_000)
-        return MockData.makePodcasts().filter() { podcast in
-            podcast.title.localizedCaseInsensitiveContains(query)
+    private func fetchPodcasts(query: String) async throws -> [Podcast] {
+        let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
+        return podcasts.filter() { podcast in
+            if let title = podcast.title {
+                return title.localizedCaseInsensitiveContains(query)
+            }
+            return false
         }
     }
 }
