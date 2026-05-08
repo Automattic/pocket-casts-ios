@@ -78,24 +78,13 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func autoComplete(query: String) {
-        let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
-        autoCompleteSuggestions = podcasts.filter() { podcast in
-            if let title = podcast.title {
-                return title.localizedCaseInsensitiveContains(query)
-            }
-            return false
-        }.compactMap {
+        let podcasts = dataManager.searchPodcasts(term: query)
+        autoCompleteSuggestions = podcasts.compactMap {
             $0.title
         }
     }
 
     private func fetchPodcasts(query: String) async throws -> [Podcast] {
-        let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
-        return podcasts.filter() { podcast in
-            if let title = podcast.title {
-                return title.localizedCaseInsensitiveContains(query)
-            }
-            return false
-        }
+        return dataManager.searchPodcasts(term: query)
     }
 }
