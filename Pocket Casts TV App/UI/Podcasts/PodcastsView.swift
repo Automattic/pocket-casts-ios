@@ -81,7 +81,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
         .navigationDestination(for: Podcast.self) { podcast in
             PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
         }
-        .navigationDestination(for: MockFolder.self) { folder in
+        .navigationDestination(for: Folder.self) { folder in
             FolderDetailView(folder: folder)
         }
     }
