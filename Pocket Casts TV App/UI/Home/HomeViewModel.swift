@@ -1,10 +1,15 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
 
 @Observable
 class HomeViewModel {
 
-    private var cancellable: AnyCancellable?
+    private let dataManager: DataManager
+
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
+    }
 
     enum State: Equatable, Hashable {
         case loading
@@ -14,26 +19,24 @@ class HomeViewModel {
 
     var state: State = .loading
 
-    var podcasts: [MockPodcast] = []
+    var podcasts: [Podcast] = []
     var currentPlaying: MockEpisode?
     var upNext: [MockEpisode] = []
-    var recentlyPlayed: [MockPodcast] = []
+    var recentlyPlayed: [Podcast] = []
     var newReleases: [MockEpisode] = []
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                podcasts = MockData.makePodcasts()
-                currentPlaying = MockData.makePlaylists().first?.episodes.first
-                upNext = Array(MockData.makeUpNext().prefix(3))
-                recentlyPlayed = Array(podcasts.shuffled().prefix(10))
-                newReleases = podcasts.prefix(8).compactMap(\.episodes.first)
-                state = .ready
-                cancellable?.cancel()
-                cancellable = nil
-            }
+        Task {
+            podcasts = fetchPodcasts()
+            currentPlaying = MockData.makePlaylists().first?.episodes.first
+            upNext = Array(MockData.makeUpNext().prefix(3))
+            recentlyPlayed = Array(podcasts.shuffled().prefix(10))
+            newReleases = MockData.makePodcasts().prefix(8).compactMap(\.episodes.first)
+            state = .ready
+        }
+    }
+
+    private func fetchPodcasts() -> [Podcast] {
+        return Array(dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).prefix(20))
     }
 }
