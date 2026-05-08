@@ -43,7 +43,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 }
             }
             .onChange(of: searchText) { _, newValue in
-                model.search(query: searchText)
+                model.search(query: newValue)
                 model.autoComplete(query: newValue)
             }
         }
