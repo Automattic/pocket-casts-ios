@@ -265,7 +265,33 @@ struct MockData {
         }
         self.stubPodcasts = results
         return self.stubPodcasts
+    }
 
+    private static func makeStubFolder(name: String, podcastCount: Int, from allPodcasts: [Podcast], startIndex: Int) -> Folder {
+        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
+        let folder = Folder()
+        folder.uuid = UUID().uuidString
+        folder.name =  name
+        folder.color = 0
+        for podcast in folderPodcasts {
+            podcast.folderUuid = folder.uuid
+        }
+        return folder
+    }
 
+    static var stubFolders: [Folder] = []
+
+    static func makeStubFolders() -> [Folder] {
+        guard stubFolders.isEmpty else { return stubFolders }
+        let allPodcasts = makeStubPodcasts()
+        let result = [
+            makeStubFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
+            makeStubFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
+            makeStubFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
+            makeStubFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
+            makeStubFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
+        ]
+        self.stubFolders = result
+        return result
     }
 }

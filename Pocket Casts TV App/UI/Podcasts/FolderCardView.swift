@@ -1,9 +1,15 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct FolderCardView: View {
-    let folder: MockFolder
 
-    private let cardSize: CGFloat = PodcastsView.Layout.gridSize
+    @State var model: FolderCardViewModel
+
+    init(folder: Folder) {
+        self.model = FolderCardViewModel(folder: folder)
+    }
+
+    private let cardSize: CGFloat = 250
     private let coverSize: CGFloat = 80
     private let coverSpacing: CGFloat = 6
 
@@ -23,8 +29,11 @@ struct FolderCardView: View {
                 .padding(.bottom, 16)
         }
         .frame(width: cardSize, height: cardSize)
-        .background(gradient)
+        .background(Color(uiColor: AppTheme.folderColor(colorInt: model.folder.color)))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .task {
+            model.load()
+        }
     }
 
     private var coverGrid: some View {
@@ -42,10 +51,8 @@ struct FolderCardView: View {
 
     @ViewBuilder
     private func coverImage(at index: Int) -> some View {
-        if index < folder.podcastImages.count {
-            Image(folder.podcastImages[index])
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+        if index < model.topPodcastsUuids.count {
+            PodcastImageViewWrapper(podcastUUID: model.topPodcastsUuids[index], size: .list)
                 .frame(width: coverSize, height: coverSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
         } else {
@@ -56,7 +63,7 @@ struct FolderCardView: View {
     }
 
     private var folderName: some View {
-        MarqueeText(text: folder.name, maxWidth: cardSize - 32)
+        MarqueeText(text: model.folder.name, maxWidth: cardSize - 32)
     }
 }
 
@@ -110,7 +117,7 @@ private struct MarqueeText: View {
 }
 
 #Preview {
-    let folders = MockData.makeFolders()
+    let folders = MockData.makeStubFolders()
     LazyVGrid(columns: [GridItem(.fixed(250), spacing: 48), GridItem(.fixed(250), spacing: 48)], spacing: 48) {
         ForEach(folders) { folder in
             FolderCardView(folder: folder)

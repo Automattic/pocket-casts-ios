@@ -1,8 +1,9 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct SearchPodcastsResultsView: View {
 
-    let podcasts: [MockPodcast]
+    let podcasts: [Podcast]
 
     enum Layout {
         static let cellSize = CGFloat(250)
@@ -17,14 +18,13 @@ struct SearchPodcastsResultsView: View {
             LazyVGrid(columns: items, spacing: 48, content: {
                 ForEach(podcasts) { podcast in
                     NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
+                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                             .frame(width: Layout.cellSize, height: Layout.cellSize)
                     }
                     .buttonStyle(.card)
                 }
             })
-            .navigationDestination(for: MockPodcast.self) { podcast in
+            .navigationDestination(for: Podcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
             }
         }
