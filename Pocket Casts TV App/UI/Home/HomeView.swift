@@ -89,8 +89,8 @@ struct HomeView: View {
                 }
             })
             .focusScope(podcastGridNamespace)
-            .navigationDestination(for: MockPodcast.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+            .navigationDestination(for: MockPodcast.self) { _ in
+                //PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
             }
         }
     }
