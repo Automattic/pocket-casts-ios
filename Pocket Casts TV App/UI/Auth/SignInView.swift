@@ -61,8 +61,10 @@ struct SignInView: View {
             }
         }
         .onChange(of: model.state) {
-            dismiss()
-            coordinator.state = .userSync
+            if case .finished = model.state {
+                dismiss()
+                coordinator.state = .userSync
+            }
         }
     }
 
@@ -113,17 +115,27 @@ struct SignInView: View {
                         await model.manualSignIn(username: username, password: password)
                     }
                 }
-
+            if case .error(_, let errorMessage) = model.state {
+                Text(errorMessage)
+            }
             Button() {
                 Task {
                     await model.manualSignIn(username: username, password: password)
                 }
             } label: {
-                Text("Sign In")
-                    .frame(minWidth: 300)
+                switch model.state {
+                case .start, .error:
+                    Text("Sign In")
+                        .frame(minWidth: 300)
+                case .waiting:
+                    ProgressView()
+                default:
+                    EmptyView()
+                }
             }
-            .disabled(username.isEmpty || password.isEmpty)
+            .disabled(username.isEmpty || password.isEmpty || model.state == .waiting)
         }
+        .frame(maxWidth: 500)
     }
 }
 
