@@ -91,7 +91,7 @@ struct PodcastDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .focusSection()
         .sheet(isPresented: $isShowingMoreInfo) {
-            //PodcastMoreInfoView(podcast: model.podcast)
+            PodcastMoreInfoView(podcast: model.podcast)
         }
     }
 
