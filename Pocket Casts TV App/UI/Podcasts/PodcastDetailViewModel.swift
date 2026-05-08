@@ -14,7 +14,7 @@ class PodcastDetailViewModel {
 
     var state: State = .loading
 
-    let podcast: Podcast
+    var podcast: Podcast
     let episodes: [MockEpisode]
 
     let recommendedEpisode: MockEpisode?
@@ -29,11 +29,11 @@ class PodcastDetailViewModel {
         state = .ready
     }
 
-    var isFollowing: Bool = false
+    var isFollowing: Bool {
+        podcast.isSubscribed()
+    }
 
     func follow() {
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-            isFollowing.toggle()
-        }
+        podcast.subscribed = 0
     }
 }

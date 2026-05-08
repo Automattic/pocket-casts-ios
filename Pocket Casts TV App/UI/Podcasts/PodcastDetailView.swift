@@ -4,9 +4,18 @@ import PocketCastsDataModel
 struct PodcastDetailView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    let model: PodcastDetailViewModel
+    @State var model: PodcastDetailViewModel
+
     @FocusState private var focusedSection: FocusSection?
     @State private var isShowingMoreInfo = false
+
+    init(podcast: Podcast) {
+        self.model = PodcastDetailViewModel(podcast: podcast)
+    }
+
+    init(model: PodcastDetailViewModel) {
+        self.model = model
+    }
 
     enum FocusSection: Hashable {
         case episodes
@@ -70,10 +79,12 @@ struct PodcastDetailView: View {
             }
             HStack(spacing: 8) {
                 Button() {
-                    model.follow()
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        model.follow()
+                    }
                 } label: {
                     HStack(spacing: 6) {
-                        Image(systemName: model.isFollowing ? "checkmark" : "plus")
+                        Image(systemName: model.podcast.subscribed != 0 ? "checkmark" : "plus")
                             .contentTransition(.symbolEffect(.replace))
                         Text(model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle)
                             .contentTransition(.interpolate)
