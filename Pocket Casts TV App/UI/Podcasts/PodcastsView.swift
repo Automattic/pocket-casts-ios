@@ -5,7 +5,7 @@ fileprivate enum Layout {
     static let gridSize = CGFloat(250)
 }
 
-struct PodcastsView<ViewModel: PodcastsViewModelInterface>: View {
+struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 

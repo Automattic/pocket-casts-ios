@@ -10,7 +10,7 @@ enum PodcastViewModelState: Equatable, Hashable {
     case empty
 }
 
-protocol PodcastsViewModelInterface: AnyObject, Observation.Observable {
+protocol PodcastsViewModelProtocol: AnyObject, Observation.Observable {
 
     var state: PodcastViewModelState { get }
 
@@ -20,7 +20,7 @@ protocol PodcastsViewModelInterface: AnyObject, Observation.Observable {
 }
 
 @Observable
-class PodcastsViewModel: PodcastsViewModelInterface {
+class PodcastsViewModel: PodcastsViewModelProtocol {
     private var cancellables: Set<AnyCancellable> = []
 
     private(set) var state: PodcastViewModelState = .loading
@@ -49,7 +49,7 @@ class PodcastsViewModel: PodcastsViewModelInterface {
 }
 
 @Observable
-class PodcastsViewModelMock: PodcastsViewModelInterface {
+class PodcastsViewModelMock: PodcastsViewModelProtocol {
 
     private var cancellable: AnyCancellable?
 
