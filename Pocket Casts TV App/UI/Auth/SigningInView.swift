@@ -6,7 +6,7 @@ fileprivate enum Layout {
     static let qrSize = CGFloat(240)
 }
 
-struct SigningInView<ViewModel: SigningInViewModelInterface>: View {
+struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
 
     @State private var model: ViewModel

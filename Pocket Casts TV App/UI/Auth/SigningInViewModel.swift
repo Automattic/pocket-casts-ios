@@ -4,7 +4,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import PocketCastsDataModel
 
-protocol SigningInViewModelInterface: AnyObject, Observation.Observable {
+protocol SigningInViewModelProtocol: AnyObject, Observation.Observable {
 
     var state: SigningInState { get }
 
@@ -24,7 +24,7 @@ enum SigningInState: Equatable, Hashable {
 }
 
 @Observable
-class SigningInViewModel: SigningInViewModelInterface {
+class SigningInViewModel: SigningInViewModelProtocol {
     private var cancellables: Set<AnyCancellable> = []
 
     private(set) var state: SigningInState = .waiting
@@ -152,7 +152,7 @@ class SigningInViewModel: SigningInViewModelInterface {
 }
 
 @Observable
-class SigningInViewModelMock: SigningInViewModelInterface {
+class SigningInViewModelMock: SigningInViewModelProtocol {
 
     private var cancellable: AnyCancellable?
 
