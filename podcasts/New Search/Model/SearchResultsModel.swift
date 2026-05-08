@@ -212,7 +212,7 @@ class SearchResultsModel: ObservableObject {
         return dataMangager.findPlayedEpisodes(uuids: uuids)
             .reduce(into: Set<String>()) { list, uuid in
                 list.insert(uuid)
-        }
+            }
     }
 
     private func show(podcastResults: [PodcastFolderSearchResult]) {
