@@ -1288,7 +1288,6 @@
 		FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
 		FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
 		FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */; };
-		FF32AD6F2FAF6EC700226E58 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713D4ED2A04C90400A78468 /* ProfileImage.swift */; };
 		FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */; };
 		FF32F3CE2FAB7F8E00226E58 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
@@ -7807,7 +7806,6 @@
 				FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */,
 				FF8FF6A42FAA46B60086A867 /* EpisodeManager.swift in Sources */,
 				FF6033FC2FAB4C8300EB3AD5 /* AutoplayHelper.swift in Sources */,
-				FF32AD6F2FAF6EC700226E58 /* ProfileImage.swift in Sources */,
 				FF49FEAD2F9BBCA900E68E0C /* LocalizationHelpers.swift in Sources */,
 				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
 				FF8FFE6E2FAA8F240086A867 /* TranscriptFormat.swift in Sources */,

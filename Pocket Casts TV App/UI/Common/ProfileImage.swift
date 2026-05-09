@@ -4,7 +4,6 @@ import PocketCastsUtils
 
 /// Shows the default profile image view and attempts to load the gravatar using the email
 struct ProfileImage: View {
-    @EnvironmentObject var theme: Theme
     let email: String?
     private let avatarRefreshPublisher = NotificationCenter.default.publisher(for: Constants.Notifications.avatarNeedsRefreshing)
     @State private var forceRefresh: Bool = false
@@ -51,12 +50,10 @@ struct ProfileImage: View {
 
     private var defaultProfileView: some View {
         ZStack {
-            theme.primaryUi05
             Image("profileAvatar")
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .foregroundColor(theme.primaryUi01)
                 .padding()
         }
     }
