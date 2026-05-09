@@ -2,9 +2,7 @@ import SwiftUI
 import AVKit
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
-    let episode: MockEpisode
-    var podcastTitle: String?
-    var podcastDescription: String?
+    let episode: EpisodeRowViewModel
 
     private static let sampleURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
 
@@ -29,13 +27,13 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
         var items = [
             makeMetadataItem(.commonIdentifierTitle, value: episode.title)
         ]
-        if let podcastTitle {
+        if let podcastTitle = episode.podcastTitle {
             items.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: podcastTitle))
         }
-        if let imageData = UIImage(named: episode.image)?.pngData() {
+        if let imageName = episode.imageName, let imageData = UIImage(named: imageName)?.pngData() {
             items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
         }
-        if let podcastDescription {
+        if let podcastDescription = episode.podcastDescription {
             items.append(makeMetadataItem(.commonIdentifierDescription, value: podcastDescription))
         }
         return items
@@ -110,9 +108,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 }
 
 struct EpisodePlayerButton: View {
-    let episode: MockEpisode
-    var podcastTitle: String?
-    var podcastDescription: String?
+    let episode: EpisodeRowViewModel
     @State private var isPlaying = false
 
     var body: some View {
@@ -123,19 +119,17 @@ struct EpisodePlayerButton: View {
         }
         .buttonStyle(EpisodeRowButtonStyle())
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(
-                episode: episode,
-                podcastTitle: podcastTitle,
-                podcastDescription: podcastDescription
-            )
-            .ignoresSafeArea()
+            EpisodePlayerView(episode: episode)
+                .ignoresSafeArea()
         }
     }
 }
 
 #Preview {
     EpisodePlayerButton(
-        episode: MockData.makePodcasts().first!.episodes.first!,
-        podcastTitle: "The Daily"
+        episode: EpisodeRowViewModel(
+            mockEpisode: MockData.makePodcasts().first!.episodes.first!,
+            podcastTitle: "The Daily"
+        )
     )
 }

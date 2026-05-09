@@ -122,7 +122,7 @@ struct PlaylistDetailView: View {
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }
-            if !model.playlist.episodes.isEmpty {
+            if !model.episodes.isEmpty {
                 Button {
                     model.playAll()
                 } label: {
@@ -139,12 +139,9 @@ struct PlaylistDetailView: View {
     var episodeList: some View {
         ScrollView {
             LazyVStack {
-                ForEach(model.playlist.episodes) { episode in
-                    EpisodeRowWithActions(
-                        episode: episode,
-                        podcastTitle: model.playlist.title
-                    )
-                    .prefersDefaultFocus(episode.id == model.playlist.episodes.first?.id, in: episodeListNamespace)
+                ForEach(model.episodes) { episode in
+                    EpisodeRowWithActions(episode: episode)
+                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: episodeListNamespace)
                 }
             }
             .focusScope(episodeListNamespace)

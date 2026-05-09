@@ -5,7 +5,7 @@ import PocketCastsDataModel
 @Observable
 class PodcastDetailViewModel {
 
-    private var cancellable: AnyCancellable?
+    private let dataManager: DataManager
 
     enum State: Equatable, Hashable {
         case loading
@@ -15,18 +15,35 @@ class PodcastDetailViewModel {
     var state: State = .loading
 
     var podcast: Podcast
-    let episodes: [MockEpisode]
+    var episodes: [EpisodeRowViewModel] = []
+    var recommendedEpisode: EpisodeRowViewModel?
 
-    let recommendedEpisode: MockEpisode?
-
-    init(podcast: Podcast) {
+    init(podcast: Podcast, dataManager: DataManager = DataManager.sharedManager) {
         self.podcast = podcast
-        self.episodes = MockData.makePodcasts().first?.episodes ?? []
-        self.recommendedEpisode = MockData.makePodcasts().first?.episodes.randomElement()
+        self.dataManager = dataManager
     }
 
     func load() {
-        state = .ready
+        Task {
+            let fetched = fetchEpisodes()
+            let podcastTitle = podcast.title
+            let podcastDescription = podcast.podcastDescription
+
+            episodes = fetched.map {
+                EpisodeRowViewModel(
+                    episode: $0,
+                    podcastUUID: podcast.uuid,
+                    podcastTitle: podcastTitle,
+                    podcastDescription: podcastDescription
+                )
+            }
+            recommendedEpisode = episodes.first
+            state = .ready
+        }
+    }
+
+    private func fetchEpisodes() -> [Episode] {
+        dataManager.allEpisodesForPodcast(id: podcast.id)
     }
 
     var isFollowing: Bool {

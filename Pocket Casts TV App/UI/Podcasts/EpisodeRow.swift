@@ -13,7 +13,7 @@ struct EpisodeRowButtonStyle: ButtonStyle {
 
 struct EpisodeRow: View {
 
-    let episode: MockEpisode
+    let episode: EpisodeRowViewModel
     var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -34,10 +34,22 @@ struct EpisodeRow: View {
         TimeFormatter.shared.multipleUnitFormattedShortTime(time: time)
     }
 
+    @ViewBuilder
+    private var thumbnail: some View {
+        if let podcastUUID = episode.podcastUUID {
+            PodcastImageViewWrapper(podcastUUID: podcastUUID, size: .list)
+        } else if let imageName = episode.imageName {
+            Image(imageName)
+                .resizable()
+        } else {
+            Image(ImageResource.pcLogo)
+                .resizable()
+        }
+    }
+
     var body: some View {
         HStack(spacing: 24) {
-            Image(episode.image)
-                .resizable()
+            thumbnail
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             VStack(alignment: .leading) {
@@ -86,9 +98,7 @@ struct EpisodeRowWithActions: View {
         case upNext
     }
 
-    let episode: MockEpisode
-    var podcastTitle: String?
-    var podcastDescription: String?
+    let episode: EpisodeRowViewModel
     var context: Context = .default
 
     @FocusState private var focusedElement: FocusElement?
@@ -165,12 +175,8 @@ struct EpisodeRowWithActions: View {
             }
         }
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(
-                episode: episode,
-                podcastTitle: podcastTitle,
-                podcastDescription: podcastDescription
-            )
-            .ignoresSafeArea()
+            EpisodePlayerView(episode: episode)
+                .ignoresSafeArea()
         }
         .confirmationDialog(episode.title, isPresented: $isShowingActions) {
             actionButtons
@@ -180,8 +186,10 @@ struct EpisodeRowWithActions: View {
 
 #Preview {
     EpisodeRowWithActions(
-        episode: MockData.makePodcasts().first!.episodes.first!,
-        podcastTitle: "The Daily"
+        episode: EpisodeRowViewModel(
+            mockEpisode: MockData.makePodcasts().first!.episodes.first!,
+            podcastTitle: "The Daily"
+        )
     )
     .environment(AppCoordinator())
     .environment(MainTabRouter())

@@ -106,12 +106,8 @@ struct PodcastDetailView: View {
         }
     }
 
-    private func episodeRow(for episode: MockEpisode) -> some View {
-        EpisodeRowWithActions(
-            episode: episode,
-            podcastTitle: model.podcast.title,
-            podcastDescription: model.podcast.podcastDescription
-        )
+    private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
+        EpisodeRowWithActions(episode: episode)
     }
 
     @Namespace private var episodeListNamespace
