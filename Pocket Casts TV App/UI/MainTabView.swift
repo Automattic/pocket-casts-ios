@@ -87,6 +87,7 @@ struct MainTabView: View {
     @State private var tabSelection: MainTabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @State private var scrollOffset: Double = 0
+    @Environment(AppCoordinator.self) var coordinator
 
     enum FocusArea: Hashable {
         case tabBar
@@ -158,7 +159,8 @@ struct MainTabView: View {
         Button {
 
         } label: {
-            Image(ImageResource.userPlaceholder)
+            ProfileImage(email: coordinator.userEmail)
+                .frame(width: 64, height: 64)
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
