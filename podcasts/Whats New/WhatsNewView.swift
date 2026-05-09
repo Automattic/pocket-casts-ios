@@ -1,4 +1,5 @@
 import SwiftUI
+import WhatsNew
 
 struct WhatsNewView: View {
     @EnvironmentObject var theme: Theme

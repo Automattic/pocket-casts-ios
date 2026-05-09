@@ -34,6 +34,10 @@ let package = Package(
             targets: ["EndOfYear"]
         ),
         .library(
+            name: "WhatsNew",
+            targets: ["WhatsNew"]
+        ),
+        .library(
             name: "Modules",
             targets: ["Modules"]
         )
@@ -161,6 +165,17 @@ let package = Package(
             checksum: "773066f52a81fcc6405efbdeaf825a67d36cfe2b4d3e1855f508b6cf8faa7133"
         ),
         .target(
+            name: "WhatsNew",
+            dependencies: [
+                "PocketCastsServer",
+                "PocketCastsUtils",
+            ],
+            path: "Sources/WhatsNew",
+            resources: [
+                .process("Resources"),
+            ]
+        ),
+        .target(
             name: "Modules",
             path: "Sources/Modules"
         ),
@@ -235,6 +250,7 @@ enum XcodeSupport {
                     .product(name: "WrappingHStack", package: "WrappingHStack"),
                     .product(name: "Fingerprint", package: "pocket-casts-ios-fingerprint"),
                     "EndOfYear",
+                    "WhatsNew",
                 ]
             ),
             .xcodeTarget(

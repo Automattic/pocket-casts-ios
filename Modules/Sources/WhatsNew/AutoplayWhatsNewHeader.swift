@@ -1,9 +1,12 @@
+import PocketCastsUtils
 import SwiftUI
 
-struct AutoplayWhatsNewHeader: View {
+public struct AutoplayWhatsNewHeader: View {
     @State private var animate = false
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         ZStack {
             LinearGradient(colors: [.init(hex: "03A9F4"), .init(hex: "50D0F1")], startPoint: .top, endPoint: .bottom)
 
@@ -11,7 +14,7 @@ struct AutoplayWhatsNewHeader: View {
                 .foregroundStyle(.white)
                 .frame(width: 120, height: 120)
                 .overlay (
-                    Image("whatsnew_autoplay")
+                    Image("whatsnew_autoplay", bundle: .module)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 80)

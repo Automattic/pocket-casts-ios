@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ClipsWhatsNewView: View {
+public struct ClipsWhatsNewView: View {
     @State private var isVisible = false
 
     enum Constants {
@@ -15,14 +15,16 @@ struct ClipsWhatsNewView: View {
         AnimatedLogoImageView.Logo(image: "whatsnew_clips_telegram", distance: (x: -40, y: 0), from: Constants.previewSize.midPoint)
     ]
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         ZStack {
             ForEach(Array(logos.enumerated()), id: \.self.element.image) { (idx, logo) in
                 AnimatedLogoImageView(logo: logo, index: idx, delay: Constants.fadeInDuration)
             }
             VStack {
                 Spacer()
-                Image("whatsnew_clip_preview")
+                Image("whatsnew_clip_preview", bundle: .module)
                     .resizable()
                     .scaledToFit()
                     .frame(width: Constants.previewSize.width, height: Constants.previewSize.height)
@@ -65,7 +67,7 @@ struct AnimatedLogoImageView: View {
     @State private var animatedOut = false
 
     var body: some View {
-        Image(logo.image)
+        Image(logo.image, bundle: .module)
             .resizable()
             .scaledToFit()
             .frame(height: 40)

@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import WhatsNew
 
 struct WhatsNewFullView: View {
     @EnvironmentObject var theme: Theme
