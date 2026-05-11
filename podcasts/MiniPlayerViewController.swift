@@ -43,6 +43,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     var panUpRecognizer: UIPanGestureRecognizer!
     var longPressRecognizer: UILongPressGestureRecognizer!
 
+    /// Tracks whether the user tapped an action from the long-press context
+    /// menu (Liquid Glass path). Used to decide whether to fire the
+    /// "menu dismissed" analytics event when the menu closes.
+    var longPressContextMenuActionSelected = false
+
     var heightConstraint: NSLayoutConstraint?
 
     var upNextViewController: UpNextViewController?
