@@ -30,6 +30,10 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
 
     override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super.setNavigationBarHidden(hidden, animated: animated)
+        enableInteractivePopGestureWorkaround()
+    }
+
+    func enableInteractivePopGestureWorkaround() {
         interactivePopGestureRecognizer?.delegate = self
     }
 
