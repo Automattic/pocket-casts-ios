@@ -38,7 +38,7 @@ extension PodcastListViewController {
         navigationItem.leftBarButtonItem = nil
         customRightBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneEditingTapped))
 
-        reorderLongPress?.isEnabled = true
+        podcastsCollectionView.dragInteractionEnabled = true
 
         for cell in podcastsCollectionView.visibleCells {
             applyEditingTreatment(to: cell)
@@ -46,7 +46,7 @@ extension PodcastListViewController {
     }
 
     private func exitEditMode() {
-        reorderLongPress?.isEnabled = false
+        podcastsCollectionView.dragInteractionEnabled = false
 
         navigationItem.leftBarButtonItem = savedLeftBarButtonItem
         customRightBtn = savedRightBarButtonItem
