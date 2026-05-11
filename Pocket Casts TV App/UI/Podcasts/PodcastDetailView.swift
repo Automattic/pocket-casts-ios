@@ -113,33 +113,30 @@ struct PodcastDetailView: View {
     @Namespace private var episodeListNamespace
 
     var episodeContent: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 40) {
-                if let recommended = model.recommendedEpisode {
-                    VStack(alignment: .leading, spacing: 16) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(L10n.tvPodcastDetailStartHere)
-                                .font(.title3)
-                                .foregroundStyle(Color.textPrimary)
-                            Text(L10n.tvPodcastDetailStartHereSubtitle)
-                                .font(.caption)
-                                .foregroundStyle(Color.textSecondary)
-                        }
-                        episodeRow(for: recommended)
+        List {
+            if let recommended = model.recommendedEpisode {
+                Section {
+                    episodeRow(for: recommended)
                         .prefersDefaultFocus(in: episodeListNamespace)
+                } header: {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(L10n.tvPodcastDetailStartHere)
+                            .font(.title3)
+                            .foregroundStyle(Color.textPrimary)
+                        Text(L10n.tvPodcastDetailStartHereSubtitle)
+                            .font(.caption)
+                            .foregroundStyle(Color.textSecondary)
                     }
                 }
-
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    Text(L10n.tvPodcastDetailAllEpisodes)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    LazyVStack {
-                        ForEach(model.episodes) { episode in
-                            episodeRow(for: episode)
-                        }
-                    }
+            }
+            Section {
+                ForEach(model.episodes) { episode in
+                    episodeRow(for: episode)
                 }
+            } header: {
+                Text(L10n.tvPodcastDetailAllEpisodes)
+                    .font(.title3)
+                    .foregroundStyle(Color.textPrimary)
             }
             .focusScope(episodeListNamespace)
             .padding(.horizontal, 24)
