@@ -4267,7 +4267,7 @@ internal enum L10n {
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title
   internal static var tvPlayerPlaybackSpeed: String { return L10n.tr("Localizable", "tv_player_playback_speed", fallback: "Playback speed") }
-  /// tv player toast shown when playback speed changes. '%1$@' is a placeholder for the speed value like 1.5x.
+  /// tv player toast shown when playback speed changes. %1$@ is the speed value like 1.5x
   internal static func tvPlayerPlaybackSpeedSet(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_player_playback_speed_set", String(describing: p1), fallback: "Playback speed set to %1$@")
   }
@@ -4281,7 +4281,7 @@ internal enum L10n {
   internal static var tvPlayerTrimSilenceMild: String { return L10n.tr("Localizable", "tv_player_trim_silence_mild", fallback: "Mild") }
   /// tv player trim silence off option
   internal static var tvPlayerTrimSilenceOff: String { return L10n.tr("Localizable", "tv_player_trim_silence_off", fallback: "Off") }
-  /// tv player toast shown when trim silence setting changes. '%1$@' is a placeholder for the selected option name.
+  /// tv player toast shown when trim silence setting changes. %1$@ is the selected option name
   internal static func tvPlayerTrimSilenceSet(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_player_trim_silence_set", String(describing: p1), fallback: "Trim silence: %1$@")
   }

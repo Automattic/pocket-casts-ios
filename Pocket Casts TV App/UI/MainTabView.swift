@@ -43,11 +43,11 @@ struct MainTabContentView: View {
                 }
         case .podcasts:
             PodcastsView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
+//                .onScrollGeometryChange(for: Double.self) { geometry in
+//                    geometry.contentInsets.top + geometry.contentOffset.y
+//                } action: { _, after in
+//                    self.scrollOffset = after
+//                }
         case .playlists:
             PlaylistsView()
                 .onScrollGeometryChange(for: Double.self) { geometry in

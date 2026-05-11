@@ -1,5 +1,6 @@
 import SwiftUI
 import AVKit
+import PocketCastsDataModel
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
     let episode: EpisodeRowViewModel
@@ -7,7 +8,11 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
     private static let sampleURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let player = AVPlayer(url: Self.sampleURL)
+        var playerURL: URL = Self.sampleURL
+        if let urlString = episode.episode.downloadUrl, let url = URL(string: urlString) {
+            playerURL = url
+        }
+        let player = AVPlayer(url: playerURL)
         let controller = AVPlayerViewController()
         controller.player = player
         controller.player?.currentItem?.externalMetadata = createMetadataItems()
@@ -25,15 +30,15 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 
     private func createMetadataItems() -> [AVMetadataItem] {
         var items = [
-            makeMetadataItem(.commonIdentifierTitle, value: episode.title)
+            makeMetadataItem(.commonIdentifierTitle, value: episode.displayTitle)
         ]
-        if let podcastTitle = episode.podcastTitle {
+        if let podcastTitle = episode.podcast?.title {
             items.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: podcastTitle))
         }
-        if let imageName = episode.imageName, let imageData = UIImage(named: imageName)?.pngData() {
-            items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
-        }
-        if let podcastDescription = episode.podcastDescription {
+//        if let imageName = episode.imageName, let imageData = UIImage(named: imageName)?.pngData() {
+//            items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
+//        }
+        if let podcastDescription = episode.podcast?.description {
             items.append(makeMetadataItem(.commonIdentifierDescription, value: podcastDescription))
         }
         return items
@@ -108,28 +113,23 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 }
 
 struct EpisodePlayerButton: View {
-    let episode: EpisodeRowViewModel
+    let model: EpisodeRowViewModel
     @State private var isPlaying = false
 
     var body: some View {
         Button {
             isPlaying = true
         } label: {
-            EpisodeRow(episode: episode)
+            EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(episode: episode)
+            EpisodePlayerView(episode: model)
                 .ignoresSafeArea()
         }
     }
 }
 
 #Preview {
-    EpisodePlayerButton(
-        episode: EpisodeRowViewModel(
-            mockEpisode: MockData.makePodcasts().first!.episodes.first!,
-            podcastTitle: "The Daily"
-        )
-    )
+    EpisodePlayerButton(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
 }

@@ -25,12 +25,7 @@ class UpNextViewModel {
             let fetched = fetchUpNextEpisodes()
             episodes = fetched.map { episode in
                 let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-                return EpisodeRowViewModel(
-                    episode: episode,
-                    podcastUUID: podcast?.uuid,
-                    podcastTitle: podcast?.title,
-                    podcastDescription: podcast?.podcastDescription
-                )
+                return EpisodeRowViewModel(episode: episode, podcast: podcast)
             }
             state = episodes.isEmpty ? .empty : .ready
         }

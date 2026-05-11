@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsUtils
+import PocketCastsDataModel
 
 struct EpisodeRowButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
@@ -13,10 +14,15 @@ struct EpisodeRowButtonStyle: ButtonStyle {
 
 struct EpisodeRow: View {
 
-    let episode: EpisodeRowViewModel
+    @State var model: EpisodeRowViewModel
     var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool
+
+    init(model: EpisodeRowViewModel, isActive: Bool? = nil) {
+        self.model = model
+        self.isActive = isActive
+    }
 
     private var isHighlighted: Bool {
         isActive ?? isFocused
@@ -26,24 +32,12 @@ struct EpisodeRow: View {
         static let episodeImageSize = CGFloat(124)
     }
 
-    private func displayDate(for date: Date) -> String {
-        DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase
-    }
-
-    private func displayDuration(for time: Double) -> String {
-        TimeFormatter.shared.multipleUnitFormattedShortTime(time: time)
-    }
-
     @ViewBuilder
     private var thumbnail: some View {
-        if let podcastUUID = episode.podcastUUID {
-            PodcastImageViewWrapper(podcastUUID: podcastUUID, size: .list)
-        } else if let imageName = episode.imageName {
-            Image(imageName)
-                .resizable()
+        if let uuid = model.podcastUuid {
+            PodcastImageViewWrapper(podcastUUID: uuid, size: .list)
         } else {
             Image(ImageResource.pcLogo)
-                .resizable()
         }
     }
 
@@ -53,14 +47,14 @@ struct EpisodeRow: View {
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             VStack(alignment: .leading) {
-                Text(displayDate(for: episode.publishedDate))
+                Text(model.displayDate)
                     .font(.caption)
                     .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
-                Text(episode.title)
+                Text(model.episode.displayableTitle())
                     .font(.body)
                     .foregroundColor(isHighlighted ? .textPrimaryActive : .textPrimary)
                     .lineLimit(2)
-                Text(displayDuration(for: episode.duration))
+                Text(model.displayDuration)
                     .font(.caption)
                     .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
             }
@@ -98,7 +92,7 @@ struct EpisodeRowWithActions: View {
         case upNext
     }
 
-    let episode: EpisodeRowViewModel
+    let model: EpisodeRowViewModel
     var context: Context = .default
 
     @FocusState private var focusedElement: FocusElement?
@@ -144,7 +138,7 @@ struct EpisodeRowWithActions: View {
             Button {
                 isPlaying = true
             } label: {
-                EpisodeRow(episode: episode, isActive: isEpisodeFocused)
+                EpisodeRow(model: model, isActive: isEpisodeFocused)
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
@@ -175,22 +169,17 @@ struct EpisodeRowWithActions: View {
             }
         }
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(episode: episode)
+            EpisodePlayerView(episode: model)
                 .ignoresSafeArea()
         }
-        .confirmationDialog(episode.title, isPresented: $isShowingActions) {
+        .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
             actionButtons
         }
     }
 }
 
 #Preview {
-    EpisodeRowWithActions(
-        episode: EpisodeRowViewModel(
-            mockEpisode: MockData.makePodcasts().first!.episodes.first!,
-            podcastTitle: "The Daily"
-        )
-    )
+    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
     .environment(AppCoordinator())
     .environment(MainTabRouter())
 }

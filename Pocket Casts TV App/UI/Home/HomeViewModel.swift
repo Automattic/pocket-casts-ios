@@ -36,15 +36,15 @@ class HomeViewModel {
             }
             currentPlaying = upNext.first
 
-            newReleases = podcasts.prefix(8).compactMap { podcast in
-                guard let latest = dataManager.findLatestEpisode(podcast: podcast) else { return nil }
-                return EpisodeRowViewModel(
-                    episode: latest,
-                    podcastUUID: podcast.uuid,
-                    podcastTitle: podcast.title,
-                    podcastDescription: podcast.podcastDescription
-                )
+            var newEpisodes = [EpisodeRowViewModel]()
+            for podcast in podcasts.prefix(8) {
+                guard let latest: Episode = dataManager.findLatestEpisode(podcast: podcast) else {
+                    continue
+                }
+                let result = EpisodeRowViewModel(episode: latest, podcast: podcast)
+                newEpisodes.append(result)
             }
+            newReleases = newEpisodes
 
             state = .ready
         }
@@ -56,11 +56,6 @@ class HomeViewModel {
 
     private func rowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
         let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
-        return EpisodeRowViewModel(
-            episode: episode,
-            podcastUUID: podcast?.uuid,
-            podcastTitle: podcast?.title,
-            podcastDescription: podcast?.podcastDescription
-        )
+        return EpisodeRowViewModel(episode: episode, podcast: podcast)
     }
 }

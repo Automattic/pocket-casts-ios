@@ -139,10 +139,10 @@ struct PlaylistDetailView: View {
     var episodeList: some View {
         ScrollView {
             LazyVStack {
-                ForEach(model.episodes) { episode in
-                    EpisodeRowWithActions(episode: episode)
-                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: episodeListNamespace)
-                }
+//                ForEach(model.episodes) { episode in
+//                    EpisodeRowWithActions(episode: episode)
+//                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: episodeListNamespace)
+//                }
             }
             .focusScope(episodeListNamespace)
             .padding(.horizontal, 24)

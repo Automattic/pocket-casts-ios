@@ -107,7 +107,7 @@ struct PodcastDetailView: View {
     }
 
     private func episodeRow(for episode: EpisodeRowViewModel) -> some View {
-        EpisodeRowWithActions(episode: episode)
+        EpisodeRowWithActions(model: episode)
     }
 
     @Namespace private var episodeListNamespace
@@ -130,7 +130,7 @@ struct PodcastDetailView: View {
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 16) {
+                LazyVStack(alignment: .leading, spacing: 16) {
                     Text(L10n.tvPodcastDetailAllEpisodes)
                         .font(.title3)
                         .foregroundStyle(Color.textPrimary)

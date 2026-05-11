@@ -45,7 +45,7 @@ struct HomeView: View {
                         .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                     if let currentPlaying = model.currentPlaying {
-                        EpisodePlayerButton(episode: currentPlaying)
+                        EpisodePlayerButton(model: currentPlaying)
                             .frame(maxWidth: 864, alignment: .leading)
                     }
                     VStack(alignment: .leading, spacing: 24) {
@@ -98,7 +98,7 @@ struct HomeView: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 24) {
                 ForEach(model.upNext) { episode in
-                    EpisodePlayerButton(episode: episode)
+                    EpisodePlayerButton(model: episode)
                         .frame(width: 864)
                 }
             }
@@ -125,7 +125,7 @@ struct HomeView: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 24) {
                 ForEach(model.newReleases) { episode in
-                    EpisodePlayerButton(episode: episode)
+                    EpisodePlayerButton(model: episode)
                         .frame(width: 864)
                 }
             }

@@ -1,38 +1,71 @@
 import Foundation
 import PocketCastsDataModel
 
-struct EpisodeRowViewModel: Identifiable, Hashable {
-    let uuid: String
-    let title: String
-    let publishedDate: Date
-    let duration: Double
-    let podcastUUID: String?
-    let imageName: String?
+@Observable
+class EpisodeRowViewModel: Identifiable {
 
-    var podcastTitle: String?
-    var podcastDescription: String?
-
-    var id: String { uuid }
-
-    init(episode: BaseEpisode, podcastUUID: String? = nil, podcastTitle: String? = nil, podcastDescription: String? = nil) {
-        self.uuid = episode.uuid
-        self.title = episode.title ?? ""
-        self.publishedDate = episode.publishedDate ?? Date()
-        self.duration = episode.duration
-        self.podcastUUID = podcastUUID ?? (episode as? Episode)?.podcastUuid
-        self.imageName = nil
-        self.podcastTitle = podcastTitle
-        self.podcastDescription = podcastDescription
+    static func == (lhs: EpisodeRowViewModel, rhs: EpisodeRowViewModel) -> Bool {
+        return lhs.episode.uuid == rhs.episode.uuid
     }
 
-    init(mockEpisode: MockEpisode, podcastTitle: String? = nil, podcastDescription: String? = nil) {
-        self.uuid = mockEpisode.uuid
-        self.title = mockEpisode.title
-        self.publishedDate = mockEpisode.publishedDate
-        self.duration = mockEpisode.duration
-        self.podcastUUID = nil
-        self.imageName = mockEpisode.image
-        self.podcastTitle = podcastTitle
-        self.podcastDescription = podcastDescription
+    let episode: BaseEpisode
+    let podcast: Podcast?
+
+    var id: String { episode.uuid }
+
+    init(episode: BaseEpisode, podcast: Podcast?) {
+        self.episode = episode
+        self.podcast = podcast
     }
+
+    var displayTitle: String {
+        return episode.displayableTitle()
+    }
+
+    var displayDate: String {
+        return episode.shortPublishedDate()
+    }
+
+    var displayDuration: String {
+        return episode.displayableDuration
+    }
+
+    var podcastUuid: String? {
+        if let episode = episode as? Episode {
+            return episode.podcastUuid
+        } else {
+            return nil
+        }
+    }
+}
+
+@Observable
+class MockEpisodeRowViewModel: Identifiable {
+
+    let episode: MockEpisode
+    let podcast: MockPodcast?
+
+    init(episode: MockEpisode, podcast: MockPodcast?) {
+        self.episode = episode
+        self.podcast = podcast
+    }
+
+    static func == (lhs: MockEpisodeRowViewModel, rhs: MockEpisodeRowViewModel) -> Bool {
+        return lhs.episode.uuid == rhs.episode.uuid
+    }
+
+    var id: String { episode.uuid }
+
+    var displayTitle: String {
+        return episode.title
+    }
+
+    var displayDate: String {
+        return episode.publishedDate.formatted()
+    }
+
+    var displayDuration: String {
+        return episode.duration.formatted()
+    }
+
 }

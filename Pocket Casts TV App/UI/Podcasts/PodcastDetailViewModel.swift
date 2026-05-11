@@ -26,16 +26,9 @@ class PodcastDetailViewModel {
     func load() {
         Task {
             let fetched = fetchEpisodes()
-            let podcastTitle = podcast.title
-            let podcastDescription = podcast.podcastDescription
 
             episodes = fetched.map {
-                EpisodeRowViewModel(
-                    episode: $0,
-                    podcastUUID: podcast.uuid,
-                    podcastTitle: podcastTitle,
-                    podcastDescription: podcastDescription
-                )
+                EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
             recommendedEpisode = episodes.first
             state = .ready
