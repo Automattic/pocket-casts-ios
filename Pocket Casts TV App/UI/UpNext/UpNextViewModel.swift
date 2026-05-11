@@ -23,11 +23,15 @@ class UpNextViewModel {
     func load() {
         Task {
             let fetched = fetchUpNextEpisodes()
-            episodes = fetched.map { episode in
+            let episodes = fetched.map { episode in
                 let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
                 return EpisodeRowViewModel(episode: episode, podcast: podcast)
             }
-            state = episodes.isEmpty ? .empty : .ready
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                state = episodes.isEmpty ? .empty : .ready
+                self.episodes = episodes
+            }
         }
     }
 
