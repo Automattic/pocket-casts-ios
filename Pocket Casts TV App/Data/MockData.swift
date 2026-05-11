@@ -313,6 +313,7 @@ struct MockData {
                 episodes.append(episode)
             }
         }
-        return episodes
+        stubEpisodes = episodes
+        return stubEpisodes
     }
 }
