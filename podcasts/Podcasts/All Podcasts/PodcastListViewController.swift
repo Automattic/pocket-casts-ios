@@ -43,6 +43,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     var isEditingOrder = false
     var savedLeftBarButtonItem: UIBarButtonItem?
     var savedRightBarButtonItem: UIBarButtonItem?
+    var orderBeforeEditing: [HomeGridListItem]?
 
     private var lastWillLayoutWidth: CGFloat = 0
 
