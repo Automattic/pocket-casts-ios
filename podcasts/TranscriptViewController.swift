@@ -550,6 +550,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         #endif
     }
 
+    private func stopSyncedTranscripts() {
+        FingerprintTimingManager.shared.stop()
+        stopHighlightDisplayLink()
+    }
+
     override func themeDidChange() {
         updateColors()
     }
@@ -627,8 +632,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
+                let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
+                    if !isDisplayingGenerated {
+                        self.stopSyncedTranscripts()
+                    }
                     UIView.animate(withDuration: 0.25) {
                         if hasGeneratedTranscripts, self.shouldShowPremiumView {
                             self.stackView.alpha = 0

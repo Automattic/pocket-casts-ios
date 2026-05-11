@@ -19,20 +19,20 @@ final class TranscriptManagerTests: XCTestCase {
 
         func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "vtt") else {
-                return (transcripts: [], hasGeneratedTranscripts: false)
+                return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
             }
             let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
-            return (transcripts: [transcript], hasGeneratedTranscripts: false)
+            return (transcripts: [transcript], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
         }
     }
 
     class EmptyMockShowCoordinator: MockShowCoordinator {
         override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
             guard let transcriptURL = Bundle(for: Self.self).url(forResource: "empty_sample", withExtension: "vtt") else {
-                return (transcripts: [], hasGeneratedTranscripts: false)
+                return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
             }
             let transcript = Episode.Metadata.Transcript(url: transcriptURL.absoluteString, type: "text/vtt", language: nil)
-            return (transcripts: [transcript], hasGeneratedTranscripts: false)
+            return (transcripts: [transcript], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
         }
     }
 

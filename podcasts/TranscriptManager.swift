@@ -38,6 +38,7 @@ class TranscriptManager {
     let showCoordinator: ShowInfoCoordinating
 
     private(set) var hasGeneratedTranscripts: Bool = false
+    private(set) var isDisplayingGeneratedTranscript: Bool = false
 
     init(episodeUUID: String, podcastUUID: String, showCoordinator: ShowInfoCoordinating = ShowInfoCoordinator.shared) {
         self.episodeUUID = episodeUUID
@@ -53,6 +54,7 @@ class TranscriptManager {
         }
         var transcriptsAvailable = metadata.transcripts
         hasGeneratedTranscripts = metadata.hasGeneratedTranscripts
+        isDisplayingGeneratedTranscript = metadata.isDisplayingGeneratedTranscript
         while let transcript = TranscriptFormat.bestTranscript(from: transcriptsAvailable) {
             do {
                 let model = try await loadTranscript(transcript)
