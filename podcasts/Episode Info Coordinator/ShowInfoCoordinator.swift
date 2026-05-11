@@ -66,7 +66,7 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
 
     public func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
 #if os(watchOS)
-        return (transcripts: [], hasGeneratedTranscripts: false)
+        return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
 #else
         let metadata = try await loadShowInfo(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
 
@@ -83,14 +83,15 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
                 pocketCastsTranscripts = metadata?.pocketCastsTranscripts ?? []
             }
 
+            let isDisplayingGenerated = externalTranscripts.isEmpty && !pocketCastsTranscripts.isEmpty
             let transcripts = externalTranscripts.isEmpty ? pocketCastsTranscripts : externalTranscripts
-            return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty)
+            return (transcripts: transcripts, hasGeneratedTranscripts: !pocketCastsTranscripts.isEmpty, isDisplayingGeneratedTranscript: isDisplayingGenerated)
         }
 
         guard let transcripts = metadata?.transcripts else {
-            return (transcripts: [], hasGeneratedTranscripts: false)
+            return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
         }
-        return (transcripts: transcripts, hasGeneratedTranscripts: false)
+        return (transcripts: transcripts, hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
 #endif
     }
 
