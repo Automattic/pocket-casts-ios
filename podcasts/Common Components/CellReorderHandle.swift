@@ -35,6 +35,7 @@ final class CellReorderHandle {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         maskLayer.frame = bounds
+        applyGradientDirection(to: maskLayer)
         maskLayer.locations = openLocations(for: bounds.width)
         CATransaction.commit()
     }
@@ -44,6 +45,7 @@ final class CellReorderHandle {
         let mask = ensureMask()
         cell.contentView.layer.mask = mask
         mask.frame = cell.contentView.bounds
+        applyGradientDirection(to: mask)
         animateMask(to: openLocations(for: cell.contentView.bounds.width), curve: .easeOut)
         UIView.animate(withDuration: Self.animationDuration) {
             handle.alpha = 1
@@ -95,8 +97,6 @@ final class CellReorderHandle {
     private func ensureMask() -> CAGradientLayer {
         if let maskLayer { return maskLayer }
         let layer = CAGradientLayer()
-        layer.startPoint = CGPoint(x: 0, y: 0.5)
-        layer.endPoint = CGPoint(x: 1, y: 0.5)
         layer.colors = [
             UIColor.white.cgColor,
             UIColor.white.cgColor,
@@ -104,8 +104,17 @@ final class CellReorderHandle {
             UIColor.clear.cgColor
         ]
         layer.locations = closedLocations
+        applyGradientDirection(to: layer)
         maskLayer = layer
         return layer
+    }
+
+    private func applyGradientDirection(to layer: CAGradientLayer) {
+        // CALayers don't auto-mirror, so flip the gradient axis when the handle
+        // sits on the leading edge in RTL.
+        let isRTL = cell.effectiveUserInterfaceLayoutDirection == .rightToLeft
+        layer.startPoint = CGPoint(x: isRTL ? 1 : 0, y: 0.5)
+        layer.endPoint = CGPoint(x: isRTL ? 0 : 1, y: 0.5)
     }
 
     private var closedLocations: [NSNumber] {
