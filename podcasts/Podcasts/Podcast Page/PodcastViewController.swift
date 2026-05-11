@@ -1415,20 +1415,24 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
             let controller = PodcastFeedRefreshController()
-            controller.refreshControl.customTintColor = contrastColorForPodcastImage
+            controller.refreshControl.customTintColor = UIColor.label
             controller.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
             episodesTable.refreshControl = controller.refreshControl
             refreshController = controller
-        }
-    }
 
-    private var contrastColorForPodcastImage: UIColor {
-        guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: self.podcastUUID, size: .grid) else {
-            return .white
+            // `UIImage.isDark` walks every byte of the artwork (~40 ms for grid-size art),
+            // so resolve the contrast color off the main thread and apply when ready.
+            let uuid = podcastUUID
+            Task.detached(priority: .utility) { [refreshControl = controller.refreshControl] in
+                guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
+                let isDark = image.isDark
+                await MainActor.run {
+                    refreshControl.customTintColor = isDark ? .white : .black
+                }
+            }
         }
-        return image.isDark ? .white : .black
     }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {

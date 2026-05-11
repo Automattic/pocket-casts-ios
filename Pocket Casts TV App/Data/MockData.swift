@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsDataModel
 import SwiftUI
 
 struct MockEpisode: Identifiable, Hashable, Equatable {
@@ -30,6 +31,14 @@ struct MockPodcast: Identifiable, Hashable, Equatable {
     var website: String?
     var frequency: String?
     var nextEpisodeDate: String?
+}
+
+struct MockFolder: Identifiable, Hashable, Equatable {
+    var id: String
+    var name: String
+    var podcasts: [MockPodcast]
+
+    var podcastImages: [String] { podcasts.map(\.image) }
 }
 
 struct MockPlaylist: Identifiable, Hashable, Equatable {
@@ -161,6 +170,31 @@ struct MockData {
         return self.podcasts
     }
 
+    private static var folders: [MockFolder] = []
+
+    static func makeFolders() -> [MockFolder] {
+        guard folders.isEmpty else { return folders }
+        let allPodcasts = makePodcasts()
+        let result = [
+            makeFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
+            makeFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
+            makeFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
+            makeFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
+            makeFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
+        ]
+        self.folders = result
+        return result
+    }
+
+    private static func makeFolder(name: String, podcastCount: Int, from allPodcasts: [MockPodcast], startIndex: Int) -> MockFolder {
+        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
+        return MockFolder(
+            id: UUID().uuidString,
+            name: name,
+            podcasts: folderPodcasts
+        )
+    }
+
     static private var playlists: [MockPlaylist] = []
 
     static func makePlaylists() -> [MockPlaylist] {
@@ -206,5 +240,58 @@ struct MockData {
         }
         upNext = episodes
         return episodes
+    }
+
+    static var stubPodcasts: [Podcast] = []
+
+    static func makeStubPodcasts() -> [Podcast] {
+        guard stubPodcasts.isEmpty else {
+            return stubPodcasts
+        }
+        let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
+        let numberOfPodcasts = 48
+        var results = [Podcast]()
+        for i in (0..<numberOfPodcasts) {
+            let podcast = Podcast()
+            podcast.id = Int64(i)
+            podcast.uuid = UUID().uuidString
+            podcast.title = podcastNames[i % podcastNames.count]
+            podcast.author = authorNames[i % authorNames.count]
+            podcast.podcastDescription = "Here is a fun description for this"
+            podcast.podcastUrl = "https://\(podcastNames[i % podcastNames.count].lowercased().replacingOccurrences(of: " ", with: "")).com"
+            podcast.episodeFrequency = frequencies[i % frequencies.count]
+            podcast.estimatedNextEpisode = Date.now.advanced(by: 1.days)
+            results.append(podcast)
+        }
+        self.stubPodcasts = results
+        return self.stubPodcasts
+    }
+
+    private static func makeStubFolder(name: String, podcastCount: Int, from allPodcasts: [Podcast], startIndex: Int) -> Folder {
+        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
+        let folder = Folder()
+        folder.uuid = UUID().uuidString
+        folder.name =  name
+        folder.color = 0
+        for podcast in folderPodcasts {
+            podcast.folderUuid = folder.uuid
+        }
+        return folder
+    }
+
+    static var stubFolders: [Folder] = []
+
+    static func makeStubFolders() -> [Folder] {
+        guard stubFolders.isEmpty else { return stubFolders }
+        let allPodcasts = makeStubPodcasts()
+        let result = [
+            makeStubFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
+            makeStubFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
+            makeStubFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
+            makeStubFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
+            makeStubFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
+        ]
+        self.stubFolders = result
+        return result
     }
 }

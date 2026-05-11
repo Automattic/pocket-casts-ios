@@ -1,6 +1,7 @@
 import DifferenceKit
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 class HomeGridListItem: ListItem {
     let gridItem: HomeGridItem?

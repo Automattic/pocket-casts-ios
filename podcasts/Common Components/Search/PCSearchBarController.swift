@@ -88,7 +88,7 @@ class PCSearchBarController: UIViewController {
         let progress = min(1, max(0, height / Self.defaultHeight))
         // Pill itself shrinks in place; contents fade on a steeper curve so the text/icons are
         // gone well before the pill finishes collapsing — closer to the native bar.
-        let contentAlpha = max(0, progress * 2 - 1)
+        let contentAlpha = max(0, progress * 1.66 - 1)
         searchIcon.alpha = contentAlpha
         searchTextField.alpha = contentAlpha
         clearSearchBtn.alpha = contentAlpha

@@ -1,11 +1,21 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PodcastDetailView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    let model: PodcastDetailViewModel
+    @State var model: PodcastDetailViewModel
+
     @FocusState private var focusedSection: FocusSection?
     @State private var isShowingMoreInfo = false
+
+    init(podcast: Podcast) {
+        self.model = PodcastDetailViewModel(podcast: podcast)
+    }
+
+    init(model: PodcastDetailViewModel) {
+        self.model = model
+    }
 
     enum FocusSection: Hashable {
         case episodes
@@ -46,16 +56,13 @@ struct PodcastDetailView: View {
             episodeContent
         }
         .blurredCoverBackground(size: Layout.podcastImageSize) {
-            Image(model.podcast.image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
         }
     }
 
     var podcastInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
-            Image(model.podcast.image)
-                .resizable()
+            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
@@ -63,7 +70,7 @@ struct PodcastDetailView: View {
                 Text(model.podcast.author ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
-                Text(model.podcast.title)
+                Text(model.podcast.title ?? "")
                     .font(.title2)
                     .foregroundColor(.textPrimary)
                 Text(model.podcast.podcastDescription ?? "")
@@ -72,12 +79,16 @@ struct PodcastDetailView: View {
             }
             HStack(spacing: 8) {
                 Button() {
-                    model.follow()
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        model.follow()
+                    }
                 } label: {
-                    Label(
-                        model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle,
-                        systemImage: model.isFollowing ? "checkmark" : "plus"
-                    )
+                    HStack(spacing: 6) {
+                        Image(systemName: model.podcast.subscribed != 0 ? "checkmark" : "plus")
+                            .contentTransition(.symbolEffect(.replace))
+                        Text(model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle)
+                            .contentTransition(.interpolate)
+                    }
                     .font(.caption2)
                 }
                 Button() {
@@ -95,6 +106,14 @@ struct PodcastDetailView: View {
         }
     }
 
+    private func episodeRow(for episode: MockEpisode) -> some View {
+        EpisodeRowWithActions(
+            episode: episode,
+            podcastTitle: model.podcast.title,
+            podcastDescription: model.podcast.podcastDescription
+        )
+    }
+
     @Namespace private var episodeListNamespace
 
     var episodeContent: some View {
@@ -110,11 +129,7 @@ struct PodcastDetailView: View {
                                 .font(.caption)
                                 .foregroundStyle(Color.textSecondary)
                         }
-                        EpisodeRowWithActions(
-                            episode: recommended,
-                            podcastTitle: model.podcast.title,
-                            podcastDescription: model.podcast.podcastDescription
-                        )
+                        episodeRow(for: recommended)
                         .prefersDefaultFocus(in: episodeListNamespace)
                     }
                 }
@@ -124,12 +139,8 @@ struct PodcastDetailView: View {
                         .font(.title3)
                         .foregroundStyle(Color.textPrimary)
                     LazyVStack {
-                        ForEach(model.podcast.episodes) { episode in
-                            EpisodeRowWithActions(
-                                episode: episode,
-                                podcastTitle: model.podcast.title,
-                                podcastDescription: model.podcast.podcastDescription
-                            )
+                        ForEach(model.episodes) { episode in
+                            episodeRow(for: episode)
                         }
                     }
                 }
@@ -144,7 +155,7 @@ struct PodcastDetailView: View {
 
 #Preview {
     let router = MainTabRouter()
-    PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makePodcasts().first!))
+    PodcastDetailView(model: PodcastDetailViewModel(podcast: MockData.makeStubPodcasts().first!))
         .environment(AppCoordinator())
         .environment(router)
 }

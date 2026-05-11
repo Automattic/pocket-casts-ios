@@ -43,6 +43,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     var panUpRecognizer: UIPanGestureRecognizer!
     var longPressRecognizer: UILongPressGestureRecognizer!
 
+    /// Tracks whether the user tapped an action from the long-press context
+    /// menu (Liquid Glass path). Used to decide whether to fire the
+    /// "menu dismissed" analytics event when the menu closes.
+    var longPressContextMenuActionSelected = false
+
     var heightConstraint: NSLayoutConstraint?
 
     var upNextViewController: UpNextViewController?
@@ -425,13 +430,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func updateColors() {
         view.backgroundColor = .clear
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
             updateColorsLiquidGlass()
         } else {
             updateColorsLegacy()
         }
+
+        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
     }
 
     private func updateColorsLegacy() {

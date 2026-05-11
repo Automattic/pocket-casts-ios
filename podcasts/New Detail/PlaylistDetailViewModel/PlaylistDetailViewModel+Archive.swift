@@ -1,3 +1,5 @@
+import PocketCastsDataModel
+
 extension PlaylistDetailViewModel {
     var shouldShowArchived: Bool {
         playlist.showArchivedEpisodes

@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
+import CoreMedia
 
 class ChapterManager {
     private var chapterParser = PodcastChapterParser()

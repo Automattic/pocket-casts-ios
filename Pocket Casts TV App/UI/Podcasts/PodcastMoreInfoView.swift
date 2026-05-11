@@ -1,22 +1,22 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PodcastMoreInfoView: View {
 
-    let podcast: MockPodcast
+    let podcast: Podcast
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(alignment: .leading, spacing: 48) {
             HStack(alignment: .top, spacing: 40) {
-                Image(podcast.image)
-                    .resizable()
+                PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                     .frame(width: 240, height: 240)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 8) {
                     Text(podcast.author ?? "")
                         .font(.caption)
                         .foregroundStyle(Color.textSecondary)
-                    Text(podcast.title)
+                    Text(podcast.title ?? "")
                         .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                 }
@@ -34,16 +34,16 @@ struct PodcastMoreInfoView: View {
             }
 
             VStack(alignment: .leading, spacing: 24) {
-                if let network = podcast.network {
+                if let network = podcast.author {
                     infoRow(label: L10n.tvPodcastDetailNetwork, value: network)
                 }
-                if let website = podcast.website {
+                if let website = podcast.podcastUrl {
                     infoRow(label: L10n.tvPodcastDetailWebsite, value: website)
                 }
-                if let frequency = podcast.frequency {
+                if let frequency = podcast.displayableFrequency() {
                     infoRow(label: L10n.tvPodcastDetailSchedule, value: frequency)
                 }
-                if let nextEpisode = podcast.nextEpisodeDate {
+                if let nextEpisode = podcast.displayableNextEpisodeDate() {
                     infoRow(label: L10n.tvPodcastDetailNextEpisode, value: nextEpisode)
                 }
             }
@@ -66,5 +66,5 @@ struct PodcastMoreInfoView: View {
 }
 
 #Preview {
-    PodcastMoreInfoView(podcast: MockData.makePodcasts().first!)
+    PodcastMoreInfoView(podcast: MockData.makeStubPodcasts().first!)
 }

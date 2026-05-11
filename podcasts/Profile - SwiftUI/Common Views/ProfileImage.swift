@@ -1,5 +1,6 @@
 import SwiftUI
 import Kingfisher
+import PocketCastsUtils
 
 /// Shows the default profile image view and attempts to load the gravatar using the email
 struct ProfileImage: View {
@@ -51,7 +52,6 @@ struct ProfileImage: View {
     private var defaultProfileView: some View {
         ZStack {
             theme.primaryUi05
-
             Image("profileAvatar")
                 .renderingMode(.template)
                 .resizable()

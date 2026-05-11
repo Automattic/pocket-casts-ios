@@ -52,6 +52,9 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # Prefer `first(where:)` over `filter { }.first`.
+  - first_where
+
   # Prefer `flatMap { ... }` over `map { ... }.reduce([], +)`.
   - flatmap_over_map_reduce
 
@@ -68,9 +71,6 @@ only_rules:
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace
-
-  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
-  - prefer_zero_over_explicit_init
 
   # `nil` coalescing on a non-optional is redundant.
   - redundant_nil_coalescing

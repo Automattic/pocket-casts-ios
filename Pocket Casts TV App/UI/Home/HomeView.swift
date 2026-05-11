@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -79,17 +80,16 @@ struct HomeView: View {
             LazyHStack(spacing: 0, content: {
                 ForEach(model.podcasts) { podcast in
                     NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
+                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
                     .padding(24)
-                    .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
+                    .prefersDefaultFocus(model.podcasts.first?.uuid == podcast.uuid, in: podcastGridNamespace)
                 }
             })
             .focusScope(podcastGridNamespace)
-            .navigationDestination(for: MockPodcast.self) { podcast in
+            .navigationDestination(for: Podcast.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
             }
         }
@@ -111,8 +111,7 @@ struct HomeView: View {
             LazyHStack(spacing: 0) {
                 ForEach(model.recentlyPlayed) { podcast in
                     NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
+                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)

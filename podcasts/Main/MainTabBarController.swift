@@ -51,7 +51,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private let errorBanner: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeColor.primaryUi03()
+        view.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : ThemeColor.primaryUi03()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.alpha = 0
@@ -76,7 +76,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     // MARK: - State
 
-    private let errorBannerHeight: CGFloat = 48
+    private let errorBannerHeight: CGFloat = LiquidGlass.isEnabled ? 60 : 48
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -802,6 +802,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - End of Year
 
     private func updateTabBarColor() {
+        guard !LiquidGlass.isEnabled else { return }
+
         self.view.backgroundColor = AppTheme.viewBackgroundColor()
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -922,7 +924,7 @@ private extension MainTabBarController {
             .receive(on: RunLoop.main)
             .filter { _ in
                 UIApplication.shared.applicationState == .active
-                && !SceneHelper.isConnectedToCarPlay
+                && !CarPlayHelper.isConnectedToCarPlay
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
             }
             .compactMap { event in
@@ -1143,7 +1145,7 @@ extension MainTabBarController {
     }
 
     private func updateErrorColor() {
-        errorBanner.backgroundColor = AppTheme.tabBarBackgroundColor()
+        errorBanner.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : AppTheme.tabBarBackgroundColor()
         errorLabel.textColor = AppTheme.mainTextColor()
     }
 }
