@@ -80,26 +80,21 @@ struct PlaylistDetailView: View {
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         case 1...3:
-            Image(images[0])
-                .resizable()
+            PodcastImageViewWrapper(podcastUUID: images[0], size: .page)
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         default:
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Image(images[0])
-                        .resizable()
+                    PodcastImageViewWrapper(podcastUUID: images[0], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                    Image(images[1])
-                        .resizable()
+                    PodcastImageViewWrapper(podcastUUID: images[1], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
                 }
                 HStack(spacing: 0) {
-                    Image(images[2])
-                        .resizable()
+                    PodcastImageViewWrapper(podcastUUID: images[2], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                    Image(images[3])
-                        .resizable()
+                    PodcastImageViewWrapper(podcastUUID: images[3], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
                 }
             }
