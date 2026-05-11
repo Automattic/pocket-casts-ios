@@ -97,26 +97,14 @@ extension PodcastListViewController {
 
     // MARK: Reorder handle (list)
 
-    private static let reorderHandleTag = 0x504C5648 // "PLVH"
-
     private func addReorderHandle(to cell: UICollectionViewCell) {
-        guard cell.contentView.viewWithTag(Self.reorderHandleTag) == nil else { return }
-        let handle = UIImageView(image: UIImage(systemName: "line.3.horizontal"))
-        handle.tag = Self.reorderHandleTag
-        handle.tintColor = ThemeColor.primaryIcon02()
-        handle.contentMode = .center
-        handle.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(handle)
-        NSLayoutConstraint.activate([
-            handle.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
-            handle.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor),
-            handle.widthAnchor.constraint(equalToConstant: 24),
-            handle.heightAnchor.constraint(equalToConstant: 24)
-        ])
+        (cell as? PodcastListCell)?.showsReorderHandle = true
+        (cell as? FolderListCell)?.showsReorderHandle = true
     }
 
     private func removeReorderHandle(from cell: UICollectionViewCell) {
-        cell.contentView.viewWithTag(Self.reorderHandleTag)?.removeFromSuperview()
+        (cell as? PodcastListCell)?.showsReorderHandle = false
+        (cell as? FolderListCell)?.showsReorderHandle = false
     }
 }
 
