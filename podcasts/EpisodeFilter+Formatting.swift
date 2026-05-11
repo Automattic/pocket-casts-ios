@@ -8,7 +8,7 @@ import EndOfYear
 #endif
 
 extension EpisodeFilter {
-    #if !os(watchOS) && !os(tvOS)
+    #if !os(watchOS)
         class func indexOf(color: UIColor) -> Int {
             if AppTheme.playlistRedColor().isEqual(color) {
                 return 0
@@ -126,7 +126,7 @@ extension EpisodeFilter {
         return nil
     }
 
-    #if !os(watchOS) && !os(tvOS)
+    #if !os(watchOS)
         func setPlaylistColor(color: UIColor) {
             let currentIcon = Int(customIcon)
             let currentIconRow = Int(currentIcon / EpisodeFilter.iconsPerType)

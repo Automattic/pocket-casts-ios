@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PlaylistDetailView: View {
 
@@ -52,16 +53,16 @@ struct PlaylistDetailView: View {
 
     @ViewBuilder
     private var blurredMosaic: some View {
-        let images = model.coverImages
+        let images = model.coverPodcastsUuids
         if images.count >= 4 {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Image(images[0]).resizable().aspectRatio(contentMode: .fill)
-                    Image(images[1]).resizable().aspectRatio(contentMode: .fill)
+                    PodcastImageViewWrapper(podcastUUID: images[0], size: .page)
+                    PodcastImageViewWrapper(podcastUUID: images[1], size: .page)
                 }
                 HStack(spacing: 0) {
-                    Image(images[2]).resizable().aspectRatio(contentMode: .fill)
-                    Image(images[3]).resizable().aspectRatio(contentMode: .fill)
+                    PodcastImageViewWrapper(podcastUUID: images[2], size: .page)
+                    PodcastImageViewWrapper(podcastUUID: images[3], size: .page)
                 }
             }
         } else if let first = images.first {
@@ -71,7 +72,7 @@ struct PlaylistDetailView: View {
 
     @ViewBuilder
     var mosaicCover: some View {
-        let images = model.coverImages
+        let images = model.coverPodcastsUuids
         switch images.count {
         case 0:
             Image(ImageResource.pcLogo)
@@ -112,10 +113,10 @@ struct PlaylistDetailView: View {
             mosaicCover
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.playlist.manual ? "" : L10n.smartPlaylist)
+                Text(model.isManual ? "" : L10n.smartPlaylist)
                     .font(.caption)
                     .foregroundColor(.textSecondary)
-                Text(model.playlist.title)
+                Text(model.playlistName)
                     .font(.title2)
                     .foregroundColor(.textPrimary)
                 Text("\(model.episodeCountText) · \(model.totalDuration)")
@@ -139,10 +140,10 @@ struct PlaylistDetailView: View {
     var episodeList: some View {
         ScrollView {
             LazyVStack {
-//                ForEach(model.episodes) { episode in
-//                    EpisodeRowWithActions(episode: episode)
-//                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: episodeListNamespace)
-//                }
+                ForEach(model.episodes, id: \.uuid) { episode in
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
+                        .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                }
             }
             .focusScope(episodeListNamespace)
             .padding(.horizontal, 24)
@@ -154,7 +155,7 @@ struct PlaylistDetailView: View {
 
 #Preview {
     let router = MainTabRouter()
-    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makePlaylists().first!))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
         .environment(AppCoordinator())
         .environment(router)
 }

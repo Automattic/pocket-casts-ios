@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
 
 @Observable
 class PlaylistsViewModel {
@@ -14,18 +15,21 @@ class PlaylistsViewModel {
 
     var state: State = .loading
 
-    var playlists: [MockPlaylist] = []
+    private let dataManager: DataManager
+
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
+    }
+    var playlists: [EpisodeFilter] = []
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                state = .ready
-                playlists = MockData.makePlaylists()
-                cancellable?.cancel()
-                cancellable = nil
+        Task { [weak self] in
+            guard let self else { return }
+            let playlists = dataManager.allPlaylists(includeDeleted: false)
+            await MainActor.run {
+                self.playlists = playlists
+                self.state = playlists.isEmpty ? .empty : .ready
             }
+        }
     }
 }

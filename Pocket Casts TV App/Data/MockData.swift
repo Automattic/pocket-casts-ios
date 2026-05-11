@@ -316,4 +316,39 @@ struct MockData {
         stubEpisodes = episodes
         return stubEpisodes
     }
+
+    static private var stubPlaylists: [EpisodeFilter] = []
+
+    static let playlistsSpec: [(String, Bool, Color)] = [
+        ("New releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),
+        ("In progress", true, Color(red: 0.5, green: 0.17, blue: 0.15)),
+        ("TV Stuff", false, Color(red: 0.21, green: 0.22, blue: 0.14)),
+        ("My favorites", true, Color(red: 0.5, green: 0.35, blue: 0.12))
+    ]
+
+    static func makeStubPlaylists() -> [EpisodeFilter] {
+        guard stubPlaylists.isEmpty else {
+            return stubPlaylists
+        }
+        let numberOfEpisodes = 12
+        var results = [EpisodeFilter]()
+
+        for (i, (name, smart, color)) in playlistsSpec.enumerated() {
+            var episodes: [Episode] = Self.makeStubEpisodes()
+            for _ in (0..<Int.random(in: 0..<numberOfEpisodes)) {
+                if let episode = episodes.randomElement() {
+                    episodes.append(episode)
+                }
+            }
+            let playlist: EpisodeFilter = EpisodeFilter()
+            playlist.uuid = UUID().uuidString
+            playlist.playlistName = name
+            playlist.manual = !smart
+            playlist.customIcon = 0
+            playlist.sortPosition = Int32(i)
+            results.append(playlist)
+        }
+        self.stubPlaylists = results
+        return results
+    }
 }

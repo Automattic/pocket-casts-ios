@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import PocketCastsUtils
+import PocketCastsDataModel
 
 @Observable
 class PlaylistDetailsViewModel {
@@ -14,46 +15,57 @@ class PlaylistDetailsViewModel {
 
     var state: State = .loading
 
-    let playlist: MockPlaylist
-    var episodes: [MockEpisodeRowViewModel] = []
+    let playlist: EpisodeFilter
+    var episodes: [Episode] = []
 
-    init(playlist: MockPlaylist) {
+    private let dataManager: DataManager
+
+    init(playlist: EpisodeFilter, dataManager: DataManager = DataManager.sharedManager ) {
         self.playlist = playlist
-        self.episodes = playlist.episodes.map {
-            MockEpisodeRowViewModel(episode: $0, podcast: nil)
-        }
+        self.dataManager = dataManager
     }
 
     func load() {
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
+        Task {
+            let playlistEpisodes = dataManager.playlistEpisodes(for: playlist)
+            await MainActor.run {
+                episodes = playlistEpisodes
                 state = .ready
-                cancellable?.cancel()
-                cancellable = nil
             }
+        }
     }
 
     func playAll() {
 
     }
 
+    var playlistName: String {
+        return playlist.playlistName
+    }
+
+    var isManual: Bool {
+        return playlist.manual
+    }
+
     var totalDuration: String {
-        let total = playlist.episodes.reduce(0) { $0 + $1.duration }
+        let total = 100.0
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: total)
     }
 
     var episodeCountText: String {
-        return L10n.tvPlaylistDetailEpisodeCount(playlist.episodes.count)
+        return L10n.tvPlaylistDetailEpisodeCount(episodes.count)
     }
 
-    var coverImages: [String] {
+    var playlistColor: Color {
+        return MockData.playlistsSpec[Int(playlist.sortPosition) % MockData.playlistsSpec.count].2
+    }
+
+    var coverPodcastsUuids: [String] {
         var seen = Set<String>()
         var unique = [String]()
-        for episode in playlist.episodes {
-            if seen.insert(episode.image).inserted {
-                unique.append(episode.image)
+        for episode in episodes {
+            if seen.insert(episode.podcastUuid).inserted {
+                unique.append(episode.podcastUuid)
             }
             if unique.count == 4 { break }
         }
