@@ -2,10 +2,10 @@ import SwiftUI
 import PocketCastsDataModel
 
 struct PlaylistCell: View {
-    @State var playlist: PlaylistDetailsViewModel
+    @State var model: PlaylistDetailsViewModel
 
     init(playlist: EpisodeFilter) {
-        self.playlist = PlaylistDetailsViewModel(playlist: playlist)
+        self.model = PlaylistDetailsViewModel(playlist: playlist)
     }
 
     @Environment(\.isFocused) var isFocused: Bool
@@ -19,17 +19,17 @@ struct PlaylistCell: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading) {
-                Text(playlist.playlistName)
+                Text(model.playlistName)
                     .font(.headline)
                     .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
-                if playlist.isManual {
+                if model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(playlist.state == .loading ? "" : playlist.episodeCountText)
+                    Text(model.state == .loading ? "" : model.episodeCountText)
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                     Spacer()
@@ -37,8 +37,8 @@ struct PlaylistCell: View {
             }
             .padding(.vertical, 24)
             ZStack {
-                if playlist.state == .ready {
-                    ForEach(Array(playlist.coverPodcastsUuids.prefix(2).enumerated()), id: \.element) { index, podcastUuid in
+                if model.state == .ready {
+                    ForEach(Array(model.coverPodcastsUuids.prefix(2).enumerated()), id: \.element) { index, podcastUuid in
                         PodcastImageViewWrapper(podcastUUID: podcastUuid, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
@@ -57,11 +57,11 @@ struct PlaylistCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(isFocused ? Color.backgroundActive : playlist.playlistColor)
+        .background(isFocused ? Color.backgroundActive : model.playlistColor)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
         .clipped()
         .task {
-            playlist.load()
+            model.load()
         }
     }
 
