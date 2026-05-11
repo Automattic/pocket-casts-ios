@@ -20,6 +20,6 @@ extension Constants {
     }
 
     static var effectiveFooterViewPadding: CGFloat {
-        Constants.effectiveMiniPlayerOffset + (LiquidGlass.isEnabled ? 8 : 16)
+        Constants.effectiveMiniPlayerOffset + (LiquidGlass.isEnabled ? 4 : 16)
     }
 }
