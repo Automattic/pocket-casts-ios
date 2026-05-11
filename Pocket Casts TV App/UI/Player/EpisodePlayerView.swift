@@ -30,17 +30,15 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 
     private func createMetadataItems() -> [AVMetadataItem] {
         var items = [
-            makeMetadataItem(.commonIdentifierTitle, value: episode.displayTitle)
+            makeMetadataItem(.commonIdentifierTitle, value: episode.displayTitle),
+            makeMetadataItem(.iTunesMetadataTrackSubTitle, value: episode.displaySubTitle),
+            makeMetadataItem(.commonIdentifierDescription, value: episode.displayInfo)
         ]
-        if let podcastTitle = episode.podcast?.title {
-            items.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: podcastTitle))
+
+        if let imageData = episode.displayImageData {
+            items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
         }
-//        if let imageName = episode.imageName, let imageData = UIImage(named: imageName)?.pngData() {
-//            items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
-//        }
-        if let podcastDescription = episode.podcast?.description {
-            items.append(makeMetadataItem(.commonIdentifierDescription, value: podcastDescription))
-        }
+
         return items
     }
 

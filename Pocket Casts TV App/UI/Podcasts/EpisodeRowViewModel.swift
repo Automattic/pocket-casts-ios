@@ -22,12 +22,24 @@ class EpisodeRowViewModel: Identifiable {
         return episode.displayableTitle()
     }
 
+    var displaySubTitle: String {
+        return episode.subTitle()
+    }
+
+    var displayInfo: String {
+        return episode.displayableInfo()
+    }
+
     var displayDate: String {
         return episode.shortPublishedDate()
     }
 
     var displayDuration: String {
         return episode.displayableDuration
+    }
+
+    var displayImageData: Data? {
+        return nil
     }
 
     var podcastUuid: String? {
