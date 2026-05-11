@@ -125,24 +125,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
     // MARK: - Re-ordering
 
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let itemBeingMoved = gridItems[safe: sourceIndexPath.row] else { return }
-
-        if let index = gridItems.firstIndex(of: itemBeingMoved) {
-            gridItems.remove(at: index)
-            gridItems.insert(itemBeingMoved, at: destinationIndexPath.row)
-
-            Analytics.track(.podcastsListReordered)
-
-            saveSortOrder()
-        }
-    }
-
-    private func saveSortOrder() {
+    func saveSortOrder() {
         for (index, listItem) in gridItems.enumerated() {
             if let podcast = listItem.podcast {
                 podcast.sortOrder = Int32(index)

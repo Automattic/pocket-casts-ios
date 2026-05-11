@@ -7,7 +7,7 @@ import UIKit
 import Kingfisher
 import SafariServices
 
-class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
+class PodcastListViewController: PCViewController, ShareListDelegate {
     let gridHelper = GridHelper()
     var refreshController: FullSyncRefreshController?
     var bannerAdModel: BannerAdModel?
@@ -41,7 +41,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var gridLayout: LibraryType = Settings.libraryType()
 
     var isEditingOrder = false
-    var reorderLongPress: UILongPressGestureRecognizer?
     var savedLeftBarButtonItem: UIBarButtonItem?
     var savedRightBarButtonItem: UIBarButtonItem?
 
@@ -76,11 +75,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupSearchBar()
         setupRefreshControl()
 
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPressGesture.isEnabled = false
-        podcastsCollectionView.addGestureRecognizer(longPressGesture)
-        longPressGesture.delegate = self
-        reorderLongPress = longPressGesture
+        podcastsCollectionView.dragDelegate = self
+        podcastsCollectionView.dropDelegate = self
+        podcastsCollectionView.dragInteractionEnabled = false
+        podcastsCollectionView.reorderingCadence = .immediate
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
@@ -410,16 +408,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func shareUrlAvailable(_ shareUrl: String, listName: String) {
         SharingHelper.shared.shareLinkToPodcastList(name: listName, url: shareUrl, fromController: self, barButtonItem: customRightBtn, completionHandler: nil)
-    }
-
-    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        gridHelper.handleLongPress(gesture, from: podcastsCollectionView, isList: Settings.libraryType() == .list, containerView: view)
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // Allow the reorder long-press to coexist with the cell's context-menu long-press
-        // so reordering still starts when the long-press is detected during edit mode.
-        gestureRecognizer == reorderLongPress
     }
 
     func itemCount() -> Int {
