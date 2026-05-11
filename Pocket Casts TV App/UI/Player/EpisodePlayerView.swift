@@ -3,7 +3,7 @@ import AVKit
 import PocketCastsDataModel
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
-    let episode: EpisodeRowViewModel
+    var episode: EpisodeRowViewModel
 
     private static let sampleURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
 
@@ -23,10 +23,13 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
         controller.allowedSubtitleOptionLanguages = []
         TVToast.shared.configure(with: controller.contentOverlayView)
         player.play()
+        episode.loadEpisodeArtwork()
         return controller
     }
 
-    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
+    }
 
     private func createMetadataItems() -> [AVMetadataItem] {
         var items = [
