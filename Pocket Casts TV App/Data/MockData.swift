@@ -294,4 +294,26 @@ struct MockData {
         self.stubFolders = result
         return result
     }
+
+    static var stubEpisodes: [Episode] = []
+    static func makeStubEpisodes() -> [Episode] {
+        guard stubEpisodes.isEmpty else { return stubEpisodes }
+        let allPodcasts = makeStubPodcasts()
+        var episodes: [Episode] = []
+        for j in (0..<allPodcasts.count) {
+            let podcast = allPodcasts[j]
+            for i in (0..<8) {
+                let titleIndex = (i + j) % episodeTitles.count
+                let episode = Episode()
+                episode.uuid = UUID().uuidString
+                episode.title = episodeTitles[titleIndex]
+                episode.publishedDate = Date.now.weeksAgo(j)
+                episode.duration = Double.random(in: (5.minutes...1.hours))
+                episode.podcastUuid = podcast.uuid
+                episodes.append(episode)
+            }
+        }
+        stubEpisodes = episodes
+        return stubEpisodes
+    }
 }

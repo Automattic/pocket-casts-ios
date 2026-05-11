@@ -1,10 +1,11 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
 
 @Observable
 class UpNextViewModel {
 
-    private var cancellable: AnyCancellable?
+    private let dataManager: DataManager
 
     enum State: Equatable, Hashable {
         case loading
@@ -13,19 +14,28 @@ class UpNextViewModel {
     }
 
     var state: State = .loading
+    var episodes: [EpisodeRowViewModel] = []
 
-    var episodes: [MockEpisode] = []
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
+    }
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                episodes = MockData.makeUpNext()
-                state = episodes.isEmpty ? .empty : .ready
-                cancellable?.cancel()
-                cancellable = nil
+        Task {
+            let fetched = fetchUpNextEpisodes()
+            let episodes = fetched.map { episode in
+                let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
+                return EpisodeRowViewModel(episode: episode, podcast: podcast)
             }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                state = episodes.isEmpty ? .empty : .ready
+                self.episodes = episodes
+            }
+        }
+    }
+
+    private func fetchUpNextEpisodes() -> [BaseEpisode] {
+        dataManager.allUpNextEpisodes()
     }
 }

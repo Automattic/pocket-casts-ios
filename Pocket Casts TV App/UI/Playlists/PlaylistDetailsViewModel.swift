@@ -15,9 +15,13 @@ class PlaylistDetailsViewModel {
     var state: State = .loading
 
     let playlist: MockPlaylist
+    var episodes: [MockEpisodeRowViewModel] = []
 
     init(playlist: MockPlaylist) {
         self.playlist = playlist
+        self.episodes = playlist.episodes.map {
+            MockEpisodeRowViewModel(episode: $0, podcast: nil)
+        }
     }
 
     func load() {
