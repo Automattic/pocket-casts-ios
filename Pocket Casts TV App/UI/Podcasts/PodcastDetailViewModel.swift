@@ -25,13 +25,15 @@ class PodcastDetailViewModel {
 
     func load() {
         Task {
-            let fetched = fetchEpisodes()
-
-            episodes = fetched.map {
+            let episodes = fetchEpisodes()
+            let episodesModel = episodes.map {
                 EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
-            recommendedEpisode = episodes.first
-            state = .ready
+            await MainActor.run {
+                self.episodes = episodesModel
+                recommendedEpisode = episodesModel.first
+                state = .ready
+            }
         }
     }
 
