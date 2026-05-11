@@ -133,17 +133,15 @@ struct PlaylistDetailView: View {
     @Namespace private var episodeListNamespace
 
     var episodeList: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
-                        .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
-                }
+        List {
+            ForEach(model.episodes, id: \.uuid) { episode in
+                EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
+                    .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
             }
-            .focusScope(episodeListNamespace)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
         }
+        .focusScope(episodeListNamespace)
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
         .focused($focusedSection, equals: .episodes)
     }
 }
