@@ -98,10 +98,12 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             }
         }
 
-        // Reapply (or clear) reorder-edit treatment so reused/recycled cells stay in sync.
-        removeEditingTreatment(from: cell)
+        // Sync reorder-edit treatment so reused/recycled cells stay correct. Idempotent
+        // setters on the cell make in-state calls cheap, so we don't toggle off-then-on.
         if isEditingOrder, item.isEmpty == false {
             applyEditingTreatment(to: cell)
+        } else {
+            removeEditingTreatment(from: cell)
         }
     }
 
