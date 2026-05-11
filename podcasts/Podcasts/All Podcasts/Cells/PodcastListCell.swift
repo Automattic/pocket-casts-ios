@@ -26,48 +26,21 @@ class PodcastListCell: ThemeableCollectionCell {
 
     private var badgeType: BadgeType = .off
 
-    private static let reorderHandleGutter: CGFloat = 40
+    private lazy var reorderHandle = CellReorderHandle(cell: self)
 
-    private var defaultContentTrailingConstant: CGFloat?
-    private lazy var contentTrailingConstraint: NSLayoutConstraint? = {
-        let constraint = contentView.constraints.first { c in
-            c.firstAttribute == .trailing && c.secondAttribute == .trailing && (c.firstItem as? UIView) === contentView
-        }
-        defaultContentTrailingConstant = constraint?.constant
-        return constraint
-    }()
-
-    private lazy var reorderHandle: UIImageView = {
-        let view = UIImageView(image: UIImage(systemName: "line.3.horizontal"))
-        view.tintColor = ThemeColor.primaryIcon02()
-        view.contentMode = .center
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
-        contentView.addSubview(view)
-        NSLayoutConstraint.activate([
-            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            view.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            view.widthAnchor.constraint(equalToConstant: 24),
-            view.heightAnchor.constraint(equalToConstant: 24)
-        ])
-        return view
-    }()
-
-    /// Shows a reorder grabber on the trailing edge and shifts existing content
-    /// left to make room, so the handle doesn't overlay the badge/heart.
-    var showsReorderHandle: Bool = false {
-        didSet {
-            guard showsReorderHandle != oldValue else { return }
-            reorderHandle.isHidden = !showsReorderHandle
-            if let constraint = contentTrailingConstraint, let base = defaultContentTrailingConstant {
-                constraint.constant = base + (showsReorderHandle ? Self.reorderHandleGutter : 0)
-            }
-        }
+    var showsReorderHandle: Bool {
+        get { reorderHandle.isVisible }
+        set { reorderHandle.isVisible = newValue }
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         isAccessibilityElement = true
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        reorderHandle.updateLayout()
     }
 
     func populateFrom(_ podcast: Podcast, badgeType: BadgeType) {
