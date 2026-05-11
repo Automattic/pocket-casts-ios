@@ -77,6 +77,11 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
     @IBOutlet var statusLabel: ThemeableLabel!
     @IBOutlet var activityIndicator: ThemeLoadingIndicator!
+
+    @IBOutlet var containerLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var containerTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var containerTopConstraint: NSLayoutConstraint!
+    @IBOutlet var containerBottomConstraint: NSLayoutConstraint!
     private var rightAction: MultiSelectAction?
     private var leftAction: MultiSelectAction?
     private var numberOfEpisodes = 0
@@ -102,6 +107,14 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
             glass.isInteractive = true
             blurView.effect = glass
             containerView.backgroundColor = .clear
+
+            containerLeadingConstraint.constant = 13
+            containerTrailingConstraint.constant = 13
+            containerTopConstraint.constant = 4
+            containerBottomConstraint.constant = 4
+
+            blurView.layer.cornerRadius = 28
+            containerView.layer.cornerRadius = 28
         }
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
