@@ -1,5 +1,6 @@
 import Foundation
 import PocketCastsDataModel
+import PocketCastsServer
 
 @Observable
 class EpisodeRowViewModel: Identifiable {
@@ -8,14 +9,24 @@ class EpisodeRowViewModel: Identifiable {
         return lhs.episode.uuid == rhs.episode.uuid
     }
 
-    let episode: BaseEpisode
-    let podcast: Podcast?
+    var episode: BaseEpisode
+    var podcast: Podcast?
+    var imageData: Data?
 
     var id: String { episode.uuid }
 
     init(episode: BaseEpisode, podcast: Podcast?) {
         self.episode = episode
         self.podcast = podcast
+    }
+
+    func loadEpisodeArtwork() {
+        Task.detached { [weak self] in
+            let data = await self?.loadEpisodeArtworkData()
+            await MainActor.run { [weak self] in
+                self?.imageData = data
+            }
+        }
     }
 
     var displayTitle: String {
@@ -39,7 +50,18 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayImageData: Data? {
-        return nil
+        return imageData
+    }
+
+    private func loadEpisodeArtworkData() async -> Data? {
+        let imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 340)
+        guard let url = URL(string: imageUrl),
+              let (data, _) = try? await URLSession.shared.data(for: URLRequest.init(url: url)),
+              let uiImage = UIImage(data: data)
+        else {
+            return nil
+        }
+        return uiImage.pngData()
     }
 
     var podcastUuid: String? {
