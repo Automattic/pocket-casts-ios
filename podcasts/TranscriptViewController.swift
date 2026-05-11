@@ -525,10 +525,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
-        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
-        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -587,9 +583,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
-        if FeatureFlag.syncedTranscripts.enabled {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
     }
 
     @objc private func closeTapped() {
@@ -635,7 +628,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
-                    if !isDisplayingGenerated {
+                    if isDisplayingGenerated {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+                        }
+                        self.startHighlightDisplayLink()
+                    } else {
                         self.stopSyncedTranscripts()
                     }
                     UIView.animate(withDuration: 0.25) {
@@ -657,6 +655,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
+                await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
