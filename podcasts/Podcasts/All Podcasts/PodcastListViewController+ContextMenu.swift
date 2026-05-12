@@ -74,7 +74,7 @@ extension PodcastListViewController {
                 PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: false)
             }
         }
-        let notificationsMenu = UIMenu(title: L10n.settingsNotifications,
+        let notificationsMenu = UIMenu(title: notificationsOn ? L10n.notificationsOn : L10n.notificationsOff,
                                        image: UIImage(systemName: notificationsOn ? "bell" : "bell.slash"),
                                        options: .singleSelection,
                                        children: [onAction, offAction])
