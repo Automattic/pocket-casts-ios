@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PlaylistDetailView: View {
 
@@ -52,16 +53,16 @@ struct PlaylistDetailView: View {
 
     @ViewBuilder
     private var blurredMosaic: some View {
-        let images = model.coverImages
+        let images = model.coverPodcastsUuids
         if images.count >= 4 {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Image(images[0]).resizable().aspectRatio(contentMode: .fill)
-                    Image(images[1]).resizable().aspectRatio(contentMode: .fill)
+                    PodcastImageViewWrapper(podcastUUID: images[0], size: .page)
+                    PodcastImageViewWrapper(podcastUUID: images[1], size: .page)
                 }
                 HStack(spacing: 0) {
-                    Image(images[2]).resizable().aspectRatio(contentMode: .fill)
-                    Image(images[3]).resizable().aspectRatio(contentMode: .fill)
+                    PodcastImageViewWrapper(podcastUUID: images[2], size: .page)
+                    PodcastImageViewWrapper(podcastUUID: images[3], size: .page)
                 }
             }
         } else if let first = images.first {
@@ -71,7 +72,7 @@ struct PlaylistDetailView: View {
 
     @ViewBuilder
     var mosaicCover: some View {
-        let images = model.coverImages
+        let images = model.coverPodcastsUuids
         switch images.count {
         case 0:
             Image(ImageResource.pcLogo)
@@ -79,26 +80,21 @@ struct PlaylistDetailView: View {
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         case 1...3:
-            Image(images[0])
-                .resizable()
+            PodcastImage(uuid: images[0], size: .page)
                 .frame(width: Layout.mosaicSize, height: Layout.mosaicSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         default:
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    Image(images[0])
-                        .resizable()
+                    PodcastImage(uuid: images[0], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                    Image(images[1])
-                        .resizable()
+                    PodcastImage(uuid: images[1], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
                 }
                 HStack(spacing: 0) {
-                    Image(images[2])
-                        .resizable()
+                    PodcastImage(uuid: images[2], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
-                    Image(images[3])
-                        .resizable()
+                    PodcastImage(uuid: images[3], size: .page)
                         .frame(width: Layout.mosaicTileSize, height: Layout.mosaicTileSize)
                 }
             }
@@ -112,10 +108,12 @@ struct PlaylistDetailView: View {
             mosaicCover
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.playlist.manual ? "" : L10n.smartPlaylist)
-                    .font(.caption)
-                    .foregroundColor(.textSecondary)
-                Text(model.playlist.title)
+                if !model.isManual {
+                    Text(L10n.smartPlaylist)
+                        .font(.caption)
+                        .foregroundColor(.textSecondary)
+                }
+                Text(model.playlistName)
                     .font(.title2)
                     .foregroundColor(.textPrimary)
                 Text("\(model.episodeCountText) · \(model.totalDuration)")
@@ -137,24 +135,22 @@ struct PlaylistDetailView: View {
     @Namespace private var episodeListNamespace
 
     var episodeList: some View {
-        ScrollView {
-            LazyVStack {
-//                ForEach(model.episodes) { episode in
-//                    EpisodeRowWithActions(episode: episode)
-//                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: episodeListNamespace)
-//                }
+        List {
+            ForEach(model.episodes, id: \.uuid) { episode in
+                EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
+                    .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
             }
-            .focusScope(episodeListNamespace)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
         }
+        .focusScope(episodeListNamespace)
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
         .focused($focusedSection, equals: .episodes)
     }
 }
 
 #Preview {
     let router = MainTabRouter()
-    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makePlaylists().first!))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: MockData.makeStubPlaylists().first!))
         .environment(AppCoordinator())
         .environment(router)
 }

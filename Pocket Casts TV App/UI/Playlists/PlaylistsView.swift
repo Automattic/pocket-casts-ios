@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -57,7 +58,7 @@ struct PlaylistsView: View {
 
     var playlistsCollection: some View {
         LazyVGrid(columns: items, spacing: 48, content: {
-            ForEach(model.playlists) { playlist in
+            ForEach(model.playlists, id: \.uuid) { playlist in
                 NavigationLink(value: playlist) {
                     PlaylistCell(playlist: playlist)
                 }
@@ -66,7 +67,7 @@ struct PlaylistsView: View {
             }
         })
         .focusScope(listNamespace)
-        .navigationDestination(for: MockPlaylist.self) { playlist in
+        .navigationDestination(for: EpisodeFilter.self) { playlist in
             PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: playlist))
         }
     }
