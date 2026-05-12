@@ -18,33 +18,19 @@ final class FolderPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
 
-        let folderColor = AppTheme.folderColor(colorInt: folder.color)
-        let backdrop = UIView()
-        backdrop.backgroundColor = folderColor
-        backdrop.layer.cornerRadius = 8
-        backdrop.layer.masksToBounds = true
-        backdrop.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(backdrop)
-
-        let label = UILabel()
-        label.text = folder.name
-        label.textColor = ThemeColor.filterText01(filterColor: folderColor)
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        backdrop.addSubview(label)
-
+        let folderPreview = FolderPreviewView()
+        folderPreview.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(folderPreview)
         NSLayoutConstraint.activate([
-            backdrop.topAnchor.constraint(equalTo: view.topAnchor),
-            backdrop.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backdrop.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backdrop.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            label.centerXAnchor.constraint(equalTo: backdrop.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: backdrop.centerYAnchor),
-            label.leadingAnchor.constraint(greaterThanOrEqualTo: backdrop.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(lessThanOrEqualTo: backdrop.trailingAnchor, constant: -16)
+            folderPreview.topAnchor.constraint(equalTo: view.topAnchor),
+            folderPreview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            folderPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            folderPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
+        folderPreview.populateFromAsync(folder: folder)
     }
 }
