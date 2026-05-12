@@ -21,7 +21,7 @@ class UpNextViewModel {
     init(dataManager: DataManager = DataManager.sharedManager, refreshManager: RefreshManager = RefreshManager.shared) {
         self.dataManager = dataManager
         self.refreshManager = refreshManager
-        observeUpNextSyncCompleted()
+        observeUpNextChanges()
     }
 
     func load() {
@@ -54,7 +54,7 @@ class UpNextViewModel {
         dataManager.allUpNextEpisodes()
     }
 
-    fileprivate func observeUpNextSyncCompleted() {
+    fileprivate func observeUpNextChanges() {
         NotificationCenter.default.publisher(for: Constants.Notifications.upNextQueueChanged)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
