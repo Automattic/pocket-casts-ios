@@ -38,8 +38,8 @@ struct PlaylistCell: View {
             .padding(.vertical, 24)
             ZStack {
                 if model.state == .ready {
-                    ForEach(Array(model.coverPodcastsUuids.prefix(2).enumerated()), id: \.element) { index, podcastUuid in
-                        PodcastImageViewWrapper(podcastUUID: podcastUuid, size: .page)
+                    ForEach(Array(model.coverPodcastsUuids.prefix(2).reversed().enumerated()), id: \.element) { index, podcastUuid in
+                        PodcastImage(uuid: podcastUuid, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
                             .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
