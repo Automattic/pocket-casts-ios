@@ -2108,10 +2108,14 @@ Questa sì che è dedizione!</string>
     <string>Episodio rimosso</string>
     <key>player_error_corrupted_file</key>
     <string>L'episodio potrebbe essere danneggiato, ma puoi provare a riprodurlo di nuovo.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Questo episodio non può essere riprodotto.</string>
     <key>player_error_internet_connection</key>
     <string>Controlla la tua connessione a Internet e riprova.</string>
     <key>player_error_short_no_connection</key>
     <string>Sei offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Riproduzione non riuscita, riprova</string>
     <key>player_increment_time</key>
     <string>Aumenta ora</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3572,6 +3576,14 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Hai ascoltato per</string>
     <key>stats_listen_history_no_date</key>
     <string>Hai ascoltato</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Mappa di calore dell'attività di ascolto. Giorni ascoltati: %1$@ su 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Meno</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Altro</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Attività di ascolto</string>
     <key>stats_skipping</key>
     <string>Salto in corso...</string>
     <key>stats_time_saved</key>
@@ -3728,6 +3740,8 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Siamo spiacenti, ma non è disponibile una trascrizione per questo episodio</string>
     <key>transcript_error_not_supported</key>
     <string>Siamo spiacenti, ma questo formato della trascrizione non è supportato: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Scarica l'episodio per abilitare lo scorrimento tramite tocco</string>
     <key>trial_finished</key>
     <string>Prova terminata</string>
     <key>trim_silence</key>
@@ -3736,6 +3750,22 @@ L'indirizzo e-mail, la password e altri elementi sensibili non vengono mai condi
     <string>Riprova</string>
     <key>try_it_now</key>
     <string>Prova ora</string>
+    <key>tv_tab_home</key>
+    <string>Home</string>
+    <key>tv_tab_playlists</key>
+    <string>Playlist</string>
+    <key>tv_tab_podcasts</key>
+    <string>I tuoi podcast</string>
+    <key>tv_tab_up_next</key>
+    <string>Vai al prossimo</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Sfoglia senza un account</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Crea un account gratuito</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Accedi</string>
+    <key>tv_welcome_title</key>
+    <string>Benvenuto su Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Annulla archiviazione</string>
     <key>unfollow</key>

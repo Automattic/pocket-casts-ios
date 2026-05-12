@@ -2108,10 +2108,14 @@ Das ist Hingabe!</string>
     <string>Folge wurde entfernt</string>
     <key>player_error_corrupted_file</key>
     <string>Die Folge ist möglicherweise beschädigt, aber du kannst versuchen, sie erneut abzuspielen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Diese Folge kann nicht abgespielt werden.</string>
     <key>player_error_internet_connection</key>
     <string>Überprüfe deine Internetverbindung und versuche es erneut.</string>
     <key>player_error_short_no_connection</key>
     <string>Du bist offline.</string>
+    <key>player_error_short_playback_error</key>
+    <string>Wiedergabe fehlgeschlagen, bitte versuche es erneut</string>
     <key>player_increment_time</key>
     <string>Zeitsprung vergrößern</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3572,6 +3576,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Bis jetzt hast du angehört:</string>
     <key>stats_listen_history_no_date</key>
     <string>Bis jetzt hast du angehört:</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Heatmap der Höraktivität. Tage angehört: %1$@ von 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Weniger</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Mehr</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Höraktivität</string>
     <key>stats_skipping</key>
     <string>Überspringen</string>
     <key>stats_time_saved</key>
@@ -3728,6 +3740,8 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Entschuldigung! Für diese Folge ist kein Transkript verfügbar</string>
     <key>transcript_error_not_supported</key>
     <string>Dieses Transkriptformat wird nicht unterstützt: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Lade die Folge herunter, um zum Suchen zu tippen</string>
     <key>trial_finished</key>
     <string>Testzeitraum abgelaufen</string>
     <key>trim_silence</key>
@@ -3736,6 +3750,22 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Erneut versuchen</string>
     <key>try_it_now</key>
     <string>Jetzt ausprobieren</string>
+    <key>tv_tab_home</key>
+    <string>Startseite</string>
+    <key>tv_tab_playlists</key>
+    <string>Playlists</string>
+    <key>tv_tab_podcasts</key>
+    <string>Deine Podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Als Nächstes</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Ohne Konto durchsuchen</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Kostenloses Konto erstellen</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Anmelden</string>
+    <key>tv_welcome_title</key>
+    <string>Willkommen bei Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Wiederherstellen</string>
     <key>unfollow</key>

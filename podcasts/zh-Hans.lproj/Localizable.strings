@@ -2108,10 +2108,14 @@ Pocket Casts。</string>
     <string>剧集已删除</string>
     <key>player_error_corrupted_file</key>
     <string>剧集可能已损坏，但您可以尝试再次播放。</string>
+    <key>player_error_episode_not_available</key>
+    <string>无法播放此剧集。</string>
     <key>player_error_internet_connection</key>
     <string>检查互联网连接并重试。</string>
     <key>player_error_short_no_connection</key>
     <string>您处于离线状态</string>
+    <key>player_error_short_playback_error</key>
+    <string>播放失败，请重试</string>
     <key>player_increment_time</key>
     <string>增量时间</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3572,6 +3576,14 @@ Pocket Casts。</string>
     <string>您已收听</string>
     <key>stats_listen_history_no_date</key>
     <string>您已收听</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>收听活动热图。 已收听的天数：%1$@/365。</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>更少</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>更多</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>收听活动</string>
     <key>stats_skipping</key>
     <string>跳过</string>
     <key>stats_time_saved</key>
@@ -3728,6 +3740,8 @@ Pocket Casts。</string>
     <string>很抱歉，本剧集没有文字转录稿</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>下载该剧集后，即可通过点击跳转播放位置</string>
     <key>trial_finished</key>
     <string>试用完成</string>
     <key>trim_silence</key>
@@ -3736,6 +3750,22 @@ Pocket Casts。</string>
     <string>重试</string>
     <key>try_it_now</key>
     <string>立即试用</string>
+    <key>tv_tab_home</key>
+    <string>主页</string>
+    <key>tv_tab_playlists</key>
+    <string>播放列表</string>
+    <key>tv_tab_podcasts</key>
+    <string>您的播客</string>
+    <key>tv_tab_up_next</key>
+    <string>接下来播放</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>无需账户即可浏览</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>创建免费账户</string>
+    <key>tv_welcome_sign_in</key>
+    <string>登录</string>
+    <key>tv_welcome_title</key>
+    <string>欢迎使用 Pocket Casts TV</string>
     <key>unarchive</key>
     <string>取消存档</string>
     <key>unfollow</key>
