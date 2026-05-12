@@ -1,6 +1,7 @@
 8.13
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
+- Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
 
 8.12
 -----
