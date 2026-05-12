@@ -96,15 +96,12 @@ extension PodcastListViewController {
         let editFolderAction = UIAction(title: L10n.folderEdit, image: UIImage(systemName: "folder")) { [weak self] _ in
             self?.openFolderEdit(folder: folder)
         }
-        let addRemoveAction = UIAction(title: L10n.folderAddRemovePodcasts, image: UIImage(systemName: "plus.rectangle.on.folder")) { [weak self] _ in
-            self?.openFolderPodcastSelection(folder: folder)
-        }
         let editMenu = UIMenu(title: "", options: .displayInline, children: [
             UIAction(title: L10n.edit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
                 self?.setEditingOrder(true)
             }
         ])
-        return UIMenu(title: "", children: [editFolderAction, addRemoveAction, editMenu])
+        return UIMenu(title: "", children: [editFolderAction, editMenu])
     }
 
     // MARK: Action handlers
@@ -142,16 +139,4 @@ extension PodcastListViewController {
         present(hostingController, animated: true)
     }
 
-    private func openFolderPodcastSelection(folder: Folder) {
-        let model = FolderModel(saveOnChange: true)
-        model.name = folder.name
-        model.colorInt = Int(folder.color)
-        model.folderUuid = folder.uuid
-        model.selectedPodcastUuids = DataManager.sharedManager.allPodcastsInFolder(folder: folder).map(\.uuid)
-        let editFoldersView = EditFolderPodcastsView(model: model) { [weak self] in
-            self?.dismiss(animated: true)
-        }
-        let hostingController = PCHostingController(rootView: editFoldersView.environmentObject(Theme.sharedTheme))
-        present(hostingController, animated: true)
-    }
 }
