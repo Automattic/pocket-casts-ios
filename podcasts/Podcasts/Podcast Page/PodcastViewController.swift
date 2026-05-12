@@ -74,7 +74,12 @@ protocol PodcastActionsDelegate: AnyObject {
 
 class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
     var podcast: Podcast?
-    var episodeInfo = [ArraySection<String, ListItem>]()
+    var episodeInfo: [ArraySection<String, ListItem>] = {
+        // Seed with the search-header section so the podcast header row renders
+        // immediately on first layout, without waiting for the async episode fetch.
+        let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
+        return [ArraySection(model: searchHeader.headerTitle, elements: [searchHeader])]
+    }()
     var uuidsThatMatchSearch = [String]()
     var featuredPodcast = false
     var listUuid: String?
