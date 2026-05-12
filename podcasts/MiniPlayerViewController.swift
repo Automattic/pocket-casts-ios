@@ -178,7 +178,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
-                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 40),
+                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 44),
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
@@ -403,8 +403,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             progress = min(1, CGFloat(currentTime / duration))
         }
 
+        let isIndeterminate = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+
         playbackProgressView.progress = progress
-        playbackProgressView.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        playbackProgressView.indeterminant = isIndeterminate
 
         let amountBuferred = PlaybackManager.shared.futureBufferAvailable()
         if amountBuferred > 0 {
@@ -412,6 +414,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         glassProgressView?.playbackProgress = progress
+        glassProgressView?.indeterminate = isIndeterminate
 
         if let episodeTimeLeftLabel {
             let remaining = max(0, duration - currentTime)
