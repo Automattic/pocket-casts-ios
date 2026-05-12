@@ -31,6 +31,7 @@ class UpNextViewModel {
 
     private func refreshServerData() {
         Task {
+            SyncManager.syncReason = nil
             refreshManager.syncUpNext()
         }
     }

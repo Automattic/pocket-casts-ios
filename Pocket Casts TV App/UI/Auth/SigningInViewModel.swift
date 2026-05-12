@@ -112,6 +112,7 @@ class SigningInViewModel: SigningInViewModelProtocol {
                 }
                 title = L10n.syncInProgress
                 state = .waitingForUpNextSync
+                SyncManager.syncReason = .login
                 refreshManager.syncUpNext()
             }
             .store(in: &cancellables)
