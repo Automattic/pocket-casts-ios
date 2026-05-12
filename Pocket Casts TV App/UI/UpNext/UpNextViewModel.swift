@@ -25,8 +25,18 @@ class UpNextViewModel {
     }
 
     func load() {
+        refreshServerData()
+        fetchLocalData()
+    }
+
+    private func refreshServerData() {
         Task {
             refreshManager.syncUpNext()
+        }
+    }
+
+    private func fetchLocalData() {
+        Task {
             let fetched = fetchUpNextEpisodes()
             let episodes = fetched.map { episode in
                 let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
