@@ -326,6 +326,10 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
             searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         searchController.searchControllerHeightConstraint = heightConstraint
+        // Plain-style table view pins section headers below `adjustedContentInset.top`, so keep
+        // the inset matched to the bar height — otherwise headers would pin where the (collapsed)
+        // bar used to be, leaving a gap under the nav bar.
+        searchController.tracksContentInsetToBarHeight = true
 
         searchController.placeholderText = L10n.search
         searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
@@ -343,5 +347,13 @@ extension ListeningHistoryViewController {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         searchController?.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidEndDecelerating(scrollView)
+    }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidEndScrollingAnimation(scrollView)
     }
 }

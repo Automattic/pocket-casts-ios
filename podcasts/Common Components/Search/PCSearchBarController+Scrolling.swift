@@ -25,6 +25,12 @@ extension PCSearchBarController {
             view.layoutIfNeeded()
             updateCollapseAppearance()
         }
+
+        // Only sync during an active drag — leaving programmatic animations (snap-to-open
+        // below, deceleration) to settle on their own, then resync at the end.
+        if tracksContentInsetToBarHeight, scrollView.isDragging {
+            syncContentInsetToBarHeight(scrollView)
+        }
     }
 
     func parentScrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -43,6 +49,23 @@ extension PCSearchBarController {
             scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: -PCSearchBarController.defaultHeight - topOffset), animated: true)
         } else if shouldAnimateUp {
             scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: -topOffset), animated: true)
+        }
+    }
+
+    func parentScrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard tracksContentInsetToBarHeight else { return }
+        syncContentInsetToBarHeight(scrollView)
+    }
+
+    func parentScrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        guard tracksContentInsetToBarHeight else { return }
+        syncContentInsetToBarHeight(scrollView)
+    }
+
+    private func syncContentInsetToBarHeight(_ scrollView: UIScrollView) {
+        guard let height = searchControllerHeightConstraint?.constant else { return }
+        if scrollView.contentInset.top != height {
+            scrollView.contentInset.top = height
         }
     }
 }

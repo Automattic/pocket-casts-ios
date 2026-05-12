@@ -55,6 +55,13 @@ class PCSearchBarController: UIViewController {
     /// the safe area, and the pill, icons and placeholder fade and shrink together.
     var searchControllerHeightConstraint: NSLayoutConstraint?
 
+    /// When `true`, the scrolling extension keeps the parent scroll view's `contentInset.top`
+    /// matched to the bar's current height. Use this with plain-style `UITableView`s whose
+    /// section headers pin to `adjustedContentInset.top` — otherwise headers stay pinned where
+    /// the (now-collapsed) bar used to be, leaving a gap under the nav bar. Callers must also
+    /// forward `scrollViewDidEndDecelerating` and `scrollViewDidEndScrollingAnimation`.
+    var tracksContentInsetToBarHeight = false
+
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
