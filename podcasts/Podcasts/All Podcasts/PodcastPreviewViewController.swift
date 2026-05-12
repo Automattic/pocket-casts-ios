@@ -1,3 +1,4 @@
+import PocketCastsUtils
 import UIKit
 
 final class PodcastPreviewViewController: UIViewController {
@@ -22,14 +23,8 @@ final class PodcastPreviewViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 8
         imageView.layer.masksToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        imageView.pinEdges()
 
         ImageManager.sharedManager.loadImage(podcastUuid: podcastUUID, imageView: imageView, size: .page, showPlaceHolder: true)
     }

@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
 
 final class FolderPreviewViewController: UIViewController {
@@ -22,14 +23,8 @@ final class FolderPreviewViewController: UIViewController {
         view.layer.masksToBounds = true
 
         let folderPreview = FolderPreviewView()
-        folderPreview.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(folderPreview)
-        NSLayoutConstraint.activate([
-            folderPreview.topAnchor.constraint(equalTo: view.topAnchor),
-            folderPreview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            folderPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            folderPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        folderPreview.pinEdges()
 
         folderPreview.populateFromAsync(folder: folder)
     }

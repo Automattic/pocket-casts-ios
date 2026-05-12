@@ -179,16 +179,10 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             if let bannerAdModel {
                 let bannerAdView = bannerAdView(bannerAdModel: bannerAdModel)
                 let hostingController = PCHostingController(rootView: bannerAdView)
-                hostingController.view.translatesAutoresizingMaskIntoConstraints = false
                 hostingController.view.backgroundColor = .clear
 
                 headerView.addSubview(hostingController.view)
-                NSLayoutConstraint.activate([
-                    hostingController.view.topAnchor.constraint(equalTo: headerView.topAnchor),
-                    hostingController.view.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-                    hostingController.view.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-                    hostingController.view.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-                ])
+                hostingController.view.pinEdges()
 
                 hostingController.view.alpha = 0
 
