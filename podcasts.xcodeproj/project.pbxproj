@@ -24,7 +24,9 @@
 
 /* Begin PBXBuildFile section */
 		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
+		0C7BFA882FAD2A8C00C1E5FF /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		0CCC37A62FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */; };
+		0CF5B7BE2FB3B0E60023691C /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */; };
 		102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */; };
@@ -7601,6 +7603,7 @@
 			files = (
 				F57ABBFC2CECEBD800CC50AF /* ArchiveHelper.swift in Sources */,
 				F5F5094D2CEBF448007D6E39 /* SimpleActionView.swift in Sources */,
+				0C7BFA882FAD2A8C00C1E5FF /* LiquidGlass.swift in Sources */,
 				F5F509292CEBEF09007D6E39 /* TranscriptsDataRetriever.swift in Sources */,
 				F5F509102CEBEBC0007D6E39 /* PlaybackEffects.swift in Sources */,
 				F5F509552CEBF5D6007D6E39 /* TintableImageView.swift in Sources */,
@@ -7780,6 +7783,7 @@
 				FF6505A02FAA9DE400C3662E /* PlaybackItem.swift in Sources */,
 				FF8FFE6A2FAA8E950086A867 /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				FF8FFE532FAA4D210086A867 /* BookmarkManager.swift in Sources */,
+				0CF5B7BE2FB3B0E60023691C /* LiquidGlass.swift in Sources */,
 				FF8FFE542FAA5FAC0086A867 /* ArchiveHelper.swift in Sources */,
 				FF8FFE4F2FAA4CCD0086A867 /* PlaybackProtocol.swift in Sources */,
 				FF8FFE442FAA49BE0086A867 /* PodcastManager+Cleanup.swift in Sources */,

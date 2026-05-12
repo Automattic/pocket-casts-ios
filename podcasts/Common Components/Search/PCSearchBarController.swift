@@ -55,6 +55,13 @@ class PCSearchBarController: UIViewController {
     /// the safe area, and the pill, icons and placeholder fade and shrink together.
     var searchControllerHeightConstraint: NSLayoutConstraint?
 
+    /// When `true`, the scrolling extension keeps the parent scroll view's `contentInset.top`
+    /// matched to the bar's current height. Use this with plain-style `UITableView`s whose
+    /// section headers pin to `adjustedContentInset.top` — otherwise headers stay pinned where
+    /// the (now-collapsed) bar used to be, leaving a gap under the nav bar. Callers must also
+    /// forward `scrollViewDidEndDecelerating` and `scrollViewDidEndScrollingAnimation`.
+    var tracksContentInsetToBarHeight = false
+
     var searchDebounce = 1.seconds
     var searchTimer: Timer?
 
@@ -118,6 +125,31 @@ class PCSearchBarController: UIViewController {
     }
 
     private func updateColors() {
+        if LiquidGlass.isEnabled {
+            configureAppearance()
+        } else {
+            configureLegacyAppearnace()
+        }
+    }
+
+    private func configureAppearance() {
+        view.backgroundColor = .clear
+        searchTextField.backgroundColor = .clear
+        searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
+        roundedBackgroundView.backgroundColor = ThemeColor.primaryField01()
+
+        let textColor = ThemeColor.primaryText01()
+        searchTextField.textColor = textColor
+        cancelButton.setTitleColor(textColor, for: .normal)
+
+        updatePlaceholderColor()
+
+        let iconColor = ThemeColor.primaryIcon02()
+        searchIcon.tintColor = iconColor
+        clearSearchBtn.tintColor = iconColor
+    }
+
+    private func configureLegacyAppearnace() {
         view.backgroundColor = backgroundColorOverride ?? ThemeColor.secondaryUi01()
         searchTextField.backgroundColor = UIColor.clear
         searchTextField.keyboardAppearance = AppTheme.keyboardAppearance()
@@ -135,7 +167,10 @@ class PCSearchBarController: UIViewController {
     }
 
     private func updatePlaceholderColor() {
-        let placeholderColor = backgroundColorOverride == nil ? ThemeColor.secondaryText02() : ThemeColor.primaryText02()
+        var placeholderColor = backgroundColorOverride == nil ? ThemeColor.secondaryText02() : ThemeColor.primaryText02()
+        if LiquidGlass.isEnabled {
+            placeholderColor = ThemeColor.primaryText02()
+        }
         searchTextField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
     }
 

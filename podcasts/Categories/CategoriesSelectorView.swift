@@ -27,7 +27,7 @@ struct CategoriesSelectorView: View {
                 PlaceholderPillsView()
             }
         }
-        .background(theme.secondaryUi01)
+        .background(LiquidGlass.isEnabled ? .clear : theme.secondaryUi01)
         .task(id: discoverItemObservable.item?.source) {
             let result = await discoverItemObservable.load()
             self.categories = result?.categories

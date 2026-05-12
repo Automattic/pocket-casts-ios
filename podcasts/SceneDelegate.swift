@@ -11,6 +11,12 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
         self.window = window
         window.rootViewController = MainTabBarController()
 
+        // Capture the system style before applying any window-level override so the
+        // initial value reflects the actual system, not our override.
+        Theme.systemIsDark = (windowScene.traitCollection.userInterfaceStyle == .dark)
+        window.applyInterfaceStyleForActiveTheme()
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+
         window.makeKeyAndVisible()
 
         if let shortcutItem = connectionOptions.shortcutItem {
@@ -47,5 +53,9 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         appDelegate()?.handleShortcutItem(shortcutItem)
+    }
+
+    @objc private func themeDidChange() {
+        window?.applyInterfaceStyleForActiveTheme()
     }
 }

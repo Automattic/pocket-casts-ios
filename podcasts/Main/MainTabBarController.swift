@@ -248,6 +248,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        if let scene = view.window?.windowScene {
+            Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
+        }
         fixTarBarTraitCollectionOnIpadForiOS18()
         fireSystemThemeMayHaveChanged()
     }
@@ -603,8 +606,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             let appearanceViewController = AppearanceViewController()
             navController.pushViewController(appearanceViewController, animated: !showThemeSelection)
             if showThemeSelection {
-                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
-                    Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
+                    Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
                 }
             }
         }
@@ -805,6 +808,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         guard !LiquidGlass.isEnabled else { return }
 
         self.view.backgroundColor = AppTheme.viewBackgroundColor()
+        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
+        tabBar.tintColor = AppTheme.tabBarItemTintColor()
+
+        guard !LiquidGlass.isEnabled else { return }
+
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
@@ -820,8 +828,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
-        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
-        tabBar.tintColor = AppTheme.tabBarItemTintColor()
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
@@ -839,9 +845,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private func fireSystemThemeMayHaveChanged() {
         if !Settings.shouldFollowSystemTheme() { return } // if the user has turned this off, then ignore system theme changes
 
-        let style = traitCollection.userInterfaceStyle
-
-        let isDark = (style == .dark)
+        let isDark = Theme.systemIsDark
         if lastNotifiedAboutDark == nil || isDark != lastNotifiedAboutDark {
             lastNotifiedAboutDark = isDark
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.systemThemeMayHaveChanged, object: isDark)

@@ -570,8 +570,14 @@ class AppTheme {
     #if !os(tvOS)
     class func defaultStatusBarStyle() -> UIStatusBarStyle {
         switch Theme.sharedTheme.activeTheme {
-        case .dark, .extraDark, .electric, .classic, .indigo, .contrastDark:
+        case .dark, .extraDark, .electric, .contrastDark:
             return UIStatusBarStyle.lightContent
+        case .classic, .indigo:
+            if LiquidGlass.isEnabled {
+                return UIStatusBarStyle.darkContent
+            } else {
+                return UIStatusBarStyle.lightContent
+            }
         case .light, .rosé, .contrastLight:
             return UIStatusBarStyle.darkContent
         }

@@ -155,12 +155,12 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             SJUIUtils.showAlert(title: L10n.appearanceRefreshAllArtworkConfTitle, message: L10n.appearanceRefreshAllArtworkConfMsg, from: self)
             refreshAllPodcastArtwork()
         } else if row == .lightTheme {
-            presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
-                Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+            presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
+                Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
             }
         } else if row == .darkTheme {
-            presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { [weak self] theme in
-                Theme.setPreferredDarkTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark, userInitiated: true)
+            presentThemePicker(selectedTheme: Theme.preferredDarkTheme()) { theme in
+                Theme.setPreferredDarkTheme(theme, systemIsDark: Theme.systemIsDark, userInitiated: true)
             }
         }
     }

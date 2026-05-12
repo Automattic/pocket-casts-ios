@@ -318,18 +318,42 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
         view.addSubview(searchController.view)
         searchController.didMove(toParent: self)
 
+        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
             searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
+            heightConstraint,
             searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
+        searchController.searchControllerHeightConstraint = heightConstraint
+        // Plain-style table view pins section headers below `adjustedContentInset.top`, so keep
+        // the inset matched to the bar height — otherwise headers would pin where the (collapsed)
+        // bar used to be, leaving a gap under the nav bar.
+        searchController.tracksContentInsetToBarHeight = true
 
         searchController.placeholderText = L10n.search
         searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
+    }
+}
 
-        listeningHistoryTable.verticalScrollIndicatorInsets.top = PCSearchBarController.defaultHeight
+// MARK: - UIScrollViewDelegate
+
+extension ListeningHistoryViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        searchController?.parentScrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidEndDecelerating(scrollView)
+    }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        searchController?.parentScrollViewDidEndScrollingAnimation(scrollView)
     }
 }

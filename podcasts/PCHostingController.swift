@@ -79,6 +79,7 @@ class PCHostingController<Content>: ThemedHostingController<Content> where Conte
     }
 
     private func setupNavBar() {
+        guard !LiquidGlass.isEnabled else { return }
         configureNavBarFor(theme: Theme.preferredLightTheme(), traits: UITraitCollection(userInterfaceStyle: .light))
 
         let preferredThemeWhenDark = Settings.shouldFollowSystemTheme() ? Theme.preferredDarkTheme() : Theme.preferredLightTheme()
