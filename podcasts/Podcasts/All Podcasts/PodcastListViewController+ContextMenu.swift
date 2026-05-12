@@ -172,8 +172,9 @@ extension PodcastListViewController {
     private func confirmUnsubscribe(podcast: Podcast) {
         let optionPicker = OptionsPicker(title: L10n.areYouSure)
         let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
-        let action = OptionAction(label: label, icon: nil) {
+        let action = OptionAction(label: label, icon: nil) { [weak self] in
             PodcastManager.shared.unsubscribe(podcast: podcast)
+            Analytics.track(.podcastUnsubscribed, properties: ["source": self?.analyticsSource ?? AnalyticsSource.podcastsList, "uuid": podcast.uuid])
         }
         action.destructive = true
         optionPicker.addAction(action: action)
