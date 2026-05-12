@@ -36,12 +36,10 @@ extension PodcastListViewController {
         savedRightBarButtonItem = customRightBtn
 
         let saveButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveEditingTapped))
-//        if #available(iOS 26.0, *) {
-//            saveButton.style = .prominent
-//        }
         customRightBtn = saveButton
 
         podcastsCollectionView.dragInteractionEnabled = true
+        podcastsCollectionView.allowsSelection = false
         setTabBarHidden(true, animated: true)
 
         for cell in podcastsCollectionView.visibleCells {
@@ -51,6 +49,7 @@ extension PodcastListViewController {
 
     private func exitEditMode() {
         podcastsCollectionView.dragInteractionEnabled = false
+        podcastsCollectionView.allowsSelection = true
         setTabBarHidden(false, animated: true)
 
         customRightBtn = savedRightBarButtonItem
