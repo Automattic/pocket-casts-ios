@@ -24,8 +24,8 @@ extension PodcastListViewController {
     private func makePodcastContextMenu(for podcast: Podcast, at indexPath: IndexPath) -> UIContextMenuConfiguration {
         UIContextMenuConfiguration(
             identifier: indexPath as NSCopying,
-            previewProvider: { [weak self] in
-                self?.makePodcastPreviewController(uuid: podcast.uuid)
+            previewProvider: {
+                PodcastPreviewViewController(podcastUUID: podcast.uuid)
             },
             actionProvider: { [weak self] _ in
                 self?.makePodcastMenu(for: podcast, at: indexPath)
@@ -36,73 +36,13 @@ extension PodcastListViewController {
     private func makeFolderContextMenu(for folder: Folder, at indexPath: IndexPath) -> UIContextMenuConfiguration {
         UIContextMenuConfiguration(
             identifier: indexPath as NSCopying,
-            previewProvider: { [weak self] in
-                self?.makeFolderPreviewController(folder: folder)
+            previewProvider: {
+                FolderPreviewViewController(folder: folder)
             },
             actionProvider: { [weak self] _ in
                 self?.makeFolderMenu(for: folder)
             }
         )
-    }
-
-    // MARK: Preview controllers
-
-    private func makePodcastPreviewController(uuid: String) -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .clear
-
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 8
-        imageView.layer.masksToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        viewController.view.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: viewController.view.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor)
-        ])
-
-        ImageManager.sharedManager.loadImage(podcastUuid: uuid, imageView: imageView, size: .page, showPlaceHolder: true)
-        viewController.preferredContentSize = CGSize(width: 280, height: 280)
-        return viewController
-    }
-
-    private func makeFolderPreviewController(folder: Folder) -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .clear
-
-        let folderColor = AppTheme.folderColor(colorInt: folder.color)
-        let backdrop = UIView()
-        backdrop.backgroundColor = folderColor
-        backdrop.layer.cornerRadius = 8
-        backdrop.layer.masksToBounds = true
-        backdrop.translatesAutoresizingMaskIntoConstraints = false
-        viewController.view.addSubview(backdrop)
-
-        let label = UILabel()
-        label.text = folder.name
-        label.textColor = ThemeColor.filterText01(filterColor: folderColor)
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        backdrop.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            backdrop.topAnchor.constraint(equalTo: viewController.view.topAnchor),
-            backdrop.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
-            backdrop.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-            backdrop.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
-            label.centerXAnchor.constraint(equalTo: backdrop.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: backdrop.centerYAnchor),
-            label.leadingAnchor.constraint(greaterThanOrEqualTo: backdrop.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(lessThanOrEqualTo: backdrop.trailingAnchor, constant: -16)
-        ])
-
-        viewController.preferredContentSize = CGSize(width: 280, height: 280)
-        return viewController
     }
 
     // MARK: Menus
