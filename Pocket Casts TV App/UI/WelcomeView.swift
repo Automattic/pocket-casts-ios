@@ -65,9 +65,9 @@ struct WelcomeView: View {
         }
     }
 
-    var podcastRows: [[MockPodcast]] {
-        stride(from: 0, to: model.podcasts.count, by: Layout.columnsPerRow).map {
-            Array(model.podcasts[$0..<min($0 + Layout.columnsPerRow, model.podcasts.count)])
+    var podcastRows: [[String]] {
+        stride(from: 0, to: model.images.count, by: Layout.columnsPerRow).map {
+            Array(model.images[$0..<min($0 + Layout.columnsPerRow, model.images.count)])
         }
     }
 
@@ -75,8 +75,8 @@ struct WelcomeView: View {
         VStack(spacing: Layout.gridSpacing) {
             ForEach(Array(podcastRows.enumerated()), id: \.offset) { rowIndex, row in
                 HStack(spacing: Layout.gridSpacing) {
-                    ForEach(row) { podcast in
-                        Image(podcast.image)
+                    ForEach(Array(row.enumerated()), id: \.offset) { _, image in
+                        Image(image)
                             .resizable()
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                             .clipShape(RoundedRectangle(cornerRadius: 12))

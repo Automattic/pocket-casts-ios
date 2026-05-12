@@ -76,10 +76,10 @@ class EpisodeRowViewModel: Identifiable {
 @Observable
 class MockEpisodeRowViewModel: Identifiable {
 
-    let episode: MockEpisode
-    let podcast: MockPodcast?
+    let episode: Episode
+    let podcast: Podcast?
 
-    init(episode: MockEpisode, podcast: MockPodcast?) {
+    init(episode: Episode, podcast: Podcast?) {
         self.episode = episode
         self.podcast = podcast
     }
@@ -91,11 +91,11 @@ class MockEpisodeRowViewModel: Identifiable {
     var id: String { episode.uuid }
 
     var displayTitle: String {
-        return episode.title
+        return episode.displayableTitle()
     }
 
     var displayDate: String {
-        return episode.publishedDate.formatted()
+        return episode.shortPublishedDate()
     }
 
     var displayDuration: String {
