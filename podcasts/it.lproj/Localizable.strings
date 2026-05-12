@@ -1794,6 +1794,8 @@ pocast con te</string>
     <string>Off</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Sopra</string>
     <key>onboarding_quote_author</key>
     <string>Utente Pocket Casts</string>
     <key>onboarding_quote_best</key>

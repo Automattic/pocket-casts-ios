@@ -17,6 +17,12 @@ class PCViewController: SimpleNotificationsViewController {
         }
     }
 
+    var useTransparentNavigationBarAppearance = false {
+        didSet {
+            setupNavBar(animated: false)
+        }
+    }
+
     private var navIconsColor: UIColor?
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
@@ -31,9 +37,16 @@ class PCViewController: SimpleNotificationsViewController {
 
         if supportsGoogleCast {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-            castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
-            googleCastBtn = UIBarButtonItem(customView: castButton)
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
+            if useTransparentNavigationBarAppearance {
+                if !LiquidGlass.isEnabled {
+                    FakeNavBarButton.applyStyle(to: castButton)
+                }
+                // On Liquid Glass, the bar's default tint already gives the cast button proper contrast.
+            } else {
+                castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
+            }
+            googleCastBtn = UIBarButtonItem(customView: castButton)
 
             refreshRightButtons()
         } else if customRightBtn != nil || !extraRightButtons.isEmpty {
@@ -136,6 +149,11 @@ class PCViewController: SimpleNotificationsViewController {
     private func setupNavBar(animated: Bool) {
         guard let navController = navigationController else { return }
 
+        guard !useTransparentNavigationBarAppearance else {
+            configureTransparentAppearance()
+            return
+        }
+
         let navigationBar = navController.navigationBar
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
         let iconsColor = navIconsColor ?? AppTheme.navBarIconsColor()
@@ -165,6 +183,40 @@ class PCViewController: SimpleNotificationsViewController {
             navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor
+        }
+    }
+
+    private func configureTransparentAppearance() {
+        setTransparentNavBarScrolled(false)
+    }
+
+    /// Toggles the navigation bar between its at-edge (transparent) and scrolled (blurred) styles,
+    /// and forwards the new state to any `FakeNavBarStylable` bar buttons so their tint and background
+    /// crossfade in step. Subclasses using `useTransparentNavigationBarAppearance` should call this
+    /// from `scrollViewDidScroll` when the scroll position crosses their header threshold;
+    /// UIKit animates the appearance swap. When Liquid Glass is enabled the system handles the
+    /// at-edge/scrolled transition on its own, so we just install its default background once.
+    func setTransparentNavBarScrolled(_ scrolled: Bool) {
+        guard let navigationBar = navigationController?.navigationBar else {
+            return assertionFailure("navigationBar is missing")
+        }
+        let appearance = UINavigationBarAppearance()
+        if LiquidGlass.isEnabled {
+            appearance.configureWithDefaultBackground()
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+            return
+        }
+        appearance.configureWithTransparentBackground()
+        if scrolled {
+            appearance.backgroundEffect = UIBlurEffect(style: .regular)
+        }
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+
+        let allItems = ([navigationItem.leftBarButtonItem, customRightBtn, googleCastBtn].compactMap { $0 }) + extraRightButtons
+        for item in allItems {
+            (item.customView as? FakeNavBarStylable)?.setNavBarScrolled(scrolled, animated: true)
         }
     }
 

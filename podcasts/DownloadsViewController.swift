@@ -42,7 +42,7 @@ class DownloadsViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.downloadsMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.downloadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil

@@ -19,6 +19,10 @@
                 <outlet property="rightActionButton" destination="dqQ-uw-aYP" id="tLU-Yj-qf2"/>
                 <outlet property="selectedCountLabel" destination="qD2-F1-lhr" id="USD-Fz-fW6"/>
                 <outlet property="statusLabel" destination="Enh-xO-Jgf" id="KMJ-8H-Nnt"/>
+                <outlet property="containerLeadingConstraint" destination="fUY-Ie-hRU" id="LG1-le-001"/>
+                <outlet property="containerTrailingConstraint" destination="og1-DP-6UN" id="LG2-tr-002"/>
+                <outlet property="containerTopConstraint" destination="77d-Z4-z8x" id="LG3-tp-003"/>
+                <outlet property="containerBottomConstraint" destination="FEf-be-bYG" id="LG4-bt-004"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

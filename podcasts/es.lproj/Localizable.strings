@@ -1794,6 +1794,8 @@ pódcast contigo</string>
     <string>Desactivado</string>
     <key>ok</key>
     <string>Vale</string>
+    <key>on</key>
+    <string>Activado</string>
     <key>onboarding_quote_author</key>
     <string>Usuario de Pocket Casts</string>
     <key>onboarding_quote_best</key>
