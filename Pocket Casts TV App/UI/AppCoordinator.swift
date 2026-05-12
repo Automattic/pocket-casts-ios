@@ -22,7 +22,7 @@ class AppCoordinator {
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
-        
+
         userEmail = ServerSettings.syncingEmail()
 
         setupCredentials()
