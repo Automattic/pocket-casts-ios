@@ -19,7 +19,8 @@ protocol SigningInViewModelProtocol: AnyObject, Observation.Observable {
 }
 
 enum SigningInState: Equatable, Hashable {
-    case waiting
+    case waitingForPodcastsSync
+    case waitingForUpNextSync
     case finished
 }
 
@@ -27,7 +28,7 @@ enum SigningInState: Equatable, Hashable {
 class SigningInViewModel: SigningInViewModelProtocol {
     private var cancellables: Set<AnyCancellable> = []
 
-    private(set) var state: SigningInState = .waiting
+    private(set) var state: SigningInState = .waitingForPodcastsSync
 
     var podcasts: [Podcast] = []
 
@@ -37,9 +38,11 @@ class SigningInViewModel: SigningInViewModelProtocol {
     var progress: CGFloat = 0
 
     private let dataManager: DataManager
+    private let refreshManager: RefreshManager
 
-    init(dataManager: DataManager = DataManager.sharedManager) {
+    init(dataManager: DataManager = DataManager.sharedManager, refreshManager: RefreshManager = RefreshManager.shared ) {
         self.dataManager = dataManager
+        self.refreshManager = refreshManager
     }
 
     func sync() {
@@ -107,8 +110,9 @@ class SigningInViewModel: SigningInViewModelProtocol {
                 guard let self else {
                     return
                 }
-
                 title = L10n.syncInProgress
+                state = .waitingForUpNextSync
+                refreshManager.syncUpNext()
             }
             .store(in: &cancellables)
     }
@@ -156,7 +160,7 @@ class SigningInViewModelMock: SigningInViewModelProtocol {
 
     private var cancellable: AnyCancellable?
 
-    var state: SigningInState = .waiting
+    var state: SigningInState = .waitingForPodcastsSync
 
     var totalPodcastsToImport: Int = MockData.makeStubPodcasts().count
 

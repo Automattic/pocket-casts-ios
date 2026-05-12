@@ -21,7 +21,8 @@ class AppCoordinator {
         let _ = DataManager.sharedManager
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
-
+        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+        
         userEmail = ServerSettings.syncingEmail()
 
         setupCredentials()
