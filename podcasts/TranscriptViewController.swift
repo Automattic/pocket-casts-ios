@@ -525,10 +525,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
-        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
-        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -548,6 +544,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         debugTimer?.invalidate()
         debugTimer = nil
         #endif
+    }
+
+    private func stopSyncedTranscripts() {
+        FingerprintTimingManager.shared.stop()
+        stopHighlightDisplayLink()
     }
 
     override func themeDidChange() {
@@ -582,9 +583,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
-        if FeatureFlag.syncedTranscripts.enabled {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
     }
 
     @objc private func closeTapped() {
@@ -627,8 +625,17 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
+                let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
+                    if isDisplayingGenerated {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+                        }
+                        self.startHighlightDisplayLink()
+                    } else {
+                        self.stopSyncedTranscripts()
+                    }
                     UIView.animate(withDuration: 0.25) {
                         if hasGeneratedTranscripts, self.shouldShowPremiumView {
                             self.stackView.alpha = 0
@@ -648,6 +655,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
+                await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }

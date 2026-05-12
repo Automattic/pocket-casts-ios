@@ -1794,6 +1794,8 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Ativado</string>
     <key>onboarding_quote_author</key>
     <string>Usuário do Pocket Casts</string>
     <key>onboarding_quote_best</key>
