@@ -28,8 +28,18 @@ struct ProfileHeaderView: View {
     @ViewBuilder
     private func profileImage(_ proxy: GeometryProxy) -> some View {
         VStack(spacing: 0) {
-            SubscriptionProfileImage(viewModel: viewModel)
-                .frame(width: Constants.imageSize, height: Constants.imageSize)
+            ZStack(alignment: .bottomTrailing) {
+                SubscriptionProfileImage(viewModel: viewModel)
+                    .frame(width: Constants.imageSize, height: Constants.imageSize)
+
+                if viewModel.profile.isLoggedIn, FeatureFlag.shareProfile.enabled {
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                        .background(Circle().fill(theme.primaryUi01).frame(width: 22, height: 22))
+                        .offset(x: -2, y: -2)
+                }
+            }
 
             // Show the patron badge
             if let subscription = viewModel.subscription {
@@ -52,7 +62,7 @@ struct ProfileHeaderView: View {
         }
     }
 
-    /// Shows the display name, email, and account button
+    /// Shows the display name, email, and account/share buttons
     @ViewBuilder
     private func profileInfo() -> some View {
         let alignment: HorizontalAlignment = isShowingVertically ? .center : .leading
@@ -60,10 +70,33 @@ struct ProfileHeaderView: View {
         VStack(alignment: alignment, spacing: Constants.spacing) {
             ProfileInfoLabels(profile: viewModel.profile, alignment: alignment, spacing: Constants.spacing)
 
-            Button(viewModel.profile.isLoggedIn ? L10n.account : L10n.setupAccount) {
-                viewModel.accountTapped()
+            if viewModel.profile.isLoggedIn {
+                HStack(spacing: 12) {
+                    Button {
+                        viewModel.accountTapped()
+                    } label: {
+                        Label(L10n.account, systemImage: "person.crop.circle")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(ProfileStrokeButtonStyle())
+
+                    if FeatureFlag.shareProfile.enabled {
+                        Button {
+                            viewModel.shareTapped()
+                        } label: {
+                            Label(L10n.share, systemImage: "square.and.arrow.up")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(ProfileStrokeButtonStyle())
+                    }
+                }
+                .padding(.bottom, 8)
+            } else {
+                Button(L10n.setupAccount) {
+                    viewModel.accountTapped()
+                }
+                .buttonStyle(ProfileStrokeButtonStyle())
             }
-            .buttonStyle(ProfileStrokeButtonStyle())
         }
         // The top spacing appears too high when showing the badge or exp date for some reason so we'll offset it a bit to balance it out
         .padding(.top, {

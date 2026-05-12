@@ -3875,6 +3875,34 @@ internal enum L10n {
   internal static var sharePodcastsSharingFailedMsg: String { return L10n.tr("Localizable", "share_podcasts_sharing_failed_msg", fallback: "Something went wrong creating your share page") }
   /// Title indicating that sharing has failed.
   internal static var sharePodcastsSharingFailedTitle: String { return L10n.tr("Localizable", "share_podcasts_sharing_failed_title", fallback: "Sharing Failed") }
+  /// Title for the share profile screen
+  internal static var shareProfile: String { return L10n.tr("Localizable", "share_profile", fallback: "Share profile") }
+  /// Title for the add photo and name step
+  internal static var shareProfileAddPhotoAndName: String { return L10n.tr("Localizable", "share_profile_add_photo_and_name", fallback: "Add photo and name") }
+  /// Placeholder text for the name input field
+  internal static var shareProfileAddYourName: String { return L10n.tr("Localizable", "share_profile_add_your_name", fallback: "Add your name") }
+  /// Label for the display name field
+  internal static var shareProfileDisplayName: String { return L10n.tr("Localizable", "share_profile_display_name", fallback: "Display name") }
+  /// Title for the edit profile step
+  internal static var shareProfileEdit: String { return L10n.tr("Localizable", "share_profile_edit", fallback: "Edit profile") }
+  /// Toggle label for including followed podcasts in shared profile
+  internal static var shareProfileFollowedPodcasts: String { return L10n.tr("Localizable", "share_profile_followed_podcasts", fallback: "Followed podcasts") }
+  /// Description text below the name input field
+  internal static var shareProfileNameDescription: String { return L10n.tr("Localizable", "share_profile_name_description", fallback: "This is how you'll appear on shared profiles. You can change it later.") }
+  /// Toggle label for including playlists in shared profile
+  internal static var shareProfilePlaylists: String { return L10n.tr("Localizable", "share_profile_playlists", fallback: "Playlists") }
+  /// Title for the preview profile step
+  internal static var shareProfilePreview: String { return L10n.tr("Localizable", "share_profile_preview", fallback: "Preview profile") }
+  /// Description text for the privacy settings hint on edit profile
+  internal static var shareProfilePrivacyDescription: String { return L10n.tr("Localizable", "share_profile_privacy_description", fallback: "You can manage what you're sharing in Privacy settings") }
+  /// Toggle label for including recent episodes in shared profile
+  internal static var shareProfileRecentEpisodes: String { return L10n.tr("Localizable", "share_profile_recent_episodes", fallback: "Recent episodes") }
+  /// Generic save button
+  internal static var shareProfileSave: String { return L10n.tr("Localizable", "share_profile_save", fallback: "Save") }
+  /// Button label for sharing the profile
+  internal static var shareProfileShareMyProfile: String { return L10n.tr("Localizable", "share_profile_share_my_profile", fallback: "Share my profile") }
+  /// Section header for the share options
+  internal static var shareProfileWhatToShare: String { return L10n.tr("Localizable", "share_profile_what_to_share", fallback: "What do you want to share?") }
   /// A common string used throughout the app. Title for the screen to select multiple podcasts to share.
   internal static var shareSelectPodcasts: String { return L10n.tr("Localizable", "share_select_podcasts", fallback: "Select Podcasts") }
   /// Progress indicator informing the user that the item that has been sent to them via share is loading.
