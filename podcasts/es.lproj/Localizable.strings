@@ -2108,10 +2108,14 @@ ACTUALIZACIONES</string>
     <string>Se ha eliminado el episodio</string>
     <key>player_error_corrupted_file</key>
     <string>Es posible que el episodio esté dañado, pero puedes intentar reproducirlo de nuevo.</string>
+    <key>player_error_episode_not_available</key>
+    <string>No se puede reproducir este episodio.</string>
     <key>player_error_internet_connection</key>
     <string>Comprueba tu conexión a Internet e inténtalo de nuevo.</string>
     <key>player_error_short_no_connection</key>
     <string>No tienes conexión a Internet</string>
+    <key>player_error_short_playback_error</key>
+    <string>La reproducción ha fallado, inténtalo de nuevo</string>
     <key>player_increment_time</key>
     <string>Tiempo adicional</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3572,6 +3576,14 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Has escuchando durante</string>
     <key>stats_listen_history_no_date</key>
     <string>Has escuchando durante</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Mapa de calor de la actividad de escucha. Días escuchados: %1$@ de 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Menos</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Más</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Actividad de escucha</string>
     <key>stats_skipping</key>
     <string>Saltando</string>
     <key>stats_time_saved</key>
@@ -3728,6 +3740,8 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Lo sentimos, pero este episodio no tiene ninguna transcripción disponible</string>
     <key>transcript_error_not_supported</key>
     <string>Lo sentimos, pero este formato de transcripción no es compatible: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Descarga el episodio para pulsar para buscar</string>
     <key>trial_finished</key>
     <string>Prueba finalizada</string>
     <key>trim_silence</key>
@@ -3736,6 +3750,22 @@ Nunca se compartirá tu dirección de correo electrónico, contraseña ni otra i
     <string>Intentar de nuevo</string>
     <key>try_it_now</key>
     <string>Probar ahora</string>
+    <key>tv_tab_home</key>
+    <string>Página de inicio</string>
+    <key>tv_tab_playlists</key>
+    <string>Listas de reproducción</string>
+    <key>tv_tab_podcasts</key>
+    <string>Tus podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>A continuación</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Navegar sin una cuenta</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Crear cuenta gratuita</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Iniciar sesión</string>
+    <key>tv_welcome_title</key>
+    <string>Te damos la bienvenida a Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Desarchivar</string>
     <key>unfollow</key>
