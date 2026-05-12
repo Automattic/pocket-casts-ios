@@ -22,7 +22,7 @@ struct PlaylistCell: View {
                 Text(model.playlistName)
                     .font(.headline)
                     .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
-                if model.isManual {
+                if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)

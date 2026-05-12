@@ -181,7 +181,7 @@ struct MockData {
         let numberOfEpisodes = 12
         var results = [EpisodeFilter]()
 
-        for (i, (name, smart, color)) in playlistsSpec.enumerated() {
+        for (i, (name, smart, _)) in playlistsSpec.enumerated() {
             var episodes: [Episode] = Self.makeStubEpisodes()
             for _ in (0..<Int.random(in: 0..<numberOfEpisodes)) {
                 if let episode = episodes.randomElement() {
