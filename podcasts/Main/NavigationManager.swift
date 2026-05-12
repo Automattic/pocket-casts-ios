@@ -10,6 +10,7 @@ class NavigationManager {
     static let folderPageKey = "folderPage"
     static let folderKey = "folder"
     static let popToRootViewController = "popToRootViewController"
+    static let sourceViewKey = "sourceView"
 
     static let episodePageKey = "episodePage"
     static let episodeUuidKey = "episode"
@@ -122,12 +123,13 @@ class NavigationManager {
         if place == NavigationManager.podcastPageKey {
             guard let data else { return }
 
+            let sourceView = data[NavigationManager.sourceViewKey] as? UIView
             if let podcast = data[NavigationManager.podcastKey] as? Podcast {
-                mainController?.navigateToPodcast(podcast)
+                mainController?.navigateToPodcast(podcast, fromSourceView: sourceView)
             }
             if let podcastUuid = data[NavigationManager.podcastKey] as? String {
                 if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    mainController?.navigateToPodcast(podcast)
+                    mainController?.navigateToPodcast(podcast, fromSourceView: sourceView)
                 }
             } else if let podcastInfo = data[NavigationManager.podcastKey] as? PodcastInfo {
                 mainController?.navigateToPodcastInfo(podcastInfo)
@@ -148,7 +150,8 @@ class NavigationManager {
             guard let data else { return }
 
             if let folder = data[NavigationManager.folderKey] as? Folder {
-                mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true)
+                let sourceView = data[NavigationManager.sourceViewKey] as? UIView
+                mainController?.navigateToFolder(folder, popToRootViewController: (data[NavigationManager.popToRootViewController] as? Bool) ?? true, fromSourceView: sourceView)
             }
         } else if place == NavigationManager.episodePageKey {
             guard let data, let uuid = data[NavigationManager.episodeUuidKey] as? String else { return }

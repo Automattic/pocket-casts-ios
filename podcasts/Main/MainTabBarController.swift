@@ -320,7 +320,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
-    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool = true) {
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool = true, fromSourceView sourceView: UIView? = nil) {
         guard let navController = selectedViewController as? UINavigationController else { return }
 
         if popToRootViewController {
@@ -328,6 +328,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
 
         let folderController = FolderViewController(folder: folder)
+        applyZoomTransitionIfNeeded(to: folderController, sourceView: sourceView)
         navController.pushViewController(folderController, animated: true)
     }
 
@@ -343,7 +344,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         podcastListController.showSuggestedFolders()
     }
 
-    func navigateToPodcast(_ podcast: Podcast) {
+    func navigateToPodcast(_ podcast: Podcast, fromSourceView sourceView: UIView? = nil) {
         appDelegate()?.miniPlayer()?.closeUpNextAndFullPlayer(completion: { [weak self] in
 
             guard let strongSelf = self else { return }
@@ -358,9 +359,19 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
                 }
 
                 let podcastController = PodcastViewController(podcast: podcast)
+                strongSelf.applyZoomTransitionIfNeeded(to: podcastController, sourceView: sourceView)
                 navController.pushViewController(podcastController, animated: true)
             }
         })
+    }
+
+    private func applyZoomTransitionIfNeeded(to viewController: UIViewController, sourceView: UIView?) {
+        guard let sourceView else { return }
+        if #available(iOS 18.0, *) {
+            viewController.preferredTransition = .zoom { [weak sourceView] _ in
+                sourceView
+            }
+        }
     }
 
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo) {

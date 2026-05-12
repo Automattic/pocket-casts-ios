@@ -5,11 +5,11 @@ import UIKit
 
 protocol NavigationProtocol: AnyObject {
     func navigateToPodcastList(_ animated: Bool)
-    func navigateToPodcast(_ podcast: Podcast)
+    func navigateToPodcast(_ podcast: Podcast, fromSourceView sourceView: UIView?)
     func navigateToPodcastInfo(_ podcastInfo: PodcastInfo)
     func navigateTo(podcast searchResult: PodcastFolderSearchResult)
 
-    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool)
+    func navigateToFolder(_ folder: Folder, popToRootViewController: Bool, fromSourceView sourceView: UIView?)
     func navigateToSuggestedFolders()
 
     func navigateToEpisode(_ episodeUuid: String, podcastUuid: String?, timestamp: TimeInterval?)

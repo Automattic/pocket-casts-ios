@@ -108,12 +108,23 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             return
         }
 
+        let isGridLayout = Settings.libraryType() != .list
+        let sourceCell = isGridLayout ? collectionView.cellForItem(at: indexPath) : nil
+
         if let podcast = selectedItem?.podcast {
             Analytics.track(.podcastsListPodcastTapped)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
+            let data: NSMutableDictionary = [NavigationManager.podcastKey: podcast]
+            if let sourceCell {
+                data[NavigationManager.sourceViewKey] = sourceCell
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: data)
         } else if let folder = selectedItem?.folder {
             Analytics.track(.podcastsListFolderTapped)
-            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
+            let data: NSMutableDictionary = [NavigationManager.folderKey: folder]
+            if let sourceCell {
+                data[NavigationManager.sourceViewKey] = sourceCell
+            }
+            NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: data)
         }
     }
 
