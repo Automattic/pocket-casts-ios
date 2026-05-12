@@ -4,6 +4,8 @@ import PocketCastsUtils
 
 class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
     var window: UIWindow?
+    private var systemAppearanceObservation: Any?
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
@@ -16,6 +18,19 @@ class SceneDelegate: UIResponder, UISceneDelegate, UIWindowSceneDelegate {
         Theme.systemIsDark = (windowScene.traitCollection.userInterfaceStyle == .dark)
         window.applyInterfaceStyleForActiveTheme()
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
+
+        // The window's `overrideUserInterfaceStyle` masks system appearance changes
+        // from view controllers inside the window, so `MainTabBarController.traitCollectionDidChange`
+        // never fires for system light/dark flips. Observe at the scene level instead —
+        // scene traits are not affected by the per-window override.
+        if LiquidGlass.isEnabled, #available(iOS 17.0, *) {
+            systemAppearanceObservation = windowScene.registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (scene: UIWindowScene, _: UITraitCollection) in
+                let isDark = (scene.traitCollection.userInterfaceStyle == .dark)
+                guard Theme.systemIsDark != isDark else { return }
+                Theme.systemIsDark = isDark
+                NotificationCenter.postOnMainThread(notification: Constants.Notifications.systemThemeMayHaveChanged, object: isDark)
+            }
+        }
 
         window.makeKeyAndVisible()
 
