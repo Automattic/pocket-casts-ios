@@ -1792,6 +1792,8 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>on</key>
+    <string>Aan</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts-gebruiker</string>
     <key>onboarding_quote_best</key>

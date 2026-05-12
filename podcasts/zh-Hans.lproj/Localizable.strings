@@ -1794,6 +1794,8 @@ Pocket Casts。</string>
     <string>关闭</string>
     <key>ok</key>
     <string>确定</string>
+    <key>on</key>
+    <string>开启</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts 用户</string>
     <key>onboarding_quote_best</key>

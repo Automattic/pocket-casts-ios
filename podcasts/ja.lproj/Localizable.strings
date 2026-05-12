@@ -1794,6 +1794,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>ON</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts ユーザー</string>
     <key>onboarding_quote_best</key>
