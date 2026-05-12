@@ -108,9 +108,11 @@ struct PlaylistDetailView: View {
             mosaicCover
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.isManual ? "" : L10n.smartPlaylist)
-                    .font(.caption)
-                    .foregroundColor(.textSecondary)
+                if !model.isManual {
+                    Text(L10n.smartPlaylist)
+                        .font(.caption)
+                        .foregroundColor(.textSecondary)
+                }
                 Text(model.playlistName)
                     .font(.title2)
                     .foregroundColor(.textPrimary)
