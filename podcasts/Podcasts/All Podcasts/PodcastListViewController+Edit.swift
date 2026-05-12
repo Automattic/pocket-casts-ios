@@ -17,14 +17,6 @@ extension PodcastListViewController {
         setEditingOrder(false)
     }
 
-    @objc func cancelEditingTapped() {
-        if let snapshot = orderBeforeEditing, snapshot != gridItems {
-            gridItems = snapshot
-            podcastsCollectionView.reloadData()
-        }
-        setEditingOrder(false)
-    }
-
     func applyEditingTreatment(to cell: UICollectionViewCell) {
         if Settings.libraryType() == .list {
             addReorderHandle(to: cell)
@@ -41,13 +33,14 @@ extension PodcastListViewController {
     // MARK: Mode transitions
 
     private func enterEditMode() {
-        savedLeftBarButtonItem = navigationItem.leftBarButtonItem
         savedRightBarButtonItem = customRightBtn
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditingTapped))
-        customRightBtn = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEditingTapped))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveEditingTapped))
+//        if #available(iOS 26.0, *) {
+//            saveButton.style = .prominent
+//        }
+        customRightBtn = saveButton
 
-        orderBeforeEditing = gridItems
         podcastsCollectionView.dragInteractionEnabled = true
         setTabBarHidden(true, animated: true)
 
@@ -57,13 +50,10 @@ extension PodcastListViewController {
     }
 
     private func exitEditMode() {
-        orderBeforeEditing = nil
         podcastsCollectionView.dragInteractionEnabled = false
         setTabBarHidden(false, animated: true)
 
-        navigationItem.leftBarButtonItem = savedLeftBarButtonItem
         customRightBtn = savedRightBarButtonItem
-        savedLeftBarButtonItem = nil
         savedRightBarButtonItem = nil
 
         for cell in podcastsCollectionView.visibleCells {
