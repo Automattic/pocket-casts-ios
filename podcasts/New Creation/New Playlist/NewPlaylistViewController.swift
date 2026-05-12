@@ -130,11 +130,11 @@ class NewPlaylistViewController: PCViewController {
         navigationItem.largeTitleDisplayMode = .always
 
         if !LiquidGlass.isEnabled {
-            configureLegacyOpqaueNavBarAppearance()
+            configureLegacyOpaqueNavBarAppearance()
         }
     }
 
-    private func configureLegacyOpqaueNavBarAppearance() {
+    private func configureLegacyOpaqueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.viewBackgroundColor()
         appearance.largeTitleTextAttributes = [

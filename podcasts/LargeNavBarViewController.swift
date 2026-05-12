@@ -9,11 +9,11 @@ class LargeNavBarViewController: PCViewController {
         largeTitleFont = UIFont.font(ofSize: 22, weight: .bold, scalingWith: .title2)
 
         if !LiquidGlass.isEnabled {
-            configureLegacyOpqaueNavBarAppearance()
+            configureLegacyOpaqueNavBarAppearance()
         }
     }
 
-    private func configureLegacyOpqaueNavBarAppearance() {
+    private func configureLegacyOpaqueNavBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
         appearance.shadowColor = .clear
