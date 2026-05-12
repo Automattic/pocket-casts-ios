@@ -21,7 +21,7 @@ final class MiniPlayerGlassProgressView: UIView {
             guard indeterminate != oldValue else { return }
             updateBufferVisibility()
             indeterminateLayer.isHidden = !indeterminate
-            if indeterminate {
+            if indeterminate, !UIAccessibility.isReduceMotionEnabled {
                 startIndeterminateAnimation()
             } else {
                 indeterminateLayer.removeAllAnimations()
