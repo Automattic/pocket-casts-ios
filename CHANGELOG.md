@@ -1,6 +1,6 @@
 8.13
 -----
-
+- Fix an issue with Podcast header view sometimes appearing after a noticable delay [#4305](https://github.com/Automattic/pocket-casts-ios/pull/4305)
 
 8.12
 -----
