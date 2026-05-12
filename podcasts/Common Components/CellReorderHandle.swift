@@ -53,7 +53,7 @@ final class CellReorderHandle {
     }
 
     private func hide() {
-        guard let handle = handleView, let mask = maskLayer else { return }
+        guard let handle = handleView else { return }
         animateMask(to: closedLocations, curve: .easeIn)
         UIView.animate(withDuration: Self.animationDuration, animations: {
             handle.alpha = 0

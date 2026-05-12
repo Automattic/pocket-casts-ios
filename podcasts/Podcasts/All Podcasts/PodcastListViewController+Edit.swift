@@ -14,7 +14,6 @@ extension PodcastListViewController {
 
     @objc func saveEditingTapped() {
         saveSortOrder()
-        Analytics.track(.podcastsListReordered)
         setEditingOrder(false)
     }
 
@@ -152,5 +151,6 @@ extension PodcastListViewController: UICollectionViewDragDelegate, UICollectionV
             collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
         }
         coordinator.drop(dropItem.dragItem, toItemAt: destinationIndexPath)
+        Analytics.track(.podcastsListReordered)
     }
 }
