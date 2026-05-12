@@ -26,21 +26,30 @@ class PodcastListCell: ThemeableCollectionCell {
 
     private var badgeType: BadgeType = .off
 
-    private lazy var reorderHandle = CellReorderHandle(cell: self)
+    private var reorderHandle: CellReorderHandleView?
 
     var showsReorderHandle: Bool {
-        get { reorderHandle.isVisible }
-        set { reorderHandle.isVisible = newValue }
+        get { reorderHandle?.isVisible ?? false }
+        set {
+            guard newValue || reorderHandle != nil else { return }
+            if reorderHandle == nil {
+                let handle = CellReorderHandleView(maskedView: contentView)
+                addSubview(handle)
+                NSLayoutConstraint.activate([
+                    handle.leadingAnchor.constraint(equalTo: leadingAnchor),
+                    handle.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    handle.topAnchor.constraint(equalTo: topAnchor),
+                    handle.bottomAnchor.constraint(equalTo: bottomAnchor)
+                ])
+                reorderHandle = handle
+            }
+            reorderHandle?.isVisible = newValue
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         isAccessibilityElement = true
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        reorderHandle.updateLayout()
     }
 
     func populateFrom(_ podcast: Podcast, badgeType: BadgeType) {

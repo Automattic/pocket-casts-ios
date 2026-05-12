@@ -28,22 +28,31 @@ class FolderListCell: ThemeableCollectionCell {
 
     private var badgeType: BadgeType = .off
 
-    private lazy var reorderHandle = CellReorderHandle(cell: self)
+    private var reorderHandle: CellReorderHandleView?
 
     var showsReorderHandle: Bool {
-        get { reorderHandle.isVisible }
-        set { reorderHandle.isVisible = newValue }
+        get { reorderHandle?.isVisible ?? false }
+        set {
+            guard newValue || reorderHandle != nil else { return }
+            if reorderHandle == nil {
+                let handle = CellReorderHandleView(maskedView: contentView)
+                addSubview(handle)
+                NSLayoutConstraint.activate([
+                    handle.leadingAnchor.constraint(equalTo: leadingAnchor),
+                    handle.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    handle.topAnchor.constraint(equalTo: topAnchor),
+                    handle.bottomAnchor.constraint(equalTo: bottomAnchor)
+                ])
+                reorderHandle = handle
+            }
+            reorderHandle?.isVisible = newValue
+        }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         isAccessibilityElement = true
         updateSize()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        reorderHandle.updateLayout()
     }
 
     func populateFrom(folder: Folder, badgeType: BadgeType) {
