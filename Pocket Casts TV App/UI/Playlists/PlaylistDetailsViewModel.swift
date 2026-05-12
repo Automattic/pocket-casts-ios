@@ -48,7 +48,7 @@ class PlaylistDetailsViewModel {
     }
 
     var totalDuration: String {
-        let total = 100.0
+        let total = episodes.reduce(0) { $0 + $1.duration }
         return TimeFormatter.shared.multipleUnitFormattedShortTime(time: total)
     }
 
