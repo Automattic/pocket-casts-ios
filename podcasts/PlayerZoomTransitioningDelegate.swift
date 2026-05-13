@@ -34,9 +34,19 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     let isPresenting: Bool
     let fullPlayer: PlayerContainerViewController
     let miniPlayerProvider: () -> MiniPlayerViewController?
+    /// Vertical velocity (pts/s) carried from the gesture that triggered the
+    /// transition. Non-zero means the user flicked — the animator shortens
+    /// the duration, lowers the spring damping, and seeds an initial spring
+    /// velocity so the motion picks up where the gesture left off.
+    let interactiveVelocity: CGFloat
 
-    private let presentDuration: TimeInterval = 0.5
-    private let dismissDuration: TimeInterval = 0.5
+    private var isInteractive: Bool { interactiveVelocity != 0 }
+
+    private var presentDuration: TimeInterval { isInteractive ? 0.46 : 0.5 }
+    private var dismissDuration: TimeInterval { isInteractive ? 0.42 : 0.45 }
+    private var presentDamping: CGFloat { isInteractive ? 0.8 : 1.0 }
+    private var dismissDamping: CGFloat { isInteractive ? 0.8 : 0.95 }
+
     /// iOS 26 modal-sheet large corner radius. Matches the device display radius
     /// closely enough on modern iPhones that the full player corners read as
     /// continuous with the screen edges.
@@ -51,15 +61,27 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     init(
         isPresenting: Bool,
         fullPlayer: PlayerContainerViewController,
-        miniPlayerProvider: @escaping () -> MiniPlayerViewController?
+        miniPlayerProvider: @escaping () -> MiniPlayerViewController?,
+        interactiveVelocity: CGFloat = 0
     ) {
         self.isPresenting = isPresenting
         self.fullPlayer = fullPlayer
         self.miniPlayerProvider = miniPlayerProvider
+        self.interactiveVelocity = interactiveVelocity
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         isPresenting ? presentDuration : dismissDuration
+    }
+
+    /// UIKit's spring velocity is normalized to the animation distance. The
+    /// panel's vertical travel (≈ `miniFrame.minY`) is the most visible motion,
+    /// so use it as the reference and clamp the result to keep very fast flicks
+    /// from overshooting wildly.
+    private func initialSpringVelocity(miniFrame: CGRect) -> CGFloat {
+        guard isInteractive else { return 0 }
+        let travel = max(miniFrame.minY, 1)
+        return min(abs(interactiveVelocity) / travel, 6)
     }
 
     func animateTransition(using context: UIViewControllerContextTransitioning) {
@@ -179,8 +201,8 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         UIView.animate(
             withDuration: presentDuration,
             delay: 0,
-            usingSpringWithDamping: 1.0,
-            initialSpringVelocity: 0,
+            usingSpringWithDamping: presentDamping,
+            initialSpringVelocity: initialSpringVelocity(miniFrame: miniFrame),
             options: [.curveEaseInOut]
         ) {
             panel.view.frame = container.bounds
@@ -279,8 +301,8 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         UIView.animate(
             withDuration: dismissDuration,
             delay: 0,
-            usingSpringWithDamping: 0.95,
-            initialSpringVelocity: 0,
+            usingSpringWithDamping: dismissDamping,
+            initialSpringVelocity: initialSpringVelocity(miniFrame: miniFrame),
             options: [.curveEaseInOut]
         ) {
             panel.view.frame = miniFrame

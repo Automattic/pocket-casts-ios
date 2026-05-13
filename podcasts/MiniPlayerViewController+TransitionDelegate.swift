@@ -8,7 +8,12 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
         }
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
-            return PlayerZoomAnimator(isPresenting: false, fullPlayer: fullPlayer) { [weak self] in self }
+            return PlayerZoomAnimator(
+                isPresenting: false,
+                fullPlayer: fullPlayer,
+                miniPlayerProvider: { [weak self] in self },
+                interactiveVelocity: fullPlayer.dismissVelocity
+            )
         }
 
         return MiniPlayerToFullPlayerAnimator(fromViewController: self, toViewController: dismissed, transition: .dismissing, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage, dismissVelocity: fullPlayer.dismissVelocity, fullPlayerYPosition: fullPlayer.finalYPositionWhenDismissing)
@@ -19,8 +24,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             return nil
         }
 
-        // Reset the unused gesture velocity for parity with the legacy
-        // animator — Liquid Glass's zoom transition doesn't carry it through.
+        let presentVelocity = pendingPresentVelocity
         pendingPresentVelocity = 0
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
@@ -29,7 +33,12 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             // fully-opaque player flashing in behind the panel.
             fullPlayer.loadViewIfNeeded()
             fullPlayer.view.alpha = 0
-            return PlayerZoomAnimator(isPresenting: true, fullPlayer: fullPlayer) { [weak self] in self }
+            return PlayerZoomAnimator(
+                isPresenting: true,
+                fullPlayer: fullPlayer,
+                miniPlayerProvider: { [weak self] in self },
+                interactiveVelocity: presentVelocity
+            )
         }
 
         return MiniPlayerToFullPlayerAnimator(fromViewController: self, toViewController: presented, transition: .presenting, miniPlayerArtwork: podcastArtwork, fullPlayerArtwork: fullPlayer.nowPlayingItem.episodeImage)
