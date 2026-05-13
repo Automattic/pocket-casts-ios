@@ -529,7 +529,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchSentryLogs:
             false
         case .liquidGlass:
-            false
+            true
         }
     }
 

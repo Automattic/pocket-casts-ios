@@ -93,7 +93,7 @@ struct BookmarksAnimationView: View {
 
     var body: some View {
         ZStack {
-            ForEach(Array(zip(bookmarks.indices, bookmarks)), id: \.0) { (index, bookmark) in
+            ForEach(Array(zip(bookmarks.indices, bookmarks)), id: \.0) { index, bookmark in
                 BookmarkUpgradeRow(bookmark: bookmark, index: index).zIndex(Double(index) * 0.1)
             }
         }

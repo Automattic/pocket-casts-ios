@@ -212,7 +212,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - View
 
     override func viewDidLoad() {
-        displayMode = .card
         super.viewDidLoad()
 
         addBookmarksTabIfNeeded()

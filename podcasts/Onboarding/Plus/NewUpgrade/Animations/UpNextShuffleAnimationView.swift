@@ -101,7 +101,7 @@ struct UpNextShuffleAnimationView: View {
     @ViewBuilder
     func groupOfEpisodes(position: Int) -> some View {
         VStack(spacing: -16) {
-            ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { (index, episode) in
+            ForEach(Array(zip(episodes[position].indices, episodes[position])), id: \.0) { index, episode in
                 EpisodeShuffleRow(episode: episode, index: index)
             }
         }

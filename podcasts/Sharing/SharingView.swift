@@ -45,6 +45,7 @@ struct SharingView: View {
 
     @State private var shareable: Shareable
     @State private var isExporting: Bool = false
+    @State private var episodeArtworkUrl: URL?
 
     @ObservedObject var clipTime: ClipTime
 
@@ -105,6 +106,9 @@ struct SharingView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .foregroundStyle(Color.white)
+        .task {
+            episodeArtworkUrl = await shareable.option.loadEpisodeArtworkUrl()
+        }
     }
 
     @ViewBuilder var title: some View {
@@ -181,7 +185,7 @@ struct SharingView: View {
     }
 
     @ViewBuilder func image(style: ShareImageStyle, containerHeight: CGFloat) -> some View {
-        ShareImageView(info: shareable.option.imageInfo, style: style, angle: .constant(0))
+        ShareImageView(info: shareable.option.imageInfo(episodeArtworkUrl: episodeArtworkUrl), style: style, angle: .constant(0))
             .frame(width: style.previewSize.width, height: style.previewSize.height)
             .fixedSize()
             .clipShape(RoundedRectangle(cornerRadius: 12))

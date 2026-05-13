@@ -76,7 +76,7 @@ struct NotificationsPermissionsView: View {
 
     @EnvironmentObject var theme: Theme
 
-    @StateObject var viewModel: NotificationsPermissionsViewModel = NotificationsPermissionsViewModel()
+    @StateObject var viewModel = NotificationsPermissionsViewModel()
 
     @ViewBuilder
     private func optionRow(for option: NotificationsPermissionsViewModel.NotificationOption) -> some View {
