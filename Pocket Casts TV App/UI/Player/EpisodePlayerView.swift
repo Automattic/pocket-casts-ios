@@ -1,15 +1,18 @@
 import SwiftUI
 import AVKit
+import PocketCastsDataModel
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
-    let episode: MockEpisode
-    var podcastTitle: String?
-    var podcastDescription: String?
+    var episode: EpisodeRowViewModel
 
     private static let sampleURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let player = AVPlayer(url: Self.sampleURL)
+        var playerURL: URL = Self.sampleURL
+        if let urlString = episode.episode.downloadUrl, let url = URL(string: urlString) {
+            playerURL = url
+        }
+        let player = AVPlayer(url: playerURL)
         let controller = AVPlayerViewController()
         controller.player = player
         controller.player?.currentItem?.externalMetadata = createMetadataItems()
@@ -18,25 +21,27 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
             makePlaybackEffectsMenu()
         ]
         controller.allowedSubtitleOptionLanguages = []
+        TVToast.shared.configure(with: controller.contentOverlayView)
         player.play()
+        episode.loadEpisodeArtwork()
         return controller
     }
 
-    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
+    }
 
     private func createMetadataItems() -> [AVMetadataItem] {
         var items = [
-            makeMetadataItem(.commonIdentifierTitle, value: episode.title)
+            makeMetadataItem(.commonIdentifierTitle, value: episode.displayTitle),
+            makeMetadataItem(.iTunesMetadataTrackSubTitle, value: episode.displaySubTitle),
+            makeMetadataItem(.commonIdentifierDescription, value: episode.displayInfo)
         ]
-        if let podcastTitle {
-            items.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: podcastTitle))
-        }
-        if let imageData = UIImage(named: episode.image)?.pngData() {
+
+        if let imageData = episode.displayImageData {
             items.append(makeMetadataItem(.commonIdentifierArtwork, value: imageData))
         }
-        if let podcastDescription {
-            items.append(makeMetadataItem(.commonIdentifierDescription, value: podcastDescription))
-        }
+
         return items
     }
 
@@ -52,6 +57,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
                 action.state = .on
+                TVToast.shared.show(L10n.tvPlayerPlaybackSpeedSet(String(format: "%.1fx", speed)))
             }
         }
         return UIMenu(
@@ -62,13 +68,17 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
     }
 
     private func makePlaybackEffectsMenu() -> UIMenu {
-        let volumeBoostAction = UIAction(
-            title: L10n.tvPlayerVolumeBoost,
-            image: UIImage(systemName: "speaker.wave.3"),
-            state: .off
-        ) { action in
-            action.state = action.state == .off ? .on : .off
+        let volumeBoostOff = UIAction(title: L10n.off, state: .on) { _ in
+            TVToast.shared.show(L10n.tvPlayerVolumeBoostOff)
         }
+        let volumeBoostOn = UIAction(title: L10n.on, state: .off) { _ in
+            TVToast.shared.show(L10n.tvPlayerVolumeBoostOn)
+        }
+        let volumeBoostSection = UIMenu(
+            title: L10n.tvPlayerVolumeBoost,
+            options: [.displayInline, .singleSelection],
+            children: [volumeBoostOff, volumeBoostOn]
+        )
 
         let trimOptions: [(String, UIAction.State)] = [
             (L10n.tvPlayerTrimSilenceOff, .on),
@@ -77,18 +87,20 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
             (L10n.tvPlayerTrimSilenceMadMax, .off)
         ]
         let trimActions = trimOptions.map { title, state in
-            UIAction(title: title, state: state) { _ in }
+            UIAction(title: title, state: state) { _ in
+                TVToast.shared.show(L10n.tvPlayerTrimSilenceSet(title))
+            }
         }
-        let trimSubmenu = UIMenu(
+        let trimSection = UIMenu(
             title: L10n.tvPlayerTrimSilence,
             options: [.displayInline, .singleSelection],
             children: trimActions
         )
 
         return UIMenu(
-            title: L10n.tvPlayerPlaybackEffects,
-            image: UIImage(systemName: "slider.horizontal.3"),
-            children: [volumeBoostAction, trimSubmenu]
+            title: L10n.tvPlayerVolumeBoost,
+            image: UIImage(systemName: "speaker.wave.3"),
+            children: [volumeBoostSection, trimSection]
         )
     }
 
@@ -102,32 +114,23 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
 }
 
 struct EpisodePlayerButton: View {
-    let episode: MockEpisode
-    var podcastTitle: String?
-    var podcastDescription: String?
+    let model: EpisodeRowViewModel
     @State private var isPlaying = false
 
     var body: some View {
         Button {
             isPlaying = true
         } label: {
-            EpisodeRow(episode: episode)
+            EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(
-                episode: episode,
-                podcastTitle: podcastTitle,
-                podcastDescription: podcastDescription
-            )
-            .ignoresSafeArea()
+            EpisodePlayerView(episode: model)
+                .ignoresSafeArea()
         }
     }
 }
 
 #Preview {
-    EpisodePlayerButton(
-        episode: MockData.makePodcasts().first!.episodes.first!,
-        podcastTitle: "The Daily"
-    )
+    EpisodePlayerButton(model: EpisodeRowViewModel(episode: MockData.makeStubEpisodes().first!, podcast: MockData.makeStubPodcasts().first!))
 }

@@ -1794,6 +1794,8 @@ Pocket Casts на полную мощность.</string>
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>На</string>
     <key>onboarding_quote_author</key>
     <string>Пользователь Pocket Casts</string>
     <key>onboarding_quote_best</key>

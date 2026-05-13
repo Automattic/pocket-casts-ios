@@ -1,52 +1,7 @@
 import Foundation
 import PocketCastsUtils
+import PocketCastsDataModel
 import SwiftUI
-
-struct MockEpisode: Identifiable, Hashable, Equatable {
-    var uuid: String
-    var title: String
-    var publishedDate: Date
-    var duration: Double
-
-    var id: String {
-        return uuid
-    }
-
-    func displayableTitle() -> String {
-        return title
-    }
-
-    var image: String
-}
-
-struct MockPodcast: Identifiable, Hashable, Equatable {
-    var id: String
-    var title: String
-    var author: String?
-    var podcastDescription: String?
-    var image: String
-    var episodes: [MockEpisode]
-    var network: String?
-    var website: String?
-    var frequency: String?
-    var nextEpisodeDate: String?
-}
-
-struct MockFolder: Identifiable, Hashable, Equatable {
-    var id: String
-    var name: String
-    var podcasts: [MockPodcast]
-
-    var podcastImages: [String] { podcasts.map(\.image) }
-}
-
-struct MockPlaylist: Identifiable, Hashable, Equatable {
-    var id: String
-    var title: String
-    var manual: Bool
-    var episodes: [MockEpisode]
-    var color: Color
-}
 
 struct MockData {
 
@@ -135,109 +90,113 @@ struct MockData {
         "The Invention of Money"
     ]
 
-    private static var podcasts: [MockPodcast] = []
+    static var stubPodcasts: [Podcast] = []
 
-    static func makePodcasts() -> [MockPodcast] {
-        guard podcasts.isEmpty else {
-            return podcasts
+    static func makeStubPodcasts() -> [Podcast] {
+        guard stubPodcasts.isEmpty else {
+            return stubPodcasts
         }
+        let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
         let numberOfPodcasts = 48
-        var results = [MockPodcast]()
+        var results = [Podcast]()
         for i in (0..<numberOfPodcasts) {
-            var episodes: [MockEpisode] = []
-            let podcastImageName = "Covers/login-cover-\( (i % 10) + 1)"
-            for j in (0..<numberOfPodcasts) {
-                let titleIndex = (i + j) % episodeTitles.count
-                episodes.append(MockEpisode(uuid: UUID().uuidString, title: episodeTitles[titleIndex], publishedDate: Date.now.weeksAgo(j), duration: Double.random(in: (5.minutes...1.hours)), image: podcastImageName))
-            }
-            let frequencies = ["Released weekly", "Released daily", "Released biweekly", "Released monthly"]
-            let nextDays = ["Next episode Monday", "Next episode Tuesday", "Next episode Wednesday", "Next episode Thursday", "Next episode Friday"]
-            results.append(MockPodcast(
-                id: UUID().uuidString,
-                title: podcastNames[i % podcastNames.count],
-                author: authorNames[i % authorNames.count],
-                podcastDescription: "Here is a fun description for this",
-                image: podcastImageName,
-                episodes: episodes,
-                network: authorNames[i % authorNames.count],
-                website: "https://\(podcastNames[i % podcastNames.count].lowercased().replacingOccurrences(of: " ", with: "")).com",
-                frequency: frequencies[i % frequencies.count],
-                nextEpisodeDate: nextDays[i % nextDays.count]
-            ))
+            let podcast = Podcast()
+            podcast.id = Int64(i)
+            podcast.uuid = UUID().uuidString
+            podcast.title = podcastNames[i % podcastNames.count]
+            podcast.author = authorNames[i % authorNames.count]
+            podcast.podcastDescription = "Here is a fun description for this"
+            podcast.podcastUrl = "https://\(podcastNames[i % podcastNames.count].lowercased().replacingOccurrences(of: " ", with: "")).com"
+            podcast.episodeFrequency = frequencies[i % frequencies.count]
+            podcast.estimatedNextEpisode = Date.now.advanced(by: 1.days)
+            results.append(podcast)
         }
-        self.podcasts = results
-        return self.podcasts
+        self.stubPodcasts = results
+        return self.stubPodcasts
     }
 
-    private static var folders: [MockFolder] = []
+    private static func makeStubFolder(name: String, podcastCount: Int, from allPodcasts: [Podcast], startIndex: Int) -> Folder {
+        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
+        let folder = Folder()
+        folder.uuid = UUID().uuidString
+        folder.name =  name
+        folder.color = 0
+        for podcast in folderPodcasts {
+            podcast.folderUuid = folder.uuid
+        }
+        return folder
+    }
 
-    static func makeFolders() -> [MockFolder] {
-        guard folders.isEmpty else { return folders }
-        let allPodcasts = makePodcasts()
+    static var stubFolders: [Folder] = []
+
+    static func makeStubFolders() -> [Folder] {
+        guard stubFolders.isEmpty else { return stubFolders }
+        let allPodcasts = makeStubPodcasts()
         let result = [
-            makeFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
-            makeFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
-            makeFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
-            makeFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
-            makeFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
+            makeStubFolder(name: "News", podcastCount: 4, from: allPodcasts, startIndex: 0),
+            makeStubFolder(name: "Comedy", podcastCount: 1, from: allPodcasts, startIndex: 4),
+            makeStubFolder(name: "Tech", podcastCount: 2, from: allPodcasts, startIndex: 5),
+            makeStubFolder(name: "Science", podcastCount: 3, from: allPodcasts, startIndex: 7),
+            makeStubFolder(name: "My super duper long folder name that keeps on going", podcastCount: 4, from: allPodcasts, startIndex: 10)
         ]
-        self.folders = result
+        self.stubFolders = result
         return result
     }
 
-    private static func makeFolder(name: String, podcastCount: Int, from allPodcasts: [MockPodcast], startIndex: Int) -> MockFolder {
-        let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
-        return MockFolder(
-            id: UUID().uuidString,
-            name: name,
-            podcasts: folderPodcasts
-        )
-    }
-
-    static private var playlists: [MockPlaylist] = []
-
-    static func makePlaylists() -> [MockPlaylist] {
-        guard playlists.isEmpty else {
-            return playlists
-        }
-        let numberOfEpisodes = 12
-        var results = [MockPlaylist]()
-        let playlistsSpec: [(String, Bool, Color)] = [
-            ("New releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),
-            ("In progress", true, Color(red: 0.5, green: 0.17, blue: 0.15)),
-            ("TV Stuff", false, Color(red: 0.21, green: 0.22, blue: 0.14)),
-            ("My favorites", true, Color(red: 0.5, green: 0.35, blue: 0.12))
-        ]
-        let podcasts = makePodcasts()
-        for (index, (name, smart, color)) in playlistsSpec.enumerated() {
-            var episodes: [MockEpisode] = []
-            for i in (0..<Int.random(in: 0..<numberOfEpisodes)) {
-                let podcast = podcasts.randomElement()
-                if let episode = podcast?.episodes.randomElement() {
-                    episodes.append(episode)
-                }
-            }
-            results.append(MockPlaylist(id: UUID().uuidString, title: name, manual: !smart, episodes: episodes, color: color))
-        }
-        self.playlists = results
-        return results
-    }
-
-    static var upNext: [MockEpisode] = []
-
-    static func makeUpNext() -> [MockEpisode] {
-        guard upNext.isEmpty else {
-            return upNext
-        }
-        let numberOfEpisodes = 48
-        var episodes: [MockEpisode] = []
-        for i in (0..<numberOfEpisodes) {
-            let podcast = podcasts.randomElement()
-            if let episode = podcast?.episodes.randomElement() {
+    static var stubEpisodes: [Episode] = []
+    static func makeStubEpisodes() -> [Episode] {
+        guard stubEpisodes.isEmpty else { return stubEpisodes }
+        let allPodcasts = makeStubPodcasts()
+        var episodes: [Episode] = []
+        for j in (0..<allPodcasts.count) {
+            let podcast = allPodcasts[j]
+            for i in (0..<8) {
+                let titleIndex = (i + j) % episodeTitles.count
+                let episode = Episode()
+                episode.uuid = UUID().uuidString
+                episode.title = episodeTitles[titleIndex]
+                episode.publishedDate = Date.now.weeksAgo(j)
+                episode.duration = Double.random(in: (5.minutes...1.hours))
+                episode.podcastUuid = podcast.uuid
                 episodes.append(episode)
             }
         }
-        upNext = episodes
-        return episodes
+        stubEpisodes = episodes
+        return stubEpisodes
+    }
+
+    static private var stubPlaylists: [EpisodeFilter] = []
+
+    static let playlistsSpec: [(String, Bool, Color)] = [
+        ("New releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),
+        ("In progress", true, Color(red: 0.5, green: 0.17, blue: 0.15)),
+        ("TV Stuff", false, Color(red: 0.21, green: 0.22, blue: 0.14)),
+        ("My favorites", true, Color(red: 0.5, green: 0.35, blue: 0.12))
+    ]
+
+    static func makeStubPlaylists() -> [EpisodeFilter] {
+        guard stubPlaylists.isEmpty else {
+            return stubPlaylists
+        }
+        let numberOfEpisodes = 12
+        var results = [EpisodeFilter]()
+
+        for (i, (name, smart, _)) in playlistsSpec.enumerated() {
+            var episodes: [Episode] = Self.makeStubEpisodes()
+            for _ in (0..<Int.random(in: 0..<numberOfEpisodes)) {
+                if let episode = episodes.randomElement() {
+                    episodes.append(episode)
+                }
+            }
+            let playlist: EpisodeFilter = EpisodeFilter()
+            playlist.uuid = UUID().uuidString
+            playlist.playlistName = name
+            playlist.manual = !smart
+            playlist.customIcon = 0
+            playlist.sortPosition = Int32(i)
+            results.append(playlist)
+        }
+        self.stubPlaylists = results
+        return results
     }
 }

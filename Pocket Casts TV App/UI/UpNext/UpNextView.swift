@@ -51,7 +51,7 @@ struct UpNextView: View {
     var upNextListView: some View {
         LazyVStack(alignment: .leading) {
             ForEach(model.episodes) { episode in
-                EpisodeRowWithActions(episode: episode, context: .upNext)
+                EpisodeRowWithActions(model: episode, context: .upNext)
                     .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
             }
         }

@@ -1,10 +1,11 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
 
 @Observable
 class PodcastDetailViewModel {
 
-    private var cancellable: AnyCancellable?
+    private let dataManager: DataManager
 
     enum State: Equatable, Hashable {
         case loading
@@ -13,31 +14,38 @@ class PodcastDetailViewModel {
 
     var state: State = .loading
 
-    let podcast: MockPodcast
-    let recommendedEpisode: MockEpisode?
+    var podcast: Podcast
+    var episodes: [EpisodeRowViewModel] = []
+    var recommendedEpisode: EpisodeRowViewModel?
 
-    init(podcast: MockPodcast) {
+    init(podcast: Podcast, dataManager: DataManager = DataManager.sharedManager) {
         self.podcast = podcast
-        self.recommendedEpisode = podcast.episodes.randomElement()
+        self.dataManager = dataManager
     }
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                state = .ready
-                cancellable?.cancel()
-                cancellable = nil
+        Task {
+            let episodes = fetchEpisodes()
+            let episodesModel = episodes.map {
+                EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
+            await MainActor.run {
+                self.episodes = episodesModel
+                recommendedEpisode = episodesModel.first
+                state = .ready
+            }
+        }
     }
 
-    var isFollowing: Bool = false
+    private func fetchEpisodes() -> [Episode] {
+        dataManager.allEpisodesForPodcast(id: podcast.id)
+    }
+
+    var isFollowing: Bool {
+        podcast.isSubscribed()
+    }
 
     func follow() {
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-            isFollowing.toggle()
-        }
+        podcast.subscribed = 0
     }
 }

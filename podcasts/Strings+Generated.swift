@@ -4267,6 +4267,10 @@ internal enum L10n {
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title
   internal static var tvPlayerPlaybackSpeed: String { return L10n.tr("Localizable", "tv_player_playback_speed", fallback: "Playback speed") }
+  /// tv player toast shown when playback speed changes. %1$@ is the speed value like 1.5x
+  internal static func tvPlayerPlaybackSpeedSet(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_player_playback_speed_set", String(describing: p1), fallback: "Playback speed set to %1$@")
+  }
   /// tv player trim silence section title
   internal static var tvPlayerTrimSilence: String { return L10n.tr("Localizable", "tv_player_trim_silence", fallback: "Trim silence") }
   /// tv player trim silence mad max option
@@ -4277,8 +4281,16 @@ internal enum L10n {
   internal static var tvPlayerTrimSilenceMild: String { return L10n.tr("Localizable", "tv_player_trim_silence_mild", fallback: "Mild") }
   /// tv player trim silence off option
   internal static var tvPlayerTrimSilenceOff: String { return L10n.tr("Localizable", "tv_player_trim_silence_off", fallback: "Off") }
+  /// tv player toast shown when trim silence setting changes. %1$@ is the selected option name
+  internal static func tvPlayerTrimSilenceSet(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_player_trim_silence_set", String(describing: p1), fallback: "Trim silence: %1$@")
+  }
   /// tv player volume boost toggle title
   internal static var tvPlayerVolumeBoost: String { return L10n.tr("Localizable", "tv_player_volume_boost", fallback: "Volume boost") }
+  /// tv player toast shown when volume boost is turned off
+  internal static var tvPlayerVolumeBoostOff: String { return L10n.tr("Localizable", "tv_player_volume_boost_off", fallback: "Volume boost off") }
+  /// tv player toast shown when volume boost is turned on
+  internal static var tvPlayerVolumeBoostOn: String { return L10n.tr("Localizable", "tv_player_volume_boost_on", fallback: "Volume boost on") }
   /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.
   internal static func tvPlaylistDetailEpisodeCount(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_playlist_detail_episode_count", String(describing: p1), fallback: "%1$@ episodes")

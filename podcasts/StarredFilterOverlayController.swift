@@ -73,17 +73,19 @@ class StarredFilterOverlayController: PCViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
-        appearance.largeTitleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        appearance.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
-        ]
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.sizeToFit()
+        if !LiquidGlass.isEnabled {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = AppTheme.colorForStyle(.primaryUi01)
+            appearance.largeTitleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            appearance.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: AppTheme.colorForStyle(.primaryText01)
+            ]
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.sizeToFit()
+        }
     }
 
     private func setupViewModel() {

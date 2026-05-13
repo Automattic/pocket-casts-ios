@@ -71,6 +71,8 @@ class OnboardingHostingViewController<Content>: UIHostingController<Content>, UI
     }
 
     private func apply() {
+        guard !LiquidGlass.isEnabled else { return }
+
         let barAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [Self.self])
 
         let appearance = UINavigationBarAppearance()

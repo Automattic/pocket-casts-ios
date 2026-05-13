@@ -1794,6 +1794,8 @@ podcasts med dig</string>
     <string>Av</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Till</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts-användare</string>
     <key>onboarding_quote_best</key>
@@ -2106,10 +2108,14 @@ Det är engagemang!</string>
     <string>Avsnittet togs bort</string>
     <key>player_error_corrupted_file</key>
     <string>Det här avsnittet kan vara skadat, men du kan försöka spela upp det igen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Det här avsnittet kan inte spelas upp.</string>
     <key>player_error_internet_connection</key>
     <string>Kontrollera din Internetanslutning och försök igen.</string>
     <key>player_error_short_no_connection</key>
     <string>Du är offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Uppspelningen misslyckades, försök igen</string>
     <key>player_increment_time</key>
     <string>Öka tid</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3570,6 +3576,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Du har lyssnat i</string>
     <key>stats_listen_history_no_date</key>
     <string>Du har lyssnat i</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Färgdiagram över lyssningsaktivitet. Dagar med lyssning: %1$@ av 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Mindre</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Mer</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Lyssningsaktivitet</string>
     <key>stats_skipping</key>
     <string>Hoppa över</string>
     <key>stats_time_saved</key>
@@ -3726,6 +3740,8 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Det finns ingen transkription tillgänglig för det här avsnittet</string>
     <key>transcript_error_not_supported</key>
     <string>Formatet på den här transkriptionen stöds inte: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Ladda ner avsnittet och tryck för att söka</string>
     <key>trial_finished</key>
     <string>Provperioden har löpt ut</string>
     <key>trim_silence</key>
@@ -3734,6 +3750,22 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Försök igen</string>
     <key>try_it_now</key>
     <string>Prova nu</string>
+    <key>tv_tab_home</key>
+    <string>Hem</string>
+    <key>tv_tab_playlists</key>
+    <string>Spellistor</string>
+    <key>tv_tab_podcasts</key>
+    <string>Dina podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Nästa</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Använd utan konto</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Skapa gratiskonto</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Logga in</string>
+    <key>tv_welcome_title</key>
+    <string>Välkommen till Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Avarkivera</string>
     <key>unfollow</key>

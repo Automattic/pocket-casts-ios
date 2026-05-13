@@ -14,11 +14,16 @@ class AppCoordinator {
 
     var state: State = .loading
 
+    var userEmail: String?
+
     func load() async {
         // Ensure database and tables are setup before we go forward
         let _ = DataManager.sharedManager
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
+        ServerConfig.shared.playbackDelegate = PlaybackManager.shared
+
+        userEmail = ServerSettings.syncingEmail()
 
         setupCredentials()
 

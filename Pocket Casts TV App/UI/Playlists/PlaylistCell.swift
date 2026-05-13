@@ -1,7 +1,12 @@
 import SwiftUI
+import PocketCastsDataModel
 
 struct PlaylistCell: View {
-    let playlist: MockPlaylist
+    @State var model: PlaylistDetailsViewModel
+
+    init(playlist: EpisodeFilter) {
+        self.model = PlaylistDetailsViewModel(playlist: playlist)
+    }
 
     @Environment(\.isFocused) var isFocused: Bool
 
@@ -14,17 +19,17 @@ struct PlaylistCell: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading) {
-                Text(playlist.title)
+                Text(model.playlistName)
                     .font(.headline)
                     .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
-                if playlist.manual {
+                if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
-                    Text(L10n.playlistEpisodesCount(playlist.episodes.count))
+                    Text(model.state == .loading ? "" : model.episodeCountText)
                         .font(.caption)
                         .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
                     Spacer()
@@ -32,18 +37,19 @@ struct PlaylistCell: View {
             }
             .padding(.vertical, 24)
             ZStack {
-                ForEach(Array(playlist.episodes.prefix(2).enumerated()), id: \.element) { index, episode in
-                    Image(episode.image)
-                        .resizable()
-                        .frame(width: Layout.imageSize, height: Layout.imageSize)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                        .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
-                        .rotationEffect(Angle(degrees: isFocused ? (index == 0 ? Layout.rotationEffect : -Layout.rotationEffect) : 0))
-                        .scaleEffect(isFocused ? 1.25 : 1.0)
-                        .offset(
-                            x: CGFloat(1 - index) * 25.0 - 24 + (index == 0 && !isFocused ? 8 : 0),
-                            y: 50 + CGFloat(2 - index) * 25.0 + (index == 0 && !isFocused ? 8 : 0) - (index == 1 ? 8 : 0)
-                        )
+                if model.state == .ready {
+                    ForEach(Array(model.coverPodcastsUuids.prefix(2).reversed().enumerated()), id: \.element) { index, podcastUuid in
+                        PodcastImage(uuid: podcastUuid, size: .page)
+                            .frame(width: Layout.imageSize, height: Layout.imageSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
+                            .rotationEffect(Angle(degrees: isFocused ? (index == 0 ? Layout.rotationEffect : -Layout.rotationEffect) : 0))
+                            .scaleEffect(isFocused ? 1.25 : 1.0)
+                            .offset(
+                                x: CGFloat(1 - index) * 25.0 - 24 + (index == 0 && !isFocused ? 8 : 0),
+                                y: 50 + CGFloat(2 - index) * 25.0 + (index == 0 && !isFocused ? 8 : 0) - (index == 1 ? 8 : 0)
+                            )
+                    }
                 }
             }
             .padding(.horizontal, 36)
@@ -51,15 +57,18 @@ struct PlaylistCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(isFocused ? Color.backgroundActive : playlist.color)
+        .background(isFocused ? Color.backgroundActive : model.playlistColor)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
         .clipped()
+        .task {
+            model.load()
+        }
     }
 
 }
 
 #Preview {
-    PlaylistCell(playlist: MockData.makePlaylists().first!)
+    PlaylistCell(playlist: MockData.makeStubPlaylists().first!)
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }

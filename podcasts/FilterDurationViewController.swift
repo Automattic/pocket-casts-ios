@@ -207,13 +207,15 @@ class FilterDurationViewController: PCViewController {
         navigationBar?.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .automatic
 
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = backgroundColor
-        appearance.shadowColor = .clear
-        appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText01()]
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()]
-        navigationBar?.scrollEdgeAppearance = appearance
-        navigationBar?.standardAppearance = appearance
+        if !LiquidGlass.isEnabled {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = backgroundColor
+            appearance.shadowColor = .clear
+            appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText01()]
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ThemeColor.primaryText02()]
+            navigationBar?.scrollEdgeAppearance = appearance
+            navigationBar?.standardAppearance = appearance
+        }
     }
 
     @IBAction private func saveTapped() {

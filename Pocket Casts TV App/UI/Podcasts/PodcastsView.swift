@@ -1,28 +1,21 @@
 import SwiftUI
+import PocketCastsDataModel
 
-private enum GridCellItem: Identifiable {
-    case podcast(MockPodcast)
-    case folder(MockFolder)
-
-    var id: String {
-        switch self {
-        case .podcast(let p): p.id
-        case .folder(let f): f.id
-        }
-    }
+fileprivate enum Layout {
+    static let gridSize = CGFloat(250)
 }
 
-struct PodcastsView: View {
+struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
-    @State private var model = PodcastsViewModel()
+    @State private var model: ViewModel
 
-    enum Layout {
-        static let gridSize = CGFloat(250)
+    init(model: ViewModel = PodcastsViewModel()) {
+        self.model = model
     }
 
-    private static let gridColumns: [GridItem] = (0..<6).map { _ in
+    let gridColumns: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)
     }
 
@@ -67,29 +60,16 @@ struct PodcastsView: View {
 
     @Namespace private var podcastGridNamespace
 
-    private var gridItems: [GridCellItem] {
-        var result: [GridCellItem] = model.podcasts.map { .podcast($0) }
-        for (offset, folder) in model.folders.enumerated() {
-            let insertionIndex = min(2 + offset, result.count)
-            result.insert(.folder(folder), at: insertionIndex)
-        }
-        return result
-    }
-
     var podcastGrid: some View {
-        let items = gridItems
-        return LazyVGrid(columns: Self.gridColumns, spacing: 48) {
-            ForEach(items) { item in
-                switch item {
-                case .podcast(let podcast):
+        LazyVGrid(columns: gridColumns, spacing: 48) {
+            ForEach(model.items) { item in
+                if let podcast = item.podcast {
                     NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
+                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
-                    .prefersDefaultFocus(item.id == items.first?.id, in: podcastGridNamespace)
-                case .folder(let folder):
+                } else if let folder = item.folder {
                     NavigationLink(value: folder) {
                         FolderCardView(folder: folder)
                     }
@@ -98,17 +78,17 @@ struct PodcastsView: View {
             }
         }
         .focusScope(podcastGridNamespace)
-        .navigationDestination(for: MockPodcast.self) { podcast in
-            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+        .navigationDestination(for: Podcast.self) { podcast in
+            PodcastDetailView(podcast: podcast)
         }
-        .navigationDestination(for: MockFolder.self) { folder in
+        .navigationDestination(for: Folder.self) { folder in
             FolderDetailView(folder: folder)
         }
     }
 }
 
 #Preview {
-    PodcastsView()
+    PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }

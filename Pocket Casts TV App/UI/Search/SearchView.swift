@@ -42,10 +42,8 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                     }
                 }
             }
-            .onSubmit(of: .search) {
-                model.search(query: searchText)
-            }
             .onChange(of: searchText) { _, newValue in
+                model.search(query: newValue)
                 model.autoComplete(query: newValue)
             }
         }

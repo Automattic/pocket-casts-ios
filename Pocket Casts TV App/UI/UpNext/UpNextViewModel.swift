@@ -1,10 +1,13 @@
 import SwiftUI
 import Combine
+import PocketCastsDataModel
+import PocketCastsServer
 
 @Observable
 class UpNextViewModel {
-
-    private var cancellable: AnyCancellable?
+    private var cancellables: Set<AnyCancellable> = []
+    private let dataManager: DataManager
+    private let refreshManager: RefreshManager
 
     enum State: Equatable, Hashable {
         case loading
@@ -13,19 +16,54 @@ class UpNextViewModel {
     }
 
     var state: State = .loading
+    var episodes: [EpisodeRowViewModel] = []
 
-    var episodes: [MockEpisode] = []
+    init(dataManager: DataManager = DataManager.sharedManager, refreshManager: RefreshManager = RefreshManager.shared) {
+        self.dataManager = dataManager
+        self.refreshManager = refreshManager
+        observeUpNextChanges()
+    }
 
     func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                episodes = MockData.makeUpNext()
-                state = episodes.isEmpty ? .empty : .ready
-                cancellable?.cancel()
-                cancellable = nil
+        refreshServerData()
+        fetchLocalData()
+    }
+
+    private func refreshServerData() {
+        Task {
+            SyncManager.syncReason = nil
+            refreshManager.syncUpNext()
+        }
+    }
+
+    private func fetchLocalData() {
+        Task {
+            let fetched = fetchUpNextEpisodes()
+            let episodes = fetched.map { episode in
+                let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
+                return EpisodeRowViewModel(episode: episode, podcast: podcast)
             }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                state = episodes.isEmpty ? .empty : .ready
+                self.episodes = episodes
+            }
+        }
+    }
+
+    private func fetchUpNextEpisodes() -> [BaseEpisode] {
+        dataManager.allUpNextEpisodes()
+    }
+
+    fileprivate func observeUpNextChanges() {
+        NotificationCenter.default.publisher(for: Constants.Notifications.upNextQueueChanged)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+                load()
+            }
+            .store(in: &cancellables)
     }
 }

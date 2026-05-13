@@ -23,7 +23,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
+		0C7BFA882FAD2A8C00C1E5FF /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		0CCC37A62FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */; };
+		0CF5B7BE2FB3B0E60023691C /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		10097D282CC7DADA00E682A3 /* UpNext.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10097D272CC7DADA00E682A3 /* UpNext.xcassets */; };
 		100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */; };
 		102864A92CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102864A82CECEDB20098B2A9 /* CancelSubscriptionViewRow.swift */; };
@@ -1283,6 +1286,11 @@
 		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
 		FF31C0972EC211890083C7E5 /* playback_2025_plus.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0962EC211890083C7E5 /* playback_2025_plus.mp4 */; };
 		FF31C0992EC216600083C7E5 /* playback_2025_plus_background.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FF31C0982EC216600083C7E5 /* playback_2025_plus_background.mp4 */; };
+		FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15027F28E6600222785 /* HomeGridDataHelper.swift */; };
+		FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD74F15227F28F6F00222785 /* HomeGridItem.swift */; };
+		FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10756F872C59449C0089D34F /* Folder+Sortable.swift */; };
+		FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD93FDA020157B2000F6EF55 /* PodcastImageView.swift */; };
+		FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8E76C71B9EA709000E20C7 /* NoArtwork.xcassets */; };
 		FF32F3CB2FAB7CDF00226E58 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A43ED1D067AF20012FD9B /* ColorManager.swift */; };
 		FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6297E200EE26200168DF7 /* PlaybackActionHelper.swift */; };
 		FF32F3CE2FAB7F8E00226E58 /* HapticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD48D5A5216DB26A00391F9E /* HapticsHelper.swift */; };
@@ -1296,6 +1304,7 @@
 		FF32F3E62FAB851800226E58 /* PlaylistHeaderViewCellPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF32F3E42FAB850E00226E58 /* PlaylistHeaderViewCellPlaceholder.swift */; };
 		FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715EE0E2A0497DB0054A082 /* Theme+Color.swift */; };
 		FF32F3E92FAB86C700226E58 /* PlayerColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F3B9F2366C01400416633 /* PlayerColorHelper.swift */; };
+		FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647623028F70CD0006D005A /* AuthenticationHelper.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
 		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
 		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
@@ -1306,6 +1315,7 @@
 		FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */; };
 		FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D72C87694300587128 /* ReferralCardView.swift */; };
 		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
+		FF4B35662FB327D7004784EC /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
 		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
@@ -1615,6 +1625,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerLongPressPreviewViewController.swift; sourceTree = "<group>"; };
 		0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesSectionView.swift; sourceTree = "<group>"; };
 		10097D272CC7DADA00E682A3 /* UpNext.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UpNext.xcassets; sourceTree = "<group>"; };
 		100C99542CE7B801008D73E9 /* CancelSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelSubscriptionView.swift; sourceTree = "<group>"; };
@@ -2900,6 +2911,13 @@
 			);
 			target = 4694FA5F2799C80300E9CF70 /* Screenshot Automation */;
 		};
+		FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Create & Edit/Views/PodcastImageViewWrapper.swift",
+			);
+			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
+		};
 		FF32F3D72FAB82D100226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -2923,6 +2941,7 @@
 			membershipExceptions = (
 				"Array+Episode.swift",
 				"NetworkUtils+Helpers.swift",
+				"Server+Strings.swift",
 				"String+Differentiable.swift",
 				"String+SentenceCase.swift",
 			);
@@ -2940,6 +2959,7 @@
 			membershipExceptions = (
 				AllArchivedPlaceholder.swift,
 				EpisodeTableHelper.swift,
+				HomeGridListItem.swift,
 				ListEpisode.swift,
 				ListHeader.swift,
 				ListItem.swift,
@@ -3034,7 +3054,7 @@
 		3F584FF02F5685EB005A3593 /* Sonos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sonos; sourceTree = "<group>"; };
 		3F584FF12F568604005A3593 /* Main */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Main; sourceTree = "<group>"; };
 		3F584FF22F568621005A3593 /* Syncing */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Syncing; sourceTree = "<group>"; };
-		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
+		3F584FF32F56869B005A3593 /* Folders */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF3248CC2FACCDB300226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Folders; sourceTree = "<group>"; };
 		3F584FFA2F5687F9005A3593 /* Common Components */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Common Components"; sourceTree = "<group>"; };
 		3F5850042F5689C2005A3593 /* Podcasts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Podcasts; sourceTree = "<group>"; };
 		3F585D252F568CF8005A3593 /* Episode */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Episode; sourceTree = "<group>"; };
@@ -4926,6 +4946,7 @@
 				FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
 				FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */,
+				0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */,
 			);
 			name = "Mini Player";
 			sourceTree = "<group>";
@@ -6740,6 +6761,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */,
 				FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6999,6 +7021,7 @@
 				9ACB950C2E0D9199007238A7 /* DescriptiveActionAttributedTextView.swift in Sources */,
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
+				0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */,
 				9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */,
 				BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */,
 				BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */,
@@ -7580,6 +7603,7 @@
 			files = (
 				F57ABBFC2CECEBD800CC50AF /* ArchiveHelper.swift in Sources */,
 				F5F5094D2CEBF448007D6E39 /* SimpleActionView.swift in Sources */,
+				0C7BFA882FAD2A8C00C1E5FF /* LiquidGlass.swift in Sources */,
 				F5F509292CEBEF09007D6E39 /* TranscriptsDataRetriever.swift in Sources */,
 				F5F509102CEBEBC0007D6E39 /* PlaybackEffects.swift in Sources */,
 				F5F509552CEBF5D6007D6E39 /* TintableImageView.swift in Sources */,
@@ -7718,10 +7742,13 @@
 				FF8FFE522FAA4D110086A867 /* PlaybackCatchUpHelper.swift in Sources */,
 				FF49FEAE2F9BBCB400E68E0C /* Strings+Generated.swift in Sources */,
 				FF6505972FAA9A6C00C3662E /* NowPlayingHelper.swift in Sources */,
+				FF4B35662FB327D7004784EC /* PodcastImage.swift in Sources */,
 				FF49FEAF2F9BBCBC00E68E0C /* Strings+L10n.swift in Sources */,
 				FF8FFE622FAA63900086A867 /* SharedConstants.swift in Sources */,
 				FF8FF6A52FAA46D40086A867 /* Settings.swift in Sources */,
+				FF3248CD2FACCDC200226E58 /* PodcastImageView.swift in Sources */,
 				FF8FFE712FAA8F7C0086A867 /* SJCommonUtils.m in Sources */,
+				FF321A742FACA3F300226E58 /* Folder+Sortable.swift in Sources */,
 				FF6024A12FAB46DE00EB3AD5 /* TranscriptFilter.swift in Sources */,
 				FF32F3CD2FAB7E1F00226E58 /* PlaybackActionHelper.swift in Sources */,
 				FF8FF6A92FAA489E0086A867 /* UserEpisodeManager.swift in Sources */,
@@ -7756,6 +7783,7 @@
 				FF6505A02FAA9DE400C3662E /* PlaybackItem.swift in Sources */,
 				FF8FFE6A2FAA8E950086A867 /* PodcastIndexChapterDataRetriever.swift in Sources */,
 				FF8FFE532FAA4D210086A867 /* BookmarkManager.swift in Sources */,
+				0CF5B7BE2FB3B0E60023691C /* LiquidGlass.swift in Sources */,
 				FF8FFE542FAA5FAC0086A867 /* ArchiveHelper.swift in Sources */,
 				FF8FFE4F2FAA4CCD0086A867 /* PlaybackProtocol.swift in Sources */,
 				FF8FFE442FAA49BE0086A867 /* PodcastManager+Cleanup.swift in Sources */,
@@ -7770,8 +7798,10 @@
 				FF60249D2FAB443300EB3AD5 /* AppTheme.swift in Sources */,
 				FF8FFE452FAA49D90086A867 /* AnalyticsHelper.swift in Sources */,
 				FF8FFE562FAA5FEC0086A867 /* BackgroundShakeObserver.swift in Sources */,
+				FF321A722FACA37900226E58 /* HomeGridItem.swift in Sources */,
 				FF8FFE632FAA63D10086A867 /* EpisodeFilter+Formatting.swift in Sources */,
 				FF6505962FAA9A3000C3662E /* Debounce.swift in Sources */,
+				FF321A712FACA36400226E58 /* HomeGridDataHelper.swift in Sources */,
 				FF8FFE492FAA4B310086A867 /* BaseEpisode+Formatting.swift in Sources */,
 				FF32F3E82FAB863700226E58 /* Theme+Color.swift in Sources */,
 				FF8FFE4E2FAA4C510086A867 /* FadeOutManager.swift in Sources */,
@@ -7790,6 +7820,7 @@
 				FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */,
 				FF8FFE6E2FAA8F240086A867 /* TranscriptFormat.swift in Sources */,
 				FF65058B2FAA963100C3662E /* Notifications.swift in Sources */,
+				FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */,
 				FF32F3DA2FAB834500226E58 /* PlaylistDetailViewModel+Archive.swift in Sources */,
 				FF32F3D82FAB830100226E58 /* PlaylistArtworkView.swift in Sources */,
 				FF6505A32FAA9F4100C3662E /* TranscriptManager.swift in Sources */,
@@ -9957,7 +9988,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts TV App/Supporting Files/tv-bridging-header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -10009,7 +10040,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts TV App/Supporting Files/tv-bridging-header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -10061,7 +10092,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts TV App/Supporting Files/tv-bridging-header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -10113,7 +10144,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Pocket Casts TV App/Supporting Files/tv-bridging-header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;

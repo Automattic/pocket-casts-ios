@@ -1,23 +1,72 @@
 import SwiftUI
+import Combine
+import PocketCastsServer
+import PocketCastsUtils
+import PocketCastsDataModel
+
+enum PodcastViewModelState: Equatable, Hashable {
+    case loading
+    case ready
+    case empty
+}
+
+protocol PodcastsViewModelProtocol: AnyObject, Observation.Observable {
+
+    var state: PodcastViewModelState { get }
+
+    var items: [HomeGridItem] { get }
+
+    func load() async
+}
 
 @Observable
-class PodcastsViewModel {
+class PodcastsViewModel: PodcastsViewModelProtocol {
+    private var cancellables: Set<AnyCancellable> = []
 
-    enum State: Equatable, Hashable {
-        case loading
-        case ready
-        case empty
+    private(set) var state: PodcastViewModelState = .loading
+
+    var items: [HomeGridItem] = []
+
+    private let dataManager: DataManager
+
+    init(dataManager: DataManager = DataManager.sharedManager) {
+        self.dataManager = dataManager
     }
 
-    var state: State = .loading
+    func load() async {
+        await fetchPodcasts()
+    }
 
-    var podcasts: [MockPodcast] = []
-    var folders: [MockFolder] = []
+    private func fetchPodcasts() async {
+        Task {
+            let gridItems = HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
+            await MainActor.run {
+                self.items = gridItems
+                self.state = .ready
+            }
+        }
+    }
+}
+
+@Observable
+class PodcastsViewModelMock: PodcastsViewModelProtocol {
+
+    private var cancellable: AnyCancellable?
+
+    var state: PodcastViewModelState = .loading
+
+    var items: [HomeGridItem] = []
 
     func load() async {
-        try? await Task.sleep(for: .seconds(1))
-        podcasts = MockData.makePodcasts()
-        folders = MockData.makeFolders()
-        state = podcasts.isEmpty ? .empty : .ready
+        //Mock data load
+        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                items = MockData.makeStubPodcasts().map { HomeGridItem(podcast: $0) }
+                state = items.isEmpty ? .empty : .ready
+                cancellable?.cancel()
+                cancellable = nil
+            }
     }
 }
