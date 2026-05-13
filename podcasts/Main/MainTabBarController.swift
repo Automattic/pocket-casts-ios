@@ -141,9 +141,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private var systemAppearanceObservation: Any?
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        registerSceneAppearanceObserverIfNeeded()
         fireSystemThemeMayHaveChanged()
         checkSubscriptionStatusChanged()
         checkPromotionFinishedAcknowledged()
@@ -838,6 +841,23 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     @objc private func willEnterForeground() {
         fireSystemThemeMayHaveChanged()
         checkSubscriptionStatusChanged()
+    }
+
+    // The window's `overrideUserInterfaceStyle` masks system appearance changes
+    // from view controllers inside it, so `traitCollectionDidChange` never fires
+    // for system light/dark flips. Observe at the scene level instead — scene
+    // traits aren't affected by the per-window override.
+    private func registerSceneAppearanceObserverIfNeeded() {
+        guard systemAppearanceObservation == nil,
+              LiquidGlass.isEnabled,
+              #available(iOS 17.0, *),
+              let scene = view.window?.windowScene else { return }
+        systemAppearanceObservation = scene.registerForTraitChanges(
+            [UITraitUserInterfaceStyle.self]
+        ) { [weak self] (scene: UIWindowScene, _: UITraitCollection) in
+            Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
+            self?.fireSystemThemeMayHaveChanged()
+        }
     }
 
     private var lastNotifiedAboutDark: Bool?
