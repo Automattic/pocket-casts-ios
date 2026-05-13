@@ -997,9 +997,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 "reason": "mapping_unavailable",
                 "synced_state": syncedState.analyticsName
             ])
-            if case .unavailable = syncedState {} else {
-                Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
-            }
+            if case .unavailable = syncedState { return }
+            Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
 
