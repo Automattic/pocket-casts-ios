@@ -247,6 +247,11 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
         let fromView = fromVC.view!
         let finalFrame = fromView.frame
+        // If the user dragged the player down before releasing, fromView's
+        // origin.y holds that offset. Start the panel at that offset so the
+        // dismiss animation picks up where the gesture left off instead of
+        // snapping back to y=0.
+        let dragOffset = max(0, fromView.frame.origin.y)
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
@@ -265,7 +270,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let panelColor = fromVC.nowPlayingItem.view.backgroundColor
             ?? PlayerColorHelper.playerBackgroundColor01()
         let panel = makePanel(
-            frame: container.bounds,
+            frame: CGRect(x: 0, y: dragOffset, width: container.bounds.width, height: container.bounds.height),
             cornerRadius: finalCornerRadius,
             color: panelColor,
             colorAlpha: 1
