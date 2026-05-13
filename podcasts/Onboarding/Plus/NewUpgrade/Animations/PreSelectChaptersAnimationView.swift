@@ -76,7 +76,7 @@ struct PreSelectChaptersAnimationView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            ForEach(Array(zip(chapters.indices, chapters)), id: \.0) { (index, chapter) in
+            ForEach(Array(zip(chapters.indices, chapters)), id: \.0) { index, chapter in
                 ChapterRow(chapter: chapter, index: index)
             }
         }
