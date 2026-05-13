@@ -155,21 +155,30 @@ struct MainTabView: View {
         }
     }
 
+    @State var showUserActions: Bool = false
     var rightAccessory: some View {
         Button {
-
+            showUserActions.toggle()
         } label: {
             if let email = coordinator.userState.usernameEmail {
                 ProfileImage(email: email)
                     .frame(width: 64, height: 64)
             } else {
-                Image("")
+                Image(ImageResource.profileTab)
                     .frame(width: 64, height: 64)
             }
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
         .focusSection()
+        .confirmationDialog(L10n.tvUserProfileActions, isPresented: $showUserActions) {
+            if coordinator.userState.isLoggedIn {
+                Button(L10n.accountSignOut, role: .destructive) { coordinator.userState.logout() }
+            } else {
+                Button(L10n.signIn, role: .confirm) { coordinator.signIn() }
+            }
+            Button(L10n.accessibilityDismiss, role: .cancel) { }
+        }
     }
 
     var leftAccessory: some View {

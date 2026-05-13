@@ -34,8 +34,8 @@ struct SignInView: View {
 
         var description: String {
             switch self {
-            case .qr: "QR"
-            case .manual: "Manual"
+            case .qr: L10n.tvUserSignInOptionQr
+            case .manual: L10n.tvUserSignInOptionManual
             }
         }
     }
@@ -52,7 +52,7 @@ struct SignInView: View {
                 Text(L10n.tvSignInSubtitle)
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
-                Picker("Type", selection: $loginType) {
+                Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
                         Text(type.description).tag(type)
                     }

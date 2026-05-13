@@ -1317,6 +1317,9 @@
 		FF4A73DA2C876D5E00587128 /* ReferralSendPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */; };
 		FF4B35662FB327D7004784EC /* PodcastImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B087FC829DC976F0027EAE5 /* PodcastImage.swift */; };
 		FF4B3E392C2D94F300F84DD6 /* TranscriptFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4B3E382C2D94F300F84DD6 /* TranscriptFilter.swift */; };
+		FF4B5C8E2FB4C441004784EC /* SignOutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D9A4B0240746C30019E469 /* SignOutHelper.swift */; };
+		FF4B5C8F2FB4C48A004784EC /* PodcastManager+Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402772D621B6105D00769811 /* PodcastManager+Delete.swift */; };
+		FF4B5C902FB4C81F004784EC /* TabBar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4F25741F70F17B00B8857E /* TabBar.xcassets */; };
 		FF4E93122BDBF0D800F370AA /* MiniPlayerGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E93112BDBF0D800F370AA /* MiniPlayerGradientView.swift */; };
 		FF5381A62C90A06400829525 /* ReferralsClaimBannerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381A52C90A06400829525 /* ReferralsClaimBannerTableCell.swift */; };
 		FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5381AD2C90FF1500829525 /* ReferralCardMiniView.swift */; };
@@ -6761,6 +6764,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF4B5C902FB4C81F004784EC /* TabBar.xcassets in Resources */,
 				FF3248CE2FACDDCC00226E58 /* NoArtwork.xcassets in Resources */,
 				FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */,
 			);
@@ -7758,6 +7762,7 @@
 				FF8FF69F2FAA46100086A867 /* ServerSyncManager.swift in Sources */,
 				FF8FF6A22FAA468B0086A867 /* PlaybackManager.swift in Sources */,
 				FF60249E2FAB450500EB3AD5 /* ThemeColor.swift in Sources */,
+				FF4B5C8F2FB4C48A004784EC /* PodcastManager+Delete.swift in Sources */,
 				FF8FF6A02FAA46400086A867 /* PodcastManager.swift in Sources */,
 				FF32F3E22FAB846400226E58 /* PlaylistArchiveViewCellPlaceholder.swift in Sources */,
 				FF65059B2FAA9B6E00C3662E /* FileManager+Helper.swift in Sources */,
@@ -7786,6 +7791,7 @@
 				0CF5B7BE2FB3B0E60023691C /* LiquidGlass.swift in Sources */,
 				FF8FFE542FAA5FAC0086A867 /* ArchiveHelper.swift in Sources */,
 				FF8FFE4F2FAA4CCD0086A867 /* PlaybackProtocol.swift in Sources */,
+				FF4B5C8E2FB4C441004784EC /* SignOutHelper.swift in Sources */,
 				FF8FFE442FAA49BE0086A867 /* PodcastManager+Cleanup.swift in Sources */,
 				FF6033FD2FAB4C9700EB3AD5 /* EpisodesDataManager.swift in Sources */,
 				FF8FFE612FAA63750086A867 /* Enumerations.swift in Sources */,

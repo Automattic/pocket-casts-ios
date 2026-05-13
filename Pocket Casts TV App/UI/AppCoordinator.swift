@@ -34,8 +34,11 @@ class AppCoordinator {
             } else {
                 state = .welcome
             }
-            self.userState = userState
         }
+    }
+
+    func signIn() {
+        state = .welcome
     }
 
     private func setupCredentials() {

@@ -6057,3 +6057,16 @@
 
 /* tv up next empty button action title */
 "tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv User Profile actions title */
+"tv_user_profile_actions" = "User settings";
+
+/* tv Sign In Login Type title */
+"tv_user_sign_in_login_type" = "Login Type";
+
+/* tv Sign In Option QR */
+"tv_user_sign_in_option_qr" = "QR";
+
+/* tv Sign In Option Insert User and Pass */
+"tv_user_sign_in_option_manual" = "User/Pass";
+
