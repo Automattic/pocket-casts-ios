@@ -54,10 +54,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerFrame = CGRect(x: 0, y: 0, width: 0, height: Constants.Values.tableSectionHeaderHeight)
-
-        let firstRowInSection = tableRows()[section][0]
-        return firstRowInSection == .onlyOnWifi ? SettingsTableHeader(frame: headerFrame, title: L10n.settings.localizedUppercase) : nil
+        nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
