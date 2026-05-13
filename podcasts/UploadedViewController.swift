@@ -323,8 +323,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 self.reloadLocalFiles()
             }
         }
-
-        dismiss(animated: true, completion: nil)
     }
 
     func showUpgradeRequired() {

@@ -277,7 +277,7 @@ class MultiSelectHelper {
             return
         }
 
-        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
+        let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count)
 
         if FeatureFlag.liquidGlass.enabled {
             let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
@@ -317,7 +317,7 @@ class MultiSelectHelper {
             alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
             actionDelegate.multiSelectPresentingViewController().present(alert, animated: true)
         } else {
-            let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+            let downloadAction = OptionAction(label: downloadText.localizedUppercase, icon: nil) { () in
                 MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
                 actionDelegate.multiSelectActionCompleted()
             }

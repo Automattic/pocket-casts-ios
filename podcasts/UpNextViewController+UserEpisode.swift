@@ -9,7 +9,6 @@ extension UpNextViewController: UserEpisodeDetailProtocol {
 
     func showDeleteConfirmation(userEpisode: UserEpisode) {
         UserEpisodeManager.presentDeleteOptions(episode: userEpisode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: nil)
-        dismiss(animated: true, completion: nil)
     }
 
     func showUpgradeRequired() {
