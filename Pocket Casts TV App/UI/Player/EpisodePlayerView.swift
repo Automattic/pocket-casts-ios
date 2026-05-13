@@ -46,7 +46,7 @@ struct EpisodePlayerView: UIViewControllerRepresentable {
     }
 
     private func makePlaybackSpeedMenu(player: AVPlayer) -> UIMenu {
-        let speeds = stride(from: 1.0, through: 3.0, by: 0.1).map { $0 }
+        let speeds = Array(stride(from: 1.0, through: 3.0, by: 0.1))
         let actions = speeds.map { speed in
             UIAction(
                 title: String(format: "%.1fx", speed),
