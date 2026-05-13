@@ -159,8 +159,13 @@ struct MainTabView: View {
         Button {
 
         } label: {
-            ProfileImage(email: coordinator.userEmail)
-                .frame(width: 64, height: 64)
+            if let email = coordinator.userState.usernameEmail {
+                ProfileImage(email: email)
+                    .frame(width: 64, height: 64)
+            } else {
+                Image("")
+                    .frame(width: 64, height: 64)
+            }
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
