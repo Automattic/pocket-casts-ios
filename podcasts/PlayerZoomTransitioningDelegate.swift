@@ -311,7 +311,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         panel.view.addSubview(fromView)
 
         let miniSnapshot = makeMiniSnapshot(
-            frame: CGRect(x: miniFrame.minX, y: 0, width: miniFrame.width, height: miniFrame.height),
+            frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
             isInline: isMiniInline
         )
