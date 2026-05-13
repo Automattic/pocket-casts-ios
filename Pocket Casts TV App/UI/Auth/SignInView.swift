@@ -28,6 +28,20 @@ struct SignInView: View {
         return attributedString
     }
 
+    enum LoginType: Int, CaseIterable {
+        case qr
+        case manual
+
+        var description: String {
+            switch self {
+            case .qr: "QR"
+            case .manual: "Manual"
+            }
+        }
+    }
+
+    @State private var loginType: LoginType = .manual
+
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 32) {
@@ -38,26 +52,36 @@ struct SignInView: View {
                 Text(L10n.tvSignInSubtitle)
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
-                Spacer()
-                if manualLogin {
+                Picker("Type", selection: $loginType) {
+                    ForEach(LoginType.allCases, id: \.self) { type in
+                        Text(type.description).tag(type)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 500)
+                switch loginType {
+                case .manual:
                     usernamePasswordLogin
-                } else {
+                case .qr:
                     QRCodeView()
+                    separator
+                    Text(L10n.tvSignInEnterCode)
+                        .font(.headline)
+                        .foregroundStyle(Color.textSecondary)
+                    qrCodeDigits
+                    Text(attributed)
+                        .font(.headline)
+                        .foregroundStyle(Color.textSecondary)
                 }
                 Spacer()
-                separator
-                Text(L10n.tvSignInEnterCode)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
-                qrCodeDigits
-                Text(attributed)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
             }
         }
         .task {
-            if !manualLogin {
+            switch loginType {
+            case .qr:
                 model.signinWait()
+            case .manual:
+                break
             }
         }
         .onChange(of: model.state) {
