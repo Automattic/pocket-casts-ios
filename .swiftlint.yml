@@ -33,6 +33,9 @@ only_rules:
   # Prefer `contains` over `first(where:) != nil`.
   - contains_over_first_not_nil
 
+  # Prefer `contains` over `range(of:) != nil` and `range(of:) == nil`.
+  - contains_over_range_nil_comparison
+
   # if,for,while,do statements shouldn't wrap their conditionals in parentheses.
   - control_statement
 
@@ -71,6 +74,12 @@ only_rules:
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace
+
+  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
+  - prefer_zero_over_explicit_init
+
+  # Prefer `reduce(into:_:)` over `reduce(_:_:)` for non-trivial accumulator types.
+  - reduce_into
 
   # `nil` coalescing on a non-optional is redundant.
   - redundant_nil_coalescing

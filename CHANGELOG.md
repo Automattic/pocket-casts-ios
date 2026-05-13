@@ -1,6 +1,7 @@
 8.13
 -----
 - Fix an issue with Podcast header view sometimes appearing after a noticable delay [#4305](https://github.com/Automattic/pocket-casts-ios/pull/4305)
+- Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 
 8.12
 -----

@@ -372,10 +372,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             }
             updateNavBarBlur()
         }
-
-        if scrollView.isDragging || scrollView.isDecelerating {
-            dismissKeyboardForScrollIfNeeded()
-        }
     }
 
     /// Forces the standard (blurred) navigation bar appearance whenever multi-select is on or the
