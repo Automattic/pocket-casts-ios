@@ -1281,7 +1281,6 @@
 		FF1F27052F224C5C001908BE /* UIFont+FontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F87F0F2913242B00C15980 /* UIFont+FontStyle.swift */; };
 		FF2142D42C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
 		FF2142D52C07369200672D8D /* MediaExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2142D32C07369200672D8D /* MediaExporter.swift */; };
-		FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */; };
 		FF26A9924A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */; };
 		FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		FF26A99A4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */; };
@@ -2726,7 +2725,6 @@
 		FF1DF0242C8F4E2F0028B8D8 /* ReferralsClaimBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralsClaimBannerView.swift; sourceTree = "<group>"; };
 		FF1EC6852CECBC73006FBF9B /* ManageDownloadsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageDownloadsCoordinator.swift; sourceTree = "<group>"; };
 		FF2142D32C07369200672D8D /* MediaExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaExporter.swift; sourceTree = "<group>"; };
-		FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassPlayerAnimator.swift; sourceTree = "<group>"; };
 		FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerGlassProgressView.swift; sourceTree = "<group>"; };
 		FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerScrollingTitleView.swift; sourceTree = "<group>"; };
@@ -4950,7 +4948,6 @@
 				FF26A9934A1B5C2D00000002 /* MiniPlayerGlassProgressView.swift */,
 				FF26A99B4A1B5C2D00000004 /* MiniPlayerScrollingTitleView.swift */,
 				8B907F192AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift */,
-				FF26A9914A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift */,
 				0CB804A52FB50B31007D0402 /* PlayerZoomTransitioningDelegate.swift */,
 				0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */,
 			);
@@ -7388,7 +7385,6 @@
 				409C792F222397BA00386495 /* UserEpisodeActionCell.swift in Sources */,
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				8B907F1A2AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift in Sources */,
-				FF26A9924A1B5C2D00000001 /* LiquidGlassPlayerAnimator.swift in Sources */,
 				FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
