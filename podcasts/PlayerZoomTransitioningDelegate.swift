@@ -254,8 +254,29 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let dragOffset = max(0, fromView.frame.origin.y)
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
-        let sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
         let destArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
+        // The full-player artwork only lives on the Now Playing tab — the
+        // other tabs scroll `nowPlayingItem` horizontally off-screen inside
+        // `mainScrollView`, so the converted artwork frame lands far to the
+        // left and the floating image is never visible during the dismiss.
+        // Anchor the floating artwork to the mini snapshot's artwork slot
+        // instead so it rides down with the descending panel and lands in
+        // the right place.
+        let isOnNowPlaying = fromVC.tabsView.currentTab == 0
+        let sourceArtFrame: CGRect
+        let sourceArtCornerRadius: CGFloat
+        if isOnNowPlaying {
+            sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
+            sourceArtCornerRadius = fromArtwork.layer.cornerRadius
+        } else {
+            let artOffsetInMini = CGPoint(x: destArtFrame.minX - miniFrame.minX,
+                                          y: destArtFrame.minY - miniFrame.minY)
+            sourceArtFrame = CGRect(x: miniFrame.minX + artOffsetInMini.x,
+                                    y: artOffsetInMini.y,
+                                    width: destArtFrame.width,
+                                    height: destArtFrame.height)
+            sourceArtCornerRadius = miniArtwork.layer.cornerRadius
+        }
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
         miniArtwork.alpha = 0
@@ -292,7 +313,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let floating = makeFloatingArtwork(
             image: fromArtwork.image ?? miniArtwork.imageView?.image,
             frame: sourceArtFrame,
-            cornerRadius: fromArtwork.layer.cornerRadius
+            cornerRadius: sourceArtCornerRadius
         )
         container.addSubview(floating)
 
@@ -302,9 +323,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         UIView.animate(withDuration: dismissDuration * 0.45, delay: 0, options: [.curveEaseOut]) {
             fromView.alpha = 0
         }
-
-        // Show the mini player instantly so there is a shadow around it
-        mini.isHidden = false
 
         UIView.animate(
             withDuration: dismissDuration,
@@ -328,6 +346,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             panel.view.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
             floating.removeFromSuperview()
+            mini.isHidden = false
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
             miniVC.resetScrollingTitleAnimation()
