@@ -75,6 +75,12 @@ only_rules:
   # the declaration.
   - opening_brace
 
+  # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
+  - prefer_zero_over_explicit_init
+
+  # Prefer `reduce(into:_:)` over `reduce(_:_:)` for non-trivial accumulator types.
+  - reduce_into
+
   # `nil` coalescing on a non-optional is redundant.
   - redundant_nil_coalescing
 
