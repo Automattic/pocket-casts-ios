@@ -130,7 +130,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
-        bottomRow.spacing = 8
+        bottomRow.spacing = 6
 
         let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
@@ -420,8 +420,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             let remaining = max(0, duration - currentTime)
             let newText: String?
             if remaining > 0 {
-                let formatted = TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining)
-                newText = L10n.podcastTimeLeft(formatted)
+                newText = "-" + TimeFormatter.shared.playTimeFormat(time: remaining)
             } else {
                 newText = nil
             }
