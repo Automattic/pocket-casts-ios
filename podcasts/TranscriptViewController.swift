@@ -967,6 +967,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // where the playback manager's `seekTo` is a no-op (avoids firing
         // analytics or showing toasts for a seek that can't happen).
         guard let transcript, playbackManager.canSeek else { return }
+        // Tap-to-seek relies on fingerprint timing that only exists for
+        // Pocket Casts-generated transcripts. Bail out for external ones so
+        // we don't surface the "download to seek" hint that doesn't apply.
+        guard transcriptManager?.isDisplayingGeneratedTranscript == true else { return }
 
         let location = gesture.location(in: transcriptView)
         let layoutManager = transcriptView.layoutManager
@@ -997,6 +1001,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 "reason": "mapping_unavailable",
                 "synced_state": syncedState.analyticsName
             ])
+            if case .unavailable = syncedState { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
