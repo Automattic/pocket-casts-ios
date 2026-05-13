@@ -1087,7 +1087,7 @@
 	<key>UIBrowsableContentSupportsSectionedBrowsing</key>
 	<false/>
 	<key>UIDesignRequiresCompatibility</key>
-	<false/>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
