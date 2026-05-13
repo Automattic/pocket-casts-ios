@@ -2815,6 +2815,9 @@
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
 
+/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
+"settings_storage_usage_footer" = "iOS storage figures may differ from ours — system caching is normal and reclaimed automatically.";
+
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
 
