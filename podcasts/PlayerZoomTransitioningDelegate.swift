@@ -303,6 +303,9 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             fromView.alpha = 0
         }
 
+        // Show the mini player instantly so there is a shadow around it
+        mini.isHidden = false
+
         UIView.animate(
             withDuration: dismissDuration,
             delay: 0,
@@ -328,7 +331,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
             miniVC.resetScrollingTitleAnimation()
-            mini.isHidden = false
             miniArtwork.alpha = 1
             fromView.removeFromSuperview()
             context.completeTransition(!context.transitionWasCancelled)
@@ -366,6 +368,24 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         panel.addSubview(colorOverlay)
 
         return Panel(view: panel, colorOverlay: colorOverlay)
+    }
+
+    /// Empty view that only contributes a CALayer drop shadow — approximates
+    /// the UITabAccessory glass shadow during the dismiss so the descending
+    /// pill carries a shadow throughout, rather than popping in at the end.
+    private func makeShadowHost(frame: CGRect, cornerRadius: CGFloat) -> UIView {
+        let view = UIView(frame: frame)
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.18
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 12
+        view.layer.shadowPath = UIBezierPath(
+            roundedRect: CGRect(origin: .zero, size: frame.size),
+            cornerRadius: cornerRadius
+        ).cgPath
+        return view
     }
 
     /// Builds a live `MiniPlayerViewController` clone instead of a bitmap
