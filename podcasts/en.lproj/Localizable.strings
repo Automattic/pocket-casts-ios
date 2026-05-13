@@ -6067,6 +6067,6 @@
 /* tv Sign In Option QR */
 "tv_user_sign_in_option_qr" = "QR";
 
-/* tv Sign In Option Insert User and Pass */
+/* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
