@@ -56,6 +56,4 @@ class SettingsStoreTests: XCTestCase {
         XCTAssertNotEqual(secondStore.settings.name, initialName, "Access value should fetch UserDefaults and not initial value of instance")
         XCTAssertEqual(secondStore.settings.name, changedName, "Accessed value on second reference should match changed value")
     }
-
-
 }

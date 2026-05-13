@@ -2354,7 +2354,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)
             }
-
         }
 
         // Nothing to autoplay or Up Next has items, reset the latest played from

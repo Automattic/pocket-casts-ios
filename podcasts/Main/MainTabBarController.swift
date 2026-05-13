@@ -976,7 +976,6 @@ private extension MainTabBarController {
             }
         }
     }
-
 }
 
 // MARK: - Analytics

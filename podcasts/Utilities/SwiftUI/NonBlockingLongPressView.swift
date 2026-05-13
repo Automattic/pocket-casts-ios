@@ -74,7 +74,6 @@ struct NonBlockingLongPressView_Previews: PreviewProvider {
                             Text("Row \(index)")
                                 .padding()
                                 .background(Color.blue)
-
                         } onLongPressed: {
                             print("Long Pressed!")
                         }

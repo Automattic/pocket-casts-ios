@@ -103,7 +103,6 @@ struct MultiSelectRow_Previews: PreviewProvider {
                         Text("Hello World")
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-
                 } onSelectionToggled: {
                     withAnimation {
                         selected.toggle()
@@ -112,7 +111,6 @@ struct MultiSelectRow_Previews: PreviewProvider {
                 .selectButtonStyle(tintColor: .black, checkColor: .white, strokeColor: .black)
                 .padding()
                 .background(Color.blue)
-
             }
             .frame(maxWidth: .infinity)
         }

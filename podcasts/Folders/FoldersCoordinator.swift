@@ -150,7 +150,6 @@ class FoldersCoordinator: NSObject {
         let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
-
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {

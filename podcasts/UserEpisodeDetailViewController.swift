@@ -385,7 +385,6 @@ class UserEpisodeDetailViewController: UIViewController {
                 guard let self else { return }
                 self.containerViewHeight.constant = UserEpisodeDetailViewController.containerHeightWithoutError
                 self.view.layoutIfNeeded()
-
             }) { [weak self] _ in
                 self?.errorContainerView.alpha = 0
                 self?.errorContainerView.isHidden = true

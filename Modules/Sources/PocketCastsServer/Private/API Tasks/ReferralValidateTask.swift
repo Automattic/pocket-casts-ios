@@ -16,7 +16,6 @@ public struct ReferralOfferDetail: Codable {
     public let nonce: String?
     public let signature: String?
     public let keyIdentifier: String?
-
 }
 
 class ReferralValidateTask: ApiBaseTask, @unchecked Sendable {

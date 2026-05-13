@@ -43,5 +43,4 @@ class ManageDownloadsCoordinator {
             }
         return
     }
-
 }

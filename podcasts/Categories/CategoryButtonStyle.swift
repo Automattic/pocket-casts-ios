@@ -95,14 +95,12 @@ struct CategoryButtonStyle: ButtonStyle {
 
 #Preview("normal") {
     Button("Hello", action: {
-
     }).buttonStyle(CategoryButtonStyle(isSelected: false))
     .previewWithAllThemes()
 }
 
 #Preview("selected") {
     Button("Hello", action: {
-
     }).buttonStyle(CategoryButtonStyle(isSelected: true))
     .previewWithAllThemes()
 }
@@ -111,7 +109,6 @@ struct CategoryButtonStyle: ButtonStyle {
     var buttonStyle = CategoryButtonStyle(isSelected: false)
     buttonStyle.forcePressed = true
     return Button("Hello", action: {
-
     }).buttonStyle(buttonStyle)
     .applyButtonEffect(isPressed: true)
     .previewWithAllThemes()
@@ -121,7 +118,6 @@ struct CategoryButtonStyle: ButtonStyle {
     var buttonStyle = CategoryButtonStyle(isSelected: false, cornerStyle: .circle)
     buttonStyle.forcePressed = true
     return Button(action: {
-
     }, label: {
         Image(systemName: "xmark")
             .imageScale(.small)

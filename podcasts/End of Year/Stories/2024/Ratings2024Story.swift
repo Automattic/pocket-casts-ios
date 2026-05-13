@@ -123,7 +123,6 @@ struct Ratings2024Story: ShareableStory {
         default:
             return ""
         }
-
     }
 
     private var mostCommonRating: UInt32 {

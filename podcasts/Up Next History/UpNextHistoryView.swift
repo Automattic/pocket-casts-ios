@@ -11,7 +11,6 @@ struct UpNextHistoryView: View {
     var body: some View {
         List {
             Section {
-
             } footer: {
                 Text(L10n.upNextHistoryExplanation)
                     .foregroundStyle(theme.primaryText02)

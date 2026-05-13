@@ -60,7 +60,6 @@ struct ContentHeightView_Previews: PreviewProvider {
                         Rectangle()
                             .frame(width: 200, height: 200)
                     }
-
                 }
                 .background(Color.blue)
             }

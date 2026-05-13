@@ -151,7 +151,6 @@ enum NotificationType: String {
                 return false
         }
     }
-
 }
 
 enum NotificationsGroup: CaseIterable {
@@ -383,7 +382,6 @@ class NotificationsCoordinator {
                     let date = intervalTrigger.nextTriggerDate() ?? Date()
                     FileLog.shared.addMessage("Notification: \(notificationRequest.identifier) - \(date.formatted())\n")
                 }
-
             }
             FileLog.shared.addMessage("\n---- End ----\n")
         }

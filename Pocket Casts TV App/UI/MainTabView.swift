@@ -75,7 +75,6 @@ struct CenterButton: View {
         VStack {
             Spacer()
             Button(title) {
-
             }
             Spacer()
         }
@@ -157,7 +156,6 @@ struct MainTabView: View {
 
     var rightAccessory: some View {
         Button {
-
         } label: {
             ProfileImage(email: coordinator.userEmail)
                 .frame(width: 64, height: 64)

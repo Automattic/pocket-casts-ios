@@ -30,5 +30,4 @@ class HorizontalCollectionListViewController: ThemedHostingController<Horizontal
             AnalyticsHelper.listImpression(listId: listId, category: categoryId)
         }
     }
-
 }

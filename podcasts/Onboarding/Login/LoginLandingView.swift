@@ -190,7 +190,6 @@ private struct LoginLandingContent: View {
     var loginHeaderHeight: Double {
         calculatedHeaderHeightSmall + (smallHeight ? Config.topPaddingSmallDevice : Config.topPadding)
     }
-
 }
 
 // MARK: - Models

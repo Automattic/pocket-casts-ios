@@ -25,7 +25,6 @@ class TranscriptErrorView: UIView {
                 containerView.heightAnchor.constraint(equalTo: heightAnchor)
             ]
         )
-
     }
 
     required init?(coder: NSCoder) {

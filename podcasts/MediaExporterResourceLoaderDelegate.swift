@@ -440,6 +440,5 @@ class MediaExporterResourceLoaderDelegate: NSObject, AVAssetResourceLoaderDelega
     @objc private func handleAppWillTerminate() {
         invalidateAndCancelSession(shouldResetData: false)
     }
-
 }
 #endif

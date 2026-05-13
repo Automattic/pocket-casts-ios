@@ -108,7 +108,6 @@ class PlusPurchaseModel: PlusPricingInfoModel, OnboardingModel {
 
             // Reset the nav flow to only show the welcome controller
             navigationController.setViewControllers([controller], animated: true)
-
         }
 
         // Dismiss the current flow
