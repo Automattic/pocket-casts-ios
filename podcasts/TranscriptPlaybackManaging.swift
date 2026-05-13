@@ -47,7 +47,7 @@ struct TranscriptEpisodeInfoProvider: TranscriptPlaybackManaging {
     }
 
     func currentTime() -> TimeInterval {
-        guard PlaybackManager.shared.isActivelyPlaying(episodeUuid: episodeUUID) else {
+        guard PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episodeUUID) else {
             return 0
         }
         return PlaybackManager.shared.currentTime()
