@@ -18,7 +18,7 @@ class FoldersCoordinator: NSObject {
 
     private var currentSource: AnalyticsSource = .unknown
 
-    private let startingTime: Date = Date.now
+    private let startingTime = Date.now
 
     private let navigationManager: NavigationManager
     private let dataManager: DataManager

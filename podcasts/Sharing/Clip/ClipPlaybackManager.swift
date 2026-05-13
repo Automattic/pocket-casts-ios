@@ -19,7 +19,7 @@ class ClipPlaybackManager: ObservableObject {
     private var isSeeking: Bool = false
     private var cancellables = Set<AnyCancellable>()
 
-    @ObservedObject var clipTime: ClipTime = ClipTime(start: 0, end: 0)
+    @ObservedObject var clipTime = ClipTime(start: 0, end: 0)
 
     func play(episode: BaseEpisode, clipTime: ObservedObject<ClipTime>) {
         if avPlayer != nil {

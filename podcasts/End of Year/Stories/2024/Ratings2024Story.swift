@@ -7,7 +7,7 @@ struct Ratings2024Story: ShareableStory {
     let ratings: [UInt32: Int]
 
     let foregroundColor: Color = .black
-    let backgroundColor: Color = Color(hex: "#EFECAD")
+    let backgroundColor = Color(hex: "#EFECAD")
     private let ratingsBlogPostURL = URL(string: "https://blog.pocketcasts.com/2024/08/20/podcast-ratings/")!
 
     @ObservedObject private var animationViewModel = PlayPauseAnimationViewModel(duration: 0.8, animation: Animation.spring(_:))

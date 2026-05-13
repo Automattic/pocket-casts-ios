@@ -316,7 +316,7 @@ enum NotificationsGroup: CaseIterable {
 
 class NotificationsCoordinator {
 
-    static let shared: NotificationsCoordinator = NotificationsCoordinator()
+    static let shared = NotificationsCoordinator()
 
     var debugMode: Bool = false
 

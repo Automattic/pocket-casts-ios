@@ -95,11 +95,11 @@ struct NumberListened2025: ShareableStory {
     }
 
     func calculateDimensions(for index: Int) -> (CGFloat, CGFloat, Double, CGFloat) {
-        let shift: CGFloat = CGFloat(index - 3)
+        let shift = CGFloat(index - 3)
         let direction: CGFloat = shift <= 0 ? -1 : 1
         let size: CGFloat = Constants.coverSize - CGFloat(abs(shift) * Constants.xOffset)
-        let offset: CGFloat = CGFloat(shift * Constants.yOffset)
-        let zOffset: Double = Double(CGFloat(itemsCount) - abs(shift))
+        let offset = CGFloat(shift * Constants.yOffset)
+        let zOffset = Double(CGFloat(itemsCount) - abs(shift))
         return (size, offset, zOffset, direction)
     }
 
