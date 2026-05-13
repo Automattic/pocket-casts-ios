@@ -93,6 +93,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let sourceArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
+        let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
         // Use alpha (not isHidden) on the artwork views — `toArtwork` is an
         // arranged subview of a UIStackView, and `isHidden = true` would
@@ -155,7 +156,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
         panel.view.addSubview(toView)
 
-        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius)
+        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline)
         container.addSubview(miniSnapshot)
 
         let floating = makeFloatingArtwork(
@@ -228,6 +229,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
         let destArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
+        let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
         miniArtwork.alpha = 0
         fromArtwork.alpha = 0
@@ -254,7 +256,8 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
         let miniSnapshot = makeMiniSnapshot(
             frame: CGRect(x: miniFrame.minX, y: 0, width: miniFrame.width, height: miniFrame.height),
-            cornerRadius: miniCornerRadius
+            cornerRadius: miniCornerRadius,
+            isInline: isMiniInline
         )
         miniSnapshot.alpha = 0
         container.addSubview(miniSnapshot)
@@ -297,6 +300,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             floating.removeFromSuperview()
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
+            miniVC.resetScrollingTitleAnimation()
             mini.isHidden = false
             miniArtwork.alpha = 1
             fromView.removeFromSuperview()
@@ -342,9 +346,13 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     /// `layer.render`) all produced partial renders for the mini player inside
     /// `UITabAccessory` — labels and stack-view buttons dropped out. A real
     /// view hierarchy renders reliably and animates the same way.
-    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat) -> UIView {
+    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool) -> UIView {
         let clone = MiniPlayerViewController()
         clone.loadViewIfNeeded()
+        // The clone isn't hosted in a `UITabAccessory`, so its
+        // `tabAccessoryEnvironment` trait stays at the default — force the
+        // layout flavor that matches the live mini player.
+        clone.setForcedInlineLayout(isInline)
         clone.podcastArtwork.isHidden = true
         let cloneView = clone.view!
         cloneView.isUserInteractionEnabled = false

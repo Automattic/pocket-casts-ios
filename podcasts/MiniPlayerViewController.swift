@@ -61,6 +61,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var glassButtonStack: UIStackView?
     private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
 
+    /// When set, overrides the live `tabAccessoryEnvironment` trait so the
+    /// inline/regular layout can be forced regardless of where the view is
+    /// hosted. Used by `PlayerZoomAnimator` to make the snapshot clone match
+    /// the real mini player's layout even though the clone isn't inside a
+    /// `UITabAccessory`.
+    private var forcedInlineLayout: Bool?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -170,7 +177,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
-            let isInline = view.traitCollection.tabAccessoryEnvironment == .inline
+            let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
             let buttonWidth: CGFloat = isInline ? 40 : 44
             skipBackBtnWidthConstraint.constant = buttonWidth
             playPauseBtnWidthConstraint.constant = buttonWidth
@@ -188,6 +195,22 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     deinit {
         removeAllCustomObservers()
+    }
+
+    /// Resets the scrolling title marquee to the beginning of its pause-then-scroll
+    /// cycle. Used by the zoom transition so the title doesn't return mid-scroll
+    /// after the full player is dismissed.
+    func resetScrollingTitleAnimation() {
+        episodeTitleLabel?.restartAnimation()
+    }
+
+    /// Forces the Liquid Glass layout to use the inline (collapsed tab bar) or
+    /// regular spacing, bypassing the live `tabAccessoryEnvironment` trait.
+    /// Used by the zoom transition to make the snapshot clone match the real
+    /// mini player when it's hosted in an inline tab accessory.
+    func setForcedInlineLayout(_ inline: Bool) {
+        forcedInlineLayout = inline
+        view.setNeedsUpdateConstraints()
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {

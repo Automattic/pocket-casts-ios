@@ -89,6 +89,11 @@ final class MiniPlayerScrollingTitleView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+    /// Restarts the marquee from the beginning of its pause-then-scroll cycle.
+    func restartAnimation() {
+        scheduleAnimation()
+    }
+
     @objc private func reduceMotionStatusDidChange() {
         scheduleAnimation()
     }
