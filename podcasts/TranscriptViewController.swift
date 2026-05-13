@@ -629,7 +629,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
                     if isDisplayingGenerated {
-                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || self.playbackManager.isPlayingEpisode {
                             FingerprintTimingManager.shared.prepareForCurrentEpisode()
                         }
                         self.startHighlightDisplayLink()
