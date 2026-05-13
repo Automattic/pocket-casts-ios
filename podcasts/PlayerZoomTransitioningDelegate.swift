@@ -298,6 +298,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         )
         container.insertSubview(panel.view, belowSubview: fromView)
 
+        // UITabAccessory only paints its glass shadow while the mini player is
+        // visible, and the mini stays hidden for the whole dismiss. Park a fake
+        // shadow at the mini's final spot so the descending pill resolves into
+        // an already-shadowed slot instead of the real shadow popping in the
+        // moment the mini is unhidden.
+        let shadowHost = makeShadowHost(frame: miniFrame, cornerRadius: miniCornerRadius)
+        container.insertSubview(shadowHost, belowSubview: panel.view)
+
         fromView.removeFromSuperview()
         fromView.frame = CGRect(x: 0, y: 0, width: finalFrame.width, height: finalFrame.height)
         panel.view.addSubview(fromView)
@@ -347,6 +355,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             miniSnapshot.removeFromSuperview()
             floating.removeFromSuperview()
             mini.isHidden = false
+            shadowHost.removeFromSuperview()
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
             miniVC.resetScrollingTitleAnimation()
