@@ -5,11 +5,25 @@ import SwiftUI
 import PhotosUI
 
 class ShareProfileViewModel: ObservableObject {
-    @Published var displayName: String = ""
-    @Published var profilePhoto: UIImage?
-    @Published var shareFollowedPodcasts: Bool = true
-    @Published var shareRecentEpisodes: Bool = true
-    @Published var sharePlaylists: Bool = true
+    @Published var displayName: String = "" {
+        didSet { Self.saveDisplayName(displayName) }
+    }
+    @Published var profilePhoto: UIImage? {
+        didSet { Self.saveProfilePhoto(profilePhoto) }
+    }
+    @Published var shareFollowedPodcasts: Bool = true {
+        didSet { UserDefaults.standard.set(shareFollowedPodcasts, forKey: Self.followedPodcastsKey) }
+    }
+    @Published var shareRecentEpisodes: Bool = true {
+        didSet { UserDefaults.standard.set(shareRecentEpisodes, forKey: Self.recentEpisodesKey) }
+    }
+    @Published var sharePlaylists: Bool = true {
+        didSet { UserDefaults.standard.set(sharePlaylists, forKey: Self.playlistsKey) }
+    }
+
+    static let followedPodcastsKey = "ShareProfileFollowedPodcasts"
+    static let recentEpisodesKey = "ShareProfileRecentEpisodes"
+    static let playlistsKey = "ShareProfilePlaylists"
     @Published var selectedPhotoItem: PhotosPickerItem? {
         didSet {
             loadPhoto()
@@ -34,6 +48,11 @@ class ShareProfileViewModel: ObservableObject {
 
     init() {
         email = SyncManager.isUserLoggedIn() ? ServerSettings.syncingEmail() : nil
+        displayName = Self.loadDisplayName() ?? ""
+        profilePhoto = Self.loadProfilePhoto()
+        shareFollowedPodcasts = UserDefaults.standard.object(forKey: Self.followedPodcastsKey) as? Bool ?? true
+        shareRecentEpisodes = UserDefaults.standard.object(forKey: Self.recentEpisodesKey) as? Bool ?? true
+        sharePlaylists = UserDefaults.standard.object(forKey: Self.playlistsKey) as? Bool ?? true
     }
 
     func podcastName(for episode: Episode) -> String? {
@@ -44,7 +63,7 @@ class ShareProfileViewModel: ObservableObject {
     func shareProfile(from viewController: UIViewController) {
         let cardView = ShareProfileCardView(viewModel: self)
             .environmentObject(Theme.sharedTheme)
-            .frame(width: 390, height: 520)
+            .frame(width: 340, height: 400)
 
         let image = cardView.snapshot()
 
@@ -62,5 +81,40 @@ class ShareProfileViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    // MARK: - Persistence
+
+    private static let displayNameKey = "ShareProfileDisplayName"
+
+    private static func saveDisplayName(_ name: String) {
+        UserDefaults.standard.set(name, forKey: displayNameKey)
+    }
+
+    private static func loadDisplayName() -> String? {
+        UserDefaults.standard.string(forKey: displayNameKey)
+    }
+
+    private static var photoURL: URL {
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsPath.appendingPathComponent("share_profile_photo.jpg")
+    }
+
+    private static func saveProfilePhoto(_ image: UIImage?) {
+        guard let image, let data = image.jpegData(compressionQuality: 0.85) else {
+            try? FileManager.default.removeItem(at: photoURL)
+            return
+        }
+        try? data.write(to: photoURL)
+    }
+
+    private static func loadProfilePhoto() -> UIImage? {
+        loadSavedProfilePhoto()
+    }
+
+    static func loadSavedProfilePhoto() -> UIImage? {
+        guard FileManager.default.fileExists(atPath: photoURL.path) else { return nil }
+        guard let data = try? Data(contentsOf: photoURL) else { return nil }
+        return UIImage(data: data)
     }
 }

@@ -25,12 +25,28 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
         navigationController?.pushViewController(AccountViewController(), animated: true)
     }
 
+    func editPhotoAndNameTapped() {
+        guard let presenter = navigationController?.topViewController else { return }
+
+        let viewModel = ShareProfileViewModel()
+        let editView = EditPhotoAndNameView(viewModel: viewModel, dismissAction: {
+            presenter.dismiss(animated: true)
+        })
+
+        let hostingController = ThemedHostingController(rootView: editView)
+        presenter.present(hostingController, animated: true)
+    }
+
     func shareTapped() {
         guard let presenter = navigationController?.topViewController else { return }
 
         let viewModel = ShareProfileViewModel()
         let shareView = ShareProfileView(viewModel: viewModel, dismissAction: {
             presenter.dismiss(animated: true)
+        }, onOpenPrivacySettings: { [weak self] in
+            presenter.dismiss(animated: true) {
+                self?.navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
+            }
         })
 
         let hostingController = ThemedHostingController(rootView: shareView)

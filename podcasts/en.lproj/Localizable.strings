@@ -2866,6 +2866,9 @@
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_first_party_analytics" = "First-party analytics";
 
+/* Section header for analytics in privacy settings */
+"settings_analytics" = "Analytics";
+
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_third_party_analytics" = "Third-party analytics";
 
@@ -2980,6 +2983,9 @@
 /* Title for the add photo and name step */
 "share_profile_add_photo_and_name" = "Add photo and name";
 
+/* Title for the edit photo and name screen */
+"share_profile_edit_photo_and_name" = "Edit photo and name";
+
 /* Label for the display name field */
 "share_profile_display_name" = "Display name";
 
@@ -3015,6 +3021,12 @@
 
 /* Share Profile: Privacy link label */
 "share_profile_privacy" = "Privacy";
+
+/* Share Profile: Profile sharing section header in privacy settings */
+"share_profile_profile_sharing" = "Profile sharing";
+
+/* Share Profile: Privacy settings footer text */
+"share_profile_privacy_settings_footer" = "Control what others can see when you share your profile.";
 
 /* Generic save button */
 "share_profile_save" = "Save";

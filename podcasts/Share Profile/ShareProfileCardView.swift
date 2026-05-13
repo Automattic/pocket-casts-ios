@@ -8,45 +8,30 @@ struct ShareProfileCardView: View {
     @ObservedObject var viewModel: ShareProfileViewModel
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            if let photo = viewModel.profilePhoto {
-                Image(uiImage: photo)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
-            }
-
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.7)],
-                startPoint: .init(x: 0.5, y: 0.3),
-                endPoint: .bottom
-            )
+        ZStack {
+            Color(UIColor(hex: "#F43E37")).ignoresSafeArea()
 
             VStack(spacing: 0) {
-                Spacer()
-
-                HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(viewModel.displayName)
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.white)
-
-                        Text("pocketcasts.com")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(.white.opacity(0.7))
-                    }
-
-                    Spacer()
-
-                    Image("horizontal-logo-dark")
+                if let photo = viewModel.profilePhoto {
+                    Image(uiImage: photo)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 20)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 240, height: 240)
+                        .clipShape(Circle())
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 24)
+
+                Text(viewModel.displayName)
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
+
+                Image("horizontal-logo-dark")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 18)
+                    .padding(.top, 8)
             }
+            .padding(.horizontal, 24)
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
@@ -57,7 +42,7 @@ struct ShareProfileCardView: View {
 struct ShareProfileCardView_Previews: PreviewProvider {
     static var previews: some View {
         ShareProfileCardView(viewModel: ShareProfileViewModel())
-            .frame(width: 390, height: 520)
+            .frame(width: 340, height: 400)
             .previewLayout(.sizeThatFits)
             .setupDefaultEnvironment()
     }

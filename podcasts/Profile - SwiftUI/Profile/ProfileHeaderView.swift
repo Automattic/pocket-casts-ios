@@ -28,20 +28,29 @@ struct ProfileHeaderView: View {
     @ViewBuilder
     private func profileImage(_ proxy: GeometryProxy) -> some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .bottomTrailing) {
-                SubscriptionProfileImage(viewModel: viewModel)
-                    .frame(width: Constants.imageSize, height: Constants.imageSize)
+            Button {
+                viewModel.editPhotoAndNameTapped()
+            } label: {
+                ZStack(alignment: .bottomTrailing) {
+                    SubscriptionProfileImage(viewModel: viewModel)
+                        .frame(width: Constants.imageSize, height: Constants.imageSize)
 
-                if viewModel.profile.isLoggedIn, FeatureFlag.shareProfile.enabled {
-                    Image("folder-edit")
-                        .renderingMode(.template)
-                        .foregroundColor(theme.primaryInteractive02)
-                        .frame(width: 28, height: 28)
-                        .background(Circle().fill(theme.primaryInteractive01))
-                        .clipShape(Circle())
-                        .offset(x: -2, y: -2)
+                    if viewModel.profile.isLoggedIn, FeatureFlag.shareProfile.enabled {
+                        Image("folder-edit")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(theme.primaryInteractive02)
+                            .frame(width: 16, height: 16)
+                            .frame(width: 28, height: 28)
+                            .background(Circle().fill(theme.primaryInteractive01))
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(theme.primaryUi01, lineWidth: 2))
+                            .offset(x: -2, y: -2)
+                    }
                 }
             }
+            .disabled(!viewModel.profile.isLoggedIn || !FeatureFlag.shareProfile.enabled)
 
             // Show the patron badge
             if let subscription = viewModel.subscription {

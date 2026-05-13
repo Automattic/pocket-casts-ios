@@ -9,6 +9,7 @@ struct ShareProfileView: View {
     @ObservedObject var viewModel: ShareProfileViewModel
 
     var dismissAction: () -> Void
+    var onOpenPrivacySettings: (() -> Void)?
 
     enum Step {
         case addPhotoAndName
@@ -28,19 +29,37 @@ struct ShareProfileView: View {
         viewModel.sharePlaylists != initialSharePlaylists
     }
 
+    private var hasExistingProfile: Bool {
+        viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
-            addPhotoAndNameView()
-                .navigationDestination(for: Step.self) { step in
-                    switch step {
-                    case .addPhotoAndName:
-                        addPhotoAndNameView()
-                    case .preview:
-                        previewProfileView()
-                    case .edit:
-                        editProfileView()
+            if hasExistingProfile {
+                previewProfileView()
+                    .navigationDestination(for: Step.self) { step in
+                        switch step {
+                        case .addPhotoAndName:
+                            addPhotoAndNameView()
+                        case .preview:
+                            previewProfileView()
+                        case .edit:
+                            editProfileView()
+                        }
                     }
-                }
+            } else {
+                addPhotoAndNameView()
+                    .navigationDestination(for: Step.self) { step in
+                        switch step {
+                        case .addPhotoAndName:
+                            addPhotoAndNameView()
+                        case .preview:
+                            previewProfileView()
+                        case .edit:
+                            editProfileView()
+                        }
+                    }
+            }
         }
     }
 
@@ -106,6 +125,7 @@ struct ShareProfileView: View {
                         .frame(width: 36, height: 36)
                         .background(Circle().fill(theme.primaryInteractive01))
                         .clipShape(Circle())
+                        .overlay(Circle().stroke(theme.primaryUi01, lineWidth: 3))
                 }
             }
         }
@@ -197,13 +217,22 @@ struct ShareProfileView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    path.removeLast()
-                } label: {
-                    Image("nav-back")
-                        .renderingMode(.template)
+                if hasExistingProfile && path.isEmpty {
+                    Button(action: dismissAction) {
+                        Image("cancel")
+                            .renderingMode(.template)
+                    }
+                    .navThemed()
+                    .accessibilityLabel(L10n.accessibilityCloseDialog)
+                } else {
+                    Button {
+                        path.removeLast()
+                    } label: {
+                        Image("nav-back")
+                            .renderingMode(.template)
+                    }
+                    .navThemed()
                 }
-                .navThemed()
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -304,7 +333,7 @@ struct ShareProfileView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             if let date = episode.publishedDate {
                                 Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
-                                    .font(style: .footnote, weight: .bold)
+                                    .font(style: .caption2, weight: .bold)
                                     .foregroundColor(theme.primaryText02)
                             }
 
@@ -333,7 +362,7 @@ struct ShareProfileView: View {
     private func sectionHeader(_ title: String) -> some View {
         HStack {
             Text(title)
-                .font(style: .title3, weight: .bold)
+                .font(style: .headline, weight: .bold)
                 .foregroundColor(theme.primaryText01)
             Spacer()
             Text(L10n.discoverShowAll)
@@ -485,11 +514,22 @@ struct ShareProfileView: View {
         let privacyLabel = L10n.shareProfilePrivacy
         let fullText = L10n.shareProfilePrivacyDescription(privacyLabel)
 
-        Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
-            .font(style: .caption)
-            .foregroundColor(theme.primaryText02)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .multilineTextAlignment(.center)
+        if let onOpenPrivacySettings {
+            Button(action: onOpenPrivacySettings) {
+                Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
+                    .font(style: .caption)
+                    .foregroundColor(theme.primaryText02)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+            }
+            .buttonStyle(.plain)
+        } else {
+            Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
+                .font(style: .caption)
+                .foregroundColor(theme.primaryText02)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.center)
+        }
     }
 
     @ViewBuilder
@@ -535,6 +575,142 @@ struct ShareProfileView: View {
         .disabled(!hasEditChanges)
         .padding(.horizontal, 20)
         .padding(.bottom, 16)
+    }
+}
+
+// MARK: - Edit Photo and Name (standalone)
+
+struct EditPhotoAndNameView: View {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: ShareProfileViewModel
+
+    var dismissAction: () -> Void
+
+    @State private var initialDisplayName: String = ""
+    @State private var initialPhoto: UIImage?
+
+    private var hasChanges: Bool {
+        viewModel.displayName != initialDisplayName || viewModel.profilePhoto !== initialPhoto
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(spacing: 24) {
+                        photoSection()
+                        nameSection()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 32)
+                }
+
+                Spacer()
+
+                VStack(spacing: 0) {
+                    LinearGradient(
+                        stops: [
+                            .init(color: theme.primaryUi01.opacity(0), location: 0),
+                            .init(color: theme.primaryUi01.opacity(0.5), location: 0.4),
+                            .init(color: theme.primaryUi01, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 16)
+
+                    Button {
+                        dismissAction()
+                    } label: {
+                        Text(L10n.shareProfileSave)
+                            .font(style: .body, weight: .semibold)
+                            .foregroundColor(theme.primaryInteractive02)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(theme.primaryInteractive01.opacity(hasChanges ? 1 : 0.4))
+                            .cornerRadius(ViewConstants.buttonCornerRadius)
+                    }
+                    .disabled(!hasChanges)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                    .background(theme.primaryUi01)
+                }
+            }
+            .background(theme.primaryUi01)
+            .navigationTitle(L10n.shareProfileEditPhotoAndName)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: dismissAction) {
+                        Image("cancel")
+                            .renderingMode(.template)
+                    }
+                    .navThemed()
+                    .accessibilityLabel(L10n.accessibilityCloseDialog)
+                }
+            }
+        }
+        .onAppear {
+            initialDisplayName = viewModel.displayName
+            initialPhoto = viewModel.profilePhoto
+        }
+    }
+
+    @ViewBuilder
+    private func photoSection() -> some View {
+        VStack(spacing: 12) {
+            PhotosPicker(selection: $viewModel.selectedPhotoItem, matching: .images) {
+                ZStack(alignment: .bottomTrailing) {
+                    if let photo = viewModel.profilePhoto {
+                        Image(uiImage: photo)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 134, height: 134)
+                            .clipShape(Circle())
+                    } else {
+                        ProfileImage(email: viewModel.email)
+                            .frame(width: 134, height: 134)
+                            .clipShape(Circle())
+                    }
+
+                    Image("folder-edit")
+                        .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(theme.primaryInteractive02)
+                        .frame(width: 24, height: 24)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(theme.primaryInteractive01))
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(theme.primaryUi01, lineWidth: 3))
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func nameSection() -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(L10n.shareProfileDisplayName)
+                .font(style: .subheadline, weight: .semibold)
+                .foregroundColor(theme.primaryText01)
+
+            TextField(L10n.shareProfileAddYourName, text: $viewModel.displayName)
+                .font(style: .body)
+                .foregroundColor(theme.primaryText01)
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(theme.primaryUi05, lineWidth: 1)
+                )
+
+            Text(L10n.shareProfileNameDescription)
+                .font(style: .caption, weight: .regular)
+                .foregroundColor(theme.primaryText02)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.center)
+        }
     }
 }
 

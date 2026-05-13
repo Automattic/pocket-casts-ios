@@ -3379,6 +3379,8 @@ internal enum L10n {
   internal static var settingsAllowCollectionFirstParty: String { return L10n.tr("Localizable", "settings_allow_collection_first_party", fallback: "Allow us to collect analytics.") }
   /// Label displayed below the toggle to opt-in/out for Third-Party Analytics tracking
   internal static var settingsAllowCollectionThirdParty: String { return L10n.tr("Localizable", "settings_allow_collection_third_party", fallback: "Allow us to use trusted third-party services to collect anonymous data.") }
+  /// Section header for analytics in privacy settings
+  internal static var settingsAnalytics: String { return L10n.tr("Localizable", "settings_analytics", fallback: "Analytics") }
   /// A common string used throughout the app. Refers to the Appearance settings menu.
   internal static var settingsAppearance: String { return L10n.tr("Localizable", "settings_appearance", fallback: "Appearance") }
   /// Provides a prompt for the user to configure the settings related to Inactive Episodes. Used in places like configuring Auto Archive settings.
@@ -3885,6 +3887,8 @@ internal enum L10n {
   internal static var shareProfileDisplayName: String { return L10n.tr("Localizable", "share_profile_display_name", fallback: "Display name") }
   /// Title for the edit profile step
   internal static var shareProfileEdit: String { return L10n.tr("Localizable", "share_profile_edit", fallback: "Edit profile") }
+  /// Title for the edit photo and name screen
+  internal static var shareProfileEditPhotoAndName: String { return L10n.tr("Localizable", "share_profile_edit_photo_and_name", fallback: "Edit photo and name") }
   /// Toggle label for including followed podcasts in shared profile
   internal static var shareProfileFollowedPodcasts: String { return L10n.tr("Localizable", "share_profile_followed_podcasts", fallback: "Followed podcasts") }
   /// Description text below the name input field
@@ -3899,6 +3903,10 @@ internal enum L10n {
   internal static func shareProfilePrivacyDescription(_ p1: Any) -> String {
     return L10n.tr("Localizable", "share_profile_privacy_description", String(describing: p1), fallback: "You can manage what you're sharing in %1$@")
   }
+  /// Share Profile: Privacy settings footer text
+  internal static var shareProfilePrivacySettingsFooter: String { return L10n.tr("Localizable", "share_profile_privacy_settings_footer", fallback: "Control what others can see when you share your profile.") }
+  /// Share Profile: Profile sharing section header in privacy settings
+  internal static var shareProfileProfileSharing: String { return L10n.tr("Localizable", "share_profile_profile_sharing", fallback: "Profile sharing") }
   /// Toggle label for including recent episodes in shared profile
   internal static var shareProfileRecentEpisodes: String { return L10n.tr("Localizable", "share_profile_recent_episodes", fallback: "Recent episodes") }
   /// Generic save button
