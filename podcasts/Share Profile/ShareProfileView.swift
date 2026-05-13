@@ -2,6 +2,7 @@ import SwiftUI
 import PhotosUI
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 struct ShareProfileView: View {
     @EnvironmentObject var theme: Theme
@@ -16,6 +17,16 @@ struct ShareProfileView: View {
     }
 
     @State private var path: [Step] = []
+
+    @State private var initialShareFollowedPodcasts: Bool = true
+    @State private var initialShareRecentEpisodes: Bool = true
+    @State private var initialSharePlaylists: Bool = true
+
+    private var hasEditChanges: Bool {
+        viewModel.shareFollowedPodcasts != initialShareFollowedPodcasts ||
+        viewModel.shareRecentEpisodes != initialShareRecentEpisodes ||
+        viewModel.sharePlaylists != initialSharePlaylists
+    }
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -49,18 +60,22 @@ struct ShareProfileView: View {
 
             Spacer()
 
-            continueButton()
+            bottomButton {
+                continueButton()
+            }
         }
         .background(theme.primaryUi01)
         .navigationTitle(L10n.shareProfileAddPhotoAndName)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: dismissAction) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(theme.primaryText01)
+                    Image("cancel")
+                        .renderingMode(.template)
                 }
+                .navThemed()
+                .accessibilityLabel(L10n.accessibilityCloseDialog)
             }
         }
     }
@@ -74,18 +89,23 @@ struct ShareProfileView: View {
                         Image(uiImage: photo)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 100, height: 100)
+                            .frame(width: 134, height: 134)
                             .clipShape(Circle())
                     } else {
                         ProfileImage(email: viewModel.email)
-                            .frame(width: 100, height: 100)
+                            .frame(width: 134, height: 134)
                             .clipShape(Circle())
                     }
 
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
-                        .background(Circle().fill(theme.primaryUi01).frame(width: 22, height: 22))
+                    Image("folder-edit")
+                        .renderingMode(.template)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(theme.primaryInteractive02)
+                        .frame(width: 24, height: 24)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(theme.primaryInteractive01))
+                        .clipShape(Circle())
                 }
             }
         }
@@ -99,7 +119,8 @@ struct ShareProfileView: View {
                 .foregroundColor(theme.primaryText01)
 
             TextField(L10n.shareProfileAddYourName, text: $viewModel.displayName)
-                .font(.body)
+                .font(style: .body)
+                .foregroundColor(theme.primaryText01)
                 .padding(12)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
@@ -114,6 +135,10 @@ struct ShareProfileView: View {
         }
     }
 
+    private var canContinue: Bool {
+        viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
     @ViewBuilder
     private func continueButton() -> some View {
         Button {
@@ -121,14 +146,15 @@ struct ShareProfileView: View {
         } label: {
             Text(L10n.continue)
                 .font(style: .body, weight: .semibold)
-                .foregroundColor(Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
+                .foregroundColor(theme.primaryInteractive02)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                .frame(height: 56)
+                .background(theme.primaryInteractive01.opacity(canContinue ? 1 : 0.4))
                 .cornerRadius(ViewConstants.buttonCornerRadius)
         }
+        .disabled(!canContinue)
         .padding(.horizontal, 20)
-        .padding(.bottom, 34)
+        .padding(.bottom, 16)
     }
 
     // MARK: - Step 2: Preview Profile
@@ -137,36 +163,56 @@ struct ShareProfileView: View {
     private func previewProfileView() -> some View {
         VStack(spacing: 0) {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 0) {
                     previewHeader()
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 24)
 
                     if viewModel.shareFollowedPodcasts {
                         previewPodcastsSection()
                     }
 
                     if viewModel.shareRecentEpisodes {
+                        if viewModel.shareFollowedPodcasts {
+                            ThemedDivider()
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 24)
+                        }
+
                         previewEpisodesSection()
+                            .padding(.horizontal, 20)
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 32)
+                .padding(.top, 32)
+                .padding(.bottom, 80)
             }
 
-            shareMyProfileButton()
+            bottomButton {
+                shareMyProfileButton()
+            }
         }
         .background(theme.primaryUi01)
         .navigationTitle(L10n.shareProfilePreview)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    path.removeLast()
+                } label: {
+                    Image("nav-back")
+                        .renderingMode(.template)
+                }
+                .navThemed()
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     path.append(.edit)
                 } label: {
-                    Image("share-profile-settings")
+                    Image("profile-settings")
                         .renderingMode(.template)
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
                 }
+                .navThemed()
             }
         }
     }
@@ -178,70 +224,67 @@ struct ShareProfileView: View {
                 Image(uiImage: photo)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 134, height: 134)
                     .clipShape(Circle())
             } else {
                 ProfileImage(email: viewModel.email)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 134, height: 134)
                     .clipShape(Circle())
             }
 
             if !viewModel.displayName.isEmpty {
                 Text(viewModel.displayName)
-                    .font(.title3.bold())
+                    .font(style: .title3, weight: .bold)
                     .foregroundColor(theme.primaryText01)
             }
         }
+        .padding(.bottom, 8)
         .frame(maxWidth: .infinity)
-        .padding(.top, 8)
     }
 
     @ViewBuilder
     private func previewPodcastsSection() -> some View {
-        let podcasts = Array(viewModel.followedPodcasts.prefix(3))
+        let podcasts = Array(viewModel.followedPodcasts.prefix(8))
         if !podcasts.isEmpty {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Text(L10n.shareProfileFollowedPodcasts)
-                        .font(style: .subheadline, weight: .bold)
-                        .foregroundColor(theme.primaryText01)
-                    Spacer()
-                    Text(L10n.discoverShowAll)
-                        .font(style: .caption, weight: .bold)
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
-                }
-                .padding(.bottom, 16)
+            VStack(alignment: .leading, spacing: 12) {
+                sectionHeader(L10n.shareProfileFollowedPodcasts)
+                    .padding(.horizontal, 20)
 
-                ForEach(Array(podcasts.enumerated()), id: \.element.uuid) { index, podcast in
-                    HStack(spacing: 12) {
-                        let url = ImageManager.sharedManager.podcastUrl(imageSize: .grid, uuid: podcast.uuid)
-                        AsyncImage(url: url) { image in
-                            image.resizable().aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            Color.gray.opacity(0.2)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(podcasts, id: \.uuid) { podcast in
+                            podcastCard(podcast)
                         }
-                        .frame(width: 56, height: 56)
-                        .cornerRadius(8)
-
-                        Text(podcast.title ?? "")
-                            .font(style: .body, weight: .medium)
-                            .foregroundColor(theme.primaryText01)
-                            .lineLimit(1)
-
-                        Spacer()
-
-                        Image(systemName: "plus")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(theme.primaryText02)
                     }
-                    .padding(.vertical, 8)
-
-                    if index < podcasts.count - 1 {
-                        Divider()
-                    }
+                    .padding(.horizontal, 20)
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    private func podcastCard(_ podcast: Podcast) -> some View {
+        let cardWidth: CGFloat = 150
+
+        VStack(alignment: .leading, spacing: 8) {
+            PodcastImage(uuid: podcast.uuid)
+                .frame(width: cardWidth, height: cardWidth)
+                .cornerRadius(4)
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+
+            Text(podcast.title ?? "")
+                .font(style: .subheadline, weight: .medium)
+                .foregroundColor(theme.primaryText01)
+                .lineLimit(1)
+
+            if let author = podcast.author {
+                Text(author)
+                    .font(style: .caption, weight: .regular)
+                    .foregroundColor(theme.primaryText02)
+                    .lineLimit(1)
+            }
+        }
+        .frame(width: cardWidth)
     }
 
     @ViewBuilder
@@ -249,63 +292,55 @@ struct ShareProfileView: View {
         let episodes = Array(viewModel.recentEpisodes.prefix(3))
         if !episodes.isEmpty {
             VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Text(L10n.shareProfileRecentEpisodes)
-                        .font(style: .subheadline, weight: .bold)
-                        .foregroundColor(theme.primaryText01)
-                    Spacer()
-                    Text(L10n.discoverShowAll)
-                        .font(style: .caption, weight: .bold)
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
-                }
-                .padding(.bottom, 16)
+                sectionHeader(L10n.shareProfileRecentEpisodes)
 
                 ForEach(Array(episodes.enumerated()), id: \.element.uuid) { index, episode in
                     HStack(spacing: 12) {
-                        let url = ImageManager.sharedManager.podcastUrl(imageSize: .grid, uuid: episode.podcastUuid)
-                        AsyncImage(url: url) { image in
-                            image.resizable().aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            Color.gray.opacity(0.2)
-                        }
-                        .frame(width: 56, height: 56)
-                        .cornerRadius(8)
+                        PodcastImage(uuid: episode.podcastUuid)
+                            .frame(width: 56, height: 56)
+                            .cornerRadius(4)
+                            .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
 
                         VStack(alignment: .leading, spacing: 2) {
                             if let date = episode.publishedDate {
-                                Text(date.formatted(.dateTime.month(.wide).day()))
-                                    .font(style: .caption2, weight: .semibold)
+                                Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                    .font(style: .footnote, weight: .bold)
                                     .foregroundColor(theme.primaryText02)
-                                    .textCase(.uppercase)
                             }
 
                             Text(episode.title ?? "")
                                 .font(style: .subheadline, weight: .medium)
                                 .foregroundColor(theme.primaryText01)
-                                .lineLimit(1)
+                                .lineLimit(2)
 
-                            let minutes = Int(episode.duration / 60)
-                            if minutes > 0 {
-                                Text("\(minutes) mins")
-                                    .font(style: .caption2)
-                                    .foregroundColor(theme.primaryText02)
-                            }
+                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
+                                .font(style: .caption, weight: .semibold)
+                                .foregroundColor(theme.primaryText02)
                         }
 
-                        Spacer()
-
-                        Image(systemName: "play.circle")
-                            .font(.system(size: 28))
-                            .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 12)
 
                     if index < episodes.count - 1 {
-                        Divider()
+                        ThemedDivider()
                     }
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    private func sectionHeader(_ title: String) -> some View {
+        HStack {
+            Text(title)
+                .font(style: .title3, weight: .bold)
+                .foregroundColor(theme.primaryText01)
+            Spacer()
+            Text(L10n.discoverShowAll)
+                .font(style: .caption, weight: .bold)
+                .foregroundColor(theme.primaryInteractive01)
+        }
+        .padding(.bottom, 8)
     }
 
     @ViewBuilder
@@ -322,14 +357,14 @@ struct ShareProfileView: View {
         } label: {
             Label(L10n.shareProfileShareMyProfile, systemImage: "square.and.arrow.up")
                 .font(style: .body, weight: .semibold)
-                .foregroundColor(Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
+                .foregroundColor(theme.primaryInteractive02)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                .frame(height: 56)
+                .background(theme.primaryInteractive01)
                 .cornerRadius(ViewConstants.buttonCornerRadius)
         }
         .padding(.horizontal, 20)
-        .padding(.bottom, 34)
+        .padding(.bottom, 16)
     }
 
     // MARK: - Step 3: Edit Profile
@@ -337,62 +372,151 @@ struct ShareProfileView: View {
     @ViewBuilder
     private func editProfileView() -> some View {
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(L10n.shareProfileWhatToShare)
-                    .font(style: .title3, weight: .bold)
-                    .foregroundColor(theme.primaryText01)
-                    .padding(.top, 24)
+            ScrollView {
+                VStack(spacing: 24) {
+                    editProfileHeader()
 
-                VStack(spacing: 0) {
-                    editToggleRow(
-                        title: L10n.shareProfileFollowedPodcasts,
-                        isOn: $viewModel.shareFollowedPodcasts
-                    )
+                    Text(L10n.shareProfileWhatToShare)
+                        .font(style: .title3, weight: .bold)
+                        .foregroundColor(theme.primaryText01)
+                        .frame(maxWidth: .infinity, alignment: .center)
 
-                    Divider()
+                    VStack(spacing: 12) {
+                        editToggleRow(
+                            title: L10n.shareProfileFollowedPodcasts,
+                            icon: "podcasts_tab",
+                            isOn: $viewModel.shareFollowedPodcasts
+                        )
 
-                    editToggleRow(
-                        title: L10n.shareProfileRecentEpisodes,
-                        isOn: $viewModel.shareRecentEpisodes
-                    )
+                        editToggleRow(
+                            title: L10n.shareProfileRecentEpisodes,
+                            icon: "profile-history",
+                            isOn: $viewModel.shareRecentEpisodes
+                        )
 
-                    Divider()
+                        editToggleRow(
+                            title: L10n.shareProfilePlaylists,
+                            icon: "filter_list",
+                            isOn: $viewModel.sharePlaylists
+                        )
+                    }
 
-                    editToggleRow(
-                        title: L10n.shareProfilePlaylists,
-                        isOn: $viewModel.sharePlaylists
-                    )
+                    privacyFooter()
+                        .padding(.top, -8)
                 }
-
-                Text(L10n.shareProfilePrivacyDescription)
-                    .font(style: .caption)
-                    .foregroundColor(theme.primaryText02)
+                .padding(.horizontal, 20)
+                .padding(.top, 32)
             }
-            .padding(.horizontal, 20)
 
             Spacer()
 
-            saveButton()
+            bottomButton {
+                saveButton()
+            }
         }
         .background(theme.primaryUi01)
+        .onAppear {
+            initialShareFollowedPodcasts = viewModel.shareFollowedPodcasts
+            initialShareRecentEpisodes = viewModel.shareRecentEpisodes
+            initialSharePlaylists = viewModel.sharePlaylists
+        }
         .navigationTitle(L10n.shareProfileEdit)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    path.removeLast()
+                } label: {
+                    Image("nav-back")
+                        .renderingMode(.template)
+                }
+                .navThemed()
+            }
+        }
     }
 
     @ViewBuilder
-    private func editToggleRow(title: String, isOn: Binding<Bool>) -> some View {
-        HStack {
+    private func editProfileHeader() -> some View {
+        VStack(spacing: 8) {
+            if let photo = viewModel.profilePhoto {
+                Image(uiImage: photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 134, height: 134)
+                    .clipShape(Circle())
+            } else {
+                ProfileImage(email: viewModel.email)
+                    .frame(width: 134, height: 134)
+                    .clipShape(Circle())
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private func editToggleRow(title: String, icon: String, isOn: Binding<Bool>) -> some View {
+        HStack(spacing: 12) {
+            Image(icon)
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(theme.primaryText01)
+                .frame(width: 24, height: 24)
+
             Text(title)
-                .font(style: .body)
+                .font(style: .body, weight: .semibold)
                 .foregroundColor(theme.primaryText01)
 
             Spacer()
 
             Toggle("", isOn: isOn)
                 .labelsHidden()
-                .tint(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                .tint(theme.primaryInteractive01)
         }
-        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 18)
+        .background(theme.primaryUi04)
+        .cornerRadius(12)
+    }
+
+    @ViewBuilder
+    private func privacyFooter() -> some View {
+        let privacyLabel = L10n.shareProfilePrivacy
+        let fullText = L10n.shareProfilePrivacyDescription(privacyLabel)
+
+        Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
+            .font(style: .caption)
+            .foregroundColor(theme.primaryText02)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .multilineTextAlignment(.center)
+    }
+
+    @ViewBuilder
+    private func bottomButton<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        VStack(spacing: 0) {
+            LinearGradient(
+                stops: [
+                    .init(color: theme.primaryUi01.opacity(0), location: 0),
+                    .init(color: theme.primaryUi01.opacity(0.5), location: 0.4),
+                    .init(color: theme.primaryUi01, location: 1)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 16)
+
+            content()
+                .background(theme.primaryUi01)
+        }
+    }
+
+    private func privacyLinkAttributedString(fullText: String, link: String) -> AttributedString {
+        var attributed = AttributedString(fullText)
+        if let range = attributed.range(of: link) {
+            attributed[range].foregroundColor = theme.primaryInteractive01
+        }
+        return attributed
     }
 
     @ViewBuilder
@@ -402,14 +526,15 @@ struct ShareProfileView: View {
         } label: {
             Text(L10n.shareProfileSave)
                 .font(style: .body, weight: .semibold)
-                .foregroundColor(Color(ThemeColor.primaryInteractive02(for: theme.activeTheme)))
+                .foregroundColor(theme.primaryInteractive02)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
+                .frame(height: 56)
+                .background(theme.primaryInteractive01.opacity(hasEditChanges ? 1 : 0.4))
                 .cornerRadius(ViewConstants.buttonCornerRadius)
         }
+        .disabled(!hasEditChanges)
         .padding(.horizontal, 20)
-        .padding(.bottom, 34)
+        .padding(.bottom, 16)
     }
 }
 

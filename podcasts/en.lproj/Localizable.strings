@@ -3010,8 +3010,11 @@
 /* Toggle label for including playlists in shared profile */
 "share_profile_playlists" = "Playlists";
 
-/* Description text for the privacy settings hint on edit profile */
-"share_profile_privacy_description" = "You can manage what you're sharing in Privacy settings";
+/* Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text */
+"share_profile_privacy_description" = "You can manage what you're sharing in %1$@";
+
+/* Share Profile: Privacy link label */
+"share_profile_privacy" = "Privacy";
 
 /* Generic save button */
 "share_profile_save" = "Save";

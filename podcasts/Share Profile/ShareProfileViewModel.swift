@@ -43,25 +43,14 @@ class ShareProfileViewModel: ObservableObject {
     @MainActor
     func shareProfile(from viewController: UIViewController) {
         let cardView = ShareProfileCardView(viewModel: self)
+            .environmentObject(Theme.sharedTheme)
             .frame(width: 390, height: 520)
 
         let image = cardView.snapshot()
 
         let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        viewController.dismiss(animated: true) {
-            guard let topVC = UIApplication.shared.connectedScenes
-                .compactMap({ $0 as? UIWindowScene })
-                .flatMap(\.windows)
-                .first(where: \.isKeyWindow)?
-                .rootViewController else { return }
-
-            var presenter = topVC
-            while let presented = presenter.presentedViewController {
-                presenter = presented
-            }
-            activityVC.popoverPresentationController?.sourceView = presenter.view
-            presenter.present(activityVC, animated: true)
-        }
+        activityVC.popoverPresentationController?.sourceView = viewController.view
+        viewController.present(activityVC, animated: true)
     }
 
     private func loadPhoto() {

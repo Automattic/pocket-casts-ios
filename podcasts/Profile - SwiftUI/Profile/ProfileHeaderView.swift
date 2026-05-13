@@ -33,10 +33,12 @@ struct ProfileHeaderView: View {
                     .frame(width: Constants.imageSize, height: Constants.imageSize)
 
                 if viewModel.profile.isLoggedIn, FeatureFlag.shareProfile.enabled {
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(Color(ThemeColor.primaryInteractive01(for: theme.activeTheme)))
-                        .background(Circle().fill(theme.primaryUi01).frame(width: 22, height: 22))
+                    Image("folder-edit")
+                        .renderingMode(.template)
+                        .foregroundColor(theme.primaryInteractive02)
+                        .frame(width: 28, height: 28)
+                        .background(Circle().fill(theme.primaryInteractive01))
+                        .clipShape(Circle())
                         .offset(x: -2, y: -2)
                 }
             }
@@ -240,7 +242,7 @@ struct ProfileHeaderView: View {
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(theme.primaryText01)
                 .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .frame(height: 40)
                 .overlay(
                     RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                         .stroke(theme.primaryUi05, lineWidth: ViewConstants.buttonStrokeWidth)

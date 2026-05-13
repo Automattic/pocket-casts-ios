@@ -3893,8 +3893,12 @@ internal enum L10n {
   internal static var shareProfilePlaylists: String { return L10n.tr("Localizable", "share_profile_playlists", fallback: "Playlists") }
   /// Title for the preview profile step
   internal static var shareProfilePreview: String { return L10n.tr("Localizable", "share_profile_preview", fallback: "Preview profile") }
-  /// Description text for the privacy settings hint on edit profile
-  internal static var shareProfilePrivacyDescription: String { return L10n.tr("Localizable", "share_profile_privacy_description", fallback: "You can manage what you're sharing in Privacy settings") }
+  /// Share Profile: Privacy link label
+  internal static var shareProfilePrivacy: String { return L10n.tr("Localizable", "share_profile_privacy", fallback: "Privacy") }
+  /// Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text
+  internal static func shareProfilePrivacyDescription(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "share_profile_privacy_description", String(describing: p1), fallback: "You can manage what you're sharing in %1$@")
+  }
   /// Toggle label for including recent episodes in shared profile
   internal static var shareProfileRecentEpisodes: String { return L10n.tr("Localizable", "share_profile_recent_episodes", fallback: "Recent episodes") }
   /// Generic save button
