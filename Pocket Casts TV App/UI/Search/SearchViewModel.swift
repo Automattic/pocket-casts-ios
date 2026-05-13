@@ -31,7 +31,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
-    private var dataManager: DataManager = DataManager.sharedManager
+    private var dataManager = DataManager.sharedManager
 
     var state: SearchState = .query
 
