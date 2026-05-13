@@ -55,4 +55,17 @@ class SignInViewModel {
             state = .error(error, "Please try again")
         }
     }
+
+    var pairURLPretty: String {
+        guard let url = URL(string: ServerConstants.Urls.tvPair),
+             let host = url.host()
+        else {
+            return ServerConstants.Urls.tvPair
+        }
+        return host + url.path()
+    }
+
+    var pairURLString: String {
+        return ServerConstants.Urls.tvPair
+    }
 }
