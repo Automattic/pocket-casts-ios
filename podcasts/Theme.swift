@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsServer
 import PocketCastsUtils
+import Combine
 
 extension ThemeType: AnalyticsDescribable {
     static var displayOrder: [ThemeType] {
@@ -246,7 +247,7 @@ class Theme: ObservableObject {
             return Theme.preferredLightTheme()
         }
 
-        return UITraitCollection.current.userInterfaceStyle == .dark ? Theme.preferredDarkTheme() : Theme.preferredLightTheme()
+        return Theme.systemIsDark ? Theme.preferredDarkTheme() : Theme.preferredLightTheme()
     }
 
     func changeThemeAnimated(_ theme: ThemeType, topLevelView: UIView, originView: UIView) {

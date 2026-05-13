@@ -1792,6 +1792,8 @@ podcasts mee</string>
     <string>Uit</string>
     <key>ok</key>
     <string>Ok</string>
+    <key>on</key>
+    <string>Aan</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts-gebruiker</string>
     <key>onboarding_quote_best</key>
@@ -2102,10 +2104,14 @@ Dat is waar we voor staan!</string>
     <string>Aflevering is verwijderd</string>
     <key>player_error_corrupted_file</key>
     <string>De aflevering is mogelijk beschadigd, maar je kan proberen deze opnieuw af te spelen.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Deze aflevering kan niet worden afgespeeld.</string>
     <key>player_error_internet_connection</key>
     <string>Controleer je netwerkverbinding en probeer het nogmaals.</string>
     <key>player_error_short_no_connection</key>
     <string>Je bent offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Afspelen mislukt, probeer het nog eens</string>
     <key>player_increment_time</key>
     <string>Duur van toename</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3562,6 +3568,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Je hebt geluisterd gedurende</string>
     <key>stats_listen_history_no_date</key>
     <string>Je hebt geluisterd gedurende</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Heatmap luisteractiviteit. Dagen geluisterd: %1$@ van 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Minder</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Meer</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Luisteractiviteit</string>
     <key>stats_skipping</key>
     <string>Overslaan</string>
     <key>stats_time_saved</key>
@@ -3718,6 +3732,8 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Download de aflevering om te zoeken</string>
     <key>trial_finished</key>
     <string>Proefperiode afgelopen</string>
     <key>trim_silence</key>
@@ -3726,6 +3742,22 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Probeer opnieuw</string>
     <key>try_it_now</key>
     <string>Probeer het nu</string>
+    <key>tv_tab_home</key>
+    <string>Home</string>
+    <key>tv_tab_playlists</key>
+    <string>Afspeellijsten</string>
+    <key>tv_tab_podcasts</key>
+    <string>Jouw podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Hierna</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Browse zonder account</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Een gratis account aanmaken</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Aanmelden</string>
+    <key>tv_welcome_title</key>
+    <string>Welkom bij Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Dearchiveren</string>
     <key>unfollow</key>

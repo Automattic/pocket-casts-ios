@@ -68,7 +68,7 @@ public struct MarqueeTextView: View {
     private func startScrolling() {
         let speed: CGFloat = 0.1
 
-        Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.002, repeats: true) { _ in
             switch direction {
             case .leading:
                 offset -= speed

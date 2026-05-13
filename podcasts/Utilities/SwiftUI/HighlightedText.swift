@@ -130,7 +130,7 @@ struct HighlightedText: View {
 
         for highlight in highlights {
             // If we have at least 1 result then tokenize all of them
-            if result.range(of: highlight) != nil {
+            if result.contains(highlight) {
                 result = result.replacingOccurrences(of: highlight, with: token(highlight))
             }
 
@@ -138,7 +138,7 @@ struct HighlightedText: View {
             if highlight.contains(" ") {
                 let nbspHighlight = highlight.nonBreakingSpaces()
 
-                if result.range(of: nbspHighlight) != nil {
+                if result.contains(nbspHighlight) {
                     result = result.replacingOccurrences(of: nbspHighlight, with: token(nbspHighlight))
                 }
             }

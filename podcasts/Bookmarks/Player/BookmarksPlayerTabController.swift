@@ -79,7 +79,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         // Prevent the add bookmark window from opening if the app isn't active
         // We also prevent it from opening while connected to CarPlay to not distract anyone, and in my testing the app state is always
         // true while connected to CarPlay, even if it's in the background
-        guard UIApplication.shared.applicationState == .active, !SceneHelper.isConnectedToCarPlay else {
+        guard UIApplication.shared.applicationState == .active, !CarPlayHelper.isConnectedToCarPlay else {
             return
         }
 

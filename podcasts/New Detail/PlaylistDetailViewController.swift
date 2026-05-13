@@ -3,8 +3,9 @@ import PocketCastsDataModel
 import DifferenceKit
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
-class PlaylistDetailViewController: FakeNavViewController {
+class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     private(set) var viewModel: PlaylistDetailViewModel!
 
     private(set) var searchController: PCSearchBarController! {
@@ -12,7 +13,6 @@ class PlaylistDetailViewController: FakeNavViewController {
             searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
             searchController.searchDebounce = 0.2
             searchController.placeholderText = L10n.search
-            searchController.setupScrollView(tableView, hideSearchInitially: false)
             searchController.searchDebounce = Settings.podcastSearchDebounceTime()
             searchController.searchDelegate = self
             searchController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -61,23 +61,6 @@ class PlaylistDetailViewController: FakeNavViewController {
         }
     }
 
-    private lazy var emptyStateNavTitle: UILabel! = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private(set) lazy var emptyStateNavView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
-        view.isHidden = true
-        view.addSubview(emptyStateNavTitle)
-        return view
-    }()
-
     private var refreshControl: CustomRefreshControl?
 
     var isMultiSelectEnabled = false {
@@ -103,22 +86,13 @@ class PlaylistDetailViewController: FakeNavViewController {
                         self.tableView.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                    self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-                    self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                    self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                    self.updateSelectAllBtn()
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    self.multiSelectHeaderView.isHidden = false
-                    self.view.bringSubviewToFront(self.multiSelectHeaderView)
-
-                    // Adjusts multiSelectHeaderView based on screen width
-                    self.setMultiSelectHeaderViewConstraint()
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
                 } else {
                     self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true
-                    self.multiSelectHeaderView.isHidden = true
                     self.selectedEpisodes.removeAll()
                 }
+                self.updateMultiSelectNavBar()
             }
         }
     }
@@ -144,33 +118,25 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-    var multiSelectHeaderViewConstraint: NSLayoutConstraint!
 
-    var multiSelectAllBtn: UIButton! {
-        didSet {
-            multiSelectAllBtn.translatesAutoresizingMaskIntoConstraints = false
-            multiSelectAllBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
-            multiSelectAllBtn.addTarget(self, action: #selector(selectAllTapped), for: .touchUpInside)
-        }
-    }
+    private var defaultRightBarButton: UIBarButtonItem?
+    private var defaultBackBarButton: UIBarButtonItem?
+    var multiSelectAllBarButton: UIBarButtonItem?
+    var multiSelectCancelBarButton: UIBarButtonItem?
 
-    var multiSelectCancelBtn: UIButton! {
-        didSet {
-            multiSelectCancelBtn.translatesAutoresizingMaskIntoConstraints = false
-            multiSelectCancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
-            multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
-            multiSelectCancelBtn.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
-        }
-    }
-
-    var multiSelectHeaderView: ThemeableView! {
-        didSet {
-            multiSelectHeaderView.translatesAutoresizingMaskIntoConstraints = false
-            multiSelectHeaderView.isHidden = true
-        }
-    }
+    private lazy var navTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textAlignment = .center
+        label.alpha = 0
+        return label
+    }()
 
     private weak var delegate: FilterCreatedDelegate?
+
+    lazy var reloader = ReloadScheduler<PlaylistReloadScope> { [weak self] in
+        self?.reload(with: $0)
+    }
 
     init(playlist: EpisodeFilter, delegate: FilterCreatedDelegate) {
         self.delegate = delegate
@@ -196,9 +162,9 @@ class PlaylistDetailViewController: FakeNavViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        useTransparentNavigationBarAppearance = true
 
-        self.navigationController?.isNavigationBarHidden = true
+        super.viewDidLoad()
 
         setupContent()
         setupNavigation()
@@ -213,7 +179,6 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
         addObservers()
         updateColors()
         reloadNavTitle()
@@ -223,32 +188,33 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
         updateColors()
-        refreshControl?.parentViewControllerDidAppear()
         delegate?.presentingPlaylistDetail = false
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeAllCustomObservers()
-        refreshControl?.parentViewControllerDidDisappear()
+        if let refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        guard let window = view.window else { return }
-
         let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
         let keyBoardHeight = viewModel.isSearching ? keyBoardHeight : 0
-        tableView.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset + keyBoardHeight, right: 0)
-        tableView.verticalScrollIndicatorInsets = tableView.contentInset
+        tableView.contentInset.bottom = Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset + keyBoardHeight
+        tableView.verticalScrollIndicatorInsets.bottom = tableView.contentInset.bottom
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
+    }
+
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        tableView
     }
 
     override func handleThemeChanged() {
@@ -265,25 +231,37 @@ class PlaylistDetailViewController: FakeNavViewController {
         addObservers()
     }
 
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        refreshControl?.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        refreshControl?.scrollViewDidEndDragging(scrollView)
-    }
-
     private func setupNavigation() {
-        supportsGoogleCast = false
+        navigationItem.titleView = {
+            // The label has to go inside a container view otherwise navigationBar changes its alpha
+            let view = UIView()
+            view.addSubview(navTitleLabel)
+            navTitleLabel.anchorToAllSidesOf(view: view)
+            return view
+        }()
+        defaultRightBarButton = FakeNavBarButton.makeBarButtonItem(
+            image: UIImage(named: "more"),
+            accessibilityLabel: L10n.accessibilityMoreActions,
+            target: self,
+            action: #selector(moreTapped)
+        )
+        customRightBtn = defaultRightBarButton
 
-        reloadNavTitle()
-        scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
+        if !LiquidGlass.isEnabled {
+            defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
+                image: UIImage(systemName: "chevron.backward"),
+                accessibilityLabel: L10n.back,
+                target: self,
+                action: #selector(backButtonTapped)
+            )
+            navigationItem.leftBarButtonItem = defaultBackBarButton
+            navigationItem.setHidesBackButton(true, animated: false)
 
-        addRightAction(image: UIImage(named: "more"), accessibilityLabel: L10n.accessibilityMoreActions, action: #selector(moreTapped))
-
-        closeTapped = { [weak self] in
-            _ = self?.navigationController?.popViewController(animated: true)
+            if let navController = navigationController as? PCNavigationController {
+                navController.enableInteractivePopGestureWorkaround()
+            } else {
+                assertionFailure("Expected PCNavigationController")
+            }
         }
     }
 
@@ -303,23 +281,10 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let topAnchor = searchController.view.topAnchor.constraint(equalTo: searchHeaderView.topAnchor)
 
-        multiSelectHeaderView = ThemeableView()
-        view.addSubview(multiSelectHeaderView)
-
-        multiSelectAllBtn = UIButton()
-        multiSelectHeaderView.addSubview(multiSelectAllBtn)
-
-        multiSelectCancelBtn = UIButton()
-        multiSelectHeaderView.addSubview(multiSelectCancelBtn)
-
-        multiSelectHeaderViewConstraint = multiSelectHeaderView.heightAnchor.constraint(equalToConstant: 90.0)
-
         multiSelectFooter = MultiSelectFooterView(frame: .zero)
         view.addSubview(multiSelectFooter)
 
         multiSelectFooterBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: multiSelectFooter.bottomAnchor)
-
-        view.insertSubview(emptyStateNavView, belowSubview: fakeNavView)
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -337,32 +302,10 @@ class PlaylistDetailViewController: FakeNavViewController {
             searchController.view.heightAnchor.constraint(equalToConstant: PCSearchBarController.defaultHeight),
             topAnchor,
 
-            multiSelectHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            multiSelectHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            multiSelectHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
-            multiSelectHeaderViewConstraint,
-
-            multiSelectAllBtn.leadingAnchor.constraint(equalTo: multiSelectHeaderView.leadingAnchor, constant: 16),
-            multiSelectAllBtn.bottomAnchor.constraint(equalTo: multiSelectHeaderView.bottomAnchor),
-            multiSelectAllBtn.heightAnchor.constraint(equalToConstant: 44),
-
-            multiSelectCancelBtn.trailingAnchor.constraint(equalTo: multiSelectHeaderView.trailingAnchor, constant: -16),
-            multiSelectCancelBtn.bottomAnchor.constraint(equalTo: multiSelectHeaderView.bottomAnchor),
-            multiSelectCancelBtn.heightAnchor.constraint(equalToConstant: 44),
-
             multiSelectFooter.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
             multiSelectFooter.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0),
             multiSelectFooterBottomConstraint,
             multiSelectFooter.heightAnchor.constraint(equalToConstant: 64),
-
-            emptyStateNavView.leadingAnchor.constraint(equalTo: fakeNavView.leadingAnchor),
-            emptyStateNavView.trailingAnchor.constraint(equalTo: fakeNavView.trailingAnchor),
-            emptyStateNavView.topAnchor.constraint(equalTo: fakeNavView.topAnchor),
-            emptyStateNavView.bottomAnchor.constraint(equalTo: fakeNavView.bottomAnchor),
-            emptyStateNavTitle.centerXAnchor.constraint(equalTo: emptyStateNavView.centerXAnchor),
-            emptyStateNavTitle.widthAnchor.constraint(lessThanOrEqualToConstant: 200),
-            emptyStateNavTitle.heightAnchor.constraint(equalTo: backBtn.heightAnchor),
-            emptyStateNavView.bottomAnchor.constraint(equalTo: emptyStateNavTitle.bottomAnchor)
         ])
 
         view.layoutSubviews()
@@ -370,17 +313,7 @@ class PlaylistDetailViewController: FakeNavViewController {
 
     private func updateColors() {
         tableView.reloadData()
-
-        updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
-
-        emptyStateNavTitle.textColor = ThemeColor.primaryText01()
-
-        multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-        multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-        multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-        // we need to do this for scenarios when theme was changed
-        updateNavigationBar(position: tableView.contentOffset.y)
-
+        navTitleLabel.textColor = ThemeColor.primaryText01()
         searchController.backgroundColorOverride = AppTheme.colorForStyle(.primaryUi02)
         searchHeaderView.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
     }
@@ -389,26 +322,25 @@ class PlaylistDetailViewController: FakeNavViewController {
         if viewModel.isManualPlaylist { return }
 
         refreshControl = CustomRefreshControl()
-        refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
-        refreshControl?.perform = { refreshControl in
+        refreshControl?.perform = { [weak self] refreshControl in
             refreshControl.set(text: L10n.refreshControlFetchingEpisodes.uppercased())
-            RefreshManager.shared.refreshPodcasts()
+            self?.reloader.pause()
+            RefreshManager.shared.refreshPodcasts { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.didFinishRefresh()
+                }
+            }
         }
         tableView.refreshControl = refreshControl
     }
 
-    private func setMultiSelectHeaderViewConstraint() {
-        let heightConstant: CGFloat = 40
-        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
-    }
-
     private func reload(data: StagedChangeset<PlaylistDetailViewModel.DataSourceValue>, animated: Bool, contentChanged: Bool) {
-        removeLoadingIndicators()
+        loadingIndicator.stopAnimating()
 
         if animated, contentChanged {
             do {
                 try SJCommonUtils.catchException {
-                    tableView.reload(using: data, with: .automatic) { newData in
+                    tableView.reload(using: data, with: .fade) { newData in
                         viewModel.update(data: newData) { [weak self] in
                             self?.reloadRefreshControlColor()
                         }
@@ -435,38 +367,39 @@ class PlaylistDetailViewController: FakeNavViewController {
         refreshMultiSelectEpisodes()
     }
 
-    private func removeLoadingIndicators() {
-        loadingIndicator.stopAnimating()
+    private func didFinishRefresh() {
         refreshControl?.set(text: L10n.refreshControlRefreshComplete.uppercased())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.refreshControl?.alpha = 0
-            }, completion: { _ in
-                self?.refreshControl?.endRefreshing()
-            })
-        }
+        refreshControl?.endRefreshing()
+        reloader.resume(after: .milliseconds(600))
     }
 
     private func reloadRefreshControlColor() {
         if let snapshot = blurHeaderView.sj_snapshotImage() {
-            refreshControl?.customTintColor =  snapshot.isDark ? .white : .black
+            refreshControl?.customTintColor = snapshot.isDark ? .white : .black
         } else {
-            refreshControl?.customTintColor = AppTheme.colorForStyle(.secondaryText02)
+            refreshControl?.customTintColor = nil
         }
     }
 
-    private func reloadNavTitle() {
-        navTitle = viewModel.playlist.playlistName
-        emptyStateNavTitle.text = viewModel.playlist.playlistName
+    func reloadNavTitle() {
+        navTitleLabel.text = viewModel.playlist.playlistName
     }
 
     @objc func refreshFilterFromNotification(notification: Notification) {
-        reloadNavTitle()
-        viewModel.reloadPlaylistAndEpisodes()
+        reloader.request(.playlist)
     }
 
     @objc func refreshEpisodesFromNotification(notification: Notification) {
-        viewModel.reloadEpisodeList()
+        reloader.request(.episodes)
+    }
+
+    private func reload(with scopes: PlaylistReloadScope) {
+        if scopes.contains(.playlist) {
+            reloadNavTitle()
+            viewModel.reloadPlaylistAndEpisodes() // It also reloads the episode list
+        } else if scopes.contains(.episodes) {
+            viewModel.reloadEpisodeList()
+        }
     }
 
     func editPlaylist() {
@@ -510,5 +443,80 @@ class PlaylistDetailViewController: FakeNavViewController {
 
         let navVC = SJUIUtils.navController(for: vc)
         present(navVC, animated: true, completion: nil)
+    }
+
+    // MARK: - Scroll handling
+
+    private var isScrolledPastHeader = false
+    private var isNavBarBlurred = false
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
+        let scrolled = offset > 220
+        if scrolled != isScrolledPastHeader {
+            isScrolledPastHeader = scrolled
+            updateNavTitleVisibility(animated: true)
+            updateNavBarBlur()
+        }
+    }
+
+    /// Forces the standard (blurred) navigation bar appearance whenever multi-select is on or the
+    /// user has scrolled past the header. Multi-select uses plain text bar buttons that can't sit
+    /// on the transparent over-artwork chrome (pre-iOS 26), so we lock the bar to its blurred state
+    /// while it's active. On iOS 26 `setTransparentNavBarScrolled` is a no-op for the bar visuals,
+    /// so this is effectively a pre-26 fix.
+    private func updateNavBarBlur() {
+        let shouldBlur = isMultiSelectEnabled || isScrolledPastHeader
+        guard shouldBlur != isNavBarBlurred else { return }
+        isNavBarBlurred = shouldBlur
+        setTransparentNavBarScrolled(shouldBlur)
+    }
+
+    /// Empty state has no scrolling, so force the title to show regardless of scroll position.
+    func updateNavTitleVisibility(animated: Bool) {
+        let shouldShow = isScrolledPastHeader || viewModel.shouldShowEmptyPlaceholder
+        let targetAlpha: CGFloat = shouldShow ? 1 : 0
+        if animated {
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+                self.navTitleLabel.alpha = targetAlpha
+            }
+        } else {
+            navTitleLabel.alpha = targetAlpha
+        }
+    }
+
+    // MARK: - Multi-select nav bar
+
+    func updateMultiSelectNavBar() {
+        if isMultiSelectEnabled {
+            let cancel = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
+            cancel.accessibilityLabel = L10n.accessibilityCancelMultiselect
+            multiSelectCancelBarButton = cancel
+            customRightBtn = cancel
+
+            let selectAll = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
+            multiSelectAllBarButton = selectAll
+            navigationItem.setLeftBarButton(selectAll, animated: true)
+            if LiquidGlass.isEnabled {
+                navigationItem.setHidesBackButton(true, animated: true)
+            }
+            updateSelectAllBtn()
+        } else {
+            multiSelectCancelBarButton = nil
+            multiSelectAllBarButton = nil
+            customRightBtn = defaultRightBarButton
+            if LiquidGlass.isEnabled {
+                navigationItem.setLeftBarButton(nil, animated: true)
+                navigationItem.setHidesBackButton(false, animated: true)
+            } else {
+                navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
+            }
+            refreshRightButtons()
+        }
+        updateNavBarBlur()
+    }
+
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }

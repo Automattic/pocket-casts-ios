@@ -78,7 +78,7 @@ struct IntroStory2025: StoryView {
                     }
                 } else {
                     LottieView(animation: .named("end_of_year_2025_intro"))
-                        .animationDidFinish({ completed in
+                        .animationDidFinish({ _ in
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 animationFinished = true
                                 loadCallback?()

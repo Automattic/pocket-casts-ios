@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import PocketCastsDataModel
 
 protocol AnalyticsSourceProvider {
     /// Used to define the source view for the various analytics actions

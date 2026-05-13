@@ -72,7 +72,7 @@ protocol PodcastActionsDelegate: AnyObject {
     func open(url: URL)
 }
 
-class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
+class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
     var podcast: Podcast?
     var episodeInfo = [ArraySection<String, ListItem>]()
     var uuidsThatMatchSearch = [String]()
@@ -172,20 +172,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                     self.tableView().selectIndexPath(selectedIndexPath)
                     self.longPressMultiSelectIndexPath = nil
                 }
-                self.multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-                self.multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                self.multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-                self.updateSelectAllBtn()
-                self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                self.multiSelectHeaderView.isHidden = false
-                self.view.bringSubviewToFront(self.multiSelectHeaderView)
-
-                // Adjusts multiSelectHeaderView based on screen width
-                self.setMultiSelectHeaderViewConstraint()
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
             } else {
-                self.multiSelectHeaderView.isHidden = true
                 self.selectedEpisodes.removeAll()
             }
+            self.updateMultiSelectNavBar()
             searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
         }
     }
@@ -207,23 +198,20 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    @IBOutlet var multiSelectCancelBtn: UIButton! {
-        didSet {
-            multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
-        }
-    }
-
-    @IBOutlet var multiSelectAllBtn: UIButton!
-    @IBOutlet var multiSelectHeaderView: ThemeableView!
     private let operationQueue = OperationQueue()
 
-    // Constraint to adjust multiSelectHeader based on device size
-    @IBOutlet weak var multiSelectHeaderViewConstraint: NSLayoutConstraint!
+    private var shareBarButtonItem: UIBarButtonItem?
+    private var defaultBackBarButton: UIBarButtonItem?
+    var multiSelectAllBarButton: UIBarButtonItem?
+    var multiSelectCancelBarButton: UIBarButtonItem?
 
-    private func setMultiSelectHeaderViewConstraint() {
-        let heightConstant: CGFloat = 40
-        self.multiSelectHeaderViewConstraint.constant = heightConstant + view.safeAreaInsets.top
-    }
+    private lazy var navTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textAlignment = .center
+        label.alpha = 0
+        return label
+    }()
 
     static let headerSection = 0
     static let allEpisodesSection = 1
@@ -233,7 +221,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     private var isSearching = false
     private var cancellables = Set<AnyCancellable>()
     private var podcastFeedViewModel: PodcastFeedViewModel?
-    private var refreshControl: CustomRefreshControl?
+    private var refreshController: PodcastFeedRefreshController?
     private var podcastFeedReloadTooltip: UIViewController?
 
     // Hosting for the SwiftUI action bar used by the Bookmarks list when embedded
@@ -250,11 +238,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         view.backgroundColor = .clear
         return view
     }()
-
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        setMultiSelectHeaderViewConstraint()
-    }
 
     init(podcast: Podcast) {
         self.podcast = podcast
@@ -295,6 +278,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     override func viewDidLoad() {
+        supportsGoogleCast = true
+        useTransparentNavigationBarAppearance = true
+
         super.viewDidLoad()
 
         if FeatureFlag.podcastFeedUpdate.enabled {
@@ -304,16 +290,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             forceCollapsingHeaderIfNeeded()
         }
 
-        closeTapped = { [weak self] in
-            _ = self?.navigationController?.popViewController(animated: true)
-        }
-
         searchController = EpisodeListSearchController()
         searchController?.podcastDelegate = self
 
         operationQueue.maxConcurrentOperationCount = 1
 
-        scrollPointToChangeTitle = PodcastHeaderView.Constants.smallImageSize
         episodesTable.themeStyle = .primaryUi02
         episodesTable.addSubview(blurHeaderView)
         let blurHeaderPositionConstraint = blurHeaderView.bottomAnchor.constraint(equalTo: episodesTable.topAnchor, constant: blurHeaderPosition)
@@ -325,8 +306,38 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         ])
         self.blurHeaderPositionConstraint = blurHeaderPositionConstraint
 
-        addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        addGoogleCastBtn()
+        navigationItem.titleView = {
+            // The label has to go inside a container view other view navigationBar changes its alpha
+            let view = UIView()
+            view.addSubview(navTitleLabel)
+            navTitleLabel.anchorToAllSidesOf(view: view)
+            return view
+        }()
+        shareBarButtonItem = FakeNavBarButton.makeBarButtonItem(
+            image: UIImage(named: "podcast-share"),
+            accessibilityLabel: L10n.share,
+            target: self,
+            action: #selector(shareTapped)
+        )
+        customRightBtn = shareBarButtonItem
+
+        if !LiquidGlass.isEnabled {
+            defaultBackBarButton = FakeNavBarButton.makeBarButtonItem(
+                image: UIImage(systemName: "chevron.backward"),
+                accessibilityLabel: L10n.back,
+                target: self,
+                action: #selector(backButtonTapped)
+            )
+            navigationItem.leftBarButtonItem = defaultBackBarButton
+            navigationItem.setHidesBackButton(true, animated: false)
+
+            if let navController = navigationController as? PCNavigationController {
+                navController.enableInteractivePopGestureWorkaround()
+            } else {
+                assertionFailure("Expected PCNavigationController")
+            }
+        }
+
         loadPodcastInfo()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
@@ -343,25 +354,39 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerStatusDidChange), name: Constants.Notifications.miniPlayerDidDisappear, object: nil)
     }
 
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
+    private var isScrolledPastHeader = false
+    private var isNavBarBlurred = false
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
+        let scrolled = offset > PodcastHeaderView.Constants.smallImageSize + view.safeAreaInsets.top
+        if scrolled != isScrolledPastHeader {
+            isScrolledPastHeader = scrolled
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime) {
+                self.navTitleLabel.alpha = scrolled ? 1 : 0
+            }
+            updateNavBarBlur()
+        }
 
         if scrollView.isDragging || scrollView.isDecelerating {
             dismissKeyboardForScrollIfNeeded()
         }
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidScroll(scrollView)
-        }
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.scrollViewDidEndDragging(scrollView)
-        }
+    /// Forces the standard (blurred) navigation bar appearance whenever multi-select is on or the
+    /// user has scrolled past the header. Multi-select uses plain text bar buttons that can't sit
+    /// on the transparent over-artwork chrome (pre-iOS 26), so we lock the bar to its blurred state
+    /// while it's active. On iOS 26 `setTransparentNavBarScrolled` is a no-op for the bar visuals,
+    /// so this is effectively a pre-26 fix.
+    private func updateNavBarBlur() {
+        let shouldBlur = isMultiSelectEnabled || isScrolledPastHeader
+        guard shouldBlur != isNavBarBlurred else { return }
+        isNavBarBlurred = shouldBlur
+        setTransparentNavBarScrolled(shouldBlur)
     }
 
     private func setupLogin() {
-        podcastRatingViewModel.presentLogin = { [weak self] viewModel in
+        podcastRatingViewModel.presentLogin = { [weak self] _ in
             self?.showLogin(message: L10n.ratingLoginRequired)
         }
     }
@@ -421,7 +446,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let _ = [podcast?.uuid, podcastInfo?.uuid].compactMap({ $0 }).first {
             podcastRatingViewModel.update(podcast: podcast)
         }
-        self.navigationController?.isNavigationBarHidden = true
         updateColors()
     }
 
@@ -485,10 +509,8 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         Analytics.track(.podcastScreenShown, properties: properties)
 
         if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.parentViewControllerDidAppear()
             showPodcastFeedReloadTipIfNeeded()
         }
-        self.navigationController?.isNavigationBarHidden = true
         showViewChangesTipIfNeeded()
 
         // Load recommendations when view appears
@@ -513,24 +535,24 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         removeAllCustomObservers()
 
-        if FeatureFlag.podcastFeedUpdate.enabled {
-            refreshControl?.parentViewControllerDidDisappear()
+        if FeatureFlag.podcastFeedUpdate.enabled, let refreshControl = refreshController?.refreshControl, refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
         }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        guard let window = view.window else { return }
-
-        let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
-        episodesTable.verticalScrollIndicatorInsets = episodesTable.contentInset
+        episodesTable.contentInset.bottom = Constants.effectiveMiniPlayerOffset + (isMultiSelectEnabled ? 80 : 0)
+        episodesTable.verticalScrollIndicatorInsets.bottom = episodesTable.contentInset.bottom
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
+    }
+
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        episodesTable
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -565,17 +587,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func updateColors() {
         reloadData()
-        if podcast != nil {
-            updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
-
-            multiSelectHeaderView.backgroundColor = ThemeColor.primaryUi01()
-            multiSelectCancelBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-            multiSelectAllBtn.setTitleColor(ThemeColor.primaryIcon01(), for: .normal)
-            // we need to do this for scenarios when theme was changed
-            updateNavigationBar(position: episodesTable.contentOffset.y)
-        } else {
-            updateNavColors(bgColor: .clear, titleColor: ThemeColor.primaryText01(), buttonColor: UIColor.white, buttonBackgroundColor: UIColor.black.withAlphaComponent(0.32))
-        }
+        navTitleLabel.textColor = ThemeColor.primaryText01()
     }
 
     override func handleThemeChanged() {
@@ -610,11 +622,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         reloadData()
     }
 
-    @objc private func shareTapped(_ sender: UIButton) {
+    @objc private func shareTapped() {
         guard let podcast else { return }
 
-        let sourceRect = sender.superview!.convert(sender.frame, to: view)
-        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, sourceRect: sourceRect, sourceView: view)
+        // - warning: important to pass shareBarButtonItem
+        SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, fromSource: analyticsSource, barButtonItem: shareBarButtonItem)
         Analytics.track(.podcastScreenShareTapped, properties: ["podcast_uuid": podcast.uuid, "is_private": podcast.isPrivate])
     }
 
@@ -650,7 +662,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let refreshOperation = PodcastEpisodesRefreshOperation(podcast: podcast, uuidsToFilter: uuidsToFilter) { [weak self] newData in
             guard let self else { return }
 
-            self.navTitle = podcast.title
+            self.navTitleLabel.text = podcast.title
 
             // add the episode limit placehold if it's needed
             var finalData = newData
@@ -807,6 +819,43 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         Analytics.track(.podcastScreenSubscribeTapped)
         Analytics.track(.podcastSubscribed, properties: ["source": analyticsSource, "uuid": podcast.uuid])
+    }
+
+    // MARK: - Multi-select nav bar
+
+    func updateMultiSelectNavBar() {
+        if isMultiSelectEnabled {
+            supportsGoogleCast = false
+            let cancel = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
+            cancel.accessibilityLabel = L10n.accessibilityCancelMultiselect
+            multiSelectCancelBarButton = cancel
+            customRightBtn = cancel
+
+            let selectAll = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
+            multiSelectAllBarButton = selectAll
+            navigationItem.setLeftBarButton(selectAll, animated: true)
+            if LiquidGlass.isEnabled {
+                navigationItem.setHidesBackButton(true, animated: true)
+            }
+            updateSelectAllBtn()
+        } else {
+            multiSelectCancelBarButton = nil
+            multiSelectAllBarButton = nil
+            customRightBtn = shareBarButtonItem
+            if LiquidGlass.isEnabled {
+                navigationItem.setLeftBarButton(nil, animated: true)
+                navigationItem.setHidesBackButton(false, animated: true)
+            } else {
+                navigationItem.setLeftBarButton(defaultBackBarButton, animated: false)
+            }
+            supportsGoogleCast = true
+            refreshRightButtons()
+        }
+        updateNavBarBlur()
+    }
+
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 
     func isSummaryExpanded() -> Bool {
@@ -1292,8 +1341,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     private func bookmarksActionBarBottomOffset() -> CGFloat {
-        let miniPlayerOffset = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        return miniPlayerOffset
+        Constants.effectiveMiniPlayerOffset
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {
@@ -1366,20 +1414,25 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     private func setupRefreshControl() {
         if shouldDisplayPodcastFeedReloadButton() {
-            refreshControl = CustomRefreshControl()
-            refreshControl?.customTintColor = contrastColorForPodcastImage
-            refreshControl?.perform = { [weak self] _ in
+            let controller = PodcastFeedRefreshController()
+            controller.refreshControl.customTintColor = UIColor.label
+            controller.perform = { [weak self] in
                 self?.reloadPodcastFeed(source: .refreshControl)
             }
-            episodesTable.refreshControl = refreshControl
-        }
-    }
+            episodesTable.refreshControl = controller.refreshControl
+            refreshController = controller
 
-    private var contrastColorForPodcastImage: UIColor {
-        guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: self.podcastUUID, size: .grid) else {
-            return .white
+            // `UIImage.isDark` walks every byte of the artwork (~40 ms for grid-size art),
+            // so resolve the contrast color off the main thread and apply when ready.
+            let uuid = podcastUUID
+            Task.detached(priority: .utility) { [refreshControl = controller.refreshControl] in
+                guard let image = ImageManager.sharedManager.cachedImageFor(podcastUuid: uuid, size: .grid) else { return }
+                let isDark = image.isDark
+                await MainActor.run {
+                    refreshControl.customTintColor = isDark ? .white : .black
+                }
+            }
         }
-        return image.isDark ? .white : .black
     }
 
     func shouldDisplayPodcastFeedReloadButton() -> Bool {
@@ -1389,7 +1442,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func reloadPodcastFeed(source: PodcastFeedReloadSource) {
         // In case the FF is switched off
         guard shouldDisplayPodcastFeedReloadButton() else {
-            refreshControl?.endRefreshing()
+            refreshController?.refreshControl.endRefreshing()
             return
         }
         if podcastFeedViewModel?.loadingState == .loading {
@@ -1409,7 +1462,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     func refreshPodcastFeed() {
         // In case the FF is switched off
         guard shouldDisplayPodcastFeedReloadButton() else {
-            refreshControl?.endRefreshing()
+            refreshController?.refreshControl.endRefreshing()
             return
         }
         reloadPodcastFeed(source: .refreshControl)
