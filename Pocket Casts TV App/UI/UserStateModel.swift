@@ -11,16 +11,7 @@ class UserStateModel {
     var usernameEmail: String?
 
     var usernameLabel: String {
-        var usernameLabel = ""
-        if isLoggedIn, isPlusUser {
-            usernameLabel = usernameEmail ?? ""
-        } else {
-            if isLoggedIn {
-                usernameLabel = usernameEmail ?? ""
-            } else {
-                usernameLabel = L10n.signedOut
-            }
-        }
+        let usernameLabel = isLoggedIn ? (usernameEmail ?? "") : L10n.signedOut
         return usernameLabel
     }
 
