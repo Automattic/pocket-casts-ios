@@ -137,8 +137,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         }
         toView.setNeedsLayout()
         toView.layoutIfNeeded()
-        toView.setNeedsLayout()
-        toView.layoutIfNeeded()
+
         let destArtFrameInToView = toVC.computedArtworkFrame()
         // toView ends up at `finalFrame` in container during the final state,
         // so the artwork's final container-space rect is just the in-toView
@@ -150,7 +149,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // it back in partway through, once the panel has grown enough that the
         // header doesn't pop in awkwardly.
         toVC.setPlayerHeaderHidden(true, animated: false)
-        toVC.setPlayerHeaderHidden(false, animated: true, delay: presentDuration * 0.4)
+        toVC.setPlayerHeaderHidden(false, animated: true, delay: presentDuration * 0.35)
 
         // Give toView the final corner radius now so the rounded corners persist
         // after the panel is removed at the end of the transition.
@@ -188,12 +187,13 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         )
         container.addSubview(floating)
 
-        // Bring toView in over the back half of the present, so the panel
-        // can establish the glass→color morph before the player content
-        // resolves. Without this fade the player paints solidly from frame
-        // zero — toView's root background is clear, but its subviews aren't.
-        UIView.animate(withDuration: presentDuration * 0.55,
-                       delay: presentDuration * 0.35,
+        // Bring toView in once the panel has started morphing toward the
+        // full-player color, so the player content doesn't paint solidly
+        // from frame zero — toView's root background is clear, but its
+        // subviews aren't. Starting too late makes the controls feel like
+        // they pop in near the end of the transition.
+        UIView.animate(withDuration: presentDuration * 0.5,
+                       delay: presentDuration * 0.2,
                        options: [.curveEaseOut]) {
             toView.alpha = 1
         }
