@@ -70,11 +70,12 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
 
     private static func makeDisplayCategoryAndAuthor(for podcast: Podcast) -> AttributedString {
         let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        var markdown = "[\(category)](http://pocketcasts.com)"
+        var result = AttributedString(category)
+        result.link = URL(string: "http://pocketcasts.com")
         if let author = podcast.author {
-            markdown += " · \(author)"
+            result += AttributedString(" · \(author)")
         }
-        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
+        return result
     }
 
     var displayAuthor: String? {
