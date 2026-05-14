@@ -1159,7 +1159,13 @@ public class DataManager {
     }
 
     private static func pathToDbFolder() -> String {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        #if os(tvOS)
+        //tvOS does not allow the use of the application support or documents directory on a real device so we need to use the caches directory.
+        let typeOfDirectory: FileManager.SearchPathDirectory = .cachesDirectory
+        #else
+        let typeOfDirectory: FileManager.SearchPathDirectory = .applicationSupportDirectory
+        #endif
+        let documentsPath = NSSearchPathForDirectoriesInDomains(typeOfDirectory, .userDomainMask, true).last as NSString?
         let mainFolder = documentsPath?.appendingPathComponent("Pocket Casts")
 
         return mainFolder!
@@ -1169,7 +1175,7 @@ public class DataManager {
         do {
             try FileManager.default.createDirectory(atPath: pathToDbFolder(), withIntermediateDirectories: true, attributes: nil)
         } catch {
-            print("Unable to create database folder")
+            FileLog.shared.addMessage("Unable to create database folder: \(error)")
         }
     }
 

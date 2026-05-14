@@ -146,14 +146,20 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     lazy var podcastsDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
-
+#endif
         return directory
     }()
 
     private lazy var streamingBufferDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
-
+#endif
         return directory
     }()
 
