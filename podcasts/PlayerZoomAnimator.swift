@@ -1,35 +1,6 @@
 import UIKit
 
 @available(iOS 26, *)
-final class PlayerZoomTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
-    let miniPlayerProvider: () -> MiniPlayerViewController?
-
-    init(miniPlayerProvider: @escaping () -> MiniPlayerViewController?) {
-        self.miniPlayerProvider = miniPlayerProvider
-    }
-
-    func animationController(
-        forPresented presented: UIViewController,
-        presenting: UIViewController,
-        source: UIViewController
-    ) -> UIViewControllerAnimatedTransitioning? {
-        guard let fullPlayer = presented as? PlayerContainerViewController else {
-            return nil
-        }
-        return PlayerZoomAnimator(isPresenting: true, fullPlayer: fullPlayer, miniPlayerProvider: miniPlayerProvider)
-    }
-
-    func animationController(
-        forDismissed dismissed: UIViewController
-    ) -> UIViewControllerAnimatedTransitioning? {
-        guard let fullPlayer = dismissed as? PlayerContainerViewController else {
-            return nil
-        }
-        return PlayerZoomAnimator(isPresenting: false, fullPlayer: fullPlayer, miniPlayerProvider: miniPlayerProvider)
-    }
-}
-
-@available(iOS 26, *)
 final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let isPresenting: Bool
     let fullPlayer: PlayerContainerViewController
