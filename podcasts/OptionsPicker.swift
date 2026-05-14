@@ -63,7 +63,11 @@ class OptionsPicker {
     }
 
     func show(statusBarStyle: UIStatusBarStyle? = nil) {
-        if FeatureFlag.liquidGlass.enabled {
+        // Promote to native UIAlertController only when there is descriptive
+        // context (i.e. a confirmation prompt). Plain action lists stay as the
+        // legacy bottom-sheet picker so menu-style surfaces aren't accidentally
+        // rendered as alerts.
+        if FeatureFlag.liquidGlass.enabled, descriptiveTitle != nil {
             presentAsNativeAlert()
         } else {
             presentAsLegacyPicker(statusBarStyle: statusBarStyle)

@@ -171,54 +171,42 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             if actualDownloadCount == 0 { return }
             let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
 
-            if FeatureFlag.liquidGlass.enabled {
-                let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
-                let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
-                var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-                if !onWifi, !Settings.mobileDataAllowed() {
-                    message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)
-                }
-
-                let alert = UIAlertController(title: title, message: message.isEmpty ? nil : message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: downloadText, style: onWifi ? .default : .destructive) { _ in
-                    delegate.downloadAllTapped()
-                })
-                if !onWifi {
-                    alert.addAction(UIAlertAction(title: L10n.queueForLater, style: .default) { _ in
-                        delegate.queueAllTapped()
-                    })
-                    if !Settings.mobileDataAllowed() {
-                        alert.addAction(UIAlertAction(title: L10n.settings, style: .default) { _ in
-                            if let url = URL(string: "pktc://settings/storage-and-data") {
-                                UIApplication.shared.open(url)
-                            }
-                        })
-                    }
-                }
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-                self?.present(alert, animated: true)
-            } else {
-                let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
-                    delegate.downloadAllTapped()
-                }
-                let confirmPicker = OptionsPicker(title: nil)
-                var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-
-                if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-                    confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-                } else {
-                    downloadAction.destructive = true
-                    let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                        delegate.queueAllTapped()
-                    }
-                    queueAction.outline = true
-                    if !Settings.mobileDataAllowed() {
-                        warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
-                    }
-                    confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
-                }
-                confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)
+            let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
+            let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
+            var message = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+            if !onWifi, !Settings.mobileDataAllowed() {
+                message = L10n.downloadDataWarningAlert + (message.isEmpty ? "" : "\n" + message)
             }
+
+            let downloadAction = OptionAction(label: downloadText, icon: "filter_downloaded") { () in
+                delegate.downloadAllTapped()
+            }
+            downloadAction.destructive = !onWifi
+
+            var actions: [OptionAction] = [downloadAction]
+            if !onWifi {
+                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+                    delegate.queueAllTapped()
+                }
+                queueAction.outline = true
+                actions.append(queueAction)
+                if !Settings.mobileDataAllowed() {
+                    actions.append(OptionAction(label: L10n.settings, icon: nil) {
+                        if let url = URL(string: "pktc://settings/storage-and-data") {
+                            UIApplication.shared.open(url)
+                        }
+                    })
+                }
+            }
+
+            let confirmPicker = OptionsPicker(title: nil)
+            confirmPicker.addDescriptiveActions(
+                title: title,
+                message: message.isEmpty ? nil : message,
+                icon: onWifi ? "filter_downloaded" : "option-alert",
+                actions: actions
+            )
+            confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)
         }
         optionPicker.addAction(action: downloadAllAction)
 
@@ -268,23 +256,20 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let title = playedOnly ? L10n.podcastArchiveAllPlayed : L10n.podcastArchiveAll
         let actionLabel = episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized())
 
-        if FeatureFlag.liquidGlass.enabled {
-            let alertTitle = playedOnly ? L10n.alertArchiveAllPlayed : L10n.alertArchiveAll
-            let alert = UIAlertController(title: alertTitle, message: L10n.podcastArchivePromptMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            alert.addAction(UIAlertAction(title: actionLabel, style: .destructive) { _ in
-                podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
-            })
-            present(alert, animated: true)
-        } else {
-            let archiveAllConfirm = OptionsPicker(title: nil)
-            let archiveAllAction = OptionAction(label: actionLabel, icon: nil, action: {
-                podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
-            })
-            archiveAllAction.destructive = true
-            archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
-            archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
-        }
+        let alertTitle = playedOnly ? L10n.alertArchiveAllPlayed : L10n.alertArchiveAll
+        let archiveAllAction = OptionAction(label: actionLabel, icon: "options-archiveall", action: {
+            podcastDelegate.archiveAllTapped(playedOnly: playedOnly)
+        })
+        archiveAllAction.destructive = true
+
+        let archiveAllConfirm = OptionsPicker(title: nil)
+        archiveAllConfirm.addDescriptiveActions(
+            title: alertTitle,
+            message: L10n.podcastArchivePromptMsg,
+            icon: "options-archiveall",
+            actions: [archiveAllAction]
+        )
+        archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func presentSortOptions() {

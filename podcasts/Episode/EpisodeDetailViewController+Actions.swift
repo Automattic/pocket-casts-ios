@@ -95,25 +95,21 @@ extension EpisodeDetailViewController {
 
     @IBAction func downloadTapped(_ sender: UIButton) {
         if episode.downloaded(pathFinder: DownloadManager.shared) {
-            if FeatureFlag.liquidGlass.enabled {
-                let sizeStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
-                let alert = UIAlertController(title: L10n.podcastDetailsRemoveDownloadAlertTitle, message: L10n.podcastDetailsRemoveDownloadAlertMessage(sizeStr), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-                alert.addAction(UIAlertAction(title: L10n.remove, style: .destructive) { [weak self] _ in
-                    self?.deleteDownloadedFile()
-                    self?.updateColors()
-                })
-                present(alert, animated: true)
-            } else {
-                let confirmation = OptionsPicker(title: L10n.podcastDetailsRemoveDownload)
-                let yesAction = OptionAction(label: L10n.remove, icon: nil) {
-                    self.deleteDownloadedFile()
-                    self.updateColors()
-                }
-                yesAction.destructive = true
-                confirmation.addAction(action: yesAction)
-                confirmation.show(statusBarStyle: preferredStatusBarStyle)
+            let sizeStr = SizeFormatter.shared.noDecimalFormat(bytes: episode.sizeInBytes)
+            let removeAction = OptionAction(label: L10n.remove, icon: "filter_trash") { [weak self] in
+                self?.deleteDownloadedFile()
+                self?.updateColors()
             }
+            removeAction.destructive = true
+
+            let confirmation = OptionsPicker(title: nil)
+            confirmation.addDescriptiveActions(
+                title: L10n.podcastDetailsRemoveDownloadAlertTitle,
+                message: L10n.podcastDetailsRemoveDownloadAlertMessage(sizeStr),
+                icon: "filter_trash",
+                actions: [removeAction]
+            )
+            confirmation.show(statusBarStyle: preferredStatusBarStyle)
         } else if episode.downloading() || episode.queued() || episode.waitingForWifi() {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
         } else {

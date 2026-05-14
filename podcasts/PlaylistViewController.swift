@@ -348,68 +348,51 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
             let onWifi = NetworkUtils.shared.isConnectedToUnexpensiveConnection()
 
-            if FeatureFlag.liquidGlass.enabled {
-                let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
-                let downloadable = self.episodes.filter {
-                    !$0.episode.downloaded(pathFinder: DownloadManager.shared) && !$0.episode.downloading() && !$0.episode.queued()
-                }
-                let totalSize = downloadable.prefix(actualDownloadCount).reduce(Int64(0)) { $0 + $1.episode.sizeInBytes }
-                var messageParts = [String]()
-                if totalSize > 0 {
-                    let sizeString = SizeFormatter.shared.noDecimalFormat(bytes: totalSize)
-                    messageParts.append(L10n.downloadEstimatedSize(sizeString))
-                }
-                if downloadLimitExceeded {
-                    messageParts.append(L10n.bulkDownloadMax)
-                }
-                if !onWifi, !Settings.mobileDataAllowed() {
-                    messageParts.append(L10n.downloadDataWarningAlert)
-                }
-                let message = messageParts.joined(separator: "\n")
-
-                let alert = UIAlertController(title: title, message: message.isEmpty ? nil : message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: downloadText, style: onWifi ? .default : .destructive) { _ in
-                    self.downloadAll()
-                })
-                if !onWifi {
-                    alert.addAction(UIAlertAction(title: L10n.queueForLater, style: .default) { _ in
-                        self.queueAll()
-                    })
-                    if !Settings.mobileDataAllowed() {
-                        alert.addAction(UIAlertAction(title: L10n.settings, style: .default) { _ in
-                            if let url = URL(string: "pktc://settings/storage-and-data") {
-                                UIApplication.shared.open(url)
-                            }
-                        })
-                    }
-                }
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-                self.present(alert, animated: true)
-            } else {
-                let downloadAction = OptionAction(label: downloadText, icon: nil) { [weak self] in
-                    self?.downloadAll()
-                }
-
-                let confirmPicker = OptionsPicker(title: nil)
-                var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-
-                if onWifi {
-                    confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-                } else {
-                    downloadAction.destructive = true
-
-                    let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                        self.queueAll()
-                    }
-
-                    if !Settings.mobileDataAllowed() {
-                        warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
-                    }
-
-                    confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
-                }
-                confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+            let title = onWifi ? L10n.alertDownloadAll : L10n.notOnWifi
+            let downloadable = self.episodes.filter {
+                !$0.episode.downloaded(pathFinder: DownloadManager.shared) && !$0.episode.downloading() && !$0.episode.queued()
             }
+            let totalSize = downloadable.prefix(actualDownloadCount).reduce(Int64(0)) { $0 + $1.episode.sizeInBytes }
+            var messageParts = [String]()
+            if totalSize > 0 {
+                let sizeString = SizeFormatter.shared.noDecimalFormat(bytes: totalSize)
+                messageParts.append(L10n.downloadEstimatedSize(sizeString))
+            }
+            if downloadLimitExceeded {
+                messageParts.append(L10n.bulkDownloadMax)
+            }
+            if !onWifi, !Settings.mobileDataAllowed() {
+                messageParts.append(L10n.downloadDataWarningAlert)
+            }
+            let message = messageParts.joined(separator: "\n")
+
+            let downloadAction = OptionAction(label: downloadText, icon: onWifi ? "filter_downloaded" : nil) { [weak self] in
+                self?.downloadAll()
+            }
+            downloadAction.destructive = !onWifi
+
+            var actions: [OptionAction] = [downloadAction]
+            if !onWifi {
+                actions.append(OptionAction(label: L10n.queueForLater, icon: nil) {
+                    self.queueAll()
+                })
+                if !Settings.mobileDataAllowed() {
+                    actions.append(OptionAction(label: L10n.settings, icon: nil) {
+                        if let url = URL(string: "pktc://settings/storage-and-data") {
+                            UIApplication.shared.open(url)
+                        }
+                    })
+                }
+            }
+
+            let confirmPicker = OptionsPicker(title: nil)
+            confirmPicker.addDescriptiveActions(
+                title: title,
+                message: message.isEmpty ? nil : message,
+                icon: onWifi ? "filter_downloaded" : "option-alert",
+                actions: actions
+            )
+            confirmPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
         }
 
         optionsPicker.addAction(action: sortAction)

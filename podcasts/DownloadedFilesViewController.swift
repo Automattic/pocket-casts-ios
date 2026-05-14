@@ -155,22 +155,19 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
 
     private func confirmCleanup() {
         Analytics.track(.downloadsCleanUpButtonTapped)
-        if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.alertCleanUp, message: L10n.downloadedFilesCleanupConfirmation, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
-                self?.performDelete()
-            })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            present(alert, animated: true)
-        } else {
-            let confirmOption = OptionsPicker(title: nil)
-            let deleteAction = OptionAction(label: L10n.delete, icon: nil) {
-                self.performDelete()
-            }
-            deleteAction.destructive = true
-            confirmOption.addDescriptiveActions(title: L10n.cleanUp, message: L10n.downloadedFilesCleanupConfirmation, icon: "option-delete", actions: [deleteAction])
-            confirmOption.show(statusBarStyle: preferredStatusBarStyle)
+        let deleteAction = OptionAction(label: L10n.delete, icon: "option-delete") { [weak self] in
+            self?.performDelete()
         }
+        deleteAction.destructive = true
+
+        let confirmOption = OptionsPicker(title: nil)
+        confirmOption.addDescriptiveActions(
+            title: L10n.alertCleanUp,
+            message: L10n.downloadedFilesCleanupConfirmation,
+            icon: "option-delete",
+            actions: [deleteAction]
+        )
+        confirmOption.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func performDelete() {

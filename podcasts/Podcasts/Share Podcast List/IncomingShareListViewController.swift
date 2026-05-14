@@ -78,24 +78,17 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
     @IBAction func subscribeToAllTapped(_ sender: AnyObject) {
         if podcasts.count > 2 {
-            if FeatureFlag.liquidGlass.enabled {
-                let alert = UIAlertController(title: L10n.alertSharedListSubscribeTitle(podcasts.count.localized()), message: L10n.alertSharedListSubscribeMessage, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-                alert.addAction(UIAlertAction(title: L10n.alertSharedListSubscribeAction, style: .default) { [weak self] _ in
-                    self?.performSubscribeAll()
-                })
-                present(alert, animated: true)
-            } else {
-                let optionPicker = OptionsPicker(title: nil)
-                let subscribeAction = OptionAction(label: L10n.sharedListSubscribeConfAction, icon: nil, action: { [weak self] in
-                    self?.performSubscribeAll()
-                })
-                optionPicker.addDescriptiveActions(title: L10n.sharedListSubscribeConfTitle,
-                                                   message: L10n.sharedListSubscribeConfMsg(podcasts.count.localized()),
-                                                   icon: "option-podcasts",
-                                                   actions: [subscribeAction])
-                optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-            }
+            let subscribeAction = OptionAction(label: L10n.alertSharedListSubscribeAction, icon: "option-podcasts", action: { [weak self] in
+                self?.performSubscribeAll()
+            })
+            let optionPicker = OptionsPicker(title: nil)
+            optionPicker.addDescriptiveActions(
+                title: L10n.alertSharedListSubscribeTitle(podcasts.count.localized()),
+                message: L10n.alertSharedListSubscribeMessage,
+                icon: "option-podcasts",
+                actions: [subscribeAction]
+            )
+            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
         } else {
             performSubscribeAll()
         }

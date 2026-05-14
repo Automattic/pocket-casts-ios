@@ -304,22 +304,19 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         let deleteAfterExpiryMessage = isSingleBundleSubscription() ? L10n.paidPodcastCancelMsgSingular(expiryDateStr) : L10n.paidPodcastCancelMsgPlural(expiryDateStr)
         let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.paidPodcastCancelMsgRetainAccess(expiryDateStr)
 
-        if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.alertAreYouSure, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.paidPodcastCancel, style: .destructive) { [weak self] _ in
-                self?.performCancel()
-            })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            present(alert, animated: true)
-        } else {
-            let actionSheet = OptionsPicker(title: nil)
-            let cancelAction = OptionAction(label: L10n.paidPodcastCancel, icon: nil) { [weak self] in
-                self?.performCancel()
-            }
-            cancelAction.destructive = true
-            actionSheet.addDescriptiveActions(title: L10n.areYouSure, message: message, icon: "cancelsubscription-large", actions: [cancelAction])
-            actionSheet.show(statusBarStyle: preferredStatusBarStyle)
+        let cancelAction = OptionAction(label: L10n.paidPodcastCancel, icon: "cancelsubscription-large") { [weak self] in
+            self?.performCancel()
         }
+        cancelAction.destructive = true
+
+        let actionSheet = OptionsPicker(title: nil)
+        actionSheet.addDescriptiveActions(
+            title: L10n.alertAreYouSure,
+            message: message,
+            icon: "cancelsubscription-large",
+            actions: [cancelAction]
+        )
+        actionSheet.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private var progressAlert: ShiftyLoadingAlert?
@@ -469,22 +466,19 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
     }
 
     @objc func unsubscribeWarning() {
-        if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.alertUnsubscribe, message: L10n.paidPodcastUnsubscribeMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.unsubscribeAll, style: .destructive) { [weak self] _ in
-                self?.unsubscribeAll()
-            })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            present(alert, animated: true)
-        } else {
-            let optionPicker = OptionsPicker(title: nil)
-            let unsubscribeAction = OptionAction(label: L10n.unsubscribeAll, icon: nil, action: { [weak self] in
-                self?.unsubscribeAll()
-            })
-            unsubscribeAction.destructive = true
-            optionPicker.addDescriptiveActions(title: L10n.unsubscribe, message: L10n.paidPodcastUnsubscribeMsg, icon: "option-alert", actions: [unsubscribeAction])
-            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-        }
+        let unsubscribeAction = OptionAction(label: L10n.unsubscribeAll, icon: "option-alert", action: { [weak self] in
+            self?.unsubscribeAll()
+        })
+        unsubscribeAction.destructive = true
+
+        let optionPicker = OptionsPicker(title: nil)
+        optionPicker.addDescriptiveActions(
+            title: L10n.alertUnsubscribe,
+            message: L10n.paidPodcastUnsubscribeMsg,
+            icon: "option-alert",
+            actions: [unsubscribeAction]
+        )
+        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func unsubscribeAll() {
