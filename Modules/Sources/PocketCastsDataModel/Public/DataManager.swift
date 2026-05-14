@@ -1160,6 +1160,7 @@ public class DataManager {
 
     private static func pathToDbFolder() -> String {
         #if os(tvOS)
+        //tvOS does not allow the use of the application support or documents directory on a real device so we need to use the caches directory.
         let typeOfDirectory: FileManager.SearchPathDirectory = .cachesDirectory
         #else
         let typeOfDirectory: FileManager.SearchPathDirectory = .applicationSupportDirectory
