@@ -32,30 +32,22 @@ struct ShareProfileView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            if startOnPreview {
-                previewProfileView()
-                    .navigationDestination(for: Step.self) { step in
-                        switch step {
-                        case .addPhotoAndName:
-                            addPhotoAndNameView()
-                        case .preview:
-                            previewProfileView()
-                        case .edit:
-                            editProfileView()
-                        }
-                    }
-            } else {
-                addPhotoAndNameView()
-                    .navigationDestination(for: Step.self) { step in
-                        switch step {
-                        case .addPhotoAndName:
-                            addPhotoAndNameView()
-                        case .preview:
-                            previewProfileView()
-                        case .edit:
-                            editProfileView()
-                        }
-                    }
+            Group {
+                if startOnPreview {
+                    previewProfileView()
+                } else {
+                    addPhotoAndNameView()
+                }
+            }
+            .navigationDestination(for: Step.self) { step in
+                switch step {
+                case .addPhotoAndName:
+                    addPhotoAndNameView()
+                case .preview:
+                    previewProfileView()
+                case .edit:
+                    editProfileView()
+                }
             }
         }
         .onAppear {
@@ -70,8 +62,8 @@ struct ShareProfileView: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 24) {
-                    photoSection()
-                    nameSection()
+                    ProfilePhotoMenu(viewModel: viewModel)
+                    DisplayNameField(displayName: $viewModel.displayName)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 32)
@@ -79,7 +71,7 @@ struct ShareProfileView: View {
 
             Spacer()
 
-            bottomButton {
+            BottomGradientContainer {
                 continueButton()
             }
         }
@@ -96,91 +88,6 @@ struct ShareProfileView: View {
                 .navThemed()
                 .accessibilityLabel(L10n.accessibilityCloseDialog)
             }
-        }
-    }
-
-    @ViewBuilder
-    private func photoSection() -> some View {
-        VStack(spacing: 12) {
-            Menu {
-                Button {
-                    viewModel.showingPhotoPicker = true
-                } label: {
-                    Label(L10n.shareProfileChoosePhoto, systemImage: "photo.on.rectangle")
-                }
-
-                Button {
-                    viewModel.showingCamera = true
-                } label: {
-                    Label(L10n.shareProfileTakePhoto, systemImage: "camera")
-                }
-
-                if viewModel.profilePhoto != nil {
-                    Divider()
-
-                    Button(role: .destructive) {
-                        viewModel.removePhoto()
-                    } label: {
-                        Label(L10n.shareProfileRemovePhoto, systemImage: "trash")
-                    }
-                }
-            } label: {
-                ZStack(alignment: .bottomTrailing) {
-                    if let photo = viewModel.profilePhoto {
-                        Image(uiImage: photo)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 134, height: 134)
-                            .clipShape(Circle())
-                    } else {
-                        ProfileImage(email: viewModel.email)
-                            .frame(width: 134, height: 134)
-                            .clipShape(Circle())
-                    }
-
-                    Image("folder-edit")
-                        .renderingMode(.template)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(theme.primaryInteractive02)
-                        .frame(width: 24, height: 24)
-                        .frame(width: 36, height: 36)
-                        .background(Circle().fill(theme.primaryInteractive01))
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(theme.primaryUi01, lineWidth: 3))
-                }
-            }
-        }
-        .photosPicker(isPresented: $viewModel.showingPhotoPicker, selection: $viewModel.selectedPhotoItem, matching: .images)
-        .fullScreenCover(isPresented: $viewModel.showingCamera) {
-            CameraPicker { image in
-                viewModel.profilePhoto = image
-            }
-            .ignoresSafeArea()
-        }
-    }
-
-    @ViewBuilder
-    private func nameSection() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(L10n.shareProfileDisplayName)
-                .font(style: .subheadline, weight: .semibold)
-                .foregroundColor(theme.primaryText01)
-
-            TextField(L10n.shareProfileAddYourName, text: $viewModel.displayName)
-                .font(style: .body)
-                .foregroundColor(theme.primaryText01)
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(theme.primaryUi05, lineWidth: 1)
-                )
-
-            Text(L10n.shareProfileNameDescription)
-                .font(style: .caption, weight: .regular)
-                .foregroundColor(theme.primaryText02)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
         }
     }
 
@@ -236,7 +143,7 @@ struct ShareProfileView: View {
                 .padding(.bottom, 80)
             }
 
-            bottomButton {
+            BottomGradientContainer {
                 shareMyProfileButton()
             }
         }
@@ -468,7 +375,7 @@ struct ShareProfileView: View {
 
             Spacer()
 
-            bottomButton {
+            BottomGradientContainer {
                 saveButton()
             }
         }
@@ -484,6 +391,9 @@ struct ShareProfileView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
+                    viewModel.shareFollowedPodcasts = initialShareFollowedPodcasts
+                    viewModel.shareRecentEpisodes = initialShareRecentEpisodes
+                    viewModel.sharePlaylists = initialSharePlaylists
                     path.removeLast()
                 } label: {
                     Image("nav-back")
@@ -561,25 +471,6 @@ struct ShareProfileView: View {
         }
     }
 
-    @ViewBuilder
-    private func bottomButton<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(spacing: 0) {
-            LinearGradient(
-                stops: [
-                    .init(color: theme.primaryUi01.opacity(0), location: 0),
-                    .init(color: theme.primaryUi01.opacity(0.5), location: 0.4),
-                    .init(color: theme.primaryUi01, location: 1)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 16)
-
-            content()
-                .background(theme.primaryUi01)
-        }
-    }
-
     private func privacyLinkAttributedString(fullText: String, link: String) -> AttributedString {
         var attributed = AttributedString(fullText)
         if let range = attributed.range(of: link) {
@@ -627,8 +518,8 @@ struct EditPhotoAndNameView: View {
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(spacing: 24) {
-                        photoSection()
-                        nameSection()
+                        ProfilePhotoMenu(viewModel: viewModel)
+                        DisplayNameField(displayName: $viewModel.displayName)
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 32)
@@ -636,18 +527,7 @@ struct EditPhotoAndNameView: View {
 
                 Spacer()
 
-                VStack(spacing: 0) {
-                    LinearGradient(
-                        stops: [
-                            .init(color: theme.primaryUi01.opacity(0), location: 0),
-                            .init(color: theme.primaryUi01.opacity(0.5), location: 0.4),
-                            .init(color: theme.primaryUi01, location: 1)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 16)
-
+                BottomGradientContainer {
                     Button {
                         dismissAction()
                     } label: {
@@ -662,7 +542,6 @@ struct EditPhotoAndNameView: View {
                     .disabled(!hasChanges)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 16)
-                    .background(theme.primaryUi01)
                 }
             }
             .background(theme.primaryUi01)
@@ -671,7 +550,11 @@ struct EditPhotoAndNameView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: dismissAction) {
+                    Button {
+                        viewModel.displayName = initialDisplayName
+                        viewModel.profilePhoto = initialPhoto
+                        dismissAction()
+                    } label: {
                         Image("cancel")
                             .renderingMode(.template)
                     }
@@ -685,9 +568,15 @@ struct EditPhotoAndNameView: View {
             initialPhoto = viewModel.profilePhoto
         }
     }
+}
 
-    @ViewBuilder
-    private func photoSection() -> some View {
+// MARK: - Shared Components
+
+private struct ProfilePhotoMenu: View {
+    @EnvironmentObject var theme: Theme
+    @ObservedObject var viewModel: ShareProfileViewModel
+
+    var body: some View {
         VStack(spacing: 12) {
             Menu {
                 Button {
@@ -746,15 +635,19 @@ struct EditPhotoAndNameView: View {
             .ignoresSafeArea()
         }
     }
+}
 
-    @ViewBuilder
-    private func nameSection() -> some View {
+private struct DisplayNameField: View {
+    @EnvironmentObject var theme: Theme
+    @Binding var displayName: String
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(L10n.shareProfileDisplayName)
                 .font(style: .subheadline, weight: .semibold)
                 .foregroundColor(theme.primaryText01)
 
-            TextField(L10n.shareProfileAddYourName, text: $viewModel.displayName)
+            TextField(L10n.shareProfileAddYourName, text: $displayName)
                 .font(style: .body)
                 .foregroundColor(theme.primaryText01)
                 .padding(12)
@@ -768,6 +661,33 @@ struct EditPhotoAndNameView: View {
                 .foregroundColor(theme.primaryText02)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .multilineTextAlignment(.center)
+        }
+    }
+}
+
+private struct BottomGradientContainer<Content: View>: View {
+    @EnvironmentObject var theme: Theme
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            LinearGradient(
+                stops: [
+                    .init(color: theme.primaryUi01.opacity(0), location: 0),
+                    .init(color: theme.primaryUi01.opacity(0.5), location: 0.4),
+                    .init(color: theme.primaryUi01, location: 1)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 16)
+
+            content
+                .background(theme.primaryUi01)
         }
     }
 }

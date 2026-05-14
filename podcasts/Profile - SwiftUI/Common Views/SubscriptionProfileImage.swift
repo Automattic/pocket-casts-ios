@@ -5,10 +5,11 @@ import EndOfYear
 
 struct SubscriptionProfileImage: View {
     @ObservedObject var viewModel: ProfileDataViewModel
+    @State private var shareProfilePhoto: UIImage?
 
     var body: some View {
         Group {
-            if FeatureFlag.shareProfile.enabled, let photo = ShareProfileViewModel.loadSavedProfilePhoto() {
+            if FeatureFlag.shareProfile.enabled, let photo = shareProfilePhoto {
                 Image(uiImage: photo)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -18,6 +19,12 @@ struct SubscriptionProfileImage: View {
         }
         .clipShape(Circle())
         .overlay(expirationProgressView())
+        .task {
+            shareProfilePhoto = ShareProfileViewModel.loadSavedProfilePhoto()
+            for await _ in NotificationCenter.default.notifications(named: ShareProfileViewModel.photoDidChangeNotification) {
+                shareProfilePhoto = ShareProfileViewModel.loadSavedProfilePhoto()
+            }
+        }
     }
 
     @ViewBuilder

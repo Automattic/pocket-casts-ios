@@ -34,8 +34,6 @@ class ShareProfileViewModel: ObservableObject {
 
     let email: String?
 
-    var onDismiss: (() -> Void)?
-
     var followedPodcasts: [Podcast] {
         DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
     }
@@ -107,12 +105,16 @@ class ShareProfileViewModel: ObservableObject {
         return documentsPath.appendingPathComponent("share_profile_photo.jpg")
     }
 
+    static let photoDidChangeNotification = Notification.Name("ShareProfilePhotoDidChange")
+
     private static func saveProfilePhoto(_ image: UIImage?) {
         guard let image, let data = image.jpegData(compressionQuality: 0.85) else {
             try? FileManager.default.removeItem(at: photoURL)
+            NotificationCenter.default.post(name: photoDidChangeNotification, object: nil)
             return
         }
         try? data.write(to: photoURL)
+        NotificationCenter.default.post(name: photoDidChangeNotification, object: nil)
     }
 
     private static func loadProfilePhoto() -> UIImage? {
