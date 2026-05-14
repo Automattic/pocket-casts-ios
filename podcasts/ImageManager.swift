@@ -16,10 +16,18 @@ class ImageManager {
 
     // subscribed image cache, these we want to store for a longer period of time
     lazy var subscribedPodcastsCache: ImageCache = {
+        #if os(tvOS)
+        let path = (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last! as NSString).appendingPathComponent("artworkv3")
+        #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
+        #endif
         let url = URL(fileURLWithPath: path)
         subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+#if os(tvOS)
+        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(50.megabytes)
+#else
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+#endif
         subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
         return subscribedPodcastsCache
     }()
