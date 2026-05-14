@@ -403,7 +403,7 @@ private extension PlayerContainerViewController {
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 
-        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [.allowUserInteraction]) {
             self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
         }
     }
