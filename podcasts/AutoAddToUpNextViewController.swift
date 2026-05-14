@@ -111,7 +111,7 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? nil : L10n.settingsAutoAddPodcasts
+        section == 0 || autoDownloadPodcasts.isEmpty ? nil : L10n.settingsAutoAddPodcasts
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
