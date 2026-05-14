@@ -15,7 +15,7 @@ struct SignInView: View {
     }
 
     var attributed: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeGoUrl("pocketcasts.com/pair", "https://pocketcasts.com/pair")
+        let baseString = L10n.tvSignInEnterCodeGoUrl(model.pairURLPretty, model.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -40,7 +40,7 @@ struct SignInView: View {
         }
     }
 
-    @State private var loginType: LoginType = .manual
+    @State private var loginType: LoginType = .qr
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -63,7 +63,7 @@ struct SignInView: View {
                 case .manual:
                     usernamePasswordLogin
                 case .qr:
-                    QRCodeView()
+                    QRCodeView(url: model.pairURLString)
                     separator
                     Text(L10n.tvSignInEnterCode)
                         .font(.headline)
