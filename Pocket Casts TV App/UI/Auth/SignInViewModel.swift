@@ -33,13 +33,7 @@ class SignInViewModel {
     var codes: [String] = ["J", "M", "R", "S", "3", "W"]
 
     func signinWait() {
-        state = .waiting
-        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
-                    .autoconnect()
-                    .sink { [weak self] _ in
-                        guard let self else { return }
-                        state = .finished
-                    }
+        //TODO: Implement call to poll for validation
     }
 
     func manualSignIn(username: String, password: String) async {

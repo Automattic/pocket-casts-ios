@@ -14,7 +14,7 @@ class AppCoordinator {
 
     var state: State = .loading
 
-    var userEmail: String?
+    var userState = UserStateModel()
 
     func load() async {
         // Ensure database and tables are setup before we go forward
@@ -23,12 +23,21 @@ class AppCoordinator {
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 
-        userEmail = ServerSettings.syncingEmail()
-
         setupCredentials()
 
         setupUniqueAppId()
 
+        await MainActor.run {
+            userState.refresh()
+            if userState.isLoggedIn {
+                state = .signedIn
+            } else {
+                state = .welcome
+            }
+        }
+    }
+
+    func signIn() {
         state = .welcome
     }
 
