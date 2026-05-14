@@ -58,15 +58,17 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
             ServerNotifications.podcastsRefreshed
         ]
 
-        for name in notificationsToObserve {
-            NotificationCenter.default.publisher(for: name)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self else { return }
-                    Task { await self.fetchPodcasts() }
-                }
-                .store(in: &cancellables)
+        let publishers = notificationsToObserve.map {
+            NotificationCenter.default.publisher(for: $0).map { _ in () }.eraseToAnyPublisher()
         }
+
+        Publishers.MergeMany(publishers)
+            .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                Task { await self.fetchPodcasts() }
+            }
+            .store(in: &cancellables)
     }
 }
 
