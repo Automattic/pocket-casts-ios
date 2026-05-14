@@ -95,6 +95,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // view itself stays in place inside the tab accessory; only its
         // contents are blanked.
         mini.subviews.forEach { $0.alpha = 0 }
+
         // Use alpha (not isHidden) on `toArtwork` — it's an arranged subview
         // of a UIStackView, and `isHidden = true` would collapse its slot
         // and re-flow the layout, parking the artwork at a degenerate frame.
@@ -188,6 +189,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             // vanishing in the first frames.
             miniSnapshot.frame.origin.y = 0
             miniSnapshot.alpha = 0
+            mini.alpha = 0.2 // Can't hide it completely as it breaks the shadows
         } completion: { _ in
             container.addSubview(toView)
             toView.frame = finalFrame
@@ -292,6 +294,12 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         UIView.animate(withDuration: dismissDuration * 0.45, delay: 0, options: [.curveEaseOut]) {
             fromView.alpha = 0
             colorOverlay.alpha = 0
+            miniSnapshot.alpha = 1
+        }
+
+        UIView.animate(withDuration: dismissDuration * 0.35, delay: dismissDuration * 0.55, options: [.curveEaseOut]) {
+            mini.alpha = 1 // Restore slightly earlier that controls so shadows are in place
+            (panel.subviews.first as! UIVisualEffectView).effect = UIGlassEffect(style: .clear)
         }
 
         UIView.animate(
@@ -310,7 +318,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             // edge, fading in over the full duration so it materializes during
             // the descent instead of popping in at the end.
             miniSnapshot.frame.origin.y = miniFrame.minY
-            miniSnapshot.alpha = 1
         } completion: { _ in
             panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
