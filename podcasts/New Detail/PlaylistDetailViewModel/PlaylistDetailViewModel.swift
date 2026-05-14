@@ -356,7 +356,7 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
+        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: playlist.showArchivedEpisodes, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             // Avoid animation as long we use the current diffable framework
