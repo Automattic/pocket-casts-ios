@@ -88,13 +88,17 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let sourceArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
-        // Use alpha (not isHidden) on the artwork views — `toArtwork` is an
-        // arranged subview of a UIStackView, and `isHidden = true` would
-        // collapse its slot and re-flow the layout, parking the artwork at
-        // a degenerate frame. Alpha hides it without affecting the layout.
-        miniArtwork.alpha = 0
+        // Hide the real mini player's controls during the transition so they
+        // don't show through the panel's glass material — the `miniSnapshot`
+        // clone takes over the visual role until the animation completes.
+        // Set alpha on each subview rather than `mini.alpha` so the mini
+        // view itself stays in place inside the tab accessory; only its
+        // contents are blanked.
+        mini.subviews.forEach { $0.alpha = 0 }
+        // Use alpha (not isHidden) on `toArtwork` — it's an arranged subview
+        // of a UIStackView, and `isHidden = true` would collapse its slot
+        // and re-flow the layout, parking the artwork at a degenerate frame.
         toArtwork.alpha = 0
-        mini.isHidden = true
 
         // Lay out toView at its final frame so we can read the destination
         // artwork frame from its final layout. `viewDidLayoutSubviews` on
@@ -128,25 +132,23 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toView.layer.cornerCurve = .continuous
         toView.clipsToBounds = true
 
-        // The player's chrome is painted by `nowPlayingItem.view` (a subview
-        // of `toView`), so clearing `toView.backgroundColor` doesn't make the
-        // panel see-through. Pull the panel color from that subview so the
-        // glass→color morph lands on the real player background.
-        let panelColor = toVC.nowPlayingItem.view.backgroundColor
+        // Panel starts as glass (matching the tab accessory) and the
+        // full-player color overlay fades in over the transition so the pill
+        // morphs from mini-like to full-player rather than staying glass
+        // throughout. `nowPlayingItem.view` paints the real player chrome,
+        // so use its `backgroundColor` as the source of the full color.
+        let fullPlayerColor = toVC.nowPlayingItem.view.backgroundColor
             ?? PlayerColorHelper.playerBackgroundColor01()
-        let panel = makePanel(
-            frame: miniFrame,
-            cornerRadius: miniCornerRadius,
-            color: panelColor,
-            colorAlpha: 0
-        )
-        container.addSubview(panel.view)
+        let panel = makePanel(frame: miniFrame, cornerRadius: miniCornerRadius)
+        container.addSubview(panel)
+
+        let colorOverlay = addColorOverlay(to: panel, color: fullPlayerColor, alpha: 0)
 
         // Re-parent toView into the panel. toView is positioned so its left
         // edge sits at the same screen x it will at full size; the panel's
         // clipping crops everything outside the small pill.
         toView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
-        panel.view.addSubview(toView)
+        panel.addSubview(toView)
 
         let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline)
         container.addSubview(miniSnapshot)
@@ -158,15 +160,15 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         )
         container.addSubview(floating)
 
-        // Bring toView in once the panel has started morphing toward the
-        // full-player color, so the player content doesn't paint solidly
-        // from frame zero — toView's root background is clear, but its
-        // subviews aren't. Starting too late makes the controls feel like
-        // they pop in near the end of the transition.
+        // Fade toView in partway through so the player content doesn't
+        // paint solidly from frame zero — toView's root background is clear,
+        // but its subviews aren't. Starting too late makes the controls feel
+        // like they pop in near the end of the transition.
         UIView.animate(withDuration: presentDuration * 0.5,
                        delay: presentDuration * 0.2,
                        options: [.curveEaseOut]) {
             toView.alpha = 1
+            colorOverlay.alpha = 1
         }
 
         UIView.animate(
@@ -176,12 +178,11 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             initialSpringVelocity: initialSpringVelocity(miniFrame: miniFrame),
             options: [.curveEaseInOut]
         ) {
-            panel.view.frame = container.bounds
-            panel.view.layer.cornerRadius = self.finalCornerRadius
+            panel.frame = container.bounds
+            panel.layer.cornerRadius = self.finalCornerRadius
             toView.frame = CGRect(x: 0, y: 0, width: finalFrame.width, height: finalFrame.height)
             floating.frame = destArtFrame
             floating.layer.cornerRadius = toArtwork.layer.cornerRadius
-            panel.colorOverlay.alpha = 1
             // Mini chrome rides up pinned to the panel's top edge and fades out
             // over the full duration, so it animates the whole way rather than
             // vanishing in the first frames.
@@ -191,12 +192,10 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             container.addSubview(toView)
             toView.frame = finalFrame
             toView.alpha = 1
-            panel.view.removeFromSuperview()
+            panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
             floating.removeFromSuperview()
             self.miniSnapshotController = nil
-            mini.isHidden = false
-            miniArtwork.alpha = 1
             toArtwork.alpha = 1
             context.completeTransition(!context.transitionWasCancelled)
         }
@@ -252,34 +251,25 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
         miniArtwork.alpha = 0
         fromArtwork.alpha = 0
-        mini.isHidden = true
 
         // The panel handles outer clipping with the iOS 26 corner radius, so
         // remove the corner radius from fromView to avoid double-clipping.
         fromView.layer.cornerRadius = 0
         fromView.clipsToBounds = false
 
-        let panelColor = fromVC.nowPlayingItem.view.backgroundColor
+        let fullPlayerColor = fromVC.nowPlayingItem.view.backgroundColor
             ?? PlayerColorHelper.playerBackgroundColor01()
         let panel = makePanel(
             frame: CGRect(x: 0, y: dragOffset, width: container.bounds.width, height: container.bounds.height),
-            cornerRadius: finalCornerRadius,
-            color: panelColor,
-            colorAlpha: 1
+            cornerRadius: finalCornerRadius
         )
-        container.insertSubview(panel.view, belowSubview: fromView)
+        container.insertSubview(panel, belowSubview: fromView)
 
-        // UITabAccessory only paints its glass shadow while the mini player is
-        // visible, and the mini stays hidden for the whole dismiss. Park a fake
-        // shadow at the mini's final spot so the descending pill resolves into
-        // an already-shadowed slot instead of the real shadow popping in the
-        // moment the mini is unhidden.
-        let shadowHost = makeShadowHost(frame: miniFrame, cornerRadius: miniCornerRadius)
-        container.insertSubview(shadowHost, belowSubview: panel.view)
+        let colorOverlay = addColorOverlay(to: panel, color: fullPlayerColor, alpha: 1)
 
         fromView.removeFromSuperview()
         fromView.frame = CGRect(x: 0, y: 0, width: finalFrame.width, height: finalFrame.height)
-        panel.view.addSubview(fromView)
+        panel.addSubview(fromView)
 
         let miniSnapshot = makeMiniSnapshot(
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
@@ -301,6 +291,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // floating artwork keeps morphing in its own animation.
         UIView.animate(withDuration: dismissDuration * 0.45, delay: 0, options: [.curveEaseOut]) {
             fromView.alpha = 0
+            colorOverlay.alpha = 0
         }
 
         UIView.animate(
@@ -310,23 +301,21 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             initialSpringVelocity: initialSpringVelocity(miniFrame: miniFrame),
             options: [.curveEaseInOut]
         ) {
-            panel.view.frame = miniFrame
-            panel.view.layer.cornerRadius = miniCornerRadius
+            panel.frame = miniFrame
+            panel.layer.cornerRadius = miniCornerRadius
             fromView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
             floating.frame = destArtFrame
             floating.layer.cornerRadius = miniArtwork.layer.cornerRadius
-            panel.colorOverlay.alpha = 0
             // Mini chrome rides down from the top, pinned to the panel's top
             // edge, fading in over the full duration so it materializes during
             // the descent instead of popping in at the end.
             miniSnapshot.frame.origin.y = miniFrame.minY
             miniSnapshot.alpha = 1
         } completion: { _ in
-            panel.view.removeFromSuperview()
+            panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
+            mini.subviews.forEach { $0.alpha = 1 }
             floating.removeFromSuperview()
-            mini.isHidden = false
-            shadowHost.removeFromSuperview()
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
             miniVC.resetScrollingTitleAnimation()
@@ -338,15 +327,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     // MARK: - Builders
 
-    private struct Panel {
-        let view: UIView
-        let colorOverlay: UIView
-    }
-
-    /// Clipping container with a glass backdrop and a color overlay on top.
-    /// Animating `colorOverlay.alpha` cross-fades between the glass look (mini
-    /// pill) and the opaque full-player background.
-    private func makePanel(frame: CGRect, cornerRadius: CGFloat, color: UIColor, colorAlpha: CGFloat) -> Panel {
+    private func makePanel(frame: CGRect, cornerRadius: CGFloat) -> UIView {
         let panel = UIView(frame: frame)
         panel.backgroundColor = .clear
         panel.layer.cornerRadius = cornerRadius
@@ -354,37 +335,29 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         panel.layer.masksToBounds = true
         panel.clipsToBounds = true
 
-        let glassView = UIVisualEffectView(effect: UIGlassEffect())
-        glassView.frame = panel.bounds
-        glassView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        panel.addSubview(glassView)
+        // Glass material matching the `UITabAccessory` that hosts the mini
+        // player. At the start (panel at miniFrame) this makes the panel
+        // visually continuous with the tab accessory; the full-player color
+        // overlay fades in on top as the panel expands.
+        let blurView = UIVisualEffectView(effect: UIGlassEffect(style: .regular))
+        blurView.frame = panel.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        panel.addSubview(blurView)
 
-        let colorOverlay = UIView(frame: panel.bounds)
-        colorOverlay.backgroundColor = color
-        colorOverlay.alpha = colorAlpha
-        colorOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        colorOverlay.isUserInteractionEnabled = false
-        panel.addSubview(colorOverlay)
-
-        return Panel(view: panel, colorOverlay: colorOverlay)
+        return panel
     }
 
-    /// Empty view that only contributes a CALayer drop shadow — approximates
-    /// the UITabAccessory glass shadow during the dismiss so the descending
-    /// pill carries a shadow throughout, rather than popping in at the end.
-    private func makeShadowHost(frame: CGRect, cornerRadius: CGFloat) -> UIView {
-        let view = UIView(frame: frame)
-        view.backgroundColor = .clear
-        view.isUserInteractionEnabled = false
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.18
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 12
-        view.layer.shadowPath = UIBezierPath(
-            roundedRect: CGRect(origin: .zero, size: frame.size),
-            cornerRadius: cornerRadius
-        ).cgPath
-        return view
+    /// Full-width color layer added behind the player content so the panel
+    /// can cross-fade between the mini-player color (panel background) and
+    /// the full-player color (this overlay) by animating `alpha`.
+    private func addColorOverlay(to panel: UIView, color: UIColor, alpha: CGFloat) -> UIView {
+        let overlay = UIView(frame: panel.bounds)
+        overlay.backgroundColor = color
+        overlay.alpha = alpha
+        overlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        overlay.isUserInteractionEnabled = false
+        panel.addSubview(overlay)
+        return overlay
     }
 
     /// Builds a live `MiniPlayerViewController` clone instead of a bitmap
