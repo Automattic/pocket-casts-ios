@@ -32,7 +32,7 @@ class ShowNotesFormatter {
             "</style>"
 
         let cleanedShowNotes = removeHtml(string: showNotes)
-        styledShowNotes = styledShowNotes + "</head><body>"
+        styledShowNotes = styledShowNotes + "</head><body dir=\"auto\">"
 
         if let customTitle {
             styledShowNotes = styledShowNotes + "<p><customTitle>\(customTitle)</customTitle></p>"
