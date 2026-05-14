@@ -128,11 +128,13 @@ extension PodcastListViewController: UICollectionViewDragDelegate, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         guard let dropItem = coordinator.items.first,
-              let sourceIndexPath = dropItem.sourceIndexPath else {
+              let sourceIndexPath = dropItem.sourceIndexPath,
+              gridItems.indices.contains(sourceIndexPath.item) else {
             return
         }
-        let destinationIndexPath = coordinator.destinationIndexPath
-            ?? IndexPath(item: max(0, gridItems.count - 1), section: 0)
+        let rawDestination = coordinator.destinationIndexPath?.item ?? gridItems.count - 1
+        let clampedDestination = min(max(0, rawDestination), gridItems.count - 1)
+        let destinationIndexPath = IndexPath(item: clampedDestination, section: 0)
 
         collectionView.performBatchUpdates {
             let moved = gridItems.remove(at: sourceIndexPath.item)
