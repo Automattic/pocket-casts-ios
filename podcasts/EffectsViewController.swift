@@ -10,7 +10,6 @@ class EffectsViewController: SimpleNotificationsViewController {
             headingLbl.text = L10n.playbackEffects.localizedUppercase
             headingLbl.font = UIFont.font(ofSize: 13, weight: .medium, scalingWith: .title1)
             headingLbl.adjustsFontForContentSizeCategory = true
-
         }
     }
 

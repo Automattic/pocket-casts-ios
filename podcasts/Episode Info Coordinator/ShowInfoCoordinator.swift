@@ -24,8 +24,6 @@ actor ShowInfoCoordinator: ShowInfoCoordinating {
         self.podcastIndexChapterRetriever = podcastIndexChapterRetriever
         self.dataManager = dataManager
         self.transcriptDataRetriever = transcriptDataRetriever
-
-
     }
 
     func loadShowNotes(

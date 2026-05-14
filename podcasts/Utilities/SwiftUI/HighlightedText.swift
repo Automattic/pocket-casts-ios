@@ -148,7 +148,6 @@ struct HighlightedText: View {
         return result
             .replacingOccurrences(of: startToken, with: "^[")
             .replacingOccurrences(of: endToken, with: "](highlight: true)")
-
     }
 
     // MARK: - Public structs

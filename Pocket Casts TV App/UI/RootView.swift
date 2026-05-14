@@ -24,7 +24,6 @@ struct RootView: View {
         .task {
             await coordinator.load()
         }
-
     }
 }
 

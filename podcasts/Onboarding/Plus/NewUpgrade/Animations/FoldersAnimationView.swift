@@ -151,7 +151,6 @@ struct FoldersAnimationView: View {
             animationProgress = 1
         }
     }
-
 }
 
 #Preview {

@@ -101,5 +101,4 @@ class MockEpisodeRowViewModel: Identifiable {
     var displayDuration: String {
         return episode.duration.formatted()
     }
-
 }

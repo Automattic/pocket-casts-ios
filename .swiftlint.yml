@@ -111,6 +111,9 @@ only_rules:
   # Closure parameters shouldn't be wrapped in unneeded parentheses.
   - unneeded_parentheses_in_closure_argument
 
+  # Don't include vertical whitespace (empty line) before closing braces.
+  - vertical_whitespace_closing_braces
+  
   - custom_rules
 
 # Rules configuration

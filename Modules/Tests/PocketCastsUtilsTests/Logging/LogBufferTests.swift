@@ -126,5 +126,4 @@ final class LogBufferTests: XCTestCase {
         XCTAssertTrue(messages[1].contains("Log Message 2"))
         XCTAssertTrue(messages[2].contains("Log Message 3"))
     }
-
 }

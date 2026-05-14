@@ -68,5 +68,4 @@ final class ComposeFilterTests: XCTestCase {
 
         XCTAssertEqual(filtered.trim(), expected.trim())
     }
-
 }

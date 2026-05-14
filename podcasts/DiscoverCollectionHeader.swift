@@ -90,7 +90,6 @@ class DiscoverCollectionHeader: UICollectionReusableView {
             descriptionLabel.style = .primaryText02
             descriptionLabel.font = .font(ofSize: 13, weight: .regular, scalingWith: .footnote)
             descriptionLabel.adjustsFontForContentSizeCategory = true
-
         }
     }
 

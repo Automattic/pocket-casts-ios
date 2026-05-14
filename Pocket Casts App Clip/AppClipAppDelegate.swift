@@ -28,7 +28,6 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-
     }
 
     private func configureFirebase() {

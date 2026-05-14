@@ -714,7 +714,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
         progressManager.removeProgressForEpisode(episode.uuid)
-
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {

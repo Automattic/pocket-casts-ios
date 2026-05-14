@@ -118,7 +118,6 @@ class PlusPricingInfoModel: ObservableObject {
                 return L10n.pricingTermsAfterDiscount(rawPrice, duration, offerEndDateLocalized.nonBreakingSpaces())
             }
         }
-
     }
 
     enum PriceAvailablity {

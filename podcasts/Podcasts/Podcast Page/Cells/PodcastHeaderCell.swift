@@ -50,7 +50,6 @@ class PodcastHeaderCell: UITableViewCell {
                     viewController.tableView().beginUpdates()
                     viewController.tableView().endUpdates()
                 }
-
             }
         })
     }

@@ -39,7 +39,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
             editButton.setTitle(L10n.edit, for: .normal)
             editButton.titleLabel?.font = UIFont.font(ofSize: 15, weight: .bold, scalingWith: .largeTitle)
             editButton.titleLabel?.adjustsFontForContentSizeCategory = true
-
         }
     }
 

@@ -83,7 +83,6 @@ public struct NetworkDataUsageManager {
 
         return .wifi
     }
-
 }
 
 // MARK: - Schema Creation

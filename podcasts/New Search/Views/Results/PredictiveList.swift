@@ -111,5 +111,4 @@ struct PredictiveList: View {
             .background(theme.primaryUi01)
         })
     }
-
 }

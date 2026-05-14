@@ -15,7 +15,6 @@ extension Array {
             } else {
                 output.append([self[i]])
             }
-
         }
         return output
     }

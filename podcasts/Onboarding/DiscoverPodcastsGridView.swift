@@ -64,5 +64,4 @@ struct DiscoverPodcastsGridView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: Constants.itemHeight)
     }
-
 }

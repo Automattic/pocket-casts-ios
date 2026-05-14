@@ -131,7 +131,6 @@ class ChaptersHeader: UIView {
         chaptersLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         toggleButton.setContentCompressionResistancePriority(.required, for: .vertical)
     }
-
 }
 
 protocol ChaptersHeaderDelegate: AnyObject {
