@@ -362,12 +362,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
         optionsPicker.addAction(action: sortAction)
 
-        let editAction = OptionAction(label: L10n.edit, icon: "filter_manual_episode_order") { [weak self] in
-            self?.setEditingOrder(true)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
-        }
-        optionsPicker.addAction(action: editAction)
-
         let largeGridAction = OptionAction(label: L10n.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
@@ -403,6 +397,12 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
         }
         optionsPicker.addAction(action: shareAction)
+
+        let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
+            self?.setEditingOrder(true)
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+        }
+        optionsPicker.addAction(action: editAction)
 
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
 

@@ -80,7 +80,7 @@ extension PodcastListViewController {
                                        options: .singleSelection,
                                        children: [onAction, offAction])
 
-        let editAction = UIAction(title: L10n.edit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
+        let editAction = UIAction(title: L10n.podcastsEdit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
             self?.setEditingOrder(true)
         }
 
