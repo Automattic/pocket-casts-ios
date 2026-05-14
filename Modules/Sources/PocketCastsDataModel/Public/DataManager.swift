@@ -1159,7 +1159,12 @@ public class DataManager {
     }
 
     private static func pathToDbFolder() -> String {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        #if os(tvOS)
+        let typeOfDirectory: FileManager.SearchPathDirectory = .cachesDirectory
+        #else
+        let typeOfDirectory: FileManager.SearchPathDirectory = .applicationSupportDirectory
+        #endif
+        let documentsPath = NSSearchPathForDirectoriesInDomains(typeOfDirectory, .userDomainMask, true).last as NSString?
         let mainFolder = documentsPath?.appendingPathComponent("Pocket Casts")
 
         return mainFolder!
@@ -1169,7 +1174,7 @@ public class DataManager {
         do {
             try FileManager.default.createDirectory(atPath: pathToDbFolder(), withIntermediateDirectories: true, attributes: nil)
         } catch {
-            print("Unable to create database folder")
+            print("Unable to create database folder: \(error)")
         }
     }
 
