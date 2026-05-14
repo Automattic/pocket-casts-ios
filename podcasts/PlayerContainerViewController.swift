@@ -242,7 +242,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if !APPCLIP
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         panGesture.cancelsTouchesInView = false
+        panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
+        // Make the horizontal page swipe wait for the dismiss pan to either begin or
+        // fail, so a downward-diagonal swipe dismisses the player instead of being
+        // captured by the tab scroll view.
+        mainScrollView.panGestureRecognizer.require(toFail: panGesture)
         #endif
     }
 
