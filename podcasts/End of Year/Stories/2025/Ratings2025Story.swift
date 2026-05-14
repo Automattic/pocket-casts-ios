@@ -8,8 +8,8 @@ struct Ratings2025Story: ShareableStory {
     let ratings: [UInt32: Int]
 
     let foregroundColor: Color = .white
-    let backgroundColor: Color = Color(hex: "#A22828")
-    let barColor: Color = Color(hex: "#FF4562")
+    let backgroundColor = Color(hex: "#A22828")
+    let barColor = Color(hex: "#FF4562")
 
     private let ratingsBlogPostURL = URL(string: "https://blog.pocketcasts.com/2024/08/20/podcast-ratings/")!
 

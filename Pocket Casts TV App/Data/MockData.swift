@@ -188,7 +188,7 @@ struct MockData {
                     episodes.append(episode)
                 }
             }
-            let playlist: EpisodeFilter = EpisodeFilter()
+            let playlist = EpisodeFilter()
             playlist.uuid = UUID().uuidString
             playlist.playlistName = name
             playlist.manual = !smart

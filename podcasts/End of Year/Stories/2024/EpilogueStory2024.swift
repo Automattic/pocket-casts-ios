@@ -63,7 +63,6 @@ struct EpilogueStory2024: StoryView {
             .padding(.horizontal, 24)
             .padding(.vertical, 6)
         }
-
     }
 
     func onAppear() {

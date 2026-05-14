@@ -34,7 +34,6 @@ class BookmarkRowViewModel: ObservableObject {
         let dataManager = DataManager.sharedManager
         if let episode = bookmark.episode ?? dataManager.findBaseEpisode(uuid: bookmark.episodeUuid) {
             updateFromEpisode(episode)
-
         } else if let podcastUuid = bookmark.podcastUuid {
             ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: bookmark.episodeUuid, podcastUuid: podcastUuid) { [weak self] episode in
                 if let episode {

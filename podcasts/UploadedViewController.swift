@@ -196,7 +196,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         let addFileAction = OptionAction(label: L10n.fileUploadAddFile, icon: "filter_add") { [weak self] in
             Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "add_file"])
             self?.addFile()
-
         }
         optionsPicker.addAction(action: addFileAction)
 

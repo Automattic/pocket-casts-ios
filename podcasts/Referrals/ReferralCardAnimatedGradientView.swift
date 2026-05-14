@@ -77,5 +77,4 @@ struct ReferralCardAnimatedGradientView: View {
         }
         .cornerRadius(15)
         .frame(width: 315, height: 200)
-
 }

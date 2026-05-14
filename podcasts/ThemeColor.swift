@@ -6084,5 +6084,4 @@ struct ThemeColor {
             return ThemeColor.category19ContrastDark
         }
     }
-
 }

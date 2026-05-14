@@ -49,6 +49,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard podcastCollection != nil else { return CGSize.zero }
 
+        // swiftlint:disable:next redundant_type_annotation
         let headerView: DiscoverCollectionHeader = DiscoverCollectionHeader.fromNib()
         headerView.populate(podcastCollection: podcastCollection)
 

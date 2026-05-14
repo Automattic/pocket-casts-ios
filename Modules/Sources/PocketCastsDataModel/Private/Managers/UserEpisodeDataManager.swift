@@ -679,5 +679,4 @@ class UserEpisodeDataManager {
 
         return values
     }
-
 }

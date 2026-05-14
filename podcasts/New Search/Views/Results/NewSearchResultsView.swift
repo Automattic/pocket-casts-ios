@@ -167,7 +167,6 @@ struct NewSearchResultsView: View {
                             return 0
                         }
             }
-
         }
     }
 

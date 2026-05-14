@@ -95,17 +95,17 @@ struct NumberListened2025: ShareableStory {
     }
 
     func calculateDimensions(for index: Int) -> (CGFloat, CGFloat, Double, CGFloat) {
-        let shift: CGFloat = CGFloat(index - 3)
+        let shift = CGFloat(index - 3)
         let direction: CGFloat = shift <= 0 ? -1 : 1
         let size: CGFloat = Constants.coverSize - CGFloat(abs(shift) * Constants.xOffset)
-        let offset: CGFloat = CGFloat(shift * Constants.yOffset)
-        let zOffset: Double = Double(CGFloat(itemsCount) - abs(shift))
+        let offset = CGFloat(shift * Constants.yOffset)
+        let zOffset = Double(CGFloat(itemsCount) - abs(shift))
         return (size, offset, zOffset, direction)
     }
 
     @ViewBuilder var podcastsAnimation: some View {
         ZStack() {
-            ForEach(Array(zip(indices.indices, indices)), id: \.0) { (index, pos) in
+            ForEach(Array(zip(indices.indices, indices)), id: \.0) { index, pos in
                 let result = calculateDimensions(for: index)
                 podcastCover(pos, shadow: true)
                     .frame(width: result.0 + (Constants.xOffset * result.3 * progress), height: result.0 + (Constants.xOffset * result.3 * progress))

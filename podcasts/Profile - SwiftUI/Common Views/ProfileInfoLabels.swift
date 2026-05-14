@@ -94,7 +94,6 @@ struct ProfileInfoLabels_Previews: PreviewProvider {
                                                      displayName: "Hellllllllllllllllllllllloooooooooooo Worrrrrrrrrrrllllllddd"))
                     Divider()
                 }
-
             }
             .padding()
             .background(theme.primaryUi01)

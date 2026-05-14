@@ -58,7 +58,6 @@ struct UpNextView: View {
         .focusScope(rowNamespace)
         .padding(24)
     }
-
 }
 
 #Preview {

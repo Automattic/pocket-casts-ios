@@ -4,7 +4,7 @@ struct ClipsWhatsNewView: View {
     @State private var isVisible = false
 
     enum Constants {
-        static var previewSize: CGSize = CGSize(width: 138, height: 175)
+        static var previewSize = CGSize(width: 138, height: 175)
         static var fadeInDuration: Double = 0.8 // Used for fade-in of preview + delay of logos
     }
 
@@ -17,7 +17,7 @@ struct ClipsWhatsNewView: View {
 
     var body: some View {
         ZStack {
-            ForEach(Array(logos.enumerated()), id: \.self.element.image) { (idx, logo) in
+            ForEach(Array(logos.enumerated()), id: \.self.element.image) { idx, logo in
                 AnimatedLogoImageView(logo: logo, index: idx, delay: Constants.fadeInDuration)
             }
             VStack {

@@ -7,7 +7,7 @@ extension SyncTask {
         // before looking at the server playlists, mark any we have here locally as needing to be syncing so they get pushed up with the next sync
         DataManager.sharedManager.markAllPlaylistsUnsynced()
 
-        playlists.forEach { (playlist, serverEpisodes) in
+        playlists.forEach { playlist, serverEpisodes in
             // if we have this playlist locally, assume the server version is more up to date, so blow ours away
             if let localPlaylist = DataManager.sharedManager.findPlaylist(uuid: playlist.uuid) {
                 DataManager.sharedManager.delete(playlist: localPlaylist)
