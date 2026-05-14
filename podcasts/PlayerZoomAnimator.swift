@@ -153,6 +153,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
         let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline)
         container.addSubview(miniSnapshot)
+        miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
         let floating = makeFloatingArtwork(
             image: toArtwork.image ?? miniArtwork.imageView?.image,
@@ -280,6 +281,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         )
         miniSnapshot.alpha = 0
         container.addSubview(miniSnapshot)
+        miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
         let floating = makeFloatingArtwork(
             image: fromArtwork.image ?? miniArtwork.imageView?.image,
@@ -325,7 +327,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             floating.removeFromSuperview()
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
-            miniVC.resetScrollingTitleAnimation()
             miniArtwork.alpha = 1
             fromView.removeFromSuperview()
             context.completeTransition(!context.transitionWasCancelled)
@@ -387,14 +388,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         cloneView.layer.cornerCurve = .continuous
         cloneView.clipsToBounds = true
         cloneView.layoutIfNeeded()
-        // Align the clone's marquee phase with the live mini player so the
-        // title doesn't snap back to the start of its scroll cycle. The clone
-        // isn't in a window yet, so `synchronizeAnimation` just records the
-        // begin time; `didMoveToWindow` applies it when the snapshot is added
-        // to the container.
-        if let source = miniPlayerProvider() {
-            clone.synchronizeScrollingTitleAnimation(with: source)
-        }
         miniSnapshotController = clone
         return cloneView
     }

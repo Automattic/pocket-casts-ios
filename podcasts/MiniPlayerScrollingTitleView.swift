@@ -16,11 +16,6 @@ final class MiniPlayerScrollingTitleView: UIView {
     private var lastTextWidth: CGFloat = -1
     private var lastBoundsWidth: CGFloat = -1
 
-    /// When set, future marquee animations are added with this `beginTime`
-    /// instead of `CACurrentMediaTime()`, so this view's scroll phase aligns
-    /// with another instance's. Used by the zoom transition's snapshot clone.
-    private var syncedBeginTime: CFTimeInterval?
-
     private let fadeWidth: CGFloat = 16
     private let scrollSpeed: CGFloat = 30
     private let gap: CGFloat = 28
@@ -96,17 +91,32 @@ final class MiniPlayerScrollingTitleView: UIView {
 
     /// Restarts the marquee from the beginning of its pause-then-scroll cycle.
     func restartAnimation() {
-        syncedBeginTime = nil
         scheduleAnimation()
     }
 
-    /// Aligns this view's marquee phase with another instance, so a clone can
-    /// pick up the live scroll position instead of restarting from frame zero.
-    /// Used by `PlayerZoomAnimator` for the snapshot mini player.
+    /// Picks up another instance's marquee phase, so a snapshot clone scrolls
+    /// in lock-step with the live mini player instead of restarting from
+    /// frame zero. Call after this view is in a window so layer-local time
+    /// conversion is well-defined.
     func synchronizeAnimation(with other: MiniPlayerScrollingTitleView) {
-        syncedBeginTime = other.scrollContainer.layer
-            .animation(forKey: Self.transformAnimationKey)?.beginTime
-        scheduleAnimation()
+        let otherLayer = other.scrollContainer.layer
+        guard let transformAnim = otherLayer.animation(forKey: Self.transformAnimationKey),
+              let maskAnim = other.gradientMask.animation(forKey: Self.maskAnimationKey),
+              let transformCopy = transformAnim.copy() as? CAAnimation,
+              let maskCopy = maskAnim.copy() as? CAAnimation else { return }
+
+        // Translate beginTime from the source layer's local time space to
+        // ours via host time — the same numerical value can map to a
+        // different phase across layer hierarchies, which is why the previous
+        // direct-copy attempt didn't fully sync.
+        let beginInHost = otherLayer.convertTime(transformAnim.beginTime, to: nil)
+        let beginInLocal = scrollContainer.layer.convertTime(beginInHost, from: nil)
+        transformCopy.beginTime = beginInLocal
+        maskCopy.beginTime = beginInLocal
+
+        layer.mask = gradientMask
+        scrollContainer.layer.add(transformCopy, forKey: Self.transformAnimationKey)
+        gradientMask.add(maskCopy, forKey: Self.maskAnimationKey)
     }
 
     @objc private func reduceMotionStatusDidChange() {
@@ -183,10 +193,10 @@ final class MiniPlayerScrollingTitleView: UIView {
             return
         }
 
-        addMarqueeAnimations(beginTime: syncedBeginTime ?? CACurrentMediaTime())
+        addMarqueeAnimations()
     }
 
-    private func addMarqueeAnimations(beginTime: CFTimeInterval) {
+    private func addMarqueeAnimations() {
         let textWidth = primaryLabel.intrinsicContentSize.width
         let cycleDistance = textWidth + gap
         let scrollDuration = TimeInterval(cycleDistance / scrollSpeed)
@@ -195,6 +205,8 @@ final class MiniPlayerScrollingTitleView: UIView {
         let totalDuration = pauseDuration + scrollDuration
 
         guard totalDuration > 0 else { return }
+
+        let beginTime = CACurrentMediaTime()
 
         let transformAnim = CAKeyframeAnimation(keyPath: "transform.translation.x")
         transformAnim.values = [0, 0, -cycleDistance]

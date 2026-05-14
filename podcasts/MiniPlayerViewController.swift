@@ -198,15 +198,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     /// Resets the scrolling title marquee to the beginning of its pause-then-scroll
-    /// cycle. Used by the zoom transition so the title doesn't return mid-scroll
-    /// after the full player is dismissed.
+    /// cycle.
     func resetScrollingTitleAnimation() {
         episodeTitleLabel?.restartAnimation()
     }
 
-    /// Aligns this controller's scrolling title with another's, so a snapshot
-    /// clone can show the title at the same scroll phase as the live mini
-    /// player. Used by the zoom transition.
+    /// Aligns this controller's scrolling title with another's, so the
+    /// snapshot clone built for the zoom transition picks up the live mini
+    /// player's scroll phase. Must be called after the clone is in a window.
     func synchronizeScrollingTitleAnimation(with other: MiniPlayerViewController) {
         guard let mine = episodeTitleLabel, let theirs = other.episodeTitleLabel else { return }
         mine.synchronizeAnimation(with: theirs)
