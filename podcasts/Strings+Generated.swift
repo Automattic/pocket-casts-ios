@@ -4363,7 +4363,7 @@ internal enum L10n {
   internal static var tvUserProfileActions: String { return L10n.tr("Localizable", "tv_user_profile_actions", fallback: "User settings") }
   /// tv Sign In Login Type title
   internal static var tvUserSignInLoginType: String { return L10n.tr("Localizable", "tv_user_sign_in_login_type", fallback: "Login Type") }
-  /// tv Sign In Option Insert User and Pass
+  /// tv Sign In Option Username and Password
   internal static var tvUserSignInOptionManual: String { return L10n.tr("Localizable", "tv_user_sign_in_option_manual", fallback: "User/Pass") }
   /// tv Sign In Option QR
   internal static var tvUserSignInOptionQr: String { return L10n.tr("Localizable", "tv_user_sign_in_option_qr", fallback: "QR") }

@@ -136,7 +136,6 @@ struct PlusPurchaseModal: View {
     enum Config {
         static let backgroundColorHex = "#282829"
     }
-
 }
 
 // MARK: - Config

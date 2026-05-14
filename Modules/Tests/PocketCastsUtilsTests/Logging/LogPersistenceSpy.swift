@@ -13,5 +13,4 @@ final class LogPersistenceSpy: PersistentTextWriting {
         writeCount += 1
         lastWrittenChunk = text
     }
-
 }

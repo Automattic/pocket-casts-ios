@@ -18,7 +18,7 @@ struct SuggestedFoldersView: View {
 
     @State private var applySuggestedFoldersConfirmation = false
 
-    @ObservedObject var model: SuggestedFoldersModel = SuggestedFoldersModel()
+    @ObservedObject var model = SuggestedFoldersModel()
 
     let source: AnalyticsSource
 

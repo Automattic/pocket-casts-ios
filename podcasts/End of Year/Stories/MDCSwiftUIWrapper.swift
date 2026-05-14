@@ -137,7 +137,6 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
             }
         }
     }
-
 }
 
 extension UIViewController {

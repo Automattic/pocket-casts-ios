@@ -818,7 +818,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
                     formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
                 }
-
             }
         }
         formattedText.endEditing()

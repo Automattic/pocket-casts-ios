@@ -124,7 +124,6 @@ class SourceInterfaceModel: ObservableObject {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: false)
         }
         SourceManager.shared.setSource(newSource: .watch)
-
     }
 
     private func nowPlayingEpisodesMatchOnBothSources() -> Bool {

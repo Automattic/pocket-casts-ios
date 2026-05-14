@@ -16,5 +16,4 @@ class PlusHostingViewController<Content>: OnboardingHostingViewController<Conten
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.tintColor = iconTintColor
     }
-
 }

@@ -88,5 +88,4 @@ struct LocalSearchEpisodeResultsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 48)
     }
-
 }

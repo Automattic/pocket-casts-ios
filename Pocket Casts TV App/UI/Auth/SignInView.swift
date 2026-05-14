@@ -110,7 +110,6 @@ struct SignInView: View {
         .foregroundColor(.clear)
         .frame(width: 566, height: 1)
         .background(Color.textDisabled)
-
     }
 
     @FocusState private var focusedField: Field?

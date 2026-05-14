@@ -53,7 +53,6 @@ struct PlaylistCell: View {
                 }
             }
             .padding(.horizontal, 36)
-
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
@@ -64,7 +63,6 @@ struct PlaylistCell: View {
             model.load()
         }
     }
-
 }
 
 #Preview {

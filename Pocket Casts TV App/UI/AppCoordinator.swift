@@ -14,7 +14,7 @@ class AppCoordinator {
 
     var state: State = .loading
 
-    var userState: UserStateModel = UserStateModel()
+    var userState = UserStateModel()
 
     func load() async {
         // Ensure database and tables are setup before we go forward

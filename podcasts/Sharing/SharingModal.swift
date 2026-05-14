@@ -181,12 +181,12 @@ extension SharingModal.Option {
         }
     }
 
-    var imageInfo: ShareImageInfo {
+    func imageInfo(episodeArtworkUrl: URL? = nil) -> ShareImageInfo {
         let gradient = Gradient(colors: [
             Color(uiColor: ColorManager.lightThemeTintForPodcast(podcast)),
             Color(uiColor: UIColor.calculateColor(orgColor: UIColor.black, overlayColor: ColorManager.lightThemeTintForPodcast(podcast).withAlphaComponent(0.8))),
         ])
-        let artwork = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
+        let artwork = episodeArtworkUrl ?? ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcast.uuid)
         let imageInfo = ShareImageInfo(name: name ?? "",
                                        title: title ?? "",
                                        description: description ?? "",
@@ -195,14 +195,25 @@ extension SharingModal.Option {
         return imageInfo
     }
 
+    func loadEpisodeArtworkUrl() async -> URL? {
+        guard Settings.loadEmbeddedImages, let episode else { return nil }
+        guard let urlString = try? await ShowInfoCoordinator.shared.loadEpisodeArtworkUrl(
+            podcastUuid: episode.podcastUuid,
+            episodeUuid: episode.uuid
+        ) else { return nil }
+        return URL(string: urlString)
+    }
+
     @MainActor
     func shareData(style: ShareImageStyle, destination: ShareDestination, clipUUID: String, progress: Binding<Float?>) async throws -> [ActivityItemSourceItem] {
         let url = URL(string: shareURL) as NSURL?
+        let episodeArtwork = await loadEpisodeArtworkUrl()
+        let info = imageInfo(episodeArtworkUrl: episodeArtwork)
 
         let media: Any?
         switch self {
         case .clipShare(let episode, let clipTime, _):
-            media = try await mediaData(imageInfo: imageInfo, style: style, episode: episode, clipTime: clipTime, destination: destination, clipUUID: clipUUID, scale: Constants.exportedAssetScale, progress: progress)
+            media = try await mediaData(imageInfo: info, style: style, episode: episode, clipTime: clipTime, destination: destination, clipUUID: clipUUID, scale: Constants.exportedAssetScale, progress: progress)
         default:
             let size: CGSize
             switch destination {
@@ -211,7 +222,7 @@ extension SharingModal.Option {
             default:
                 size = CGSize(width: style.previewSize.width, height: style.previewSize.height)
             }
-            media = ShareImageView(info: imageInfo, style: style, angle: .constant(0)).frame(width: size.width, height: size.height).snapshot(scale: Constants.exportedAssetScale)
+            media = ShareImageView(info: info, style: style, angle: .constant(0)).frame(width: size.width, height: size.height).snapshot(scale: Constants.exportedAssetScale)
         }
 
         return [url.map { ActivityItemSourceItem(item: $0, disallowedActivityTypes: [.airDrop]) },

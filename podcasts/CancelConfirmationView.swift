@@ -49,7 +49,6 @@ struct CancelConfirmationView: View {
                     }
                     buttons
                 }
-
             }
             .padding([.leading, .trailing], Constants.padding.horizontal)
         }

@@ -287,7 +287,6 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
 
             transitionContext.completeTransition(true)
         }
-
     }
 
     /// Use spring animation for both present and dismiss.

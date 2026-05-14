@@ -3,7 +3,6 @@ class BackgroundShakeObserver {
     var whenShook: (() -> Void)?
 
     func stopObserving() {
-
     }
 }
 #else
@@ -56,7 +55,6 @@ class BackgroundShakeObserver {
                         self?.whenShook?()
                     }
                 }
-
             }
         }
     }

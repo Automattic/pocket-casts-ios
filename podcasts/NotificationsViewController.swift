@@ -221,7 +221,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             return
         }
-
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -241,7 +240,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         default:
             return nil
         }
-
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {

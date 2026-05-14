@@ -194,7 +194,6 @@ private struct Label: View {
                 return content.font(size: 15, style: .subheadline, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
             case .newsletterDescription:
                 return content.font(size: 13, style: .footnote, maxSizeCategory: .extraExtraExtraLarge)
-
             }
         }
     }

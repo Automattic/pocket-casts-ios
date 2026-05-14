@@ -31,7 +31,6 @@ extension PlaylistViewController: MultiSelectActionDelegate {
             }, completion: { _ in
                 self.multiSelectActionInProgress = false
                 self.isMultiSelectEnabled = false
-
             })
         }
     }

@@ -131,7 +131,6 @@ public class MainServerHandler {
             } catch {
                 completion(ImportOpmlResponse.failedResponse())
             }
-
         }.resume()
     }
 
@@ -165,7 +164,6 @@ public class MainServerHandler {
             } catch {
                 completion(ExportPodcastsResponse.failedResponse())
             }
-
         }.resume()
     }
 
@@ -196,7 +194,6 @@ public class MainServerHandler {
             } catch {
                 completion(ShareListResponse.failedResponse())
             }
-
         }.resume()
     }
 
@@ -315,7 +312,6 @@ public class MainServerHandler {
 
             FileLog.shared.addMessage("Server indicated podcast refresh was successful")
             completion(true)
-
         }.resume()
     }
 
@@ -349,7 +345,6 @@ public class MainServerHandler {
             } catch {
                 completion(nil)
             }
-
         }.resume()
     }
 

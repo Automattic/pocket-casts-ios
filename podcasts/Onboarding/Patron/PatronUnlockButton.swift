@@ -55,7 +55,6 @@ struct PatronUnlockButton: View {
                         }
 
                         finish()
-
                     }
                     // Use an overlay with an Action to send the progress whenever the view redraws
                     // This provides a smoother effect than onChange and SwiftUI doesn't complain about sending

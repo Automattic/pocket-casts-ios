@@ -88,7 +88,6 @@ public extension ApiServerHandler {
                 } catch {
                     completion(false, nil, nil)
                 }
-
             }.resume()
         } catch {
             FileLog.shared.addMessage("registerAccount failed \(error.localizedDescription)")
@@ -128,7 +127,6 @@ public extension ApiServerHandler {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     completion(nil, nil, nil)
                 }
-
             }.resume()
         } catch {
             FileLog.shared.addMessage("obtainToken failed \(error.localizedDescription)")
@@ -169,7 +167,6 @@ public extension ApiServerHandler {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     continuation.resume(throwing: APIError.UNKNOWN)
                 }
-
             }.resume()
         }
     }

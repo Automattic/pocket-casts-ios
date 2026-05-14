@@ -173,7 +173,6 @@ struct ActionBarOverlayView_Previews: PreviewProvider {
 
                     Spacer()
                 }.frame(maxWidth: .infinity)
-
             }, actions: [
                 .init(imageName: "shelf_archive", title: "Archive", action: {
                     print("one")
