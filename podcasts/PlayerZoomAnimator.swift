@@ -14,7 +14,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
     private var presentDuration: TimeInterval { isInteractive ? 0.46 : 0.5 }
-    private var dismissDuration: TimeInterval { isInteractive ? 0.42 : 0.45 }
+    private var dismissDuration: TimeInterval { isInteractive ? 0.42 : 0.5 }
     private var presentDamping: CGFloat { isInteractive ? 0.8 : 1.0 }
     private var dismissDamping: CGFloat { isInteractive ? 0.8 : 0.95 }
 
@@ -387,6 +387,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         cloneView.layer.cornerCurve = .continuous
         cloneView.clipsToBounds = true
         cloneView.layoutIfNeeded()
+        // Align the clone's marquee phase with the live mini player so the
+        // title doesn't snap back to the start of its scroll cycle. The clone
+        // isn't in a window yet, so `synchronizeAnimation` just records the
+        // begin time; `didMoveToWindow` applies it when the snapshot is added
+        // to the container.
+        if let source = miniPlayerProvider() {
+            clone.synchronizeScrollingTitleAnimation(with: source)
+        }
         miniSnapshotController = clone
         return cloneView
     }

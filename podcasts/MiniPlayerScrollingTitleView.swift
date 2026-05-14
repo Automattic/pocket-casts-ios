@@ -16,6 +16,11 @@ final class MiniPlayerScrollingTitleView: UIView {
     private var lastTextWidth: CGFloat = -1
     private var lastBoundsWidth: CGFloat = -1
 
+    /// When set, future marquee animations are added with this `beginTime`
+    /// instead of `CACurrentMediaTime()`, so this view's scroll phase aligns
+    /// with another instance's. Used by the zoom transition's snapshot clone.
+    private var syncedBeginTime: CFTimeInterval?
+
     private let fadeWidth: CGFloat = 16
     private let scrollSpeed: CGFloat = 30
     private let gap: CGFloat = 28
@@ -91,6 +96,16 @@ final class MiniPlayerScrollingTitleView: UIView {
 
     /// Restarts the marquee from the beginning of its pause-then-scroll cycle.
     func restartAnimation() {
+        syncedBeginTime = nil
+        scheduleAnimation()
+    }
+
+    /// Aligns this view's marquee phase with another instance, so a clone can
+    /// pick up the live scroll position instead of restarting from frame zero.
+    /// Used by `PlayerZoomAnimator` for the snapshot mini player.
+    func synchronizeAnimation(with other: MiniPlayerScrollingTitleView) {
+        syncedBeginTime = other.scrollContainer.layer
+            .animation(forKey: Self.transformAnimationKey)?.beginTime
         scheduleAnimation()
     }
 
@@ -168,10 +183,10 @@ final class MiniPlayerScrollingTitleView: UIView {
             return
         }
 
-        addMarqueeAnimations()
+        addMarqueeAnimations(beginTime: syncedBeginTime ?? CACurrentMediaTime())
     }
 
-    private func addMarqueeAnimations() {
+    private func addMarqueeAnimations(beginTime: CFTimeInterval) {
         let textWidth = primaryLabel.intrinsicContentSize.width
         let cycleDistance = textWidth + gap
         let scrollDuration = TimeInterval(cycleDistance / scrollSpeed)
@@ -180,8 +195,6 @@ final class MiniPlayerScrollingTitleView: UIView {
         let totalDuration = pauseDuration + scrollDuration
 
         guard totalDuration > 0 else { return }
-
-        let beginTime = CACurrentMediaTime()
 
         let transformAnim = CAKeyframeAnimation(keyPath: "transform.translation.x")
         transformAnim.values = [0, 0, -cycleDistance]

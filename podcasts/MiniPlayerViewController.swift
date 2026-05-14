@@ -204,6 +204,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         episodeTitleLabel?.restartAnimation()
     }
 
+    /// Aligns this controller's scrolling title with another's, so a snapshot
+    /// clone can show the title at the same scroll phase as the live mini
+    /// player. Used by the zoom transition.
+    func synchronizeScrollingTitleAnimation(with other: MiniPlayerViewController) {
+        guard let mine = episodeTitleLabel, let theirs = other.episodeTitleLabel else { return }
+        mine.synchronizeAnimation(with: theirs)
+    }
+
     /// Forces the Liquid Glass layout to use the inline (collapsed tab bar) or
     /// regular spacing, bypassing the live `tabAccessoryEnvironment` trait.
     /// Used by the zoom transition to make the snapshot clone match the real
