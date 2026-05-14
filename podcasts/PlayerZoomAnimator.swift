@@ -228,32 +228,21 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let destArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
-        // The full-player artwork only lives on the Now Playing tab — the
-        // other tabs scroll `nowPlayingItem` horizontally off-screen inside
-        // `mainScrollView`, so the converted artwork frame lands far to the
-        // left and the floating image is never visible during the dismiss.
-        // Anchor the floating artwork to the mini snapshot's artwork slot
-        // instead so it rides down with the descending panel and lands in
-        // the right place.
+        // The full-player artwork only lives on the Now Playing tab — on the
+        // other tabs `nowPlayingItem` is scrolled horizontally off-screen
+        // inside `mainScrollView`, so morphing an artwork view back to the
+        // mini player would slide it across the screen from nowhere visible.
+        // Skip the morph entirely in that case and let the mini snapshot's
+        // own artwork appear in place instead.
         let isOnNowPlaying = fromVC.tabsView.currentTab == 0
-        let sourceArtFrame: CGRect
-        let sourceArtCornerRadius: CGFloat
-        if isOnNowPlaying {
-            sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
-            sourceArtCornerRadius = fromArtwork.layer.cornerRadius
-        } else {
-            let artOffsetInMini = CGPoint(x: destArtFrame.minX - miniFrame.minX,
-                                          y: destArtFrame.minY - miniFrame.minY)
-            sourceArtFrame = CGRect(x: miniFrame.minX + artOffsetInMini.x,
-                                    y: artOffsetInMini.y,
-                                    width: destArtFrame.width,
-                                    height: destArtFrame.height)
-            sourceArtCornerRadius = miniArtwork.layer.cornerRadius
-        }
+        let sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
+        let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
-        miniArtwork.alpha = 0
-        fromArtwork.alpha = 0
+        if isOnNowPlaying {
+            miniArtwork.alpha = 0
+            fromArtwork.alpha = 0
+        }
 
         // The panel handles outer clipping with the iOS 26 corner radius, so
         // remove the corner radius from fromView to avoid double-clipping.
@@ -277,18 +266,25 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniSnapshot = makeMiniSnapshot(
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
-            isInline: isMiniInline
+            isInline: isMiniInline,
+            artworkImage: isOnNowPlaying ? nil : miniArtwork.imageView?.image
         )
         miniSnapshot.alpha = 0
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
-        let floating = makeFloatingArtwork(
-            image: fromArtwork.image ?? miniArtwork.imageView?.image,
-            frame: sourceArtFrame,
-            cornerRadius: sourceArtCornerRadius
-        )
-        container.addSubview(floating)
+        let floating: UIImageView?
+        if isOnNowPlaying {
+            let art = makeFloatingArtwork(
+                image: fromArtwork.image ?? miniArtwork.imageView?.image,
+                frame: sourceArtFrame,
+                cornerRadius: sourceArtCornerRadius
+            )
+            container.addSubview(art)
+            floating = art
+        } else {
+            floating = nil
+        }
 
         // Fade the full-player contents out faster than the panel shrinks, so
         // the title / controls don't visibly squish during the descent. The
@@ -313,8 +309,10 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             panel.frame = miniFrame
             panel.layer.cornerRadius = miniCornerRadius
             fromView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
-            floating.frame = destArtFrame
-            floating.layer.cornerRadius = miniArtwork.layer.cornerRadius
+            if let floating {
+                floating.frame = destArtFrame
+                floating.layer.cornerRadius = miniArtwork.layer.cornerRadius
+            }
             // Mini chrome rides down from the top, pinned to the panel's top
             // edge, fading in over the full duration so it materializes during
             // the descent instead of popping in at the end.
@@ -323,7 +321,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
             mini.subviews.forEach { $0.alpha = 1 }
-            floating.removeFromSuperview()
+            floating?.removeFromSuperview()
             self.miniSnapshotController = nil
             fromArtwork.alpha = 1
             miniArtwork.alpha = 1
@@ -372,14 +370,22 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     /// `layer.render`) all produced partial renders for the mini player inside
     /// `UITabAccessory` — labels and stack-view buttons dropped out. A real
     /// view hierarchy renders reliably and animates the same way.
-    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool) -> UIView {
+    ///
+    /// When `artworkImage` is non-nil the clone displays it directly; otherwise
+    /// the clone's artwork slot is hidden because a floating artwork view
+    /// occupies that space during the morph.
+    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, artworkImage: UIImage? = nil) -> UIView {
         let clone = MiniPlayerViewController()
         clone.loadViewIfNeeded()
         // The clone isn't hosted in a `UITabAccessory`, so its
         // `tabAccessoryEnvironment` trait stays at the default — force the
         // layout flavor that matches the live mini player.
         clone.setForcedInlineLayout(isInline)
-        clone.podcastArtwork.isHidden = true
+        if let artworkImage {
+            clone.podcastArtwork.imageView?.image = artworkImage
+        } else {
+            clone.podcastArtwork.isHidden = true
+        }
         let cloneView = clone.view!
         cloneView.isUserInteractionEnabled = false
         cloneView.frame = frame
