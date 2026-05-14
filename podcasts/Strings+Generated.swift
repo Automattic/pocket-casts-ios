@@ -3785,6 +3785,8 @@ internal enum L10n {
   internal static var settingsStorageMobileData: String { return L10n.tr("Localizable", "settings_storage_mobile_data", fallback: "MOBILE DATA") }
   /// Section header for information about storage space used.
   internal static var settingsStorageUsage: String { return L10n.tr("Localizable", "settings_storage_usage", fallback: "USAGE") }
+  /// Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does.
+  internal static var settingsStorageUsageFooter: String { return L10n.tr("Localizable", "settings_storage_usage_footer", fallback: "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.") }
   /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
   internal static var settingsThirdPartyAnalytics: String { return L10n.tr("Localizable", "settings_third_party_analytics", fallback: "Third-party analytics") }
   /// Title for the settings screen
