@@ -80,7 +80,7 @@ struct HomeView: View {
             LazyHStack(spacing: 0, content: {
                 ForEach(model.podcasts) { podcast in
                     NavigationLink(value: podcast) {
-                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                        PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
@@ -111,7 +111,7 @@ struct HomeView: View {
             LazyHStack(spacing: 0) {
                 ForEach(model.recentlyPlayed) { podcast in
                     NavigationLink(value: podcast) {
-                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                        PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)

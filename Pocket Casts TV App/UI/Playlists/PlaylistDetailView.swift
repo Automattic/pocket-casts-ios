@@ -57,12 +57,12 @@ struct PlaylistDetailView: View {
         if images.count >= 4 {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    PodcastImageViewWrapper(podcastUUID: images[0], size: .page)
-                    PodcastImageViewWrapper(podcastUUID: images[1], size: .page)
+                    PodcastImage(uuid: images[0], size: .page)
+                    PodcastImage(uuid: images[1], size: .page)
                 }
                 HStack(spacing: 0) {
-                    PodcastImageViewWrapper(podcastUUID: images[2], size: .page)
-                    PodcastImageViewWrapper(podcastUUID: images[3], size: .page)
+                    PodcastImage(uuid: images[2], size: .page)
+                    PodcastImage(uuid: images[3], size: .page)
                 }
             }
         } else if let first = images.first {

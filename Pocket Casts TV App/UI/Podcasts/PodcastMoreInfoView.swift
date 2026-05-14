@@ -9,7 +9,7 @@ struct PodcastMoreInfoView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 48) {
             HStack(alignment: .top, spacing: 40) {
-                PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                PodcastImage(uuid: podcast.uuid, size: .page)
                     .frame(width: 240, height: 240)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 8) {
