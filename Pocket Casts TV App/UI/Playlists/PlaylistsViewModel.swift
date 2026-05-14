@@ -40,7 +40,7 @@ class PlaylistsViewModel {
             NotificationCenter.default.publisher(for: Constants.Notifications.playlistChanged),
             NotificationCenter.default.publisher(for: ServerNotifications.syncCompleted)
         )
-        .receive(on: DispatchQueue.main)
+        .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
         .sink { [weak self] _ in
             self?.load()
         }
