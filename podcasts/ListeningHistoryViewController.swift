@@ -161,32 +161,25 @@ class ListeningHistoryViewController: PCViewController {
     }
 
     @objc func clearTapped() {
-        if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.alertClearListeningHistory, message: L10n.historyClearAllDetailsMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.historyClearAll, style: .destructive) { [weak self] _ in
-                Analytics.track(.listeningHistoryCleared)
-                DataManager.sharedManager.clearAllEpisodePlayInteractions()
-                if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
-                self?.refreshEpisodes(animated: true)
-            })
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
-                Analytics.track(.listeningHistoryClearConfirmationDismissed)
-            })
-            present(alert, animated: true)
-        } else {
-            let optionPicker = OptionsPicker(title: "")
-            let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
-                Analytics.track(.listeningHistoryCleared)
-                DataManager.sharedManager.clearAllEpisodePlayInteractions()
-                if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
-                self.refreshEpisodes(animated: true)
-            })
-            optionPicker.setNoActionCallback {
-                Analytics.track(.listeningHistoryClearConfirmationDismissed)
-            }
-            optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
-            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: "option-cleanup", action: { [weak self] in
+            Analytics.track(.listeningHistoryCleared)
+            DataManager.sharedManager.clearAllEpisodePlayInteractions()
+            if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
+            self?.refreshEpisodes(animated: true)
+        })
+        clearAllAction.destructive = true
+
+        let optionPicker = OptionsPicker(title: "")
+        optionPicker.setNoActionCallback {
+            Analytics.track(.listeningHistoryClearConfirmationDismissed)
         }
+        optionPicker.addDescriptiveActions(
+            title: L10n.alertClearListeningHistory,
+            message: L10n.historyClearAllDetailsMsg,
+            icon: "option-cleanup",
+            actions: [clearAllAction]
+        )
+        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
         Analytics.track(.listeningHistoryClearConfirmationShown)
     }
 

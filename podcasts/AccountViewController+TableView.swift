@@ -222,33 +222,20 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     private func showSignOutWarning() {
-        let numSubscriptionPodcasts = DataManager.sharedManager.allPaidPodcasts().count
-
-        if FeatureFlag.liquidGlass.enabled {
-            let alert = UIAlertController(title: L10n.accountSignOutAlertTitle, message: L10n.accountSignOutAlertMessage, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
-            alert.addAction(UIAlertAction(title: L10n.accountSignOut, style: .destructive) { [weak self] _ in
-                SignOutHelper.signout()
-                self?.navigationController?.popViewController(animated: true)
-            })
-            present(alert, animated: true)
-        } else {
-            let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
-                SignOutHelper.signout()
-                self?.navigationController?.popViewController(animated: true)
-            }
-            signOutAction.destructive = true
-
-            if numSubscriptionPodcasts > 0 {
-                let options = OptionsPicker(title: "", iconTintStyle: .support05)
-                options.addDescriptiveActions(title: L10n.accountSignOut, message: L10n.accountSignOutSupporterPrompt(numSubscriptionPodcasts.localized()) + "\n\n" + L10n.accountSignOutSupporterSubtitle, icon: "signout", actions: [signOutAction])
-                options.show(statusBarStyle: preferredStatusBarStyle)
-            } else {
-                let options = OptionsPicker(title: L10n.areYouSure)
-                options.addAction(action: signOutAction)
-                options.show(statusBarStyle: preferredStatusBarStyle)
-            }
+        let signOutAction = OptionAction(label: L10n.accountSignOut, icon: "signout") { [weak self] in
+            SignOutHelper.signout()
+            self?.navigationController?.popViewController(animated: true)
         }
+        signOutAction.destructive = true
+
+        let options = OptionsPicker(title: L10n.accountSignOutAlertTitle, iconTintStyle: .support05)
+        options.addDescriptiveActions(
+            title: L10n.accountSignOutAlertTitle,
+            message: L10n.accountSignOutAlertMessage,
+            icon: "signout",
+            actions: [signOutAction]
+        )
+        options.show(statusBarStyle: preferredStatusBarStyle)
     }
 
     private func deleteAccountTapped() {
