@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
@@ -119,6 +120,11 @@ extension PodcastListViewController {
     }
 
     private func showFolderPicker(for podcast: Podcast) {
+        if !SubscriptionHelper.hasActiveSubscription() {
+            NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
+            return
+        }
+
         let model = ChoosePodcastFolderModel(pickingFor: podcast.uuid, currentFolder: podcast.folderUuid)
         let chooseFolderView = ChoosePodcastFolderView(model: model) { [weak self] _ in
             self?.dismiss(animated: true)
@@ -138,5 +144,4 @@ extension PodcastListViewController {
         let hostingController = PCHostingController(rootView: editFolderView.environmentObject(Theme.sharedTheme))
         present(hostingController, animated: true)
     }
-
 }
