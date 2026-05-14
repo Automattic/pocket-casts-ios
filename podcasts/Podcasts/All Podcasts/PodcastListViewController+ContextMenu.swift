@@ -83,26 +83,23 @@ extension PodcastListViewController {
         let editAction = UIAction(title: L10n.edit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
             self?.setEditingOrder(true)
         }
-        let editSection = UIMenu(title: "", options: .displayInline, children: [editAction])
 
         let unfollowTitle = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
         let unfollowAction = UIAction(title: unfollowTitle, image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
             self?.confirmUnsubscribe(podcast: podcast)
         }
 
-        return UIMenu(title: "", children: [topRow, notificationsMenu, editSection, unfollowAction])
+        return UIMenu(title: "", children: [topRow, notificationsMenu, editAction, unfollowAction])
     }
 
     private func makeFolderMenu(for folder: Folder) -> UIMenu {
         let editFolderAction = UIAction(title: L10n.folderEdit, image: UIImage(systemName: "folder")) { [weak self] _ in
             self?.openFolderEdit(folder: folder)
         }
-        let editMenu = UIMenu(title: "", options: .displayInline, children: [
-            UIAction(title: L10n.edit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
-                self?.setEditingOrder(true)
-            }
-        ])
-        return UIMenu(title: "", children: [editFolderAction, editMenu])
+        let editAction = UIAction(title: L10n.edit, image: UIImage(systemName: "arrow.up.arrow.down")) { [weak self] _ in
+            self?.setEditingOrder(true)
+        }
+        return UIMenu(title: "", children: [editFolderAction, editAction])
     }
 
     // MARK: Action handlers
