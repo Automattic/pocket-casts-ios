@@ -40,7 +40,7 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
     }
 
     private func fetchPodcasts() async {
-        let gridItems = await Task.detached {
+        let gridItems = await Task {
             HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
         }.value
 
