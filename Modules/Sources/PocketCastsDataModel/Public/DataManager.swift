@@ -1174,7 +1174,7 @@ public class DataManager {
         do {
             try FileManager.default.createDirectory(atPath: pathToDbFolder(), withIntermediateDirectories: true, attributes: nil)
         } catch {
-            print("Unable to create database folder: \(error)")
+            FileLog.shared.addMessage("Unable to create database folder: \(error)")
         }
     }
 
