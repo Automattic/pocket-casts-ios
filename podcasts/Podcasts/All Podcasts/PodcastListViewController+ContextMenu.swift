@@ -67,12 +67,14 @@ extension PodcastListViewController {
         let notificationsOn = podcast.isPushEnabled
         let onAction = UIAction(title: L10n.on, state: notificationsOn ? .on : .off) { _ in
             if !notificationsOn {
-                PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: true)
+                Analytics.track(.podcastsListNotificationsTapped, properties: ["enabled": true])
+                NotificationsHelper.shared.setNotificationsEnabled(true, for: podcast)
             }
         }
         let offAction = UIAction(title: L10n.off, state: notificationsOn ? .off : .on) { _ in
             if notificationsOn {
-                PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: false)
+                Analytics.track(.podcastsListNotificationsTapped, properties: ["enabled": false])
+                NotificationsHelper.shared.setNotificationsEnabled(false, for: podcast)
             }
         }
         let notificationsMenu = UIMenu(title: notificationsOn ? L10n.notificationsOn : L10n.notificationsOff,
