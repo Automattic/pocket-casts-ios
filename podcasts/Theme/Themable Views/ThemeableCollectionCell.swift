@@ -19,12 +19,7 @@ class ThemeableCollectionCell: UICollectionViewCell {
             if reorderHandle == nil {
                 let handle = CellReorderHandleView(maskedView: contentView)
                 addSubview(handle)
-                NSLayoutConstraint.activate([
-                    handle.leadingAnchor.constraint(equalTo: leadingAnchor),
-                    handle.trailingAnchor.constraint(equalTo: trailingAnchor),
-                    handle.topAnchor.constraint(equalTo: topAnchor),
-                    handle.bottomAnchor.constraint(equalTo: bottomAnchor)
-                ])
+                handle.anchorToAllSidesOf(view: self)
                 reorderHandle = handle
             }
             reorderHandle?.isVisible = true
@@ -44,6 +39,7 @@ class ThemeableCollectionCell: UICollectionViewCell {
 
     @objc private func themeDidChange() {
         updateColor(AppTheme.colorForStyle(style))
+        reorderHandle?.themeDidChange()
         handleThemeDidChange()
     }
 

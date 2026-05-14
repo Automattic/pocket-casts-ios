@@ -61,6 +61,10 @@ final class CellReorderHandleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func themeDidChange() {
+        handleImageView.tintColor = ThemeColor.primaryIcon02()
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         guard isVisible, let maskedView else { return }
