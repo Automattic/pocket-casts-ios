@@ -13,10 +13,10 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
-    private var presentDuration: TimeInterval { isInteractive ? 0.46 : 0.5 }
-    private var dismissDuration: TimeInterval { isInteractive ? 0.42 : 0.5 }
-    private var presentDamping: CGFloat { isInteractive ? 0.8 : 1.0 }
-    private var dismissDamping: CGFloat { isInteractive ? 0.8 : 0.95 }
+    private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
+    private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.5 }
+    private var presentDamping: CGFloat { isInteractive ? 0.9 : 1.0 }
+    private var dismissDamping: CGFloat { isInteractive ? 0.85 : 1.0 }
 
     /// iOS 26 modal-sheet large corner radius. Matches the device display radius
     /// closely enough on modern iPhones that the full player corners read as
@@ -301,7 +301,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
         UIView.animate(withDuration: dismissDuration * 0.35, delay: dismissDuration * 0.55, options: [.curveEaseOut]) {
             mini.alpha = 1 // Restore slightly earlier that controls so shadows are in place
-            (panel.subviews.first as! UIVisualEffectView).effect = UIGlassEffect(style: .clear)
         }
 
         UIView.animate(
