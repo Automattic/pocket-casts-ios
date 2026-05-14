@@ -52,7 +52,7 @@ struct FolderCardView: View {
     @ViewBuilder
     private func coverImage(at index: Int) -> some View {
         if index < model.topPodcastsUuids.count {
-            PodcastImageViewWrapper(podcastUUID: model.topPodcastsUuids[index], size: .list)
+            PodcastImage(uuid: model.topPodcastsUuids[index], size: .list)
                 .frame(width: coverSize, height: coverSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
         } else {

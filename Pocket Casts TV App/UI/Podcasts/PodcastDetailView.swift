@@ -56,13 +56,13 @@ struct PodcastDetailView: View {
             episodeContent
         }
         .blurredCoverBackground(size: Layout.podcastImageSize) {
-            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
+            PodcastImage(uuid: model.podcast.uuid, size: .page)
         }
     }
 
     var podcastInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
-            PodcastImageViewWrapper(podcastUUID: model.podcast.uuid, size: .page)
+            PodcastImage(uuid: model.podcast.uuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)

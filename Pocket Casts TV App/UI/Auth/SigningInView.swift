@@ -47,7 +47,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         ScrollView(.horizontal) {
             HStack(spacing: 24, content: {
                 ForEach(model.podcasts) { podcast in
-                    PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                    PodcastImage(uuid: podcast.uuid, size: .page)
                         .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
             }).ignoresSafeArea()

@@ -18,7 +18,7 @@ struct SearchPodcastsResultsView: View {
             LazyVGrid(columns: items, spacing: 48, content: {
                 ForEach(podcasts) { podcast in
                     NavigationLink(value: podcast) {
-                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                        PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.cellSize, height: Layout.cellSize)
                     }
                     .buttonStyle(.card)
