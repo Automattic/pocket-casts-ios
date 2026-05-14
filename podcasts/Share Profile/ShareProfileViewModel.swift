@@ -29,6 +29,8 @@ class ShareProfileViewModel: ObservableObject {
             loadPhoto()
         }
     }
+    @Published var showingPhotoPicker = false
+    @Published var showingCamera = false
 
     let email: String?
 
@@ -53,6 +55,11 @@ class ShareProfileViewModel: ObservableObject {
         shareFollowedPodcasts = UserDefaults.standard.object(forKey: Self.followedPodcastsKey) as? Bool ?? true
         shareRecentEpisodes = UserDefaults.standard.object(forKey: Self.recentEpisodesKey) as? Bool ?? true
         sharePlaylists = UserDefaults.standard.object(forKey: Self.playlistsKey) as? Bool ?? true
+    }
+
+    func removePhoto() {
+        profilePhoto = nil
+        selectedPhotoItem = nil
     }
 
     func podcastName(for episode: Episode) -> String? {

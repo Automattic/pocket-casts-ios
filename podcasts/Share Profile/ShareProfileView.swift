@@ -22,6 +22,7 @@ struct ShareProfileView: View {
     @State private var initialShareFollowedPodcasts: Bool = true
     @State private var initialShareRecentEpisodes: Bool = true
     @State private var initialSharePlaylists: Bool = true
+    @State private var startOnPreview: Bool = false
 
     private var hasEditChanges: Bool {
         viewModel.shareFollowedPodcasts != initialShareFollowedPodcasts ||
@@ -29,13 +30,9 @@ struct ShareProfileView: View {
         viewModel.sharePlaylists != initialSharePlaylists
     }
 
-    private var hasExistingProfile: Bool {
-        viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-
     var body: some View {
         NavigationStack(path: $path) {
-            if hasExistingProfile {
+            if startOnPreview {
                 previewProfileView()
                     .navigationDestination(for: Step.self) { step in
                         switch step {
@@ -60,6 +57,9 @@ struct ShareProfileView: View {
                         }
                     }
             }
+        }
+        .onAppear {
+            startOnPreview = viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
         }
     }
 
@@ -102,7 +102,29 @@ struct ShareProfileView: View {
     @ViewBuilder
     private func photoSection() -> some View {
         VStack(spacing: 12) {
-            PhotosPicker(selection: $viewModel.selectedPhotoItem, matching: .images) {
+            Menu {
+                Button {
+                    viewModel.showingPhotoPicker = true
+                } label: {
+                    Label(L10n.shareProfileChoosePhoto, systemImage: "photo.on.rectangle")
+                }
+
+                Button {
+                    viewModel.showingCamera = true
+                } label: {
+                    Label(L10n.shareProfileTakePhoto, systemImage: "camera")
+                }
+
+                if viewModel.profilePhoto != nil {
+                    Divider()
+
+                    Button(role: .destructive) {
+                        viewModel.removePhoto()
+                    } label: {
+                        Label(L10n.shareProfileRemovePhoto, systemImage: "trash")
+                    }
+                }
+            } label: {
                 ZStack(alignment: .bottomTrailing) {
                     if let photo = viewModel.profilePhoto {
                         Image(uiImage: photo)
@@ -128,6 +150,13 @@ struct ShareProfileView: View {
                         .overlay(Circle().stroke(theme.primaryUi01, lineWidth: 3))
                 }
             }
+        }
+        .photosPicker(isPresented: $viewModel.showingPhotoPicker, selection: $viewModel.selectedPhotoItem, matching: .images)
+        .fullScreenCover(isPresented: $viewModel.showingCamera) {
+            CameraPicker { image in
+                viewModel.profilePhoto = image
+            }
+            .ignoresSafeArea()
         }
     }
 
@@ -217,7 +246,7 @@ struct ShareProfileView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                if hasExistingProfile && path.isEmpty {
+                if startOnPreview && path.isEmpty {
                     Button(action: dismissAction) {
                         Image("cancel")
                             .renderingMode(.template)
@@ -660,7 +689,29 @@ struct EditPhotoAndNameView: View {
     @ViewBuilder
     private func photoSection() -> some View {
         VStack(spacing: 12) {
-            PhotosPicker(selection: $viewModel.selectedPhotoItem, matching: .images) {
+            Menu {
+                Button {
+                    viewModel.showingPhotoPicker = true
+                } label: {
+                    Label(L10n.shareProfileChoosePhoto, systemImage: "photo.on.rectangle")
+                }
+
+                Button {
+                    viewModel.showingCamera = true
+                } label: {
+                    Label(L10n.shareProfileTakePhoto, systemImage: "camera")
+                }
+
+                if viewModel.profilePhoto != nil {
+                    Divider()
+
+                    Button(role: .destructive) {
+                        viewModel.removePhoto()
+                    } label: {
+                        Label(L10n.shareProfileRemovePhoto, systemImage: "trash")
+                    }
+                }
+            } label: {
                 ZStack(alignment: .bottomTrailing) {
                     if let photo = viewModel.profilePhoto {
                         Image(uiImage: photo)
@@ -687,6 +738,13 @@ struct EditPhotoAndNameView: View {
                 }
             }
         }
+        .photosPicker(isPresented: $viewModel.showingPhotoPicker, selection: $viewModel.selectedPhotoItem, matching: .images)
+        .fullScreenCover(isPresented: $viewModel.showingCamera) {
+            CameraPicker { image in
+                viewModel.profilePhoto = image
+            }
+            .ignoresSafeArea()
+        }
     }
 
     @ViewBuilder
@@ -710,6 +768,44 @@ struct EditPhotoAndNameView: View {
                 .foregroundColor(theme.primaryText02)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .multilineTextAlignment(.center)
+        }
+    }
+}
+
+// MARK: - Camera Picker
+
+struct CameraPicker: UIViewControllerRepresentable {
+    var onImagePicked: (UIImage) -> Void
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onImagePicked: onImagePicked)
+    }
+
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let onImagePicked: (UIImage) -> Void
+
+        init(onImagePicked: @escaping (UIImage) -> Void) {
+            self.onImagePicked = onImagePicked
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                onImagePicked(image)
+            }
+            picker.dismiss(animated: true)
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
         }
     }
 }

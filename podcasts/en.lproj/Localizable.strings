@@ -2986,6 +2986,15 @@
 /* Title for the edit photo and name screen */
 "share_profile_edit_photo_and_name" = "Edit photo and name";
 
+/* Choose photo from library */
+"share_profile_choose_photo" = "Choose Photo";
+
+/* Take a new photo with camera */
+"share_profile_take_photo" = "Take Photo";
+
+/* Remove the current profile photo */
+"share_profile_remove_photo" = "Remove Photo";
+
 /* Label for the display name field */
 "share_profile_display_name" = "Display name";
 

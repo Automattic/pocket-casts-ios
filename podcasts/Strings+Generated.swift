@@ -3883,6 +3883,8 @@ internal enum L10n {
   internal static var shareProfileAddPhotoAndName: String { return L10n.tr("Localizable", "share_profile_add_photo_and_name", fallback: "Add photo and name") }
   /// Placeholder text for the name input field
   internal static var shareProfileAddYourName: String { return L10n.tr("Localizable", "share_profile_add_your_name", fallback: "Add your name") }
+  /// Choose photo from library
+  internal static var shareProfileChoosePhoto: String { return L10n.tr("Localizable", "share_profile_choose_photo", fallback: "Choose Photo") }
   /// Label for the display name field
   internal static var shareProfileDisplayName: String { return L10n.tr("Localizable", "share_profile_display_name", fallback: "Display name") }
   /// Title for the edit profile step
@@ -3909,10 +3911,14 @@ internal enum L10n {
   internal static var shareProfileProfileSharing: String { return L10n.tr("Localizable", "share_profile_profile_sharing", fallback: "Profile sharing") }
   /// Toggle label for including recent episodes in shared profile
   internal static var shareProfileRecentEpisodes: String { return L10n.tr("Localizable", "share_profile_recent_episodes", fallback: "Recent episodes") }
+  /// Remove the current profile photo
+  internal static var shareProfileRemovePhoto: String { return L10n.tr("Localizable", "share_profile_remove_photo", fallback: "Remove Photo") }
   /// Generic save button
   internal static var shareProfileSave: String { return L10n.tr("Localizable", "share_profile_save", fallback: "Save") }
   /// Button label for sharing the profile
   internal static var shareProfileShareMyProfile: String { return L10n.tr("Localizable", "share_profile_share_my_profile", fallback: "Share my profile") }
+  /// Take a new photo with camera
+  internal static var shareProfileTakePhoto: String { return L10n.tr("Localizable", "share_profile_take_photo", fallback: "Take Photo") }
   /// Section header for the share options
   internal static var shareProfileWhatToShare: String { return L10n.tr("Localizable", "share_profile_what_to_share", fallback: "What do you want to share?") }
   /// A common string used throughout the app. Title for the screen to select multiple podcasts to share.
