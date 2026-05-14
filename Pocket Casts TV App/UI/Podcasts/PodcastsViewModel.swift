@@ -55,7 +55,8 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
             Constants.Notifications.podcastUpdated,
             Constants.Notifications.podcastAdded,
             Constants.Notifications.podcastDeleted,
-            ServerNotifications.podcastsRefreshed
+            ServerNotifications.podcastsRefreshed,
+            ServerNotifications.syncCompleted
         ]
 
         let publishers = notificationsToObserve.map {
