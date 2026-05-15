@@ -86,4 +86,12 @@ class AuthenticationHelper {
         Settings.setPromotionFinishedAcknowledged(true)
         Settings.setLoginDetailsUpdated()
     }
+
+    // MARK: Code Login - For tv login using a QR Code
+
+    @discardableResult
+    static func deviceAuthorizeCode(scope: AuthenticationScope = .tv) async throws -> String {
+        let response = try await ApiServerHandler.shared.deviceAuthorizeRequest(scope: scope.rawValue)
+        return response
+    }
 }

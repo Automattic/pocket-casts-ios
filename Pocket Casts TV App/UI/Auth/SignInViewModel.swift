@@ -30,10 +30,15 @@ class SignInViewModel {
 
     var state: State = .start
 
-    var codes: [String] = ["J", "M", "R", "S", "3", "W"]
+    var codes: [String] = ["X", "X", "X", "X", "X", "X"]
 
-    func signinWait() {
-        //TODO: Implement call to poll for validation
+    func signinWait() async {
+        do {
+            let code = try await AuthenticationHelper.deviceAuthorizeCode()
+            codes = code.components(separatedBy: "")
+        } catch {
+            state = .error(error, error.localizedDescription)
+        }
     }
 
     func manualSignIn(username: String, password: String) async {

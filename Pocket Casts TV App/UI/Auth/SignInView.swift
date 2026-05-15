@@ -79,7 +79,7 @@ struct SignInView: View {
         .task {
             switch loginType {
             case .qr:
-                model.signinWait()
+                await model.signinWait()
             case .manual:
                 break
             }
