@@ -436,7 +436,7 @@ class SiriShortcutsManager: CustomObserver {
         guard let minutes = TimeInterval(exactly: addTime) else { return false }
         let sixtySeconds: TimeInterval = 1.minutes
         let addSeconds = sixtySeconds * minutes
-        PlaybackManager.shared.sleepTimeRemaining += addSeconds
+        PlaybackManager.shared.extendSleepTimer(by: addSeconds)
         return true
     }
 

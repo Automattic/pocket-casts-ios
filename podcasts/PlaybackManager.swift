@@ -27,6 +27,7 @@ class PlaybackManager: ServerPlaybackDelegate {
                 sleepTimeRemaining = -1
                 sleepTimerManager.recordSleepTimerDuration(duration: nil, onEpisodeEnd: true)
                 FileLog.shared.addMessage("Sleep Timer: starting with \(numberOfEpisodesToSleepAfter) episodes")
+                endSleepTimerLiveActivity()
             }
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         }
@@ -1863,6 +1864,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     private func pauseAndRecordSleepTimerFinished() {
         sleepTimerManager.recordSleepTimerFinished()
+        endSleepTimerLiveActivity()
         pause()
     }
 
@@ -1983,6 +1985,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         sleepTimerManager.cancelSleepTimer(userInitiated: userInitiated)
         sleepTimeRemaining = -1
         numberOfEpisodesToSleepAfter = 0
+        endSleepTimerLiveActivity()
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
@@ -1994,8 +1997,17 @@ class PlaybackManager: ServerPlaybackDelegate {
         FileLog.shared.addMessage("Sleep Timer: starting with \(stopIn)")
         sleepTimerManager.recordSleepTimerDuration(duration: stopIn, onEpisodeEnd: nil)
         sleepTimeRemaining = stopIn
+        startSleepTimerLiveActivity(duration: stopIn)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
         Analytics.track(.playerSleepTimerEnabled, properties: ["time": Int(stopIn)])
+    }
+
+    func extendSleepTimer(by duration: TimeInterval) {
+        guard sleepTimeRemaining >= 0, duration > 0 else { return }
+
+        sleepTimeRemaining += duration
+        updateSleepTimerLiveActivity()
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.sleepTimerChanged)
     }
 
     func restartSleepTimer() {
@@ -2007,6 +2019,30 @@ class PlaybackManager: ServerPlaybackDelegate {
         Toast.show(L10n.deviceShakeSleepTimer)
         #endif
         sleepTimerManager.restartSleepTimer()
+    }
+
+    private func startSleepTimerLiveActivity(duration: TimeInterval) {
+        #if !APPCLIP && !os(watchOS) && !os(tvOS)
+            if #available(iOS 17.0, *) {
+                SleepTimerLiveActivityController.shared.startTimer(duration: duration, episode: currentEpisode())
+            }
+        #endif
+    }
+
+    private func updateSleepTimerLiveActivity() {
+        #if !APPCLIP && !os(watchOS) && !os(tvOS)
+            if #available(iOS 17.0, *) {
+                SleepTimerLiveActivityController.shared.updateTimer(durationRemaining: sleepTimeRemaining)
+            }
+        #endif
+    }
+
+    private func endSleepTimerLiveActivity() {
+        #if !APPCLIP && !os(watchOS) && !os(tvOS)
+            if #available(iOS 17.0, *) {
+                SleepTimerLiveActivityController.shared.endAll()
+            }
+        #endif
     }
 
     // MARK: - Remote Control support

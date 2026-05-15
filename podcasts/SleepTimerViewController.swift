@@ -360,7 +360,7 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func plusFiveTapped(_ sender: Any) {
-        PlaybackManager.shared.sleepTimeRemaining += 5.minutes
+        PlaybackManager.shared.extendSleepTimer(by: 5.minutes)
         updateSleepRemainingTime()
         Analytics.track(.playerSleepTimerExtended, properties: ["amount": Int(5.minutes)])
     }

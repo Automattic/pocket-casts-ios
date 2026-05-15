@@ -11,5 +11,8 @@ struct PocketCastsWidgetBundle: WidgetBundle {
         NowPlayingLockScreenWidget()
         AppIconWidget()
         UpNextLockScreenWidget()
+        if #available(iOSApplicationExtension 17.0, *) {
+            SleepTimerLiveActivityWidget()
+        }
     }
 }
