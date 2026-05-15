@@ -62,7 +62,7 @@ public extension ApiServerHandler {
     func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .tv) async throws -> AuthenticationResponse {
         guard let request = deviceTokenRequest(deviceCode: deviceCode, scope: scope)
         else {
-            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Apple SSO")
+            FileLog.shared.addMessage("Unable to create protobuffer request to obtain token via Third party device grant")
             throw APIError.UNKNOWN
         }
 
@@ -70,9 +70,7 @@ public extension ApiServerHandler {
     }
 
     private func deviceTokenRequest(deviceCode: String,
-                                    cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
-                                    timeoutInterval: TimeInterval = 15.seconds, scope:
-                                    AuthenticationScope = .tv) -> URLRequest? {
+                                    scope: AuthenticationScope = .tv) -> URLRequest? {
         let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "user/token")
 
         var data = Api_UserTokenRequest()
