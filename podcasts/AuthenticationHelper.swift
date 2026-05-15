@@ -118,7 +118,7 @@ class AuthenticationHelper {
                     return
                 }
             } catch let error as APIError {
-                if case error = .AUTHORIZATION_PENDING, numberOfRetries < maxNumberOfRetries {
+                if case .AUTHORIZATION_PENDING = error, numberOfRetries < maxNumberOfRetries {
                     numberOfRetries += 1
                 } else {
                     throw error
