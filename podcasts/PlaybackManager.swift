@@ -1546,29 +1546,21 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func startUpdateTimer() {
-        cancelUpdateTimer()
-
         // schedule the timer on a thread that has a run loop, the main thread being a good option
-        if Thread.isMainThread {
-            updateTimer = Timer.scheduledTimer(timeInterval: updateTimerInterval, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
-        } else {
-            DispatchQueue.main.sync { [weak self] in
-                guard let self else { return }
-
-                self.updateTimer = Timer.scheduledTimer(timeInterval: self.updateTimerInterval, target: self, selector: #selector(self.progressTimerFired), userInfo: nil, repeats: true)
-            }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            updateTimer?.invalidate()
+            updateTimer = nil
+            self.updateTimer = Timer.scheduledTimer(timeInterval: self.updateTimerInterval, target: self, selector: #selector(self.progressTimerFired), userInfo: nil, repeats: true)
         }
     }
 
     private func cancelUpdateTimer() {
-        if Thread.isMainThread {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             updateTimer?.invalidate()
-        } else {
-            DispatchQueue.main.sync { [weak self] in
-                self?.updateTimer?.invalidate()
-            }
+            updateTimer = nil
         }
-        updateTimer = nil
     }
 
     @objc private func progressTimerFired() {
