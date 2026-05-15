@@ -209,7 +209,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             tableView.deselectRow(at: indexPath, animated: false)
         case .deletePlaylist:
             if Self.playlistRebrandingIsEnabled {
-                showDeleteOptionPicker(for: filterToEdit)
+                showDeleteConfirmationDialog(for: filterToEdit)
             } else {
                 showAlert()
             }
@@ -349,7 +349,7 @@ extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
 // MARK: - Delete
 
 extension FilterEditOptionsViewController {
-    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter) {
+    fileprivate func showDeleteConfirmationDialog(for playlist: EpisodeFilter) {
         let playlistType = playlist.manual ? "manual" : "smart"
         let analyticsProperties = ["filter_type": playlistType]
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)

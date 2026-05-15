@@ -140,7 +140,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
             if FeatureFlag.playlistsRebranding.enabled {
-                showDeleteOptionPicker(for: playlist, at: indexPath, in: tableView)
+                showDeleteConfirmationDialog(for: playlist, at: indexPath, in: tableView)
             } else {
                 delete(playlist: playlist, at: indexPath, in: tableView)
             }
@@ -170,7 +170,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - Delete
 
 extension PlaylistsViewController {
-    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
+    fileprivate func showDeleteConfirmationDialog(for playlist: EpisodeFilter, at indexPath: IndexPath, in tableView: UITableView) {
         let playlistType = playlist.manual ? "manual" : "smart"
         let analyticsProperties = ["filter_type": playlistType]
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
