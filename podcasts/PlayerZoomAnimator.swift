@@ -4,7 +4,7 @@ import UIKit
 final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let isPresenting: Bool
     let fullPlayer: PlayerContainerViewController
-    let miniPlayerProvider: () -> MiniPlayerViewController?
+    let miniPlayer: MiniPlayerViewController
     /// Vertical velocity (pts/s) carried from the gesture that triggered the
     /// transition. Non-zero means the user flicked — the animator shortens
     /// the duration, lowers the spring damping, and seeds an initial spring
@@ -32,12 +32,12 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     init(
         isPresenting: Bool,
         fullPlayer: PlayerContainerViewController,
-        miniPlayerProvider: @escaping () -> MiniPlayerViewController?,
+        miniPlayer: MiniPlayerViewController,
         interactiveVelocity: CGFloat = 0
     ) {
         self.isPresenting = isPresenting
         self.fullPlayer = fullPlayer
-        self.miniPlayerProvider = miniPlayerProvider
+        self.miniPlayer = miniPlayer
         self.interactiveVelocity = interactiveVelocity
     }
 
@@ -68,19 +68,38 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private func animatePresent(context: UIViewControllerContextTransitioning) {
         let container = context.containerView
         let toVC = fullPlayer
-        guard let miniVC = miniPlayerProvider() else {
-            context.completeTransition(false)
+        let miniVC = miniPlayer
+        toVC.loadViewIfNeeded()
+        toVC.nowPlayingItem.loadViewIfNeeded()
+        miniVC.loadViewIfNeeded()
+
+        guard
+            let toView = toVC.viewIfLoaded,
+            let mini = miniVC.viewIfLoaded,
+            let miniArtwork = miniVC.podcastArtwork,
+            let toArtwork = toVC.nowPlayingItem.episodeImage
+        else {
+            // This should never happen — fall back to a basic fade-in so the
+            // user isn't left stranded.
+            guard let toView = toVC.viewIfLoaded else {
+                context.completeTransition(false)
+                return
+            }
+            toView.frame = context.finalFrame(for: toVC)
+            if toView.superview !== container {
+                container.addSubview(toView)
+            }
+            toView.alpha = 0
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
+                toView.alpha = 1
+            } completion: { _ in
+                context.completeTransition(true)
+            }
             return
         }
 
-        toVC.loadViewIfNeeded()
-        let toView = toVC.view!
         // toView.alpha was already set to 0 in the transition delegate, so
         // any pre-positioning UIKit did before this point isn't visible.
-
-        let mini = miniVC.view!
-        let miniArtwork = miniVC.podcastArtwork!
-        let toArtwork = toVC.nowPlayingItem.episodeImage!
 
         let finalFrame = context.finalFrame(for: toVC)
         let miniFrame = mini.convert(mini.bounds, to: container)
@@ -114,7 +133,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toView.setNeedsLayout()
         toView.layoutIfNeeded()
 
-        let destArtFrameInToView = toVC.computedArtworkFrame()
+        let destArtFrameInToView = toArtwork.convert(toArtwork.bounds, to: toView)
         // toView ends up at `finalFrame` in container during the final state,
         // so the artwork's final container-space rect is just the in-toView
         // rect offset by finalFrame.origin (typically (0, 0)).
@@ -209,16 +228,31 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private func animateDismiss(context: UIViewControllerContextTransitioning) {
         let container = context.containerView
         let fromVC = fullPlayer
-        guard let miniVC = miniPlayerProvider() else {
-            context.completeTransition(false)
+        let miniVC = miniPlayer
+        fromVC.loadViewIfNeeded()
+        fromVC.nowPlayingItem.loadViewIfNeeded()
+        miniVC.loadViewIfNeeded()
+
+        guard
+            let fromView = fromVC.viewIfLoaded,
+            let mini = miniVC.viewIfLoaded,
+            let miniArtwork = miniVC.podcastArtwork,
+            let fromArtwork = fromVC.nowPlayingItem.episodeImage
+        else {
+            // This should never happen — fall back to a basic fade-out.
+            guard let fromView = fromVC.viewIfLoaded else {
+                context.completeTransition(true)
+                return
+            }
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseIn]) {
+                fromView.alpha = 0
+            } completion: { _ in
+                fromView.removeFromSuperview()
+                context.completeTransition(true)
+            }
             return
         }
 
-        let mini = miniVC.view!
-        let miniArtwork = miniVC.podcastArtwork!
-        let fromArtwork = fromVC.nowPlayingItem.episodeImage!
-
-        let fromView = fromVC.view!
         let finalFrame = fromView.frame
         // If the user dragged the player down before releasing, fromView's
         // origin.y holds that offset. Start the panel at that offset so the
@@ -235,7 +269,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // Skip the morph entirely in that case and let the mini snapshot's
         // own artwork appear in place instead.
         let isOnNowPlaying = fromVC.tabsView.currentTab == 0
-        let sourceArtFrame = container.convert(fromVC.computedArtworkFrame(), from: fromView)
+        let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
@@ -377,16 +411,21 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, artworkImage: UIImage? = nil) -> UIView {
         let clone = MiniPlayerViewController()
         clone.loadViewIfNeeded()
+        guard let cloneView = clone.viewIfLoaded else {
+            // Pathological: view failed to load. Return an empty placeholder
+            // so the caller can still animate; the snapshot just won't be
+            // visible.
+            return UIView(frame: frame)
+        }
         // The clone isn't hosted in a `UITabAccessory`, so its
         // `tabAccessoryEnvironment` trait stays at the default — force the
         // layout flavor that matches the live mini player.
         clone.setForcedInlineLayout(isInline)
-        if let artworkImage {
-            clone.podcastArtwork.imageView?.image = artworkImage
+        if let artworkImage, let artworkImageView = clone.podcastArtwork?.imageView {
+            artworkImageView.image = artworkImage
         } else {
-            clone.podcastArtwork.isHidden = true
+            clone.podcastArtwork?.isHidden = true
         }
-        let cloneView = clone.view!
         cloneView.isUserInteractionEnabled = false
         cloneView.frame = frame
         cloneView.layer.cornerRadius = cornerRadius
@@ -419,14 +458,6 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
 @available(iOS 26, *)
 extension PlayerContainerViewController {
-    /// Artwork frame expressed in the player container view's coordinate
-    /// space — used as the morph target for the floating artwork during the
-    /// zoom transition.
-    fileprivate func computedArtworkFrame() -> CGRect {
-        let image = nowPlayingItem.episodeImage!
-        return image.convert(image.bounds, to: view)
-    }
-
     /// Toggles the player header (close button, up next, tabs row) so the
     /// transition can fade it back in after the panel has grown past the
     /// header's frame.
