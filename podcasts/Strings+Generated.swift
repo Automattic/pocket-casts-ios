@@ -3341,6 +3341,8 @@ internal enum L10n {
   internal static var serverErrorFilesUuidRequired: String { return L10n.tr("Localizable", "server_error_files_uuid_required", fallback: "File uuid is required.") }
   /// Server error message for when the user account has been locked.
   internal static var serverErrorLoginAccountLocked: String { return L10n.tr("Localizable", "server_error_login_account_locked", fallback: "Your account has been locked due too many login attempts, please try again later.") }
+  /// info message when authorization is pending on server
+  internal static var serverErrorLoginAuthPending: String { return L10n.tr("Localizable", "server_error_login_auth_pending", fallback: "Authorization pending") }
   /// Server error message for when the user attempted to login without their email.
   internal static var serverErrorLoginEmailBlank: String { return L10n.tr("Localizable", "server_error_login_email_blank", fallback: "Enter an email address.") }
   /// Server error message for when the user enters an invalid email.

@@ -47,6 +47,7 @@ public extension APIError {
         case .PROMO_ALREADY_REDEEMED: return L10n.serverErrorPromoAlreadyRedeemed
         case .NO_CONNECTION: return L10n.playerErrorInternetConnection
         case .TOKEN_DEAUTH: return L10n.clientErrorTokenDeauth
+        case .AUTHORIZATION_PENDING: return L10n.serverErrorLoginAuthPending
         }
     }
 }

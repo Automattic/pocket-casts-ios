@@ -173,13 +173,14 @@ public extension ApiServerHandler {
 
     private struct ErrorResponse: Decodable {
         let errorMessageId: String?
+        let error: String?
     }
 
     class func extractErrorResponse(data: Data?, response: URLResponse?, error: Error? = nil) -> APIError? {
         if let data {
             do {
                 let errorJson = try JSONDecoder().decode(ErrorResponse.self, from: data)
-                return APIError(rawValue: errorJson.errorMessageId ?? "unknown")
+                return APIError(rawValue: errorJson.errorMessageId ?? errorJson.error ?? "unknown")
             } catch {
                 FileLog.shared.addMessage("Unable to decode error response \(error.localizedDescription)")
             }
@@ -256,52 +257,5 @@ public extension ApiServerHandler {
         let redeemOperation = RedeemPromoCodeTask(promoCode: promoCode)
         redeemOperation.completion = completion
         apiQueue.addOperation(redeemOperation)
-    }
-
-    // MARK: - Device Code Authentication
-    func deviceAuthorizeRequest(scope: String) async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            deviceAuthorizeRequest(scope: scope) { result in
-                switch result {
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                case .success(let result):
-                    continuation.resume(returning: result)
-                }
-            }
-        }
-    }
-
-    func deviceAuthorizeRequest(scope: String, completion: @escaping (Result<String, APIError>) -> Void) {
-        var request = Api_DeviceAuthorizeRequest()
-        request.scope = scope
-
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "device/authorize")
-
-        do {
-            let data = try request.serializedData()
-            guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
-                FileLog.shared.addMessage("Unable to create protobuffer request to device authorize code")
-                completion(.failure(APIError.UNKNOWN))
-                return
-            }
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let responseData = data, error == nil, (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response)
-                    completion(.failure(errorResponse ?? APIError.UNKNOWN))
-                    return
-                }
-
-                do {
-                    let response = try Api_DeviceAuthorizeResponse(serializedBytes: responseData)
-                    completion(.success(response.deviceCode))
-                } catch {
-                    completion(.failure(APIError.UNKNOWN))
-                }
-            }.resume()
-        } catch {
-            FileLog.shared.addMessage("Device Authorization Request failed \(error.localizedDescription)")
-            completion(.failure(APIError.UNKNOWN))
-        }
     }
 }

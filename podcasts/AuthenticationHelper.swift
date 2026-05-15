@@ -90,8 +90,38 @@ class AuthenticationHelper {
     // MARK: Code Login - For tv login using a QR Code
 
     @discardableResult
-    static func deviceAuthorizeCode(scope: AuthenticationScope = .tv) async throws -> String {
+    static func deviceAuthorizeCode(scope: AuthenticationScope = .tv) async throws -> DeviceAuthorizationResponse {
         let response = try await ApiServerHandler.shared.deviceAuthorizeRequest(scope: scope.rawValue)
         return response
     }
+
+    @discardableResult
+    static func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .tv) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.deviceGetToken(deviceCode: deviceCode)
+        handleSuccessfulSignIn(response)
+
+        return response
+    }
+
+    static func deviceWaitForApproval(deviceCode: String) async throws {
+        var numberOfRetries = 0
+        let maxNumberOfRetries = 30
+        let sleepTime = 1
+        while numberOfRetries < maxNumberOfRetries {
+            try await Task.sleep(for: .seconds(sleepTime))
+            do {
+                let response = try await AuthenticationHelper.deviceGetToken(deviceCode: deviceCode)
+                if response.token != nil {
+                    return 
+                }
+            } catch let error as APIError {
+                if case error = .AUTHORIZATION_PENDING, numberOfRetries < maxNumberOfRetries {
+                    numberOfRetries += 1
+                } else {
+                    throw error
+                }
+            }
+        }
+    }
+
 }

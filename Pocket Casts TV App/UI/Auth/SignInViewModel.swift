@@ -30,12 +30,16 @@ class SignInViewModel {
 
     var state: State = .start
 
-    var codes: [String] = ["X", "X", "X", "X", "X", "X"]
+    var codes: [String] = []
 
-    func signinWait() async {
+    func thirdPartyApprovalSignin() async {
         do {
-            let code = try await AuthenticationHelper.deviceAuthorizeCode()
-            codes = code.components(separatedBy: "")
+            let authorizeResponse = try await AuthenticationHelper.deviceAuthorizeCode()
+            codes = authorizeResponse.userCode.map({ char in
+                String(char)
+            })
+            try await AuthenticationHelper.deviceWaitForApproval(deviceCode: authorizeResponse.deviceCode)
+            state = .finished
         } catch {
             state = .error(error, error.localizedDescription)
         }

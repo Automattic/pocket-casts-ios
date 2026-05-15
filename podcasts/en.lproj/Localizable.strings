@@ -6073,3 +6073,5 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
