@@ -169,7 +169,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                     self.tableView().selectIndexPath(selectedIndexPath)
                     self.longPressMultiSelectIndexPath = nil
                 }
-                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
             } else {
                 self.selectedEpisodes.removeAll()
             }
