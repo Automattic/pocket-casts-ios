@@ -109,6 +109,7 @@
 - Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
 - Show chapter art in mini player [#4382](https://github.com/Automattic/pocket-casts-ios/pull/4382)
 - Update "Up Next" episode cells to show up to two lines of episode title [4398](https://github.com/Automattic/pocket-casts-ios/pull/4398)
+- Add a Live Activity for sleep timers
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
 - Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
