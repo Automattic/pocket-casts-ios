@@ -111,8 +111,11 @@ class AuthenticationHelper {
             try await Task.sleep(for: .seconds(sleepTime))
             do {
                 let response = try await AuthenticationHelper.deviceGetToken(deviceCode: deviceCode)
-                if response.token != nil {
-                    return 
+                if response.token == nil { // DO we have a token?
+                    throw APIError.UNKNOWN
+                } else {
+                    // We have a token so we can return
+                    return
                 }
             } catch let error as APIError {
                 if case error = .AUTHORIZATION_PENDING, numberOfRetries < maxNumberOfRetries {
@@ -122,6 +125,7 @@ class AuthenticationHelper {
                 }
             }
         }
+        // If we got to here it's because the max retries expired
+        throw APIError.UNKNOWN
     }
-
 }
