@@ -124,6 +124,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title of the confirmation alert shown before signing the user out of their account. */
+"account_sign_out_alert_title" = "Sign Out?";
+
+/* Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in. */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you are back.";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
