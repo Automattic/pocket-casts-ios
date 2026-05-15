@@ -15,6 +15,8 @@ struct ShareProfileView: View {
         case addPhotoAndName
         case preview
         case edit
+        case allPodcasts
+        case allEpisodes
     }
 
     @State private var path: [Step] = []
@@ -47,6 +49,10 @@ struct ShareProfileView: View {
                     previewProfileView()
                 case .edit:
                     editProfileView()
+                case .allPodcasts:
+                    allPodcastsView()
+                case .allEpisodes:
+                    allEpisodesView()
                 }
             }
         }
@@ -212,7 +218,9 @@ struct ShareProfileView: View {
         let podcasts = Array(viewModel.followedPodcasts.prefix(8))
         if !podcasts.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
-                sectionHeader(L10n.shareProfileFollowedPodcasts)
+                sectionHeader(L10n.shareProfileFollowedPodcasts) {
+                        path.append(.allPodcasts)
+                    }
                     .padding(.horizontal, 20)
 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -231,20 +239,22 @@ struct ShareProfileView: View {
     private func podcastCard(_ podcast: Podcast) -> some View {
         let cardWidth: CGFloat = 150
 
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 0) {
             PodcastImage(uuid: podcast.uuid)
                 .frame(width: cardWidth, height: cardWidth)
                 .cornerRadius(4)
                 .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+                .padding(.bottom, 8)
 
             Text(podcast.title ?? "")
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(theme.primaryText01)
                 .lineLimit(1)
+                .padding(.bottom, 2)
 
             if let author = podcast.author {
                 Text(author)
-                    .font(style: .caption, weight: .regular)
+                    .font(style: .footnote, weight: .regular)
                     .foregroundColor(theme.primaryText02)
                     .lineLimit(1)
             }
@@ -254,10 +264,12 @@ struct ShareProfileView: View {
 
     @ViewBuilder
     private func previewEpisodesSection() -> some View {
-        let episodes = Array(viewModel.recentEpisodes.prefix(3))
+        let episodes = Array(viewModel.recentEpisodes.prefix(8))
         if !episodes.isEmpty {
             VStack(alignment: .leading, spacing: 0) {
-                sectionHeader(L10n.shareProfileRecentEpisodes)
+                sectionHeader(L10n.shareProfileRecentEpisodes) {
+                    path.append(.allEpisodes)
+                }
 
                 ForEach(Array(episodes.enumerated()), id: \.element.uuid) { index, episode in
                     HStack(spacing: 12) {
@@ -295,15 +307,23 @@ struct ShareProfileView: View {
     }
 
     @ViewBuilder
-    private func sectionHeader(_ title: String) -> some View {
+    private func sectionHeader(_ title: String, showAllAction: (() -> Void)? = nil) -> some View {
         HStack {
             Text(title)
                 .font(style: .headline, weight: .bold)
                 .foregroundColor(theme.primaryText01)
             Spacer()
-            Text(L10n.discoverShowAll)
-                .font(style: .caption, weight: .bold)
-                .foregroundColor(theme.primaryInteractive01)
+            if let showAllAction {
+                Button(action: showAllAction) {
+                    Text(L10n.discoverShowAll)
+                        .font(style: .caption, weight: .bold)
+                        .foregroundColor(theme.primaryInteractive01)
+                }
+            } else {
+                Text(L10n.discoverShowAll)
+                    .font(style: .caption, weight: .bold)
+                    .foregroundColor(theme.primaryInteractive01)
+            }
         }
         .padding(.bottom, 8)
     }
@@ -320,7 +340,11 @@ struct ShareProfileView: View {
                 viewModel.shareProfile(from: presenter)
             }
         } label: {
-            Label(L10n.shareProfileShareMyProfile, systemImage: "square.and.arrow.up")
+            HStack(spacing: 8) {
+                    Image("podcast-share")
+                        .renderingMode(.template)
+                    Text(L10n.shareProfileShareMyProfile)
+                }
                 .font(style: .body, weight: .semibold)
                 .foregroundColor(theme.primaryInteractive02)
                 .frame(maxWidth: .infinity)
@@ -330,6 +354,134 @@ struct ShareProfileView: View {
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 16)
+    }
+
+    // MARK: - All Followed Podcasts
+
+    @ViewBuilder
+    private func allPodcastsView() -> some View {
+        let podcasts = viewModel.followedPodcasts
+        VStack(spacing: 0) {
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(Array(podcasts.enumerated()), id: \.element.uuid) { index, podcast in
+                        HStack(spacing: 12) {
+                            PodcastImage(uuid: podcast.uuid)
+                                .frame(width: 52, height: 52)
+                                .cornerRadius(4)
+                                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(podcast.title ?? "")
+                                    .font(style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryText01)
+                                    .lineLimit(1)
+
+                                if let author = podcast.author {
+                                    Text(author)
+                                        .font(style: .footnote, weight: .regular)
+                                        .foregroundColor(theme.primaryText02)
+                                        .lineLimit(1)
+                                }
+                            }
+
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 8)
+
+                        if index < podcasts.count - 1 {
+                            ThemedDivider()
+                                .padding(.horizontal, 20)
+                        }
+                    }
+                }
+            }
+
+            BottomGradientContainer {
+                shareMyProfileButton()
+            }
+        }
+        .background(theme.primaryUi01)
+        .navigationTitle(L10n.shareProfileFollowedPodcasts)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    path.removeLast()
+                } label: {
+                    Image("nav-back")
+                        .renderingMode(.template)
+                }
+                .navThemed()
+            }
+        }
+    }
+
+    // MARK: - All Recent Episodes
+
+    @ViewBuilder
+    private func allEpisodesView() -> some View {
+        let episodes = viewModel.recentEpisodes
+        VStack(spacing: 0) {
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(Array(episodes.enumerated()), id: \.element.uuid) { index, episode in
+                        HStack(spacing: 12) {
+                            PodcastImage(uuid: episode.podcastUuid)
+                                .frame(width: 56, height: 56)
+                                .cornerRadius(4)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                if let date = episode.publishedDate {
+                                    Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                        .font(style: .caption2, weight: .bold)
+                                        .foregroundColor(theme.primaryText02)
+                                }
+
+                                Text(episode.title ?? "")
+                                    .font(style: .subheadline, weight: .medium)
+                                    .foregroundColor(theme.primaryText01)
+                                    .lineLimit(2)
+
+                                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
+                                    .font(style: .caption, weight: .semibold)
+                                    .foregroundColor(theme.primaryText02)
+                            }
+
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 8)
+
+                        if index < episodes.count - 1 {
+                            ThemedDivider()
+                                .padding(.horizontal, 20)
+                        }
+                    }
+                }
+            }
+
+            BottomGradientContainer {
+                shareMyProfileButton()
+            }
+        }
+        .background(theme.primaryUi01)
+        .navigationTitle(L10n.shareProfileRecentEpisodes)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    path.removeLast()
+                } label: {
+                    Image("nav-back")
+                        .renderingMode(.template)
+                }
+                .navThemed()
+            }
+        }
     }
 
     // MARK: - Step 3: Edit Profile

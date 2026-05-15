@@ -82,16 +82,16 @@ struct ProfileHeaderView: View {
             ProfileInfoLabels(profile: viewModel.profile, alignment: alignment, spacing: Constants.spacing)
 
             if viewModel.profile.isLoggedIn {
-                HStack(spacing: 12) {
-                    Button {
-                        viewModel.accountTapped()
-                    } label: {
-                        Label(L10n.account, systemImage: "person.crop.circle")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(ProfileStrokeButtonStyle())
+                if FeatureFlag.shareProfile.enabled {
+                    HStack(spacing: 12) {
+                        Button {
+                            viewModel.accountTapped()
+                        } label: {
+                            Label(L10n.account, systemImage: "person.crop.circle")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(ProfileStrokeButtonStyle())
 
-                    if FeatureFlag.shareProfile.enabled {
                         Button {
                             viewModel.shareTapped()
                         } label: {
@@ -100,8 +100,13 @@ struct ProfileHeaderView: View {
                         }
                         .buttonStyle(ProfileStrokeButtonStyle())
                     }
+                    .padding(.bottom, 8)
+                } else {
+                    Button(L10n.account) {
+                        viewModel.accountTapped()
+                    }
+                    .buttonStyle(ProfileStrokeButtonStyle())
                 }
-                .padding(.bottom, 8)
             } else {
                 Button(L10n.setupAccount) {
                     viewModel.accountTapped()

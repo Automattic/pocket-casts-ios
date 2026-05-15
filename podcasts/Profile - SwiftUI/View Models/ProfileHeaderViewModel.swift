@@ -33,7 +33,7 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
             presenter.dismiss(animated: true)
         })
 
-        let hostingController = ThemedHostingController(rootView: editView)
+        let hostingController = PCHostingController(rootView: editView)
         presenter.present(hostingController, animated: true)
     }
 
@@ -49,7 +49,7 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
             }
         })
 
-        let hostingController = ThemedHostingController(rootView: shareView)
+        let hostingController = PCHostingController(rootView: shareView)
         presenter.present(hostingController, animated: true)
     }
 }

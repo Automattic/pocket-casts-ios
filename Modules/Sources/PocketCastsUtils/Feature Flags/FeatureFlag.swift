@@ -534,7 +534,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .liquidGlass:
             true
         case .shareProfile:
-            false
+            BuildEnvironment.current == .debug
         }
     }
 
