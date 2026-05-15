@@ -242,7 +242,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if !APPCLIP
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         panGesture.cancelsTouchesInView = false
+        panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
+        // Make the horizontal page swipe wait for the dismiss pan to either begin or
+        // fail, so a downward-diagonal swipe dismisses the player instead of being
+        // captured by the tab scroll view.
+        mainScrollView.panGestureRecognizer.require(toFail: panGesture)
         #endif
     }
 
@@ -403,7 +408,7 @@ private extension PlayerContainerViewController {
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 
-        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [.allowUserInteraction]) {
             self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
         }
     }

@@ -57,6 +57,16 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         !(touch.view is UIControl)
     }
 
+    // Prioritize the vertical dismiss gesture over the horizontal page swipe between
+    // tabs: begin as long as the motion is downward and the vertical component is at
+    // least half the horizontal one (~26° from horizontal). This way diagonal swipes
+    // still dismiss the player instead of being captured by the tab scroll view.
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+        let velocity = pan.velocity(in: view)
+        return velocity.y > 0 && velocity.y * 2 >= abs(velocity.x)
+    }
+
     func handleScrollViewDidScroll(scrollView: UIScrollView) {
         guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
 
