@@ -36,7 +36,6 @@ class PlaylistDetailsViewModel {
     }
 
     func playAll() {
-
     }
 
     var playlistName: String {

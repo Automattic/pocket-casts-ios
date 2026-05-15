@@ -61,7 +61,6 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
             default:
                 return nil
         }
-
     }
 
     public init?(from combinedResult: CombinedSearchResult) {

@@ -75,7 +75,6 @@ struct CenterButton: View {
         VStack {
             Spacer()
             Button(title) {
-
             }
             Spacer()
         }
@@ -84,7 +83,7 @@ struct CenterButton: View {
 
 struct MainTabView: View {
 
-    @State private var tabSelection: MainTabRouter = MainTabRouter()
+    @State private var tabSelection = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator

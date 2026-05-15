@@ -3783,6 +3783,8 @@ internal enum L10n {
   internal static var settingsStorageMobileData: String { return L10n.tr("Localizable", "settings_storage_mobile_data", fallback: "MOBILE DATA") }
   /// Section header for information about storage space used.
   internal static var settingsStorageUsage: String { return L10n.tr("Localizable", "settings_storage_usage", fallback: "USAGE") }
+  /// Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does.
+  internal static var settingsStorageUsageFooter: String { return L10n.tr("Localizable", "settings_storage_usage_footer", fallback: "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.") }
   /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
   internal static var settingsThirdPartyAnalytics: String { return L10n.tr("Localizable", "settings_third_party_analytics", fallback: "Third-party analytics") }
   /// Title for the settings screen
@@ -4363,7 +4365,7 @@ internal enum L10n {
   internal static var tvUserProfileActions: String { return L10n.tr("Localizable", "tv_user_profile_actions", fallback: "User settings") }
   /// tv Sign In Login Type title
   internal static var tvUserSignInLoginType: String { return L10n.tr("Localizable", "tv_user_sign_in_login_type", fallback: "Login Type") }
-  /// tv Sign In Option Insert User and Pass
+  /// tv Sign In Option Username and Password
   internal static var tvUserSignInOptionManual: String { return L10n.tr("Localizable", "tv_user_sign_in_option_manual", fallback: "User/Pass") }
   /// tv Sign In Option QR
   internal static var tvUserSignInOptionQr: String { return L10n.tr("Localizable", "tv_user_sign_in_option_qr", fallback: "QR") }

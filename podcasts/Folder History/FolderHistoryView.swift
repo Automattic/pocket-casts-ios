@@ -11,7 +11,6 @@ struct FolderHistoryView: View {
     var body: some View {
         List {
             Section {
-
             } footer: {
                 Text(L10n.foldersHistoryExplanation)
                     .foregroundStyle(theme.primaryText02)

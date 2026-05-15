@@ -312,5 +312,4 @@ extension AutoDownloadLimit {
             return L10n.autoDownloadLimitNumberOfEpisodesShow(self.rawValue)
         }
     }
-
 }

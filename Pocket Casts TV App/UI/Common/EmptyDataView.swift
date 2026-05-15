@@ -25,7 +25,6 @@ struct EmptyDataView: View {
                 }
             }
             Spacer()
-
         }
     }
 }

@@ -295,5 +295,4 @@ private extension Api_BookmarkResponse {
                           time: bookmark.time,
                           created: bookmark.created)
     }
-
 }

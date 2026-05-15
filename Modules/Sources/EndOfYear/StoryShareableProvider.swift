@@ -9,7 +9,7 @@ import PocketCastsUtils
 /// avoid blocking the main thread and the share sheet
 /// having a delay when appearing.
 public class StoryShareableProvider: UIActivityItemProvider {
-    public static var shared: StoryShareableProvider = StoryShareableProvider()
+    public static var shared = StoryShareableProvider()
 
     public var generatedItem: Any?
 

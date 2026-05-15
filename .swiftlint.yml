@@ -21,6 +21,9 @@ excluded:
 # Rules – Opt-in only, so we can progressively introduce new ones
 #
 only_rules:
+  # Prefer `Array(xs)` over `xs.map { $0 }`.
+  - array_init
+
   # Colons should be next to the identifier when specifying a type.
   - colon
 
@@ -84,6 +87,9 @@ only_rules:
   # `nil` coalescing on a non-optional is redundant.
   - redundant_nil_coalescing
 
+  # Type annotations are redundant when the type can be inferred.
+  - redundant_type_annotation
+
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
 
@@ -102,6 +108,12 @@ only_rules:
   # Unused parameters in a closure should be replaced with `_`.
   - unused_closure_parameter
 
+  # Closure parameters shouldn't be wrapped in unneeded parentheses.
+  - unneeded_parentheses_in_closure_argument
+
+  # Don't include vertical whitespace (empty line) before closing braces.
+  - vertical_whitespace_closing_braces
+  
   - custom_rules
 
 # Rules configuration

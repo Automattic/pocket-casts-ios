@@ -167,7 +167,6 @@ class ListeningHistoryViewController: PCViewController {
             DataManager.sharedManager.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
             self.refreshEpisodes(animated: true)
-
         })
         optionPicker.setNoActionCallback {
             Analytics.track(.listeningHistoryClearConfirmationDismissed)

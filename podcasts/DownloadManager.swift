@@ -146,14 +146,20 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     lazy var podcastsDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
-
+#endif
         return directory
     }()
 
     private lazy var streamingBufferDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
-
+#endif
         return directory
     }()
 
@@ -646,7 +652,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func isEpisodeDownloading(_ episode: BaseEpisode) -> Bool {
-        return downloadingEpisodesCache.contains(where: { (_, downloadingEpisode) in
+        return downloadingEpisodesCache.contains(where: { _, downloadingEpisode in
             return episode.uuid == downloadingEpisode.uuid
         })
     }
@@ -714,7 +720,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
         progressManager.removeProgressForEpisode(episode.uuid)
-
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {

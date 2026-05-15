@@ -125,7 +125,6 @@ public class DataManager {
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
                 } catch {
-
                 }
             }
         }
@@ -1160,7 +1159,13 @@ public class DataManager {
     }
 
     private static func pathToDbFolder() -> String {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).last as NSString?
+        #if os(tvOS)
+        //tvOS does not allow the use of the application support or documents directory on a real device so we need to use the caches directory.
+        let typeOfDirectory: FileManager.SearchPathDirectory = .cachesDirectory
+        #else
+        let typeOfDirectory: FileManager.SearchPathDirectory = .applicationSupportDirectory
+        #endif
+        let documentsPath = NSSearchPathForDirectoriesInDomains(typeOfDirectory, .userDomainMask, true).last as NSString?
         let mainFolder = documentsPath?.appendingPathComponent("Pocket Casts")
 
         return mainFolder!
@@ -1170,7 +1175,7 @@ public class DataManager {
         do {
             try FileManager.default.createDirectory(atPath: pathToDbFolder(), withIntermediateDirectories: true, attributes: nil)
         } catch {
-            print("Unable to create database folder")
+            FileLog.shared.addMessage("Unable to create database folder: \(error)")
         }
     }
 
@@ -1290,7 +1295,6 @@ public extension DataManager {
 
     func episodesStartedAndCompleted(in year: Int) -> EpisodesStartedAndCompleted {
         endOfYearManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
-
     }
 
     func summarizedRatings(in year: Int) -> [UInt32: Int]? {

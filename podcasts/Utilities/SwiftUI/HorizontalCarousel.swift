@@ -335,7 +335,6 @@ struct HorizontalCarousel_Preview: PreviewProvider {
                         .padding(5)
                         .background((!isConstant ? Color.blue : Color.clear).cornerRadius(10))
                         .foregroundColor(!isConstant ? Color.white : nil)
-
                     }
                     HStack {
                         Text("Peek Amount")
