@@ -209,5 +209,4 @@ class TimeSliderLayer: CALayer {
     private func animationLineWidth() -> CGFloat {
         (leftHalfRect.size.width + rightHalfRect.size.width) / 3
     }
-
 }

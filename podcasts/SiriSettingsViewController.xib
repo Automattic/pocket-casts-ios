@@ -80,7 +80,7 @@
                 <constraint firstItem="eW4-Ox-6Vm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Xow-BY-yjO"/>
                 <constraint firstItem="kao-bE-oer" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="bNc-fM-BOD"/>
                 <constraint firstItem="kao-bE-oer" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="bvk-1F-o0P"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="eW4-Ox-6Vm" secondAttribute="bottom" id="hJe-QI-Np2"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="bottom" secondItem="eW4-Ox-6Vm" secondAttribute="bottom" id="hJe-QI-Np2"/>
                 <constraint firstItem="c2J-nw-wT2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="hhT-6i-EDz"/>
                 <constraint firstItem="kao-bE-oer" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="pHi-lh-uHy"/>
             </constraints>

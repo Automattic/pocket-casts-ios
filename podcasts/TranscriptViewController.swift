@@ -21,6 +21,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var autoScrollBackWorkItem: DispatchWorkItem?
     private static let autoScrollBackDelay: TimeInterval = 5.0
 
+    // Position the active cue ~30% from the top of the visible area so a few
+    // upcoming lines are always visible below it.
+    private static let highlightVerticalAnchor: CGFloat = 0.3
+
     // `playbackProgress` fires roughly once per second, which means the highlight
     // can land up to ~1s after a cue boundary. Drive updates off the display
     // refresh instead so transitions land within one frame (~16ms at 60Hz).
@@ -41,6 +45,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
     private var kmpSearch: KMPSearch?
+
+    private var syncedSeeksCount = 0
+    private var appearDate: Date?
+    private var autoScrollSuppressedDate: Date?
 
     private var transcriptManager: TranscriptManager?
 
@@ -103,7 +111,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         stopHighlightDisplayLink()
         let link = CADisplayLink(target: self, selector: #selector(highlightTick))
         link.add(to: .main, forMode: .common)
+        link.isPaused = !playbackManager.isPlayingEpisode
         highlightDisplayLink = link
+        // Opening the transcript while paused leaves the link paused, so
+        // `playbackProgress` won't fire and the initial highlight wouldn't
+        // appear. Force one position update so the current cue is shown even
+        // if playback never resumes.
+        updateTranscriptPosition()
     }
 
     private func stopHighlightDisplayLink() {
@@ -111,12 +125,32 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         highlightDisplayLink = nil
     }
 
+    /// Toggle the highlight display link based purely on whether playback is
+    /// advancing. We deliberately don't gate on `FingerprintTimingManager.state`
+    /// here — the existing `guard case .active = ...` inside
+    /// `updateTranscriptPosition` already short-circuits the per-tick highlight
+    /// work when the manager isn't ready, and stacking a second gate at the
+    /// display-link level is what trapped the manager in `.preparing` on the
+    /// prior POC-546 attempt (the link would pause before the manager could
+    /// post a state change).
+    @objc private func updateHighlightDisplayLinkPauseState() {
+        highlightDisplayLink?.isPaused = !playbackManager.isPlayingEpisode
+    }
+
     @objc private func highlightTick() {
         updateTranscriptPosition()
     }
 
     func didDisappear() {
-        track(.transcriptDismissed)
+        let syncedState = FingerprintTimingManager.shared.state
+        var properties: [AnyHashable: Any] = [
+            "synced_state_at_dismiss": syncedState.analyticsName,
+            "synced_seeks_count": syncedSeeksCount
+        ]
+        if let appear = appearDate {
+            properties["engagement_seconds"] = Int(Date().timeIntervalSince(appear))
+        }
+        track(.transcriptDismissed, properties: properties)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -491,10 +525,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         loadTranscript()
         addObservers()
         (transcriptView as UIScrollView).delegate = self
-        if FeatureFlag.syncedTranscripts.enabled, !showFromEpisode {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
-        startHighlightDisplayLink()
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -514,6 +544,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         debugTimer?.invalidate()
         debugTimer = nil
         #endif
+    }
+
+    private func stopSyncedTranscripts() {
+        FingerprintTimingManager.shared.stop()
+        stopHighlightDisplayLink()
     }
 
     override func themeDidChange() {
@@ -548,9 +583,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         resetKmp()
         resetSearch()
         loadTranscript()
-        if FeatureFlag.syncedTranscripts.enabled {
-            FingerprintTimingManager.shared.prepareForCurrentEpisode()
-        }
     }
 
     @objc private func closeTapped() {
@@ -593,20 +625,37 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             do {
                 let transcript = try await transcriptManager.loadTranscript()
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
+                let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
+                    if isDisplayingGenerated {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                            FingerprintTimingManager.shared.prepareForCurrentEpisode()
+                        }
+                        self.startHighlightDisplayLink()
+                    } else {
+                        self.stopSyncedTranscripts()
+                    }
                     UIView.animate(withDuration: 0.25) {
                         if hasGeneratedTranscripts, self.shouldShowPremiumView {
                             self.stackView.alpha = 0
                             self.showGeneratedTranscriptsPremiumOverlay?()
                         } else {
-                            self.track(.transcriptShown, properties: ["type": transcript.type, "show_as_webpage": transcript.hasJavascript])
+                            self.appearDate = Date()
+                            let syncedState = FingerprintTimingManager.shared.state
+                            self.track(.transcriptShown, properties: [
+                                "type": transcript.type,
+                                "show_as_webpage": transcript.hasJavascript,
+                                "synced_flag_enabled": FeatureFlag.syncedTranscripts.enabled,
+                                "synced_state": syncedState.analyticsName
+                            ])
                         }
                         self.bannerView.isHidden = !hasGeneratedTranscripts
                     }
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
+                await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
             }
@@ -769,7 +818,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
                     formattedText.addAttributes(highlightStyle, range: NSRange(location: indice, length: searchTermLength))
                 }
-
             }
         }
         formattedText.endEditing()
@@ -794,6 +842,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if FeatureFlag.syncedTranscripts.enabled {
             addCustomObserver(Constants.Notifications.playbackProgress, selector: #selector(updateTranscriptPosition))
+            addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateHighlightDisplayLinkPauseState))
         }
     }
 
@@ -820,8 +871,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             previousRange = range
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
-                let scrollRange = NSRange(location: range.location, length: range.length * 2)
-                transcriptView.scrollRangeToVisible(scrollRange)
+                transcriptView.scrollToRange(range, verticalAnchor: Self.highlightVerticalAnchor)
             }
             #if DEBUG
             let intoCue = position - cue.startTime
@@ -880,6 +930,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         guard FeatureFlag.syncedTranscripts.enabled else { return }
         guard !isSearching else { return }
         isAutoScrollSuppressed = true
+        autoScrollSuppressedDate = Date()
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.isAutoScrollSuppressed = false
@@ -901,11 +952,20 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // highlight is static and yanking the view back to it would fight the
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
-        transcriptView.scrollToRange(previousRange)
+        transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
+        var properties: [AnyHashable: Any] = [:]
+        if let suppressedDate = autoScrollSuppressedDate {
+            properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
+        }
+        track(.syncedTranscriptAutoScrollResumed, properties: properties)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
-        guard let transcript, playbackManager.isPlayingEpisode else { return }
+        // Gate on `canSeek` rather than `isPlayingEpisode` so taps still seek
+        // while audio is paused, but stay inert in the Episode Detail flow
+        // where the playback manager's `seekTo` is a no-op (avoids firing
+        // analytics or showing toasts for a seek that can't happen).
+        guard let transcript, playbackManager.canSeek else { return }
 
         let location = gesture.location(in: transcriptView)
         let layoutManager = transcriptView.layoutManager
@@ -931,12 +991,22 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
 
         guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
+            let syncedState = FingerprintTimingManager.shared.state
+            track(.syncedTranscriptSeekFailed, properties: [
+                "reason": "mapping_unavailable",
+                "synced_state": syncedState.analyticsName
+            ])
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
 
+        let fromPosition = playbackManager.currentTime()
         playbackManager.seekTo(time: seekTime)
-        track(.syncedTranscriptSeekUsed)
+        syncedSeeksCount += 1
+        track(.syncedTranscriptSeekUsed, properties: [
+            "from_position_seconds": Int(fromPosition),
+            "to_position_seconds": Int(seekTime)
+        ])
     }
 
     // MARK: - Search

@@ -34,11 +34,9 @@ struct IntroStory2024: StoryView {
                                 .multilineTextAlignment(.center)
                         }
                             .foregroundStyle(backgroundTextColor)
-
                     }
                     .ignoresSafeArea()
                 )
-
             }
         }
         .background(backgroundColor)

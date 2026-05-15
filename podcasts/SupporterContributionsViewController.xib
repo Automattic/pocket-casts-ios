@@ -33,7 +33,7 @@
                 <constraint firstItem="MUt-AR-Jjk" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="6EJ-wV-68A"/>
                 <constraint firstItem="MUt-AR-Jjk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6Wb-br-NIL"/>
                 <constraint firstItem="MUt-AR-Jjk" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="LTK-ha-iLC"/>
-                <constraint firstItem="MUt-AR-Jjk" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="MUK-oI-VfF"/>
+                <constraint firstItem="MUt-AR-Jjk" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="MUK-oI-VfF"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="153"/>

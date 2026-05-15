@@ -1,4 +1,6 @@
-final class UIViewControllerContentConfiguration: UIContentConfiguration {
+import UIKit
+
+struct UIViewControllerContentConfiguration: UIContentConfiguration {
     let viewController: UIViewController
     let parentViewController: UIViewController
 
@@ -8,24 +10,35 @@ final class UIViewControllerContentConfiguration: UIContentConfiguration {
     }
 
     func makeContentView() -> UIView & UIContentView {
-        return ViewControllerContainerContentView(configuration: self)
+        ViewControllerContainerContentView(configuration: self)
     }
 
     func updated(for state: UIConfigurationState) -> UIViewControllerContentConfiguration {
-        return self
+        self
     }
 }
 
-class ViewControllerContainerContentView: UIView, UIContentView {
+final class ViewControllerContainerContentView: UIView, UIContentView {
     var configuration: UIContentConfiguration {
+        get { _configuration }
+        set {
+            guard let newValue = newValue as? UIViewControllerContentConfiguration else {
+                return assertionFailure("Unsupported configuration")
+            }
+            _configuration = newValue
+        }
+    }
+
+    private var _configuration: UIViewControllerContentConfiguration {
         didSet {
+            guard oldValue.viewController !== _configuration.viewController else { return }
             subviews.first?.removeFromSuperview()
             setupConstraints()
         }
     }
 
     init(configuration: UIViewControllerContentConfiguration) {
-        self.configuration = configuration
+        self._configuration = configuration
         super.init(frame: .zero)
         setupConstraints()
     }
@@ -35,9 +48,7 @@ class ViewControllerContainerContentView: UIView, UIContentView {
     }
 
     private func setupConstraints() {
-        guard let configuration = configuration as? UIViewControllerContentConfiguration else { return }
-
-        let viewController = configuration.viewController
+        let viewController = _configuration.viewController
         addSubview(viewController.view)
         viewController.view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -47,14 +58,11 @@ class ViewControllerContainerContentView: UIView, UIContentView {
             viewController.view.trailingAnchor.constraint(equalTo: trailingAnchor),
             viewController.view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-
-        configuration.parentViewController.addChild(viewController)
+        _configuration.parentViewController.addChild(viewController)
     }
 
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        guard let vc = (configuration as? UIViewControllerContentConfiguration)?.viewController else {
-            return super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
-        }
+        let vc = _configuration.viewController
 
         vc.view.layoutSubviews()
 

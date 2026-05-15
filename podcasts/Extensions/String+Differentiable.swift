@@ -1,4 +1,4 @@
 import DifferenceKit
 import Foundation
 
-extension String: Differentiable {}
+extension String: @retroactive ContentEquatable, @retroactive ContentIdentifiable {}

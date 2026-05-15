@@ -50,7 +50,7 @@
                 <constraint firstItem="8Nr-wR-Lkv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LST-Cw-8TU"/>
                 <constraint firstItem="8Nr-wR-Lkv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="MBz-QW-bgN"/>
                 <constraint firstItem="8Nr-wR-Lkv" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="UlL-WF-0S0"/>
-                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="nI1-Ju-RyD"/>
+                <constraint firstItem="8Nr-wR-Lkv" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="nI1-Ju-RyD"/>
             </constraints>
             <point key="canvasLocation" x="139" y="145"/>
         </view>

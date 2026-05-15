@@ -1,7 +1,8 @@
 import Foundation
+import AVFoundation
+import Combine
 import PocketCastsDataModel
 import PocketCastsUtils
-import Combine
 
 class BookmarkManager {
     private let dataManager: BookmarkDataManager

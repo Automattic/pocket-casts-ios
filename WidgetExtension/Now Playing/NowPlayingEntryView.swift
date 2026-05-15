@@ -253,7 +253,7 @@ struct NowPlayingWidgetEntryView: View {
 
     private var nothingPlaying: some View {
         VStack(alignment: .leading, spacing: 3) {
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 HStack(alignment: .top) {
                     LargeArtworkView()
                         .opacity(0.5)

@@ -1794,6 +1794,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>ON</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts ユーザー</string>
     <key>onboarding_quote_best</key>
@@ -2104,10 +2106,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードが削除されました</string>
     <key>player_error_corrupted_file</key>
     <string>エピソードが破損している可能性がありますが、後ほど、もう一度お試しください。</string>
+    <key>player_error_episode_not_available</key>
+    <string>このエピソードは再生できません。</string>
     <key>player_error_internet_connection</key>
     <string>インターネット接続を確認して、もう一度お試しください。</string>
     <key>player_error_short_no_connection</key>
     <string>オフラインになっています</string>
+    <key>player_error_short_playback_error</key>
+    <string>再生できませんでした。もう一度お試しください</string>
     <key>player_increment_time</key>
     <string>早送りする時間幅</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3564,6 +3570,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取時間</string>
     <key>stats_listen_history_no_date</key>
     <string>聴取時間</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>聴取アクティビティのヒートマップ。 聴取日数: %1$@/ 365。</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>未満</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>超</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>聴取アクティビティ</string>
     <key>stats_skipping</key>
     <string>スキップ</string>
     <key>stats_time_saved</key>
@@ -3720,6 +3734,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>申し訳ありません、このエピソードではトランスクリプトを利用できません</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>エピソードをダウンロードし、タップして検索</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>
@@ -3728,6 +3744,22 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>もう一度お試しください</string>
     <key>try_it_now</key>
     <string>今すぐお試しください</string>
+    <key>tv_tab_home</key>
+    <string>ホーム</string>
+    <key>tv_tab_playlists</key>
+    <string>プレイリスト</string>
+    <key>tv_tab_podcasts</key>
+    <string>あなたのポッドキャスト</string>
+    <key>tv_tab_up_next</key>
+    <string>次のエピソード</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>アカウントなしで閲覧</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>無料アカウントを作成</string>
+    <key>tv_welcome_sign_in</key>
+    <string>ログイン</string>
+    <key>tv_welcome_title</key>
+    <string>Pocket Casts TV へようこそ</string>
     <key>unarchive</key>
     <string>アーカイブを解除</string>
     <key>unfollow</key>

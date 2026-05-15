@@ -18,7 +18,7 @@ class FoldersCoordinator: NSObject {
 
     private var currentSource: AnalyticsSource = .unknown
 
-    private let startingTime: Date = Date.now
+    private let startingTime = Date.now
 
     private let navigationManager: NavigationManager
     private let dataManager: DataManager
@@ -150,7 +150,6 @@ class FoldersCoordinator: NSObject {
         let hostingController = UIHostingController(rootView: suggestedFoldersView.environmentObject(Theme.sharedTheme))
         vc.present(hostingController, animated: true, completion: nil)
         hostingController.sheetPresentationController?.delegate = self
-
     }
 
     private func applySuggestedFolders(_ suggestedFolders: [SuggestedFolder]) {
@@ -209,7 +208,7 @@ class FoldersCoordinator: NSObject {
             NotificationCenter.default.publisher(for: ServerNotifications.iapPurchaseCompleted)
         )
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)
@@ -217,7 +216,7 @@ class FoldersCoordinator: NSObject {
         //Observe Login/Signup notification
         NotificationCenter.default.publisher(for: .onboardingFlowDidDismiss)
         .receive(on: OperationQueue.main)
-        .sink { [unowned self] notification in
+        .sink { [unowned self] _ in
             refreshAfterUpsellFlow()
         }
         .store(in: &cancellables)

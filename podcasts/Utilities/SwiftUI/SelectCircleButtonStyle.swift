@@ -5,7 +5,7 @@ struct SelectCircleButtonStyle: ButtonStyle {
 
     @Binding var selected: Bool
 
-    var stroke: StrokeStyle = StrokeStyle(lineWidth: 2)
+    var stroke = StrokeStyle(lineWidth: 2)
     var multiSelectButtonSize: CGFloat = 24
     var checkSize: CGFloat = 22
 

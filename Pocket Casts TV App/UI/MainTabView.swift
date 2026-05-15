@@ -30,9 +30,40 @@ enum MainTab: Int, CaseIterable, Identifiable {
 struct MainTabContentView: View {
     let tab: MainTab
 
+    @Binding var scrollOffset: Double
+
     var body: some View {
-        if let title = tab.title {
-            CenterButton(title: title)
+        switch tab {
+        case .home:
+            HomeView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .podcasts:
+            PodcastsView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .playlists:
+            PlaylistsView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .upNext:
+            UpNextView()
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .search:
+            SearchView(model: SearchViewModel())
         }
     }
 }
@@ -44,7 +75,6 @@ struct CenterButton: View {
         VStack {
             Spacer()
             Button(title) {
-
             }
             Spacer()
         }
@@ -53,8 +83,10 @@ struct CenterButton: View {
 
 struct MainTabView: View {
 
-    @State private var selection: MainTab = .home
+    @State private var tabSelection = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
+    @State private var scrollOffset: Double = 0
+    @Environment(AppCoordinator.self) var coordinator
 
     enum FocusArea: Hashable {
         case tabBar
@@ -64,10 +96,12 @@ struct MainTabView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TabView(selection: $selection) {
+            TabView(selection: $tabSelection.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
-                        MainTabContentView(tab: tab)
+                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
+                            .environment(tabSelection)
+                            .focused($focusedArea, equals: .content)
                     } label: {
                         Label {
                             if let title = tab.title { Text(title) }
@@ -78,12 +112,10 @@ struct MainTabView: View {
                 }
             }
             .focused($focusedArea, equals: .tabBar)
-            rightAccessory
-        }.overlay(alignment: .topLeading) {
-            leftAccessory
-        }.onAppear {
-            focusedArea = .tabBar
+        }.overlay(alignment: .top) {
+            accessoryView
         }
+        .defaultFocus($focusedArea, .tabBar)
         // Intercept right-swipe from tab bar to profile
         .onMoveCommand { direction in
             handleMove(direction)
@@ -91,11 +123,28 @@ struct MainTabView: View {
         .ignoresSafeArea()
     }
 
+    @ViewBuilder
+    var accessoryView: some View {
+        if !tabSelection.isShowingDetail {
+            VStack() {
+                HStack() {
+                    leftAccessory
+                    Spacer()
+                    rightAccessory
+                }
+                .padding(.vertical, 48)
+                .padding(.horizontal, 84)
+                .offset(x: 0, y: -scrollOffset)
+                Spacer()
+            }
+        }
+    }
+
     private func handleMove(_ direction: MoveCommandDirection) {
         switch (focusedArea, direction) {
         case (.tabBar, .right):
             // Only jump to profile if we're on the rightmost tab
-            if selection == MainTab.allCases.last {
+            if tabSelection.selectedTab == MainTab.allCases.last {
                 focusedArea = .profile
             }
         case (.profile, .left):
@@ -105,32 +154,38 @@ struct MainTabView: View {
         }
     }
 
+    @State var showUserActions: Bool = false
     var rightAccessory: some View {
         Button {
-
+            showUserActions.toggle()
         } label: {
-            Image(ImageResource.userPlaceholder)
+            if let email = coordinator.userState.usernameEmail {
+                ProfileImage(email: email)
+                    .frame(width: 64, height: 64)
+            } else {
+                Image(ImageResource.profileTab)
+                    .frame(width: 64, height: 64)
+            }
         }
         .buttonStyle(.card)
         .focused($focusedArea, equals: .profile)
-        .padding(.top, 50)
-        .padding(.trailing, 84)
         .focusSection()
+        .confirmationDialog(L10n.tvUserProfileActions, isPresented: $showUserActions) {
+            if coordinator.userState.isLoggedIn {
+                Button(L10n.accountSignOut, role: .destructive) { coordinator.userState.logout() }
+            } else {
+                Button(L10n.signIn, role: .confirm) { coordinator.signIn() }
+            }
+            Button(L10n.accessibilityDismiss, role: .cancel) { }
+        }
     }
 
     var leftAccessory: some View {
-        VStack(alignment: .leading) {
-            Spacer().frame(height: 40)
-            HStack {
-                Spacer().frame(width: 84)
-                Image(ImageResource.pcLogo)
-                Spacer()
-            }.frame(height: 78)
-            Spacer()
-        }
+        Image(ImageResource.pcLogo)
     }
 }
 
 #Preview {
     MainTabView()
+        .environment(AppCoordinator())
 }

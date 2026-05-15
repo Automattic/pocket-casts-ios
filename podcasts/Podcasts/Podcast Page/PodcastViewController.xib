@@ -16,12 +16,8 @@
                 <outlet property="loadingBgView" destination="Z6r-n2-drA" id="KSb-Gy-IIA"/>
                 <outlet property="loadingImageBg" destination="iLx-g1-Ro1" id="0sn-Hu-Ekg"/>
                 <outlet property="loadingIndicator" destination="AZp-uk-Ky7" id="ohZ-Kv-fdg"/>
-                <outlet property="multiSelectAllBtn" destination="w24-UV-dAv" id="bI8-n2-JCY"/>
-                <outlet property="multiSelectCancelBtn" destination="gVg-vB-nD5" id="NJ0-u6-zf1"/>
                 <outlet property="multiSelectFooter" destination="Lj6-2A-raj" id="j7o-SG-hvb"/>
                 <outlet property="multiSelectFooterBottomConstraint" destination="XlV-rU-xYe" id="rVt-aG-6Wh"/>
-                <outlet property="multiSelectHeaderView" destination="rCn-kh-SHx" id="zCj-c1-wQJ"/>
-                <outlet property="multiSelectHeaderViewConstraint" destination="weF-fk-AC7" id="15c-mD-duz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -81,44 +77,6 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="AZp-uk-Ky7" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="502" y="675" width="20" height="20"/>
                 </activityIndicatorView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rCn-kh-SHx" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="1024" height="10"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w24-UV-dAv">
-                            <rect key="frame" x="16" y="-34" width="73" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="xtn-4c-tFJ"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <state key="normal" title="Select All"/>
-                            <connections>
-                                <action selector="selectAllTapped" destination="-1" eventType="touchUpInside" id="Xno-wB-iQX"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-vB-nD5">
-                            <rect key="frame" x="954" y="-34" width="54" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="FPZ-Vv-F5t"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <state key="normal" title="Cancel"/>
-                            <connections>
-                                <action selector="cancelTapped" destination="-1" eventType="touchUpInside" id="Vxk-xq-gz4"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="gVg-vB-nD5" secondAttribute="trailing" constant="16" id="aTJ-Zl-Q6k"/>
-                        <constraint firstItem="w24-UV-dAv" firstAttribute="leading" secondItem="rCn-kh-SHx" secondAttribute="leading" constant="16" id="hsU-ID-8ex"/>
-                        <constraint firstAttribute="bottom" secondItem="gVg-vB-nD5" secondAttribute="bottom" id="l6u-IZ-408"/>
-                        <constraint firstAttribute="bottom" secondItem="w24-UV-dAv" secondAttribute="bottom" id="neu-aF-ePa"/>
-                        <constraint firstAttribute="height" constant="90" id="weF-fk-AC7">
-                            <variation key="heightClass=regular-widthClass=regular" constant="10"/>
-                        </constraint>
-                    </constraints>
-                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lj6-2A-raj" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="8" y="1282" width="1008" height="64"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -130,16 +88,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="rCn-kh-SHx" secondAttribute="trailing" id="1oY-el-j1A"/>
                 <constraint firstItem="vOg-9D-tbz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="2Q2-7I-YM4"/>
                 <constraint firstItem="A5O-Jp-ZY7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9ck-5W-tuG"/>
                 <constraint firstAttribute="bottomMargin" secondItem="A5O-Jp-ZY7" secondAttribute="bottom" id="9qb-Ae-Bih"/>
-                <constraint firstItem="rCn-kh-SHx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AiL-19-Ix1"/>
-                <constraint firstItem="vOg-9D-tbz" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="HIb-Ka-db3"/>
-                <constraint firstItem="rCn-kh-SHx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hqo-uM-afL"/>
+                <constraint firstItem="vOg-9D-tbz" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="HIb-Ka-db3"/>
                 <constraint firstItem="vOg-9D-tbz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="QmA-n5-aN8"/>
                 <constraint firstItem="AZp-uk-Ky7" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="VcH-B8-uIB"/>
-                <constraint firstItem="vOg-9D-tbz" firstAttribute="bottom" secondItem="Lj6-2A-raj" secondAttribute="bottom" id="XlV-rU-xYe"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Lj6-2A-raj" secondAttribute="bottom" id="XlV-rU-xYe"/>
                 <constraint firstItem="vOg-9D-tbz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="YIb-Ui-04J"/>
                 <constraint firstItem="Lj6-2A-raj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="YgU-IM-76c"/>
                 <constraint firstItem="A5O-Jp-ZY7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="bHb-h2-dtt"/>

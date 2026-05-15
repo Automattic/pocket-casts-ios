@@ -181,7 +181,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             let metrics = UIFontMetrics(forTextStyle: .largeTitle)
             timeRemaining.font = metrics.scaledFont(for: baseFont)
             timeRemaining.adjustsFontForContentSizeCategory = true
-
         }
     }
 

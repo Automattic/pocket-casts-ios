@@ -128,7 +128,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
             }
 
             updateTableRows(newRows: newTableRows)
-
         } else {
             var newTableRows: [[TableRow]] = [accountOptions, [.privacyPolicy, .termsOfUse], [.logout], [.deleteAccount]]
 

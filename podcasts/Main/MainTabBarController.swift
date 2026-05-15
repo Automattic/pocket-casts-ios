@@ -3,6 +3,7 @@ import PocketCastsServer
 import SafariServices
 import UIKit
 import Combine
+import Kingfisher
 import PocketCastsUtils
 import SwiftUI
 
@@ -50,7 +51,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private let errorBanner: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeColor.primaryUi03()
+        view.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : ThemeColor.primaryUi03()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.alpha = 0
@@ -75,7 +76,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     // MARK: - State
 
-    private let errorBannerHeight: CGFloat = 48
+    private let errorBannerHeight: CGFloat = LiquidGlass.isEnabled ? 60 : 48
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,8 +126,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(textEditingDidEnd), name: Constants.Notifications.textEditingDidEnd, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFollowSystemThemeTurnedOn), name: Constants.Notifications.followSystemThemeTurnedOn, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(unhideNavBar), name: Constants.Notifications.unhideNavBarRequested, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(profileSeen), name: Constants.Notifications.profileSeen, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatar), name: .userLoginDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatarForcingReload), name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
+        refreshProfileTabAvatar()
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
@@ -138,9 +141,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private var systemAppearanceObservation: Any?
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        registerSceneAppearanceObserverIfNeeded()
         fireSystemThemeMayHaveChanged()
         checkSubscriptionStatusChanged()
         checkPromotionFinishedAcknowledged()
@@ -244,6 +250,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        if let scene = view.window?.windowScene {
+            Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
+        }
         fixTarBarTraitCollectionOnIpadForiOS18()
         fireSystemThemeMayHaveChanged()
     }
@@ -258,16 +267,24 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let miniPlayer = MiniPlayerViewController(nibName: "MiniPlayerViewController", bundle: nil)
         NavigationManager.sharedManager.miniPlayer = miniPlayer
 
-        miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+        if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
+            addChild(miniPlayer)
+            miniPlayer.didMove(toParent: self)
+            // Load the view so XIB outlets and observers are wired up before
+            // it's installed as a tab accessory contentView.
+            miniPlayer.loadViewIfNeeded()
+        } else {
+            miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(miniPlayer.view, belowSubview: tabBar)
 
-        NSLayoutConstraint.activate([
-            miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
-        ])
+            NSLayoutConstraint.activate([
+                miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+            ])
 
-        miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+            miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
+        }
     }
 
     // MARK: - UITabBarDelegate
@@ -591,8 +608,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             let appearanceViewController = AppearanceViewController()
             navController.pushViewController(appearanceViewController, animated: !showThemeSelection)
             if showThemeSelection {
-                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { [weak self] theme in
-                    Theme.setPreferredLightTheme(theme, systemIsDark: self?.traitCollection.userInterfaceStyle == .dark)
+                appearanceViewController.presentThemePicker(selectedTheme: Theme.preferredLightTheme()) { theme in
+                    Theme.setPreferredLightTheme(theme, systemIsDark: Theme.systemIsDark)
                 }
             }
         }
@@ -751,7 +768,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             return
         }
 
-        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .userSignedIn, object: nil, queue: .main) { _ in
             self.endOfYear.resetStateIfNeeded()
         }
 
@@ -761,7 +778,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             self.showEndOfYearPromptIfNeeded()
         }
 
-        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { notification in
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { _ in
             self.endOfYear.showPromptBasedOnState(in: self)
 
             self.displayEndOfYearBadgeIfNeeded()
@@ -790,7 +807,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - End of Year
 
     private func updateTabBarColor() {
+        guard !LiquidGlass.isEnabled else { return }
+
         self.view.backgroundColor = AppTheme.viewBackgroundColor()
+        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
+        tabBar.tintColor = AppTheme.tabBarItemTintColor()
+
+        guard !LiquidGlass.isEnabled else { return }
+
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
@@ -806,8 +830,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
-        tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
-        tabBar.tintColor = AppTheme.tabBarItemTintColor()
     }
 
     private func displayEndOfYearBadgeIfNeeded() {
@@ -821,22 +843,31 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         checkSubscriptionStatusChanged()
     }
 
+    // The window's `overrideUserInterfaceStyle` masks system appearance changes
+    // from view controllers inside it, so `traitCollectionDidChange` never fires
+    // for system light/dark flips. Observe at the scene level instead — scene
+    // traits aren't affected by the per-window override.
+    private func registerSceneAppearanceObserverIfNeeded() {
+        guard systemAppearanceObservation == nil,
+              LiquidGlass.isEnabled,
+              #available(iOS 17.0, *),
+              let scene = view.window?.windowScene else { return }
+        systemAppearanceObservation = scene.registerForTraitChanges(
+            [UITraitUserInterfaceStyle.self]
+        ) { [weak self] (scene: UIWindowScene, _: UITraitCollection) in
+            Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
+            self?.fireSystemThemeMayHaveChanged()
+        }
+    }
+
     private var lastNotifiedAboutDark: Bool?
     private func fireSystemThemeMayHaveChanged() {
         if !Settings.shouldFollowSystemTheme() { return } // if the user has turned this off, then ignore system theme changes
 
-        let style = traitCollection.userInterfaceStyle
-
-        let isDark = (style == .dark)
+        let isDark = Theme.systemIsDark
         if lastNotifiedAboutDark == nil || isDark != lastNotifiedAboutDark {
             lastNotifiedAboutDark = isDark
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.systemThemeMayHaveChanged, object: isDark)
-        }
-    }
-
-    @objc private func unhideNavBar() {
-        if let navController = selectedViewController as? UINavigationController {
-            navController.setNavigationBarHidden(false, animated: true)
         }
     }
 
@@ -908,9 +939,9 @@ private extension MainTabBarController {
 
         bookmarkManager.onBookmarkCreated
             .receive(on: RunLoop.main)
-            .filter { event in
+            .filter { _ in
                 UIApplication.shared.applicationState == .active
-                && !SceneHelper.isConnectedToCarPlay
+                && !CarPlayHelper.isConnectedToCarPlay
                 && NavigationManager.sharedManager.miniPlayer?.playerOpenState == .closed
             }
             .compactMap { event in
@@ -929,7 +960,7 @@ private extension MainTabBarController {
         let message = title == L10n.bookmarkDefaultTitle ? L10n.bookmarkAdded : L10n.bookmarkAddedNotification(title)
 
         let action = Toast.Action(title: L10n.changeBookmarkTitle) { [weak self] in
-            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, cancel in
+            let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: .updating, onDismiss: { [weak self] updatedTitle, _ in
                 guard title != updatedTitle else { return }
 
                 self?.handleBookmarkTitleUpdated(updatedTitle: updatedTitle)
@@ -958,7 +989,6 @@ private extension MainTabBarController {
             }
         }
     }
-
 }
 
 // MARK: - Analytics
@@ -1131,7 +1161,49 @@ extension MainTabBarController {
     }
 
     private func updateErrorColor() {
-        errorBanner.backgroundColor = AppTheme.tabBarBackgroundColor()
+        errorBanner.backgroundColor = LiquidGlass.isEnabled ? UIColor.clear : AppTheme.tabBarBackgroundColor()
         errorLabel.textColor = AppTheme.mainTextColor()
+    }
+}
+
+// MARK: - Profile tab avatar
+
+private extension MainTabBarController {
+    static let profileTabIconSize: CGFloat = 26
+
+    @objc func refreshProfileTabAvatar() {
+        loadProfileTabAvatar(forceRefresh: false)
+    }
+
+    @objc func refreshProfileTabAvatarForcingReload() {
+        loadProfileTabAvatar(forceRefresh: true)
+    }
+
+    func loadProfileTabAvatar(forceRefresh: Bool) {
+        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+
+        guard let email = ServerSettings.syncingEmail(), !email.isEmpty,
+              let url = URL(string: "https://www.gravatar.com/avatar/\(email.sha256)?d=404&s=256") else {
+            resetProfileTabImage()
+            return
+        }
+
+        let resource = KF.ImageResource(downloadURL: url, cacheKey: email)
+        var options: KingfisherOptionsInfo = []
+        if forceRefresh {
+            options.append(.forceRefresh)
+        }
+
+        KingfisherManager.shared.retrieveImage(with: resource, options: options) { [weak self] result in
+            guard let self, case .success(let value) = result else { return }
+            let icon = value.image.gravatarIcon(size: Self.profileTabIconSize)
+            self.profileTabBarItem.image = icon
+            self.profileTabBarItem.selectedImage = icon
+        }
+    }
+
+    func resetProfileTabImage() {
+        profileTabBarItem.image = UIImage(named: "profile_tab")
+        profileTabBarItem.selectedImage = nil
     }
 }

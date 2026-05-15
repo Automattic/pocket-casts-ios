@@ -27,8 +27,13 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
             // If the swipe is too quick, we dismiss
             let translation = sender.translation(in: view)
             let velocity = sender.velocity(in: view)
-            let closing = (translation.y > view.frame.size.height * Self.minimumScreenRatioToHide) ||
-            (velocity.y > Self.minimumVelocityToHide) || velocity.y > 1000
+            // An upward flick at release cancels the dismiss even if the
+            // player was dragged past the threshold — the user is flicking
+            // back up to keep the player open.
+            let pastThreshold = translation.y > view.frame.size.height * Self.minimumScreenRatioToHide
+            let downwardFlick = velocity.y > Self.minimumVelocityToHide
+            let upwardFlick = velocity.y < 0
+            let closing = !upwardFlick && (pastThreshold || downwardFlick)
             dismissVelocity = velocity.y
 
             if closing {
@@ -50,6 +55,16 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     // this is used so that the player tab line only fades in when you tap something that isn't a control
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         !(touch.view is UIControl)
+    }
+
+    // Prioritize the vertical dismiss gesture over the horizontal page swipe between
+    // tabs: begin as long as the motion is downward and the vertical component is at
+    // least half the horizontal one (~26° from horizontal). This way diagonal swipes
+    // still dismiss the player instead of being captured by the tab scroll view.
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+        let velocity = pan.velocity(in: view)
+        return velocity.y > 0 && velocity.y * 2 >= abs(velocity.x)
     }
 
     func handleScrollViewDidScroll(scrollView: UIScrollView) {

@@ -104,7 +104,6 @@ extension NowPlayingPlayerItemViewController {
 
     @objc func updateChapterInfo() {
         updateChapterInfoWithChapters(PlaybackManager.shared.currentChapters())
-
     }
 
     private func updateChapterInfoForTime(_ time: TimeInterval) {

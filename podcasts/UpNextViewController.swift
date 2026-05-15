@@ -45,7 +45,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
                 if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? Self.bottomMargin : Constants.Values.miniPlayerOffset + Self.bottomMargin
+                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
                 }
                 reloadTable()
             }

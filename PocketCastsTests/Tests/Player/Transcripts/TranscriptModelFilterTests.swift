@@ -193,5 +193,4 @@ final class TranscriptModelFilterTests: XCTestCase {
 
         XCTAssertEqual(model.isEmtpy, true)
     }
-
 }

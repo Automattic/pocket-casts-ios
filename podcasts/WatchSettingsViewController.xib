@@ -30,7 +30,7 @@
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
-                <constraint firstItem="taG-l9-Ybb" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="4VF-88-WsC"/>
+                <constraint firstItem="taG-l9-Ybb" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="4VF-88-WsC"/>
                 <constraint firstItem="taG-l9-Ybb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="I7o-fr-VFm"/>
                 <constraint firstItem="taG-l9-Ybb" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="L9J-GC-pHs"/>
                 <constraint firstItem="taG-l9-Ybb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="rro-aR-Zfb"/>

@@ -146,14 +146,20 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     lazy var podcastsDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_non_backed_up")
-
+#endif
         return directory
     }()
 
     private lazy var streamingBufferDirectory: String = {
+#if os(tvOS)
+        let directory = (NSTemporaryDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
+#else
         let directory = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/podcasts_buffered")
-
+#endif
         return directory
     }()
 
@@ -366,7 +372,7 @@ class DownloadManager: NSObject, FilePathProtocol {
             return playbackItem
         }
         var newItem: AVPlayerItem = playbackItem
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
         if let customDelegate = downloadAndStreamEpisodes[episode.uuid] {
             // We are already downloading this episode for streaming
             FileLog.shared.addMessage("DownloadManager stream and download: skipping because we are already exporting: \(episode.uuid)")
@@ -456,10 +462,6 @@ class DownloadManager: NSObject, FilePathProtocol {
             if exportStatus.error == nil {
                 FileLog.shared.addMessage("DownloadManager stream and download: end downloading \(episode.uuid) successfully")
                 processEpisode(episode, downloadedFile: outputURL, reportedContentType: exportStatus.reportedType, copyFile: true)
-                if FeatureFlag.cleanUpTmpFiles.enabled {
-                    // Now that the file is downloaded and copied we can mark it for deletion on release
-                    customLoaderDelegate.deleteFileOnRelease = true
-                }
             } else {
                 FileLog.shared.addMessage("DownloadManager stream and download: failed downloading \(episode.uuid) -> \(exportStatus.error?.localizedDescription ?? "")")
                 wasDownloadingBefore = episode.downloading()
@@ -650,7 +652,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     }
 
     func isEpisodeDownloading(_ episode: BaseEpisode) -> Bool {
-        return downloadingEpisodesCache.contains(where: { (_, downloadingEpisode) in
+        return downloadingEpisodesCache.contains(where: { _, downloadingEpisode in
             return episode.uuid == downloadingEpisode.uuid
         })
     }
@@ -718,7 +720,6 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func removeEpisodeFromCache(_ episode: BaseEpisode) {
         progressManager.removeProgressForEpisode(episode.uuid)
-
     }
 
     private func resumeDownload(tempFilePath: String, session: URLSession, request: URLRequest, previousDownloadFailed: Bool, taskId: String, estimatedBytes: Int64, retryWithoutUserAgent: Bool = false) {

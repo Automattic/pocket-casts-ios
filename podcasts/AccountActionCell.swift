@@ -98,5 +98,4 @@ class AccountActionCell: ThemeableCell {
         cellImage.updateSizeConstraints(to: iconSize)
         disclosureImageView?.updateSizeConstraints(to: iconSize)
     }
-
 }

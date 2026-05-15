@@ -61,14 +61,6 @@
                                     <constraint firstAttribute="trailing" secondItem="yeO-fD-Pus" secondAttribute="trailing" id="kDB-Qf-uFi"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xn0-WO-sv3" customClass="PodcastHeartView" customModule="podcasts" customModuleProvider="target">
-                                <rect key="frame" x="185" y="18.5" width="28" height="28"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="28" id="1OC-aL-ntf"/>
-                                    <constraint firstAttribute="width" secondItem="Xn0-WO-sv3" secondAttribute="height" multiplier="1:1" id="rsW-of-Jgo"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81p-Se-BkH" customClass="UnplayedBadge" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="190" y="18.5" width="28" height="28"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -98,7 +90,7 @@
                 <outlet property="podcastImage" destination="Hcf-Xf-PkZ" id="Kzo-IV-2Gi"/>
                 <outlet property="podcastInfo" destination="yxZ-29-LTD" id="cMs-Fj-wuA"/>
                 <outlet property="podcastTitle" destination="yeO-fD-Pus" id="NZu-c6-t9R"/>
-                <outlet property="supporterHeart" destination="Xn0-WO-sv3" id="J0B-f9-J9j"/>
+                <outlet property="contentStackView" destination="3hO-nA-0Nr" id="ZZj-cs-stk"/>
                 <outlet property="unplayedBadge" destination="81p-Se-BkH" id="j0n-hB-JdY"/>
                 <outlet property="unplayedHeight" destination="JsO-OM-Vu5" id="w1p-he-P3I"/>
             </connections>

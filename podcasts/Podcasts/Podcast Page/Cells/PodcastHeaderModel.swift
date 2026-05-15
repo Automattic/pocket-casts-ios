@@ -15,6 +15,7 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         self.podcast = podcast
         self.delegate = delegate
         self.isSubscribed = podcast.isSubscribed()
+        self.displayCategoryAndAuthor = Self.makeDisplayCategoryAndAuthor(for: podcast)
         _isExpanded =  Published(initialValue: delegate?.isSummaryExpanded() ?? false)
         super.init()
         addObservers()
@@ -65,13 +66,16 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
         return String(substring).lowercased()
     }
 
-    var displayCategoryAndAuthor: AttributedString {
+    let displayCategoryAndAuthor: AttributedString
+
+    private static func makeDisplayCategoryAndAuthor(for podcast: Podcast) -> AttributedString {
         let category = podcast.podcastCategory?.localized(seperatingWith: \.isNewline) ?? ""
-        var markdown = "[\(category)](http://pocketcasts.com)"
+        var result = AttributedString(category)
+        result.link = URL(string: "http://pocketcasts.com")
         if let author = podcast.author {
-            markdown += " · \(author)"
+            result += AttributedString(" · \(author)")
         }
-        return (try? AttributedString(markdown: markdown)) ?? AttributedString("")
+        return result
     }
 
     var displayAuthor: String? {

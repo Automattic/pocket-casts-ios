@@ -2,7 +2,9 @@
 import UIKit
 
 extension UITextView {
-    public func scrollToRange(_ range: NSRange) {
+    public func scrollToRange(_ range: NSRange, verticalAnchor: CGFloat = 0.5) {
+        let clampedAnchor = min(max(verticalAnchor, 0), 1)
+
         // Ensure layout is up-to-date
         layoutManager.ensureLayout(for: textContainer)
 
@@ -12,10 +14,9 @@ extension UITextView {
 
         let finalRect = rect.offsetBy(dx: textContainerInset.left, dy: textContainerInset.top)
 
-        // Calculate the rectangle to scroll to such that the finalRect is centered
         var visibleRect = CGRect(
             x: finalRect.origin.x - (bounds.width / 2) + (finalRect.width / 2),
-            y: finalRect.origin.y - (bounds.height / 2) + (finalRect.height / 2),
+            y: finalRect.origin.y - (bounds.height * clampedAnchor) + (finalRect.height / 2),
             width: bounds.width,
             height: bounds.height
         ).inset(by: contentInset)

@@ -281,7 +281,7 @@ class SyncTask: ApiBaseTask {
                 }
             }
             syncRequest.deviceUtcTimeMs = TimeFormatter.currentUTCTimeInMillis()
-            if let country = Locale.current.regionCode {
+            if let country = Locale.current.region?.identifier {
                 syncRequest.country = country
             }
             syncRequest.deviceID = ServerConfig.shared.syncDelegate?.uniqueAppId() ?? ""

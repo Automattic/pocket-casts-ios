@@ -111,10 +111,9 @@ class IAPHelper: NSObject {
     func findLastSubscriptionPurchased() async -> StoreKit.Transaction? {
         return await findLastSubscriptionsPurchased()
             .filter { $0.expirationDate != nil }
-            .sorted {
+            .max {
                 return $0.purchaseDate < $1.purchaseDate
             }
-            .last
     }
 
     func winbackOfferPrice(for mainProductId: String, offerId: String) async -> String? {
@@ -398,9 +397,9 @@ extension IAPHelper {
     /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
     func getPromoOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
         guard
-            let offer = getProduct(for: identifier)?.discounts.filter({ discount in
+            let offer = getProduct(for: identifier)?.discounts.first(where: { discount in
                 discount.type != .introductory
-            }).first,
+            }),
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil

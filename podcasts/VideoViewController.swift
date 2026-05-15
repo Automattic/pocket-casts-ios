@@ -399,7 +399,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             } else {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-
                 }, completion: { (_: Bool) in
                     self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
                     self.closeToSafeTopConstraint.isActive = true

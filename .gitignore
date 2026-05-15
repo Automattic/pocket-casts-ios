@@ -40,3 +40,4 @@ artifacts/*
 
 # Claude Code ignored personal preferences
 .claude/settings.local.json
+.claude/worktrees

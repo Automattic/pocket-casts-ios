@@ -1,59 +1,98 @@
 import SwiftUI
 
-@Observable
-class WelcomeViewModel {
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
-}
-
 struct WelcomeView: View {
-    @Environment(RootViewModel.self) var viewModel
+    @Environment(AppCoordinator.self) var coordinator
 
     @State var model = WelcomeViewModel()
+    @State private var animating = false
 
     enum Layout {
         static let gridSize = CGFloat(272)
+        static let gridSpacing = CGFloat(16)
+        static let columnsPerRow = 8
+        static let animationOffset = CGFloat(200)
+        static let animationDuration = 20.0
     }
 
-    let items: [GridItem] = (0..<8).map { _ in
-        GridItem(.fixed(Layout.gridSize))
+    enum Destination: Hashable {
+        case signIn
+        case createAccount
     }
 
     var body: some View {
-        ZStack(alignment: .top) {
-            podcastGrid
-            gradientView
-            VStack(spacing: 32) {
-                Spacer()
-                Image(ImageResource.pcLogo)
-                Text(L10n.tvWelcomeTitle)
-                    .font(.title)
-                Text(L10n.tvWelcomeSubtitle)
-                    .font(.headline)
-                    .foregroundColor(Color.textSecondary)
-                HStack {
-                    Button(L10n.tvWelcomeSignIn) { viewModel.state = .signedIn }
-                        .buttonStyle(.borderedProminent)
-                    Button(L10n.tvWelcomeCreateFreeAccount) { viewModel.state = .signedIn }
-                        .buttonStyle(.borderedProminent)
+        NavigationStack {
+            ZStack(alignment: .center) {
+                VStack(spacing: 24) {
+                    Spacer()
+                    Image(ImageResource.pcLogo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 108)
+                    Text(L10n.tvWelcomeTitle)
+                        .font(.title)
+                    Text(L10n.tvWelcomeSubtitle)
+                        .font(.headline)
+                        .foregroundColor(Color.textSecondary)
+                        .padding(.bottom, 16)
+                    HStack(spacing: 16) {
+                        NavigationLink(value: Destination.signIn) {
+                            Text(L10n.tvWelcomeSignIn)
+                        }
+                        NavigationLink(value: Destination.createAccount) {
+                            Text(L10n.tvWelcomeCreateFreeAccount)
+                        }
+                    }
+                    Spacer()
+                    Button(L10n.tvWelcomeBrowseWithoutAccount) {
+                        coordinator.state = .browsing
+                    }
                 }
-                Spacer()
-                Button(L10n.tvWelcomeBrowseWithoutAccount) {
-                    viewModel.state = .browsing
+            }
+            .navigationDestination(for: Destination.self) { destination in
+                switch destination {
+                case .signIn:
+                    SignInView()
+                case .createAccount:
+                    CreateAccountView()
                 }
-                .buttonStyle(.plain)
-                .foregroundColor(Color.textSecondary)
+            }
+            .background {
+                ZStack {
+                    podcastGrid
+                    gradientView
+                }
             }
         }
     }
 
+    var podcastRows: [[String]] {
+        stride(from: 0, to: model.images.count, by: Layout.columnsPerRow).map {
+            Array(model.images[$0..<min($0 + Layout.columnsPerRow, model.images.count)])
+        }
+    }
+
     var podcastGrid: some View {
-        LazyVGrid(columns: items, content: {
-            ForEach(model.podcasts) { podcast in
-                Image(podcast.image)
-                    .resizable()
-                    .frame(width: Layout.gridSize, height: Layout.gridSize)
+        VStack(spacing: Layout.gridSpacing) {
+            ForEach(Array(podcastRows.enumerated()), id: \.offset) { rowIndex, row in
+                HStack(spacing: Layout.gridSpacing) {
+                    ForEach(Array(row.enumerated()), id: \.offset) { _, image in
+                        Image(image)
+                            .resizable()
+                            .frame(width: Layout.gridSize, height: Layout.gridSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
+                .offset(x: animating
+                    ? (rowIndex.isMultiple(of: 2) ? Layout.animationOffset : -Layout.animationOffset)
+                    : (rowIndex.isMultiple(of: 2) ? -Layout.animationOffset : Layout.animationOffset))
             }
-        }).ignoresSafeArea()
+        }
+        .offset(y: 40)
+        .onAppear {
+            withAnimation(.linear(duration: Layout.animationDuration).repeatForever(autoreverses: true)) {
+                animating = true
+            }
+        }
     }
 
     var gradientView: some View {
@@ -62,11 +101,11 @@ struct WelcomeView: View {
           .background(
             LinearGradient(
               stops: [
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14), location: 0.00),
-                Gradient.Stop(color: Color(red: 0.12, green: 0.13, blue: 0.14).opacity(0.5), location: 1.00),
+                Gradient.Stop(color: Color.backgroundSurface, location: 0.00),
+                Gradient.Stop(color: Color.backgroundSurface.opacity(0.5), location: 1.00),
               ],
-              startPoint: UnitPoint(x: 0.5, y: 0.41),
-              endPoint: UnitPoint(x: 0.5, y: 0.13)
+              startPoint: UnitPoint(x: 0.5, y: 0.45),
+              endPoint: UnitPoint(x: 0.5, y: 0.17)
             )
           )
     }
@@ -74,5 +113,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
-        .environment(RootViewModel())
+        .environment(AppCoordinator())
 }

@@ -135,7 +135,6 @@ struct UpgradeLandingView: View {
                         }
                 }
             }
-
         }
         .background(Color.plusBackgroundColor)
     }

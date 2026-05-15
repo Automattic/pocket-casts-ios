@@ -1,10 +1,11 @@
 import Foundation
 import PocketCastsUtils
+import EventHorizonSDK
 
 class Analytics {
     static let shared = Analytics()
     private var adapters: [AnalyticsAdapter]?
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
     var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
 #endif
 
@@ -21,7 +22,7 @@ class Analytics {
         Self.shared.adapters = nil
         Self.shared.setAdaptersRegisteredStatus(false)
     }
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
     static func add(analyticsAppThemeProvider: AnalyticsAppThemeProviding) {
         Self.shared.analyticsAppThemeProvider = analyticsAppThemeProvider
     }
@@ -33,8 +34,12 @@ class Analytics {
     }
 
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+        _track(event.eventName, properties: properties)
+    }
+
+    private func _track(_ eventName: String, properties: [AnyHashable: Any]? = nil) {
         var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         if FeatureFlag.appThemePropertiesLogging.enabled {
             analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
                 newProperties[key] = value
@@ -42,7 +47,7 @@ class Analytics {
         }
 #endif
         adapters?.forEach {
-            $0.track(name: event.eventName, properties: newProperties)
+            $0.track(name: eventName, properties: newProperties)
         }
     }
 
@@ -55,6 +60,14 @@ class Analytics {
     fileprivate func setAdaptersRegisteredStatus(_ value: Bool) {
         adaptersRegistered = value
         Self.logCurrentAdapters()
+    }
+}
+
+// MARK: Analytics (EventHorizon)
+
+extension Analytics {
+    static func send(_ event: some EventHorizonSDK.Trackable) {
+        Analytics.shared._track(event.analyticsName, properties: event.analyticsProperties)
     }
 }
 
@@ -79,7 +92,7 @@ extension Analytics {
     }
 
     func optInOfAnalytics() {
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         Settings.setAnalytics(optOut: false)
         setAdaptersRegisteredStatus(false)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
@@ -91,7 +104,7 @@ extension Analytics {
         if Settings.analyticsOptOut() {
             Analytics.unregister()
         }
-#if !os(watchOS) && !APPCLIP
+#if !os(watchOS) && !APPCLIP && !os(tvOS)
         (UIApplication.shared.delegate as? AppDelegate)?.setupAnalytics()
 #endif
         FileLog.shared.addMessage("Analytics: Refreshed Registered Adapters")

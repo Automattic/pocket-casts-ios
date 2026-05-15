@@ -24,6 +24,5 @@ class CircleView: UIView {
         path.lineWidth = borderWidth
         borderColor.setStroke()
         path.stroke()
-
     }
 }
