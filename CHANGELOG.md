@@ -2,6 +2,7 @@
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
+- Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
 
 8.12
 -----
