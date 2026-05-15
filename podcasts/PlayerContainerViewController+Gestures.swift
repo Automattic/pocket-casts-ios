@@ -2,7 +2,6 @@ import Foundation
 import PocketCastsUtils
 
 extension PlayerContainerViewController: UIGestureRecognizerDelegate {
-    private static let pullDownThreshold: CGFloat = 150
     private static let minimumVelocityToHide: CGFloat = 1000
     private static let minimumScreenRatioToHide: CGFloat = 0.1
 
@@ -47,6 +46,10 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
                                              height: self.view.frame.size.height)
                 })
             }
+            if let scroll = activeInnerScrollView {
+                scroll.bounces = savedInnerScrollViewBounces
+            }
+            activeInnerScrollView = nil
         default:
             break
         }
@@ -64,31 +67,55 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return true }
         let velocity = pan.velocity(in: view)
-        return velocity.y > 0 && velocity.y * 2 >= abs(velocity.x)
+        guard velocity.y > 0 && velocity.y * 2 >= abs(velocity.x) else { return false }
+
+        let scroll = innerVerticalScrollView(at: pan.location(in: view))
+        // If the touch is on an inner vertical scroll view that has scrolled past
+        // its top, let the scroll view consume the gesture instead of dismissing.
+        if let scroll, scroll.contentOffset.y > scrollViewTopOffset(scroll) + 0.5 {
+            return false
+        }
+
+        // We're committing to recognize. Disable bouncing on the inner scroll view
+        // now (rather than clamping in `.changed`) so its pan can't produce even a
+        // single frame of bounce before our handler runs.
+        if let scroll {
+            activeInnerScrollView = scroll
+            savedInnerScrollViewBounces = scroll.bounces
+            scroll.bounces = false
+        }
+        return true
+    }
+
+    // Recognize alongside inner scroll views' pan gestures so we can pin them to
+    // their top while the container is being dragged — otherwise both the
+    // container and the scroll content would move at once.
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let scroll = otherGestureRecognizer.view as? UIScrollView, scroll !== mainScrollView {
+            return true
+        }
+        return false
     }
 
     func handleScrollViewDidScroll(scrollView: UIScrollView) {
-        guard let miniPlayer = appDelegate()?.miniPlayer(), !(miniPlayer.playerOpenState == .beingDragged || miniPlayer.playerOpenState == .animating) else { return }
-
-        if scrollView.contentOffset.y < 0 {
-            let yPosition = floor(-scrollView.contentOffset.y)
-            handleMoveTo(yPosition: yPosition, miniPlayer: miniPlayer)
-        }
+        // The dismiss pan drives container translation directly. Bounces on an
+        // inner scroll view (e.g., the spring-back at the top after a flick) must
+        // not move the container.
     }
 
-    private func handleMoveTo(yPosition: CGFloat, miniPlayer: MiniPlayerViewController) {
-        if miniPlayer.view.isHidden { miniPlayer.view.isHidden = false }
-
-        view.moveTo(y: yPosition)
-
-        if let window = view.window {
-            let bottomSafeAreaOffset = window.safeAreaInsets.bottom
-            let deviceSpecificPadding = bottomSafeAreaOffset > 0 ? (bottomSafeAreaOffset / 2) : -UIUtil.statusBarHeight(in: window)
-            _ = view.frame.minY - view.frame.size.height + miniPlayer.view.bounds.height + deviceSpecificPadding
+    func innerVerticalScrollView(at point: CGPoint) -> UIScrollView? {
+        guard let hit = view.hitTest(point, with: nil) else { return nil }
+        var current: UIView? = hit
+        while let v = current, v !== view {
+            if let scroll = v as? UIScrollView, scroll !== mainScrollView, scroll.isScrollEnabled {
+                return scroll
+            }
+            current = v.superview
         }
+        return nil
+    }
 
-        if yPosition > PlayerContainerViewController.pullDownThreshold {
-            miniPlayer.closeFullScreenPlayer()
-        }
+    private func scrollViewTopOffset(_ scrollView: UIScrollView) -> CGFloat {
+        -scrollView.adjustedContentInset.top
     }
 }
