@@ -294,7 +294,6 @@ struct ShareProfileView: View {
                                 .font(style: .caption, weight: .semibold)
                                 .foregroundColor(theme.primaryText02)
                         }
-
                     }
                     .padding(.vertical, 12)
 
