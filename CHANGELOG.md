@@ -13,6 +13,7 @@
 - Fix an issue with pull-to-refresh sometimes skipping the refresh on the Smart Playlist screen [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)  
 - Improve pull-to-refresh stability and polish on the podcasts list [#4225](https://github.com/Automattic/pocket-casts-ios/pull/4225)
 - Car play progress fix [#4147](https://github.com/Automattic/pocket-casts-ios/pull/4147)
+- Fix an bug where the sleep timer could run at double speed [#4336](https://github.com/Automattic/pocket-casts-ios/pull/4336)
 
 8.11
 -----
