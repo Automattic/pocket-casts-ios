@@ -52,7 +52,6 @@ struct LargeArtworkView: View {
     var showShadow: Bool = true
 
     var imageToUse: UIImage? {
-        return nil
         guard let imageData else {
             return nil
         }
@@ -63,11 +62,11 @@ struct LargeArtworkView: View {
         }
     }
 
-    var placeholderImageToUse: UIImage? {
+    var placeholderImageToUse: UIImage {
         if isAccentedRenderingMode {
-            return UIImage(named: "no-podcast-artwork-transparent")
+            return UIImage(named: "no-podcast-artwork-transparent")!.withRenderingMode(.alwaysTemplate)
         } else {
-            return UIImage(named: "no-podcast-artwork-transparent")
+            return UIImage(named: "no-podcast-artwork-transparent")!
         }
     }
 
@@ -95,11 +94,10 @@ struct LargeArtworkView: View {
                         view.artworkShadow()
                     }
             } else {
-                Image(uiImage: placeholderImageToUse!)
+                Image(uiImage: placeholderImageToUse)
                     .resizable()
                     .if(isAccentedRenderingMode) { content in
                         content
-                            .renderingMode(.template)
                             .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     }
                     .aspectRatio(1, contentMode: .fit)
@@ -129,11 +127,11 @@ struct SmallArtworkView: View {
         }
     }
 
-    var placeholderImageToUse: UIImage? {
+    var placeholderImageToUse: UIImage {
         if isAccentedRenderingMode {
-            return UIImage(named: "no-podcast-artwork-transparent")
+            return UIImage(named: "no-podcast-artwork-transparent")!.withRenderingMode(.alwaysTemplate)
         } else {
-            return UIImage(named: "no-podcast-artwork-transparent")
+            return UIImage(named: "no-podcast-artwork-transparent")!
         }
     }
 
@@ -157,7 +155,7 @@ struct SmallArtworkView: View {
                     .cornerRadius(4)
                     .artworkShadow()
             } else {
-                Image(uiImage: placeholderImageToUse!)
+                Image(uiImage: placeholderImageToUse)
                     .resizable()
                     .if(isAccentedRenderingMode) { content in
                         content
