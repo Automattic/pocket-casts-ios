@@ -1,14 +1,17 @@
 import SwiftUI
 import Combine
 import PocketCastsDataModel
+import PocketCastsServer
 
 @Observable
 class HomeViewModel {
 
+    private var cancellables: Set<AnyCancellable> = []
     private let dataManager: DataManager
 
     init(dataManager: DataManager = DataManager.sharedManager) {
         self.dataManager = dataManager
+        observeDataChanges()
     }
 
     enum State: Equatable, Hashable {
@@ -61,5 +64,28 @@ class HomeViewModel {
     private func makeRowViewModel(for episode: BaseEpisode) -> EpisodeRowViewModel {
         let podcast = (episode as? Episode).flatMap { $0.parentPodcast(dataManager: dataManager) }
         return EpisodeRowViewModel(episode: episode, podcast: podcast)
+    }
+
+    private func observeDataChanges() {
+        let notificationsToObserve: [Notification.Name] = [
+            Constants.Notifications.podcastUpdated,
+            Constants.Notifications.podcastAdded,
+            Constants.Notifications.podcastDeleted,
+            Constants.Notifications.upNextQueueChanged,
+            Constants.Notifications.manyEpisodesChanged,
+            ServerNotifications.podcastsRefreshed,
+            ServerNotifications.syncCompleted
+        ]
+
+        let publishers = notificationsToObserve.map {
+            NotificationCenter.default.publisher(for: $0).map { _ in () }.eraseToAnyPublisher()
+        }
+
+        Publishers.MergeMany(publishers)
+            .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.load()
+            }
+            .store(in: &cancellables)
     }
 }
