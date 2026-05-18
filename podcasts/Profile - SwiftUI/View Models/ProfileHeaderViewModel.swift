@@ -40,13 +40,11 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
     func shareTapped() {
         guard let presenter = navigationController?.topViewController else { return }
 
-        let shareView = ShareProfileView {
-            presenter.dismiss(animated: true)
-        } onOpenPrivacySettings: { [weak self] in
+        let shareView = ShareProfileView(onOpenPrivacySettings: { [weak self] in
             presenter.dismiss(animated: true) {
                 self?.navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
             }
-        }
+        })
 
         let hostingController = PCHostingController(rootView: shareView)
         presenter.present(hostingController, animated: true)
