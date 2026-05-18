@@ -2055,6 +2055,9 @@
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
 
+/* Prompt to enter the mode for reordering the podcasts grid. */
+"podcasts_edit" = "Edit Podcasts";
+
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
 
@@ -3631,6 +3634,9 @@
 
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
+
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
 
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";

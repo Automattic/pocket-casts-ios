@@ -7,7 +7,7 @@ import UIKit
 import Kingfisher
 import SafariServices
 
-class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, ShareListDelegate {
+class PodcastListViewController: PCViewController, ShareListDelegate {
     let gridHelper = GridHelper()
     var refreshController: FullSyncRefreshController?
     var bannerAdModel: BannerAdModel?
@@ -40,6 +40,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
     var gridItems = [HomeGridListItem]()
     var gridLayout: LibraryType = Settings.libraryType()
 
+    var isEditingOrder = false
+    var savedRightBarButtonItem: UIBarButtonItem?
+
     private var lastWillLayoutWidth: CGFloat = 0
 
     private var homeGridDataHelper = HomeGridDataHelper()
@@ -71,9 +74,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         setupSearchBar()
         setupRefreshControl()
 
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        podcastsCollectionView.addGestureRecognizer(longPressGesture)
-        longPressGesture.delegate = self
+        podcastsCollectionView.dragDelegate = self
+        podcastsCollectionView.dropDelegate = self
+        podcastsCollectionView.dragInteractionEnabled = false
+        podcastsCollectionView.reorderingCadence = .immediate
 
         adjustSettingsForGridType()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: podcastsCollectionView)
@@ -128,6 +132,9 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         bannerTask?.cancel()
         navigationController?.navigationBar.shadowImage = nil
         removeAllCustomObservers()
+        if isEditingOrder {
+            setEditingOrder(false)
+        }
     }
 
     private func addEventObservers() {
@@ -391,6 +398,12 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         }
         optionsPicker.addAction(action: shareAction)
 
+        let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
+            self?.setEditingOrder(true)
+            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+        }
+        optionsPicker.addAction(action: editAction)
+
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
 
         Analytics.track(.podcastsListOptionsButtonTapped)
@@ -400,10 +413,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
     func shareUrlAvailable(_ shareUrl: String, listName: String) {
         SharingHelper.shared.shareLinkToPodcastList(name: listName, url: shareUrl, fromController: self, barButtonItem: customRightBtn, completionHandler: nil)
-    }
-
-    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        gridHelper.handleLongPress(gesture, from: podcastsCollectionView, isList: Settings.libraryType() == .list, containerView: view)
     }
 
     func itemCount() -> Int {
