@@ -14,11 +14,14 @@ struct NowPlayingView: UIViewControllerRepresentable {
         controller.allowedSubtitleOptionLanguages = []
         TVToast.shared.configure(with: controller.contentOverlayView)
         model.load()
+        controller.player = model.player
         return controller
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
-        uiViewController.player = model.player
+        if uiViewController.player != model.player {
+            uiViewController.player = model.player
+        }
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
     }
 

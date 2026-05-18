@@ -3,7 +3,7 @@ import AVKit
 import PocketCastsDataModel
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
-    var episode: EpisodeRowViewModel    
+    var episode: EpisodeRowViewModel
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         var playerURL: URL = MockData.sampleMediaURL
