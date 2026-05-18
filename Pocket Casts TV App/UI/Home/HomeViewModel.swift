@@ -31,7 +31,6 @@ class HomeViewModel {
     func load() {
         Task {
             let podcasts = fetchPodcasts()
-            recentlyPlayed = Array(podcasts.shuffled().prefix(10))
             let upNextEpisodes = dataManager.allUpNextEpisodes()
             var newEpisodes = [EpisodeRowViewModel]()
             for podcast in podcasts.prefix(8) {
@@ -44,14 +43,13 @@ class HomeViewModel {
 
             await MainActor.run { [weak self] in
                 guard let self else { return }
+                recentlyPlayed = Array(podcasts.shuffled().prefix(10))
                 self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.prefix(3)).map { episode in
                     self.makeRowViewModel(for: episode)
                 }
                 currentPlaying = upNext.first
-
                 newReleases = newEpisodes
-
                 state = .ready
             }
         }
