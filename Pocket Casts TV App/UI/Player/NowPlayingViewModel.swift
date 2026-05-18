@@ -8,7 +8,8 @@ class NowPlayingViewModel: Identifiable {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    let playbackManager: PlaybackManager
+    private let playbackManager: PlaybackManager
+    private let imageManager: ImageManager
 
     var displayImage: UIImage?
     var imageData: Data?
@@ -16,8 +17,9 @@ class NowPlayingViewModel: Identifiable {
     var episode: BaseEpisode?
     var podcast: Podcast?
 
-    init(playbackManager: PlaybackManager = PlaybackManager.shared) {
+    init(playbackManager: PlaybackManager = PlaybackManager.shared, imageManager: ImageManager = ImageManager.sharedManager) {
         self.playbackManager = playbackManager
+        self.imageManager = imageManager
         observeUpNextChanges()
     }
 
@@ -90,17 +92,11 @@ class NowPlayingViewModel: Identifiable {
     }
 
     private func loadEpisodeArtworkData() async -> UIImage? {
-        guard let podcastUuid = episode?.parentIdentifier() else {
+        guard let episode else {
             return nil
         }
 
-        let imageUrl = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcastUuid)
-        guard let (data, _) = try? await URLSession.shared.data(for: URLRequest.init(url: imageUrl)),
-              let uiImage = UIImage(data: data)
-        else {
-            return nil
-        }
-        return uiImage
+        return await imageManager.imageForEpisode(episode, size: .page)
     }
 
     var podcastUuid: String? {
