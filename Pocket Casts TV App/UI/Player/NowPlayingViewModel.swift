@@ -1,9 +1,12 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import Combine
 
 @Observable
 class NowPlayingViewModel: Identifiable {
+
+    private var cancellables: Set<AnyCancellable> = []
 
     let playbackManager: PlaybackManager
 
@@ -15,10 +18,15 @@ class NowPlayingViewModel: Identifiable {
 
     init(playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playbackManager = playbackManager
+        observeUpNextChanges()
     }
 
     func load() {
-        episode = playbackManager.currentEpisode()
+        let newEpisode = playbackManager.currentEpisode()
+        guard newEpisode?.uuid != episode?.uuid else {
+            return
+        }
+        episode = newEpisode
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
         loadEpisodeArtwork()
@@ -101,5 +109,17 @@ class NowPlayingViewModel: Identifiable {
         } else {
             return nil
         }
+    }
+
+    fileprivate func observeUpNextChanges() {
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackTrackChanged)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+                load()
+            }
+            .store(in: &cancellables)
     }
 }
