@@ -3,12 +3,10 @@ import AVKit
 import PocketCastsDataModel
 
 struct EpisodePlayerView: UIViewControllerRepresentable {
-    var episode: EpisodeRowViewModel
-
-    private static let sampleURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
+    var episode: EpisodeRowViewModel    
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
-        var playerURL: URL = Self.sampleURL
+        var playerURL: URL = MockData.sampleMediaURL
         if let urlString = episode.episode.downloadUrl, let url = URL(string: urlString) {
             playerURL = url
         }
