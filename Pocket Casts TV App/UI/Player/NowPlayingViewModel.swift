@@ -64,6 +64,15 @@ class NowPlayingViewModel: Identifiable {
         playbackManager.applyCurrentEffect()
     }
 
+    var volumeBoost: Bool {
+        playbackManager.effects().volumeBoost
+    }
+
+    func setVolumeBoost(_ boost: Bool) {
+        playbackManager.effects().volumeBoost = boost
+        playbackManager.applyCurrentEffect()
+    }
+
     private func loadEpisodeArtworkData() async -> Data? {
         guard let podcastUuid = episode?.parentIdentifier() else {
             return nil

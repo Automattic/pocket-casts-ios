@@ -59,11 +59,13 @@ struct NowPlayingView: UIViewControllerRepresentable {
     }
 
     private func makePlaybackEffectsMenu() -> UIMenu {
-        let volumeBoostOff = UIAction(title: L10n.off, state: .on) { _ in
+        let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
             TVToast.shared.show(L10n.tvPlayerVolumeBoostOff)
+            model.setVolumeBoost(false)
         }
-        let volumeBoostOn = UIAction(title: L10n.on, state: .off) { _ in
+        let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
             TVToast.shared.show(L10n.tvPlayerVolumeBoostOn)
+            model.setVolumeBoost(true)
         }
         let volumeBoostSection = UIMenu(
             title: L10n.tvPlayerVolumeBoost,
