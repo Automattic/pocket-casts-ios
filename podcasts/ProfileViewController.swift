@@ -229,11 +229,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     }
 
     @objc private func shareProfileTapped() {
-        let viewModel = ShareProfileViewModel()
-        let shareView = ShareProfileView(viewModel: viewModel, dismissAction: { [weak self] in
+        let shareView = ShareProfileView { [weak self] in
             self?.dismiss(animated: true)
-        })
-
+        }
         let hostingController = ThemedHostingController(rootView: shareView)
         present(hostingController, animated: true)
     }

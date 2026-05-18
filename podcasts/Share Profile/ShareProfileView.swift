@@ -6,7 +6,7 @@ import PocketCastsUtils
 
 struct ShareProfileView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var viewModel: ShareProfileViewModel
+    @StateObject var viewModel = ShareProfileViewModel()
 
     var dismissAction: () -> Void
     var onOpenPrivacySettings: (() -> Void)?
@@ -885,7 +885,7 @@ struct CameraPicker: UIViewControllerRepresentable {
 
 struct ShareProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ShareProfileView(viewModel: ShareProfileViewModel(), dismissAction: {})
+        ShareProfileView {}
             .setupDefaultEnvironment()
     }
 }
