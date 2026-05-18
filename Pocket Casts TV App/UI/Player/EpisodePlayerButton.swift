@@ -7,12 +7,13 @@ struct EpisodePlayerButton: View {
     var body: some View {
         Button {
             isPlaying = true
+            model.play()
         } label: {
             EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(episode: model)
+            NowPlayingView()
                 .ignoresSafeArea()
         }
     }
