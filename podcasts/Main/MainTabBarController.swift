@@ -21,6 +21,10 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private lazy var upNextTabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: pcTabs.firstIndex(of: .upNext) ?? -1)
 
+    /// The last Up Next count rendered into the tab, used to pulse the tab only
+    /// when the queue actually changes (not on every refresh notification).
+    private var previousUpNextCount: Int?
+
 
     /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
     var viewDidAppearBefore: Bool = false
@@ -134,9 +138,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         refreshProfileTabAvatar()
 
         NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextQueueChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.playbackTrackChanged, object: nil)
+        // `upNextEpisodeAdded` refreshes the badge via the genie animation's tail, not here.
         NotificationCenter.default.addObserver(self, selector: #selector(animateEpisodeAddedToUpNext(_:)), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
         refreshUpNextTabBadge()
 
@@ -1221,254 +1225,28 @@ private extension MainTabBarController {
 
 // MARK: - Up Next tab badge
 
-private extension MainTabBarController {
-    static let upNextTabNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 13, weight: .bold)
-    static let upNextTabOverOneHundredNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 11, weight: .bold)
-
+extension MainTabBarController {
     @objc func refreshUpNextTabBadge() {
         guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
 
         let count = min(999, PlaybackManager.shared.queue.upNextCount())
+        // Only celebrate the queue growing — a drain (playing/removing) shouldn't pop.
+        let countIncreased = previousUpNextCount.map { count > $0 } ?? false
+        previousUpNextCount = count
+
         guard count > 0 else {
             resetUpNextTabImage()
             return
         }
 
-        // A single template image: the tab bar tints it for the
-        // unselected/selected states (and Liquid Glass vibrancy) exactly like
-        // every other tab item, so the colors always match.
-        upNextTabBarItem.image = composeUpNextTabImage(count: count)
+        // A template image so the tab bar tints it like every other item.
+        upNextTabBarItem.image = Self.composeUpNextTabImage(count: count)
         upNextTabBarItem.selectedImage = nil
+        if countIncreased { pulseUpNextTabButton() }
     }
 
     func resetUpNextTabImage() {
         upNextTabBarItem.image = UIImage(named: "upnext_tab")
         upNextTabBarItem.selectedImage = nil
-    }
-
-    /// Composes the queue count into the tab image with the number on the left,
-    /// mirroring how the full player draws it in `UpNextButton`. The circle is
-    /// drawn at full alpha and the list lines at reduced alpha, so once
-    /// templated the tab bar tints the circle in the full primary colour and
-    /// the lines in a lighter "secondary" shade of it (still adapting to
-    /// selected/unselected and Liquid Glass like every other item). The number
-    /// is knocked out of the circle so it reads as a transparent cutout.
-    func composeUpNextTabImage(count: Int) -> UIImage? {
-        let bgImageName: String
-        let canvasSize: CGSize
-        // `splitX` falls in the empty gap between the circle and the list
-        // lines in each asset, so the two regions can be drawn separately.
-        let splitX: CGFloat
-        if count < 10 {
-            bgImageName = "icon-upnext-circle"
-            canvasSize = CGSize(width: 36, height: 26)
-            splitX = 28
-        } else if count < 100 {
-            bgImageName = "icon-upnext-circle-wide"
-            canvasSize = CGSize(width: 43, height: 24)
-            splitX = 33
-        } else {
-            bgImageName = "icon-upnext-circle-wide-wide"
-            canvasSize = CGSize(width: 45, height: 24)
-            splitX = 34
-        }
-
-        guard let bgImage = UIImage(named: bgImageName) else { return nil }
-
-        let imageFrame = CGRect(origin: .zero, size: canvasSize)
-        let secondaryShadeAlpha: CGFloat = 0.45
-
-        let image = UIGraphicsImageRenderer(size: canvasSize).image { context in
-            let cg = context.cgContext
-
-            // Circle (left) at full strength → full primary tint.
-            cg.saveGState()
-            cg.clip(to: CGRect(x: 0, y: 0, width: splitX, height: canvasSize.height))
-            bgImage.draw(in: imageFrame)
-            cg.restoreGState()
-
-            // List lines (right) at reduced alpha → a lighter secondary shade
-            // of the same tint once templated.
-            cg.saveGState()
-            cg.clip(to: CGRect(x: splitX, y: 0, width: canvasSize.width - splitX, height: canvasSize.height))
-            cg.setAlpha(secondaryShadeAlpha)
-            bgImage.draw(in: imageFrame)
-            cg.restoreGState()
-
-            // Erase the count from the circle so it reads as a transparent
-            // cutout, letting the tinted circle define the number's color.
-            let countAsStr = "\(count)" as NSString
-            let font = count > 99 ? Self.upNextTabOverOneHundredNumberFont : Self.upNextTabNumberFont
-            let textFontAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.black]
-            cg.setBlendMode(.destinationOut)
-            let textSize = countAsStr.size(withAttributes: textFontAttributes)
-            // x matches `UpNextButton`; y is the player's y minus the badge's 9pt offset.
-            let textPoint: CGPoint
-            if count < 10 {
-                textPoint = CGPoint(x: (textSize.width / 2) + 3, y: 6)
-            } else if count < 100 {
-                textPoint = CGPoint(x: (textSize.width / 2) - 2, y: 4)
-            } else {
-                textPoint = CGPoint(x: (textSize.width / 2) - 7, y: 5)
-            }
-            countAsStr.draw(at: textPoint, withAttributes: textFontAttributes)
-        }
-
-        return image.withRenderingMode(.alwaysTemplate)
-    }
-}
-
-// MARK: - Up Next "genie" add animation
-
-private extension MainTabBarController {
-    static let upNextGenieViewTag = 776_611
-
-    @objc func animateEpisodeAddedToUpNext(_ notification: Notification) {
-        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
-        guard let episodeUuid = notification.object as? String,
-              let episode = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) else { return }
-
-        DispatchQueue.main.async { [weak self] in
-            self?.playUpNextAddedGenieAnimation(for: episode)
-        }
-    }
-
-    func playUpNextAddedGenieAnimation(for episode: BaseEpisode) {
-        guard let targetFrame = upNextTabButtonFrame(in: view) else { return }
-        // Don't stack animations when several episodes are added at once.
-        guard view.viewWithTag(Self.upNextGenieViewTag) == nil else { return }
-
-        let artworkSize: CGFloat = 64
-        let target = CGPoint(x: targetFrame.midX, y: targetFrame.midY)
-        let start = CGPoint(x: target.x, y: targetFrame.minY - 96)
-
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: artworkSize, height: artworkSize))
-        container.tag = Self.upNextGenieViewTag
-        container.center = start
-        container.isUserInteractionEnabled = false
-        container.layer.cornerRadius = 12
-        container.layer.cornerCurve = .continuous
-        container.layer.shadowColor = UIColor.black.cgColor
-        container.layer.shadowOpacity = 0.3
-        container.layer.shadowRadius = 12
-        container.layer.shadowOffset = CGSize(width: 0, height: 6)
-
-        let artwork = PodcastImageView(frame: container.bounds)
-        artwork.setBaseEpisode(episode: episode, size: .list)
-        artwork.layer.cornerRadius = 12
-        artwork.layer.cornerCurve = .continuous
-        artwork.layer.masksToBounds = true
-        artwork.layer.borderWidth = 1
-        artwork.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
-        container.addSubview(artwork)
-
-        view.addSubview(container)
-
-        // Phase 1: pop in, hovering just above the Up Next tab.
-        container.alpha = 0
-        container.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.4, options: [.allowUserInteraction, .curveEaseOut], animations: {
-            container.alpha = 1
-            container.transform = .identity
-        }, completion: { _ in
-            // Phase 2: genie-suck down into the Up Next tab along a curve.
-            self.runUpNextGenieSuck(on: container, from: start, to: target)
-        })
-    }
-
-    func runUpNextGenieSuck(on container: UIView, from start: CGPoint, to target: CGPoint) {
-        let duration: CFTimeInterval = 0.5
-
-        let path = UIBezierPath()
-        path.move(to: start)
-        // A subtle sideways swoop that accelerates into the tab, echoing the
-        // macOS genie effect.
-        let control = CGPoint(x: start.x + (target.x - start.x) * 0.5 - 28,
-                              y: (start.y + target.y) / 2)
-        path.addQuadCurve(to: target, controlPoint: control)
-
-        let positionAnim = CAKeyframeAnimation(keyPath: "position")
-        positionAnim.path = path.cgPath
-        positionAnim.calculationMode = .cubicPaced
-
-        let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnim.fromValue = 1.0
-        scaleAnim.toValue = 0.06
-
-        let fadeAnim = CABasicAnimation(keyPath: "opacity")
-        fadeAnim.fromValue = 1.0
-        fadeAnim.toValue = 0.0
-        fadeAnim.beginTime = duration * 0.55
-
-        let group = CAAnimationGroup()
-        group.animations = [positionAnim, scaleAnim, fadeAnim]
-        group.duration = duration
-        group.timingFunction = CAMediaTimingFunction(name: .easeIn)
-        group.isRemovedOnCompletion = false
-        group.fillMode = .forwards
-
-        CATransaction.begin()
-        CATransaction.setCompletionBlock { [weak self, weak container] in
-            container?.removeFromSuperview()
-            self?.pulseUpNextTabItem()
-        }
-        container.layer.add(group, forKey: "upNextGenie")
-        CATransaction.commit()
-    }
-
-    /// A quick pop on the Up Next tab as the artwork lands.
-    func pulseUpNextTabItem() {
-        guard let button = upNextTabButtonView() else { return }
-        UIView.animate(withDuration: 0.14, delay: 0, options: [.allowUserInteraction, .curveEaseOut], animations: {
-            button.transform = CGAffineTransform(scaleX: 1.22, y: 1.22)
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.22, delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0.3, options: [.allowUserInteraction], animations: {
-                button.transform = .identity
-            })
-        })
-    }
-
-    /// The Up Next tab's button view, searched at any depth since the tab bar's
-    /// internal hierarchy differs across iOS versions (notably iOS 26).
-    func upNextTabButtonView() -> UIView? {
-        guard let index = pcTabs.firstIndex(of: .upNext) else { return nil }
-
-        func collectButtons(_ view: UIView) -> [UIView] {
-            var result: [UIView] = []
-            for sub in view.subviews {
-                if NSStringFromClass(type(of: sub)).contains("TabBarButton") {
-                    result.append(sub)
-                } else {
-                    result.append(contentsOf: collectButtons(sub))
-                }
-            }
-            return result
-        }
-
-        var buttons = collectButtons(tabBar)
-        if buttons.isEmpty {
-            // Fall back to any control-like leaf (covers class-name changes).
-            buttons = tabBar.subviews.flatMap { $0 is UIControl ? [$0] : $0.subviews.filter { $0 is UIControl } }
-        }
-        buttons.sort { $0.convert($0.bounds, to: tabBar).minX < $1.convert($1.bounds, to: tabBar).minX }
-
-        guard buttons.indices.contains(index) else { return nil }
-        return buttons[index]
-    }
-
-    func upNextTabButtonFrame(in target: UIView) -> CGRect? {
-        guard let index = pcTabs.firstIndex(of: .upNext) else { return nil }
-
-        if let button = upNextTabButtonView() {
-            return target.convert(button.bounds, from: button)
-        }
-
-        // Fallback: even split of the tab bar so the animation still targets
-        // roughly the right place if the button view can't be located.
-        let count = max(pcTabs.count, 1)
-        guard tabBar.bounds.width > 0 else { return nil }
-        let itemWidth = tabBar.bounds.width / CGFloat(count)
-        let itemRect = CGRect(x: itemWidth * CGFloat(index), y: 0, width: itemWidth, height: tabBar.bounds.height)
-        return target.convert(itemRect, from: tabBar)
     }
 }
