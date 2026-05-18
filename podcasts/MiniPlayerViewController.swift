@@ -445,6 +445,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         glassProgressView?.playbackProgress = progress
         glassProgressView?.indeterminate = isIndeterminate
+        // ProgressLine draws the buffer relative to the remaining track, but the
+        // glass view's buffer layer is an absolute 0...1 fraction of the whole
+        // track, so express how far buffering reaches from the start instead.
+        if amountBuferred > 0, duration > 0 {
+            glassProgressView?.bufferedAmount = CGFloat((currentTime + amountBuferred) / duration)
+        } else {
+            glassProgressView?.bufferedAmount = 0
+        }
 
         if let episodeTimeLeftLabel {
             let remaining = max(0, duration - currentTime)
