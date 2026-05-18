@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import Firebase
 
 @Observable
 class AppCoordinator {
@@ -26,6 +27,8 @@ class AppCoordinator {
         setupCredentials()
 
         setupUniqueAppId()
+
+        setupFirebase()
 
         await MainActor.run {
             userState.refresh()
@@ -55,5 +58,9 @@ class AppCoordinator {
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
             defaults.synchronize()
         }
+    }
+
+    private func setupFirebase() {
+        FirebaseApp.configure()
     }
 }
