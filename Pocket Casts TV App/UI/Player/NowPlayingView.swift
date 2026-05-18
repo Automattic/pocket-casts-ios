@@ -7,10 +7,6 @@ struct NowPlayingView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
-        controller.transportBarCustomMenuItems = [
-            makePlaybackSpeedMenu(player: model.player),
-            makePlaybackEffectsMenu()
-        ]
         controller.allowedSubtitleOptionLanguages = []
         TVToast.shared.configure(with: controller.contentOverlayView)
         model.load()
@@ -47,6 +43,10 @@ struct NowPlayingView: UIViewControllerRepresentable {
             uiViewController.player = model.player
         }
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
+        uiViewController.transportBarCustomMenuItems = [
+            makePlaybackSpeedMenu(),
+            makePlaybackEffectsMenu()
+        ]
     }
 
     private func createMetadataItems() -> [AVMetadataItem] {
@@ -63,7 +63,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
         return items
     }
 
-    private func makePlaybackSpeedMenu(player: AVPlayer?) -> UIMenu {
+    private func makePlaybackSpeedMenu() -> UIMenu {
         let speeds = Array(stride(from: 1.0, through: 3.0, by: 0.1))
         let actions = speeds.map { speed in
             UIAction(
