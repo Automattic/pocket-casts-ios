@@ -19,6 +19,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     private lazy var profileTabBarItem = UITabBarItem(title: L10n.profile, image: UIImage(named: "profile_tab"), tag: pcTabs.firstIndex(of: .profile) ?? -1)
 
+    private lazy var upNextTabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: pcTabs.firstIndex(of: .upNext) ?? -1)
+
 
     /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
     var viewDidAppearBefore: Bool = false
@@ -105,7 +107,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         profileViewController.tabBarItem = profileTabBarItem
 
         let upNextViewController = UpNextViewController(source: .tabBar, showingInTab: true)
-        upNextViewController.tabBarItem = UITabBarItem(title: L10n.upNext, image: UIImage(named: "upnext_tab"), tag: pcTabs.firstIndex(of: .upNext)!)
+        upNextViewController.tabBarItem = upNextTabBarItem
         vcsInTab = [podcastsController, filtersViewController, discoverViewController, upNextViewController, profileViewController]
 
         displayEndOfYearBadgeIfNeeded()
@@ -130,6 +132,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatar), name: .userLoginDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshProfileTabAvatarForcingReload), name: Constants.Notifications.avatarNeedsRefreshing, object: nil)
         refreshProfileTabAvatar()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextQueueChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUpNextTabBadge), name: Constants.Notifications.playbackTrackChanged, object: nil)
+        refreshUpNextTabBadge()
 
         observersForEndOfYearStats()
         addBookmarkCreatedToastHandler()
@@ -261,6 +269,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         updateTabBarColor()
         updateErrorColor()
         setNeedsStatusBarAppearanceUpdate()
+        refreshUpNextTabBadge()
     }
 
     private func setupMiniPlayer() {
@@ -1206,5 +1215,80 @@ private extension MainTabBarController {
     func resetProfileTabImage() {
         profileTabBarItem.image = UIImage(named: "profile_tab")
         profileTabBarItem.selectedImage = nil
+    }
+}
+
+// MARK: - Up Next tab badge
+
+private extension MainTabBarController {
+    static let upNextTabNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 13, weight: .bold)
+    static let upNextTabOverOneHundredNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 11, weight: .bold)
+
+    @objc func refreshUpNextTabBadge() {
+        guard FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) else { return }
+
+        let count = min(999, PlaybackManager.shared.queue.upNextCount())
+        guard count > 0 else {
+            resetUpNextTabImage()
+            return
+        }
+
+        // A single template image: the tab bar tints it for the
+        // unselected/selected states (and Liquid Glass vibrancy) exactly like
+        // every other tab item, so the colors always match.
+        upNextTabBarItem.image = composeUpNextTabImage(count: count)
+        upNextTabBarItem.selectedImage = nil
+    }
+
+    func resetUpNextTabImage() {
+        upNextTabBarItem.image = UIImage(named: "upnext_tab")
+        upNextTabBarItem.selectedImage = nil
+    }
+
+    /// Composes the queue count into the tab image with the number on the left,
+    /// mirroring how the full player draws it in `UpNextButton`. The number is
+    /// knocked out of the circle so the result is a single template image the
+    /// tab bar tints like every other item.
+    func composeUpNextTabImage(count: Int) -> UIImage? {
+        let bgImageName: String
+        if count < 10 {
+            bgImageName = "icon-upnext-circle"
+        } else if count < 100 {
+            bgImageName = "icon-upnext-circle-wide"
+        } else {
+            bgImageName = "icon-upnext-circle-wide-wide"
+        }
+
+        guard let bgImage = UIImage(named: bgImageName) else { return nil }
+
+        // Same badge dimensions as `UpNextButton`, with the badge drawn at the
+        // canvas origin (the player offsets it by y:9 within the 44pt button).
+        let canvasSize = count < 10 ? CGSize(width: 36, height: 26) : CGSize(width: 43, height: 24)
+        let imageFrame = CGRect(origin: .zero, size: canvasSize)
+
+        let image = UIGraphicsImageRenderer(size: canvasSize).image { context in
+            // Opaque circle silhouette — only its alpha matters once templated.
+            bgImage.draw(in: imageFrame)
+
+            // Erase the count from the circle so it reads as a transparent
+            // cutout, letting the tinted circle define the number's color.
+            let countAsStr = "\(count)" as NSString
+            let font = count > 99 ? Self.upNextTabOverOneHundredNumberFont : Self.upNextTabNumberFont
+            let textFontAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.black]
+            context.cgContext.setBlendMode(.destinationOut)
+            let textSize = countAsStr.size(withAttributes: textFontAttributes)
+            // x matches `UpNextButton`; y is the player's y minus the badge's 9pt offset.
+            let textPoint: CGPoint
+            if count < 10 {
+                textPoint = CGPoint(x: (textSize.width / 2) + 3, y: 6)
+            } else if count < 100 {
+                textPoint = CGPoint(x: (textSize.width / 2) - 2, y: 4)
+            } else {
+                textPoint = CGPoint(x: (textSize.width / 2) - 7, y: 5)
+            }
+            countAsStr.draw(at: textPoint, withAttributes: textFontAttributes)
+        }
+
+        return image.withRenderingMode(.alwaysTemplate)
     }
 }
