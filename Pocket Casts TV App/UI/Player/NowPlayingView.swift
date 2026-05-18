@@ -7,8 +7,6 @@ struct NowPlayingView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
-        controller.player = model.player
-        controller.player?.currentItem?.externalMetadata = createMetadataItems()
         controller.transportBarCustomMenuItems = [
             makePlaybackSpeedMenu(player: model.player),
             makePlaybackEffectsMenu()
@@ -20,6 +18,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        uiViewController.player = model.player
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
     }
 

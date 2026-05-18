@@ -17,6 +17,7 @@ class NowPlayingViewModel: Identifiable {
 
     func load() {
         episode = playbackManager.currentEpisode()
+        player = playbackManager.avPlayer
         loadEpisodeArtwork()
     }
 
@@ -25,6 +26,7 @@ class NowPlayingViewModel: Identifiable {
             let data = await self?.loadEpisodeArtworkData()
             await MainActor.run { [weak self] in
                 self?.imageData = data
+                self?.player = self?.playbackManager.avPlayer
             }
         }
     }

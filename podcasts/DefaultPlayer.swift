@@ -8,7 +8,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private var audioMix: AVAudioMix?
     private var assetTrack: AVAssetTrack?
 
-    private var player: AVPlayer?
+    private(set) var player: AVPlayer?
 
     private var requiredPlaybackRate: Double = 0
     private var shouldKeepPlaying = false

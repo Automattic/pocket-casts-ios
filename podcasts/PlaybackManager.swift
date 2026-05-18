@@ -2387,6 +2387,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+
+
+    // MARK: - tvOS
+
+    var avPlayer: AVPlayer? {
+        guard let defaultPlayer = player as? DefaultPlayer else {
+            return nil
+        }
+
+        return defaultPlayer.player
+    }
 }
 
 private extension PlaybackManager {
