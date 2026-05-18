@@ -53,7 +53,7 @@ extension PlaylistDetailViewController {
                         self?.emptyStateAction()
                     }
                 )
-            ])
+                ])
         }
         set(configuration: config)
     }

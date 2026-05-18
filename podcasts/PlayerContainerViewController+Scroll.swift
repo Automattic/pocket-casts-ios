@@ -13,8 +13,7 @@ extension PlayerContainerViewController: UIScrollViewDelegate {
 
             adjustPlayerNoSlidingRegion()
         } else {
-            // this is a secondary child scroll view, pass it on to our gesture handler code
-            handleScrollViewDidScroll(scrollView: scrollView)
+            // this is a secondary child scroll view, do nothing
         }
     }
 }

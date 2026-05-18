@@ -807,13 +807,14 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     // MARK: - End of Year
 
     private func updateTabBarColor() {
-        guard !LiquidGlass.isEnabled else { return }
-
-        self.view.backgroundColor = AppTheme.viewBackgroundColor()
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
 
+        // Liquid Glass renders its own translucent material, so skip the opaque
+        // background appearance below — but the theme tint above must still apply.
         guard !LiquidGlass.isEnabled else { return }
+
+        self.view.backgroundColor = AppTheme.viewBackgroundColor()
 
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()

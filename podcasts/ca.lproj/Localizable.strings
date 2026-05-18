@@ -3742,6 +3742,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Tornar-ho a provar</string>
     <key>try_it_now</key>
     <string>Prova-ho ara</string>
+    <key>tv_create_account_come_back</key>
+    <string>Un cop hagis creat el compte, torna i inicia la sessió</string>
     <key>tv_create_account_subtitle</key>
     <string>Escaneja aquest codi per començar al teu telèfon, només triga un minut.</string>
     <key>tv_create_account_title</key>
@@ -3826,6 +3828,8 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Obre la càmera i apunta-la a aquest codi QR</string>
     <key>tv_sign_in_title</key>
     <string>Inicia la sessió amb el teu telèfon</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Els teus pòdcasts s'estan sincronitzant, aviat iniciaràs la sessió!</string>
     <key>tv_signing_in_title</key>
     <string>Benvingut!</string>
     <key>tv_tab_home</key>

@@ -358,7 +358,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
                     self?.addNewFilter()
                     }
                 )
-            ])
+                ])
         }
         set(configuration: config)
     }

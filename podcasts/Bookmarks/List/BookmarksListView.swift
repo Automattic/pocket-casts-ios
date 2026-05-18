@@ -39,8 +39,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     // Callback to inform an external presenter of the desired action bar state
     var externalActionBarHandler: ((ExternalActionBarState) -> Void)? = nil
 
-    @State private var showShadow = false
-
     init(viewModel: BookmarkListViewModel,
          style: ListStyle,
          showHeader: Bool = true,
@@ -180,29 +178,21 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     @ViewBuilder
     private var scrollView: some View {
-        ZStack(alignment: .top) {
-            ScrollViewWithContentOffset {
-                LazyVStack(spacing: 0) {
-                    ForEach(viewModel.bookmarks) { bookmark in
-                        BookmarkRow(bookmark: bookmark, style: style)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.bookmarks) { bookmark in
+                    BookmarkRow(bookmark: bookmark, style: style)
 
-                        if !viewModel.isLast(item: bookmark) {
-                            divider
-                        }
-                    }
-
-                    // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                    if actionBarVisible && !useExternalActionBar {
-                        Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                    if !viewModel.isLast(item: bookmark) {
+                        divider
                     }
                 }
-            }
-            .onContentOffsetChange { contentOffset in
-                showShadow = Int(contentOffset.y) < 0
-            }
 
-            // Shadow overlay
-            shadowView
+                // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
+                if actionBarVisible && !useExternalActionBar {
+                    Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
+                }
+            }
         }
     }
 
@@ -254,14 +244,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
 
     // MARK: - Utility Views
 
-    /// A shadow view that adds depth between the scroll view and the static header
-    private var shadowView: some View {
-        LinearGradient(colors: [.black.opacity(0.2), .black.opacity(0)], startPoint: .top, endPoint: .bottom)
-            .frame(maxWidth: .infinity, maxHeight: BookmarkListConstants.shadowHeight)
-            .opacity(showShadow ? 1 : 0)
-            .animation(.linear(duration: 0.2), value: showShadow)
-    }
-
     /// Styled divider view
     @ViewBuilder
     private var divider: some View {
@@ -296,9 +278,8 @@ struct BookmarkListMultiSelectHeaderView<HeaderStyle: BookmarksStyle>: View {
 }
 
 enum BookmarkListConstants {
-    static let shadowHeight = 20.0
     static let padding = 16.0
-    static let headerPadding = 18.0
+    static let headerPadding = 16.0
     static let headerTransitionOffset = 10.0
     static let multiSelectionBottomPadding = 70.0
     static let searchFieldBottomPadding = 10.0

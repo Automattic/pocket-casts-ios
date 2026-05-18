@@ -3750,6 +3750,96 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Erneut versuchen</string>
     <key>try_it_now</key>
     <string>Jetzt ausprobieren</string>
+    <key>tv_create_account_come_back</key>
+    <string>Sobald du dein Konto erstellt hast, komm zurück und melde dich an</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Scanne diesen Code, um auf deinem Mobiltelefon zu beginnen. Es dauert nur eine Minute.</string>
+    <key>tv_create_account_title</key>
+    <string>Kostenloses Konto erstellen</string>
+    <key>tv_episode_info</key>
+    <string>Informationen zur Folge</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Weiter hören</string>
+    <key>tv_home_new_releases</key>
+    <string>Neue Veröffentlichungen</string>
+    <key>tv_home_recently_played</key>
+    <string>Zuletzt abgespielt</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Empfehlung für dich</string>
+    <key>tv_player_playback_effects</key>
+    <string>Wiedergabeeffekte</string>
+    <key>tv_player_playback_speed</key>
+    <string>Wiedergabegeschwindigkeit</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Wiedergabegeschwindigkeit: %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Ausschneiden von stillen Passagen</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Stark</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Mittel</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Schwach</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Aus</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Ausschneiden von stillen Passagen: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Lautstärke-Booster</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Lautstärke-Booster aus</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Lautstärke-Booster an</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ Folgen</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Alle Folgen abspielen</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Playlist erstellen</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Erstelle manuell eine oder überlasse die Sortierung intelligenten Regeln.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Deine Playlists sind hier</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Über</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Alle Folgen</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Diesem Podcast folgen</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Abonniert</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Weitere Informationen</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Netzwerk</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Nächste Folge</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Zeitplan</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>Diese Folge solltest du zuerst abspielen</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>Diese Folge macht die Leute süchtig</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Website</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Podcasts entdecken</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Abonnierte Podcasts werden hier angezeigt und können jetzt abgespielt werden.</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>Zeit für neue Podcasts.</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>Oder gib den folgenden Code ein</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>Gehe zu [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Öffne deine Kamera und richte sie auf diesen QR-Code</string>
+    <key>tv_sign_in_title</key>
+    <string>Mit deinem Mobiltelefon anmelden</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Deine Podcasts werden gerade synchronisiert. Du wirst bald angemeldet!</string>
+    <key>tv_signing_in_title</key>
+    <string>Willkommen zurück!</string>
     <key>tv_tab_home</key>
     <string>Startseite</string>
     <key>tv_tab_playlists</key>
@@ -3758,12 +3848,20 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Deine Podcasts</string>
     <key>tv_tab_up_next</key>
     <string>Als Nächstes</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Folgen hinzufügen</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Füge Folgen zur Warteschlange hinzu und sie werden der Reihe nach direkt hintereinander wiedergegeben</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Nichts in der Warteschlange</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Ohne Konto durchsuchen</string>
     <key>tv_welcome_create_free_account</key>
     <string>Kostenloses Konto erstellen</string>
     <key>tv_welcome_sign_in</key>
     <string>Anmelden</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Deine Podcasts. Auf dem großen Bildschirm. Offensichtlich.</string>
     <key>tv_welcome_title</key>
     <string>Willkommen bei Pocket Casts TV</string>
     <key>unarchive</key>

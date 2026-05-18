@@ -106,6 +106,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var initialTouchPoint = CGPoint.zero
 
+    /// The inner vertical scroll view (if any) under the touch when the dismiss
+    /// pan began. Its `bounces` is forced off while the gesture is active so it
+    /// can't bounce or scroll alongside the container drag.
+    weak var activeInnerScrollView: UIScrollView?
+    var savedInnerScrollViewBounces = true
+
     var showingChapters = false
     var showingNotes = false
     var showingBookmarks = false
@@ -242,7 +248,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         #if !APPCLIP
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         panGesture.cancelsTouchesInView = false
+        panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
+        // Make the horizontal page swipe wait for the dismiss pan to either begin or
+        // fail, so a downward-diagonal swipe dismisses the player instead of being
+        // captured by the tab scroll view.
+        mainScrollView.panGestureRecognizer.require(toFail: panGesture)
         #endif
     }
 
@@ -403,7 +414,7 @@ private extension PlayerContainerViewController {
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 
-        UIView.animate(withDuration: Constants.Animation.playerTabSwitch) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [.allowUserInteraction]) {
             self.mainScrollView.setContentOffset(.init(x: offset, y: 0), animated: false)
         }
     }
