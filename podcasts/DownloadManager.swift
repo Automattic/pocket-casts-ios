@@ -800,7 +800,7 @@ class DownloadManager: NSObject, FilePathProtocol {
 
     func allTasks() async -> [URLSessionTask] {
         return [await wifiOnlyBackgroundSession.allTasks,
-         await cellularForegroundSession.allTasks,
-         await cellularBackgroundSession.allTasks].flatMap { $0 }
+                await cellularForegroundSession.allTasks,
+                await cellularBackgroundSession.allTasks].flatMap { $0 }
     }
 }
