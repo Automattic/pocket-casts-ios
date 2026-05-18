@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MediaOverlayView: View {
 
-    @State var model = NowPlayingViewModel()
+    @State private var model = NowPlayingViewModel()
 
     enum Layout {
         static let podcastImageSize = CGFloat(418)

@@ -3,7 +3,7 @@ import AVKit
 import PocketCastsDataModel
 
 struct NowPlayingView: UIViewControllerRepresentable {
-    @State var model = NowPlayingViewModel()
+    @State private var model = NowPlayingViewModel()
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
