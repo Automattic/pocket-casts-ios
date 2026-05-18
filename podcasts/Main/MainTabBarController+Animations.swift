@@ -122,7 +122,23 @@ extension MainTabBarController {
         }
     }
 
+    /// `true` while the iOS 26 liquid-glass tab bar is collapsed into its
+    /// compact pill. There's no public "is minimized" API, but UIKit sets the
+    /// bottom accessory's `tabAccessoryEnvironment` trait to `.inline` exactly
+    /// while the tab bar is minimized, so we read it back off the mini player.
+    private var isTabBarMinimized: Bool {
+        guard #available(iOS 26.0, *) else { return false }
+        return bottomAccessory?.contentView.traitCollection.tabAccessoryEnvironment == .inline
+    }
+
     func playUpNextAddedGenieAnimation(for episode: BaseEpisode) {
+        // Tab bar collapsed into its pill: there's no Up Next tab on screen to
+        // fly into, so skip the animation and just keep the count current.
+        guard !isTabBarMinimized else {
+            refreshUpNextTabBadge()
+            return
+        }
+
         // No target, or an animation already in flight: just update the count.
         guard let targetFrame = upNextTabButtonFrame(in: view),
               view.viewWithTag(Self.upNextGenieViewTag) == nil else {
