@@ -356,10 +356,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         } else {
             Settings.homeFolderSortOrder()
         }
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
-            self?.showSortOrderOptions()
+        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") {
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])
         }
+        sortAction.submenu = { [weak self] in self?.makeSortOrderOptionsPicker() }
         optionsPicker.addAction(action: sortAction)
 
         let largeGridAction = OptionAction(label: L10n.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
@@ -383,10 +383,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
 
         let badgeType = Settings.podcastBadgeType()
-        let badgesAction = OptionAction(label: L10n.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") { [weak self] in
-            self?.showBadgeOptions()
+        let badgesAction = OptionAction(label: L10n.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") {
             Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "badges"])
         }
+        badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
 
         let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
@@ -404,7 +404,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
         optionsPicker.addAction(action: editAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
 
         Analytics.track(.podcastsListOptionsButtonTapped)
     }
@@ -436,7 +436,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         adjustSettingsForGridType()
     }
 
-    private func showBadgeOptions() {
+    private func makeBadgeOptionsPicker() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.podcastsBadges.localizedUppercase)
 
         let badgeOption = Settings.podcastBadgeType()
@@ -468,7 +468,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
         options.addAction(action: unplayedCountAction)
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        return options
     }
 
     override func handleThemeChanged() {
