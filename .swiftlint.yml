@@ -74,6 +74,10 @@ only_rules:
   # Prefer `last(where:)` over `filter { }.last`.
   - last_where
 
+  # Closing brackets/braces of literal expressions should be at the same indent
+  # level as the opening.
+  - literal_expression_end_indentation
+
   # MARK comment should be in valid format.
   - mark
 

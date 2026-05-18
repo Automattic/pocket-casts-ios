@@ -204,7 +204,8 @@ struct ToastView_Previews: PreviewProvider {
         ToastView(viewModel: .init(coordinator: PreviewCoordinator(), title: "Hello World", actions: [
             .init(title: "Tap Me", action: {
                 print("Tapped")
-            })], dismissPolicy: .never), style: .defaultTheme)
+            })
+        ], dismissPolicy: .never), style: .defaultTheme)
     }
 
     private class PreviewCoordinator: ToastDelegate {
