@@ -72,6 +72,15 @@ protocol PodcastActionsDelegate: AnyObject {
     func open(url: URL)
 }
 
+struct PodcastReloadScope: OptionSet {
+    let rawValue: Int
+
+    /// Full reload of the episode list from the database.
+    static let episodes = PodcastReloadScope(rawValue: 1 << 0)
+    /// Lightweight cell reconfigure (e.g. Up Next state changed).
+    static let upNext = PodcastReloadScope(rawValue: 1 << 1)
+}
+
 class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
     var podcast: Podcast?
     var episodeInfo = [ArraySection<String, ListItem>]()
@@ -469,22 +478,22 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         super.viewDidAppear(animated)
 
         addCustomObserver(Constants.Notifications.podcastColorsDownloaded, selector: #selector(colorsDidDownload(_:)))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodes))
+        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(hideSearchKeyboard))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodes))
+        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
 
         // Episode grouping can change based on download and play status, so listen for both those events and refresh when they happen
-        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
+        addCustomObserver(Constants.Notifications.episodeDownloadStatusChanged, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodesFromNotification))
+        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
 
         if featuredPodcast, !hasAppearedAlready {
             Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUUID])
@@ -581,6 +590,20 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         episodesTable.reloadData()
     }
 
+    /// Coalesces notification-driven reloads and lets swipe actions defer them
+    /// while SwipeCellKit's open/close animation runs (see `PodcastViewController+Swipe`).
+    lazy var reloader = ReloadScheduler<PodcastReloadScope> { [weak self] in
+        self?.reload(with: $0)
+    }
+
+    private func reload(with scope: PodcastReloadScope) {
+        if scope.contains(.episodes) {
+            refreshEpisodes()
+        } else if scope.contains(.upNext) {
+            reloadData()
+        }
+    }
+
     private func updateColors() {
         reloadData()
         navTitleLabel.textColor = ThemeColor.primaryText01()
@@ -614,8 +637,12 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         loadLocalEpisodes(podcast: podcast, animated: true)
     }
 
+    @objc private func refreshEpisodesFromNotification() {
+        reloader.request(.episodes)
+    }
+
     @objc private func upNextChanged() {
-        reloadData()
+        reloader.request(.upNext)
     }
 
     @objc private func shareTapped() {

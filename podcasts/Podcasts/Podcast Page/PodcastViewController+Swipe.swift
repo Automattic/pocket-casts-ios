@@ -31,6 +31,17 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
         return options
     }
 
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        // Defer notification-driven reloads so they don't tear down the cell
+        // mid-animation when an action fires (e.g. Add to Up Next). The timeout
+        // is a safety net in case `didEndEditingRowAt` is never delivered.
+        reloader.pause(for: .seconds(8))
+    }
+
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        reloader.resume(after: .seconds(1))
+    }
+
     // MARK: - SwipeActionsHandler
 
     var swipeSource: String {
@@ -46,9 +57,15 @@ extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func actionPerformed(willBeRemoved: Bool) {
-        guard let podcast else { return }
+        // Let the swipe close/bounce animation finish before reloads resume.
+        reloader.resume(after: .seconds(1))
 
-        loadLocalEpisodes(podcast: podcast, animated: true)
+        // Only the destructive actions (e.g. archive) need an immediate reload
+        // to drop the row. Up Next add/remove keeps the row and the cell
+        // refreshes its own indicator (see EpisodeCell), so no reload here.
+        if willBeRemoved, let podcast {
+            loadLocalEpisodes(podcast: podcast, animated: true)
+        }
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one
