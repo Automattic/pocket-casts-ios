@@ -11,6 +11,7 @@ class NowPlayingViewModel: Identifiable {
     var imageData: Data?
     var player: AVPlayer?
     var episode: BaseEpisode?
+    var podcast: Podcast?
 
     init(playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.playbackManager = playbackManager
@@ -18,6 +19,7 @@ class NowPlayingViewModel: Identifiable {
 
     func load() {
         episode = playbackManager.currentEpisode()
+        podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
         loadEpisodeArtwork()
     }
@@ -33,12 +35,16 @@ class NowPlayingViewModel: Identifiable {
         }
     }
 
+    var isVideo: Bool {
+        return episode?.videoPodcast() ?? false
+    }
+
     var displayTitle: String {
         return episode?.displayableTitle() ?? ""
     }
 
     var displaySubTitle: String {
-        return episode?.subTitle() ?? ""
+        return podcast?.title ?? ""
     }
 
     var displayInfo: String {
@@ -80,9 +86,8 @@ class NowPlayingViewModel: Identifiable {
             return nil
         }
 
-        let imageUrl = ServerHelper.image(podcastUuid: podcastUuid, size: 340)
-        guard let url = URL(string: imageUrl),
-              let (data, _) = try? await URLSession.shared.data(for: URLRequest.init(url: url)),
+        let imageUrl = ImageManager.sharedManager.podcastUrl(imageSize: .page, uuid: podcastUuid)
+        guard let (data, _) = try? await URLSession.shared.data(for: URLRequest.init(url: imageUrl)),
               let uiImage = UIImage(data: data)
         else {
             return nil

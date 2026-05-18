@@ -14,8 +14,32 @@ struct NowPlayingView: UIViewControllerRepresentable {
         controller.allowedSubtitleOptionLanguages = []
         TVToast.shared.configure(with: controller.contentOverlayView)
         model.load()
-        controller.player = model.player
+        addOverlay(to: controller)
         return controller
+    }
+
+    private func addOverlay(to controller: AVPlayerViewController) {
+        guard let contentOverlayView = controller.contentOverlayView else {
+            return
+        }
+
+        controller.player = model.player
+        let overlayHostingController = UIHostingController(rootView: MediaOverlayView())
+
+        guard let overlayView = overlayHostingController.view else {
+            return
+        }
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        controller.addChild(overlayHostingController)
+        contentOverlayView.addSubview(overlayView)
+        NSLayoutConstraint.activate([
+            overlayView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor),
+            overlayView.leftAnchor.constraint(equalTo: contentOverlayView.leftAnchor),
+            overlayView.rightAnchor.constraint(equalTo: contentOverlayView.rightAnchor)
+        ])
+
+        overlayHostingController.didMove(toParent: controller)
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
@@ -23,7 +47,6 @@ struct NowPlayingView: UIViewControllerRepresentable {
             uiViewController.player = model.player
         }
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
-        uiViewController.contentOverlayView?.addSubview(UIImageView(image: model.displayImage))
     }
 
     private func createMetadataItems() -> [AVMetadataItem] {
