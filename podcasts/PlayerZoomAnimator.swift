@@ -93,7 +93,11 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseOut]) {
                 toView.alpha = 1
             } completion: { _ in
-                context.completeTransition(true)
+                let didComplete = !context.transitionWasCancelled
+                if !didComplete {
+                    toView.removeFromSuperview()
+                }
+                context.completeTransition(didComplete)
             }
             return
         }
