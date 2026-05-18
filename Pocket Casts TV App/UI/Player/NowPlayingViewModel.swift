@@ -37,8 +37,9 @@ class NowPlayingViewModel: Identifiable {
     func loadEpisodeArtwork() {
         Task.detached { [weak self] in
             let image = await self?.loadEpisodeArtworkData()
+            let data = image?.jpegData(compressionQuality: 0.9)
             await MainActor.run { [weak self] in
-                self?.imageData = image?.pngData()
+                self?.imageData = data
                 self?.displayImage = image
                 self?.player = self?.playbackManager.avPlayer
             }
