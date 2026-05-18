@@ -118,7 +118,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
         )
 
         return UIMenu(
-            title: L10n.tvPlayerVolumeBoost,
+            title: L10n.tvPlayerPlaybackEffects,
             image: UIImage(systemName: "speaker.wave.3"),
             children: [volumeBoostSection, trimSection]
         )
