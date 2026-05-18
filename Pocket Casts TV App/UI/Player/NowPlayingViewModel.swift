@@ -7,6 +7,7 @@ class NowPlayingViewModel: Identifiable {
 
     let playbackManager: PlaybackManager
 
+    var displayImage: UIImage?
     var imageData: Data?
     var player: AVPlayer?
     var episode: BaseEpisode?
@@ -23,9 +24,10 @@ class NowPlayingViewModel: Identifiable {
 
     func loadEpisodeArtwork() {
         Task.detached { [weak self] in
-            let data = await self?.loadEpisodeArtworkData()
+            let image = await self?.loadEpisodeArtworkData()
             await MainActor.run { [weak self] in
-                self?.imageData = data
+                self?.imageData = image?.pngData()
+                self?.displayImage = image
                 self?.player = self?.playbackManager.avPlayer
             }
         }
@@ -73,7 +75,7 @@ class NowPlayingViewModel: Identifiable {
         playbackManager.applyCurrentEffect()
     }
 
-    private func loadEpisodeArtworkData() async -> Data? {
+    private func loadEpisodeArtworkData() async -> UIImage? {
         guard let podcastUuid = episode?.parentIdentifier() else {
             return nil
         }
@@ -85,7 +87,7 @@ class NowPlayingViewModel: Identifiable {
         else {
             return nil
         }
-        return uiImage.pngData()
+        return uiImage
     }
 
     var podcastUuid: String? {

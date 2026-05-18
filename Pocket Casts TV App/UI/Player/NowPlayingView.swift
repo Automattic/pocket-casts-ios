@@ -23,6 +23,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
             uiViewController.player = model.player
         }
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
+        uiViewController.contentOverlayView?.addSubview(UIImageView(image: model.displayImage))
     }
 
     private func createMetadataItems() -> [AVMetadataItem] {
