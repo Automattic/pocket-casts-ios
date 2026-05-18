@@ -97,12 +97,6 @@ extension PlayerContainerViewController: UIGestureRecognizerDelegate {
         return false
     }
 
-    func handleScrollViewDidScroll(scrollView: UIScrollView) {
-        // The dismiss pan drives container translation directly. Bounces on an
-        // inner scroll view (e.g., the spring-back at the top after a flick) must
-        // not move the container.
-    }
-
     func innerVerticalScrollView(at point: CGPoint) -> UIScrollView? {
         guard let hit = view.hitTest(point, with: nil) else { return nil }
         var current: UIView? = hit
