@@ -55,6 +55,15 @@ class NowPlayingViewModel: Identifiable {
         return imageData
     }
 
+    var playbackSpeed: Double {
+        playbackManager.effects().playbackSpeed
+    }
+
+    func setPlaybackSpeed(speed: Double) {
+        playbackManager.effects().playbackSpeed = speed
+        playbackManager.applyCurrentEffect()
+    }
+
     private func loadEpisodeArtworkData() async -> Data? {
         guard let podcastUuid = episode?.parentIdentifier() else {
             return nil

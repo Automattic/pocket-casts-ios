@@ -41,9 +41,9 @@ struct NowPlayingView: UIViewControllerRepresentable {
         let actions = speeds.map { speed in
             UIAction(
                 title: String(format: "%.1fx", speed),
-                state: speed == 1.0 ? .on : .off
+                state: speed == model.playbackSpeed ? .on : .off
             ) { action in
-                player?.rate = Float(speed)
+                model.setPlaybackSpeed(speed: speed)
                 if let menu = action.sender as? UIMenu {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
