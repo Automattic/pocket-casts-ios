@@ -332,6 +332,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeChanged))
         addCustomObserver(Constants.Notifications.currentlyPlayingEpisodeUpdated, selector: #selector(updateRequired))
+
+        addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(chapterDidChange))
+        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(chapterDidChange))
     }
 
     func rootViewController() -> MainTabBarController? {
@@ -363,9 +366,29 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
 
-        if let episodeTitleLabel, episodeTitleLabel.text != episode.title {
-            episodeTitleLabel.text = episode.title
+        updateTitle(for: episode)
+    }
+
+    /// Shows the current chapter title when the episode has chapters, falling
+    /// back to the episode title otherwise — matching the full screen player.
+    private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) {
+        guard let episodeTitleLabel, let episode else { return }
+
+        let chapters = PlaybackManager.shared.currentChapters()
+        let newTitle: String?
+        if PlaybackManager.shared.chapterCount() != 0, chapters.visibleChapter != nil, !chapters.title.isEmpty {
+            newTitle = chapters.title
+        } else {
+            newTitle = episode.title
         }
+
+        if episodeTitleLabel.text != newTitle {
+            episodeTitleLabel.text = newTitle
+        }
+    }
+
+    @objc private func chapterDidChange() {
+        updateTitle()
     }
 
     @objc private func playbackStarted() {
