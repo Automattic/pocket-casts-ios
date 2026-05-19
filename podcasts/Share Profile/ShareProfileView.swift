@@ -6,9 +6,9 @@ import PocketCastsUtils
 
 struct ShareProfileView: View {
     @EnvironmentObject var theme: Theme
-    @ObservedObject var viewModel: ShareProfileViewModel
+    @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel = ShareProfileViewModel()
 
-    var dismissAction: () -> Void
     var onOpenPrivacySettings: (() -> Void)?
 
     enum Step {
@@ -87,7 +87,9 @@ struct ShareProfileView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: dismissAction) {
+                Button {
+                    dismiss()
+                } label: {
                     Image("cancel")
                         .renderingMode(.template)
                 }
@@ -160,7 +162,9 @@ struct ShareProfileView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 if startOnPreview && path.isEmpty {
-                    Button(action: dismissAction) {
+                    Button {
+                        dismiss()
+                    } label: {
                         Image("cancel")
                             .renderingMode(.template)
                     }
@@ -885,7 +889,7 @@ struct CameraPicker: UIViewControllerRepresentable {
 
 struct ShareProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ShareProfileView(viewModel: ShareProfileViewModel(), dismissAction: {})
+        ShareProfileView()
             .setupDefaultEnvironment()
     }
 }
