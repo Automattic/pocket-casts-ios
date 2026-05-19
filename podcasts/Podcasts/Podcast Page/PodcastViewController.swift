@@ -153,6 +153,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: true)
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()

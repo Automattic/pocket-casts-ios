@@ -85,6 +85,7 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 guard let self else { return }
 
                 self.setupNavBar()
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: true)
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
