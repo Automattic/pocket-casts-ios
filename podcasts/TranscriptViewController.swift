@@ -1003,7 +1003,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 "synced_state": syncedState.analyticsName
             ])
             if case .unavailable = syncedState { return }
-            let status = PlaybackManager.shared.currentEpisode().flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
+            let status = playbackManager.episodeUUID
+                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
             if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
