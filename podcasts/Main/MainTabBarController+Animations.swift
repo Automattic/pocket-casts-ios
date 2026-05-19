@@ -26,7 +26,7 @@ extension MainTabBarController {
             let cg = context.cgContext
 
             UIColor.black.setFill()
-            UIBezierPath(roundedRect: layout.capsule, cornerRadius: layout.capsule.height / 2).fill()
+            UIBezierPath(roundedRect: layout.capsule, cornerRadius: layout.capsule.height).fill()
 
             let countAsStr = "\(clamped)" as NSString
             let textAttributes: [NSAttributedString.Key: Any] = [.font: layout.font, .foregroundColor: UIColor.black]
@@ -57,8 +57,8 @@ extension MainTabBarController {
     }
 
     private static func upNextBadgeLayout(count: Int, origin: CGPoint) -> UpNextBadgeLayout {
-        let height: CGFloat = 22
-        let horizontalPadding: CGFloat = 7
+        let height: CGFloat = 20
+        let horizontalPadding: CGFloat = 5
         let gap: CGFloat = 2
         let lineCount = 3
         // The shortest (vertically centered) line; off-center lines stretch
@@ -67,7 +67,9 @@ extension MainTabBarController {
         let lineThickness: CGFloat = 2
         let lineSpacing: CGFloat = 4
 
-        let font = UIFont.monospacedDigitSystemFont(ofSize: count > 99 ? 10 : 11, weight: .bold)
+        // Matches the full player's Up Next button (UpNextButton): 13pt for
+        // 1–2 digits, 11pt once it spills to 3.
+        let font = UIFont.monospacedDigitSystemFont(ofSize: count > 99 ? 11 : 13, weight: .bold)
         let textWidth = ("\(count)" as NSString).size(withAttributes: [.font: font]).width
         // A stadium shape: floor at a circle for a single digit, but let two or
         // more digits stretch into the oblong pill the design calls for.
@@ -140,7 +142,7 @@ extension MainTabBarController {
         }
 
         // No target, or an animation already in flight: just update the count.
-        guard let targetFrame = upNextTabButtonFrame(in: view),
+        guard let targetFrame = upNextTabTargetFrame(in: view),
               view.viewWithTag(Self.upNextGenieViewTag) == nil else {
             refreshUpNextTabBadge()
             return
@@ -179,7 +181,7 @@ extension MainTabBarController {
         // Phase 1: pop in, hovering just above the Up Next tab.
         container.alpha = 0
         container.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.4, options: [.allowUserInteraction, .curveEaseOut], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.4, options: [.allowUserInteraction, .curveEaseOut], animations: {
             container.alpha = 1
             container.transform = .identity
         }, completion: { _ in
@@ -189,7 +191,7 @@ extension MainTabBarController {
     }
 
     func runUpNextGenieSuck(on container: UIView, from start: CGPoint, to target: CGPoint) {
-        let duration: CFTimeInterval = 0.45
+        let duration: CFTimeInterval = 0.32
 
         let path = UIBezierPath()
         path.move(to: start)
@@ -232,6 +234,25 @@ extension MainTabBarController {
         }
     }
 
+    /// The on-screen frame of the Up Next tab in `target`'s coordinate space,
+    /// measured from the real (private) tab-button views so the genie lands
+    /// exactly where `pulseUpNextTabButton` fires. Falls back to an even split
+    /// of the tab bar only when those views can't be located.
+    func upNextTabTargetFrame(in target: UIView) -> CGRect? {
+        if #available(iOS 26.0, *) {
+            let buttons = upNextTabButtonViews()
+            if let first = buttons.first {
+                let frame = buttons.dropFirst().reduce(first.convert(first.bounds, to: target)) {
+                    $0.union($1.convert($1.bounds, to: target))
+                }
+                if !frame.isNull, frame.width > 0, frame.height > 0 {
+                    return frame
+                }
+            }
+        }
+        return upNextTabButtonFrame(in: target)
+    }
+
     func upNextTabButtonFrame(in target: UIView) -> CGRect? {
         guard let index = pcTabs.firstIndex(of: .upNext) else { return nil }
 
@@ -248,8 +269,12 @@ extension MainTabBarController {
     /// just silently re-rendered.
     @available(iOS 26.0, *)
     func pulseUpNextTabButton() {
+        // A burst of rapid adds shouldn't stack overlapping springs on the
+        // (private) button views — one pop already conveys "queue grew".
+        guard !isPulsingUpNextTab else { return }
         let buttons = upNextTabButtonViews()
         guard !buttons.isEmpty else { return }
+        isPulsingUpNextTab = true
 
         // A snappy, bounce-free grow, then a single softly springy settle.
         // The grow is short enough that the peak isn't visibly held, and one
@@ -257,10 +282,12 @@ extension MainTabBarController {
         UIView.animate(springDuration: 0.15, bounce: 0, initialSpringVelocity: 0,
                        options: [.allowUserInteraction]) {
             buttons.forEach { $0.transform = CGAffineTransform(scaleX: 1.15, y: 1.15) }
-        } completion: { _ in
+        } completion: { [weak self] _ in
             UIView.animate(springDuration: 0.45, bounce: 0.28, initialSpringVelocity: 0,
                            options: [.allowUserInteraction]) {
                 buttons.forEach { $0.transform = .identity }
+            } completion: { _ in
+                self?.isPulsingUpNextTab = false
             }
         }
     }
