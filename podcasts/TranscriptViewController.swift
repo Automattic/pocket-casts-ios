@@ -1,5 +1,6 @@
 import UIKit
 import Combine
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -1002,6 +1003,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 "synced_state": syncedState.analyticsName
             ])
             if case .unavailable = syncedState { return }
+            let status = playbackManager.episodeUUID
+                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
+            if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
