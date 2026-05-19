@@ -34,17 +34,9 @@ class ShareProfileViewModel: ObservableObject {
 
     let email: String?
 
-    var followedPodcasts: [Podcast] {
-        DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-    }
-
-    var recentEpisodes: [Episode] {
-        DataManager.sharedManager.episodesWithListenHistory(limit: 10)
-    }
-
-    var playlists: [EpisodeFilter] {
-        DataManager.sharedManager.allPlaylists(includeDeleted: false)
-    }
+    @Published var followedPodcasts: [Podcast] = []
+    @Published var recentEpisodes: [Episode] = []
+    @Published var playlists: [EpisodeFilter] = []
 
     init() {
         email = SyncManager.isUserLoggedIn() ? ServerSettings.syncingEmail() : nil
@@ -53,6 +45,20 @@ class ShareProfileViewModel: ObservableObject {
         shareFollowedPodcasts = UserDefaults.standard.object(forKey: Self.followedPodcastsKey) as? Bool ?? true
         shareRecentEpisodes = UserDefaults.standard.object(forKey: Self.recentEpisodesKey) as? Bool ?? true
         sharePlaylists = UserDefaults.standard.object(forKey: Self.playlistsKey) as? Bool ?? true
+        loadData()
+    }
+
+    private func loadData() {
+        Task {
+            let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
+            let episodes = DataManager.sharedManager.episodesWithListenHistory(limit: 10)
+            let filters = DataManager.sharedManager.allPlaylists(includeDeleted: false)
+            await MainActor.run {
+                self.followedPodcasts = podcasts
+                self.recentEpisodes = episodes
+                self.playlists = filters
+            }
+        }
     }
 
     func removePhoto() {
