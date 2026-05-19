@@ -79,7 +79,7 @@ struct SignInView: View {
         .task {
             switch loginType {
             case .qr:
-                model.signinWait()
+                await model.thirdPartyApprovalSignin()
             case .manual:
                 break
             }
@@ -93,14 +93,20 @@ struct SignInView: View {
     }
 
     var qrCodeDigits: some View {
-        HStack(spacing: 8) {
-            ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
-                Text(code)
-                    .font(.caption2)
-                    .foregroundStyle(Color.textSecondary)
-                    .padding()
-                    .background(Color.backgroundActive50)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+        Group {
+            if model.codes.isEmpty {
+                ProgressView()
+            } else {
+                HStack(spacing: 8) {
+                    ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
+                        Text(code)
+                            .font(.caption2)
+                            .foregroundStyle(Color.textSecondary)
+                            .padding()
+                            .background(Color.backgroundActive50)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
             }
         }
     }

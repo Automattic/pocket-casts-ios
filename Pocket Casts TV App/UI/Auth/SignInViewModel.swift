@@ -30,10 +30,37 @@ class SignInViewModel {
 
     var state: State = .start
 
-    var codes: [String] = ["J", "M", "R", "S", "3", "W"]
+    var codes: [String] = []
 
-    func signinWait() {
-        //TODO: Implement call to poll for validation
+    var pairURL: String?
+
+    var pairURLComplete: String?
+
+    func thirdPartyApprovalSignin() async {
+        var tryAgain = true
+        while tryAgain {
+            do {
+                let authorizeResponse = try await AuthenticationHelper.deviceAuthorizeCode()
+                codes = authorizeResponse.userCode.map({ char in
+                    String(char)
+                })
+                pairURL = authorizeResponse.verificationURI
+                pairURLComplete = authorizeResponse.verificationURIComplete
+
+                try await AuthenticationHelper.deviceWaitForApproval(deviceCode: authorizeResponse.deviceCode)
+                state = .finished
+            } catch let error as APIError {
+                if case APIError.EXPIRED_TOKEN = error {
+                    tryAgain = true
+                } else {
+                    tryAgain = false
+                    state = .error(error, error.localizedDescription)
+                }
+            } catch {
+                tryAgain = false
+                state = .error(error, error.localizedDescription)
+            }
+        }
     }
 
     func manualSignIn(username: String, password: String) async {
@@ -51,7 +78,7 @@ class SignInViewModel {
     }
 
     var pairURLPretty: String {
-        guard let url = URL(string: ServerConstants.Urls.tvPair),
+        guard let url = URL(string: pairURL ?? ServerConstants.Urls.tvPair),
              let host = url.host()
         else {
             return ServerConstants.Urls.tvPair
@@ -60,6 +87,6 @@ class SignInViewModel {
     }
 
     var pairURLString: String {
-        return ServerConstants.Urls.tvPair
+        return pairURLComplete ?? ServerConstants.Urls.tvPair
     }
 }

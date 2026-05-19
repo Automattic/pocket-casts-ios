@@ -97,6 +97,14 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
                 castCell.populateFrom(folder: folder, badgeType: badgeType, libraryType: libraryType)
             }
         }
+
+        // Sync reorder-edit treatment so reused/recycled cells stay correct. Idempotent
+        // setters on the cell make in-state calls cheap, so we don't toggle off-then-on.
+        if isEditingOrder, item.isEmpty == false {
+            applyEditingTreatment(to: cell)
+        } else {
+            removeEditingTreatment(from: cell)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -119,24 +127,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
     // MARK: - Re-ordering
 
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let itemBeingMoved = gridItems[safe: sourceIndexPath.row] else { return }
-
-        if let index = gridItems.firstIndex(of: itemBeingMoved) {
-            gridItems.remove(at: index)
-            gridItems.insert(itemBeingMoved, at: destinationIndexPath.row)
-
-            Analytics.track(.podcastsListReordered)
-
-            saveSortOrder()
-        }
-    }
-
-    private func saveSortOrder() {
+    func saveSortOrder() {
         for (index, listItem) in gridItems.enumerated() {
             if let podcast = listItem.podcast {
                 podcast.sortOrder = Int32(index)

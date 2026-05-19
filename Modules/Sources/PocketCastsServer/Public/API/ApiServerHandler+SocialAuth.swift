@@ -33,6 +33,7 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
 
 public enum AuthenticationScope: String {
     case mobile
+    case tv
     case sonos
 }
 

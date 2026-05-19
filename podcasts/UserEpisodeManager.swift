@@ -249,53 +249,51 @@ struct UserEpisodeManager {
     }
 
     #if !os(watchOS) && !os(tvOS)
-    static func presentDeleteOptions(episode: UserEpisode, preferredStatusBarStyle: UIStatusBarStyle, themeOverride: Theme.ThemeType?, dismissCallback: (() -> ())? = nil, actionCallback: ((Bool, Bool) -> Void)? = nil) {
-            let optionPicker = OptionsPicker(title: "", themeOverride: themeOverride)
-
-            if let dismissCallback {
-                optionPicker.setNoActionCallback(dismissCallback)
-            }
-
-            let deleteCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil, action: { [] in
-                UserEpisodeManager.deleteFromCloud(episode: episode)
-                actionCallback?(false, true)
-            })
-
-            let deleteDeviceLabel = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.deleteFromDeviceOnly : L10n.deleteFromDevice
-            let deleteDeviceAction = OptionAction(label: deleteDeviceLabel, icon: nil, action: { [] in
-                UserEpisodeManager.deleteFromDevice(userEpisode: episode)
-                actionCallback?(true, false)
-            })
-            let deleteEverywhereAction = OptionAction(label: L10n.deleteEverywhereShort, icon: nil, action: { [] in
-                UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
-                actionCallback?(true, true)
-            })
-            deleteDeviceAction.destructive = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? false : true
-            deleteCloudAction.destructive = true
-            deleteEverywhereAction.destructive = true
-
-            var actions: [OptionAction]
-            if episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
-                actions = [deleteDeviceAction, deleteEverywhereAction]
-            } else if episode.downloaded(pathFinder: DownloadManager.shared), !episode.uploaded() {
-                actions = [deleteDeviceAction]
-            } else if !episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
-                actions = [deleteCloudAction]
-            } else {
-                actions = [deleteDeviceAction]
-            }
-
-            let title: String
-            if episode.uploaded(), !episode.downloaded(pathFinder: DownloadManager.shared) {
-                title = L10n.deleteFromCloud
-            } else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
-                title = L10n.deleteFromDevice
-            } else {
-                title = L10n.deleteFile
-            }
-            optionPicker.addDescriptiveActions(title: title, message: L10n.deleteFileMessage, icon: "delete-red", actions: actions)
-
-            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+    static func presentDeleteOptions(episode: UserEpisode, from presenter: UIViewController, dismissCallback: (() -> ())? = nil, actionCallback: ((Bool, Bool) -> Void)? = nil) {
+        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
+            dismissCallback?()
         }
+
+        let deleteCloudAction = UIAlertAction(title: L10n.deleteFromCloud, style: .destructive) { _ in
+            UserEpisodeManager.deleteFromCloud(episode: episode)
+            actionCallback?(false, true)
+        }
+
+        let deleteDeviceLabel = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? L10n.deleteFromDeviceOnly : L10n.deleteFromDevice
+        let deleteDeviceStyle: UIAlertAction.Style = episode.uploaded() && episode.downloaded(pathFinder: DownloadManager.shared) ? .default : .destructive
+        let deleteDeviceAction = UIAlertAction(title: deleteDeviceLabel, style: deleteDeviceStyle) { _ in
+            UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+            actionCallback?(true, false)
+        }
+        let deleteEverywhereAction = UIAlertAction(title: L10n.deleteEverywhereShort, style: .destructive) { _ in
+            UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
+            actionCallback?(true, true)
+        }
+
+        var actions: [UIAlertAction]
+        if episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
+            actions = [deleteDeviceAction, deleteEverywhereAction]
+        } else if episode.downloaded(pathFinder: DownloadManager.shared), !episode.uploaded() {
+            actions = [deleteDeviceAction]
+        } else if !episode.downloaded(pathFinder: DownloadManager.shared), episode.uploaded() {
+            actions = [deleteCloudAction]
+        } else {
+            actions = [deleteDeviceAction]
+        }
+
+        let title: String
+        if episode.uploaded(), !episode.downloaded(pathFinder: DownloadManager.shared) {
+            title = L10n.deleteFromCloud
+        } else if !episode.uploaded(), episode.downloaded(pathFinder: DownloadManager.shared) {
+            title = L10n.deleteFromDevice
+        } else {
+            title = L10n.deleteFile
+        }
+
+        let alert = UIAlertController(title: title, message: L10n.deleteFileMessage, preferredStyle: .alert)
+        alert.addAction(cancelAction)
+        actions.forEach { alert.addAction($0) }
+        presenter.present(alert, animated: true)
+    }
     #endif
 }

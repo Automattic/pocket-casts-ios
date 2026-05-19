@@ -156,10 +156,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()
-                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
-                }
+                self.episodesTable.setEditing(isMultiSelectEnabled, animated: true)
                 self.episodesTable.endUpdates()
             }
 
@@ -172,7 +169,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                     self.tableView().selectIndexPath(selectedIndexPath)
                     self.longPressMultiSelectIndexPath = nil
                 }
-                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
             } else {
                 self.selectedEpisodes.removeAll()
             }
@@ -963,22 +960,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
         let newValue = !podcast.isPushEnabled
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
-        NotificationsHelper.shared.registerForPushNotifications() { granted in
-            guard granted || !newValue else {
-                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
-                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
-                    UIApplication.shared.openNotificationSettings()
-                })])
-                return
-            }
-            PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-            var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
-            if let title = podcast.title, newValue {
-                message = L10n.notificationsOnForPodcast(title)
-            }
-            Toast.show(message)
-        }
+        NotificationsHelper.shared.setNotificationsEnabled(newValue, for: podcast)
     }
 
     func categoryTapped(_ category: String) {
