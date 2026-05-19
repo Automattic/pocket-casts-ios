@@ -23,13 +23,11 @@ struct ShareProfileView: View {
 
     @State private var initialShareFollowedPodcasts: Bool = true
     @State private var initialShareRecentEpisodes: Bool = true
-    @State private var initialSharePlaylists: Bool = true
     @State private var startOnPreview: Bool = false
 
     private var hasEditChanges: Bool {
         viewModel.shareFollowedPodcasts != initialShareFollowedPodcasts ||
-        viewModel.shareRecentEpisodes != initialShareRecentEpisodes ||
-        viewModel.sharePlaylists != initialSharePlaylists
+        viewModel.shareRecentEpisodes != initialShareRecentEpisodes
     }
 
     var body: some View {
@@ -497,12 +495,6 @@ struct ShareProfileView: View {
                         icon: "profile-history",
                         isOn: $viewModel.shareRecentEpisodes
                     )
-
-                    editToggleRow(
-                        title: L10n.shareProfilePlaylists,
-                        icon: "filter_list",
-                        isOn: $viewModel.sharePlaylists
-                    )
                 }
 
                 privacyFooter()
@@ -520,7 +512,6 @@ struct ShareProfileView: View {
         .onAppear {
             initialShareFollowedPodcasts = viewModel.shareFollowedPodcasts
             initialShareRecentEpisodes = viewModel.shareRecentEpisodes
-            initialSharePlaylists = viewModel.sharePlaylists
         }
         .navigationTitle(L10n.shareProfileEdit)
         .navigationBarTitleDisplayMode(.inline)
@@ -530,7 +521,6 @@ struct ShareProfileView: View {
                 Button {
                     viewModel.shareFollowedPodcasts = initialShareFollowedPodcasts
                     viewModel.shareRecentEpisodes = initialShareRecentEpisodes
-                    viewModel.sharePlaylists = initialSharePlaylists
                     path.removeLast()
                 } label: {
                     Image("nav-back")
