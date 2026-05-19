@@ -36,16 +36,16 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
         let resolvedSection = resolvedSection(for: indexPath.section)
         switch resolvedSection {
         case .profileSharing:
-            return profileSharingCell(for: tableView, row: indexPath.row)
+            return profileSharingCell(for: tableView, at: indexPath)
         case .analytics:
-            return analyticsCell(for: tableView, row: indexPath.row)
+            return analyticsCell(for: tableView, at: indexPath)
         }
     }
 
     // MARK: - Profile Sharing Section
 
-    private func profileSharingCell(for tableView: UITableView, row: Int) -> UITableViewCell {
-        switch row {
+    private func profileSharingCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
             cell.cellLabel.text = L10n.shareProfileFollowedPodcasts
@@ -91,24 +91,24 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
 
     // MARK: - Analytics Section
 
-    private func analyticsCell(for tableView: UITableView, row: Int) -> UITableViewCell {
-        switch row {
+    private func analyticsCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId) as! ThemeableCellWithoutSelection
+            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId, for: indexPath) as! ThemeableCellWithoutSelection
             cell.style = .primaryUi02
             cell.textLabel?.textColor = ThemeColor.primaryText02()
             cell.textLabel?.text = L10n.settingsCollectInformationAdditionalInformation
             configureDynamicTypeCell(cell)
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId) as! SwitchCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsFirstPartyAnalytics
             cell.cellSwitch.isOn = !Settings.analyticsOptOut()
             cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
             cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId) as! ThemeableCellWithoutSelection
+            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellWithoutSelectionId, for: indexPath) as! ThemeableCellWithoutSelection
             cell.style = .primaryUi02
             cell.imageView?.image = UIImage()
             cell.textLabel?.textColor = ThemeColor.primaryText02()
@@ -116,7 +116,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
             configureDynamicTypeCell(cell)
             return cell
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId) as! ThemeableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: themeableCellId, for: indexPath) as! ThemeableCell
             cell.textLabel?.textColor = ThemeColor.primaryInteractive01()
             cell.textLabel?.text = L10n.settingsReadPrivacyPolicy
             configureDynamicTypeCell(cell)
@@ -125,6 +125,7 @@ class PrivacySettingsDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard FeatureFlag.shareProfile.enabled else { return nil }
         let resolvedSection = resolvedSection(for: section)
         switch resolvedSection {
         case .profileSharing:
