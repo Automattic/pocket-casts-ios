@@ -107,15 +107,14 @@ extension PodcastListViewController {
     // MARK: Action handlers
 
     private func confirmUnsubscribe(podcast: Podcast) {
-        let optionPicker = OptionsPicker(title: L10n.areYouSure)
         let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
-        let action = OptionAction(label: label, icon: nil) { [weak self] in
+        let alert = UIAlertController(title: L10n.areYouSure, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: label, style: .destructive) { [weak self] _ in
             PodcastManager.shared.unsubscribe(podcast: podcast)
             Analytics.track(.podcastUnsubscribed, properties: ["source": self?.analyticsSource ?? AnalyticsSource.podcastsList, "uuid": podcast.uuid])
-        }
-        action.destructive = true
-        optionPicker.addAction(action: action)
-        optionPicker.present(from: self)
+        })
+        present(alert, animated: true)
     }
 
     private func showFolderPicker(for podcast: Podcast) {
