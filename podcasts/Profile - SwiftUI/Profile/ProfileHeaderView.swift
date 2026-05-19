@@ -66,16 +66,32 @@ struct ProfileHeaderView: View {
                         Button {
                             viewModel.accountTapped()
                         } label: {
-                            Label(L10n.account, systemImage: "person.crop.circle")
-                                .frame(maxWidth: .infinity)
+                            Label {
+                                Text(L10n.account)
+                            } icon: {
+                                Image("settings-avatar")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 17, height: 17)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(ProfileStrokeButtonStyle())
 
                         Button {
                             viewModel.shareTapped()
                         } label: {
-                            Label(L10n.share, systemImage: "square.and.arrow.up")
-                                .frame(maxWidth: .infinity)
+                            Label {
+                                Text(L10n.share)
+                            } icon: {
+                                Image("podcast-share")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 17, height: 17)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(ProfileStrokeButtonStyle())
                     }
