@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 import PhotosUI
 import PocketCastsDataModel
@@ -631,9 +632,10 @@ struct EditPhotoAndNameView: View {
 
     @State private var initialDisplayName: String = ""
     @State private var initialPhoto: UIImage?
+    @State private var photoChanged: Bool = false
 
     private var hasChanges: Bool {
-        viewModel.displayName != initialDisplayName || viewModel.profilePhoto !== initialPhoto
+        viewModel.displayName != initialDisplayName || photoChanged
     }
 
     var body: some View {
@@ -686,6 +688,10 @@ struct EditPhotoAndNameView: View {
         .onAppear {
             initialDisplayName = viewModel.displayName
             initialPhoto = viewModel.profilePhoto
+            photoChanged = false
+        }
+        .onReceive(viewModel.$profilePhoto.dropFirst()) { _ in
+            photoChanged = true
         }
     }
 }
