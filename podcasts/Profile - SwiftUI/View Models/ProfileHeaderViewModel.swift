@@ -25,18 +25,6 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
         navigationController?.pushViewController(AccountViewController(), animated: true)
     }
 
-    func editPhotoAndNameTapped() {
-        guard let presenter = navigationController?.topViewController else { return }
-
-        let viewModel = ShareProfileViewModel()
-        let editView = EditPhotoAndNameView(viewModel: viewModel, dismissAction: {
-            presenter.dismiss(animated: true)
-        })
-
-        let hostingController = PCHostingController(rootView: editView)
-        presenter.present(hostingController, animated: true)
-    }
-
     func shareTapped() {
         guard let presenter = navigationController?.topViewController else { return }
 
