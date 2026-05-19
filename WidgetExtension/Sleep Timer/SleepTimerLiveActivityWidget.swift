@@ -63,7 +63,7 @@ private struct SleepTimerLockScreenView: View {
         HStack(spacing: 14) {
             SleepTimerIcon(size: 40)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(L10n.sleepTimer)
                     .font(.caption)
                     .fontWeight(.semibold)
