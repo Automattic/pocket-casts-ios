@@ -14,7 +14,7 @@ struct EpisodeRowButtonStyle: ButtonStyle {
 
 struct EpisodeRow: View {
 
-    @State var model: EpisodeRowViewModel
+    let model: EpisodeRowViewModel
     var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool

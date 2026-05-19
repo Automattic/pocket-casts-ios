@@ -23,7 +23,9 @@ class HomeViewModel {
     var state: State = .loading
 
     var podcasts: [Podcast] = []
-    var currentPlaying: EpisodeRowViewModel?
+    var currentPlaying: EpisodeRowViewModel? {
+        upNext.first
+    }
     var upNext: [EpisodeRowViewModel] = []
     var recentlyPlayed: [Podcast] = []
     var newReleases: [EpisodeRowViewModel] = []
@@ -41,14 +43,13 @@ class HomeViewModel {
                 newEpisodes.append(result)
             }
 
-            await MainActor.run { [weak self] in
+            await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
                 recentlyPlayed = Array(podcasts.shuffled().prefix(10))
                 self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.prefix(3)).map { episode in
                     self.makeRowViewModel(for: episode)
-                }
-                currentPlaying = upNext.first
+                } 
                 newReleases = newEpisodes
                 state = .ready
             }
