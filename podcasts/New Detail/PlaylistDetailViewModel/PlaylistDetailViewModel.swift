@@ -235,16 +235,17 @@ class PlaylistDetailViewModel: ObservableObject {
         ]
 
         if isManualPlaylist {
-            sections.append(
-                ArraySection(
-                    model: .archive,
-                    elements: [
-                        PlaylistArchiveViewCellPlaceholder(
-                            archived: archivedEpisodesCount,
-                            showArchived: shouldShowArchived
-                        )
-                    ]
+            // Keep the .archive section alive even while searching so the search bar
+            // (rendered as this section's header view) stays anchored. Hide the
+            // Show Archived row by emptying the section's elements during search.
+            let archiveElements: [ListItem] = isSearching ? [] : [
+                PlaylistArchiveViewCellPlaceholder(
+                    archived: archivedEpisodesCount,
+                    showArchived: shouldShowArchived
                 )
+            ]
+            sections.append(
+                ArraySection(model: .archive, elements: archiveElements)
             )
         }
 
@@ -348,6 +349,11 @@ extension PlaylistDetailViewModel {
         }
         isSearching = true
         tempEpisodes = episodes
+
+        let changeSetTuple = buildChangeSet(source: episodes, newData: episodes)
+        DispatchQueue.main.async { [weak self] in
+            self?.onChange(changeSetTuple.1, false, changeSetTuple.0)
+        }
     }
 
     func searchEpisodes(for searchTerm: String) {
@@ -356,7 +362,7 @@ extension PlaylistDetailViewModel {
         }
         self.searchTerm = searchTerm
         let escapedSearch = searchTerm.escapeLike(escapeChar: "\\")
-        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: playlist.showArchivedEpisodes, search: escapedSearch)
+        let newData = episodesDataManager.playlistEpisodes(for: playlist, limit: 0, shouldShowArchived: true, search: escapedSearch)
         let changeSetTuple = buildChangeSet(source: episodes, newData: newData)
         DispatchQueue.main.async { [weak self] in
             // Avoid animation as long we use the current diffable framework
