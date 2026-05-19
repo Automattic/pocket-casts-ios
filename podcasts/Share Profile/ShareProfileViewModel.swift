@@ -75,16 +75,11 @@ class ShareProfileViewModel: ObservableObject {
     }
 
     @MainActor
-    func shareProfile(from viewController: UIViewController) {
+    func generateShareItems() -> [Any] {
         let cardView = ShareProfileCardView(viewModel: self)
             .environmentObject(Theme.sharedTheme)
             .frame(width: 340, height: 400)
-
-        let image = cardView.snapshot()
-
-        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = viewController.view
-        viewController.present(activityVC, animated: true)
+        return [cardView.snapshot()]
     }
 
     private func loadPhoto() {

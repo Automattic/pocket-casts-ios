@@ -11,6 +11,7 @@ struct ShareProfileView: View {
     @StateObject var viewModel = ShareProfileViewModel()
 
     var onOpenPrivacySettings: (() -> Void)?
+    var onPresentShareActivity: (([Any]) -> Void)?
 
     enum Step {
         case addPhotoAndName
@@ -320,14 +321,8 @@ struct ShareProfileView: View {
     @ViewBuilder
     private func shareMyProfileButton() -> some View {
         Button {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootVC = windowScene.windows.first(where: \.isKeyWindow)?.rootViewController {
-                var presenter = rootVC
-                while let presented = presenter.presentedViewController {
-                    presenter = presented
-                }
-                viewModel.shareProfile(from: presenter)
-            }
+            let items = viewModel.generateShareItems()
+            onPresentShareActivity?(items)
         } label: {
             HStack(spacing: 8) {
                     Image("podcast-share")
