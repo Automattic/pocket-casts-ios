@@ -988,13 +988,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         guard let cue = transcript.cues.first(where: { NSLocationInRange(charIndex, $0.characterRange) }) else { return }
 
-        let fraction: Double
-        if cue.characterRange.length > 0 {
-            fraction = Double(charIndex - cue.characterRange.location) / Double(cue.characterRange.length)
-        } else {
-            fraction = 0
-        }
-        let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
+        let referenceTime = cue.startTime
 
         guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
             let syncedState = FingerprintTimingManager.shared.state
