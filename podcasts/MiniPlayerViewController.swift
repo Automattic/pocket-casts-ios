@@ -438,16 +438,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playbackProgressView.progress = progress
         playbackProgressView.indeterminant = isIndeterminate
 
-        let amountBuferred = PlaybackManager.shared.futureBufferAvailable()
-        if amountBuferred > 0 {
-            playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
+        let amountBuffered = PlaybackManager.shared.futureBufferAvailable()
+        if amountBuffered > 0 {
+            playbackProgressView.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
         glassProgressView?.playbackProgress = progress
         glassProgressView?.indeterminate = isIndeterminate
 
-        if amountBuferred > 0 {
-            glassProgressView?.bufferedAmount = CGFloat(amountBuferred / (duration - currentTime))
+        if amountBuffered > 0 {
+            glassProgressView?.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
         if let episodeTimeLeftLabel {
