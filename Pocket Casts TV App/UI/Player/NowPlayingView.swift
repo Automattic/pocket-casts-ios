@@ -70,7 +70,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
                 title: String(format: "%.1fx", speed),
                 state: speed == model.playbackSpeed ? .on : .off
             ) { action in
-                model.setPlaybackSpeed(speed: speed)
+                model.playbackSpeed = speed
                 if let menu = action.sender as? UIMenu {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
@@ -88,11 +88,11 @@ struct NowPlayingView: UIViewControllerRepresentable {
     private func makePlaybackEffectsMenu() -> UIMenu {
         let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
             TVToast.shared.show(L10n.tvPlayerVolumeBoostOff)
-            model.setVolumeBoost(false)
+            model.volumeBoost = false
         }
         let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
             TVToast.shared.show(L10n.tvPlayerVolumeBoostOn)
-            model.setVolumeBoost(true)
+            model.volumeBoost = true
         }
         let volumeBoostSection = UIMenu(
             title: L10n.tvPlayerVolumeBoost,

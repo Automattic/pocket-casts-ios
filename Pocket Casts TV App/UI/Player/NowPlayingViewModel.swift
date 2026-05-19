@@ -75,21 +75,23 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var playbackSpeed: Double {
-        playbackManager.effects().playbackSpeed
-    }
-
-    func setPlaybackSpeed(speed: Double) {
-        playbackManager.effects().playbackSpeed = speed
-        playbackManager.applyCurrentEffect()
+        get {
+            playbackManager.effects().playbackSpeed
+        }
+        set {
+            playbackManager.effects().playbackSpeed = newValue
+            playbackManager.applyCurrentEffect()
+        }
     }
 
     var volumeBoost: Bool {
-        playbackManager.effects().volumeBoost
-    }
-
-    func setVolumeBoost(_ boost: Bool) {
-        playbackManager.effects().volumeBoost = boost
-        playbackManager.applyCurrentEffect()
+        get {
+            playbackManager.effects().volumeBoost
+        }
+        set {
+            playbackManager.effects().volumeBoost = newValue
+            playbackManager.applyCurrentEffect()
+        }
     }
 
     var trimSilence: TrimSilenceAmount {
