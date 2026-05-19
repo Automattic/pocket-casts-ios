@@ -9,28 +9,28 @@ struct MediaOverlayView: View {
     }
 
     var body: some View {
-        Group {
+        GeometryReader() { proxy in
             if !model.isVideo, let uiImage = model.displayImage {
-                GeometryReader() { proxy in
-                    VStack(alignment: .center) {
+                VStack(alignment: .center) {
+                    Spacer()
+                        .frame(height: 100)
+                    HStack {
                         Spacer()
-                        HStack {
-                            Spacer()
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(width: proxy.size.height / 2.0, height: proxy.size.height / 2.0)
-                                .clipShape(RoundedRectangle(cornerRadius: 24))
-                                .blurredCoverBackground(size: proxy.size.height / 2.0) {
-                                    Image(uiImage: uiImage)
-                                }
-                                .animation(.smooth, value: proxy.size.height)
-                            Spacer()
-                        }
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: proxy.size.height / 2.0, height: proxy.size.height / 2.0)
+                            .clipShape(RoundedRectangle(cornerRadius: 24))
+                            .blurredCoverBackground(size: proxy.size.height / 2.0) {
+                                Image(uiImage: uiImage)
+                            }
+                            .animation(.smooth, value: proxy.size.height)
                         Spacer()
                     }
+                    Spacer()
                 }
             }
         }
+        .ignoresSafeArea()
         .task {
             model.load()
         }

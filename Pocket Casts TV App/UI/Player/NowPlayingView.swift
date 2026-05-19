@@ -19,7 +19,6 @@ struct NowPlayingView: UIViewControllerRepresentable {
             return
         }
 
-        controller.player = model.player
         let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model))
 
         guard let overlayView = overlayHostingController.view else {
