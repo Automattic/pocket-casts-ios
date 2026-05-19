@@ -65,9 +65,7 @@ class OptionsPicker {
 
     /// Presents the options using a native, self-sizing sheet from the given
     /// view controller. The sheet's height is adjusted to fit the available
-    /// options, capped at the screen height. If `presentingViewController`
-    /// already has something presented (e.g. another options sheet), this is
-    /// stacked on top of it rather than replacing it.
+    /// options, capped at the screen height.
     func present(from presentingViewController: UIViewController) {
         guard let optionsController else { return }
         optionsController.modalPresentationStyle = .formSheet

@@ -43,7 +43,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     private weak var dismissView: UIView?
     private(set) var isPresentedAsSheet = false
 
-    private let sheetTopPadding: CGFloat = 20
+    private let sheetTopPadding: CGFloat = LiquidGlass.isEnabled ? 20 : 12
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle
@@ -215,8 +215,12 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     func configureForSheetPresentation() {
         isPresentedAsSheet = true
 
-        view.backgroundColor = scrollView.backgroundColor?.withAlphaComponent(0.85)
-        scrollView.backgroundColor = .clear
+        if LiquidGlass.isEnabled {
+            view.backgroundColor = scrollView.backgroundColor?.withAlphaComponent(0.85)
+            scrollView.backgroundColor = .clear
+        } else {
+            view.backgroundColor = scrollView.backgroundColor
+        }
         view.layer.cornerRadius = 0
         dismissView?.isHidden = true
 
