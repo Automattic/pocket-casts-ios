@@ -25,13 +25,21 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     func search(query: String)
 
     func autoComplete(query: String)
+
+    func saveHistory(_ term: String)
 }
 
 @Observable
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
-    private var dataManager = DataManager.sharedManager
+    private var dataManager: DataManager
+    private var searchModel: SearchHistoryModel
+
+    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel()) {
+        self.dataManager = dataManager
+        self.searchModel = searchModel
+    }
 
     var state: SearchState = .query
 
@@ -39,7 +47,15 @@ class SearchViewModel: SearchableViewModel {
 
     var results: [Podcast] = []
 
-    var searchHistory: [String] = ["Conan"]
+    var searchHistory: [String] {
+        searchModel.entries.compactMap { entry in
+            return entry.searchTerm
+        }
+    }
+
+    func saveHistory(_ term: String) {
+        searchModel.add(searchTerm: term)
+    }
 
     var autoCompleteSuggestions: [String] = []
 

@@ -28,12 +28,11 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
             .searchSuggestions {
                 if searchText.isEmpty {
-                    Section("Recent") {
+                    //Section("Recent") {
                         ForEach(model.searchHistory, id: \.self) { search in
-                            Label(search, systemImage: "clock")
-                                .searchCompletion(search)
+                            Text(search).searchCompletion(search)
                         }
-                    }
+                    //}
                 } else {
                     // Live suggestions based on query
                     ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
@@ -41,6 +40,9 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                             .searchCompletion(suggestion)
                     }
                 }
+            }
+            .onSubmit {
+                model.saveHistory(searchText)
             }
             .onChange(of: searchText) { _, newValue in
                 model.search(query: newValue)
