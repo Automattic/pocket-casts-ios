@@ -1,46 +1,16 @@
+import PocketCastsUtils
 import SwiftUI
 import UIKit
 
-extension UIImage {
-    /// Converts white/light pixels to transparent, useful for logos on white backgrounds
-    func addingAlphaFromLuminance() -> UIImage? {
-        guard let cgImage = self.cgImage else { return nil }
+private func widgetArtworkImage(from imageData: Data?, accented: Bool) -> UIImage? {
+    guard let imageData, let image = UIImage(data: imageData) else { return nil }
+    guard accented else { return image }
+    return image.addingAlphaFromLuminance()?.withRenderingMode(.alwaysTemplate)
+}
 
-        let width = cgImage.width
-        let height = cgImage.height
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bytesPerPixel = 4
-        let bytesPerRow = bytesPerPixel * width
-        let bitsPerComponent = 8
-
-        var pixelData = [UInt8](repeating: 0, count: width * height * bytesPerPixel)
-
-        guard let context = CGContext(
-            data: &pixelData,
-            width: width,
-            height: height,
-            bitsPerComponent: bitsPerComponent,
-            bytesPerRow: bytesPerRow,
-            space: colorSpace,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else { return nil }
-
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-
-        // Convert luminance to alpha
-        for i in stride(from: 0, to: pixelData.count, by: 4) {
-            let r = Double(pixelData[i])
-            let g = Double(pixelData[i + 1])
-            let b = Double(pixelData[i + 2])
-            let luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255.0
-
-            // Invert: dark pixels become opaque, light pixels become transparent
-            pixelData[i + 3] = UInt8((1.0 - luminance) * 255)
-        }
-
-        guard let outputCGImage = context.makeImage() else { return nil }
-        return UIImage(cgImage: outputCGImage, scale: self.scale, orientation: self.imageOrientation)
-    }
+private func widgetPlaceholderImage(accented: Bool) -> UIImage {
+    let base = UIImage(named: "no-podcast-artwork-transparent") ?? UIImage()
+    return accented ? base.withRenderingMode(.alwaysTemplate) : base
 }
 
 struct LargeArtworkView: View {
@@ -50,25 +20,6 @@ struct LargeArtworkView: View {
     var size: CGFloat = 74
 
     var showShadow: Bool = true
-
-    var imageToUse: UIImage? {
-        guard let imageData else {
-            return nil
-        }
-        if isAccentedRenderingMode {
-            return UIImage(data: imageData)?.addingAlphaFromLuminance()
-        } else {
-            return UIImage(data: imageData)
-        }
-    }
-
-    var placeholderImageToUse: UIImage {
-        if isAccentedRenderingMode {
-            return UIImage(named: "no-podcast-artwork-transparent")!.withRenderingMode(.alwaysTemplate)
-        } else {
-            return UIImage(named: "no-podcast-artwork-transparent")!
-        }
-    }
 
     var body: some View {
         ZStack {
@@ -81,25 +32,20 @@ struct LargeArtworkView: View {
                     .secondaryShadow()
                     .backwardWidgetAccentable(isAccentedRenderingMode)
             }
-            if let uiImage = imageToUse {
+            if let uiImage = widgetArtworkImage(from: imageData, accented: isAccentedRenderingMode) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .if(isAccentedRenderingMode) { content in
-                        content.backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
-                    }
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: size)
                     .cornerRadius(8)
-                    .if(showShadow) { view in
+                    .if(!isAccentedRenderingMode && showShadow) { view in
                         view.artworkShadow()
                     }
             } else {
-                Image(uiImage: placeholderImageToUse)
+                Image(uiImage: widgetPlaceholderImage(accented: isAccentedRenderingMode))
                     .resizable()
-                    .if(isAccentedRenderingMode) { content in
-                        content
-                            .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
-                    }
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxHeight: size)
                     .cornerRadius(8)
@@ -116,25 +62,6 @@ struct SmallArtworkView: View {
 
     @State var imageData: Data?
 
-    var imageToUse: UIImage? {
-        guard let imageData else {
-            return nil
-        }
-        if isAccentedRenderingMode {
-            return UIImage(data: imageData)?.addingAlphaFromLuminance()?.withRenderingMode(.alwaysTemplate)
-        } else {
-            return UIImage(data: imageData)
-        }
-    }
-
-    var placeholderImageToUse: UIImage {
-        if isAccentedRenderingMode {
-            return UIImage(named: "no-podcast-artwork-transparent")!.withRenderingMode(.alwaysTemplate)
-        } else {
-            return UIImage(named: "no-podcast-artwork-transparent")!
-        }
-    }
-
     var body: some View {
         ZStack {
             if !isAccentedRenderingMode {
@@ -145,22 +72,17 @@ struct SmallArtworkView: View {
                     .secondaryShadow()
                     .backwardWidgetAccentable(isAccentedRenderingMode)
             }
-            if let uiImage = imageToUse {
+            if let uiImage = widgetArtworkImage(from: imageData, accented: isAccentedRenderingMode) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .if(isAccentedRenderingMode) { content in
-                        content.backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
-                    }
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
                     .artworkShadow()
             } else {
-                Image(uiImage: placeholderImageToUse)
+                Image(uiImage: widgetPlaceholderImage(accented: isAccentedRenderingMode))
                     .resizable()
-                    .if(isAccentedRenderingMode) { content in
-                        content
-                            .backwardWidgetAccentable(isAccentedRenderingMode)
-                    }
+                    .backwardWidgetAccentedRenderingMode(isAccentedRenderingMode)
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(4)
                     .artworkShadow()
