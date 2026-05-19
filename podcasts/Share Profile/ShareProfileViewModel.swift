@@ -61,6 +61,10 @@ class ShareProfileViewModel: ObservableObject {
         }
     }
 
+    var canContinue: Bool {
+        !displayName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
     func removePhoto() {
         profilePhoto = nil
         selectedPhotoItem = nil

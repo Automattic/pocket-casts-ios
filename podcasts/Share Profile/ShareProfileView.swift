@@ -57,7 +57,7 @@ struct ShareProfileView: View {
             }
         }
         .onAppear {
-            startOnPreview = viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
+            startOnPreview = viewModel.canContinue
         }
     }
 
@@ -99,10 +99,6 @@ struct ShareProfileView: View {
         }
     }
 
-    private var canContinue: Bool {
-        viewModel.profilePhoto != nil && !viewModel.displayName.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-
     @ViewBuilder
     private func continueButton() -> some View {
         Button {
@@ -113,10 +109,10 @@ struct ShareProfileView: View {
                 .foregroundColor(theme.primaryInteractive02)
                 .frame(maxWidth: .infinity)
                 .frame(height: 56)
-                .background(theme.primaryInteractive01.opacity(canContinue ? 1 : 0.4))
+                .background(theme.primaryInteractive01.opacity(viewModel.canContinue ? 1 : 0.4))
                 .cornerRadius(ViewConstants.buttonCornerRadius)
         }
-        .disabled(!canContinue)
+        .disabled(!viewModel.canContinue)
         .padding(.horizontal, 20)
         .padding(.bottom, 16)
     }
