@@ -235,7 +235,7 @@ struct ProfileHeaderView: View {
                 .font(style: .subheadline, weight: .medium)
                 .foregroundColor(theme.primaryText01)
                 .padding(.horizontal, 16)
-                .frame(height: 40)
+                .padding(.vertical, 8)
                 .overlay(
                     RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                         .stroke(theme.primaryUi05, lineWidth: ViewConstants.buttonStrokeWidth)
