@@ -115,7 +115,7 @@ extension PodcastListViewController {
         }
         action.destructive = true
         optionPicker.addAction(action: action)
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionPicker.present(from: self)
     }
 
     private func showFolderPicker(for podcast: Podcast) {
