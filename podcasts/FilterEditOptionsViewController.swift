@@ -209,7 +209,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             tableView.deselectRow(at: indexPath, animated: false)
         case .deletePlaylist:
             if Self.playlistRebrandingIsEnabled {
-                showDeleteOptionPicker(for: filterToEdit)
+                showDeleteConfirmationDialog(for: filterToEdit)
             } else {
                 showAlert()
             }
@@ -349,32 +349,23 @@ extension FilterEditOptionsViewController: PlaylistTypeTrackerProvider {
 // MARK: - Delete
 
 extension FilterEditOptionsViewController {
-    fileprivate func showDeleteOptionPicker(for playlist: EpisodeFilter) {
+    fileprivate func showDeleteConfirmationDialog(for playlist: EpisodeFilter) {
         let playlistType = playlist.manual ? "manual" : "smart"
         let analyticsProperties = ["filter_type": playlistType]
         Analytics.track(.filterDeleteTriggered, properties: analyticsProperties)
-        let delete = OptionAction(
-            label: L10n.delete,
-            icon: nil,
-            action: { [weak self] in
-                self?.delete(playlist: playlist)
-            }
-        )
-        delete.destructive = true
 
-        let picker = OptionsPicker(title: "")
-        picker.addDescriptiveActions(
+        let alert = UIAlertController(
             title: L10n.playlistsDeleteAlertTitle,
             message: L10n.playlistsDeleteAlertMessage,
-            icon: "option-alert",
-            actions: [
-                delete
-            ]
+            preferredStyle: .alert
         )
-        picker.setNoActionCallback {
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
             Analytics.track(.filterDeleteDismissed, properties: analyticsProperties)
-        }
-        picker.show(statusBarStyle: .default)
+        })
+        alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive) { [weak self] _ in
+            self?.delete(playlist: playlist)
+        })
+        present(alert, animated: true)
     }
 
     fileprivate func delete(playlist: EpisodeFilter) {

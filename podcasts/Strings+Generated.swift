@@ -134,6 +134,10 @@ internal enum L10n {
   internal static var accountSelectType: String { return L10n.tr("Localizable", "account_select_type", fallback: "Select Account Type") }
   /// Prompt to allow the user to sign out of their account.
   internal static var accountSignOut: String { return L10n.tr("Localizable", "account_sign_out", fallback: "Sign Out") }
+  /// Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in.
+  internal static var accountSignOutAlertMessage: String { return L10n.tr("Localizable", "account_sign_out_alert_message", fallback: "Your podcasts, progress, and data will be here when you are back.") }
+  /// Title of the confirmation alert shown before signing the user out of their account.
+  internal static var accountSignOutAlertTitle: String { return L10n.tr("Localizable", "account_sign_out_alert_title", fallback: "Sign Out?") }
   /// Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. '%1$@' is a placeholder for the number of supported podcasts.
   internal static func accountSignOutSupporterPrompt(_ p1: Any) -> String {
     return L10n.tr("Localizable", "account_sign_out_supporter_prompt", String(describing: p1), fallback: "Signing out will remove %1$@ supported podcasts from this device. Are you sure?")
