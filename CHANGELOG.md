@@ -2,10 +2,11 @@
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
+- Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
 
 8.12
 -----
-- Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
+
 - Add animations when tapping backward or forward in mini player [#4214](https://github.com/Automattic/pocket-casts-ios/pull/4214)
 - Improve search bar collapse animations [#4212](https://github.com/Automattic/pocket-casts-ios/pull/4212)
 - Fix first reload of the Playlists screen always being animated [#4228](https://github.com/Automattic/pocket-casts-ios/pull/4228)
