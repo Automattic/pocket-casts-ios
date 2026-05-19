@@ -322,10 +322,6 @@ struct ShareProfileView: View {
                         .font(style: .caption, weight: .bold)
                         .foregroundColor(theme.primaryInteractive01)
                 }
-            } else {
-                Text(L10n.discoverShowAll)
-                    .font(style: .caption, weight: .bold)
-                    .foregroundColor(theme.primaryInteractive01)
             }
         }
         .padding(.bottom, 8)
