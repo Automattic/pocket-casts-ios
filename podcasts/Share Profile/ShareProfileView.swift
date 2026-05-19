@@ -65,18 +65,15 @@ struct ShareProfileView: View {
 
     @ViewBuilder
     private func addPhotoAndNameView() -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 24) {
-                    ProfilePhotoMenu(viewModel: viewModel)
-                    DisplayNameField(displayName: $viewModel.displayName)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 32)
+        ScrollView {
+            VStack(spacing: 24) {
+                ProfilePhotoMenu(viewModel: viewModel)
+                DisplayNameField(displayName: $viewModel.displayName)
             }
-
-            Spacer()
-
+            .padding(.horizontal, 20)
+            .padding(.top, 32)
+        }
+        .safeAreaInset(edge: .bottom) {
             BottomGradientContainer {
                 continueButton()
             }
@@ -121,32 +118,30 @@ struct ShareProfileView: View {
 
     @ViewBuilder
     private func previewProfileView() -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    previewHeader()
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 24)
+        ScrollView {
+            VStack(spacing: 0) {
+                previewHeader()
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 24)
 
-                    if viewModel.shareFollowedPodcasts {
-                        previewPodcastsSection()
-                    }
-
-                    if viewModel.shareRecentEpisodes {
-                        if viewModel.shareFollowedPodcasts {
-                            ThemedDivider()
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 24)
-                        }
-
-                        previewEpisodesSection()
-                            .padding(.horizontal, 20)
-                    }
+                if viewModel.shareFollowedPodcasts {
+                    previewPodcastsSection()
                 }
-                .padding(.top, 32)
-                .padding(.bottom, 80)
-            }
 
+                if viewModel.shareRecentEpisodes {
+                    if viewModel.shareFollowedPodcasts {
+                        ThemedDivider()
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 24)
+                    }
+
+                    previewEpisodesSection()
+                        .padding(.horizontal, 20)
+                }
+            }
+            .padding(.top, 32)
+        }
+        .safeAreaInset(edge: .bottom) {
             BottomGradientContainer {
                 shareMyProfileButton()
             }
@@ -356,43 +351,42 @@ struct ShareProfileView: View {
     @ViewBuilder
     private func allPodcastsView() -> some View {
         let podcasts = viewModel.followedPodcasts
-        VStack(spacing: 0) {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(podcasts.enumerated()), id: \.element.uuid) { index, podcast in
-                        HStack(spacing: 12) {
-                            PodcastImage(uuid: podcast.uuid)
-                                .frame(width: 52, height: 52)
-                                .cornerRadius(4)
-                                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(Array(podcasts.enumerated()), id: \.element.uuid) { index, podcast in
+                    HStack(spacing: 12) {
+                        PodcastImage(uuid: podcast.uuid)
+                            .frame(width: 52, height: 52)
+                            .cornerRadius(4)
+                            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
 
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(podcast.title ?? "")
-                                    .font(style: .subheadline, weight: .medium)
-                                    .foregroundColor(theme.primaryText01)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(podcast.title ?? "")
+                                .font(style: .subheadline, weight: .medium)
+                                .foregroundColor(theme.primaryText01)
+                                .lineLimit(1)
+
+                            if let author = podcast.author {
+                                Text(author)
+                                    .font(style: .footnote, weight: .regular)
+                                    .foregroundColor(theme.primaryText02)
                                     .lineLimit(1)
-
-                                if let author = podcast.author {
-                                    Text(author)
-                                        .font(style: .footnote, weight: .regular)
-                                        .foregroundColor(theme.primaryText02)
-                                        .lineLimit(1)
-                                }
                             }
-
-                            Spacer()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 8)
 
-                        if index < podcasts.count - 1 {
-                            ThemedDivider()
-                                .padding(.horizontal, 20)
-                        }
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+
+                    if index < podcasts.count - 1 {
+                        ThemedDivider()
+                            .padding(.horizontal, 20)
                     }
                 }
             }
-
+        }
+        .safeAreaInset(edge: .bottom) {
             BottomGradientContainer {
                 shareMyProfileButton()
             }
@@ -419,45 +413,44 @@ struct ShareProfileView: View {
     @ViewBuilder
     private func allEpisodesView() -> some View {
         let episodes = viewModel.recentEpisodes
-        VStack(spacing: 0) {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(episodes.enumerated()), id: \.element.uuid) { index, episode in
-                        HStack(spacing: 12) {
-                            PodcastImage(uuid: episode.podcastUuid)
-                                .frame(width: 56, height: 56)
-                                .cornerRadius(4)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(Array(episodes.enumerated()), id: \.element.uuid) { index, episode in
+                    HStack(spacing: 12) {
+                        PodcastImage(uuid: episode.podcastUuid)
+                            .frame(width: 56, height: 56)
+                            .cornerRadius(4)
 
-                            VStack(alignment: .leading, spacing: 2) {
-                                if let date = episode.publishedDate {
-                                    Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
-                                        .font(style: .caption2, weight: .bold)
-                                        .foregroundColor(theme.primaryText02)
-                                }
-
-                                Text(episode.title ?? "")
-                                    .font(style: .subheadline, weight: .medium)
-                                    .foregroundColor(theme.primaryText01)
-                                    .lineLimit(2)
-
-                                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
-                                    .font(style: .caption, weight: .semibold)
+                        VStack(alignment: .leading, spacing: 2) {
+                            if let date = episode.publishedDate {
+                                Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                    .font(style: .caption2, weight: .bold)
                                     .foregroundColor(theme.primaryText02)
                             }
 
-                            Spacer()
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 8)
+                            Text(episode.title ?? "")
+                                .font(style: .subheadline, weight: .medium)
+                                .foregroundColor(theme.primaryText01)
+                                .lineLimit(2)
 
-                        if index < episodes.count - 1 {
-                            ThemedDivider()
-                                .padding(.horizontal, 20)
+                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(episode.duration)))
+                                .font(style: .caption, weight: .semibold)
+                                .foregroundColor(theme.primaryText02)
                         }
+
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+
+                    if index < episodes.count - 1 {
+                        ThemedDivider()
+                            .padding(.horizontal, 20)
                     }
                 }
             }
-
+        }
+        .safeAreaInset(edge: .bottom) {
             BottomGradientContainer {
                 shareMyProfileButton()
             }
@@ -483,45 +476,42 @@ struct ShareProfileView: View {
 
     @ViewBuilder
     private func editProfileView() -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 24) {
-                    editProfileHeader()
+        ScrollView {
+            VStack(spacing: 24) {
+                editProfileHeader()
 
-                    Text(L10n.shareProfileWhatToShare)
-                        .font(style: .title3, weight: .bold)
-                        .foregroundColor(theme.primaryText01)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                Text(L10n.shareProfileWhatToShare)
+                    .font(style: .title3, weight: .bold)
+                    .foregroundColor(theme.primaryText01)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
-                    VStack(spacing: 12) {
-                        editToggleRow(
-                            title: L10n.shareProfileFollowedPodcasts,
-                            icon: "podcasts_tab",
-                            isOn: $viewModel.shareFollowedPodcasts
-                        )
+                VStack(spacing: 12) {
+                    editToggleRow(
+                        title: L10n.shareProfileFollowedPodcasts,
+                        icon: "podcasts_tab",
+                        isOn: $viewModel.shareFollowedPodcasts
+                    )
 
-                        editToggleRow(
-                            title: L10n.shareProfileRecentEpisodes,
-                            icon: "profile-history",
-                            isOn: $viewModel.shareRecentEpisodes
-                        )
+                    editToggleRow(
+                        title: L10n.shareProfileRecentEpisodes,
+                        icon: "profile-history",
+                        isOn: $viewModel.shareRecentEpisodes
+                    )
 
-                        editToggleRow(
-                            title: L10n.shareProfilePlaylists,
-                            icon: "filter_list",
-                            isOn: $viewModel.sharePlaylists
-                        )
-                    }
-
-                    privacyFooter()
-                        .padding(.top, -8)
+                    editToggleRow(
+                        title: L10n.shareProfilePlaylists,
+                        icon: "filter_list",
+                        isOn: $viewModel.sharePlaylists
+                    )
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 32)
+
+                privacyFooter()
+                    .padding(.top, -8)
             }
-
-            Spacer()
-
+            .padding(.horizontal, 20)
+            .padding(.top, 32)
+        }
+        .safeAreaInset(edge: .bottom) {
             BottomGradientContainer {
                 saveButton()
             }
@@ -662,18 +652,15 @@ struct EditPhotoAndNameView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(spacing: 24) {
-                        ProfilePhotoMenu(viewModel: viewModel)
-                        DisplayNameField(displayName: $viewModel.displayName)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 32)
+            ScrollView {
+                VStack(spacing: 24) {
+                    ProfilePhotoMenu(viewModel: viewModel)
+                    DisplayNameField(displayName: $viewModel.displayName)
                 }
-
-                Spacer()
-
+                .padding(.horizontal, 20)
+                .padding(.top, 32)
+            }
+            .safeAreaInset(edge: .bottom) {
                 BottomGradientContainer {
                     Button {
                         dismissAction()
