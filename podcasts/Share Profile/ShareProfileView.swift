@@ -580,28 +580,24 @@ struct ShareProfileView: View {
         let privacyLabel = L10n.shareProfilePrivacy
         let fullText = L10n.shareProfilePrivacyDescription(privacyLabel)
 
-        if let onOpenPrivacySettings {
-            Button(action: onOpenPrivacySettings) {
-                Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
-                    .font(style: .caption)
-                    .foregroundColor(theme.primaryText02)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .multilineTextAlignment(.center)
-            }
-            .buttonStyle(.plain)
-        } else {
-            Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel))
-                .font(style: .caption)
-                .foregroundColor(theme.primaryText02)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
-        }
+        Text(privacyLinkAttributedString(fullText: fullText, link: privacyLabel, tappable: onOpenPrivacySettings != nil))
+            .font(style: .caption)
+            .foregroundColor(theme.primaryText02)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .multilineTextAlignment(.center)
+            .environment(\.openURL, OpenURLAction { _ in
+                onOpenPrivacySettings?()
+                return .handled
+            })
     }
 
-    private func privacyLinkAttributedString(fullText: String, link: String) -> AttributedString {
+    private func privacyLinkAttributedString(fullText: String, link: String, tappable: Bool) -> AttributedString {
         var attributed = AttributedString(fullText)
         if let range = attributed.range(of: link) {
             attributed[range].foregroundColor = theme.primaryInteractive01
+            if tappable {
+                attributed[range].link = URL(string: "pocketcasts://privacy")
+            }
         }
         return attributed
     }
