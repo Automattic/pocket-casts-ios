@@ -131,7 +131,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let urlStr = navigationAction.request.url?.absoluteString, urlStr.contains("mailto") {
             let feedback = urlStr.contains("Feedback")
-            let chatbot = urlStr.contains("chatbot-support@pocketcasts.com")
+            let chatbot = urlStr.lowercased().contains("chatbot-support@pocketcasts.com")
             AnalyticsHelper.userGuideEmail(feedback: feedback)
             let type: ZDType = chatbot ? .chatbotSupport : (feedback ? .feedback : .support)
             emailHelper.presentSupportDialog(self, type: type)
