@@ -1,6 +1,9 @@
 8.13
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
+- Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
+- Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
+- Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
 
 8.12
 -----
@@ -12,6 +15,7 @@
 - Fix an issue with pull-to-refresh sometimes skipping the refresh on the Smart Playlist screen [#4187](https://github.com/Automattic/pocket-casts-ios/pull/4187)  
 - Improve pull-to-refresh stability and polish on the podcasts list [#4225](https://github.com/Automattic/pocket-casts-ios/pull/4225)
 - Car play progress fix [#4147](https://github.com/Automattic/pocket-casts-ios/pull/4147)
+- Fix an bug where the sleep timer could run at double speed [#4336](https://github.com/Automattic/pocket-casts-ios/pull/4336)
 
 8.11
 -----

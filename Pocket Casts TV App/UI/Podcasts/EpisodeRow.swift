@@ -35,7 +35,7 @@ struct EpisodeRow: View {
     @ViewBuilder
     private var thumbnail: some View {
         if let uuid = model.podcastUuid {
-            PodcastImageViewWrapper(podcastUUID: uuid, size: .list)
+            PodcastImage(uuid: uuid, size: .list)
         } else {
             Image(ImageResource.pcLogo)
         }

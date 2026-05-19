@@ -65,7 +65,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
             ForEach(model.items) { item in
                 if let podcast = item.podcast {
                     NavigationLink(value: podcast) {
-                        PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                        PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)

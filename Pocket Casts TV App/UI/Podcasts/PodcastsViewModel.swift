@@ -31,20 +31,45 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
 
     init(dataManager: DataManager = DataManager.sharedManager) {
         self.dataManager = dataManager
+        observePodcastUpdates()
     }
 
     func load() async {
         await fetchPodcasts()
+        RefreshManager.shared.refreshPodcasts()
     }
 
     private func fetchPodcasts() async {
-        Task {
-            let gridItems = HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
-            await MainActor.run {
-                self.items = gridItems
-                self.state = .ready
-            }
+        let gridItems = await Task {
+            HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
+        }.value
+
+        await MainActor.run {
+            self.items = gridItems
+            self.state = gridItems.isEmpty ? .empty : .ready
         }
+    }
+
+    private func observePodcastUpdates() {
+        let notificationsToObserve: [Notification.Name] = [
+            Constants.Notifications.podcastUpdated,
+            Constants.Notifications.podcastAdded,
+            Constants.Notifications.podcastDeleted,
+            ServerNotifications.podcastsRefreshed,
+            ServerNotifications.syncCompleted
+        ]
+
+        let publishers = notificationsToObserve.map {
+            NotificationCenter.default.publisher(for: $0).map { _ in () }.eraseToAnyPublisher()
+        }
+
+        Publishers.MergeMany(publishers)
+            .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                Task { await self.fetchPodcasts() }
+            }
+            .store(in: &cancellables)
     }
 }
 

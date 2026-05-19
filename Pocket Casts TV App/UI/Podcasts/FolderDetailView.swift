@@ -28,7 +28,7 @@ struct FolderDetailView: View {
                 LazyVGrid(columns: Self.gridColumns, spacing: 48) {
                     ForEach(model.podcasts) { podcast in
                         NavigationLink(value: podcast) {
-                            PodcastImageViewWrapper(podcastUUID: podcast.uuid, size: .page)
+                            PodcastImage(uuid: podcast.uuid, size: .page)
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
                         }
                         .buttonStyle(.card)
