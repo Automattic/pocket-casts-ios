@@ -86,7 +86,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
                         self.tableView.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                 } else {
                     self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true

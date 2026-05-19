@@ -156,10 +156,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()
-                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
-                }
+                self.episodesTable.setEditing(isMultiSelectEnabled, animated: true)
                 self.episodesTable.endUpdates()
             }
 
@@ -172,7 +169,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                     self.tableView().selectIndexPath(selectedIndexPath)
                     self.longPressMultiSelectIndexPath = nil
                 }
-                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
             } else {
                 self.selectedEpisodes.removeAll()
             }
