@@ -6085,3 +6085,14 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
+
+/* info message when authorization is expired */
+"server_error_login_expired_token" = "The device code has expired.";
+
+/* info message when authorization is denied server */
+"server_error_login_access_denied" = "The user denied the authorization request";
+
+/* info message when authorization is invalid on server */
+"server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";

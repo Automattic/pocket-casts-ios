@@ -35,6 +35,10 @@ class AppCoordinator {
                 state = .welcome
             }
         }
+        if userState.isLoggedIn {
+            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+            RefreshManager.shared.syncUpNext()
+        }
     }
 
     func signIn() {

@@ -86,4 +86,46 @@ class AuthenticationHelper {
         Settings.setPromotionFinishedAcknowledged(true)
         Settings.setLoginDetailsUpdated()
     }
+
+    // MARK: Code Login - For tv login using a QR Code
+
+    @discardableResult
+    static func deviceAuthorizeCode(scope: AuthenticationScope = .tv) async throws -> DeviceAuthorizationResponse {
+        let response = try await ApiServerHandler.shared.deviceAuthorizeRequest(scope: scope.rawValue)
+        return response
+    }
+
+    @discardableResult
+    static func deviceGetToken(deviceCode: String, scope: AuthenticationScope = .tv) async throws -> AuthenticationResponse {
+        let response = try await ApiServerHandler.shared.deviceGetToken(deviceCode: deviceCode)
+        handleSuccessfulSignIn(response)
+
+        return response
+    }
+
+    static func deviceWaitForApproval(deviceCode: String) async throws {
+        var shouldContinue = true
+        let sleepTime = 2
+        while shouldContinue {
+            try await Task.sleep(for: .seconds(sleepTime))
+            do {
+                let response = try await AuthenticationHelper.deviceGetToken(deviceCode: deviceCode)
+                if response.token == nil { // DO we have a token?
+                    throw APIError.UNKNOWN
+                } else {
+                    // We have a token so we can return
+                    return
+                }
+            } catch let error as APIError {
+                switch error {
+                case .AUTHORIZATION_PENDING:
+                    shouldContinue = true
+                default:
+                    throw error
+                }
+            }
+        }
+        // If we got to here it's because the max retries expired
+        throw APIError.UNKNOWN
+    }
 }

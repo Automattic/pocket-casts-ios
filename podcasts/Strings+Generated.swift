@@ -3347,8 +3347,12 @@ internal enum L10n {
   internal static var serverErrorFilesUploadFailedGeneric: String { return L10n.tr("Localizable", "server_error_files_upload_failed_generic", fallback: "Unable to upload file, please try again later.") }
   /// Server error message for when a file upload files because a unique identifier failed wasn't created.
   internal static var serverErrorFilesUuidRequired: String { return L10n.tr("Localizable", "server_error_files_uuid_required", fallback: "File uuid is required.") }
+  /// info message when authorization is denied server
+  internal static var serverErrorLoginAccessDenied: String { return L10n.tr("Localizable", "server_error_login_access_denied", fallback: "The user denied the authorization request") }
   /// Server error message for when the user account has been locked.
   internal static var serverErrorLoginAccountLocked: String { return L10n.tr("Localizable", "server_error_login_account_locked", fallback: "Your account has been locked due too many login attempts, please try again later.") }
+  /// info message when authorization is pending on server
+  internal static var serverErrorLoginAuthPending: String { return L10n.tr("Localizable", "server_error_login_auth_pending", fallback: "Authorization pending") }
   /// Server error message for when the user attempted to login without their email.
   internal static var serverErrorLoginEmailBlank: String { return L10n.tr("Localizable", "server_error_login_email_blank", fallback: "Enter an email address.") }
   /// Server error message for when the user enters an invalid email.
@@ -3357,6 +3361,10 @@ internal enum L10n {
   internal static var serverErrorLoginEmailNotFound: String { return L10n.tr("Localizable", "server_error_login_email_not_found", fallback: "Email not found") }
   /// Server error message for when the user tries to create an account for an email tied to an existing account.
   internal static var serverErrorLoginEmailTaken: String { return L10n.tr("Localizable", "server_error_login_email_taken", fallback: "Email taken") }
+  /// info message when authorization is expired
+  internal static var serverErrorLoginExpiredToken: String { return L10n.tr("Localizable", "server_error_login_expired_token", fallback: "The device code has expired.") }
+  /// info message when authorization is invalid on server
+  internal static var serverErrorLoginInvalidGrant: String { return L10n.tr("Localizable", "server_error_login_invalid_grant", fallback: "The provided grant is invalid, expired or has been revoked.") }
   /// Server error message for when the user attempted to login without their password.
   internal static var serverErrorLoginPasswordBlank: String { return L10n.tr("Localizable", "server_error_login_password_blank", fallback: "Enter a password.") }
   /// Server error message for when the user enters an invalid password.

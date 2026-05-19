@@ -50,7 +50,7 @@ struct ProfileImage: View {
 
     private var defaultProfileView: some View {
         ZStack {
-            Image("profileAvatar")
+            Image(ImageResource.profileTab)
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
