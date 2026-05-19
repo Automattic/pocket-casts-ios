@@ -963,22 +963,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
         let newValue = !podcast.isPushEnabled
         Analytics.track(.podcastScreenNotificationsTapped, properties: ["enabled": newValue])
-        NotificationsHelper.shared.registerForPushNotifications() { granted in
-            guard granted || !newValue else {
-                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
-                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
-                    UIApplication.shared.openNotificationSettings()
-                })])
-                return
-            }
-            PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: newValue)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
-            var message = newValue ? L10n.notificationsOn : L10n.notificationsOff
-            if let title = podcast.title, newValue {
-                message = L10n.notificationsOnForPodcast(title)
-            }
-            Toast.show(message)
-        }
+        NotificationsHelper.shared.setNotificationsEnabled(newValue, for: podcast)
     }
 
     func categoryTapped(_ category: String) {

@@ -7,6 +7,25 @@ class ThemeableCollectionCell: UICollectionViewCell {
         }
     }
 
+    private var reorderHandle: CellReorderHandleView?
+
+    var showsReorderHandle: Bool {
+        get { reorderHandle?.isVisible ?? false }
+        set {
+            guard newValue else {
+                reorderHandle?.isVisible = false
+                return
+            }
+            if reorderHandle == nil {
+                let handle = CellReorderHandleView(maskedView: contentView)
+                addSubview(handle)
+                handle.anchorToAllSidesOf(view: self)
+                reorderHandle = handle
+            }
+            reorderHandle?.isVisible = true
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -20,6 +39,7 @@ class ThemeableCollectionCell: UICollectionViewCell {
 
     @objc private func themeDidChange() {
         updateColor(AppTheme.colorForStyle(style))
+        reorderHandle?.themeDidChange()
         handleThemeDidChange()
     }
 

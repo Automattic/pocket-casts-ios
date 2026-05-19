@@ -1423,6 +1423,8 @@ internal enum L10n {
   internal static var folderAddPodcastsSingular: String { return L10n.tr("Localizable", "folder_add_podcasts_singular", fallback: "Add 1 Podcast") }
   /// Label for the option to add and remove podcasts from a folder
   internal static var folderAddRemovePodcasts: String { return L10n.tr("Localizable", "folder_add_remove_podcasts", fallback: "Add or Remove Podcasts") }
+  /// Context menu action title for adding a podcast to a folder
+  internal static var folderAddTo: String { return L10n.tr("Localizable", "folder_add_to", fallback: "Add to Folder") }
   /// Text shown on button to change the folder a podcast is in
   internal static var folderChange: String { return L10n.tr("Localizable", "folder_change", fallback: "Change folder") }
   /// Prompt to choose a folder color
@@ -2999,6 +3001,8 @@ internal enum L10n {
   internal static var podcastsBadgeLatestEpisode: String { return L10n.tr("Localizable", "podcasts_badge_latest_episode", fallback: "Only Latest Episode") }
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
+  /// Prompt to enter the mode for reordering the podcasts grid.
+  internal static var podcastsEdit: String { return L10n.tr("Localizable", "podcasts_edit", fallback: "Edit Podcasts") }
   /// Episodes will be displayed in custom order by drag and drop
   internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Custom order") }
   /// Episodes will be displayed in order from the longest to the shortest.

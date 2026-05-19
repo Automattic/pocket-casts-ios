@@ -151,7 +151,7 @@ class DownloadsViewController: PCViewController {
             banner.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -16),
             banner.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 16),
             banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
-            ])
+        ])
         return wrapperView
     }
 

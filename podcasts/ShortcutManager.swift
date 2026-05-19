@@ -11,15 +11,15 @@ class ShortcutManager: CustomObserver {
         stopListeningForShortcutChanges()
 
         let notifications: [NSNotification.Name] = [Constants.Notifications.playbackStarted,
-                                                     Constants.Notifications.playbackPaused,
-                                                     Constants.Notifications.playbackEnded,
-                                                     Constants.Notifications.playlistChanged,
-                                                     Constants.Notifications.podcastAdded,
-                                                     Constants.Notifications.episodePlayStatusChanged,
-                                                     Constants.Notifications.episodeArchiveStatusChanged,
-                                                     Constants.Notifications.episodeStarredChanged,
-                                                     Constants.Notifications.episodeDownloadStatusChanged,
-                                                     Constants.Notifications.manyEpisodesChanged]
+                                                    Constants.Notifications.playbackPaused,
+                                                    Constants.Notifications.playbackEnded,
+                                                    Constants.Notifications.playlistChanged,
+                                                    Constants.Notifications.podcastAdded,
+                                                    Constants.Notifications.episodePlayStatusChanged,
+                                                    Constants.Notifications.episodeArchiveStatusChanged,
+                                                    Constants.Notifications.episodeStarredChanged,
+                                                    Constants.Notifications.episodeDownloadStatusChanged,
+                                                    Constants.Notifications.manyEpisodesChanged]
 
         let mergedNotifications = notifications
             .map { NotificationCenter.default.publisher(for: $0) }

@@ -106,6 +106,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     var initialTouchPoint = CGPoint.zero
 
+    /// The inner vertical scroll view (if any) under the touch when the dismiss
+    /// pan began. Its `bounces` is forced off while the gesture is active so it
+    /// can't bounce or scroll alongside the container drag.
+    weak var activeInnerScrollView: UIScrollView?
+    var savedInnerScrollViewBounces = true
+
     var showingChapters = false
     var showingNotes = false
     var showingBookmarks = false
