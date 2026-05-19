@@ -100,15 +100,9 @@ struct NowPlayingView: UIViewControllerRepresentable {
             children: [volumeBoostOff, volumeBoostOn]
         )
 
-        let trimOptions: [(String, UIAction.State)] = [
-            (L10n.tvPlayerTrimSilenceOff, .on),
-            (L10n.tvPlayerTrimSilenceMild, .off),
-            (L10n.tvPlayerTrimSilenceMedium, .off),
-            (L10n.tvPlayerTrimSilenceMadMax, .off)
-        ]
-        let trimActions = trimOptions.map { title, state in
-            UIAction(title: title, state: state) { _ in
-                TVToast.shared.show(L10n.tvPlayerTrimSilenceSet(title))
+        let trimActions = TrimSilenceAmount.allCases.map { option in
+            UIAction(title: option.description, state: model.trimSilence == option ? .on : .off) { _ in
+                TVToast.shared.show(L10n.tvPlayerTrimSilenceSet(option.description))
             }
         }
         let trimSection = UIMenu(

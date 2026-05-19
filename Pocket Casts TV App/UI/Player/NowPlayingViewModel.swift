@@ -92,6 +92,16 @@ class NowPlayingViewModel: Identifiable {
         playbackManager.applyCurrentEffect()
     }
 
+    var trimSilence: TrimSilenceAmount {
+        get {
+            playbackManager.effects().trimSilence
+        }
+        set {
+            playbackManager.effects().trimSilence = newValue
+            playbackManager.applyCurrentEffect()
+        }
+    }
+
     private func loadEpisodeArtworkData() async -> UIImage? {
         guard let episode else {
             return nil
