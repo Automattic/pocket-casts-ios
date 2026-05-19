@@ -44,6 +44,18 @@ protocol SwipeHandler: AnyObject {
 }
 
 enum SwipeActionsHelper {
+    // Contrast themes prioritise readability; the green `support02` background
+    // doesn't pass against the white "+" icon, so fall back to `support06` (the
+    // archive swatch) in those themes.
+    static var addToPlaylistSwipeBackground: UIColor {
+        switch Theme.sharedTheme.activeTheme {
+        case .contrastLight, .contrastDark:
+            return ThemeColor.support06()
+        default:
+            return ThemeColor.support02()
+        }
+    }
+
     static func createLeftActionsForEpisode(_ episode: BaseEpisode, tableView: UITableView, indexPath: IndexPath, swipeHandler: SwipeHandler) -> TableSwipeActions {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
@@ -142,7 +154,7 @@ enum SwipeActionsHelper {
 
             if FeatureFlag.playlistsRebranding.enabled {
                 if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
-                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: ThemeColor.support02(), icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
+                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: addToPlaylistSwipeBackground, icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
                         swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
                         Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
                         return true
