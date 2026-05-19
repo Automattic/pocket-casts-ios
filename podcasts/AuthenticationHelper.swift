@@ -104,10 +104,9 @@ class AuthenticationHelper {
     }
 
     static func deviceWaitForApproval(deviceCode: String) async throws {
-        var numberOfRetries = 0
-        let maxNumberOfRetries = 30
-        let sleepTime = 1
-        while numberOfRetries < maxNumberOfRetries {
+        var shouldContinue = true
+        let sleepTime = 2
+        while shouldContinue {
             try await Task.sleep(for: .seconds(sleepTime))
             do {
                 let response = try await AuthenticationHelper.deviceGetToken(deviceCode: deviceCode)
@@ -118,9 +117,10 @@ class AuthenticationHelper {
                     return
                 }
             } catch let error as APIError {
-                if case .AUTHORIZATION_PENDING = error, numberOfRetries < maxNumberOfRetries {
-                    numberOfRetries += 1
-                } else {
+                switch error {
+                case .AUTHORIZATION_PENDING:
+                    shouldContinue = true
+                default:
                     throw error
                 }
             }
