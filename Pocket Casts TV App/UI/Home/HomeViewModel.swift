@@ -49,7 +49,7 @@ class HomeViewModel {
                 self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.prefix(3)).map { episode in
                     self.makeRowViewModel(for: episode)
-                } 
+                }
                 newReleases = newEpisodes
                 state = .ready
             }
