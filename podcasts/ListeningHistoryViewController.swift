@@ -43,7 +43,7 @@ class ListeningHistoryViewController: PCViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: true)
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.listeningHistoryTable.beginUpdates()
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.listeningHistoryTable.endUpdates()

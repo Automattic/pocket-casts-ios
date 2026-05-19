@@ -63,7 +63,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: true)
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.uploadsTable.beginUpdates()
                 self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = self.isMultiSelectEnabled

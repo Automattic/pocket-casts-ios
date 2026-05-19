@@ -34,7 +34,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.updateNavBarButtons()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: true)
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
