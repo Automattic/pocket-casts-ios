@@ -33,6 +33,10 @@ only_rules:
   # There should be no space before and one after any comma.
   - comma
 
+  # Commas in protocol/superclass inheritance lists should be followed by a
+  # single space (e.g., prefer `class Foo: Bar, Baz` over `class Foo: Bar,Baz`).
+  - comma_inheritance
+
   # Prefer `contains` over `filter(where:).count`.
   - contains_over_filter_count
 
