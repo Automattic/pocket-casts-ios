@@ -1794,6 +1794,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>オフ</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>ON</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts ユーザー</string>
     <key>onboarding_quote_best</key>
@@ -2104,10 +2106,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードが削除されました</string>
     <key>player_error_corrupted_file</key>
     <string>エピソードが破損している可能性がありますが、後ほど、もう一度お試しください。</string>
+    <key>player_error_episode_not_available</key>
+    <string>このエピソードは再生できません。</string>
     <key>player_error_internet_connection</key>
     <string>インターネット接続を確認して、もう一度お試しください。</string>
     <key>player_error_short_no_connection</key>
     <string>オフラインになっています</string>
+    <key>player_error_short_playback_error</key>
+    <string>再生できませんでした。もう一度お試しください</string>
     <key>player_increment_time</key>
     <string>早送りする時間幅</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3564,6 +3570,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取時間</string>
     <key>stats_listen_history_no_date</key>
     <string>聴取時間</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>聴取アクティビティのヒートマップ。 聴取日数: %1$@/ 365。</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>未満</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>超</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>聴取アクティビティ</string>
     <key>stats_skipping</key>
     <string>スキップ</string>
     <key>stats_time_saved</key>
@@ -3720,6 +3734,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>申し訳ありません、このエピソードではトランスクリプトを利用できません</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>エピソードをダウンロードし、タップして検索</string>
     <key>trial_finished</key>
     <string>トライアルが終了しました</string>
     <key>trim_silence</key>
@@ -3728,6 +3744,120 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>もう一度お試しください</string>
     <key>try_it_now</key>
     <string>今すぐお試しください</string>
+    <key>tv_create_account_come_back</key>
+    <string>アカウントを作成したら、戻ってログインしてください</string>
+    <key>tv_create_account_subtitle</key>
+    <string>このコードをスキャンして、スマートフォンで開始できます。わずか1分で完了します。</string>
+    <key>tv_create_account_title</key>
+    <string>無料アカウントを作成</string>
+    <key>tv_episode_info</key>
+    <string>エピソード情報</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>聴取を継続</string>
+    <key>tv_home_new_releases</key>
+    <string>新規リリース</string>
+    <key>tv_home_recently_played</key>
+    <string>最近再生済み</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>あなたへのおすすめ</string>
+    <key>tv_player_playback_effects</key>
+    <string>再生エフェクト</string>
+    <key>tv_player_playback_speed</key>
+    <string>再生速度</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>再生速度を %1$@ に設定</string>
+    <key>tv_player_trim_silence</key>
+    <string>無音時間をカット</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>最大限</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>中</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>控えめ</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>オフ</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>無音時間をカット: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>ボリュームブースト</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>ボリュームブースト: オフ</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>ボリュームブースト: オン</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@件のエピソード</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>すべてのエピソードを再生</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>プレイリストを作成</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>手動で作成するか、スマートルールで並べ替えを行います。</string>
+    <key>tv_playlists_empty_title</key>
+    <string>プレイリストはこちらに表示されます</string>
+    <key>tv_podcast_detail_about</key>
+    <string>概要</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>すべてのエピソード</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>このポッドキャストをフォロー</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>フォロー中</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>詳細情報</string>
+    <key>tv_podcast_detail_network</key>
+    <string>ネットワーク</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>次のエピソード</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>スケジュール</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>まず試すのにぴったりなエピソード</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>みんなが夢中です</string>
+    <key>tv_podcast_detail_website</key>
+    <string>サイト</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>ポッドキャストをディスカバー</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>フォロー済みのポッドキャストがここに表示され、再生できます。</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>ここを埋めてみましょう。</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>または、次のコードを入力</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>[%1$@](%2$@) に移動</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>カメラを開き、この QR コードに向けます</string>
+    <key>tv_sign_in_title</key>
+    <string>スマートフォンでログイン</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>ポッドキャストを同期しています。間もなくログインします。</string>
+    <key>tv_signing_in_title</key>
+    <string>おかえりなさい。</string>
+    <key>tv_tab_home</key>
+    <string>ホーム</string>
+    <key>tv_tab_playlists</key>
+    <string>プレイリスト</string>
+    <key>tv_tab_podcasts</key>
+    <string>あなたのポッドキャスト</string>
+    <key>tv_tab_up_next</key>
+    <string>次のエピソード</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>すべてのエピソード</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>エピソードを「次のエピソード」に追加すると、順番に再生されます</string>
+    <key>tv_up_next_empty_title</key>
+    <string>待機がありません</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>アカウントなしで閲覧</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>無料アカウントを作成</string>
+    <key>tv_welcome_sign_in</key>
+    <string>ログイン</string>
+    <key>tv_welcome_subtitle</key>
+    <string>ポッドキャストを 大画面で お楽しみください</string>
+    <key>tv_welcome_title</key>
+    <string>Pocket Casts TV へようこそ</string>
     <key>unarchive</key>
     <string>アーカイブを解除</string>
     <key>unfollow</key>

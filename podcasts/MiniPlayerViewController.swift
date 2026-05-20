@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
 
 class MiniPlayerViewController: SimpleNotificationsViewController {
     enum PlayerOpenState {
@@ -14,11 +15,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBOutlet var skipBackBtn: UIButton!
     @IBOutlet var skipFwdBtn: UIButton!
 
+    @IBOutlet var skipBackBtnWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var playPauseBtnWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var skipFwdBtnWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet var upNextBtn: UpNextButton!
 
     @IBOutlet var playbackProgressView: ProgressLine!
 
     @IBOutlet var podcastArtwork: PodcastImageView!
+    @IBOutlet var podcastArtworkWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var podcastArtworkHeightConstraint: NSLayoutConstraint!
     @IBOutlet var mainView: UIView!
     @IBOutlet var shadowView: UIView!
 
@@ -28,8 +35,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var lastEpisodeUuidAutoOpened = ""
     var fullScreenPlayer: PlayerContainerViewController?
 
+    /// Carries the upward pan velocity from the open-gesture recognizer to
+    /// the transition delegate so the present animation can match the flick's
+    /// momentum. Negative = upward (the gesture direction). Reset to 0 after
+    /// the delegate consumes it so a subsequent tap-driven open starts at rest.
+    var pendingPresentVelocity: CGFloat = 0
+
     var panUpRecognizer: UIPanGestureRecognizer!
     var longPressRecognizer: UILongPressGestureRecognizer!
+
+    /// Tracks whether the user tapped an action from the long-press context
+    /// menu (Liquid Glass path). Used to decide whether to fire the
+    /// "menu dismissed" analytics event when the menu closes.
+    var longPressContextMenuActionSelected = false
 
     var heightConstraint: NSLayoutConstraint?
 
@@ -37,12 +55,31 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
-    private var glassContainer: UIVisualEffectView?
-    private var glassGradientLayer: CAGradientLayer?
-    private var episodeTitleLabel: UILabel?
-    private var episodeTimeLeftLabel: UILabel?
+    private var episodeTitleLabel: MiniPlayerScrollingTitleView?
+    private var timeLeftModel: MiniPlayerTimeLeftModel?
+    private var timeLeftHostingController: UIHostingController<MiniPlayerTimeLeftView>?
     private var glassProgressView: MiniPlayerGlassProgressView?
 
+    private var glassButtonStack: UIStackView?
+    private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
+
+    private enum GlassMetrics {
+        /// How much the Liquid Glass skip glyphs are scaled down from the asset.
+        static let skipIconScale: CGFloat = 0.9
+    }
+
+    /// When set, the next time-left value update is wrapped in `withAnimation`
+    /// so SwiftUI's numeric-text transition rolls the digits. Set by skip
+    /// back/forward and consumed on the first resulting change so only
+    /// deliberate skips animate (not the per-second progress ticks).
+    private var animateNextTimeLeftChange = false
+
+    /// When set, overrides the live `tabAccessoryEnvironment` trait so the
+    /// inline/regular layout can be forced regardless of where the view is
+    /// hosted. Used by `PlayerZoomAnimator` to make the snapshot clone match
+    /// the real mini player's layout even though the clone isn't inside a
+    /// `UITabAccessory`.
+    private var forcedInlineLayout: Bool?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,35 +107,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private func setupLiquidGlassLayout() {
         gradientView.isHidden = true
         shadowView.isHidden = true
-        mainView.backgroundColor = .clear
-        mainView.layer.cornerRadius = 0
+        mainView.isHidden = true
         playbackProgressView.isHidden = true
         upNextBtn.isHidden = true
 
-
-        let effectView = UIVisualEffectView(effect: {
-            let effect = UIGlassEffect(style: .regular)
-            effect.isInteractive = true
-            return effect
-        }())
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        effectView.clipsToBounds = true
-        effectView.layer.cornerCurve = .continuous
-        view.addSubview(effectView)
-        glassContainer = effectView
-
-        let contentView = effectView.contentView
-
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
-        glassGradientLayer = gradientLayer
+        view.backgroundColor = .clear
 
         podcastArtwork.removeFromSuperview()
         skipBackBtn.removeFromSuperview()
         playPauseBtn.removeFromSuperview()
         skipFwdBtn.removeFromSuperview()
+
+        podcastArtworkWidthConstraint.constant = 32
+        podcastArtworkHeightConstraint.constant = 32
 
         podcastArtwork.translatesAutoresizingMaskIntoConstraints = false
         skipBackBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -110,29 +131,40 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         playPauseBtn.visualSize = 28
 
-        let title = UILabel()
+        // The skip glyphs read a touch heavy next to the smaller glass
+        // play/pause button, so scale the (template) assets down slightly.
+        for button in [skipBackBtn, skipFwdBtn] {
+            guard let button, let image = button.image(for: .normal) else { continue }
+            let target = CGSize(width: image.size.width * GlassMetrics.skipIconScale,
+                                height: image.size.height * GlassMetrics.skipIconScale)
+            button.setImage(image.resizeProportionally(to: target).withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+
+        let title = MiniPlayerScrollingTitleView()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.font = .font(ofSize: 12, weight: .medium, scalingWith: .subheadline)
-        title.numberOfLines = 1
-        title.lineBreakMode = .byTruncatingTail
-        title.adjustsFontForContentSizeCategory = false
+        title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
         episodeTitleLabel = title
 
-        let timeLeft = UILabel()
-        timeLeft.translatesAutoresizingMaskIntoConstraints = false
-        timeLeft.font = .font(ofSize: 10, weight: .regular, scalingWith: .footnote)
-        timeLeft.numberOfLines = 1
-        timeLeft.adjustsFontForContentSizeCategory = false
-        episodeTimeLeftLabel = timeLeft
+        // Hosted SwiftUI so the time-left digits can use the native
+        // `.numericText` content transition when the user skips.
+        let timeLeftModel = MiniPlayerTimeLeftModel()
+        let timeLeftHost = UIHostingController(rootView: MiniPlayerTimeLeftView(model: timeLeftModel))
+        timeLeftHost.view.translatesAutoresizingMaskIntoConstraints = false
+        timeLeftHost.view.backgroundColor = .clear
+        timeLeftHost.sizingOptions = .intrinsicContentSize
+        timeLeftHost.safeAreaRegions = []
+        addChild(timeLeftHost)
+        self.timeLeftModel = timeLeftModel
+        self.timeLeftHostingController = timeLeftHost
 
         let progressView = MiniPlayerGlassProgressView()
         progressView.translatesAutoresizingMaskIntoConstraints = false
         glassProgressView = progressView
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftHost.view])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
-        bottomRow.spacing = 8
+        bottomRow.spacing = 6
 
         let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
@@ -144,53 +176,77 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .horizontal
         buttonStack.alignment = .center
+        glassButtonStack = buttonStack
 
-        contentView.addSubview(podcastArtwork)
-        contentView.addSubview(textStack)
-        contentView.addSubview(buttonStack)
+        view.addSubview(podcastArtwork)
+        view.addSubview(textStack)
+        view.addSubview(buttonStack)
+
+        timeLeftHost.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
-            effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
-            effectView.heightAnchor.constraint(equalToConstant: 48),
-
-            podcastArtwork.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            podcastArtwork.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            podcastArtwork.widthAnchor.constraint(equalToConstant: 30),
-            podcastArtwork.heightAnchor.constraint(equalToConstant: 30),
+            podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
-            textStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 4),
+            textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
 
-            progressView.widthAnchor.constraint(equalToConstant: 50),
             progressView.heightAnchor.constraint(equalToConstant: 5),
 
-            skipBackBtn.widthAnchor.constraint(equalToConstant: 70),
-            playPauseBtn.widthAnchor.constraint(equalToConstant: 70),
-            skipFwdBtn.widthAnchor.constraint(equalToConstant: 70),
-
-            buttonStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            buttonStack.topAnchor.constraint(equalTo: view.topAnchor),
+            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            buttonStack.heightAnchor.constraint(equalToConstant: 56),
         ])
+
+        view.registerForTraitChanges([UITraitTabAccessoryEnvironment.self]) { (view: UIView, _) in
+            view.setNeedsUpdateConstraints()
+        }
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func updateViewConstraints() {
+        if #available(iOS 26.0, *), let glassButtonStack, let glassProgressView {
+            let isInline = forcedInlineLayout ?? (view.traitCollection.tabAccessoryEnvironment == .inline)
+            let buttonWidth: CGFloat = isInline ? 40 : 44
+            skipBackBtnWidthConstraint.constant = buttonWidth
+            playPauseBtnWidthConstraint.constant = buttonWidth
+            skipFwdBtnWidthConstraint.constant = buttonWidth
 
-        if let glassContainer {
-            glassContainer.layer.cornerRadius = glassContainer.bounds.height / 2
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            glassGradientLayer?.frame = glassContainer.contentView.bounds
-            CATransaction.commit()
+            NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
+            accessoryEnvironmentConstraints = [
+                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 44),
+                glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
+            ]
+            NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
         }
+        super.updateViewConstraints()
     }
 
     deinit {
         removeAllCustomObservers()
+    }
+
+    /// Resets the scrolling title marquee to the beginning of its pause-then-scroll
+    /// cycle.
+    func resetScrollingTitleAnimation() {
+        episodeTitleLabel?.restartAnimation()
+    }
+
+    /// Aligns this controller's scrolling title with another's, so the
+    /// snapshot clone built for the zoom transition picks up the live mini
+    /// player's scroll phase. Must be called after the clone is in a window.
+    func synchronizeScrollingTitleAnimation(with other: MiniPlayerViewController) {
+        guard let mine = episodeTitleLabel, let theirs = other.episodeTitleLabel else { return }
+        mine.synchronizeAnimation(with: theirs)
+    }
+
+    /// Forces the Liquid Glass layout to use the inline (collapsed tab bar) or
+    /// regular spacing, bypassing the live `tabAccessoryEnvironment` trait.
+    /// Used by the zoom transition to make the snapshot clone match the real
+    /// mini player when it's hosted in an inline tab accessory.
+    func setForcedInlineLayout(_ inline: Bool) {
+        forcedInlineLayout = inline
+        view.setNeedsUpdateConstraints()
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
@@ -206,6 +262,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBAction func skipBackTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
+        if let timeLeftModel {
+            timeLeftModel.countsDown = false
+            animateNextTimeLeftChange = true
+        }
         PlaybackManager.shared.skipBack()
         animateSkipButton(skipBackBtn, clockwise: false)
     }
@@ -213,6 +273,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBAction func skipForwardTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
+        if let timeLeftModel {
+            timeLeftModel.countsDown = true
+            animateNextTimeLeftChange = true
+        }
         PlaybackManager.shared.skipForward()
         animateSkipButton(skipFwdBtn, clockwise: true)
     }
@@ -305,6 +369,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeChanged))
         addCustomObserver(Constants.Notifications.currentlyPlayingEpisodeUpdated, selector: #selector(updateRequired))
+
+        addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(chapterDidChange))
+        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(chapterDidChange))
     }
 
     func rootViewController() -> MainTabBarController? {
@@ -324,7 +391,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     func miniPlayerShowing() -> Bool {
-        !view.isHidden
+        assert(!LiquidGlass.isEnabled, "Should never be used when Liquid Glass is on")
+        return !view.isHidden
     }
 
     private func setupForEpisode(_ episode: BaseEpisode) {
@@ -335,9 +403,29 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
 
-        if let episodeTitleLabel, episodeTitleLabel.text != episode.title {
-            episodeTitleLabel.text = episode.title
+        updateTitle(for: episode)
+    }
+
+    /// Shows the current chapter title when the episode has chapters, falling
+    /// back to the episode title otherwise — matching the full screen player.
+    private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) {
+        guard let episodeTitleLabel, let episode else { return }
+
+        let chapters = PlaybackManager.shared.currentChapters()
+        let newTitle: String?
+        if PlaybackManager.shared.chapterCount() != 0, chapters.visibleChapter != nil, !chapters.title.isEmpty {
+            newTitle = chapters.title
+        } else {
+            newTitle = episode.title
         }
+
+        if episodeTitleLabel.text != newTitle {
+            episodeTitleLabel.text = newTitle
+        }
+    }
+
+    @objc private func chapterDidChange() {
+        updateTitle()
     }
 
     @objc private func playbackStarted() {
@@ -368,7 +456,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     @objc private func statusBarHeightDidChange() {
-        if miniPlayerShowing() {
+        if !LiquidGlass.isEnabled, miniPlayerShowing() {
             hideMiniPlayer(false)
             showMiniPlayer()
         }
@@ -405,49 +493,53 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             progress = min(1, CGFloat(currentTime / duration))
         }
 
+        let isIndeterminate = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+
         playbackProgressView.progress = progress
-        playbackProgressView.indeterminant = PlaybackManager.shared.buffering() && PlaybackManager.shared.playing()
+        playbackProgressView.indeterminant = isIndeterminate
 
-        let amountBuferred = PlaybackManager.shared.futureBufferAvailable()
-        if amountBuferred > 0 {
-            playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
+        let amountBuffered = PlaybackManager.shared.futureBufferAvailable()
+        if amountBuffered > 0 {
+            playbackProgressView.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
-        if let glassProgressView {
-            let downloadProgress: CGFloat
-            if duration > 0 {
-                downloadProgress = min(1, CGFloat((currentTime + amountBuferred) / duration))
-            } else {
-                downloadProgress = 0
-            }
-            glassProgressView.playbackProgress = progress
-            glassProgressView.downloadProgress = downloadProgress
+        glassProgressView?.playbackProgress = progress
+        glassProgressView?.indeterminate = isIndeterminate
+
+        if amountBuffered > 0 {
+            glassProgressView?.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
-        if let episodeTimeLeftLabel {
+        if let timeLeftModel {
             let remaining = max(0, duration - currentTime)
-            let newText: String?
-            if remaining > 0 {
-                let formatted = TimeFormatter.shared.multipleUnitFormattedShortTime(time: remaining)
-                newText = L10n.podcastTimeLeft(formatted)
-            } else {
-                newText = nil
-            }
-            if episodeTimeLeftLabel.text != newText {
-                episodeTimeLeftLabel.text = newText
+            let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
+            if timeLeftModel.text != newText {
+                let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled
+                animateNextTimeLeftChange = false
+                if animate {
+                    // Only deliberate skips reach this path, so the
+                    // per-second progress ticks stay static; `countsDown`
+                    // (set by the skip handlers) picks the roll direction.
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                        timeLeftModel.text = newText
+                    }
+                } else {
+                    timeLeftModel.text = newText
+                }
             }
         }
     }
 
     private func updateColors() {
         view.backgroundColor = .clear
-        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
 
         if FeatureFlag.liquidGlass.enabled, #available(iOS 26.0, *) {
             updateColorsLiquidGlass()
         } else {
             updateColorsLegacy()
         }
+
+        playPauseBtn.isPlaying = PlaybackManager.shared.playing()
     }
 
     private func updateColorsLegacy() {
@@ -476,7 +568,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let bgColor = ThemeColor.primaryUi02()
 
         episodeTitleLabel?.textColor = ThemeColor.primaryText01()
-        episodeTimeLeftLabel?.textColor = ThemeColor.primaryText01()
+        timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
         playPauseBtn.playButtonColor = bgColor
         playPauseBtn.circleColor = iconColor
@@ -485,11 +577,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         skipFwdBtn.tintColor = iconColor
 
         glassProgressView?.tintColorOverride = actionColor
-
-        glassGradientLayer?.colors = [
-            actionColor.withAlphaComponent(0.06).cgColor,
-            actionColor.withAlphaComponent(0.09).cgColor,
-        ]
     }
 
     private func currentPodcastTintColor() -> UIColor {
@@ -535,5 +622,29 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 extension MiniPlayerViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .miniplayer
+    }
+}
+
+/// Backing store for the Liquid Glass mini player's time-left readout.
+final class MiniPlayerTimeLeftModel: ObservableObject {
+    /// The formatted string shown to the user, e.g. `-12:34`.
+    @Published var text: String = ""
+    /// Direction the digits roll when `text` changes inside `withAnimation`:
+    /// down for skip-forward (less time left), up for skip-back.
+    @Published var countsDown: Bool = false
+    @Published var color: Color = .primary
+}
+
+struct MiniPlayerTimeLeftView: View {
+    @ObservedObject var model: MiniPlayerTimeLeftModel
+
+    var body: some View {
+        Text(model.text)
+            .font(Font.system(size: 10, weight: .regular))
+            .monospacedDigit()
+            .foregroundColor(model.color)
+            .contentTransition(.numericText(countsDown: model.countsDown))
+            .lineLimit(1)
+            .fixedSize()
     }
 }

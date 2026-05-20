@@ -1,42 +1,22 @@
 import SwiftUI
-import Combine
+import PocketCastsDataModel
 
-@Observable
-class PodcastsViewModel {
-
-    private var cancellable: AnyCancellable?
-
-    enum State: Equatable, Hashable {
-        case loading
-        case ready
-        case empty
-    }
-
-    var state: State = .loading
-
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
-
-    func load() {
-        //Mock data load
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common, options: nil)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                state = .ready
-                cancellable?.cancel()
-                cancellable = nil
-            }
-    }
+fileprivate enum Layout {
+    static let gridSize = CGFloat(250)
 }
 
-struct PodcastsView: View {
+struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
-    @State private var model = PodcastsViewModel()
+    @State private var model: ViewModel
 
-    enum Layout {
-        static let gridSize = CGFloat(250)
+    init(model: ViewModel = PodcastsViewModel()) {
+        self.model = model
+    }
+
+    let gridColumns: [GridItem] = (0..<6).map { _ in
+        GridItem(.fixed(Layout.gridSize), spacing: 48)
     }
 
     var body: some View {
@@ -51,7 +31,7 @@ struct PodcastsView: View {
             }
         }
         .task {
-            model.load()
+            await model.load()
         }
     }
 
@@ -64,7 +44,7 @@ struct PodcastsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPodcasts)
-                        .font(.title)
+                        .font(.title2)
                         .foregroundStyle(Color.textPrimary)
                     podcastGrid
                 }
@@ -78,33 +58,37 @@ struct PodcastsView: View {
         }
     }
 
-    private let items: [GridItem] = (0..<6).map { _ in
-        GridItem(.fixed(Layout.gridSize), spacing: 48)
-    }
-
     @Namespace private var podcastGridNamespace
 
     var podcastGrid: some View {
-        LazyVGrid(columns: items, spacing: 48, content: {
-            ForEach(model.podcasts) { podcast in
-                NavigationLink(value: podcast) {
-                        Image(podcast.image)
-                            .resizable()
+        LazyVGrid(columns: gridColumns, spacing: 48) {
+            ForEach(model.items) { item in
+                if let podcast = item.podcast {
+                    NavigationLink(value: podcast) {
+                        PodcastImage(uuid: podcast.uuid, size: .page)
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    }
+                    .buttonStyle(.card)
+                } else if let folder = item.folder {
+                    NavigationLink(value: folder) {
+                        FolderCardView(folder: folder)
+                    }
+                    .buttonStyle(.card)
                 }
-                .buttonStyle(.card)
-                .prefersDefaultFocus(model.podcasts.first?.id == podcast.id, in: podcastGridNamespace)
             }
-        })
+        }
         .focusScope(podcastGridNamespace)
-        .navigationDestination(for: MockPodcast.self) { podcast in
-            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+        .navigationDestination(for: Podcast.self) { podcast in
+            PodcastDetailView(podcast: podcast)
+        }
+        .navigationDestination(for: Folder.self) { folder in
+            FolderDetailView(folder: folder)
         }
     }
 }
 
 #Preview {
-    PodcastsView()
+    PodcastsView(model: PodcastsViewModelMock())
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }

@@ -8,7 +8,7 @@ struct BookmarksProfileListView: View {
     var body: some View {
         VStack(spacing: BookmarkListConstants.padding) {
             searchField
-                .padding([.vertical, .horizontal], BookmarkListConstants.headerPadding)
+                .padding([.horizontal], BookmarkListConstants.headerPadding)
                 .background(style.theme.secondaryUi01)
             bookmarkListView
         }
@@ -74,7 +74,6 @@ struct BookmarksProfileListView: View {
 
     func bottomInset(multiSelectEnabled: Bool) -> CGFloat {
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        return min(miniPlayerOffset + multiSelectFooterOffset, 40)
+        return min(Constants.effectiveMiniPlayerOffset + multiSelectFooterOffset, 40)
     }
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsServer
 
 struct CreateAccountView: View {
 
@@ -18,7 +19,7 @@ struct CreateAccountView: View {
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
                 Spacer()
-                QRCodeView()
+                QRCodeView(url: ServerConstants.Urls.tvCreate)
                 Spacer()
                 Text(L10n.tvCreateAccountComeBack)
                     .font(.headline)

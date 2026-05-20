@@ -4,6 +4,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
+import Combine
 
 class PlaybackManager: ServerPlaybackDelegate {
     static let shared = PlaybackManager()
@@ -916,7 +917,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         if let episode = currentEpisode() {
             return !episode.videoPodcast()
         }
-        #elseif !os(watchOS)
+        #elseif !os(watchOS) && !os(tvOS)
             if let episode = currentEpisode() {
                 return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
             }
@@ -926,7 +927,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func volumeBoostAvailable() -> Bool {
-        #if APPCLIP
+        #if APPCLIP || os(tvOS)
             return true
         #elseif os(watchOS)
             return false
@@ -1017,7 +1018,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         func shortUserAttributedMessage(mainColor: UIColor, interactiveColor: UIColor) -> NSAttributedString {
             let baseText = self.shortUserMessage
-            let learnMore: String = String(L10n.learnMore).sentenceCased
+            let learnMore = String(L10n.learnMore).sentenceCased
             let attributedString = NSMutableAttributedString(string: baseText, attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)])
             if self.userAction != nil {
                 attributedString.append(NSAttributedString(string: " ", attributes: [.foregroundColor: mainColor, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
@@ -1333,7 +1334,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         let playersSupported = supportedPlayers()
-        #if os(watchOS)
+        #if os(watchOS) || os(tvOS)
             FileLog.shared.addMessage("Using DefaultPlayer")
             player = DefaultPlayer()
         #elseif APPCLIP
@@ -1363,7 +1364,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         guard let currEpisode = currentEpisode() else { return possiblePlayers }
 
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if let fallbackToPlayer {
                 return [fallbackToPlayer]
             }
@@ -1375,7 +1376,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
 
-        #if !os(watchOS)
+        #if !os(watchOS) && !os(tvOS)
         if !playingOverAirplay(), !currEpisode.videoPodcast(), (currEpisode.downloaded(pathFinder: DownloadManager.shared) && effects().trimSilence != .off) || currEpisode.bufferedForStreaming() {
             possiblePlayers.append(EffectsPlayer.self)
         }
@@ -1423,7 +1424,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func activateAudioSession(completion: ((Bool) -> Void)?) {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
                 completion?(true)
                 return
@@ -1545,29 +1546,21 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func startUpdateTimer() {
-        cancelUpdateTimer()
-
         // schedule the timer on a thread that has a run loop, the main thread being a good option
-        if Thread.isMainThread {
-            updateTimer = Timer.scheduledTimer(timeInterval: updateTimerInterval, target: self, selector: #selector(progressTimerFired), userInfo: nil, repeats: true)
-        } else {
-            DispatchQueue.main.sync { [weak self] in
-                guard let self else { return }
-
-                self.updateTimer = Timer.scheduledTimer(timeInterval: self.updateTimerInterval, target: self, selector: #selector(self.progressTimerFired), userInfo: nil, repeats: true)
-            }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            updateTimer?.invalidate()
+            updateTimer = nil
+            self.updateTimer = Timer.scheduledTimer(timeInterval: self.updateTimerInterval, target: self, selector: #selector(self.progressTimerFired), userInfo: nil, repeats: true)
         }
     }
 
     private func cancelUpdateTimer() {
-        if Thread.isMainThread {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             updateTimer?.invalidate()
-        } else {
-            DispatchQueue.main.sync { [weak self] in
-                self?.updateTimer?.invalidate()
-            }
+            updateTimer = nil
         }
-        updateTimer = nil
     }
 
     @objc private func progressTimerFired() {
@@ -1664,7 +1657,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Now Playing Info
 
     @objc private func updateNowPlayingInfo() {
-        #if os(watchOS) || APPCLIP
+        #if os(watchOS) || APPCLIP || os(tvOS)
             let connectedToExternalDevice = false
         #else
             let connectedToExternalDevice = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
@@ -1744,7 +1737,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
         Toast.show(L10n.deviceShakeSleepTimer)
         #endif
         sleepTimerManager.restartSleepTimer()
@@ -1921,7 +1914,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         let starCommand = MPRemoteCommandCenter.shared().likeCommand
 
         if actionsEnabled {
-            #if !os(watchOS) && !APPCLIP
+            #if !os(watchOS) && !APPCLIP && !os(tvOS)
                 markPlayedCommand.setTitle(title: L10n.markPlayedShort)
             #endif
             markPlayedCommand.removeTarget(nil)
@@ -1934,7 +1927,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
             markPlayedCommand.isEnabled = true
 
-            #if !os(watchOS) && !APPCLIP
+            #if !os(watchOS) && !APPCLIP && !os(tvOS)
                 starCommand.setTitle(title: L10n.starEpisodeShort)
             #endif
             starCommand.removeTarget(nil)
@@ -2047,7 +2040,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - AVAudioSession Notifications
 
     @objc private func handleRouteChanged(_ notification: Notification) {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
@@ -2093,14 +2086,18 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleAudioInterruption(_ notification: Notification) {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
         #endif
 
         guard let userInfo = notification.userInfo else { return }
 
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
+        #if os(tvOS)
+        let interruptionReason: UInt? = nil
+        #else
         let interruptionReason = userInfo[AVAudioSessionInterruptionReasonKey] as? UInt
+        #endif
         if interruptionType.uintValue == AVAudioSession.InterruptionType.ended.rawValue {
             interruptInProgress = false
             let interruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as! NSNumber
@@ -2143,7 +2140,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleSystemAudioReset(_ notification: Notification) {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if GoogleCastManager.sharedManager.connected() { return } // while google casting we don't care about system audio events
         #endif
 
@@ -2179,7 +2176,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func remoteDeviceAutoConnected(_ episodeUuid: String) {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             if let _ = player as? GoogleCastPlayer {
                 return // we already have a Google Cast player, probably just a background resume rather than a restart
             }
@@ -2349,7 +2346,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             } else {
                 Analytics.track(.autoplayFinishedLastEpisode)
             }
-
         }
 
         // Nothing to autoplay or Up Next has items, reset the latest played from
@@ -2391,6 +2387,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+
+
+    // MARK: - tvOS
+
+    var avPlayer: AVPlayer? {
+        guard let defaultPlayer = player as? DefaultPlayer else {
+            return nil
+        }
+
+        return defaultPlayer.player
+    }
 }
 
 private extension PlaybackManager {

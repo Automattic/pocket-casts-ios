@@ -71,7 +71,6 @@ public class SyncManager {
         KeychainHelper.removeKey(ServerConstants.Values.refreshTokenKey)
         KeychainHelper.removeKey(ServerConstants.Values.appleAuthUserIDKey)
     }
-
 }
 
 // MARK: - Sync Reason

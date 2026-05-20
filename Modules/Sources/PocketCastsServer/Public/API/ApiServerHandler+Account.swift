@@ -88,7 +88,6 @@ public extension ApiServerHandler {
                 } catch {
                     completion(false, nil, nil)
                 }
-
             }.resume()
         } catch {
             FileLog.shared.addMessage("registerAccount failed \(error.localizedDescription)")
@@ -128,7 +127,6 @@ public extension ApiServerHandler {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     completion(nil, nil, nil)
                 }
-
             }.resume()
         } catch {
             FileLog.shared.addMessage("obtainToken failed \(error.localizedDescription)")
@@ -169,20 +167,20 @@ public extension ApiServerHandler {
                     FileLog.shared.addMessage("Error occurred while trying to unpack token request \(error.localizedDescription)")
                     continuation.resume(throwing: APIError.UNKNOWN)
                 }
-
             }.resume()
         }
     }
 
     private struct ErrorResponse: Decodable {
         let errorMessageId: String?
+        let error: String?
     }
 
     class func extractErrorResponse(data: Data?, response: URLResponse?, error: Error? = nil) -> APIError? {
         if let data {
             do {
                 let errorJson = try JSONDecoder().decode(ErrorResponse.self, from: data)
-                return APIError(rawValue: errorJson.errorMessageId ?? "unknown")
+                return APIError(rawValue: errorJson.errorMessageId ?? errorJson.error ?? "unknown")
             } catch {
                 FileLog.shared.addMessage("Unable to decode error response \(error.localizedDescription)")
             }

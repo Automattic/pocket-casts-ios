@@ -48,7 +48,6 @@ public class ValidatePromoCodeTask {
                     }
                 }
                 completion(false, nil, nil)
-
             }.resume()
         } catch {
             FileLog.shared.addMessage("Validate Promo Code Request Protobuf Encoding failed")

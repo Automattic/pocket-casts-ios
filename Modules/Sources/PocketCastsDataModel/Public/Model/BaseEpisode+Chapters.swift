@@ -16,7 +16,7 @@ extension BaseEpisode {
     }
 
     public func deselect(chapterIndex index: Int) {
-        guard deselectedChaptersList.firstIndex(of: "\(index)") == nil else {
+        guard !deselectedChaptersList.contains("\(index)") else {
             return
         }
 

@@ -38,7 +38,7 @@ class ShareViewController: UIViewController {
     }
 
     private func loadFile(from attachment: NSItemProvider, identifier: String) {
-        attachment.loadItem(forTypeIdentifier: identifier, options: nil) { [weak self] data, error in
+        attachment.loadItem(forTypeIdentifier: identifier, options: nil) { [weak self] data, _ in
             guard let url = data as? URL else {
                 return
             }

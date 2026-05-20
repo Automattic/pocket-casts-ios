@@ -148,8 +148,8 @@ class RichExpandableLabel: WKWebView {
         }
         </style>
         </head>
-        <body>
-        <div id="container">
+        <body dir="auto">
+        <div id="container" dir="auto">
         \(html)
         </div>
         </body>
@@ -211,7 +211,7 @@ class RichExpandableLabel: WKWebView {
     }
 
     private func updateLinesRequired() {
-        evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, error in
+        evaluateJavaScript("countLines()", completionHandler: { [weak self] lines, _ in
             guard let self, let linesRequired = lines as? Double else { return }
             collapsed = Int(linesRequired.rounded(.up)) > self.maxLines
         })

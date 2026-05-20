@@ -104,7 +104,6 @@ struct PodcastsCarouselView: View {
 
                 // Set the id of the carousel to make sure the we reset the position when the search changes
                 .id(searchResults.podcasts.map { $0.id })
-
             } else if !searchResults.isShowingLocalResultsOnly {
                 EmptyStateView(title: L10n.discoverNoPodcastsFound,
                                message: L10n.discoverNoPodcastsFoundMsg,
@@ -159,7 +158,6 @@ struct PodcastResultCell: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .bottomTrailing) {
                 Button(action: {
-
                 }) {
                     Group {
                         switch result.kind {

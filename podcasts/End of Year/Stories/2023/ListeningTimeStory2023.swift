@@ -130,7 +130,6 @@ struct CircleDays: View {
                     circles(numberOfLines: numberOfLines, numberOfBallsPerLine: numberOfBallsPerLine, ballWidth: ballFinalWidth, ballPadding: ballPadding)
                 }
             )
-
         )
     }
 

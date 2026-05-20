@@ -76,7 +76,7 @@ enum ShareDestination: Hashable {
             let receiver = rect.sink { rect in
                 activityViewController.popoverPresentationController?.sourceRect = rect
             }
-            activityViewController.completionWithItemsHandler = { activityType, completed, returnedItems, activityError in
+            activityViewController.completionWithItemsHandler = { _, _, _, _ in
                 receiver.cancel()
             }
             vc.presentedViewController?.present(activityViewController, animated: true, completion: {
@@ -84,12 +84,6 @@ enum ShareDestination: Hashable {
                 ShareDestination.logPodcastShared(style: style, option: option, destination: self, source: source)
             })
         }
-    }
-
-    @MainActor
-    static fileprivate func shareImage(_ option: SharingModal.Option, style: ShareImageStyle) -> UIImage {
-        let imageView = ShareImageView(info: option.imageInfo, style: style, angle: .constant(0))
-        return imageView.snapshot()
     }
 
     @MainActor

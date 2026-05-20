@@ -30,6 +30,10 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
 
     override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super.setNavigationBarHidden(hidden, animated: animated)
+        enableInteractivePopGestureWorkaround()
+    }
+
+    func enableInteractivePopGestureWorkaround() {
         interactivePopGestureRecognizer?.delegate = self
     }
 
@@ -42,6 +46,8 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     }
 
     private func updateNavColors() {
+        guard !LiquidGlass.isEnabled else { return }
+
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = AppTheme.colorForStyle(navStyle, themeOverride: themeOverride)

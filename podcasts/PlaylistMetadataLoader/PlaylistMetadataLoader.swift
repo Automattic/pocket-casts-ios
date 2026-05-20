@@ -222,7 +222,6 @@ actor PlaylistMetadataLoader {
             } catch {
                 return cache.images[playlistID] ?? []
             }
-
         }
         imagesTasks[playlistID] = task
         return await task.value

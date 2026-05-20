@@ -57,7 +57,7 @@ struct ToastView<Style: ToastTheme>: View {
             .font(size: 14, style: .subheadline, weight: .medium)
         }
         // Wait for the initial content size to be calculated before appearing so we can animate in
-        .onChange(of: contentSize, perform: { newValue in
+        .onChange(of: contentSize, perform: { _ in
             guard !isVisible else { return }
 
             isVisible = true
@@ -204,7 +204,8 @@ struct ToastView_Previews: PreviewProvider {
         ToastView(viewModel: .init(coordinator: PreviewCoordinator(), title: "Hello World", actions: [
             .init(title: "Tap Me", action: {
                 print("Tapped")
-            })], dismissPolicy: .never), style: .defaultTheme)
+            })
+        ], dismissPolicy: .never), style: .defaultTheme)
     }
 
     private class PreviewCoordinator: ToastDelegate {

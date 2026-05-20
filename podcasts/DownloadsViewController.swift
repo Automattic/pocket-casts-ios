@@ -42,7 +42,7 @@ class DownloadsViewController: PCViewController {
                 if self.isMultiSelectEnabled {
                     Analytics.track(.downloadsMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
                         self.downloadsTable.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
@@ -151,7 +151,7 @@ class DownloadsViewController: PCViewController {
             banner.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -16),
             banner.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 16),
             banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
-            ])
+        ])
         return wrapperView
     }
 

@@ -101,7 +101,6 @@ struct StoryLabel: View {
         case .pillarSubtitle:
             return 14
         }
-
     }
 
     private var horizontalPadding: CGFloat {

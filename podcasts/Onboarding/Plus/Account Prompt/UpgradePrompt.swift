@@ -38,7 +38,7 @@ struct UpgradePrompt: View {
     }
 
     var body: some View {
-        ContentSizeGeometryReader(content: { proxy in
+        ContentSizeGeometryReader(content: { _ in
             VStack(spacing: 0) {
                 UpgradeRoundedSegmentedControl(selected: $currentSubscriptionPeriod)
                     .padding([.top, .bottom], 16)

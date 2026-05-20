@@ -83,7 +83,6 @@ struct UpgradeCard: View {
                 .padding(.bottom, 0)
             }
             .padding(24)
-
         }
         .background(theme.primaryUi01)
         .cornerRadius(24)

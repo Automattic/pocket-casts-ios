@@ -28,13 +28,12 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-
     }
 
     private func configureFirebase() {
         FirebaseApp.configure()
 
-        FirebaseManager.refreshRemoteConfig() { [weak self] status in
+        FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateRemoteFeatureFlags()
         }
     }

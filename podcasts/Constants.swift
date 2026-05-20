@@ -47,7 +47,6 @@ struct Constants {
         static let remoteCommandSettingsChanged = NSNotification.Name(rawValue: "SJRemoteCommandSettingsChanged")
         static let currentlyPlayingEpisodeUpdated = NSNotification.Name(rawValue: "SJCurrentlyPlayingEpisodeUpdated")
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
-        static let unhideNavBarRequested = NSNotification.Name(rawValue: "SJUnhideNavBar")
         static let videoPlaybackEngineSwitched = NSNotification.Name(rawValue: "SJVideoPlaybackEngineSwitched")
 
         // episode notifications

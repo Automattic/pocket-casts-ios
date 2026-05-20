@@ -14,6 +14,16 @@ final class FingerprintTimingManager: NSObject {
         case active(coverage: Int)
         case failed(Error)
         case unavailable
+
+        var analyticsName: String {
+            switch self {
+            case .idle: return "idle"
+            case .preparing: return "preparing"
+            case .active: return "active"
+            case .failed: return "failed"
+            case .unavailable: return "unavailable"
+            }
+        }
     }
 
     // MARK: - Singleton
@@ -38,6 +48,9 @@ final class FingerprintTimingManager: NSObject {
         /// Raw bytes of the reference fingerprint JSON, used to validate the
         /// persistent mapping cache via SHA-256.
         let referenceData: Data
+        /// On-disk path of the reference fingerprint file, used to validate
+        /// the persistent mapping cache via file identity (size+mtime).
+        let referenceFilePath: String
         /// Total duration of the reference timeline, used to gate the persistent
         /// mapping cache on full coverage.
         let referenceDuration: Double
@@ -69,6 +82,10 @@ final class FingerprintTimingManager: NSObject {
     private var playbackToReference: [TimeMappingEntry] = []
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastProgressPosition: Double = -1
+
+    private var preparationStartDate: Date?
+    private var hasReachedActive = false
+    private var hasEmittedPreparationStarted = false
 
     // Drift-filter state — see `consider(candidate:)`.
     private var filterLastTrusted: TimeMappingEntry?
@@ -217,6 +234,7 @@ final class FingerprintTimingManager: NSObject {
             duration: ctx.duration,
             matcher: ctx.matcher,
             referenceData: ctx.referenceData,
+            referenceFilePath: ctx.referenceFilePath,
             referenceDuration: ctx.referenceDuration,
             isCancelled: { flag.isCancelled }
         )
@@ -280,6 +298,9 @@ final class FingerprintTimingManager: NSObject {
         playbackToReference.removeAll()
         referenceToPlayback.removeAll()
         lastProgressPosition = -1
+        preparationStartDate = nil
+        hasReachedActive = false
+        hasEmittedPreparationStarted = false
         resetFilterState()
         #if DEBUG
         debugRejections.removeAll()
@@ -289,6 +310,19 @@ final class FingerprintTimingManager: NSObject {
     private func resetFilterState() {
         filterLastTrusted = nil
         filterCandidatePool.removeAll()
+    }
+
+    private func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+        var properties = properties
+        if let episodeUuid = context?.episodeUuid {
+            properties["episode_uuid"] = episodeUuid
+        }
+        Analytics.track(event, properties: properties)
+    }
+
+    private var preparationDurationMs: Int {
+        guard let start = preparationStartDate else { return 0 }
+        return Int(Date().timeIntervalSince(start) * 1000)
     }
 
     private func updateState(_ newState: State) {
@@ -304,11 +338,13 @@ final class FingerprintTimingManager: NSObject {
 
         guard FeatureFlag.syncedTranscripts.enabled else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "feature_disabled"])
             return
         }
 
         guard let episode else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "no_episode"])
             return
         }
 
@@ -319,7 +355,13 @@ final class FingerprintTimingManager: NSObject {
             return
         }
 
+        preparationStartDate = Date()
         updateState(.preparing)
+        track(.syncedTranscriptPreparationStarted, properties: [
+            "episode_uuid": uuid,
+            "episode_duration_seconds": episode.duration
+        ])
+        hasEmittedPreparationStarted = true
         FileLog.shared.addMessage("FingerprintTimingManager: fetching reference from server for \(uuid)")
 
         let flag = cancellationFlag
@@ -336,6 +378,7 @@ final class FingerprintTimingManager: NSObject {
 
                 guard let data, let reference = ReferenceFingerprint.decode(from: data) else {
                     self.updateState(.unavailable)
+                    self.track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
                     FileLog.shared.addMessage("FingerprintTimingManager: no reference available for \(uuid)")
                     return
                 }
@@ -368,6 +411,7 @@ final class FingerprintTimingManager: NSObject {
         let duration = episode.duration
         guard duration > 0 else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "invalid_duration"])
             return
         }
 
@@ -394,6 +438,7 @@ final class FingerprintTimingManager: NSObject {
 
         guard !libraryCheckpoints.isEmpty else {
             updateState(.unavailable)
+            track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
             FileLog.shared.addMessage("FingerprintTimingManager: reference for \(uuid) has no usable checkpoints")
             return
         }
@@ -407,6 +452,7 @@ final class FingerprintTimingManager: NSObject {
         }
 
         let flag = cancellationFlag
+        let refPath = referencePath(for: episode)
         let newContext = GenerationContext(
             episodeUuid: uuid,
             audioFileURL: audioFileURL,
@@ -414,15 +460,29 @@ final class FingerprintTimingManager: NSObject {
             duration: duration,
             matcher: matcher,
             referenceData: referenceData,
+            referenceFilePath: refPath,
             referenceDuration: reference.totalDuration,
             isCancelled: { flag.isCancelled }
         )
         context = newContext
 
+        if preparationStartDate == nil {
+            preparationStartDate = Date()
+        }
         updateState(.preparing)
+        if !hasEmittedPreparationStarted {
+            track(.syncedTranscriptPreparationStarted, properties: [
+                "is_streaming": isStreaming,
+                "episode_duration_seconds": duration
+            ])
+            hasEmittedPreparationStarted = true
+        }
         FileLog.shared.addMessage(
             "FingerprintTimingManager: preparing for \(uuid) (\(libraryCheckpoints.count) checkpoints)"
         )
+
+        // Capture once so the range check, log, and stream start all use the same position.
+        let currentTime = PlaybackManager.shared.currentTime()
 
         // All-or-nothing cache: only short-circuit the stream if a previous
         // session persisted a mapping that covers the whole reference timeline
@@ -432,6 +492,7 @@ final class FingerprintTimingManager: NSObject {
         if !isStreaming,
            let cached = FingerprintMappingCache.load(
                audioFilePath: audioFileURL.path,
+               referenceFilePath: refPath,
                referenceData: referenceData
            ) {
             // The cache is produced from `playbackToReference` (already sorted
@@ -440,16 +501,31 @@ final class FingerprintTimingManager: NSObject {
             // entry through `insertMapping`'s per-entry `Array.insert`.
             playbackToReference = cached.entries
             referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
-            filterLastTrusted = cached.entries.last
-            updateState(.active(coverage: cached.entries.count))
+
+            if isWithinMappedRange(currentTime) {
+                filterLastTrusted = cached.entries.last
+                let coverage = cached.entries.count
+                updateState(.active(coverage: coverage))
+                if !hasReachedActive {
+                    hasReachedActive = true
+                    track(.syncedTranscriptPreparationCompleted, properties: [
+                        "duration_ms": preparationDurationMs,
+                        "is_streaming": isStreaming
+                    ])
+                }
+                FileLog.shared.addMessage(
+                    "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                )
+                return
+            }
+
             FileLog.shared.addMessage(
-                "FingerprintTimingManager: skipping stream — full mapping loaded from cache for \(uuid)"
+                "FingerprintTimingManager: cache loaded for \(uuid) but playback at "
+                    + "\(String(format: "%.1f", currentTime))s is outside cached range — starting stream"
             )
-            return
         }
 
-        let startPosition = PlaybackManager.shared.currentTime()
-        startStream(context: newContext, fromPosition: startPosition)
+        startStream(context: newContext, fromPosition: currentTime)
     }
 
     // MARK: - Streaming Fingerprint Processing
@@ -497,10 +573,29 @@ final class FingerprintTimingManager: NSObject {
     private func finishIfStillPreparing(terminalState: State, context ctx: GenerationContext) {
         queue.async { [weak self] in
             guard let self, self.context?.episodeUuid == ctx.episodeUuid else { return }
+            let durationMs = self.preparationDurationMs
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 if case .active = self.state { return }
                 self.state = terminalState
+                switch terminalState {
+                case .failed(let error):
+                    let nsError = error as NSError
+                    self.track(.syncedTranscriptPreparationFailed, properties: [
+                        "error_code": nsError.code,
+                        "error_domain": nsError.domain,
+                        "stage": "fingerprint_generation",
+                        "duration_ms": durationMs
+                    ])
+                case .unavailable:
+                    let reason = ctx.isStreaming ? "streaming_unsupported" : "no_matches"
+                    self.track(.syncedTranscriptUnavailable, properties: [
+                        "reason": reason,
+                        "is_streaming": ctx.isStreaming
+                    ])
+                default:
+                    break
+                }
             }
         }
     }
@@ -748,6 +843,7 @@ final class FingerprintTimingManager: NSObject {
                 FingerprintMappingCache.save(
                     snapshot,
                     audioFilePath: ctx.audioFileURL.path,
+                    referenceFilePath: ctx.referenceFilePath,
                     referenceData: ctx.referenceData,
                     referenceDuration: ctx.referenceDuration
                 )
@@ -884,6 +980,13 @@ final class FingerprintTimingManager: NSObject {
         let coverage = playbackToReference.count
         if coverage >= FingerprintConstants.minimumCoverageForActive {
             updateState(.active(coverage: coverage))
+            if !hasReachedActive {
+                hasReachedActive = true
+                track(.syncedTranscriptPreparationCompleted, properties: [
+                    "duration_ms": preparationDurationMs,
+                    "is_streaming": context?.isStreaming ?? false
+                ])
+            }
         }
 
         #if DEBUG

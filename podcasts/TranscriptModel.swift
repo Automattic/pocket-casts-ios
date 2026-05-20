@@ -14,7 +14,6 @@ struct TranscriptCue: Sendable {
 }
 
 extension NSAttributedString: @retroactive @unchecked Sendable {
-
 }
 
 struct TranscriptModel: Sendable {

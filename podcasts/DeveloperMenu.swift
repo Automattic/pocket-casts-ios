@@ -276,7 +276,6 @@ struct DeveloperMenu: View {
                     Text("Cancelled subscription, but has passed expiration date")
                         .font(Font.footnote)
                 }
-
             } header: {
                 VStack {
                     Text("Subscription Testing")
@@ -443,6 +442,5 @@ extension Bundle {
         }
 
         return identifier
-
     }
 }

@@ -9,7 +9,7 @@ struct AccountHeaderView: View {
     @State private var showingChampion = false
 
     var body: some View {
-        container { proxy in
+        container { _ in
             VStack(spacing: FeatureFlag.newOnboardingUpgrade.enabled ? 8 : Constants.padding.vertical) {
                 SubscriptionProfileImage(viewModel: viewModel)
                     .frame(width: Constants.imageSize, height: Constants.imageSize)

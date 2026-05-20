@@ -249,7 +249,6 @@ public class UploadManager: NSObject {
                 self.uploadingEpisodesCache[taskId] = episode
             }
             uploadTask?.resume()
-
         })
     }
 }

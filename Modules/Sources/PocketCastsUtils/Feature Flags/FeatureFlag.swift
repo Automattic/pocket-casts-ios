@@ -403,7 +403,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .generatedTranscripts:
             true
         case .syncedTranscripts:
-            false
+            true
         case .libroFm:
             false
         case .encourageAccountCreation:
@@ -529,7 +529,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchSentryLogs:
             false
         case .liquidGlass:
-            false
+            true
         }
     }
 

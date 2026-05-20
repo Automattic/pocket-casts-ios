@@ -124,6 +124,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title of the confirmation alert shown before signing the user out of their account. */
+"account_sign_out_alert_title" = "Sign Out?";
+
+/* Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in. */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you are back.";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
@@ -1384,6 +1390,9 @@
 /* A common string used throughout the app. Indicates that the feature is not enabled. */
 "off" = "Off";
 
+/* A common string used throughout the app. Indicates that the feature is enabled. */
+"on" = "On";
+
 /* A common string used throughout the app. Used as a confirmation or acceptance. */
 "ok" = "OK";
 
@@ -2051,6 +2060,9 @@
 
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
+
+/* Prompt to enter the mode for reordering the podcasts grid. */
+"podcasts_edit" = "Edit Podcasts";
 
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
@@ -2811,6 +2823,9 @@
 
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
+
+/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
+"settings_storage_usage_footer" = "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.";
 
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
@@ -3625,6 +3640,9 @@
 
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
+
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
 
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";
@@ -5900,7 +5918,7 @@
 "tv_welcome_title" = "Welcome to Pocket Casts TV";
 
 /* tv welcome subtitle */
-"tv_welcome_subtitle" = "Your podcasts on the big screen";
+"tv_welcome_subtitle" = "Your podcasts. On the big screen. Obviously.";
 
 /* tv welcome sign in */
 "tv_welcome_sign_in" = "Sign in";
@@ -5939,18 +5957,142 @@
 "tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
 
 /* tv podcasts empty title */
-"tv_podcasts_empty_title" = "Time to add some podcasts!";
+"tv_podcasts_empty_title" = "Time to fill this up.";
 
 /* tv podcasts empty subtitle */
-"tv_podcasts_empty_subtitle" = "Follow some podcasts from the Home page";
+"tv_podcasts_empty_subtitle" = "Followed podcasts show up here, ready to play.";
 
 /* tv podcasts empty button action title */
-"tv_podcasts_empty_action_title" = "Add podcasts";
+"tv_podcasts_empty_action_title" = "Discover podcasts";
 
 /* tv podcast details follow button title */
 "tv_podcast_detail_follow_title" = "Follow this podcast";
 
+/* tv podcast details following button title */
+"tv_podcast_detail_following_title" = "Following";
+
 /* tv podcast details more info button title */
 "tv_podcast_detail_more_info_title" = "More info";
 
+/* tv podcast more info network label */
+"tv_podcast_detail_network" = "Network";
 
+/* tv podcast more info website label */
+"tv_podcast_detail_website" = "Website";
+
+/* tv podcast more info schedule label */
+"tv_podcast_detail_schedule" = "Schedule";
+
+/* tv podcast more info about section title */
+"tv_podcast_detail_about" = "About";
+
+/* tv podcast more info next episode label */
+"tv_podcast_detail_next_episode" = "Next episode";
+
+/* tv podcast detail recommended episode section title */
+"tv_podcast_detail_start_here" = "The episode to try first";
+
+/* tv podcast detail recommended episode section subtitle */
+"tv_podcast_detail_start_here_subtitle" = "This is the one that gets people hooked";
+
+/* tv podcast detail all episodes section title */
+"tv_podcast_detail_all_episodes" = "All episodes";
+
+/* tv episode action to view episode info */
+"tv_episode_info" = "Episode info";
+
+/* tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes. */
+"tv_playlist_detail_episode_count" = "%1$@ episodes";
+
+/* tv playlist detail play all button title */
+"tv_playlist_detail_play_all" = "Play all episodes";
+
+/* tv playlists empty title */
+"tv_playlists_empty_title" = "Your playlists live here";
+
+/* tv playlists empty subtitle */
+"tv_playlists_empty_subtitle" = "Build one manually or let Smart Rules do the sorting for you.";
+
+/* tv playlists empty button action title */
+"tv_playlists_empty_action_title" = "Create a playlist";
+
+/* tv keep listening title */
+"tv_home_keep_listening_title" = "Keep listening";
+
+/* tv home recommended for you title */
+"tv_home_recommended_for_you_title" = "Recommended for you";
+
+/* tv home recently played section title */
+"tv_home_recently_played" = "Recently played";
+
+/* tv home new releases section title */
+"tv_home_new_releases" = "New releases";
+
+/* tv player playback speed menu title */
+"tv_player_playback_speed" = "Playback speed";
+
+/* tv player playback effects menu title */
+"tv_player_playback_effects" = "Playback effects";
+
+/* tv player volume boost toggle title */
+"tv_player_volume_boost" = "Volume boost";
+
+/* tv player trim silence section title */
+"tv_player_trim_silence" = "Trim silence";
+
+/* tv player trim silence off option */
+"tv_player_trim_silence_off" = "Off";
+
+/* tv player trim silence mild option */
+"tv_player_trim_silence_mild" = "Mild";
+
+/* tv player trim silence medium option */
+"tv_player_trim_silence_medium" = "Medium";
+
+/* tv player trim silence mad max option */
+"tv_player_trim_silence_mad_max" = "Mad Max";
+
+/* tv player toast shown when playback speed changes. %1$@ is the speed value like 1.5x */
+"tv_player_playback_speed_set" = "Playback speed set to %1$@";
+
+/* tv player toast shown when volume boost is turned off */
+"tv_player_volume_boost_off" = "Volume boost off";
+
+/* tv player toast shown when volume boost is turned on */
+"tv_player_volume_boost_on" = "Volume boost on";
+
+/* tv player toast shown when trim silence setting changes. %1$@ is the selected option name */
+"tv_player_trim_silence_set" = "Trim silence: %1$@";
+
+/* tv up next empty title */
+"tv_up_next_empty_title" = "Nothing queued up";
+
+/* tv up next empty subtitle */
+"tv_up_next_empty_subtitle" = "Add episodes to Up Next and they'll play in order, back to back";
+
+/* tv up next empty button action title */
+"tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv User Profile actions title */
+"tv_user_profile_actions" = "User settings";
+
+/* tv Sign In Login Type title */
+"tv_user_sign_in_login_type" = "Login Type";
+
+/* tv Sign In Option QR */
+"tv_user_sign_in_option_qr" = "QR";
+
+/* tv Sign In Option Username and Password */
+"tv_user_sign_in_option_manual" = "User/Pass";
+
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
+
+/* info message when authorization is expired */
+"server_error_login_expired_token" = "The device code has expired.";
+
+/* info message when authorization is denied server */
+"server_error_login_access_denied" = "The user denied the authorization request";
+
+/* info message when authorization is invalid on server */
+"server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";

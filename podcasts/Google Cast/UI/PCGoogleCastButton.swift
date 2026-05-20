@@ -20,6 +20,9 @@ class PCGoogleCastButton: UIButton {
     }
 
     func setup() {
+        if LiquidGlass.isEnabled {
+            tintColor = .label
+        }
         updateForCurrentState()
         NotificationCenter.default.addObserver(self, selector: #selector(stateDidChange), name: Constants.Notifications.googleCastStatusChanged, object: nil)
     }
@@ -56,5 +59,11 @@ class PCGoogleCastButton: UIButton {
         }
 
         return images
+    }
+}
+
+extension PCGoogleCastButton: FakeNavBarStylable {
+    func setNavBarScrolled(_ scrolled: Bool, animated: Bool) {
+        FakeNavBarButton.applyChrome(to: self, scrolled: scrolled, animated: animated)
     }
 }

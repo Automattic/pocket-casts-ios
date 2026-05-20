@@ -90,5 +90,5 @@ enum FingerprintConstants {
 
     /// Persistent cache schema version. Bump when the on-disk shape changes so
     /// older files are silently discarded on the next load.
-    static let mappingCacheSchemaVersion: Int = 1
+    static let mappingCacheSchemaVersion: Int = 2
 }

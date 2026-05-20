@@ -353,7 +353,7 @@ class PlaybackQueue: NSObject {
     // MARK: - Private Helpers
 
     func updateUpNextInfo() {
-        #if !os(watchOS) && !APPCLIP
+        #if !os(watchOS) && !APPCLIP && !os(tvOS)
             WidgetHelper.shared.updateSharedUpNext()
         #endif
     }

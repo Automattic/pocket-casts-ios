@@ -1794,6 +1794,8 @@ Pocket Casts Plus</string>
     <string>關閉</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>上</string>
     <key>onboarding_quote_author</key>
     <string>Pocket Casts 使用者</string>
     <key>onboarding_quote_best</key>
@@ -2106,10 +2108,14 @@ Pocket Casts Plus</string>
     <string>單集已移除</string>
     <key>player_error_corrupted_file</key>
     <string>本集可能已損壞，但你可以嘗試重新播放。</string>
+    <key>player_error_episode_not_available</key>
+    <string>本集無法播放。</string>
     <key>player_error_internet_connection</key>
     <string>請檢查你的網際網路連線並再試一次。</string>
     <key>player_error_short_no_connection</key>
     <string>你目前為離線狀態</string>
+    <key>player_error_short_playback_error</key>
+    <string>播放失敗，請再試一次</string>
     <key>player_increment_time</key>
     <string>遞增時間</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3570,6 +3576,14 @@ Pocket Casts Plus</string>
     <string>你已收聽</string>
     <key>stats_listen_history_no_date</key>
     <string>你已收聽</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>聆聽活動熱度圖。 聆聽天數：%1$@/365。</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>較少</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>更多</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>聆聽活動</string>
     <key>stats_skipping</key>
     <string>跳過</string>
     <key>stats_time_saved</key>
@@ -3726,6 +3740,8 @@ Pocket Casts Plus</string>
     <string>不好意思，此單集不提供逐字稿</string>
     <key>transcript_error_not_supported</key>
     <string>不好意思，不支援此逐字稿格式：%1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>下載單集即可點選並搜尋</string>
     <key>trial_finished</key>
     <string>試用已結束</string>
     <key>trim_silence</key>
@@ -3734,6 +3750,120 @@ Pocket Casts Plus</string>
     <string>再試一次</string>
     <key>try_it_now</key>
     <string>立即試試</string>
+    <key>tv_create_account_come_back</key>
+    <string>建立帳號後，請返回並登入</string>
+    <key>tv_create_account_subtitle</key>
+    <string>掃描此代碼即可使用手機開始進行，只需一分鐘就能完成。</string>
+    <key>tv_create_account_title</key>
+    <string>建立免費帳號</string>
+    <key>tv_episode_info</key>
+    <string>單集資訊</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>繼續收聽</string>
+    <key>tv_home_new_releases</key>
+    <string>新發佈內容</string>
+    <key>tv_home_recently_played</key>
+    <string>最近播放</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>最適合你</string>
+    <key>tv_player_playback_effects</key>
+    <string>播放效果</string>
+    <key>tv_player_playback_speed</key>
+    <string>播放速度</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>播放速度設為 %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>修剪靜音</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>最大限度</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>中</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>輕微</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>關閉</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>修剪靜音：%1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>音量增強</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>已關閉音量增強</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>已開啟音量增強</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ 集</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>播放所有單集</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>建立播放清單</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>手動建立，或讓「智慧規則」為你排序。</string>
+    <key>tv_playlists_empty_title</key>
+    <string>你的播放清單會在這裡上線</string>
+    <key>tv_podcast_detail_about</key>
+    <string>關於</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>所有單集</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>追蹤此 Podcast</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>我追蹤的人</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>更多資訊</string>
+    <key>tv_podcast_detail_network</key>
+    <string>網路</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>下一集</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>排程</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>推薦試聽單集</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>這一集讓大家深深著迷</string>
+    <key>tv_podcast_detail_website</key>
+    <string>網站</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>探索 Podcast 節目</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>已追蹤的 Podcast 會顯示在這裡，可隨時播放。</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>把播放清單填滿吧。</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>你也可以輸入以下代碼</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>前往 [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>開啟相機並指向此 QR 碼</string>
+    <key>tv_sign_in_title</key>
+    <string>用手機登入</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>正在同步你的 Podcast，我們會盡快為你登入！</string>
+    <key>tv_signing_in_title</key>
+    <string>歡迎回來！</string>
+    <key>tv_tab_home</key>
+    <string>首頁</string>
+    <key>tv_tab_playlists</key>
+    <string>播放清單</string>
+    <key>tv_tab_podcasts</key>
+    <string>你的 Podcast</string>
+    <key>tv_tab_up_next</key>
+    <string>接下來播放</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>新增單集</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>將單集新增至「接下來播放」，單集會依序播放</string>
+    <key>tv_up_next_empty_title</key>
+    <string>沒有已排入佇列的項目</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>在沒有帳號的情況下瀏覽</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>建立免費帳號</string>
+    <key>tv_welcome_sign_in</key>
+    <string>登入</string>
+    <key>tv_welcome_subtitle</key>
+    <string>你的 Podcast。 用大螢幕播放。 很明顯。</string>
+    <key>tv_welcome_title</key>
+    <string>歡迎使用 Pocket Casts TV</string>
     <key>unarchive</key>
     <string>取消封存</string>
     <key>unfollow</key>

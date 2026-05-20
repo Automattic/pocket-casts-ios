@@ -170,7 +170,7 @@ private extension TranscriptSearchAccessoryView {
         button.addTarget(self, action: action, for: .touchUpInside)
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: titleColor,
-                    .font: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
+            .font: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
         ]
         button.setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
         button.setTitle(title, for: .normal)

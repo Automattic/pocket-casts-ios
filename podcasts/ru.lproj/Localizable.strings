@@ -1794,6 +1794,8 @@ Pocket Casts на полную мощность.</string>
     <string>Выкл.</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>На</string>
     <key>onboarding_quote_author</key>
     <string>Пользователь Pocket Casts</string>
     <key>onboarding_quote_best</key>
@@ -2106,10 +2108,14 @@ Pocket Casts на полную мощность.</string>
     <string>Выпуск удалён</string>
     <key>player_error_corrupted_file</key>
     <string>Выпуск может быть поврежден, но вы можете попробовать прослушать его снова.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Невозможно воспроизвести выпуск.</string>
     <key>player_error_internet_connection</key>
     <string>Проверьте подключение к Интернету и повторите попытку.</string>
     <key>player_error_short_no_connection</key>
     <string>Отсутствует подключение к Интернету</string>
+    <key>player_error_short_playback_error</key>
+    <string>Не удалось воспроизвести, повторите попытку</string>
     <key>player_increment_time</key>
     <string>Интервал перемотки вперед</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3570,6 +3576,14 @@ Pocket Casts на полную мощность.</string>
     <string>Вы слушали в течение</string>
     <key>stats_listen_history_no_date</key>
     <string>Вы слушали в течение</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Тепловая карта прослушиваний. Дней прослушивания: %1$@ из 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Меньше</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Больше</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Прослушивание</string>
     <key>stats_skipping</key>
     <string>Пропуск</string>
     <key>stats_time_saved</key>
@@ -3726,6 +3740,8 @@ Pocket Casts на полную мощность.</string>
     <string>К сожалению, в этом выпуске нет расшифровки</string>
     <key>transcript_error_not_supported</key>
     <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Скачать выпуск, чтобы искать нажатием</string>
     <key>trial_finished</key>
     <string>Пробный период завершен</string>
     <key>trim_silence</key>
@@ -3734,6 +3750,120 @@ Pocket Casts на полную мощность.</string>
     <string>Попробуйте еще раз.</string>
     <key>try_it_now</key>
     <string>Попробовать</string>
+    <key>tv_create_account_come_back</key>
+    <string>Создайте учётную запись, а затем вернитесь и выполните вход</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Отсканируйте этот код, чтобы начать работу с телефона. Это займёт всего минуту.</string>
+    <key>tv_create_account_title</key>
+    <string>Создать бесплатную учётную запись</string>
+    <key>tv_episode_info</key>
+    <string>Информация о выпуске</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Продолжайте слушать</string>
+    <key>tv_home_new_releases</key>
+    <string>Новые выпуски</string>
+    <key>tv_home_recently_played</key>
+    <string>Недавно прослушанные</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Рекомендуется для вас</string>
+    <key>tv_player_playback_effects</key>
+    <string>Эффекты воспроизведения</string>
+    <key>tv_player_playback_speed</key>
+    <string>Скорость воспроизведения</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Скорость воспроизведения: %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Обрезка тишины</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Максимальная</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Средняя</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Низкая</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Выключена</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Обрезать тишину: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Усилитель звука</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Усиление громкости выключено</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Усиление громкости включено</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>Выпусков: %1$@</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Воспроизвести все выпуски</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Создать плейлист</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Создайте его самостоятельно или поручите это Smart Rules.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Ваши плейлисты находятся здесь</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Сведения</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Все выпуски</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Подписаться на этот подкаст</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Подписка</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Подробнее</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Сеть</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Следующий выпуск</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Планировать</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>Выпуск, который стоит прослушать первым</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>Вот что привлекает людей</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Веб-сайт</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Найти подкасты</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Подкасты, на которые вы подписаны, появятся здесь и будут готовы к воспроизведению.</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>Пора заполнить пустоту.</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>либо введите следующий код</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>переход к [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Откройте камеру и наведите на этот QR-код</string>
+    <key>tv_sign_in_title</key>
+    <string>Вход с телефона</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Ваши подкасты синхронизируются, скоро мы включим их для вас!</string>
+    <key>tv_signing_in_title</key>
+    <string>С возвращением!</string>
+    <key>tv_tab_home</key>
+    <string>Главная</string>
+    <key>tv_tab_playlists</key>
+    <string>Плейлисты</string>
+    <key>tv_tab_podcasts</key>
+    <string>Ваши подкасты</string>
+    <key>tv_tab_up_next</key>
+    <string>Следующее</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Добавить выпуски</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Добавьте выпуски в список «Следующие», и они будут воспроизводиться по порядку, один за другим</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Очередь пуста</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Просмотр без учётной записи</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Создать бесплатную учётную запись</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Вход</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Ваши подкасты. На большом экране. Очевидно.</string>
+    <key>tv_welcome_title</key>
+    <string>Добро пожаловать в Pocket Casts TV!</string>
     <key>unarchive</key>
     <string>Из&amp;nbsp;архива</string>
     <key>unfollow</key>

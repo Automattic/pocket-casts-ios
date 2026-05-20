@@ -33,6 +33,7 @@ public extension ASAuthorizationAppleIDProvider.CredentialState {
 
 public enum AuthenticationScope: String {
     case mobile
+    case tv
     case sonos
 }
 
@@ -83,7 +84,6 @@ public extension ApiServerHandler {
         data.scope = scope.rawValue
 
         return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
-
     }
 
     private func tokenRequest(identityToken: String?, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15.seconds, provider: SocialAuthProvider) -> URLRequest? {

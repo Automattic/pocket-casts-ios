@@ -75,7 +75,6 @@ class PodcastSearchOperation: Operation {
             }
 
             self.dispatchGroup.leave()
-
         }.resume()
         _ = dispatchGroup.wait(timeout: .now() + 15.seconds)
 

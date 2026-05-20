@@ -6,6 +6,7 @@ class FolderPreviewView: UIView {
     private let interPreviewPadding: CGFloat = 4
 
     private let labelBottomMargin = CGFloat(6)
+    private let labelHorizontalPadding: CGFloat = 4
 
     private let imageSizeRatio: CGFloat = 120 / 40
     private let imageSizeRatioNoLabel: CGFloat = 120 / 44
@@ -131,8 +132,8 @@ class FolderPreviewView: UIView {
 
                 nameLabelVerticalPositionConstraint = label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -labelBottomMargin)
                 NSLayoutConstraint.activate([
-                    label.leadingAnchor.constraint(equalTo: leadingAnchor),
-                    label.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: labelHorizontalPadding),
+                    label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -labelHorizontalPadding),
                     nameLabelVerticalPositionConstraint!
                 ])
             }

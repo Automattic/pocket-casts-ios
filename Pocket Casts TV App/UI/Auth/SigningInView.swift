@@ -1,36 +1,18 @@
 import SwiftUI
-import Combine
+import PocketCastsDataModel
 
-@Observable
-class SigningInViewModel {
-    private var cancellable: AnyCancellable?
-
-    enum State: Equatable, Hashable {
-        case waiting
-        case finished
-    }
-    var state: State = .waiting
-
-    var podcasts: [MockPodcast] = MockData.makePodcasts()
-
-    func sync() {
-        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
-                    .autoconnect()
-                    .sink { [weak self] _ in
-                        guard let self else { return }
-                        state = .finished
-                    }
-    }
+fileprivate enum Layout {
+    static let gridSize = CGFloat(272)
+    static let qrSize = CGFloat(240)
 }
 
-struct SigningInView: View {
+struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
 
-    @State private var model = SigningInViewModel()
+    @State private var model: ViewModel
 
-    enum Layout {
-        static let gridSize = CGFloat(272)
-        static let qrSize = CGFloat(240)
+    init(model: ViewModel = SigningInViewModel()) {
+        self.model = model
     }
 
     var body: some View {
@@ -43,6 +25,10 @@ struct SigningInView: View {
             Text(L10n.tvSigningInSubtitle)
                 .font(.headline)
                 .foregroundStyle(Color.textSecondary)
+            if let title = model.title {
+                Text(title)
+            }
+            ProgressView(value: model.progress)
             Spacer()
             podcastGrid
             Spacer().frame(height: 100)
@@ -51,22 +37,25 @@ struct SigningInView: View {
             model.sync()
         }
         .onChange(of: model.state) {
-            coordinator.state = .signedIn
+            if model.state == .finished {
+                coordinator.state = .signedIn
+            }
         }
     }
 
     var podcastGrid: some View {
-        HStack(spacing: 24, content: {
-            ForEach(model.podcasts) { podcast in
-                Image(podcast.image)
-                    .resizable()
-                    .frame(width: Layout.gridSize, height: Layout.gridSize)
-            }
-        }).ignoresSafeArea()
+        ScrollView(.horizontal) {
+            HStack(spacing: 24, content: {
+                ForEach(model.podcasts) { podcast in
+                    PodcastImage(uuid: podcast.uuid, size: .page)
+                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                }
+            }).ignoresSafeArea()
+        }
     }
 }
 
 #Preview {
-    SigningInView()
+    SigningInView(model: SigningInViewModelMock())
         .environment(AppCoordinator())
 }

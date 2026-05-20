@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 
 protocol ShowInfoCoordinating {
-    typealias EpisodeTranscriptData = (transcripts: [Episode.Metadata.Transcript], hasGeneratedTranscripts: Bool)
+    typealias EpisodeTranscriptData = (transcripts: [Episode.Metadata.Transcript], hasGeneratedTranscripts: Bool, isDisplayingGeneratedTranscript: Bool)
 
     func loadShowNotes(
         podcastUuid: String,

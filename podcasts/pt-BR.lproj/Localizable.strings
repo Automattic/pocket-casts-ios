@@ -1794,6 +1794,8 @@ podcasts com você</string>
     <string>Desativado</string>
     <key>ok</key>
     <string>OK</string>
+    <key>on</key>
+    <string>Ativado</string>
     <key>onboarding_quote_author</key>
     <string>Usuário do Pocket Casts</string>
     <key>onboarding_quote_best</key>
@@ -2106,10 +2108,14 @@ Isso que é compromisso!</string>
     <string>Episódio removido</string>
     <key>player_error_corrupted_file</key>
     <string>O episódio talvez esteja corrompido, mas você pode tentar reproduzi-lo novamente.</string>
+    <key>player_error_episode_not_available</key>
+    <string>Este episódio não pode ser reproduzido.</string>
     <key>player_error_internet_connection</key>
     <string>Verifique sua conexão com a Internet e tente novamente.</string>
     <key>player_error_short_no_connection</key>
     <string>Você está offline</string>
+    <key>player_error_short_playback_error</key>
+    <string>Falha na reprodução, tente novamente</string>
     <key>player_increment_time</key>
     <string>Avançar no episódio</string>
     <key>player_mark_as_played_confirmation</key>
@@ -3570,6 +3576,14 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Você ouviu podcasts por</string>
     <key>stats_listen_history_no_date</key>
     <string>Você ouviu podcasts por</string>
+    <key>stats_listening_activity_accessibility_label</key>
+    <string>Mapa de calor da atividade de escuta. Dias ouvidos: %1$@ de 365.</string>
+    <key>stats_listening_activity_legend_less</key>
+    <string>Menos</string>
+    <key>stats_listening_activity_legend_more</key>
+    <string>Mais</string>
+    <key>stats_listening_activity_section_title</key>
+    <string>Atividade de escuta</string>
     <key>stats_skipping</key>
     <string>Avanços</string>
     <key>stats_time_saved</key>
@@ -3726,6 +3740,8 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Não há transcrição disponível para este episódio</string>
     <key>transcript_error_not_supported</key>
     <string>Este formato de transcrição não é aceito: %1$@</string>
+    <key>transcript_tap_to_seek_streaming_unavailable</key>
+    <string>Baixe o episódio para tocar e procurar</string>
     <key>trial_finished</key>
     <string>Período de teste expirado</string>
     <key>trim_silence</key>
@@ -3734,6 +3750,120 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Tente novamente</string>
     <key>try_it_now</key>
     <string>Experimente já</string>
+    <key>tv_create_account_come_back</key>
+    <string>Depois de criar sua conta, volte e faça login</string>
+    <key>tv_create_account_subtitle</key>
+    <string>Leia este código para começar a ouvir no seu telefone. Leva apenas um minuto.</string>
+    <key>tv_create_account_title</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_episode_info</key>
+    <string>Informações do episódio</string>
+    <key>tv_home_keep_listening_title</key>
+    <string>Continue escutando</string>
+    <key>tv_home_new_releases</key>
+    <string>Novos lançamentos</string>
+    <key>tv_home_recently_played</key>
+    <string>Reproduzidos recentemente</string>
+    <key>tv_home_recommended_for_you_title</key>
+    <string>Recomendado para você</string>
+    <key>tv_player_playback_effects</key>
+    <string>Efeitos de reprodução</string>
+    <key>tv_player_playback_speed</key>
+    <string>Velocidade de reprodução</string>
+    <key>tv_player_playback_speed_set</key>
+    <string>Velocidade de reprodução definida como %1$@</string>
+    <key>tv_player_trim_silence</key>
+    <string>Corte de silêncios</string>
+    <key>tv_player_trim_silence_mad_max</key>
+    <string>Extremo</string>
+    <key>tv_player_trim_silence_medium</key>
+    <string>Médio</string>
+    <key>tv_player_trim_silence_mild</key>
+    <string>Leve</string>
+    <key>tv_player_trim_silence_off</key>
+    <string>Desativado</string>
+    <key>tv_player_trim_silence_set</key>
+    <string>Corte de silêncios: %1$@</string>
+    <key>tv_player_volume_boost</key>
+    <string>Aumento de volume</string>
+    <key>tv_player_volume_boost_off</key>
+    <string>Aumento de volume desligado</string>
+    <key>tv_player_volume_boost_on</key>
+    <string>Aumento de volume ligado</string>
+    <key>tv_playlist_detail_episode_count</key>
+    <string>%1$@ episódios</string>
+    <key>tv_playlist_detail_play_all</key>
+    <string>Reproduzir todos os episódios</string>
+    <key>tv_playlists_empty_action_title</key>
+    <string>Criar uma playlist</string>
+    <key>tv_playlists_empty_subtitle</key>
+    <string>Crie uma manualmente ou deixe que as regras inteligentes decidam a ordem por você.</string>
+    <key>tv_playlists_empty_title</key>
+    <string>Suas playlists ficam aqui</string>
+    <key>tv_podcast_detail_about</key>
+    <string>Sobre</string>
+    <key>tv_podcast_detail_all_episodes</key>
+    <string>Todos os episódios</string>
+    <key>tv_podcast_detail_follow_title</key>
+    <string>Seguir este podcast</string>
+    <key>tv_podcast_detail_following_title</key>
+    <string>Seguindo</string>
+    <key>tv_podcast_detail_more_info_title</key>
+    <string>Mais informações</string>
+    <key>tv_podcast_detail_network</key>
+    <string>Rede</string>
+    <key>tv_podcast_detail_next_episode</key>
+    <string>Próximo episódio</string>
+    <key>tv_podcast_detail_schedule</key>
+    <string>Programação</string>
+    <key>tv_podcast_detail_start_here</key>
+    <string>Comece por este episódio</string>
+    <key>tv_podcast_detail_start_here_subtitle</key>
+    <string>O que tem fisgado a atenção das pessoas</string>
+    <key>tv_podcast_detail_website</key>
+    <string>Site</string>
+    <key>tv_podcasts_empty_action_title</key>
+    <string>Encontrar podcasts</string>
+    <key>tv_podcasts_empty_subtitle</key>
+    <string>Os podcasts seguidos aparecem aqui, prontos para reprodução.</string>
+    <key>tv_podcasts_empty_title</key>
+    <string>Hora de encher esta seção.</string>
+    <key>tv_sign_in_enter_code</key>
+    <string>ou insira o código a seguir</string>
+    <key>tv_sign_in_enter_code_go_url</key>
+    <string>indo para [%1$@](%2$@)</string>
+    <key>tv_sign_in_subtitle</key>
+    <string>Abra sua câmera e aponte para este código QR</string>
+    <key>tv_sign_in_title</key>
+    <string>Faça login usando seu telefone</string>
+    <key>tv_signing_in_subtitle</key>
+    <string>Seus podcasts estão sendo sincronizados. Sua conta será conectada em breve.</string>
+    <key>tv_signing_in_title</key>
+    <string>Desejamos boas-vindas de volta!</string>
+    <key>tv_tab_home</key>
+    <string>Início</string>
+    <key>tv_tab_playlists</key>
+    <string>Playlists</string>
+    <key>tv_tab_podcasts</key>
+    <string>Seus podcasts</string>
+    <key>tv_tab_up_next</key>
+    <string>Próximos</string>
+    <key>tv_up_next_empty_action_title</key>
+    <string>Adicionar episódios</string>
+    <key>tv_up_next_empty_subtitle</key>
+    <string>Adicione episódios à lista de Próximos e eles serão reproduzidos na ordem</string>
+    <key>tv_up_next_empty_title</key>
+    <string>Nada na fila</string>
+    <key>tv_welcome_browse_without_account</key>
+    <string>Navegar sem uma conta</string>
+    <key>tv_welcome_create_free_account</key>
+    <string>Crie uma conta gratuita</string>
+    <key>tv_welcome_sign_in</key>
+    <string>Fazer login</string>
+    <key>tv_welcome_subtitle</key>
+    <string>Seus podcasts agora na TV. Nada faz mais sentido.</string>
+    <key>tv_welcome_title</key>
+    <string>Boas-vindas do Pocket Casts TV</string>
     <key>unarchive</key>
     <string>Desarquivar</string>
     <key>unfollow</key>

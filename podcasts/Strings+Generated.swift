@@ -134,6 +134,10 @@ internal enum L10n {
   internal static var accountSelectType: String { return L10n.tr("Localizable", "account_select_type", fallback: "Select Account Type") }
   /// Prompt to allow the user to sign out of their account.
   internal static var accountSignOut: String { return L10n.tr("Localizable", "account_sign_out", fallback: "Sign Out") }
+  /// Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in.
+  internal static var accountSignOutAlertMessage: String { return L10n.tr("Localizable", "account_sign_out_alert_message", fallback: "Your podcasts, progress, and data will be here when you are back.") }
+  /// Title of the confirmation alert shown before signing the user out of their account.
+  internal static var accountSignOutAlertTitle: String { return L10n.tr("Localizable", "account_sign_out_alert_title", fallback: "Sign Out?") }
   /// Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. '%1$@' is a placeholder for the number of supported podcasts.
   internal static func accountSignOutSupporterPrompt(_ p1: Any) -> String {
     return L10n.tr("Localizable", "account_sign_out_supporter_prompt", String(describing: p1), fallback: "Signing out will remove %1$@ supported podcasts from this device. Are you sure?")
@@ -1423,6 +1427,8 @@ internal enum L10n {
   internal static var folderAddPodcastsSingular: String { return L10n.tr("Localizable", "folder_add_podcasts_singular", fallback: "Add 1 Podcast") }
   /// Label for the option to add and remove podcasts from a folder
   internal static var folderAddRemovePodcasts: String { return L10n.tr("Localizable", "folder_add_remove_podcasts", fallback: "Add or Remove Podcasts") }
+  /// Context menu action title for adding a podcast to a folder
+  internal static var folderAddTo: String { return L10n.tr("Localizable", "folder_add_to", fallback: "Add to Folder") }
   /// Text shown on button to change the folder a podcast is in
   internal static var folderChange: String { return L10n.tr("Localizable", "folder_change", fallback: "Change folder") }
   /// Prompt to choose a folder color
@@ -2006,6 +2012,8 @@ internal enum L10n {
   internal static var off: String { return L10n.tr("Localizable", "off", fallback: "Off") }
   /// A common string used throughout the app. Used as a confirmation or acceptance.
   internal static var ok: String { return L10n.tr("Localizable", "ok", fallback: "OK") }
+  /// A common string used throughout the app. Indicates that the feature is enabled.
+  internal static var on: String { return L10n.tr("Localizable", "on", fallback: "On") }
   /// A generic label representing the authour of the onboarding quotes describing users of the app
   internal static var onboardingQuoteAuthor: String { return L10n.tr("Localizable", "onboarding_quote_author", fallback: "Pocket Casts user") }
   /// A user review quote shown during onboarding
@@ -2997,6 +3005,8 @@ internal enum L10n {
   internal static var podcastsBadgeLatestEpisode: String { return L10n.tr("Localizable", "podcasts_badge_latest_episode", fallback: "Only Latest Episode") }
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
+  /// Prompt to enter the mode for reordering the podcasts grid.
+  internal static var podcastsEdit: String { return L10n.tr("Localizable", "podcasts_edit", fallback: "Edit Podcasts") }
   /// Episodes will be displayed in custom order by drag and drop
   internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Custom order") }
   /// Episodes will be displayed in order from the longest to the shortest.
@@ -3337,8 +3347,12 @@ internal enum L10n {
   internal static var serverErrorFilesUploadFailedGeneric: String { return L10n.tr("Localizable", "server_error_files_upload_failed_generic", fallback: "Unable to upload file, please try again later.") }
   /// Server error message for when a file upload files because a unique identifier failed wasn't created.
   internal static var serverErrorFilesUuidRequired: String { return L10n.tr("Localizable", "server_error_files_uuid_required", fallback: "File uuid is required.") }
+  /// info message when authorization is denied server
+  internal static var serverErrorLoginAccessDenied: String { return L10n.tr("Localizable", "server_error_login_access_denied", fallback: "The user denied the authorization request") }
   /// Server error message for when the user account has been locked.
   internal static var serverErrorLoginAccountLocked: String { return L10n.tr("Localizable", "server_error_login_account_locked", fallback: "Your account has been locked due too many login attempts, please try again later.") }
+  /// info message when authorization is pending on server
+  internal static var serverErrorLoginAuthPending: String { return L10n.tr("Localizable", "server_error_login_auth_pending", fallback: "Authorization pending") }
   /// Server error message for when the user attempted to login without their email.
   internal static var serverErrorLoginEmailBlank: String { return L10n.tr("Localizable", "server_error_login_email_blank", fallback: "Enter an email address.") }
   /// Server error message for when the user enters an invalid email.
@@ -3347,6 +3361,10 @@ internal enum L10n {
   internal static var serverErrorLoginEmailNotFound: String { return L10n.tr("Localizable", "server_error_login_email_not_found", fallback: "Email not found") }
   /// Server error message for when the user tries to create an account for an email tied to an existing account.
   internal static var serverErrorLoginEmailTaken: String { return L10n.tr("Localizable", "server_error_login_email_taken", fallback: "Email taken") }
+  /// info message when authorization is expired
+  internal static var serverErrorLoginExpiredToken: String { return L10n.tr("Localizable", "server_error_login_expired_token", fallback: "The device code has expired.") }
+  /// info message when authorization is invalid on server
+  internal static var serverErrorLoginInvalidGrant: String { return L10n.tr("Localizable", "server_error_login_invalid_grant", fallback: "The provided grant is invalid, expired or has been revoked.") }
   /// Server error message for when the user attempted to login without their password.
   internal static var serverErrorLoginPasswordBlank: String { return L10n.tr("Localizable", "server_error_login_password_blank", fallback: "Enter a password.") }
   /// Server error message for when the user enters an invalid password.
@@ -3781,6 +3799,8 @@ internal enum L10n {
   internal static var settingsStorageMobileData: String { return L10n.tr("Localizable", "settings_storage_mobile_data", fallback: "MOBILE DATA") }
   /// Section header for information about storage space used.
   internal static var settingsStorageUsage: String { return L10n.tr("Localizable", "settings_storage_usage", fallback: "USAGE") }
+  /// Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does.
+  internal static var settingsStorageUsageFooter: String { return L10n.tr("Localizable", "settings_storage_usage_footer", fallback: "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.") }
   /// Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking
   internal static var settingsThirdPartyAnalytics: String { return L10n.tr("Localizable", "settings_third_party_analytics", fallback: "Third-party analytics") }
   /// Title for the settings screen
@@ -4251,16 +4271,84 @@ internal enum L10n {
   internal static var tvCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_create_account_subtitle", fallback: "Scan this code to get started on your phone, it only takes a minute.") }
   /// tv create account title
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
+  /// tv episode action to view episode info
+  internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
+  /// tv keep listening title
+  internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Keep listening") }
+  /// tv home new releases section title
+  internal static var tvHomeNewReleases: String { return L10n.tr("Localizable", "tv_home_new_releases", fallback: "New releases") }
+  /// tv home recently played section title
+  internal static var tvHomeRecentlyPlayed: String { return L10n.tr("Localizable", "tv_home_recently_played", fallback: "Recently played") }
+  /// tv home recommended for you title
+  internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
+  /// tv player playback effects menu title
+  internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
+  /// tv player playback speed menu title
+  internal static var tvPlayerPlaybackSpeed: String { return L10n.tr("Localizable", "tv_player_playback_speed", fallback: "Playback speed") }
+  /// tv player toast shown when playback speed changes. %1$@ is the speed value like 1.5x
+  internal static func tvPlayerPlaybackSpeedSet(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_player_playback_speed_set", String(describing: p1), fallback: "Playback speed set to %1$@")
+  }
+  /// tv player trim silence section title
+  internal static var tvPlayerTrimSilence: String { return L10n.tr("Localizable", "tv_player_trim_silence", fallback: "Trim silence") }
+  /// tv player trim silence mad max option
+  internal static var tvPlayerTrimSilenceMadMax: String { return L10n.tr("Localizable", "tv_player_trim_silence_mad_max", fallback: "Mad Max") }
+  /// tv player trim silence medium option
+  internal static var tvPlayerTrimSilenceMedium: String { return L10n.tr("Localizable", "tv_player_trim_silence_medium", fallback: "Medium") }
+  /// tv player trim silence mild option
+  internal static var tvPlayerTrimSilenceMild: String { return L10n.tr("Localizable", "tv_player_trim_silence_mild", fallback: "Mild") }
+  /// tv player trim silence off option
+  internal static var tvPlayerTrimSilenceOff: String { return L10n.tr("Localizable", "tv_player_trim_silence_off", fallback: "Off") }
+  /// tv player toast shown when trim silence setting changes. %1$@ is the selected option name
+  internal static func tvPlayerTrimSilenceSet(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_player_trim_silence_set", String(describing: p1), fallback: "Trim silence: %1$@")
+  }
+  /// tv player volume boost toggle title
+  internal static var tvPlayerVolumeBoost: String { return L10n.tr("Localizable", "tv_player_volume_boost", fallback: "Volume boost") }
+  /// tv player toast shown when volume boost is turned off
+  internal static var tvPlayerVolumeBoostOff: String { return L10n.tr("Localizable", "tv_player_volume_boost_off", fallback: "Volume boost off") }
+  /// tv player toast shown when volume boost is turned on
+  internal static var tvPlayerVolumeBoostOn: String { return L10n.tr("Localizable", "tv_player_volume_boost_on", fallback: "Volume boost on") }
+  /// tv playlist detail episode count. '%1$@' is a placeholder for the number of episodes.
+  internal static func tvPlaylistDetailEpisodeCount(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_playlist_detail_episode_count", String(describing: p1), fallback: "%1$@ episodes")
+  }
+  /// tv playlist detail play all button title
+  internal static var tvPlaylistDetailPlayAll: String { return L10n.tr("Localizable", "tv_playlist_detail_play_all", fallback: "Play all episodes") }
+  /// tv playlists empty button action title
+  internal static var tvPlaylistsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_action_title", fallback: "Create a playlist") }
+  /// tv playlists empty subtitle
+  internal static var tvPlaylistsEmptySubtitle: String { return L10n.tr("Localizable", "tv_playlists_empty_subtitle", fallback: "Build one manually or let Smart Rules do the sorting for you.") }
+  /// tv playlists empty title
+  internal static var tvPlaylistsEmptyTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_title", fallback: "Your playlists live here") }
+  /// tv podcast more info about section title
+  internal static var tvPodcastDetailAbout: String { return L10n.tr("Localizable", "tv_podcast_detail_about", fallback: "About") }
+  /// tv podcast detail all episodes section title
+  internal static var tvPodcastDetailAllEpisodes: String { return L10n.tr("Localizable", "tv_podcast_detail_all_episodes", fallback: "All episodes") }
   /// tv podcast details follow button title
   internal static var tvPodcastDetailFollowTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_follow_title", fallback: "Follow this podcast") }
+  /// tv podcast details following button title
+  internal static var tvPodcastDetailFollowingTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_following_title", fallback: "Following") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
+  /// tv podcast more info network label
+  internal static var tvPodcastDetailNetwork: String { return L10n.tr("Localizable", "tv_podcast_detail_network", fallback: "Network") }
+  /// tv podcast more info next episode label
+  internal static var tvPodcastDetailNextEpisode: String { return L10n.tr("Localizable", "tv_podcast_detail_next_episode", fallback: "Next episode") }
+  /// tv podcast more info schedule label
+  internal static var tvPodcastDetailSchedule: String { return L10n.tr("Localizable", "tv_podcast_detail_schedule", fallback: "Schedule") }
+  /// tv podcast detail recommended episode section title
+  internal static var tvPodcastDetailStartHere: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here", fallback: "The episode to try first") }
+  /// tv podcast detail recommended episode section subtitle
+  internal static var tvPodcastDetailStartHereSubtitle: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here_subtitle", fallback: "This is the one that gets people hooked") }
+  /// tv podcast more info website label
+  internal static var tvPodcastDetailWebsite: String { return L10n.tr("Localizable", "tv_podcast_detail_website", fallback: "Website") }
   /// tv podcasts empty button action title
-  internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Add podcasts") }
+  internal static var tvPodcastsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_action_title", fallback: "Discover podcasts") }
   /// tv podcasts empty subtitle
-  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Follow some podcasts from the Home page") }
+  internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
-  internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to add some podcasts!") }
+  internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
   /// tv sign enter code
   internal static var tvSignInEnterCode: String { return L10n.tr("Localizable", "tv_sign_in_enter_code", fallback: "or enter the following code") }
   /// tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code
@@ -4283,6 +4371,20 @@ internal enum L10n {
   internal static var tvTabPodcasts: String { return L10n.tr("Localizable", "tv_tab_podcasts", fallback: "Your Podcasts") }
   /// tv app Up Next tab
   internal static var tvTabUpNext: String { return L10n.tr("Localizable", "tv_tab_up_next", fallback: "Up Next") }
+  /// tv up next empty button action title
+  internal static var tvUpNextEmptyActionTitle: String { return L10n.tr("Localizable", "tv_up_next_empty_action_title", fallback: "Add episodes") }
+  /// tv up next empty subtitle
+  internal static var tvUpNextEmptySubtitle: String { return L10n.tr("Localizable", "tv_up_next_empty_subtitle", fallback: "Add episodes to Up Next and they'll play in order, back to back") }
+  /// tv up next empty title
+  internal static var tvUpNextEmptyTitle: String { return L10n.tr("Localizable", "tv_up_next_empty_title", fallback: "Nothing queued up") }
+  /// tv User Profile actions title
+  internal static var tvUserProfileActions: String { return L10n.tr("Localizable", "tv_user_profile_actions", fallback: "User settings") }
+  /// tv Sign In Login Type title
+  internal static var tvUserSignInLoginType: String { return L10n.tr("Localizable", "tv_user_sign_in_login_type", fallback: "Login Type") }
+  /// tv Sign In Option Username and Password
+  internal static var tvUserSignInOptionManual: String { return L10n.tr("Localizable", "tv_user_sign_in_option_manual", fallback: "User/Pass") }
+  /// tv Sign In Option QR
+  internal static var tvUserSignInOptionQr: String { return L10n.tr("Localizable", "tv_user_sign_in_option_qr", fallback: "QR") }
   /// tv welcome browse without account
   internal static var tvWelcomeBrowseWithoutAccount: String { return L10n.tr("Localizable", "tv_welcome_browse_without_account", fallback: "Browse without an account") }
   /// tv welcome create free account
@@ -4290,7 +4392,7 @@ internal enum L10n {
   /// tv welcome sign in
   internal static var tvWelcomeSignIn: String { return L10n.tr("Localizable", "tv_welcome_sign_in", fallback: "Sign in") }
   /// tv welcome subtitle
-  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts on the big screen") }
+  internal static var tvWelcomeSubtitle: String { return L10n.tr("Localizable", "tv_welcome_subtitle", fallback: "Your podcasts. On the big screen. Obviously.") }
   /// tv welcome title
   internal static var tvWelcomeTitle: String { return L10n.tr("Localizable", "tv_welcome_title", fallback: "Welcome to Pocket Casts TV") }
   /// A common string used throughout the app. Prompt to restore the selected item(s) from an archived state.

@@ -87,7 +87,7 @@ struct PodcastHeaderView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(theme.primaryText01)
             .tint(theme.primaryText01)
-            .environment(\.openURL, OpenURLAction { url in
+            .environment(\.openURL, OpenURLAction { _ in
                 viewModel.categoryTapped()
                 return .handled
             })
@@ -161,7 +161,6 @@ struct PodcastHeaderView: View {
                     .opacity(viewModel.isSubscribed ? 0 : 1)
                 )
                 .clipped()
-
         }
         .buttonStyle(.plain)
     }
@@ -179,7 +178,6 @@ struct PodcastHeaderView: View {
                             .inset(by: 0.5)
                             .stroke(theme.primaryUi05, lineWidth: 1)
                     )
-
             } else {
                 // Subscribed state - compact button with other actions
                 fundingImage(width: iconSize, height: iconSize, padding: 8.0)

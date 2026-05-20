@@ -1,5 +1,7 @@
 import PocketCastsDataModel
+import PocketCastsUtils
 import UIKit
+import Kingfisher
 
 class PodcastImageView: UIView {
     private var shadowView: UIView?
@@ -19,8 +21,6 @@ class PodcastImageView: UIView {
 
     func setPodcast(uuid: String, size: PodcastThumbnailSize) {
         guard let imageView else { return }
-        imageView.removeConstraints(imageView.constraints)
-        imageView.anchorToAllSidesOf(view: self)
         ImageManager.sharedManager.loadImage(podcastUuid: uuid, imageView: imageView, size: size, showPlaceHolder: true)
         adjustForSize(size)
     }

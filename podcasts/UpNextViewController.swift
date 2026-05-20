@@ -45,7 +45,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                     self.track(.upNextMultiSelectEntered)
                 }
                 if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? Self.bottomMargin : Constants.Values.miniPlayerOffset + Self.bottomMargin
+                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
                 }
                 reloadTable()
             }
@@ -238,15 +238,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if queueCount <= Constants.Limits.upNextClearWithoutWarning && !FeatureFlag.upNextShuffle.enabled {
             performClearAll()
         } else {
-            let clearOptions = OptionsPicker(title: nil, themeOverride: themeOverride)
-            let actionLabel = actionLabelText(queueCount)
-            let clearAllAction = OptionAction(label: actionLabel, icon: nil, action: { [weak self] in
+            let alert = UIAlertController(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            alert.addAction(UIAlertAction(title: actionLabelText(queueCount), style: .destructive) { [weak self] _ in
                 self?.performClearAll()
             })
-            clearAllAction.destructive = true
-            clearOptions.addDescriptiveActions(title: L10n.clearUpNext, message: L10n.clearUpNextMessage, icon: "option-clear", actions: [clearAllAction])
-
-            clearOptions.show(statusBarStyle: preferredStatusBarStyle)
+            present(alert, animated: true)
         }
 
         selectedPlayListEpisodes.removeAll()

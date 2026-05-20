@@ -70,7 +70,7 @@ class AnalyticsEpisodeHelper: AnalyticsCoordinator {
         }
         track(.episodeDownloadFailed, properties: ["episode_uuid": episodeUUID,
                                                    "podcast_uuid": podcastUUID,
-                                                  ].merging(extraProperties, uniquingKeysWith: { (current, _) in return current }))
+                                                  ].merging(extraProperties, uniquingKeysWith: { current, _ in return current }))
     }
 
     func bulkDownloadEpisodes(episodes: [BaseEpisode]) {

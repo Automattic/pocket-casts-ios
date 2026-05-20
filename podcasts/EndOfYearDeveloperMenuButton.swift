@@ -2,7 +2,7 @@ import SwiftUI
 
 struct EndOfYearDeveloperMenuButton: View {
     @State var showPickerAlert: Bool = false
-    @State var selectedYear: EndOfYear.Year = EndOfYear.Year.y2024
+    @State var selectedYear = EndOfYear.Year.y2024
 
     var body: some View {
         Button("Reset modal/profile badge") {

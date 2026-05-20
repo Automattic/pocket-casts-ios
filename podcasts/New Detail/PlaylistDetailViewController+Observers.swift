@@ -1,6 +1,14 @@
 import PocketCastsServer
+import PocketCastsUtils
 
 extension PlaylistDetailViewController {
+    struct PlaylistReloadScope: OptionSet {
+        let rawValue: Int
+
+        static let episodes = PlaylistReloadScope(rawValue: 1 << 0)
+        static let playlist = PlaylistReloadScope(rawValue: 1 << 1)
+    }
+
     func addObservers() {
         addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.opmlImportCompleted, selector: #selector(refreshEpisodesFromNotification))

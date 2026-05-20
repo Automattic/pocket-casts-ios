@@ -5,15 +5,42 @@ class PCViewController: SimpleNotificationsViewController {
     var largeTitleFont = UIFont.systemFont(ofSize: 31, weight: .bold)
 
     var googleCastBtn: UIBarButtonItem?
+
+    private var _customRightBtn: UIBarButtonItem?
+
     var customRightBtn: UIBarButtonItem? {
-        didSet {
+        get { _customRightBtn }
+        set {
+            _customRightBtn = newValue
             refreshRightButtons()
         }
     }
 
-    var extraRightButtons: [UIBarButtonItem] = [] {
-        didSet {
+    private var _extraRightButtons: [UIBarButtonItem] = []
+
+    var extraRightButtons: [UIBarButtonItem] {
+        get { _extraRightButtons }
+        set {
+            _extraRightButtons = newValue
             refreshRightButtons()
+        }
+    }
+
+    /// Replaces `customRightBtn`, optionally cross-fading the change via the navigation bar.
+    func setCustomRightBtn(_ button: UIBarButtonItem?, animated: Bool) {
+        _customRightBtn = button
+        refreshRightButtons(animated: animated)
+    }
+
+    /// Replaces `extraRightButtons`, optionally cross-fading the change via the navigation bar.
+    func setExtraRightButtons(_ buttons: [UIBarButtonItem], animated: Bool) {
+        _extraRightButtons = buttons
+        refreshRightButtons(animated: animated)
+    }
+
+    var useTransparentNavigationBarAppearance = false {
+        didSet {
+            setupNavBar(animated: false)
         }
     }
 
@@ -31,9 +58,16 @@ class PCViewController: SimpleNotificationsViewController {
 
         if supportsGoogleCast {
             let castButton = PCGoogleCastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-            castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
-            googleCastBtn = UIBarButtonItem(customView: castButton)
             castButton.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
+            if useTransparentNavigationBarAppearance {
+                if !LiquidGlass.isEnabled {
+                    FakeNavBarButton.applyStyle(to: castButton)
+                }
+                // On Liquid Glass, the bar's default tint already gives the cast button proper contrast.
+            } else {
+                castButton.tintColor = navIconsColor ?? AppTheme.navBarIconsColor()
+            }
+            googleCastBtn = UIBarButtonItem(customView: castButton)
 
             refreshRightButtons()
         } else if customRightBtn != nil || !extraRightButtons.isEmpty {
@@ -70,7 +104,7 @@ class PCViewController: SimpleNotificationsViewController {
         super.viewDidAppear(animated)
 
         if supportsGoogleCast {
-            NotificationCenter.default.addObserver(self, selector: #selector(refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(_refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(appWasBackgrounded), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -98,7 +132,11 @@ class PCViewController: SimpleNotificationsViewController {
         NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
-    @objc func refreshRightButtons() {
+    @objc private func _refreshRightButtons() {
+        refreshRightButtons(animated: false)
+    }
+
+    func refreshRightButtons(animated: Bool = false) {
         if supportsGoogleCast || !extraRightButtons.isEmpty {
             var buttons = [UIBarButtonItem]()
             if let customRightBtn {
@@ -108,10 +146,10 @@ class PCViewController: SimpleNotificationsViewController {
                 buttons.append(googleCastBtn)
             }
             buttons.append(contentsOf: extraRightButtons)
-            navigationItem.rightBarButtonItems = buttons
+            navigationItem.setRightBarButtonItems(buttons, animated: animated)
         } else {
-            navigationItem.rightBarButtonItems = nil
-            navigationItem.rightBarButtonItem = customRightBtn
+            navigationItem.setRightBarButtonItems(nil, animated: animated)
+            navigationItem.setRightBarButton(customRightBtn, animated: animated)
         }
     }
 
@@ -134,7 +172,14 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func setupNavBar(animated: Bool) {
+        guard !LiquidGlass.isEnabled else { return }
+
         guard let navController = navigationController else { return }
+
+        guard !useTransparentNavigationBarAppearance else {
+            configureTransparentAppearance()
+            return
+        }
 
         let navigationBar = navController.navigationBar
         let titleColor = navTitleColor ?? AppTheme.navBarTitleColor()
@@ -165,6 +210,38 @@ class PCViewController: SimpleNotificationsViewController {
             navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = appearance
             navigationBar.tintColor = iconsColor
+        }
+    }
+
+    private func configureTransparentAppearance() {
+        setTransparentNavBarScrolled(false)
+    }
+
+    /// Toggles the navigation bar between its at-edge (transparent) and scrolled (blurred) styles,
+    /// and forwards the new state to any `FakeNavBarStylable` bar buttons so their tint and background
+    /// crossfade in step. Subclasses using `useTransparentNavigationBarAppearance` should call this
+    /// from `scrollViewDidScroll` when the scroll position crosses their header threshold;
+    /// UIKit animates the appearance swap. When Liquid Glass is enabled the system handles the
+    /// at-edge/scrolled transition on its own, so we just install its default background once.
+    func setTransparentNavBarScrolled(_ scrolled: Bool) {
+        guard !LiquidGlass.isEnabled else {
+            return // It's a no-op since on iOS 26 we already use default transparent bars
+        }
+
+        guard let navigationBar = navigationController?.navigationBar else {
+            return assertionFailure("navigationBar is missing")
+        }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        if scrolled {
+            appearance.backgroundEffect = UIBlurEffect(style: .regular)
+        }
+        navigationBar.standardAppearance = appearance
+        navigationBar.scrollEdgeAppearance = appearance
+
+        let allItems = ([navigationItem.leftBarButtonItem, customRightBtn, googleCastBtn].compactMap { $0 }) + extraRightButtons
+        for item in allItems {
+            (item.customView as? FakeNavBarStylable)?.setNavBarScrolled(scrolled, animated: true)
         }
     }
 

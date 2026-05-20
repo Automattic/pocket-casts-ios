@@ -1,27 +1,4 @@
 import SwiftUI
-import Combine
-
-@Observable
-class SignInViewModel {
-    private var cancellable: AnyCancellable?
-
-    enum State: Equatable, Hashable {
-        case waiting
-        case finished
-    }
-    var state: State = .waiting
-
-    var codes: [String] = ["J", "M", "R", "S", "3", "W"]
-
-    func signinWait() {
-        cancellable = Timer.publish(every: 5.0, on: .main, in: .common)
-                    .autoconnect()
-                    .sink { [weak self] _ in
-                        guard let self else { return }
-                        state = .finished
-                    }
-    }
-}
 
 struct SignInView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -30,13 +7,15 @@ struct SignInView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    let manualLogin: Bool = true
+
     enum Layout {
         static let gridSize = CGFloat(272)
         static let qrSize = CGFloat(240)
     }
 
     var attributed: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeGoUrl("pocketcasts.com/pair", "https://pocketcasts.com/pair")
+        let baseString = L10n.tvSignInEnterCodeGoUrl(model.pairURLPretty, model.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -49,6 +28,20 @@ struct SignInView: View {
         return attributedString
     }
 
+    enum LoginType: Int, CaseIterable {
+        case qr
+        case manual
+
+        var description: String {
+            switch self {
+            case .qr: L10n.tvUserSignInOptionQr
+            case .manual: L10n.tvUserSignInOptionManual
+            }
+        }
+    }
+
+    @State private var loginType: LoginType = .qr
+
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 32) {
@@ -59,37 +52,61 @@ struct SignInView: View {
                 Text(L10n.tvSignInSubtitle)
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)
+                Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
+                    ForEach(LoginType.allCases, id: \.self) { type in
+                        Text(type.description).tag(type)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 500)
+                switch loginType {
+                case .manual:
+                    usernamePasswordLogin
+                case .qr:
+                    QRCodeView(url: model.pairURLString)
+                    separator
+                    Text(L10n.tvSignInEnterCode)
+                        .font(.headline)
+                        .foregroundStyle(Color.textSecondary)
+                    qrCodeDigits
+                    Text(attributed)
+                        .font(.headline)
+                        .foregroundStyle(Color.textSecondary)
+                }
                 Spacer()
-                QRCodeView()
-                Spacer()
-                separator
-                Text(L10n.tvSignInEnterCode)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
-                qrCodeDigits
-                Text(attributed)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
             }
         }
         .task {
-            model.signinWait()
+            switch loginType {
+            case .qr:
+                await model.thirdPartyApprovalSignin()
+            case .manual:
+                break
+            }
         }
         .onChange(of: model.state) {
-            dismiss()
-            coordinator.state = .userSync
+            if case .finished = model.state {
+                dismiss()
+                coordinator.state = .userSync
+            }
         }
     }
 
     var qrCodeDigits: some View {
-        HStack(spacing: 8) {
-            ForEach(Array(model.codes.enumerated()), id: \.offset) { index, code in
-                Text(code)
-                    .font(.caption2)
-                    .foregroundStyle(Color.textSecondary)
-                    .padding()
-                    .background(Color.backgroundActive50)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+        Group {
+            if model.codes.isEmpty {
+                ProgressView()
+            } else {
+                HStack(spacing: 8) {
+                    ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
+                        Text(code)
+                            .font(.caption2)
+                            .foregroundStyle(Color.textSecondary)
+                            .padding()
+                            .background(Color.backgroundActive50)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
             }
         }
     }
@@ -99,9 +116,56 @@ struct SignInView: View {
         .foregroundColor(.clear)
         .frame(width: 566, height: 1)
         .background(Color.textDisabled)
-
     }
 
+    @FocusState private var focusedField: Field?
+
+    enum Field {
+        case username, password
+    }
+
+    @State private var username = ""
+    @State private var password = ""
+
+    var usernamePasswordLogin: some View {
+        VStack {
+            TextField("Username", text: $username)
+                .textContentType(.username)
+                .focused($focusedField, equals: .username)
+                .submitLabel(.next)
+                .onSubmit { focusedField = .password }
+
+            SecureField("Password", text: $password)
+                .textContentType(.password)
+                .focused($focusedField, equals: .password)
+                .submitLabel(.done)
+                .onSubmit {
+                    Task {
+                        await model.manualSignIn(username: username, password: password)
+                    }
+                }
+            if case .error(_, let errorMessage) = model.state {
+                Text(errorMessage)
+            }
+            Button() {
+                Task {
+                    await model.manualSignIn(username: username, password: password)
+                }
+            } label: {
+                switch model.state {
+                case .start, .error:
+                    Text("Sign In")
+                        .frame(minWidth: 300)
+                case .waiting:
+                    ProgressView()
+                default:
+                    EmptyView()
+                }
+            }
+            .disabled(username.isEmpty || password.isEmpty || model.state == .waiting)
+        }
+        .frame(maxWidth: 500)
+    }
 }
 
 #Preview {

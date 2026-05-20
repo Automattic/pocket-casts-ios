@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Kingfisher
 import PocketCastsDataModel
 import PocketCastsServer
@@ -15,10 +16,18 @@ class ImageManager {
 
     // subscribed image cache, these we want to store for a longer period of time
     lazy var subscribedPodcastsCache: ImageCache = {
+        #if os(tvOS)
+        let path = ((NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).last ?? NSTemporaryDirectory()) as NSString).appendingPathComponent("artworkv3")
+        #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
+        #endif
         let url = URL(fileURLWithPath: path)
         subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        #if os(tvOS)
+        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(200.megabytes)
+        #else
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        #endif
         subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
         return subscribedPodcastsCache
     }()
@@ -188,6 +197,14 @@ class ImageManager {
         }
 
         return nil
+    }
+
+    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
+        await withCheckedContinuation { continuation in
+            imageForEpisode(episode, size: size) { image in
+                continuation.resume(returning: image)
+            }
+        }
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
@@ -470,18 +487,30 @@ class ImageManager {
 
     // MARK: - Placeholder Image
 
+    private struct PlaceholderKey: Hashable {
+        let size: PodcastThumbnailSize
+        let isDark: Bool
+    }
+
+    private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
+
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
+        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
+        if let cached = placeholderImageCache[key] {
+            return cached
+        }
+        let name: String
         switch size {
         case .grid:
-            let name = Theme.isDarkTheme() ? "noartwork-grid-dark" : "noartwork-grid"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
-            let name = Theme.isDarkTheme() ? "noartwork-list-dark" : "noartwork-list"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
         case .page, .detail:
-            let name = Theme.isDarkTheme() ? "noartwork-page-dark" : "noartwork-page"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-page-dark" : "noartwork-page"
         }
+        guard let image = UIImage(named: name) else { return nil }
+        placeholderImageCache[key] = image
+        return image
     }
 
     func podcastUrl(imageSize: PodcastThumbnailSize, uuid: String) -> URL {

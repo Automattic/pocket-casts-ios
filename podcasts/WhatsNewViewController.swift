@@ -56,7 +56,7 @@ class WhatsNewViewController: PCViewController, UIScrollViewDelegate, TinyPageCo
         scrollView.isPagingEnabled = true
         scrollView.isDirectionalLockEnabled = true
 
-        if Settings.whatsNewLastAcknowledged() == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
+        if !LiquidGlass.isEnabled, Settings.whatsNewLastAcknowledged() == whatsNewInfo.versionCode, appDelegate()?.miniPlayer()?.miniPlayerShowing() ?? false {
             shadowViewBottomConstraint.constant = shadowViewBottomConstraint.constant - Constants.Values.miniPlayerOffset
         }
 
