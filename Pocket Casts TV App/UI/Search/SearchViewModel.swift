@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 enum SearchScope: String, CaseIterable {
     case all = "All"
@@ -18,7 +19,7 @@ enum SearchState {
 protocol SearchableViewModel: AnyObject, Observation.Observable {
     var state: SearchState { get }
     var scope: SearchScope { get set }
-    var results: [Podcast] { get }
+    var podcastUuids: [String] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -30,11 +31,11 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 }
 
 @Observable
-@MainActor
 class SearchViewModel: SearchableViewModel {
 
     private var dataManager: DataManager
     private var searchModel: SearchHistoryModel
+    private var predictiveSearchTask = PredictiveSearchTask()
 
     init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel()) {
         self.dataManager = dataManager
@@ -45,7 +46,7 @@ class SearchViewModel: SearchableViewModel {
 
     var scope: SearchScope = .all
 
-    var results: [Podcast] = []
+    var podcastUuids: [String] = []
 
     var searchHistory: [String] {
         searchModel.entries.compactMap { entry in
@@ -66,7 +67,7 @@ class SearchViewModel: SearchableViewModel {
         searchTask?.cancel()
 
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            results = []
+            podcastUuids = []
             autoCompleteSuggestions = []
             state = .query
             return
@@ -78,12 +79,26 @@ class SearchViewModel: SearchableViewModel {
             guard !Task.isCancelled else { return }
 
             state = .searching
-
+            var podcasts: [String] = []
+            var suggestions: [String] = []
             do {
-                let podcasts = try await fetchPodcasts(query: query)
+                let searchResults = try await predictiveSearchTask.search(term: query)
                 guard !Task.isCancelled else { return }
-                results = podcasts
-                state = results.isEmpty ? .empty : .results
+                for searchResult in searchResults {
+                    switch searchResult.type {
+                    case .term(let word):
+                        suggestions.append(word)
+                    case .podcast(let podcastResult):
+                        podcasts.append(podcastResult.uuid)
+                    default:
+                        continue
+                    }
+                }
+                await MainActor.run { [podcasts, suggestions] in
+                    state = podcastUuids.isEmpty ? .empty : .results
+                    podcastUuids = podcasts
+                    autoCompleteSuggestions = suggestions
+                }
             }  catch is CancellationError {
                 return
             } catch {
@@ -94,10 +109,7 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func autoComplete(query: String) {
-        let podcasts = dataManager.searchPodcasts(term: query)
-        autoCompleteSuggestions = podcasts.compactMap {
-            $0.title
-        }
+                
     }
 
     private func fetchPodcasts(query: String) async throws -> [Podcast] {

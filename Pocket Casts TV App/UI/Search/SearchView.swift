@@ -17,7 +17,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                     case .empty:
                         ContentUnavailableView.search(text: searchText)
                     case .results:
-                        SearchPodcastsResultsView(podcasts: model.results)
+                        SearchPodcastsResultsView(podcastsUuids: model.podcastUuids)
                     case .error(let error):
                         Text("Search failed: \(error.localizedDescription)")
                     case .query:

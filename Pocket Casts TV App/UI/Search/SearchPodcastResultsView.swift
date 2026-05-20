@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct SearchPodcastsResultsView: View {
 
-    let podcasts: [Podcast]
+    let podcastsUuids: [String]
 
     enum Layout {
         static let cellSize = CGFloat(250)
@@ -16,16 +16,16 @@ struct SearchPodcastsResultsView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: items, spacing: 48, content: {
-                ForEach(podcasts) { podcast in
+                ForEach(podcastsUuids, id: \.self) { podcast in
                     NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast.uuid, size: .page)
+                        PodcastImage(uuid: podcast, size: .page)
                             .frame(width: Layout.cellSize, height: Layout.cellSize)
                     }
                     .buttonStyle(.card)
                 }
             })
-            .navigationDestination(for: Podcast.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+            .navigationDestination(for: String.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast))
             }
         }
     }
