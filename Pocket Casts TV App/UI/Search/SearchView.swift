@@ -8,11 +8,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if searchText.isEmpty {
-                    EmptyDataView(title: "No results found", subtitle: "Search for something more specific", actionTitle: nil, action: nil)
-                } else {
-                    SearchResultsView(model: model)
-                }
+                SearchResultsView(model: model)
             }
             .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
             .searchSuggestions {
