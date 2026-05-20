@@ -372,8 +372,10 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.tableView.layoutIfNeeded()
-                let maxOffset = max(0, self.tableView.contentSize.height - self.tableView.bounds.height + self.tableView.adjustedContentInset.bottom)
-                let clamped = CGPoint(x: offset.x, y: min(offset.y, maxOffset))
+                let minOffset = -self.tableView.adjustedContentInset.top
+                let maxOffset = max(minOffset, self.tableView.contentSize.height - self.tableView.bounds.height + self.tableView.adjustedContentInset.bottom)
+                let clampedY = min(max(offset.y, minOffset), maxOffset)
+                let clamped = CGPoint(x: offset.x, y: clampedY)
                 self.tableView.setContentOffset(clamped, animated: true)
             }
         }
