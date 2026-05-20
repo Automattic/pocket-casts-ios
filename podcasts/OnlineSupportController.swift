@@ -11,11 +11,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         case about
     }
 
-    @IBOutlet var loadingIndicator: AngularActivityIndicator! {
-        didSet {
-            loadingIndicator.color = AppTheme.loadingActivityColor()
-        }
-    }
+    private let loadingIndicator = AngularActivityIndicator(size: CGSize(width: 40, height: 40), lineWidth: 2.0, duration: 1.0)
 
     private var emailHelper = EmailHelper()
     private var supportWebView = WKWebView()
@@ -41,14 +37,17 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         presentationController?.delegate = self
         navigationController?.presentationController?.delegate = self
 
         title = L10n.settingsHelp
-        loadingIndicator.startAnimating()
 
+        setupLoadingIndicator()
         setupWebView()
 
+        loadingIndicator.startAnimating()
         load()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: self, action: #selector(doneTapped))
@@ -74,6 +73,18 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         default:
             break
         }
+    }
+
+    private func setupLoadingIndicator() {
+        loadingIndicator.color = AppTheme.loadingActivityColor()
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.widthAnchor.constraint(equalToConstant: 40),
+            loadingIndicator.heightAnchor.constraint(equalToConstant: 40),
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
+        ])
     }
 
     private func setupWebView() {
