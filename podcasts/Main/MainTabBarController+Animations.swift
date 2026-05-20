@@ -134,15 +134,20 @@ extension MainTabBarController {
     }
 
     func playUpNextAddedGenieAnimation(for episode: BaseEpisode) {
-        // Tab bar collapsed into its pill: there's no Up Next tab on screen to
-        // fly into, so skip the animation and just keep the count current.
-        guard !isTabBarMinimized else {
-            refreshUpNextTabBadge()
-            return
-        }
-
-        // No target, or an animation already in flight: just update the count.
-        guard let targetFrame = upNextTabTargetFrame(in: view),
+        // Skip the animation (and just keep the count current) when there's no
+        // visible Up Next tab to fly into: tab bar collapsed into its pill, the
+        // bar isn't on screen, the landing point would be off-screen, or
+        // another genie is already in flight. When minimized, UIKit keeps the
+        // private tab-button views laid out at their original positions even
+        // though they aren't visible, so a frame check alone isn't enough —
+        // the trait-based `isTabBarMinimized` is the reliable signal.
+        guard !isTabBarMinimized,
+              view.window != nil,
+              !tabBar.isHidden,
+              tabBar.alpha > 0.01,
+              tabBar.window != nil,
+              let targetFrame = upNextTabTargetFrame(in: view),
+              view.bounds.contains(CGPoint(x: targetFrame.midX, y: targetFrame.midY)),
               view.viewWithTag(Self.upNextGenieViewTag) == nil else {
             refreshUpNextTabBadge()
             return
