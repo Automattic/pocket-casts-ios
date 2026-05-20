@@ -46,6 +46,7 @@ class PodcastDetailViewModel {
 
     func load() {
         Task {
+            var podcast: Podcast? = self.podcast
             if podcast == nil {
                 podcast = await loadPodcast(podcastUuid: podcastUuid)
             }
@@ -53,14 +54,15 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let episodesModel = fetchEpisodes().map {
+            let episodesModel = fetchEpisodes(podcast: podcast).map {
                 EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
             await MainActor.run {
-                isFollowing = podcast.subscribed != 0
+                self.podcast = podcast
+                self.isFollowing = podcast.subscribed != 0
                 self.episodes = episodesModel
-                recommendedEpisode = episodesModel.first
-                state = .ready
+                self.recommendedEpisode = episodesModel.first
+                self.state = .ready
             }
         }
     }
@@ -85,7 +87,7 @@ class PodcastDetailViewModel {
         }
     }
 
-    private func fetchEpisodes() -> [Episode] {
+    private func fetchEpisodes(podcast: Podcast?) -> [Episode] {
         guard let podcast else {
             return []
         }
