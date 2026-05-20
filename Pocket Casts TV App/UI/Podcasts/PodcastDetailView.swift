@@ -35,7 +35,7 @@ struct PodcastDetailView: View {
             case .ready:
                 podcastView
             case .failed:
-                Text("Podcast failed to load")
+                failedView
             }
         }
         .toolbar(.hidden, for: .tabBar)
@@ -49,6 +49,12 @@ struct PodcastDetailView: View {
 
     var loadingView: some View {
         ProgressView()
+    }
+
+    var failedView: some View {
+        VStack {
+            Text(L10n.podcastErrorMessage)
+        }
     }
 
     var podcastView: some View {
