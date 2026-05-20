@@ -10,6 +10,11 @@ class SimpleActionView: UIView {
     private var imageView: UIImageView?
     private var selectedView: UIImageView?
 
+    private var label: UILabel!
+    private var secondaryLabel: UILabel?
+    private var labelVerticalConstraints: [NSLayoutConstraint] = []
+    private var secondaryLabelVerticalConstraints: [NSLayoutConstraint] = []
+
     init(frame: CGRect, action: OptionAction, delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.action = action
         self.delegate = delegate
@@ -60,10 +65,12 @@ class SimpleActionView: UIView {
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             ])
         }
-        NSLayoutConstraint.activate([
+        labelVerticalConstraints = [
             label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-        ])
+        ]
+        NSLayoutConstraint.activate(labelVerticalConstraints)
+        self.label = label
         var previousView: UIView = label
 
         if let secondaryText = action.secondaryLabel {
@@ -78,11 +85,14 @@ class SimpleActionView: UIView {
             secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
             addSubview(secondaryLabel)
 
-            NSLayoutConstraint.activate([
+            secondaryLabelVerticalConstraints = [
                 secondaryLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-                secondaryLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-                label.widthAnchor.constraint(greaterThanOrEqualTo: secondaryLabel.widthAnchor, multiplier: 1),
+                secondaryLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints + [
+                label.widthAnchor.constraint(greaterThanOrEqualTo: secondaryLabel.widthAnchor, multiplier: 1)
             ])
+            self.secondaryLabel = secondaryLabel
             previousView = secondaryLabel
         }
 
@@ -129,6 +139,31 @@ class SimpleActionView: UIView {
         accessibilityTraits = [.button]
 
         updateSize()
+    }
+
+    /// In sheet presentation the action view can sit at the bottom safe area,
+    /// which inflates `layoutMarginsGuide.bottomAnchor` and leaves the label
+    /// stuck to the top while the icon centers — visibly misaligned. Anchor
+    /// the labels to the view's centerY (matching the icon) and keep the
+    /// 8pt padding manually so safe area can't leak in.
+    func configureForSheetPresentation() {
+        NSLayoutConstraint.deactivate(labelVerticalConstraints)
+        labelVerticalConstraints = [
+            label.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
+            label.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ]
+        NSLayoutConstraint.activate(labelVerticalConstraints)
+
+        if let secondaryLabel {
+            NSLayoutConstraint.deactivate(secondaryLabelVerticalConstraints)
+            secondaryLabelVerticalConstraints = [
+                secondaryLabel.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
+                secondaryLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
+                secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            ]
+            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints)
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
