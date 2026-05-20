@@ -26,6 +26,7 @@ class PodcastImageView: UIView {
     }
 
     func setImageManually(image: UIImage?, size: PodcastThumbnailSize) {
+        imageView?.kf.cancelDownloadTask()
         imageView?.image = image
         adjustForSize(size)
     }
