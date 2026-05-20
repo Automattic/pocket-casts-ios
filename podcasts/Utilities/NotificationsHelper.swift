@@ -59,6 +59,26 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         registerForPushNotifications()
     }
 
+    /// Handles a user-initiated change to per-podcast push notifications: requests permission if needed, persists the change, notifies observers, and shows a confirmation toast. Callers are responsible for tracking their own analytics event.
+    func setNotificationsEnabled(_ enabled: Bool, for podcast: Podcast) {
+        registerForPushNotifications { granted in
+            guard granted || !enabled else {
+                Toast.show(L10n.notificationsPermissionsNeedsAction, actions: [.init(title: L10n.notificationsPermissionsOpenSettings, action: {
+                    Analytics.track(.notificationsPermissionsOpenSystemSettings)
+                    UIApplication.shared.openNotificationSettings()
+                })])
+                return
+            }
+            PodcastManager.shared.setNotificationsEnabled(podcast: podcast, enabled: enabled)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast.uuid)
+            var message = enabled ? L10n.notificationsOn : L10n.notificationsOff
+            if let title = podcast.title, enabled {
+                message = L10n.notificationsOnForPodcast(title)
+            }
+            Toast.show(message)
+        }
+    }
+
     func registerForPushNotifications(completion: ((Bool) -> ())? = nil) {
         let downloadAction = UNNotificationAction(identifier: downloadEpisodeActionId, title: L10n.download, options: [])
         let playNowAction = UNNotificationAction(identifier: playNowActionid, title: L10n.notificationsPlayNow, options: [])

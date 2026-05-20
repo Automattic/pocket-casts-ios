@@ -102,6 +102,7 @@ enum AnalyticsEvent: String {
     case podcastsListLayoutChanged
     case podcastsListBadgesChanged
     case podcastsListDiscoverButtonTapped
+    case podcastsListNotificationsTapped
 
     // MARK: - Newsletter Opt In
 

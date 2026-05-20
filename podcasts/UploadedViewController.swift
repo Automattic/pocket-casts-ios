@@ -3,6 +3,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
+
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private let episodesDataManager = EpisodesDataManager()
     private var cancellables = Set<AnyCancellable>()
@@ -305,7 +306,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     func showDeleteConfirmation(userEpisode: UserEpisode) {
         Analytics.track(.userFileDeleteShown)
-        UserEpisodeManager.presentDeleteOptions(episode: userEpisode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: nil, dismissCallback: {
+        UserEpisodeManager.presentDeleteOptions(episode: userEpisode, from: self, dismissCallback: {
             Analytics.track(.userFileDeleteDismissed)
         }) { deletedLocal, deletedRemote in
             Analytics.track(.userFileDeleted, properties: ["local": deletedLocal, "remote": deletedRemote])
@@ -317,8 +318,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 self.reloadLocalFiles()
             }
         }
-
-        dismiss(animated: true, completion: nil)
     }
 
     func showUpgradeRequired() {

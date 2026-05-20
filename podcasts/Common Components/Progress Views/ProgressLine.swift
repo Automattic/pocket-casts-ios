@@ -21,7 +21,7 @@ class ProgressLine: UIView {
         }
     }
 
-    var buferredAmount: CGFloat = 0 {
+    var bufferedAmount: CGFloat = 0 {
         didSet {
             recalculatePositionRects(true)
         }
@@ -60,10 +60,10 @@ class ProgressLine: UIView {
 
         progressLayer().bgRect = CGRect(x: 0, y: 0, width: availableWidth, height: lineHeight)
         progressLayer().progressRect = CGRect(x: 0, y: 0, width: progressSize, height: lineHeight)
-        if buferredAmount == 0 {
+        if bufferedAmount == 0 {
             progressLayer().bufferRect = CGRect.zero
         } else {
-            progressLayer().bufferRect = CGRect(x: progressSize, y: 0, width: (availableWidth - progressSize) * buferredAmount, height: lineHeight)
+            progressLayer().bufferRect = CGRect(x: progressSize, y: 0, width: (availableWidth - progressSize) * bufferedAmount, height: lineHeight)
         }
 
         if !animated {

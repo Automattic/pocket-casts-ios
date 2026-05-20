@@ -2,6 +2,19 @@
 
 github.dismiss_out_of_range_messages
 
+# Prevent re-pinning DEVELOPMENT_TEAM in the Xcode project. It must live in the
+# xcconfig files so that Prototype builds can switch to the Enterprise team —
+# target-level pbxproj values outrank xcconfig and silently break signing.
+pbxproj = 'podcasts.xcodeproj/project.pbxproj'
+pbxproj_diff = git.diff_for_file(pbxproj)
+if pbxproj_diff && pbxproj_diff.patch =~ /^\+\s*DEVELOPMENT_TEAM\s*=/
+  failure(
+    "`DEVELOPMENT_TEAM` was added to `#{pbxproj}`. Keep it in the xcconfig " \
+    'files under `config/` instead — in Xcode, go to Build Settings → ' \
+    'Signing → Development Team and clear the value so the xcconfig wins.'
+  )
+end
+
 # `files: []` forces rubocop to scan all files, not just the ones modified in the PR
 rubocop.lint(files: [], force_exclusion: true, inline_comment: true, fail_on_inline_comment: true, include_cop_names: true)
 

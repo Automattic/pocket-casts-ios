@@ -156,13 +156,23 @@ class SimpleActionView: UIView {
     }
 
     @objc private func actionTapped() {
-        action.action()
-
         if action.onOffAction {
+            action.action()
             guard let onOffSwitch else { return }
 
             onOffSwitch.isOn = !onOffSwitch.isOn
+        } else if let submenu = action.submenu?(), let delegate {
+            action.action()
+            submenu.present(from: delegate)
+        } else if delegate?.isPresentedAsSheet == true {
+            // The sheet is a real presented view controller. Start its
+            // dismissal *before* running the action so that an action which
+            // presents another screen doesn't hit "already presenting" — this
+            // lets UIKit serialize the dismiss and the new presentation.
+            delegate?.animateOut(optionChosen: true)
+            action.action()
         } else {
+            action.action()
             delegate?.animateOut(optionChosen: true)
         }
     }

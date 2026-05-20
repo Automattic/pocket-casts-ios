@@ -4,14 +4,34 @@ import PocketCastsDataModel
 
 struct NowPlayingView: UIViewControllerRepresentable {
     @State private var model = NowPlayingViewModel()
+    @State private var isTransportBarVisible = true
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.allowedSubtitleOptionLanguages = []
+        controller.delegate = context.coordinator
         TVToast.shared.configure(with: controller.contentOverlayView)
         model.load()
         addOverlay(to: controller)
         return controller
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(isTransportBarVisible: $isTransportBarVisible)
+    }
+
+    final class Coordinator: NSObject, AVPlayerViewControllerDelegate {
+        @Binding var isTransportBarVisible: Bool
+
+        init(isTransportBarVisible: Binding<Bool>) {
+            self._isTransportBarVisible = isTransportBarVisible
+        }
+
+        func playerViewController(_ playerViewController: AVPlayerViewController, willTransitionToVisibilityOfTransportBar visible: Bool, with coordinator: any AVPlayerViewControllerAnimationCoordinator) {
+            DispatchQueue.main.async { [weak self] in
+                self?.isTransportBarVisible = visible
+            }
+        }
     }
 
     private func addOverlay(to controller: AVPlayerViewController) {
@@ -19,8 +39,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
             return
         }
 
-        controller.player = model.player
-        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model))
+        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model, isTransportBarVisible: $isTransportBarVisible))
 
         guard let overlayView = overlayHostingController.view else {
             return
@@ -53,7 +72,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
         var items = [
             makeMetadataItem(.commonIdentifierTitle, value: model.displayTitle),
             makeMetadataItem(.iTunesMetadataTrackSubTitle, value: model.displaySubTitle),
-            makeMetadataItem(.commonIdentifierDescription, value: model.displayInfo)
+            makeMetadataItem(.commonIdentifierDescription, value: model.displayTitle)
         ]
 
         if let imageData = model.displayImageData {

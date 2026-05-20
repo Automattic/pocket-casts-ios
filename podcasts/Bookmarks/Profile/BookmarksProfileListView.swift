@@ -8,7 +8,7 @@ struct BookmarksProfileListView: View {
     var body: some View {
         VStack(spacing: BookmarkListConstants.padding) {
             searchField
-                .padding([.vertical, .horizontal], BookmarkListConstants.headerPadding)
+                .padding([.horizontal], BookmarkListConstants.headerPadding)
                 .background(style.theme.secondaryUi01)
             bookmarkListView
         }

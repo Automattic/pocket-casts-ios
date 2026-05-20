@@ -5,16 +5,37 @@ class PCViewController: SimpleNotificationsViewController {
     var largeTitleFont = UIFont.systemFont(ofSize: 31, weight: .bold)
 
     var googleCastBtn: UIBarButtonItem?
+
+    private var _customRightBtn: UIBarButtonItem?
+
     var customRightBtn: UIBarButtonItem? {
-        didSet {
+        get { _customRightBtn }
+        set {
+            _customRightBtn = newValue
             refreshRightButtons()
         }
     }
 
-    var extraRightButtons: [UIBarButtonItem] = [] {
-        didSet {
+    private var _extraRightButtons: [UIBarButtonItem] = []
+
+    var extraRightButtons: [UIBarButtonItem] {
+        get { _extraRightButtons }
+        set {
+            _extraRightButtons = newValue
             refreshRightButtons()
         }
+    }
+
+    /// Replaces `customRightBtn`, optionally cross-fading the change via the navigation bar.
+    func setCustomRightBtn(_ button: UIBarButtonItem?, animated: Bool) {
+        _customRightBtn = button
+        refreshRightButtons(animated: animated)
+    }
+
+    /// Replaces `extraRightButtons`, optionally cross-fading the change via the navigation bar.
+    func setExtraRightButtons(_ buttons: [UIBarButtonItem], animated: Bool) {
+        _extraRightButtons = buttons
+        refreshRightButtons(animated: animated)
     }
 
     var useTransparentNavigationBarAppearance = false {
@@ -83,7 +104,7 @@ class PCViewController: SimpleNotificationsViewController {
         super.viewDidAppear(animated)
 
         if supportsGoogleCast {
-            NotificationCenter.default.addObserver(self, selector: #selector(refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(_refreshRightButtons), name: Constants.Notifications.googleCastStatusChanged, object: nil)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(appWasBackgrounded), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillBecomeActive), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -111,7 +132,11 @@ class PCViewController: SimpleNotificationsViewController {
         NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
-    @objc func refreshRightButtons() {
+    @objc private func _refreshRightButtons() {
+        refreshRightButtons(animated: false)
+    }
+
+    func refreshRightButtons(animated: Bool = false) {
         if supportsGoogleCast || !extraRightButtons.isEmpty {
             var buttons = [UIBarButtonItem]()
             if let customRightBtn {
@@ -121,10 +146,10 @@ class PCViewController: SimpleNotificationsViewController {
                 buttons.append(googleCastBtn)
             }
             buttons.append(contentsOf: extraRightButtons)
-            navigationItem.rightBarButtonItems = buttons
+            navigationItem.setRightBarButtonItems(buttons, animated: animated)
         } else {
-            navigationItem.rightBarButtonItems = nil
-            navigationItem.rightBarButtonItem = customRightBtn
+            navigationItem.setRightBarButtonItems(nil, animated: animated)
+            navigationItem.setRightBarButton(customRightBtn, animated: animated)
         }
     }
 

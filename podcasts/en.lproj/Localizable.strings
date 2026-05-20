@@ -124,6 +124,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title of the confirmation alert shown before signing the user out of their account. */
+"account_sign_out_alert_title" = "Sign Out?";
+
+/* Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in. */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you are back.";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
@@ -2055,6 +2061,9 @@
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
 
+/* Prompt to enter the mode for reordering the podcasts grid. */
+"podcasts_edit" = "Edit Podcasts";
+
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
 
@@ -3631,6 +3640,9 @@
 
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
+
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
 
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";
@@ -6073,3 +6085,14 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
+
+/* info message when authorization is expired */
+"server_error_login_expired_token" = "The device code has expired.";
+
+/* info message when authorization is denied server */
+"server_error_login_access_denied" = "The user denied the authorization request";
+
+/* info message when authorization is invalid on server */
+"server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
