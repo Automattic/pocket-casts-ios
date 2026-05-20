@@ -670,7 +670,7 @@ class PodcastDataManager {
                 WHERE uuid = '\(podcastUuid)'
                 """
                 try db.executeUpdate(query, values: [])
-            } catch let error {
+            } catch {
                 FileLog.shared.addMessage("PodcastDataManager.saveSingleSetting for \(name) error: \(error)")
             }
         }

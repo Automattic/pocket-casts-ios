@@ -59,7 +59,7 @@ extension ModifiedDate where Value: RawRepresentable {
     mutating func update<S: ApiSetting>(setting: S) where Value.RawValue == S.ReturnValue.T {
         do {
             try uncaughtUpdate(setting: setting)
-        } catch let error {
+        } catch {
             switch error {
             case ApiUpdateError.representableNotFound(value: let value, representable: let representable):
                 FileLog.shared.addMessage("Failed to represent value: \(value) representing: \(representable)")

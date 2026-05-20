@@ -23,7 +23,7 @@ struct SQLiteValidator {
         queue.read { db in
             do {
                 _ = try db.executeQuery(sql, values: values)
-            } catch let inError {
+            } catch {
                 error = inError
             }
         }

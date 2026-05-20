@@ -219,7 +219,7 @@ class DownloadManager: NSObject, FilePathProtocol {
         let destinationUrl = URL(fileURLWithPath: pathForUrl(fileUrl: url, uuid: uuid))
         do {
             try StorageManager.moveItem(at: url, to: destinationUrl, options: .overwriteExisting)
-        } catch let error {
+        } catch {
             let nsError = error as NSError
             switch (nsError.domain, nsError.code) {
             case (NSCocoaErrorDomain, 513):

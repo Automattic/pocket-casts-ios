@@ -112,6 +112,9 @@ only_rules:
   # Lines should not have trailing whitespace.
   - trailing_whitespace
 
+  # `catch` statements should not declare error variables without type casting.
+  - untyped_error_in_catch
+
   # Unused parameters in a closure should be replaced with `_`.
   - unused_closure_parameter
 
