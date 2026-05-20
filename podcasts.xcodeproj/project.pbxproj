@@ -4477,7 +4477,6 @@
 			children = (
 				462EE0A926FCBF5B003D67DC /* Zendesk */,
 				BD65E51A1CD9BDE000B90A67 /* OnlineSupportController.swift */,
-				BD65E51B1CD9BDE000B90A67 /* OnlineSupportController.xib */,
 				462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */,
 				46CD3CA02715E3E600F5EB8F /* SupportConfig.swift */,
 				8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */,
@@ -6507,7 +6506,6 @@
 				102864AB2CED1F990098B2A9 /* CancelSubscription.xcassets in Resources */,
 				BDE73A7E1B607AF5005BFE30 /* PlayerImages.xcassets in Resources */,
 				BDEAA1871BB144AD001097D9 /* DisclosureCell.xib in Resources */,
-				BD65E51D1CD9BDE000B90A67 /* OnlineSupportController.xib in Resources */,
 				8BD5A5062A1F96C200F473C6 /* AppIcon-Pride40x40~ipad.png in Resources */,
 				406D9F8F253F9BF400B654C6 /* FilterPreviewViewController.xib in Resources */,
 				BD0F6D7C24BD60FF00EDFB99 /* FilterDurationViewController.xib in Resources */,

@@ -52,7 +52,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: self, action: #selector(doneTapped))
 
-        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(showOptions(_:)))
+        customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), menu: makeOptionsMenu())
 
         AnalyticsHelper.userGuideOpened()
 
@@ -105,25 +105,20 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
         dismiss(animated: true, completion: didDismiss)
     }
 
-    @objc private func showOptions(_ sender: UIBarButtonItem) {
-        let controller = UIAlertController()
-        controller.popoverPresentationController?.barButtonItem = sender
-
-        controller.addAction(.init(title: L10n.settingsConnectionStatus, style: .default, handler: { [weak self] _ in
-            self?.showStatusPage()
-        }))
-
-        controller.addAction(.init(title: L10n.exportDatabase, style: .default, handler: { [weak self] _ in
-            self?.export(sender)
-        }))
-
-        controller.addAction(.init(title: L10n.logs, style: .default, handler: { [weak self] _ in
-            self?.viewLogs(sender)
-        }))
-
-        controller.addAction(.init(title: L10n.cancel, style: .destructive))
-
-        present(controller, animated: true)
+    private func makeOptionsMenu() -> UIMenu {
+        UIMenu(children: [
+            UIAction(title: L10n.settingsConnectionStatus) { [weak self] _ in
+                self?.showStatusPage()
+            },
+            UIAction(title: L10n.exportDatabase) { [weak self] _ in
+                guard let self, let sender = customRightBtn else { return }
+                export(sender)
+            },
+            UIAction(title: L10n.logs) { [weak self] _ in
+                guard let self, let sender = customRightBtn else { return }
+                viewLogs(sender)
+            },
+        ])
     }
 
     private func showStatusPage() {
