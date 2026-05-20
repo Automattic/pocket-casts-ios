@@ -97,7 +97,7 @@ class SearchViewModel: SearchableViewModel {
                         continue
                     }
                 }
-                state = searchResults.isEmpty ? .empty : .results
+                state = combinedResults.isEmpty ? .empty : .results
                 results = combinedResults
                 autoCompleteSuggestions = suggestions
             }  catch is CancellationError {
