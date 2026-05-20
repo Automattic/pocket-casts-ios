@@ -72,8 +72,6 @@ class OptionsPicker {
         if let sheet = optionsController.sheetPresentationController {
             optionsController.configureForSheetPresentation()
             sheet.delegate = optionsController
-            sheet.prefersGrabberVisible = true
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.detents = [.custom { [weak optionsController] context in
                 optionsController?.preferredSheetHeight(limitedTo: context.maximumDetentValue, traitCollection: context.containerTraitCollection) ?? context.maximumDetentValue
             }]
