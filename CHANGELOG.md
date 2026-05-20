@@ -2,6 +2,7 @@
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 - Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
+- Show chapter art in mini player [#4382](https://github.com/Automattic/pocket-casts-ios/pull/4382)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
 - Fix Show Archived toggle in Playlists during search [#4329](https://github.com/Automattic/pocket-casts-ios/pull/4329)
