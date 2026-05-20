@@ -34,6 +34,7 @@ class DownloadsViewController: PCViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.setupNavBar()
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.downloadsTable.beginUpdates()
                 self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
