@@ -234,7 +234,7 @@ class PCViewController: SimpleNotificationsViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         if scrolled {
-            appearance.backgroundEffect = UIBlurEffect(style: .regular)
+            appearance.configureWithOpaqueBackground()
         }
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance
