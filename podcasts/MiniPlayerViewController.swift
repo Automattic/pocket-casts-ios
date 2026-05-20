@@ -33,6 +33,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
+    private var showingChapterArtwork = false
     var fullScreenPlayer: PlayerContainerViewController?
 
     /// Carries the upward pan velocity from the open-gesture recognizer to
@@ -397,13 +398,26 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func setupForEpisode(_ episode: BaseEpisode) {
         updateColors()
+        updateArtwork(for: episode)
+        updateTitle(for: episode)
+    }
 
-        if lastEpisodeUuidImageLoaded != episode.uuid {
-            lastEpisodeUuidImageLoaded = episode.uuid
-            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
+    /// Shows the current chapter's embedded artwork when available, falling
+    /// back to the episode artwork otherwise — matching the full screen player.
+    private func updateArtwork(for episode: BaseEpisode, forceReload: Bool = false) {
+        let chapters = PlaybackManager.shared.currentChapters()
+        if PlaybackManager.shared.chapterCount() != 0, let artwork = chapters.artwork {
+            showingChapterArtwork = true
+            podcastArtwork.setImageManually(image: artwork, size: .list)
+            return
         }
 
-        updateTitle(for: episode)
+        let needsReload = forceReload || showingChapterArtwork || lastEpisodeUuidImageLoaded != episode.uuid
+        showingChapterArtwork = false
+        guard needsReload else { return }
+
+        lastEpisodeUuidImageLoaded = episode.uuid
+        podcastArtwork.setBaseEpisode(episode: episode, size: .list)
     }
 
     /// Shows the current chapter title when the episode has chapters, falling
@@ -426,6 +440,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func chapterDidChange() {
         updateTitle()
+        if let episode = PlaybackManager.shared.currentEpisode() {
+            updateArtwork(for: episode)
+        }
     }
 
     @objc private func playbackStarted() {
@@ -601,12 +618,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
         updateColors()
-
-        if let userEpisode = episode as? UserEpisode {
-            podcastArtwork.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-        } else {
-            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
-        }
+        updateArtwork(for: episode, forceReload: true)
     }
 
     func showUpNext(from source: UpNextViewSource) {
