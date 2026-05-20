@@ -65,15 +65,17 @@ struct PlaylistHeaderView: View {
                     }
                     actionButton(
                         type: .playAll,
-                        color: theme.primaryUi02,
+                        color: viewModel.isSearching ? theme.primaryText01 : theme.primaryUi02,
                         image: Image("filter_play"),
                         title: L10n.playlistsPlayAll,
-                        background: theme.primaryText01) { type in
+                        background: viewModel.isSearching ? .clear : theme.primaryText01,
+                        stroke: viewModel.isSearching ? theme.primaryUi05 : nil) { type in
                             viewModel.onButtonTapped(type)
                     }
                     Spacer()
                 }
                 .padding(.bottom, 10.0)
+                .animation(.easeInOut(duration: 0.2), value: viewModel.isSearching)
 
                 Spacer()
             }
