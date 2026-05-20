@@ -108,6 +108,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
+    var preSearchContentOffset: CGPoint?
 
     var multiSelectFooter: MultiSelectFooterView! {
         didSet {
@@ -365,6 +366,17 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+
+        if !viewModel.isSearching, let offset = preSearchContentOffset {
+            preSearchContentOffset = nil
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.tableView.layoutIfNeeded()
+                let maxOffset = max(0, self.tableView.contentSize.height - self.tableView.bounds.height + self.tableView.adjustedContentInset.bottom)
+                let clamped = CGPoint(x: offset.x, y: min(offset.y, maxOffset))
+                self.tableView.setContentOffset(clamped, animated: true)
+            }
+        }
     }
 
     private func didFinishRefresh() {
