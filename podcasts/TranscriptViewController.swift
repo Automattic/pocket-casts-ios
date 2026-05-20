@@ -1,5 +1,6 @@
 import UIKit
 import Combine
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -986,13 +987,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         guard let cue = transcript.cues.first(where: { NSLocationInRange(charIndex, $0.characterRange) }) else { return }
 
-        let fraction: Double
-        if cue.characterRange.length > 0 {
-            fraction = Double(charIndex - cue.characterRange.location) / Double(cue.characterRange.length)
-        } else {
-            fraction = 0
-        }
-        let referenceTime = cue.startTime + fraction * (cue.endTime - cue.startTime)
+        let referenceTime = cue.startTime
 
         guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
             let syncedState = FingerprintTimingManager.shared.state
@@ -1001,6 +996,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 "synced_state": syncedState.analyticsName
             ])
             if case .unavailable = syncedState { return }
+            let status = playbackManager.episodeUUID
+                .flatMap { DataManager.sharedManager.findBaseEpisode(uuid: $0) }
+                .flatMap { DownloadStatus(rawValue: $0.episodeStatus) }
+            if status == .downloaded || status == .downloadedForStreaming { return }
             Toast.show(L10n.transcriptTapToSeekStreamingUnavailable)
             return
         }
