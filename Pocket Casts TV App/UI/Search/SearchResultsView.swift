@@ -17,15 +17,15 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
     var body: some View {
         switch model.state {
         case .searching:
-            ProgressView("Searching...")
+            ProgressView(L10n.tvSearchSearching)
         case .empty:
             ContentUnavailableView.search(text: model.searchTerm)
         case .results:
             results
         case .error(let error):
-            Text("Search failed: \(error.localizedDescription)")
+            Text(L10n.tvSearchFailed(error.localizedDescription))
         case .query:
-            Text("Type something...")
+            Text(L10n.tvSearchTypeSomething)
         }
     }
 

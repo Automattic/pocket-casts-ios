@@ -4349,6 +4349,16 @@ internal enum L10n {
   internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
   internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
+  /// tv search error label. '%1$@' is a placeholder for a localized error description.
+  internal static func tvSearchFailed(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_search_failed", String(describing: p1), fallback: "Search failed: %1$@")
+  }
+  /// tv search field placeholder prompt
+  internal static var tvSearchPrompt: String { return L10n.tr("Localizable", "tv_search_prompt", fallback: "Podcasts, shows, authors") }
+  /// tv search in-progress indicator label
+  internal static var tvSearchSearching: String { return L10n.tr("Localizable", "tv_search_searching", fallback: "Searching...") }
+  /// tv search initial placeholder shown before any query is entered
+  internal static var tvSearchTypeSomething: String { return L10n.tr("Localizable", "tv_search_type_something", fallback: "Type something...") }
   /// tv sign enter code
   internal static var tvSignInEnterCode: String { return L10n.tr("Localizable", "tv_sign_in_enter_code", fallback: "or enter the following code") }
   /// tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code

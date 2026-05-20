@@ -10,7 +10,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             VStack {
                 SearchResultsView(model: model)
             }
-            .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
+            .searchable(text: $searchText, prompt: L10n.tvSearchPrompt)
             .searchSuggestions {
                 if searchText.isEmpty {
                     ForEach(model.searchHistory, id: \.self) { search in
