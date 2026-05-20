@@ -11,7 +11,7 @@ class ReferralClaimPassVC: ThemedHostingController<ReferralClaimPassView> {
         viewModel.presentationController = self
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

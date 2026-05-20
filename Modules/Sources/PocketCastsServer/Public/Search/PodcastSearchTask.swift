@@ -78,7 +78,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         case podcast, folder
     }
 
-    static public func ==(lhs: PodcastFolderSearchResult, rhs: PodcastFolderSearchResult) -> Bool {
+    public static func ==(lhs: PodcastFolderSearchResult, rhs: PodcastFolderSearchResult) -> Bool {
         lhs.kind == rhs.kind && lhs.uuid == rhs.uuid
     }
 }

@@ -20,7 +20,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
-    lazy private(set) var searchHeaderView: UIView = {
+    private(set) lazy var searchHeaderView: UIView = {
         let header = UIView(frame: .zero)
         header.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
         return header

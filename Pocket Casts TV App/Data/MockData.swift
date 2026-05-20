@@ -168,7 +168,7 @@ struct MockData {
         return stubEpisodes
     }
 
-    static private var stubPlaylists: [EpisodeFilter] = []
+    private static var stubPlaylists: [EpisodeFilter] = []
 
     static let playlistsSpec: [(String, Bool, Color)] = [
         ("New releases", true, Color(red: 0.15, green: 0.25, blue: 0.5)),

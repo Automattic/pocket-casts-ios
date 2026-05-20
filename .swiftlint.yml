@@ -81,6 +81,9 @@ only_rules:
   # MARK comment should be in valid format.
   - mark
 
+  # Modifiers (e.g. `public`, `final`, `lazy`) should be specified in a consistent order.
+  - modifier_order
+
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace

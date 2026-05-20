@@ -22,7 +22,7 @@ class ListeningHistoryViewController: PCViewController {
     private let episodesDataManager = EpisodesDataManager()
     private var searchController: PCSearchBarController?
 
-    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+    private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .listeningHistory)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()

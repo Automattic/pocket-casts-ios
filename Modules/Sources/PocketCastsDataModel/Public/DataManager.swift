@@ -30,7 +30,7 @@ public class DataManager {
 
     let dbQueue: PCDBQueue
 
-    public static internal(set) var sharedManager = DataManager()
+    public internal(set) static var sharedManager = DataManager()
 
     public static var logger: ErrorLogger?
 

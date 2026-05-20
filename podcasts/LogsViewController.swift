@@ -12,7 +12,7 @@ class LogsViewController: ThemedHostingController<LogsView> {
         model.presenter = self
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
