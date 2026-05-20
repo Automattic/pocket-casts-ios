@@ -33,10 +33,12 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
+    private var dataManager: DataManager
     private var searchModel: SearchHistoryModel
     private var predictiveSearchTask = PredictiveSearchTask()
 
-    init(searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+        self.dataManager = dataManager
         self.searchModel = searchModel
     }
 
@@ -78,7 +80,7 @@ class SearchViewModel: SearchableViewModel {
             // Debounce
             try? await Task.sleep(for: .milliseconds(300))
             guard !Task.isCancelled else { return }
-
+            var uuids: Set<String> = []
             state = .searching
             var combinedResults: [CombinedSearchResultType] = []
             var suggestions: [String] = []
@@ -91,12 +93,21 @@ class SearchViewModel: SearchableViewModel {
                         suggestions.append(word)
                     case .podcast:
                         if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
+                            uuids.insert(podcastResult.uuid)
                             combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
                         }
                     default:
                         continue
                     }
                 }
+
+                let localPodcasts = try await searchLocalPodcasts(query: query)
+                for localPodcast in localPodcasts {
+                    if !uuids.contains(localPodcast.uuid), let podcastResult = PodcastFolderSearchResult(from: localPodcast) {
+                        combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                    }
+                }
+
                 state = combinedResults.isEmpty ? .empty : .results
                 results = combinedResults
                 autoCompleteSuggestions = suggestions
@@ -107,5 +118,9 @@ class SearchViewModel: SearchableViewModel {
                 state  = .error(error)
             }
         }
+    }
+
+    private func searchLocalPodcasts(query: String) async throws -> [Podcast] {
+        return dataManager.searchPodcasts(term: query)
     }
 }

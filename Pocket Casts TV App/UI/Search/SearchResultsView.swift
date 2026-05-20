@@ -24,8 +24,12 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             results
         case .error(let error):
             Text(L10n.tvSearchFailed(error.localizedDescription))
+                .font(.headline)
+                .foregroundStyle(Color.textSecondary)
         case .query:
             Text(L10n.tvSearchTypeSomething)
+                .font(.headline)
+                .foregroundStyle(Color.textSecondary)
         }
     }
 
