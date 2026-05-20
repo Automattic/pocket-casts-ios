@@ -82,7 +82,11 @@ struct PodcastDetailView: View {
             HStack(spacing: 8) {
                 Button() {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        model.follow()
+                        if model.isFollowing {
+                            model.unsubscribe()
+                        } else {
+                            model.subscribe()
+                        }
                     }
                 } label: {
                     HStack(spacing: 6) {

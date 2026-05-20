@@ -8,6 +8,7 @@ class PodcastDetailViewModel {
 
     private let dataManager: DataManager
     private let serverPodcastManager: ServerPodcastManager
+    private let podcastManager: PodcastManager
 
     enum State: Equatable, Hashable {
         case loading
@@ -21,18 +22,27 @@ class PodcastDetailViewModel {
     var podcast: Podcast?
     var episodes: [EpisodeRowViewModel] = []
     var recommendedEpisode: EpisodeRowViewModel?
+    var isFollowing: Bool = false
 
-    init(podcast: Podcast, dataManager: DataManager = DataManager.sharedManager, serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared) {
+    init(podcast: Podcast, dataManager:
+         DataManager = DataManager.sharedManager,
+         serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
+         podcastManager: PodcastManager = PodcastManager.shared) {
         self.podcastUuid = podcast.uuid
         self.podcast = podcast
         self.dataManager = dataManager
         self.serverPodcastManager = serverPodcastManager
+        self.podcastManager = podcastManager
     }
 
-    init(podcastUuid: String, dataManager: DataManager = DataManager.sharedManager, serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared) {
+    init(podcastUuid: String,
+         dataManager: DataManager = DataManager.sharedManager,
+         serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
+         podcastManager: PodcastManager = PodcastManager.shared) {
         self.podcastUuid = podcastUuid
         self.dataManager = dataManager
         self.serverPodcastManager = serverPodcastManager
+        self.podcastManager = podcastManager
     }
 
     func load() {
@@ -48,6 +58,9 @@ class PodcastDetailViewModel {
                 EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
             await MainActor.run {
+                if let podcast {
+                    isFollowing = podcast.subscribed != 0
+                }
                 self.episodes = episodesModel
                 recommendedEpisode = episodesModel.first
                 state = .ready
@@ -83,18 +96,17 @@ class PodcastDetailViewModel {
         return dataManager.allEpisodesForPodcast(id: podcast.id)
     }
 
-    var isFollowing: Bool {
-        if let podcast {
-            return podcast.isSubscribed()
-        } else {
-            return false
-        }
+    func subscribe() {
+        guard let podcast else { return }
+        let uuid = podcast.uuid
+        isFollowing = true
+        serverPodcastManager.subscribe(to: uuid, completion: nil)
     }
 
-    func follow() {
-        if let podcast {
-            podcast.subscribed = 0
-        }
+    func unsubscribe() {
+        guard let podcast else { return }
+        isFollowing = false
+        podcastManager.unsubscribe(podcast: podcast)
     }
 
     var podcastAuthor: String {
