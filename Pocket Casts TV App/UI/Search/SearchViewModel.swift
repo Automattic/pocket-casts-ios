@@ -20,7 +20,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var searchTerm: String { get }
     var state: SearchState { get }
     var scope: SearchScope { get set }
-    var podcastUuids: [String] { get }
+    var results: [CombinedSearchResultType] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -49,7 +49,7 @@ class SearchViewModel: SearchableViewModel {
 
     var scope: SearchScope = .all
 
-    var podcastUuids: [String] = []
+    var results: [CombinedSearchResultType] = []
 
     var searchHistory: [String] {
         searchModel.entries.compactMap { entry in
@@ -70,7 +70,7 @@ class SearchViewModel: SearchableViewModel {
         // Cancel any previous task
         searchTask?.cancel()
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            podcastUuids = []
+            results = []
             autoCompleteSuggestions = []
             state = .query
             return
@@ -82,7 +82,7 @@ class SearchViewModel: SearchableViewModel {
             guard !Task.isCancelled else { return }
 
             state = .searching
-            var podcasts: [String] = []
+            var combinedResults: [CombinedSearchResultType] = []
             var suggestions: [String] = []
             do {
                 let searchResults = try await predictiveSearchTask.search(term: query)
@@ -92,14 +92,16 @@ class SearchViewModel: SearchableViewModel {
                     case .term(let word):
                         suggestions.append(word)
                     case .podcast(let podcastResult):
-                        podcasts.append(podcastResult.uuid)
+                        if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
+                            combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                        }
                     default:
                         continue
                     }
                 }
-                await MainActor.run { [podcasts, suggestions] in
-                    state = podcastUuids.isEmpty ? .empty : .results
-                    podcastUuids = podcasts
+                await MainActor.run { [combinedResults, suggestions] in
+                    state = searchResults.isEmpty ? .empty : .results
+                    results = combinedResults
                     autoCompleteSuggestions = suggestions
                 }
             }  catch is CancellationError {

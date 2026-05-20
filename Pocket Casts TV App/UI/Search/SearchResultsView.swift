@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 fileprivate enum Layout {
     static let cellSize = CGFloat(250)
@@ -31,16 +32,21 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
     var results: some View {
         ScrollView {
             LazyVGrid(columns: items, spacing: 48, content: {
-                ForEach(model.podcastUuids, id: \.self) { podcast in
-                    NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast, size: .page)
-                            .frame(width: Layout.cellSize, height: Layout.cellSize)
+                ForEach(model.results, id: \.self) { result in
+                    switch result {
+                    case .podcast(let podcast):
+                        NavigationLink(value: podcast) {
+                            PodcastImage(uuid: podcast.uuid, size: .page)
+                                .frame(width: Layout.cellSize, height: Layout.cellSize)
+                        }
+                        .buttonStyle(.card)
+                    default:
+                        EmptyView()
                     }
-                    .buttonStyle(.card)
                 }
             })
-            .navigationDestination(for: String.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast))
+            .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
             }
         }
     }
