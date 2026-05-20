@@ -23,7 +23,8 @@ class RoundedLabel: ThemeableLabel {
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         setNeedsLayout()
-        return super.drawText(in: rect.inset(by: insets))
+        super.drawText(in: rect.inset(by: insets))
+        return
     }
 
     override var intrinsicContentSize: CGSize {

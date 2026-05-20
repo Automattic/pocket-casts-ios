@@ -609,7 +609,8 @@ class Settings: NSObject {
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
         if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.filesAutoUpNext = value
+            SettingsStore.appSettings.filesAutoUpNext = value
+            return
         }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
         trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
