@@ -44,6 +44,13 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
 
         title = L10n.settingsHelp
 
+        // A temporary workaround until the web supports safe area.
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+        navigationItem.compactAppearance = appearance
+
         setupLoadingIndicator()
         setupWebView()
 
