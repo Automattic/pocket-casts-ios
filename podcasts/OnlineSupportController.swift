@@ -18,7 +18,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     }
 
     private var emailHelper = EmailHelper()
-    private var supportWebView: WKWebView!
+    private var supportWebView = WKWebView()
     private var databaseExport: DatabaseExport? = nil
     private var loadingAlert: ShiftyLoadingAlert?
     private let source: Source
@@ -77,8 +77,6 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     }
 
     private func setupWebView() {
-        supportWebView = WKWebView()
-
         view.insertSubview(supportWebView, belowSubview: loadingIndicator)
         supportWebView.anchorToAllSidesOf(view: view)
 
@@ -89,7 +87,7 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
     }
 
     deinit {
-        supportWebView?.navigationDelegate = nil
+        supportWebView.navigationDelegate = nil
     }
 
     @objc private func doneTapped() {
@@ -124,6 +122,10 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate, UIAdaptiv
 
     private func load() {
         supportWebView.load(request)
+    }
+
+    override func contentScrollView(for edge: NSDirectionalRectEdge) -> UIScrollView? {
+        supportWebView.scrollView
     }
 
     // MARK: - WKNavigationDelegate
