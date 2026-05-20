@@ -8,11 +8,11 @@ extension MainTabBarController {
     /// The queue count knocked out of a continuous capsule with the "list"
     /// lines beside it, as a template image the tab bar tints like every other item.
     static func composeUpNextTabImage(count: Int) -> UIImage? {
-        let clamped = min(999, max(1, count))
+        let clamped = min(99, max(1, count))
 
         // Fixed at the widest (3-digit) size so the tab image never resizes.
         let canvasSize = CGSize(
-            width: ceil(upNextBadgeLayout(count: 100, origin: .zero).size.width),
+            width: ceil(upNextBadgeLayout(count: 99, origin: .zero).size.width),
             height: 26)
         let content = upNextBadgeLayout(count: clamped, origin: .zero).size
         let origin = CGPoint(
