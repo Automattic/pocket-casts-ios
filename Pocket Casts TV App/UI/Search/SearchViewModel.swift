@@ -55,7 +55,10 @@ class SearchViewModel: SearchableViewModel {
     }
 
     func saveHistory(_ term: String) {
-        searchModel.add(searchTerm: term)
+        guard !term.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        searchModel.add(searchTerm: term.trimmingCharacters(in: .whitespaces))
     }
 
     var autoCompleteSuggestions: [String] = []
