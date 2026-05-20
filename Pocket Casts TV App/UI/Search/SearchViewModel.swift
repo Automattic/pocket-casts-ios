@@ -17,6 +17,7 @@ enum SearchState {
 }
 
 protocol SearchableViewModel: AnyObject, Observation.Observable {
+    var searchTerm: String { get }
     var state: SearchState { get }
     var scope: SearchScope { get set }
     var podcastUuids: [String] { get }
@@ -42,6 +43,8 @@ class SearchViewModel: SearchableViewModel {
         self.searchModel = searchModel
     }
 
+    var searchTerm: String = ""
+
     var state: SearchState = .query
 
     var scope: SearchScope = .all
@@ -63,9 +66,9 @@ class SearchViewModel: SearchableViewModel {
     private var searchTask: Task<Void, Never>?
 
     func search(query: String) {
+        searchTerm = query
         // Cancel any previous task
         searchTask?.cancel()
-
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             podcastUuids = []
             autoCompleteSuggestions = []

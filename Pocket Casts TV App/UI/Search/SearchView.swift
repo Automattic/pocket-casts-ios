@@ -11,18 +11,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                 if searchText.isEmpty {
                     EmptyDataView(title: "No results found", subtitle: "Search for something more specific", actionTitle: nil, action: nil)
                 } else {
-                    switch model.state {
-                    case .searching:
-                        ProgressView("Searching...")
-                    case .empty:
-                        ContentUnavailableView.search(text: searchText)
-                    case .results:
-                        SearchResultsView(podcastsUuids: model.podcastUuids)
-                    case .error(let error):
-                        Text("Search failed: \(error.localizedDescription)")
-                    case .query:
-                        Text("Type something...")
-                    }
+                    SearchResultsView(model: model)
                 }
             }
             .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
