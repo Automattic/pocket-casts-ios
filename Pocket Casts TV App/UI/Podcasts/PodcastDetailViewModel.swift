@@ -96,4 +96,25 @@ class PodcastDetailViewModel {
             podcast.subscribed = 0
         }
     }
+
+    var podcastAuthor: String {
+        guard let podcast else {
+            return ""
+        }
+        return podcast.author ?? ""
+    }
+
+    var podcastTitle: String {
+        guard let podcast else {
+            return ""
+        }
+        return podcast.title ?? ""
+    }
+
+    var podcastDescription: String {
+        guard let podcast else {
+            return ""
+        }
+        return podcast.podcastDescription ?? ""
+    }
 }
