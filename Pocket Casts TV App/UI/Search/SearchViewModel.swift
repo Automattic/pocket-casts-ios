@@ -33,12 +33,10 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
-    private var dataManager: DataManager
     private var searchModel: SearchHistoryModel
     private var predictiveSearchTask = PredictiveSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
-        self.dataManager = dataManager
+    init(searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.searchModel = searchModel
     }
 
