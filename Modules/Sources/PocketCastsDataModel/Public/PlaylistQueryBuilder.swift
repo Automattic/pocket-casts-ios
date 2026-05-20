@@ -43,7 +43,6 @@ public class PlaylistQueryBuilder {
         let sortType = sortType?.rawValue ?? playlist.sortType
 
         var queryString: String = ""
-        var mainQueryHasWhere = true
 
         if playlist.manual {
             switch clause {
@@ -89,7 +88,6 @@ public class PlaylistQueryBuilder {
                         \(manualJoin)
                         \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                         """
-                    mainQueryHasWhere = !shouldShowArchived
                 } else {
                     // Original query without optimization
                     let manualCTE =
@@ -127,7 +125,6 @@ public class PlaylistQueryBuilder {
                         \(manualJoin)
                         \(shouldShowArchived ? "" : "WHERE episode.archived = 0")
                         """
-                    mainQueryHasWhere = !shouldShowArchived
                 }
             case .episodeCount:
                 if FeatureFlag.optimizeManualPlaylistQueries.enabled {
@@ -261,8 +258,12 @@ public class PlaylistQueryBuilder {
 
         PlaylistQueryBuilder.removeEmptyFilterGroups(from: &queryString)
         if let searchTerm {
-            let searchClause = mainQueryHasWhere ? "AND" : "WHERE"
-            let safeSearchTerm = searchTerm.uppercased().replacingOccurrences(of: "'", with: "''")
+            let hasWhere = !playlist.manual || !shouldShowArchived
+            let searchClause = hasWhere ? "AND" : "WHERE"
+            let safeSearchTerm = searchTerm
+                .uppercased()
+                .escapeLike(escapeChar: "\\")
+                .replacingOccurrences(of: "'", with: "''")
             queryString += " \(searchClause) (UPPER(episode.title) LIKE '%\(safeSearchTerm)%' ESCAPE '\\'"
             queryString += " OR UPPER(podcast.title) LIKE '%\(safeSearchTerm)%'  ESCAPE '\\')"
         }
