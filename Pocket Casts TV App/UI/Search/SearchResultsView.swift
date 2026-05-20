@@ -40,7 +40,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                                 .frame(width: Layout.cellSize, height: Layout.cellSize)
                         }
                         .buttonStyle(.card)
-                    default:
+                    case .episode:
                         EmptyView()
                     }
                 }

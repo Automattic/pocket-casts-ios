@@ -35,7 +35,7 @@ struct MediaOverlayView: View {
                         Spacer()
                     }
                     Spacer()
-                }                
+                }
             }
         }
         .ignoresSafeArea()

@@ -26,19 +26,18 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 
     func search(query: String)
 
-    func autoComplete(query: String)
-
     func saveHistory(_ term: String)
 }
 
 @Observable
+@MainActor
 class SearchViewModel: SearchableViewModel {
 
     private var dataManager: DataManager
     private var searchModel: SearchHistoryModel
     private var predictiveSearchTask = PredictiveSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel()) {
+    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.dataManager = dataManager
         self.searchModel = searchModel
     }
@@ -52,9 +51,7 @@ class SearchViewModel: SearchableViewModel {
     var results: [CombinedSearchResultType] = []
 
     var searchHistory: [String] {
-        searchModel.entries.compactMap { entry in
-            return entry.searchTerm
-        }
+        searchModel.entries.compactMap(\.searchTerm)
     }
 
     func saveHistory(_ term: String) {
@@ -70,8 +67,8 @@ class SearchViewModel: SearchableViewModel {
         // Cancel any previous task
         searchTask?.cancel()
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            results = []
-            autoCompleteSuggestions = []
+            if !results.isEmpty { results = [] }
+            if !autoCompleteSuggestions.isEmpty { autoCompleteSuggestions = [] }
             state = .query
             return
         }
@@ -91,7 +88,7 @@ class SearchViewModel: SearchableViewModel {
                     switch searchResult.type {
                     case .term(let word):
                         suggestions.append(word)
-                    case .podcast(let podcastResult):
+                    case .podcast:
                         if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
                             combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
                         }
@@ -99,11 +96,9 @@ class SearchViewModel: SearchableViewModel {
                         continue
                     }
                 }
-                await MainActor.run { [combinedResults, suggestions] in
-                    state = searchResults.isEmpty ? .empty : .results
-                    results = combinedResults
-                    autoCompleteSuggestions = suggestions
-                }
+                state = searchResults.isEmpty ? .empty : .results
+                results = combinedResults
+                autoCompleteSuggestions = suggestions
             }  catch is CancellationError {
                 return
             } catch {
@@ -111,13 +106,5 @@ class SearchViewModel: SearchableViewModel {
                 state  = .error(error)
             }
         }
-    }
-
-    func autoComplete(query: String) {
-                
-    }
-
-    private func fetchPodcasts(query: String) async throws -> [Podcast] {
-        return dataManager.searchPodcasts(term: query)
     }
 }

@@ -69,13 +69,13 @@ struct PodcastDetailView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.podcastAuthor)
+                Text(model.podcast?.author ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
-                Text(model.podcastTitle)
+                Text(model.podcast?.title ?? "")
                     .font(.title2)
                     .foregroundColor(.textPrimary)
-                Text(model.podcastDescription)
+                Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }
