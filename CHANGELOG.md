@@ -4,6 +4,7 @@
 - Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
+- Fix Show Archived toggle in Playlists during search [#4329](https://github.com/Automattic/pocket-casts-ios/pull/4329)
 
 8.12
 -----
