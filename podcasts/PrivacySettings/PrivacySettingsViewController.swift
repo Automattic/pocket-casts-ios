@@ -34,11 +34,12 @@ class PrivacySettingsViewController: PCViewController, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 3:
-            NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
-        default:
-            break
+        let isProfileSharingSection = FeatureFlag.shareProfile.enabled && indexPath.section == 0
+        if !isProfileSharingSection {
+            let analyticsRow = indexPath.row
+            if analyticsRow == 3 {
+                NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
+            }
         }
     }
 

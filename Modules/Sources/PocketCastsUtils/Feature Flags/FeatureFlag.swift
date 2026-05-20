@@ -316,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Liquid Glass UI redesign
     case liquidGlass
 
+    /// Enable the Share Profile feature
+    case shareProfile
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -530,6 +533,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .liquidGlass:
             true
+        case .shareProfile:
+            BuildEnvironment.current == .debug
         }
     }
 

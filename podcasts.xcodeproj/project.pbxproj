@@ -1089,6 +1089,11 @@
 		C7FF7715291D45B50082A464 /* SingleSignOn.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */; };
 		E3F37446291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
 		E3F37447291F0DD1005916ED /* Chapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F37445291F0DD1005916ED /* Chapters.swift */; };
+		F26CC6312FACD5D400C1F8F7 /* ShareProfileCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC62D2FACD5D400C1F8F7 /* ShareProfileCardView.swift */; };
+		F26CC6322FACD5D400C1F8F7 /* ShareProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC62E2FACD5D400C1F8F7 /* ShareProfileView.swift */; };
+		F26CC6332FACD5D400C1F8F7 /* ShareProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */; };
+		F29158922FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */; };
+		F29158942FBD0C3F0028F7F3 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */; };
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
@@ -2678,6 +2683,11 @@
 		C7FAFF5C2941844C00329B40 /* CancelConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelConfirmationViewModel.swift; sourceTree = "<group>"; };
 		C7FF7714291D45B50082A464 /* SingleSignOn.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SingleSignOn.xcassets; sourceTree = "<group>"; };
 		E3F37445291F0DD1005916ED /* Chapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapters.swift; sourceTree = "<group>"; };
+		F26CC62D2FACD5D400C1F8F7 /* ShareProfileCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileCardView.swift; sourceTree = "<group>"; };
+		F26CC62E2FACD5D400C1F8F7 /* ShareProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileView.swift; sourceTree = "<group>"; };
+		F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileViewModel.swift; sourceTree = "<group>"; };
+		F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoMenu.swift; sourceTree = "<group>"; };
+		F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
@@ -4289,6 +4299,7 @@
 		BD55C9F11FB9200C0084A7CB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F26CC6302FACD5D400C1F8F7 /* Share Profile */,
 				FF4A73D42C8745AE00587128 /* Referrals */,
 				10A4F7542C51627C0084D783 /* Kids Profile */,
 				C76400542A0EDFB90092A74B /* UserInfo.swift */,
@@ -5607,6 +5618,18 @@
 				F5BA5C9B2C80F38200BDA5B9 /* UIViewControllerContentConfiguration.swift */,
 			);
 			name = Discovery;
+			sourceTree = "<group>";
+		};
+		F26CC6302FACD5D400C1F8F7 /* Share Profile */ = {
+			isa = PBXGroup;
+			children = (
+				F26CC62D2FACD5D400C1F8F7 /* ShareProfileCardView.swift */,
+				F26CC62E2FACD5D400C1F8F7 /* ShareProfileView.swift */,
+				F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */,
+				F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */,
+				F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */,
+			);
+			path = "Share Profile";
 			sourceTree = "<group>";
 		};
 		FF1DF0232C8F4DBF0028B8D8 /* Banner */ = {
@@ -7002,6 +7025,7 @@
 				BD9FF6121B8EC90C009F075E /* ImageManager.swift in Sources */,
 				BD6B432C27561EA8005E4017 /* PCHostingController.swift in Sources */,
 				BDCA84F21C1FB7260022ED4D /* DownloadSettingsViewController.swift in Sources */,
+				F29158942FBD0C3F0028F7F3 /* CameraPicker.swift in Sources */,
 				4084262D2134CBCD0076D82E /* LargeListCell.swift in Sources */,
 				91319B0B2C171F69000220A4 /* GravatarSafariViewController.swift in Sources */,
 				C701C25C2A8E82DC00AD9FAB /* PaidFeature.swift in Sources */,
@@ -7122,6 +7146,9 @@
 				FF4A73D82C87694300587128 /* ReferralCardView.swift in Sources */,
 				C7BF5E47290832FD00733C1E /* DiscoverCoordinator.swift in Sources */,
 				F58189C32DBC56A200B95199 /* PodcastInfo+DiscoverPodcast.swift in Sources */,
+				F26CC6312FACD5D400C1F8F7 /* ShareProfileCardView.swift in Sources */,
+				F26CC6322FACD5D400C1F8F7 /* ShareProfileView.swift in Sources */,
+				F26CC6332FACD5D400C1F8F7 /* ShareProfileViewModel.swift in Sources */,
 				BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */,
 				407CD7292266DF510033C18E /* CancelInfoViewController.swift in Sources */,
 				BD585C21204794AE00AC842C /* IncomingShareItem.swift in Sources */,
@@ -7423,6 +7450,7 @@
 				9A9B83BA2DCA666A002CE179 /* CancelSubscriptionSurveyView.swift in Sources */,
 				BDF15A441B54E155000EC323 /* PlaybackProtocol.swift in Sources */,
 				BD9F2FD627549BA300070958 /* AboutView.swift in Sources */,
+				F29158922FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift in Sources */,
 				BDCCBC8824BC444F009B4D1D /* CustomTimeStepper.swift in Sources */,
 				BDFB53CB2362B9080001806E /* UpNextViewController.swift in Sources */,
 				9A156AAD2CF60973007BA8D9 /* CancelSubscriptionPlansView.swift in Sources */,

@@ -2875,6 +2875,9 @@
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_first_party_analytics" = "First-party analytics";
 
+/* Section header for analytics in privacy settings */
+"settings_analytics" = "Analytics";
+
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_third_party_analytics" = "Third-party analytics";
 
@@ -2982,6 +2985,69 @@
 
 /* A message shown when trying to share a private podcast, which is disabled. */
 "share_podcast_private_not_available" = "Sharing is not available for private podcasts";
+
+/* Title for the share profile screen */
+"share_profile" = "Share profile";
+
+/* Title for the add photo and name step */
+"share_profile_add_photo_and_name" = "Add photo and name";
+
+/* Title for the edit photo and name screen */
+"share_profile_edit_photo_and_name" = "Edit photo and name";
+
+/* Choose photo from library */
+"share_profile_choose_photo" = "Choose Photo";
+
+/* Take a new photo with camera */
+"share_profile_take_photo" = "Take Photo";
+
+/* Remove the current profile photo */
+"share_profile_remove_photo" = "Remove Photo";
+
+/* Label for the display name field */
+"share_profile_display_name" = "Display name";
+
+/* Placeholder text for the name input field */
+"share_profile_add_your_name" = "Add your name";
+
+/* Description text below the name input field */
+"share_profile_name_description" = "This is how you'll appear on shared profiles. You can change it later.";
+
+/* Title for the preview profile step */
+"share_profile_preview" = "Preview profile";
+
+/* Button label for sharing the profile */
+"share_profile_share_my_profile" = "Share my profile";
+
+/* Title for the edit profile step */
+"share_profile_edit" = "Edit profile";
+
+/* Section header for the share options */
+"share_profile_what_to_share" = "What do you want to share?";
+
+/* Toggle label for including followed podcasts in shared profile */
+"share_profile_followed_podcasts" = "Followed podcasts";
+
+/* Toggle label for including recent episodes in shared profile */
+"share_profile_recent_episodes" = "Recent episodes";
+
+/* Toggle label for including playlists in shared profile */
+"share_profile_playlists" = "Playlists";
+
+/* Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text */
+"share_profile_privacy_description" = "You can manage what you're sharing in %1$@";
+
+/* Share Profile: Privacy link label */
+"share_profile_privacy" = "Privacy";
+
+/* Share Profile: Profile sharing section header in privacy settings */
+"share_profile_profile_sharing" = "Profile sharing";
+
+/* Share Profile: Privacy settings footer text */
+"share_profile_privacy_settings_footer" = "Control what others can see when you share your profile.";
+
+/* Generic save button */
+"share_profile_save" = "Save";
 
 /* Error message for when sharing fails. */
 "share_podcasts_sharing_failed_msg" = "Something went wrong creating your share page";
