@@ -14,7 +14,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
-    private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.5 }
+    private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.45 }
     private var presentDamping: CGFloat { isInteractive ? 0.9 : 1.0 }
     private var dismissDamping: CGFloat { isInteractive ? 0.85 : 1.0 }
 
