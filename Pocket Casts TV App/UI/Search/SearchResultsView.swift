@@ -1,7 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 
-struct SearchPodcastsResultsView: View {
+struct SearchResultsView: View {
 
     let podcastsUuids: [String]
 
