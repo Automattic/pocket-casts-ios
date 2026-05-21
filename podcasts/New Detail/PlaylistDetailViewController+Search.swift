@@ -2,6 +2,9 @@ import UIKit
 
 extension PlaylistDetailViewController: PCSearchBarDelegate {
     func searchDidBegin() {
+        if preSearchContentOffset == nil && !viewModel.isSearching {
+            preSearchContentOffset = tableView.contentOffset
+        }
         viewModel.startSearch()
 
         tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
