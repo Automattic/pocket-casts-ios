@@ -99,6 +99,8 @@ class EpisodeRowViewModel: Identifiable {
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+    }
+
     var canArchive: Bool {
         episode is Episode
     }
