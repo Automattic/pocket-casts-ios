@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 @Observable
 class EpisodeRowViewModel: Identifiable {
@@ -45,7 +46,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayDate: String {
-        return episode.shortPublishedDate()
+        return DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
     }
 
     var displayDuration: String {
