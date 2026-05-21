@@ -6,6 +6,7 @@ import PocketCastsServer
 class PodcastDetailViewModel {
 
     private let dataManager: DataManager
+    private let episodesQueryBuilder = EpisodesQueryBuilder()
     private let serverPodcastManager: ServerPodcastManager
     private let podcastManager: PodcastManager
 
@@ -91,7 +92,8 @@ class PodcastDetailViewModel {
         guard let podcast else {
             return []
         }
-        return dataManager.allEpisodesForPodcast(id: podcast.id)
+        let query = episodesQueryBuilder.makeEpisodeQuery(podcast: podcast)
+        return dataManager.findEpisodesWhere(customWhere: query, arguments: nil)
     }
 
     func subscribe() {
