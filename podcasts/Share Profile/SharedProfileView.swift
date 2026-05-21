@@ -156,21 +156,26 @@ struct SharedProfileView: View {
             podcastArtwork(url: podcast.artworkURL, size: 52)
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(podcast.title)
-                    .font(style: .subheadline, weight: .medium)
-                    .foregroundColor(theme.primaryText01)
-                    .lineLimit(1)
-
-                if let author = podcast.author {
-                    Text(author)
-                        .font(style: .footnote, weight: .regular)
-                        .foregroundColor(theme.primaryText02)
-                        .lineLimit(1)
-                }
-            }
+            Text(podcast.title)
+                .font(style: .subheadline, weight: .medium)
+                .foregroundColor(theme.primaryText01)
+                .lineLimit(1)
 
             Spacer()
+
+            if !viewModel.isSubscribed(podcastUuid: podcast.uuid) {
+                Button {
+                    viewModel.subscribeToPodcast(uuid: podcast.uuid)
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(theme.primaryInteractive01)
+                }
+            } else {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(theme.primaryInteractive01)
+            }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 8)
@@ -219,6 +224,14 @@ struct SharedProfileView: View {
             }
 
             Spacer()
+
+            Button {
+                viewModel.playEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
+            } label: {
+                Image(systemName: "play.circle")
+                    .font(.system(size: 28))
+                    .foregroundColor(theme.primaryInteractive01)
+            }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 8)

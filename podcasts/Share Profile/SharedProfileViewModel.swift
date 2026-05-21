@@ -37,6 +37,7 @@ class SharedProfileViewModel: ObservableObject {
     }
 
     @Published var state: State = .loading
+    @Published var subscribedUuids: Set<String> = []
 
     let profileSlug: String
 
@@ -48,6 +49,25 @@ class SharedProfileViewModel: ObservableObject {
     var profileData: ProfileData? {
         if case .loaded(let data) = state { return data }
         return nil
+    }
+
+    func isSubscribed(podcastUuid: String) -> Bool {
+        if subscribedUuids.contains(podcastUuid) { return true }
+        return DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: false) != nil
+    }
+
+    func subscribeToPodcast(uuid: String) {
+        subscribedUuids.insert(uuid)
+        ServerPodcastManager.shared.subscribe(to: uuid, completion: nil)
+    }
+
+    func playEpisode(uuid: String, podcastUuid: String) {
+        ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastUuid, subscribe: false) { success in
+            guard success, let episode = DataManager.sharedManager.findEpisode(uuid: uuid) else { return }
+            DispatchQueue.main.async {
+                PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+            }
+        }
     }
 
     private func loadProfile() {
