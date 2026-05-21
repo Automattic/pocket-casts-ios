@@ -38,18 +38,7 @@ struct SuggestedFoldersView: View {
             case .loaded:
                 NavigationContainer {
                     mainBody
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button {
-                                    track(.suggestedFoldersPageDismissed)
-                                    onCompletion(.dismiss)
-                                } label: {
-                                    Image("close")
-                                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
-                                }
-                                .accessibilityLabel(L10n.close)
-                            }
-                        }
+                        .navigationBarHidden(true)
                 }
                 .navigationViewStyle(.stack)
                 .tint(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
@@ -83,6 +72,17 @@ struct SuggestedFoldersView: View {
 
     var mainBody: some View {
         VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Button {
+                    track(.suggestedFoldersPageDismissed)
+                    onCompletion(.dismiss)
+                } label: {
+                    Image("close")
+                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+                }
+                .accessibilityLabel(L10n.close)
+                Spacer()
+            }
             Group {
                 Text(L10n.suggestedFoldersTitle)
                     .textStyle(PrimaryText())
@@ -130,7 +130,6 @@ struct SuggestedFoldersView: View {
             Spacer()
         }
         .padding(.horizontal, Constants.margin)
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             track(.suggestedFoldersPageShown)
         }
