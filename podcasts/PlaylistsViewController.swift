@@ -207,17 +207,10 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func presentFilterPreview() {
-        if FeatureFlag.playlistsRebranding.enabled {
-            let createPlaylistVC = NewPlaylistViewController()
-            createPlaylistVC.delegate = self
-            let navVC = SJUIUtils.navController(for: createPlaylistVC)
-            present(navVC, animated: true, completion: nil)
-        } else {
-            let createFilterVC = FilterPreviewViewController()
-            createFilterVC.delegate = self
-            let navVC = SJUIUtils.navController(for: createFilterVC)
-            present(navVC, animated: true, completion: nil)
-        }
+        let createPlaylistVC = NewPlaylistViewController()
+        createPlaylistVC.delegate = self
+        let navVC = SJUIUtils.navController(for: createPlaylistVC)
+        present(navVC, animated: true, completion: nil)
     }
 
     override func handleThemeChanged() {
