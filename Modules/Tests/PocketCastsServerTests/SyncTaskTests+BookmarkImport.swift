@@ -82,7 +82,7 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
         let uuid = bookmark.uuid
         let updatedTitle = "hello"
         let updatedTime = 321.0
-        let updatedDate = Date.init(timeIntervalSince1970: 99999)
+        let updatedDate = Date(timeIntervalSince1970: 99999)
 
         let apiBookmark = Api_SyncUserBookmark(uuid: uuid,
                                                episode: bookmark.episodeUuid,
@@ -150,8 +150,8 @@ final class SyncTaskTests_BookmarkImport: XCTestCase {
 
         let allBookmarks = bookmarkManager.allBookmarks()
 
-        XCTAssertEqual(allBookmarks.map(\.title), Array.init(repeating: newTitle, count: bookmarks.count))
-        XCTAssertEqual(allBookmarks.map(\.created), Array.init(repeating: created, count: bookmarks.count))
+        XCTAssertEqual(allBookmarks.map(\.title), Array(repeating: newTitle, count: bookmarks.count))
+        XCTAssertEqual(allBookmarks.map(\.created), Array(repeating: created, count: bookmarks.count))
     }
 
     func testFullSyncImportsDataCorrectly() {
