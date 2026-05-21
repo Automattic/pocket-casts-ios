@@ -339,6 +339,12 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             }
         }
 
+        if podcast != nil, episodeInfo.isEmpty {
+            let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
+            episodeInfo = [ArraySection(model: searchHeader.headerTitle, elements: [searchHeader])]
+            reloadData()
+        }
+
         loadPodcastInfo()
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
