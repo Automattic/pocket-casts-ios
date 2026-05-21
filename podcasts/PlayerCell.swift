@@ -257,7 +257,7 @@ class PlayerCell: ThemeableSwipeCell {
         selectTickImageView.updateSizeConstraints(to: tickSize)
         selectTickImageView.layer.cornerRadius = tickSize / 2
 
-        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         dayName.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 

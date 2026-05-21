@@ -46,6 +46,9 @@
                             <constraint firstAttribute="height" constant="56" id="Ohc-ER-Sk3"/>
                         </constraints>
                     </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="TxV-st-0Vt" userLabel="Text Stack View">
+                        <rect key="frame" x="84" y="10.5" width="228" height="51"/>
+                        <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="250" text="DAY NAME" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxd-V8-but" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="80" y="15" width="232" height="13.5"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
@@ -83,6 +86,8 @@
                             </label>
                         </subviews>
                     </stackView>
+                        </subviews>
+                    </stackView>
                     <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPL-EK-QpB" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="79" width="320" height="1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -93,24 +98,20 @@
                 </subviews>
                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="vxd-V8-but" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="3jl-q6-Kuk"/>
-                    <constraint firstAttribute="trailing" secondItem="oRM-hc-IES" secondAttribute="trailing" id="6cL-cZ-UKS"/>
                     <constraint firstItem="IaQ-ms-xZi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7mz-gA-2Vu"/>
-                    <constraint firstItem="wE1-9S-69I" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="8aj-Ja-L8V"/>
-                    <constraint firstAttribute="trailing" secondItem="SPL-EK-QpB" secondAttribute="trailing" id="FRd-Je-Vth"/>
+                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-24" id="W6l-JH-2df"/>
+                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-16" id="dAg-4g-2db"/>
+                    <constraint firstItem="OJf-Is-8tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Z0H-Az-83U"/>
+                    <constraint firstItem="OJf-Is-8tF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="img-tp-006"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="12" id="txt-le-001"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="txt-cy-002"/>
+                    <constraint firstAttribute="trailing" secondItem="TxV-st-0Vt" secondAttribute="trailing" constant="8" id="txt-tr-003"/>
+                    <constraint firstItem="TxV-st-0Vt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="txt-tp-004"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TxV-st-0Vt" secondAttribute="bottom" constant="8" id="txt-bt-005"/>
                     <constraint firstItem="SPL-EK-QpB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OJf-Is-8tF" secondAttribute="bottom" constant="6" id="FT0-GR-4aw"/>
                     <constraint firstItem="SPL-EK-QpB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="THB-Gv-8b2"/>
-                    <constraint firstItem="oRM-hc-IES" firstAttribute="top" secondItem="wE1-9S-69I" secondAttribute="bottom" constant="4" id="Tna-d1-ajw"/>
-                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-24" id="W6l-JH-2df"/>
-                    <constraint firstItem="OJf-Is-8tF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Z0H-Az-83U"/>
-                    <constraint firstItem="vxd-V8-but" firstAttribute="leading" secondItem="OJf-Is-8tF" secondAttribute="trailing" constant="8" id="aTa-Qw-wZX"/>
-                    <constraint firstItem="oRM-hc-IES" firstAttribute="leading" secondItem="wE1-9S-69I" secondAttribute="leading" id="bI8-92-Yir"/>
-                    <constraint firstItem="IaQ-ms-xZi" firstAttribute="trailing" secondItem="OJf-Is-8tF" secondAttribute="leading" constant="-16" id="dAg-4g-2db"/>
-                    <constraint firstAttribute="trailing" secondItem="vxd-V8-but" secondAttribute="trailing" constant="8" id="dsp-Ea-A98"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wE1-9S-69I" secondAttribute="trailing" constant="8" id="eja-el-zCZ"/>
-                    <constraint firstItem="oRM-hc-IES" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" constant="-14" id="gys-zy-Lhp"/>
+                    <constraint firstAttribute="trailing" secondItem="SPL-EK-QpB" secondAttribute="trailing" id="FRd-Je-Vth"/>
                     <constraint firstItem="SPL-EK-QpB" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="ixX-SD-QBc"/>
-                    <constraint firstItem="wE1-9S-69I" firstAttribute="top" secondItem="vxd-V8-but" secondAttribute="bottom" constant="2" id="tXG-hc-RAK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
