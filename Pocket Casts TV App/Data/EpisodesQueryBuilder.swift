@@ -1,8 +1,8 @@
 import PocketCastsDataModel
 
-class EpisodesQueryBuilder {
+enum EpisodesQueryBuilder {
 
-    func makeEpisodeQuery(podcast: Podcast) -> String {
+    static func makeEpisodeQuery(podcast: Podcast) -> (query: String, arguments: [Any]) {
 
         let episodeSortOrder = podcast.podcastSortOrder
 
@@ -25,6 +25,6 @@ class EpisodesQueryBuilder {
             sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
 
-        return "podcast_id = \(podcast.id) AND archived = 0 \(sortStr)"
+        return ("podcast_id = ? AND archived = 0 \(sortStr)", [podcast.id])
     }
 }
