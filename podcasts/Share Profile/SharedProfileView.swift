@@ -135,7 +135,7 @@ struct SharedProfileView: View {
             .overlay(
                 Image(systemName: "person.fill")
                     .font(.system(size: 40))
-                    .foregroundColor(Color(.systemGray3))
+                    .foregroundColor(Color(.systemGray2))
             )
     }
 
@@ -266,9 +266,16 @@ struct SharedProfileView: View {
                             .foregroundColor(theme.primaryText01)
                             .lineLimit(2)
 
-                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: episode.duration))
-                            .font(style: .caption, weight: .semibold)
-                            .foregroundColor(theme.primaryText02)
+                        HStack(spacing: 4) {
+                            if let podcastTitle = episode.podcastTitle {
+                                Text(podcastTitle)
+                                    .lineLimit(1)
+                                Text("·")
+                            }
+                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: episode.duration))
+                        }
+                        .font(style: .caption, weight: .semibold)
+                        .foregroundColor(theme.primaryText02)
                     }
                 }
             }
@@ -281,6 +288,7 @@ struct SharedProfileView: View {
             } label: {
                 EpisodePlayButton()
             }
+            .accessibilityLabel(L10n.play)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
@@ -312,6 +320,7 @@ struct SharedProfileView: View {
     }
 
     private func addCloseButton(to viewController: UIViewController) {
+        // Force viewDidLoad so PodcastViewController's nav bar setup runs before we override leftBarButtonItem
         _ = viewController.view
         let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
         viewController.navigationItem.leftBarButtonItem = closeButton
@@ -324,7 +333,7 @@ struct SharedProfileView: View {
             addCloseButton(to: podcastVC)
             presentOnTop(navVC)
         } else {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: false) { [self] success in
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: false) { success in
                 DispatchQueue.main.async {
                     if success, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
                         let podcastVC = PodcastViewController(podcast: podcast)
@@ -482,6 +491,19 @@ private struct SharedProfileSubscribeButton: View {
             (FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed) :
             (FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe)
         )
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.podcastAdded)) { _ in
+            refreshSubscriptionState()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.podcastDeleted)) { _ in
+            refreshSubscriptionState()
+        }
+    }
+
+    private func refreshSubscriptionState() {
+        let subscribed = DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: false) != nil
+        if subscribed != isSubscribed {
+            isSubscribed = subscribed
+        }
     }
 
     private var inlineLabel: some View {
