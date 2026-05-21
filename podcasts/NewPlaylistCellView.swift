@@ -39,7 +39,7 @@ struct NewPlaylistCellView: View {
     }
 
     var body: some View {
-        HStack(spacing: 16.0) {
+        HStack(spacing: 12.0) {
             if viewModel.displayType == .addNew {
                 ZStack {
                     Rectangle()
@@ -60,7 +60,7 @@ struct NewPlaylistCellView: View {
             VStack(alignment: .leading, spacing: 2.0) {
                 Text(title)
                     .foregroundStyle(theme.primaryText01)
-                    .font(size: 15.0, style: .subheadline, weight: .medium)
+                    .font(size: 15.0, style: .subheadline, weight: .semibold)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                 if let subtitle {
