@@ -18,8 +18,6 @@ class EpisodeRowViewModel: Identifiable {
 
     private let playbackManager: PlaybackManager
 
-    var toastManager: ToastManager?
-
     init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
@@ -88,7 +86,7 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
         }
-        toastManager?.show(L10n.playNextInUpNext)
+        ToastManager.shared.show(L10n.playNextInUpNext)
     }
 
     func playLast() {
@@ -98,12 +96,12 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
         }
-        toastManager?.show(L10n.playLastInUpNext)
+        ToastManager.shared.show(L10n.playLastInUpNext)
     }
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        toastManager?.show(L10n.markPlayed)
+        ToastManager.shared.show(L10n.markPlayed)
     }
 
     var canArchive: Bool {
@@ -113,12 +111,12 @@ class EpisodeRowViewModel: Identifiable {
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        toastManager?.show(L10n.podcastArchived)
+        ToastManager.shared.show(L10n.podcastArchived)
     }
 
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
-        toastManager?.show(L10n.removeFromUpNext)
+        ToastManager.shared.show(L10n.removeFromUpNext)
     }
 }
 

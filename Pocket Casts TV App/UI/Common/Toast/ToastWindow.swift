@@ -2,11 +2,22 @@ import UIKit
 import SwiftUI
 
 class ToastWindow: UIWindow {
-    static let shared = ToastWindow(windowScene: UIApplication.shared.connectedScenes.first as! UIWindowScene)
+    private static var instance: ToastWindow?
+
+    static var shared: ToastWindow? {
+        if let instance { return instance }
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }) ?? UIApplication.shared.connectedScenes.first as? UIWindowScene
+        else { return nil }
+        let window = ToastWindow(windowScene: scene)
+        instance = window
+        return window
+    }
 
     override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
-        self.windowLevel = .alert + 1  // Above all other windows
+        self.windowLevel = .alert + 1
         self.isHidden = false
         self.backgroundColor = .clear
         self.rootViewController = ToastHostViewController()
@@ -14,7 +25,6 @@ class ToastWindow: UIWindow {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // Passthrough touches to underlying windows
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
         return view == self.rootViewController?.view ? nil : view
@@ -28,7 +38,6 @@ class ToastHostViewController: UIViewController {
         view.isUserInteractionEnabled = false
     }
 }
-
 
 class ToastView: UIView {
     private let messageLabel = UILabel()

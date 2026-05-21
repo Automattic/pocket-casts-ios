@@ -1,23 +1,29 @@
-@Observable
+import UIKit
+
 class ToastManager {
     static let shared = ToastManager()
     private init() {}
 
+    private var currentToast: ToastView?
+    private var dismissTask: Task<Void, Never>?
+
     func show(_ message: String, duration: TimeInterval = 3.0) {
-        DispatchQueue.main.async {
-            guard let hostView = ToastWindow.shared.rootViewController?.view else { return }
+        Task { @MainActor in
+            dismissTask?.cancel()
+            currentToast?.removeFromSuperview()
+
+            guard let hostView = ToastWindow.shared?.rootViewController?.view else { return }
 
             let toast = ToastView(message: message)
             hostView.addSubview(toast)
+            currentToast = toast
 
-            // Position: bottom-center (common tvOS pattern)
             NSLayoutConstraint.activate([
                 toast.trailingAnchor.constraint(equalTo: hostView.trailingAnchor, constant: -48),
                 toast.topAnchor.constraint(equalTo: hostView.topAnchor, constant: 48),
                 toast.widthAnchor.constraint(lessThanOrEqualTo: hostView.widthAnchor, multiplier: 0.6)
             ])
 
-            // Animate in
             toast.alpha = 0
             toast.transform = CGAffineTransform(translationX: 0, y: 20)
             UIView.animate(withDuration: 0.3) {
@@ -25,13 +31,17 @@ class ToastManager {
                 toast.transform = .identity
             }
 
-            // Animate out and remove
-            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            dismissTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(duration))
+                guard !Task.isCancelled else { return }
                 UIView.animate(withDuration: 0.3, animations: {
                     toast.alpha = 0
                     toast.transform = CGAffineTransform(translationX: 0, y: 20)
                 }) { _ in
                     toast.removeFromSuperview()
+                    if self?.currentToast === toast {
+                        self?.currentToast = nil
+                    }
                 }
             }
         }
