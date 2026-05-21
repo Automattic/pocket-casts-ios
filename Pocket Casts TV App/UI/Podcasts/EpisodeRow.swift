@@ -124,13 +124,14 @@ struct EpisodeRowWithActions: View {
             Button(L10n.playNextInUpNext) { model.playNext() }
             Button(L10n.playLastInUpNext) { model.playLast() }
             Button(L10n.markPlayed) { model.markAsPlayed() }
-            Button(L10n.archive) { model.archive() }
+            if model.canArchive {
+                Button(L10n.archive) { model.archive() }
+            }
         case .upNext:
             Button(L10n.playNext) { model.playNext() }
             Button(L10n.playLast) { model.playLast() }
             Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
-        Button(L10n.tvEpisodeInfo) {}
     }
 
     var body: some View {
