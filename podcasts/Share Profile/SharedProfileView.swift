@@ -77,14 +77,21 @@ struct SharedProfileView: View {
     @ViewBuilder
     private func profileContent(_ profile: SharedProfileViewModel.ProfileData) -> some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 0) {
                 profileHeader(profile)
+                    .padding(.bottom, 24)
 
                 if !profile.podcasts.isEmpty {
                     podcastsSection(profile.podcasts)
                 }
 
                 if !profile.episodes.isEmpty {
+                    if !profile.podcasts.isEmpty {
+                        ThemedDivider()
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 24)
+                    }
+
                     episodesSection(profile.episodes)
                 }
             }
@@ -97,7 +104,7 @@ struct SharedProfileView: View {
 
     @ViewBuilder
     private func profileHeader(_ profile: SharedProfileViewModel.ProfileData) -> some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 8) {
             if let photoURL = profile.photoURL {
                 AsyncImage(url: photoURL) { image in
                     image
@@ -106,26 +113,28 @@ struct SharedProfileView: View {
                 } placeholder: {
                     profilePlaceholder
                 }
-                .frame(width: 100, height: 100)
+                .frame(width: 120, height: 120)
                 .clipShape(Circle())
             } else {
                 profilePlaceholder
             }
 
             Text(profile.displayName)
-                .font(style: .title2, weight: .bold)
+                .font(style: .title3, weight: .bold)
                 .foregroundColor(theme.primaryText01)
         }
-        .padding(.top, 24)
+        .padding(.top, 16)
+        .padding(.bottom, 8)
+        .frame(maxWidth: .infinity)
     }
 
     private var profilePlaceholder: some View {
         Circle()
             .fill(Color(.systemGray5))
-            .frame(width: 100, height: 100)
+            .frame(width: 120, height: 120)
             .overlay(
                 Image(systemName: "person.fill")
-                    .font(.system(size: 36))
+                    .font(.system(size: 40))
                     .foregroundColor(Color(.systemGray3))
             )
     }
@@ -134,49 +143,85 @@ struct SharedProfileView: View {
 
     @ViewBuilder
     private func podcastsSection(_ podcasts: [SharedProfileViewModel.PodcastInfo]) -> some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 12) {
             sectionHeader(L10n.shareProfileFollowedPodcasts) {
                 path.append(.allPodcasts)
             }
 
-            ForEach(Array(podcasts.prefix(3).enumerated()), id: \.element.id) { index, podcast in
-                podcastRow(podcast)
-
-                if index < min(podcasts.count, 3) - 1 {
-                    ThemedDivider()
-                        .padding(.horizontal, 20)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(Array(podcasts.prefix(8)), id: \.id) { podcast in
+                        podcastCard(podcast)
+                    }
                 }
+                .padding(.horizontal, 20)
             }
         }
     }
 
     @ViewBuilder
-    private func podcastRow(_ podcast: SharedProfileViewModel.PodcastInfo) -> some View {
-        HStack(spacing: 12) {
-            podcastArtwork(url: podcast.artworkURL, size: 52)
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+    private func podcastCard(_ podcast: SharedProfileViewModel.PodcastInfo) -> some View {
+        let cardWidth: CGFloat = 150
 
-            Text(podcast.title)
-                .font(style: .subheadline, weight: .medium)
-                .foregroundColor(theme.primaryText01)
-                .lineLimit(1)
+        Button {
+            navigateToPodcast(uuid: podcast.uuid)
+        } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                podcastArtwork(url: podcast.artworkURL, size: cardWidth)
+                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+                    .overlay(alignment: .bottomTrailing) {
+                        SharedProfileSubscribeButton(podcastUuid: podcast.uuid, style: .overlay)
+                            .offset(x: -4, y: -4)
+                    }
+                    .padding(.bottom, 8)
 
-            Spacer()
+                Text(podcast.title)
+                    .font(style: .subheadline, weight: .medium)
+                    .foregroundColor(theme.primaryText01)
+                    .lineLimit(1)
+                    .padding(.bottom, 2)
 
-            if !viewModel.isSubscribed(podcastUuid: podcast.uuid) {
-                Button {
-                    viewModel.subscribeToPodcast(uuid: podcast.uuid)
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(theme.primaryInteractive01)
+                if let author = podcast.author {
+                    Text(author)
+                        .font(style: .footnote, weight: .regular)
+                        .foregroundColor(theme.primaryText02)
+                        .lineLimit(1)
                 }
-            } else {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(theme.primaryInteractive01)
+            }
+            .frame(width: cardWidth)
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private func podcastRow(_ podcast: SharedProfileViewModel.PodcastInfo) -> some View {
+        Button {
+            navigateToPodcast(uuid: podcast.uuid)
+        } label: {
+            HStack(spacing: 12) {
+                podcastArtwork(url: podcast.artworkURL, size: 52)
+                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(podcast.title)
+                        .font(style: .subheadline, weight: .medium)
+                        .foregroundColor(theme.primaryText01)
+                        .lineLimit(1)
+
+                    if let author = podcast.author {
+                        Text(author)
+                            .font(style: .footnote, weight: .regular)
+                            .foregroundColor(theme.primaryText02)
+                            .lineLimit(1)
+                    }
+                }
+
+                Spacer()
+
+                SharedProfileSubscribeButton(podcastUuid: podcast.uuid)
             }
         }
+        .buttonStyle(.plain)
         .padding(.horizontal, 20)
         .padding(.vertical, 8)
     }
@@ -185,7 +230,7 @@ struct SharedProfileView: View {
 
     @ViewBuilder
     private func episodesSection(_ episodes: [SharedProfileViewModel.EpisodeInfo]) -> some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             sectionHeader(L10n.shareProfileRecentEpisodes) {
                 path.append(.allEpisodes)
             }
@@ -195,7 +240,6 @@ struct SharedProfileView: View {
 
                 if index < min(episodes.count, 3) - 1 {
                     ThemedDivider()
-                        .padding(.horizontal, 20)
                 }
             }
         }
@@ -204,37 +248,42 @@ struct SharedProfileView: View {
     @ViewBuilder
     private func episodeRow(_ episode: SharedProfileViewModel.EpisodeInfo) -> some View {
         HStack(spacing: 12) {
-            podcastArtwork(url: episode.artworkURL, size: 56)
+            Button {
+                navigateToEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
+            } label: {
+                HStack(spacing: 12) {
+                    podcastArtwork(url: episode.artworkURL, size: 56)
 
-            VStack(alignment: .leading, spacing: 2) {
-                if let date = episode.publishedDate {
-                    Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
-                        .font(style: .caption2, weight: .bold)
-                        .foregroundColor(theme.primaryText02)
+                    VStack(alignment: .leading, spacing: 2) {
+                        if let date = episode.publishedDate {
+                            Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
+                                .font(style: .caption2, weight: .bold)
+                                .foregroundColor(theme.primaryText02)
+                        }
+
+                        Text(episode.title)
+                            .font(style: .subheadline, weight: .medium)
+                            .foregroundColor(theme.primaryText01)
+                            .lineLimit(2)
+
+                        Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: episode.duration))
+                            .font(style: .caption, weight: .semibold)
+                            .foregroundColor(theme.primaryText02)
+                    }
                 }
-
-                Text(episode.title)
-                    .font(style: .subheadline, weight: .medium)
-                    .foregroundColor(theme.primaryText01)
-                    .lineLimit(2)
-
-                Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: episode.duration))
-                    .font(style: .caption, weight: .semibold)
-                    .foregroundColor(theme.primaryText02)
             }
+            .buttonStyle(.plain)
 
             Spacer()
 
             Button {
                 viewModel.playEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
             } label: {
-                Image(systemName: "play.circle")
-                    .font(.system(size: 28))
-                    .foregroundColor(theme.primaryInteractive01)
+                EpisodePlayButton()
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 8)
+        .padding(.vertical, 12)
     }
 
     // MARK: - Artwork
@@ -250,6 +299,49 @@ struct SharedProfileView: View {
         }
         .frame(width: size, height: size)
         .cornerRadius(4)
+    }
+
+    // MARK: - Navigation
+
+    private func presentOnTop(_ viewController: UIViewController) {
+        var topVC = SceneHelper.rootViewController()
+        while let presented = topVC?.presentedViewController {
+            topVC = presented
+        }
+        topVC?.present(viewController, animated: true)
+    }
+
+    private func addCloseButton(to viewController: UIViewController) {
+        _ = viewController.view
+        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
+        viewController.navigationItem.leftBarButtonItem = closeButton
+    }
+
+    private func navigateToPodcast(uuid: String) {
+        if let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+            let podcastVC = PodcastViewController(podcast: podcast)
+            let navVC = SJUIUtils.navController(for: podcastVC)
+            addCloseButton(to: podcastVC)
+            presentOnTop(navVC)
+        } else {
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: false) { [self] success in
+                DispatchQueue.main.async {
+                    if success, let podcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
+                        let podcastVC = PodcastViewController(podcast: podcast)
+                        let navVC = SJUIUtils.navController(for: podcastVC)
+                        addCloseButton(to: podcastVC)
+                        presentOnTop(navVC)
+                    }
+                }
+            }
+        }
+    }
+
+    private func navigateToEpisode(uuid: String, podcastUuid: String) {
+        let loadingVC = EpisodeLoadingController(episodeUuid: uuid, podcastUuid: podcastUuid)
+        let navVC = SJUIUtils.navController(for: loadingVC)
+        addCloseButton(to: loadingVC)
+        presentOnTop(navVC)
     }
 
     // MARK: - Section Header
@@ -334,6 +426,121 @@ struct SharedProfileView: View {
                 }
             }
         }
+    }
+}
+
+private extension UIViewController {
+    @objc func dismissAnimated() {
+        dismiss(animated: true)
+    }
+}
+
+private struct SharedProfileSubscribeButton: View {
+    enum Style {
+        case inline
+        case overlay
+    }
+
+    @EnvironmentObject var theme: Theme
+    @State private var isSubscribed: Bool
+
+    let podcastUuid: String
+    let style: Style
+
+    init(podcastUuid: String, style: Style = .inline) {
+        self.podcastUuid = podcastUuid
+        self.style = style
+        _isSubscribed = State(initialValue: DataManager.sharedManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: false) != nil)
+    }
+
+    var body: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                if isSubscribed {
+                    if let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) {
+                        PodcastManager.shared.unsubscribe(podcast: podcast)
+                        isSubscribed = false
+                    }
+                } else {
+                    ServerPodcastManager.shared.subscribe(to: podcastUuid, completion: nil)
+                    isSubscribed = true
+                    HapticsHelper.triggerSubscribedHaptic()
+                }
+            }
+        } label: {
+            Group {
+                switch style {
+                case .inline:
+                    inlineLabel
+                case .overlay:
+                    overlayLabel
+                }
+            }
+        }
+        .buttonStyle(ScaleButtonStyle())
+        .accessibilityLabel(isSubscribed ?
+            (FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.subscribed) :
+            (FeatureFlag.useFollowNaming.enabled ? L10n.follow : L10n.subscribe)
+        )
+    }
+
+    private var inlineLabel: some View {
+        ZStack {
+            if isSubscribed {
+                Image("discover_tick")
+                    .foregroundColor(AppTheme.color(for: .support02, theme: theme))
+            } else {
+                Image("discover_add")
+                    .foregroundColor(AppTheme.color(for: .primaryIcon02, theme: theme))
+            }
+        }
+        .frame(width: 32, height: 32)
+    }
+
+    private var overlayLabel: some View {
+        Image(isSubscribed ? "discover_subscribed_dark" : "discover_subscribe_dark")
+            .foregroundColor(ThemeColor.contrast01(for: theme.activeTheme).color)
+            .frame(width: 28, height: 28)
+            .background(ThemeColor.veil(for: theme.activeTheme).color)
+            .clipShape(Circle())
+    }
+}
+
+private struct EpisodePlayButton: View {
+    @EnvironmentObject var theme: Theme
+
+    private let size: CGFloat = 28
+    private let strokeWidth: CGFloat = 2
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(AppTheme.color(for: .primaryIcon01, theme: theme), lineWidth: strokeWidth)
+
+            PlayTriangle()
+                .fill(AppTheme.color(for: .primaryIcon01, theme: theme))
+                .frame(width: size * 0.36, height: size * 0.36)
+                .offset(x: size * 0.03)
+        }
+        .frame(width: size, height: size)
+    }
+}
+
+private struct PlayTriangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { path in
+            path.move(to: CGPoint.zero)
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height / 2))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.closeSubpath()
+        }
+    }
+}
+
+private struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .applyButtonEffect(isPressed: configuration.isPressed, scaleEffectNumber: 0.8)
     }
 }
 
