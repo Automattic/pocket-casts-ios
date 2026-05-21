@@ -237,18 +237,11 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         changeNavTint(titleColor: AppTheme.navBarTitleColor(), iconsColor: AppTheme.navBarIconsColor())
     }
 
-    func showFilter(_ filter: EpisodeFilter, isNew: Bool? = false) {
+    func showFilter(_ filter: EpisodeFilter) {
         previouslyDisplayedDetail = true
         presentingPlaylistDetail = true
 
-        let viewController: UIViewController
-        if FeatureFlag.playlistsRebranding.enabled {
-            viewController = PlaylistDetailViewController(playlist: filter, delegate: self)
-        } else {
-            let playlistViewController = PlaylistViewController(filter: filter)
-            playlistViewController.isNewFilter = isNew ?? false
-            viewController = playlistViewController
-        }
+        let viewController = PlaylistDetailViewController(playlist: filter, delegate: self)
         navigationController?.popToRootViewController(animated: false)
         navigationController?.pushViewController(viewController, animated: true)
 
@@ -408,6 +401,6 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     // MARK: - FilterCreationDelegate
 
     func filterCreated(newFilter: EpisodeFilter) {
-        showFilter(newFilter, isNew: true)
+        showFilter(newFilter)
     }
 }
