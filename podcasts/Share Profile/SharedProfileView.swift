@@ -244,7 +244,9 @@ struct SharedProfileView: View {
     private func addCloseButton(to viewController: UIViewController) {
         // Force viewDidLoad so PodcastViewController's nav bar setup runs before we override leftBarButtonItem
         _ = viewController.view
-        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target: viewController, action: #selector(UIViewController.dismissAnimated))
+        let closeButton = UIBarButtonItem(image: UIImage(named: "cancel"), primaryAction: UIAction { [weak viewController] _ in
+            viewController?.dismiss(animated: true)
+        })
         viewController.navigationItem.leftBarButtonItem = closeButton
     }
 
@@ -293,12 +295,6 @@ struct SharedProfileView: View {
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
-    }
-}
-
-private extension UIViewController {
-    @objc func dismissAnimated() {
-        dismiss(animated: true)
     }
 }
 
