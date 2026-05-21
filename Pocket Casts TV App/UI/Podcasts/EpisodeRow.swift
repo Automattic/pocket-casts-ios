@@ -87,6 +87,8 @@ struct MoreButtonStyle: ButtonStyle {
 
 struct EpisodeRowWithActions: View {
 
+    @Environment(ToastManager.self) var toastManager: ToastManager
+
     enum Context {
         case `default`
         case upNext
@@ -121,11 +123,19 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) { model.playNext() }
-            Button(L10n.playLastInUpNext) { model.playLast() }
-            Button(L10n.markPlayed) { model.markAsPlayed() }
+            Button(L10n.playNextInUpNext) {
+                model.playNext()
+            }
+            Button(L10n.playLastInUpNext) {
+                model.playLast()
+            }
+            Button(L10n.markPlayed) {
+                model.markAsPlayed()
+            }
             if model.canArchive {
-                Button(L10n.archive) { model.archive() }
+                Button(L10n.archive) {
+                    model.archive()
+                }
             }
         case .upNext:
             Button(L10n.playNext) { model.playNext() }
@@ -177,6 +187,10 @@ struct EpisodeRowWithActions: View {
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
             actionButtons
         }
+        .onAppear {
+            model.toastManager = toastManager
+        }
+
     }
 }
 

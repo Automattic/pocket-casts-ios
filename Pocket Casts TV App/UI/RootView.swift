@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var coordinator = AppCoordinator()
+    @State private var toastManager = ToastManager.shared
 
     var body: some View {
         ZStack {
@@ -21,6 +22,7 @@ struct RootView: View {
             }
         }
         .environment(coordinator)
+        .environment(toastManager)
         .task {
             await coordinator.load()
         }

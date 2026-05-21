@@ -3,6 +3,8 @@ import AVKit
 import PocketCastsDataModel
 
 struct NowPlayingView: UIViewControllerRepresentable {
+    @Environment(ToastManager.self) var toastManager: ToastManager
+
     @State private var model = NowPlayingViewModel()
     @State private var isTransportBarVisible = true
 
@@ -10,7 +12,6 @@ struct NowPlayingView: UIViewControllerRepresentable {
         let controller = AVPlayerViewController()
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
-        TVToast.shared.configure(with: controller.contentOverlayView)
         model.load()
         addOverlay(to: controller)
         return controller
@@ -94,7 +95,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
                     menu.children.compactMap { $0 as? UIAction }.forEach { $0.state = .off }
                 }
                 action.state = .on
-                TVToast.shared.show(L10n.tvPlayerPlaybackSpeedSet(String(format: "%.1fx", speed)))
+                toastManager.show(L10n.tvPlayerPlaybackSpeedSet(String(format: "%.1fx", speed)))
             }
         }
         return UIMenu(
@@ -106,11 +107,11 @@ struct NowPlayingView: UIViewControllerRepresentable {
 
     private func makePlaybackEffectsMenu() -> UIMenu {
         let volumeBoostOff = UIAction(title: L10n.off, state: model.volumeBoost ? .off : .on) { _ in
-            TVToast.shared.show(L10n.tvPlayerVolumeBoostOff)
+            toastManager.show(L10n.tvPlayerVolumeBoostOff)
             model.volumeBoost = false
         }
         let volumeBoostOn = UIAction(title: L10n.on, state: model.volumeBoost ? .on : .off) { _ in
-            TVToast.shared.show(L10n.tvPlayerVolumeBoostOn)
+            toastManager.show(L10n.tvPlayerVolumeBoostOn)
             model.volumeBoost = true
         }
         let volumeBoostSection = UIMenu(
@@ -121,7 +122,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
 
         let trimActions = TrimSilenceAmount.allCases.map { option in
             UIAction(title: option.description, state: model.trimSilence == option ? .on : .off) { _ in
-                TVToast.shared.show(L10n.tvPlayerTrimSilenceSet(option.description))
+                toastManager.show(L10n.tvPlayerTrimSilenceSet(option.description))
             }
         }
         let trimSection = UIMenu(
