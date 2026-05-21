@@ -21,7 +21,13 @@ struct SharedProfileView: View {
                 .navigationDestination(for: Page.self) { page in
                     switch page {
                     case .allPodcasts:
-                        allPodcastsView()
+                        if let profile = viewModel.profileData {
+                            SharedProfilePodcastsList(
+                                podcasts: profile.podcasts,
+                                navigateToPodcast: { uuid in navigateToPodcast(uuid: uuid) },
+                                goBack: { path.removeLast() }
+                            )
+                        }
                     case .allEpisodes:
                         if let profile = viewModel.profileData {
                             SharedProfileEpisodeList(
@@ -202,41 +208,6 @@ struct SharedProfileView: View {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
-    private func podcastRow(_ podcast: SharedProfileViewModel.PodcastInfo) -> some View {
-        Button {
-            navigateToPodcast(uuid: podcast.uuid)
-        } label: {
-            HStack(spacing: 12) {
-                PodcastImage(uuid: podcast.uuid, size: .list)
-                    .frame(width: 52, height: 52)
-                    .cornerRadius(4)
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(podcast.title)
-                        .font(style: .subheadline, weight: .medium)
-                        .foregroundColor(theme.primaryText01)
-                        .lineLimit(1)
-
-                    if let author = podcast.author {
-                        Text(author)
-                            .font(style: .footnote, weight: .regular)
-                            .foregroundColor(theme.primaryText02)
-                            .lineLimit(1)
-                    }
-                }
-
-                Spacer()
-
-                SharedProfileSubscribeButton(podcastUuid: podcast.uuid)
-            }
-        }
-        .buttonStyle(.plain)
-        .padding(.horizontal, 20)
-        .padding(.vertical, 8)
-    }
-
     // MARK: - Episodes Section
 
     @ViewBuilder
@@ -323,39 +294,6 @@ struct SharedProfileView: View {
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
     }
-
-    // MARK: - Full List Views
-
-    @ViewBuilder
-    private func allPodcastsView() -> some View {
-        if let profile = viewModel.profileData {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(profile.podcasts.enumerated()), id: \.element.id) { index, podcast in
-                        podcastRow(podcast)
-
-                        if index < profile.podcasts.count - 1 {
-                            ThemedDivider()
-                                .padding(.horizontal, 20)
-                        }
-                    }
-                }
-            }
-            .background(theme.primaryUi01)
-            .navigationTitle(L10n.shareProfileFollowedPodcasts)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button { path.removeLast() } label: {
-                        Image("nav-back")
-                            .renderingMode(.template)
-                    }
-                    .navThemed()
-                }
-            }
-        }
-    }
 }
 
 private extension UIViewController {
@@ -364,7 +302,7 @@ private extension UIViewController {
     }
 }
 
-private struct SharedProfileSubscribeButton: View {
+struct SharedProfileSubscribeButton: View {
     enum Style {
         case inline
         case overlay
@@ -479,7 +417,7 @@ struct PlayTriangle: Shape {
     }
 }
 
-private struct ScaleButtonStyle: ButtonStyle {
+struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .applyButtonEffect(isPressed: configuration.isPressed, scaleEffectNumber: 0.8)
