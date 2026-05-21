@@ -60,7 +60,7 @@ struct NewPlaylistCellView: View {
             VStack(alignment: .leading, spacing: 2.0) {
                 Text(title)
                     .foregroundStyle(theme.primaryText01)
-                    .font(size: 15.0, style: .subheadline, weight: .semibold)
+                    .font(size: 15.0, style: .subheadline, weight: .medium)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                 if let subtitle {

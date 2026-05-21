@@ -17,7 +17,7 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
-            episodeTitle.font = UIFont.font(ofSize: 16, scalingWith: .callout)
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
