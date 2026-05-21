@@ -15,9 +15,12 @@ class EpisodeRowViewModel: Identifiable {
 
     var id: String { episode.uuid }
 
-    init(episode: BaseEpisode, podcast: Podcast?) {
+    private let playbackManager: PlaybackManager
+
+    init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
+        self.playbackManager = playbackManager
     }
 
     func loadEpisodeArtwork() {
@@ -74,6 +77,36 @@ class EpisodeRowViewModel: Identifiable {
 
     func play() {
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+    }
+
+    func playNext() {
+        if PlaybackManager.shared.inUpNext(episode: episode) {
+            playbackManager.queue.move(episode: episode, to: 0)
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+        }
+    }
+
+    func playLast() {
+        if playbackManager.inUpNext(episode: episode) {
+            let queueCount = PlaybackManager.shared.queue.upNextCount()
+            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+        }
+    }
+
+    func markAsPlayed() {
+        EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+    }
+
+    func archive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+    }
+
+    func removeFromUpNext() {
+        playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
     }
 }
 

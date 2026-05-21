@@ -121,14 +121,14 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) {}
-            Button(L10n.playLastInUpNext) {}
-            Button(L10n.markPlayed) {}
-            Button(L10n.archive) {}
+            Button(L10n.playNextInUpNext) { model.playNext() }
+            Button(L10n.playLastInUpNext) { model.playLast() }
+            Button(L10n.markPlayed) { model.markAsPlayed() }
+            Button(L10n.archive) { model.archive() }
         case .upNext:
-            Button(L10n.playNext) {}
-            Button(L10n.playLast) {}
-            Button(L10n.removeFromUpNext) {}
+            Button(L10n.playNext) { model.playNext() }
+            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
         Button(L10n.tvEpisodeInfo) {}
     }
