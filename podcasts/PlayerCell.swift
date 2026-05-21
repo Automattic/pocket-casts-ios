@@ -214,7 +214,7 @@ class PlayerCell: ThemeableSwipeCell {
             }
             contentView.layoutIfNeeded()
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                self.selectViewLeadingConstraint.constant = show ? 20 : -24
+                self.selectViewLeadingConstraint.constant = show ? 16 : -24
                 self.contentView.layoutIfNeeded()
             }, completion: { _ in
                 if !show {
@@ -224,7 +224,7 @@ class PlayerCell: ThemeableSwipeCell {
                 }
             })
         } else {
-            selectViewLeadingConstraint.constant = show ? 20 : -24
+            selectViewLeadingConstraint.constant = show ? 16 : -24
             showTick = false
             selectView.layer.borderWidth = show ? 2 : 0
             if !show {
