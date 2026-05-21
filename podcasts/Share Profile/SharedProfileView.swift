@@ -167,7 +167,9 @@ struct SharedProfileView: View {
             navigateToPodcast(uuid: podcast.uuid)
         } label: {
             VStack(alignment: .leading, spacing: 0) {
-                podcastArtwork(url: podcast.artworkURL, size: cardWidth)
+                PodcastImage(uuid: podcast.uuid, size: .grid)
+                    .frame(width: cardWidth, height: cardWidth)
+                    .cornerRadius(4)
                     .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
                     .overlay(alignment: .bottomTrailing) {
                         SharedProfileSubscribeButton(podcastUuid: podcast.uuid, style: .overlay)
@@ -199,7 +201,9 @@ struct SharedProfileView: View {
             navigateToPodcast(uuid: podcast.uuid)
         } label: {
             HStack(spacing: 12) {
-                podcastArtwork(url: podcast.artworkURL, size: 52)
+                PodcastImage(uuid: podcast.uuid, size: .list)
+                    .frame(width: 52, height: 52)
+                    .cornerRadius(4)
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -252,7 +256,9 @@ struct SharedProfileView: View {
                 navigateToEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
             } label: {
                 HStack(spacing: 12) {
-                    podcastArtwork(url: episode.artworkURL, size: 56)
+                    PodcastImage(uuid: episode.podcastUuid, size: .list)
+                        .frame(width: 56, height: 56)
+                        .cornerRadius(4)
 
                     VStack(alignment: .leading, spacing: 2) {
                         if let date = episode.publishedDate {
@@ -292,21 +298,6 @@ struct SharedProfileView: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
-    }
-
-    // MARK: - Artwork
-
-    private func podcastArtwork(url: URL?, size: CGFloat) -> some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color(.systemGray5))
-        }
-        .frame(width: size, height: size)
-        .cornerRadius(4)
     }
 
     // MARK: - Navigation
@@ -572,15 +563,15 @@ private struct ScaleButtonStyle: ButtonStyle {
         displayName: "Dom",
         photoURL: nil,
         podcasts: [
-            .init(id: "1", uuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", title: "Only a Game", author: "WBUR", artworkURL: ServerHelper.imageUrl(podcastUuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", size: 200)),
-            .init(id: "2", uuid: "3782b780-0bc5-012e-fb02-00163e46d440", title: "The Daily", author: "The New York Times", artworkURL: ServerHelper.imageUrl(podcastUuid: "3782b780-0bc5-012e-fb02-00163e46d440", size: 200)),
-            .init(id: "3", uuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", title: "Radiolab", author: "WNYC Studios", artworkURL: ServerHelper.imageUrl(podcastUuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", size: 200)),
-            .init(id: "4", uuid: "36b645c0-53ee-0131-73c3-723c91aeae46", title: "Serial", author: "Serial Productions", artworkURL: ServerHelper.imageUrl(podcastUuid: "36b645c0-53ee-0131-73c3-723c91aeae46", size: 200)),
+            .init(id: "1", uuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", title: "Only a Game", author: "WBUR"),
+            .init(id: "2", uuid: "3782b780-0bc5-012e-fb02-00163e46d440", title: "The Daily", author: "The New York Times"),
+            .init(id: "3", uuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", title: "Radiolab", author: "WNYC Studios"),
+            .init(id: "4", uuid: "36b645c0-53ee-0131-73c3-723c91aeae46", title: "Serial", author: "Serial Productions"),
         ],
         episodes: [
-            .init(id: "1", uuid: "ep-1", podcastUuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", title: "Episode 1: Origins", podcastTitle: "Only a Game", publishedDate: Date().addingTimeInterval(-86400 * 3), duration: 2400, artworkURL: ServerHelper.imageUrl(podcastUuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", size: 200)),
-            .init(id: "2", uuid: "ep-2", podcastUuid: "3782b780-0bc5-012e-fb02-00163e46d440", title: "Switched at Birth", podcastTitle: "The Daily", publishedDate: Date().addingTimeInterval(-86400 * 5), duration: 1800, artworkURL: ServerHelper.imageUrl(podcastUuid: "3782b780-0bc5-012e-fb02-00163e46d440", size: 200)),
-            .init(id: "3", uuid: "ep-3", podcastUuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", title: "Comedy", podcastTitle: "Radiolab", publishedDate: Date().addingTimeInterval(-86400 * 7), duration: 3600, artworkURL: ServerHelper.imageUrl(podcastUuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", size: 200)),
+            .init(id: "1", uuid: "ep-1", podcastUuid: "da3271a0-69e7-0132-d9fd-5f4c86fd3263", title: "Episode 1: Origins", podcastTitle: "Only a Game", publishedDate: Date().addingTimeInterval(-86400 * 3), duration: 2400),
+            .init(id: "2", uuid: "ep-2", podcastUuid: "3782b780-0bc5-012e-fb02-00163e46d440", title: "Switched at Birth", podcastTitle: "The Daily", publishedDate: Date().addingTimeInterval(-86400 * 5), duration: 1800),
+            .init(id: "3", uuid: "ep-3", podcastUuid: "0d10b550-e227-0133-2e8b-6dc413d6d41d", title: "Comedy", podcastTitle: "Radiolab", publishedDate: Date().addingTimeInterval(-86400 * 7), duration: 3600),
         ]
     ))
     return SharedProfileView(viewModel: vm)
