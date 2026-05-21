@@ -71,6 +71,10 @@ class EpisodeRowViewModel: Identifiable {
             return nil
         }
     }
+
+    func play() {
+        PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+    }
 }
 
 @Observable

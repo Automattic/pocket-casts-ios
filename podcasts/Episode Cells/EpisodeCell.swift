@@ -68,6 +68,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private var lastAppliedTheme: Theme.ThemeType?
+    private var lastAppliedSizeCategory: UIContentSizeCategory?
 
     @IBOutlet var videoIndicator: UIImageView!
     @IBOutlet var actionButton: MainEpisodeActionView! {
@@ -594,6 +595,11 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     private func updateSize() {
+        let sizeCategory = traitCollection.preferredContentSizeCategory
+
+        guard lastAppliedSizeCategory != sizeCategory else { return }
+        lastAppliedSizeCategory = sizeCategory
+
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
         let imageSize = max(56, metric.scaledValue(for: 56))
         episodeImage.updateSizeConstraints(to: imageSize)

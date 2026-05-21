@@ -27,8 +27,15 @@ only_rules:
   # Colons should be next to the identifier when specifying a type.
   - colon
 
+  # All elements in a collection literal should be vertically aligned.
+  - collection_alignment
+
   # There should be no space before and one after any comma.
   - comma
+
+  # Commas in protocol/superclass inheritance lists should be followed by a
+  # single space (e.g., prefer `class Foo: Bar, Baz` over `class Foo: Bar,Baz`).
+  - comma_inheritance
 
   # Prefer `contains` over `filter(where:).count`.
   - contains_over_filter_count
@@ -70,6 +77,10 @@ only_rules:
 
   # Prefer `last(where:)` over `filter { }.last`.
   - last_where
+
+  # Closing brackets/braces of literal expressions should be at the same indent
+  # level as the opening.
+  - literal_expression_end_indentation
 
   # MARK comment should be in valid format.
   - mark

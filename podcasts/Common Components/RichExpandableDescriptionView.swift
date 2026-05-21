@@ -148,8 +148,8 @@ class RichExpandableLabel: WKWebView {
         }
         </style>
         </head>
-        <body>
-        <div id="container">
+        <body dir="auto">
+        <div id="container" dir="auto">
         \(html)
         </div>
         </body>

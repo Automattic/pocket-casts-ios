@@ -14,7 +14,7 @@ struct EpisodeRowButtonStyle: ButtonStyle {
 
 struct EpisodeRow: View {
 
-    @State var model: EpisodeRowViewModel
+    let model: EpisodeRowViewModel
     var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -137,6 +137,7 @@ struct EpisodeRowWithActions: View {
         HStack(spacing: Layout.spacing) {
             Button {
                 isPlaying = true
+                model.play()
             } label: {
                 EpisodeRow(model: model, isActive: isEpisodeFocused)
             }
@@ -169,7 +170,7 @@ struct EpisodeRowWithActions: View {
             }
         }
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(episode: model)
+            NowPlayingView()
                 .ignoresSafeArea()
         }
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {

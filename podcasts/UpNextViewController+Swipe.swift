@@ -95,7 +95,7 @@ extension UpNextViewController: SwipeTableViewCellDelegate {
                     }
                 }
                 shareAction.hidesWhenSelected = true
-                shareAction.backgroundColor = ThemeColor.support02()
+                shareAction.backgroundColor = SwipeActionsHelper.addToPlaylistSwipeBackground
                 shareAction.image = UIImage(named: "playlist-add-episode")
                 shareAction.accessibilityLabel = L10n.playlistManualAddEpisodes
                 return [deleteAction, shareAction]

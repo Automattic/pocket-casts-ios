@@ -199,6 +199,14 @@ class ImageManager {
         return nil
     }
 
+    func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {
+        await withCheckedContinuation { continuation in
+            imageForEpisode(episode, size: size) { image in
+                continuation.resume(returning: image)
+            }
+        }
+    }
+
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
         if loadEmbeddedImageIfRequired(in: episode, completion: { image in
             completionHandler(image)
@@ -479,18 +487,30 @@ class ImageManager {
 
     // MARK: - Placeholder Image
 
+    private struct PlaceholderKey: Hashable {
+        let size: PodcastThumbnailSize
+        let isDark: Bool
+    }
+
+    private var placeholderImageCache: [PlaceholderKey: UIImage] = [:]
+
     func placeHolderImage(_ size: PodcastThumbnailSize) -> UIImage? {
+        let key = PlaceholderKey(size: size, isDark: Theme.isDarkTheme())
+        if let cached = placeholderImageCache[key] {
+            return cached
+        }
+        let name: String
         switch size {
         case .grid:
-            let name = Theme.isDarkTheme() ? "noartwork-grid-dark" : "noartwork-grid"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
-            let name = Theme.isDarkTheme() ? "noartwork-list-dark" : "noartwork-list"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
         case .page, .detail:
-            let name = Theme.isDarkTheme() ? "noartwork-page-dark" : "noartwork-page"
-            return UIImage(named: name)
+            name = key.isDark ? "noartwork-page-dark" : "noartwork-page"
         }
+        guard let image = UIImage(named: name) else { return nil }
+        placeholderImageCache[key] = image
+        return image
     }
 
     func podcastUrl(imageSize: PodcastThumbnailSize, uuid: String) -> URL {

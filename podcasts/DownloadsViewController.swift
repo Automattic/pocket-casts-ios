@@ -34,6 +34,7 @@ class DownloadsViewController: PCViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.setupNavBar()
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.downloadsTable.beginUpdates()
                 self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -151,7 +152,7 @@ class DownloadsViewController: PCViewController {
             banner.trailingAnchor.constraint(equalTo: wrapperView.trailingAnchor, constant: -16),
             banner.topAnchor.constraint(equalTo: wrapperView.topAnchor, constant: 16),
             banner.bottomAnchor.constraint(equalTo: wrapperView.bottomAnchor, constant: 0),
-            ])
+        ])
         return wrapperView
     }
 

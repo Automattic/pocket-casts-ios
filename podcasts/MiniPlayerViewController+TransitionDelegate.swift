@@ -11,7 +11,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             return PlayerZoomAnimator(
                 isPresenting: false,
                 fullPlayer: fullPlayer,
-                miniPlayerProvider: { [weak self] in self },
+                miniPlayer: self,
                 interactiveVelocity: fullPlayer.dismissVelocity
             )
         }
@@ -36,7 +36,7 @@ extension MiniPlayerViewController: UIViewControllerTransitioningDelegate {
             return PlayerZoomAnimator(
                 isPresenting: true,
                 fullPlayer: fullPlayer,
-                miniPlayerProvider: { [weak self] in self },
+                miniPlayer: self,
                 interactiveVelocity: presentVelocity
             )
         }

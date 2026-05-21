@@ -9,7 +9,7 @@ extension View {
     @MainActor
     func pixelBuffer(size: CGSize, scale: CGFloat, pool: CVPixelBufferPool? = nil) throws -> CVPixelBuffer {
         let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-             kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+                     kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
         var pixelBuffer: CVPixelBuffer?
 
         let status: CVReturn

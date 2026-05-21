@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
 
 class MiniPlayerViewController: SimpleNotificationsViewController {
     enum PlayerOpenState {
@@ -55,11 +56,23 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
 
     private var episodeTitleLabel: MiniPlayerScrollingTitleView?
-    private var episodeTimeLeftLabel: UILabel?
+    private var timeLeftModel: MiniPlayerTimeLeftModel?
+    private var timeLeftHostingController: UIHostingController<MiniPlayerTimeLeftView>?
     private var glassProgressView: MiniPlayerGlassProgressView?
 
     private var glassButtonStack: UIStackView?
     private var accessoryEnvironmentConstraints: [NSLayoutConstraint] = []
+
+    private enum GlassMetrics {
+        /// How much the Liquid Glass skip glyphs are scaled down from the asset.
+        static let skipIconScale: CGFloat = 0.9
+    }
+
+    /// When set, the next time-left value update is wrapped in `withAnimation`
+    /// so SwiftUI's numeric-text transition rolls the digits. Set by skip
+    /// back/forward and consumed on the first resulting change so only
+    /// deliberate skips animate (not the per-second progress ticks).
+    private var animateNextTimeLeftChange = false
 
     /// When set, overrides the live `tabAccessoryEnvironment` trait so the
     /// inline/regular layout can be forced regardless of where the view is
@@ -118,23 +131,37 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         playPauseBtn.visualSize = 28
 
+        // The skip glyphs read a touch heavy next to the smaller glass
+        // play/pause button, so scale the (template) assets down slightly.
+        for button in [skipBackBtn, skipFwdBtn] {
+            guard let button, let image = button.image(for: .normal) else { continue }
+            let target = CGSize(width: image.size.width * GlassMetrics.skipIconScale,
+                                height: image.size.height * GlassMetrics.skipIconScale)
+            button.setImage(image.resizeProportionally(to: target).withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+
         let title = MiniPlayerScrollingTitleView()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
         episodeTitleLabel = title
 
-        let timeLeft = UILabel()
-        timeLeft.translatesAutoresizingMaskIntoConstraints = false
-        timeLeft.font = .font(ofSize: 10, weight: .regular, scalingWith: .footnote)
-        timeLeft.numberOfLines = 1
-        timeLeft.adjustsFontForContentSizeCategory = false
-        episodeTimeLeftLabel = timeLeft
+        // Hosted SwiftUI so the time-left digits can use the native
+        // `.numericText` content transition when the user skips.
+        let timeLeftModel = MiniPlayerTimeLeftModel()
+        let timeLeftHost = UIHostingController(rootView: MiniPlayerTimeLeftView(model: timeLeftModel))
+        timeLeftHost.view.translatesAutoresizingMaskIntoConstraints = false
+        timeLeftHost.view.backgroundColor = .clear
+        timeLeftHost.sizingOptions = .intrinsicContentSize
+        timeLeftHost.safeAreaRegions = []
+        addChild(timeLeftHost)
+        self.timeLeftModel = timeLeftModel
+        self.timeLeftHostingController = timeLeftHost
 
         let progressView = MiniPlayerGlassProgressView()
         progressView.translatesAutoresizingMaskIntoConstraints = false
         glassProgressView = progressView
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeft])
+        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftHost.view])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
@@ -154,6 +181,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         view.addSubview(podcastArtwork)
         view.addSubview(textStack)
         view.addSubview(buttonStack)
+
+        timeLeftHost.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
@@ -233,6 +262,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBAction func skipBackTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipBackHaptic()
+        if let timeLeftModel {
+            timeLeftModel.countsDown = false
+            animateNextTimeLeftChange = true
+        }
         PlaybackManager.shared.skipBack()
         animateSkipButton(skipBackBtn, clockwise: false)
     }
@@ -240,6 +273,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     @IBAction func skipForwardTapped(_ sender: Any) {
         analyticsPlaybackHelper.currentSource = analyticsSource
         HapticsHelper.triggerSkipForwardHaptic()
+        if let timeLeftModel {
+            timeLeftModel.countsDown = true
+            animateNextTimeLeftChange = true
+        }
         PlaybackManager.shared.skipForward()
         animateSkipButton(skipFwdBtn, clockwise: true)
     }
@@ -332,6 +369,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         addCustomObserver(Constants.Notifications.themeChanged, selector: #selector(themeChanged))
         addCustomObserver(Constants.Notifications.currentlyPlayingEpisodeUpdated, selector: #selector(updateRequired))
+
+        addCustomObserver(Constants.Notifications.podcastChapterChanged, selector: #selector(chapterDidChange))
+        addCustomObserver(Constants.Notifications.podcastChaptersDidUpdate, selector: #selector(chapterDidChange))
     }
 
     func rootViewController() -> MainTabBarController? {
@@ -363,9 +403,29 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             podcastArtwork.setBaseEpisode(episode: episode, size: .list)
         }
 
-        if let episodeTitleLabel, episodeTitleLabel.text != episode.title {
-            episodeTitleLabel.text = episode.title
+        updateTitle(for: episode)
+    }
+
+    /// Shows the current chapter title when the episode has chapters, falling
+    /// back to the episode title otherwise — matching the full screen player.
+    private func updateTitle(for episode: BaseEpisode? = PlaybackManager.shared.currentEpisode()) {
+        guard let episodeTitleLabel, let episode else { return }
+
+        let chapters = PlaybackManager.shared.currentChapters()
+        let newTitle: String?
+        if PlaybackManager.shared.chapterCount() != 0, chapters.visibleChapter != nil, !chapters.title.isEmpty {
+            newTitle = chapters.title
+        } else {
+            newTitle = episode.title
         }
+
+        if episodeTitleLabel.text != newTitle {
+            episodeTitleLabel.text = newTitle
+        }
+    }
+
+    @objc private func chapterDidChange() {
+        updateTitle()
     }
 
     @objc private func playbackStarted() {
@@ -438,24 +498,34 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         playbackProgressView.progress = progress
         playbackProgressView.indeterminant = isIndeterminate
 
-        let amountBuferred = PlaybackManager.shared.futureBufferAvailable()
-        if amountBuferred > 0 {
-            playbackProgressView.buferredAmount = CGFloat(amountBuferred / (duration - currentTime))
+        let amountBuffered = PlaybackManager.shared.futureBufferAvailable()
+        if amountBuffered > 0 {
+            playbackProgressView.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
         }
 
         glassProgressView?.playbackProgress = progress
         glassProgressView?.indeterminate = isIndeterminate
 
-        if let episodeTimeLeftLabel {
+        if amountBuffered > 0 {
+            glassProgressView?.bufferedAmount = CGFloat(amountBuffered / (duration - currentTime))
+        }
+
+        if let timeLeftModel {
             let remaining = max(0, duration - currentTime)
-            let newText: String?
-            if remaining > 0 {
-                newText = "-" + TimeFormatter.shared.playTimeFormat(time: remaining)
-            } else {
-                newText = nil
-            }
-            if episodeTimeLeftLabel.text != newText {
-                episodeTimeLeftLabel.text = newText
+            let newText = remaining > 0 ? "-" + TimeFormatter.shared.playTimeFormat(time: remaining) : ""
+            if timeLeftModel.text != newText {
+                let animate = animateNextTimeLeftChange && !UIAccessibility.isReduceMotionEnabled
+                animateNextTimeLeftChange = false
+                if animate {
+                    // Only deliberate skips reach this path, so the
+                    // per-second progress ticks stay static; `countsDown`
+                    // (set by the skip handlers) picks the roll direction.
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                        timeLeftModel.text = newText
+                    }
+                } else {
+                    timeLeftModel.text = newText
+                }
             }
         }
     }
@@ -498,7 +568,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let bgColor = ThemeColor.primaryUi02()
 
         episodeTitleLabel?.textColor = ThemeColor.primaryText01()
-        episodeTimeLeftLabel?.textColor = ThemeColor.primaryText02()
+        timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
         playPauseBtn.playButtonColor = bgColor
         playPauseBtn.circleColor = iconColor
@@ -552,5 +622,29 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 extension MiniPlayerViewController: AnalyticsSourceProvider {
     var analyticsSource: AnalyticsSource {
         .miniplayer
+    }
+}
+
+/// Backing store for the Liquid Glass mini player's time-left readout.
+final class MiniPlayerTimeLeftModel: ObservableObject {
+    /// The formatted string shown to the user, e.g. `-12:34`.
+    @Published var text: String = ""
+    /// Direction the digits roll when `text` changes inside `withAnimation`:
+    /// down for skip-forward (less time left), up for skip-back.
+    @Published var countsDown: Bool = false
+    @Published var color: Color = .primary
+}
+
+struct MiniPlayerTimeLeftView: View {
+    @ObservedObject var model: MiniPlayerTimeLeftModel
+
+    var body: some View {
+        Text(model.text)
+            .font(Font.system(size: 10, weight: .regular))
+            .monospacedDigit()
+            .foregroundColor(model.color)
+            .contentTransition(.numericText(countsDown: model.countsDown))
+            .lineLimit(1)
+            .fixedSize()
     }
 }

@@ -134,6 +134,10 @@ internal enum L10n {
   internal static var accountSelectType: String { return L10n.tr("Localizable", "account_select_type", fallback: "Select Account Type") }
   /// Prompt to allow the user to sign out of their account.
   internal static var accountSignOut: String { return L10n.tr("Localizable", "account_sign_out", fallback: "Sign Out") }
+  /// Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in.
+  internal static var accountSignOutAlertMessage: String { return L10n.tr("Localizable", "account_sign_out_alert_message", fallback: "Your podcasts, progress, and data will be here when you are back.") }
+  /// Title of the confirmation alert shown before signing the user out of their account.
+  internal static var accountSignOutAlertTitle: String { return L10n.tr("Localizable", "account_sign_out_alert_title", fallback: "Sign Out?") }
   /// Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. '%1$@' is a placeholder for the number of supported podcasts.
   internal static func accountSignOutSupporterPrompt(_ p1: Any) -> String {
     return L10n.tr("Localizable", "account_sign_out_supporter_prompt", String(describing: p1), fallback: "Signing out will remove %1$@ supported podcasts from this device. Are you sure?")
@@ -1423,6 +1427,8 @@ internal enum L10n {
   internal static var folderAddPodcastsSingular: String { return L10n.tr("Localizable", "folder_add_podcasts_singular", fallback: "Add 1 Podcast") }
   /// Label for the option to add and remove podcasts from a folder
   internal static var folderAddRemovePodcasts: String { return L10n.tr("Localizable", "folder_add_remove_podcasts", fallback: "Add or Remove Podcasts") }
+  /// Context menu action title for adding a podcast to a folder
+  internal static var folderAddTo: String { return L10n.tr("Localizable", "folder_add_to", fallback: "Add to Folder") }
   /// Text shown on button to change the folder a podcast is in
   internal static var folderChange: String { return L10n.tr("Localizable", "folder_change", fallback: "Change folder") }
   /// Prompt to choose a folder color
@@ -2999,6 +3005,8 @@ internal enum L10n {
   internal static var podcastsBadgeLatestEpisode: String { return L10n.tr("Localizable", "podcasts_badge_latest_episode", fallback: "Only Latest Episode") }
   /// Title for the options to configure badge display options.
   internal static var podcastsBadges: String { return L10n.tr("Localizable", "podcasts_badges", fallback: "Badges") }
+  /// Prompt to enter the mode for reordering the podcasts grid.
+  internal static var podcastsEdit: String { return L10n.tr("Localizable", "podcasts_edit", fallback: "Edit Podcasts") }
   /// Episodes will be displayed in custom order by drag and drop
   internal static var podcastsEpisodeSortDragAndDrop: String { return L10n.tr("Localizable", "podcasts_episode_sort_drag_and_drop", fallback: "Custom order") }
   /// Episodes will be displayed in order from the longest to the shortest.
@@ -3339,8 +3347,12 @@ internal enum L10n {
   internal static var serverErrorFilesUploadFailedGeneric: String { return L10n.tr("Localizable", "server_error_files_upload_failed_generic", fallback: "Unable to upload file, please try again later.") }
   /// Server error message for when a file upload files because a unique identifier failed wasn't created.
   internal static var serverErrorFilesUuidRequired: String { return L10n.tr("Localizable", "server_error_files_uuid_required", fallback: "File uuid is required.") }
+  /// info message when authorization is denied server
+  internal static var serverErrorLoginAccessDenied: String { return L10n.tr("Localizable", "server_error_login_access_denied", fallback: "The user denied the authorization request") }
   /// Server error message for when the user account has been locked.
   internal static var serverErrorLoginAccountLocked: String { return L10n.tr("Localizable", "server_error_login_account_locked", fallback: "Your account has been locked due too many login attempts, please try again later.") }
+  /// info message when authorization is pending on server
+  internal static var serverErrorLoginAuthPending: String { return L10n.tr("Localizable", "server_error_login_auth_pending", fallback: "Authorization pending") }
   /// Server error message for when the user attempted to login without their email.
   internal static var serverErrorLoginEmailBlank: String { return L10n.tr("Localizable", "server_error_login_email_blank", fallback: "Enter an email address.") }
   /// Server error message for when the user enters an invalid email.
@@ -3349,6 +3361,10 @@ internal enum L10n {
   internal static var serverErrorLoginEmailNotFound: String { return L10n.tr("Localizable", "server_error_login_email_not_found", fallback: "Email not found") }
   /// Server error message for when the user tries to create an account for an email tied to an existing account.
   internal static var serverErrorLoginEmailTaken: String { return L10n.tr("Localizable", "server_error_login_email_taken", fallback: "Email taken") }
+  /// info message when authorization is expired
+  internal static var serverErrorLoginExpiredToken: String { return L10n.tr("Localizable", "server_error_login_expired_token", fallback: "The device code has expired.") }
+  /// info message when authorization is invalid on server
+  internal static var serverErrorLoginInvalidGrant: String { return L10n.tr("Localizable", "server_error_login_invalid_grant", fallback: "The provided grant is invalid, expired or has been revoked.") }
   /// Server error message for when the user attempted to login without their password.
   internal static var serverErrorLoginPasswordBlank: String { return L10n.tr("Localizable", "server_error_login_password_blank", fallback: "Enter a password.") }
   /// Server error message for when the user enters an invalid password.

@@ -143,6 +143,8 @@ struct MockData {
         return result
     }
 
+    static let sampleMediaURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
+
     static var stubEpisodes: [Episode] = []
     static func makeStubEpisodes() -> [Episode] {
         guard stubEpisodes.isEmpty else { return stubEpisodes }
@@ -158,6 +160,7 @@ struct MockData {
                 episode.publishedDate = Date.now.weeksAgo(j)
                 episode.duration = Double.random(in: (5.minutes...1.hours))
                 episode.podcastUuid = podcast.uuid
+                episode.downloadUrl = sampleMediaURL.absoluteString
                 episodes.append(episode)
             }
         }

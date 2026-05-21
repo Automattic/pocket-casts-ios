@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsDataModel
+import Firebase
 
 @Observable
 class AppCoordinator {
@@ -27,6 +28,8 @@ class AppCoordinator {
 
         setupUniqueAppId()
 
+        setupFirebase()
+
         await MainActor.run {
             userState.refresh()
             if userState.isLoggedIn {
@@ -34,6 +37,10 @@ class AppCoordinator {
             } else {
                 state = .welcome
             }
+        }
+        if userState.isLoggedIn {
+            RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
+            RefreshManager.shared.syncUpNext()
         }
     }
 
@@ -55,5 +62,9 @@ class AppCoordinator {
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
             defaults.synchronize()
         }
+    }
+
+    private func setupFirebase() {
+        FirebaseApp.configure()
     }
 }

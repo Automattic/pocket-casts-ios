@@ -68,6 +68,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
 
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -86,7 +87,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
                         self.tableView.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                 } else {
                     self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true

@@ -735,6 +735,91 @@ final class PlaylistQueryBuilderTests: XCTestCase {
         XCTAssertGreaterThan(resultsOptimized.count, 0, "Should return episodes when shouldShowArchived is true")
     }
 
+    // MARK: - Search Term Tests
+
+    func testSearchTermProducesValidSQLForManualPlaylist_archivedHidden() throws {
+        let filter = EpisodeFilter()
+        filter.manual = true
+        filter.uuid = "search-archived-hidden"
+
+        for flagValue in [true, false] {
+            try FeatureFlagOverrideStore().override(FeatureFlag.optimizeManualPlaylistQueries, withValue: flagValue)
+            let query = PlaylistQueryBuilder.query(
+                clause: .episode, for: filter, searchTerm: "hello", shouldShowArchived: false
+            )
+            XCTAssertNoThrow(
+                try SQLiteValidator.validate(sql: query),
+                "Query should be valid SQL (flag=\(flagValue)): \(query)"
+            )
+            XCTAssertTrue(
+                query.contains("WHERE episode.archived = 0"),
+                "Query should filter archived when shouldShowArchived is false (flag=\(flagValue))"
+            )
+            XCTAssertFalse(
+                query.contains("WHERE (UPPER(episode.title)"),
+                "Search clause should use AND (not WHERE) when archived filter already added WHERE (flag=\(flagValue))"
+            )
+        }
+    }
+
+    func testSearchTermProducesValidSQLForManualPlaylist_archivedShown() throws {
+        let filter = EpisodeFilter()
+        filter.manual = true
+        filter.uuid = "search-archived-shown"
+
+        for flagValue in [true, false] {
+            try FeatureFlagOverrideStore().override(FeatureFlag.optimizeManualPlaylistQueries, withValue: flagValue)
+            let query = PlaylistQueryBuilder.query(
+                clause: .episode, for: filter, searchTerm: "hello", shouldShowArchived: true
+            )
+            XCTAssertNoThrow(
+                try SQLiteValidator.validate(sql: query),
+                "Query should be valid SQL (flag=\(flagValue)): \(query)"
+            )
+            XCTAssertFalse(
+                query.contains("WHERE episode.archived"),
+                "Query should not filter by archived when shouldShowArchived is true (flag=\(flagValue))"
+            )
+            XCTAssertTrue(
+                query.contains("WHERE (UPPER(episode.title)"),
+                "Search clause should use WHERE (not AND) when main query has no archived filter (flag=\(flagValue))"
+            )
+        }
+    }
+
+    func testSearchTermWithSingleQuoteProducesValidSQL() throws {
+        let filter = EpisodeFilter()
+        filter.manual = true
+        filter.uuid = "search-single-quote"
+
+        for flagValue in [true, false] {
+            try FeatureFlagOverrideStore().override(FeatureFlag.optimizeManualPlaylistQueries, withValue: flagValue)
+            for shouldShowArchived in [true, false] {
+                let query = PlaylistQueryBuilder.query(
+                    clause: .episode, for: filter, searchTerm: "O'Brien", shouldShowArchived: shouldShowArchived
+                )
+                XCTAssertNoThrow(
+                    try SQLiteValidator.validate(sql: query),
+                    "Query with apostrophe should be valid SQL (flag=\(flagValue), archived=\(shouldShowArchived)): \(query)"
+                )
+            }
+        }
+    }
+
+    func testSearchTermWithSingleQuoteProducesValidSQL_smartPlaylist() throws {
+        let filter = EpisodeFilter()
+        filter.manual = false
+        filter.uuid = "search-smart-single-quote"
+
+        let query = PlaylistQueryBuilder.query(
+            clause: .episode, for: filter, searchTerm: "O'Brien"
+        )
+        XCTAssertNoThrow(
+            try SQLiteValidator.validate(sql: query),
+            "Smart playlist query with apostrophe should be valid SQL: \(query)"
+        )
+    }
+
     func testShouldShowArchivedConsistencyAcrossAllClauses() throws {
         let dbPool = try createTestDatabase()
         let playlistUUID = "test-consistency"
