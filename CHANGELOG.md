@@ -5,6 +5,7 @@
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
 - Fix Show Archived toggle in Playlists during search [#4329](https://github.com/Automattic/pocket-casts-ios/pull/4329)
+- Fix an issue where full player will occasionally show generic placeholder for artwork instead of using available smaller actual artwork thumbnail [#4391](https://github.com/Automattic/pocket-casts-ios/pull/4391)
 - Hide the tab bar during multi-select to create more space [#4364](https://github.com/Automattic/pocket-casts-ios/pull/4364) 
 
 8.12
