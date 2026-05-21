@@ -182,9 +182,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new upgrade screens with Variant B timeline before features
     case newOnboardingVariant
 
-    /// Enable the new playlists rebranding
-    case playlistsRebranding
-
     /// Retry failed downloads and stream without the user agent
     case retryWithoutUserAgent
 
@@ -442,8 +439,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .newOnboardingUpgrade:
             true
         case .newOnboardingVariant:
-            true
-        case .playlistsRebranding:
             true
         case .retryWithoutUserAgent:
             true
