@@ -27,6 +27,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     private var actionHeight: CGFloat = 72
     private let layoutHorizontalMargin = CGFloat(20)
     private var actionsAdded = 0
+    private var titleLabel: UILabel?
+    private var dividerViews: [UIView] = []
 
     private var themeOverride: Theme.ThemeType?
     private var iconTintStyle: ThemeStyle = .primaryIcon01
@@ -134,6 +136,8 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         if view.bounds.height < 600 {
             actionHeight = 64
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
     func addAction(action: OptionAction) {
@@ -325,6 +329,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         label.textColor = titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(label)
+        self.titleLabel = label
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: stackView.layoutMarginsGuide.trailingAnchor),
@@ -350,6 +355,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         dividerView.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.addSubview(dividerView)
+        dividerViews.append(dividerView)
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
@@ -358,6 +364,27 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
             dividerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             dividerView.topAnchor.constraint(equalTo: containerView.topAnchor)
         ])
+    }
+
+    @objc private func themeDidChange() {
+        let colors = Colors(theme: themeOverride ?? Theme.sharedTheme.activeTheme)
+
+        if isPresentedAsSheet {
+            if LiquidGlass.isEnabled {
+                view.backgroundColor = colors.background.withAlphaComponent(0.85)
+            } else {
+                view.backgroundColor = colors.background
+                scrollView.backgroundColor = colors.background
+            }
+        } else {
+            scrollView.backgroundColor = colors.background
+        }
+
+        titleLabel?.textColor = colors.title
+
+        for divider in dividerViews {
+            divider.backgroundColor = AppTheme.tableDividerColor(for: themeOverride)
+        }
     }
 
     // MARK: - Orientation

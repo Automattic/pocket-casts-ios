@@ -11,6 +11,9 @@ class DescriptiveActionView: UIView {
     private let onLinkTap: (() -> Void)?
 
     private weak var iconView: UIImageView?
+    private weak var titleLabel: UILabel?
+    private weak var messageLabel: UILabel?
+    private var actionButtons: [UIButton] = []
 
     private weak var delegate: OptionsPickerRootController?
 
@@ -24,6 +27,7 @@ class DescriptiveActionView: UIView {
         self.iconTintStyle = iconTintStyle
         self.onLinkTap = onLinkTap
         super.init(frame: frame)
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
     @available(*, unavailable)
@@ -59,6 +63,7 @@ class DescriptiveActionView: UIView {
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
 
         addSubview(titleLabel)
+        self.titleLabel = titleLabel
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 20),
@@ -99,6 +104,7 @@ class DescriptiveActionView: UIView {
             messageLabel.textAlignment = .center
             messageLabel.numberOfLines = 0
             addSubview(messageLabel)
+            self.messageLabel = messageLabel
 
             NSLayoutConstraint.activate([
                 messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
@@ -114,6 +120,9 @@ class DescriptiveActionView: UIView {
 
         for (index, action) in actions.enumerated() {
             let actionButton = makeStandardButton(for: action)
+            if let button = actionButton as? UIButton {
+                actionButtons.append(button)
+            }
 
             actionButton.accessibilityIdentifier = "action_\(index)"
             actionButton.translatesAutoresizingMaskIntoConstraints = false
@@ -201,6 +210,26 @@ class DescriptiveActionView: UIView {
             }
         }
         return actionButton
+    }
+
+    @objc private func themeDidChange() {
+        iconView?.image = UIImage(named: icon)?.tintedImage(AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride))
+        titleLabel?.textColor = AppTheme.mainTextColor(for: themeOverride)
+        messageLabel?.textColor = AppTheme.mainTextColor(for: themeOverride)
+
+        for (index, button) in actionButtons.enumerated() {
+            guard index < actions.count else { continue }
+            let action = actions[index]
+            let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+
+            var config = button.configuration
+            config?.baseBackgroundColor = action.outline ? .clear : actionColor
+            config?.baseForegroundColor = action.outline ? actionColor : ThemeColor.primaryInteractive02(for: themeOverride)
+            if action.outline {
+                config?.background.strokeColor = actionColor
+            }
+            button.configuration = config
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

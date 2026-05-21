@@ -7,6 +7,8 @@ class SimpleActionView: UIView {
 
     private weak var delegate: OptionsPickerRootController?
     private var onOffSwitch: UISwitch?
+    private weak var label: UILabel?
+    private weak var secondaryLabel: UILabel?
     private var imageView: UIImageView?
     private var selectedView: UIImageView?
 
@@ -16,6 +18,7 @@ class SimpleActionView: UIView {
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
         super.init(frame: frame)
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
     @available(*, unavailable)
@@ -32,6 +35,7 @@ class SimpleActionView: UIView {
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        self.label = label
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
@@ -77,6 +81,7 @@ class SimpleActionView: UIView {
             secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
             secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
             addSubview(secondaryLabel)
+            self.secondaryLabel = secondaryLabel
 
             NSLayoutConstraint.activate([
                 secondaryLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
@@ -190,6 +195,20 @@ class SimpleActionView: UIView {
         }
     }
 
+
+    @objc private func themeDidChange() {
+        label?.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
+        secondaryLabel?.textColor = ThemeColor.primaryText02(for: themeOverride)
+
+        let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
+        if action.tintIcon, let iconName = action.icon, let image = UIImage(named: iconName) {
+            imageView?.image = image.tintedImage(iconTintColor)
+        }
+
+        if action.selected && !action.onOffAction {
+            selectedView?.image = UIImage(named: "small-tick")?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride))
+        }
+    }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

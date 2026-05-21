@@ -5,6 +5,8 @@ class MultipleActionView: UIView {
     private let icon: String?
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
+    private weak var label: UILabel?
+    private weak var segmentedControl: CustomSegmentedControl?
     private var imageView: UIImageView?
     private let iconActionWidth: CGFloat = 45
     private let componentHeight: CGFloat = 44
@@ -16,6 +18,7 @@ class MultipleActionView: UIView {
         self.themeOverride = themeOverride
 
         super.init(frame: frame)
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
     }
 
     @available(*, unavailable)
@@ -32,6 +35,7 @@ class MultipleActionView: UIView {
         label.textColor = AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        self.label = label
 
         if let icon, let image = UIImage(named: icon)?.tintedImage(ThemeColor.primaryIcon01(for: themeOverride)) {
             let imageView = UIImageView(image: image)
@@ -71,6 +75,7 @@ class MultipleActionView: UIView {
         segmentedControl.selectedItemColor = ThemeColor.primaryInteractive02(for: themeOverride)
         segmentedControl.unselectedBgColor = UIColor.clear
         addSubview(segmentedControl)
+        self.segmentedControl = segmentedControl
 
         NSLayoutConstraint.activate([
             trailingAnchor.constraint(equalTo: segmentedControl.trailingAnchor, constant: 20),
@@ -96,6 +101,19 @@ class MultipleActionView: UIView {
             let imageSize = max(24, metric.scaledValue(for: 24))
             imageView.updateSizeConstraints(to: imageSize)
         }
+    }
+
+    @objc private func themeDidChange() {
+        label?.textColor = AppTheme.mainTextColor(for: themeOverride)
+
+        if let icon, let image = UIImage(named: icon) {
+            imageView?.image = image.tintedImage(ThemeColor.primaryIcon01(for: themeOverride))
+        }
+
+        segmentedControl?.lineColor = ThemeColor.primaryInteractive01(for: themeOverride)
+        segmentedControl?.unselectedItemColor = ThemeColor.primaryInteractive01(for: themeOverride)
+        segmentedControl?.selectedBgColor = ThemeColor.primaryInteractive01(for: themeOverride)
+        segmentedControl?.selectedItemColor = ThemeColor.primaryInteractive02(for: themeOverride)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
