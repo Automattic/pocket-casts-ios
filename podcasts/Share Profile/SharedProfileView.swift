@@ -23,7 +23,14 @@ struct SharedProfileView: View {
                     case .allPodcasts:
                         allPodcastsView()
                     case .allEpisodes:
-                        allEpisodesView()
+                        if let profile = viewModel.profileData {
+                            SharedProfileEpisodeList(
+                                episodes: profile.episodes,
+                                navigateToEpisode: { uuid, podcastUuid in navigateToEpisode(uuid: uuid, podcastUuid: podcastUuid) },
+                                playEpisode: { uuid, podcastUuid in viewModel.playEpisode(uuid: uuid, podcastUuid: podcastUuid) },
+                                goBack: { path.removeLast() }
+                            )
+                        }
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -240,64 +247,17 @@ struct SharedProfileView: View {
             }
 
             ForEach(Array(episodes.prefix(3).enumerated()), id: \.element.id) { index, episode in
-                episodeRow(episode)
+                SharedProfileEpisodeRow(
+                    episode: episode,
+                    navigateToEpisode: { navigateToEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid) },
+                    playEpisode: { viewModel.playEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid) }
+                )
 
                 if index < min(episodes.count, 3) - 1 {
                     ThemedDivider()
                 }
             }
         }
-    }
-
-    @ViewBuilder
-    private func episodeRow(_ episode: SharedProfileViewModel.EpisodeInfo) -> some View {
-        HStack(spacing: 12) {
-            Button {
-                navigateToEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
-            } label: {
-                HStack(spacing: 12) {
-                    PodcastImage(uuid: episode.podcastUuid, size: .list)
-                        .frame(width: 56, height: 56)
-                        .cornerRadius(4)
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        if let date = episode.publishedDate {
-                            Text(DateFormatHelper.sharedHelper.tinyLocalizedFormat(date).localizedUppercase)
-                                .font(style: .caption2, weight: .bold)
-                                .foregroundColor(theme.primaryText02)
-                        }
-
-                        Text(episode.title)
-                            .font(style: .subheadline, weight: .medium)
-                            .foregroundColor(theme.primaryText01)
-                            .lineLimit(2)
-
-                        HStack(spacing: 4) {
-                            if let podcastTitle = episode.podcastTitle {
-                                Text(podcastTitle)
-                                    .lineLimit(1)
-                                Text("·")
-                            }
-                            Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: episode.duration))
-                        }
-                        .font(style: .caption, weight: .semibold)
-                        .foregroundColor(theme.primaryText02)
-                    }
-                }
-            }
-            .buttonStyle(.plain)
-
-            Spacer()
-
-            Button {
-                viewModel.playEpisode(uuid: episode.uuid, podcastUuid: episode.podcastUuid)
-            } label: {
-                EpisodePlayButton()
-            }
-            .accessibilityLabel(L10n.play)
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
     }
 
     // MARK: - Navigation
@@ -383,37 +343,6 @@ struct SharedProfileView: View {
             }
             .background(theme.primaryUi01)
             .navigationTitle(L10n.shareProfileFollowedPodcasts)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button { path.removeLast() } label: {
-                        Image("nav-back")
-                            .renderingMode(.template)
-                    }
-                    .navThemed()
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func allEpisodesView() -> some View {
-        if let profile = viewModel.profileData {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(profile.episodes.enumerated()), id: \.element.id) { index, episode in
-                        episodeRow(episode)
-
-                        if index < profile.episodes.count - 1 {
-                            ThemedDivider()
-                                .padding(.horizontal, 20)
-                        }
-                    }
-                }
-            }
-            .background(theme.primaryUi01)
-            .navigationTitle(L10n.shareProfileRecentEpisodes)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar {
@@ -519,7 +448,7 @@ private struct SharedProfileSubscribeButton: View {
     }
 }
 
-private struct EpisodePlayButton: View {
+struct EpisodePlayButton: View {
     @EnvironmentObject var theme: Theme
 
     private let size: CGFloat = 28
@@ -539,7 +468,7 @@ private struct EpisodePlayButton: View {
     }
 }
 
-private struct PlayTriangle: Shape {
+struct PlayTriangle: Shape {
     func path(in rect: CGRect) -> Path {
         Path { path in
             path.move(to: CGPoint.zero)

@@ -1096,6 +1096,7 @@
 		F29158942FBD0C3F0028F7F3 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */; };
 		F29158962FBE7DCD0028F7F3 /* SharedProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */; };
 		F29158982FBE7DCE0028F7F3 /* SharedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */; };
+		F2E175152FBFD01300A8D864 /* SharedProfileEpisodeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */; };
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
@@ -2692,6 +2693,7 @@
 		F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
 		F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileViewModel.swift; sourceTree = "<group>"; };
 		F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileView.swift; sourceTree = "<group>"; };
+		F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileEpisodeList.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
@@ -5634,6 +5636,7 @@
 				F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */,
 				F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */,
 				F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */,
+				F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */,
 			);
 			path = "Share Profile";
 			sourceTree = "<group>";
@@ -7416,6 +7419,7 @@
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				8B907F1A2AA8E5E500926F4F /* MiniPlayerToFullPlayerAnimator.swift in Sources */,
 				FF26A9974A1B5C2D00000003 /* LiquidGlass.swift in Sources */,
+				F2E175152FBFD01300A8D864 /* SharedProfileEpisodeList.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				C713D4F62A04C90500A78468 /* AccountHeaderView.swift in Sources */,
