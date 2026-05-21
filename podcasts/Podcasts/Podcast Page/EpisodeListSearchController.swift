@@ -159,6 +159,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         optionPicker.addAction(action: groupAction)
 
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
+            guard let self else { return }
             let downloadableCount = delegate.downloadableEpisodeCount(items: nil)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
             let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
@@ -187,7 +188,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
                 confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
             }
 
-            confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)
+            confirmPicker.present(from: self)
         }
         optionPicker.addAction(action: downloadAllAction)
 
@@ -242,7 +243,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let title = playedOnly ? L10n.podcastArchiveAllPlayed : L10n.podcastArchiveAll
         archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
 
-        archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
+        archiveAllConfirm.present(from: self)
     }
 
     private func makeSortOptionsPicker() -> OptionsPicker? {
