@@ -27,7 +27,7 @@ extension NetworkUtils {
             return
         }
 
-        let optionsPicker = OptionsPicker(title: nil)
+        let optionsPicker = OptionsPicker()
         let downloadAction = OptionAction(label: L10n.podcastDownloadNow, icon: nil) {
             allowed?(false)
         }
@@ -42,7 +42,7 @@ extension NetworkUtils {
             disallowed?()
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionsPicker.present()
     }
 
     func streamEpisodeRequested(_ allowed: (() -> Void)?, disallowed: (() -> Void)?) {
@@ -52,7 +52,7 @@ extension NetworkUtils {
             return
         }
 
-        let optionsPicker = OptionsPicker(title: nil)
+        let optionsPicker = OptionsPicker()
         let streamAction = OptionAction(label: L10n.podcastStreamConfirmation, icon: nil) {
             allowed?()
         }
@@ -62,7 +62,7 @@ extension NetworkUtils {
             disallowed?()
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionsPicker.present()
     }
 
     // MARK: - Upload Helpers
@@ -76,7 +76,7 @@ extension NetworkUtils {
             return
         }
 
-        let optionsPicker = OptionsPicker(title: nil)
+        let optionsPicker = OptionsPicker()
         let uploadAction = OptionAction(label: "Upload Now", icon: nil) {
             allowed?(false)
         }
@@ -90,7 +90,7 @@ extension NetworkUtils {
             disallowed?()
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionsPicker.present()
     }
 #endif
 }
