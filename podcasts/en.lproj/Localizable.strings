@@ -6151,6 +6151,18 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* tv search field placeholder prompt */
+"tv_search_prompt" = "Podcasts, shows, authors";
+
+/* tv search in-progress indicator label */
+"tv_search_searching" = "Searching...";
+
+/* tv search initial placeholder shown before any query is entered */
+"tv_search_type_something" = "Type something...";
+
+/* tv search error label. '%1$@' is a placeholder for a localized error description. */
+"tv_search_failed" = "Search failed: %1$@";
+
 /* info message when authorization is pending on server */
 "server_error_login_auth_pending" = "Authorization pending";
 

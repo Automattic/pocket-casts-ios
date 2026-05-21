@@ -1417,6 +1417,7 @@
 		FFB74B0F2E993A8C00F16857 /* end_of_year_2025_intro.json in Resources */ = {isa = PBXBuildFile; fileRef = FFB74B0D2E993A8C00F16857 /* end_of_year_2025_intro.json */; };
 		FFE067392F86ADD000437ACC /* TranscriptFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF54BCA82C5A2F3900A342E5 /* TranscriptFormat.swift */; };
 		FFE4107F2FBB5FED00716EAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B10E78528D908A900702C54 /* GoogleService-Info.plist */; };
+		FFE477202FBE0D8100716EAA /* ServerPodcastManager+Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF23E892CC91E2A0046D3AD /* ServerPodcastManager+Subscription.swift */; };
 		FFEE599C2EB378B300D4B145 /* Humane-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFEE599B2EB378B300D4B145 /* Humane-SemiBold.otf */; };
 		FFEE59C32EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
 		FFEE59C42EB37F4300D4B145 /* playback2025_listening_time.json in Resources */ = {isa = PBXBuildFile; fileRef = FFEE59C22EB37F4300D4B145 /* playback2025_listening_time.json */; };
@@ -3038,6 +3039,13 @@
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
 		};
+		FFE437E72FBCB03800716EAA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/SearchHistoryModel.swift,
+			);
+			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -3071,7 +3079,7 @@
 		3F585D252F568CF8005A3593 /* Episode */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Episode; sourceTree = "<group>"; };
 		3F585D302F568D28005A3593 /* PlaylistMetadataLoader */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF32F3D72FAB82D100226E58 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PlaylistMetadataLoader; sourceTree = "<group>"; };
 		3F585D3A2F568D9D005A3593 /* Categories */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Categories; sourceTree = "<group>"; };
-		3F585D5B2F568DDC005A3593 /* New Search */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Search"; sourceTree = "<group>"; };
+		3F585D5B2F568DDC005A3593 /* New Search */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FFE437E72FBCB03800716EAA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "New Search"; sourceTree = "<group>"; };
 		3F7463D02F55488A004C7FF6 /* config */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = config; sourceTree = "<group>"; };
 		3F74793C2F5550AD004C7FF6 /* Third Party Libraries */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F74793E2F5550D7004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F74793F2F5550D7004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FF65058E2FAA96BF00C3662E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Third Party Libraries"; sourceTree = "<group>"; };
 		3F7479402F55510B004C7FF6 /* Utilities */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3F747A502F5551D5004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 3F747A512F5551D5004C7FF6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FF8FFE482FAA4B170086A867 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Utilities; sourceTree = "<group>"; };
@@ -7818,6 +7826,7 @@
 				FF8FFE4F2FAA4CCD0086A867 /* PlaybackProtocol.swift in Sources */,
 				FF4B5C8E2FB4C441004784EC /* SignOutHelper.swift in Sources */,
 				FF8FFE442FAA49BE0086A867 /* PodcastManager+Cleanup.swift in Sources */,
+				FFE477202FBE0D8100716EAA /* ServerPodcastManager+Subscription.swift in Sources */,
 				FF6033FD2FAB4C9700EB3AD5 /* EpisodesDataManager.swift in Sources */,
 				FF8FFE612FAA63750086A867 /* Enumerations.swift in Sources */,
 				FF8FFE652FAA8E5B0086A867 /* PodcastChapterParser.swift in Sources */,

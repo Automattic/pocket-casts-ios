@@ -8,43 +8,26 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if searchText.isEmpty {
-                    EmptyDataView(title: "No results found", subtitle: "Search for something more specific", actionTitle: nil, action: nil)
-                } else {
-                    switch model.state {
-                    case .searching:
-                        ProgressView("Searching...")
-                    case .empty:
-                        ContentUnavailableView.search(text: searchText)
-                    case .results:
-                        SearchPodcastsResultsView(podcasts: model.results)
-                    case .error(let error):
-                        Text("Search failed: \(error.localizedDescription)")
-                    case .query:
-                        Text("Type something...")
-                    }
-                }
+                SearchResultsView(model: model)
             }
-            .searchable(text: $searchText, prompt: "Podcasts, shows, authors")
+            .searchable(text: $searchText, prompt: L10n.tvSearchPrompt)
             .searchSuggestions {
                 if searchText.isEmpty {
-                    Section("Recent") {
-                        ForEach(model.searchHistory, id: \.self) { search in
-                            Label(search, systemImage: "clock")
-                                .searchCompletion(search)
-                        }
+                    ForEach(model.searchHistory, id: \.self) { search in
+                        Text(search).searchCompletion(search)
                     }
                 } else {
-                    // Live suggestions based on query
                     ForEach(model.autoCompleteSuggestions, id: \.self) { suggestion in
                         Text(suggestion)
                             .searchCompletion(suggestion)
                     }
                 }
             }
+            .onSubmit {
+                model.saveHistory(searchText)
+            }
             .onChange(of: searchText) { _, newValue in
                 model.search(query: newValue)
-                model.autoComplete(query: newValue)
             }
         }
     }
