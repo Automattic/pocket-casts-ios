@@ -81,7 +81,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func playNext() {
-        if PlaybackManager.shared.inUpNext(episode: episode) {
+        if playbackManager.inUpNext(episode: episode) {
             playbackManager.queue.move(episode: episode, to: 0)
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
@@ -90,7 +90,7 @@ class EpisodeRowViewModel: Identifiable {
 
     func playLast() {
         if playbackManager.inUpNext(episode: episode) {
-            let queueCount = PlaybackManager.shared.queue.upNextCount()
+            let queueCount = playbackManager.queue.upNextCount()
             playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
