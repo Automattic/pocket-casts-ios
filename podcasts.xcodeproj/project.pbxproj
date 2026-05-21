@@ -1098,6 +1098,7 @@
 		F29158982FBE7DCE0028F7F3 /* SharedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */; };
 		F2E175152FBFD01300A8D864 /* SharedProfileEpisodeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */; };
 		F2E175172FBFD08300A8D864 /* SharedProfilePodcastsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E175162FBFD08300A8D864 /* SharedProfilePodcastsList.swift */; };
+		F2E175192FBFD12A00A8D864 /* SharedProfileComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E175182FBFD12A00A8D864 /* SharedProfileComponents.swift */; };
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
@@ -2696,6 +2697,7 @@
 		F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileView.swift; sourceTree = "<group>"; };
 		F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileEpisodeList.swift; sourceTree = "<group>"; };
 		F2E175162FBFD08300A8D864 /* SharedProfilePodcastsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfilePodcastsList.swift; sourceTree = "<group>"; };
+		F2E175182FBFD12A00A8D864 /* SharedProfileComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileComponents.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
@@ -5640,6 +5642,7 @@
 				F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */,
 				F2E175142FBFD01300A8D864 /* SharedProfileEpisodeList.swift */,
 				F2E175162FBFD08300A8D864 /* SharedProfilePodcastsList.swift */,
+				F2E175182FBFD12A00A8D864 /* SharedProfileComponents.swift */,
 			);
 			path = "Share Profile";
 			sourceTree = "<group>";
@@ -7181,6 +7184,7 @@
 				BD27B8C72756F4C9007A0EA7 /* Styles.swift in Sources */,
 				406C6854216AC9EF0004E249 /* PodcastFilterSelectionCell.swift in Sources */,
 				BDEC9AB720511F8900088D76 /* SettingsOptionsViewController.swift in Sources */,
+				F2E175192FBFD12A00A8D864 /* SharedProfileComponents.swift in Sources */,
 				40D6CD20247CD79400F1E665 /* SupporterPodcastViewController.swift in Sources */,
 				FF1DF0222C8F4D160028B8D8 /* ReferralClaimPassVC.swift in Sources */,
 				8BBE19F02BEA9865009E944B /* PodcastIndexChapterDataRetriever.swift in Sources */,
