@@ -1095,6 +1095,8 @@
 		F26CC6332FACD5D400C1F8F7 /* ShareProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */; };
 		F29158922FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */; };
 		F29158942FBD0C3F0028F7F3 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */; };
+		F29158962FBE7DCD0028F7F3 /* SharedProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */; };
+		F29158982FBE7DCE0028F7F3 /* SharedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */; };
 		F50D723C2E29F17800764D9B /* heart-eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723B2E29F17800764D9B /* heart-eyes.json */; };
 		F50D723E2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
 		F50D723F2E29F17F00764D9B /* pensive.json in Resources */ = {isa = PBXBuildFile; fileRef = F50D723D2E29F17F00764D9B /* pensive.json */; };
@@ -2690,6 +2692,8 @@
 		F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileViewModel.swift; sourceTree = "<group>"; };
 		F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoMenu.swift; sourceTree = "<group>"; };
 		F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileViewModel.swift; sourceTree = "<group>"; };
+		F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProfileView.swift; sourceTree = "<group>"; };
 		F50D723B2E29F17800764D9B /* heart-eyes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "heart-eyes.json"; sourceTree = "<group>"; };
 		F50D723D2E29F17F00764D9B /* pensive.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pensive.json; sourceTree = "<group>"; };
 		F518BC6C2E71252300E84711 /* BookmarkActionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookmarkActionFactory.swift; path = Shared/BookmarkActionFactory.swift; sourceTree = "<group>"; };
@@ -5631,6 +5635,8 @@
 				F26CC62F2FACD5D400C1F8F7 /* ShareProfileViewModel.swift */,
 				F29158912FBD0C3E0028F7F3 /* ProfilePhotoMenu.swift */,
 				F29158932FBD0C3F0028F7F3 /* CameraPicker.swift */,
+				F29158952FBE7DCD0028F7F3 /* SharedProfileViewModel.swift */,
+				F29158972FBE7DCE0028F7F3 /* SharedProfileView.swift */,
 			);
 			path = "Share Profile";
 			sourceTree = "<group>";
@@ -7480,12 +7486,14 @@
 				BDF7BDCE1CA2247F0045AB6D /* StatsCell.swift in Sources */,
 				40F1492C218BCC4F008F54EA /* PlaylistShortcutsViewController.swift in Sources */,
 				FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */,
+				F29158982FBE7DCE0028F7F3 /* SharedProfileView.swift in Sources */,
 				BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */,
 				40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */,
 				4635390E26F3C42C00BA9D35 /* MessageSupportViewModel.swift in Sources */,
 				9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */,
 				BD874EF71C9A428B00F5B2A5 /* GeneralSettingsViewController.swift in Sources */,
 				BD98C54B1BA802AA00E85D3B /* DiscoverDisclosureCell.swift in Sources */,
+				F29158962FBE7DCD0028F7F3 /* SharedProfileViewModel.swift in Sources */,
 				4065143E2485EB8E00B7E789 /* LastSupporterPodcastCell.swift in Sources */,
 				BDE5B8D81E6401F80039B409 /* EpisodeFileSizeUpdater.swift in Sources */,
 				408971AF2512F57100783253 /* BundleImageView.swift in Sources */,
