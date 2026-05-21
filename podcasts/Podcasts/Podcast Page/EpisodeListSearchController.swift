@@ -149,19 +149,13 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let episodeSortOrder = podcast.podcastSortOrder
 
         let currentSort = episodeSortOrder?.description ?? ""
-        let sortAction = OptionAction(label: L10n.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
-            guard let strongSelf = self else { return }
-
-            strongSelf.presentSortOptions()
-        }
+        let sortAction = OptionAction(label: L10n.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") {}
+        sortAction.submenu = { [weak self] in self?.makeSortOptionsPicker() }
         optionPicker.addAction(action: sortAction)
 
         let currentGroup = podcast.podcastGrouping().description
-        let groupAction = OptionAction(label: L10n.groupEpisodes, secondaryLabel: currentGroup, icon: "option-group") { [weak self] in
-            guard let strongSelf = self else { return }
-
-            strongSelf.presentGroupOptions()
-        }
+        let groupAction = OptionAction(label: L10n.groupEpisodes, secondaryLabel: currentGroup, icon: "option-group") {}
+        groupAction.submenu = { [weak self] in self?.makeGroupOptionsPicker() }
         optionPicker.addAction(action: groupAction)
 
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
@@ -227,7 +221,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             optionPicker.addAction(action: archiveAllPlayedAction)
         }
 
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionPicker.present(from: self)
         Analytics.track(.podcastScreenOptionsTapped)
     }
 
@@ -251,8 +245,8 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
     }
 
-    private func presentSortOptions() {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return }
+    private func makeSortOptionsPicker() -> OptionsPicker? {
+        guard let podcast = podcastDelegate?.displayedPodcast() else { return nil }
 
         let optionPicker = OptionsPicker(title: L10n.podcastSortOrderTitle)
 
@@ -267,11 +261,11 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
             optionPicker.addAction(action: newestToOldestAction)
         }
 
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        return optionPicker
     }
 
-    private func presentGroupOptions() {
-        guard let podcast = podcastDelegate?.displayedPodcast() else { return }
+    private func makeGroupOptionsPicker() -> OptionsPicker? {
+        guard let podcast = podcastDelegate?.displayedPodcast() else { return nil }
 
         let optionPicker = OptionsPicker(title: L10n.podcastGroupOptionsTitle)
 
@@ -307,7 +301,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         }
         optionPicker.addAction(action: starAction)
 
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        return optionPicker
     }
 
     func hideKeyboard() {
