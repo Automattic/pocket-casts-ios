@@ -35,6 +35,10 @@ class DescriptiveActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     func actionWasAdded(vc: UIViewController) {
         // add icon
         let image = UIImage(named: icon)?.tintedImage(AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride))
@@ -148,7 +152,7 @@ class DescriptiveActionView: UIView {
     }
 
     private func makeStandardButton(for action: OptionAction) -> UIView {
-        let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+        let actionColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : ThemeColor.primaryIcon01(for: themeOverride)
 
         var config = UIButton.Configuration.filled()
         var title = AttributedString(action.label)
@@ -220,7 +224,7 @@ class DescriptiveActionView: UIView {
         for (index, button) in actionButtons.enumerated() {
             guard index < actions.count else { continue }
             let action = actions[index]
-            let actionColor = action.destructive ? AppTheme.destructiveTextColor() : ThemeColor.primaryIcon01(for: themeOverride)
+            let actionColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : ThemeColor.primaryIcon01(for: themeOverride)
 
             var config = button.configuration
             config?.baseBackgroundColor = action.outline ? .clear : actionColor

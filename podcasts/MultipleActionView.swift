@@ -26,6 +26,10 @@ class MultipleActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     func actionWasAdded() {
         let label = UILabel()
         label.font = UIFont.font(ofSize: 18, weight: .semibold, scalingWith: .headline)

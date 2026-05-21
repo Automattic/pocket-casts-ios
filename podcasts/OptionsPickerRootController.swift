@@ -51,6 +51,10 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         overrideStatusBarStyle
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     func setup(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle, colors: Colors? = nil) {
         let colors = colors ?? Colors(theme: themeOverride ?? Theme.sharedTheme.activeTheme)
 
