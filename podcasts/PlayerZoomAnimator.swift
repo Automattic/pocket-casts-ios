@@ -522,6 +522,9 @@ extension PlayerContainerViewController {
         let probe = UIView(frame: host.bounds)
         probe.cornerConfiguration = .corners(radius: .containerConcentric())
         host.addSubview(probe)
+        probe.isUserInteractionEnabled = false
+        probe.isAccessibilityElement = false
+        probe.accessibilityElementsHidden = true
         probe.layoutIfNeeded()
         let radius = probe.effectiveRadius(corner: .allCorners)
         probe.removeFromSuperview()
