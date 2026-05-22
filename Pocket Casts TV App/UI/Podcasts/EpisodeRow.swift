@@ -141,6 +141,9 @@ struct EpisodeRowWithActions: View {
                 model.play()
             } label: {
                 EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    .containerRelativeFrame([.horizontal], alignment: .leading) { length, _ in
+                        return length - 150
+                    }
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
