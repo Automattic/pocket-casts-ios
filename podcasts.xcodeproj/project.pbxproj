@@ -24,6 +24,8 @@
 
 /* Begin PBXBuildFile section */
 		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
+		AA01000000000000000000A2 /* EpisodePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000000000000A1 /* EpisodePreviewViewController.swift */; };
+		AA01000000000000000000B2 /* UpNextViewController+ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000000000000B1 /* UpNextViewController+ContextMenu.swift */; };
 		0C7BFA882FAD2A8C00C1E5FF /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF26A9984A1B5C2D00000003 /* LiquidGlass.swift */; };
 		0CB804A62FB50B31007D0402 /* PlayerZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB804A52FB50B31007D0402 /* PlayerZoomAnimator.swift */; };
 		0CCC37A62FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */; };
@@ -1610,6 +1612,8 @@
 
 /* Begin PBXFileReference section */
 		0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerLongPressPreviewViewController.swift; sourceTree = "<group>"; };
+		AA01000000000000000000A1 /* EpisodePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodePreviewViewController.swift; sourceTree = "<group>"; };
+		AA01000000000000000000B1 /* UpNextViewController+ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UpNextViewController+ContextMenu.swift"; sourceTree = "<group>"; };
 		0CB804A52FB50B31007D0402 /* PlayerZoomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerZoomAnimator.swift; sourceTree = "<group>"; };
 		0CCC37A52FA3C30200BA79D1 /* SmartPlaylistRulesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartPlaylistRulesSectionView.swift; sourceTree = "<group>"; };
 		10097D272CC7DADA00E682A3 /* UpNext.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = UpNext.xcassets; sourceTree = "<group>"; };
@@ -5044,6 +5048,8 @@
 				401EBA6B23725C6F00899F93 /* Cells */,
 				BDFB53C92362B9080001806E /* UpNextViewController.swift */,
 				9A156AB02CF7430A007BA8D9 /* UpNextAnnouncementView.swift */,
+				AA01000000000000000000A1 /* EpisodePreviewViewController.swift */,
+				AA01000000000000000000B1 /* UpNextViewController+ContextMenu.swift */,
 				407B9B6123875AA1008E7CA8 /* UpNextViewController+Table.swift */,
 				403086CF2378EB1F009EF821 /* UpNextViewController+UserEpisode.swift */,
 				407B9B71238B5D91008E7CA8 /* UpNextViewController+MultiSelectActions.swift */,
@@ -6972,6 +6978,8 @@
 				FF7F89EA2C2979D900FC0ED5 /* TranscriptViewController.swift in Sources */,
 				9A01DDDC2E84032D0016E9D1 /* PlaylistEpisodePreviewCell.swift in Sources */,
 				0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */,
+				AA01000000000000000000A2 /* EpisodePreviewViewController.swift in Sources */,
+				AA01000000000000000000B2 /* UpNextViewController+ContextMenu.swift in Sources */,
 				9A509DE02D14606100E8CEB1 /* CancelSubscriptionOfferSuccessView.swift in Sources */,
 				BD874EEE1C9A373C00F5B2A5 /* SettingsViewController.swift in Sources */,
 				BDDA14DC219B021A0066441E /* SearchLoadingCell.swift in Sources */,
