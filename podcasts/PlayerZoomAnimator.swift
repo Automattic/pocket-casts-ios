@@ -467,6 +467,24 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
 @available(iOS 26, *)
 extension PlayerContainerViewController {
+    private struct ScreenCornerRadiusCacheKey: Equatable {
+        let bounds: CGRect
+        let userInterfaceIdiom: UIUserInterfaceIdiom
+        let horizontalSizeClass: UIUserInterfaceSizeClass
+        let verticalSizeClass: UIUserInterfaceSizeClass
+        let displayScale: CGFloat
+
+        init(window: UIWindow) {
+            bounds = window.bounds
+            userInterfaceIdiom = window.traitCollection.userInterfaceIdiom
+            horizontalSizeClass = window.traitCollection.horizontalSizeClass
+            verticalSizeClass = window.traitCollection.verticalSizeClass
+            displayScale = window.traitCollection.displayScale
+        }
+    }
+
+    private static var screenCornerRadiusCache: [ObjectIdentifier: (key: ScreenCornerRadiusCacheKey, radius: CGFloat)] = [:]
+
     /// Rounds the player's corners to the device's display radius for the zoom
     /// transition and the interactive drag-dismiss. Returns the radius so the
     /// transition's morph panel can animate to the same value.
@@ -496,12 +514,18 @@ extension PlayerContainerViewController {
     /// radius. Falls back to an iPhone-scale value if there's no window yet.
     static func screenCornerRadius(for view: UIView) -> CGFloat {
         guard let host = view.window else { return 55 }
+        let cacheKey = ScreenCornerRadiusCacheKey(window: host)
+        let cacheIdentifier = ObjectIdentifier(host)
+        if let cached = screenCornerRadiusCache[cacheIdentifier], cached.key == cacheKey {
+            return cached.radius
+        }
         let probe = UIView(frame: host.bounds)
         probe.cornerConfiguration = .corners(radius: .containerConcentric())
         host.addSubview(probe)
         probe.layoutIfNeeded()
         let radius = probe.effectiveRadius(corner: .allCorners)
         probe.removeFromSuperview()
+        screenCornerRadiusCache[cacheIdentifier] = (key: cacheKey, radius: radius)
         return radius
     }
 
