@@ -33,7 +33,6 @@ struct Constants {
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
-        static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
         static let podcastSearchCancelled = NSNotification.Name(rawValue: "PodcastSearchCancelled")
@@ -291,7 +290,7 @@ struct Constants {
             static let watchListItems = 50
         #else
             static let maxListItemsToSendToWatch = 50
-            static let maxFilterItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+            static let maxFilterItems = 1000
             static let maxCarplayItems = 100
             static let maxBulkDownloads = 100
             static let maxSubscriptionExpirySeconds: TimeInterval = 30.days

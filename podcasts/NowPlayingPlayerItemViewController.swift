@@ -12,6 +12,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     var showingCustomImage = false
     var lastChapterIndexRendered = -1
 
+    /// Low-res artwork handed over from the mini player when opening the full
+    /// screen player.
+    var placeholderArtwork: UIImage?
+
     private var bannerTask: Task<Void, Never>? = nil
 
     // Detect Display Zoom (zoomed display makes UI elements appear larger).
@@ -357,6 +361,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     override func willBeAddedToPlayer() {
+        if episodeImage.image == nil, let placeholderArtwork {
+            episodeImage.image = placeholderArtwork
+            self.placeholderArtwork = nil
+        }
         update(notification: nil)
         addObservers()
     }

@@ -48,6 +48,8 @@ class PCViewController: SimpleNotificationsViewController {
     private var navTitleColor: UIColor?
     private var navBgColor: UIColor?
 
+    private var isNavBarScrolled = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -96,6 +98,11 @@ class PCViewController: SimpleNotificationsViewController {
 
         if let title, !title.isEmpty {
             setupNavBar(animated: animated)
+        } else if useTransparentNavigationBarAppearance {
+            // `setupNavBar` is gated on a non-empty title, but transparent-bar subclasses (which
+            // often use `navigationItem.titleView` and leave `title` empty) still need the bar's
+            // global appearance restored — another VC in the stack may have overwritten it.
+            setTransparentNavBarScrolled(isNavBarScrolled)
         }
         refreshRightButtons()
     }
@@ -214,7 +221,7 @@ class PCViewController: SimpleNotificationsViewController {
     }
 
     private func configureTransparentAppearance() {
-        setTransparentNavBarScrolled(false)
+        setTransparentNavBarScrolled(isNavBarScrolled)
     }
 
     /// Toggles the navigation bar between its at-edge (transparent) and scrolled (blurred) styles,
@@ -224,6 +231,8 @@ class PCViewController: SimpleNotificationsViewController {
     /// UIKit animates the appearance swap. When Liquid Glass is enabled the system handles the
     /// at-edge/scrolled transition on its own, so we just install its default background once.
     func setTransparentNavBarScrolled(_ scrolled: Bool) {
+        isNavBarScrolled = scrolled
+
         guard !LiquidGlass.isEnabled else {
             return // It's a no-op since on iOS 26 we already use default transparent bars
         }
@@ -234,7 +243,7 @@ class PCViewController: SimpleNotificationsViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         if scrolled {
-            appearance.backgroundEffect = UIBlurEffect(style: .regular)
+            appearance.configureWithOpaqueBackground()
         }
         navigationBar.standardAppearance = appearance
         navigationBar.scrollEdgeAppearance = appearance

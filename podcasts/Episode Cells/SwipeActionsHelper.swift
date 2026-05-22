@@ -109,7 +109,7 @@ enum SwipeActionsHelper {
         let tableSwipeActions = TableSwipeActions()
         let storedUuid = episode.uuid
 
-        if let episode = episode as? Episode, FeatureFlag.playlistsRebranding.enabled && episode.wasDeleted && swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
+        if let episode = episode as? Episode, episode.wasDeleted && swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
             tableSwipeActions.addAction(TableSwipeAction.removeAction(indexPath: indexPath, tableView: tableView, swipeHandler: swipeHandler, episode: episode), at: 0)
             return tableSwipeActions // Only include delete
         } else if episode is UserEpisode {
@@ -121,11 +121,10 @@ enum SwipeActionsHelper {
             tableSwipeActions.addAction(deleteAction)
             return tableSwipeActions
         } else if episode.archived {
-            let willBeRemoved = FeatureFlag.playlistsRebranding.enabled
-            let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: willBeRemoved, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
+            let unarchiveAction = TableSwipeAction(indexPath: indexPath, title: L10n.unarchive, removesFromList: true, backgroundColor: ThemeColor.support06(), icon: UIImage(named: "list_unarchive"), tableView: tableView, handler: { _ -> Bool in
                 if let loadedEpisode = DataManager.sharedManager.findEpisode(uuid: storedUuid) {
                     EpisodeManager.unarchiveEpisode(episode: loadedEpisode, fireNotification: true)
-                    Self.performAction(.unarchive, handler: swipeHandler, willBeRemoved: willBeRemoved)
+                    Self.performAction(.unarchive, handler: swipeHandler, willBeRemoved: true)
                 }
 
                 return true
@@ -152,19 +151,17 @@ enum SwipeActionsHelper {
             })
             tableSwipeActions.addAction(shareAction)
 
-            if FeatureFlag.playlistsRebranding.enabled {
-                if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
-                    let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: addToPlaylistSwipeBackground, icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
-                        swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
-                        Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
-                        return true
-                    })
-                    tableSwipeActions.addAction(shareAction)
-                }
+            if swipeHandler.swipeSourceType.canAddEpisodeToManualPlaylist {
+                let shareAction = TableSwipeAction(indexPath: indexPath, title: L10n.playlistManualAddEpisodes, removesFromList: false, backgroundColor: addToPlaylistSwipeBackground, icon: UIImage(named: "playlist-add-episode"), tableView: tableView, hidesWhenSelected: true, handler: { indexPath -> Bool in
+                    swipeHandler.addToManualPlaylist(episode: episode, at: indexPath)
+                    Self.performAction(.addToManualPlaylist, handler: swipeHandler, willBeRemoved: false)
+                    return true
+                })
+                tableSwipeActions.addAction(shareAction)
+            }
 
-                if swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
-                    tableSwipeActions.addAction(TableSwipeAction.removeAction(indexPath: indexPath, tableView: tableView, swipeHandler: swipeHandler, episode: episode), at: 0)
-                }
+            if swipeHandler.swipeSourceType.canRemoveEpisodeFromManualPlaylist {
+                tableSwipeActions.addAction(TableSwipeAction.removeAction(indexPath: indexPath, tableView: tableView, swipeHandler: swipeHandler, episode: episode), at: 0)
             }
         }
 
@@ -174,18 +171,16 @@ enum SwipeActionsHelper {
     fileprivate static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
         let source = handler.swipeSource
         var properties = ["action": action, "source": source] as [String: Any]
-        if FeatureFlag.playlistsRebranding.enabled {
-            let playlistSourceType = switch handler.swipeSourceType {
-            case .manualPlaylistDetail:
-                "manual"
-            case .smartPlaylistDetail:
-                "smart"
-            default:
-                ""
-            }
-            if !playlistSourceType.isEmpty {
-                properties["filter_type"] = playlistSourceType
-            }
+        let playlistSourceType = switch handler.swipeSourceType {
+        case .manualPlaylistDetail:
+            "manual"
+        case .smartPlaylistDetail:
+            "smart"
+        default:
+            ""
+        }
+        if !playlistSourceType.isEmpty {
+            properties["filter_type"] = playlistSourceType
         }
         Analytics.track(.episodeSwipeActionPerformed, properties: properties)
 

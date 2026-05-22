@@ -141,16 +141,17 @@ struct EpisodeRowWithActions: View {
                 model.play()
             } label: {
                 EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    .containerRelativeFrame([.horizontal], alignment: .leading) { length, _ in
+                        return length - 150
+                    }
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
 
             if shouldShowMoreButton {
-                Menu {
-                    actionButtons
-                        .onAppear {
-                            restoreFocus = true
-                        }
+                Button {
+                    restoreFocus = true
+                    isShowingActions = true
                 } label: {
                     Image(systemName: "ellipsis")
                 }
@@ -175,6 +176,9 @@ struct EpisodeRowWithActions: View {
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
+        }
+        .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
+            actionButtons
         }
     }
 }

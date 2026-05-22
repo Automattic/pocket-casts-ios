@@ -288,8 +288,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             forceCollapsingHeaderIfNeeded()
         }
 
-        searchController = EpisodeListSearchController()
-        searchController?.podcastDelegate = self
+        let searchController = EpisodeListSearchController()
+        searchController.podcastDelegate = self
+        addChild(searchController)
+        searchController.didMove(toParent: self)
+        self.searchController = searchController
 
         operationQueue.maxConcurrentOperationCount = 1
 

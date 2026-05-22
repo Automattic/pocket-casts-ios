@@ -7,6 +7,7 @@ import PocketCastsDataModel
 class StarredFilterOverlayController: PCViewController {
     private static let starredEpisodeCellId = "StarredEpisodeCellId"
     private static let smartRuleHeaderCellId = "SmartRuleHeaderCellId"
+    private static let previewCellId = "EpisodePreviewCell"
 
     var filterToEdit: EpisodeFilter!
     var analyticsSource: AnalyticsSource = .filters
@@ -18,7 +19,7 @@ class StarredFilterOverlayController: PCViewController {
             tableView.delegate = self
             tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: Self.smartRuleHeaderCellId)
-            tableView.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: FilterPreviewViewController.previewCellId)
+            tableView.register(UINib(nibName: "EpisodePreviewCell", bundle: nil), forCellReuseIdentifier: Self.previewCellId)
             tableView.rowHeight = UITableView.automaticDimension
             tableView.estimatedRowHeight = UITableView.automaticDimension
         }
@@ -198,7 +199,7 @@ extension StarredFilterOverlayController: UITableViewDataSource, UITableViewDele
             return cell
         }
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: FilterPreviewViewController.previewCellId, for: indexPath) as! EpisodePreviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Self.previewCellId, for: indexPath) as! EpisodePreviewCell
         cell.imageLeftPadding.constant = 16.0
         cell.style = .primaryUi01
         if let listEpisode = episodes[safe: indexPath.row] {

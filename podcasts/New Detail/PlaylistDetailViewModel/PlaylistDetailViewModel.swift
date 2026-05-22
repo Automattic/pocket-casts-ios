@@ -56,7 +56,7 @@ class PlaylistDetailViewModel: ObservableObject {
     @Published var playlistName: String = ""
 
     private(set) var playlist: EpisodeFilter
-    private(set) var isSearching = false
+    @Published private(set) var isSearching = false
     private(set) var firstTimeLoading = true
     private(set) var archivedEpisodesCount: Int = 0
 

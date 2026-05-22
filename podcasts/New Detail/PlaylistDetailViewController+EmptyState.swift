@@ -6,7 +6,7 @@ extension PlaylistDetailViewController {
         if viewModel.isManualPlaylist {
             return viewModel.hasSubscribedPodcasts ? L10n.playlistManualEmptyStateTitle : L10n.playlistManualEmptyStateTitleNoPodcasts
         }
-        return FeatureFlag.playlistsRebranding.enabled ?  L10n.episodeFilterNoEpisodesTitle.sentenceCased : L10n.episodeFilterNoEpisodesTitle
+        return L10n.episodeFilterNoEpisodesTitle.sentenceCased
     }
 
     private var emptyStateDescription: String? {

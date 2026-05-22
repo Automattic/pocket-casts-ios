@@ -26,12 +26,7 @@ class PlaylistRefreshOperation: Operation, @unchecked Sendable {
         autoreleasepool {
             if self.isCancelled { return }
 
-            let newData: [ListEpisode]
-            if FeatureFlag.playlistsRebranding.enabled {
-                newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
-            } else {
-                newData = episodesDataManager.episodes(for: playlist)
-            }
+            let newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
 
             DispatchQueue.main.sync { [weak self] in
                 guard let strongSelf = self else { return }

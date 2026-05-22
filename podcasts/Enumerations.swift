@@ -256,19 +256,11 @@ extension PlayerAction: AnalyticsDescribable {
 
     /// Specify default actions and their order
     static var defaultActions: [PlayerAction] {
-        if FeatureFlag.playlistsRebranding.enabled {
-            [
-                .effects, .sleepTimer, .routePicker, .shareEpisode, .addToPlaylist, .download,
-                .transcript, .goToPodcast, .addBookmark, .markPlayed,
-                .starEpisode, .chromecast, .archive
-            ]
-        } else {
-            [
-                .effects, .sleepTimer, .routePicker, .shareEpisode, .download,
-                .transcript, .goToPodcast, .addBookmark, .markPlayed,
-                .starEpisode, .chromecast, .archive
-            ]
-        }
+        [
+            .effects, .sleepTimer, .routePicker, .shareEpisode, .addToPlaylist, .download,
+            .transcript, .goToPodcast, .addBookmark, .markPlayed,
+            .starEpisode, .chromecast, .archive
+        ]
     }
 
     public init?(int: Int) {
@@ -474,12 +466,7 @@ extension PlayerAction: AnalyticsDescribable {
     /// Determines whether the action should be available as an option
     /// If false, the action will be hidden from the player shelf and overflow menu
     var isAvailable: Bool {
-        switch self {
-        case .addToPlaylist:
-            return FeatureFlag.playlistsRebranding.enabled
-        default:
-            return true
-        }
+        true
     }
 
     var analyticsDescription: String {
