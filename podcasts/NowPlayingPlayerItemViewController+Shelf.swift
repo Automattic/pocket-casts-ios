@@ -295,7 +295,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             yesAction.destructive = true
             confirmation.addAction(action: yesAction)
 
-            confirmation.show(statusBarStyle: preferredStatusBarStyle)
+            confirmation.present(from: self)
         } else if episode.isInDownloadProcess {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
             Toast.show(L10n.playerEpisodeDownloadCancelled)
@@ -468,7 +468,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
         markPlayedAction.destructive = true
         optionsPicker.addDescriptiveActions(title: L10n.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     private func delete() {
@@ -490,7 +490,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
         archiveAction.destructive = true
         optionsPicker.addDescriptiveActions(title: L10n.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
     #endif
 
