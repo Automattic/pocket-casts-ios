@@ -59,10 +59,15 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     private func podcastSlot(at index: Int) -> some View {
         let isLoaded = index < model.podcasts.count
         ZStack {
-            Color.clear
+            Color.backgroundBase.opacity(0.2)
             if isLoaded {
                 PodcastImage(uuid: model.podcasts[index].uuid, size: .page)
-                    .transition(.opacity.animation(.easeInOut(duration: Layout.fadeDuration)))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius))
+                    .transition(
+                        .scale(scale: 0.6)
+                            .combined(with: .opacity)
+                            .animation(.interpolatingSpring(stiffness: 220, damping: 7))
+                    )
             }
         }
         .frame(width: Layout.gridSize, height: Layout.gridSize)
