@@ -25,6 +25,6 @@ enum EpisodesQueryBuilder {
             sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
 
-        return ("podcast_id = ? AND archived = 0 \(sortStr)", [podcast.id])
+        return ("podcast_id = ? AND archived = 0 AND wasDeleted = 0 \(sortStr)", [podcast.id])
     }
 }
