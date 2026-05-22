@@ -14,8 +14,8 @@ struct SignInView: View {
         static let qrSize = CGFloat(240)
     }
 
-    var attributed: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeGoUrl(model.pairURLPretty, model.pairURLString)
+    var enterCodePrompt: AttributedString {
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairURLPretty, model.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -45,13 +45,9 @@ struct SignInView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 32) {
-                Spacer()
                 Image(ImageResource.pcLogo)
                 Text(L10n.tvSignInTitle)
                     .font(.title)
-                Text(L10n.tvSignInSubtitle)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
                         Text(type.description).tag(type)
@@ -59,22 +55,29 @@ struct SignInView: View {
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 500)
-                switch loginType {
-                case .manual:
-                    usernamePasswordLogin
-                case .qr:
-                    QRCodeView(url: model.pairURLString)
-                    separator
-                    Text(L10n.tvSignInEnterCode)
-                        .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
-                    qrCodeDigits
-                    Text(attributed)
-                        .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
+                // Mode-specific content area, fixed height so the logo,
+                // title, and picker above never shift when switching modes.
+                VStack(spacing: 32) {
+                    switch loginType {
+                    case .manual:
+                        usernamePasswordLogin
+                            .padding(.top, 64)
+                    case .qr:
+                        Text(L10n.tvSignInSubtitle)
+                            .font(.headline)
+                            .foregroundStyle(Color.textSecondary)
+                        QRCodeView(url: model.pairURLString)
+                        separator
+                        Text(enterCodePrompt)
+                            .font(.headline)
+                            .foregroundStyle(Color.textSecondary)
+                        qrCodeDigits
+                    }
                 }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
+            .padding(.top, 80)
+            .offset(y: -64)
         }
         .task {
             switch loginType {
