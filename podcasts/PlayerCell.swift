@@ -55,6 +55,12 @@ class PlayerCell: ThemeableSwipeCell {
         }
     }
 
+    @IBOutlet var bottomDividerHeightConstraint: NSLayoutConstraint! {
+        didSet {
+            bottomDividerHeightConstraint.constant = 1.0 / UIScreen.main.scale
+        }
+    }
+
     @IBOutlet var podcastImageToSelectViewConstraint: NSLayoutConstraint!
     @IBOutlet var selectViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var selectTickImageView: UIImageView!
