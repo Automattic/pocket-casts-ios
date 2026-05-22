@@ -6,12 +6,19 @@ import UIKit
 extension UpNextViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         guard !isMultiSelectEnabled,
-              location.x < (upNextTable.bounds.width - UpNextViewController.rearrangeWidth),
-              let indexPath = upNextTable.indexPathForRow(at: location),
-              tableData[indexPath.section] == .upNextSection,
-              let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else {
+              let indexPath = upNextTable.indexPathForRow(at: location) else {
             return nil
         }
+
+        let isNowPlaying = tableData[indexPath.section] == .nowPlayingSection
+        let episode: BaseEpisode?
+        if isNowPlaying {
+            episode = PlaybackManager.shared.currentEpisode()
+        } else {
+            guard location.x < (upNextTable.bounds.width - UpNextViewController.rearrangeWidth) else { return nil }
+            episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row)
+        }
+        guard let episode else { return nil }
 
         track(.upNextQueueEpisodeLongPressed, properties: ["will_play": false])
 
@@ -21,7 +28,7 @@ extension UpNextViewController: UIContextMenuInteractionDelegate {
                 EpisodePreviewViewController(episode: episode, themeOverride: self?.themeOverride)
             },
             actionProvider: { [weak self] _ in
-                self?.makeContextMenu(for: episode)
+                self?.makeContextMenu(for: episode, isNowPlaying: isNowPlaying)
             }
         )
     }
@@ -36,31 +43,39 @@ extension UpNextViewController: UIContextMenuInteractionDelegate {
 
     private func targetedPreview(for configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard let indexPath = configuration.identifier as? IndexPath,
-              let cell = upNextTable.cellForRow(at: indexPath) as? PlayerCell else {
+              let cell = upNextTable.cellForRow(at: indexPath) else {
             return nil
         }
         let parameters = UIPreviewParameters()
         parameters.backgroundColor = .clear
-        return UITargetedPreview(view: cell.contentView, parameters: parameters)
+        let targetView = (cell as? UpNextNowPlayingCell)?.roundedBackgroundView ?? cell.contentView
+        return UITargetedPreview(view: targetView, parameters: parameters)
     }
 
-    private func makeContextMenu(for episode: BaseEpisode) -> UIMenu {
-        let playNow = UIAction(title: L10n.playNow, image: UIImage(named: "episode-play")?.withRenderingMode(.alwaysTemplate)) { _ in
-            AnalyticsPlaybackHelper.shared.currentSource = .upNext
-            PlaybackActionHelper.play(episode: episode)
-        }
+    private func makeContextMenu(for episode: BaseEpisode, isNowPlaying: Bool = false) -> UIMenu {
+        var playbackActions = [UIAction]()
 
-        let removeFromUpNext = UIAction(title: L10n.removeFromUpNext, image: UIImage(named: "episode-removenext")) { _ in
-            AnalyticsEpisodeHelper.shared.currentSource = .upNext
-            PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
+        if !isNowPlaying {
+            let playNow = UIAction(title: L10n.playNow, image: UIImage(named: "episode-play")?.withRenderingMode(.alwaysTemplate)) { _ in
+                AnalyticsPlaybackHelper.shared.currentSource = .upNext
+                PlaybackActionHelper.play(episode: episode)
+            }
+            playbackActions.append(playNow)
+
+            let removeFromUpNext = UIAction(title: L10n.removeFromUpNext, image: UIImage(named: "episode-removenext")) { _ in
+                AnalyticsEpisodeHelper.shared.currentSource = .upNext
+                PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
+            }
+            playbackActions.append(removeFromUpNext)
         }
 
         let markAsPlayed = UIAction(title: L10n.markPlayed, image: UIImage(named: "episode-markasplayed")) { _ in
             AnalyticsEpisodeHelper.shared.currentSource = .upNext
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
+        playbackActions.append(markAsPlayed)
 
-        let playbackGroup = UIMenu(title: "", options: .displayInline, children: [playNow, removeFromUpNext, markAsPlayed])
+        let playbackGroup = UIMenu(title: "", options: .displayInline, children: playbackActions)
 
         let goToEpisode = UIAction(title: L10n.goToEpisode, image: UIImage(systemName: "info.circle")) { [weak self] _ in
             self?.showEpisodeDetailViewController(for: episode)
