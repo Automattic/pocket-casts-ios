@@ -53,7 +53,7 @@ struct ChoosePodcastFolderView: View {
                         dismissAction(nil)
                     } label: {
                         Image("close")
-                            .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                            .foregroundColor(ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme)))
                     }
                     .accessibilityLabel(L10n.close)
                 }
