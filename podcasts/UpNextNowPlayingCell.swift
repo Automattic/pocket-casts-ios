@@ -35,14 +35,14 @@ class UpNextNowPlayingCell: ThemeableCell {
     @IBOutlet var timeRemainingLabel: ThemeableLabel! {
         didSet {
             timeRemainingLabel.style = .primaryText02
-            timeRemainingLabel.font = UIFont.font(ofSize: 13, weight: .semibold, scalingWith: .footnote)
+            timeRemainingLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
         }
     }
 
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
-            episodeTitle.font = UIFont.font(ofSize: 14, weight: .medium, scalingWith: .callout)
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
