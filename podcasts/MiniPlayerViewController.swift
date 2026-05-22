@@ -417,7 +417,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard needsReload else { return }
 
         lastEpisodeUuidImageLoaded = episode.uuid
-        podcastArtwork.setBaseEpisode(episode: episode, size: .list)
+        if let userEpisode = episode as? UserEpisode {
+            podcastArtwork.setUserEpisode(uuid: userEpisode.uuid, size: .list)
+        } else {
+            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
+        }
     }
 
     /// Shows the current chapter title when the episode has chapters, falling
