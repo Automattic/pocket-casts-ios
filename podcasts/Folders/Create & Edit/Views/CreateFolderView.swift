@@ -12,6 +12,10 @@ struct CreateFolderView: View {
 
     var preselectPodcastUuid: String?
 
+    var navBarTint: Color? {
+        LiquidGlass.isEnabled ? nil : ThemeColor.secondaryIcon01(for: theme.activeTheme).color
+    }
+
     var addButtonTitle: String {
         let selectedCount = pickerModel.selectedPodcastUuids.count
         if selectedCount == 1 {
@@ -65,7 +69,7 @@ struct CreateFolderView: View {
                             dismissAction(nil)
                         } label: {
                             Image("close")
-                                .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                                .foregroundColor(navBarTint)
                         }
                         .accessibilityLabel(L10n.close)
                     }
@@ -75,7 +79,7 @@ struct CreateFolderView: View {
                         } label: {
                             Text(pickerModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll)
                         }
-                        .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                        .foregroundColor(navBarTint)
                     }
                 }
         }
@@ -92,7 +96,7 @@ struct CreateFolderView: View {
                     } label: {
                         Text(pickerModel.hasSelectedAll ? L10n.deselectAll : L10n.selectAll)
                     }
-                    .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                    .foregroundColor(navBarTint)
                 }
             }
     }

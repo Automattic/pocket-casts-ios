@@ -30,6 +30,10 @@ struct SuggestedFoldersView: View {
         self.onCompletion = onCompletion
     }
 
+    var navBarTint: Color? {
+        LiquidGlass.isEnabled ? nil : ThemeColor.primaryInteractive01(for: theme.activeTheme).color
+    }
+
     var body: some View {
         Group {
             switch model.loadingState {
@@ -45,14 +49,13 @@ struct SuggestedFoldersView: View {
                                     onCompletion(.dismiss)
                                 } label: {
                                     Image("close")
-                                        .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
+                                        .foregroundColor(navBarTint)
                                 }
                                 .accessibilityLabel(L10n.close)
                             }
                         }
                 }
                 .navigationViewStyle(.stack)
-                .tint(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
             case .failed:
                 CreateFolderView(isInsideNavigation: false) { uuid in
                     if let uuid {
