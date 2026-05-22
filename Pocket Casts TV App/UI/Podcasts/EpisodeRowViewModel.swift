@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
+import PocketCastsUtils
 
 @Observable
 class EpisodeRowViewModel: Identifiable {
@@ -15,9 +16,12 @@ class EpisodeRowViewModel: Identifiable {
 
     var id: String { episode.uuid }
 
-    init(episode: BaseEpisode, podcast: Podcast?) {
+    private let playbackManager: PlaybackManager
+
+    init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
+        self.playbackManager = playbackManager
     }
 
     func loadEpisodeArtwork() {
@@ -42,7 +46,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     var displayDate: String {
-        return episode.shortPublishedDate()
+        return DateFormatHelper.sharedHelper.tinyLocalizedFormat(episode.publishedDate).localizedUppercase
     }
 
     var displayDuration: String {
@@ -74,6 +78,40 @@ class EpisodeRowViewModel: Identifiable {
 
     func play() {
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+    }
+
+    func playNext() {
+        if playbackManager.inUpNext(episode: episode) {
+            playbackManager.queue.move(episode: episode, to: 0)
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
+        }
+    }
+
+    func playLast() {
+        if playbackManager.inUpNext(episode: episode) {
+            let queueCount = playbackManager.queue.upNextCount()
+            playbackManager.queue.move(episode: episode, to: max(queueCount - 1, 0))
+        } else {
+            playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
+        }
+    }
+
+    func markAsPlayed() {
+        EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+    }
+
+    var canArchive: Bool {
+        episode is Episode
+    }
+
+    func archive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+    }
+
+    func removeFromUpNext() {
+        playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
     }
 }
 
