@@ -299,21 +299,11 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     @objc func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let touchPoint = sender.location(in: upNextTable)
-        guard let indexPath = upNextTable.indexPathForRow(at: touchPoint), tableData[indexPath.section] == .upNextSection,
-              let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
+        guard sender.state == .began, isMultiSelectEnabled else { return }
 
-        if sender.state == .began {
-            if isMultiSelectEnabled {
-                showLongPressSelectOptions(indexPath: indexPath)
-            } else if !Settings.playUpNextOnTap() {
-                AnalyticsPlaybackHelper.shared.currentSource = .upNext
-                PlaybackActionHelper.play(episode: episode)
-                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])
-            } else {
-                showEpisodeDetailViewController(for: episode)
-                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": false])
-            }
-        }
+        let touchPoint = sender.location(in: upNextTable)
+        guard let indexPath = upNextTable.indexPathForRow(at: touchPoint), tableData[indexPath.section] == .upNextSection else { return }
+
+        showLongPressSelectOptions(indexPath: indexPath)
     }
 }

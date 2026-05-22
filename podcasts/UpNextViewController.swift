@@ -124,6 +124,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.backgroundView = nil
             upNextTable.isEditing = true
             upNextTable.addGestureRecognizer(customLongPressGesture)
+            upNextTable.addInteraction(UIContextMenuInteraction(delegate: self))
             upNextTable.allowsMultipleSelectionDuringEditing = true
             upNextTable.allowsMultipleSelection = true
         }
@@ -376,6 +377,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer != customLongPressGesture { return true }
+
+        guard isMultiSelectEnabled else { return false }
 
         let touchPoint = gestureRecognizer.location(in: upNextTable)
         return touchPoint.x < (view.bounds.width - UpNextViewController.rearrangeWidth)

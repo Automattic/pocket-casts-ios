@@ -1153,6 +1153,9 @@
 /* A funny time unit used in stats comparing the listening time to the number of tweets that have been sent. '%1$@' is a placeholder for the amount of time listened compared to the stat. */
 "funny_time_unit_tweets" = "During which time %1$@ tweets were tooted. Toot! Toot! 🐣";
 
+/* A common string used throughout the app. Title for the prompt to navigate the user to the episode details. */
+"go_to_episode" = "Go to Episode";
+
 /* A common string used throughout the app. Title for the prompt to navigate the user to the podcast associated to the selected item. */
 "go_to_podcast" = "Go to Podcast";
 
@@ -1491,6 +1494,9 @@
 
 /* Prompt to add an episode to the top of the Up Next queue. Shown in the episode detail bottom sheet. */
 "play_next_in_up_next" = "Play next in Up Next";
+
+/* A common string used throughout the app. Prompt to immediately start playing the selected episode. */
+"play_now" = "Play Now";
 
 /* One of the options for how aggressive to be in trimming silence. Sets it to max the highest setting. */
 "playback_effect_trim_silence_max" = "Mad Max";
