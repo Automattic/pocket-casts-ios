@@ -25,7 +25,7 @@ struct EpisodeRow: View {
     }
 
     private var isHighlighted: Bool {
-        isActive ?? isFocused
+        isFocused
     }
 
     enum Layout {
