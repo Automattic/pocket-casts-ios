@@ -175,7 +175,7 @@ struct EpisodeRowWithActions: View {
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
-        }        
+        }
     }
 }
 
