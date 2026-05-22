@@ -14,7 +14,7 @@ struct EpisodeRowButtonStyle: ButtonStyle {
 
 struct EpisodeRow: View {
 
-    @State var model: EpisodeRowViewModel
+    let model: EpisodeRowViewModel
     var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -25,7 +25,7 @@ struct EpisodeRow: View {
     }
 
     private var isHighlighted: Bool {
-        isActive ?? isFocused
+        isFocused
     }
 
     enum Layout {
@@ -110,7 +110,7 @@ struct EpisodeRowWithActions: View {
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || isShowingActions || restoreFocus
+        focusedElement != nil || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
@@ -121,24 +121,29 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) {}
-            Button(L10n.playLastInUpNext) {}
-            Button(L10n.markPlayed) {}
-            Button(L10n.archive) {}
+            Button(L10n.playNextInUpNext) { model.playNext() }
+            Button(L10n.playLastInUpNext) { model.playLast() }
+            Button(L10n.markPlayed) { model.markAsPlayed() }
+            if model.canArchive {
+                Button(L10n.archive) { model.archive() }
+            }
         case .upNext:
-            Button(L10n.playNext) {}
-            Button(L10n.playLast) {}
-            Button(L10n.removeFromUpNext) {}
+            Button(L10n.playNext) { model.playNext() }
+            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
-        Button(L10n.tvEpisodeInfo) {}
     }
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
             Button {
                 isPlaying = true
+                model.play()
             } label: {
                 EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    .containerRelativeFrame([.horizontal], alignment: .leading) { length, _ in
+                        return length - 150
+                    }
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
@@ -169,7 +174,7 @@ struct EpisodeRowWithActions: View {
             }
         }
         .fullScreenCover(isPresented: $isPlaying) {
-            EpisodePlayerView(episode: model)
+            NowPlayingView()
                 .ignoresSafeArea()
         }
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {

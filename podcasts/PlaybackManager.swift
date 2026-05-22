@@ -679,24 +679,15 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func play(playlist: EpisodeFilter) {
         let playlistEpisodes: [Episode]
-        if FeatureFlag.playlistsRebranding.enabled {
-            let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
-            playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
-            if playlist.manual {
-                let archivedEpisodes = playlistEpisodes.filter(\.archived)
-                EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
-            }
-        } else {
-            let query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit())
-            playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
+        playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+        if playlist.manual {
+            let archivedEpisodes = playlistEpisodes.filter(\.archived)
+            EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
         }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
-        if FeatureFlag.playlistsRebranding.enabled {
-            populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
-        } else {
-            populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
-        }
+        populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
         uuidOfPlayingList = playlist.uuid
     }
 
@@ -1264,37 +1255,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Helper Methods
-
-    private func populateFromEpisodes(_ episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
-        if episodes == nil, queue.upNextCount() > 0 {
-            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
-            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
-        } else {
-            // there's a new list of episodes to play, so clear what's currently playing and play that
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-
-            var foundEpisode = false
-            var addedEpisodes = 0
-            for episode in episodes! {
-                if !foundEpisode {
-                    if episode.uuid == startingAtEpisode.uuid {
-                        foundEpisode = true
-                    }
-
-                    continue
-                }
-
-                queue.add(episode: episode, fireNotification: false, partOfBulkAdd: true)
-                addedEpisodes += 1
-                // honor the queue auto add limit
-                if addedEpisodes >= ServerSettings.autoAddToUpNextLimit() {
-                    break
-                }
-            }
-            queue.bulkOperationDidComplete()
-        }
-    }
 
     private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
         if episodes == nil, queue.upNextCount() > 0 {
@@ -2387,6 +2347,17 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Analytics
 
     private let commandCenterSource: AnalyticsSource = .nowPlayingWidget
+
+
+    // MARK: - tvOS
+
+    var avPlayer: AVPlayer? {
+        guard let defaultPlayer = player as? DefaultPlayer else {
+            return nil
+        }
+
+        return defaultPlayer.player
+    }
 }
 
 private extension PlaybackManager {

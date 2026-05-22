@@ -153,13 +153,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()
-                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections(IndexSet(integersIn: 0..<self.episodesTable.numberOfSections), with: .none)
-                }
+                self.episodesTable.setEditing(isMultiSelectEnabled, animated: true)
                 self.episodesTable.endUpdates()
             }
 
@@ -172,7 +170,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
                     self.tableView().selectIndexPath(selectedIndexPath)
                     self.longPressMultiSelectIndexPath = nil
                 }
-                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
             } else {
                 self.selectedEpisodes.removeAll()
             }
@@ -290,8 +288,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             forceCollapsingHeaderIfNeeded()
         }
 
-        searchController = EpisodeListSearchController()
-        searchController?.podcastDelegate = self
+        let searchController = EpisodeListSearchController()
+        searchController.podcastDelegate = self
+        addChild(searchController)
+        searchController.didMove(toParent: self)
+        self.searchController = searchController
 
         operationQueue.maxConcurrentOperationCount = 1
 
@@ -768,19 +769,22 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             }
         }
 
-        let optionPicker = OptionsPicker(title: downloadedCount > 0 ? nil : L10n.areYouSure)
         let label = FeatureFlag.useFollowNaming.enabled ? L10n.unfollow : L10n.unsubscribe
-        let unsubscribeAction = OptionAction(label: label, icon: nil, action: { [weak self] in
+        let title: String
+        let message: String?
+        if downloadedCount > 0 {
+            title = L10n.downloadedFilesConf(downloadedCount)
+            message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
+        } else {
+            title = L10n.areYouSure
+            message = nil
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: label, style: .destructive) { [weak self] _ in
             self?.performUnsubscribe()
         })
-        if downloadedCount > 0 {
-            unsubscribeAction.destructive = true
-            let message = FeatureFlag.useFollowNaming.enabled ? L10n.downloadedFilesConfMessageNew : L10n.downloadedFilesConfMessage
-            optionPicker.addDescriptiveActions(title: L10n.downloadedFilesConf(downloadedCount), message: message, icon: "option-alert", actions: [unsubscribeAction])
-        } else {
-            optionPicker.addAction(action: unsubscribeAction)
-        }
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        present(alert, animated: true)
 
         Analytics.track(.podcastScreenUnsubscribeTapped)
     }

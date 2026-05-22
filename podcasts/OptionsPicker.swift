@@ -7,7 +7,7 @@ class OptionsPicker {
 
     private var noActionCallback: (() -> Void)?
 
-    init(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
+    init(title: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
         self.title = title
         setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors, portraitOnly: portraitOnly)
     }
@@ -61,6 +61,36 @@ class OptionsPicker {
         }
         rootController.aboutToPresentOptions(bottomPadding: additionalPaddingRequired)
         rootController.animateIn()
+    }
+
+    /// Presents the options using a native, self-sizing sheet from the given
+    /// view controller. The sheet's height is adjusted to fit the available
+    /// options, capped at the screen height.
+    func present(from presentingViewController: UIViewController) {
+        guard let optionsController else { return }
+        optionsController.modalPresentationStyle = .formSheet
+        if let sheet = optionsController.sheetPresentationController {
+            optionsController.configureForSheetPresentation()
+            sheet.delegate = optionsController
+            sheet.detents = [.custom { [weak optionsController] context in
+                optionsController?.preferredSheetHeight(limitedTo: context.maximumDetentValue, traitCollection: context.containerTraitCollection) ?? context.maximumDetentValue
+            }]
+        }
+        presentingViewController.present(optionsController, animated: true)
+    }
+
+    /// Presents the options as a native sheet from the app's top-most view
+    /// controller. Use this when there's no obvious presenting controller at
+    /// the call site.
+    func present() {
+        #if !APPCLIP
+        guard let presenter = SceneHelper.rootViewController() else {
+            // This should never happen
+            assertionFailure("Unable to find a view controller to present the options picker from")
+            return
+        }
+        present(from: presenter)
+        #endif
     }
 
     func controllerDidAnimateOut(optionChosen: Bool) {

@@ -1,6 +1,6 @@
 import UIKit
 
-class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate {
+class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate, UISheetPresentationControllerDelegate {
 
     struct Colors {
         let title: UIColor
@@ -38,6 +38,12 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     private var scrollViewBottomAnchor: NSLayoutConstraint?
     private var scrollViewTopAnchor: NSLayoutConstraint?
     private var scrollViewHeightConstraint: NSLayoutConstraint?
+    private var scrollViewMaxHeightConstraint: NSLayoutConstraint?
+
+    private weak var dismissView: UIView?
+    private(set) var isPresentedAsSheet = false
+
+    private let sheetTopPadding: CGFloat = 12
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle
@@ -83,6 +89,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         // but is capped at the available vertical space so it never overflows.
         let maxHeightConstraint = scrollView.heightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.heightAnchor, constant: -75)
         maxHeightConstraint.priority = .required
+        scrollViewMaxHeightConstraint = maxHeightConstraint
 
         // A lower-priority constraint makes the scroll view shrink-wrap its content
         // so it doesn't scroll when all content fits on screen.
@@ -103,6 +110,7 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         dismissView.backgroundColor = UIColor.clear
         dismissView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dismissView)
+        self.dismissView = dismissView
 
         dismissView.isAccessibilityElement = true
         dismissView.accessibilityLabel = L10n.accessibilityDismiss
@@ -200,6 +208,55 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         ])
     }
 
+    // MARK: - Native Sheet Presentation
+
+    /// Reconfigures the layout so the content fills a natively-presented sheet
+    /// instead of animating in as a bottom card over a dimmed window.
+    func configureForSheetPresentation() {
+        isPresentedAsSheet = true
+
+        if LiquidGlass.isEnabled {
+            view.backgroundColor = scrollView.backgroundColor?.withAlphaComponent(0.85)
+            scrollView.backgroundColor = .clear
+        } else {
+            view.backgroundColor = scrollView.backgroundColor
+        }
+        view.layer.cornerRadius = 0
+        dismissView?.isHidden = true
+
+        scrollViewTopAnchor?.isActive = false
+        scrollViewMaxHeightConstraint?.isActive = false
+        scrollViewHeightConstraint?.isActive = false
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        scrollView.contentInset = UIEdgeInsets(top: sheetTopPadding, left: 0, bottom: 0, right: 0)
+
+        for arrangedSubview in stackView.arrangedSubviews {
+            (arrangedSubview as? SimpleActionView)?.configureForSheetPresentation()
+        }
+    }
+
+    /// The height needed to show every option without scrolling, capped at `maxHeight`.
+    func preferredSheetHeight(limitedTo maxHeight: CGFloat, traitCollection: UITraitCollection) -> CGFloat {
+        let width = view.bounds.width > 0 ? view.bounds.width : 320
+        let contentHeight = stackView.systemLayoutSizeFitting(
+            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        ).height
+        return min(contentHeight + sheetTopPadding, maxHeight)
+    }
+
+    // MARK: - UISheetPresentationControllerDelegate
+
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        delegate?.controllerDidAnimateOut(optionChosen: false)
+    }
+
     // MARK: - Animate in/out
 
     func animateIn() {
@@ -215,6 +272,25 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     }
 
     func animateOut(optionChosen: Bool) {
+        if isPresentedAsSheet {
+            // Collect this picker and any parent pickers it was stacked on
+            // (e.g. the root menu under a submenu). Dismissing the bottom-most
+            // one collapses the whole stack in a single animation, so choosing
+            // a submenu option closes both sheets.
+            var pickers = [self]
+            var presenter = presentingViewController
+            while let parentPicker = presenter as? OptionsPickerRootController {
+                pickers.append(parentPicker)
+                presenter = parentPicker.presentingViewController
+            }
+            presenter?.dismiss(animated: true) {
+                for picker in pickers {
+                    picker.delegate?.controllerDidAnimateOut(optionChosen: optionChosen)
+                }
+            }
+            return
+        }
+
         view?.layoutIfNeeded()
         UIView.animate(withDuration: Constants.Animation.bottomCardAnimationTime, animations: { [weak self] in
             self?.scrollViewBottomAnchor?.isActive = false

@@ -17,7 +17,7 @@ class PlayerCell: ThemeableSwipeCell {
     @IBOutlet var episodeTitle: ThemeableLabel! {
         didSet {
             episodeTitle.style = .primaryText01
-            episodeTitle.font = UIFont.font(ofSize: 16, scalingWith: .callout)
+            episodeTitle.font = UIFont.font(ofSize: 15, weight: .medium, scalingWith: .subheadline)
         }
     }
 
@@ -214,7 +214,7 @@ class PlayerCell: ThemeableSwipeCell {
             }
             contentView.layoutIfNeeded()
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                self.selectViewLeadingConstraint.constant = show ? 20 : -24
+                self.selectViewLeadingConstraint.constant = show ? 16 : -24
                 self.contentView.layoutIfNeeded()
             }, completion: { _ in
                 if !show {
@@ -224,7 +224,7 @@ class PlayerCell: ThemeableSwipeCell {
                 }
             })
         } else {
-            selectViewLeadingConstraint.constant = show ? 20 : -24
+            selectViewLeadingConstraint.constant = show ? 16 : -24
             showTick = false
             selectView.layer.borderWidth = show ? 2 : 0
             if !show {
@@ -257,7 +257,7 @@ class PlayerCell: ThemeableSwipeCell {
         selectTickImageView.updateSizeConstraints(to: tickSize)
         selectTickImageView.layer.cornerRadius = tickSize / 2
 
-        episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
+        episodeTitle.updateNumberOfLines(regular: 2, accessibility: 3)
         dayName.updateNumberOfLines(regular: 1, accessibility: 2)
     }
 

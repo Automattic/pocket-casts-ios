@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 /// View model for the header view that appears on the Profile tab view
 class ProfileHeaderViewModel: ProfileDataViewModel {
@@ -22,5 +23,26 @@ class ProfileHeaderViewModel: ProfileDataViewModel {
         }
 
         navigationController?.pushViewController(AccountViewController(), animated: true)
+    }
+
+    func shareTapped() {
+        guard let presenter = navigationController?.topViewController else { return }
+
+        let shareView = ShareProfileView(
+            onOpenPrivacySettings: { [weak self] in
+                presenter.dismiss(animated: true) {
+                    self?.navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
+                }
+            },
+            onPresentShareActivity: { [weak presenter] items in
+                guard let presented = presenter?.presentedViewController ?? presenter else { return }
+                let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+                activityVC.popoverPresentationController?.sourceView = presented.view
+                presented.present(activityVC, animated: true)
+            }
+        )
+
+        let hostingController = PCHostingController(rootView: shareView)
+        presenter.present(hostingController, animated: true)
     }
 }

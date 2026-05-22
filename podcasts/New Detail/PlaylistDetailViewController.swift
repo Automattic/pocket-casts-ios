@@ -68,6 +68,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
 
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.tableView.beginUpdates()
                 self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
@@ -86,7 +87,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
                         self.tableView.selectIndexPath(selectedIndexPath)
                         self.longPressMultiSelectIndexPath = nil
                     }
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + 16
+                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
                 } else {
                     self.track(.filterMultiSelectExited)
                     self.multiSelectFooter.isHidden = true
@@ -108,6 +109,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
+    var preSearchContentOffset: CGPoint?
 
     var multiSelectFooter: MultiSelectFooterView! {
         didSet {
@@ -365,6 +367,19 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+
+        if !viewModel.isSearching, let offset = preSearchContentOffset {
+            preSearchContentOffset = nil
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.tableView.layoutIfNeeded()
+                let minOffset = -self.tableView.adjustedContentInset.top
+                let maxOffset = max(minOffset, self.tableView.contentSize.height - self.tableView.bounds.height + self.tableView.adjustedContentInset.bottom)
+                let clampedY = min(max(offset.y, minOffset), maxOffset)
+                let clamped = CGPoint(x: offset.x, y: clampedY)
+                self.tableView.setContentOffset(clamped, animated: true)
+            }
+        }
     }
 
     private func didFinishRefresh() {

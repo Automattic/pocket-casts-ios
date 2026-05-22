@@ -69,6 +69,8 @@ extension MiniPlayerViewController {
             return
         }
 
+        fullScreenPlayer.nowPlayingItem.placeholderArtwork = podcastArtwork.imageView?.image
+
         playerOpenState = .animating
 
         presentFromRootController(fullScreenPlayer, animated: true) {

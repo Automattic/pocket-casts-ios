@@ -43,6 +43,7 @@ class ListeningHistoryViewController: PCViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.setupNavBar()
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
                 self.listeningHistoryTable.beginUpdates()
                 self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
                 self.listeningHistoryTable.endUpdates()
@@ -161,18 +162,21 @@ class ListeningHistoryViewController: PCViewController {
     }
 
     @objc func clearTapped() {
-        let optionPicker = OptionsPicker(title: "")
-        let clearAllAction = OptionAction(label: L10n.historyClearAll, icon: nil, action: {
+        let alert = UIAlertController(
+            title: L10n.historyClearAllDetails,
+            message: L10n.historyClearAllDetailsMsg,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
+            Analytics.track(.listeningHistoryClearConfirmationDismissed)
+        })
+        alert.addAction(UIAlertAction(title: L10n.historyClearAll, style: .destructive) { [weak self] _ in
             Analytics.track(.listeningHistoryCleared)
             DataManager.sharedManager.clearAllEpisodePlayInteractions()
             if SyncManager.isUserLoggedIn() { ServerSettings.setLastClearHistoryDate(Date()) }
-            self.refreshEpisodes(animated: true)
+            self?.refreshEpisodes(animated: true)
         })
-        optionPicker.setNoActionCallback {
-            Analytics.track(.listeningHistoryClearConfirmationDismissed)
-        }
-        optionPicker.addDescriptiveActions(title: L10n.historyClearAllDetails, message: L10n.historyClearAllDetailsMsg, icon: "option-cleanup", actions: [clearAllAction])
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        present(alert, animated: true)
         Analytics.track(.listeningHistoryClearConfirmationShown)
     }
 

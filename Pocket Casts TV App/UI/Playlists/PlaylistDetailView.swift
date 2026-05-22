@@ -66,7 +66,7 @@ struct PlaylistDetailView: View {
                 }
             }
         } else if let first = images.first {
-            Image(first).resizable().aspectRatio(contentMode: .fill)
+            PodcastImage(uuid: first, size: .page).aspectRatio(contentMode: .fill)
         }
     }
 

@@ -182,9 +182,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Use the new upgrade screens with Variant B timeline before features
     case newOnboardingVariant
 
-    /// Enable the new playlists rebranding
-    case playlistsRebranding
-
     /// Retry failed downloads and stream without the user agent
     case retryWithoutUserAgent
 
@@ -316,6 +313,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Liquid Glass UI redesign
     case liquidGlass
 
+    /// Enable the Share Profile feature
+    case shareProfile
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -440,8 +440,6 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newOnboardingVariant:
             true
-        case .playlistsRebranding:
-            true
         case .retryWithoutUserAgent:
             true
         case .userSatisfactionSurvey:
@@ -530,6 +528,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .liquidGlass:
             true
+        case .shareProfile:
+            BuildEnvironment.current == .debug
         }
     }
 

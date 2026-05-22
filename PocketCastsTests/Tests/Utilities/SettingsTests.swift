@@ -16,21 +16,15 @@ final class SettingsTests: XCTestCase {
             .effects,
             .sleepTimer,
             .routePicker,
-            .shareEpisode
+            .shareEpisode,
+            .addToPlaylist,
+            .download,
+            .transcript,
+            .goToPodcast,
+            .starEpisode,
+            .chromecast,
+            .archive
         ]
-        if FeatureFlag.playlistsRebranding.enabled {
-            actions.append(.addToPlaylist)
-        }
-        actions.append(
-            contentsOf: [
-                .download,
-                .transcript,
-                .goToPodcast,
-                .starEpisode,
-                .chromecast,
-                .archive
-            ]
-        )
         return actions
     }()
 

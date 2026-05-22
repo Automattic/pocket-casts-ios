@@ -47,7 +47,7 @@ class BadgeSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
         return SettingsTableHeader(
             frame: headerFrame,
-            title: FeatureFlag.playlistsRebranding.enabled ? L10n.settingsBadgeSmartPlaylistHeader : L10n.settingsBadgeFilterHeader
+            title: L10n.settingsBadgeSmartPlaylistHeader
         )
     }
 

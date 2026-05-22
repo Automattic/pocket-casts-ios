@@ -54,8 +54,8 @@ final class MiniPlayerGlassProgressView: UIView {
         applyTintColor()
     }
 
-    private static let trackColor = UIColor.gray.withAlphaComponent(0.27)
-    private static let bufferColor = UIColor.gray.withAlphaComponent(0.32)
+    private static let trackColor = UIColor.gray.withAlphaComponent(0.28)
+    private static let bufferColor = UIColor.gray.withAlphaComponent(0.30)
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

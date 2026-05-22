@@ -7,6 +7,13 @@ struct EmptyDataView: View {
     let actionTitle: String?
     let action: (() -> ())?
 
+    init(title: String, subtitle: String? = nil, actionTitle: String? = nil, action: (() -> ())? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.actionTitle = actionTitle
+        self.action = action
+    }
+
     var body: some View {
         VStack(spacing: 32) {
             Spacer()

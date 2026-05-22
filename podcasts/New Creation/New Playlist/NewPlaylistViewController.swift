@@ -2,6 +2,11 @@ import UIKit
 import SwiftUI
 import PocketCastsDataModel
 
+protocol FilterCreatedDelegate: AnyObject {
+    func filterCreated(newFilter: EpisodeFilter)
+    var presentingPlaylistDetail: Bool { get set }
+}
+
 class NewPlaylistViewController: PCViewController {
     enum CreationType: Equatable {
         case `default`

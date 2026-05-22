@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 enum SearchScope: String, CaseIterable {
     case all = "All"
@@ -16,58 +17,100 @@ enum SearchState {
 }
 
 protocol SearchableViewModel: AnyObject, Observation.Observable {
+    var searchTerm: String { get }
     var state: SearchState { get }
     var scope: SearchScope { get set }
-    var results: [Podcast] { get }
+    var results: [CombinedSearchResultType] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
     func search(query: String)
 
-    func autoComplete(query: String)
+    func saveHistory(_ term: String)
 }
 
 @Observable
 @MainActor
 class SearchViewModel: SearchableViewModel {
 
-    private var dataManager = DataManager.sharedManager
+    private var dataManager: DataManager
+    private var searchModel: SearchHistoryModel
+    private var predictiveSearchTask = PredictiveSearchTask()
+
+    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+        self.dataManager = dataManager
+        self.searchModel = searchModel
+    }
+
+    var searchTerm: String = ""
 
     var state: SearchState = .query
 
     var scope: SearchScope = .all
 
-    var results: [Podcast] = []
+    var results: [CombinedSearchResultType] = []
 
-    var searchHistory: [String] = ["Conan"]
+    var searchHistory: [String] {
+        searchModel.entries.compactMap(\.searchTerm)
+    }
+
+    func saveHistory(_ term: String) {
+        guard !term.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        searchModel.add(searchTerm: term.trimmingCharacters(in: .whitespaces))
+    }
 
     var autoCompleteSuggestions: [String] = []
 
     private var searchTask: Task<Void, Never>?
 
     func search(query: String) {
+        searchTerm = query
         // Cancel any previous task
         searchTask?.cancel()
-
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            results = []
-            autoCompleteSuggestions = []
+            if !results.isEmpty { results = [] }
+            if !autoCompleteSuggestions.isEmpty { autoCompleteSuggestions = [] }
             state = .query
             return
         }
 
         searchTask = Task {
             // Debounce
-            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3s
+            try? await Task.sleep(for: .milliseconds(300))
             guard !Task.isCancelled else { return }
-
+            var uuids: Set<String> = []
             state = .searching
-
+            var combinedResults: [CombinedSearchResultType] = []
+            var suggestions: [String] = []
             do {
-                let podcasts = try await fetchPodcasts(query: query)
+                let searchResults = try await predictiveSearchTask.search(term: query)
                 guard !Task.isCancelled else { return }
-                results = podcasts
-                state = results.isEmpty ? .empty : .results
+                for searchResult in searchResults {
+                    switch searchResult.type {
+                    case .term(let word):
+                        suggestions.append(word)
+                    case .podcast:
+                        if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
+                            uuids.insert(podcastResult.uuid)
+                            combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                        }
+                    default:
+                        continue
+                    }
+                }
+
+                let localPodcasts = try await searchLocalPodcasts(query: query)
+                for localPodcast in localPodcasts {
+                    if !uuids.contains(localPodcast.uuid), let podcastResult = PodcastFolderSearchResult(from: localPodcast) {
+                        combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                    }
+                }
+
+                state = combinedResults.isEmpty ? .empty : .results
+                results = combinedResults
+                autoCompleteSuggestions = suggestions
             }  catch is CancellationError {
                 return
             } catch {
@@ -77,14 +120,7 @@ class SearchViewModel: SearchableViewModel {
         }
     }
 
-    func autoComplete(query: String) {
-        let podcasts = dataManager.searchPodcasts(term: query)
-        autoCompleteSuggestions = podcasts.compactMap {
-            $0.title
-        }
-    }
-
-    private func fetchPodcasts(query: String) async throws -> [Podcast] {
+    private func searchLocalPodcasts(query: String) async throws -> [Podcast] {
         return dataManager.searchPodcasts(term: query)
     }
 }

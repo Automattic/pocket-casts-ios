@@ -41,7 +41,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
         searchController.searchDelegate = self
     }
 
-    func showSortOrderOptions() {
+    func makeSortOrderOptionsPicker() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
         let sortOption: LibrarySort
@@ -105,7 +105,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
             options.addAction(action: dragAndDropAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        return options
     }
 
     // MARK: - PCSearchBarDelegate

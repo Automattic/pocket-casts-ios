@@ -10,6 +10,10 @@ class OptionAction {
     var outline = false
     var onOffAction = false
     var tintIcon: Bool = true
+    /// When set, tapping the action presents the returned picker as a submenu
+    /// on top of the current one. Choosing an option in the submenu dismisses
+    /// both. The closure is evaluated lazily, only when the action is tapped.
+    var submenu: (() -> OptionsPicker?)?
 
     init(label: String, secondaryLabel: String? = nil, icon: String? = nil, tintIcon: Bool = true, selected: Bool = false, action: @escaping (() -> Void)) {
         self.label = label

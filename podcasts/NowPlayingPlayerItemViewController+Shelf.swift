@@ -475,7 +475,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
-        UserEpisodeManager.presentDeleteOptions(episode: episode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: .dark)
+        UserEpisodeManager.presentDeleteOptions(episode: episode, from: self)
     }
 
     private func archive() {

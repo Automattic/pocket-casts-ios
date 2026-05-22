@@ -34,6 +34,8 @@ struct PodcastDetailView: View {
                 loadingView
             case .ready:
                 podcastView
+            case .failed:
+                failedView
             }
         }
         .toolbar(.hidden, for: .tabBar)
@@ -49,6 +51,12 @@ struct PodcastDetailView: View {
         ProgressView()
     }
 
+    var failedView: some View {
+        VStack {
+            Text(L10n.podcastErrorMessage)
+        }
+    }
+
     var podcastView: some View {
         HStack(alignment: .top, spacing: Layout.gutter) {
             podcastInfo
@@ -56,35 +64,39 @@ struct PodcastDetailView: View {
             episodeContent
         }
         .blurredCoverBackground(size: Layout.podcastImageSize) {
-            PodcastImage(uuid: model.podcast.uuid, size: .page)
+            PodcastImage(uuid: model.podcastUuid, size: .page)
         }
     }
 
     var podcastInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
-            PodcastImage(uuid: model.podcast.uuid, size: .page)
+            PodcastImage(uuid: model.podcastUuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.podcast.author ?? "")
+                Text(model.podcast?.author ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
-                Text(model.podcast.title ?? "")
+                Text(model.podcast?.title ?? "")
                     .font(.title2)
                     .foregroundColor(.textPrimary)
-                Text(model.podcast.podcastDescription ?? "")
+                Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
                     .foregroundColor(.textSecondary)
             }
             HStack(spacing: 8) {
                 Button() {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        model.follow()
+                        if model.isFollowing {
+                            model.unsubscribe()
+                        } else {
+                            model.subscribe()
+                        }
                     }
                 } label: {
                     HStack(spacing: 6) {
-                        Image(systemName: model.podcast.subscribed != 0 ? "checkmark" : "plus")
+                        Image(systemName: model.isFollowing ? "checkmark" : "plus")
                             .contentTransition(.symbolEffect(.replace))
                         Text(model.isFollowing ? L10n.tvPodcastDetailFollowingTitle : L10n.tvPodcastDetailFollowTitle)
                             .contentTransition(.interpolate)
@@ -102,7 +114,11 @@ struct PodcastDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .focusSection()
         .sheet(isPresented: $isShowingMoreInfo) {
-            PodcastMoreInfoView(podcast: model.podcast)
+            if let podcast = model.podcast {
+                PodcastMoreInfoView(podcast: podcast)
+            } else {
+                Text("Loading Info")
+            }
         }
     }
 
