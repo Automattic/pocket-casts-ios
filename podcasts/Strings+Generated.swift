@@ -4395,6 +4395,14 @@ internal enum L10n {
   internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
   internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
+  /// tv Profile menu — create account action (signed-out state)
+  internal static var tvProfileMenuCreateAccount: String { return L10n.tr("Localizable", "tv_profile_menu_create_account", fallback: "Create account") }
+  /// tv Profile menu — log in action (signed-out state)
+  internal static var tvProfileMenuLogIn: String { return L10n.tr("Localizable", "tv_profile_menu_log_in", fallback: "Log in") }
+  /// tv Profile menu — log out action
+  internal static var tvProfileMenuLogOut: String { return L10n.tr("Localizable", "tv_profile_menu_log_out", fallback: "Log out") }
+  /// tv Profile menu — opens the Starred Episodes list
+  internal static var tvProfileMenuStarredEpisodes: String { return L10n.tr("Localizable", "tv_profile_menu_starred_episodes", fallback: "Starred Episodes") }
   /// tv search error label. '%1$@' is a placeholder for a localized error description.
   internal static func tvSearchFailed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_search_failed", String(describing: p1), fallback: "Search failed: %1$@")
