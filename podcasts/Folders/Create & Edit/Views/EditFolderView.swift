@@ -9,7 +9,7 @@ struct EditFolderView: View {
     @State var showingDeleteConfirmation = false
 
     var navBarTint: Color? {
-        LiquidGlass.isEnabled ? nil : ThemeColor.secondaryIcon01(for: theme.activeTheme).color
+        ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme))
     }
 
     var body: some View {

@@ -13,7 +13,7 @@ struct CreateFolderView: View {
     var preselectPodcastUuid: String?
 
     var navBarTint: Color? {
-        LiquidGlass.isEnabled ? nil : ThemeColor.secondaryIcon01(for: theme.activeTheme).color
+        ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme))
     }
 
     var addButtonTitle: String {

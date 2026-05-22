@@ -31,7 +31,7 @@ struct SuggestedFoldersView: View {
     }
 
     var navBarTint: Color? {
-        LiquidGlass.isEnabled ? nil : ThemeColor.primaryInteractive01(for: theme.activeTheme).color
+        ThemeColor.navBarTint(ThemeColor.primaryInteractive01(for: theme.activeTheme))
     }
 
     var body: some View {
