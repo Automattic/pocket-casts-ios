@@ -4432,7 +4432,7 @@ internal enum L10n {
   /// tv sign in title
   internal static var tvSignInTitle: String { return L10n.tr("Localizable", "tv_sign_in_title", fallback: "Log in to Pocket Casts") }
   /// tv signing in subtitle
-  internal static var tvSigningInSubtitle: String { return L10n.tr("Localizable", "tv_signing_in_subtitle", fallback: "Your podcasts are syncing, we’ll sign you in soon!") }
+  internal static var tvSigningInSubtitle: String { return L10n.tr("Localizable", "tv_signing_in_subtitle", fallback: "Your podcasts are syncing, we’ll log you in soon!") }
   /// tv signing in title
   internal static var tvSigningInTitle: String { return L10n.tr("Localizable", "tv_signing_in_title", fallback: "Welcome back!") }
   /// tv app home tab
