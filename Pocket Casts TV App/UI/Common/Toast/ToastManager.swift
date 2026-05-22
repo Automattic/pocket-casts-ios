@@ -19,8 +19,8 @@ class ToastManager {
             currentToast = toast
 
             NSLayoutConstraint.activate([
-                toast.trailingAnchor.constraint(equalTo: hostView.trailingAnchor, constant: -48),
-                toast.topAnchor.constraint(equalTo: hostView.topAnchor, constant: 48),
+                toast.trailingAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+                toast.topAnchor.constraint(equalTo: hostView.safeAreaLayoutGuide.topAnchor, constant: 62),
                 toast.widthAnchor.constraint(lessThanOrEqualTo: hostView.widthAnchor, multiplier: 0.6)
             ])
 
