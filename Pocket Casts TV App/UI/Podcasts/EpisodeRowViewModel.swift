@@ -86,6 +86,7 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: true, userInitiated: true)
         }
+        ToastManager.shared.show(L10n.playNextInUpNext)
     }
 
     func playLast() {
@@ -95,10 +96,12 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             playbackManager.addToUpNext(episode: episode, ignoringQueueLimit: true, toTop: false, userInitiated: true)
         }
+        ToastManager.shared.show(L10n.playLastInUpNext)
     }
 
     func markAsPlayed() {
         EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.markPlayed)
     }
 
     var canArchive: Bool {
@@ -108,10 +111,12 @@ class EpisodeRowViewModel: Identifiable {
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
+        ToastManager.shared.show(L10n.podcastArchived)
     }
 
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
+        ToastManager.shared.show(L10n.removeFromUpNext)
     }
 }
 
