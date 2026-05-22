@@ -29,27 +29,23 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var isMultiSelectEnabled = false {
         didSet {
-            let didChange = oldValue != isMultiSelectEnabled
+            guard oldValue != isMultiSelectEnabled else { return }
 
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.updateNavBarButtons()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
-                if !self.isMultiSelectEnabled {
-                    self.multiSelectActionBar.isHidden = true
-                    self.selectedPlayListEpisodes.removeAll()
-                    if didChange {
-                        self.track(.upNextMultiSelectExited)
-                    }
-                } else {
-                    self.track(.upNextMultiSelectEntered)
-                }
-                if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
-                }
-                reloadTable()
+            self.updateNavBarButtons()
+            self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
+            contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
+            if !self.isMultiSelectEnabled {
+                self.multiSelectActionBar.isHidden = true
+                self.selectedPlayListEpisodes.removeAll()
+                self.track(.upNextMultiSelectExited)
+            } else {
+                self.track(.upNextMultiSelectEntered)
             }
+            self.updateNavBarButtons(animated: true)
+            if self.showingInTab {
+                self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
+            }
+            self.animateMultiSelectChange()
         }
     }
 
@@ -66,7 +62,13 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             } else {
                 contentInseter.isMultiSelectEnabled = true
             }
-            updateNavBarButtons()
+            // While multi-select is being toggled the nav bar is updated (animated)
+            // by `isMultiSelectEnabled`'s observer. Only react here to selection
+            // changes that happen while multi-select is active, to switch between
+            // the Select All / Deselect All buttons without fighting that animation.
+            if isMultiSelectEnabled {
+                updateNavBarButtons()
+            }
         }
     }
 
@@ -408,33 +410,52 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         track(.upNextSelectAllButtonTapped, properties: ["select_all": false])
     }
 
-    func updateNavBarButtons() {
+    func updateNavBarButtons(animated: Bool = false) {
         navigationController?.navigationBar.tintColor = AppTheme.navBarIconsColor(themeOverride: themeOverride)
+
+        let leftButton: UIBarButtonItem?
+        let rightButton: UIBarButtonItem?
+
         if isMultiSelectEnabled {
             if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
+                rightButton = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
             } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
+                rightButton = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
             }
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
+            leftButton = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
         } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
+            rightButton = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
             if showingInTab {
                 if FeatureFlag.upNextShuffle.enabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-                    navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
+                    leftButton = UIBarButtonItem(title: L10n.clear, style: .plain, target: self, action: #selector(clearQueueTapped))
                 } else {
-                    navigationItem.leftBarButtonItem = nil
+                    leftButton = nil
                 }
             } else {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+                leftButton = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
         } else {
-            navigationItem.rightBarButtonItem = nil
+            rightButton = nil
             if showingInTab {
-                navigationItem.leftBarButtonItem = nil
+                leftButton = nil
             } else {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+                leftButton = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
             }
+        }
+
+        navigationItem.setRightBarButton(rightButton, animated: animated)
+        navigationItem.setLeftBarButton(leftButton, animated: animated)
+    }
+
+    private func animateMultiSelectChange() {
+        if !isMultiSelectEnabled {
+            upNextTable.indexPathsForSelectedRows?.forEach {
+                upNextTable.deselectRow(at: $0, animated: false)
+            }
+        }
+
+        for case let cell as PlayerCell in upNextTable.visibleCells {
+            cell.shouldShowSelect(show: isMultiSelectEnabled, animate: true)
         }
     }
 
