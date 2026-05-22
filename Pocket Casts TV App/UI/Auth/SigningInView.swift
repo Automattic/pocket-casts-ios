@@ -4,6 +4,9 @@ import PocketCastsDataModel
 fileprivate enum Layout {
     static let gridSize = CGFloat(272)
     static let qrSize = CGFloat(240)
+    static let gridSpacing = CGFloat(24)
+    static let cornerRadius = CGFloat(16)
+    static let fadeDuration = 0.8
 }
 
 struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
@@ -19,19 +22,20 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         VStack(spacing: 32) {
             Spacer()
             Image(ImageResource.pcLogo)
-            Text(L10n.tvSigningInTitle)
-                .font(.title)
-                .foregroundStyle(Color.textPrimary)
-            Text(L10n.tvSigningInSubtitle)
-                .font(.headline)
-                .foregroundStyle(Color.textSecondary)
+            VStack(spacing: 16) {
+                Text(L10n.tvSigningInTitle)
+                    .font(.title)
+                    .foregroundStyle(Color.textPrimary)
+                Text(L10n.tvSigningInSubtitle)
+                    .font(.headline)
+                    .foregroundStyle(Color.textSecondary)
+            }
             if let title = model.title {
                 Text(title)
             }
-            ProgressView(value: model.progress)
             Spacer()
             podcastGrid
-            Spacer().frame(height: 100)
+            Spacer().frame(height: 220)
         }
         .task {
             model.sync()
@@ -44,14 +48,25 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     }
 
     var podcastGrid: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 24, content: {
-                ForEach(model.podcasts) { podcast in
-                    PodcastImage(uuid: podcast.uuid, size: .page)
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
-                }
-            }).ignoresSafeArea()
+        HStack(spacing: Layout.gridSpacing) {
+            ForEach(0..<max(model.totalPodcastsToImport, 0), id: \.self) { index in
+                podcastSlot(at: index)
+            }
         }
+    }
+
+    @ViewBuilder
+    private func podcastSlot(at index: Int) -> some View {
+        let isLoaded = index < model.podcasts.count
+        ZStack {
+            Color.clear
+            if isLoaded {
+                PodcastImage(uuid: model.podcasts[index].uuid, size: .page)
+                    .transition(.opacity.animation(.easeInOut(duration: Layout.fadeDuration)))
+            }
+        }
+        .frame(width: Layout.gridSize, height: Layout.gridSize)
+        .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius))
     }
 }
 

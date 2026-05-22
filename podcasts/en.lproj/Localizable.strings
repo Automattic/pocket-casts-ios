@@ -6020,7 +6020,7 @@
 "tv_signing_in_title" = "Welcome back!";
 
 /* tv signing in subtitle */
-"tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
+"tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll log you in soon!";
 
 /* tv podcasts empty title */
 "tv_podcasts_empty_title" = "Time to fill this up.";
