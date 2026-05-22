@@ -25,7 +25,7 @@ struct EpisodeRow: View {
     }
 
     private var isHighlighted: Bool {
-        isActive ?? isFocused
+        isFocused
     }
 
     enum Layout {
@@ -110,7 +110,7 @@ struct EpisodeRowWithActions: View {
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || isShowingActions || restoreFocus
+        focusedElement != nil || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
@@ -146,9 +146,11 @@ struct EpisodeRowWithActions: View {
             .focused($focusedElement, equals: .episode)
 
             if shouldShowMoreButton {
-                Button {
-                    restoreFocus = true
-                    isShowingActions = true
+                Menu {
+                    actionButtons
+                        .onAppear {
+                            restoreFocus = true
+                        }
                 } label: {
                     Image(systemName: "ellipsis")
                 }
@@ -173,9 +175,6 @@ struct EpisodeRowWithActions: View {
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
-        }
-        .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
-            actionButtons
         }
     }
 }
