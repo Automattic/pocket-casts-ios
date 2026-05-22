@@ -16,12 +16,14 @@ struct EpisodeRow: View {
 
     let model: EpisodeRowViewModel
     var isActive: Bool?
+    var reservedTrailingWidth: CGFloat
 
     @Environment(\.isFocused) private var isFocused: Bool
 
-    init(model: EpisodeRowViewModel, isActive: Bool? = nil) {
+    init(model: EpisodeRowViewModel, isActive: Bool? = nil, reservedTrailingWidth: CGFloat = 0) {
         self.model = model
         self.isActive = isActive
+        self.reservedTrailingWidth = reservedTrailingWidth
     }
 
     private var isHighlighted: Bool {
@@ -59,6 +61,7 @@ struct EpisodeRow: View {
                     .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
             }
             Spacer()
+            Color.clear.frame(width: reservedTrailingWidth)
         }
         .padding(24)
         .background(isHighlighted ? Color.backgroundActive : Color.backgroundSunken)
@@ -69,7 +72,7 @@ struct EpisodeRow: View {
 struct MoreButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
 
-    private enum Layout {
+    enum Layout {
         static let size = CGFloat(72)
     }
 
@@ -107,6 +110,7 @@ struct EpisodeRowWithActions: View {
 
     private enum Layout {
         static let spacing = CGFloat(32)
+        static let reservedTrailingWidth = MoreButtonStyle.Layout.size + spacing
     }
 
     private var shouldShowMoreButton: Bool {
@@ -139,7 +143,11 @@ struct EpisodeRowWithActions: View {
                 isPlaying = true
                 model.play()
             } label: {
-                EpisodeRow(model: model, isActive: isEpisodeFocused)
+                EpisodeRow(
+                    model: model,
+                    isActive: isEpisodeFocused,
+                    reservedTrailingWidth: shouldShowMoreButton ? 0 : Layout.reservedTrailingWidth
+                )
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
