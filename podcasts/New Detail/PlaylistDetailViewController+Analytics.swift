@@ -11,9 +11,7 @@ protocol PlaylistTypeTrackerProvider {
 extension PlaylistTypeTrackerProvider {
     func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
         var playlistEventProperties = properties ?? [:]
-        if FeatureFlag.playlistsRebranding.enabled {
-            playlistEventProperties["filter_type"] = analyticsSourceType
-        }
+        playlistEventProperties["filter_type"] = analyticsSourceType
         Analytics.track(event, properties: playlistEventProperties)
     }
 

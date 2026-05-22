@@ -47,13 +47,9 @@ extension DownloadsViewController: SwipeTableViewCellDelegate, SwipeHandler {
     }
 
     func actionPerformed(willBeRemoved: Bool) {
-        if FeatureFlag.playlistsRebranding.enabled {
-            if willBeRemoved {
-                reloadEpisodes()
-            }
-            return
+        if willBeRemoved {
+            reloadEpisodes()
         }
-        reloadEpisodes()
     }
 
     func deleteRequested(uuid: String) {} // we don't support this one

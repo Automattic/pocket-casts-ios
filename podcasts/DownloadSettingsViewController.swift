@@ -70,7 +70,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         case .podcastAutoDownload:
             return L10n.settingsAutoDownloadsSubtitleNewEpisodes
         case .filterSelection:
-            return FeatureFlag.playlistsRebranding.enabled ? L10n.settingsAutoDownloadsSubtitlePlaylists : L10n.settingsAutoDownloadsSubtitleFilters
+            return L10n.settingsAutoDownloadsSubtitlePlaylists
         case .onlyOnWifi:
             return L10n.onlyOnUnmeteredWifiDetails
         default:
@@ -138,10 +138,9 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: DownloadSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
 
             let autoDownloadPlaylistsCount = PlaylistManager.autoDownloadPlaylistsCount()
-            let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
-            let singularPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedSingular : L10n.settingsAutoDownloadsFiltersSelectedSingular
-            let pluralPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsPlaylistsSelectedFormat(autoDownloadPlaylistsCount.localized()) : L10n.settingsAutoDownloadsFiltersSelectedFormat(autoDownloadPlaylistsCount.localized())
-            let noPlaylistString = playlistRebrandingEnabled ? L10n.settingsAutoDownloadsNoPlaylistsSelected : L10n.settingsAutoDownloadsNoFiltersSelected
+            let singularPlaylistString = L10n.settingsAutoDownloadsPlaylistsSelectedSingular
+            let pluralPlaylistString = L10n.settingsAutoDownloadsPlaylistsSelectedFormat(autoDownloadPlaylistsCount.localized())
+            let noPlaylistString = L10n.settingsAutoDownloadsNoPlaylistsSelected
             let playlistStr = autoDownloadPlaylistsCount == 1 ? singularPlaylistString : pluralPlaylistString
             cell.cellLabel.text = autoDownloadPlaylistsCount > 0 ? playlistStr : noPlaylistString
             cell.cellSecondaryLabel.text = ""
@@ -178,7 +177,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
             }
         case .filterSelection:
             let playlistSelectionViewController = PlaylistSelectionViewController()
-            playlistSelectionViewController.navigationTitle = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectPlaylistsPlural : L10n.settingsSelectFiltersPlural
+            playlistSelectionViewController.navigationTitle = L10n.settingsSelectPlaylistsPlural
             playlistSelectionViewController.allPlaylists = DataManager.sharedManager.allPlaylists(includeDeleted: false)
             let selectedFilters = DataManager.sharedManager.allPlaylists(includeDeleted: false).compactMap { playlist -> String? in
                 playlist.autoDownloadEpisodes ? playlist.uuid : nil

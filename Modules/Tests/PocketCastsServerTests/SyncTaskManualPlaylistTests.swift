@@ -10,8 +10,6 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
     private var syncTask: SyncTask!
 
     override func setUp() {
-        FeatureFlagMock().set(.playlistsRebranding, value: true)
-
         dataManager = DataManager(dbQueue: GRDBQueue(dbPool: try! DatabasePool(path: NSTemporaryDirectory().appending("\(UUID().uuidString).sqlite"))))
         syncTask = SyncTask(dataManager: dataManager)
 

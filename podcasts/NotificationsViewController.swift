@@ -342,7 +342,7 @@ extension AppBadge {
         case .totalUnplayed:
             return L10n.statusUnplayed
         case .filterCount:
-            return FeatureFlag.playlistsRebranding.enabled ? L10n.settingsNotificationsSmartPlaylistCount : L10n.settingsNotificationsFilterCount
+            return L10n.settingsNotificationsSmartPlaylistCount
         case .newSinceLastOpened:
             return L10n.newEpisodes
         default:

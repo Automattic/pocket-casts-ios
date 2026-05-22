@@ -159,23 +159,22 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.showSecondaryLabel = false
             return cell
         case .inFilters:
-            let playlistRebrandingEnabled = FeatureFlag.playlistsRebranding.enabled
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellSecondaryLabel.text = nil
             cell.showSecondaryLabel = false
             cell.setImage(
-                imageName: playlistRebrandingEnabled ? "playlists_tab" : "settings_filter",
+                imageName: "playlists_tab",
                 tintColor: podcast.iconTintColor()
             )
 
             let playlistsCount = playlistUuidsPodcastAppearsIn().count
             if playlistsCount == 0 {
-                cell.cellLabel.text = playlistRebrandingEnabled ? L10n.settingsNotInSmartPlaylists : L10n.settingsNotInFilters
+                cell.cellLabel.text = L10n.settingsNotInSmartPlaylists
             } else {
                 cell.cellLabel.text = if playlistsCount == 1 {
-                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistSingular : L10n.settingsInFiltersSingular
+                    L10n.settingsInSmartPlaylistSingular
                 } else {
-                    playlistRebrandingEnabled ? L10n.settingsInSmartPlaylistsPluralFormat(playlistsCount.localized()) : L10n.settingsInFiltersPluralFormat(playlistsCount.localized())
+                    L10n.settingsInSmartPlaylistsPluralFormat(playlistsCount.localized())
                 }
             }
 
@@ -242,7 +241,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             navigationController?.pushViewController(archiveController, animated: true)
         } else if row == .inFilters {
             let playlistSelectionViewController = PlaylistSelectionViewController()
-            playlistSelectionViewController.navigationTitle = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSelectSmartPlaylistsPlural : L10n.settingsSelectFiltersPlural
+            playlistSelectionViewController.navigationTitle = L10n.settingsSelectSmartPlaylistsPlural
             playlistSelectionViewController.allPlaylists = playlistsPodcastCanAppearIn()
             playlistSelectionViewController.selectedPlaylists = playlistUuidsPodcastAppearsIn()
             playlistSelectionViewController.playlistSelected = { [weak self] playlist in

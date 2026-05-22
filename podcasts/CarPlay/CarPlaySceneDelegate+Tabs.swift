@@ -56,12 +56,10 @@ extension CarPlaySceneDelegate {
         var filterItems = [CPListItem]()
         for filter in DataManager.sharedManager.allPlaylists(includeDeleted: false) {
             var detail: String? = nil
-            if FeatureFlag.playlistsRebranding.enabled {
-                if filter.manual == false {
-                    detail = L10n.smartPlaylist
-                }
+            if filter.manual == false {
+                detail = L10n.smartPlaylist
             }
-            let image = FeatureFlag.playlistsRebranding.enabled ? filter.grid() : UIImage(named: filter.iconImageNameCarPlay())
+            let image = filter.grid()
             let item = CPListItem(text: filter.playlistName, detailText: detail, image: image)
             item.accessoryType = .disclosureIndicator
             item.handler = { [weak self] _, completion in
@@ -76,7 +74,7 @@ extension CarPlaySceneDelegate {
     }
 
     func createFiltersTab() -> CPListTemplate {
-        let title = FeatureFlag.playlistsRebranding.enabled ? L10n.playlists : L10n.filters
+        let title = L10n.playlists
         return CarPlayListData.template(title: title, emptyTitle: L10n.watchNoFilters, image: UIImage(named: "car_tab_filters")) { [weak self] in
             guard let self else { return nil }
             return self.filterTabSections

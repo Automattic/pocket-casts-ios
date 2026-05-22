@@ -37,12 +37,7 @@ class PlaylistDataManager {
         var count = 0
         dbQueue.read { db in
             do {
-                let query: String
-                if FeatureFlag.playlistsRebranding.enabled {
-                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.playlistsTableName)" : "SELECT COUNT(*) from \(DataManager.playlistsTableName) WHERE wasDeleted = 0"
-                } else {
-                    query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.playlistsTableName) WHERE manual = 0" : "SELECT COUNT(*) from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0"
-                }
+                let query = includeDeleted ? "SELECT COUNT(*) from \(DataManager.playlistsTableName)" : "SELECT COUNT(*) from \(DataManager.playlistsTableName) WHERE wasDeleted = 0"
                 let resultSet = try db.executeQuery(query, values: nil)
                 defer { resultSet.close() }
 
@@ -53,25 +48,6 @@ class PlaylistDataManager {
                 FileLog.shared.addMessage("PlaylistDataManager.count error: \(error)")
             }
         }
-        return count
-    }
-
-    func episodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?, dbQueue: PCDBQueue) -> Int {
-        var count = 0
-        dbQueue.read { db in
-            do {
-                let queryForPlaylist = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: episodeUuidToAdd, limit: 0)
-                let resultSet = try db.executeQuery("SELECT COUNT(*) from SJEpisode WHERE \(queryForPlaylist)", values: nil)
-                defer { resultSet.close() }
-
-                if resultSet.next() {
-                    count = resultSet.long(forColumnIndex: 0)
-                }
-            } catch {
-                FileLog.shared.addMessage("PlaylistDataManager.episodeCount error: \(error)")
-            }
-        }
-
         return count
     }
 
@@ -112,12 +88,7 @@ class PlaylistDataManager {
     }
 
     func allPlaylists(includeDeleted: Bool, dbQueue: PCDBQueue) -> [EpisodeFilter] {
-        let query: String
-        if FeatureFlag.playlistsRebranding.enabled {
-            query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
-        } else {
-            query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE manual = 0 AND wasDeleted = 0 ORDER BY sortPosition ASC"
-        }
+        let query = includeDeleted ? "SELECT * from \(DataManager.playlistsTableName) ORDER BY sortPosition ASC" : "SELECT * from \(DataManager.playlistsTableName) WHERE wasDeleted = 0 ORDER BY sortPosition ASC"
         return allPlaylists(query: query, values: nil, dbQueue: dbQueue)
     }
 

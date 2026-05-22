@@ -4,9 +4,6 @@ import GRDBMacros
 
 @GRDBRecord(table: "SJFilteredPlaylist")
 public class EpisodeFilter: NSObject {
-    @objc public static let iconTypeCount = 8
-    @objc public static let iconsPerType = 5
-
     @objc public var id = 0 as Int64
     @objc public var autoDownloadEpisodes = false
     @objc public var customIcon = 0 as Int32
