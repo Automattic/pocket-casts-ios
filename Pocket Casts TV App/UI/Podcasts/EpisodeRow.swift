@@ -146,11 +146,9 @@ struct EpisodeRowWithActions: View {
             .focused($focusedElement, equals: .episode)
 
             if shouldShowMoreButton {
-                Menu {
-                    actionButtons
-                        .onAppear {
-                            restoreFocus = true
-                        }
+                Button {
+                    restoreFocus = true
+                    isShowingActions = true
                 } label: {
                     Image(systemName: "ellipsis")
                 }
@@ -175,6 +173,9 @@ struct EpisodeRowWithActions: View {
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
+        }
+        .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
+            actionButtons
         }
     }
 }
