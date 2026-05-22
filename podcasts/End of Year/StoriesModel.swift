@@ -108,7 +108,7 @@ class StoriesModel: ObservableObject {
     func refresh() {
         isReady = false
 
-        Task.init {
+        Task {
             if self.configuration.loadingIsTheFirstStory {
                 loadingStart()
             }

@@ -60,7 +60,7 @@ class EpisodeRowViewModel: Identifiable {
     private func loadEpisodeArtworkData() async -> Data? {
         let imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 340)
         guard let url = URL(string: imageUrl),
-              let (data, _) = try? await URLSession.shared.data(for: URLRequest.init(url: url)),
+              let (data, _) = try? await URLSession.shared.data(for: URLRequest(url: url)),
               let uiImage = UIImage(data: data)
         else {
             return nil

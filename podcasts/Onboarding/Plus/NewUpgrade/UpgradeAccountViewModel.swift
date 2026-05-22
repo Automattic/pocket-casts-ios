@@ -142,7 +142,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         track(.plusPromotionUpgradeButtonTapped)
 
         guard SyncManager.isUserLoggedIn() else {
-            presentLogin(with: ProductInfo.init(plan: upgradeTier.plan, frequency: selectedFrequency))
+            presentLogin(with: ProductInfo(plan: upgradeTier.plan, frequency: selectedFrequency))
             return
         }
         purchase(product: selectedProduct)

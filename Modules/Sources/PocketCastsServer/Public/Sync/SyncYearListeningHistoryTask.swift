@@ -199,7 +199,7 @@ public class YearListeningHistory {
             dispatchGroup.enter()
 
             DispatchQueue.global(qos: .userInitiated).async {
-                let syncYearListeningHistory = SyncYearListeningHistoryTask.init(year: yearToSync)
+                let syncYearListeningHistory = SyncYearListeningHistoryTask(year: yearToSync)
 
                 syncYearListeningHistory.start()
 
