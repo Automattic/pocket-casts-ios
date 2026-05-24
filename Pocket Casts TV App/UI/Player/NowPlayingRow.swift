@@ -46,6 +46,7 @@ struct NowPlayingRow: View {
                     .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading) {
+                    Spacer()
                     Text(model.displayDate)
                         .font(.body)
                         .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
@@ -60,6 +61,7 @@ struct NowPlayingRow: View {
                     Text(model.timeLeft)
                         .font(.body)
                         .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
+                    Spacer()
                 }
                 Spacer()
             }

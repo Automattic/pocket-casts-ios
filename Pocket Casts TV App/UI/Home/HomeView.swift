@@ -40,13 +40,13 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
+                VStack(alignment: .leading, spacing: 80) {
                     if let currentPlaying = model.currentPlaying {
                         Text(L10n.tvHomeKeepListeningTitle)
                             .font(.title2)
                             .foregroundStyle(Color.textPrimary)
                         NowPlayingRow(model: currentPlaying)
-                            .frame(maxWidth: 1242, alignment: .leading)
+                            .frame(width: 1242, alignment: .leading)
                     }
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecommendedForYouTitle)
