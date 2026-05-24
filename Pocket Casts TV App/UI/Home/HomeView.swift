@@ -42,22 +42,21 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 80) {
                     if let currentPlaying = model.currentPlaying {
-                        Text(L10n.tvHomeKeepListeningTitle)
-                            .font(.title2)
-                            .foregroundStyle(Color.textPrimary)
-                        NowPlayingRow(model: currentPlaying)
-                            .frame(width: 1242, alignment: .leading)
+                        VStack(alignment: .leading, spacing: 32) {
+                            Text(L10n.tvHomeKeepListeningTitle)
+                                .font(.title2)
+                                .foregroundStyle(Color.textPrimary)
+                            NowPlayingRow(model: currentPlaying)
+                                .frame(width: 1242, alignment: .leading)
+                        }
                     }
+                    upNextRow
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecommendedForYouTitle)
                             .font(.title3)
                             .foregroundStyle(Color.textPrimary)
                         discoverCollection
                     }
-                    Text(L10n.tvTabUpNext)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    upNextRow
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecentlyPlayed)
                             .font(.title3)
@@ -94,15 +93,24 @@ struct HomeView: View {
             }
         }
     }
+
+    @ViewBuilder
     var upNextRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 24) {
-                ForEach(model.upNext.dropFirst()) { episode in
-                    EpisodePlayerButton(model: episode)
-                        .frame(width: 864)
+        if model.upNext.count > 1 {
+            VStack(alignment: .leading, spacing: 24) {
+                Text(L10n.tvTabUpNext)
+                    .font(.title3)
+                    .foregroundStyle(Color.textPrimary)
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 24) {
+                        ForEach(model.upNext.dropFirst()) { episode in
+                            EpisodePlayerButton(model: episode)
+                                .frame(width: 864)
+                        }
+                    }
+                    .padding(.horizontal, 24)
                 }
             }
-            .padding(.horizontal, 24)
         }
     }
 

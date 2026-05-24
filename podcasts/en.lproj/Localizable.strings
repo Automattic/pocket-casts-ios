@@ -6086,7 +6086,7 @@
 "tv_playlists_empty_action_title" = "Create a playlist";
 
 /* tv keep listening title */
-"tv_home_keep_listening_title" = "Keep listening";
+"tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
 "tv_home_recommended_for_you_title" = "Recommended for you";
