@@ -49,7 +49,7 @@ struct UpNextView: View {
 
     @Namespace private var rowNamespace
     var upNextListView: some View {
-        LazyVStack(alignment: .leading) {
+        LazyVStack(alignment: .leading, spacing: 16) {
             ForEach(model.episodes) { episode in
                 EpisodeRowWithActions(model: episode, context: .upNext)
                     .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)

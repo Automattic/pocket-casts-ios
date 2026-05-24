@@ -139,6 +139,7 @@ struct PlaylistDetailView: View {
             ForEach(model.episodes, id: \.uuid) { episode in
                 EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
                     .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                    .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
             }
         }
         .focusScope(episodeListNamespace)
