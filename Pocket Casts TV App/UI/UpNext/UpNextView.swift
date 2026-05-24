@@ -27,17 +27,20 @@ struct UpNextView: View {
     }
 
     var upNextView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Text(L10n.tvTabUpNext)
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
-                    Spacer()
+        List {
+            Section {
+                ForEach(model.episodes) { episode in
+                    EpisodeRowWithActions(model: episode, context: .upNext)
+                        .frame(width: 1160)
+                        .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
-                upNextListView
-                    .frame(maxWidth: 1160)
+            } header: {
+                Text(L10n.tvTabUpNext)
+                    .font(.title2)
+                    .foregroundStyle(Color.textPrimary)
+                Spacer()
             }
+            .focusScope(rowNamespace)
         }
     }
 
@@ -48,16 +51,6 @@ struct UpNextView: View {
     }
 
     @Namespace private var rowNamespace
-    var upNextListView: some View {
-        LazyVStack(alignment: .leading, spacing: 16) {
-            ForEach(model.episodes) { episode in
-                EpisodeRowWithActions(model: episode, context: .upNext)
-                    .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
-            }
-        }
-        .focusScope(rowNamespace)
-        .padding(24)
-    }
 }
 
 #Preview {
