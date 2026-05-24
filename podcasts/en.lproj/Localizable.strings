@@ -6145,6 +6145,12 @@
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
 /* tv Profile menu — opens the Starred Episodes list */
 "tv_profile_menu_starred_episodes" = "Starred Episodes";
 

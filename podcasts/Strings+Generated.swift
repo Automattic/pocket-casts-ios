@@ -4395,6 +4395,10 @@ internal enum L10n {
   internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
   internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
+  /// tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view
+  internal static var tvProfileButtonAccessibilityHint: String { return L10n.tr("Localizable", "tv_profile_button_accessibility_hint", fallback: "Opens profile and account options") }
+  /// tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view
+  internal static var tvProfileButtonAccessibilityLabel: String { return L10n.tr("Localizable", "tv_profile_button_accessibility_label", fallback: "Profile") }
   /// tv Profile menu — create account action (signed-out state)
   internal static var tvProfileMenuCreateAccount: String { return L10n.tr("Localizable", "tv_profile_menu_create_account", fallback: "Create account") }
   /// tv Profile menu — log in action (signed-out state)

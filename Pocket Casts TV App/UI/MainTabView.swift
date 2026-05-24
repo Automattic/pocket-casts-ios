@@ -116,8 +116,7 @@ struct MainTabView: View {
         }.overlay(alignment: .top) {
             accessoryView
         }
-        .defaultFocus($focusedArea, .tabBar)
-        // Intercept right-swipe from tab bar to profile
+        .defaultFocus($focusedArea, .tabBar)        
         .onMoveCommand { direction in
             handleMove(direction)
         }
@@ -190,6 +189,8 @@ struct MainTabView: View {
         .scaleEffect(profileFocused ? 1.2 : 1.0)
         .animation(.easeInOut(duration: 0.15), value: profileFocused)
         .focusSection()
+        .accessibilityLabel(L10n.tvProfileButtonAccessibilityLabel)
+        .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
                 pendingAuthFlow = destination
