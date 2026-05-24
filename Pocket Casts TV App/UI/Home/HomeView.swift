@@ -41,12 +41,12 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvHomeKeepListeningTitle)
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
                     if let currentPlaying = model.currentPlaying {
-                        EpisodePlayerButton(model: currentPlaying)
-                            .frame(maxWidth: 864, alignment: .leading)
+                        Text(L10n.tvHomeKeepListeningTitle)
+                            .font(.title2)
+                            .foregroundStyle(Color.textPrimary)
+                        NowPlayingRow(model: currentPlaying)
+                            .frame(maxWidth: 1242, alignment: .leading)
                     }
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecommendedForYouTitle)
@@ -97,7 +97,7 @@ struct HomeView: View {
     var upNextRow: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 24) {
-                ForEach(model.upNext) { episode in
+                ForEach(model.upNext.dropFirst()) { episode in
                     EpisodePlayerButton(model: episode)
                         .frame(width: 864)
                 }

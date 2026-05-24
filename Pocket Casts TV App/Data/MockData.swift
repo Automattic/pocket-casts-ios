@@ -159,6 +159,7 @@ struct MockData {
                 episode.title = episodeTitles[titleIndex]
                 episode.publishedDate = Date.now.weeksAgo(j)
                 episode.duration = Double.random(in: (5.minutes...1.hours))
+                episode.playedUpTo = Double.random(in: (0...episode.duration))
                 episode.podcastUuid = podcast.uuid
                 episode.downloadUrl = sampleMediaURL.absoluteString
                 episodes.append(episode)

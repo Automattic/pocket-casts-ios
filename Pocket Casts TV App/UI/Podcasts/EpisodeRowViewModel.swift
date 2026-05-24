@@ -33,6 +33,14 @@ class EpisodeRowViewModel: Identifiable {
         }
     }
 
+    var duration: Double {
+        return episode.duration
+    }
+
+    var playedUpTo: Double {
+        return episode.playedUpTo
+    }
+
     var displayTitle: String {
         return episode.displayableTitle()
     }
@@ -51,6 +59,10 @@ class EpisodeRowViewModel: Identifiable {
 
     var displayDuration: String {
         return episode.displayableDuration
+    }
+
+    var timeLeft: String {
+        return episode.displayableTimeLeft()
     }
 
     var displayImageData: Data? {
