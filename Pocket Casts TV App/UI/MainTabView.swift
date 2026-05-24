@@ -116,7 +116,7 @@ struct MainTabView: View {
         }.overlay(alignment: .top) {
             accessoryView
         }
-        .defaultFocus($focusedArea, .tabBar)        
+        .defaultFocus($focusedArea, .tabBar)
         .onMoveCommand { direction in
             handleMove(direction)
         }
@@ -158,8 +158,8 @@ struct MainTabView: View {
         }
     }
 
-    @State var showProfileMenu: Bool = false
-    @State var pendingAuthFlow: ProfileMenuView.AuthDestination?
+    @State private var showProfileMenu: Bool = false
+    @State private var pendingAuthFlow: ProfileMenuView.AuthDestination?
     var profileAccessory: some View {
         Button {
             showProfileMenu = true
