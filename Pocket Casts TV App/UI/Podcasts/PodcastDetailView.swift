@@ -129,9 +129,12 @@ struct PodcastDetailView: View {
     @Namespace private var episodeListNamespace
 
     var episodeContent: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 16) {
-                if let recommended = model.recommendedEpisode {
+        List {
+            if let recommended = model.recommendedEpisode {
+                Section {
+                    episodeRow(for: recommended)
+                        .prefersDefaultFocus(in: episodeListNamespace)
+                } header: {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L10n.tvPodcastDetailStartHere)
                             .font(.title3)
@@ -140,21 +143,22 @@ struct PodcastDetailView: View {
                             .font(.caption)
                             .foregroundStyle(Color.textSecondary)
                     }
-                    .padding(.bottom, 8)
-                    episodeRow(for: recommended)
-                        .prefersDefaultFocus(in: episodeListNamespace)
                 }
+            }
+            Section {
+                ForEach(model.episodes) { episode in
+                    episodeRow(for: episode)
+                        .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
+                }
+            } header: {
                 Text(L10n.tvPodcastDetailAllEpisodes)
                     .font(.title3)
                     .foregroundStyle(Color.textPrimary)
-                ForEach(model.episodes) { episode in
-                    episodeRow(for: episode)
-                }
             }
-            .focusScope(episodeListNamespace)
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
         }
+        .focusScope(episodeListNamespace)
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
         .focused($focusedSection, equals: .episodes)
     }
 }

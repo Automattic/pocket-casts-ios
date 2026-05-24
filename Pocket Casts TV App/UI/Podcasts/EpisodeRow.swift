@@ -16,18 +16,16 @@ struct EpisodeRow: View {
 
     let model: EpisodeRowViewModel
     var isActive: Bool?
-    var reservedTrailingWidth: CGFloat
 
     @Environment(\.isFocused) private var isFocused: Bool
 
-    init(model: EpisodeRowViewModel, isActive: Bool? = nil, reservedTrailingWidth: CGFloat = 0) {
+    init(model: EpisodeRowViewModel, isActive: Bool? = nil) {
         self.model = model
         self.isActive = isActive
-        self.reservedTrailingWidth = reservedTrailingWidth
     }
 
     private var isHighlighted: Bool {
-        isActive ?? isFocused
+        isFocused
     }
 
     enum Layout {
@@ -61,7 +59,6 @@ struct EpisodeRow: View {
                     .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
             }
             Spacer()
-            Color.clear.frame(width: reservedTrailingWidth)
         }
         .padding(24)
         .background(isHighlighted ? Color.backgroundActive : Color.backgroundSunken)
@@ -72,7 +69,7 @@ struct EpisodeRow: View {
 struct MoreButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
 
-    enum Layout {
+    fileprivate enum Layout {
         static let size = CGFloat(72)
     }
 
@@ -110,11 +107,10 @@ struct EpisodeRowWithActions: View {
 
     private enum Layout {
         static let spacing = CGFloat(32)
-        static let reservedTrailingWidth = MoreButtonStyle.Layout.size + spacing
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || isShowingActions || restoreFocus
+        focusedElement != nil || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
@@ -125,17 +121,20 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) {}
-            Button(L10n.playLastInUpNext) {}
-            Button(L10n.markPlayed) {}
-            Button(L10n.archive) {}
+            Button(L10n.playNextInUpNext) { model.playNext() }
+            Button(L10n.playLastInUpNext) { model.playLast() }
+            Button(L10n.markPlayed) { model.markAsPlayed() }
+            if model.canArchive {
+                Button(L10n.archive) { model.archive() }
+            }
         case .upNext:
-            Button(L10n.playNext) {}
-            Button(L10n.playLast) {}
-            Button(L10n.removeFromUpNext) {}
+            Button(L10n.playNext) { model.playNext() }
+            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
-        Button(L10n.tvEpisodeInfo) {}
     }
+
+    @Environment(\.isFocused) private var isFocused: Bool
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
@@ -143,11 +142,11 @@ struct EpisodeRowWithActions: View {
                 isPlaying = true
                 model.play()
             } label: {
-                EpisodeRow(
-                    model: model,
-                    isActive: isEpisodeFocused,
-                    reservedTrailingWidth: shouldShowMoreButton ? 0 : Layout.reservedTrailingWidth
-                )
+                HStack(spacing: 0) {
+                    EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    Spacer().frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
+                }
+                .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
