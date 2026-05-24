@@ -25,6 +25,7 @@ struct PodcastDetailView: View {
         static let podcastImageSize = CGFloat(418)
         static let infoPanelWidth = CGFloat(568)
         static let gutter = CGFloat(24)
+        static let rowInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
     }
 
     var body: some View {
@@ -134,6 +135,7 @@ struct PodcastDetailView: View {
                 Section {
                     episodeRow(for: recommended)
                         .prefersDefaultFocus(in: episodeListNamespace)
+                        .listRowInsets(Layout.rowInsets)
                 } header: {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L10n.tvPodcastDetailStartHere)
@@ -148,7 +150,7 @@ struct PodcastDetailView: View {
             Section {
                 ForEach(model.episodes) { episode in
                     episodeRow(for: episode)
-                        .listRowInsets(EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16))
+                        .listRowInsets(Layout.rowInsets)
                 }
             } header: {
                 Text(L10n.tvPodcastDetailAllEpisodes)
