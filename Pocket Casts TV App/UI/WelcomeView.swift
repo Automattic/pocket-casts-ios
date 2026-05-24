@@ -48,6 +48,12 @@ struct WelcomeView: View {
                     }
                 }
             }
+            .background {
+                ZStack {
+                    podcastGrid
+                    gradientView
+                }
+            }
             .navigationDestination(for: Destination.self) { destination in
                 ZStack {
                     Color.backgroundSurface
