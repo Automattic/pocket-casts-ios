@@ -144,7 +144,8 @@ struct EpisodeRowWithActions: View {
             } label: {
                 HStack(spacing: 0) {
                     EpisodeRow(model: model, isActive: isEpisodeFocused)
-                    Spacer().frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
+                    Spacer()
+                        .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
                 }
                 .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
             }
@@ -162,6 +163,9 @@ struct EpisodeRowWithActions: View {
                 .focused($focusedElement, equals: .more)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
+        }
+        .if(isFocused) { content in
+            content.clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .defaultFocus($focusedElement, .episode)
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
