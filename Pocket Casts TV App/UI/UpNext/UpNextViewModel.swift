@@ -56,7 +56,17 @@ class UpNextViewModel {
     }
 
     fileprivate func observeUpNextChanges() {
-        NotificationCenter.default.publisher(for: Constants.Notifications.upNextQueueChanged)
+        let notificationsToObserve: [Notification.Name] = [
+            Constants.Notifications.upNextQueueChanged,
+            Constants.Notifications.upNextEpisodeRemoved,
+            Constants.Notifications.upNextEpisodeAdded,
+        ]
+
+        let publishers = notificationsToObserve.map {
+            NotificationCenter.default.publisher(for: $0).map { _ in () }.eraseToAnyPublisher()
+        }
+
+        Publishers.MergeMany(publishers)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self else {

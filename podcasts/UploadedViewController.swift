@@ -209,8 +209,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
-            self.showSortByPicker()
+            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
+        sortAction.submenu = { [weak self] in self?.makeSortByPicker() }
         optionsPicker.addAction(action: sortAction)
 
         let settingsAction = OptionAction(label: L10n.settingsFiles, icon: "podcast-settings") { [weak self] in
@@ -219,7 +220,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
         optionsPicker.addAction(action: settingsAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     @objc private func handleReloadFromNotification() {
@@ -265,16 +266,14 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         present(documentPicker, animated: true)
     }
 
-    func showSortByPicker() {
-        Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
-
+    func makeSortByPicker() -> OptionsPicker {
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
         UploadedSort.allCases.forEach { sort in
             optionsPicker.addAction(action: createSortAction(sort: sort))
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        return optionsPicker
     }
 
     private func createSortAction(sort: UploadedSort) -> OptionAction {

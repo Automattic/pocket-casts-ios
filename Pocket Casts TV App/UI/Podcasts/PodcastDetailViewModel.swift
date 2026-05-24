@@ -91,7 +91,8 @@ class PodcastDetailViewModel {
         guard let podcast else {
             return []
         }
-        return dataManager.allEpisodesForPodcast(id: podcast.id)
+        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast)
+        return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 
     func subscribe() {
