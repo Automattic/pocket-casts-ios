@@ -515,7 +515,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             options.addAction(action: skipToNextAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        options.present(from: self)
     }
 
     #if !APPCLIP

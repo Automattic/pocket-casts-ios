@@ -85,6 +85,7 @@ struct MainTabView: View {
 
     @State private var tabSelection = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
+    @FocusState private var profileFocused: Bool
     @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator
 
@@ -116,7 +117,6 @@ struct MainTabView: View {
             accessoryView
         }
         .defaultFocus($focusedArea, .tabBar)
-        // Intercept right-swipe from tab bar to profile
         .onMoveCommand { direction in
             handleMove(direction)
         }
@@ -128,9 +128,9 @@ struct MainTabView: View {
         if !tabSelection.isShowingDetail {
             VStack() {
                 HStack() {
-                    leftAccessory
+                    profileAccessory
                     Spacer()
-                    rightAccessory
+                    logoAccessory
                 }
                 .padding(.vertical, 48)
                 .padding(.horizontal, 84)
@@ -142,46 +142,91 @@ struct MainTabView: View {
 
     private func handleMove(_ direction: MoveCommandDirection) {
         switch (focusedArea, direction) {
-        case (.tabBar, .right):
-            // Only jump to profile if we're on the rightmost tab
-            if tabSelection.selectedTab == MainTab.allCases.last {
-                focusedArea = .profile
+        case (.tabBar, .left):
+            // Dispatch async so the tab selection binding has time to settle
+            // after the focus engine handles the move — otherwise rapid lefts
+            // from Podcasts → Home → (try profile) read a stale selectedTab.
+            DispatchQueue.main.async {
+                if tabSelection.selectedTab == MainTab.allCases.first {
+                    focusedArea = .profile
+                }
             }
-        case (.profile, .left):
+        case (.profile, .right):
             focusedArea = .tabBar
         default:
             break
         }
     }
 
-    @State var showUserActions: Bool = false
-    var rightAccessory: some View {
+    @State private var showProfileMenu: Bool = false
+    @State private var pendingAuthFlow: ProfileMenuView.AuthDestination?
+    var profileAccessory: some View {
         Button {
-            showUserActions.toggle()
+            showProfileMenu = true
         } label: {
-            if let email = coordinator.userState.usernameEmail {
-                ProfileImage(email: email)
-                    .frame(width: 64, height: 64)
-            } else {
-                Image(ImageResource.profileTab)
-                    .frame(width: 64, height: 64)
+            Group {
+                if let email = coordinator.userState.usernameEmail {
+                    ProfileImage(email: email)
+                } else {
+                    Image(ImageResource.profileTab)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(12)
+                }
             }
+            .frame(width: 64, height: 64)
+            .background(Color.white.opacity(0.15), in: Circle())
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(Color.white, lineWidth: profileFocused ? 4 : 0)
+            )
         }
-        .buttonStyle(.card)
+        .buttonStyle(ChromelessButtonStyle())
+        .focusEffectDisabled()
         .focused($focusedArea, equals: .profile)
+        .focused($profileFocused)
+        .scaleEffect(profileFocused ? 1.2 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: profileFocused)
         .focusSection()
-        .confirmationDialog(L10n.tvUserProfileActions, isPresented: $showUserActions) {
-            if coordinator.userState.isLoggedIn {
-                Button(L10n.accountSignOut, role: .destructive) { coordinator.userState.logout() }
-            } else {
-                Button(L10n.signIn, role: .confirm) { coordinator.signIn() }
+        .accessibilityLabel(L10n.tvProfileButtonAccessibilityLabel)
+        .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
+        .sheet(isPresented: $showProfileMenu) {
+            ProfileMenuView(onAuthSelected: { destination in
+                pendingAuthFlow = destination
+                showProfileMenu = false
+            })
+            .environment(coordinator)
+        }
+        .fullScreenCover(item: $pendingAuthFlow) { destination in
+            ZStack {
+                Color.backgroundSurface.ignoresSafeArea()
+                NavigationStack {
+                    switch destination {
+                    case .signIn:
+                        SignInView()
+                    case .createAccount:
+                        CreateAccountView()
+                    }
+                }
             }
-            Button(L10n.accessibilityDismiss, role: .cancel) { }
+            .environment(coordinator)
+            .onExitCommand {
+                pendingAuthFlow = nil
+            }
         }
     }
 
-    var leftAccessory: some View {
+    var logoAccessory: some View {
         Image(ImageResource.pcLogo)
+    }
+}
+
+/// Custom button style that renders only the label, with no platform chrome
+/// (no background, lift, or pressed-state overlay).
+private struct ChromelessButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
     }
 }
 

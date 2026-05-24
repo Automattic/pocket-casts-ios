@@ -31,8 +31,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var informationLabel: ThemeableLabel! {
         didSet {
             informationLabel.style = .primaryText02
-            let baseFont = informationLabel.font.monospaced()
-            informationLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: baseFont)
+            informationLabel.font = UIFont.font(ofSize: 13, scalingWith: .footnote)
         }
     }
 

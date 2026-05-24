@@ -205,7 +205,7 @@ class ListeningHistoryViewController: PCViewController {
         }
         optionsPicker.addAction(action: clearAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     private func setupInformationalBanner() {

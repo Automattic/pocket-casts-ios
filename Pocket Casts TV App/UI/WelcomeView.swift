@@ -48,19 +48,29 @@ struct WelcomeView: View {
                     }
                 }
             }
-            .navigationDestination(for: Destination.self) { destination in
-                switch destination {
-                case .signIn:
-                    SignInView()
-                case .createAccount:
-                    CreateAccountView()
-                }
-            }
             .background {
                 ZStack {
                     podcastGrid
                     gradientView
                 }
+            }
+            .navigationDestination(for: Destination.self) { destination in
+                ZStack {
+                    Color.backgroundSurface
+                        .ignoresSafeArea()
+                    switch destination {
+                    case .signIn:
+                        SignInView()
+                    case .createAccount:
+                        CreateAccountView()
+                    }
+                }
+            }
+        }
+        .background {
+            ZStack {
+                podcastGrid
+                gradientView
             }
         }
     }

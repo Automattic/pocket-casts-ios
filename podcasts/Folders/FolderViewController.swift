@@ -115,10 +115,10 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         } else {
             folder.librarySort()
         }
-        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
-            self?.showSortOptions()
+        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") {
             Analytics.track(.folderOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
+        sortAction.submenu = { [weak self] in self?.makeSortOptions() }
         optionsPicker.addAction(action: sortAction)
 
         let editAction = OptionAction(label: L10n.folderEdit, icon: "folder-edit") { [weak self] in
@@ -152,7 +152,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         }
         optionsPicker.addAction(action: addRemoveAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
 
         Analytics.track(.folderOptionsButtonTapped)
     }
@@ -171,7 +171,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
         present(hostingController, animated: true, completion: nil)
     }
 
-    private func showSortOptions() {
+    private func makeSortOptions() -> OptionsPicker {
         let options = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
         if !FeatureFlag.podcastsSortChanges.enabled, folder.librarySort() == .recentlyPlayed {
@@ -215,7 +215,7 @@ class FolderViewController: PCViewController, UIGestureRecognizerDelegate {
             options.addAction(action: dragAndDropAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        return options
     }
 
     private func changeSortOrder(_ order: LibrarySort.Old) {

@@ -154,7 +154,7 @@ class ImageShareSource: NSObject, UIActivityItemSource {
         metadata.originalURL = URL(string: ServerConstants.Urls.pocketcastsDotCom)
         metadata.url = URL(string: ServerConstants.Urls.pocketcastsDotCom)
         metadata.title = title
-        metadata.imageProvider = NSItemProvider.init(contentsOf: url)
+        metadata.imageProvider = NSItemProvider(contentsOf: url)
 
         return metadata
     }

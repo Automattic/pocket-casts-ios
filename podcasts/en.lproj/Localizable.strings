@@ -5996,10 +5996,13 @@
 "tv_welcome_browse_without_account" = "Browse without an account";
 
 /* tv sign in title */
-"tv_sign_in_title" = "Sign in with your phone";
+"tv_sign_in_title" = "Log in to Pocket Casts";
 
 /* tv sign in subtitle */
 "tv_sign_in_subtitle" = "Open your camera and point to this QR code";
+
+/* tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to. */
+"tv_sign_in_enter_code_in_url" = "or enter this code in [%1$@](%2$@)";
 
 /* tv sign enter code */
 "tv_sign_in_enter_code" = "or enter the following code";
@@ -6141,6 +6144,24 @@
 
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
+
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
+/* tv Profile menu — opens the Starred Episodes list */
+"tv_profile_menu_starred_episodes" = "Starred Episodes";
+
+/* tv Profile menu — log out action */
+"tv_profile_menu_log_out" = "Log out";
+
+/* tv Profile menu — log in action (signed-out state) */
+"tv_profile_menu_log_in" = "Log in";
+
+/* tv Profile menu — create account action (signed-out state) */
+"tv_profile_menu_create_account" = "Create account";
 
 /* tv Sign In Login Type title */
 "tv_user_sign_in_login_type" = "Login Type";

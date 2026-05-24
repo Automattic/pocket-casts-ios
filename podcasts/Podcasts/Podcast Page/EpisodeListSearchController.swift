@@ -158,47 +158,15 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         groupAction.submenu = { [weak self] in self?.makeGroupOptionsPicker() }
         optionPicker.addAction(action: groupAction)
 
-        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
-            let downloadableCount = delegate.downloadableEpisodeCount(items: nil)
-            let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
-            let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
-            if actualDownloadCount == 0 { return }
-            let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
-            let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
-                delegate.downloadAllTapped()
-            }
-
-            let confirmPicker = OptionsPicker(title: nil)
-            var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
-
-            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
-                confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
-            } else {
-                downloadAction.destructive = true
-
-                let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                    delegate.queueAllTapped()
-                }
-                queueAction.outline = true
-
-                if !Settings.mobileDataAllowed() {
-                    warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
-                }
-                confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
-            }
-
-            confirmPicker.show(statusBarStyle: self?.preferredStatusBarStyle ?? .default)
-        }
+        let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") {}
+        downloadAllAction.submenu = { [weak self] in self?.makeDownloadAllPicker() }
         optionPicker.addAction(action: downloadAllAction)
 
         let unarchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0"
         let unarchivedCount = DataManager.sharedManager.count(query: unarchivedQuery, values: [podcast.id])
         if unarchivedCount > 0 {
-            let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.confirmArchiveAll(episodeCount: unarchivedCount, playedOnly: false)
-            }
+            let archiveAllAction = OptionAction(label: L10n.podcastArchiveAll, icon: "podcast-archiveall") {}
+            archiveAllAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: unarchivedCount, playedOnly: false) }
             optionPicker.addAction(action: archiveAllAction)
         } else if !(podcast.autoArchiveEpisodeLimitCount > 0 && podcast.isAutoArchiveOverridden) {
             // we only show unarchive all for podcasts that haven't set an episode limit
@@ -213,11 +181,8 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let playedNotArchivedQuery = "SELECT COUNT(*) FROM \(DataManager.episodeTableName) WHERE podcast_id = ? AND archived = 0 AND playingStatus = \(PlayingStatus.completed.rawValue)"
         let playedNotArchivedCount = DataManager.sharedManager.count(query: playedNotArchivedQuery, values: [podcast.id])
         if playedNotArchivedCount > 0 {
-            let archiveAllPlayedAction = OptionAction(label: L10n.podcastArchiveAllPlayed, icon: "podcast-archiveall") { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.confirmArchiveAll(episodeCount: playedNotArchivedCount, playedOnly: true)
-            }
+            let archiveAllPlayedAction = OptionAction(label: L10n.podcastArchiveAllPlayed, icon: "podcast-archiveall") {}
+            archiveAllPlayedAction.submenu = { [weak self] in self?.makeArchiveAllPicker(episodeCount: playedNotArchivedCount, playedOnly: true) }
             optionPicker.addAction(action: archiveAllPlayedAction)
         }
 
@@ -231,8 +196,42 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         podcastDelegate.unarchiveAllTapped()
     }
 
-    private func confirmArchiveAll(episodeCount: Int, playedOnly: Bool) {
-        guard let podcastDelegate else { return }
+    private func makeDownloadAllPicker() -> OptionsPicker? {
+        guard let delegate = podcastDelegate else { return nil }
+
+        let downloadableCount = delegate.downloadableEpisodeCount(items: nil)
+        let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
+        let actualDownloadCount = downloadLimitExceeded ? Constants.Limits.maxBulkDownloads : downloadableCount
+        if actualDownloadCount == 0 { return nil }
+        let downloadText = L10n.downloadCountPrompt(actualDownloadCount)
+        let downloadAction = OptionAction(label: downloadText, icon: nil) {
+            delegate.downloadAllTapped()
+        }
+
+        let confirmPicker = OptionsPicker(title: nil)
+        var warningMessage = downloadLimitExceeded ? L10n.bulkDownloadMax : ""
+
+        if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+            confirmPicker.addDescriptiveActions(title: L10n.downloadAll, message: warningMessage, icon: "filter_downloaded", actions: [downloadAction])
+        } else {
+            downloadAction.destructive = true
+
+            let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
+                delegate.queueAllTapped()
+            }
+            queueAction.outline = true
+
+            if !Settings.mobileDataAllowed() {
+                warningMessage = L10n.downloadDataWarningWithSettingsLink("pktc://settings/storage-and-data") + "\n" + warningMessage
+            }
+            confirmPicker.addAttributedDescriptiveActions(title: L10n.notOnWifi, message: warningMessage, icon: "option-alert", actions: [downloadAction, queueAction])
+        }
+
+        return confirmPicker
+    }
+
+    private func makeArchiveAllPicker(episodeCount: Int, playedOnly: Bool) -> OptionsPicker? {
+        guard let podcastDelegate else { return nil }
 
         let archiveAllConfirm = OptionsPicker(title: nil)
         let archiveAllAction = OptionAction(label: episodeCount == 1 ? L10n.podcastArchiveEpisodeCountSingular : L10n.podcastArchiveEpisodesCountPluralFormat(episodeCount.localized()), icon: nil, action: {
@@ -242,7 +241,7 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         let title = playedOnly ? L10n.podcastArchiveAllPlayed : L10n.podcastArchiveAll
         archiveAllConfirm.addDescriptiveActions(title: title, message: L10n.podcastArchivePromptMsg, icon: "options-archiveall", actions: [archiveAllAction])
 
-        archiveAllConfirm.show(statusBarStyle: preferredStatusBarStyle)
+        return archiveAllConfirm
     }
 
     private func makeSortOptionsPicker() -> OptionsPicker? {
