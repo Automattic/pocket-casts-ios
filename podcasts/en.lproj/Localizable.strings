@@ -6145,6 +6145,24 @@
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
+/* tv Profile menu — opens the Starred Episodes list */
+"tv_profile_menu_starred_episodes" = "Starred Episodes";
+
+/* tv Profile menu — log out action */
+"tv_profile_menu_log_out" = "Log out";
+
+/* tv Profile menu — log in action (signed-out state) */
+"tv_profile_menu_log_in" = "Log in";
+
+/* tv Profile menu — create account action (signed-out state) */
+"tv_profile_menu_create_account" = "Create account";
+
 /* tv Sign In Login Type title */
 "tv_user_sign_in_login_type" = "Login Type";
 
