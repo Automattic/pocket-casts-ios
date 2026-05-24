@@ -5996,10 +5996,13 @@
 "tv_welcome_browse_without_account" = "Browse without an account";
 
 /* tv sign in title */
-"tv_sign_in_title" = "Sign in with your phone";
+"tv_sign_in_title" = "Log in to Pocket Casts";
 
 /* tv sign in subtitle */
 "tv_sign_in_subtitle" = "Open your camera and point to this QR code";
+
+/* tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to. */
+"tv_sign_in_enter_code_in_url" = "or enter this code in [%1$@](%2$@)";
 
 /* tv sign enter code */
 "tv_sign_in_enter_code" = "or enter the following code";

@@ -46,7 +46,7 @@ public extension ApiServerHandler {
                 }
 
                 do {
-                    let response = try Api_DeviceAuthorizeResponse(jsonUTF8Data: responseData)
+                    let response = try Api_DeviceAuthorizeResponse(serializedBytes: responseData)
                     let externalResponse = DeviceAuthorizationResponse(deviceCode: response.deviceCode, userCode: response.userCode, verificationURI: response.verificationUri, verificationURIComplete: response.verificationUriComplete)
                     completion(.success(externalResponse))
                 } catch {

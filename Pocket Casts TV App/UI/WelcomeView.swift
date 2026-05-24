@@ -48,18 +48,18 @@ struct WelcomeView: View {
                     }
                 }
             }
+            .background {
+                ZStack {
+                    podcastGrid
+                    gradientView
+                }
+            }
             .navigationDestination(for: Destination.self) { destination in
                 switch destination {
                 case .signIn:
                     SignInView()
                 case .createAccount:
                     CreateAccountView()
-                }
-            }
-            .background {
-                ZStack {
-                    podcastGrid
-                    gradientView
                 }
             }
         }

@@ -4411,10 +4411,14 @@ internal enum L10n {
   internal static func tvSignInEnterCodeGoUrl(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "tv_sign_in_enter_code_go_url", String(describing: p1), String(describing: p2), fallback: "going to [%1$@](%2$@)")
   }
+  /// tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to.
+  internal static func tvSignInEnterCodeInUrl(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "tv_sign_in_enter_code_in_url", String(describing: p1), String(describing: p2), fallback: "or enter this code in [%1$@](%2$@)")
+  }
   /// tv sign in subtitle
   internal static var tvSignInSubtitle: String { return L10n.tr("Localizable", "tv_sign_in_subtitle", fallback: "Open your camera and point to this QR code") }
   /// tv sign in title
-  internal static var tvSignInTitle: String { return L10n.tr("Localizable", "tv_sign_in_title", fallback: "Sign in with your phone") }
+  internal static var tvSignInTitle: String { return L10n.tr("Localizable", "tv_sign_in_title", fallback: "Log in to Pocket Casts") }
   /// tv signing in subtitle
   internal static var tvSigningInSubtitle: String { return L10n.tr("Localizable", "tv_signing_in_subtitle", fallback: "Your podcasts are syncing, we’ll sign you in soon!") }
   /// tv signing in title
