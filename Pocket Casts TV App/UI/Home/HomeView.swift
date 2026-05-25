@@ -112,7 +112,7 @@ struct HomeView: View {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
-                            EpisodePlayerButton(model: episode)
+                            upNextButton(model: episode)
                                 .frame(width: 864)
                         }
                     }
@@ -120,6 +120,16 @@ struct HomeView: View {
                 }
             }
         }
+    }
+
+    func upNextButton(model: EpisodeRowViewModel) -> some View {
+        Button {
+            model.play()
+            showNowPlayingPlayer = true
+        } label: {
+            EpisodeRow(model: model, isActive: false)
+        }
+        .buttonStyle(EpisodeRowButtonStyle())
     }
 
     var recentlyPlayedRow: some View {
