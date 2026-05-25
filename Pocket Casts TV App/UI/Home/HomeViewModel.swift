@@ -23,9 +23,7 @@ class HomeViewModel {
     var state: State = .loading
 
     var podcasts: [Podcast] = []
-    var currentPlaying: EpisodeRowViewModel? {
-        upNext.first
-    }
+    var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
     var recentlyPlayed: [Podcast] = []
     var newReleases: [EpisodeRowViewModel] = []
@@ -47,8 +45,11 @@ class HomeViewModel {
                 guard let self else { return }
                 recentlyPlayed = Array(podcasts.shuffled().prefix(10))
                 self.podcasts = podcasts
-                upNext = Array(upNextEpisodes.prefix(12)).map { episode in
+                upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)
+                }
+                if let currentlyPlaying = upNextEpisodes.first {
+                    currentPlaying = makeRowViewModel(for: currentlyPlaying)
                 }
                 newReleases = newEpisodes
                 state = .ready
@@ -73,7 +74,8 @@ class HomeViewModel {
             Constants.Notifications.upNextQueueChanged,
             Constants.Notifications.manyEpisodesChanged,
             ServerNotifications.podcastsRefreshed,
-            ServerNotifications.syncCompleted
+            ServerNotifications.syncCompleted,
+            Constants.Notifications.playbackTrackChanged
         ]
 
         let publishers = notificationsToObserve.map {

@@ -14,14 +14,10 @@ struct NowPlayingRowButtonStyle: ButtonStyle {
 
 struct NowPlayingRow: View {
 
-    @State var model: EpisodeRowViewModel
+    @Bindable var model: EpisodeRowViewModel
     @State var showPlayer: Bool = false
 
     @Environment(\.isFocused) private var isFocused: Bool
-
-    init(model: EpisodeRowViewModel) {
-        self.model = model
-    }
 
     enum Layout {
         static let episodeImageSize = CGFloat(272)
@@ -39,7 +35,7 @@ struct NowPlayingRow: View {
     var body: some View {
         Button {
             model.play()
-            showPlayer.toggle()
+            showPlayer = true
         } label: {
             HStack(spacing: 48) {
                 thumbnail

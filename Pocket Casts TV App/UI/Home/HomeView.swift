@@ -103,7 +103,7 @@ struct HomeView: View {
                     .foregroundStyle(Color.textPrimary)
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
-                        ForEach(model.upNext.dropFirst()) { episode in
+                        ForEach(model.upNext) { episode in
                             EpisodePlayerButton(model: episode)
                                 .frame(width: 864)
                         }
