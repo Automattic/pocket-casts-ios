@@ -1,4 +1,5 @@
 import SwiftUI
+import Observation
 import PocketCastsDataModel
 
 fileprivate enum Layout {
@@ -84,10 +85,8 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         }
 
         // Wait for the underlying sync to finish before moving on.
-        while model.state != .finished {
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            if Task.isCancelled { return }
-        }
+        await waitForSyncCompletion()
+        if Task.isCancelled { return }
 
         // Fade the whole screen to black before handing off to the home view.
         blackOverlayOpaque = true
@@ -95,6 +94,30 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         if Task.isCancelled { return }
 
         coordinator.state = .signedIn
+    }
+
+    @MainActor
+    private func waitForSyncCompletion() async {
+        guard model.state != .finished else { return }
+
+        await withCheckedContinuation { continuation in
+            observeSyncState(continuation: continuation)
+        }
+    }
+
+    @MainActor
+    private func observeSyncState(continuation: CheckedContinuation<Void, Never>) {
+        withObservationTracking {
+            _ = model.state
+        } onChange: {
+            Task { @MainActor in
+                if model.state == .finished {
+                    continuation.resume()
+                } else {
+                    observeSyncState(continuation: continuation)
+                }
+            }
+        }
     }
 
     var podcastGrid: some View {
