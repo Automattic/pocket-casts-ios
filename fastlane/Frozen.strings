@@ -128,6 +128,12 @@
 /* Subtitle to the Confirmation dialog informing the user that signing out will remove the given number of supported podcasts. */
 "account_sign_out_supporter_subtitle" = "You can sign in again to regain access.";
 
+/* Title of the confirmation alert shown before signing the user out of their account. */
+"account_sign_out_alert_title" = "Sign Out?";
+
+/* Message of the confirmation alert shown before signing the user out of their account, reassuring them their data will still be available when they sign back in. */
+"account_sign_out_alert_message" = "Your podcasts, progress, and data will be here when you are back.";
+
 /* Error message for when the account registration request has failed. */
 "account_sso_failed" = "Sign in failed. Please try again.";
 
@@ -2059,6 +2065,9 @@
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
 
+/* Prompt to enter the mode for reordering the podcasts grid. */
+"podcasts_edit" = "Edit Podcasts";
+
 /* Episodes will be displayed in order from the longest to the shortest. */
 "podcasts_episode_sort_title_a_to_z" = "Title (A-Z)";
 
@@ -2819,6 +2828,9 @@
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
 
+/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
+"settings_storage_usage_footer" = "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.";
+
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
 
@@ -2866,6 +2878,9 @@
 
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_first_party_analytics" = "First-party analytics";
+
+/* Section header for analytics in privacy settings */
+"settings_analytics" = "Analytics";
 
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_third_party_analytics" = "Third-party analytics";
@@ -2974,6 +2989,69 @@
 
 /* A message shown when trying to share a private podcast, which is disabled. */
 "share_podcast_private_not_available" = "Sharing is not available for private podcasts";
+
+/* Title for the share profile screen */
+"share_profile" = "Share profile";
+
+/* Title for the add photo and name step */
+"share_profile_add_photo_and_name" = "Add photo and name";
+
+/* Title for the edit photo and name screen */
+"share_profile_edit_photo_and_name" = "Edit photo and name";
+
+/* Choose photo from library */
+"share_profile_choose_photo" = "Choose Photo";
+
+/* Take a new photo with camera */
+"share_profile_take_photo" = "Take Photo";
+
+/* Remove the current profile photo */
+"share_profile_remove_photo" = "Remove Photo";
+
+/* Label for the display name field */
+"share_profile_display_name" = "Display name";
+
+/* Placeholder text for the name input field */
+"share_profile_add_your_name" = "Add your name";
+
+/* Description text below the name input field */
+"share_profile_name_description" = "This is how you'll appear on shared profiles. You can change it later.";
+
+/* Title for the preview profile step */
+"share_profile_preview" = "Preview profile";
+
+/* Button label for sharing the profile */
+"share_profile_share_my_profile" = "Share my profile";
+
+/* Title for the edit profile step */
+"share_profile_edit" = "Edit profile";
+
+/* Section header for the share options */
+"share_profile_what_to_share" = "What do you want to share?";
+
+/* Toggle label for including followed podcasts in shared profile */
+"share_profile_followed_podcasts" = "Followed podcasts";
+
+/* Toggle label for including recent episodes in shared profile */
+"share_profile_recent_episodes" = "Recent episodes";
+
+/* Toggle label for including playlists in shared profile */
+"share_profile_playlists" = "Playlists";
+
+/* Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text */
+"share_profile_privacy_description" = "You can manage what you're sharing in %1$@";
+
+/* Share Profile: Privacy link label */
+"share_profile_privacy" = "Privacy";
+
+/* Share Profile: Profile sharing section header in privacy settings */
+"share_profile_profile_sharing" = "Profile sharing";
+
+/* Share Profile: Privacy settings footer text */
+"share_profile_privacy_settings_footer" = "Control what others can see when you share your profile.";
+
+/* Generic save button */
+"share_profile_save" = "Save";
 
 /* Error message for when sharing fails. */
 "share_podcasts_sharing_failed_msg" = "Something went wrong creating your share page";
@@ -3632,6 +3710,9 @@
 
 /* Text shown on button to change the folder a podcast is in */
 "folder_change" = "Change folder";
+
+/* Context menu action title for adding a podcast to a folder */
+"folder_add_to" = "Add to Folder";
 
 /* Text shown on button to go to the folder a podcast is in */
 "folder_go_to" = "Go to folder";
@@ -5919,10 +6000,13 @@
 "tv_welcome_browse_without_account" = "Browse without an account";
 
 /* tv sign in title */
-"tv_sign_in_title" = "Sign in with your phone";
+"tv_sign_in_title" = "Log in to Pocket Casts";
 
 /* tv sign in subtitle */
 "tv_sign_in_subtitle" = "Open your camera and point to this QR code";
+
+/* tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to. */
+"tv_sign_in_enter_code_in_url" = "or enter this code in [%1$@](%2$@)";
 
 /* tv sign enter code */
 "tv_sign_in_enter_code" = "or enter the following code";
@@ -6006,7 +6090,7 @@
 "tv_playlists_empty_action_title" = "Create a playlist";
 
 /* tv keep listening title */
-"tv_home_keep_listening_title" = "Keep listening";
+"tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
 "tv_home_recommended_for_you_title" = "Recommended for you";
@@ -6061,6 +6145,60 @@
 
 /* tv up next empty button action title */
 "tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv User Profile actions title */
+"tv_user_profile_actions" = "User settings";
+
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
+/* tv Profile menu — opens the Starred Episodes list */
+"tv_profile_menu_starred_episodes" = "Starred Episodes";
+
+/* tv Profile menu — log out action */
+"tv_profile_menu_log_out" = "Log out";
+
+/* tv Profile menu — log in action (signed-out state) */
+"tv_profile_menu_log_in" = "Log in";
+
+/* tv Profile menu — create account action (signed-out state) */
+"tv_profile_menu_create_account" = "Create account";
+
+/* tv Sign In Login Type title */
+"tv_user_sign_in_login_type" = "Login Type";
+
+/* tv Sign In Option QR */
+"tv_user_sign_in_option_qr" = "QR";
+
+/* tv Sign In Option Username and Password */
+"tv_user_sign_in_option_manual" = "User/Pass";
+
+/* tv search field placeholder prompt */
+"tv_search_prompt" = "Podcasts, shows, authors";
+
+/* tv search in-progress indicator label */
+"tv_search_searching" = "Searching...";
+
+/* tv search initial placeholder shown before any query is entered */
+"tv_search_type_something" = "Type something...";
+
+/* tv search error label. '%1$@' is a placeholder for a localized error description. */
+"tv_search_failed" = "Search failed: %1$@";
+
+/* info message when authorization is pending on server */
+"server_error_login_auth_pending" = "Authorization pending";
+
+/* info message when authorization is expired */
+"server_error_login_expired_token" = "The device code has expired.";
+
+/* info message when authorization is denied server */
+"server_error_login_access_denied" = "The user denied the authorization request";
+
+/* info message when authorization is invalid on server */
+"server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
 
 /* MARK: - InfoPlist.strings */
 
