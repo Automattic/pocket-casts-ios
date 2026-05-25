@@ -14,7 +14,7 @@ struct NowPlayingRowButtonStyle: ButtonStyle {
 
 struct NowPlayingRow: View {
 
-    let model: EpisodeRowViewModel
+    @State var model: EpisodeRowViewModel
     @State var showPlayer: Bool = false
 
     @Environment(\.isFocused) private var isFocused: Bool
@@ -54,7 +54,7 @@ struct NowPlayingRow: View {
                         .font(.title3)
                         .foregroundColor(isFocused ? .textPrimaryActive : .textPrimary)
                         .lineLimit(2)
-                    ProgressView(value: model.playedUpTo, total: model.duration)
+                    ProgressView(value: model.progress)
                         .foregroundStyle(.blue)
                         .tint(model.currentPodcastTintColor)
                         .clipShape(RoundedRectangle(cornerRadius: 100))
