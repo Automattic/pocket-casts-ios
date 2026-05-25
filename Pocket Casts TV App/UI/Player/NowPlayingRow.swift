@@ -56,7 +56,7 @@ struct NowPlayingRow: View {
                         .lineLimit(2)
                     ProgressView(value: model.playedUpTo, total: model.duration)
                         .foregroundStyle(.blue)
-                        .tint(.red)
+                        .tint(model.currentPodcastTintColor)
                         .clipShape(RoundedRectangle(cornerRadius: 100))
                     Text(model.timeLeft)
                         .font(.body)

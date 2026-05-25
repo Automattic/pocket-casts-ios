@@ -2,6 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
 
 @Observable
 class EpisodeRowViewModel: Identifiable {
@@ -67,6 +68,16 @@ class EpisodeRowViewModel: Identifiable {
 
     var displayImageData: Data? {
         return imageData
+    }
+
+    var currentPodcastTintColor: Color? {
+        if let podcast = podcast {
+            return Color(ColorManager.darkThemeTintForPodcast(podcast))
+        } else if let episode = episode as? UserEpisode, episode.imageColor > 0 {
+            return Color(AppTheme.userEpisodeColor(number: Int(episode.imageColor)))
+        } else {
+            return Color(AppTheme.userEpisodeColor(number: 1))
+        }
     }
 
     private func loadEpisodeArtworkData() async -> Data? {
