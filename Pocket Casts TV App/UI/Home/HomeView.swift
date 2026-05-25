@@ -7,6 +7,8 @@ struct HomeView: View {
 
     @State private var model = HomeViewModel()
 
+    @State private var showNowPlayingPlayer: Bool = false
+
     enum Layout {
         static let gridSize = CGFloat(250)
     }
@@ -46,8 +48,10 @@ struct HomeView: View {
                             Text(L10n.tvHomeKeepListeningTitle)
                                 .font(.title2)
                                 .foregroundStyle(Color.textPrimary)
-                            NowPlayingRow(model: currentPlaying)
-                                .frame(width: 1242, alignment: .leading)
+                            NowPlayingRow(model: currentPlaying) {
+                                showNowPlayingPlayer = true
+                            }
+                            .frame(width: 1242, alignment: .leading)
                         }
                     }
                     upNextRow
@@ -69,6 +73,10 @@ struct HomeView: View {
                     newReleasesRow
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 

@@ -15,7 +15,8 @@ struct NowPlayingRowButtonStyle: ButtonStyle {
 struct NowPlayingRow: View {
 
     @Bindable var model: EpisodeRowViewModel
-    @State var showPlayer: Bool = false
+
+    var callback: (() -> ())?
 
     @Environment(\.isFocused) private var isFocused: Bool
 
@@ -35,7 +36,7 @@ struct NowPlayingRow: View {
     var body: some View {
         Button {
             model.play()
-            showPlayer = true
+            callback?()
         } label: {
             HStack(spacing: 48) {
                 thumbnail
@@ -65,10 +66,6 @@ struct NowPlayingRow: View {
             .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
         }
         .buttonStyle(.card)
-        .fullScreenCover(isPresented: $showPlayer) {
-            NowPlayingView()
-                .ignoresSafeArea()
-        }
     }
 }
 
