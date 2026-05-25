@@ -104,6 +104,9 @@ only_rules:
   # Type annotations are redundant when the type can be inferred.
   - redundant_type_annotation
 
+  # Don't `return` a value from a function whose return type is `Void`.
+  - return_value_from_void_function
+
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
 

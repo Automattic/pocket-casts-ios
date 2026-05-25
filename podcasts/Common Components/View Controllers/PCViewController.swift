@@ -238,7 +238,8 @@ class PCViewController: SimpleNotificationsViewController {
         }
 
         guard let navigationBar = navigationController?.navigationBar else {
-            return assertionFailure("navigationBar is missing")
+            assertionFailure("navigationBar is missing")
+            return
         }
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
