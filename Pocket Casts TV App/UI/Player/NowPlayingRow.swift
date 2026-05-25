@@ -2,16 +2,6 @@ import SwiftUI
 import PocketCastsUtils
 import PocketCastsDataModel
 
-struct NowPlayingRowButtonStyle: ButtonStyle {
-    @Environment(\.isFocused) var isFocused: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(isFocused ? 1.02 : 1.0)
-            .animation(.easeInOut(duration: 0.15), value: isFocused)
-    }
-}
-
 struct NowPlayingRow: View {
 
     @Bindable var model: EpisodeRowViewModel
