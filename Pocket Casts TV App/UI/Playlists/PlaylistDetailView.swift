@@ -16,6 +16,7 @@ struct PlaylistDetailView: View {
         static let mosaicTileSize = CGFloat(209)
         static let infoPanelWidth = CGFloat(568)
         static let gutter = CGFloat(24)
+        static let rowInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
     }
 
     var body: some View {
@@ -139,7 +140,7 @@ struct PlaylistDetailView: View {
             ForEach(model.episodes, id: \.uuid) { episode in
                 EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
                     .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
-                    .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
+                    .listRowInsets(Layout.rowInsets)
             }
         }
         .focusScope(episodeListNamespace)
