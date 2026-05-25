@@ -15,7 +15,7 @@ class EpisodeRowViewModel: Identifiable {
     var episode: BaseEpisode
     var podcast: Podcast?
     var imageData: Data?
-    var progress: Double = 0
+    var progress: Double
     var id: String { episode.uuid }
 
     private var cancellables: Set<AnyCancellable> = []
@@ -149,6 +149,7 @@ class EpisodeRowViewModel: Identifiable {
 
     private func setupObservers() {
         NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
+        .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
             self?.updateProgress()
         }
@@ -158,8 +159,9 @@ class EpisodeRowViewModel: Identifiable {
     private func updateProgress() {
         guard let currentEpisode = PlaybackManager.shared.currentEpisode(), episode.uuid == currentEpisode.uuid else {
             return
-        }
-        episode = currentEpisode
+        }     
+        episode.playedUpTo = currentEpisode.playedUpTo
+        episode.duration = currentEpisode.duration
         progress = currentEpisode.playedUpTo / currentEpisode.duration
     }
 }
