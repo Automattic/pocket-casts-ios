@@ -29,7 +29,13 @@ struct UpNextView: View {
     var upNextView: some View {
         List {
             Section {
-                ForEach(model.episodes) { episode in
+                if let currentPlaying = model.episodes.first {
+                    NowPlayingRow(model: currentPlaying)
+                        .frame(width: 1242, alignment: .leading)
+                }
+            }
+            Section {
+                ForEach(model.episodes.dropFirst()) { episode in
                     EpisodeRowWithActions(model: episode, context: .upNext)
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
