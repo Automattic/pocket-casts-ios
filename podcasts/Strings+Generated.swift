@@ -4320,7 +4320,7 @@ internal enum L10n {
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
   /// tv keep listening title
-  internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Keep listening") }
+  internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Picking up where you left off") }
   /// tv home new releases section title
   internal static var tvHomeNewReleases: String { return L10n.tr("Localizable", "tv_home_new_releases", fallback: "New releases") }
   /// tv home recently played section title

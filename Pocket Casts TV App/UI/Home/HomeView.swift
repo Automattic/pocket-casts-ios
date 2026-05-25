@@ -7,6 +7,8 @@ struct HomeView: View {
 
     @State private var model = HomeViewModel()
 
+    @State private var showNowPlayingPlayer: Bool = false
+
     enum Layout {
         static let gridSize = CGFloat(250)
     }
@@ -40,24 +42,25 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvHomeKeepListeningTitle)
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
+                VStack(alignment: .leading, spacing: 80) {
                     if let currentPlaying = model.currentPlaying {
-                        EpisodePlayerButton(model: currentPlaying)
-                            .frame(maxWidth: 864, alignment: .leading)
+                        VStack(alignment: .leading, spacing: 32) {
+                            Text(L10n.tvHomeKeepListeningTitle)
+                                .font(.title2)
+                                .foregroundStyle(Color.textPrimary)
+                            NowPlayingRow(model: currentPlaying) {
+                                showNowPlayingPlayer = true
+                            }
+                            .frame(width: 1242, alignment: .leading)
+                        }
                     }
+                    upNextRow
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecommendedForYouTitle)
                             .font(.title3)
                             .foregroundStyle(Color.textPrimary)
                         discoverCollection
                     }
-                    Text(L10n.tvTabUpNext)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    upNextRow
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecentlyPlayed)
                             .font(.title3)
@@ -70,6 +73,10 @@ struct HomeView: View {
                     newReleasesRow
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 
@@ -94,16 +101,35 @@ struct HomeView: View {
             }
         }
     }
+
+    @ViewBuilder
     var upNextRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 24) {
-                ForEach(model.upNext) { episode in
-                    EpisodePlayerButton(model: episode)
-                        .frame(width: 864)
+        if model.upNext.count > 1 {
+            VStack(alignment: .leading, spacing: 24) {
+                Text(L10n.tvTabUpNext)
+                    .font(.title3)
+                    .foregroundStyle(Color.textPrimary)
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 24) {
+                        ForEach(model.upNext) { episode in
+                            upNextButton(model: episode)
+                                .frame(width: 864)
+                        }
+                    }
+                    .padding(.horizontal, 24)
                 }
             }
-            .padding(.horizontal, 24)
         }
+    }
+
+    func upNextButton(model: EpisodeRowViewModel) -> some View {
+        Button {
+            model.play()
+            showNowPlayingPlayer = true
+        } label: {
+            EpisodeRow(model: model, isActive: false)
+        }
+        .buttonStyle(EpisodeRowButtonStyle())
     }
 
     var recentlyPlayedRow: some View {

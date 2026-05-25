@@ -148,6 +148,7 @@ struct EpisodeRowWithActions: View {
                         .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
                 }
                 .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)

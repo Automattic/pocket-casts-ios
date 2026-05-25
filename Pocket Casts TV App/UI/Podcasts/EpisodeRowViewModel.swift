@@ -2,6 +2,8 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
+import Combine
 
 @Observable
 class EpisodeRowViewModel: Identifiable {
@@ -13,15 +15,18 @@ class EpisodeRowViewModel: Identifiable {
     var episode: BaseEpisode
     var podcast: Podcast?
     var imageData: Data?
-
+    var progress: Double
     var id: String { episode.uuid }
 
+    private var cancellables: Set<AnyCancellable> = []
     private let playbackManager: PlaybackManager
 
     init(episode: BaseEpisode, podcast: Podcast?, playbackManager: PlaybackManager = PlaybackManager.shared) {
         self.episode = episode
         self.podcast = podcast
         self.playbackManager = playbackManager
+        self.progress = episode.playedUpTo / episode.duration
+        setupObservers()
     }
 
     func loadEpisodeArtwork() {
@@ -31,6 +36,14 @@ class EpisodeRowViewModel: Identifiable {
                 self?.imageData = data
             }
         }
+    }
+
+    var duration: Double {
+        return episode.duration
+    }
+
+    var playedUpTo: Double {
+        return episode.playedUpTo
     }
 
     var displayTitle: String {
@@ -53,8 +66,22 @@ class EpisodeRowViewModel: Identifiable {
         return episode.displayableDuration
     }
 
+    var timeLeft: String {
+        return episode.displayableTimeLeft()
+    }
+
     var displayImageData: Data? {
         return imageData
+    }
+
+    var currentPodcastTintColor: Color? {
+        if let podcast {
+            return Color(ColorManager.darkThemeTintForPodcast(podcast))
+        } else if let episode = episode as? UserEpisode, episode.imageColor > 0 {
+            return Color(AppTheme.userEpisodeColor(number: Int(episode.imageColor)))
+        } else {
+            return Color(AppTheme.userEpisodeColor(number: 1))
+        }
     }
 
     private func loadEpisodeArtworkData() async -> Data? {
@@ -77,6 +104,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func play() {
+        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
     }
 
@@ -117,6 +145,24 @@ class EpisodeRowViewModel: Identifiable {
     func removeFromUpNext() {
         playbackManager.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
         ToastManager.shared.show(L10n.removeFromUpNext)
+    }
+
+    private func setupObservers() {
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackProgress)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] _ in
+            self?.updateProgress()
+        }
+        .store(in: &cancellables)
+    }
+
+    private func updateProgress() {
+        guard let currentEpisode = playbackManager.currentEpisode(), episode.uuid == currentEpisode.uuid else {
+            return
+        }
+        episode.playedUpTo = currentEpisode.playedUpTo
+        episode.duration = currentEpisode.duration
+        progress = currentEpisode.playedUpTo / currentEpisode.duration
     }
 }
 
