@@ -47,7 +47,7 @@ class HomeViewModel {
                 guard let self else { return }
                 recentlyPlayed = Array(podcasts.shuffled().prefix(10))
                 self.podcasts = podcasts
-                upNext = Array(upNextEpisodes.prefix(3)).map { episode in
+                upNext = Array(upNextEpisodes.prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)
                 }
                 newReleases = newEpisodes
