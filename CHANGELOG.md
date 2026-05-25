@@ -2,14 +2,14 @@
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 - Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
+- Show chapter art in mini player [#4382](https://github.com/Automattic/pocket-casts-ios/pull/4382)
 - Update "Up Next" episode cells to show up to two lines of episode title [4398](https://github.com/Automattic/pocket-casts-ios/pull/4398)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
 - Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
-- Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349) 
 - Fix Show Archived toggle in Playlists during search [#4329](https://github.com/Automattic/pocket-casts-ios/pull/4329)
 - Fix an issue where full player will occasionally show generic placeholder for artwork instead of using available smaller actual artwork thumbnail [#4391](https://github.com/Automattic/pocket-casts-ios/pull/4391)
-- Hide the tab bar during multi-select to create more space [#4364](https://github.com/Automattic/pocket-casts-ios/pull/4364) 
+- Hide the tab bar during multi-select to create more space [#4364](https://github.com/Automattic/pocket-casts-ios/pull/4364)
 
 8.12
 -----
