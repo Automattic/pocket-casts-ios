@@ -3,7 +3,6 @@ import PocketCastsDataModel
 
 fileprivate enum Layout {
     static let coverSize = CGFloat(272)
-    static let qrSize = CGFloat(240)
     static let cornerRadius = CGFloat(16)
     static let minRotation = 2.0
     static let maxRotation = 10.0
@@ -24,6 +23,7 @@ fileprivate struct StackedCover: Identifiable {
 
 struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var model: ViewModel
     @State private var displayedCovers: [StackedCover] = []
@@ -51,7 +51,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
             }
             Color.black
                 .opacity(blackOverlayOpaque ? 1 : 0)
-                .animation(.easeInOut(duration: Pacing.fadeDuration), value: blackOverlayOpaque)
+                .animation(reduceMotion ? nil : .easeInOut(duration: Pacing.fadeDuration), value: blackOverlayOpaque)
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         }
@@ -60,6 +60,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         }
     }
 
+    @MainActor
     private func runSyncAnimation() async {
         model.sync()
 
@@ -70,6 +71,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
 
         for _ in 0..<Pacing.totalCoversToShow {
             try? await Task.sleep(nanoseconds: stepNanoseconds)
+            if Task.isCancelled { return }
             guard nextIndex < model.podcasts.count else { continue }
             let podcast = model.podcasts[nextIndex]
             let sign: Double = nextIndex.isMultiple(of: 2) ? -1 : 1
@@ -84,11 +86,13 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         // Wait for the underlying sync to finish before moving on.
         while model.state != .finished {
             try? await Task.sleep(nanoseconds: 100_000_000)
+            if Task.isCancelled { return }
         }
 
         // Fade the whole screen to black before handing off to the home view.
         blackOverlayOpaque = true
         try? await Task.sleep(nanoseconds: UInt64(Pacing.fadeDuration * 1_000_000_000))
+        if Task.isCancelled { return }
 
         coordinator.state = .signedIn
     }
@@ -100,15 +104,22 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
                     .frame(width: Layout.coverSize, height: Layout.coverSize)
                     .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius))
                     .rotationEffect(.degrees(cover.rotation))
-                    .transition(.asymmetric(
-                        insertion: .scale(scale: 0.6)
-                            .combined(with: .opacity)
-                            .animation(.interpolatingSpring(stiffness: 220, damping: 14)),
-                        removal: .opacity.animation(.easeOut(duration: 0.5))
-                    ))
+                    .transition(coverTransition)
             }
         }
         .frame(width: Layout.coverSize, height: Layout.coverSize)
+    }
+
+    private var coverTransition: AnyTransition {
+        if reduceMotion {
+            return .opacity
+        }
+        return .asymmetric(
+            insertion: .scale(scale: 0.6)
+                .combined(with: .opacity)
+                .animation(.interpolatingSpring(stiffness: 220, damping: 14)),
+            removal: .opacity.animation(.easeOut(duration: 0.5))
+        )
     }
 }
 
