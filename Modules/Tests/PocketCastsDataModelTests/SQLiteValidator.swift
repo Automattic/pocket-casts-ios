@@ -19,17 +19,17 @@ struct SQLiteValidator {
         DatabaseHelper.setup(queue: queue)
 
         // Attempt to prepare the SQL via our database layer
-        var error: Error?
+        var validationError: Error?
         queue.read { db in
             do {
                 _ = try db.executeQuery(sql, values: values)
             } catch {
-                error = inError
+                validationError = error
             }
         }
 
-        if let error {
-            throw error
+        if let validationError {
+            throw validationError
         }
     }
 }
