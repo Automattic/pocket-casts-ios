@@ -4395,6 +4395,18 @@ internal enum L10n {
   internal static var tvPodcastsEmptySubtitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_subtitle", fallback: "Followed podcasts show up here, ready to play.") }
   /// tv podcasts empty title
   internal static var tvPodcastsEmptyTitle: String { return L10n.tr("Localizable", "tv_podcasts_empty_title", fallback: "Time to fill this up.") }
+  /// tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view
+  internal static var tvProfileButtonAccessibilityHint: String { return L10n.tr("Localizable", "tv_profile_button_accessibility_hint", fallback: "Opens profile and account options") }
+  /// tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view
+  internal static var tvProfileButtonAccessibilityLabel: String { return L10n.tr("Localizable", "tv_profile_button_accessibility_label", fallback: "Profile") }
+  /// tv Profile menu — create account action (signed-out state)
+  internal static var tvProfileMenuCreateAccount: String { return L10n.tr("Localizable", "tv_profile_menu_create_account", fallback: "Create account") }
+  /// tv Profile menu — log in action (signed-out state)
+  internal static var tvProfileMenuLogIn: String { return L10n.tr("Localizable", "tv_profile_menu_log_in", fallback: "Log in") }
+  /// tv Profile menu — log out action
+  internal static var tvProfileMenuLogOut: String { return L10n.tr("Localizable", "tv_profile_menu_log_out", fallback: "Log out") }
+  /// tv Profile menu — opens the Starred Episodes list
+  internal static var tvProfileMenuStarredEpisodes: String { return L10n.tr("Localizable", "tv_profile_menu_starred_episodes", fallback: "Starred Episodes") }
   /// tv search error label. '%1$@' is a placeholder for a localized error description.
   internal static func tvSearchFailed(_ p1: Any) -> String {
     return L10n.tr("Localizable", "tv_search_failed", String(describing: p1), fallback: "Search failed: %1$@")
@@ -4411,10 +4423,14 @@ internal enum L10n {
   internal static func tvSignInEnterCodeGoUrl(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "tv_sign_in_enter_code_go_url", String(describing: p1), String(describing: p2), fallback: "going to [%1$@](%2$@)")
   }
+  /// tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to.
+  internal static func tvSignInEnterCodeInUrl(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "tv_sign_in_enter_code_in_url", String(describing: p1), String(describing: p2), fallback: "or enter this code in [%1$@](%2$@)")
+  }
   /// tv sign in subtitle
   internal static var tvSignInSubtitle: String { return L10n.tr("Localizable", "tv_sign_in_subtitle", fallback: "Open your camera and point to this QR code") }
   /// tv sign in title
-  internal static var tvSignInTitle: String { return L10n.tr("Localizable", "tv_sign_in_title", fallback: "Sign in with your phone") }
+  internal static var tvSignInTitle: String { return L10n.tr("Localizable", "tv_sign_in_title", fallback: "Log in to Pocket Casts") }
   /// tv signing in subtitle
   internal static var tvSigningInSubtitle: String { return L10n.tr("Localizable", "tv_signing_in_subtitle", fallback: "Your podcasts are syncing, we’ll sign you in soon!") }
   /// tv signing in title

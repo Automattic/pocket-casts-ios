@@ -39,7 +39,7 @@ struct NewPlaylistCellView: View {
     }
 
     var body: some View {
-        HStack(spacing: 16.0) {
+        HStack(spacing: 12.0) {
             if viewModel.displayType == .addNew {
                 ZStack {
                     Rectangle()

@@ -7,7 +7,7 @@ class OptionsPicker {
 
     private var noActionCallback: (() -> Void)?
 
-    init(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
+    init(title: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil, portraitOnly: Bool = true) {
         self.title = title
         setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors, portraitOnly: portraitOnly)
     }
@@ -77,6 +77,20 @@ class OptionsPicker {
             }]
         }
         presentingViewController.present(optionsController, animated: true)
+    }
+
+    /// Presents the options as a native sheet from the app's top-most view
+    /// controller. Use this when there's no obvious presenting controller at
+    /// the call site.
+    func present() {
+        #if !APPCLIP
+        guard let presenter = SceneHelper.rootViewController() else {
+            // This should never happen
+            assertionFailure("Unable to find a view controller to present the options picker from")
+            return
+        }
+        present(from: presenter)
+        #endif
     }
 
     func controllerDidAnimateOut(optionChosen: Bool) {

@@ -1,3 +1,5 @@
+import UIKit
+
 extension MainTabBarController {
     func presentLoader() {
         DispatchQueue.main.async { [weak self] in

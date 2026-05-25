@@ -25,7 +25,7 @@ struct EpisodeRow: View {
     }
 
     private var isHighlighted: Bool {
-        isActive ?? isFocused
+        isFocused
     }
 
     enum Layout {
@@ -69,7 +69,7 @@ struct EpisodeRow: View {
 struct MoreButtonStyle: ButtonStyle {
     @Environment(\.isFocused) var isFocused: Bool
 
-    private enum Layout {
+    fileprivate enum Layout {
         static let size = CGFloat(72)
     }
 
@@ -110,7 +110,7 @@ struct EpisodeRowWithActions: View {
     }
 
     private var shouldShowMoreButton: Bool {
-        focusedElement != nil || isShowingActions || restoreFocus
+        focusedElement != nil || restoreFocus
     }
 
     private var isEpisodeFocused: Bool {
@@ -121,17 +121,20 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) {}
-            Button(L10n.playLastInUpNext) {}
-            Button(L10n.markPlayed) {}
-            Button(L10n.archive) {}
+            Button(L10n.playNextInUpNext) { model.playNext() }
+            Button(L10n.playLastInUpNext) { model.playLast() }
+            Button(L10n.markPlayed) { model.markAsPlayed() }
+            if model.canArchive {
+                Button(L10n.archive) { model.archive() }
+            }
         case .upNext:
-            Button(L10n.playNext) {}
-            Button(L10n.playLast) {}
-            Button(L10n.removeFromUpNext) {}
+            Button(L10n.playNext) { model.playNext() }
+            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
-        Button(L10n.tvEpisodeInfo) {}
     }
+
+    @Environment(\.isFocused) private var isFocused: Bool
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
@@ -139,7 +142,12 @@ struct EpisodeRowWithActions: View {
                 isPlaying = true
                 model.play()
             } label: {
-                EpisodeRow(model: model, isActive: isEpisodeFocused)
+                HStack(spacing: 0) {
+                    EpisodeRow(model: model, isActive: isEpisodeFocused)
+                    Spacer()
+                        .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
+                }
+                .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
@@ -155,6 +163,9 @@ struct EpisodeRowWithActions: View {
                 .focused($focusedElement, equals: .more)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
+        }
+        .if(isFocused) { content in
+            content.clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .defaultFocus($focusedElement, .episode)
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
