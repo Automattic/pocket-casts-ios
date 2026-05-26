@@ -205,6 +205,7 @@ struct Constants {
 
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+            static let tabBarMinimizingEnabled = SettingValue("appearance.tabBarMinimizingEnabled", defaultValue: true)
         }
 
         enum kidsProfile {

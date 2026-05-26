@@ -665,6 +665,7 @@ enum AnalyticsEvent: String {
     case settingsAppearanceRefreshAllArtworkTapped
     case settingsAppearanceUseEmbeddedArtworkToggled
     case settingsAppearanceUseDarkUpNextToggled
+    case settingsAppearanceTabBarMinimizingToggled
 
     // MARK: - Settings: Auto Archive
 
