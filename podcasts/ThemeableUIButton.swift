@@ -40,7 +40,7 @@ class ThemeableUIButton: UIButton {
         handleThemeDidChange()
     }
 
-    // can be overriden by sub-classes to do more when the theme changes
+    // can be overridden by sub-classes to do more when the theme changes
     func handleThemeDidChange() {}
 
     private func updateColors() {
