@@ -43,17 +43,7 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 80) {
-                    if let currentPlaying = model.currentPlaying {
-                        VStack(alignment: .leading, spacing: 32) {
-                            Text(L10n.tvHomeKeepListeningTitle)
-                                .font(.title2)
-                                .foregroundStyle(Color.textPrimary)
-                            NowPlayingRow(model: currentPlaying) {
-                                showNowPlayingPlayer = true
-                            }
-                            .frame(width: 1242, alignment: .leading)
-                        }
-                    }
+                    nowPlayingRow
                     upNextRow
                     youMightLikeRow
                     newReleasesRow
@@ -68,6 +58,22 @@ struct HomeView: View {
         }
     }
 
+    @ViewBuilder
+    var nowPlayingRow: some View {
+        if let currentPlaying = model.currentPlaying {
+            VStack(alignment: .leading, spacing: 32) {
+                Text(L10n.tvHomeKeepListeningTitle)
+                    .font(.title2)
+                    .foregroundStyle(Color.textPrimary)
+                NowPlayingRow(model: currentPlaying) {
+                    showNowPlayingPlayer = true
+                }
+                .frame(width: 1242, alignment: .leading)
+            }
+        } else {
+            EmptyView()
+        }
+    }
     var youMightLikeRow: some View {
         VStack(alignment: .leading, spacing: 24) {
             Text(L10n.tvHomeRecommendedForYouTitle)
