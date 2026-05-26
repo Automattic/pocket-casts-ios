@@ -25,7 +25,6 @@ class HomeViewModel {
     var podcasts: [Podcast] = []
     var currentPlaying: EpisodeRowViewModel?
     var upNext: [EpisodeRowViewModel] = []
-    var recentlyPlayed: [Podcast] = []
     var newReleases: [EpisodeRowViewModel] = []
 
     func load() {
@@ -43,7 +42,6 @@ class HomeViewModel {
 
             await MainActor.run { [weak self, newEpisodes] in
                 guard let self else { return }
-                recentlyPlayed = Array(podcasts.shuffled().prefix(10))
                 self.podcasts = podcasts
                 upNext = Array(upNextEpisodes.dropFirst().prefix(12)).map { episode in
                     self.makeRowViewModel(for: episode)

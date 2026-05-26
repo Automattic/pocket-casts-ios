@@ -6089,7 +6089,7 @@
 "tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
-"tv_home_recommended_for_you_title" = "Recommended for you";
+"tv_home_recommended_for_you_title" = "You'll probably want these";
 
 /* tv home recently played section title */
 "tv_home_recently_played" = "Recently played";
@@ -6195,3 +6195,9 @@
 
 /* info message when authorization is invalid on server */
 "server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
+
+/* tv home recommendations for listeners of podcast title. Ex: Loved by listeners of The Daily */
+"tv_home_recommend_user_podcast_section_title" = "Loved by listeners of %1$@";
+
+/* tv home Trending section title */
+"tv_home_trending_section_title" = "What everyone's on this week";
