@@ -5,6 +5,7 @@ import PocketCastsServer
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(FocusStore.self) var focusStore
 
     @State private var model = HomeViewModel()
 
@@ -68,14 +69,12 @@ struct HomeView: View {
     @ViewBuilder
     var nowPlayingRow: some View {
         if let currentPlaying = model.currentPlaying {
-            VStack(alignment: .leading, spacing: 32) {
-                Text(L10n.tvHomeKeepListeningTitle)
-                    .font(.title2)
-                    .foregroundStyle(Color.textPrimary)
+            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: "NowPlaying") {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
                 .frame(width: 1242, alignment: .leading)
+                .setFocus(section: "NowPlaying")
             }
             .focusSection()
         } else {
@@ -84,7 +83,7 @@ struct HomeView: View {
     }
 
     var youMightLikeRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendedForYouTitle) {
+        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser.rawValue) {
             DiscoverPodcastRow(type: .recommendationsUser)
         }
         .focusSection()
@@ -93,7 +92,7 @@ struct HomeView: View {
     @State private var sectionPodcast: String?
 
     var lovedByListenersOfRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? "")) {
+        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial.rawValue) {
             DiscoverPodcastRow(type: .recommendationsSocial) { title in
                 sectionPodcast = title
             }
@@ -101,7 +100,7 @@ struct HomeView: View {
     }
 
     var trendingRow: some View {
-        HomeSection(title: L10n.tvHomeTrendingSectionTitle) {
+        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending.rawValue) {
             DiscoverPodcastRow(type: .trending)
         }
     }
@@ -109,12 +108,13 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext) {
+            HomeSection(title: L10n.tvTabUpNext, focusSection: "UpNext") {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
                             upNextButton(model: episode)
                                 .frame(width: 864)
+                                .setFocus(section: "UpNext")
                         }
                     }
                 }
@@ -133,12 +133,13 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases) {
+        HomeSection(title: L10n.tvHomeNewReleases, focusSection: "NewReleases") {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
                         EpisodePlayerButton(model: episode)
                             .frame(width: 864)
+                            .setFocus(section: "NewReleases")
                     }
                 }
             }
@@ -148,17 +149,25 @@ struct HomeView: View {
 
 struct HomeSection<Content: View>: View {
     private let title: String
+    private let focusSection: String
     private let content: Content
 
-    init(title: String, @ViewBuilder content: () -> Content) {
+    @Environment(FocusStore.self) var focusStore
+
+    init(title: String, focusSection: String, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
+        self.focusSection = focusSection
+    }
+
+    private var isFocusedSection: Bool {
+        (focusStore.focusedID as? String) == focusSection
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
             Text(title)
-                .font(.headline)
+                .font(isFocusedSection ? .title2 : .headline)
                 .foregroundStyle(Color.textPrimary)
             content
         }
