@@ -22,7 +22,7 @@ class TrendingDiscoverModel {
     }
 
     func load() async {
-        let listOfPodcasts = await discoverManager.loadDiscoverSection(id: "trending")
+        let listOfPodcasts = await discoverManager.loadDiscoverSection(type: DiscoverType.trending)
 
         await MainActor.run {
             state = listOfPodcasts.isEmpty ? .empty : .ready

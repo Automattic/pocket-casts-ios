@@ -1,5 +1,17 @@
 import PocketCastsServer
 
+enum DiscoverType: String {
+    case featured
+    case trending
+    case recommendationsUser = "recommendations_user" // You might like ...
+    case recommendationsSocial = "recommendations_social" // Loved By Users of ...
+    case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
+    case popularRegion = "popular_region" // Popular in region ...
+
+    func match(item: DiscoverItem) -> Bool {
+        return item.id == self.rawValue || item.uuid == self.rawValue
+    }
+}
 class DiscoverManager {
 
     static var shared: DiscoverManager = {
@@ -12,14 +24,14 @@ class DiscoverManager {
         self.discoverServerHandler = discoverServerHandler
     }
 
-    func loadDiscoverSection(id: String) async -> [DiscoverPodcast]{
+    func loadDiscoverSection(type: DiscoverType) async -> [DiscoverPodcast] {
         let (result, _) = await discoverServerHandler.discoverPage()
         guard let discoverLayout = result, let items = discoverLayout.layout else {
             return []
         }
         var selectedItem: DiscoverItem?
         for item in items {
-            if item.id == id {
+            if type.match(item: item) {
                 selectedItem = item
                 break
             }
