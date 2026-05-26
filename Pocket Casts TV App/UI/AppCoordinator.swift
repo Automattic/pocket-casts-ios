@@ -71,6 +71,6 @@ class AppCoordinator {
     }
 
     private func setupDiscover() async {
-        let _ = await DiscoverServerHandler.shared.discoverPage()        
+        let _ = await DiscoverServerHandler.shared.discoverPage()
     }
 }
