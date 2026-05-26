@@ -32,7 +32,7 @@ public class NetworkDataUsageRecord: NSObject {
     @GRDBColumn("session_type")
     @objc public var sessionType: String?
 
-    public override init() {
+    override public init() {
         super.init()
     }
 }

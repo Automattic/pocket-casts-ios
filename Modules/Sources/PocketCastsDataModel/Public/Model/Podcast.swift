@@ -176,7 +176,7 @@ extension TrimSilence {
 }
 
 extension Podcast {
-    public override var debugDescription: String {
+    override public var debugDescription: String {
         "Podcast: \(uuid) - \(title ?? "missing title")"
     }
 }

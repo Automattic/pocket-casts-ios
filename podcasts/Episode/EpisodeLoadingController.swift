@@ -111,7 +111,7 @@ class EpisodeLoadingController: UIHostingController<AnyView> {
         }
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

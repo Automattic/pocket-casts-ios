@@ -49,7 +49,7 @@ public class GradientView: UIView {
         layer.addSublayer(gradientLayer)
     }
 
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         gradientLayer?.frame = bounds

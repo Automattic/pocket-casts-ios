@@ -44,7 +44,7 @@ extension ModifiedDate where Value: RawRepresentable {
 
     /// Updates the ModifiedDate instance with values from an ApiSetting
     /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to set on this `ModifiedDate`
-    mutating private func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
+    private mutating func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
         let referenceDate = Date(timeIntervalSinceReferenceDate: 0)
         if setting.modifiedAt.date > modifiedAt ?? referenceDate {
             guard let value = Value(rawValue: setting.value.value) else {

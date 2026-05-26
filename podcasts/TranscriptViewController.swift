@@ -86,7 +86,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         if FeatureFlag.generatedTranscripts.enabled {
@@ -718,7 +718,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         bannerLabel.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
     }
 
-    public override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateTextMargins()
     }

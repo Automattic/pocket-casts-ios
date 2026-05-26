@@ -89,7 +89,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
     enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
 
-    lazy private var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
+    private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
         return InformationalBannerViewCoordinator(viewModel: viewModel)
     }()

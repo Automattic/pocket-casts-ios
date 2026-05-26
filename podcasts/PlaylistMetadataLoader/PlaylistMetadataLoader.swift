@@ -40,7 +40,7 @@ actor PlaylistMetadataLoader {
     /// Thread-safe subject for publishing metadata updates.
     /// Access via `updatesPublisher` for subscribing to changes.
     /// Marked nonisolated(unsafe) because PassthroughSubject is internally thread-safe.
-    private nonisolated(unsafe) let updatesSubject = PassthroughSubject<MetadataUpdate, Never>()
+    nonisolated(unsafe) private let updatesSubject = PassthroughSubject<MetadataUpdate, Never>()
 
     /// Publisher that emits metadata updates when counts or images change.
     /// Subscribe to receive updates for specific playlists.
@@ -75,7 +75,7 @@ actor PlaylistMetadataLoader {
 
     /// Subject for publishing when playlists become stale and need refresh.
     /// Marked nonisolated(unsafe) because PassthroughSubject is internally thread-safe.
-    private nonisolated(unsafe) let stalePlaylistsSubject = PassthroughSubject<Set<String>, Never>()
+    nonisolated(unsafe) private let stalePlaylistsSubject = PassthroughSubject<Set<String>, Never>()
 
     /// Publisher that emits sets of playlist IDs that have become stale.
     /// Subscribe to trigger refresh of visible playlists.

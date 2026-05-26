@@ -235,7 +235,7 @@ fileprivate struct ChartColumn: View {
     }
 }
 
-final private class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
+private final class LottieTextProvider: LegacyAnimationTextProvider, Equatable {
     private let index: Int
 
     private static func formatted(hours: Int) -> String {
