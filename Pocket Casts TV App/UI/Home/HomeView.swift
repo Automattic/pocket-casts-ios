@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -49,6 +50,11 @@ struct HomeView: View {
                     newReleasesRow
                     lovedByListenersOfRow
                     trendingRow
+                }
+            }
+            .navigationDestination(for: DiscoverPodcast.self) { podcast in
+                if let uuid = podcast.uuid {
+                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
                 }
             }
         }

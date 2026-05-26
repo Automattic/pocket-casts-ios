@@ -48,12 +48,7 @@ struct DiscoverPodcastRow: View {
                         .padding(.vertical, 24)
                     }
                 }
-            })
-            .navigationDestination(for: DiscoverPodcast.self) { podcast in
-                if let uuid = podcast.uuid {
-                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
-                }
-            }
+            })            
         }
     }
 }
