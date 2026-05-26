@@ -7,8 +7,7 @@ extension DiscoverCollectionViewController {
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        searchController.install(in: self)
-        searchController.setupScrollView(collectionView)
+        searchController.install(in: self, attachedTo: collectionView)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }

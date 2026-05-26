@@ -315,14 +315,13 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
             return
         }
 
-        searchController.install(in: self)
+        searchController.install(in: self, attachedTo: listeningHistoryTable)
         // Plain-style table view pins section headers below `adjustedContentInset.top`, so keep
         // the inset matched to the bar height — otherwise headers would pin where the (collapsed)
         // bar used to be, leaving a gap under the nav bar.
         searchController.tracksContentInsetToBarHeight = true
 
         searchController.placeholderText = L10n.search
-        searchController.setupScrollView(listeningHistoryTable)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }

@@ -21,8 +21,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func setupSearchBar() {
         searchController = PCSearchBarController()
-        searchController.install(in: self)
-        searchController.setupScrollView(podcastsCollectionView)
+        searchController.install(in: self, attachedTo: podcastsCollectionView)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }

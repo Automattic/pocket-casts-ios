@@ -92,8 +92,9 @@ class PCSearchBarController: UIViewController {
 
     /// Installs the bar as a child of `parent`, pinned to the top safe area with leading and
     /// trailing anchored to `parent.view`. Creates the height constraint the scrolling extension
-    /// drives between `0` and `defaultHeight` to collapse/expand the bar.
-    func install(in parent: UIViewController) {
+    /// drives between `0` and `defaultHeight` to collapse/expand the bar. If `scrollView` is
+    /// provided, also applies the initial top contentInset/offset so the bar starts visible.
+    func install(in parent: UIViewController, attachedTo scrollView: UIScrollView? = nil) {
         view.translatesAutoresizingMaskIntoConstraints = false
         parent.addChild(self)
         parent.view.addSubview(view)
@@ -107,6 +108,10 @@ class PCSearchBarController: UIViewController {
             heightConstraint
         ])
         self.heightConstraint = heightConstraint
+
+        if let scrollView {
+            setupScrollView(scrollView)
+        }
     }
 
     func updateCollapseAppearance() {
