@@ -12,6 +12,7 @@ struct HomeView: View {
 
     enum Layout {
         static let gridSize = CGFloat(250)
+        static let sectionSpacing = CGFloat(80)
     }
 
     var body: some View {
@@ -43,7 +44,7 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 80) {
+                VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
                     nowPlayingRow
                     upNextRow
                     youMightLikeRow
