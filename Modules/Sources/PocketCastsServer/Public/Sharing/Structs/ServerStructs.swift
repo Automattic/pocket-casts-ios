@@ -397,7 +397,7 @@ public struct PodcastCollection: Decodable {
     }
 }
 
-public struct DiscoverPodcast: Codable, Equatable {
+public struct DiscoverPodcast: Codable, Equatable, Hashable {
     public var title: String?
     public var author: String?
     public var shortDescription: String?

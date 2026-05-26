@@ -83,23 +83,7 @@ struct HomeView: View {
     @Namespace private var podcastGridNamespace
 
     var discoverCollection: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 0, content: {
-                ForEach(model.podcasts) { podcast in
-                    NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast.uuid, size: .page)
-                            .frame(width: Layout.gridSize, height: Layout.gridSize)
-                    }
-                    .buttonStyle(.card)
-                    .padding(24)
-                    .prefersDefaultFocus(model.podcasts.first?.uuid == podcast.uuid, in: podcastGridNamespace)
-                }
-            })
-            .focusScope(podcastGridNamespace)
-            .navigationDestination(for: Podcast.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
-            }
-        }
+        TrendingPodcastRow()
     }
 
     @ViewBuilder
