@@ -20,9 +20,7 @@ struct DiscoverSection {
 
 class DiscoverManager {
 
-    static var shared: DiscoverManager = {
-        return DiscoverManager()
-    }()
+    static let shared = DiscoverManager()
 
     let discoverServerHandler: DiscoverServerHandler
 

@@ -1,10 +1,7 @@
-import Combine
 import PocketCastsServer
 
 @Observable
 class DiscoverSectionModel {
-
-    private var cancellables: Set<AnyCancellable> = []
     private let discoverManager: DiscoverManager
 
     var state: State = .loading
@@ -34,12 +31,5 @@ class DiscoverSectionModel {
             podcasts = section.podcasts
             title = section.title
         }
-    }
-}
-
-extension DiscoverPodcast: @retroactive Identifiable {
-
-    public var id: String {
-        return uuid ?? "unknown"
     }
 }

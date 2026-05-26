@@ -38,7 +38,7 @@ struct DiscoverPodcastRow: View {
     var podcastList: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 0, content: {
-                ForEach(model.podcasts) { podcast in
+                ForEach(model.podcasts, id: \.uuid) { podcast in
                     if let uuid = podcast.uuid {
                         NavigationLink(value: podcast) {
                             PodcastImage(uuid: uuid, size: .page)
