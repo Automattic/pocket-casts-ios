@@ -51,8 +51,7 @@ struct NowPlayingRow: View {
                     Spacer()
                 }
                 Spacer()
-            }
-            .padding(32)
+            }            
             .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
         }
         .buttonStyle(.card)

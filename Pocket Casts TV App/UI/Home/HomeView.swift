@@ -70,26 +70,23 @@ struct HomeView: View {
                 }
                 .frame(width: 1242, alignment: .leading)
             }
+            .focusSection()
         } else {
             EmptyView()
         }
     }
+
     var youMightLikeRow: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvHomeRecommendedForYouTitle)
-                .font(.title3)
-                .foregroundStyle(Color.textPrimary)
+        HomeSection(title: L10n.tvHomeRecommendedForYouTitle) {
             DiscoverPodcastRow(type: .recommendationsUser)
         }
+        .focusSection()
     }
 
     @State private var sectionPodcast: String?
 
     var lovedByListenersOfRow: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""))
-                .font(.title3)
-                .foregroundStyle(Color.textPrimary)
+        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? "")) {
             DiscoverPodcastRow(type: .recommendationsSocial) { title in
                 sectionPodcast = title
             }
@@ -97,10 +94,7 @@ struct HomeView: View {
     }
 
     var trendingRow: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvHomeTrendingSectionTitle)
-                .font(.title3)
-                .foregroundStyle(Color.textPrimary)
+        HomeSection(title: L10n.tvHomeTrendingSectionTitle) {
             DiscoverPodcastRow(type: .trending)
         }
     }
@@ -108,10 +102,7 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            VStack(alignment: .leading, spacing: 24) {
-                Text(L10n.tvTabUpNext)
-                    .font(.title3)
-                    .foregroundStyle(Color.textPrimary)
+            HomeSection(title: L10n.tvTabUpNext) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
@@ -119,7 +110,6 @@ struct HomeView: View {
                                 .frame(width: 864)
                         }
                     }
-                    .padding(.horizontal, 24)
                 }
             }
         }
@@ -136,10 +126,7 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvHomeNewReleases)
-                .font(.title3)
-                .foregroundStyle(Color.textPrimary)
+        HomeSection(title: L10n.tvHomeNewReleases) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
@@ -147,8 +134,26 @@ struct HomeView: View {
                             .frame(width: 864)
                     }
                 }
-                .padding(.horizontal, 24)
             }
+        }
+    }
+}
+
+struct HomeSection<Content: View>: View {
+    private let title: String
+    private let content: Content
+
+    init(title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 32) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(Color.textPrimary)
+            content
         }
     }
 }

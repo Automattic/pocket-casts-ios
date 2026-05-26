@@ -37,7 +37,7 @@ struct DiscoverPodcastRow: View {
 
     var podcastList: some View {
         ScrollView(.horizontal) {
-            LazyHStack(spacing: 0, content: {
+            LazyHStack(spacing: 48, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     if let uuid = podcast.uuid {
                         NavigationLink(value: podcast) {
@@ -45,7 +45,7 @@ struct DiscoverPodcastRow: View {
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
                         }
                         .buttonStyle(.card)
-                        .padding(24)
+                        .padding(.vertical, 24)
                     }
                 }
             })
