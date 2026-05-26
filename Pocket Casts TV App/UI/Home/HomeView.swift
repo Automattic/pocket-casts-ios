@@ -88,7 +88,7 @@ struct HomeView: View {
             Text(L10n.tvHomeRecommendUserPodcastSectionTitle("Test"))
                 .font(.title3)
                 .foregroundStyle(Color.textPrimary)
-            DiscoverPodcastRow(type: .recommendationsUserPodcast)
+            DiscoverPodcastRow(type: .recommendationsSocial)
         }
     }
 
