@@ -9,8 +9,11 @@ struct DiscoverPodcastRow: View {
 
     @State private var model: DiscoverSectionModel
 
-    init(type: DiscoverType) {
+    private let callback: ((String?)->())?
+
+    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
         _model = State(wrappedValue: DiscoverSectionModel(type: type))
+        self.callback = callback
     }
 
     var body: some View {
@@ -35,6 +38,9 @@ struct DiscoverPodcastRow: View {
         }
         .task {
             await model.load()
+            await MainActor.run {
+                callback?(model.title)
+            }
         }
     }
 }

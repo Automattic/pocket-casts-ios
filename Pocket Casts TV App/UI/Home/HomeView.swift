@@ -83,12 +83,16 @@ struct HomeView: View {
         }
     }
 
+    @State private var sectionPodcast: String?
+
     var lovedByListenersOfRow: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text(L10n.tvHomeRecommendUserPodcastSectionTitle("Test"))
+            Text(L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""))
                 .font(.title3)
                 .foregroundStyle(Color.textPrimary)
-            DiscoverPodcastRow(type: .recommendationsSocial)
+            DiscoverPodcastRow(type: .recommendationsSocial) { title in
+                sectionPodcast = title
+            }
         }
     }
 

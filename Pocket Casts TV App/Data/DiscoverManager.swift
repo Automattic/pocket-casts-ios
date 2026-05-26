@@ -12,6 +12,12 @@ enum DiscoverType: String {
         return item.id == self.rawValue || item.uuid == self.rawValue
     }
 }
+
+struct DiscoverSection {
+    let title: String?
+    let podcasts: [DiscoverPodcast]
+}
+
 class DiscoverManager {
 
     static var shared: DiscoverManager = {
@@ -24,10 +30,10 @@ class DiscoverManager {
         self.discoverServerHandler = discoverServerHandler
     }
 
-    func loadDiscoverSection(type: DiscoverType) async -> [DiscoverPodcast] {
+    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
         let (result, _) = await discoverServerHandler.discoverPage()
         guard let discoverLayout = result, let items = discoverLayout.layout else {
-            return []
+            return DiscoverSection(title: nil, podcasts: [])
         }
         var selectedItem: DiscoverItem?
         for item in items {
@@ -38,14 +44,14 @@ class DiscoverManager {
         }
 
         guard let sourceItem = selectedItem, let source = sourceItem.source else {
-            return []
+            return DiscoverSection(title: nil, podcasts: [])
         }
 
         let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
         guard let listOfPodcasts = podcastCollection?.podcasts else {
-            return []
+            return DiscoverSection(title: podcastCollection?.title, podcasts: [])
         }
 
-        return listOfPodcasts
+        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts)
     }
 }

@@ -11,6 +11,8 @@ class DiscoverSectionModel {
 
     var podcasts = [DiscoverPodcast]()
 
+    var title: String?
+
     let type: DiscoverType
 
     init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
@@ -25,11 +27,12 @@ class DiscoverSectionModel {
     }
 
     func load() async {
-        let listOfPodcasts = await discoverManager.loadDiscoverSection(type: type)
+        let section = await discoverManager.loadDiscoverSection(type: type)
 
         await MainActor.run {
-            state = listOfPodcasts.isEmpty ? .empty : .ready
-            podcasts = listOfPodcasts
+            state = section.podcasts.isEmpty ? .empty : .ready
+            podcasts = section.podcasts
+            title = section.title
         }
     }
 }
