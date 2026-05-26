@@ -43,7 +43,7 @@ class AppCoordinator {
             RefreshManager.shared.syncUpNext()
         }
 
-        await setupDiscover()
+        setupDiscover()
     }
 
     func signIn() {
@@ -70,7 +70,7 @@ class AppCoordinator {
         FirebaseApp.configure()
     }
 
-    private func setupDiscover() async {
+    private func setupDiscover() {
         Task {
             let _ = await DiscoverServerHandler.shared.discoverPage()
         }
