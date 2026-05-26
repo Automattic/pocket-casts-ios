@@ -2,7 +2,7 @@ import Combine
 import PocketCastsServer
 
 @Observable
-class TrendingDiscoverModel {
+class DiscoverSectionModel {
 
     private var cancellables: Set<AnyCancellable> = []
     private let discoverManager: DiscoverManager
@@ -11,7 +11,10 @@ class TrendingDiscoverModel {
 
     var podcasts = [DiscoverPodcast]()
 
-    init(discoverManager: DiscoverManager = DiscoverManager.shared) {
+    let type: DiscoverType
+
+    init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
+        self.type = type
         self.discoverManager = discoverManager
     }
 
@@ -22,7 +25,7 @@ class TrendingDiscoverModel {
     }
 
     func load() async {
-        let listOfPodcasts = await discoverManager.loadDiscoverSection(type: DiscoverType.trending)
+        let listOfPodcasts = await discoverManager.loadDiscoverSection(type: type)
 
         await MainActor.run {
             state = listOfPodcasts.isEmpty ? .empty : .ready

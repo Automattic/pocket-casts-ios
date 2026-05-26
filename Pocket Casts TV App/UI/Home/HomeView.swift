@@ -55,12 +55,7 @@ struct HomeView: View {
                         }
                     }
                     upNextRow
-                    VStack(alignment: .leading, spacing: 24) {
-                        Text(L10n.tvHomeRecommendedForYouTitle)
-                            .font(.title3)
-                            .foregroundStyle(Color.textPrimary)
-                        discoverCollection
-                    }
+                    youMightLikeRow
                     VStack(alignment: .leading, spacing: 24) {
                         Text(L10n.tvHomeRecentlyPlayed)
                             .font(.title3)
@@ -82,8 +77,13 @@ struct HomeView: View {
 
     @Namespace private var podcastGridNamespace
 
-    var discoverCollection: some View {
-        TrendingPodcastRow()
+    var youMightLikeRow: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text(L10n.tvHomeRecommendedForYouTitle)
+                .font(.title3)
+                .foregroundStyle(Color.textPrimary)
+            DiscoverPodcastRow(type: .recommendationsUser)
+        }
     }
 
     @ViewBuilder

@@ -1,13 +1,17 @@
 import SwiftUI
 import PocketCastsServer
 
-struct TrendingPodcastRow: View {
+struct DiscoverPodcastRow: View {
 
     fileprivate enum Layout {
         static let gridSize = CGFloat(250)
     }
 
-    @State private var model = TrendingDiscoverModel()
+    @State private var model: DiscoverSectionModel
+
+    init(type: DiscoverType) {
+        _model = State(wrappedValue: DiscoverSectionModel(type: type))
+    }
 
     var body: some View {
         ScrollView(.horizontal) {

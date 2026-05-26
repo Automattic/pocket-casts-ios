@@ -6089,7 +6089,7 @@
 "tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
-"tv_home_recommended_for_you_title" = "Recommended for you";
+"tv_home_recommended_for_you_title" = "You'll probably want these";
 
 /* tv home recently played section title */
 "tv_home_recently_played" = "Recently played";
