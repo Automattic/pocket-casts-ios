@@ -111,9 +111,6 @@ class ListeningHistoryViewController: PCViewController {
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodesFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodeStarredChanged, selector: #selector(refreshEpisodesFromNotification))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification))
@@ -124,10 +121,6 @@ class ListeningHistoryViewController: PCViewController {
 
     @objc private func refreshEpisodesFromNotification() {
         refreshEpisodes(animated: true)
-    }
-
-    @objc private func upNextChanged() {
-        listeningHistoryTable.reloadData()
     }
 
     override func viewDidDisappear(_ animated: Bool) {

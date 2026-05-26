@@ -142,6 +142,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromSpecificEvent(_:)), name: ServerNotifications.userEpisodeUploadStatusChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(uploadProgressDidUpdate), name: ServerNotifications.userEpisodeUploadProgress, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadArtwork(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(upNextEpisodeChanged(_:)), name: Constants.Notifications.upNextEpisodeAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(upNextEpisodeChanged(_:)), name: Constants.Notifications.upNextEpisodeRemoved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(upNextQueueChanged), name: Constants.Notifications.upNextQueueChanged, object: nil)
 
         updateSize()
     }
@@ -213,7 +216,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             starIndicator.isHidden = !episode.keepEpisode
             videoIndicator.isHidden = !episode.videoPodcast()
             videoIndicator.tintColor = ThemeColor.support01()
-            upNextIndicator.isHidden = !PlaybackManager.shared.inUpNext(episode: episode)
+            setUpNextIndicator(visible: PlaybackManager.shared.inUpNext(episode: episode), animated: false)
             upNextIndicator.tintColor = ThemeColor.support01()
 
             var uploadFailed = false
@@ -422,6 +425,58 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         }
     }
 
+    @objc private func upNextEpisodeChanged(_ notification: Notification) {
+        guard let episodeUuid = notification.object as? String, episodeUuid == episode?.uuid else { return }
+
+        updateUpNextIndicator(animated: true)
+    }
+
+    @objc private func upNextQueueChanged() {
+        // Bulk change with no specific episode, re-evaluate this cell against the queue
+        updateUpNextIndicator(animated: true)
+    }
+
+    private func updateUpNextIndicator(animated: Bool) {
+        guard let episode else { return }
+
+        let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
+        inUpNext = isInUpNext
+        setUpNextIndicator(visible: isInUpNext, animated: animated)
+    }
+
+    private func setUpNextIndicator(visible: Bool, animated: Bool) {
+        let shouldHide = !visible
+
+        guard animated, window != nil, upNextIndicator.isHidden != shouldHide else {
+            upNextIndicator.isHidden = shouldHide
+            upNextIndicator.alpha = 1
+            upNextIndicator.transform = .identity
+            return
+        }
+
+        let collapsedTransform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        if visible {
+            upNextIndicator.alpha = 0
+            upNextIndicator.transform = collapsedTransform
+            upNextIndicator.isHidden = false
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
+                self.upNextIndicator.alpha = 1
+                self.upNextIndicator.transform = .identity
+                self.contentView.layoutIfNeeded()
+            })
+        } else {
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
+                self.upNextIndicator.alpha = 0
+                self.upNextIndicator.transform = collapsedTransform
+                self.upNextIndicator.isHidden = true
+                self.contentView.layoutIfNeeded()
+            }, completion: { _ in
+                self.upNextIndicator.alpha = 1
+                self.upNextIndicator.transform = .identity
+            })
+        }
+    }
+
     @objc private func downloadProgressDidUpdate() {
         guard let ourEpisode = episode, let _ = DownloadManager.shared.progressManager.progressForEpisode(ourEpisode.uuid) else { return }
 
@@ -535,7 +590,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         super.prepareForReuse()
 
         starIndicator.isHidden = true
+        upNextIndicator.layer.removeAllAnimations()
         upNextIndicator.isHidden = true
+        upNextIndicator.alpha = 1
+        upNextIndicator.transform = .identity
         statusIndicator.isHidden = true
         uploadProgressIndicator.isHidden = true
         uploadStatusIndicator.isHidden = true
