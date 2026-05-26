@@ -50,10 +50,10 @@ class PCSearchBarController: UIViewController {
     var shouldShowCancelButton = true
     var cancelButtonShowing = false
 
-    /// When set, the scrolling extension drives this constraint's `constant` between `0` and
-    /// `defaultHeight` to collapse/expand the bar in place — the bar's top stays anchored to
-    /// the safe area, and the pill, icons and placeholder fade and shrink together.
-    var searchControllerHeightConstraint: NSLayoutConstraint?
+    /// Driven by the scrolling extension between `0` and `defaultHeight` to collapse/expand the
+    /// bar in place — the bar's top stays anchored to the safe area, and the pill, icons and
+    /// placeholder fade and shrink together. Set by `install(in:)`.
+    private(set) var heightConstraint: NSLayoutConstraint?
 
     /// When `true`, the scrolling extension keeps the parent scroll view's `contentInset.top`
     /// matched to the bar's current height. Use this with plain-style `UITableView`s whose
@@ -90,8 +90,27 @@ class PCSearchBarController: UIViewController {
         updateCollapseAppearance()
     }
 
+    /// Installs the bar as a child of `parent`, pinned to the top safe area with leading and
+    /// trailing anchored to `parent.view`. Creates the height constraint the scrolling extension
+    /// drives between `0` and `defaultHeight` to collapse/expand the bar.
+    func install(in parent: UIViewController) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        parent.addChild(self)
+        parent.view.addSubview(view)
+        didMove(toParent: parent)
+
+        let heightConstraint = view.heightAnchor.constraint(equalToConstant: 0)
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
+            view.topAnchor.constraint(equalTo: parent.view.safeAreaLayoutGuide.topAnchor),
+            heightConstraint
+        ])
+        self.heightConstraint = heightConstraint
+    }
+
     func updateCollapseAppearance() {
-        let height = searchControllerHeightConstraint?.constant ?? Self.defaultHeight
+        let height = heightConstraint?.constant ?? Self.defaultHeight
         let progress = min(1, max(0, height / Self.defaultHeight))
         // Pill itself shrinks in place; contents fade on a steeper curve so the text/icons are
         // gone well before the pill finishes collapsing — closer to the native bar.

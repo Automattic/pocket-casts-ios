@@ -316,19 +316,7 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
             return
         }
 
-        searchController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(searchController)
-        view.addSubview(searchController.view)
-        searchController.didMove(toParent: self)
-
-        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            heightConstraint,
-            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        ])
-        searchController.searchControllerHeightConstraint = heightConstraint
+        searchController.install(in: self)
         // Plain-style table view pins section headers below `adjustedContentInset.top`, so keep
         // the inset matched to the bar height — otherwise headers would pin where the (collapsed)
         // bar used to be, leaving a gap under the nav bar.

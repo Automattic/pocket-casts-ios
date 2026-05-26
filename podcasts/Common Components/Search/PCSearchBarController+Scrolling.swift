@@ -9,7 +9,7 @@ extension PCSearchBarController {
     }
 
     func parentScrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let searchControllerHeightConstraint else { return }
+        guard let heightConstraint else { return }
 
         let yPos = scrollView.contentOffset.y + (view.superview?.safeAreaInsets.top ?? 0)
 
@@ -20,8 +20,8 @@ extension PCSearchBarController {
             newHeight = 0
         }
 
-        if searchControllerHeightConstraint.constant != newHeight {
-            searchControllerHeightConstraint.constant = newHeight
+        if heightConstraint.constant != newHeight {
+            heightConstraint.constant = newHeight
             view.layoutIfNeeded()
             updateCollapseAppearance()
         }
@@ -63,7 +63,7 @@ extension PCSearchBarController {
     }
 
     private func syncContentInsetToBarHeight(_ scrollView: UIScrollView) {
-        guard let height = searchControllerHeightConstraint?.constant else { return }
+        guard let height = heightConstraint?.constant else { return }
         if scrollView.contentInset.top != height {
             scrollView.contentInset.top = height
         }
