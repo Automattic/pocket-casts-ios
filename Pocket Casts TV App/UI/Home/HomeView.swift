@@ -5,7 +5,6 @@ import PocketCastsServer
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    @Environment(FocusStore.self) var focusStore
 
     @State private var model = HomeViewModel()
 
@@ -76,7 +75,6 @@ struct HomeView: View {
                 .frame(width: 1242, alignment: .leading)
                 .setFocus(section: "NowPlaying")
             }
-            .focusSection()
         } else {
             EmptyView()
         }
@@ -86,7 +84,6 @@ struct HomeView: View {
         HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser.rawValue) {
             DiscoverPodcastRow(type: .recommendationsUser)
         }
-        .focusSection()
     }
 
     @State private var sectionPodcast: String?
@@ -161,7 +158,7 @@ struct HomeSection<Content: View>: View {
     }
 
     private var isFocusedSection: Bool {
-        (focusStore.focusedID as? String) == focusSection
+        focusStore.focusedID == focusSection
     }
 
     var body: some View {
@@ -171,6 +168,7 @@ struct HomeSection<Content: View>: View {
                 .foregroundStyle(Color.textPrimary)
             content
         }
+        .focusSection()
     }
 }
 

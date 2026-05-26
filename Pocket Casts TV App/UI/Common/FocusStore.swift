@@ -2,7 +2,7 @@ import SwiftUI
 
 @Observable
 class FocusStore {
-    var focusedID: AnyHashable?
+    var focusedID: String?
 }
 
 struct FocusObserving: ViewModifier {

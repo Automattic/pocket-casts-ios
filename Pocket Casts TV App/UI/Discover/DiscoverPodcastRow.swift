@@ -35,9 +35,6 @@ struct DiscoverPodcastRow: View {
         }
     }
 
-    @Environment(FocusStore.self) var focusStore
-    @FocusState private var isFocused: Bool
-
     var podcastList: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 48, content: {
@@ -49,12 +46,7 @@ struct DiscoverPodcastRow: View {
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
-                        .focused($isFocused)
-                        .onChange(of: isFocused) { _, newValue in
-                            if newValue {
-                                focusStore.focusedID = model.type.rawValue
-                            }
-                        }
+                        .setFocus(section: model.type.rawValue)
                     }
                 }
             })
