@@ -17,6 +17,25 @@ struct DiscoverPodcastRow: View {
     }
 
     var body: some View {
+        Group {
+            switch model.state {
+            case .loading:
+                ProgressView()
+            case .empty:
+                EmptyView()
+            case .ready:
+                podcastList
+            }
+        }
+        .task {
+            await model.load()
+            await MainActor.run {
+                callback?(model.title)
+            }
+        }
+    }
+
+    var podcastList: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 0, content: {
                 ForEach(model.podcasts) { podcast in
@@ -34,12 +53,6 @@ struct DiscoverPodcastRow: View {
                 if let uuid = podcast.uuid {
                     PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
                 }
-            }
-        }
-        .task {
-            await model.load()
-            await MainActor.run {
-                callback?(model.title)
             }
         }
     }
