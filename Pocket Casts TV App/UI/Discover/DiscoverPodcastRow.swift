@@ -48,7 +48,7 @@ struct DiscoverPodcastRow: View {
                         .padding(.vertical, 24)
                     }
                 }
-            })            
+            })
         }
     }
 }
