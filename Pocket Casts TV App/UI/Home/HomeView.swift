@@ -56,16 +56,9 @@ struct HomeView: View {
                     }
                     upNextRow
                     youMightLikeRow
-                    VStack(alignment: .leading, spacing: 24) {
-                        Text(L10n.tvHomeRecentlyPlayed)
-                            .font(.title3)
-                            .foregroundStyle(Color.textPrimary)
-                        recentlyPlayedRow
-                    }
-                    Text(L10n.tvHomeNewReleases)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
                     newReleasesRow
+                    lovedByListenersOfRow
+                    trendingRow
                 }
             }
         }
@@ -75,14 +68,30 @@ struct HomeView: View {
         }
     }
 
-    @Namespace private var podcastGridNamespace
-
     var youMightLikeRow: some View {
         VStack(alignment: .leading, spacing: 24) {
             Text(L10n.tvHomeRecommendedForYouTitle)
                 .font(.title3)
                 .foregroundStyle(Color.textPrimary)
             DiscoverPodcastRow(type: .recommendationsUser)
+        }
+    }
+
+    var lovedByListenersOfRow: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text(L10n.tvHomeRecommendUserPodcastSectionTitle("Test"))
+                .font(.title3)
+                .foregroundStyle(Color.textPrimary)
+            DiscoverPodcastRow(type: .recommendationsUserPodcast)
+        }
+    }
+
+    var trendingRow: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text(L10n.tvHomeTrendingSectionTitle)
+                .font(.title3)
+                .foregroundStyle(Color.textPrimary)
+            DiscoverPodcastRow(type: .trending)
         }
     }
 
@@ -116,30 +125,20 @@ struct HomeView: View {
         .buttonStyle(EpisodeRowButtonStyle())
     }
 
-    var recentlyPlayedRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 0) {
-                ForEach(model.recentlyPlayed) { podcast in
-                    NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast.uuid, size: .page)
-                            .frame(width: Layout.gridSize, height: Layout.gridSize)
-                    }
-                    .buttonStyle(.card)
-                    .padding(24)
-                }
-            }
-        }
-    }
-
     var newReleasesRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 24) {
-                ForEach(model.newReleases) { episode in
-                    EpisodePlayerButton(model: episode)
-                        .frame(width: 864)
+        VStack(alignment: .leading, spacing: 24) {
+            Text(L10n.tvHomeNewReleases)
+                .font(.title3)
+                .foregroundStyle(Color.textPrimary)
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 24) {
+                    ForEach(model.newReleases) { episode in
+                        EpisodePlayerButton(model: episode)
+                            .frame(width: 864)
+                    }
                 }
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
         }
     }
 }

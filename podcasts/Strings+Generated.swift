@@ -4325,8 +4325,14 @@ internal enum L10n {
   internal static var tvHomeNewReleases: String { return L10n.tr("Localizable", "tv_home_new_releases", fallback: "New releases") }
   /// tv home recently played section title
   internal static var tvHomeRecentlyPlayed: String { return L10n.tr("Localizable", "tv_home_recently_played", fallback: "Recently played") }
+  /// tv home recommendations for listeners of podcast title. Ex: Loved by listeners of The Daily
+  internal static func tvHomeRecommendUserPodcastSectionTitle(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_home_recommend_user_podcast_section_title", String(describing: p1), fallback: "Loved by listeners of %1$@")
+  }
   /// tv home recommended for you title
-  internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "Recommended for you") }
+  internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "You'll probably want these") }
+  /// tv home Trending section title
+  internal static var tvHomeTrendingSectionTitle: String { return L10n.tr("Localizable", "tv_home_trending_section_ title", fallback: "What everyone's on this week") }
   /// tv player playback effects menu title
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title
