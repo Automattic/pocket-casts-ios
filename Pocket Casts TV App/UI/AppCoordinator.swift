@@ -42,6 +42,8 @@ class AppCoordinator {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
             RefreshManager.shared.syncUpNext()
         }
+
+        await setupDiscover()
     }
 
     func signIn() {
@@ -66,5 +68,9 @@ class AppCoordinator {
 
     private func setupFirebase() {
         FirebaseApp.configure()
+    }
+
+    private func setupDiscover() async {
+        let _ = await DiscoverServerHandler.shared.discoverPage()        
     }
 }
