@@ -322,7 +322,7 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
         searchController.tracksContentInsetToBarHeight = true
 
         searchController.placeholderText = L10n.search
-        searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
+        searchController.setupScrollView(listeningHistoryTable)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }
