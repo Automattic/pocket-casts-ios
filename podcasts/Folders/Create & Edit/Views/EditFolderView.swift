@@ -8,6 +8,10 @@ struct EditFolderView: View {
 
     @State var showingDeleteConfirmation = false
 
+    var navBarTint: Color? {
+        ThemeColor.navBarTint(ThemeColor.secondaryIcon01(for: theme.activeTheme))
+    }
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
@@ -73,7 +77,7 @@ struct EditFolderView: View {
                         dismissAction(false)
                     } label: {
                         Image("close")
-                            .foregroundColor(ThemeColor.secondaryIcon01(for: theme.activeTheme).color)
+                            .foregroundColor(navBarTint)
                     }
                     .accessibilityLabel(L10n.close)
                 }
