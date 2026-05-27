@@ -14,7 +14,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var canScrollToDismiss = true
 
     private var isUserScrolling = false
-    private var hadNonEmptySelection = false
+    private var hasNonEmptySelection = false
     // Stays `true` for the entire scroll-back grace period, not just while the
     // user's finger is on the view. `isUserScrolling` flips back to false the
     // instant the drag ends, so without this, the next playback tick would
