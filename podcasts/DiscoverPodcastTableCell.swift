@@ -73,7 +73,14 @@ class DiscoverPodcastTableCell: ThemeableCell {
     func populateFrom(_ discoverPodcast: DiscoverPodcast, number: Int) {
         self.discoverPodcast = discoverPodcast
 
-        podcastTitle.text = discoverPodcast.title?.localized
+        let title = discoverPodcast.title?.localized ?? ""
+        let isExplicit = ExplicitBadgeHelper.resolvedIsExplicit(for: discoverPodcast)
+        if isExplicit {
+            podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+        } else {
+            podcastTitle.text = title
+        }
+
         podcastAuthor.text = discoverPodcast.author
         itemNumber.text = (number > 0) ? String(number) : nil
         itemNumber.textColor = ThemeColor.primaryIcon01()
@@ -122,6 +129,13 @@ class DiscoverPodcastTableCell: ThemeableCell {
 
     override func handleThemeDidChange() {
         subscribeButton.tintColor = ThemeColor.primaryIcon02()
+        updateExplicitBadge()
+    }
+
+    private func updateExplicitBadge() {
+        guard let discoverPodcast, podcastTitle.attributedText != nil else { return }
+        let title = discoverPodcast.title?.localized ?? ""
+        podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
     }
 
     override func prepareForReuse() {

@@ -24,6 +24,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public let author: String?
     public let kind: Kind
     public var isLocal: Bool?
+    public var isExplicit: Bool?
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -32,6 +33,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = try? container.decode(String.self, forKey: .author)
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
         self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
+        self.isExplicit = try? container.decodeIfPresent(Bool.self, forKey: .isExplicit)
     }
 
     public init?(from podcast: Podcast) {
@@ -40,6 +42,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = podcast.author
         self.isLocal = true
         self.kind = .podcast
+        self.isExplicit = podcast.isExplicit
     }
 
     public init?(from folder: Folder) {
@@ -48,6 +51,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = ""
         self.isLocal = true
         self.kind = .folder
+        self.isExplicit = false
     }
 
     public init?(from predictiveResult: PredictiveSearchResult) {
@@ -58,6 +62,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
                 self.title = podcast.title
                 self.kind = .podcast
                 self.isLocal = false
+                self.isExplicit = podcast.isExplicit
             default:
                 return nil
         }
@@ -72,6 +77,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.title = combinedResult.title
         self.kind = .podcast
         self.isLocal = false
+        self.isExplicit = combinedResult.isExplicit
     }
 
     public enum Kind: Codable {

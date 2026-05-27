@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import SwiftUI
 
 import PocketCastsDataModel
 import PocketCastsServer
@@ -109,6 +110,11 @@ class PodcastHeaderViewModel: NSObject, ObservableObject {
             return nil
         }
         return L10n.paidPodcastNextEpisodeFormat(estimatedDate)
+    }
+
+    func explicitBadgeText(theme: Theme.ThemeType?) -> Text {
+        guard podcast.isExplicit else { return Text("") }
+        return Text(" ") + Text(Image(uiImage: ExplicitBadgeHelper.badgeImage(for: theme))).accessibilityLabel(L10n.podcastExplicitContent)
     }
 
     var isPodcastSubscribed: Bool {

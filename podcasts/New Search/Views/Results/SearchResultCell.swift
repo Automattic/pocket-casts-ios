@@ -180,7 +180,7 @@ private extension SearchResultCell {
                     .foregroundColor(AppTheme.color(for: .primaryText02, theme: theme))
                     .lineLimit(1)
                 } else if let result = model.podcastFolder {
-                    Text(result.titleToDisplay)
+                    ExplicitBadgeHelper.inlineTitle(result.titleToDisplay, isExplicit: result.kind == .podcast && result.resolvedIsExplicit, theme: theme.activeTheme)
                         .font(style: .subheadline, weight: .medium)
                         .foregroundColor(AppTheme.color(for: .primaryText01, theme: theme))
                         .lineLimit(2)
@@ -245,6 +245,13 @@ extension PodcastFolderSearchResult {
 
     var authorToDisplay: String {
         author ?? ""
+    }
+
+    var resolvedIsExplicit: Bool {
+        if let isExplicit {
+            return isExplicit
+        }
+        return DataManager.sharedManager.findPodcast(uuid: uuid)?.isExplicit ?? false
     }
 }
 
