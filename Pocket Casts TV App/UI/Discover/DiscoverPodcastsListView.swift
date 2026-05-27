@@ -1,0 +1,82 @@
+import SwiftUI
+import PocketCastsDataModel
+import PocketCastsServer
+
+fileprivate enum Layout {
+    static let gridSize = CGFloat(250)
+}
+
+struct DiscoverPodcastsListView: View {
+    @Environment(AppCoordinator.self) var coordinator
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+
+    @State private var model: DiscoverCategoryModel
+
+    init(model: DiscoverCategoryModel) {
+        self.model = model
+    }
+
+    let gridColumns: [GridItem] = (0..<6).map { _ in
+        GridItem(.fixed(Layout.gridSize), spacing: 48)
+    }
+
+    var body: some View {
+        ZStack {
+            switch model.state {
+            case .loading:
+                loadingView
+            case .ready:
+                podcastsView
+            case .empty:
+                emptyView
+            }
+        }
+        .task {
+            await model.load()
+        }
+    }
+
+    var loadingView: some View {
+        ProgressView()
+    }
+
+    var podcastsView: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 40) {
+                    Text(L10n.tvTabPodcasts)
+                        .font(.title2)
+                        .foregroundStyle(Color.textPrimary)
+                    podcastGrid
+                }
+            }
+        }
+    }
+
+    var emptyView: some View {
+        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
+            tabRouter.selectedTab = .home
+        }
+    }
+
+    @Namespace private var podcastGridNamespace
+
+    var podcastGrid: some View {
+        LazyVGrid(columns: gridColumns, spacing: 48) {
+            ForEach(model.categoryDetails?.podcasts ?? [], id:\.uuid) { podcast in
+                NavigationLink(value: podcast) {
+                    PodcastImage(uuid: podcast.uuid ?? "", size: .page)
+                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                }
+                .buttonStyle(.card)
+            }
+        }
+        .focusScope(podcastGridNamespace)
+    }
+}
+
+#Preview {
+    DiscoverPodcastsListView(model: DiscoverCategoryModel(category: DiscoverCategory(id: 1, name: "A")))
+        .environment(AppCoordinator())
+        .environment(MainTabRouter())
+}
