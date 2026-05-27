@@ -922,6 +922,7 @@ enum AnalyticsEvent: String {
     case episodeDetailTranscriptCardTapped
     case episodeTranscriptShown
     case transcriptShared
+    case transcriptTextHighlighted
     case syncedTranscriptSeekUsed
     case syncedTranscriptPreparationStarted
     case syncedTranscriptPreparationCompleted
