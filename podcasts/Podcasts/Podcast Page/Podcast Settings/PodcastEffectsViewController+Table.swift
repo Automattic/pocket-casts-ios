@@ -128,7 +128,7 @@ extension PodcastEffectsViewController: UITableViewDataSource, UITableViewDelega
             addTrimLevelAction(level: .medium, to: options)
             addTrimLevelAction(level: .high, to: options)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         }
     }
 
