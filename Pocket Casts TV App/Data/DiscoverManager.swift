@@ -7,9 +7,15 @@ enum DiscoverType: String {
     case recommendationsSocial = "recommendations_social" // Loved By Users of ...
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
     case popularRegion = "popular_region" // Popular in region ...
+    case curatedList
 
     func match(item: DiscoverItem) -> Bool {
-        return item.id == self.rawValue || item.uuid == self.rawValue
+        switch self {
+        case .curatedList:
+            return item.curated == true && item.type == "podcast_list" && item.summaryStyle == "large_list"
+        default:
+            return item.id == self.rawValue || item.uuid == self.rawValue
+        }
     }
 }
 
