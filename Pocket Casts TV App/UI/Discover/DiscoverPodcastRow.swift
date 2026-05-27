@@ -46,7 +46,7 @@ struct DiscoverPodcastRow: View {
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
-                        .setFocus(section: model.type.rawValue)
+                        .setFocus(section: model.type)
                     }
                 }
             })

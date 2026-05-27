@@ -2,13 +2,13 @@ import SwiftUI
 
 @Observable
 class FocusStore {
-    var focusedID: String?
+    var focusedID: AnyHashable?
 }
 
 struct FocusObserving: ViewModifier {
     @Environment(FocusStore.self) var focusStore
     @FocusState private var isFocused: Bool
-    let section: String
+    let section: AnyHashable
 
     func body(content: Content) -> some View {
         content
@@ -24,7 +24,7 @@ struct FocusObserving: ViewModifier {
 }
 
 extension View {
-    func setFocus(section: String) -> some View {
+    func setFocus(section: AnyHashable) -> some View {
         modifier(FocusObserving(section: section))
     }
 }

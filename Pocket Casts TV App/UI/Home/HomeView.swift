@@ -15,6 +15,12 @@ struct HomeView: View {
         static let sectionSpacing = CGFloat(80)
     }
 
+    enum Section: String {
+        case homeNowPlaying
+        case homeUpNext
+        case homeNewReleases
+    }
+
     var body: some View {
         ZStack {
             switch model.state {
@@ -68,12 +74,12 @@ struct HomeView: View {
     @ViewBuilder
     var nowPlayingRow: some View {
         if let currentPlaying = model.currentPlaying {
-            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: "NowPlaying") {
+            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
                 .frame(width: 1242, alignment: .leading)
-                .setFocus(section: "NowPlaying")
+                .setFocus(section: Section.homeNowPlaying)
             }
         } else {
             EmptyView()
@@ -81,7 +87,7 @@ struct HomeView: View {
     }
 
     var youMightLikeRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser.rawValue) {
+        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser) {
             DiscoverPodcastRow(type: .recommendationsUser)
         }
     }
@@ -89,7 +95,7 @@ struct HomeView: View {
     @State private var sectionPodcast: String?
 
     var lovedByListenersOfRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial.rawValue) {
+        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial) {
             DiscoverPodcastRow(type: .recommendationsSocial) { title in
                 sectionPodcast = title
             }
@@ -97,7 +103,7 @@ struct HomeView: View {
     }
 
     var trendingRow: some View {
-        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending.rawValue) {
+        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
             DiscoverPodcastRow(type: .trending)
         }
     }
@@ -105,13 +111,13 @@ struct HomeView: View {
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext, focusSection: "UpNext") {
+            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
                             upNextButton(model: episode)
                                 .frame(width: 864)
-                                .setFocus(section: "UpNext")
+                                .setFocus(section: Section.homeUpNext)
                         }
                     }
                 }
@@ -130,13 +136,13 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases, focusSection: "NewReleases") {
+        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
                         EpisodePlayerButton(model: episode)
                             .frame(width: 864)
-                            .setFocus(section: "NewReleases")
+                            .setFocus(section: Section.homeNewReleases)
                     }
                 }
             }
@@ -146,12 +152,12 @@ struct HomeView: View {
 
 struct HomeSection<Content: View>: View {
     private let title: String
-    private let focusSection: String
+    private let focusSection: AnyHashable
     private let content: Content
 
     @Environment(FocusStore.self) var focusStore
 
-    init(title: String, focusSection: String, @ViewBuilder content: () -> Content) {
+    init(title: String, focusSection: AnyHashable, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
         self.focusSection = focusSection
