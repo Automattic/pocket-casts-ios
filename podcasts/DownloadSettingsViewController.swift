@@ -211,7 +211,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 }
                 picker.addAction(action: selectAction)
             }
-            picker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+            picker.present(from: self)
         default:
             break
         }
