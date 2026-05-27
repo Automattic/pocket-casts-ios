@@ -4311,6 +4311,18 @@ internal enum L10n {
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again", fallback: "Try Again") }
   /// Button label for a feature that the user can enable
   internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now", fallback: "Try It Now") }
+  /// tv create account banner action button title
+  internal static var tvBannerCreateAccountActionTitle: String { return L10n.tr("Localizable", "tv_banner_create_account_action_title", fallback: "Create a free account") }
+  /// tv create account banner subtitle
+  internal static var tvBannerCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_banner_create_account_subtitle", fallback: "Your follows, your progress... exactly where you left them.") }
+  /// tv create account banner title
+  internal static var tvBannerCreateAccountTitle: String { return L10n.tr("Localizable", "tv_banner_create_account_title", fallback: "One account. Every screen") }
+  /// tv discover more banner action button title
+  internal static var tvBannerDiscoverMoreActionTitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_action_title", fallback: "Discover more shows") }
+  /// tv discover more banner subtitle
+  internal static var tvBannerDiscoverMoreSubtitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_subtitle", fallback: "Your next obsession is in here somewhere.") }
+  /// tv discover more banner title
+  internal static var tvBannerDiscoverMoreTitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_title", fallback: "You haven't seen the half of it.") }
   /// tv create account enter code
   internal static var tvCreateAccountComeBack: String { return L10n.tr("Localizable", "tv_create_account_come_back", fallback: "Once you’ve created your account, come back and sign in") }
   /// tv create account subtitle

@@ -58,10 +58,17 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
+                        BannerRow(type: .discoverMore) {
+                            tabRouter.selectedTab = .search
+                        }
                     } else {
                         featuredRow
+                        BannerRow(type: .createAccount)
                         trendingRow
                         curatedRow
+                        BannerRow(type: .discoverMore) {
+                            tabRouter.selectedTab = .search
+                        }
                     }
                 }
             }
