@@ -346,7 +346,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
                 tableView.reloadData()
             }
             options.addAction(action: downloadAction)
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultGrouping {
             let currentGrouping = Settings.defaultPodcastGrouping()
 
@@ -391,7 +391,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: starredAction)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultArchive {
             let currentlyShowingArchived = Settings.showArchivedDefault()
 
@@ -412,7 +412,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
             }
             options.addAction(action: showAction)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .defaultAddToUpNextSwipe {
             let currentAction = Settings.primaryUpNextSwipeAction()
 
@@ -428,7 +428,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
                 tableView.reloadData()
             }
             options.addAction(action: playLastAction)
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         }
     }
 
@@ -494,7 +494,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingMessage = grouping == .none ? L10n.settingsGeneralRemoveGroupsApplyAll : L10n.settingsGeneralSelectedGroupApplyAll(grouping.description.localizedLowercase)
         groupingPrompt.addDescriptiveActions(title: L10n.settingsGeneralApplyAllTitle, message: groupingMessage, icon: "option-podcasts", actions: [applyToAllAction, noAction])
 
-        groupingPrompt.show(statusBarStyle: preferredStatusBarStyle)
+        groupingPrompt.present(from: self)
     }
 
     private func promptToApplyShowArchiveToAll(_ showArchived: Bool) {
@@ -513,7 +513,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         let groupingMessage = L10n.settingsGeneralArchivedEpisodesPromptFormat((showArchived ? L10n.settingsGeneralShow : L10n.settingsGeneralHide).localizedLowercase)
         groupingPrompt.addDescriptiveActions(title: L10n.settingsGeneralApplyAllTitle, message: groupingMessage, icon: "option-podcasts", actions: [applyToAllAction, noAction])
 
-        groupingPrompt.show(statusBarStyle: preferredStatusBarStyle)
+        groupingPrompt.present(from: self)
     }
 
     @objc private func screenLockToggled(_ sender: UISwitch) {
