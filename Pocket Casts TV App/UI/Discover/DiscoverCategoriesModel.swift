@@ -19,7 +19,7 @@ class DiscoverCategoriesModel {
     }
 
     func load() async {
-        let categories = await discoverManager.loadDiscoverCategories()
+        let categories = await discoverManager.loadDiscoverPoupularCategories()
 
         await MainActor.run {
             state = categories.isEmpty ? .empty : .ready

@@ -75,8 +75,7 @@ class DiscoverManager {
     }
 
     func loadDiscoverCategories() async -> [DiscoverCategory] {
-        let (result, _) = await discoverServerHandler.discoverPage()
-        guard let discoverLayout = result, let items = discoverLayout.layout else {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return []
         }
         var selectedItem: DiscoverItem?
@@ -94,6 +93,35 @@ class DiscoverManager {
         let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
 
         return categories
+    }
+
+    func loadDiscoverPoupularCategories() async -> [DiscoverCategory] {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
+            return []
+        }
+        var selectedItem: DiscoverItem?
+        for item in items {
+            if item.type == "categories" {
+                selectedItem = item
+                break
+            }
+        }
+
+        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+            return []
+        }
+
+        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
+        var popularCategories: [DiscoverCategory] = []
+
+        if let popularIds = sourceItem.popular {
+            for popularId in popularIds {
+                if let category = categories.first(where: { $0.id == popularId } ) {
+                    popularCategories.append(category)
+                }
+            }
+        }
+        return popularCategories
     }
 
     private func regionCode(for layout: DiscoverLayout) -> String {
