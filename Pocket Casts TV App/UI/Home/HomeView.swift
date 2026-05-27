@@ -18,7 +18,7 @@ struct HomeView: View {
     enum Section: String {
         case homeNowPlaying
         case homeUpNext
-        case homeNewReleases        
+        case homeNewReleases
     }
 
     var body: some View {
