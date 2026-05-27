@@ -16,6 +16,8 @@ struct FocusObserving: ViewModifier {
             .onChange(of: isFocused) { _, newValue in
                 if newValue {
                     focusStore.focusedID = section
+                } else if focusStore.focusedID == section {
+                    focusStore.focusedID = nil
                 }
             }
     }
