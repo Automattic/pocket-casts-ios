@@ -35,9 +35,23 @@ class DiscoverManager {
         self.discoverServerHandler = discoverServerHandler
     }
 
-    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+    private var cachedLayout: DiscoverLayout?
+
+    private func getLayout() async -> DiscoverLayout? {
+        if cachedLayout != nil {
+            return cachedLayout
+        }
+
         let (result, _) = await discoverServerHandler.discoverPage()
-        guard let discoverLayout = result, let items = discoverLayout.layout else {
+        guard let layout = result else {
+            return nil
+        }
+        cachedLayout = layout
+        return layout
+    }
+
+    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return DiscoverSection(title: nil, podcasts: [])
         }
         var selectedItem: DiscoverItem?
@@ -82,11 +96,22 @@ class DiscoverManager {
         return categories
     }
 
+    private func regionCode(for layout: DiscoverLayout) -> String {
+        let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
+        let serverRegion = layout.regions?[currentRegionCode]?.code ?? "us"
+        return serverRegion
+    }
+
     func loadDiscoverCategoryDetails(for category: DiscoverCategory) async -> DiscoverCategoryDetails? {
-        guard let source = category.source else {
+        guard let discoverLayout = await getLayout(),
+              let source = category.source
+        else {
             return nil
         }
-        let details = await discoverServerHandler.discoverCategoryDetails(source: source, authenticated: false)
+
+        let regionCode = regionCode(for: discoverLayout)
+        let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
+        let details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false)
         return details
     }
 }
