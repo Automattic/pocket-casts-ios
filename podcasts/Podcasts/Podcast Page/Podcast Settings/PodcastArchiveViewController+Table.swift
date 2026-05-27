@@ -1,3 +1,4 @@
+import UIKit
 import PocketCastsDataModel
 
 extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelegate {
@@ -73,7 +74,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             addArchivePlayedAction(time: 2.days, to: options)
             addArchivePlayedAction(time: 1.week, to: options)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .inactiveEpisodes {
             let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
 
@@ -85,7 +86,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             addArchiveInactiveAction(time: 30.days, to: options)
             addArchiveInactiveAction(time: 90.days, to: options)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         } else if row == .episodeLimit {
             let options = OptionsPicker(title: L10n.settingsEpisodeLimit)
             addEpisodeLimitAction(limit: 0, to: options)
@@ -94,7 +95,7 @@ extension PodcastArchiveViewController: UITableViewDataSource, UITableViewDelega
             addEpisodeLimitAction(limit: 5, to: options)
             addEpisodeLimitAction(limit: 10, to: options)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         }
     }
 
