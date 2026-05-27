@@ -755,6 +755,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         previousRange = nil
         cachedCueIndex = 0
         self.transcript = transcript
+        hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
             transcriptView.setContentOffset(.zero, animated: false)
