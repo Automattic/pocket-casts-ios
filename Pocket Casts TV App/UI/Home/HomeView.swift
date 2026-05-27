@@ -51,12 +51,18 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
-                    nowPlayingRow
-                    upNextRow
-                    youMightLikeRow
-                    newReleasesRow
-                    lovedByListenersOfRow
-                    trendingRow
+                    if coordinator.userState.isLoggedIn {
+                        nowPlayingRow
+                        upNextRow
+                        youMightLikeRow
+                        newReleasesRow
+                        lovedByListenersOfRow
+                        trendingRow
+                    } else {
+                        featuredRow
+                        trendingRow
+                        curatedRow
+                    }
                 }
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
@@ -105,6 +111,21 @@ struct HomeView: View {
     var trendingRow: some View {
         HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
             DiscoverPodcastRow(type: .trending)
+        }
+    }
+
+    var featuredRow: some View {
+        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
+            DiscoverPodcastRow(type: .featured)
+        }
+    }
+
+    @State private var curatedTitle: String?
+    var curatedRow: some View {
+        HomeSection(title: curatedTitle ?? "", focusSection: DiscoverType.curatedList) {
+            DiscoverPodcastRow(type: .curatedList) { title in
+                curatedTitle = title
+            }
         }
     }
 

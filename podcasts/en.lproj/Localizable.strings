@@ -6201,3 +6201,6 @@
 
 /* tv home Trending section title */
 "tv_home_trending_section_title" = "What everyone's on this week";
+
+/* tv home Featured section title */
+"tv_home_featured_section_title" = "Featured on Pocket Casts";
