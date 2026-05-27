@@ -91,23 +91,27 @@ class PCSearchBarController: UIViewController {
     }
 
     /// Installs the bar as a child of `parent`, pinned to the top safe area with leading and
-    /// trailing anchored to `parent.view`. Creates the height constraint the scrolling extension
-    /// drives between `0` and `defaultHeight` to collapse/expand the bar. If `scrollView` is
-    /// provided, also applies the initial top contentInset/offset so the bar starts visible.
-    func install(in parent: UIViewController, attachedTo scrollView: UIScrollView? = nil) {
+    /// trailing anchored to `parent.view`. When `collapses` is `true`, creates the height
+    /// constraint the scrolling extension drives between `0` and `defaultHeight`; when `false`,
+    /// the bar stays pinned at `defaultHeight` and is not driven by scroll forwards. If
+    /// `scrollView` is provided, also applies the initial top contentInset/offset so the bar
+    /// starts visible.
+    func install(in parent: UIViewController, attachedTo scrollView: UIScrollView? = nil, collapses: Bool = true) {
         view.translatesAutoresizingMaskIntoConstraints = false
         parent.addChild(self)
         parent.view.addSubview(view)
         didMove(toParent: parent)
 
-        let heightConstraint = view.heightAnchor.constraint(equalToConstant: 0)
+        let heightConstraint = view.heightAnchor.constraint(equalToConstant: collapses ? 0 : Self.defaultHeight)
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
             view.topAnchor.constraint(equalTo: parent.view.safeAreaLayoutGuide.topAnchor),
             heightConstraint
         ])
-        self.heightConstraint = heightConstraint
+        if collapses {
+            self.heightConstraint = heightConstraint
+        }
 
         if let scrollView {
             setupScrollView(scrollView)
