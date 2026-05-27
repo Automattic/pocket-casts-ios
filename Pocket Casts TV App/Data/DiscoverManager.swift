@@ -8,6 +8,7 @@ enum DiscoverType: String {
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
     case popularRegion = "popular_region" // Popular in region ...
     case curatedList
+    case categories
 
     func match(item: DiscoverItem) -> Bool {
         switch self {
@@ -57,5 +58,35 @@ class DiscoverManager {
         }
 
         return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts)
+    }
+
+    func loadDiscoverCategories() async -> [DiscoverCategory] {
+        let (result, _) = await discoverServerHandler.discoverPage()
+        guard let discoverLayout = result, let items = discoverLayout.layout else {
+            return []
+        }
+        var selectedItem: DiscoverItem?
+        for item in items {
+            if item.type == "categories" {
+                selectedItem = item
+                break
+            }
+        }
+
+        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+            return []
+        }
+
+        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
+
+        return categories
+    }
+
+    func loadDiscoverCategoryDetails(for category: DiscoverCategory) async -> DiscoverCategoryDetails? {
+        guard let source = category.source else {
+            return nil
+        }
+        let details = await discoverServerHandler.discoverCategoryDetails(source: source, authenticated: false)
+        return details
     }
 }
