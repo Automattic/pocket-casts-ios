@@ -37,7 +37,7 @@ extension ModifiedDate {
 
         do {
             value = try container.decode(Value.self, forKey: .value)
-        } catch let error {
+        } catch {
             // Add additional decoding for Int -> Bool due to SQLite type issues
             // "the SQL datatype of the result is NULL for a JSON null, INTEGER or REAL for a JSON numeric value, an INTEGER zero for a JSON false value, an INTEGER one for a JSON true value"
             // See more details on the `json_extract` output here: https://www.sqlite.org/json1.html#jex

@@ -16,7 +16,7 @@ extension MockRequestHandler: RequestHandler {
         do {
             let (data, response) = try handler(request)
             completion(data, response, nil)
-        } catch let error {
+        } catch {
             completion(nil, nil, error)
         }
     }

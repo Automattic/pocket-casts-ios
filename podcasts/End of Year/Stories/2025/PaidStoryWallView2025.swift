@@ -162,7 +162,7 @@ fileprivate struct CustomVideoPlayerView: UIViewControllerRepresentable {
         if !PlaybackManager.shared.isPlayingEpisode {
             do {
                 try AVAudioSession.sharedInstance().setActive(false)
-            } catch let error {
+            } catch {
                 FileLog.shared.addMessage("Playback Video Audio Session error: \(error)")
             }
         }

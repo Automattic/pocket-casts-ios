@@ -49,7 +49,7 @@ struct MediaExporter {
         if FileManager.default.fileExists(atPath: outputURL.path) {
             do {
                 try FileManager.default.removeItem(at: outputURL)
-            } catch let error {
+            } catch {
                 FileLog.shared.addMessage("DownloadManager export session: failed to delete file with error -> \(error)")
                 return false
             }

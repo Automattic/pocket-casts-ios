@@ -99,7 +99,7 @@ extension WatchManager {
         rotator.rotateFile(ifSizeExceeds: 100.kilobytes)
         do {
             try contents.write(to: filePath, atomically: false, encoding: .utf8)
-        } catch let error {
+        } catch {
             FileLog.shared.addMessage("Failed to save cached watch log file: \(error.localizedDescription)")
         }
     }
