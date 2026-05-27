@@ -1,0 +1,48 @@
+import PocketCastsServer
+
+@Observable
+class DiscoverCategoryModel {
+    private let discoverManager: DiscoverManager
+
+    var state: State = .loading
+
+    let category: DiscoverCategory
+
+    var categoryDetails: DiscoverCategoryDetails?
+
+    init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared) {
+        self.category = category
+        self.discoverManager = discoverManager
+    }
+
+    enum State: Equatable, Hashable {
+        case loading
+        case ready
+        case empty
+    }
+
+    func load() async {
+        let detail = await discoverManager.loadDiscoverCategoryDetails(for: category)
+
+        await MainActor.run {
+            state = detail != nil ? .empty : .ready
+            self.categoryDetails = detail
+        }
+    }
+
+    var icon: URL? {
+        guard let urlString = category.icon, let url = URL(string: urlString) else {
+            return nil
+        }
+        return url
+    }
+
+    var name: String {
+        return category.name ?? ""
+    }
+
+    var podcasts: [DiscoverPodcast] {
+        return categoryDetails?.podcasts ?? []
+    }
+}
+

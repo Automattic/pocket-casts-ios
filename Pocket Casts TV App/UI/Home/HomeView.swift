@@ -65,6 +65,7 @@ struct HomeView: View {
                         featuredRow
                         BannerRow(type: .createAccount)
                         trendingRow
+                        categoriesRow
                         curatedRow
                         BannerRow(type: .discoverMore) {
                             tabRouter.selectedTab = .search
@@ -133,6 +134,12 @@ struct HomeView: View {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
+        }
+    }
+
+    var categoriesRow: some View {
+        HomeSection(title: "Browse categories", focusSection: DiscoverType.categories) {
+            DiscoverCategoriesRow()
         }
     }
 
