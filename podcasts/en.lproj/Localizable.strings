@@ -6205,6 +6205,9 @@
 /* tv home Featured section title */
 "tv_home_featured_section_title" = "Featured on Pocket Casts";
 
+/* tv home Browse Categories section title */
+"tv_home_browse_categories_section_title" = "Browse categories";
+
 /* tv create account banner title */
 "tv_banner_create_account_title" = "One account. Every screen";
 

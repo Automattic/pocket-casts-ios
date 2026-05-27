@@ -138,7 +138,7 @@ struct HomeView: View {
     }
 
     var categoriesRow: some View {
-        HomeSection(title: "Browse categories", focusSection: DiscoverType.categories) {
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
             DiscoverCategoriesRow()
         }
     }
