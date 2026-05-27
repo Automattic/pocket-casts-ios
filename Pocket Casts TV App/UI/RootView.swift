@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var coordinator = AppCoordinator()
+    @State private var focusStore = FocusStore()
 
     var body: some View {
         ZStack {
@@ -21,6 +22,7 @@ struct RootView: View {
             }
         }
         .environment(coordinator)
+        .environment(focusStore)
         .task {
             await coordinator.load()
         }
