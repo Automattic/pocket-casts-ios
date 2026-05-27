@@ -155,6 +155,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         timeLeftHost.sizingOptions = .intrinsicContentSize
         timeLeftHost.safeAreaRegions = []
         addChild(timeLeftHost)
+
         self.timeLeftModel = timeLeftModel
         self.timeLeftHostingController = timeLeftHost
 
@@ -189,7 +190,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
-            textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
+            textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 8),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
 
@@ -221,6 +222,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
         }
         super.updateViewConstraints()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard let timeLeftHost = timeLeftHostingController?.view else {
+            return
+        }
+
+        let timeLeftMaxX = timeLeftHost.convert(timeLeftHost.bounds, to: view).maxX
+        let buttonSkipMinX = skipBackBtn.convert(skipBackBtn.bounds, to: view).minX
+
+        timeLeftHost.alpha = timeLeftMaxX > buttonSkipMinX + 12 ? 0 : 1
     }
 
     deinit {
