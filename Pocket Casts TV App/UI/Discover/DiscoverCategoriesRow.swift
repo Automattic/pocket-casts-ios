@@ -4,11 +4,11 @@ import PocketCastsServer
 struct DiscoverCategoriesRow: View {
 
     fileprivate enum Layout {
-        static let gridSize = CGFloat(250)
+        static let cellWidth = CGFloat(568)
+        static let cellHeight = CGFloat(258)
     }
 
     @State private var model = DiscoverCategoriesModel()
-
 
     var body: some View {
         Group {
@@ -33,9 +33,10 @@ struct DiscoverCategoriesRow: View {
                     if category.id != nil {
                         NavigationLink(value: category) {
                             DiscoverCategoryCell(category: category)
-                                .frame(width: 568, height: 258)
+                                .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)
+                        .setFocus(section: DiscoverType.categories)
                         .padding(.vertical, 24)
                     }
                 }
