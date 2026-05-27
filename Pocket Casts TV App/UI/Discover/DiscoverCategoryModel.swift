@@ -10,6 +10,8 @@ class DiscoverCategoryModel {
 
     var categoryDetails: DiscoverCategoryDetails?
 
+    var coverPodcastsUuids: [String] = []
+
     init(category: DiscoverCategory, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.category = category
         self.discoverManager = discoverManager
@@ -25,8 +27,11 @@ class DiscoverCategoryModel {
         let detail = await discoverManager.loadDiscoverCategoryDetails(for: category)
 
         await MainActor.run {
-            state = detail != nil ? .empty : .ready
+            state = detail != nil ? .ready : .empty
             self.categoryDetails = detail
+            if let podcasts = categoryDetails?.podcasts {
+                self.coverPodcastsUuids = podcasts.compactMap { $0.uuid }
+            }
         }
     }
 
@@ -45,4 +50,3 @@ class DiscoverCategoryModel {
         return categoryDetails?.podcasts ?? []
     }
 }
-

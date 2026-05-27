@@ -32,7 +32,7 @@ struct DiscoverCategoriesRow: View {
                 ForEach(model.categories, id: \.id) { category in
                     if category.id != nil {
                         NavigationLink(value: category) {
-                            DiscoverCategoryCell(model: DiscoverCategoryModel(category: category))
+                            DiscoverCategoryCell(category: category)
                                 .frame(width: 568, height: 258)
                         }
                         .buttonStyle(.card)
