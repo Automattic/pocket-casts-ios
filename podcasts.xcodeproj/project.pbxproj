@@ -2903,7 +2903,6 @@
 		FF6033FA2FAB4B0200EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Array+Episode.swift",
 				"NetworkUtils+Helpers.swift",
 				"Server+Strings.swift",
 				"String+Differentiable.swift",
