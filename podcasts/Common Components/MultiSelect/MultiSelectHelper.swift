@@ -72,63 +72,49 @@ class MultiSelectHelper {
         let downloadedEpisodes = selectedEpisodes.filter { $0.downloaded(pathFinder: DownloadManager.shared) }
         let uploadedEpisodes = selectedEpisodes.filter { $0.uploaded() }
 
-        let confirmPicker: OptionsPicker
+        let alert: UIAlertController
         if downloadedEpisodes.isEmpty {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteFromCloudAction = OptionAction(label: L10n.deleteFromCloud, icon: nil) { () in
+            alert = UIAlertController(title: L10n.deleteFromCloud, message: deleteFileMessage(uploadedEpisodes.count), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.deleteFromCloud, style: .destructive) { _ in
                 DispatchQueue.global().async {
                     for episode in uploadedEpisodes {
                         UserEpisodeManager.deleteFromCloud(episode: episode)
                     }
-
                     actionDelegate.multiSelectActionCompleted()
                 }
-            }
-
-            let warningMessage = deleteFileMessage(uploadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromCloud, message: warningMessage, icon: "episode-delete", actions: [deleteFromCloudAction])
+            })
         } else if uploadedEpisodes.isEmpty {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
+            alert = UIAlertController(title: L10n.deleteFromDevice, message: deleteFileMessage(downloadedEpisodes.count), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .destructive) { _ in
                 DispatchQueue.global().async {
                     for episode in downloadedEpisodes {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                     }
-
                     actionDelegate.multiSelectActionCompleted()
                 }
-            }
-
-            let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFromDevice, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction])
+            })
         } else {
-            confirmPicker = OptionsPicker(title: nil)
-            let deleteEverwhereAction = OptionAction(label: L10n.deleteEverywhere, icon: nil) { () in
+            alert = UIAlertController(title: L10n.deleteFile, message: deleteFileMessage(downloadedEpisodes.count), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .default) { _ in
+                DispatchQueue.global().async {
+                    for episode in downloadedEpisodes {
+                        UserEpisodeManager.deleteFromDevice(userEpisode: episode)
+                    }
+                    actionDelegate.multiSelectActionCompleted()
+                }
+            })
+            alert.addAction(UIAlertAction(title: L10n.deleteEverywhere, style: .destructive) { _ in
                 DispatchQueue.global().async {
                     for episode in selectedEpisodes {
                         UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
                     }
-
                     actionDelegate.multiSelectActionCompleted()
                 }
-            }
-
-            let deleteFromDeviceAction = OptionAction(label: L10n.deleteFromDeviceOnly, icon: nil) { () in
-                DispatchQueue.global().async {
-                    for episode in downloadedEpisodes {
-                        UserEpisodeManager.deleteFromDevice(userEpisode: episode)
-                    }
-
-                    actionDelegate.multiSelectActionCompleted()
-                }
-            }
-            deleteFromDeviceAction.outline = true
-
-            let warningMessage = deleteFileMessage(downloadedEpisodes.count)
-            confirmPicker.addDescriptiveActions(title: L10n.deleteFile, message: warningMessage, icon: "episode-delete", actions: [deleteFromDeviceAction, deleteEverwhereAction])
+            })
         }
 
-        confirmPicker.show(statusBarStyle: actionDelegate.multiSelectPreferredStatusBarStyle())
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        actionDelegate.multiSelectPresentingViewController().present(alert, animated: true)
     }
 
     private class func archiveEpisodes(actionDelegate: MultiSelectActionDelegate) {
