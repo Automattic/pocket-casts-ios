@@ -19,6 +19,7 @@ struct HomeView: View {
         case homeNowPlaying
         case homeUpNext
         case homeNewReleases
+        case homeBanner
     }
 
     var body: some View {
@@ -58,16 +59,18 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
-                        BannerRow(type: .discoverMore) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
                         }
                     } else {
                         featuredRow
-                        BannerRow(type: .createAccount)
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                            tabRouter.pendingAuthFlow = .createAccount
+                        }
                         trendingRow
                         categoriesRow
                         curatedRow
-                        BannerRow(type: .discoverMore) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
                         }
                     }
@@ -130,7 +133,7 @@ struct HomeView: View {
 
     @State private var curatedTitle: String?
     var curatedRow: some View {
-        HomeSection(title: curatedTitle ?? "", focusSection: DiscoverType.curatedList) {
+        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
