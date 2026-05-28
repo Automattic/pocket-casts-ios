@@ -121,6 +121,9 @@ actor DiscoverManager {
                 }
             }
         }
+        if popularCategories.isEmpty {
+            popularCategories = categories
+        }
         return popularCategories
     }
 
