@@ -1170,9 +1170,9 @@ extension TranscriptViewController: UIScrollViewDelegate {
 
 extension TranscriptViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
-        let wasEmpty = !hadNonEmptySelection
+        let wasEmpty = !hasNonEmptySelection
         let isNonEmpty = textView.selectedRange.length > 0
-        hadNonEmptySelection = isNonEmpty
+        hasNonEmptySelection = isNonEmpty
         if wasEmpty && isNonEmpty {
             track(.transcriptTextHighlighted)
         }
