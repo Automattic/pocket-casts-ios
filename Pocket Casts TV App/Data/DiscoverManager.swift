@@ -95,7 +95,7 @@ actor DiscoverManager {
         return categories
     }
 
-    func loadDiscoverPoupularCategories() async -> [DiscoverCategory] {
+    func loadDiscoverPopularCategories() async -> [DiscoverCategory] {
         guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return []
         }
