@@ -19,6 +19,7 @@ struct HomeView: View {
         case homeNowPlaying
         case homeUpNext
         case homeNewReleases
+        case homeBanner
     }
 
     var body: some View {
@@ -58,15 +59,17 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
-                        BannerRow(type: .discoverMore) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
                         }
                     } else {
                         featuredRow
-                        BannerRow(type: .createAccount)
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                            tabRouter.pendingAuthFlow = .createAccount
+                        }
                         trendingRow
                         curatedRow
-                        BannerRow(type: .discoverMore) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
                         }
                     }
