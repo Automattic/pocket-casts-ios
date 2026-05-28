@@ -132,7 +132,7 @@ struct HomeView: View {
 
     @State private var curatedTitle: String?
     var curatedRow: some View {
-        HomeSection(title: curatedTitle ?? "", focusSection: DiscoverType.curatedList) {
+        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
