@@ -159,7 +159,7 @@ struct MainTabView: View {
     }
 
     @State private var showProfileMenu: Bool = false
-    
+
     var profileAccessory: some View {
         Button {
             showProfileMenu = true
