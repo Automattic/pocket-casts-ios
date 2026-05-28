@@ -190,7 +190,7 @@ class CustomSegmentedControl: UIControl {
             }
             actionViews.append(segmentView)
 
-            // add seperator if required
+            // add separator if required
             if willHaveTrailingSeperator {
                 let separator = UIView()
                 separator.translatesAutoresizingMaskIntoConstraints = false

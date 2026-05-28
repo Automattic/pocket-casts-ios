@@ -79,7 +79,7 @@ public enum HeadphoneControl: Int32, Codable {
     case previousChapter = 4
 }
 
-/// Android uses different numberic values for these, thus the specific numbers specified here. See `Old` for the original values we used.
+/// Android uses different numeric values for these, thus the specific numbers specified here. See `Old` for the original values we used.
 public enum ThemeType: Int32, CaseIterable, Codable {
     case light = 0
     case dark = 1
