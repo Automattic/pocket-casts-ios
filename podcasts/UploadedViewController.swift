@@ -170,9 +170,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         addCustomObserver(ServerNotifications.userEpisodesRefreshed, selector: #selector(handleReloadFromNotification))
         addCustomObserver(ServerNotifications.userEpisodesRefreshFailed, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.userEpisodeDeleted, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(handleReloadFromNotification))

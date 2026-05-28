@@ -5,12 +5,12 @@ import PocketCastsDataModel
 struct EpisodeTableHelper {
     static func loadEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?) -> [ListEpisode] {
         let loadedEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: arguments)
-        return loadedEpisodes.toListEpisodes(tintColor: tintColor)
+        return loadedEpisodes.map { ListEpisode(episode: $0, tintColor: tintColor) }
     }
 
     static func loadPlaylistEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]? = nil) -> [ListEpisode] {
         let loadedEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: arguments)
-        return loadedEpisodes.toListEpisodes(tintColor: tintColor)
+        return loadedEpisodes.map { ListEpisode(episode: $0, tintColor: tintColor) }
     }
 
     static func loadSectionedEpisodes(tintColor: UIColor = AppTheme.appTintColor(), query: String, arguments: [Any]?, episodeShortKey: (Episode) -> String) -> [ArraySection<String, ListEpisode>] {
@@ -22,14 +22,13 @@ struct EpisodeTableHelper {
         for episode in loadedEpisodes {
             let currSectionName = episodeShortKey(episode)
 
-            let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
             if previousSectionName == currSectionName {
                 var existingSection = newData[currSectionIndex]
-                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor)
                 existingSection.elements.append(listEpisode)
                 newData[currSectionIndex] = existingSection
             } else {
-                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor)
                 newData.append(ArraySection(model: currSectionName, elements: [listEpisode]))
                 currSectionIndex += 1
                 previousSectionName = currSectionName
@@ -46,11 +45,9 @@ struct EpisodeTableHelper {
         for episode in loadedEpisodes {
             let sectionKey = episodeShortKey(episode)
 
-            let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
-
             var section = sections[sectionKey] ?? [ListEpisode]()
 
-            let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+            let listEpisode = ListEpisode(episode: episode, tintColor: tintColor)
             section.append(listEpisode)
             sections[sectionKey] = section
         }
@@ -78,14 +75,13 @@ struct EpisodeTableHelper {
         for episode in loadedEpisodes {
             let currSectionName = episodeShortKey(episode)
 
-            let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode)
             if previousSectionName == currSectionName {
                 var existingSection = newData[currSectionIndex]
-                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor)
                 existingSection.elements.append(listEpisode)
                 newData[currSectionIndex] = existingSection
             } else {
-                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor, isInUpNext: isInUpNext)
+                let listEpisode = ListEpisode(episode: episode, tintColor: tintColor)
                 newData.append(ArraySection(model: currSectionName, elements: [listEpisode]))
                 currSectionIndex += 1
                 previousSectionName = currSectionName

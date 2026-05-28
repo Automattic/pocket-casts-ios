@@ -4,12 +4,10 @@ import PocketCastsDataModel
 class ListEpisode: ListItem {
     let episode: Episode
     let tintColor: UIColor
-    let isInUpNext: Bool
 
-    init(episode: Episode, tintColor: UIColor, isInUpNext: Bool) {
+    init(episode: Episode, tintColor: UIColor) {
         self.episode = episode
         self.tintColor = tintColor
-        self.isInUpNext = isInUpNext
 
         super.init()
     }
@@ -35,8 +33,7 @@ class ListEpisode: ListItem {
             episode.playbackErrorDetails == rhs.episode.playbackErrorDetails &&
             episode.keepEpisode == rhs.episode.keepEpisode &&
             episode.sizeInBytes == rhs.episode.sizeInBytes &&
-            tintColor == rhs.tintColor &&
-            isInUpNext == rhs.isInUpNext
+            tintColor == rhs.tintColor
     }
 }
 

@@ -2621,7 +2621,7 @@ internal enum L10n {
   internal static var plusCancelTerms: String { return L10n.tr("Localizable", "plus_cancel_terms", fallback: "Can be canceled at any time") }
   /// Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion"
   internal static var plusChampion: String { return L10n.tr("Localizable", "plus_champion", fallback: "Pocket Casts Champion") }
-  /// Message displayed when teh user tap "Pocket Casts Champion" button
+  /// Message displayed when the user taps "Pocket Casts Champion" button
   internal static var plusChampionMessage: String { return L10n.tr("Localizable", "plus_champion_message", fallback: "Thanks for being with Pocket Casts from the start. You're a real champion!") }
   /// The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage.
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {

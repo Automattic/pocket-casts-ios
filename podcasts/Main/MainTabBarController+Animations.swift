@@ -186,7 +186,7 @@ extension MainTabBarController {
         // Phase 1: pop in, hovering just above the Up Next tab.
         container.alpha = 0
         container.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.4, options: [.allowUserInteraction, .curveEaseOut], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.5, options: [.allowUserInteraction, .curveEaseOut], animations: {
             container.alpha = 1
             container.transform = .identity
         }, completion: { _ in
