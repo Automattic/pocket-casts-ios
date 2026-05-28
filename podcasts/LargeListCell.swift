@@ -93,7 +93,7 @@ class LargeListCell: ThemeableCollectionCell {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {
             podcastTitle.text = title
-            let isExplicit = ExplicitBadgeHelper.resolvedIsExplicit(for: discoverPodcast)
+            let isExplicit = FeatureFlag.showExplicitBadges.enabled && ExplicitBadgeHelper.resolvedIsExplicit(for: discoverPodcast)
             explicitBadgeView.isHidden = !isExplicit
             if isExplicit {
                 explicitBadgeView.image = ExplicitBadgeHelper.badgeImage()
