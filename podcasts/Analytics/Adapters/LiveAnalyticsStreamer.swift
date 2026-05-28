@@ -65,10 +65,11 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
         guard !Settings.analyticsOptOut() else {
             return
         }
+        let date = Date()
         Task { @AnalyticsActor in
             let event = AnalyticsEvent(
                 name: name,
-                timestamp: dateFormatter.string(from: Date()),
+                timestamp: dateFormatter.string(from: date),
                 properties: properties?.reduce(into: [String: String]()) { result, entry in
                     result[String(describing: entry.key)] = String(describing: entry.value)
                 },
