@@ -41,14 +41,12 @@ struct DiscoverPodcastsListView: View {
     }
 
     var podcastsView: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvTabPodcasts)
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
-                    podcastGrid
-                }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 40) {
+                Text(model.name)
+                    .font(.title2)
+                    .foregroundStyle(Color.textPrimary)
+                podcastGrid
             }
         }
     }
@@ -59,11 +57,9 @@ struct DiscoverPodcastsListView: View {
         }
     }
 
-    @Namespace private var podcastGridNamespace
-
     var podcastGrid: some View {
         LazyVGrid(columns: gridColumns, spacing: 48) {
-            ForEach(model.categoryDetails?.podcasts ?? [], id:\.uuid) { podcast in
+            ForEach(model.categoryDetails?.podcasts ?? [], id: \.uuid) { podcast in
                 NavigationLink(value: podcast) {
                     PodcastImage(uuid: podcast.uuid ?? "", size: .page)
                         .frame(width: Layout.gridSize, height: Layout.gridSize)
@@ -71,12 +67,11 @@ struct DiscoverPodcastsListView: View {
                 .buttonStyle(.card)
             }
         }
-        .focusScope(podcastGridNamespace)
     }
 }
 
 #Preview {
-    DiscoverPodcastsListView(model: DiscoverCategoryModel(category: DiscoverCategory(id: 1, name: "A")))
+    DiscoverPodcastsListView(category: DiscoverCategory(id: 1, name: "A"))
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }

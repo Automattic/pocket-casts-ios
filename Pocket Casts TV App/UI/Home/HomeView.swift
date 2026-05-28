@@ -82,7 +82,7 @@ struct HomeView: View {
                 }
             }
             .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
-                DiscoverPodcastsListView(model: discoverCategory)
+                DiscoverPodcastsListView(category: discoverCategory)
             }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
