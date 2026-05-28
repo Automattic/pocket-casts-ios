@@ -192,7 +192,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 8),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
+            {
+                let constraint = textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2)
+                constraint.priority = UILayoutPriority(999)
+                return constraint
+            }(),
 
             progressView.heightAnchor.constraint(equalToConstant: 5),
 
@@ -675,6 +679,5 @@ struct MiniPlayerTimeLeftView: View {
             .foregroundColor(model.color)
             .contentTransition(.numericText(countsDown: model.countsDown))
             .lineLimit(1)
-            .fixedSize()
     }
 }
