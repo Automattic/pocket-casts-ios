@@ -49,12 +49,15 @@ struct BannerRow: View {
     let icon: ImageResource
     let action: (() -> ())?
 
-    init(type: BannerType, action: (() -> ())? = nil) {
+    let focusSection: AnyHashable
+
+    init(type: BannerType, focusSection: AnyHashable = "BannerRow", action: (() -> ())? = nil) {
         self.title = type.title
         self.subtitle = type.subtitle
         self.actionTitle = type.actionTitle
         self.icon = type.icon
         self.action = action
+        self.focusSection = focusSection
     }
 
     var body: some View {
@@ -77,6 +80,8 @@ struct BannerRow: View {
                     Text(actionTitle)
                         .font(.caption2)
                 }
+                .disabled(action == nil)
+                .setFocus(section: focusSection)
                 Spacer()
                     .frame(width: 72)
             }
