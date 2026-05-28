@@ -29,23 +29,27 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var isMultiSelectEnabled = false {
         didSet {
-            guard oldValue != isMultiSelectEnabled else { return }
+            let didChange = oldValue != isMultiSelectEnabled
 
-            self.updateNavBarButtons()
-            self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-            contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
-            if !self.isMultiSelectEnabled {
-                self.multiSelectActionBar.isHidden = true
-                self.selectedPlayListEpisodes.removeAll()
-                self.track(.upNextMultiSelectExited)
-            } else {
-                self.track(.upNextMultiSelectEntered)
+            DispatchQueue.main.async { [weak self] in
+                guard let self, didChange else { return }
+
+                self.updateNavBarButtons()
+                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
+                contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
+                if !self.isMultiSelectEnabled {
+                    self.multiSelectActionBar.isHidden = true
+                    self.selectedPlayListEpisodes.removeAll()
+                    self.track(.upNextMultiSelectExited)
+                } else {
+                    self.track(.upNextMultiSelectEntered)
+                }
+                self.updateNavBarButtons(animated: true)
+                if self.showingInTab {
+                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
+                }
+                self.animateMultiSelectChange()
             }
-            self.updateNavBarButtons(animated: true)
-            if self.showingInTab {
-                self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
-            }
-            self.animateMultiSelectChange()
         }
     }
 

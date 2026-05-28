@@ -1264,6 +1264,11 @@ class Settings: NSObject {
         }
     }
 
+    static var tabBarMinimizingEnabled: Bool {
+        get { Constants.UserDefaults.appearance.tabBarMinimizingEnabled.value }
+        set { Constants.UserDefaults.appearance.tabBarMinimizingEnabled.save(newValue) }
+    }
+
     static var skipBackTime: Int {
         get {
             if FeatureFlag.newSettingsStorage.enabled {

@@ -119,6 +119,10 @@
     <string>Kontotyp auswählen</string>
     <key>account_sign_out</key>
     <string>Abmelden</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Deine Podcasts, Fortschritte und Daten sind verfügbar, wenn du wieder da bist.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Abmelden?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Wenn du dich abmeldest, werden %1$@ unterstützte Podcasts von diesem Gerät entfernt. Bist du sicher?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ Folge dauerte
     <string>1 Podcast hinzufügen</string>
     <key>folder_add_remove_podcasts</key>
     <string>Podcasts hinzufügen oder entfernen</string>
+    <key>folder_add_to</key>
+    <string>Zu Ordner hinzufügen</string>
     <key>folder_change</key>
     <string>Ordner ändern</string>
     <key>folder_choose_color</key>
@@ -2631,6 +2637,8 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Neue Folge</string>
     <key>podcasts_badges</key>
     <string>Kennzeichnung</string>
+    <key>podcasts_edit</key>
+    <string>Podcasts bearbeiten</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Benutzerdefinierte Sortierung</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2920,8 +2928,12 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Datei konnte nicht hochgeladen werden. Bitte versuche es später erneut.</string>
     <key>server_error_files_uuid_required</key>
     <string>Datei-UUID ist erforderlich.</string>
+    <key>server_error_login_access_denied</key>
+    <string>Der Benutzer hat die Autorisierungsanfrage abgelehnt</string>
     <key>server_error_login_account_locked</key>
     <string>Dein Konto wurde aufgrund zu vieler Anmeldeversuche gesperrt. Bitte versuche es später erneut.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Autorisierung ausstehend</string>
     <key>server_error_login_email_blank</key>
     <string>Gib eine E-Mail-Adresse ein.</string>
     <key>server_error_login_email_invalid</key>
@@ -2930,6 +2942,10 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>E-Mail-Adresse nicht gefunden</string>
     <key>server_error_login_email_taken</key>
     <string>E-Mail-Adresse bereits vorhanden</string>
+    <key>server_error_login_expired_token</key>
+    <string>Der Gerätecode ist abgelaufen.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>Die angegebene Berechtigung ist ungültig, abgelaufen oder wurde widerrufen.</string>
     <key>server_error_login_password_blank</key>
     <string>Gib ein Passwort ein.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2960,6 +2976,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Erlaube uns, Analysen zu erfassen.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Erlaube uns, vertrauenswürdige Drittanbieterdienste zu nutzen, um anonyme Daten zu sammeln.</string>
+    <key>settings_analytics</key>
+    <string>Analysen</string>
     <key>settings_appearance</key>
     <string>Design</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3332,6 +3350,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>MOBILE DATEN</string>
     <key>settings_storage_usage</key>
     <string>SPEICHERBELEGUNG</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Dies kann sich von dem in deinen iPhone-Einstellungen angezeigten Speicherplatz unterscheiden. iOS verwaltet zwischengespeicherte Daten automatisch und gibt sie bei Bedarf frei.</string>
     <key>settings_third_party_analytics</key>
     <string>Drittanbieter-Analysen</string>
     <key>settings_title</key>
@@ -3412,6 +3432,48 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Beim Erstellen deiner Teilen-Seite ist etwas schiefgelaufen</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Teilen fehlgeschlagen</string>
+    <key>share_profile</key>
+    <string>Profil teilen</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Foto und Namen hinzufügen</string>
+    <key>share_profile_add_your_name</key>
+    <string>Füge deinen Namen hinzu</string>
+    <key>share_profile_choose_photo</key>
+    <string>Foto auswählen</string>
+    <key>share_profile_display_name</key>
+    <string>Anzeigename</string>
+    <key>share_profile_edit</key>
+    <string>Profil bearbeiten</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Foto und Namen bearbeiten</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Podcasts abonniert</string>
+    <key>share_profile_name_description</key>
+    <string>So wirst du in geteilten Profilen angezeigt. Du kannst es später jederzeit ändern.</string>
+    <key>share_profile_playlists</key>
+    <string>Wiedergabelisten</string>
+    <key>share_profile_preview</key>
+    <string>Vorschau des Profils anzeigen</string>
+    <key>share_profile_privacy</key>
+    <string>Datenschutz</string>
+    <key>share_profile_privacy_description</key>
+    <string>Du kannst in %1$@ verwalten, was du teilst</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Steuere, was andere sehen können, wenn du dein Profil teilst.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Profilfreigabe</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Neueste Folgen</string>
+    <key>share_profile_remove_photo</key>
+    <string>Foto entfernen</string>
+    <key>share_profile_save</key>
+    <string>Speichern</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Mein Profil teilen</string>
+    <key>share_profile_take_photo</key>
+    <string>Foto aufnehmen</string>
+    <key>share_profile_what_to_share</key>
+    <string>Was möchtest du teilen?</string>
     <key>share_select_podcasts</key>
     <string>Podcasts auswählen</string>
     <key>shared_item_loading</key>
@@ -3759,7 +3821,7 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <key>tv_episode_info</key>
     <string>Informationen zur Folge</string>
     <key>tv_home_keep_listening_title</key>
-    <string>Weiter hören</string>
+    <string>Fortfahren, wo du aufgehört hast …</string>
     <key>tv_home_new_releases</key>
     <string>Neue Veröffentlichungen</string>
     <key>tv_home_recently_played</key>
@@ -3828,14 +3890,36 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Abonnierte Podcasts werden hier angezeigt und können jetzt abgespielt werden.</string>
     <key>tv_podcasts_empty_title</key>
     <string>Zeit für neue Podcasts.</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Öffnet Profil- und Kontooptionen</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Profil</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Konto erstellen</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Anmelden</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Abmelden</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Mit Stern markierte Folgen</string>
+    <key>tv_search_failed</key>
+    <string>Suche fehlgeschlagen: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, Shows, Autoren</string>
+    <key>tv_search_searching</key>
+    <string>Suchen …</string>
+    <key>tv_search_type_something</key>
+    <string>Gib etwas ein …</string>
     <key>tv_sign_in_enter_code</key>
     <string>Oder gib den folgenden Code ein</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>Gehe zu [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>oder gib diesen Code ein: [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öffne deine Kamera und richte sie auf diesen QR-Code</string>
     <key>tv_sign_in_title</key>
-    <string>Mit deinem Mobiltelefon anmelden</string>
+    <string>Bei Pocket Casts anmelden</string>
     <key>tv_signing_in_subtitle</key>
     <string>Deine Podcasts werden gerade synchronisiert. Du wirst bald angemeldet!</string>
     <key>tv_signing_in_title</key>
@@ -3854,6 +3938,14 @@ Deine E-Mail-Adresse, dein Passwort und andere sensible Daten werden nicht getei
     <string>Füge Folgen zur Warteschlange hinzu und sie werden der Reihe nach direkt hintereinander wiedergegeben</string>
     <key>tv_up_next_empty_title</key>
     <string>Nichts in der Warteschlange</string>
+    <key>tv_user_profile_actions</key>
+    <string>Benutzereinstellungen</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Anmeldetyp</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Benutzer/Pass</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Ohne Konto durchsuchen</string>
     <key>tv_welcome_create_free_account</key>

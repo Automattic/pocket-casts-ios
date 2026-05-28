@@ -14,8 +14,6 @@ public struct MiniPlayerSafeAreaInset: ViewModifier {
     public func body(content: Content) -> some View {
         if isEnabled {
             content
-        } else {
-            content
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     // Adjust the bottom inset only when the mini player is visible
                     Color.clear
@@ -31,6 +29,8 @@ public struct MiniPlayerSafeAreaInset: ViewModifier {
                 .onReceive(NotificationCenter.default.publisher(for: Constants.Notifications.miniPlayerDidDisappear), perform: { _ in
                     isMiniPlayerVisible = false
                 })
+        } else {
+            content
         }
     }
 }

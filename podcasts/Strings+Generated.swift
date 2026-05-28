@@ -266,6 +266,12 @@ internal enum L10n {
   internal static var appearanceRefreshAllArtworkConfMsg: String { return L10n.tr("Localizable", "appearance_refresh_all_artwork_conf_msg", fallback: "Refreshing your artwork now") }
   /// Confirmation title used to inform the user that the refresh has been successfully triggered.
   internal static var appearanceRefreshAllArtworkConfTitle: String { return L10n.tr("Localizable", "appearance_refresh_all_artwork_conf_title", fallback: "Aye Aye Captain") }
+  /// Section header for the appearance settings related to the tab bar.
+  internal static var appearanceTabBarHeader: String { return L10n.tr("Localizable", "appearance_tab_bar_header", fallback: "Tab Bar") }
+  /// Toggle that controls whether the tab bar shrinks into a compact pill as the user scrolls (iOS 26 Liquid Glass).
+  internal static var appearanceTabBarMinimizing: String { return L10n.tr("Localizable", "appearance_tab_bar_minimizing", fallback: "Minimize on Scroll") }
+  /// Subtitle explaining the tab bar minimize-on-scroll toggle.
+  internal static var appearanceTabBarMinimizingFooter: String { return L10n.tr("Localizable", "appearance_tab_bar_minimizing_footer", fallback: "When enabled, the tab bar shrinks into a compact pill as you scroll down so more content stays in view.") }
   /// Section header for the appearance settings related to themes.
   internal static var appearanceThemeHeader: String { return L10n.tr("Localizable", "appearance_theme_header", fallback: "Theme") }
   /// Header for asking the user to select a theme.

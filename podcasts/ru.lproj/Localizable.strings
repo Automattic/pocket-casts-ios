@@ -119,6 +119,10 @@
     <string>Выберите тип учетной записи</string>
     <key>account_sign_out</key>
     <string>Выйти</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Ваши подкасты, сведения о прослушивании и данные будут здесь, когда вы вернётесь.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Выйти?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>При выходе с этого устройства будут удалены поддерживаемые подкасты (%1$@). Вы уверены?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ Pocket Casts на полную мощность.</string>
     <string>Добавить 1 подкаст</string>
     <key>folder_add_remove_podcasts</key>
     <string>Добавить или удалить подкасты</string>
+    <key>folder_add_to</key>
+    <string>Добавить в папку</string>
     <key>folder_change</key>
     <string>Изменить папку</string>
     <key>folder_choose_color</key>
@@ -2631,6 +2637,8 @@ Pocket Casts на полную мощность.</string>
     <string>Только последний выпуск</string>
     <key>podcasts_badges</key>
     <string>Значки</string>
+    <key>podcasts_edit</key>
+    <string>Редактировать подкасты</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Произвольный порядок</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2920,8 +2928,12 @@ Pocket Casts на полную мощность.</string>
     <string>Не удается загрузить файл, повторите попытку позже.</string>
     <key>server_error_files_uuid_required</key>
     <string>Требуется файл uuid.</string>
+    <key>server_error_login_access_denied</key>
+    <string>Пользователь отклонил запрос на авторизацию</string>
     <key>server_error_login_account_locked</key>
     <string>Ваша учетная запись заблокирована из-за слишком большого количества попыток входа, повторите попытку позже.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Ожидается авторизация</string>
     <key>server_error_login_email_blank</key>
     <string>Введите адрес электронной почты.</string>
     <key>server_error_login_email_invalid</key>
@@ -2930,6 +2942,10 @@ Pocket Casts на полную мощность.</string>
     <string>Адрес электронной почты не найден</string>
     <key>server_error_login_email_taken</key>
     <string>Адрес электронной почты занят</string>
+    <key>server_error_login_expired_token</key>
+    <string>Срок действия кода устройства истёк.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>Указанный грант недействителен, просрочен или отозван.</string>
     <key>server_error_login_password_blank</key>
     <string>Введите пароль.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2960,6 +2976,8 @@ Pocket Casts на полную мощность.</string>
     <string>Разрешите нам собирать аналитические данные.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Разрешите нам использовать доверенные сторонние службы для сбора анонимных данных.</string>
+    <key>settings_analytics</key>
+    <string>Аналитика</string>
     <key>settings_appearance</key>
     <string>Внешний вид</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3332,6 +3350,8 @@ Pocket Casts на полную мощность.</string>
     <string>МОБИЛЬНЫЕ ДАННЫЕ</string>
     <key>settings_storage_usage</key>
     <string>ИСПОЛЬЗОВАНИЕ ПАМЯТИ</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Это может отличаться от хранилища в настройках iPhone. iOS автоматически управляет кешированными данными и освобождает их при необходимости.</string>
     <key>settings_third_party_analytics</key>
     <string>Сторонняя аналитика</string>
     <key>settings_title</key>
@@ -3412,6 +3432,48 @@ Pocket Casts на полную мощность.</string>
     <string>При создании общей страницы что-то пошло не так</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Не удалось поделиться</string>
+    <key>share_profile</key>
+    <string>Опубликовать профиль</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Добавить фото и имя</string>
+    <key>share_profile_add_your_name</key>
+    <string>Укажите своё имя</string>
+    <key>share_profile_choose_photo</key>
+    <string>Выбрать фото</string>
+    <key>share_profile_display_name</key>
+    <string>Отображаемое имя</string>
+    <key>share_profile_edit</key>
+    <string>Редактировать профиль</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Изменить фото и имя</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Подкасты, на которые вы подписаны</string>
+    <key>share_profile_name_description</key>
+    <string>Так вы будете выглядеть в публичных профилях. Позже вы сможете это изменить.</string>
+    <key>share_profile_playlists</key>
+    <string>Плейлисты</string>
+    <key>share_profile_preview</key>
+    <string>Просмотреть профиль</string>
+    <key>share_profile_privacy</key>
+    <string>Конфиденциальность</string>
+    <key>share_profile_privacy_description</key>
+    <string>Вы сами определяете, что вы публикуете в %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Определяйте, что смогут видеть другие, когда вы опубликуете свой профиль.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Публикация профиля</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Свежие выпуски</string>
+    <key>share_profile_remove_photo</key>
+    <string>Удалить фото</string>
+    <key>share_profile_save</key>
+    <string>Сохранить</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Опубликовать профиль</string>
+    <key>share_profile_take_photo</key>
+    <string>Сделать фото</string>
+    <key>share_profile_what_to_share</key>
+    <string>Чем вы хотите поделиться?</string>
     <key>share_select_podcasts</key>
     <string>Выбрать подкасты</string>
     <key>shared_item_loading</key>
@@ -3759,7 +3821,7 @@ Pocket Casts на полную мощность.</string>
     <key>tv_episode_info</key>
     <string>Информация о выпуске</string>
     <key>tv_home_keep_listening_title</key>
-    <string>Продолжайте слушать</string>
+    <string>Продолжаем с того места, где вы остановились</string>
     <key>tv_home_new_releases</key>
     <string>Новые выпуски</string>
     <key>tv_home_recently_played</key>
@@ -3828,14 +3890,36 @@ Pocket Casts на полную мощность.</string>
     <string>Подкасты, на которые вы подписаны, появятся здесь и будут готовы к воспроизведению.</string>
     <key>tv_podcasts_empty_title</key>
     <string>Пора заполнить пустоту.</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Открывает настройки профиля и учётной записи</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Профиль</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Создать учётную запись</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Войти</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Выйти</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Отмеченные выпуски</string>
+    <key>tv_search_failed</key>
+    <string>Не удалось выполнить поиск: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Подкасты, шоу, авторы</string>
+    <key>tv_search_searching</key>
+    <string>Идёт поиск...</string>
+    <key>tv_search_type_something</key>
+    <string>Напишите что-нибудь...</string>
     <key>tv_sign_in_enter_code</key>
     <string>либо введите следующий код</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>переход к [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>или введите этот код в [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Откройте камеру и наведите на этот QR-код</string>
     <key>tv_sign_in_title</key>
-    <string>Вход с телефона</string>
+    <string>Войти в Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Ваши подкасты синхронизируются, скоро мы включим их для вас!</string>
     <key>tv_signing_in_title</key>
@@ -3854,6 +3938,14 @@ Pocket Casts на полную мощность.</string>
     <string>Добавьте выпуски в список «Следующие», и они будут воспроизводиться по порядку, один за другим</string>
     <key>tv_up_next_empty_title</key>
     <string>Очередь пуста</string>
+    <key>tv_user_profile_actions</key>
+    <string>Настройки пользователя</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Тип входа</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Пользователь/пароль</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR-код</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Просмотр без учётной записи</string>
     <key>tv_welcome_create_free_account</key>

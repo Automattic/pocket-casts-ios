@@ -90,7 +90,15 @@ struct SmartPlaylistRulesSectionView: View {
                 .frame(width: iconSize, height: iconSize)
                 .padding(.trailing, 8.0)
 
+            Text(rule.title)
+                .foregroundStyle(theme.primaryText01)
+                .font(size: 17, style: .body)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer()
+
             inlinePicker(for: rule)
+                .labelsHidden()
         }
     }
 
