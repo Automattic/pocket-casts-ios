@@ -119,6 +119,10 @@
     <string>Accounttype selecteren</string>
     <key>account_sign_out</key>
     <string>Afmelden</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Je podcasts, voortgang en gegevens zijn hier wanneer je terug bent.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Afmelden)</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Door je af te melden, worden %1$@ ondersteunde podcasts van dit apparaat verwijderd. Weet je het zeker?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1272,6 +1276,8 @@ waar je naar hebt geluisterd was
     <string>1 podcast toevoegen</string>
     <key>folder_add_remove_podcasts</key>
     <string>Podcasts toevoegen of verwijderen</string>
+    <key>folder_add_to</key>
+    <string>Toevoegen aan map</string>
     <key>folder_change</key>
     <string>Map wijzigen</string>
     <key>folder_choose_color</key>
@@ -2625,6 +2631,8 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Alleen nieuwste aflevering</string>
     <key>podcasts_badges</key>
     <string>Badges</string>
+    <key>podcasts_edit</key>
+    <string>Podcasts bewerken</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Aangepaste volgorde</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2912,8 +2920,12 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Bestand kon niet worden geüpload, probeer het later opnieuw.</string>
     <key>server_error_files_uuid_required</key>
     <string>Bestands-uuid is vereist.</string>
+    <key>server_error_login_access_denied</key>
+    <string>De gebruiker heeft het autorisatieverzoek geweigerd</string>
     <key>server_error_login_account_locked</key>
     <string>Je account is geblokkeerd omdat je te vaak hebt geprobeerd om in te loggen. Probeer het later nogmaals.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Autorisatie in behandeling</string>
     <key>server_error_login_email_blank</key>
     <string>Voer een e-mailadres in.</string>
     <key>server_error_login_email_invalid</key>
@@ -2922,6 +2934,10 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>E-mailadres niet gevonden</string>
     <key>server_error_login_email_taken</key>
     <string>E-mailadres in gebruik</string>
+    <key>server_error_login_expired_token</key>
+    <string>De apparaatcode is verlopen.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>De verstrekte subsidie is ongeldig, is verlopen of is ingetrokken.</string>
     <key>server_error_login_password_blank</key>
     <string>Voer een wachtwoord in</string>
     <key>server_error_login_password_incorrect</key>
@@ -2952,6 +2968,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Sta ons toe om analytische gegevens te verzamelen.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Sta ons toe om vertrouwde diensten van derden te gebruiken om anonieme gegevens te verzamelen.</string>
+    <key>settings_analytics</key>
+    <string>Analyses</string>
     <key>settings_appearance</key>
     <string>Weergave</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3324,6 +3342,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Dit kan verschillen van de opslag die wordt weergegeven in je iPhone-instellingen. iOS beheert gecachete gegevens automatisch en maakt deze vrij wanneer dat nodig is.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyses van derden</string>
     <key>settings_title</key>
@@ -3404,6 +3424,48 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Er is iets verkeerd gegaan tijdens het aanmaken van je deelpagina</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Delen mislukt</string>
+    <key>share_profile</key>
+    <string>Profiel delen</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Foto en naam toevoegen</string>
+    <key>share_profile_add_your_name</key>
+    <string>Voeg je naam toe</string>
+    <key>share_profile_choose_photo</key>
+    <string>Kies een foto</string>
+    <key>share_profile_display_name</key>
+    <string>Weergavenaam</string>
+    <key>share_profile_edit</key>
+    <string>Profiel bewerken</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Foto en naam bewerken</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Followed podcasts</string>
+    <key>share_profile_name_description</key>
+    <string>Zo kom je te staan op gedeelde profielen. Je kan deze later wijzigen.</string>
+    <key>share_profile_playlists</key>
+    <string>Afspeellijsten</string>
+    <key>share_profile_preview</key>
+    <string>Profiel bekijken</string>
+    <key>share_profile_privacy</key>
+    <string>Privacy</string>
+    <key>share_profile_privacy_description</key>
+    <string>Je kan beheren wat je deelt in %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Bepaal wat anderen kunnen zien wanneer je je profiel deelt.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Profiel delen</string>
+    <key>share_profile_recent_episodes</key>
+    <string>10 recentste afleveringen</string>
+    <key>share_profile_remove_photo</key>
+    <string>Foto verwijderen</string>
+    <key>share_profile_save</key>
+    <string>'Opslaan'</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Mijn profiel delen</string>
+    <key>share_profile_take_photo</key>
+    <string>Foto nemen</string>
+    <key>share_profile_what_to_share</key>
+    <string>Wat wil je delen?</string>
     <key>share_select_podcasts</key>
     <string>Selecteer podcasts</string>
     <key>shared_item_loading</key>
@@ -3751,7 +3813,7 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <key>tv_episode_info</key>
     <string>Informatie over aflevering</string>
     <key>tv_home_keep_listening_title</key>
-    <string>Blijf luisteren</string>
+    <string>Verdergaan waar je gebleven was</string>
     <key>tv_home_new_releases</key>
     <string>Nieuwe releases</string>
     <key>tv_home_recently_played</key>
@@ -3820,14 +3882,34 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Gevolgde podcasts verschijnen hier, klaar om af te spelen.</string>
     <key>tv_podcasts_empty_title</key>
     <string>Tijd om dit in te vullen.</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Opent profiel- en accountopties</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Profiel</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Account aanmaken</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Inloggen</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Uitloggen</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Favoriete afleveringen</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, shows, auteurs</string>
+    <key>tv_search_searching</key>
+    <string>Zoekt...</string>
+    <key>tv_search_type_something</key>
+    <string>Typ iets...</string>
     <key>tv_sign_in_enter_code</key>
     <string>of voer de volgende code in</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>naar [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>of voer deze code in [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Open je camera en wijs naar deze QR-code</string>
     <key>tv_sign_in_title</key>
-    <string>Meld je aan met je telefoon</string>
+    <string>Log in bij Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Je podcasts worden gesynchroniseerd, we melden je snel aan!</string>
     <key>tv_signing_in_title</key>
@@ -3846,6 +3928,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Voeg afleveringen toe aan Hierna en ze worden in volgorde afgespeeld, van achter naar achter</string>
     <key>tv_up_next_empty_title</key>
     <string>Niets in de wachtrij geplaatst</string>
+    <key>tv_user_profile_actions</key>
+    <string>Gebruikersinstellingen</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Inlogtype</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Gebruiker/Pass</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR-code</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Browse zonder account</string>
     <key>tv_welcome_create_free_account</key>

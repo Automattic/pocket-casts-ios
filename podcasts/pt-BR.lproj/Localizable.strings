@@ -3758,8 +3758,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>Crie uma conta gratuita</string>
     <key>tv_episode_info</key>
     <string>Informações do episódio</string>
-    <key>tv_home_keep_listening_title</key>
-    <string>Continue escutando</string>
     <key>tv_home_new_releases</key>
     <string>Novos lançamentos</string>
     <key>tv_home_recently_played</key>
@@ -3834,8 +3832,6 @@ Seu endereço de e-mail, senha e outros dados confidenciais jamais são comparti
     <string>indo para [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Abra sua câmera e aponte para este código QR</string>
-    <key>tv_sign_in_title</key>
-    <string>Faça login usando seu telefone</string>
     <key>tv_signing_in_subtitle</key>
     <string>Seus podcasts estão sendo sincronizados. Sua conta será conectada em breve.</string>
     <key>tv_signing_in_title</key>

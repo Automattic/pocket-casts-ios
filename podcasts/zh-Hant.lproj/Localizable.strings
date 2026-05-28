@@ -119,6 +119,10 @@
     <string>選取帳號類型</string>
     <key>account_sign_out</key>
     <string>登出</string>
+    <key>account_sign_out_alert_message</key>
+    <string>當你重新登入後，系統會在此處顯示你的 Podcast、進度及資料。</string>
+    <key>account_sign_out_alert_title</key>
+    <string>要登出嗎？</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>登出將從此裝置移除 %1$@ 個支援的 Podcast 節目。你確定嗎？</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ Pocket Casts Plus</string>
     <string>新增 1 個 Podcast 節目</string>
     <key>folder_add_remove_podcasts</key>
     <string>新增或移除 Podcast</string>
+    <key>folder_add_to</key>
+    <string>新增至資料夾</string>
     <key>folder_change</key>
     <string>變更資料夾</string>
     <key>folder_choose_color</key>
@@ -2631,6 +2637,8 @@ Pocket Casts Plus</string>
     <string>僅最新單集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
+    <key>podcasts_edit</key>
+    <string>編輯 Podcast</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>自訂排序</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2920,8 +2928,12 @@ Pocket Casts Plus</string>
     <string>無法上傳檔案，請稍後再試一次。</string>
     <key>server_error_files_uuid_required</key>
     <string>檔案 UUID 為必填。</string>
+    <key>server_error_login_access_denied</key>
+    <string>使用者已拒絕授權要求</string>
     <key>server_error_login_account_locked</key>
     <string>由於登入嘗試次數過多，你的帳號遭到鎖定。請稍後再試一次。</string>
+    <key>server_error_login_auth_pending</key>
+    <string>授權待確認</string>
     <key>server_error_login_email_blank</key>
     <string>請輸入電子郵件地址。</string>
     <key>server_error_login_email_invalid</key>
@@ -2930,6 +2942,10 @@ Pocket Casts Plus</string>
     <string>找不到電子郵件</string>
     <key>server_error_login_email_taken</key>
     <string>電子郵件已有人使用</string>
+    <key>server_error_login_expired_token</key>
+    <string>裝置代碼已過期。</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>提供的授權無效、已過期或已撤銷。</string>
     <key>server_error_login_password_blank</key>
     <string>請輸入密碼。</string>
     <key>server_error_login_password_incorrect</key>
@@ -2960,6 +2976,8 @@ Pocket Casts Plus</string>
     <string>允許我們收集分析。</string>
     <key>settings_allow_collection_third_party</key>
     <string>允許我們使用信任的第三方服務來收集匿名資料。</string>
+    <key>settings_analytics</key>
+    <string>分析</string>
     <key>settings_appearance</key>
     <string>外觀</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3332,6 +3350,8 @@ Pocket Casts Plus</string>
     <string>行動數據</string>
     <key>settings_storage_usage</key>
     <string>使用方式</string>
+    <key>settings_storage_usage_footer</key>
+    <string>此部分可能與 iPhone 設定中顯示的儲存空間不同。iOS 會自動管理快取資料，並在需要時進行釋出。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3412,6 +3432,48 @@ Pocket Casts Plus</string>
     <string>建立分享頁面時發生問題</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>分享失敗</string>
+    <key>share_profile</key>
+    <string>分享個人檔案</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>新增照片和名稱</string>
+    <key>share_profile_add_your_name</key>
+    <string>新增你的姓名</string>
+    <key>share_profile_choose_photo</key>
+    <string>選擇照片</string>
+    <key>share_profile_display_name</key>
+    <string>顯示名稱</string>
+    <key>share_profile_edit</key>
+    <string>編輯個人檔案</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>編輯照片和名稱</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>已追蹤的 Podcast</string>
+    <key>share_profile_name_description</key>
+    <string>這是分享的個人檔案顯示的方式。 稍後可進行變更。</string>
+    <key>share_profile_playlists</key>
+    <string>播放清單</string>
+    <key>share_profile_preview</key>
+    <string>預覽個人檔案</string>
+    <key>share_profile_privacy</key>
+    <string>隱私權</string>
+    <key>share_profile_privacy_description</key>
+    <string>你可以管理在「%1$@」中分享的內容</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>控制分享個人檔案時其他人可以看到的內容。</string>
+    <key>share_profile_profile_sharing</key>
+    <string>個人檔案分享</string>
+    <key>share_profile_recent_episodes</key>
+    <string>最近的單集</string>
+    <key>share_profile_remove_photo</key>
+    <string>移除照片</string>
+    <key>share_profile_save</key>
+    <string>儲存</string>
+    <key>share_profile_share_my_profile</key>
+    <string>分享我的個人檔案</string>
+    <key>share_profile_take_photo</key>
+    <string>拍攝照片</string>
+    <key>share_profile_what_to_share</key>
+    <string>你想分享什麼內容？</string>
     <key>share_select_podcasts</key>
     <string>選取 Podcast 節目</string>
     <key>shared_item_loading</key>
@@ -3759,7 +3821,7 @@ Pocket Casts Plus</string>
     <key>tv_episode_info</key>
     <string>單集資訊</string>
     <key>tv_home_keep_listening_title</key>
-    <string>繼續收聽</string>
+    <string>接續之前的進度</string>
     <key>tv_home_new_releases</key>
     <string>新發佈內容</string>
     <key>tv_home_recently_played</key>
@@ -3828,14 +3890,36 @@ Pocket Casts Plus</string>
     <string>已追蹤的 Podcast 會顯示在這裡，可隨時播放。</string>
     <key>tv_podcasts_empty_title</key>
     <string>把播放清單填滿吧。</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>開啟個人檔案和帳號選項</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>個人檔案</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>建立帳號</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>登入</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>登出</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>已加星號的單集</string>
+    <key>tv_search_failed</key>
+    <string>搜尋失敗：%1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcast、節目、作者</string>
+    <key>tv_search_searching</key>
+    <string>搜尋中...</string>
+    <key>tv_search_type_something</key>
+    <string>輸入內容...</string>
     <key>tv_sign_in_enter_code</key>
     <string>你也可以輸入以下代碼</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>前往 [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>或在 [%1$@](%2$@) 中輸入此代碼</string>
     <key>tv_sign_in_subtitle</key>
     <string>開啟相機並指向此 QR 碼</string>
     <key>tv_sign_in_title</key>
-    <string>用手機登入</string>
+    <string>登入 Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>正在同步你的 Podcast，我們會盡快為你登入！</string>
     <key>tv_signing_in_title</key>
@@ -3854,6 +3938,14 @@ Pocket Casts Plus</string>
     <string>將單集新增至「接下來播放」，單集會依序播放</string>
     <key>tv_up_next_empty_title</key>
     <string>沒有已排入佇列的項目</string>
+    <key>tv_user_profile_actions</key>
+    <string>使用者設定</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>登入類型</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>使用者名稱/密碼</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR 碼</string>
     <key>tv_welcome_browse_without_account</key>
     <string>在沒有帳號的情況下瀏覽</string>
     <key>tv_welcome_create_free_account</key>
