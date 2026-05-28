@@ -483,9 +483,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(hideSearchKeyboard))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
 
         // Episode grouping can change based on download and play status, so listen for both those events and refresh when they happen

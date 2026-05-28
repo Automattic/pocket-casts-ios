@@ -1,6 +1,6 @@
 8.14
 -----
-
+- Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366) 
 
 8.13
 -----

@@ -64,16 +64,6 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
-    func navBarHeight(window: UIWindow) -> CGFloat {
-        navBar.height - window.safeAreaInsets.top
-    }
-
-    func addGoogleCastBtn() {
-        let button = PCGoogleCastButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
-        button.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
-        navBar.addRightActionButton(button)
-    }
-
     @discardableResult func addRightAction(image: UIImage?, accessibilityLabel: String, action: Selector) -> UIButton {
         let button = UIButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
         button.setImage(image, for: .normal)
@@ -102,10 +92,6 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
 
     func setShadowVisible(_ visible: Bool) {
         navBar.setShadowVisible(visible)
-    }
-
-    func updateNavigationBar(position: CGFloat) {
-        navBar.snapToScroll(offset: position, threshold: scrollPointToChangeTitle)
     }
 }
 
@@ -243,7 +229,6 @@ private final class LegacyFakeNavigationBar: UIView {
         layer.shadowOpacity = opacity
     }
 
-    /// Animates a title fade and chrome transition when the scroll position crosses the threshold.
     func updateForScroll(offset: CGFloat, threshold: CGFloat, title: String?) {
         let scrolledToY = offset + height
         if scrolledToY > threshold, self.title == nil {
@@ -252,16 +237,6 @@ private final class LegacyFakeNavigationBar: UIView {
         } else if scrolledToY < threshold, self.title != nil {
             setTitleAnimated(nil)
             setTransparent(true, animated: true)
-        }
-    }
-
-    /// Snaps the chrome to match the given scroll position without animation; leaves the title alone.
-    func snapToScroll(offset: CGFloat, threshold: CGFloat) {
-        let scrolledToY = offset + height
-        if scrolledToY > threshold {
-            setTransparent(false, animated: false)
-        } else if scrolledToY < threshold {
-            setTransparent(true, animated: false)
         }
     }
 
