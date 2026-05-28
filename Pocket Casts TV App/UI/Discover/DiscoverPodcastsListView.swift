@@ -12,8 +12,8 @@ struct DiscoverPodcastsListView: View {
 
     @State private var model: DiscoverCategoryModel
 
-    init(model: DiscoverCategoryModel) {
-        self.model = model
+    init(category: DiscoverCategory) {
+        _model = State(wrappedValue: DiscoverCategoryModel(category: category))
     }
 
     let gridColumns: [GridItem] = (0..<6).map { _ in

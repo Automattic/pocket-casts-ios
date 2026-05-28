@@ -81,6 +81,9 @@ struct HomeView: View {
                     PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
                 }
             }
+            .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+                DiscoverPodcastsListView(model: discoverCategory)
+            }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
