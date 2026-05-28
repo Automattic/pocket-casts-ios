@@ -159,7 +159,7 @@ struct MainTabView: View {
     }
 
     @State private var showProfileMenu: Bool = false
-    @State private var pendingAuthFlow: ProfileMenuView.AuthDestination?
+    
     var profileAccessory: some View {
         Button {
             showProfileMenu = true
@@ -193,26 +193,40 @@ struct MainTabView: View {
         .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
-                pendingAuthFlow = destination
+                tabSelection.pendingAuthFlow = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
             ZStack {
                 Color.backgroundSurface.ignoresSafeArea()
                 NavigationStack {
-                    switch destination {
-                    case .signIn:
-                        SignInView()
-                    case .createAccount:
-                        CreateAccountView()
+                    Group {
+                        switch destination {
+                        case .signIn:
+                            SignInView()
+                        case .createAccount:
+                            CreateAccountView()
+                        }
+                    }
+                    .navigationDestination(for: WelcomeView.Destination.self) { destination in
+                        ZStack {
+                            Color.backgroundSurface
+                                .ignoresSafeArea()
+                            switch destination {
+                            case .signIn:
+                                SignInView()
+                            case .createAccount:
+                                CreateAccountView()
+                            }
+                        }
                     }
                 }
             }
             .environment(coordinator)
             .onExitCommand {
-                pendingAuthFlow = nil
+                tabSelection.pendingAuthFlow = nil
             }
         }
     }

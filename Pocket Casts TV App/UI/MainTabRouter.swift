@@ -5,4 +5,5 @@ import SwiftUI
 final class MainTabRouter {
     var selectedTab: MainTab = .home
     var isShowingDetail: Bool = false
+    var pendingAuthFlow: ProfileMenuView.AuthDestination? 
 }
