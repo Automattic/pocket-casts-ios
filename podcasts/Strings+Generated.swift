@@ -4337,6 +4337,8 @@ internal enum L10n {
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
+  /// tv home Browse Categories section title
+  internal static var tvHomeBrowseCategoriesSectionTitle: String { return L10n.tr("Localizable", "tv_home_browse_categories_section_title", fallback: "Browse categories") }
   /// tv home Featured section title
   internal static var tvHomeFeaturedSectionTitle: String { return L10n.tr("Localizable", "tv_home_featured_section_title", fallback: "Featured on Pocket Casts") }
   /// tv keep listening title

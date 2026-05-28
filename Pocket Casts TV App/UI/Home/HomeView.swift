@@ -68,6 +68,7 @@ struct HomeView: View {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
+                        categoriesRow
                         curatedRow
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
@@ -136,6 +137,12 @@ struct HomeView: View {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
+        }
+    }
+
+    var categoriesRow: some View {
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
+            DiscoverCategoriesRow()
         }
     }
 

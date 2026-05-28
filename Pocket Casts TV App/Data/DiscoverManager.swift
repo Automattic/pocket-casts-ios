@@ -8,6 +8,7 @@ enum DiscoverType: String {
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
     case popularRegion = "popular_region" // Popular in region ...
     case curatedList
+    case categories
 
     func match(item: DiscoverItem) -> Bool {
         switch self {
@@ -24,7 +25,7 @@ struct DiscoverSection {
     let podcasts: [DiscoverPodcast]
 }
 
-class DiscoverManager {
+actor DiscoverManager {
 
     static let shared = DiscoverManager()
 
@@ -34,9 +35,23 @@ class DiscoverManager {
         self.discoverServerHandler = discoverServerHandler
     }
 
-    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+    private var cachedLayout: DiscoverLayout?
+
+    private func getLayout() async -> DiscoverLayout? {
+        if cachedLayout != nil {
+            return cachedLayout
+        }
+
         let (result, _) = await discoverServerHandler.discoverPage()
-        guard let discoverLayout = result, let items = discoverLayout.layout else {
+        guard let layout = result else {
+            return nil
+        }
+        cachedLayout = layout
+        return layout
+    }
+
+    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return DiscoverSection(title: nil, podcasts: [])
         }
         var selectedItem: DiscoverItem?
@@ -57,5 +72,77 @@ class DiscoverManager {
         }
 
         return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts)
+    }
+
+    func loadDiscoverCategories() async -> [DiscoverCategory] {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
+            return []
+        }
+        var selectedItem: DiscoverItem?
+        for item in items {
+            if item.type == "categories" {
+                selectedItem = item
+                break
+            }
+        }
+
+        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+            return []
+        }
+
+        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
+
+        return categories
+    }
+
+    func loadDiscoverPopularCategories() async -> [DiscoverCategory] {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
+            return []
+        }
+        var selectedItem: DiscoverItem?
+        for item in items {
+            if item.type == "categories" {
+                selectedItem = item
+                break
+            }
+        }
+
+        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+            return []
+        }
+
+        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
+        var popularCategories: [DiscoverCategory] = []
+
+        if let popularIds = sourceItem.popular {
+            for popularId in popularIds {
+                if let category = categories.first(where: { $0.id == popularId } ) {
+                    popularCategories.append(category)
+                }
+            }
+        }
+        if popularCategories.isEmpty {
+            popularCategories = categories
+        }
+        return popularCategories
+    }
+
+    private func regionCode(for layout: DiscoverLayout) -> String {
+        let currentRegionCode = Settings.discoverRegion(discoverLayout: layout)
+        let serverRegion = layout.regions?[currentRegionCode]?.code ?? "us"
+        return serverRegion
+    }
+
+    func loadDiscoverCategoryDetails(for category: DiscoverCategory) async -> DiscoverCategoryDetails? {
+        guard let discoverLayout = await getLayout(),
+              let source = category.source
+        else {
+            return nil
+        }
+
+        let regionCode = regionCode(for: discoverLayout)
+        let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
+        let details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false)
+        return details
     }
 }
