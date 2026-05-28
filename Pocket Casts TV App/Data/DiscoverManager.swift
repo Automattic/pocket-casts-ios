@@ -25,7 +25,7 @@ struct DiscoverSection {
     let podcasts: [DiscoverPodcast]
 }
 
-class DiscoverManager {
+actor DiscoverManager {
 
     static let shared = DiscoverManager()
 
