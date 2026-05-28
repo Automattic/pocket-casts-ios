@@ -68,10 +68,21 @@ struct DiscoverCategoryCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(isFocused ? Color(red: 0.15, green: 0.25, blue: 0.5) : .backgroundOverlay)
+        .background(style(for: model.category))
         .clipped()
         .task {
             await model.load()
+        }
+    }
+
+    @ViewBuilder
+    func style(for category: DiscoverCategory) -> some View {
+        if !isFocused {
+            Color.backgroundOverlay
+        } else if let id = category.id {
+            CategoryStyle.allCases[id % CategoryStyle.allCases.count].gradient
+        } else {
+            CategoryStyle.red.tintColor
         }
     }
 }
