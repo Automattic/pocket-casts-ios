@@ -2388,6 +2388,8 @@ internal enum L10n {
   internal static var playerActionsRearrangeTitle: String { return L10n.tr("Localizable", "player_actions_rearrange_title", fallback: "Rearrange Actions") }
   /// Confirmation prompt for archiving an episode.
   internal static var playerArchivedConfirmation: String { return L10n.tr("Localizable", "player_archived_confirmation", fallback: "Archive this episode?") }
+  /// Message body shown in the confirmation prompt for archiving an episode.
+  internal static var playerArchivedConfirmationMessage: String { return L10n.tr("Localizable", "player_archived_confirmation_message", fallback: "Hidden from your feed, not deleted.") }
   /// Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title.
   internal static func playerArtwork(_ p1: Any) -> String {
     return L10n.tr("Localizable", "player_artwork", String(describing: p1), fallback: "%1$@ Artwork")
@@ -2424,6 +2426,8 @@ internal enum L10n {
   internal static var playerIncrementTime: String { return L10n.tr("Localizable", "player_increment_time", fallback: "Increment time") }
   /// Confirmation prompt for marking an episode as played.
   internal static var playerMarkAsPlayedConfirmation: String { return L10n.tr("Localizable", "player_mark_as_played_confirmation", fallback: "Mark this episode as played?") }
+  /// Message body shown in the confirmation prompt for marking an episode as played.
+  internal static var playerMarkAsPlayedConfirmationMessage: String { return L10n.tr("Localizable", "player_mark_as_played_confirmation_message", fallback: "It'll move out of Up Next and into your history.") }
   /// Warning that comes along with selecting to play all. Informs the user that their queue will be cleared.
   internal static var playerOptionsPlayAllMessage: String { return L10n.tr("Localizable", "player_options_play_all_message", fallback: "This will clear your current Up Next queue.") }
   /// Prompt to play a single episode from a multi-select screen.
