@@ -201,7 +201,7 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
 
                 upNextPicker.addAction(action: action)
             }
-            upNextPicker.show(statusBarStyle: preferredStatusBarStyle)
+            upNextPicker.present(from: self)
         case .autoDownloadUpNext:
             if let cell = settingsTable.cellForRow(at: indexPath) as? SwitchCell {
                 upNextToggled(cell.cellSwitch)

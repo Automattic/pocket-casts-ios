@@ -331,7 +331,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         }
         positionPicker.addAction(action: bottomAction)
 
-        positionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        positionPicker.present(from: self)
     }
 
     private func setUpNext(_ setting: AutoAddToUpNextSetting) {
