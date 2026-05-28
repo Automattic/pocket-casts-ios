@@ -46,7 +46,7 @@ enum ExplicitBadgeHelper {
 
     static func inlineTitle(_ title: String, isExplicit: Bool, theme: Theme.ThemeType? = nil) -> Text {
         if FeatureFlag.showExplicitBadges.enabled, isExplicit {
-            return Text(title) + Text(" ") + Text(Image(uiImage: badgeImage(for: theme))).accessibilityLabel(L10n.podcastExplicitContent)
+            return Text(title) + Text(" ") + Text(Image(uiImage: badgeImage(for: theme))).baselineOffset(-1).accessibilityLabel(L10n.podcastExplicitContent)
         }
         return Text(title)
     }

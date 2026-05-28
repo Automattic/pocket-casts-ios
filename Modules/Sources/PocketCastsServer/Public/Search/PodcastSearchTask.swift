@@ -26,6 +26,11 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public var isLocal: Bool?
     public var isExplicit: Bool?
 
+    enum CodingKeys: String, CodingKey {
+        case uuid, title, author, kind, isLocal
+        case isExplicit = "explicit"
+    }
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.uuid = try container.decode(String.self, forKey: .uuid)
