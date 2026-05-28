@@ -257,6 +257,15 @@
 /* Label for letting the user choose a theme for iOS dark mode. */
 "appearance_dark_theme" = "Dark Theme";
 
+/* Section header for the appearance settings related to the tab bar. */
+"appearance_tab_bar_header" = "Tab Bar";
+
+/* Toggle that controls whether the tab bar shrinks into a compact pill as the user scrolls (iOS 26 Liquid Glass). */
+"appearance_tab_bar_minimizing" = "Minimize on Scroll";
+
+/* Subtitle explaining the tab bar minimize-on-scroll toggle. */
+"appearance_tab_bar_minimizing_footer" = "When enabled, the tab bar shrinks into a compact pill as you scroll down so more content stays in view.";
+
 /* A common string used throughout the app. Prompt to archive the selected item(s). */
 "archive" = "Archive";
 
