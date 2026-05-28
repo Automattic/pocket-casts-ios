@@ -5,6 +5,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
     case podcasts
     case playlists
     case upNext
+    case nowPlaying
     case search
 
     var id: Int { return self.rawValue }
@@ -15,6 +16,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .podcasts: L10n.tvTabPodcasts
         case .playlists: L10n.tvTabPlaylists
         case .upNext: L10n.tvTabUpNext
+        case .nowPlaying: "Now Playing"
         case .search: nil
         }
     }
@@ -31,6 +33,9 @@ struct MainTabContentView: View {
     let tab: MainTab
 
     @Binding var scrollOffset: Double
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+
+    @State var tabVisibility: Visibility = .hidden
 
     var body: some View {
         switch tab {
@@ -64,6 +69,22 @@ struct MainTabContentView: View {
                 }
         case .search:
             SearchView(model: SearchViewModel())
+        case .nowPlaying:
+            ZStack {
+                NowPlayingView()
+            }
+            .ignoresSafeArea()
+            .onAppear {
+                if !PlaybackManager.shared.playing() {
+                    DispatchQueue.main.async {
+                        PlaybackManager.shared.play(completion: {
+                            DispatchQueue.main.async {
+                                PlaybackManager.shared.pause()
+                            }
+                        }, userInitiated: false)
+                    }
+                }
+            }
         }
     }
 }

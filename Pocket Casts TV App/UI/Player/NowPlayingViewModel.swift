@@ -25,9 +25,9 @@ class NowPlayingViewModel: Identifiable {
 
     func load() {
         let newEpisode = playbackManager.currentEpisode()
-        guard newEpisode?.uuid != episode?.uuid else {
-            return
-        }
+//        guard newEpisode?.uuid != episode?.uuid else {
+//            return
+//        }
         episode = newEpisode
         podcast = playbackManager.currentPodcast
         player = playbackManager.avPlayer
