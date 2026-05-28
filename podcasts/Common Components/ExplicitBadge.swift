@@ -53,7 +53,7 @@ enum ExplicitBadgeHelper {
 
     static func resolvedIsExplicit(for podcast: DiscoverPodcast) -> Bool {
         let discoverExplicit = podcast.isExplicit ?? false
-        if let uuid = podcast.uuid, let localPodcast = DataManager.sharedManager.findPodcast(uuid: uuid) {
+        if let uuid = podcast.uuid, let localPodcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
             if discoverExplicit, !localPodcast.isExplicit {
                 localPodcast.isExplicit = true
                 DataManager.sharedManager.save(podcast: localPodcast)

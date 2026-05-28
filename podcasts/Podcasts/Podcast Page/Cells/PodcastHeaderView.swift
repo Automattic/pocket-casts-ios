@@ -81,7 +81,7 @@ struct PodcastHeaderView: View {
 
     private var podcastCategory: some View {
         VStack {
-            (Text(viewModel.displayCategoryAndAuthor) + viewModel.explicitBadgeText(theme: theme.activeTheme))
+            Text(viewModel.displayCategoryAndAuthor)
                 .font(.footnote)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
