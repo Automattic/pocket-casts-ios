@@ -759,7 +759,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
         optionsPicker.addAction(action: refreshAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     func unsubscribe() {
