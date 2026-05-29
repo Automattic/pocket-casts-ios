@@ -8,6 +8,7 @@ struct DiscoverFeaturedPodcastCell: View {
     @Namespace private var ns
 
     let podcast: DiscoverPodcast
+    let sponsored: Bool
 
     @Environment(\.isFocused) var isFocused: Bool
 
@@ -21,8 +22,9 @@ struct DiscoverFeaturedPodcastCell: View {
         static let iconSize = CGFloat(48)
     }
 
-    init(podcast: DiscoverPodcast) {
+    init(podcast: DiscoverPodcast, sponsored: Bool = false) {
         self.podcast = podcast
+        self.sponsored = sponsored
     }
 
     var body: some View {
@@ -32,10 +34,20 @@ struct DiscoverFeaturedPodcastCell: View {
                     .frame(width: Layout.imageSize, height: Layout.imageSize)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 8) {
-                    if let author = podcast.author {
-                        Text(author)
-                            .font(.body)
-                            .foregroundColor(.textSecondary)
+                    HStack(spacing: 4) {
+                        if sponsored {
+                            Text(L10n.discoverSponsored.sentenceCased)
+                                .font(.body)
+                                .foregroundColor(.textPrimary)
+                            Text("·")
+                                .foregroundColor(.textSecondary)
+                        }
+                        if let author = podcast.author {
+                            Text(author)
+                                .font(.body)
+                                .foregroundColor(.textSecondary)
+                        }
+                        Spacer()
                     }
                     if let title = podcast.title {
                         Text(title)

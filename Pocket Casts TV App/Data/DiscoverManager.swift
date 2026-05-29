@@ -23,6 +23,13 @@ enum DiscoverType: String {
 struct DiscoverSection {
     let title: String?
     let podcasts: [DiscoverPodcast]
+    let sponsoredPodcasts: Set<String>
+
+    init(title: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcasts: Set<String> = []) {
+        self.title = title
+        self.podcasts = podcasts
+        self.sponsoredPodcasts = sponsoredPodcasts
+    }
 }
 
 actor DiscoverManager {
@@ -66,12 +73,19 @@ actor DiscoverManager {
             return DiscoverSection(title: nil, podcasts: [])
         }
 
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
-        guard let listOfPodcasts = podcastCollection?.podcasts else {
+        var podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
+        guard var listOfPodcasts = podcastCollection?.podcasts else {
             return DiscoverSection(title: podcastCollection?.title, podcasts: [])
         }
 
-        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts)
+        let sponsoredPodcasts = await loadSponsoredPodcasts(item: sourceItem)
+        for position in Array(sponsoredPodcasts.keys).sorted() {
+            if let podcast = sponsoredPodcasts[position] {
+                listOfPodcasts.insert(podcast, at: position)
+            }
+        }
+
+        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcasts: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
     }
 
     func loadDiscoverCategories() async -> [DiscoverCategory] {
@@ -144,5 +158,21 @@ actor DiscoverManager {
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
         let details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false)
         return details
+    }
+
+    func loadSponsoredPodcasts(item: DiscoverItem) async -> [Int: DiscoverPodcast] {
+        var resultPodcasts = [Int: DiscoverPodcast]()
+        guard let sponsoredPodcasts = item.sponsoredPodcasts else {
+            return [:]
+        }
+        for sponsored in sponsoredPodcasts {
+            guard let source = sponsored.source, let position = sponsored.position else {
+                continue
+            }
+            let podcastList = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated)
+            guard let podcastList, let discoverPodcast = podcastList.podcasts?.first else { continue }
+            resultPodcasts[position] = discoverPodcast
+        }
+        return resultPodcasts
     }
 }
