@@ -48,6 +48,9 @@ struct DiscoverFeaturedPodcastCell: View {
                     }
                     HStack() {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
+                            Task {
+                                await PodcastDataManager.shared.playLatestEpisode(of: podcast)
+                            }
                         }
                         NavigationLink(value: podcast) {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
