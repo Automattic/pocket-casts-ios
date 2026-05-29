@@ -257,7 +257,8 @@ all_token_names.each do |token|
   File.write(file_path_colors, token_str, mode: 'a')
 end
 
-File.write(file_path_colors, '}', mode: 'a')
+File.truncate(file_path_colors, File.size(file_path_colors) - 1) # collapse the blank line left by the last token
+File.write(file_path_colors, "}\n", mode: 'a')
 
 File.truncate(file_path_styles, File.size(file_path_styles) - 2) # remove the trailing comma
 File.write(file_path_styles, "\n}\n", mode: 'a')
