@@ -2,9 +2,9 @@ import PocketCastsDataModel
 
 enum EpisodesQueryBuilder {
 
-    static func makeEpisodeQuery(podcast: Podcast) -> (query: String, arguments: [Any]) {
+    static func makeEpisodeQuery(podcast: Podcast, sortOrder: PodcastEpisodeSortOrder? = nil) -> (query: String, arguments: [Any]) {
 
-        let episodeSortOrder = podcast.podcastSortOrder
+        let episodeSortOrder = sortOrder ?? podcast.podcastSortOrder
 
         let sortStr: String
         let sortOrder = episodeSortOrder ?? PodcastEpisodeSortOrder.newestToOldest

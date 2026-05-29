@@ -33,11 +33,11 @@ class PodcastDataManager {
         }
     }
 
-    func fetchEpisodes(podcast: Podcast?) -> [Episode] {
+    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil) -> [Episode] {
         guard let podcast else {
             return []
         }
-        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast)
+        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast, sortOrder: sortOrder)
         return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 
@@ -47,7 +47,7 @@ class PodcastDataManager {
         }
         let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
-        guard let episode = fetchEpisodes(podcast: podcast).first else {
+        guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
             return false
         }
         guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else {
