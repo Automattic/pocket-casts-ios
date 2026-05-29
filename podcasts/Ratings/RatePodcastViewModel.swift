@@ -68,9 +68,10 @@ class RatePodcastViewModel: ObservableObject {
 
     func submit() {
         isSubmitting = true
-        Analytics.track(.ratingScreenSubmitTapped,
-                               properties: ["uuid": podcast.uuid,
-                                            "stars": stars])
+        Analytics.track(.ratingScreenSubmitTapped, properties: [
+            "uuid": podcast.uuid,
+            "stars": stars
+        ])
         Task { @MainActor [weak self] in
             guard let self else { return }
             let success = await ApiServerHandler.shared.addRating(uuid: self.podcast.uuid, rating: Int(self.stars))
