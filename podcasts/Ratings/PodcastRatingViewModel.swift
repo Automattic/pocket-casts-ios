@@ -69,7 +69,7 @@ class PodcastRatingViewModel: ObservableObject {
 // MARK: - View Interactions
 extension PodcastRatingViewModel {
     func didTapRating(source: RatingSource = .button) {
-        Analytics.shared.track(.ratingStarsTapped,
+        Analytics.track(.ratingStarsTapped,
                                properties: ["uuid": uuid ?? "unknown",
                                             "source": source.rawValue])
         if SyncManager.isUserLoggedIn() {

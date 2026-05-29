@@ -28,7 +28,7 @@ class Analytics {
     }
 #endif
 
-    /// Convenience method to call Analytics.shared.track*
+    /// Convenience method to call Analytics.track*
     static func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         Self.shared.track(event, properties: properties)
     }
