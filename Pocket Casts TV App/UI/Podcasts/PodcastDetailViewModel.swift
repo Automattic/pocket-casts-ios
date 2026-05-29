@@ -5,7 +5,7 @@ import PocketCastsServer
 @Observable
 class PodcastDetailViewModel {
 
-    private let dataManager: DataManager
+    private let dataManager: TVDataManager
     private let serverPodcastManager: ServerPodcastManager
     private let podcastManager: PodcastManager
 
@@ -24,7 +24,7 @@ class PodcastDetailViewModel {
     var isFollowing: Bool = false
 
     init(podcastUuid: String,
-         dataManager: DataManager = DataManager.sharedManager,
+         dataManager: TVDataManager = TVDataManager.shared,
          serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
          podcastManager: PodcastManager = PodcastManager.shared) {
         self.podcastUuid = podcastUuid
@@ -34,7 +34,7 @@ class PodcastDetailViewModel {
     }
 
     convenience init(podcast: Podcast,
-                     dataManager: DataManager = DataManager.sharedManager,
+                     dataManager: TVDataManager = TVDataManager.shared,
                      serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
                      podcastManager: PodcastManager = PodcastManager.shared) {
         self.init(podcastUuid: podcast.uuid,
@@ -48,13 +48,13 @@ class PodcastDetailViewModel {
         Task {
             var podcast: Podcast? = self.podcast
             if podcast == nil {
-                podcast = await loadPodcast(podcastUuid: podcastUuid)
+                podcast = await dataManager.loadPodcast(podcastUuid: podcastUuid)
             }
             guard let podcast else {
                 await MainActor.run { state = .failed }
                 return
             }
-            let episodesModel = fetchEpisodes(podcast: podcast).map {
+            let episodesModel = dataManager.fetchEpisodes(podcast: podcast).map {
                 EpisodeRowViewModel(episode: $0, podcast: podcast)
             }
             await MainActor.run {
@@ -65,34 +65,6 @@ class PodcastDetailViewModel {
                 self.state = .ready
             }
         }
-    }
-
-    private func loadPodcast(podcastUuid: String) async -> Podcast? {
-        await withCheckedContinuation { continuation in
-            if let podcast = dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                serverPodcastManager.updatePodcastIfRequired(podcast: podcast) { _ in
-                    //TODO: trigger refresh here?
-                }
-                continuation.resume(with: .success(podcast))
-                return
-            }
-
-            serverPodcastManager.addFromUuid(podcastUuid: podcastUuid, subscribe: false, completion: { [dataManager] success in
-                if success, let podcast = dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                    continuation.resume(with: .success(podcast))
-                } else {
-                    continuation.resume(with: .success(nil))
-                }
-            })
-        }
-    }
-
-    private func fetchEpisodes(podcast: Podcast?) -> [Episode] {
-        guard let podcast else {
-            return []
-        }
-        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast)
-        return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 
     func subscribe() {

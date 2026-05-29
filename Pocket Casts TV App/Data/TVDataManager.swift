@@ -1,9 +1,9 @@
 import PocketCastsDataModel
 import PocketCastsServer
 
-class PodcastDataManager {
+class TVDataManager {
 
-    static let shared = PodcastDataManager()
+    static let shared = TVDataManager()
 
     private let dataManager: DataManager
     private let serverPodcastManager: ServerPodcastManager

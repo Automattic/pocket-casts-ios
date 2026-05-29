@@ -73,7 +73,7 @@ actor DiscoverManager {
             return DiscoverSection(title: nil, podcasts: [])
         }
 
-        var podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
         guard var listOfPodcasts = podcastCollection?.podcasts else {
             return DiscoverSection(title: podcastCollection?.title, podcasts: [])
         }

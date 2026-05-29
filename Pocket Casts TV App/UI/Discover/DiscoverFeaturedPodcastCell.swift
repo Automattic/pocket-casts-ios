@@ -65,7 +65,7 @@ struct DiscoverFeaturedPodcastCell: View {
                     HStack() {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
-                                let _ = await PodcastDataManager.shared.playLatestEpisode(of: podcast)
+                                let _ = await TVDataManager.shared.playLatestEpisode(of: podcast)
                                 await MainActor.run {
                                     showNowPlayingPlayer = true
                                 }
