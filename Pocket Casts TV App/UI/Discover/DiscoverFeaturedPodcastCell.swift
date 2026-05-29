@@ -30,9 +30,11 @@ struct DiscoverFeaturedPodcastCell: View {
     var body: some View {
         ZStack(alignment: .center) {
             HStack(alignment: .center, spacing: 48) {
-                PodcastImage(uuid: podcast.uuid!, size: .page)
-                    .frame(width: Layout.imageSize, height: Layout.imageSize)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                if let podcastUuid = podcast.uuid {
+                    PodcastImage(uuid: podcastUuid, size: .page)
+                        .frame(width: Layout.imageSize, height: Layout.imageSize)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 4) {
                         if sponsored {
@@ -63,7 +65,7 @@ struct DiscoverFeaturedPodcastCell: View {
                     HStack() {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
-                                await PodcastDataManager.shared.playLatestEpisode(of: podcast)
+                                let _ = await PodcastDataManager.shared.playLatestEpisode(of: podcast)
                                 await MainActor.run {
                                     showNowPlayingPlayer = true
                                 }
@@ -81,7 +83,9 @@ struct DiscoverFeaturedPodcastCell: View {
         .padding(48)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .blurredCoverBackground(size: Layout.imageSize) {
-            PodcastImage(uuid: podcast.uuid!, size: .page)
+            if let podcastUuid = podcast.uuid {
+                PodcastImage(uuid: podcastUuid, size: .page)
+            }
         }
         .background(Color.backgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
