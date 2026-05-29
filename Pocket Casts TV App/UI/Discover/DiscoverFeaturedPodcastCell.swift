@@ -11,6 +11,8 @@ struct DiscoverFeaturedPodcastCell: View {
 
     @Environment(\.isFocused) var isFocused: Bool
 
+    @State var showNowPlayingPlayer: Bool = false
+
     enum Layout {
         static let imageSize = CGFloat(420)
         static let rotationEffect = CGFloat(15)
@@ -50,6 +52,9 @@ struct DiscoverFeaturedPodcastCell: View {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
                                 await PodcastDataManager.shared.playLatestEpisode(of: podcast)
+                                await MainActor.run {
+                                    showNowPlayingPlayer = true
+                                }
                             }
                         }
                         NavigationLink(value: podcast) {
@@ -70,6 +75,10 @@ struct DiscoverFeaturedPodcastCell: View {
         .clipped()
         .focusSection()
         .focusScope(ns)
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
     }
 }
 

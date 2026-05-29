@@ -7,10 +7,15 @@ class PodcastDataManager {
 
     private let dataManager: DataManager
     private let serverPodcastManager: ServerPodcastManager
+    private let playbackManager: PlaybackManager
 
-    init(dataManager: DataManager = DataManager.sharedManager, serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared) {
+    init(dataManager: DataManager = DataManager.sharedManager,
+         serverPodcastManager: ServerPodcastManager = ServerPodcastManager.shared,
+         playbackManager: PlaybackManager = PlaybackManager.shared
+    ) {
         self.dataManager = dataManager
         self.serverPodcastManager = serverPodcastManager
+        self.playbackManager = playbackManager
     }
 
     func loadPodcast(podcastUuid: String) async -> Podcast? {
@@ -50,7 +55,7 @@ class PodcastDataManager {
         guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first else {
             return false
         }
-        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else {
+        guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else {
             return false
         }
 
