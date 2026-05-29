@@ -754,7 +754,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         guard let podcast else { return }
 
         let optionsPicker = OptionsPicker(title: nil)
-        let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: nil) {
+        let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: "option-download-retry") {
             ImageManager.sharedManager.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
         }
         optionsPicker.addAction(action: refreshAction)
