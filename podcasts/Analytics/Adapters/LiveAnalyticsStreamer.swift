@@ -21,8 +21,7 @@ private let allowedHost = "pocketcasts.com"
 ///
 /// Failure Handling:
 /// - Fire and forget model - failures are logged but not retried
-@AnalyticsActor
-final class LiveAnalyticsStreamer: AnalyticsAdapter {
+actor LiveAnalyticsStreamer: AnalyticsAdapter {
     private enum Config {
         static let maxBufferSize = 1000
         static let flushDelayMs: UInt64 = 500
@@ -56,27 +55,19 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
         return formatter
     }()
 
-    nonisolated init() {}
-
     // MARK: - AnalyticsAdapter
 
-    nonisolated func track(name: String, properties: [String: Sendable]) {
-        // Don't send if analytics are disabled
-        guard !Settings.analyticsOptOut() else {
-            return
-        }
-        let date = Date()
-        Task { @AnalyticsActor in
-            let event = AnalyticsEvent(
-                name: name,
-                timestamp: dateFormatter.string(from: date),
-                properties: properties.isEmpty ? nil : properties.reduce(into: [String: String]()) { result, entry in
-                    result[entry.key] = String(describing: entry.value)
-                },
-                platform: "iOS"
-            )
-            bufferEvent(event)
-        }
+    func track(name: String, properties: [String: Sendable]) {
+        guard !Settings.analyticsOptOut() else { return }
+        let event = AnalyticsEvent(
+            name: name,
+            timestamp: dateFormatter.string(from: Date()),
+            properties: properties.reduce(into: [String: String]()) { result, entry in
+                result[entry.key] = String(describing: entry.value)
+            },
+            platform: "iOS"
+        )
+        bufferEvent(event)
     }
 }
 
@@ -108,15 +99,17 @@ private extension LiveAnalyticsStreamer {
         // Immediately flush, then wait 500ms before next flush
         flush()
 
-        Task { @AnalyticsActor [weak self] in
+        Task { [weak self] in
             try? await Task.sleep(nanoseconds: Config.flushDelayMs * NSEC_PER_MSEC)
-            guard let self else { return }
+            await self?.flushOrStop()
+        }
+    }
 
-            if self.eventBuffer.isEmpty {
-                self.isFlushScheduled = false
-            } else {
-                self.scheduleFlush()
-            }
+    func flushOrStop() {
+        if eventBuffer.isEmpty {
+            isFlushScheduled = false
+        } else {
+            scheduleFlush()
         }
     }
 
@@ -151,15 +144,18 @@ private extension LiveAnalyticsStreamer {
         guard !isBackingOff else { return }
         isBackingOff = true
 
-        Task { @AnalyticsActor [weak self] in
+        Task { [weak self] in
             try? await Task.sleep(nanoseconds: Config.errorBackoffMs * NSEC_PER_MSEC)
-            guard let self else { return }
-            self.isBackingOff = false
+            await self?.endBackoff()
+        }
+    }
 
-            if !self.eventBuffer.isEmpty, !self.isFlushScheduled {
-                self.isFlushScheduled = true
-                self.scheduleFlush()
-            }
+    func endBackoff() {
+        isBackingOff = false
+
+        if !eventBuffer.isEmpty, !isFlushScheduled {
+            isFlushScheduled = true
+            scheduleFlush()
         }
     }
 
@@ -201,8 +197,8 @@ private extension LiveAnalyticsStreamer {
             }
 
             if failed {
-                Task { @AnalyticsActor [weak self] in
-                    self?.startBackoff()
+                Task { [weak self] in
+                    await self?.startBackoff()
                 }
             }
         }.resume()

@@ -11,5 +11,5 @@ class CrashLoggingAdapter: AnalyticsAdapter {
         Self.sharedManager = self
     }
 
-    func track(name: String, properties: [String: Sendable]) { }
+    func track(name: String, properties: [String: Sendable]) async { }
 }

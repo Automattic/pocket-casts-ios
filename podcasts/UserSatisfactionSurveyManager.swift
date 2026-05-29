@@ -4,6 +4,7 @@ import SwiftUI
 import PocketCastsUtils
 import StoreKit
 
+@MainActor
 public class UserSatisfactionSurveyManager: NSObject {
     public static let shared = UserSatisfactionSurveyManager()
 
@@ -158,7 +159,7 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
 // MARK: - AnalyticsAdapter
 
 extension UserSatisfactionSurveyManager: AnalyticsAdapter {
-    public func track(name: String, properties: [String: Sendable]) {
+    public func track(name: String, properties: [String: Sendable]) async {
         let handled = handleDeferredSurveyReleaseIfNeeded(for: name, properties: properties)
 
         guard handled == false else {
