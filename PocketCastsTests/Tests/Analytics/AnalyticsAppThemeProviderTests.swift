@@ -27,10 +27,10 @@ class AnalyticsAppThemeProviderTests: XCTestCase {
 }
 
 private class MockAnalytics: Analytics {
-    var didTrack: ((_ event: AnalyticsEvent, _ properties: [AnyHashable: Any]?) -> Void)?
+    var didTrack: ((_ event: AnalyticsEvent, _ properties: [String: Sendable]?) -> Void)?
 
-    override func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
-        var newProperties = properties ?? [:]
+    override func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
+        var newProperties: [String: Sendable] = properties ?? [:]
         analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
             newProperties[key] = value
         }
