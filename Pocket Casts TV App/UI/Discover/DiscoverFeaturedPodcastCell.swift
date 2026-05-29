@@ -71,6 +71,7 @@ struct DiscoverFeaturedPodcastCell: View {
         .blurredCoverBackground(size: Layout.imageSize) {
             PodcastImage(uuid: podcast.uuid!, size: .page)
         }
+        .background(Color.backgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
         .focusSection()
