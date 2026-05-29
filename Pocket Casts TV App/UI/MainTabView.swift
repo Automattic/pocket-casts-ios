@@ -121,6 +121,7 @@ struct MainTabView: View {
             handleMove(direction)
         }
         .ignoresSafeArea()
+        .background(Color.backgroundSurface)
     }
 
     @ViewBuilder

@@ -30,6 +30,7 @@ struct WelcomeView: View {
                         .frame(height: 108)
                     Text(L10n.tvWelcomeTitle)
                         .font(.title)
+                        .foregroundColor(Color.textPrimary)
                     Text(L10n.tvWelcomeSubtitle)
                         .font(.headline)
                         .foregroundColor(Color.textSecondary)

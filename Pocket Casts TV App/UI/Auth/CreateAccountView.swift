@@ -15,6 +15,7 @@ struct CreateAccountView: View {
                 Image(ImageResource.pcLogo)
                 Text(L10n.tvCreateAccountTitle)
                     .font(.title)
+                    .foregroundColor(Color.textPrimary)
                 Text(L10n.tvCreateAccountSubtitle)
                     .font(.headline)
                     .foregroundStyle(Color.textSecondary)

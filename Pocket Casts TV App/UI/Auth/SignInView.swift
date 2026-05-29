@@ -48,6 +48,7 @@ struct SignInView: View {
                 Image(ImageResource.pcLogo)
                 Text(L10n.tvSignInTitle)
                     .font(.title)
+                    .foregroundColor(Color.textPrimary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
                         Text(type.description).tag(type)
