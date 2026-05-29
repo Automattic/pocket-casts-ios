@@ -121,14 +121,7 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool { get }
     func track(name: String, properties: [AnyHashable: Any]?)
-}
-
-extension AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool {
-        false
-    }
 }
 
 // MARK: - Dynamic Event Name
