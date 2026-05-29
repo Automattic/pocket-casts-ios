@@ -3,15 +3,14 @@ import PocketCastsUtils
 
 /// Simple tracking adapter that just logs the event
 struct AnalyticsLoggingAdapter: AnalyticsAdapter {
-    func track(name: String, properties: [AnyHashable: Any]?) {
+    func track(name: String, properties: [String: Sendable]) {
         guard FeatureFlag.tracksLogging.enabled else { return }
 
-        guard let properties = properties as? [String: Any] else {
+        if properties.isEmpty {
             log("🔵 Tracked: \(name)")
-            return
+        } else {
+            log("🔵 Tracked: \(name) \(properties)")
         }
-
-        log("🔵 Tracked: \(name) \(properties)")
     }
 
     private func log(_ message: String) {

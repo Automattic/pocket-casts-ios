@@ -60,7 +60,7 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
 
     // MARK: - AnalyticsAdapter
 
-    nonisolated func track(name: String, properties: [AnyHashable: Any]?) {
+    nonisolated func track(name: String, properties: [String: Sendable]) {
         // Don't send if analytics are disabled
         guard !Settings.analyticsOptOut() else {
             return
@@ -70,8 +70,8 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
             let event = AnalyticsEvent(
                 name: name,
                 timestamp: dateFormatter.string(from: date),
-                properties: properties?.reduce(into: [String: String]()) { result, entry in
-                    result[String(describing: entry.key)] = String(describing: entry.value)
+                properties: properties.isEmpty ? nil : properties.reduce(into: [String: String]()) { result, entry in
+                    result[entry.key] = String(describing: entry.value)
                 },
                 platform: "iOS"
             )

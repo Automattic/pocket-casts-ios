@@ -300,8 +300,8 @@ extension FilterEditOptionsViewController {
     fileprivate func delete(playlist: EpisodeFilter) {
         PlaylistManager.delete(playlist: playlist, fireEvent: true)
 
-        var properties: [AnyHashable: Any]? = [:]
-        properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        var properties: [String: Sendable] = [:]
+        properties["filter_type"] = playlist.manual ? "manual" : "smart"
         Analytics.track(.filterDeleted, properties: properties)
         navigationController?.popToRootViewController(animated: true)
     }

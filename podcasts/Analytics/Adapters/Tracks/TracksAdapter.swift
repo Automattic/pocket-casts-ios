@@ -60,28 +60,21 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
         updateAuthenticationState()
     }
 
-    func track(name: String, properties: [AnyHashable: Any]?) {
+    func track(name: String, properties: [String: Sendable]) {
         #if DEBUG
-        if let properties {
-            validateProperties(properties)
-        }
+        validateProperties(properties)
         #endif
         tracksService.trackEventName(name, withCustomProperties: properties)
     }
 
-    private func validateProperties(_ properties: [AnyHashable: Any]) {
-        guard let castedProperties = properties as? [String: Any] else {
-            assertionFailure("Tracks event properties types keys must be a String")
-            return
-        }
-
-        for key in castedProperties.keys {
+    private func validateProperties(_ properties: [String: Sendable]) {
+        for key in properties.keys {
             if Self.reservedPropertyNames.contains(key) {
                 assertionFailure("Tracks event properties key `\(key)` is reserved property name.")
                 return
             }
 
-            let value = castedProperties[key]
+            let value = properties[key]
             if !(value is Int || value is Int32 || value is Int64 || value is String || value is NSString || value is Double || value is Bool || value is Float) {
                 assertionFailure("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
                 return
