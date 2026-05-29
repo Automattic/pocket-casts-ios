@@ -47,10 +47,10 @@ struct DiscoverFeaturedPodcastCell: View {
                             .foregroundColor(.textSecondary)
                     }
                     HStack() {
-                        Button("Play latest episode") {
+                        Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                         }
                         NavigationLink(value: podcast) {
-                            Text("Go to podcast")
+                            Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
                     }
                     .padding(.vertical, 24)
