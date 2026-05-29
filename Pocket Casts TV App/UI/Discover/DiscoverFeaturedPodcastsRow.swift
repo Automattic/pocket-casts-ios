@@ -58,6 +58,5 @@ struct DiscoverFeaturedPodcastsRow: View {
                 scrollPosition = id
             }
         }
-
     }
 }

@@ -30,21 +30,27 @@ struct DiscoverFeaturedPodcastCell: View {
                     .frame(width: Layout.imageSize, height: Layout.imageSize)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(podcast.author!)
-                        .font(.body)
-                        .foregroundColor(.textSecondary)
-                    Text(podcast.title!)
-                        .font(.title2)
-                        .foregroundColor(.textPrimary)
-                    Text(podcast.shortDescription!)
-                        .lineLimit(2)
-                        .font(.body)
-                        .foregroundColor(.textSecondary)
+                    if let author = podcast.author {
+                        Text(author)
+                            .font(.body)
+                            .foregroundColor(.textSecondary)
+                    }
+                    if let title = podcast.title {
+                        Text(title)
+                            .font(.title2)
+                            .foregroundColor(.textPrimary)
+                    }
+                    if let description = podcast.shortDescription {
+                        Text(description)
+                            .lineLimit(2)
+                            .font(.body)
+                            .foregroundColor(.textSecondary)
+                    }
                     HStack() {
                         Button("Play latest episode") {
                         }
-                        .prefersDefaultFocus(in: ns)
-                        Button("Go to podcast") {
+                        NavigationLink(value: podcast) {
+                            Text("Go to podcast")
                         }
                     }
                     .padding(.vertical, 24)
@@ -54,7 +60,9 @@ struct DiscoverFeaturedPodcastCell: View {
         }
         .padding(48)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
-        .background(Color.backgroundSunken)
+        .blurredCoverBackground(size: Layout.imageSize) {
+            PodcastImage(uuid: podcast.uuid!, size: .page)
+        }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
         .focusSection()
