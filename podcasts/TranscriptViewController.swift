@@ -14,6 +14,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var canScrollToDismiss = true
 
     private var isUserScrolling = false
+    private var hasNonEmptySelection = false
     // Stays `true` for the entire scroll-back grace period, not just while the
     // user's finger is on the view. `isUserScrolling` flips back to false the
     // instant the drag ends, so without this, the next playback tick would
@@ -525,7 +526,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         updateColors()
         loadTranscript()
         addObservers()
-        (transcriptView as UIScrollView).delegate = self
+        transcriptView.delegate = self
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -754,6 +755,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         previousRange = nil
         cachedCueIndex = 0
         self.transcript = transcript
+        hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
             transcriptView.setContentOffset(.zero, animated: false)
@@ -1163,6 +1165,17 @@ extension TranscriptViewController: UIScrollViewDelegate {
     private func userScrollDidEnd() {
         isUserScrolling = false
         scheduleAutoScrollBack()
+    }
+}
+
+extension TranscriptViewController: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        let wasEmpty = !hasNonEmptySelection
+        let isNonEmpty = textView.selectedRange.length > 0
+        hasNonEmptySelection = isNonEmpty
+        if wasEmpty && isNonEmpty {
+            track(.transcriptTextHighlighted)
+        }
     }
 }
 
