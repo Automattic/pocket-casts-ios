@@ -7,14 +7,12 @@ import PocketCastsServer
 import PocketCastsUtils
 #endif
 
-class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
-    // Dependencies
-    let userDefaults: UserDefaults
+class TracksAdapter: AnalyticsAdapter {
+    private let userDefaults: UserDefaults
 
     /// Returns a UUID id to use if the user is in a logged out state
-    ///
-    var anonymousUUID: String {
-        generateAnonymousUUID()
+    private var anonymousUUID: String {
+        AnonymousUUID.generate(userDefaults: userDefaults)
     }
 
     private let subscriptionData: TracksSubscriptionData
