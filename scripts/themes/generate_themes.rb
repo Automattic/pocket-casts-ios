@@ -113,7 +113,7 @@ File.truncate(file_path_colors, 0) if File.exist?(file_path_colors)
 File.truncate(file_path_styles, 0) if File.exist?(file_path_styles)
 
 File.write(file_path_colors,
-           "import PocketCastsUtils\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nstruct ThemeColor {\n", mode: 'a')
+           "import PocketCastsUtils\nimport PocketCastsServer\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nstruct ThemeColor {\n", mode: 'a')
 File.write(file_path_styles, "// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nenum ThemeStyle {\n",
            mode: 'a')
 
