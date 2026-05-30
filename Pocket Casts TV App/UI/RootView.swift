@@ -26,6 +26,8 @@ struct RootView: View {
         .task {
             await coordinator.load()
         }
+        .ignoresSafeArea()
+        .background(Color.backgroundSurface)
     }
 }
 

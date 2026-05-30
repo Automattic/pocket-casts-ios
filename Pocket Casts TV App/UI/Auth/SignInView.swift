@@ -94,6 +94,7 @@ struct SignInView: View {
                 coordinator.state = .userSync
             }
         }
+        .background(Color.backgroundBase)
     }
 
     var qrCodeDigits: some View {
