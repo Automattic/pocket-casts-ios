@@ -15,10 +15,10 @@ struct PodcastMoreInfoView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(podcast.author ?? "")
                         .font(.caption)
-                        .foregroundStyle(Color.textSecondary)
+                        .foregroundStyle(Color.pcTextSecondary)
                     Text(podcast.title ?? "")
                         .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                 }
             }
 
@@ -26,10 +26,10 @@ struct PodcastMoreInfoView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(L10n.tvPodcastDetailAbout)
                         .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                     Text(description)
                         .font(.body)
-                        .foregroundStyle(Color.textSecondary)
+                        .foregroundStyle(Color.pcTextSecondary)
                 }
             }
 
@@ -57,10 +57,10 @@ struct PodcastMoreInfoView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
                 .font(.caption)
-                .foregroundStyle(Color.textSecondary)
+                .foregroundStyle(Color.pcTextSecondary)
             Text(value)
                 .font(.body)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
         }
     }
 }

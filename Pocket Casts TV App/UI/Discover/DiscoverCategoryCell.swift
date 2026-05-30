@@ -27,12 +27,12 @@ struct DiscoverCategoryCell: View {
                     KFImage(url)
                         .renderingMode(.template)
                         .resizable()
-                        .tint(isFocused ? Color.textPrimary : Color.textSecondary)
+                        .tint(isFocused ? Color.pcTextPrimary : Color.pcTextSecondary)
                         .frame(width: Layout.iconSize, height: Layout.iconSize)
                 }
                 Text(model.name)
                     .font(.headline)
-                    .foregroundColor(isFocused ? Color.textPrimary : Color.textSecondary)
+                    .foregroundColor(isFocused ? Color.pcTextPrimary : Color.pcTextSecondary)
                 Spacer()
                 HStack(alignment: .bottom) {
                     Spacer()
@@ -78,7 +78,7 @@ struct DiscoverCategoryCell: View {
     @ViewBuilder
     func style(for category: DiscoverCategory) -> some View {
         if !isFocused {
-            Color.backgroundOverlay
+            Color.pcBackgroundOverlay
         } else if let id = category.id {
             CategoryStyle.allCases[id % CategoryStyle.allCases.count].gradient
         } else {

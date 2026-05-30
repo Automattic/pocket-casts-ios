@@ -77,8 +77,8 @@ struct BannerRow: View {
             if gradient {
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: Color.backgroundSunken.opacity(0), location: 0.00),
-                        Gradient.Stop(color: Color.backgroundSunken, location: 1.00),
+                        Gradient.Stop(color: Color.pcBackgroundSunken.opacity(0), location: 0.00),
+                        Gradient.Stop(color: Color.pcBackgroundSunken, location: 1.00),
                     ],
                     startPoint: UnitPoint(x: 0, y: 0.5),
                     endPoint: UnitPoint(x: 0.18, y: 0.5)
@@ -89,10 +89,10 @@ struct BannerRow: View {
                 VStack(alignment: .leading) {
                     Text(title)
                         .font(.headline)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                     Text(subtitle)
                         .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
+                        .foregroundStyle(Color.pcTextSecondary)
                 }
                 Spacer()
                 Button() {
@@ -107,7 +107,7 @@ struct BannerRow: View {
                     .frame(width: 72)
             }
         }
-        .background(Color.backgroundSunken)
+        .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .focusSection()
     }

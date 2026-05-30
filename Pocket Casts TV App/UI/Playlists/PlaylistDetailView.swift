@@ -112,14 +112,14 @@ struct PlaylistDetailView: View {
                 if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.pcTextSecondary)
                 }
                 Text(model.playlistName)
                     .font(.title2)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.pcTextPrimary)
                 Text("\(model.episodeCountText) · \(model.totalDuration)")
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.pcTextSecondary)
             }
             if !model.episodes.isEmpty {
                 Button {

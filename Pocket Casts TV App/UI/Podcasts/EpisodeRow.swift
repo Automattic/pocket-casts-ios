@@ -49,19 +49,19 @@ struct EpisodeRow: View {
             VStack(alignment: .leading) {
                 Text(model.displayDate)
                     .font(.caption)
-                    .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
+                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
                 Text(model.episode.displayableTitle())
                     .font(.body)
-                    .foregroundColor(isHighlighted ? .textPrimaryActive : .textPrimary)
+                    .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
                 Text(model.displayDuration)
                     .font(.caption)
-                    .foregroundColor(isHighlighted ? .textSecondaryActive : .textSecondary)
+                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
             }
             Spacer()
         }
         .padding(24)
-        .background(isHighlighted ? Color.backgroundActive : Color.backgroundSunken)
+        .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -77,8 +77,8 @@ struct MoreButtonStyle: ButtonStyle {
         configuration.label
             .font(.caption)
             .frame(width: Layout.size, height: Layout.size)
-            .background(isFocused ? Color.backgroundActive : Color.backgroundOverlay)
-            .foregroundColor(isFocused ? .textPrimaryActive : .textPrimary)
+            .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundOverlay)
+            .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
             .clipShape(Circle())
             .scaleEffect(isFocused ? 1.1 : 1.0)
             .animation(.easeInOut(duration: 0.15), value: isFocused)
@@ -147,7 +147,7 @@ struct EpisodeRowWithActions: View {
                     Spacer()
                         .frame(width: !shouldShowMoreButton ? Layout.spacing + MoreButtonStyle.Layout.size : 0)
                 }
-                .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
+                .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .buttonStyle(EpisodeRowButtonStyle())

@@ -21,17 +21,17 @@ struct PlaylistCell: View {
             VStack(alignment: .leading) {
                 Text(model.playlistName)
                     .font(.headline)
-                    .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
+                    .foregroundColor(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
                 if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
-                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                        .foregroundColor(isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
                     Text(model.state == .loading ? "" : model.episodeCountText)
                         .font(.caption)
-                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                        .foregroundColor(isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
                     Spacer()
                 }
             }
@@ -56,7 +56,7 @@ struct PlaylistCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(isFocused ? Color.backgroundActive : model.playlistColor)
+        .background(isFocused ? Color.pcBackgroundActive : model.playlistColor)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
         .clipped()
         .task {

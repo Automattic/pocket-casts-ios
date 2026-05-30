@@ -19,7 +19,7 @@ struct SignInView: View {
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
-        linkStyle.foregroundColor = Color.textPrimary
+        linkStyle.foregroundColor = Color.pcTextPrimary
         linkStyle.underlineStyle = .single
 
         for run in attributedString.runs where run.link != nil {
@@ -48,7 +48,7 @@ struct SignInView: View {
                 Image(ImageResource.pcLogo)
                 Text(L10n.tvSignInTitle)
                     .font(.title)
-                    .foregroundColor(Color.textPrimary)
+                    .foregroundColor(Color.pcTextPrimary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
                         Text(type.description).tag(type)
@@ -66,12 +66,12 @@ struct SignInView: View {
                     case .qr:
                         Text(L10n.tvSignInSubtitle)
                             .font(.headline)
-                            .foregroundStyle(Color.textSecondary)
+                            .foregroundStyle(Color.pcTextSecondary)
                         QRCodeView(url: model.pairURLString)
                         separator
                         Text(enterCodePrompt)
                             .font(.headline)
-                            .foregroundStyle(Color.textSecondary)
+                            .foregroundStyle(Color.pcTextSecondary)
                         qrCodeDigits
                     }
                 }
@@ -94,7 +94,7 @@ struct SignInView: View {
                 coordinator.state = .userSync
             }
         }
-        .background(Color.backgroundBase)
+        .background(Color.pcBackgroundBase)
     }
 
     var qrCodeDigits: some View {
@@ -106,9 +106,9 @@ struct SignInView: View {
                     ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
                         Text(code)
                             .font(.caption2)
-                            .foregroundStyle(Color.textSecondary)
+                            .foregroundStyle(Color.pcTextSecondary)
                             .padding()
-                            .background(Color.backgroundActive50)
+                            .background(Color.pcBackgroundActive50)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
@@ -120,7 +120,7 @@ struct SignInView: View {
         Rectangle()
         .foregroundColor(.clear)
         .frame(width: 566, height: 1)
-        .background(Color.textDisabled)
+        .background(Color.pcTextDisabled)
     }
 
     @FocusState private var focusedField: Field?

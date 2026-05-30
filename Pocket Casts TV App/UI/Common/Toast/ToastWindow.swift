@@ -50,12 +50,12 @@ class ToastView: UIView {
     required init?(coder: NSCoder) { fatalError() }
 
     private func setupUI(message: String) {
-        backgroundColor = UIColor(Color.backgroundOverlay)
+        backgroundColor = UIColor(Color.pcBackgroundOverlay)
         layer.cornerRadius = 10
         translatesAutoresizingMaskIntoConstraints = false
 
         messageLabel.text = message
-        messageLabel.textColor = UIColor(Color.textPrimary)
+        messageLabel.textColor = UIColor(Color.pcTextPrimary)
         messageLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center

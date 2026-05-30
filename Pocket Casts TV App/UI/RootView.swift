@@ -27,7 +27,7 @@ struct RootView: View {
             await coordinator.load()
         }
         .ignoresSafeArea()
-        .background(Color.backgroundSurface)
+        .background(Color.pcBackgroundSurface)
     }
 }
 
