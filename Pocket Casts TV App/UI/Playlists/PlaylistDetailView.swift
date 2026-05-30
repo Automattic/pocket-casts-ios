@@ -107,7 +107,7 @@ struct PlaylistDetailView: View {
     var playlistInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
             mosaicCover
-                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
+                .shadow(color: .pcShadowStrong, radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 if !model.isManual {
                     Text(L10n.smartPlaylist)

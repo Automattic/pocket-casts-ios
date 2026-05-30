@@ -29,4 +29,8 @@ extension Color {
     static let pcBackgroundActive = Color(red: 0.98, green: 0.98, blue: 0.99)
 
     static let pcBackgroundActive50 = Color(red: 0.98, green: 0.98, blue: 0.99).opacity(0.2)
+
+    static let pcShadowLight = black.opacity(0.2)
+
+    static let pcShadowStrong = black.opacity(0.6)
 }

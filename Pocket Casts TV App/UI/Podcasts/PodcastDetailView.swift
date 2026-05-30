@@ -74,7 +74,7 @@ struct PodcastDetailView: View {
             PodcastImage(uuid: model.podcastUuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
+                .shadow(color: .pcShadowStrong, radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.podcast?.author ?? "")
                     .font(.caption)
