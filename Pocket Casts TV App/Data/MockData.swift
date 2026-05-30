@@ -214,4 +214,19 @@ struct MockData {
 
         return podcast
     }
+
+    static func makeStubDiscoveryPodcasts() -> [DiscoverPodcast] {
+        var result = [DiscoverPodcast]()
+        for (index, name) in podcastNames.enumerated() {
+            var podcast = DiscoverPodcast()
+            podcast.uuid = UUID().uuidString
+            podcast.title = name
+            podcast.author = authorNames[index]
+            podcast.shortDescription = episodeTitles[index]
+
+            result.append(podcast)
+        }
+
+        return result
+    }
 }
