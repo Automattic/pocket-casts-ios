@@ -16,10 +16,8 @@ struct DiscoverFeaturedPodcastCell: View {
 
     enum Layout {
         static let imageSize = CGFloat(420)
-        static let rotationEffect = CGFloat(15)
         static let cardHeight = CGFloat(500)
         static let cardWidth = CGFloat(1604)
-        static let iconSize = CGFloat(48)
     }
 
     init(podcast: DiscoverPodcast, sponsored: Bool = false) {
