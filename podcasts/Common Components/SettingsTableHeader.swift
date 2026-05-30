@@ -39,12 +39,14 @@ class SettingsTableHeader: ThemeableView {
 
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let titleTrailing = titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+        titleTrailing.priority = .defaultHigh
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: Constants.Values.tableSectionHeaderHeight),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleTrailing,
         ])
 
         if showLockedImage {
@@ -80,6 +82,27 @@ class SettingsTableHeader: ThemeableView {
         }
 
         updateSize()
+    }
+
+    func addInfoButton(selector: Selector, target: Any, accessibilityLabel: String) {
+        titleLabel.setContentHuggingPriority(.required, for: .horizontal)
+
+        let infoButton = UIButton(type: .system)
+        infoButton.setImage(UIImage(named: "empty-playlist-info")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        infoButton.tintColor = AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride)
+        infoButton.imageView?.contentMode = .scaleAspectFit
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.addTarget(target, action: selector, for: .touchUpInside)
+        infoButton.accessibilityLabel = accessibilityLabel
+        addSubview(infoButton)
+        let iconSize: CGFloat = 18
+        NSLayoutConstraint.activate([
+            infoButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 6),
+            infoButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            infoButton.widthAnchor.constraint(equalToConstant: iconSize),
+            infoButton.heightAnchor.constraint(equalToConstant: iconSize),
+            trailingAnchor.constraint(greaterThanOrEqualTo: infoButton.trailingAnchor, constant: 16)
+        ])
     }
 
     override func handleThemeDidChange() {

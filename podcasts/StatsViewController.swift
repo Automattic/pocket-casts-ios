@@ -86,7 +86,9 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         switch sections[section] {
         case .heatmap:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
+            let header = SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
+            header.addInfoButton(selector: #selector(showHeatmapInfo), target: self, accessibilityLabel: L10n.statsListeningActivityInfoAccessibilityLabel)
+            return header
         case .timeSavedBreakdown:
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
         case .header, .timeSavedTotal:
@@ -244,6 +246,20 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     private func formatStat(_ stat: Double) -> String {
         stat.localizedTimeDescription ?? L10n.statsTimeZeroSeconds
+    }
+
+    @objc private func showHeatmapInfo() {
+        let view = ModalMessageView(
+            title: L10n.statsListeningActivityInfoTitle,
+            message: L10n.statsListeningActivityInfoMessage,
+            actionTitle: L10n.gotIt
+        )
+        BottomSheetSwiftUIWrapper.present(
+            view.environmentObject(Theme.sharedTheme),
+            autoSize: true,
+            showingGrabber: true,
+            in: self
+        )
     }
 
     private func requestReviewIfPossible() {

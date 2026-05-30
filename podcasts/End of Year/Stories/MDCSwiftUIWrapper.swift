@@ -139,7 +139,7 @@ class BottomSheetSwiftUIWrapper<ContentView: View>: UIViewController, UISheetPre
     }
 }
 
-extension UIViewController {
+private extension UIViewController {
     func presentModally(
         in viewController: UIViewController,
         detents: [UISheetPresentationController.Detent] = [.medium()],
@@ -153,7 +153,7 @@ extension UIViewController {
                 sheetController.delegate = sheetDelegate
             }
             sheetController.prefersGrabberVisible = showingGrabber
-            sheetController.preferredCornerRadius = 10
+            sheetController.preferredCornerRadius = LiquidGlass.isEnabled ? 26 : 10
 
             // Prevent sheet from being dismissed by dragging down
             sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
