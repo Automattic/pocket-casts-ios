@@ -39,6 +39,15 @@ enum BannerType {
             return ImageResource.Banners.discoverMore
         }
     }
+
+    var gradient: Bool {
+        switch self {
+        case .createAccount:
+            return false
+        case .discoverMore:
+            return true
+        }
+    }
 }
 
 struct BannerRow: View {
@@ -47,6 +56,7 @@ struct BannerRow: View {
     let subtitle: String
     let actionTitle: String
     let icon: ImageResource
+    let gradient: Bool
     let action: (() -> ())?
 
     let focusSection: AnyHashable
@@ -56,6 +66,7 @@ struct BannerRow: View {
         self.subtitle = type.subtitle
         self.actionTitle = type.actionTitle
         self.icon = type.icon
+        self.gradient = type.gradient
         self.action = action
         self.focusSection = focusSection
     }
@@ -63,6 +74,16 @@ struct BannerRow: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Image(icon)
+            if gradient {
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: Color.backgroundSunken.opacity(0), location: 0.00),
+                        Gradient.Stop(color: Color.backgroundSunken, location: 1.00),
+                    ],
+                    startPoint: UnitPoint(x: 0, y: 0.5),
+                    endPoint: UnitPoint(x: 0.18, y: 0.5)
+                )
+            }
             HStack(spacing: 0) {
                 Spacer().frame(width: 400)
                 VStack(alignment: .leading) {
