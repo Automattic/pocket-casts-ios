@@ -26,28 +26,26 @@ class StarredViewController: PCViewController {
     }
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
+    @MainActor
     var isMultiSelectEnabled: Bool = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.starredTable.beginUpdates()
-                self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.starredTable.endUpdates()
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.starredMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.starredTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.starredMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            starredTable.beginUpdates()
+            starredTable.setEditing(isMultiSelectEnabled, animated: true)
+            starredTable.endUpdates()
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            if isMultiSelectEnabled {
+                Analytics.track(.starredMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    starredTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.starredMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }

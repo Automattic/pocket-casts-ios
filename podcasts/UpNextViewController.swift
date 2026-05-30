@@ -27,29 +27,26 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         InsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
     }()
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            let didChange = oldValue != isMultiSelectEnabled
+            guard oldValue != isMultiSelectEnabled else { return }
 
-            DispatchQueue.main.async { [weak self] in
-                guard let self, didChange else { return }
-
-                self.updateNavBarButtons()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
-                if !self.isMultiSelectEnabled {
-                    self.multiSelectActionBar.isHidden = true
-                    self.selectedPlayListEpisodes.removeAll()
-                    self.track(.upNextMultiSelectExited)
-                } else {
-                    self.track(.upNextMultiSelectEntered)
-                }
-                self.updateNavBarButtons(animated: true)
-                if self.showingInTab {
-                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
-                }
-                self.animateMultiSelectChange()
+            updateNavBarButtons()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
+            if !isMultiSelectEnabled {
+                multiSelectActionBar.isHidden = true
+                selectedPlayListEpisodes.removeAll()
+                track(.upNextMultiSelectExited)
+            } else {
+                track(.upNextMultiSelectEntered)
             }
+            updateNavBarButtons(animated: true)
+            if showingInTab {
+                multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
+            }
+            animateMultiSelectChange()
         }
     }
 
