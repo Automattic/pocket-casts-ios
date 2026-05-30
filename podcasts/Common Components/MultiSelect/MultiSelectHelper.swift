@@ -207,10 +207,8 @@ class MultiSelectHelper {
 
         let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
         let downloadAction = OptionAction(label: downloadText, icon: nil) {
-            MainActor.assumeIsolated {
-                MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-                actionDelegate.multiSelectActionCompleted()
-            }
+            MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
+            actionDelegate.multiSelectActionCompleted()
         }
 
         let confirmPicker = OptionsPicker(title: nil)
@@ -227,11 +225,9 @@ class MultiSelectHelper {
             }
         } else {
             let queueAction = OptionAction(label: L10n.queueForLater, icon: nil) {
-                MainActor.assumeIsolated {
-                    let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
-                    actionDelegate.multiSelectActionBegan(status: status)
-                    queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
-                }
+                let status = L10n.multiSelectQueuingEpisodesFormat(selectedEpisodes.count.localized())
+                actionDelegate.multiSelectActionBegan(status: status)
+                queueEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
             }
             queueAction.outline = true
 
