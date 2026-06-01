@@ -4,7 +4,6 @@ import UIKit
 
 extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSource {
     private static let episodeCellId = "EpisodeCellID"
-    private static let topDividerTag = 9821
 
     func registerCells() {
         listeningHistoryTable.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: ListeningHistoryViewController.episodeCellId)
@@ -54,32 +53,9 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
             }
         }
 
-        configureTopDivider(on: cell, isFirstInSection: indexPath.row == 0)
+        cell.showsTopDivider = indexPath.row == 0
 
         return cell
-    }
-
-    // The section header (DateHeadingView) can't host the top divider for the first cell
-    // because plain-style headers stick during scroll, which would detach the divider from
-    // the cell. Adding it to the cell instead keeps it anchored.
-    private func configureTopDivider(on cell: EpisodeCell, isFirstInSection: Bool) {
-        let existing = cell.contentView.viewWithTag(ListeningHistoryViewController.topDividerTag)
-        guard isFirstInSection else {
-            existing?.removeFromSuperview()
-            return
-        }
-        if existing != nil { return }
-
-        let divider = ThemeDividerView()
-        divider.tag = ListeningHistoryViewController.topDividerTag
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(divider)
-        NSLayoutConstraint.activate([
-            divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale),
-            divider.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
-            divider.topAnchor.constraint(equalTo: cell.contentView.topAnchor)
-        ])
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

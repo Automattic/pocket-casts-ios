@@ -42,6 +42,30 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         }
     }
 
+    private var topDivider: ThemeDividerView?
+
+    /// Shows a hairline divider along the top edge of the cell. Used by lists where the
+    /// section header is transparent (e.g. plain-style sticky headers under Liquid Glass)
+    /// and can't host the divider itself.
+    var showsTopDivider = false {
+        didSet {
+            guard showsTopDivider != oldValue else { return }
+            if showsTopDivider, topDivider == nil {
+                let divider = ThemeDividerView()
+                divider.translatesAutoresizingMaskIntoConstraints = false
+                contentView.addSubview(divider)
+                NSLayoutConstraint.activate([
+                    divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale),
+                    divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                    divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                    divider.topAnchor.constraint(equalTo: contentView.topAnchor)
+                ])
+                topDivider = divider
+            }
+            topDivider?.isHidden = !showsTopDivider
+        }
+    }
+
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
