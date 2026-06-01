@@ -34,6 +34,13 @@ class ListeningHistoryViewController: PCViewController {
             listeningHistoryTable.rowHeight = UITableView.automaticDimension
             listeningHistoryTable.allowsMultipleSelection = true
             listeningHistoryTable.allowsMultipleSelectionDuringEditing = true
+            // EpisodeCell draws its own bottom divider, so disable the table's
+            // built-in separator to avoid stacking them into a thicker line.
+            listeningHistoryTable.separatorStyle = .none
+            if LiquidGlass.isEnabled {
+                listeningHistoryTable.sectionHeaderHeight = 32
+                listeningHistoryTable.estimatedSectionHeaderHeight = 32
+            }
             registerLongPress()
         }
     }
@@ -227,7 +234,7 @@ class ListeningHistoryViewController: PCViewController {
         var config: UIContentConfiguration?
 
         listeningHistoryTable.backgroundView = UIView()
-        listeningHistoryTable.themeStyle = .primaryUi04
+        listeningHistoryTable.themeStyle = .primaryUi02
 
         if episodes.isEmpty {
             if searchController?.searchTextField.text?.isEmpty == false {
