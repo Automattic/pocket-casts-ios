@@ -4,6 +4,7 @@ import JLRoutes
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
+import SwiftUI
 
 extension AppDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -567,6 +568,14 @@ extension AppDelegate {
                 }
             }
         })
+    }
+
+    func openSharedProfile(slug: String, controller: UIViewController) {
+        NavigationManager.sharedManager.dismissPresentedViewController()
+
+        let sharedProfileView = SharedProfileView(viewModel: SharedProfileViewModel(profileSlug: slug))
+        let hostingController = PCHostingController(rootView: sharedProfileView)
+        controller.present(hostingController, animated: true)
     }
 
     private func setupTestFlightIAPRoutes() {

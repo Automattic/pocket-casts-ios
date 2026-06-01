@@ -46,6 +46,14 @@ extension AppDelegate {
                 return
             }
 
+            if path.startsWith(string: "/user/"), FeatureFlag.shareProfile.enabled {
+                let slug = String(path.dropFirst("/user/".count))
+                if !slug.isEmpty {
+                    openSharedProfile(slug: slug, controller: controller)
+                    return
+                }
+            }
+
             // Also pass any query params from the share URL to the server to allow support for episode position handling
             // Ex: ?t=123
             let query = components.query.map { "?\($0)" } ?? ""
