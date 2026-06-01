@@ -1,8 +1,9 @@
 import Foundation
-import PocketCastsDataModel
+@preconcurrency import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
+@MainActor
 class MultiSelectHelper {
     // MARK: - Action Helpers
 
@@ -56,9 +57,9 @@ class MultiSelectHelper {
             let status = selectedEpisodes.count == 1 ? L10n.multiSelectUnstarringEpisodesSingular : L10n.multiSelectUnstarringEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.bulkSetStarred(star, episodes: selectedEpisodes, updateSyncStatus: SyncManager.isUserLoggedIn())
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -76,39 +77,39 @@ class MultiSelectHelper {
         if downloadedEpisodes.isEmpty {
             alert = UIAlertController(title: L10n.deleteFromCloud, message: deleteFileMessage(uploadedEpisodes.count), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.deleteFromCloud, style: .destructive) { _ in
-                DispatchQueue.global().async {
+                Task.detached {
                     for episode in uploadedEpisodes {
                         UserEpisodeManager.deleteFromCloud(episode: episode)
                     }
-                    actionDelegate.multiSelectActionCompleted()
+                    await actionDelegate.multiSelectActionCompleted()
                 }
             })
         } else if uploadedEpisodes.isEmpty {
             alert = UIAlertController(title: L10n.deleteFromDevice, message: deleteFileMessage(downloadedEpisodes.count), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .destructive) { _ in
-                DispatchQueue.global().async {
+                Task.detached {
                     for episode in downloadedEpisodes {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                     }
-                    actionDelegate.multiSelectActionCompleted()
+                    await actionDelegate.multiSelectActionCompleted()
                 }
             })
         } else {
             alert = UIAlertController(title: L10n.deleteFile, message: deleteFileMessage(downloadedEpisodes.count), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: L10n.deleteFromDeviceOnly, style: .default) { _ in
-                DispatchQueue.global().async {
+                Task.detached {
                     for episode in downloadedEpisodes {
                         UserEpisodeManager.deleteFromDevice(userEpisode: episode)
                     }
-                    actionDelegate.multiSelectActionCompleted()
+                    await actionDelegate.multiSelectActionCompleted()
                 }
             })
             alert.addAction(UIAlertAction(title: L10n.deleteEverywhere, style: .destructive) { _ in
-                DispatchQueue.global().async {
+                Task.detached {
                     for episode in selectedEpisodes {
                         UserEpisodeManager.deleteFromEverywhere(userEpisode: episode)
                     }
-                    actionDelegate.multiSelectActionCompleted()
+                    await actionDelegate.multiSelectActionCompleted()
                 }
             })
         }
@@ -122,10 +123,10 @@ class MultiSelectHelper {
         let selectedUserEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? UserEpisode }
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectArchivingEpisodesSingular : L10n.multiSelectArchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.bulkArchive(episodes: selectedEpisodes, removeFromPlayer: true, updateSyncFlag: SyncManager.isUserLoggedIn())
             EpisodeManager.bulkMarkAsPlayed(episodes: selectedUserEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -133,9 +134,9 @@ class MultiSelectHelper {
         let selectedEpisodes = actionDelegate.multiSelectedBaseEpisodes().compactMap { $0 as? Episode }
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectUnarchivingEpisodesSingular : L10n.multiSelectUnarchivingEpisodesPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.bulkUnarchive(episodes: selectedEpisodes)
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -154,19 +155,16 @@ class MultiSelectHelper {
             let status = selectedEpisodes.count == 1 ? L10n.multiSelectAddingEpisodesSingular : L10n.multiSelectAddingEpisodesPluralFormat(selectedEpisodes.count.localized())
             actionDelegate.multiSelectActionBegan(status: status)
         }
-        DispatchQueue.global().async {
+        Task.detached {
             PlaybackManager.shared.bulkAdd(episodesToAdd, toTop: toTop)
             if showDelayedCompletionMessage {
                 let timeSinceStatusDisplayed = 0 - statusTime.timeIntervalSinceNow
                 if timeSinceStatusDisplayed < Constants.Animation.multiSelectStatusDelayTime {
                     let delay = Constants.Animation.multiSelectStatusDelayTime - timeSinceStatusDisplayed
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) { () in
-                        actionDelegate.multiSelectActionCompleted()
-                    }
-                    return
+                    try? await Task.sleep(for: .seconds(delay))
                 }
             }
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -175,9 +173,9 @@ class MultiSelectHelper {
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesPlayedSingular : L10n.multiSelectMarkEpisodesPlayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
 
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.bulkMarkAsPlayed(episodes: selectedEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -187,10 +185,10 @@ class MultiSelectHelper {
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectMarkEpisodesUnplayedSingular : L10n.multiSelectMarkEpisodesUnplayedPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
 
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.bulkMarkAsUnPlayed(selectedEpisodes)
             EpisodeManager.bulkUnarchive(episodes: selectedArchiveEpisodes)
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -208,7 +206,7 @@ class MultiSelectHelper {
         }
 
         let downloadText = L10n.downloadCountPrompt(selectedEpisodes.count).localizedUppercase
-        let downloadAction = OptionAction(label: downloadText, icon: nil) { () in
+        let downloadAction = OptionAction(label: downloadText, icon: nil) {
             MultiSelectHelper.downloadEpisodes(downloadableEpisodes, actionDelegate: actionDelegate)
             actionDelegate.multiSelectActionCompleted()
         }
@@ -244,7 +242,7 @@ class MultiSelectHelper {
     }
 
     private class func downloadEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {
-        DispatchQueue.global().async {
+        Task.detached {
             var queuedEpisodes = 0
             for episode in episodes {
                 DownloadManager.shared.addToQueue(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
@@ -253,14 +251,14 @@ class MultiSelectHelper {
                     return
                 }
             }
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
 
         AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
     }
 
     private class func queueEpisodes(_ episodes: [BaseEpisode], actionDelegate: MultiSelectActionDelegate) {
-        DispatchQueue.global().async {
+        Task.detached {
             var queuedEpisodes = 0
             for episode in episodes {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episode.uuid, fireNotification: true, autoDownloadStatus: .notSpecified)
@@ -269,7 +267,7 @@ class MultiSelectHelper {
                     return
                 }
             }
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
 
         AnalyticsEpisodeHelper.shared.bulkDownloadEpisodes(episodes: episodes)
@@ -280,9 +278,9 @@ class MultiSelectHelper {
         let status = selectedEpisodes.count == 1 ? L10n.multiSelectRemoveDownloadSingular : L10n.multiSelectRemoveDownloadsPluralFormat(selectedEpisodes.count.localized())
         actionDelegate.multiSelectActionBegan(status: status)
 
-        DispatchQueue.global().async {
+        Task.detached {
             EpisodeManager.removeDownloadForEpisodes(selectedEpisodes)
-            actionDelegate.multiSelectActionCompleted()
+            await actionDelegate.multiSelectActionCompleted()
         }
     }
 
@@ -354,9 +352,7 @@ class MultiSelectHelper {
         let presentingVC = actionDelegate.multiSelectPresentingViewController()
         let chooser = ManualPlaylistsChooserViewController(episodes: episodes, analyticsSource: "multi_select")
         let navController = UINavigationController(rootViewController: chooser)
-        DispatchQueue.main.async {
-            presentingVC.present(navController, animated: true)
-        }
+        presentingVC.present(navController, animated: true)
     }
 
     private class func removeListeningHistory(actionDelegate: MultiSelectActionDelegate) {

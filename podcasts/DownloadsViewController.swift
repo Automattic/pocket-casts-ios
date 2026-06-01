@@ -29,29 +29,27 @@ class DownloadsViewController: PCViewController {
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.downloadsTable.beginUpdates()
-                self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                self.downloadsTable.endUpdates()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            downloadsTable.beginUpdates()
+            downloadsTable.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            downloadsTable.endUpdates()
 
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.downloadsMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.downloadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.downloadsMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                Analytics.track(.downloadsMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    downloadsTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.downloadsMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }

@@ -26,15 +26,13 @@ extension PodcastViewController {
     }
 
     func multiSelectActionCompleted() {
-        DispatchQueue.main.async {
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+            self.multiSelectFooterBottomConstraint.constant = 0
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                self.multiSelectFooterBottomConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }, completion: { _ in
-                self.isMultiSelectEnabled = false
-            })
-        }
+        }, completion: { _ in
+            self.isMultiSelectEnabled = false
+        })
     }
 
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {

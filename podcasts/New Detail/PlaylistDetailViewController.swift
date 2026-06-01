@@ -63,38 +63,35 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
 
     private var refreshControl: CustomRefreshControl?
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            tableView.beginUpdates()
+            tableView.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            tableView.endUpdates()
 
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.tableView.beginUpdates()
-                self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                self.tableView.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    if self.viewModel.isSearching {
-                        self.searchController.searchTextField.resignFirstResponder()
-                    }
-                    self.track(.filterMultiSelectEntered)
-                    if self.selectedEpisodes.isEmpty, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
-                        self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
-                    }
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.tableView.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                } else {
-                    self.track(.filterMultiSelectExited)
-                    self.multiSelectFooter.isHidden = true
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                if viewModel.isSearching {
+                    searchController.searchTextField.resignFirstResponder()
                 }
-                self.updateMultiSelectNavBar()
+                track(.filterMultiSelectEntered)
+                if selectedEpisodes.isEmpty, longPressMultiSelectIndexPath == nil, !multiSelectGestureInProgress {
+                    tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
+                }
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    tableView.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
+                }
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+            } else {
+                track(.filterMultiSelectExited)
+                multiSelectFooter.isHidden = true
+                selectedEpisodes.removeAll()
             }
+            updateMultiSelectNavBar()
         }
     }
 
