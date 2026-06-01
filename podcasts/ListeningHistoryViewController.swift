@@ -239,7 +239,7 @@ class ListeningHistoryViewController: PCViewController {
                 let message = L10n.profileListeningHistoryEmptyDescription
                 config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("options-history").renderingMode(.template) }, actions: [
                     .init(title: L10n.goToDiscover, action: {
-                        Analytics.shared.track(.listeningHistoryDiscoverButtonTapped)
+                        Analytics.track(.listeningHistoryDiscoverButtonTapped)
                         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                     })
                 ])

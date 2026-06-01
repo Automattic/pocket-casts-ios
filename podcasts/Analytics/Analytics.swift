@@ -28,26 +28,30 @@ class Analytics {
     }
 #endif
 
-    /// Convenience method to call Analytics.shared.track*
-    static func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+    /// Convenience method to call Analytics.track*
+    static func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         Self.shared.track(event, properties: properties)
     }
 
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+    func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         _track(event.eventName, properties: properties)
     }
 
-    private func _track(_ eventName: String, properties: [AnyHashable: Any]? = nil) {
-        var newProperties = (properties ?? [:]).mapValues { (($0 as? AnalyticsDescribable)?.analyticsDescription) ?? $0 }
+    private func _track(_ eventName: String, properties: [String: Sendable]? = nil) {
+        var properties: [String: Sendable] = (properties ?? [:]).mapValues { value in
+            (value as? AnalyticsDescribable)?.analyticsDescription ?? value
+        }
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
         if FeatureFlag.appThemePropertiesLogging.enabled {
             analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
-                newProperties[key] = value
+                properties[key] = value
             }
         }
 #endif
-        adapters?.forEach {
-            $0.track(name: eventName, properties: newProperties)
+        Task { [adapters] in
+            for adapter in adapters ?? [] {
+                await adapter.track(name: eventName, properties: properties)
+            }
         }
     }
 
@@ -67,16 +71,17 @@ class Analytics {
 
 extension Analytics {
     static func send(_ event: some EventHorizonSDK.Trackable) {
-        Analytics.shared._track(event.analyticsName, properties: event.analyticsProperties)
+        let properties = event.analyticsProperties.mapValues { String(describing: $0) }
+        Analytics.shared._track(event.analyticsName, properties: properties)
     }
 }
 
 // MARK: - Analytics + Source
 
 extension Analytics {
-    static func track(_ event: AnalyticsEvent, source: Any, properties: [AnyHashable: Any]? = nil) {
+    static func track(_ event: AnalyticsEvent, source: Sendable, properties: [String: Sendable]? = nil) {
         var sourceProperties = properties ?? [:]
-        sourceProperties.updateValue(source, forKey: "source")
+        sourceProperties["source"] = source
 
         track(event, properties: sourceProperties)
     }
@@ -121,14 +126,7 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool { get }
-    func track(name: String, properties: [AnyHashable: Any]?)
-}
-
-extension AnalyticsAdapter {
-    var isThirdPartyAdapter: Bool {
-        false
-    }
+    func track(name: String, properties: [String: Sendable]) async
 }
 
 // MARK: - Dynamic Event Name

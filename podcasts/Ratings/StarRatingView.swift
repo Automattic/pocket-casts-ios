@@ -63,7 +63,7 @@ struct StarRatingView: View {
             .sheet(isPresented: $viewModel.presentingGiveRatings, onDismiss: {
                 switch dismissAction {
                 case .dismissAndTracking(let event):
-                    Analytics.shared.track(event)
+                    Analytics.track(event)
                 default:
                     break
                 }

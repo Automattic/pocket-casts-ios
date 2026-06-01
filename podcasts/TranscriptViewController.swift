@@ -145,7 +145,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     func didDisappear() {
         let syncedState = FingerprintTimingManager.shared.state
-        var properties: [AnyHashable: Any] = [
+        var properties: [String: Sendable] = [
             "synced_state_at_dismiss": syncedState.analyticsName,
             "synced_seeks_count": syncedSeeksCount
         ]
@@ -956,7 +956,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
         transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
-        var properties: [AnyHashable: Any] = [:]
+        var properties: [String: Sendable] = [:]
         if let suppressedDate = autoScrollSuppressedDate {
             properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
         }
@@ -1107,7 +1107,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     // MARK: - Tracks
 
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+    func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
 
         if let episodeUUID = playbackManager.episodeUUID,
