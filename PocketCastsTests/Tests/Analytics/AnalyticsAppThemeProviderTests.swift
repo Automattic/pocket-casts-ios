@@ -39,7 +39,7 @@ private class MockAnalytics: Analytics {
 }
 
 private struct MockAnalyticsAppThemeProvider: AnalyticsAppThemeProviding {
-    var appThemeProperties: [String: Any] {
+    var appThemeProperties: [String: Sendable] {
         return ["theme": "dark"]
     }
 }

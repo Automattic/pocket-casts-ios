@@ -2799,7 +2799,7 @@
 				Analytics.swift,
 				"AnalyticsDescribable+Modules.swift",
 				AnalyticsEvent.swift,
-				AnonymousIdentifiable.swift,
+				AnonymousUUID.swift,
 				Helpers/AnalyticsCoordinator.swift,
 				Helpers/AnalyticsEpisodeHelper.swift,
 				Helpers/AnalyticsPlaybackHelper.swift,
