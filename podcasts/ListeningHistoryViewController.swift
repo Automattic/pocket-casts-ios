@@ -234,7 +234,7 @@ class ListeningHistoryViewController: PCViewController {
         var config: UIContentConfiguration?
 
         listeningHistoryTable.backgroundView = UIView()
-        listeningHistoryTable.themeStyle = .primaryUi02
+        listeningHistoryTable.themeStyle = LiquidGlass.isEnabled ? .primaryUi02 : .primaryUi04
 
         if episodes.isEmpty {
             if searchController?.searchTextField.text?.isEmpty == false {

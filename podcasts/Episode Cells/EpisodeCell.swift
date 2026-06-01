@@ -45,8 +45,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     private var topDivider: ThemeDividerView?
 
     /// Shows a hairline divider along the top edge of the cell. Used by lists where the
-    /// section header is transparent (e.g. plain-style sticky headers under Liquid Glass)
-    /// and can't host the divider itself.
+    /// section header is transparent (Liquid Glass plain-style sticky headers) and can't
+    /// host the divider itself.
     var showsTopDivider = false {
         didSet {
             guard showsTopDivider != oldValue else { return }
