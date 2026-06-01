@@ -149,7 +149,6 @@ extension PlaylistsViewController {
         tableView.endUpdates()
 
         var properties: [String: Sendable] = [:]
-
         properties["filter_type"] = playlist.manual ? "manual" : "smart"
 
         Analytics.track(.filterDeleted, properties: properties)

@@ -38,18 +38,20 @@ class Analytics {
     }
 
     private func _track(_ eventName: String, properties: [String: Sendable]? = nil) {
-        var newProperties: [String: Sendable] = (properties ?? [:]).mapValues { value in
+        var properties: [String: Sendable] = (properties ?? [:]).mapValues { value in
             (value as? AnalyticsDescribable)?.analyticsDescription ?? value
         }
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
         if FeatureFlag.appThemePropertiesLogging.enabled {
             analyticsAppThemeProvider?.appThemeProperties.forEach { key, value in
-                newProperties[key] = value
+                properties[key] = value
             }
         }
 #endif
-        adapters?.forEach {
-            $0.track(name: eventName, properties: newProperties)
+        Task { [adapters] in
+            for adapter in adapters ?? [] {
+                await adapter.track(name: eventName, properties: properties)
+            }
         }
     }
 
@@ -124,7 +126,7 @@ protocol AnalyticsDescribable {
 
 /// Classes can implement this to determine their own logic on how to handle each event
 protocol AnalyticsAdapter {
-    func track(name: String, properties: [String: Sendable])
+    func track(name: String, properties: [String: Sendable]) async
 }
 
 // MARK: - Dynamic Event Name

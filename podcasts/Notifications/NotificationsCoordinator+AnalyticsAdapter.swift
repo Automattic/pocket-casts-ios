@@ -2,7 +2,8 @@ import Foundation
 
 extension NotificationsCoordinator: AnalyticsAdapter {
 
-    func track(name: String, properties: [String: Sendable]) {
+    @MainActor
+    func track(name: String, properties: [String: Sendable]) async {
         updateDailyReminders(name: name, properties: properties)
         updateReEngagementNotifications(name: name, properties: properties)
         updateRecommendationNotifications(name: name, properties: properties)

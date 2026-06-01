@@ -126,7 +126,7 @@ private class TestAnalyticsAdapter: AnalyticsAdapter {
     var lastTrackedEvent: String?
     var lastTrackedProperties: [String: Sendable]?
 
-    func track(name: String, properties: [String: Sendable]) {
+    func track(name: String, properties: [String: Sendable]) async {
         trackCallCount += 1
         lastTrackedEvent = name
         lastTrackedProperties = properties
