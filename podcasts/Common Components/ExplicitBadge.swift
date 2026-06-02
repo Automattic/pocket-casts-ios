@@ -1,21 +1,5 @@
 import SwiftUI
-import PocketCastsDataModel
-import PocketCastsServer
 import PocketCastsUtils
-
-struct ExplicitBadge: View {
-    @EnvironmentObject private var theme: Theme
-
-    var body: some View {
-        Text("E")
-            .font(.system(size: 7, weight: .heavy, design: .rounded))
-            .foregroundStyle(.white)
-            .frame(width: 11, height: 11)
-            .background(AppTheme.color(for: .primaryIcon03, theme: theme))
-            .clipShape(RoundedRectangle(cornerRadius: 2))
-            .accessibilityLabel(L10n.podcastExplicitContent)
-    }
-}
 
 enum ExplicitBadgeHelper {
     static let badgeSize: CGFloat = 11
