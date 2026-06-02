@@ -45,7 +45,7 @@ struct DiscoverPodcastsListView: View {
             VStack(alignment: .leading, spacing: 40) {
                 Text(model.name)
                     .font(.title2)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
                 podcastGrid
             }
         }

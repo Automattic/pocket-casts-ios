@@ -24,16 +24,14 @@ extension PlaylistDetailViewController: MultiSelectActionDelegate {
         }
 
         func multiSelectActionCompleted() {
-            DispatchQueue.main.async {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+                self.multiSelectFooterBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
-                UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                    self.multiSelectFooterBottomConstraint.constant = 0
-                    self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    self.multiSelectActionInProgress = false
-                    self.isMultiSelectEnabled = false
-                })
-            }
+            }, completion: { _ in
+                self.multiSelectActionInProgress = false
+                self.isMultiSelectEnabled = false
+            })
         }
 
         func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {

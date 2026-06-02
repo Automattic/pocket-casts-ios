@@ -30,9 +30,10 @@ struct WelcomeView: View {
                         .frame(height: 108)
                     Text(L10n.tvWelcomeTitle)
                         .font(.title)
+                        .foregroundColor(Color.pcTextPrimary)
                     Text(L10n.tvWelcomeSubtitle)
                         .font(.headline)
-                        .foregroundColor(Color.textSecondary)
+                        .foregroundColor(Color.pcTextSecondary)
                         .padding(.bottom, 16)
                     HStack(spacing: 16) {
                         NavigationLink(value: Destination.signIn) {
@@ -56,7 +57,7 @@ struct WelcomeView: View {
             }
             .navigationDestination(for: Destination.self) { destination in
                 ZStack {
-                    Color.backgroundSurface
+                    Color.pcBackgroundSurface
                         .ignoresSafeArea()
                     switch destination {
                     case .signIn:
@@ -111,8 +112,8 @@ struct WelcomeView: View {
           .background(
             LinearGradient(
               stops: [
-                Gradient.Stop(color: Color.backgroundSurface, location: 0.00),
-                Gradient.Stop(color: Color.backgroundSurface.opacity(0.5), location: 1.00),
+                Gradient.Stop(color: Color.pcBackgroundSurface, location: 0.00),
+                Gradient.Stop(color: Color.pcBackgroundSurface.opacity(0.5), location: 1.00),
               ],
               startPoint: UnitPoint(x: 0.5, y: 0.45),
               endPoint: UnitPoint(x: 0.5, y: 0.17)

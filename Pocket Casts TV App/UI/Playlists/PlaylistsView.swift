@@ -37,7 +37,7 @@ struct PlaylistsView: View {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPlaylists)
                         .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                     playlistsCollection
                 }
             }

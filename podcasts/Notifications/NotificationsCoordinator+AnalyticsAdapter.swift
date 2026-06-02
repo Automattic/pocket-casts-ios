@@ -2,13 +2,14 @@ import Foundation
 
 extension NotificationsCoordinator: AnalyticsAdapter {
 
-    func track(name: String, properties: [AnyHashable: Any]?) {
+    @MainActor
+    func track(name: String, properties: [String: Sendable]) async {
         updateDailyReminders(name: name, properties: properties)
         updateReEngagementNotifications(name: name, properties: properties)
         updateRecommendationNotifications(name: name, properties: properties)
     }
 
-    func updateDailyReminders(name: String, properties: [AnyHashable: Any]?) {
+    func updateDailyReminders(name: String, properties: [String: Sendable]) {
         guard NotificationsGroup.dailyReminders.isEnabled else {
             return
         }
@@ -20,7 +21,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
         }
     }
 
-    func updateReEngagementNotifications(name: String, properties: [AnyHashable: Any]?) {
+    func updateReEngagementNotifications(name: String, properties: [String: Sendable]) {
         guard NotificationsGroup.newFeaturesAndTips.isEnabled else {
             return
         }
@@ -37,7 +38,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
         }
     }
 
-    func updateRecommendationNotifications(name: String, properties: [AnyHashable: Any]?) {
+    func updateRecommendationNotifications(name: String, properties: [String: Sendable]) {
         guard NotificationsGroup.recommendations.isEnabled else {
             return
         }
@@ -55,7 +56,7 @@ extension NotificationsCoordinator: AnalyticsAdapter {
 
 extension NotificationType {
 
-    func checkCancelConditionsForEvent(name: String, properties: [AnyHashable: Any]?) -> Bool {
+    func checkCancelConditionsForEvent(name: String, properties: [String: Sendable]) -> Bool {
         var possibleConditions: Set<AnalyticsEvent>
 
         switch self {
@@ -94,17 +95,17 @@ extension NotificationType {
         // check for properties
         switch self {
         case .onboardingStaffPicks:
-            guard let properties, let listID = properties["list_id"] as? String else {
+            guard let listID = properties["list_id"] as? String else {
                 return false
             }
             return listID == "staff-picks"
         case .recommendationsTrending:
-                guard let properties, let listID = properties["list_id"] as? String else {
+                guard let listID = properties["list_id"] as? String else {
                     return false
                 }
                 return listID == "trending"
         case .recommendationsYouMightLike:
-                guard let properties, let listID = properties["list_id"] as? String else {
+                guard let listID = properties["list_id"] as? String else {
                     return false
                 }
                 return listID == "recommendations_user"

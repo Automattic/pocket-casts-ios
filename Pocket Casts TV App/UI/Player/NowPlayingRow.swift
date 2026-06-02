@@ -36,10 +36,10 @@ struct NowPlayingRow: View {
                     Spacer()
                     Text(model.displayDate)
                         .font(.body)
-                        .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                     Text(model.episode.displayableTitle())
                         .font(.title3)
-                        .foregroundColor(isFocused ? .textPrimaryActive : .textPrimary)
+                        .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                         .lineLimit(2)
                     ProgressView(value: model.progress)
                         .foregroundStyle(.blue)
@@ -47,12 +47,12 @@ struct NowPlayingRow: View {
                         .clipShape(RoundedRectangle(cornerRadius: 100))
                     Text(model.timeLeft)
                         .font(.body)
-                        .foregroundColor(isFocused ? .textSecondaryActive : .textSecondary)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                     Spacer()
                 }
                 Spacer()
             }
-            .background(isFocused ? Color.backgroundActive : Color.backgroundSunken)
+            .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         }
         .buttonStyle(.card)
     }

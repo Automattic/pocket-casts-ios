@@ -312,7 +312,7 @@ final class FingerprintTimingManager: NSObject {
         filterCandidatePool.removeAll()
     }
 
-    private func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+    private func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
         if let episodeUuid = context?.episodeUuid {
             properties["episode_uuid"] = episodeUuid

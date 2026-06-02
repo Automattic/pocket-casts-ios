@@ -1,12 +1,7 @@
-protocol AnonymousIdentifiable {
-    var anonymousUUID: String { get }
-    var userDefaults: UserDefaults { get }
+import Foundation
 
-    func generateAnonymousUUID() -> String
-}
-
-extension AnonymousIdentifiable {
-    func generateAnonymousUUID() -> String {
+enum AnonymousUUID {
+    static func generate(userDefaults: UserDefaults) -> String {
         let key = "TracksAnonymousUUID"
 
         // Generate a new UUID if there isn't currently one

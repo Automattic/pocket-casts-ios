@@ -664,7 +664,7 @@ private extension IAPHelper {
             }
         }
 
-        var properties: [AnyHashable: Any] = ["product": productId.rawValue,
+        var properties: [String: Sendable] = ["product": productId.rawValue,
                                               "offer_type": offerType,
                                               "tier": productId.subscriptionTier.rawValue.lowercased(),
                                               "frequency": productId.frequency.rawValue]
