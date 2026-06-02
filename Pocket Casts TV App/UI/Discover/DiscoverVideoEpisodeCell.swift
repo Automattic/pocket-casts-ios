@@ -9,7 +9,7 @@ struct DiscoverVideoEpisodeCell: View {
     @Namespace private var ns
     @Environment(FocusStore.self) var focusStore
 
-    let episode: DiscoverEpisode
+    @State private var model: DiscoverVideoEpisodeModel
 
     enum FocusValues {
         case playEpisode
@@ -32,12 +32,11 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     init(episode: DiscoverEpisode) {
-        self.episode = episode
+        self.model = DiscoverVideoEpisodeModel(episode: episode)
     }
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            //VideoPlayer(player: AVPlayer(url: URL(string: episode.url!)!))
             placeholderFocusView
             VStack {
                 Spacer()
@@ -50,11 +49,15 @@ struct DiscoverVideoEpisodeCell: View {
         }
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
-        .background(Color.backgroundSunken)
+        .background {
+            backgroundThumbnail
+        }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
         .focusSection()
         .focusScope(ns)
+        .scaleEffect(isFocused ? 1.1 : 1.0)
+        .animation(.easeInOut, value: isFocused)
         .onChange(of: focusedButton) { _, focused in
             if let focused {
                 lastFocusedButton = focused
@@ -63,6 +66,9 @@ struct DiscoverVideoEpisodeCell: View {
                 collapse()
             }
             focusStore.focusedID = DiscoverType.video
+        }
+        .task {
+            await model.load()
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
@@ -116,7 +122,7 @@ struct DiscoverVideoEpisodeCell: View {
             }
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video)
-            if let podcast = episode.discoverPodcast {
+            if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
@@ -131,18 +137,18 @@ struct DiscoverVideoEpisodeCell: View {
     var nonFocusedContent: some View {
         Group {
             HStack(alignment: .bottom, spacing: 48) {
-                if let podcastUuid = episode.podcastUuid {
+                if let podcastUuid = model.episode.podcastUuid {
                     PodcastImage(uuid: podcastUuid, size: .page)
                         .frame(width: Layout.imageSize, height: Layout.imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 VStack(alignment: .leading, spacing: 8) {
-                    if let title = episode.podcastTitle {
+                    if let title = model.episode.podcastTitle {
                         Text(title)
                             .font(.caption)
                             .foregroundColor(.textSecondary)
                     }
-                    if let description = episode.title {
+                    if let description = model.episode.title {
                         Text(description)
                             .lineLimit(1)
                             .font(.caption)
@@ -154,18 +160,25 @@ struct DiscoverVideoEpisodeCell: View {
         }
         .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
-}
 
-extension DiscoverEpisode {
-
-    var discoverPodcast: DiscoverPodcast? {
-        guard let podcastUuid = self.podcastUuid else {
-            return nil
+    var backgroundThumbnail: some View {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(Color.backgroundSunken)
+            if let image = model.thumbnail {
+                Image(uiImage: image)
+            } else {
+                ProgressView()
+            }
+            LinearGradient(
+                stops: [
+                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                    Gradient.Stop(color: .black, location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0.59, y: 0.11),
+                endPoint: UnitPoint(x: 0.59, y: 0.81)
+            )
         }
-        var podcast = DiscoverPodcast()
-        podcast.uuid = podcastUuid
-        podcast.title = self.podcastTitle
-        return podcast
     }
 }
 
