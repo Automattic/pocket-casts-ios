@@ -2,6 +2,7 @@
 -----
 - Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
 - Update remaining menus to use sheet presentation [#4426](https://github.com/Automattic/pocket-casts-ios/pull/4426)
+- Fix rare crash in Stats [#4445](https://github.com/Automattic/pocket-casts-ios/pull/4445)
 
 8.13
 -----
