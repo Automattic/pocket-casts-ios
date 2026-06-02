@@ -38,27 +38,27 @@ struct DiscoverFeaturedPodcastCell: View {
                         if sponsored {
                             Text(L10n.discoverSponsored.sentenceCased)
                                 .font(.body)
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(.pcTextPrimary)
                             Text("·")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.pcTextSecondary)
                         }
                         if let author = podcast.author {
                             Text(author)
                                 .font(.body)
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.pcTextSecondary)
                         }
                         Spacer()
                     }
                     if let title = podcast.title {
                         Text(title)
                             .font(.title2)
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.pcTextPrimary)
                     }
                     if let description = podcast.shortDescription {
                         Text(description)
                             .lineLimit(2)
                             .font(.body)
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.pcTextSecondary)
                     }
                     HStack() {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
@@ -85,7 +85,7 @@ struct DiscoverFeaturedPodcastCell: View {
                 PodcastImage(uuid: podcastUuid, size: .page)
             }
         }
-        .background(Color.backgroundSunken)
+        .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
         .focusSection()
