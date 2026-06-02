@@ -182,7 +182,7 @@ public struct PodcastInfo: Codable {
         author = searchResult.author
         title = searchResult.title
         uuid = searchResult.uuid
-        isExplicit = searchResult.isExplicit
+        isExplicit = searchResult.explicit
     }
 
     public enum CodingKeys: String, CodingKey {

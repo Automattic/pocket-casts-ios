@@ -18,12 +18,7 @@ public struct CombinedSearchResult: Decodable, Hashable {
     public let podcastUuid: String?
     public let podcastTitle: String?
     public let author: String?
-    public let isExplicit: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case type, uuid, title, publishedDate, duration, podcastUuid, podcastTitle, author
-        case isExplicit = "explicit"
-    }
+    public let explicit: Bool?
 
     public var resolvedResultType: CombinedSearchResultType? {
         switch type {

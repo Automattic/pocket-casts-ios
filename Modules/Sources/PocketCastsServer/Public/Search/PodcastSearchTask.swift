@@ -24,11 +24,10 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
     public let author: String?
     public let kind: Kind
     public var isLocal: Bool?
-    public var isExplicit: Bool?
+    public var explicit: Bool?
 
     enum CodingKeys: String, CodingKey {
-        case uuid, title, author, kind, isLocal
-        case isExplicit = "explicit"
+        case uuid, title, author, kind, isLocal, explicit
     }
 
     public init(from decoder: Decoder) throws {
@@ -38,7 +37,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = try? container.decode(String.self, forKey: .author)
         self.kind = (try? container.decodeIfPresent(Kind.self, forKey: .kind)) ?? .podcast
         self.isLocal = (try? container.decode(Bool.self, forKey: .isLocal)) ?? false
-        self.isExplicit = try? container.decodeIfPresent(Bool.self, forKey: .isExplicit)
+        self.explicit = try? container.decodeIfPresent(Bool.self, forKey: .explicit)
     }
 
     public init?(from podcast: Podcast) {
@@ -47,7 +46,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = podcast.author
         self.isLocal = true
         self.kind = .podcast
-        self.isExplicit = podcast.isExplicit
+        self.explicit = podcast.isExplicit
     }
 
     public init?(from folder: Folder) {
@@ -56,7 +55,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.author = ""
         self.isLocal = true
         self.kind = .folder
-        self.isExplicit = false
+        self.explicit = false
     }
 
     public init?(from predictiveResult: PredictiveSearchResult) {
@@ -67,7 +66,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
                 self.title = podcast.title
                 self.kind = .podcast
                 self.isLocal = false
-                self.isExplicit = podcast.isExplicit
+                self.explicit = podcast.isExplicit
             default:
                 return nil
         }
@@ -82,7 +81,7 @@ public struct PodcastFolderSearchResult: Codable, Hashable {
         self.title = combinedResult.title
         self.kind = .podcast
         self.isLocal = false
-        self.isExplicit = combinedResult.isExplicit
+        self.explicit = combinedResult.explicit
     }
 
     public enum Kind: Codable {

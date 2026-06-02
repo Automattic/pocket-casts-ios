@@ -248,8 +248,8 @@ extension PodcastFolderSearchResult {
     }
 
     var resolvedIsExplicit: Bool {
-        if let isExplicit {
-            return isExplicit
+        if let explicit {
+            return explicit
         }
         return DataManager.sharedManager.findPodcast(uuid: uuid)?.isExplicit ?? false
     }
