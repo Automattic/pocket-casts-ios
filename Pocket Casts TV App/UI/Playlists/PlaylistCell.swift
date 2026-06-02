@@ -21,17 +21,17 @@ struct PlaylistCell: View {
             VStack(alignment: .leading) {
                 Text(model.playlistName)
                     .font(.headline)
-                    .foregroundColor(isFocused ? Color.textPrimaryActive : Color.textPrimary)
+                    .foregroundColor(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
                 if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
-                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                        .foregroundColor(isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
                 }
                 Spacer()
                 HStack(alignment: .bottom) {
                     Text(model.state == .loading ? "" : model.episodeCountText)
                         .font(.caption)
-                        .foregroundColor(isFocused ? Color.textSecondaryActive : Color.textSecondary)
+                        .foregroundColor(isFocused ? Color.pcTextSecondaryActive : Color.pcTextSecondary)
                     Spacer()
                 }
             }
@@ -42,7 +42,7 @@ struct PlaylistCell: View {
                         PodcastImage(uuid: podcastUuid, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
-                            .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
+                            .shadow(color: .pcShadowLight, radius: 37.5, x: 0, y: 0)
                             .rotationEffect(Angle(degrees: isFocused ? (index == 0 ? Layout.rotationEffect : -Layout.rotationEffect) : 0))
                             .scaleEffect(isFocused ? 1.25 : 1.0)
                             .offset(
@@ -56,7 +56,7 @@ struct PlaylistCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(isFocused ? Color.backgroundActive : model.playlistColor)
+        .background(isFocused ? Color.pcBackgroundActive : model.playlistColor)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFocused)
         .clipped()
         .task {

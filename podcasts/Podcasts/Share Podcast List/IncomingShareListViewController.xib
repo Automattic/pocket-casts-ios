@@ -39,7 +39,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gwx-dM-eFY" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="87" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gwx-dM-eFY" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="50" width="375" height="617"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -66,7 +66,7 @@
                 <constraint firstItem="zcY-mH-saN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="LwI-Bc-bFD"/>
                 <constraint firstAttribute="trailing" secondItem="gwx-dM-eFY" secondAttribute="trailing" id="VHW-FB-pEb"/>
                 <constraint firstItem="HNS-81-f8m" firstAttribute="top" secondItem="r0l-li-woE" secondAttribute="bottom" constant="4.5" id="dPX-ze-ZeK"/>
-                <constraint firstItem="zcY-mH-saN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="eMg-GG-Bq9"/>
+                <constraint firstItem="zcY-mH-saN" firstAttribute="top" secondItem="teP-8L-YoP" secondAttribute="top" constant="15" id="eMg-GG-Bq9"/>
                 <constraint firstAttribute="trailing" secondItem="r0l-li-woE" secondAttribute="trailing" constant="12" id="g0x-KH-1WN"/>
                 <constraint firstItem="gwx-dM-eFY" firstAttribute="top" secondItem="HNS-81-f8m" secondAttribute="bottom" id="g9Y-H0-TTQ"/>
             </constraints>

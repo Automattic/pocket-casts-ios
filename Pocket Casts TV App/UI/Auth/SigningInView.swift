@@ -42,10 +42,10 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
                 VStack(spacing: 16) {
                     Text(L10n.tvSigningInTitle)
                         .font(.title)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                     Text(L10n.tvSigningInSubtitle)
                         .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
+                        .foregroundStyle(Color.pcTextSecondary)
                 }
                 podcastGrid
                 Spacer()

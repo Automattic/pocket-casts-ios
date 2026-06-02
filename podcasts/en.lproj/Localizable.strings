@@ -1552,6 +1552,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message body shown in the confirmation prompt for archiving an episode. */
+"player_archived_confirmation_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1578,6 +1581,9 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Message body shown in the confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation_message" = "It'll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";

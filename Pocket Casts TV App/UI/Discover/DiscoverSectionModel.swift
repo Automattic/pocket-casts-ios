@@ -32,7 +32,7 @@ class DiscoverSectionModel {
             state = section.podcasts.isEmpty ? .empty : .ready
             podcasts = section.podcasts
             title = section.title
-            sponsored = section.sponsoredPodcasts
+            sponsored = section.sponsoredPodcastsIDs
         }
     }
 }

@@ -1,6 +1,8 @@
 import Foundation
 import PocketCastsDataModel
-protocol MultiSelectActionDelegate: AnyObject {
+
+@MainActor
+protocol MultiSelectActionDelegate: AnyObject, Sendable {
     func multiSelectPresentingViewController() -> UIViewController
     func multiSelectedBaseEpisodes() -> [BaseEpisode]
     func multiSelectedPlayListEpisodes() -> [PlaylistEpisode]?

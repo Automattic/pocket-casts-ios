@@ -220,7 +220,7 @@ struct HomeSection<Content: View>: View {
         VStack(alignment: .leading, spacing: 32) {
             Text(title)
                 .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
             content
         }
         .focusSection()

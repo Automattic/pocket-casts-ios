@@ -43,7 +43,6 @@ struct DiscoverFeaturedPodcastsRow: View {
             LazyHStack(spacing: 48, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""))
-                        .padding(.vertical, 24)
                         .setFocus(section: model.type)
                         .id(podcast.uuid)
                         .focused($focusedID, equals: podcast.uuid)

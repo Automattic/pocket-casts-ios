@@ -148,9 +148,8 @@ extension PlaylistsViewController {
         tableView.deleteRows(at: [indexPath], with: .top)
         tableView.endUpdates()
 
-        var properties: [AnyHashable: Any]? = [:]
-
-        properties?["filter_type"] = playlist.manual ? "manual" : "smart"
+        var properties: [String: Sendable] = [:]
+        properties["filter_type"] = playlist.manual ? "manual" : "smart"
 
         Analytics.track(.filterDeleted, properties: properties)
     }
