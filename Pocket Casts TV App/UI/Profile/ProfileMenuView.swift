@@ -38,7 +38,7 @@ struct ProfileMenuView: View {
                     .clipShape(Circle())
                 Text(email)
                     .font(.title3)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
                     .padding(.bottom, 24)
             }
 

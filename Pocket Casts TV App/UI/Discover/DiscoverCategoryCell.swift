@@ -27,12 +27,12 @@ struct DiscoverCategoryCell: View {
                     KFImage(url)
                         .renderingMode(.template)
                         .resizable()
-                        .tint(isFocused ? Color.textPrimary : Color.textSecondary)
+                        .tint(isFocused ? Color.pcTextPrimary : Color.pcTextSecondary)
                         .frame(width: Layout.iconSize, height: Layout.iconSize)
                 }
                 Text(model.name)
                     .font(.headline)
-                    .foregroundColor(isFocused ? Color.textPrimary : Color.textSecondary)
+                    .foregroundColor(isFocused ? Color.pcTextPrimary : Color.pcTextSecondary)
                 Spacer()
                 HStack(alignment: .bottom) {
                     Spacer()
@@ -47,7 +47,7 @@ struct DiscoverCategoryCell: View {
                         PodcastImage(uuid: firstPodcast, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
-                            .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
+                            .shadow(color: .pcShadowLight, radius: 37.5, x: 0, y: 0)
                             .offset(x: isFocused ? -Layout.imageSize : 0)
                             .scaleEffect(isFocused ? 1.0 : 0.6)
                             .opacity(isFocused ? 1.0 : 0.0)
@@ -56,7 +56,7 @@ struct DiscoverCategoryCell: View {
                         PodcastImage(uuid: lastPodcast, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
-                            .shadow(color: .black.opacity(0.2), radius: 37.5, x: 0, y: 0)
+                            .shadow(color: .pcShadowLight, radius: 37.5, x: 0, y: 0)
                             .offset(x: isFocused ? Layout.imageSize : 0)
                             .scaleEffect(isFocused ? 1.0 : 0.6)
                             .opacity(isFocused ? 1.0 : 0.0)
@@ -78,7 +78,7 @@ struct DiscoverCategoryCell: View {
     @ViewBuilder
     func style(for category: DiscoverCategory) -> some View {
         if !isFocused {
-            Color.backgroundOverlay
+            Color.pcBackgroundOverlay
         } else if let id = category.id {
             CategoryStyle.allCases[id % CategoryStyle.allCases.count].gradient
         } else {
