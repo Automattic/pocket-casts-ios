@@ -21,11 +21,14 @@ class DownloadsViewController: PCViewController {
         return queue
     }()
 
-    @IBOutlet var downloadsTable: UITableView! {
+    @IBOutlet var downloadsTable: ThemeableTable! {
         didSet {
             registerTableCells()
             registerLongPress()
             downloadsTable.allowsMultipleSelectionDuringEditing = true
+            if LiquidGlass.isEnabled {
+                downloadsTable.themeStyle = .primaryUi02
+            }
         }
     }
 
