@@ -147,13 +147,13 @@ struct DiscoverVideoEpisodeCell: View {
                     if let title = model.episode.podcastTitle {
                         Text(title)
                             .font(.caption)
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.pcTextSecondary)
                     }
                     if let description = model.episode.title {
                         Text(description)
                             .lineLimit(1)
                             .font(.caption)
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.pcTextPrimary)
                     }
                 }
                 Spacer()
@@ -165,7 +165,7 @@ struct DiscoverVideoEpisodeCell: View {
     var backgroundThumbnail: some View {
         ZStack {
             Rectangle()
-                .foregroundStyle(Color.backgroundSunken)
+                .foregroundStyle(Color.pcBackgroundSunken)
             if let image = model.thumbnail {
                 Image(uiImage: image)
                     .resizable()
