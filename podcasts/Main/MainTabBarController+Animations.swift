@@ -7,7 +7,11 @@ import UIKit
 extension MainTabBarController {
     /// The queue count knocked out of a continuous capsule with the "list"
     /// lines beside it, as a template image the tab bar tints like every other item.
-    static func composeUpNextTabImage(count: Int) -> UIImage? {
+    ///
+    /// When `selected` is `true`, the capsule is fully filled and the digits
+    /// are punched out as transparent cutouts so the count reads light against
+    /// the tinted pill — the "active tab" counterpart to the resting badge.
+    static func composeUpNextTabImage(count: Int, isSelected: Bool = false) -> UIImage? {
         let clamped = min(99, max(1, count))
 
         // Fixed at the widest (3-digit) size so the tab image never resizes.
@@ -20,26 +24,29 @@ extension MainTabBarController {
             y: ((canvasSize.height - content.height) / 2).rounded()
         )
         let layout = upNextBadgeLayout(count: clamped, origin: origin)
-        let secondaryShadeAlpha: CGFloat = 0.45
+        let secondaryShadeAlpha: CGFloat = isSelected ? 0.45 : 0.9
+        let capsuleFillAlpha: CGFloat = isSelected ? 0.93 : 0.08
 
         return UIGraphicsImageRenderer(size: canvasSize).image { context in
-            let cg = context.cgContext
-
-            UIColor.black.setFill()
-            UIBezierPath(roundedRect: layout.capsule, cornerRadius: layout.capsule.height).fill()
+            UIColor.black.withAlphaComponent(capsuleFillAlpha).setFill()
+            UIBezierPath(roundedRect: layout.capsule, cornerRadius: layout.capsule.height / 2).fill()
 
             let countAsStr = "\(clamped)" as NSString
             let textAttributes: [NSAttributedString.Key: Any] = [.font: layout.font, .foregroundColor: UIColor.black]
             let textSize = countAsStr.size(withAttributes: textAttributes)
-            cg.saveGState()
-            cg.setBlendMode(.destinationOut)
-            countAsStr.draw(
-                at: CGPoint(
-                    x: layout.capsule.midX - textSize.width / 2,
-                    y: layout.capsule.midY - textSize.height / 2),
-                withAttributes: textAttributes
-            )
-            cg.restoreGState()
+            let textOrigin = CGPoint(
+                x: layout.capsule.midX - textSize.width / 2,
+                y: layout.capsule.midY - textSize.height / 2)
+            if isSelected {
+                // Punch the digits out of the filled capsule so the count reads
+                // as transparent against the tinted pill.
+                context.cgContext.saveGState()
+                context.cgContext.setBlendMode(.destinationOut)
+                countAsStr.draw(at: textOrigin, withAttributes: textAttributes)
+                context.cgContext.restoreGState()
+            } else {
+                countAsStr.draw(at: textOrigin, withAttributes: textAttributes)
+            }
 
             UIColor.black.withAlphaComponent(secondaryShadeAlpha).setFill()
             for line in layout.lines {
@@ -63,7 +70,7 @@ extension MainTabBarController {
         let lineCount = 3
         // The shortest (vertically centered) line; off-center lines stretch
         // further left to track the capsule's rounded cap, see below.
-        let baseLineWidth: CGFloat = 10
+        let baseLineWidth: CGFloat = 8
         let lineThickness: CGFloat = 2
         let lineSpacing: CGFloat = 4
 
