@@ -238,7 +238,7 @@ struct MainTabView: View {
 
 /// Custom button style that renders only the label, with no platform chrome
 /// (no background, lift, or pressed-state overlay).
-private struct ChromelessButtonStyle: ButtonStyle {
+struct ChromelessButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
     }
