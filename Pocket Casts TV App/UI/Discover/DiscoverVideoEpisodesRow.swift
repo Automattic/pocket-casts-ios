@@ -4,8 +4,12 @@ import PocketCastsServer
 struct DiscoverVideoEpisodesRow: View {
 
     fileprivate enum Layout {
-        static let gridSize = CGFloat(250)
+        static let spacing = CGFloat(48)
     }
+
+    @FocusState private var focusedID: String?
+    @Namespace private var focusNS
+    @Environment(\.resetFocus) var resetFocus
 
     @State private var model: DiscoverSectionEpisodesModel
 
@@ -31,31 +35,26 @@ struct DiscoverVideoEpisodesRow: View {
             await model.load()
             await MainActor.run {
                 callback?(model.title)
+                resetFocus(in: focusNS)
             }
         }
     }
 
-    @FocusState private var focusedID: String?
-    @State private var scrollPosition: String?
-
     var podcastList: some View {
         ScrollView(.horizontal) {
-            LazyHStack(spacing: 48, content: {
+            LazyHStack(spacing: Layout.spacing, content: {
                 ForEach(model.episodes, id: \.uuid) { episode in
                     DiscoverVideoEpisodeCell(episode: episode)
-                        .padding(.vertical, 24)
+                        .padding(.vertical, Layout.spacing / 2)
                         .setFocus(section: model.type)
-                        .id(episode.uuid)
                         .focused($focusedID, equals: episode.uuid)
+                        .prefersDefaultFocus(model.episodes.first?.uuid == episode.uuid, in: focusNS)
                 }
             })
-            .scrollTargetLayout()
-        }
-        .scrollPosition(id: $scrollPosition, anchor: .leading)
-        .scrollDisabled(true)
-        .onChange(of: focusedID) { _, id in
-            withAnimation(.default) {
-                scrollPosition = id
+            .focusSection()
+            .focusScope(focusNS)
+            .onAppear() {
+                focusedID = model.episodes.first?.uuid
             }
         }
     }
