@@ -7,11 +7,17 @@ import Kingfisher
 struct DiscoverVideoEpisodeCell: View {
 
     @Namespace private var ns
+    @Environment(FocusStore.self) var focusStore
 
     let episode: DiscoverEpisode
 
-    @FocusState private var focusedButton: Int?
-    @State private var lastFocusedButton: Int? = nil
+    enum FocusValues {
+        case playEpisode
+        case goPodcast
+    }
+
+    @FocusState private var focusedButton: FocusValues?
+    @State private var lastFocusedButton: FocusValues? = nil
     @FocusState private var isContainerFocused: Bool
 
     @State private var isFocused = false
@@ -48,6 +54,7 @@ struct DiscoverVideoEpisodeCell: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
         .focusSection()
+        .focusScope(ns)
         .onChange(of: focusedButton) { _, focused in
             if let focused {
                 lastFocusedButton = focused
@@ -55,6 +62,7 @@ struct DiscoverVideoEpisodeCell: View {
             if focused == nil, isFocused, !isAnimating {
                 collapse()
             }
+            focusStore.focusedID = DiscoverType.video
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
@@ -69,7 +77,7 @@ struct DiscoverVideoEpisodeCell: View {
             isFocused = true
         } completion: {
             isAnimating = false
-            focusedButton = lastFocusedButton ?? 0
+            focusedButton = lastFocusedButton ?? .playEpisode
         }
     }
 
@@ -87,8 +95,8 @@ struct DiscoverVideoEpisodeCell: View {
         Rectangle()
         .foregroundStyle(.clear)
         .focusable(!isFocused)
-        .setFocus(section: DiscoverType.video)
         .focused($isContainerFocused)
+        .setFocus(section: DiscoverType.video)
         .buttonStyle(ChromelessButtonStyle())
         .onChange(of: isContainerFocused) { _, focused in
             if focused, !isAnimating {
@@ -106,13 +114,13 @@ struct DiscoverVideoEpisodeCell: View {
                     }
                 }
             }
-            .focused($focusedButton, equals: 0)
+            .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video)
             if let podcast = episode.discoverPodcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
-                .focused($focusedButton, equals: 1)
+                .focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video)
             }
             Spacer()
