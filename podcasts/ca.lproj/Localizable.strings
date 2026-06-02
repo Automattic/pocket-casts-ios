@@ -249,6 +249,12 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Actualizant les caràtules ara</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Entesos, capità</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Barra de pestanyes</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimitza en fer scroll</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Quan està activat, la barra de pestanyes es redueix fins a convertir-se en una píndola compacta mentre fas scroll cap avall, de manera que es veu més contingut.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -2737,7 +2743,7 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <key>rating_error</key>
     <string>Ep! Hi ha hagut un error.</string>
     <key>rating_listen_to_this_podcast_message</key>
-    <string>Només els oients d'aquest pòdcast poden fer  una valoració. Escolta uns quants episodis i després torna aquí per a fer la teva valoració. Estem desitjant saber què et sembla!</string>
+    <string>Només els oients d'aquest pòdcast poden valorar-lo. Escolta alguns episodis i torna per deixar la teva valoració. Estem desitjant saber què t'ha semblat!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Escolta aquest pòdcast primer abans de valorar-lo</string>
     <key>rating_login_required</key>
