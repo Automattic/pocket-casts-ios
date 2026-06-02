@@ -6241,3 +6241,6 @@
 /* Discover - Button title on a featured podcast card that opens the podcast. */
 "tv_discover_featured_go_to_podcast" = "Go to podcast";
 
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+

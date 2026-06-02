@@ -53,9 +53,6 @@ struct DiscoverVideoEpisodesRow: View {
             })
             .focusSection()
             .focusScope(focusNS)
-            .onAppear() {
-                focusedID = model.episodes.first?.uuid
-            }
         }
     }
 }

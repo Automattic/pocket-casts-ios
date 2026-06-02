@@ -62,4 +62,22 @@ class TVDataManager {
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
         return true
     }
+
+    func playEpisode(_ episode: DiscoverEpisode) async -> Bool {
+        guard let podcastUuid = episode.podcastUuid else {
+            return false
+        }
+        let podcast = await loadPodcast(podcastUuid: podcastUuid)
+
+        guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first(where: { $0.uuid == episode.uuid }) else {
+            return false
+        }
+
+        guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else {
+            return false
+        }
+
+        PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
+        return true
+    }
 }

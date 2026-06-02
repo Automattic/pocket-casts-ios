@@ -113,8 +113,9 @@ struct DiscoverVideoEpisodeCell: View {
 
     var focusedContent: some View {
         HStack(alignment: .bottom) {
-            Button("Play episode") {
+            Button(L10n.tvDiscoverPlayEpisode) {
                 Task {
+                    let _ = await TVDataManager.shared.playEpisode(model.episode)
                     await MainActor.run {
                         showNowPlayingPlayer = true
                     }

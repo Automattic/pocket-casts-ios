@@ -4339,6 +4339,8 @@ internal enum L10n {
   internal static var tvDiscoverFeaturedGoToPodcast: String { return L10n.tr("Localizable", "tv_discover_featured_go_to_podcast", fallback: "Go to podcast") }
   /// Discover - Button title on a featured podcast card that plays the podcast's most recent episode.
   internal static var tvDiscoverFeaturedPlayLatestEpisode: String { return L10n.tr("Localizable", "tv_discover_featured_play_latest_episode", fallback: "Play latest episode") }
+  /// Discover - Button title on a discover episode that makes it play.
+  internal static var tvDiscoverPlayEpisode: String { return L10n.tr("Localizable", "tv_discover_play_episode", fallback: "Play episode") }
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
   /// tv home Browse Categories section title
