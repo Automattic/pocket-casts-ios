@@ -28,8 +28,6 @@ class DownloadsViewController: PCViewController {
             downloadsTable.allowsMultipleSelectionDuringEditing = true
             if LiquidGlass.isEnabled {
                 downloadsTable.themeStyle = .primaryUi02
-                downloadsTable.sectionHeaderHeight = 32
-                downloadsTable.estimatedSectionHeaderHeight = 32
             }
         }
     }
