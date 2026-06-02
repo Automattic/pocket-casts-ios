@@ -1247,7 +1247,7 @@ extension MainTabBarController {
 
         // A template image so the tab bar tints it like every other item.
         upNextTabBarItem.image = Self.composeUpNextTabImage(count: count)
-        upNextTabBarItem.selectedImage = nil
+        upNextTabBarItem.selectedImage = Self.composeUpNextTabImage(count: count, isSelected: true)
 
         // Only celebrate the queue growing — a drain (playing/removing) shouldn't pop.
         if previous.map({ count > $0 }) ?? false { pulseUpNextTabButton() }
