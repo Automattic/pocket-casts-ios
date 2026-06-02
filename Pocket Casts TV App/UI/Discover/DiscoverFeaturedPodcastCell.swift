@@ -60,12 +60,16 @@ struct DiscoverFeaturedPodcastCell: View {
                             .font(.body)
                             .foregroundColor(.pcTextSecondary)
                     }
-                    HStack() {
+                    HStack(spacing: 24) {
                         Button(L10n.tvDiscoverFeaturedPlayLatestEpisode) {
                             Task {
-                                let _ = await TVDataManager.shared.playLatestEpisode(of: podcast)
+                                let successPlay = await TVDataManager.shared.playLatestEpisode(of: podcast)
                                 await MainActor.run {
-                                    showNowPlayingPlayer = true
+                                    if successPlay {
+                                        showNowPlayingPlayer = true
+                                    } else {
+                                        ToastManager.shared.show(L10n.playbackFailed)
+                                    }
                                 }
                             }
                         }
@@ -79,7 +83,13 @@ struct DiscoverFeaturedPodcastCell: View {
             }
         }
         .padding(48)
-        .frame(width: Layout.cardWidth, height: Layout.cardHeight)
+        .containerRelativeFrame( .horizontal, alignment: .leading) { length, axis in
+            if axis == .vertical {
+                return Layout.cardHeight
+            } else {
+                return length * 0.92
+            }
+        }
         .blurredCoverBackground(size: Layout.imageSize) {
             if let podcastUuid = podcast.uuid {
                 PodcastImage(uuid: podcastUuid, size: .page)
