@@ -176,4 +176,14 @@ actor DiscoverManager {
         }
         return resultPodcasts
     }
+
+    func loadDiscoverVideoSection() async -> [DiscoverEpisode] {
+        let videoSource = "https://lists.pocketcasts.com/e439e1a2-930d-4d62-807e-a7663722653c.json"
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: videoSource, authenticated: true)
+        guard var listOfEpisodes = podcastCollection?.episodes else {
+            return []
+        }
+
+        return listOfEpisodes
+    }
 }

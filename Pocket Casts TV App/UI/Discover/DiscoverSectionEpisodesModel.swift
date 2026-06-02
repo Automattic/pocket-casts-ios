@@ -26,7 +26,7 @@ class DiscoverSectionEpisodesModel {
     }
 
     func load() async {
-        let episodes = MockData.makeStubVideoEpisodePodcasts()
+        let episodes = await discoverManager.loadDiscoverVideoSection()
 
         await MainActor.run {
             state = episodes.isEmpty ? .empty : .ready
