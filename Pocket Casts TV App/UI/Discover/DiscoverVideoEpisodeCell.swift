@@ -14,7 +14,7 @@ struct DiscoverVideoEpisodeCell: View {
     @State private var lastFocusedButton: Int? = nil
     @FocusState private var isContainerFocused: Bool
 
-    @State private var isExpanded = false
+    @State private var isFocused = false
     @State private var isAnimating = false
 
     @State var showNowPlayingPlayer: Bool = false
@@ -35,7 +35,7 @@ struct DiscoverVideoEpisodeCell: View {
             placeholderFocusView
             VStack {
                 Spacer()
-                if isExpanded {
+                if isFocused {
                     focusedContent
                 } else {
                     nonFocusedContent
@@ -47,11 +47,12 @@ struct DiscoverVideoEpisodeCell: View {
         .background(Color.backgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
+        .focusSection()
         .onChange(of: focusedButton) { _, focused in
             if let focused {
                 lastFocusedButton = focused
             }
-            if focused == nil, isExpanded, !isAnimating {
+            if focused == nil, isFocused, !isAnimating {
                 collapse()
             }
         }
@@ -65,9 +66,9 @@ struct DiscoverVideoEpisodeCell: View {
         guard !isAnimating else { return }
         isAnimating = true
         withAnimation(.easeInOut(duration: 0.2)) {
-            isExpanded = true
+            isFocused = true
         } completion: {
-            isAnimating = false  // unlock after animation finishes
+            isAnimating = false
             focusedButton = lastFocusedButton ?? 0
         }
     }
@@ -76,7 +77,7 @@ struct DiscoverVideoEpisodeCell: View {
         guard !isAnimating else { return }
         isAnimating = true
         withAnimation(.easeInOut(duration: 0.2)) {
-            isExpanded = false
+            isFocused = false
         } completion: {
             isAnimating = false
         }
@@ -84,9 +85,9 @@ struct DiscoverVideoEpisodeCell: View {
 
     var placeholderFocusView: some View {
         Rectangle()
-        .background(.clear)
-        .frame(width: 1, height: 1)
-        .focusable(!isExpanded)
+        .foregroundStyle(.clear)
+        .focusable(!isFocused)
+        .setFocus(section: DiscoverType.video)
         .focused($isContainerFocused)
         .buttonStyle(ChromelessButtonStyle())
         .onChange(of: isContainerFocused) { _, focused in
@@ -106,11 +107,13 @@ struct DiscoverVideoEpisodeCell: View {
                 }
             }
             .focused($focusedButton, equals: 0)
+            .setFocus(section: DiscoverType.video)
             if let podcast = episode.discoverPodcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
                 .focused($focusedButton, equals: 1)
+                .setFocus(section: DiscoverType.video)
             }
             Spacer()
         }
