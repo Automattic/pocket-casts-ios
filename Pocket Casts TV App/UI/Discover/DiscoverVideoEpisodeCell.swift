@@ -167,6 +167,8 @@ struct DiscoverVideoEpisodeCell: View {
                 .foregroundStyle(Color.backgroundSunken)
             if let image = model.thumbnail {
                 Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
             } else {
                 ProgressView()
             }
