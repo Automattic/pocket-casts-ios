@@ -4,7 +4,19 @@ import PocketCastsUtils
 enum ExplicitBadgeHelper {
     static let badgeSize: CGFloat = 11
 
+    private static var imageCache: [Theme.ThemeType: UIImage] = [:]
+
     static func badgeImage(for theme: Theme.ThemeType? = nil) -> UIImage {
+        let resolvedTheme = theme ?? Theme.sharedTheme.activeTheme
+        if let cached = imageCache[resolvedTheme] {
+            return cached
+        }
+        let image = renderBadgeImage(for: resolvedTheme)
+        imageCache[resolvedTheme] = image
+        return image
+    }
+
+    private static func renderBadgeImage(for theme: Theme.ThemeType) -> UIImage {
         let bgColor = ThemeColor.primaryIcon03(for: theme)
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: badgeSize, height: badgeSize))
         return renderer.image { _ in
