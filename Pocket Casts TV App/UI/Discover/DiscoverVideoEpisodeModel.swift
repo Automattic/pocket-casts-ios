@@ -18,8 +18,16 @@ class DiscoverVideoEpisodeModel {
     func load() async {
         if let urlString = episode.url, let videoUrl = URL(string: urlString) {
             do {
-                let videoFrame = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
-                await MainActor.run {
+                var videoFrame: UIImage?
+                let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
+                if cachedVideoFrame != nil {
+                    videoFrame = cachedVideoFrame
+                } else {
+                    let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                    let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                    videoFrame = image
+                }
+                await MainActor.run { [videoFrame] in
                     thumbnail = videoFrame
                 }
             } catch {

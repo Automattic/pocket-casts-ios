@@ -139,7 +139,7 @@ struct DiscoverVideoEpisodeCell: View {
         Group {
             HStack(alignment: .bottom, spacing: 48) {
                 if let podcastUuid = model.episode.podcastUuid {
-                    PodcastImage(uuid: podcastUuid, size: .page)
+                    PodcastImage(uuid: podcastUuid, size: .list)
                         .frame(width: Layout.imageSize, height: Layout.imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }

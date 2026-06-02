@@ -38,6 +38,9 @@ class ImageManager {
     // Discover Cache
     private var discoverCache = ImageCache(name: "discoverCache")
 
+    // cache for discover video thumbnails cache
+    private var discoverVideoThumbnailCache = ImageCache(name: "discoverVideoThumbnailCache")
+
     // Track in-progress artwork loads by UUID
     private var inProgressArtworkLoads = Set<String>()
 
@@ -92,6 +95,35 @@ class ImageManager {
                 }
             } catch {
                 completionHandler(nil)
+            }
+        }
+    }
+
+    // MARK: - Discover Thumbnail Images
+
+    func storeDiscoverVideoThumbnail(for imageUrl: String, image: UIImage) async -> Bool {
+        await withCheckedContinuation { continuation in
+            self.discoverVideoThumbnailCache.store(image, forKey: imageUrl) { result in
+                switch result.diskCacheResult {
+                case .success:
+                    continuation.resume(returning: true)
+                case .failure:
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
+
+    func retrieveDiscoverVideoThumbnail(imageUrl: String) async -> UIImage? {
+        await withCheckedContinuation { continuation in
+            let cache = discoverVideoThumbnailCache
+            cache.retrieveImage(forKey: imageUrl) { result in
+                do {
+                    let image = try result.get().image
+                    continuation.resume(returning: image)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
             }
         }
     }
