@@ -1,4 +1,5 @@
 import PocketCastsServer
+import PocketCastsUtils
 
 @Observable
 class DiscoverVideoEpisodeModel {
@@ -22,7 +23,7 @@ class DiscoverVideoEpisodeModel {
                     thumbnail = videoFrame
                 }
             } catch {
-                print(error)
+                FileLog.shared.addMessage("Failed to load episodes")
             }
         }
     }
