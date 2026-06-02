@@ -28,7 +28,7 @@ struct DiscoverVideoEpisodesRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                podcastList
+                mainContent
             }
         }
         .task {
@@ -40,7 +40,7 @@ struct DiscoverVideoEpisodesRow: View {
         }
     }
 
-    var podcastList: some View {
+    var mainContent: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: Layout.spacing, content: {
                 ForEach(model.episodes, id: \.uuid) { episode in
