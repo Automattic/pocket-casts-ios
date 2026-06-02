@@ -106,7 +106,7 @@ class SmallListCell: ThemeableCollectionCell {
     }
 
     private func setTitle(_ title: String, for discoverPodcast: DiscoverPodcast) {
-        let isExplicit = ExplicitBadgeHelper.resolvedIsExplicit(for: discoverPodcast)
+        let isExplicit = discoverPodcast.isExplicit ?? false
         if isExplicit {
             podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
         } else {

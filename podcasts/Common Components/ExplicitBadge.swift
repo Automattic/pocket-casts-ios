@@ -51,18 +51,6 @@ enum ExplicitBadgeHelper {
         return Text(title)
     }
 
-    static func resolvedIsExplicit(for podcast: DiscoverPodcast) -> Bool {
-        let discoverExplicit = podcast.isExplicit ?? false
-        if let uuid = podcast.uuid, let localPodcast = DataManager.sharedManager.findPodcast(uuid: uuid, includeUnsubscribed: true) {
-            if discoverExplicit, !localPodcast.isExplicit {
-                localPodcast.isExplicit = true
-                DataManager.sharedManager.save(podcast: localPodcast)
-            }
-            return localPodcast.isExplicit || discoverExplicit
-        }
-        return discoverExplicit
-    }
-
     static func attributedTitle(_ title: String, font: UIFont, theme: Theme.ThemeType? = nil) -> NSAttributedString {
         guard FeatureFlag.showExplicitBadges.enabled else {
             return NSAttributedString(string: title, attributes: [.font: font])

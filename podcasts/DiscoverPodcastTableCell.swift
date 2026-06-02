@@ -74,7 +74,7 @@ class DiscoverPodcastTableCell: ThemeableCell {
         self.discoverPodcast = discoverPodcast
 
         let title = discoverPodcast.title?.localized ?? ""
-        let isExplicit = ExplicitBadgeHelper.resolvedIsExplicit(for: discoverPodcast)
+        let isExplicit = discoverPodcast.isExplicit ?? false
         if isExplicit {
             podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
         } else {

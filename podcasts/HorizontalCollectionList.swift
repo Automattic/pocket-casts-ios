@@ -104,7 +104,7 @@ struct HorizontalCollectionList: View {
             Spacer().frame(width: 10)
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
-                    ExplicitBadgeHelper.inlineTitle(podcast.title ?? "", isExplicit: ExplicitBadgeHelper.resolvedIsExplicit(for: podcast), theme: theme.activeTheme)
+                    ExplicitBadgeHelper.inlineTitle(podcast.title ?? "", isExplicit: podcast.isExplicit ?? false, theme: theme.activeTheme)
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
                         .lineLimit(2)
