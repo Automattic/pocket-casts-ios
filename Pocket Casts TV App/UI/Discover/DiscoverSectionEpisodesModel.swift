@@ -31,7 +31,7 @@ class DiscoverSectionEpisodesModel {
         await MainActor.run {
             state = episodes.isEmpty ? .empty : .ready
             self.episodes = episodes
-            title = "Videos"            
+            title =  L10n.tvHomeVideoSectionTitle
         }
     }
 }

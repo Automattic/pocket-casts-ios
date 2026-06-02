@@ -6250,3 +6250,7 @@
 /* Discover - Button title on a discover episode that makes it play. */
 "tv_discover_play_episode" = "Play episode";
 
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+

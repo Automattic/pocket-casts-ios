@@ -4365,6 +4365,8 @@ internal enum L10n {
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "You'll probably want these") }
   /// tv home Trending section title
   internal static var tvHomeTrendingSectionTitle: String { return L10n.tr("Localizable", "tv_home_trending_section_title", fallback: "What everyone's on this week") }
+  /// tv home Video section title
+  internal static var tvHomeVideoSectionTitle: String { return L10n.tr("Localizable", "tv_home_video_section_title", fallback: "Made for TV") }
   /// tv player playback effects menu title
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title

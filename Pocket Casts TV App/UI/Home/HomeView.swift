@@ -137,7 +137,7 @@ struct HomeView: View {
     }
 
     var videoRow: some View {
-        HomeSection(title: "Made for TV", focusSection: DiscoverType.video) {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
             DiscoverVideoEpisodesRow(type: .video)
         }
     }
