@@ -36,6 +36,7 @@ class SearchViewModel: SearchableViewModel {
     private var dataManager: DataManager
     private var searchModel: SearchHistoryModel
     private var predictiveSearchTask = PredictiveSearchTask()
+    private var fullSearchTask = CombinedSearchTask()
 
     init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.dataManager = dataManager
@@ -87,6 +88,7 @@ class SearchViewModel: SearchableViewModel {
             do {
                 let searchResults = try await predictiveSearchTask.search(term: query)
                 guard !Task.isCancelled else { return }
+
                 for searchResult in searchResults {
                     switch searchResult.type {
                     case .term(let word):
@@ -105,12 +107,28 @@ class SearchViewModel: SearchableViewModel {
                 for localPodcast in localPodcasts {
                     if !uuids.contains(localPodcast.uuid), let podcastResult = PodcastFolderSearchResult(from: localPodcast) {
                         combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                        uuids.insert(podcastResult.uuid)
                     }
                 }
 
                 state = combinedResults.isEmpty ? .empty : .results
                 results = combinedResults
                 autoCompleteSuggestions = suggestions
+
+                let fullResults = try await fullSearchTask.search(term: query)
+                for searchResult in fullResults {
+                    switch searchResult {
+                    case .podcast(let podcast):
+                        if !uuids.contains(podcast.uuid) {
+                            combinedResults.append(searchResult)
+                        }
+                    case .episode:
+                        continue
+                    }
+                }
+
+                state = combinedResults.isEmpty ? .empty : .results
+                results = combinedResults
             }  catch is CancellationError {
                 return
             } catch {
