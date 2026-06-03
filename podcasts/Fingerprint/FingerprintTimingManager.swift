@@ -1043,8 +1043,12 @@ final class FingerprintTimingManager: NSObject {
         // whether anything matched — windows are emitted continuously, so a
         // stretch examined here that commits no anchor is confirmed unmatched
         // audio (an ad), which is exactly what ad detection needs to know.
+        // `timestampMs` is the window's start, so add its duration to reach the
+        // audio actually examined; otherwise the frontier trails by up to one
+        // window and ad detection would briefly treat positions near it as
+        // unprocessed, flickering highlighting back on right behind the edge.
         if let lastWindow = windows.last {
-            let batchEnd = startOffset + Double(lastWindow.timestampMs) / 1000.0
+            let batchEnd = startOffset + Double(lastWindow.timestampMs + lastWindow.durationMs) / 1000.0
             processedFrontier = max(processedFrontier, batchEnd)
         }
 
