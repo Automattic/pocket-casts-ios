@@ -12,7 +12,12 @@ extension UIScrollView {
     }
 
     func updateContentInset(multiSelectEnabled: Bool, ignoreMiniPlayer: Bool = false) {
-        guard !LiquidGlass.isEnabled else {return }
+        if LiquidGlass.isEnabled {
+            let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 60 : 0
+            contentInset.bottom = multiSelectFooterOffset
+            verticalScrollIndicatorInsets.bottom = multiSelectFooterOffset
+            return
+        }
 
         let existingInset = contentInset
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
