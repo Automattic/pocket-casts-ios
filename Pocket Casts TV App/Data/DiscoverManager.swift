@@ -24,11 +24,17 @@ struct DiscoverSection {
     let title: String?
     let podcasts: [DiscoverPodcast]
     let sponsoredPodcastsIDs: Set<String>
+    /// Identifier used for `discover_list_*` analytics, matching the value iOS sends.
+    let listId: String?
+    /// Optional list timestamp sent alongside list analytics on iOS.
+    let listDateTime: String?
 
-    init(title: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
+    init(title: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil, listDateTime: String? = nil) {
         self.title = title
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
+        self.listId = listId
+        self.listDateTime = listDateTime
     }
 }
 
@@ -74,8 +80,20 @@ actor DiscoverManager {
         }
 
         let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
+
+        // Mirror the iOS `list_id` scheme: ranked/large lists use the discover item uuid, while
+        // the featured list uses the collection's listId. Fall back across both so analytics
+        // always carries a stable identifier.
+        let listId: String?
+        if type == .featured {
+            listId = podcastCollection?.listId ?? sourceItem.uuid ?? sourceItem.id
+        } else {
+            listId = sourceItem.uuid ?? sourceItem.id ?? podcastCollection?.listId
+        }
+        let listDateTime = podcastCollection?.datetime
+
         guard var listOfPodcasts = podcastCollection?.podcasts else {
-            return DiscoverSection(title: podcastCollection?.title, podcasts: [])
+            return DiscoverSection(title: podcastCollection?.title, podcasts: [], listId: listId, listDateTime: listDateTime)
         }
 
         let sponsoredPodcasts = await loadSponsoredPodcasts(item: sourceItem)
@@ -85,7 +103,15 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
+        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId, listDateTime: listDateTime)
+    }
+
+    /// Region code for the current Discover layout, matching the value iOS sends with category analytics events.
+    func currentRegion() async -> String {
+        guard let layout = await getLayout() else {
+            return "none"
+        }
+        return Settings.discoverRegion(discoverLayout: layout)
     }
 
     func loadDiscoverCategories() async -> [DiscoverCategory] {

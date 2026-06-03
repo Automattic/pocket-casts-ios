@@ -12,6 +12,10 @@ class DiscoverSectionModel {
 
     var title: String?
 
+    var listId: String?
+
+    var listDateTime: String?
+
     let type: DiscoverType
 
     init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
@@ -33,6 +37,8 @@ class DiscoverSectionModel {
             podcasts = section.podcasts
             title = section.title
             sponsored = section.sponsoredPodcastsIDs
+            listId = section.listId
+            listDateTime = section.listDateTime
         }
     }
 }

@@ -33,6 +33,12 @@ struct DiscoverPodcastsListView: View {
         }
         .task {
             await model.load()
+            let region = await DiscoverManager.shared.currentRegion()
+            Analytics.track(.discoverCategoryShown, properties: [
+                "name": model.category.name ?? "none",
+                "region": region,
+                "id": model.category.id ?? -1
+            ])
         }
     }
 

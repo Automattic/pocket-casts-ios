@@ -30,6 +30,9 @@ struct DiscoverFeaturedPodcastsRow: View {
         .task {
             await model.load()
             await MainActor.run {
+                if model.state == .ready, let listId = model.listId {
+                    Analytics.track(.discoverListImpression, properties: ["list_id": listId])
+                }
                 callback?(model.title)
             }
         }

@@ -30,6 +30,9 @@ struct DiscoverPodcastRow: View {
         .task {
             await model.load()
             await MainActor.run {
+                if model.state == .ready, let listId = model.listId {
+                    Analytics.track(.discoverListImpression, properties: ["list_id": listId])
+                }
                 callback?(model.title)
             }
         }
@@ -47,6 +50,13 @@ struct DiscoverPodcastRow: View {
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
                         .setFocus(section: model.type)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            var properties: [String: Sendable] = ["list_id": model.listId ?? "none", "podcast_uuid": uuid]
+                            if let listDateTime = model.listDateTime {
+                                properties["list_datetime"] = listDateTime
+                            }
+                            Analytics.track(.discoverListPodcastTapped, properties: properties)
+                        })
                     }
                 }
             })

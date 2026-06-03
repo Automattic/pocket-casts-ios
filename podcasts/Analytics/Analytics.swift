@@ -1,9 +1,13 @@
 import Foundation
+import os
 import PocketCastsUtils
 import EventHorizonSDK
 
 class Analytics {
     static let shared = Analytics()
+#if DEBUG
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PocketCasts", category: "Analytics")
+#endif
     private var adapters: [AnalyticsAdapter]?
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
     var analyticsAppThemeProvider: AnalyticsAppThemeProviding?
@@ -52,6 +56,9 @@ class Analytics {
             for adapter in adapters ?? [] {
                 await adapter.track(name: eventName, properties: properties)
             }
+#if DEBUG
+            Self.logger.debug("[Analytics] \(eventName, privacy: .public) - \(properties.count, privacy: .public) properties")
+#endif
         }
     }
 

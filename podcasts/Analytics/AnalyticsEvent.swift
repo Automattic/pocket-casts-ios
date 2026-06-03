@@ -446,6 +446,10 @@ enum AnalyticsEvent: String {
     case discoverAdCategoryTapped
     case discoverAdCategorySubscribed
 
+    // MARK: - TV Home
+
+    case homeShown
+
     // MARK: - Mini Player
 
     case miniPlayerLongPressMenuShown

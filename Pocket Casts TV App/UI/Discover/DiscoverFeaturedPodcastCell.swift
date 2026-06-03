@@ -76,6 +76,11 @@ struct DiscoverFeaturedPodcastCell: View {
                         NavigationLink(value: podcast) {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            if let uuid = podcast.uuid {
+                                Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": uuid])
+                            }
+                        })
                     }
                     .padding(.vertical, 24)
                 }
