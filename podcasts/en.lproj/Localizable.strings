@@ -4772,6 +4772,12 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Transcripts, now keeping up with you.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Every word highlighted as it's spoken. Follow along, lose your place, find it again in one tap.";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 

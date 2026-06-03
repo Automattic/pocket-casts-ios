@@ -14,6 +14,9 @@ class WhatsNew {
         let isEnabled: () -> Bool
         let fullModal: Bool
         let customBody: () -> AnyView?
+        /// When true, the announcement is always shown, bypassing the version and
+        /// already-shown checks. For local testing only — never ship as `true`.
+        let testing: Bool
 
         init(version: String,
              header: @autoclosure @escaping () -> AnyView,
@@ -23,7 +26,8 @@ class WhatsNew {
              displayTier: SubscriptionTier = .none,
              isEnabled: @autoclosure @escaping () -> Bool,
              fullModal: Bool = false,
-             customBody: @autoclosure @escaping () -> AnyView? = nil) {
+             customBody: @autoclosure @escaping () -> AnyView? = nil,
+             testing: Bool = false) {
             self.version = version
             self.header = header
             self.title = title
@@ -34,6 +38,7 @@ class WhatsNew {
             self.isEnabled = isEnabled
             self.fullModal = fullModal
             self.customBody = customBody
+            self.testing = testing
         }
     }
 
@@ -73,6 +78,15 @@ class WhatsNew {
 
     /// Returns the announcement to be displayed if one is available
     var visibleAnnouncement: Announcement? {
+        #if DEBUG
+        // Always show an announcement flagged for testing, ignoring the version
+        // and already-shown checks below. DEBUG-only, so a `testing: true` left in
+        // by mistake can never affect a release build.
+        if let testingAnnouncement = announcements.last(where: { $0.testing && $0.isEnabled() }) {
+            return testingAnnouncement
+        }
+        #endif
+
         // Don't show any announcements if this is the first run of the app,
         // or if we've already checked the what's new for this version
         guard let previousOpenedVersion else {

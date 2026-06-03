@@ -8,34 +8,22 @@ struct WhatsNewFullView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Button(L10n.cancel) {
-                    dismiss()
-                }
-                .frame(minHeight: 44)
-                .tint(theme.primaryInteractive01)
-
-                Spacer()
-            }
-            .padding(.horizontal, 15)
-
             Spacer()
 
             announcement.header()
 
-            Spacer()
+            if let customBody = announcement.customBody() {
+                Spacer()
 
-            VStack(spacing: 10) {
-                if announcement.displayTier != .none {
-                    SubscriptionBadge(tier: announcement.displayTier,
-                                      displayMode: .gradient,
-                                      fontSize: 16)
-                    .padding(.bottom, 5)
-                }
-
-                if let customBody = announcement.customBody() {
+                VStack(spacing: 10) {
+                    subscriptionBadge
                     customBody
-                } else {
+                }
+                .padding(.horizontal, 24)
+            } else {
+                VStack(spacing: 10) {
+                    subscriptionBadge
+
                     Text(announcement.title)
                         .font(style: .title, weight: .bold)
                         .foregroundStyle(theme.primaryText01)
@@ -47,20 +35,22 @@ struct WhatsNewFullView: View {
                         .foregroundStyle(theme.primaryText01)
                         .tint(theme.primaryInteractive01)
                         .multilineTextAlignment(.center)
-                        .padding(.bottom)
                         .fixedSize(horizontal: false, vertical: true)
-
-                    Button(announcement.buttonTitle) {
-                        track(.whatsnewConfirmButtonTapped)
-
-                        announcement.action()
-                    }
-                    .buttonStyle(RoundedButtonStyle(theme: theme))
-                    .padding(.top, 40)
-                    .padding(.bottom, 15)
                 }
+                .padding(.top, 24)
+                .padding(.horizontal, 24)
+
+                Spacer()
+
+                Button(announcement.buttonTitle) {
+                    track(.whatsnewConfirmButtonTapped)
+
+                    announcement.action()
+                }
+                .buttonStyle(RoundedButtonStyle(theme: theme))
+                .padding(.bottom, 15)
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
         }
         .background(theme.primaryUi01)
         .onAppear {
@@ -68,10 +58,13 @@ struct WhatsNewFullView: View {
         }
     }
 
-    private func dismiss(completion: (() -> Void)? = nil) {
-        NavigationManager.sharedManager.dismissPresentedViewController {
-            completion?()
-            NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
+    @ViewBuilder
+    private var subscriptionBadge: some View {
+        if announcement.displayTier != .none {
+            SubscriptionBadge(tier: announcement.displayTier,
+                              displayMode: .gradient,
+                              fontSize: 16)
+            .padding(.bottom, 5)
         }
     }
 

@@ -117,6 +117,18 @@ struct Announcements {
             },
             isEnabled: FeatureFlag.upNextShuffle.enabled,
             fullModal: true
+        ),
+        .init(
+            version: "8.14",
+            header: AnyView(Image("whatsnew-highlighted-transcripts")),
+            title: L10n.transcriptHighlightAnnouncementTitle,
+            message: L10n.transcriptHighlightAnnouncementMessage,
+            buttonTitle: L10n.gotIt,
+            action: {
+                SceneHelper.rootViewController()?.dismiss(animated: true)
+            },
+            isEnabled: FeatureFlag.syncedTranscripts.enabled,
+            fullModal: true
         )
     ]
 }
