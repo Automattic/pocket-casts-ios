@@ -379,7 +379,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if count == 1 {
             remainingLabel.text = L10n.queueUpNextHeaderOneEpisode(time)
         } else {
-            remainingLabel.text = L10n.queueUpNextHeaderPlural("\(count)", time)
+            remainingLabel.text = L10n.queueUpNextHeaderPlural(count.localized(), time)
         }
     }
 
