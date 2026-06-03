@@ -415,7 +415,7 @@ final class FingerprintTimingManager: NSObject {
             return
         }
 
-        let matcher = CheckpointMatcher()
+        let matcher = CheckpointMatcher.withDrift(maxDrift: FingerprintConstants.matcherMaxDrift)
         let duration_s = reference.checkpointDurationSeconds
         let rawCheckpointCount = reference.checkpoints.count
         let libraryCheckpoints = reference.libraryCheckpoints()

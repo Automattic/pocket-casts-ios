@@ -53,6 +53,14 @@ enum FingerprintConstants {
     /// trusted anchor before we have one to project from.
     static let driftBootstrapCount: Int = 3
 
+    /// Maximum drift, in hash positions, passed to the `CheckpointMatcher` so it
+    /// can tolerate alignment shifts (e.g. differing ad insertions / timing
+    /// offsets) when scoring a query window against reference checkpoints. This
+    /// is the matcher's internal alignment tolerance and is distinct from the
+    /// downstream `drift*` filter constants, which work in seconds/scores on the
+    /// matcher's results.
+    static let matcherMaxDrift: UInt32 = 20
+
     /// Minimum matcher score for a match to even reach the drift filter. Stricter
     /// than `matchScoreThreshold` on purpose: that one is the matcher's minimum-
     /// confidence floor; this is the filter's "is this actually good enough to
