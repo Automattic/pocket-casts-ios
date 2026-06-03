@@ -4339,6 +4339,10 @@ internal enum L10n {
   internal static var tvCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_create_account_subtitle", fallback: "Scan this code to get started on your phone, it only takes a minute.") }
   /// tv create account title
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
+  /// Discover - Button title on a featured podcast card that opens the podcast.
+  internal static var tvDiscoverFeaturedGoToPodcast: String { return L10n.tr("Localizable", "tv_discover_featured_go_to_podcast", fallback: "Go to podcast") }
+  /// Discover - Button title on a featured podcast card that plays the podcast's most recent episode.
+  internal static var tvDiscoverFeaturedPlayLatestEpisode: String { return L10n.tr("Localizable", "tv_discover_featured_play_latest_episode", fallback: "Play latest episode") }
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
   /// tv home Browse Categories section title

@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsDataModel
+import PocketCastsServer
 import SwiftUI
 
 struct MockData {
@@ -202,5 +203,30 @@ struct MockData {
         }
         self.stubPlaylists = results
         return results
+    }
+
+    static func makeStubDiscoveryPodcast() -> DiscoverPodcast {
+        var podcast = DiscoverPodcast()
+        podcast.uuid = UUID().uuidString
+        podcast.title = podcastNames.first
+        podcast.author = authorNames.first
+        podcast.shortDescription = episodeTitles.first
+
+        return podcast
+    }
+
+    static func makeStubDiscoveryPodcasts() -> [DiscoverPodcast] {
+        var result = [DiscoverPodcast]()
+        for (index, name) in podcastNames.enumerated() {
+            var podcast = DiscoverPodcast()
+            podcast.uuid = UUID().uuidString
+            podcast.title = name
+            podcast.author = authorNames[index]
+            podcast.shortDescription = episodeTitles[index]
+
+            result.append(podcast)
+        }
+
+        return result
     }
 }

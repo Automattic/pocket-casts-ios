@@ -6240,3 +6240,10 @@
 
 /* tv discover more banner action button title */
 "tv_banner_discover_more_action_title" = "Discover more shows";
+
+/* Discover - Button title on a featured podcast card that plays the podcast's most recent episode. */
+"tv_discover_featured_play_latest_episode" = "Play latest episode";
+
+/* Discover - Button title on a featured podcast card that opens the podcast. */
+"tv_discover_featured_go_to_podcast" = "Go to podcast";
+

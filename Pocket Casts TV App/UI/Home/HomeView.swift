@@ -130,7 +130,7 @@ struct HomeView: View {
 
     var featuredRow: some View {
         HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
-            DiscoverPodcastRow(type: .featured)
+            DiscoverFeaturedPodcastsRow(type: .featured)
         }
     }
 
