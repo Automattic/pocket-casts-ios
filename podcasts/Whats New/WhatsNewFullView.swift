@@ -56,6 +56,9 @@ struct WhatsNewFullView: View {
         .onAppear {
             track(.whatsnewShown)
         }
+        .onDisappear {
+            NotificationCenter.postOnMainThread(notification: .whatsNewDismissed)
+        }
     }
 
     @ViewBuilder
