@@ -4,8 +4,11 @@ import SwiftUI
 struct PocketCastsTVApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
+    private let appLifecycleAnalytics = AppLifecycleAnalytics()
+
     init() {
         AnalyticsSetup.setupIfNeeded()
+        _ = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
     }
 
     var body: some Scene {
@@ -14,7 +17,7 @@ struct PocketCastsTVApp: App {
                 .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { _, newPhase in
-            TVAppLifecycleAnalytics.shared.handle(scenePhase: newPhase)
+            appLifecycleAnalytics.handle(scenePhase: newPhase)
         }
     }
 }

@@ -2966,7 +2966,6 @@
 				"Adapters/Crash Logging/CrashLoggingAdapter.swift",
 				"Adapters/Crash Logging/CrashLoggingDataProvider.swift",
 				AnalyticsAppThemeProvider.swift,
-				AppLifecyleAnalytics.swift,
 				WidgetAnalytics.swift,
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
