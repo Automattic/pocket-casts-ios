@@ -150,8 +150,10 @@ private extension String {
         return "\(major).\(minor)"
     }
 
-    /// Returns whether the version is above the `lower` and equal to or below the `upper` bounds
+    /// Returns whether the version is above the `lower` and equal to or below the `upper` bounds.
+    /// Uses numeric comparison so multi-digit components order correctly (e.g. "8.14" > "8.9").
     func inRange(of lower: String, upper: String) -> Bool {
-        self >= lower && self <= upper
+        compare(lower, options: .numeric) != .orderedAscending &&
+        compare(upper, options: .numeric) != .orderedDescending
     }
 }
