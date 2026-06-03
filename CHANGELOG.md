@@ -1,5 +1,6 @@
 8.14
 -----
+- Add a What's New announcement for highlighted transcripts [#4458](https://github.com/Automattic/pocket-casts-ios/pull/4458)
 - Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
 - Update remaining menus to use sheet presentation [#4426](https://github.com/Automattic/pocket-casts-ios/pull/4426)
 - Fix rare crash in Stats [#4445](https://github.com/Automattic/pocket-casts-ios/pull/4445)
