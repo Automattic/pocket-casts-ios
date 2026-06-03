@@ -1254,6 +1254,27 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Test seam: configures the processed range plus the active flag and runs
+    /// the ad-detection evaluation synchronously on the manager's serial queue —
+    /// the way `processProgress` does each tick — returning the resulting
+    /// queue-confined ad state. The public `isAdInProgress` mirror is updated
+    /// asynchronously on the main thread, so tests read this return value to stay
+    /// deterministic. Set up the anchor mapping first via `insert(mapping:)`.
+    func evaluateAdStateForTesting(
+        playbackTime: Double,
+        processedStart: Double,
+        processedFrontier: Double,
+        hasReachedActive: Bool = true
+    ) -> Bool {
+        queue.sync {
+            self.hasReachedActive = hasReachedActive
+            self.processedStart = processedStart
+            self.processedFrontier = processedFrontier
+            evaluateAdState(playbackTime: playbackTime)
+            return adInProgress
+        }
+    }
+
     private func insertMapping(_ entry: TimeMappingEntry) {
         let pbIdx = playbackToReference.sortedInsertionIndex { $0.playbackTime < entry.playbackTime }
         playbackToReference.insert(entry, at: pbIdx)

@@ -269,4 +269,81 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(first, 100.0, accuracy: 0.001)
         XCTAssertEqual(last, 200.0, accuracy: 0.001)
     }
+
+    // MARK: - Ad detection
+
+    /// adCoverageGapSeconds is 12; anchors land roughly every window interval, so
+    /// these scenarios space anchors apart to model the unmatched stretches the
+    /// detector treats as dynamically inserted ads.
+
+    func testPreRollFlaggedAsAd() {
+        let manager = FingerprintTimingManager()
+        // First matched content starts at playback=30; nothing matched below it.
+        [30, 32, 34].forEach { manager.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+
+        // Inside the pre-roll: bounded below by processedStart (0) and above by the
+        // first anchor (30) → a 30 s gap, well over the 12 s threshold.
+        XCTAssertTrue(manager.evaluateAdStateForTesting(playbackTime: 10, processedStart: 0, processedFrontier: 34))
+
+        // Once playback reaches matched content the surrounding anchors are ~2 s
+        // apart, so the same position range is no longer an ad.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 31, processedStart: 0, processedFrontier: 34))
+    }
+
+    func testMidRollGapBetweenTwoAnchorsFlaggedAsAd() {
+        let manager = FingerprintTimingManager()
+        // Two tight clusters of content with a 16 s unmatched gap (4 → 20) between.
+        [0, 2, 4, 20, 22, 24].forEach { manager.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+
+        // Inside the gap: bounded by anchors 4 and 20 → 16 s > 12 s.
+        XCTAssertTrue(manager.evaluateAdStateForTesting(playbackTime: 12, processedStart: 0, processedFrontier: 24))
+
+        // Before the gap, surrounded by 2 s-apart anchors → not an ad.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 2, processedStart: 0, processedFrontier: 24))
+
+        // The ad clears exactly when playback reaches the next matched anchor (20),
+        // not partway through the gap.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 22, processedStart: 0, processedFrontier: 24))
+    }
+
+    func testPostRollFlaggedAsAdBoundedByFrontier() {
+        let manager = FingerprintTimingManager()
+        // Last matched content is at playback=4; the loop has confirmed audio out
+        // to the frontier at 30 with nothing matching beyond 4.
+        [0, 2, 4].forEach { manager.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+
+        // Past the final anchor: bounded above by processedFrontier (30) → 26 s gap.
+        XCTAssertTrue(manager.evaluateAdStateForTesting(playbackTime: 20, processedStart: 0, processedFrontier: 30))
+
+        // Still inside matched content → not an ad.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 2, processedStart: 0, processedFrontier: 30))
+    }
+
+    func testPositionsOutsideProcessedRangeNotFlagged() {
+        let manager = FingerprintTimingManager()
+        // A huge 50 s gap between the only two anchors — tempting to flag — but the
+        // examined range is just [10, 40].
+        [0, 50].forEach { manager.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+
+        // Below processedStart: coverage there hasn't been generated, so not an ad.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 5, processedStart: 10, processedFrontier: 40))
+
+        // Above processedFrontier (the live-streaming edge): likewise not an ad.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 60, processedStart: 10, processedFrontier: 40))
+
+        // Even inside the range, nothing is flagged until the manager is active.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 25, processedStart: 10, processedFrontier: 40, hasReachedActive: false))
+    }
+
+    func testGapWidthUsesStrictThreshold() {
+        // Exactly adCoverageGapSeconds (12) wide → not an ad (strict greater-than).
+        let atThreshold = FingerprintTimingManager()
+        [0, 12].forEach { atThreshold.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+        XCTAssertFalse(atThreshold.evaluateAdStateForTesting(playbackTime: 6, processedStart: 0, processedFrontier: 12))
+
+        // Just over the threshold → an ad.
+        let overThreshold = FingerprintTimingManager()
+        [0, 12.5].forEach { overThreshold.insert(mapping: Entry(playbackTime: $0, referenceTime: $0)) }
+        XCTAssertTrue(overThreshold.evaluateAdStateForTesting(playbackTime: 6, processedStart: 0, processedFrontier: 12.5))
+    }
 }
