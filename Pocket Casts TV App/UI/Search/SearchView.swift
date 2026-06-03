@@ -23,6 +23,11 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
                     }
                 }
             }
+            .searchScopes($model.scope, scopes: {
+                ForEach(SearchScope.allCases, id: \.self) { scope in
+                    Text(scope.rawValue).tag(scope)
+                }
+            })
             .onSubmit {
                 model.saveHistory(searchText)
             }

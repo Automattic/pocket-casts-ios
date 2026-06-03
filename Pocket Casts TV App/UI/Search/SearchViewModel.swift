@@ -2,8 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum SearchScope: String, CaseIterable {
-    case all = "All"
+enum SearchScope: String, CaseIterable {  
     case podcasts = "Podcasts"
     case episodes = "Episodes"
 }
@@ -21,6 +20,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var state: SearchState { get }
     var scope: SearchScope { get set }
     var results: [CombinedSearchResultType] { get }
+    var episodeResults: [CombinedSearchResultType] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -47,9 +47,11 @@ class SearchViewModel: SearchableViewModel {
 
     var state: SearchState = .query
 
-    var scope: SearchScope = .all
+    var scope: SearchScope = .podcasts
 
     var results: [CombinedSearchResultType] = []
+
+    var episodeResults: [CombinedSearchResultType] = []
 
     var searchHistory: [String] {
         searchModel.entries.compactMap(\.searchTerm)
@@ -123,7 +125,7 @@ class SearchViewModel: SearchableViewModel {
                             combinedResults.append(searchResult)
                         }
                     case .episode:
-                        continue
+                        episodeResults.append(searchResult)
                     }
                 }
 

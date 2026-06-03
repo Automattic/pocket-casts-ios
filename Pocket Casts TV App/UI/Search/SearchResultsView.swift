@@ -21,7 +21,12 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
         case .empty:
             ContentUnavailableView.search(text: model.searchTerm)
         case .results:
-            results
+            switch model.scope {
+            case .podcasts:
+                results
+            case .episodes:
+                episodeResults
+            }
         case .error(let error):
             Text(L10n.tvSearchFailed(error.localizedDescription))
                 .font(.headline)
@@ -46,6 +51,24 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         .buttonStyle(.card)
                     case .episode:
                         EmptyView()
+                    }
+                }
+            })
+            .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
+                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
+            }
+        }
+    }
+
+    var episodeResults: some View {
+        ScrollView {
+            LazyVGrid(columns: items, spacing: 48, content: {
+                ForEach(model.episodeResults, id: \.self) { result in
+                    switch result {
+                    case .podcast:
+                        EmptyView()
+                    case .episode(let episode):
+                        Text(episode.title)
                     }
                 }
             })
