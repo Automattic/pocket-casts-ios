@@ -848,7 +848,17 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(updateHighlightDisplayLinkPauseState))
             addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(updateHighlightDisplayLinkPauseState))
             addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(updateHighlightDisplayLinkPauseState))
+            addCustomObserver(Constants.Notifications.fingerprintAdStateChanged, selector: #selector(adStateChanged))
         }
+    }
+
+    @objc private func adStateChanged() {
+        // Clear or restore the highlight immediately rather than waiting for the
+        // next display-link tick.
+        updateTranscriptPosition()
+        #if DEBUG
+        Toast.show(FingerprintTimingManager.shared.isAdInProgress ? "Ad in progress" : "Ad finished")
+        #endif
     }
 
     @objc private func updateTranscriptPosition() {
@@ -859,6 +869,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // highlight arbitrary VTT lines during ads and other non-matching audio.
         let rawTime = playbackManager.currentTime()
         guard case .active = FingerprintTimingManager.shared.state,
+              !FingerprintTimingManager.shared.isAdInProgress,
               let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
             if previousRange != nil {
                 previousRange = nil

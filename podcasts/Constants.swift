@@ -25,6 +25,7 @@ struct Constants {
         static let dimmingViewTapped = NSNotification.Name(rawValue: "SJDimViewTapped")
         static let downloadProgress = NSNotification.Name(rawValue: "SJDwnProg")
         static let podcastImageReCacheRequired = NSNotification.Name(rawValue: "PCPodcastImageReCacheRequired")
+        static let fingerprintAdStateChanged = NSNotification.Name(rawValue: "PCFingerprintAdStateChanged")
 
         static let skipTimesChanged = NSNotification.Name(rawValue: "SJSkipTimesChanged")
         static let subscribeRequestedFromCell = NSNotification.Name(rawValue: "SJSubscribeRequestFromCell")

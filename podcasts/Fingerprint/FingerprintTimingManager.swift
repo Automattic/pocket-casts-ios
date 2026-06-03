@@ -34,6 +34,12 @@ final class FingerprintTimingManager: NSObject {
 
     private(set) var state: State = .idle
 
+    /// True while the listener is inside a stretch of audio the matcher no longer
+    /// recognises — typically a dynamically inserted mid-roll ad. Updated on the
+    /// main thread; read it from the transcript UI to stop highlighting during
+    /// ads. Transitions also post `Constants.Notifications.fingerprintAdStateChanged`.
+    private(set) var isAdInProgress = false
+
     // MARK: - Internal Types
 
     private struct GenerationContext {
@@ -86,6 +92,19 @@ final class FingerprintTimingManager: NSObject {
     private var preparationStartDate: Date?
     private var hasReachedActive = false
     private var hasEmittedPreparationStarted = false
+
+    /// Queue-confined mirror of `isAdInProgress` used to detect transitions
+    /// without hopping to the main thread on every progress tick.
+    private var adInProgress = false
+
+    /// Playback-axis range, in seconds, the fingerprint loop has actually
+    /// examined for the current stream. Anything inside this range that produced
+    /// no matched anchor is genuinely unmatched audio (an ad); anything outside
+    /// it simply hasn't been generated yet, so we can't call it. `start` is where
+    /// the current stream was anchored, `frontier` is the furthest window matched
+    /// so far. Default ordering (start > frontier) means "nothing processed yet".
+    private var processedStart: Double = .greatestFiniteMagnitude
+    private var processedFrontier: Double = -1
 
     // Drift-filter state — see `consider(candidate:)`.
     private var filterLastTrusted: TimeMappingEntry?
@@ -177,6 +196,8 @@ final class FingerprintTimingManager: NSObject {
     private func processProgress(playbackTime: Double, episodeUuid: String?) {
         guard let ctx = context, ctx.episodeUuid == episodeUuid else { return }
 
+        evaluateAdState(playbackTime: playbackTime)
+
         if lastProgressPosition >= 0 {
             let delta = abs(playbackTime - lastProgressPosition)
             if delta > FingerprintConstants.restartDeltaSeconds {
@@ -208,6 +229,88 @@ final class FingerprintTimingManager: NSObject {
         )
         #endif
         restart(from: playbackTime, context: ctx)
+    }
+
+    // MARK: - Ad Detection
+
+    /// Decide whether the current playback position sits in an ad and flip
+    /// `isAdInProgress` accordingly.
+    ///
+    /// The position is an ad when it falls inside an unmatched stretch wider than
+    /// `adCoverageGapSeconds`. During matched playback anchors land roughly every
+    /// window interval, so a stretch this wide is content the matcher refused.
+    /// The stretch is bounded by:
+    /// - below: the nearest anchor at or before the position, or — when there's
+    ///   none (the position is before the first anchor, i.e. a pre-roll) — the
+    ///   point where the loop began examining audio (`processedStart`);
+    /// - above: the nearest anchor at or after the position, or — when there's
+    ///   none (the position is beyond the last anchor, i.e. a post-roll or
+    ///   mid-roll not yet exited) — how far the loop has confirmed unmatched
+    ///   (`processedFrontier`).
+    ///
+    /// Measuring the full bounded width, rather than the distance to the nearest
+    /// anchor, matters because the first anchor after an ad sits exactly where
+    /// real content resumes and is usually committed (the loop runs ahead) while
+    /// the listener is still in the ad; distance-to-nearest would clear the ad up
+    /// to `adCoverageGapSeconds` early as playback merely approached it.
+    ///
+    /// Only positions the loop has actually examined are judged. Outside
+    /// `[processedStart, processedFrontier]` coverage simply hasn't been generated
+    /// yet (notably the live-streaming edge), and flagging an ad there would
+    /// suppress legitimate highlighting.
+    private func evaluateAdState(playbackTime: Double) {
+        guard hasReachedActive,
+              playbackTime >= processedStart,
+              playbackTime <= processedFrontier else {
+            setAdInProgress(false)
+            return
+        }
+
+        let below = lastAnchorIndex(atOrBefore: playbackTime)
+        // The anchor bounding the position from above: the one after `below`, or
+        // the very first anchor when the position precedes them all (pre-roll).
+        let above: Int?
+        if let below {
+            let next = below + 1
+            above = playbackToReference.indices.contains(next) ? next : nil
+        } else {
+            above = playbackToReference.isEmpty ? nil : 0
+        }
+
+        let lowerBound = below.map { playbackToReference[$0].playbackTime } ?? processedStart
+        let upperBound = above.map { playbackToReference[$0].playbackTime } ?? processedFrontier
+
+        setAdInProgress(upperBound - lowerBound > FingerprintConstants.adCoverageGapSeconds)
+    }
+
+    /// Index of the last anchor whose `playbackTime` is `<= playbackTime`, or nil
+    /// if the position is before every anchor.
+    private func lastAnchorIndex(atOrBefore playbackTime: Double) -> Int? {
+        guard let first = playbackToReference.first, playbackTime >= first.playbackTime else { return nil }
+        var lo = 0
+        var hi = playbackToReference.count - 1
+        while lo < hi {
+            let mid = (lo + hi + 1) / 2
+            if playbackToReference[mid].playbackTime <= playbackTime {
+                lo = mid
+            } else {
+                hi = mid - 1
+            }
+        }
+        return lo
+    }
+
+    private func setAdInProgress(_ inAd: Bool) {
+        guard inAd != adInProgress else { return }
+        adInProgress = inAd
+        #if DEBUG
+        FileLog.shared.addMessage("FingerprintTimingManager: ad \(inAd ? "started" : "ended")")
+        #endif
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.isAdInProgress = inAd
+            NotificationCenter.default.post(name: Constants.Notifications.fingerprintAdStateChanged, object: nil)
+        }
     }
 
     private func isWithinMappedRange(_ playbackTime: Double) -> Bool {
@@ -301,6 +404,9 @@ final class FingerprintTimingManager: NSObject {
         preparationStartDate = nil
         hasReachedActive = false
         hasEmittedPreparationStarted = false
+        processedStart = .greatestFiniteMagnitude
+        processedFrontier = -1
+        setAdInProgress(false)
         resetFilterState()
         #if DEBUG
         debugRejections.removeAll()
@@ -501,6 +607,11 @@ final class FingerprintTimingManager: NSObject {
             // entry through `insertMapping`'s per-entry `Array.insert`.
             playbackToReference = cached.entries
             referenceToPlayback = cached.entries.sorted { $0.referenceTime < $1.referenceTime }
+            // A full-coverage cache is only written after a prior session
+            // fingerprinted the entire file, so the whole timeline counts as
+            // processed — gaps in it are real ads, including pre/post-roll.
+            processedStart = 0
+            processedFrontier = duration
 
             if isWithinMappedRange(currentTime) {
                 filterLastTrusted = cached.entries.last
@@ -538,6 +649,11 @@ final class FingerprintTimingManager: NSObject {
     /// actually hearing — without waiting for the entire file to be processed.
     private func startStream(context ctx: GenerationContext, fromPosition position: Double) {
         let aligned = Self.alignToWindowGrid(position)
+        // A (re)started stream re-examines the audio from `aligned` forward, so
+        // the confirmed-processed range collapses to that point and grows again
+        // as windows are matched. Ad detection only trusts this range.
+        processedStart = aligned
+        processedFrontier = aligned
         generationQueue.async { [weak self] in
             guard let self else { return }
             do {
@@ -923,6 +1039,15 @@ final class FingerprintTimingManager: NSObject {
         startOffset: Double,
         context ctx: GenerationContext
     ) {
+        // Advance the processed frontier to the end of this batch regardless of
+        // whether anything matched — windows are emitted continuously, so a
+        // stretch examined here that commits no anchor is confirmed unmatched
+        // audio (an ad), which is exactly what ad detection needs to know.
+        if let lastWindow = windows.last {
+            let batchEnd = startOffset + Double(lastWindow.timestampMs) / 1000.0
+            processedFrontier = max(processedFrontier, batchEnd)
+        }
+
         var inserted = 0
         #if DEBUG
         var bestScoreOverall: Float = 0

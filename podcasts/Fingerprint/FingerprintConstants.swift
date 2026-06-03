@@ -101,4 +101,15 @@ enum FingerprintConstants {
     /// Persistent cache schema version. Bump when the on-disk shape changes so
     /// older files are silently discarded on the next load.
     static let mappingCacheSchemaVersion: Int = 2
+
+    /// Widest unmatched stretch, in seconds on the playback axis, allowed before
+    /// it counts as an ad. During matched playback the drift filter commits
+    /// anchors every window interval or so, so a stretch wider than this — bounded
+    /// by the surrounding anchors, or by the examined range at the timeline edges
+    /// (pre/post-roll) — is content the matcher refused, in practice a
+    /// dynamically inserted ad. Used to stop transcript highlighting across the
+    /// stretch instead of extrapolating through it. Measured as the full bounded
+    /// width (not distance to the nearest anchor) so the ad clears exactly when
+    /// playback reaches the next matched anchor.
+    static let adCoverageGapSeconds: Double = 12
 }
