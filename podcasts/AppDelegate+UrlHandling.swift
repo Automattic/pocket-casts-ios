@@ -488,7 +488,7 @@ extension AppDelegate {
             }
             Task {
                 do {
-                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code)
+                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: true)
                 } catch {
                     print("Failed")
                 }
@@ -496,7 +496,19 @@ extension AppDelegate {
         }
         alert.addAction(okAction)
 
-        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
+            guard let code = alert.textFields?.first?.text else {
+                return
+            }
+            Task {
+                do {
+                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: false)
+                } catch {
+                    print("Failed")
+                }
+            }
+        }
+
         alert.addAction(cancelAction)
 
         alert.addTextField { codeField in

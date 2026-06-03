@@ -81,45 +81,18 @@ public extension ApiServerHandler {
         return ServerHelper.createProtoRequest(url: url, data: try! data.serializedData())
     }
 
-    func deviceApproveRequest(userCode: String) async throws -> Bool {
-        try await withCheckedThrowingContinuation { continuation in
-            deviceApproveRequest(userCode: userCode) { result in
+    func deviceApproveRequest(userCode: String, approve: Bool) async throws -> DeviceApproveResult {
+        return try await withCheckedThrowingContinuation { continuation in
+            let operation = DeviceApproveTask(userCode: userCode, approve: approve)
+            operation.completion = { result in
                 switch result {
+                case .success(let resultObject):
+                    continuation.resume(returning: resultObject)
                 case .failure(let error):
                     continuation.resume(throwing: error)
-                case .success(let result):
-                    continuation.resume(returning: result)
                 }
             }
-        }
-    }
-
-    private func deviceApproveRequest(userCode: String, completion: @escaping (Result<Bool, APIError>) -> Void) {
-        var request = Api_DeviceApproveRequest()
-        request.userCode = userCode
-        request.deny = false
-
-        let url = ServerHelper.asUrl(ServerConstants.Urls.api() + "device/approve")
-
-        do {
-            let data = try request.serializedData()
-            guard let request = ServerHelper.createProtoRequest(url: url, data: data) else {
-                FileLog.shared.addMessage("Unable to create protobuffer request to device approve request")
-                completion(.failure(APIError.UNKNOWN))
-                return
-            }
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let responseData = data, error == nil, (response as? HTTPURLResponse)?.statusCode == ServerConstants.HttpConstants.ok else {
-                    let errorResponse = ApiServerHandler.extractErrorResponse(data: data, response: response)
-                    completion(.failure(errorResponse ?? APIError.UNKNOWN))
-                    return
-                }
-
-                completion(.success(true))
-            }.resume()
-        } catch {
-            FileLog.shared.addMessage("Device Approve Request failed \(error.localizedDescription)")
-            completion(.failure(APIError.UNKNOWN))
+            apiQueue.addOperation(operation)
         }
     }
 }

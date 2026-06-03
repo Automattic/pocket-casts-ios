@@ -130,8 +130,8 @@ class AuthenticationHelper {
     }
 
     @discardableResult
-    static func deviceApprove(userCode: String) async throws -> Bool {
-        let response = try await ApiServerHandler.shared.deviceApproveRequest(userCode: userCode)
+    static func deviceApprove(userCode: String, approve: Bool) async throws -> DeviceApproveResult {
+        let response = try await ApiServerHandler.shared.deviceApproveRequest(userCode: userCode, approve: approve)
         return response
     }
 }
