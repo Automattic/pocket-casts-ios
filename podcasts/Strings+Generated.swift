@@ -3137,6 +3137,14 @@ internal enum L10n {
   internal static func queueTotalTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "queue_total_time_remaining", String(describing: p1), fallback: "%1$@ total time remaining")
   }
+  /// Up Next header showing episode count and time remaining for a single episode. '%1$@' is a placeholder for the total time remaining.
+  internal static func queueUpNextHeaderOneEpisode(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "queue_up_next_header_one_episode", String(describing: p1), fallback: "1 episode · %1$@")
+  }
+  /// Up Next header showing episode count and time remaining for multiple episodes. '%1$@' is a placeholder for the episode count. '%2$@' is a placeholder for the total time remaining.
+  internal static func queueUpNextHeaderPlural(_ p1: Any, _ p2: Any) -> String {
+    return L10n.tr("Localizable", "queue_up_next_header_plural", String(describing: p1), String(describing: p2), fallback: "%1$@ episodes · %2$@")
+  }
   /// Title of a button that takes the user to a screen to rate a podcast
   internal static var rate: String { return L10n.tr("Localizable", "rate", fallback: "Rate") }
   /// Title of a button that allows the user to rate the app

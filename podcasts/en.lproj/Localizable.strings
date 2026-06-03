@@ -2194,6 +2194,12 @@
 /* Information label indication the total time remaining in the queue. This is a total across all episodes in the up next queue. '%1$@' is a placeholder for the total time remaining in the queue. */
 "queue_total_time_remaining" = "%1$@ total time remaining";
 
+/* Up Next header showing episode count and time remaining for a single episode. '%1$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_one_episode" = "1 episode · %1$@";
+
+/* Up Next header showing episode count and time remaining for multiple episodes. '%1$@' is a placeholder for the episode count. '%2$@' is a placeholder for the total time remaining. */
+"queue_up_next_header_plural" = "%1$@ episodes · %2$@";
+
 /* A common string used throughout the app. Error title indicating that the refresh process has failed. */
 "refresh_failed" = "Refresh failed";
 
