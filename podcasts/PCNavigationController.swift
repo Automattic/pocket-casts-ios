@@ -46,7 +46,17 @@ class PCNavigationController: UINavigationController, UIGestureRecognizerDelegat
     }
 
     private func updateNavColors() {
-        guard !LiquidGlass.isEnabled else { return }
+        guard !LiquidGlass.isEnabled else {
+            // Under Liquid Glass we rely on the system glass nav bar, which derives its
+            // title/button colors from the interface style. Force it to match the nav
+            // controller's theme override so an always-dark screen like Up Next keeps a
+            // light title even after content scrolls under the bar (otherwise the glass
+            // renders with the ambient appearance and the title flips to black on scroll).
+            if let themeOverride {
+                overrideUserInterfaceStyle = themeOverride.isDark ? .dark : .light
+            }
+            return
+        }
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
