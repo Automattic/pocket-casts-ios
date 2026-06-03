@@ -69,6 +69,22 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         static let skipIconScale: CGFloat = 0.9
     }
 
+    /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
+    private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
+        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .systemChromeMaterial), style: style)
+        let wrapper = UIVisualEffectView(effect: vibrancy)
+        wrapper.translatesAutoresizingMaskIntoConstraints = false
+        content.translatesAutoresizingMaskIntoConstraints = false
+        wrapper.contentView.addSubview(content)
+        NSLayoutConstraint.activate([
+            content.leadingAnchor.constraint(equalTo: wrapper.contentView.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: wrapper.contentView.trailingAnchor),
+            content.topAnchor.constraint(equalTo: wrapper.contentView.topAnchor),
+            content.bottomAnchor.constraint(equalTo: wrapper.contentView.bottomAnchor),
+        ])
+        return wrapper
+    }
+
     /// When set, the next time-left value update is wrapped in `withAnimation`
     /// so SwiftUI's numeric-text transition rolls the digits. Set by skip
     /// back/forward and consumed on the first resulting change so only
@@ -142,15 +158,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let title = MiniPlayerScrollingTitleView()
-        title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
         episodeTitleLabel = title
+        let titleVibrancy = Self.makeVibrancyWrapper(style: .label, content: title)
 
         // Hosted SwiftUI so the time-left digits can use the native
         // `.numericText` content transition when the user skips.
         let timeLeftModel = MiniPlayerTimeLeftModel()
         let timeLeftHost = UIHostingController(rootView: MiniPlayerTimeLeftView(model: timeLeftModel))
-        timeLeftHost.view.translatesAutoresizingMaskIntoConstraints = false
         timeLeftHost.view.backgroundColor = .clear
         timeLeftHost.sizingOptions = .intrinsicContentSize
         timeLeftHost.safeAreaRegions = []
@@ -159,16 +174,18 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         self.timeLeftModel = timeLeftModel
         self.timeLeftHostingController = timeLeftHost
 
-        let progressView = MiniPlayerGlassProgressView()
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        glassProgressView = progressView
+        let timeLeftVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: timeLeftHost.view)
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftHost.view])
+        let progressView = MiniPlayerGlassProgressView()
+        glassProgressView = progressView
+        let progressVibrancy = Self.makeVibrancyWrapper(style: .fill, content: progressView)
+
+        let bottomRow = UIStackView(arrangedSubviews: [progressVibrancy, timeLeftVibrancy])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
 
-        let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
+        let textStack = UIStackView(arrangedSubviews: [titleVibrancy, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
@@ -606,7 +623,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
 
-        episodeTitleLabel?.textColor = ThemeColor.primaryText01()
+        // System color so the vibrancy wrapper can modulate it.
+        episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
         playPauseBtn.playButtonColor = bgColor

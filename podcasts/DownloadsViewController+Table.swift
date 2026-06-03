@@ -54,6 +54,8 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
 
+        cell.showsTopDivider = LiquidGlass.isEnabled && indexPath.row == 0
+
         return cell
     }
 

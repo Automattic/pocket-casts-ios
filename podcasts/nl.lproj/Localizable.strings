@@ -122,7 +122,7 @@
     <key>account_sign_out_alert_message</key>
     <string>Je podcasts, voortgang en gegevens zijn hier wanneer je terug bent.</string>
     <key>account_sign_out_alert_title</key>
-    <string>Afmelden)</string>
+    <string>Afmelden?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Door je af te melden, worden %1$@ ondersteunde podcasts van dit apparaat verwijderd. Weet je het zeker?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -3439,9 +3439,9 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>share_profile_edit_photo_and_name</key>
     <string>Foto en naam bewerken</string>
     <key>share_profile_followed_podcasts</key>
-    <string>Followed podcasts</string>
+    <string>Gevolgde podcasts</string>
     <key>share_profile_name_description</key>
-    <string>Zo kom je te staan op gedeelde profielen. Je kan deze later wijzigen.</string>
+    <string>Zo kom je te staan op gedeelde profielen. Je kunt dit later wijzigen.</string>
     <key>share_profile_playlists</key>
     <string>Afspeellijsten</string>
     <key>share_profile_preview</key>
@@ -3455,11 +3455,11 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <key>share_profile_profile_sharing</key>
     <string>Profiel delen</string>
     <key>share_profile_recent_episodes</key>
-    <string>10 recentste afleveringen</string>
+    <string>Recente afleveringen</string>
     <key>share_profile_remove_photo</key>
     <string>Foto verwijderen</string>
     <key>share_profile_save</key>
-    <string>'Opslaan'</string>
+    <string>Opslaan</string>
     <key>share_profile_share_my_profile</key>
     <string>Mijn profiel delen</string>
     <key>share_profile_take_photo</key>
@@ -3894,12 +3894,14 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Uitloggen</string>
     <key>tv_profile_menu_starred_episodes</key>
     <string>Favoriete afleveringen</string>
+    <key>tv_search_failed</key>
+    <string>Zoekopdracht mislukt: %1$@</string>
     <key>tv_search_prompt</key>
     <string>Podcasts, shows, auteurs</string>
     <key>tv_search_searching</key>
-    <string>Zoekt...</string>
+    <string>Zoeken ...</string>
     <key>tv_search_type_something</key>
-    <string>Typ iets...</string>
+    <string>Typ iets ...</string>
     <key>tv_sign_in_enter_code</key>
     <string>of voer de volgende code in</string>
     <key>tv_sign_in_enter_code_go_url</key>
@@ -3935,7 +3937,7 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <key>tv_user_sign_in_option_manual</key>
     <string>Gebruiker/Pass</string>
     <key>tv_user_sign_in_option_qr</key>
-    <string>QR-code</string>
+    <string>QR</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Browse zonder account</string>
     <key>tv_welcome_create_free_account</key>
