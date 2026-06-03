@@ -39,7 +39,12 @@ class ImageManager {
     private var discoverCache = ImageCache(name: "discoverCache")
 
     // cache for discover video thumbnails cache
-    private var discoverVideoThumbnailCache = ImageCache(name: "discoverVideoThumbnailCache")
+    private var discoverVideoThumbnailCache: ImageCache = {
+        let cache = ImageCache(name: "discoverVideoThumbnailCache")
+        cache.diskStorage.config.expiration = .days(10)
+        cache.diskStorage.config.sizeLimit = UInt(50.megabytes)
+        return cache
+    }()
 
     // Track in-progress artwork loads by UUID
     private var inProgressArtworkLoads = Set<String>()

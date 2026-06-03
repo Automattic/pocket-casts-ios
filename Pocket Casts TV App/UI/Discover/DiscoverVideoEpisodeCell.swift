@@ -32,7 +32,7 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     init(episode: DiscoverEpisode) {
-        self.model = DiscoverVideoEpisodeModel(episode: episode)
+        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
     }
 
     var body: some View {
@@ -65,7 +65,6 @@ struct DiscoverVideoEpisodeCell: View {
             if focused == nil, isFocused, !isAnimating {
                 collapse()
             }
-            focusStore.focusedID = DiscoverType.video
         }
         .task {
             await model.load()
@@ -115,9 +114,13 @@ struct DiscoverVideoEpisodeCell: View {
         HStack(alignment: .bottom) {
             Button(L10n.tvDiscoverPlayEpisode) {
                 Task {
-                    let _ = await TVDataManager.shared.playEpisode(model.episode)
+                    let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                     await MainActor.run {
-                        showNowPlayingPlayer = true
+                        if successPlay {
+                            showNowPlayingPlayer = true
+                        } else {
+                            ToastManager.shared.show(L10n.playbackFailed)
+                        }
                     }
                 }
             }

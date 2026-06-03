@@ -1,3 +1,5 @@
+import UIKit
+import AVFoundation
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -31,7 +33,7 @@ class DiscoverVideoEpisodeModel {
                     thumbnail = videoFrame
                 }
             } catch {
-                FileLog.shared.addMessage("Failed to load episodes")
+                FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to generate discover video thumbnail for episode \(episode.uuid ?? "unknown"): \(error.localizedDescription)")
             }
         }
     }

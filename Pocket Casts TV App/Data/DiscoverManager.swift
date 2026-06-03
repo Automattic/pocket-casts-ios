@@ -179,7 +179,7 @@ actor DiscoverManager {
 
     func loadDiscoverVideoSection() async -> [DiscoverEpisode] {
         let videoSource = "https://lists.pocketcasts.com/e439e1a2-930d-4d62-807e-a7663722653c.json"
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: videoSource, authenticated: true)
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: videoSource, authenticated: false)
         guard let listOfEpisodes = podcastCollection?.episodes else {
             return []
         }
