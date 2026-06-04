@@ -160,7 +160,7 @@ struct PodcastDetailView: View {
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
     }
 }
