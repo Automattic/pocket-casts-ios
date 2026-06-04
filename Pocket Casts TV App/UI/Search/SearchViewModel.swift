@@ -143,7 +143,7 @@ class SearchViewModel: SearchableViewModel {
                     }
                 }
 
-                state = combinedResults.isEmpty ? .empty : .results
+                state = (combinedResults.isEmpty && episodes.isEmpty) ? .empty : .results
                 results = combinedResults
                 episodeResults = episodes
             }  catch is CancellationError {
