@@ -143,6 +143,41 @@ final class TranscriptSelectionLogicTests: XCTestCase {
 
     // MARK: - Heuristic Title
 
+    // MARK: - NLP Title
+
+    func testNlpTitleExtractsNouns() {
+        let text = "The ripe taste of cheese improves with age and experience in the kitchen."
+        let title = BookmarkTitleGenerator.nlpTitle(from: text)
+        XCTAssertNotNil(title)
+        XCTAssertFalse(title!.isEmpty)
+    }
+
+    func testNlpTitleExtractsNamedEntities() {
+        let text = "Clara Barton established the American Red Cross in Washington."
+        let title = BookmarkTitleGenerator.nlpTitle(from: text)
+        XCTAssertNotNil(title)
+    }
+
+    func testNlpTitleReturnsNilForEmpty() {
+        let title = BookmarkTitleGenerator.nlpTitle(from: "")
+        XCTAssertNil(title)
+    }
+
+    func testNlpTitleReturnsNilForStopWordsOnly() {
+        let title = BookmarkTitleGenerator.nlpTitle(from: "the and or but if")
+        XCTAssertNil(title)
+    }
+
+    func testNlpTitleRespectsMaxLength() {
+        let text = "Quantum mechanics thermodynamics astrophysics neuroscience pharmacology biotechnology nanotechnology cryptocurrency blockchain infrastructure telecommunications"
+        let title = BookmarkTitleGenerator.nlpTitle(from: text)
+        if let title {
+            XCTAssertTrue(title.count <= Constants.Values.bookmarkMaxTitleLength)
+        }
+    }
+
+    // MARK: - Heuristic Title
+
     func testHeuristicTitleTakesFirstFewWords() {
         let text = "one two three four five six seven eight nine ten eleven"
         let title = BookmarkTitleGenerator.heuristicTitle(from: text)

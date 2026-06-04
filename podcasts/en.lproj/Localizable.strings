@@ -4420,6 +4420,9 @@
 /* Title of the smart bookmark creation screen */
 "smart_bookmark_title" = "Add Bookmark";
 
+/* Title of the smart bookmark editing screen */
+"smart_bookmark_edit_title" = "Edit Bookmark";
+
 /* Subtitle instructing the user to adjust the transcript selection */
 "smart_bookmark_subtitle" = "Select a transcript passage for this bookmark";
 
@@ -4485,6 +4488,9 @@
 
 /* A message informing the user a feature is locked while in early access. %1$@ and %2$@ are the names of the tier (Plus or Patron) */
 "bookmarks_early_access_locked_message" = "Unlock this feature and many more with Pocket Casts %1$@ and save timestamps of your favorite episodes. Available for %2$@ subscribers soon.";
+
+/* Play button label with timestamp. %1$@ is the formatted time (e.g. 01:27) */
+"bookmark_play_from_timestamp" = "Play from %1$@";
 
 /* A button title that prompts the user to upgrade their plan. %1$@ is the name of the tier (Plus or Patron) */
 "upgrade_to_plan" = "Upgrade to %1$@";

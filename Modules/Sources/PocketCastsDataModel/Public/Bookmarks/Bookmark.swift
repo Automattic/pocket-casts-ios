@@ -48,6 +48,19 @@ public struct Bookmark: Hashable {
     }
 }
 
+// MARK: - Public Init
+
+extension Bookmark {
+    public init(uuid: String, title: String, time: TimeInterval, created: Date, episodeUuid: String, podcastUuid: String?) {
+        self.uuid = uuid
+        self.title = title
+        self.time = time
+        self.created = created
+        self.episodeUuid = episodeUuid
+        self.podcastUuid = podcastUuid
+    }
+}
+
 // MARK: - Identifiable
 
 extension Bookmark: Identifiable {

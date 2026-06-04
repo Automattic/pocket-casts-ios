@@ -74,6 +74,14 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                     .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
 
+                if let transcriptText = rowModel.transcriptText {
+                    Text(transcriptText)
+                        .foregroundStyle(style.secondaryText)
+                        .font(style: .caption)
+                        .lineLimit(2)
+                        .italic()
+                }
+
                 Text(rowModel.subtitle)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)

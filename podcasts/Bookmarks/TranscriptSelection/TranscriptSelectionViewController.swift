@@ -9,11 +9,12 @@ class TranscriptSelectionViewController: ThemedHostingController<TranscriptSelec
 
     init(viewModel: TranscriptSelectionViewModel,
          episode: BaseEpisode?,
+         useAppTheme: Bool = false,
          onDismiss: ((String, Bool) -> Void)? = nil) {
         self.viewModel = viewModel
         self.onDismiss = onDismiss
 
-        let theme = TranscriptSelectionTheme(episode: episode)
+        let theme: TranscriptSelectionTheme = useAppTheme ? TranscriptSelectionAppTheme(episode: episode) : TranscriptSelectionTheme(episode: episode)
         super.init(rootView: .init(viewModel: viewModel, theme: theme))
 
         modalPresentationStyle = .overFullScreen

@@ -41,7 +41,7 @@ struct TranscriptSelectionView: View {
 
     private var headerView: some View {
         VStack(spacing: 4) {
-            Text(L10n.smartBookmarkTitle)
+            Text(viewModel.isEditing ? L10n.smartBookmarkEditTitle : L10n.smartBookmarkTitle)
                 .foregroundStyle(theme.title)
                 .font(size: 19, style: .title3, weight: .bold)
 
@@ -204,4 +204,17 @@ class TranscriptSelectionTheme: ThemeObserver {
     var saveButtonText: Color {
         accent.luminance() < 0.5 ? .white : .black
     }
+}
+
+class TranscriptSelectionAppTheme: TranscriptSelectionTheme {
+    override var background: Color { AppTheme.color(for: .primaryUi01, theme: theme) }
+    override var title: Color { AppTheme.color(for: .primaryText01, theme: theme) }
+    override var subtitle: Color { AppTheme.color(for: .primaryText02, theme: theme) }
+    override var closeButton: Color { AppTheme.color(for: .primaryText01, theme: theme) }
+    override var dimmedText: Color { AppTheme.color(for: .primaryText02, theme: theme).opacity(0.5) }
+    override var selectedText: Color { AppTheme.color(for: .primaryText01, theme: theme) }
+    override var selectedBackground: Color { AppTheme.color(for: .primaryInteractive01, theme: theme).opacity(0.15) }
+    override var accent: Color { AppTheme.color(for: .primaryInteractive01, theme: theme) }
+    override var divider: Color { AppTheme.color(for: .primaryUi05, theme: theme) }
+    override var saveButtonText: Color { AppTheme.color(for: .primaryInteractive02, theme: theme) }
 }

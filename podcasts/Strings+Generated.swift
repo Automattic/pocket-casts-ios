@@ -364,6 +364,10 @@ internal enum L10n {
   internal static var bookmarkDeleteWarningBody: String { return L10n.tr("Localizable", "bookmark_delete_warning_body", fallback: "Are you sure you want to delete these bookmarks, there’s no way to undo it!") }
   /// The title of an alert message asking the user if they want to continue with deleting the selected bookmarks
   internal static var bookmarkDeleteWarningTitle: String { return L10n.tr("Localizable", "bookmark_delete_warning_title", fallback: "Delete Bookmarks?") }
+  /// Play button label with timestamp. %1$@ is the formatted time (e.g. 01:27)
+  internal static func bookmarkPlayFromTimestamp(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "bookmark_play_from_timestamp", String(describing: p1), fallback: "Play from %1$@")
+  }
   /// Body of a message when no search results appear
   internal static var bookmarkSearchNoResultsMessage: String { return L10n.tr("Localizable", "bookmark_search_no_results_message", fallback: "We couldn't find any bookmarks for that search.") }
   /// Title of a message when no search results appear
@@ -4071,6 +4075,8 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1), fallback: "Sleep Timer on, %1$@ remaining")
   }
+  /// Title of the smart bookmark editing screen
+  internal static var smartBookmarkEditTitle: String { return L10n.tr("Localizable", "smart_bookmark_edit_title", fallback: "Edit Bookmark") }
   /// Shown while Apple Intelligence generates a title
   internal static var smartBookmarkGeneratingTitle: String { return L10n.tr("Localizable", "smart_bookmark_generating_title", fallback: "Generating title…") }
   /// Label showing the number of selected transcript lines. %1$d is the count

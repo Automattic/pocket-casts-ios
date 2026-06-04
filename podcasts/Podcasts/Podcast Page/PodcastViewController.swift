@@ -1763,6 +1763,28 @@ extension PodcastViewController: BookmarkListRouter {
         SharingModal.show(option: .bookmark(episode, bookmark.time), from: .podcastScreen, in: self)
     }
 
+    func bookmarkDetail(_ bookmark: Bookmark) {
+        let bookmarkManager = PlaybackManager.shared.bookmarkManager
+        let detailView = BookmarkDetailView(
+            bookmark: bookmark,
+            episode: bookmark.episode,
+            onPlay: {
+                PlaybackManager.shared.playBookmark(bookmark, source: .podcasts)
+            },
+            onEdit: { [weak self] done in
+                guard let self else { return }
+                presentBookmarkEditor(bookmark: bookmark, bookmarkManager: bookmarkManager, analyticsSource: .podcasts) {
+                    done()
+                }
+            },
+            bookmarkLookup: { uuid in
+                bookmarkManager.bookmark(for: uuid)
+            }
+        )
+        let controller = ThemedHostingController(rootView: detailView)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func dismissBookmarksList() {
         // For tab-based bookmarks, we switch to episodes view instead of dismissing
         switchViewMode(to: .episodes)

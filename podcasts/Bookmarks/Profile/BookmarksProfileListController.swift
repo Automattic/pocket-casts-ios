@@ -56,6 +56,28 @@ extension BookmarksProfileListController: BookmarkListRouter {
         SharingModal.show(option: .bookmark(episode, bookmark.time), from: .profile, in: self)
     }
 
+    func bookmarkDetail(_ bookmark: Bookmark) {
+        let detailView = BookmarkDetailView(
+            bookmark: bookmark,
+            episode: bookmark.episode,
+            onPlay: { [weak self] in
+                self?.playbackManager.playBookmark(bookmark, source: self?.viewModel.analyticsSource ?? .profile)
+            },
+            onEdit: { [weak self] done in
+                guard let self else { return }
+                presentBookmarkEditor(bookmark: bookmark, bookmarkManager: bookmarkManager, analyticsSource: viewModel.analyticsSource) { [weak self] in
+                    self?.viewModel.reload()
+                    done()
+                }
+            },
+            bookmarkLookup: { [weak self] uuid in
+                self?.bookmarkManager.bookmark(for: uuid)
+            }
+        )
+        let controller = ThemedHostingController(rootView: detailView)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
     func dismissBookmarksList() {
         dismiss(animated: true)
     }

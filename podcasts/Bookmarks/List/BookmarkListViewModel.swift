@@ -47,6 +47,14 @@ class BookmarkListViewModel: SearchableListViewModel<Bookmark> {
         addListeners()
     }
 
+    override func tapped(item: Bookmark) {
+        guard isMultiSelecting else {
+            router?.bookmarkDetail(item)
+            return
+        }
+        super.tapped(item: item)
+    }
+
     func reload() { }
 
     func dismiss() {

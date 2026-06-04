@@ -21,6 +21,7 @@ class TranscriptSelectionViewModel: ObservableObject {
     @Published private(set) var selectedText: String = ""
     @Published var bookmarkTitle: String = ""
     @Published private(set) var isGeneratingTitle: Bool = false
+    let isEditing: Bool
 
     private let bookmarkManager: BookmarkManager
     private let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
@@ -41,21 +42,37 @@ class TranscriptSelectionViewModel: ObservableObject {
         return "\(start) – \(end)"
     }
 
-    init(bookmark: Bookmark, cues: [TranscriptCue], fullText: String, bookmarkManager: BookmarkManager) {
+    init(bookmark: Bookmark, cues: [TranscriptCue], fullText: String, bookmarkManager: BookmarkManager, existingTitle: String? = nil) {
         self.bookmark = bookmark
         self.cues = cues
         self.fullText = fullText
         self.bookmarkManager = bookmarkManager
         self.bookmarkCueIndex = TranscriptSelectionLogic.bookmarkCueIndex(for: bookmark.time, in: cues) ?? 0
 
-        let initial = TranscriptSelectionLogic.selectTranscript(
-            around: bookmark.time,
-            cues: cues,
-            fullText: fullText
-        )
-        self.startCueIndex = initial?.startCueIndex ?? 0
-        self.endCueIndex = initial?.endCueIndex ?? min(cues.count - 1, 0)
-        self.selectedText = initial?.text ?? ""
+        if let startTime = bookmark.transcriptStartTime,
+           let endTime = bookmark.transcriptEndTime,
+           let startIdx = TranscriptSelectionLogic.bookmarkCueIndex(for: startTime, in: cues),
+           let endIdx = TranscriptSelectionLogic.bookmarkCueIndex(for: endTime, in: cues) {
+            let restored = TranscriptSelectionLogic.adjustSelection(startCueIndex: startIdx, endCueIndex: endIdx, cues: cues, fullText: fullText)
+            self.startCueIndex = restored?.startCueIndex ?? startIdx
+            self.endCueIndex = restored?.endCueIndex ?? endIdx
+            self.selectedText = restored?.text ?? ""
+        } else {
+            let initial = TranscriptSelectionLogic.selectTranscript(
+                around: bookmark.time,
+                cues: cues,
+                fullText: fullText
+            )
+            self.startCueIndex = initial?.startCueIndex ?? 0
+            self.endCueIndex = initial?.endCueIndex ?? min(cues.count - 1, 0)
+            self.selectedText = initial?.text ?? ""
+        }
+
+        self.isEditing = existingTitle != nil
+
+        if let existingTitle {
+            self.bookmarkTitle = existingTitle
+        }
     }
 
     // MARK: - Actions
@@ -75,6 +92,7 @@ class TranscriptSelectionViewModel: ObservableObject {
     }
 
     func generateTitle() {
+        guard bookmarkTitle.isEmpty else { return }
         isGeneratingTitle = true
         Task {
             let title = await BookmarkTitleGenerator.generateTitle(from: selectedText)

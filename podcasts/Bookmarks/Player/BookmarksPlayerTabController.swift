@@ -100,8 +100,13 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         showBookmarkTitleEdit(isNew: isNew, bookmark: bookmark)
     }
 
-    private func showBookmarkTitleEdit(isNew: Bool, bookmark: Bookmark) {
-        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
+    private func showBookmarkTitleEdit(isNew: Bool, bookmark: Bookmark, prefilledTitle: String? = nil) {
+        var editBookmark = bookmark
+        if let prefilledTitle {
+            editBookmark = Bookmark(uuid: bookmark.uuid, title: prefilledTitle, time: bookmark.time, created: bookmark.created, episodeUuid: bookmark.episodeUuid, podcastUuid: bookmark.podcastUuid)
+        }
+
+        let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: editBookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
             self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
         })
 
@@ -116,31 +121,35 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         Task {
             do {
                 let transcript = try await transcriptManager.loadTranscript()
-                guard !transcript.cues.isEmpty else {
+                let cues = transcript.cues
+                let fullText = transcript.attributedText.string
+                guard !cues.isEmpty else {
                     await MainActor.run { completion(false) }
                     return
                 }
 
+                guard let selection = TranscriptSelectionLogic.selectTranscript(
+                    around: bookmark.time,
+                    cues: cues,
+                    fullText: fullText
+                ) else {
+                    await MainActor.run { completion(false) }
+                    return
+                }
+
+                let title = await BookmarkTitleGenerator.generateTitle(from: selection.text)
+
+                await bookmarkManager.update(title: title, for: bookmark)
+                await bookmarkManager.updateTranscript(
+                    text: selection.text,
+                    startTime: selection.startTime,
+                    endTime: selection.endTime,
+                    for: bookmark
+                )
+
                 await MainActor.run { [weak self] in
                     guard let self else { return }
-
-                    let vm = TranscriptSelectionViewModel(
-                        bookmark: bookmark,
-                        cues: transcript.cues,
-                        fullText: transcript.attributedText.string,
-                        bookmarkManager: self.bookmarkManager
-                    )
-
-                    let controller = TranscriptSelectionViewController(
-                        viewModel: vm,
-                        episode: episode,
-                        onDismiss: { [weak self] title, canceled in
-                            self?.handleEditDismissed(bookmark: bookmark, isNew: true, title: title, canceled: canceled)
-                        }
-                    )
-                    controller.source = self.viewModel.analyticsSource
-
-                    self.present(controller, animated: true)
+                    self.showBookmarkTitleEdit(isNew: true, bookmark: bookmark, prefilledTitle: title)
                     completion(true)
                 }
             } catch {
@@ -188,6 +197,31 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
 
     func bookmarkEdit(_ bookmark: Bookmark) {
         showBookmarkEdit(isNew: false, bookmark: bookmark)
+    }
+
+    func bookmarkDetail(_ bookmark: Bookmark) {
+        let detailView = BookmarkDetailView(
+            bookmark: bookmark,
+            episode: bookmark.episode ?? viewModel.episode,
+            onPlay: { [weak self] in
+                self?.playbackManager.playBookmark(bookmark, source: .player)
+            },
+            onEdit: { [weak self] done in
+                guard let self else { return }
+                presentBookmarkEditor(bookmark: bookmark, bookmarkManager: bookmarkManager, analyticsSource: viewModel.analyticsSource, useAppTheme: false) { [weak self] in
+                    self?.viewModel.reload()
+                    done()
+                }
+            },
+            isModal: true,
+            bookmarkLookup: { [weak self] uuid in
+                self?.bookmarkManager.bookmark(for: uuid)
+            }
+        )
+
+        let hostingController = ThemedHostingController(rootView: detailView)
+        let nav = UINavigationController(rootViewController: hostingController)
+        present(nav, animated: true)
     }
 
     func bookmarkShare(_ bookmark: Bookmark) {

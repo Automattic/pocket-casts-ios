@@ -8,6 +8,7 @@ class BookmarkRowViewModel: ObservableObject {
     let title: String
     let subtitle: String
     let playButton: String
+    let transcriptText: String?
     @Published var episode: BaseEpisode?
 
     init(bookmark: Bookmark) {
@@ -17,6 +18,7 @@ class BookmarkRowViewModel: ObservableObject {
         self.subtitle = DateFormatter.localizedString(from: bookmark.created,
                                                       dateStyle: .medium,
                                                       timeStyle: .short)
+        self.transcriptText = bookmark.transcriptText
         if let episode {
             updateFromEpisode(episode)
         } else {
