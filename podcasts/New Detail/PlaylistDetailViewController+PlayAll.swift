@@ -8,14 +8,9 @@ extension PlaylistDetailViewController: UISheetPresentationControllerDelegate, P
         track(.filterPlayAllTapped)
 
         let playlistEpisodeIDs = viewModel.episodes.map { $0.episode.uuid }
-        switch PlaybackManager.shared.playAllAction(forPlaylistEpisodeIDs: playlistEpisodeIDs) {
-        case .play:
-            viewModel.playAllEpisodes()
-        case .confirmReplaceUpNext:
+        if !PlaybackManager.shared.playIfSafe(playlist: viewModel.playlist, episodeIDs: playlistEpisodeIDs) {
             let sheet = PlaylistPlayAllSheetHost(delegate: self)
             present(sheet, animated: true)
-        case .resumeCurrent:
-            PlaybackManager.shared.resumeIfPaused()
         }
     }
 

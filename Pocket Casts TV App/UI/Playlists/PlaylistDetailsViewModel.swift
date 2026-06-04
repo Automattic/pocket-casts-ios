@@ -15,10 +15,7 @@ class PlaylistDetailsViewModel {
 
     var state: State = .loading
 
-    /// Drives the "Replace your Up Next?" confirmation dialog before playing all episodes.
     var isShowingReplaceUpNextConfirmation = false
-
-    /// Drives the full-screen Now Playing presentation once playback starts.
     var isShowingNowPlaying = false
 
     let playlist: EpisodeFilter
@@ -48,18 +45,14 @@ class PlaylistDetailsViewModel {
     func playAll() {
         guard !episodes.isEmpty else { return }
 
-        switch playbackManager.playAllAction(forPlaylistEpisodeIDs: episodes.map(\.uuid)) {
-        case .play:
-            playAllEpisodes()
-        case .confirmReplaceUpNext:
-            isShowingReplaceUpNextConfirmation = true
-        case .resumeCurrent:
-            playbackManager.resumeIfPaused()
+        if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
             isShowingNowPlaying = true
+        } else {
+            isShowingReplaceUpNextConfirmation = true
         }
     }
 
-    func playAllEpisodes() {
+    func buttonConfirmPlayPlaylistTapped() {
         playbackManager.play(playlist: playlist)
         isShowingNowPlaying = true
     }

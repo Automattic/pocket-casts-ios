@@ -691,33 +691,26 @@ class PlaybackManager: ServerPlaybackDelegate {
         uuidOfPlayingList = playlist.uuid
     }
 
-    /// The action to take when the user asks to play every episode of a playlist, based on how the
-    /// playlist's episodes compare to the current Up Next queue and playback state.
-    enum PlayAllAction {
-        /// The playlist differs from Up Next and there's nothing queued to overwrite — start playing.
-        case play
-        /// The playlist differs from a non-empty Up Next — confirm replacing it before playing.
-        case confirmReplaceUpNext
-        /// The playlist already matches the current Up Next — resume the existing playback.
-        case resumeCurrent
-    }
-
-    func playAllAction(forPlaylistEpisodeIDs playlistEpisodeIDs: [String]) -> PlayAllAction {
-        let upNextEpisodeIDs = DataManager.sharedManager
-            .allUpNextEpisodeUuids()
-            .compactMap(\.uuid)
-        guard Self.playlistDiffersFromUpNext(playlistEpisodeIDs: playlistEpisodeIDs, upNextEpisodeIDs: upNextEpisodeIDs, currentEpisodeID: currentEpisode()?.uuid) else {
-            return .resumeCurrent
+    /// Plays every episode of `playlist`, or resumes the current playback when the Up Next queue
+    /// already matches it. Returns `false` without playing anything when a non-empty Up Next queue
+    /// would be replaced, so the caller can confirm the replacement before playback starts.
+    func playIfSafe(playlist: EpisodeFilter, episodeIDs: [String]) -> Bool {
+        guard isPlaylistDifferentFromUpNext(playlistEpisodeIDs: episodeIDs) else {
+            resumeIfPaused()
+            return true
         }
-        return queue.upNextCount() == 0 ? .play : .confirmReplaceUpNext
+        guard queue.upNextCount() == 0 else {
+            return false
+        }
+        play(playlist: playlist)
+        return true
     }
 
     /// Whether playing `playlistEpisodeIDs` would change the current Up Next queue or the episode being played.
-    private static func playlistDiffersFromUpNext(
-        playlistEpisodeIDs: [String],
-        upNextEpisodeIDs: [String],
-        currentEpisodeID: String?
-    ) -> Bool {
+    private func isPlaylistDifferentFromUpNext(playlistEpisodeIDs: [String]) -> Bool {
+        let upNextEpisodeIDs = DataManager.sharedManager
+            .allUpNextEpisodeUuids()
+            .compactMap(\.uuid)
         if playlistEpisodeIDs != upNextEpisodeIDs {
             return true
         }
@@ -726,7 +719,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             return false
         }
 
-        guard let currentID = currentEpisodeID else {
+        guard let currentID = currentEpisode()?.uuid else {
             return true
         }
 
@@ -735,7 +728,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     /// Resumes playback when it's currently paused. Used by the playlist "Play All" flow when the
     /// Up Next queue already matches the playlist being played.
-    func resumeIfPaused() {
+    private func resumeIfPaused() {
         guard !playing() else { return }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
         play()

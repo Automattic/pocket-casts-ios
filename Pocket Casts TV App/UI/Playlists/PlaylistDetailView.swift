@@ -39,7 +39,7 @@ struct PlaylistDetailView: View {
             titleVisibility: .visible
         ) {
             Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
-                model.playAllEpisodes()
+                model.buttonConfirmPlayPlaylistTapped()
             }
             Button(L10n.cancel, role: .cancel) {}
         } message: {
