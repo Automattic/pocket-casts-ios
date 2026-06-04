@@ -4772,6 +4772,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available on new episodes to start";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
