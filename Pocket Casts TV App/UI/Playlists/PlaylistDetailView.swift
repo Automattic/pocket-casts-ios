@@ -20,6 +20,7 @@ struct PlaylistDetailView: View {
     }
 
     var body: some View {
+        @Bindable var model = model
         ZStack {
             switch model.state {
             case .loading:
@@ -32,6 +33,22 @@ struct PlaylistDetailView: View {
         .defaultFocus($focusedSection, .episodes)
         .onAppear { tabRouter.isShowingDetail = true }
         .onDisappear { tabRouter.isShowingDetail = false }
+        .confirmationDialog(
+            L10n.playlistPlayAllSheetTitle,
+            isPresented: $model.isShowingReplaceUpNextConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
+                model.playAllEpisodes()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.playlistPlayAllSheetDescription)
+        }
+        .fullScreenCover(isPresented: $model.isShowingNowPlaying) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
         .task {
             model.load()
         }

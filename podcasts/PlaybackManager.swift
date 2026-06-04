@@ -691,6 +691,56 @@ class PlaybackManager: ServerPlaybackDelegate {
         uuidOfPlayingList = playlist.uuid
     }
 
+    /// The action to take when the user asks to play every episode of a playlist, based on how the
+    /// playlist's episodes compare to the current Up Next queue and playback state.
+    enum PlayAllAction {
+        /// The playlist differs from Up Next and there's nothing queued to overwrite — start playing.
+        case play
+        /// The playlist differs from a non-empty Up Next — confirm replacing it before playing.
+        case confirmReplaceUpNext
+        /// The playlist already matches the current Up Next — resume the existing playback.
+        case resumeCurrent
+    }
+
+    func playAllAction(forPlaylistEpisodeIDs playlistEpisodeIDs: [String]) -> PlayAllAction {
+        let upNextEpisodeIDs = DataManager.sharedManager
+            .allUpNextEpisodeUuids()
+            .compactMap(\.uuid)
+        guard Self.playlistDiffersFromUpNext(playlistEpisodeIDs: playlistEpisodeIDs, upNextEpisodeIDs: upNextEpisodeIDs, currentEpisodeID: currentEpisode()?.uuid) else {
+            return .resumeCurrent
+        }
+        return queue.upNextCount() == 0 ? .play : .confirmReplaceUpNext
+    }
+
+    /// Whether playing `playlistEpisodeIDs` would change the current Up Next queue or the episode being played.
+    private static func playlistDiffersFromUpNext(
+        playlistEpisodeIDs: [String],
+        upNextEpisodeIDs: [String],
+        currentEpisodeID: String?
+    ) -> Bool {
+        if playlistEpisodeIDs != upNextEpisodeIDs {
+            return true
+        }
+
+        guard let firstPlaylistID = playlistEpisodeIDs.first else {
+            return false
+        }
+
+        guard let currentID = currentEpisodeID else {
+            return true
+        }
+
+        return currentID != firstPlaylistID
+    }
+
+    /// Resumes playback when it's currently paused. Used by the playlist "Play All" flow when the
+    /// Up Next queue already matches the playlist being played.
+    func resumeIfPaused() {
+        guard !playing() else { return }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
+        play()
+    }
+
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
