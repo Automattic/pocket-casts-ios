@@ -77,8 +77,9 @@ class TVDataManager {
             return false
         }
 
+        //if we are already playing the episode let's return true
         guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else {
-            return false
+            return true
         }
 
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
