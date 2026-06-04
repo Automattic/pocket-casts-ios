@@ -14,6 +14,8 @@ class WhatsNew {
         let isEnabled: () -> Bool
         let fullModal: Bool
         let customBody: () -> AnyView?
+        /// Optional text shown in a smaller, muted style below the call to action button.
+        let footnote: String?
         /// When true, the announcement is always shown, bypassing the version and
         /// already-shown checks. For local testing only — never ship as `true`.
         let testing: Bool
@@ -27,6 +29,7 @@ class WhatsNew {
              isEnabled: @autoclosure @escaping () -> Bool,
              fullModal: Bool = false,
              customBody: @autoclosure @escaping () -> AnyView? = nil,
+             footnote: String? = nil,
              testing: Bool = false) {
             self.version = version
             self.header = header
@@ -38,6 +41,7 @@ class WhatsNew {
             self.isEnabled = isEnabled
             self.fullModal = fullModal
             self.customBody = customBody
+            self.footnote = footnote
             self.testing = testing
         }
     }

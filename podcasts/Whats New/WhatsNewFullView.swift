@@ -32,7 +32,7 @@ struct WhatsNewFullView: View {
                         .padding(.bottom, 10)
                     UnderlineLinkTextView(announcement.message)
                         .font(style: .body)
-                        .foregroundStyle(theme.primaryText01)
+                        .foregroundStyle(theme.primaryText02)
                         .tint(theme.primaryInteractive01)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
@@ -42,15 +42,28 @@ struct WhatsNewFullView: View {
 
                 Spacer()
 
-                Button(announcement.buttonTitle) {
-                    track(.whatsnewConfirmButtonTapped)
+                VStack(spacing: 12) {
+                    Button(announcement.buttonTitle) {
+                        track(.whatsnewConfirmButtonTapped)
 
-                    announcement.action()
+                        announcement.action()
+                    }
+                    .buttonStyle(RoundedButtonStyle(theme: theme))
+
+                    if let footnote = announcement.footnote {
+                        Text(footnote)
+                            .font(style: .footnote)
+                            .foregroundStyle(theme.primaryText02)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
-                .buttonStyle(RoundedButtonStyle(theme: theme))
                 .padding(.bottom, 15)
                 .padding(.horizontal, 24)
             }
+        }
+        .overlay(alignment: .topTrailing) {
+            closeButton
         }
         .background(theme.primaryUi01)
         .onAppear {
@@ -61,11 +74,27 @@ struct WhatsNewFullView: View {
         }
     }
 
+    private var closeButton: some View {
+        Button {
+            SceneHelper.rootViewController()?.dismiss(animated: true)
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(theme.secondaryIcon01)
+                .frame(width: 30, height: 30)
+                .background(theme.primaryUi05)
+                .clipShape(Circle())
+        }
+        .accessibilityLabel(L10n.close)
+        .padding(.top, 16)
+        .padding(.trailing, 16)
+    }
+
     @ViewBuilder
     private var subscriptionBadge: some View {
         if announcement.displayTier != .none {
             SubscriptionBadge(tier: announcement.displayTier,
-                              displayMode: .gradient,
+                              displayMode: .plain,
                               fontSize: 16)
             .padding(.bottom, 5)
         }
