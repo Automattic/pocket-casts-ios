@@ -76,32 +76,24 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
     var episodeResults: some View {
         ScrollView {
             LazyVGrid(columns: episodeItems, spacing: 24, content: {
-                ForEach(model.episodeResults, id: \.self) { result in
-                    switch result {
-                    case .podcast:
-                        EmptyView()
-                    case .episode(let episode):
-                        Button() {
-                            Task {
-                                let playSuccess = await model.playEpisode(episode)
-                                await MainActor.run {
-                                    if playSuccess {
-                                        showNowPlayingPlayer = true
-                                    } else {
-                                        ToastManager.shared.show(L10n.playbackFailed)
-                                    }
+                ForEach(model.episodeResults, id: \.self) { episode in
+                    Button() {
+                        Task {
+                            let playSuccess = await model.playEpisode(episode)
+                            await MainActor.run {
+                                if playSuccess {
+                                    showNowPlayingPlayer = true
+                                } else {
+                                    ToastManager.shared.show(L10n.playbackFailed)
                                 }
                             }
-                        } label: {
-                            SearchEpisodeRow(model: episode)
                         }
-                        .buttonStyle(.card)
+                    } label: {
+                        SearchEpisodeRow(model: episode)
                     }
+                    .buttonStyle(.card)
                 }
             })
-            .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
-            }
         }
     }
 }

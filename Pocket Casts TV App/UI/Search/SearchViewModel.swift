@@ -29,7 +29,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var state: SearchState { get }
     var scope: SearchScope { get set }
     var results: [CombinedSearchResultType] { get }
-    var episodeResults: [CombinedSearchResultType] { get }
+    var episodeResults: [EpisodeSearchResult] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
 
@@ -64,7 +64,7 @@ class SearchViewModel: SearchableViewModel {
 
     var results: [CombinedSearchResultType] = []
 
-    var episodeResults: [CombinedSearchResultType] = []
+    var episodeResults: [EpisodeSearchResult] = []
 
     var searchHistory: [String] {
         searchModel.entries.compactMap(\.searchTerm)
@@ -131,19 +131,21 @@ class SearchViewModel: SearchableViewModel {
                 autoCompleteSuggestions = suggestions
 
                 let fullResults = try await fullSearchTask.search(term: query)
+                var episodes: [EpisodeSearchResult] = []
                 for searchResult in fullResults {
                     switch searchResult {
                     case .podcast(let podcast):
                         if !uuids.contains(podcast.uuid) {
                             combinedResults.append(searchResult)
                         }
-                    case .episode:
-                        episodeResults.append(searchResult)
+                    case .episode(let episode):
+                        episodes.append(episode)
                     }
                 }
 
                 state = combinedResults.isEmpty ? .empty : .results
                 results = combinedResults
+                episodeResults = episodes
             }  catch is CancellationError {
                 return
             } catch {

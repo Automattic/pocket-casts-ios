@@ -71,9 +71,9 @@ class TVDataManager {
     }
 
     func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
-        let podcast = await loadPodcast(podcastUuid: podcastUuid)
+        _ = await loadPodcast(podcastUuid: podcastUuid)
 
-        guard let episode = fetchEpisodes(podcast: podcast, sortOrder: .newestToOldest).first(where: { $0.uuid == episodeUuid }) else {
+        guard let episode = dataManager.findEpisode(uuid: episodeUuid) else {
             return false
         }
 

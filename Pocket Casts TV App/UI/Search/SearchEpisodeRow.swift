@@ -8,10 +8,6 @@ struct SearchEpisodeRow: View {
 
     @Environment(\.isFocused) private var isFocused: Bool
 
-    init(model: EpisodeSearchResult) {
-        self.model = model
-    }
-
     private var isHighlighted: Bool {
         isFocused
     }
