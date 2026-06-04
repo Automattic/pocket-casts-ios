@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 class AppLifecycleAnalytics {
     // Dependencies
@@ -8,11 +9,30 @@ class AppLifecycleAnalytics {
     /// The date the app was last opened, used for calculating time in app
     private var applicationOpenedTime: Date?
 
+#if !os(tvOS)
     private lazy var widgetAnalytics = WidgetAnalytics()
+#endif
 
     init(userDefaults: UserDefaults = .standard, analytics: Analytics = Analytics.shared) {
         self.userDefaults = userDefaults
         self.analytics = analytics
+    }
+}
+
+// MARK: - SwiftUI Scene Phase
+
+extension AppLifecycleAnalytics {
+    /// Drives the open/closed events from SwiftUI `scenePhase` changes, for apps
+    /// that use the SwiftUI app lifecycle instead of an `AppDelegate` (e.g. tvOS).
+    func handle(scenePhase: ScenePhase) {
+        switch scenePhase {
+        case .active:
+            didBecomeActive()
+        case .background:
+            didEnterBackground()
+        default:
+            break
+        }
     }
 }
 
@@ -36,7 +56,9 @@ extension AppLifecycleAnalytics {
 
         analytics.track(.applicationOpened)
 
+#if !os(tvOS)
         widgetAnalytics.track()
+#endif
     }
 
     func didEnterBackground() {

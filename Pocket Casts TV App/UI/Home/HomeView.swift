@@ -56,6 +56,7 @@ struct HomeView: View {
                         nowPlayingRow
                         upNextRow
                         youMightLikeRow
+                        videoRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
@@ -64,6 +65,7 @@ struct HomeView: View {
                         }
                     } else {
                         featuredRow
+                        videoRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
@@ -131,6 +133,12 @@ struct HomeView: View {
     var featuredRow: some View {
         HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
             DiscoverFeaturedPodcastsRow(type: .featured)
+        }
+    }
+
+    var videoRow: some View {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+            DiscoverVideoEpisodesRow(type: .video)
         }
     }
 
