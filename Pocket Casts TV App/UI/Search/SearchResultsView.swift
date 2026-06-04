@@ -8,9 +8,7 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
-    @Bindable var model: ViewModel
-
-    let dataManager = TVDataManager.shared
+    @Bindable var model: ViewModel    
 
     @State private var showNowPlayingPlayer = false
 
@@ -85,9 +83,15 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     case .episode(let episode):
                         Button() {
                             Task {
-                                await dataManager.playEpisode(episode)
+                                let playSuccess = await model.playEpisode(episode)
+                                await MainActor.run {
+                                    if playSuccess {
+                                        showNowPlayingPlayer = true
+                                    } else {
+                                        ToastManager.shared.show(L10n.playbackFailed)
+                                    }
+                                }
                             }
-                            showNowPlayingPlayer = true
                         } label: {
                             SearchEpisodeRow(model: episode)
                         }

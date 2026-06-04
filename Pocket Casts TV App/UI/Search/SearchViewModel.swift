@@ -36,6 +36,8 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     func search(query: String)
 
     func saveHistory(_ term: String)
+
+    func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
 }
 
 @Observable
@@ -43,12 +45,14 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
 class SearchViewModel: SearchableViewModel {
 
     private var dataManager: DataManager
+    private var tvDataManager: TVDataManager
     private var searchModel: SearchHistoryModel
     private var predictiveSearchTask = PredictiveSearchTask()
     private var fullSearchTask = CombinedSearchTask()
 
-    init(dataManager: DataManager = DataManager.sharedManager, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
+    init(dataManager: DataManager = DataManager.sharedManager, tvDataManager: TVDataManager = TVDataManager.shared, searchModel: SearchHistoryModel = SearchHistoryModel.shared) {
         self.dataManager = dataManager
+        self.tvDataManager = tvDataManager
         self.searchModel = searchModel
     }
 
@@ -151,5 +155,9 @@ class SearchViewModel: SearchableViewModel {
 
     private func searchLocalPodcasts(query: String) async throws -> [Podcast] {
         return dataManager.searchPodcasts(term: query)
+    }
+
+    func playEpisode(_ episode: EpisodeSearchResult) async -> Bool {
+        return await tvDataManager.playEpisode(episode)
     }
 }
