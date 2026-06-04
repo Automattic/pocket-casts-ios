@@ -2,9 +2,18 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum SearchScope: String, CaseIterable {  
-    case podcasts = "Podcasts"
-    case episodes = "Episodes"
+enum SearchScope: CaseIterable {
+    case podcasts
+    case episodes
+
+    var localizedName: String {
+        switch self {
+        case .podcasts:
+            return L10n.searchPodcasts
+        case .episodes:
+            return L10n.searchEpisodes
+        }
+    }
 }
 
 enum SearchState {

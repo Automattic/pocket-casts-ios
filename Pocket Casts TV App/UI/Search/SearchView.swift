@@ -25,7 +25,10 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             }
             .searchScopes($model.scope, scopes: {
                 ForEach(SearchScope.allCases, id: \.self) { scope in
-                    Text(scope.rawValue).tag(scope)
+                    Text(" " + scope.localizedName + " ")
+                        .font(.caption2)
+                        .tag(scope)
+                        .padding()
                 }
             })
             .onSubmit {
