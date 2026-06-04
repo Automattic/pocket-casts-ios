@@ -196,8 +196,25 @@ struct MainTabView: View {
             ProfileMenuView(onAuthSelected: { destination in
                 tabSelection.pendingAuthFlow = destination
                 showProfileMenu = false
+            }, onProfileSelected: { destination in
+                tabSelection.profileDestination = destination
+                showProfileMenu = false
             })
             .environment(coordinator)
+        }
+        .fullScreenCover(item: $tabSelection.profileDestination) { destination in
+            ZStack {
+                Color.pcBackgroundSurface.ignoresSafeArea()
+                switch destination {
+                case .starred:
+                    StarredEpisodesView()
+                }
+            }
+            .environment(coordinator)
+            .environment(tabSelection)
+            .onExitCommand {
+                tabSelection.profileDestination = nil
+            }
         }
         .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
             ZStack {
