@@ -4423,8 +4423,8 @@
 /* Subtitle instructing the user to adjust the transcript selection */
 "smart_bookmark_subtitle" = "Select a transcript passage for this bookmark";
 
-/* Label showing the number of selected transcript segments. %1$d is the count */
-"smart_bookmark_segment_count" = "%1$d segments selected";
+/* Label showing the number of selected transcript lines. %1$d is the count */
+"smart_bookmark_line_count" = "%1$d lines";
 
 /* Label above the bookmark title text field */
 "smart_bookmark_title_label" = "Title";

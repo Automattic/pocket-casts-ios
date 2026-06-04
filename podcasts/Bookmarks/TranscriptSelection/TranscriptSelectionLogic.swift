@@ -71,6 +71,10 @@ enum TranscriptSelectionLogic {
         )
     }
 
+    static func bookmarkCueIndex(for timestamp: TimeInterval, in cues: [TranscriptCue]) -> Int? {
+        cueIndex(for: timestamp, in: cues) ?? nearestCueIndex(for: timestamp, in: cues)
+    }
+
     private static func cueIndex(for timestamp: TimeInterval, in cues: [TranscriptCue]) -> Int? {
         cues.firstIndex { $0.contains(timeInSeconds: timestamp) }
     }

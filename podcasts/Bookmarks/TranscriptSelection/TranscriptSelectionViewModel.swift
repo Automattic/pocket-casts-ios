@@ -14,6 +14,7 @@ class TranscriptSelectionViewModel: ObservableObject {
     let bookmark: Bookmark
     let cues: [TranscriptCue]
     let fullText: String
+    let bookmarkCueIndex: Int
 
     @Published var startCueIndex: Int
     @Published var endCueIndex: Int
@@ -24,17 +25,28 @@ class TranscriptSelectionViewModel: ObservableObject {
     private let bookmarkManager: BookmarkManager
     private let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
 
-    var canExpandStart: Bool { startCueIndex > 0 }
-    var canContractStart: Bool { startCueIndex < endCueIndex }
-    var canExpandEnd: Bool { endCueIndex < cues.count - 1 }
-    var canContractEnd: Bool { endCueIndex > startCueIndex }
     var selectedCueCount: Int { endCueIndex - startCueIndex + 1 }
+
+    var selectionStartTime: TimeInterval {
+        cues[startCueIndex].startTime
+    }
+
+    var selectionEndTime: TimeInterval {
+        cues[endCueIndex].endTime
+    }
+
+    var formattedTimeRange: String {
+        let start = TimeFormatter.shared.playTimeFormat(time: selectionStartTime)
+        let end = TimeFormatter.shared.playTimeFormat(time: selectionEndTime)
+        return "\(start) – \(end)"
+    }
 
     init(bookmark: Bookmark, cues: [TranscriptCue], fullText: String, bookmarkManager: BookmarkManager) {
         self.bookmark = bookmark
         self.cues = cues
         self.fullText = fullText
         self.bookmarkManager = bookmarkManager
+        self.bookmarkCueIndex = TranscriptSelectionLogic.bookmarkCueIndex(for: bookmark.time, in: cues) ?? 0
 
         let initial = TranscriptSelectionLogic.selectTranscript(
             around: bookmark.time,
@@ -47,30 +59,6 @@ class TranscriptSelectionViewModel: ObservableObject {
     }
 
     // MARK: - Actions
-
-    func expandStart() {
-        guard canExpandStart else { return }
-        startCueIndex -= 1
-        updateSelection()
-    }
-
-    func contractStart() {
-        guard canContractStart else { return }
-        startCueIndex += 1
-        updateSelection()
-    }
-
-    func expandEnd() {
-        guard canExpandEnd else { return }
-        endCueIndex += 1
-        updateSelection()
-    }
-
-    func contractEnd() {
-        guard canContractEnd else { return }
-        endCueIndex -= 1
-        updateSelection()
-    }
 
     func selectCue(at index: Int) {
         guard index >= 0, index < cues.count else { return }

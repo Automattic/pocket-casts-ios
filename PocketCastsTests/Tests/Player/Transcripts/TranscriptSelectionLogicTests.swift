@@ -122,12 +122,37 @@ final class TranscriptSelectionLogicTests: XCTestCase {
         XCTAssertTrue(selection!.text.contains("Segment 3."))
     }
 
+    // MARK: - bookmarkCueIndex
+
+    func testBookmarkCueIndexFindsExactMatch() {
+        let (cues, _) = makeCues(count: 10)
+        let index = TranscriptSelectionLogic.bookmarkCueIndex(for: 12.5, in: cues)
+        XCTAssertEqual(index, 2)
+    }
+
+    func testBookmarkCueIndexFindsNearestWhenNoExactMatch() {
+        let (cues, _) = makeCues(count: 5, segmentDuration: 10.0)
+        let index = TranscriptSelectionLogic.bookmarkCueIndex(for: 15.0, in: cues)
+        XCTAssertNotNil(index)
+    }
+
+    func testBookmarkCueIndexReturnsNilForEmptyCues() {
+        let index = TranscriptSelectionLogic.bookmarkCueIndex(for: 10.0, in: [])
+        XCTAssertNil(index)
+    }
+
     // MARK: - Heuristic Title
 
-    func testHeuristicTitleExtractsFirstSentence() {
-        let text = "This is the first sentence. And this is the second sentence."
+    func testHeuristicTitleTakesFirstFewWords() {
+        let text = "one two three four five six seven eight nine ten eleven"
         let title = BookmarkTitleGenerator.heuristicTitle(from: text)
-        XCTAssertEqual(title, "This is the first sentence.")
+        XCTAssertEqual(title, "one two three four five six seven eight…")
+    }
+
+    func testHeuristicTitleKeepsShortTextIntact() {
+        let text = "Short title here"
+        let title = BookmarkTitleGenerator.heuristicTitle(from: text)
+        XCTAssertEqual(title, "Short title here")
     }
 
     func testHeuristicTitleTruncatesLongText() {

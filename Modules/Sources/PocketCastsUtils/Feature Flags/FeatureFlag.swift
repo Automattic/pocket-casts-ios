@@ -534,7 +534,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .shareProfile:
             BuildEnvironment.current == .debug
         case .smartBookmarks:
-            false
+            true
         }
     }
 

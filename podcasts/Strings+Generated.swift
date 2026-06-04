@@ -4073,9 +4073,9 @@ internal enum L10n {
   }
   /// Shown while Apple Intelligence generates a title
   internal static var smartBookmarkGeneratingTitle: String { return L10n.tr("Localizable", "smart_bookmark_generating_title", fallback: "Generating title…") }
-  /// Label showing the number of selected transcript segments. %1$d is the count
-  internal static func smartBookmarkSegmentCount(_ p1: Int) -> String {
-    return L10n.tr("Localizable", "smart_bookmark_segment_count", p1, fallback: "%1$d segments selected")
+  /// Label showing the number of selected transcript lines. %1$d is the count
+  internal static func smartBookmarkLineCount(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "smart_bookmark_line_count", p1, fallback: "%1$d lines")
   }
   /// Subtitle instructing the user to adjust the transcript selection
   internal static var smartBookmarkSubtitle: String { return L10n.tr("Localizable", "smart_bookmark_subtitle", fallback: "Select a transcript passage for this bookmark") }

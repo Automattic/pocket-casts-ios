@@ -5,6 +5,7 @@ import FoundationModels
 
 enum BookmarkTitleGenerator {
     private static let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
+    private static let heuristicWordLimit = 8
 
     static func generateTitle(from text: String) async -> String {
         #if canImport(FoundationModels)
@@ -27,7 +28,8 @@ enum BookmarkTitleGenerator {
 
         do {
             let session = LanguageModelSession(instructions: """
-                Generate a short title (under 8 words) that captures the key topic of this podcast excerpt. \
+                Summarize this podcast excerpt as a short descriptive title (3-8 words). \
+                Describe the topic, do NOT quote the text verbatim. \
                 Output ONLY the title text, nothing else. No quotes, no punctuation at the end.
                 """)
             let response = try await session.respond(to: text)
@@ -49,19 +51,20 @@ enum BookmarkTitleGenerator {
 
         guard !cleaned.isEmpty else { return L10n.bookmarkDefaultTitle }
 
-        let sentenceEnd = cleaned.rangeOfCharacter(from: CharacterSet(charactersIn: ".!?"))
-        let firstSentence: String
-        if let end = sentenceEnd {
-            firstSentence = String(cleaned[cleaned.startIndex...end.lowerBound])
-        } else {
-            firstSentence = cleaned
+        let words = cleaned.split(separator: " ", maxSplits: heuristicWordLimit + 1, omittingEmptySubsequences: true)
+
+        if words.count <= heuristicWordLimit {
+            let joined = words.joined(separator: " ")
+            return joined.count <= maxTitleLength ? joined : truncateAtWordBoundary(joined)
         }
 
-        if firstSentence.count <= maxTitleLength {
-            return firstSentence
-        }
+        let snippet = words.prefix(heuristicWordLimit).joined(separator: " ")
+        return truncateAtWordBoundary(snippet + "…")
+    }
 
-        let truncated = String(firstSentence.prefix(maxTitleLength - 1))
+    private static func truncateAtWordBoundary(_ text: String) -> String {
+        guard text.count > maxTitleLength else { return text }
+        let truncated = String(text.prefix(maxTitleLength - 1))
         if let lastSpace = truncated.lastIndex(of: " ") {
             return String(truncated[truncated.startIndex..<lastSpace]) + "…"
         }

@@ -32,7 +32,7 @@ struct TranscriptSelectionView: View {
         VStack(spacing: 16) {
             headerView
             cueListView
-            scopeControls
+            selectionInfo
             titleField
             saveButton
         }
@@ -55,15 +55,18 @@ struct TranscriptSelectionView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 2) {
-                    ForEach(visibleCueRange, id: \.self) { index in
+                    ForEach(0..<viewModel.cues.count, id: \.self) { index in
                         cueRow(at: index)
                             .id(index)
                     }
                 }
                 .padding(.horizontal, 4)
             }
-            .frame(maxHeight: 300)
+            .frame(maxHeight: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 12))
+            .onAppear {
+                proxy.scrollTo(viewModel.bookmarkCueIndex, anchor: .center)
+            }
             .onChange(of: viewModel.startCueIndex) { _ in
                 withAnimation {
                     proxy.scrollTo(viewModel.startCueIndex, anchor: .center)
@@ -74,56 +77,54 @@ struct TranscriptSelectionView: View {
 
     private func cueRow(at index: Int) -> some View {
         let isSelected = index >= viewModel.startCueIndex && index <= viewModel.endCueIndex
+        let isBookmarkCue = index == viewModel.bookmarkCueIndex
         let cue = viewModel.cues[index]
         let nsString = viewModel.fullText as NSString
         let text = nsString.substring(with: cue.characterRange).trimmingCharacters(in: .whitespacesAndNewlines)
 
-        return Text(text)
-            .font(style: .body)
-            .foregroundStyle(isSelected ? theme.selectedText : theme.dimmedText)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(isSelected ? theme.selectedBackground : Color.clear)
-            )
-            .contentShape(Rectangle())
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    viewModel.selectCue(at: index)
-                }
+        return HStack(spacing: 0) {
+            if isBookmarkCue {
+                Image(systemName: "bookmark.fill")
+                    .font(.system(size: 10))
+                    .foregroundStyle(theme.accent)
+                    .frame(width: 20)
+            } else {
+                Spacer().frame(width: 20)
             }
+
+            Text(text)
+                .font(style: .body)
+                .foregroundStyle(isSelected ? theme.selectedText : theme.dimmedText)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(isSelected ? theme.selectedBackground : Color.clear)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                viewModel.selectCue(at: index)
+            }
+        }
     }
 
-    private var scopeControls: some View {
-        HStack(spacing: 20) {
-            Button(action: { withAnimation { viewModel.expandStart() } }) {
-                Image(systemName: "arrow.up")
-            }
-            .disabled(!viewModel.canExpandStart)
-
-            Button(action: { withAnimation { viewModel.contractStart() } }) {
-                Image(systemName: "arrow.down")
-            }
-            .disabled(!viewModel.canContractStart)
-
-            Text(L10n.smartBookmarkSegmentCount(viewModel.selectedCueCount))
+    private var selectionInfo: some View {
+        HStack(spacing: 6) {
+            Text(L10n.smartBookmarkLineCount(viewModel.selectedCueCount))
                 .foregroundStyle(theme.subtitle)
                 .font(style: .caption)
 
-            Button(action: { withAnimation { viewModel.expandEnd() } }) {
-                Image(systemName: "arrow.down")
-            }
-            .disabled(!viewModel.canExpandEnd)
+            Text("·")
+                .foregroundStyle(theme.subtitle)
+                .font(style: .caption)
 
-            Button(action: { withAnimation { viewModel.contractEnd() } }) {
-                Image(systemName: "arrow.up")
-            }
-            .disabled(!viewModel.canContractEnd)
+            Text(viewModel.formattedTimeRange)
+                .foregroundStyle(theme.subtitle)
+                .font(style: .caption)
         }
-        .foregroundStyle(theme.title)
-        .font(style: .body, weight: .medium)
     }
 
     @ViewBuilder
@@ -168,15 +169,6 @@ struct TranscriptSelectionView: View {
         }
         .buttonStyle(BasicButtonStyle(textColor: theme.saveButtonText, backgroundColor: theme.accent))
         .disabled(viewModel.isGeneratingTitle)
-    }
-
-    // MARK: - Helpers
-
-    private var visibleCueRange: Range<Int> {
-        let padding = 5
-        let start = max(0, viewModel.startCueIndex - padding)
-        let end = min(viewModel.cues.count, viewModel.endCueIndex + padding + 1)
-        return start..<end
     }
 }
 
