@@ -131,8 +131,7 @@ struct Announcements {
             displayTier: transcriptsViewModel.displayTier,
             isEnabled: FeatureFlag.syncedTranscripts.enabled,
             fullModal: true,
-            footnote: L10n.transcriptHighlightAnnouncementFootnote,
-            testing: true
+            footnote: L10n.transcriptHighlightAnnouncementFootnote
         )
     ]
 }
