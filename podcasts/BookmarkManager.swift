@@ -104,6 +104,12 @@ class BookmarkManager {
         }
     }
 
+    /// Updates the bookmark with transcript selection data
+    @discardableResult
+    func updateTranscript(text: String?, startTime: TimeInterval?, endTime: TimeInterval?, for bookmark: Bookmark) async -> Bool {
+        await dataManager.updateTranscript(bookmark: bookmark, text: text, startTime: startTime, endTime: endTime)
+    }
+
     /// Gets the `BaseEpisode` for the given bookmark
     func episode(for bookmark: Bookmark) -> BaseEpisode? {
         generalManager.findBaseEpisode(uuid: bookmark.episodeUuid)

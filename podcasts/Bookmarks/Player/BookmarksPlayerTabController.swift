@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import PocketCastsDataModel
+import PocketCastsUtils
 
 /// Wraps the SwiftUI view in a `PlayerItemViewController` and adds some basic listeners
 class BookmarksPlayerTabController: PlayerItemViewController {
@@ -87,6 +88,19 @@ class BookmarksPlayerTabController: PlayerItemViewController {
     }
 
     private func showBookmarkEdit(isNew: Bool, bookmark: Bookmark) {
+        if isNew, FeatureFlag.smartBookmarks.enabled, let episode = viewModel.episode as? Episode {
+            showSmartBookmarkIfAvailable(bookmark: bookmark, episode: episode) { [weak self] shown in
+                if !shown {
+                    self?.showBookmarkTitleEdit(isNew: isNew, bookmark: bookmark)
+                }
+            }
+            return
+        }
+
+        showBookmarkTitleEdit(isNew: isNew, bookmark: bookmark)
+    }
+
+    private func showBookmarkTitleEdit(isNew: Bool, bookmark: Bookmark) {
         let controller = BookmarkEditTitleViewController(manager: bookmarkManager, bookmark: bookmark, state: isNew ? .adding : .updating, onDismiss: { [weak self] title, canceled in
             self?.handleEditDismissed(bookmark: bookmark, isNew: isNew, title: title, canceled: canceled)
         })
@@ -94,6 +108,45 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         controller.source = viewModel.analyticsSource
 
         present(controller, animated: true)
+    }
+
+    private func showSmartBookmarkIfAvailable(bookmark: Bookmark, episode: Episode, completion: @escaping (Bool) -> Void) {
+        let transcriptManager = TranscriptManager(episodeUUID: episode.uuid, podcastUUID: episode.podcastUuid)
+
+        Task {
+            do {
+                let transcript = try await transcriptManager.loadTranscript()
+                guard !transcript.cues.isEmpty else {
+                    await MainActor.run { completion(false) }
+                    return
+                }
+
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+
+                    let vm = TranscriptSelectionViewModel(
+                        bookmark: bookmark,
+                        cues: transcript.cues,
+                        fullText: transcript.attributedText.string,
+                        bookmarkManager: self.bookmarkManager
+                    )
+
+                    let controller = TranscriptSelectionViewController(
+                        viewModel: vm,
+                        episode: episode,
+                        onDismiss: { [weak self] title, canceled in
+                            self?.handleEditDismissed(bookmark: bookmark, isNew: true, title: title, canceled: canceled)
+                        }
+                    )
+                    controller.source = self.viewModel.analyticsSource
+
+                    self.present(controller, animated: true)
+                    completion(true)
+                }
+            } catch {
+                await MainActor.run { completion(false) }
+            }
+        }
     }
 
     func handleEditDismissed(bookmark: Bookmark, isNew: Bool, title: String, canceled: Bool) {

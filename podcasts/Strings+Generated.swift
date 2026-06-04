@@ -4071,6 +4071,18 @@ internal enum L10n {
   internal static func sleepTimerTimeRemaining(_ p1: Any) -> String {
     return L10n.tr("Localizable", "sleep_timer_time_remaining", String(describing: p1), fallback: "Sleep Timer on, %1$@ remaining")
   }
+  /// Shown while Apple Intelligence generates a title
+  internal static var smartBookmarkGeneratingTitle: String { return L10n.tr("Localizable", "smart_bookmark_generating_title", fallback: "Generating title…") }
+  /// Label showing the number of selected transcript segments. %1$d is the count
+  internal static func smartBookmarkSegmentCount(_ p1: Int) -> String {
+    return L10n.tr("Localizable", "smart_bookmark_segment_count", p1, fallback: "%1$d segments selected")
+  }
+  /// Subtitle instructing the user to adjust the transcript selection
+  internal static var smartBookmarkSubtitle: String { return L10n.tr("Localizable", "smart_bookmark_subtitle", fallback: "Select a transcript passage for this bookmark") }
+  /// Title of the smart bookmark creation screen
+  internal static var smartBookmarkTitle: String { return L10n.tr("Localizable", "smart_bookmark_title", fallback: "Add Bookmark") }
+  /// Label above the bookmark title text field
+  internal static var smartBookmarkTitleLabel: String { return L10n.tr("Localizable", "smart_bookmark_title_label", fallback: "Title") }
   /// A common string used throughout the app. Often refers to the Smart Playlist.
   internal static var smartPlaylist: String { return L10n.tr("Localizable", "smart_playlist", fallback: "Smart playlist") }
   /// The description shown in a Tip View when the user opens the new Playlist creation view for the first time

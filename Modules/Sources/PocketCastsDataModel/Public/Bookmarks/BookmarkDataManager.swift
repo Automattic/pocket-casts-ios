@@ -90,6 +90,26 @@ public struct BookmarkDataManager {
         }
     }
 
+    @discardableResult
+    public func updateTranscript(bookmark: Bookmark, text: String?, startTime: TimeInterval?, endTime: TimeInterval?) async -> Bool {
+        let query = """
+            UPDATE \(Self.tableName)
+            SET \(Column.transcriptText) = ?, \(Column.transcriptStartTime) = ?, \(Column.transcriptEndTime) = ?
+            WHERE \(Column.uuid) = ?
+            LIMIT 1
+            """
+
+        let result = await dbQueue.executeUpdate(query, values: [text as Any, startTime as Any, endTime as Any, bookmark.uuid])
+
+        switch result {
+        case .success:
+            return true
+        case .failure(let failure):
+            FileLog.shared.addMessage("BookmarkManager.updateTranscript failed: \(failure)")
+            return false
+        }
+    }
+
     // MARK: - Retrieving
 
     /// Retrieves a single Bookmark for the given UUID
@@ -244,6 +264,11 @@ public struct BookmarkDataManager {
         case time
         case deleted
 
+        // Transcript selection
+        case transcriptText = "transcript_text"
+        case transcriptStartTime = "transcript_start_time"
+        case transcriptEndTime = "transcript_end_time"
+
         // For Syncing
         case titleModifiedDate = "title_modified_date"
         case deletedModifiedDate = "deleted_modified_date"
@@ -339,6 +364,9 @@ private extension Bookmark {
         }
 
         let podcast = resultSet.string(for: .podcast)
+        let transcriptText = resultSet.string(for: .transcriptText)
+        let transcriptStartTime = resultSet.optionalDouble(for: .transcriptStartTime)
+        let transcriptEndTime = resultSet.optionalDouble(for: .transcriptEndTime)
         let titleModified = resultSet.date(for: .titleModifiedDate)
         let deletedModified = resultSet.date(for: .deletedModifiedDate)
         let deleted = resultSet.bool(for: .deleted) ?? false
@@ -349,6 +377,9 @@ private extension Bookmark {
                   created: createdDate,
                   episodeUuid: episode,
                   podcastUuid: podcast,
+                  transcriptText: transcriptText,
+                  transcriptStartTime: transcriptStartTime,
+                  transcriptEndTime: transcriptEndTime,
                   titleModified: titleModified,
                   deletedModified: deletedModified,
                   deleted: deleted)
@@ -372,5 +403,9 @@ private extension PCDBResultSet {
 
     func bool(for column: BookmarkDataManager.Column) -> Bool? {
         bool(forColumn: column.rawValue)
+    }
+
+    func optionalDouble(for column: BookmarkDataManager.Column) -> Double? {
+        object(forColumn: column.rawValue) == nil ? nil : double(forColumn: column.rawValue)
     }
 }

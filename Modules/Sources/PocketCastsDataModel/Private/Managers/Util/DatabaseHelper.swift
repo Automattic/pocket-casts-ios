@@ -903,6 +903,18 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 75 {
+            do {
+                try db.executeUpdate("ALTER TABLE \(BookmarkDataManager.tableName) ADD COLUMN transcript_text TEXT;", values: nil)
+                try db.executeUpdate("ALTER TABLE \(BookmarkDataManager.tableName) ADD COLUMN transcript_start_time REAL;", values: nil)
+                try db.executeUpdate("ALTER TABLE \(BookmarkDataManager.tableName) ADD COLUMN transcript_end_time REAL;", values: nil)
+                schemaVersion = 75
+            } catch {
+                failedAt(75)
+                return
+            }
+        }
+
         db.commit()
     }
 }

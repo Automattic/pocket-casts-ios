@@ -316,6 +316,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Share Profile feature
     case shareProfile
 
+    /// Capture transcript text when creating bookmarks on transcribed episodes
+    case smartBookmarks
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -530,6 +533,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .shareProfile:
             BuildEnvironment.current == .debug
+        case .smartBookmarks:
+            false
         }
     }
 

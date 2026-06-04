@@ -1,0 +1,143 @@
+import Combine
+import Foundation
+import PocketCastsDataModel
+import PocketCastsUtils
+
+protocol TranscriptSelectionRouter: AnyObject {
+    func selectionSaved(title: String)
+    func selectionDismissed()
+}
+
+class TranscriptSelectionViewModel: ObservableObject {
+    weak var router: TranscriptSelectionRouter?
+
+    let bookmark: Bookmark
+    let cues: [TranscriptCue]
+    let fullText: String
+
+    @Published var startCueIndex: Int
+    @Published var endCueIndex: Int
+    @Published private(set) var selectedText: String = ""
+    @Published var bookmarkTitle: String = ""
+    @Published private(set) var isGeneratingTitle: Bool = false
+
+    private let bookmarkManager: BookmarkManager
+    private let maxTitleLength = Constants.Values.bookmarkMaxTitleLength
+
+    var canExpandStart: Bool { startCueIndex > 0 }
+    var canContractStart: Bool { startCueIndex < endCueIndex }
+    var canExpandEnd: Bool { endCueIndex < cues.count - 1 }
+    var canContractEnd: Bool { endCueIndex > startCueIndex }
+    var selectedCueCount: Int { endCueIndex - startCueIndex + 1 }
+
+    init(bookmark: Bookmark, cues: [TranscriptCue], fullText: String, bookmarkManager: BookmarkManager) {
+        self.bookmark = bookmark
+        self.cues = cues
+        self.fullText = fullText
+        self.bookmarkManager = bookmarkManager
+
+        let initial = TranscriptSelectionLogic.selectTranscript(
+            around: bookmark.time,
+            cues: cues,
+            fullText: fullText
+        )
+        self.startCueIndex = initial?.startCueIndex ?? 0
+        self.endCueIndex = initial?.endCueIndex ?? min(cues.count - 1, 0)
+        self.selectedText = initial?.text ?? ""
+    }
+
+    // MARK: - Actions
+
+    func expandStart() {
+        guard canExpandStart else { return }
+        startCueIndex -= 1
+        updateSelection()
+    }
+
+    func contractStart() {
+        guard canContractStart else { return }
+        startCueIndex += 1
+        updateSelection()
+    }
+
+    func expandEnd() {
+        guard canExpandEnd else { return }
+        endCueIndex += 1
+        updateSelection()
+    }
+
+    func contractEnd() {
+        guard canContractEnd else { return }
+        endCueIndex -= 1
+        updateSelection()
+    }
+
+    func selectCue(at index: Int) {
+        guard index >= 0, index < cues.count else { return }
+        if index < startCueIndex {
+            startCueIndex = index
+        } else if index > endCueIndex {
+            endCueIndex = index
+        } else if index == startCueIndex && startCueIndex < endCueIndex {
+            startCueIndex += 1
+        } else if index == endCueIndex && endCueIndex > startCueIndex {
+            endCueIndex -= 1
+        }
+        updateSelection()
+    }
+
+    func generateTitle() {
+        isGeneratingTitle = true
+        Task {
+            let title = await BookmarkTitleGenerator.generateTitle(from: selectedText)
+            await MainActor.run {
+                self.bookmarkTitle = title
+                self.isGeneratingTitle = false
+            }
+        }
+    }
+
+    func save() {
+        let title = bookmarkTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        let finalTitle = title.isEmpty ? L10n.bookmarkDefaultTitle : String(title.prefix(maxTitleLength))
+
+        guard let selection = TranscriptSelectionLogic.adjustSelection(
+            startCueIndex: startCueIndex,
+            endCueIndex: endCueIndex,
+            cues: cues,
+            fullText: fullText
+        ) else {
+            router?.selectionSaved(title: finalTitle)
+            return
+        }
+
+        Task {
+            await bookmarkManager.update(title: finalTitle, for: bookmark)
+            await bookmarkManager.updateTranscript(
+                text: selection.text,
+                startTime: selection.startTime,
+                endTime: selection.endTime,
+                for: bookmark
+            )
+            await MainActor.run {
+                router?.selectionSaved(title: finalTitle)
+            }
+        }
+    }
+
+    func cancel() {
+        router?.selectionDismissed()
+    }
+
+    // MARK: - Private
+
+    private func updateSelection() {
+        guard let selection = TranscriptSelectionLogic.adjustSelection(
+            startCueIndex: startCueIndex,
+            endCueIndex: endCueIndex,
+            cues: cues,
+            fullText: fullText
+        ) else { return }
+        selectedText = selection.text
+    }
+}

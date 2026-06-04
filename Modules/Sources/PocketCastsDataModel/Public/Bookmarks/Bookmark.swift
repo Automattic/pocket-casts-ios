@@ -15,10 +15,18 @@ public struct Bookmark: Hashable {
     public var episode: BaseEpisode? = nil
     public var podcast: Podcast? = nil
 
+    public var transcriptText: String? = nil
+    public var transcriptStartTime: TimeInterval? = nil
+    public var transcriptEndTime: TimeInterval? = nil
+
     // For syncing
     public var titleModified: Date? = nil
     public var deletedModified: Date? = nil
     public var deleted: Bool = false
+
+    public var hasTranscriptSelection: Bool {
+        transcriptText != nil && transcriptStartTime != nil && transcriptEndTime != nil
+    }
 
     // `BaseEpisode` and `Podcast` don't conform to Hashable, so instead we implement it manually to ignore those properties
     public func hash(into hasher: inout Hasher) {
@@ -28,6 +36,9 @@ public struct Bookmark: Hashable {
         hasher.combine(created)
         hasher.combine(episodeUuid)
         hasher.combine(podcastUuid)
+        hasher.combine(transcriptText)
+        hasher.combine(transcriptStartTime)
+        hasher.combine(transcriptEndTime)
         hasher.combine(titleModified)
         hasher.combine(deletedModified)
     }
