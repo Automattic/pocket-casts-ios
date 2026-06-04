@@ -46,7 +46,7 @@ struct SearchEpisodeRow: View {
             }
             Spacer()
         }
-        .padding(24)
+        .padding(32)
         .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
