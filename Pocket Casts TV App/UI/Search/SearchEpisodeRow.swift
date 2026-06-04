@@ -40,7 +40,7 @@ struct SearchEpisodeRow: View {
                     .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
                 if let duration = model.duration {
-                    Text("\(duration)")
+                    Text(TimeFormatter.shared.multipleUnitFormattedShortTime(time: TimeInterval(duration)))
                         .font(.caption)
                         .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
                 }

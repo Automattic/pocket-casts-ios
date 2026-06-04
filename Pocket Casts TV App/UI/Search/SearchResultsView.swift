@@ -14,9 +14,10 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
         GridItem(.fixed(Layout.cellSize), spacing: 48)
     }
 
-    private let episodeItems: [GridItem] = (0..<2).map { _ in
-        GridItem(.fixed(500), spacing: 48)
-    }
+    private let episodeItems: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
 
     var body: some View {
         switch model.state {
@@ -66,7 +67,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     var episodeResults: some View {
         ScrollView {
-            LazyVGrid(columns: episodeItems, spacing: 48, content: {
+            LazyVGrid(columns: episodeItems, spacing: 64, content: {
                 ForEach(model.episodeResults, id: \.self) { result in
                     switch result {
                     case .podcast:
