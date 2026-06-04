@@ -84,7 +84,9 @@ struct SignInView: View {
             .padding(.top, 80)
             .offset(y: -64)
         }
-        .task {
+        .task(id: loginType) {
+            // Clear any leftover error so it doesn't leak across login modes.
+            model.state = .start
             switch loginType {
             case .qr:
                 await model.thirdPartyApprovalSignin()
