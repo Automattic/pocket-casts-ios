@@ -160,7 +160,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func setHasGeneratedTranscripts(_ value: Bool) {
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
 
         if FeatureFlag.generatedTranscripts.enabled, value {
             transcriptViewTopConstraint?.constant = 80.0 + topMargin
@@ -284,7 +284,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
