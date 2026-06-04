@@ -10,8 +10,10 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     @Bindable var model: ViewModel
 
-    let dataManager: TVDataManager = TVDataManager.shared
-    
+    let dataManager = TVDataManager.shared
+
+    @State private var showNowPlayingPlayer = false
+
     private let items: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.cellSize), spacing: 48)
     }
@@ -22,26 +24,32 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
     ]
 
     var body: some View {
-        switch model.state {
-        case .searching:
-            ProgressView(L10n.tvSearchSearching)
-        case .empty:
-            ContentUnavailableView.search(text: model.searchTerm)
-        case .results:
-            switch model.scope {
-            case .podcasts:
-                results
-            case .episodes:
-                episodeResults
+        Group {
+            switch model.state {
+            case .searching:
+                ProgressView(L10n.tvSearchSearching)
+            case .empty:
+                ContentUnavailableView.search(text: model.searchTerm)
+            case .results:
+                switch model.scope {
+                case .podcasts:
+                    results
+                case .episodes:
+                    episodeResults
+                }
+            case .error(let error):
+                Text(L10n.tvSearchFailed(error.localizedDescription))
+                    .font(.headline)
+                    .foregroundStyle(Color.pcTextSecondary)
+            case .query:
+                Text(L10n.tvSearchTypeSomething)
+                    .font(.headline)
+                    .foregroundStyle(Color.pcTextSecondary)
             }
-        case .error(let error):
-            Text(L10n.tvSearchFailed(error.localizedDescription))
-                .font(.headline)
-                .foregroundStyle(Color.pcTextSecondary)
-        case .query:
-            Text(L10n.tvSearchTypeSomething)
-                .font(.headline)
-                .foregroundStyle(Color.pcTextSecondary)
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 
@@ -79,6 +87,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                             Task {
                                 await dataManager.playEpisode(episode)
                             }
+                            showNowPlayingPlayer = true
                         } label: {
                             SearchEpisodeRow(model: episode)
                         }
