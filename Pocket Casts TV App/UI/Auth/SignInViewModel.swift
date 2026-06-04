@@ -37,6 +37,9 @@ class SignInViewModel {
     var pairURLComplete: String?
 
     func thirdPartyApprovalSignin() async {
+        codes = []
+        state = .start
+
         var tryAgain = true
         while tryAgain {
             do {

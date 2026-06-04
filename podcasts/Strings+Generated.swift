@@ -4467,6 +4467,8 @@ internal enum L10n {
   internal static func tvSignInEnterCodeInUrl(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "tv_sign_in_enter_code_in_url", String(describing: p1), String(describing: p2), fallback: "or enter this code in [%1$@](%2$@)")
   }
+  /// tv sign in error title shown when the app fails to fetch the QR sign in code
+  internal static var tvSignInQrCodeErrorTitle: String { return L10n.tr("Localizable", "tv_sign_in_qr_code_error_title", fallback: "Couldn't get your sign in code") }
   /// tv sign in subtitle
   internal static var tvSignInSubtitle: String { return L10n.tr("Localizable", "tv_sign_in_subtitle", fallback: "Open your camera and point to this QR code") }
   /// tv sign in title
