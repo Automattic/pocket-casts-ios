@@ -10,6 +10,8 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     @Bindable var model: ViewModel
 
+    let dataManager: TVDataManager = TVDataManager.shared
+    
     private let items: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.cellSize), spacing: 48)
     }
@@ -74,7 +76,9 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         EmptyView()
                     case .episode(let episode):
                         Button() {
-
+                            Task {
+                                await dataManager.playEpisode(episode)
+                            }
                         } label: {
                             SearchEpisodeRow(model: episode)
                         }

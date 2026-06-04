@@ -5,12 +5,11 @@ import PocketCastsServer
 struct SearchEpisodeRow: View {
 
     let model: EpisodeSearchResult
-    var isActive: Bool?
 
     @Environment(\.isFocused) private var isFocused: Bool
 
     init(model: EpisodeSearchResult) {
-        self.model = model     
+        self.model = model
     }
 
     private var isHighlighted: Bool {
