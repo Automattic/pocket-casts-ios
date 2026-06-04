@@ -9,9 +9,9 @@ enum SearchScope: CaseIterable {
     var localizedName: String {
         switch self {
         case .podcasts:
-            return L10n.searchPodcasts
+            return L10n.podcastsPlural
         case .episodes:
-            return L10n.searchEpisodes
+            return L10n.episodes
         }
     }
 }

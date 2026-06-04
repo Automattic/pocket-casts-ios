@@ -8,7 +8,7 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
-    @Bindable var model: ViewModel    
+    @Bindable var model: ViewModel
 
     @State private var showNowPlayingPlayer = false
 
