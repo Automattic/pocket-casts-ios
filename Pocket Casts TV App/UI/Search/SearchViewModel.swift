@@ -130,6 +130,8 @@ class SearchViewModel: SearchableViewModel {
                 results = combinedResults
                 autoCompleteSuggestions = suggestions
 
+                guard !Task.isCancelled else { return }
+
                 let fullResults = try await fullSearchTask.search(term: query)
                 var episodes: [EpisodeSearchResult] = []
                 for searchResult in fullResults {
@@ -142,6 +144,8 @@ class SearchViewModel: SearchableViewModel {
                         episodes.append(episode)
                     }
                 }
+
+                guard !Task.isCancelled else { return }
 
                 state = (combinedResults.isEmpty && episodes.isEmpty) ? .empty : .results
                 results = combinedResults
