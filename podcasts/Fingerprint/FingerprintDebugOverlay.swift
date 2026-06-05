@@ -7,7 +7,7 @@ class FingerprintDebugOverlay: UIView {
     private var rejections: [FingerprintTimingManager.TimeMappingEntry] = []
     private var totalDuration: Double = 0
     private var playbackPosition: Double = 0
-    private var adRange: ClosedRange<Double>?
+    private var isHighlighting = false
 
     private let statusLabel: UILabel = {
         let label = UILabel()
@@ -48,8 +48,8 @@ class FingerprintDebugOverlay: UIView {
         let fingerprintDuration = FingerprintTimingManager.shared.totalDuration ?? 0
         totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration()
         playbackPosition = PlaybackManager.shared.currentTime()
-        adRange = FingerprintTimingManager.shared.adRegion(forPlaybackTime: playbackPosition)
-        statusLabel.text = describe(state: FingerprintTimingManager.shared.state)
+        isHighlighting = FingerprintTimingManager.shared.isWithinMatchedContent(forPlaybackTime: playbackPosition)
+        statusLabel.text = "\(describe(state: FingerprintTimingManager.shared.state)) · \(isHighlighting ? "🟢 highlighting" : "🔴 suppressed")"
         setNeedsDisplay()
     }
 
@@ -85,16 +85,6 @@ class FingerprintDebugOverlay: UIView {
             let segmentWidth = max(CGFloat(2.0 / totalDuration) * rect.width, 2)
             ctx?.setFillColor(UIColor.systemGreen.cgColor)
             ctx?.fill(CGRect(x: x, y: 0, width: segmentWidth, height: rect.height))
-        }
-
-        // Currently-detected dynamic ad — the span over which highlighting is
-        // suppressed. Vivid, opaque yellow so it's unmistakable against the
-        // red/green ticks.
-        if let adRange {
-            let startX = CGFloat(adRange.lowerBound / totalDuration) * rect.width
-            let endX = CGFloat(adRange.upperBound / totalDuration) * rect.width
-            ctx?.setFillColor(UIColor.yellow.cgColor)
-            ctx?.fill(CGRect(x: startX, y: 0, width: max(endX - startX, 2), height: rect.height))
         }
 
         if playbackPosition > 0 {

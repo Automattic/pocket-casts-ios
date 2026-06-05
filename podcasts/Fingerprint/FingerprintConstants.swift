@@ -102,13 +102,13 @@ enum FingerprintConstants {
     /// older files are silently discarded on the next load.
     static let mappingCacheSchemaVersion: Int = 2
 
-    /// A dynamically-inserted ad is audio present in the playback timeline but
-    /// absent from the reference fingerprint, so the matcher walks over it yet
-    /// commits no anchors (those candidates show as red rejections in the debug
-    /// overlay). It surfaces as a stretch of *processed* audio with no committed
-    /// anchor. A gap must span at least this many seconds to count as an ad —
-    /// comfortably above the matcher's normal commit latency over real content
-    /// (a few seconds to confirm the first anchor of a run) so ordinary playback
-    /// is never mistaken for an ad, while real ads (≥15s) are caught.
-    static let adMinimumGapSeconds: Double = 8
+    /// Highlighting is opt-in: a transcript word is only highlighted while playback
+    /// sits between two committed anchors no further apart than this. Real content
+    /// commits anchors every second or two, and sparse "quick red" gaps within
+    /// matched audio stay under this bound, so highlighting tracks continuously.
+    /// Dynamic ads and other unmatched audio open a much wider gap (or leave no
+    /// committed anchor ahead at all), so the instant playback crosses the last
+    /// matched anchor the gap jumps past this and highlighting stops — no ad
+    /// detection, no lag. Comfortably below a typical ad break (≥15s).
+    static let highlightMaxGapSeconds: Double = 8
 }

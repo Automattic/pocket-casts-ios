@@ -11,10 +11,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var transcript: TranscriptModel?
     private var previousRange: NSRange?
 
-    // True while a dynamically-inserted ad is playing. The reference timeline
-    // doesn't advance through ad audio, so highlighting is suppressed and the
-    // listener is toasted at the ad's start and end.
-    private var isInDynamicAd = false
+    // Whether a highlight is currently rendered. Tracked separately from
+    // `previousRange` because that can be nilled without restyling, leaving a
+    // highlight on screen that still needs clearing when we leave matched content.
+    private var hasRenderedHighlight = false
 
     private var canScrollToDismiss = true
 
@@ -763,7 +763,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         setupShowTranscriptState()
         previousRange = nil
         cachedCueIndex = 0
-        isInDynamicAd = false
+        hasRenderedHighlight = false
         self.transcript = transcript
         hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
@@ -866,21 +866,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         let rawTime = playbackManager.currentTime()
 
-        // Dynamically-inserted ads aren't in the reference fingerprint, so any cue
-        // we'd pick while one plays is wrong. Suppress highlighting and toast the
-        // ad's start/end instead.
-        updateDynamicAdState(playbackTime: rawTime, transcript: transcript)
-        guard !isInDynamicAd else { return }
-
-        // Only highlight when the fingerprint flow has an actual mapping for this
-        // playback time. Without that, falling back to raw playback time would
-        // highlight arbitrary VTT lines during ads and other non-matching audio.
+        // Highlighting is opt-in: only paint while playback is confidently on
+        // matched content. Off it — dynamic ads, unmatched audio, regions not yet
+        // fingerprinted, or before/after the mapped range — we clear and leave it
+        // cleared. Crossing the last matched anchor flips this immediately, so we
+        // never highlight ad words first and retract them.
         guard case .active = FingerprintTimingManager.shared.state,
+              FingerprintTimingManager.shared.isWithinMatchedContent(forPlaybackTime: rawTime),
               let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
-            if previousRange != nil {
-                previousRange = nil
-                transcriptView.attributedText = styleText(transcript: transcript)
-            }
+            clearHighlight(transcript: transcript)
             return
         }
 
@@ -889,6 +883,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if let cue = currentCue, cue.characterRange != previousRange {
             let range = cue.characterRange
             previousRange = range
+            hasRenderedHighlight = true
             transcriptView.attributedText = styleText(transcript: transcript, position: position)
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
                 transcriptView.scrollToRange(range, verticalAnchor: Self.highlightVerticalAnchor)
@@ -910,30 +905,15 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         }
     }
 
-    /// Detects whether `playbackTime` falls inside a dynamically-inserted ad and,
-    /// on entering one, clears the highlight (it stays cleared until the ad ends,
-    /// when the normal highlight loop resumes on the next tick).
-    private func updateDynamicAdState(playbackTime: Double, transcript: TranscriptModel) {
-        let inAd: Bool
-        if case .active = FingerprintTimingManager.shared.state {
-            inAd = FingerprintTimingManager.shared.adRegion(forPlaybackTime: playbackTime) != nil
-        } else {
-            // No mapping to classify against — assume we're not in an ad.
-            inAd = false
-        }
-
-        guard inAd != isInDynamicAd else { return }
-        isInDynamicAd = inAd
-        guard inAd else { return }
-
-        // Drop any highlight for the duration of the ad. Restyle unconditionally —
-        // `previousRange` can already be nil while a stale highlight is still
-        // rendered (e.g. after seeking into the ad), so gating on it would leave
-        // that highlight stuck on screen. Mutate `textStorage` in place rather than
-        // assigning `attributedText`: the latter resets the text view's scroll
-        // position on the next layout pass, yanking the transcript. The content is
-        // identical bar colour, so an in-place attribute swap keeps the scroll put.
+    /// Remove any rendered highlight while leaving the scroll position untouched.
+    /// Mutates `textStorage` in place rather than reassigning `attributedText`
+    /// (which resets the text view's scroll on the next layout pass), and keys off
+    /// `hasRenderedHighlight` rather than `previousRange` since the latter can be
+    /// nilled elsewhere without restyling, leaving a highlight on screen.
+    private func clearHighlight(transcript: TranscriptModel) {
+        guard hasRenderedHighlight else { return }
         previousRange = nil
+        hasRenderedHighlight = false
         transcriptView.textStorage.setAttributedString(styleText(transcript: transcript))
     }
 
