@@ -4,14 +4,20 @@ struct NowPlayingTab: View {
 
     @FocusState private var isFocused: Bool
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @State private var showTab: Bool = true
 
     var body: some View {
         ZStack {
             NowPlayingView()
                 .focused($isFocused)
-                .toolbar(!isFocused ? .automatic : .hidden, for: .tabBar)
         }
-        .ignoresSafeArea()        
+        .ignoresSafeArea()
+        .onChange(of: isFocused) { _, newValue in
+            withAnimation(.default) {
+                showTab = !newValue
+            }
+        }
+        .animation(.easeIn, value: isFocused)
         .onAppear {
             //This is to force the player to load the current episode
             if !PlaybackManager.shared.playing() {
@@ -24,5 +30,6 @@ struct NowPlayingTab: View {
                 }
             }
         }
+        .toolbar(showTab ? .visible : .hidden, for: .tabBar)
     }
 }
