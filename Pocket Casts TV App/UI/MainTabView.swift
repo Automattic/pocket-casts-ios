@@ -33,9 +33,6 @@ struct MainTabContentView: View {
     let tab: MainTab
 
     @Binding var scrollOffset: Double
-    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-
-    @State var tabVisibility: Visibility = .hidden
 
     var body: some View {
         switch tab {
@@ -94,7 +91,6 @@ struct MainTabView: View {
     @State private var tabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
-    @Environment(\.resetFocus) var resetFocus
     @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator
 

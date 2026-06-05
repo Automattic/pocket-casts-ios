@@ -65,10 +65,6 @@ class NowPlayingViewModel: Identifiable {
             return
         }
 
-        DispatchQueue.main.async {
-            self.updateLoadingState()
-        }
-
         timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new, .initial]) { [weak self] _, _ in
             Task { @MainActor [weak self] in
                 self?.updateLoadingState()
