@@ -47,9 +47,16 @@ struct EpisodeRow: View {
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             VStack(alignment: .leading) {
-                Text(model.displayDate)
-                    .font(.caption)
-                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                HStack(spacing: 6) {
+                    if model.isVideo {
+                        Image(systemName: "play.rectangle.fill")
+                            .font(.caption)
+                            .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                    }
+                    Text(model.displayDate)
+                        .font(.caption)
+                        .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                }
                 Text(model.episode.displayableTitle())
                     .font(.body)
                     .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
