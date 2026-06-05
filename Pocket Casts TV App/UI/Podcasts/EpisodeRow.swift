@@ -61,10 +61,10 @@ struct EpisodeRow: View {
             Spacer()
         }
         .padding(24)
-        .opacity(archivedOpacity)
-        .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
         .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .opacity(archivedOpacity)
+        .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
     }
 
     private var archivedOpacity: Double {

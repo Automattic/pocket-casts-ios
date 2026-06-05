@@ -180,6 +180,7 @@ struct PlaylistDetailView: View {
         } label: {
             ArchivedFilterLabel(showArchived: model.showArchived)
         }
+        .accessibilityLabel(L10n.tvPodcastDetailArchivedFilter)
     }
 
     private struct ArchivedFilterLabel: View {
