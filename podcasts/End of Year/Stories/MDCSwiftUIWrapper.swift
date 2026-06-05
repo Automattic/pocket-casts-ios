@@ -153,7 +153,9 @@ private extension UIViewController {
                 sheetController.delegate = sheetDelegate
             }
             sheetController.prefersGrabberVisible = showingGrabber
-            sheetController.preferredCornerRadius = LiquidGlass.isEnabled ? 26 : 10
+            if !LiquidGlass.isEnabled {
+                sheetController.preferredCornerRadius = 10
+            }
 
             // Prevent sheet from being dismissed by dragging down
             sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
