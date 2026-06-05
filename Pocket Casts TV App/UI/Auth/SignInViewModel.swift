@@ -37,8 +37,12 @@ class SignInViewModel {
     var pairURLComplete: String?
 
     func thirdPartyApprovalSignin() async {
+        codes = []
+        state = .start
+
         var tryAgain = true
         while tryAgain {
+            if Task.isCancelled { return }
             do {
                 let authorizeResponse = try await AuthenticationHelper.deviceAuthorizeCode()
                 codes = authorizeResponse.userCode.map({ char in
@@ -54,11 +58,15 @@ class SignInViewModel {
                     tryAgain = true
                 } else {
                     tryAgain = false
-                    state = .error(error, error.localizedDescription)
+                    if !Task.isCancelled {
+                        state = .error(error, error.localizedDescription)
+                    }
                 }
             } catch {
                 tryAgain = false
-                state = .error(error, error.localizedDescription)
+                if !Task.isCancelled {
+                    state = .error(error, error.localizedDescription)
+                }
             }
         }
     }
