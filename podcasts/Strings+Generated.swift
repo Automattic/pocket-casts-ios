@@ -4137,6 +4137,12 @@ internal enum L10n {
   internal static func statsListeningActivityAccessibilityLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "stats_listening_activity_accessibility_label", String(describing: p1), fallback: "Listening activity heatmap. Days listened: %1$@ of 365.")
   }
+  /// VoiceOver label for the info button next to the listening activity section header.
+  internal static var statsListeningActivityInfoAccessibilityLabel: String { return L10n.tr("Localizable", "stats_listening_activity_info_accessibility_label", fallback: "About listening activity") }
+  /// Body text for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoMessage: String { return L10n.tr("Localizable", "stats_listening_activity_info_message", fallback: "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.") }
+  /// Title for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoTitle: String { return L10n.tr("Localizable", "stats_listening_activity_info_title", fallback: "Listening activity") }
   /// Label for the low end of the heatmap legend
   internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
   /// Label for the high end of the heatmap legend
