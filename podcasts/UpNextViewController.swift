@@ -375,7 +375,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
         let count = PlaybackManager.shared.queue.upNextCount()
         if count == 0 {
-            remainingLabel.text = L10n.queueTotalTimeRemaining(time)
+            remainingLabel.text = L10n.queueUpNextHeaderTimeLeft(time)
         } else if count == 1 {
             remainingLabel.text = L10n.queueUpNextHeaderOneEpisode(time)
         } else {
