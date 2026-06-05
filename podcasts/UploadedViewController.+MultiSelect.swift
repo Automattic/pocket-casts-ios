@@ -23,15 +23,13 @@ extension UploadedViewController: MultiSelectActionDelegate {
     }
 
     func multiSelectActionCompleted() {
-        DispatchQueue.main.async {
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
+            self.multiSelectActionBarBottomConstraint.constant = 0
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {
-                self.multiSelectActionBarBottomConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }, completion: { _ in
-                self.isMultiSelectEnabled = false
-            })
-        }
+        }, completion: { _ in
+            self.isMultiSelectEnabled = false
+        })
     }
 
     func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
@@ -75,7 +73,7 @@ extension UploadedViewController: MultiSelectActionDelegate {
         guard isMultiSelectEnabled else { return }
         let leftButtonTitle = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: uploadedEpisodes.count) ? L10n.selectAll : L10n.deselectAll
         if navigationItem.leftBarButtonItem?.title != leftButtonTitle {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: leftButtonTitle, style: .done, target: self, action: #selector(selectAllTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: leftButtonTitle, style: .plain, target: self, action: #selector(selectAllTapped))
         }
     }
 }

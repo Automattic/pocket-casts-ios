@@ -72,7 +72,7 @@ final class LogBufferTests: XCTestCase {
             await logBuffer.append("Log Message \(messageNum)", date: Date())
         }
 
-        // THEN the flushed messages are seperated by newlines.
+        // THEN the flushed messages are separated by newlines.
         XCTAssertTrue(fileWriteSpy.textWrittenToLog)
         XCTAssertNotNil(fileWriteSpy.lastWrittenChunk)
         let lineCount = fileWriteSpy.lastWrittenChunk!.split(separator: "\n").count

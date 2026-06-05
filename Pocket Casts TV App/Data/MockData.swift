@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsUtils
 import PocketCastsDataModel
+import PocketCastsServer
 import SwiftUI
 
 struct MockData {
@@ -202,5 +203,47 @@ struct MockData {
         }
         self.stubPlaylists = results
         return results
+    }
+
+    static func makeStubDiscoveryPodcast() -> DiscoverPodcast {
+        var podcast = DiscoverPodcast()
+        podcast.uuid = UUID().uuidString
+        podcast.title = podcastNames.first
+        podcast.author = authorNames.first
+        podcast.shortDescription = episodeTitles.first
+
+        return podcast
+    }
+
+    static func makeStubDiscoveryPodcasts() -> [DiscoverPodcast] {
+        var result = [DiscoverPodcast]()
+        for (index, name) in podcastNames.enumerated() {
+            var podcast = DiscoverPodcast()
+            podcast.uuid = UUID().uuidString
+            podcast.title = name
+            podcast.author = authorNames[index]
+            podcast.shortDescription = episodeTitles[index]
+
+            result.append(podcast)
+        }
+
+        return result
+    }
+
+    static func makeStubVideoEpisodePodcasts() -> [DiscoverEpisode] {
+        var result = [DiscoverEpisode]()
+        let podcastsUuids: [String] = ["b0689300-ecd3-012e-e054-525400c11844", "68504d20-dc2b-012e-da14-525400c11844", "43e949f0-60ec-0131-7415-723c91aeae46"]
+        let podcastsNames: [String] = ["This Week in Tech (Video)", "TED Talks Music", "Daily Tech News Show (VIDEO)"]
+        let episodesUuid: [String] = ["ed625ff3-d996-4d82-8921-0b823297bdfc", "cede2a30-0163-0133-1b93-059c869cc4eb", "5806902f-7214-46db-a7f7-78d2b0141a5f"]
+        let episodesTitle: [String] = ["The Great Beagle Migration - Pope Leo XIV's 1st Encyclical & Ferrari's 1st EV", "An 11-year-old prodigy performs old-school jazz | Joey Alexander", "The Practical Ferrari – DTNS Live 5129"]
+        let urls: [String] = ["https://pscrb.fm/rss/p/mgln.ai/e/294/cdn.twit.tv/video/twit/twit1086/twit1086_h264m_1920x1080.mp4", "https://download.ted.com/products/87704.mp4?apikey=172BB350-0009", "https://dtns.muffincdn.com/DTNS20260528.mp4"]
+
+        for (index, uuid) in podcastsUuids.enumerated() {
+            var episode = DiscoverEpisode(uuid: episodesUuid[index], title: episodesTitle[index], duration: 600, url: urls[index], podcastUuid: uuid, podcastTitle: podcastsNames[index], type: nil, published: Date.now, season: 0, number: 0)
+
+            result.append(episode)
+        }
+
+        return result
     }
 }

@@ -87,7 +87,7 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
                                                icon: "option-podcasts",
                                                actions: [subscribeAction])
 
-            optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+            optionPicker.present(from: self)
         } else {
             performSubscribeAll()
         }

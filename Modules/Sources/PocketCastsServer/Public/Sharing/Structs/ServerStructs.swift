@@ -511,4 +511,17 @@ public struct DiscoverEpisode: Decodable {
         guard let type else { return false }
         return type == "trailer"
     }
+
+    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil) {
+        self.uuid = uuid
+        self.title = title
+        self.duration = duration
+        self.url = url
+        self.podcastUuid = podcastUuid
+        self.podcastTitle = podcastTitle
+        self.type = type
+        self.published = published
+        self.season = season
+        self.number = number
+    }
 }

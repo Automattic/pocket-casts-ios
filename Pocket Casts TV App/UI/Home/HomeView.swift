@@ -19,6 +19,7 @@ struct HomeView: View {
         case homeNowPlaying
         case homeUpNext
         case homeNewReleases
+        case homeBanner
     }
 
     var body: some View {
@@ -51,18 +52,39 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
-                    nowPlayingRow
-                    upNextRow
-                    youMightLikeRow
-                    newReleasesRow
-                    lovedByListenersOfRow
-                    trendingRow
+                    if coordinator.userState.isLoggedIn {
+                        nowPlayingRow
+                        upNextRow
+                        youMightLikeRow
+                        videoRow
+                        newReleasesRow
+                        lovedByListenersOfRow
+                        trendingRow
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                            tabRouter.selectedTab = .search
+                        }
+                    } else {
+                        featuredRow
+                        videoRow
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                            tabRouter.pendingAuthFlow = .createAccount
+                        }
+                        trendingRow
+                        categoriesRow
+                        curatedRow
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                            tabRouter.selectedTab = .search
+                        }
+                    }
                 }
             }
             .navigationDestination(for: DiscoverPodcast.self) { podcast in
                 if let uuid = podcast.uuid {
                     PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
                 }
+            }
+            .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+                DiscoverPodcastsListView(category: discoverCategory)
             }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
@@ -105,6 +127,33 @@ struct HomeView: View {
     var trendingRow: some View {
         HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
             DiscoverPodcastRow(type: .trending)
+        }
+    }
+
+    var featuredRow: some View {
+        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
+            DiscoverFeaturedPodcastsRow(type: .featured)
+        }
+    }
+
+    var videoRow: some View {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+            DiscoverVideoEpisodesRow(type: .video)
+        }
+    }
+
+    @State private var curatedTitle: String?
+    var curatedRow: some View {
+        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
+            DiscoverPodcastRow(type: .curatedList) { title in
+                curatedTitle = title
+            }
+        }
+    }
+
+    var categoriesRow: some View {
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
+            DiscoverCategoriesRow()
         }
     }
 
@@ -171,7 +220,7 @@ struct HomeSection<Content: View>: View {
         VStack(alignment: .leading, spacing: 32) {
             Text(title)
                 .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
             content
         }
         .focusSection()

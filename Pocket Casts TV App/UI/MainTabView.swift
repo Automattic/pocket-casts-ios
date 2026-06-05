@@ -121,6 +121,7 @@ struct MainTabView: View {
             handleMove(direction)
         }
         .ignoresSafeArea()
+        .background(Color.pcBackgroundSurface)
     }
 
     @ViewBuilder
@@ -159,7 +160,7 @@ struct MainTabView: View {
     }
 
     @State private var showProfileMenu: Bool = false
-    @State private var pendingAuthFlow: ProfileMenuView.AuthDestination?
+
     var profileAccessory: some View {
         Button {
             showProfileMenu = true
@@ -193,26 +194,40 @@ struct MainTabView: View {
         .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
-                pendingAuthFlow = destination
+                tabSelection.pendingAuthFlow = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
             ZStack {
-                Color.backgroundSurface.ignoresSafeArea()
+                Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
-                    switch destination {
-                    case .signIn:
-                        SignInView()
-                    case .createAccount:
-                        CreateAccountView()
+                    Group {
+                        switch destination {
+                        case .signIn:
+                            SignInView()
+                        case .createAccount:
+                            CreateAccountView()
+                        }
+                    }
+                    .navigationDestination(for: WelcomeView.Destination.self) { destination in
+                        ZStack {
+                            Color.pcBackgroundSurface
+                                .ignoresSafeArea()
+                            switch destination {
+                            case .signIn:
+                                SignInView()
+                            case .createAccount:
+                                CreateAccountView()
+                            }
+                        }
                     }
                 }
             }
             .environment(coordinator)
             .onExitCommand {
-                pendingAuthFlow = nil
+                tabSelection.pendingAuthFlow = nil
             }
         }
     }
@@ -224,7 +239,7 @@ struct MainTabView: View {
 
 /// Custom button style that renders only the label, with no platform chrome
 /// (no background, lift, or pressed-state overlay).
-private struct ChromelessButtonStyle: ButtonStyle {
+struct ChromelessButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
     }

@@ -295,9 +295,9 @@ class AppLifecycleAnalyticsTests: XCTestCase {
 }
 
 private class MockAnalytics: Analytics {
-    var didTrack: ((_ event: AnalyticsEvent, _ properties: [AnyHashable: Any]?) -> Void)?
+    var didTrack: ((_ event: AnalyticsEvent, _ properties: [String: Sendable]?) -> Void)?
 
-    override func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any]? = nil) {
+    override func track(_ event: AnalyticsEvent, properties: [String: Sendable]? = nil) {
         didTrack?(event, properties)
     }
 }

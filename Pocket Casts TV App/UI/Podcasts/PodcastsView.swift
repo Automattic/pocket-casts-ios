@@ -45,7 +45,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 VStack(alignment: .leading, spacing: 40) {
                     Text(L10n.tvTabPodcasts)
                         .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(Color.pcTextPrimary)
                     podcastGrid
                 }
             }

@@ -119,6 +119,10 @@
     <string>Välj kontotyp</string>
     <key>account_sign_out</key>
     <string>Logga ut</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Dina podcasts, förlopp och data kommer att vara här när du är tillbaka.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Logga ut?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Om du loggar ut tas %1$@ podcasts som stöds bort från den här enheten. Är du säker?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ du lyssnade på var
     <string>Lägg till 1 podcast</string>
     <key>folder_add_remove_podcasts</key>
     <string>Lägg till eller ta bort podcasts</string>
+    <key>folder_add_to</key>
+    <string>Lägg till i mapp</string>
     <key>folder_change</key>
     <string>Ändra mapp</string>
     <key>folder_choose_color</key>
@@ -2631,6 +2637,8 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Bara senaste avsnittet</string>
     <key>podcasts_badges</key>
     <string>Märken</string>
+    <key>podcasts_edit</key>
+    <string>Redigera podcasts</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Anpassad beställning</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2920,8 +2928,12 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Det fick inte att ladda upp filen. Försök igen senare.</string>
     <key>server_error_files_uuid_required</key>
     <string>Fil-UUID krävs.</string>
+    <key>server_error_login_access_denied</key>
+    <string>Användaren nekade auktoriseringsbegäran</string>
     <key>server_error_login_account_locked</key>
     <string>Ditt konto har låsts på grund av för många inloggningsförsök. Försök igen senare.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Auktorisering väntar</string>
     <key>server_error_login_email_blank</key>
     <string>Ange en e-postadress.</string>
     <key>server_error_login_email_invalid</key>
@@ -2930,6 +2942,10 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>E-postadressen hittades inte</string>
     <key>server_error_login_email_taken</key>
     <string>E-postadressen är upptagen</string>
+    <key>server_error_login_expired_token</key>
+    <string>Enhetskoden har löpt ut.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>Det angivna anslaget är ogiltigt, har löpt ut eller har återkallats.</string>
     <key>server_error_login_password_blank</key>
     <string>Ange ett lösenord.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2960,6 +2976,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Tillåt oss att samla in analyser.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Tillåt oss att använda betrodda tjänster från tredje part för att samla in anonyma data.</string>
+    <key>settings_analytics</key>
+    <string>Analys</string>
     <key>settings_appearance</key>
     <string>Utseende</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3332,6 +3350,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina iPhone-inställningar. iOS hanterar cachelagrade data automatiskt och frigör dem vid behov.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyser från tredje part</string>
     <key>settings_title</key>
@@ -3412,6 +3432,48 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Något gick fel när din delningssida skulle skapas</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>Delningen misslyckades</string>
+    <key>share_profile</key>
+    <string>Dela profil</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Lägg till foto och namn</string>
+    <key>share_profile_add_your_name</key>
+    <string>Lägg till ditt namn</string>
+    <key>share_profile_choose_photo</key>
+    <string>Välj bild</string>
+    <key>share_profile_display_name</key>
+    <string>Visningsnamn</string>
+    <key>share_profile_edit</key>
+    <string>Redigera profil</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Redigera foto och namn</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Följda podcasts</string>
+    <key>share_profile_name_description</key>
+    <string>Så här visas du på delade profiler. Du kan ändra det senare.</string>
+    <key>share_profile_playlists</key>
+    <string>Spellistor</string>
+    <key>share_profile_preview</key>
+    <string>Förhandsgranska profil</string>
+    <key>share_profile_privacy</key>
+    <string>Integritet</string>
+    <key>share_profile_privacy_description</key>
+    <string>Du kan hantera det du delar i %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Styr vad andra kan se när du delar din profil.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Profildelning</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Senaste avsnitt</string>
+    <key>share_profile_remove_photo</key>
+    <string>Ta bort foto</string>
+    <key>share_profile_save</key>
+    <string>Spara</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Dela min profil</string>
+    <key>share_profile_take_photo</key>
+    <string>Ta bild</string>
+    <key>share_profile_what_to_share</key>
+    <string>Vad vill du dela?</string>
     <key>share_select_podcasts</key>
     <string>Välj podcasts</string>
     <key>shared_item_loading</key>
@@ -3759,7 +3821,7 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <key>tv_episode_info</key>
     <string>Avsnittsinformation</string>
     <key>tv_home_keep_listening_title</key>
-    <string>Fortsätt lyssna</string>
+    <string>Fortsätt där du slutade</string>
     <key>tv_home_new_releases</key>
     <string>Nya släpp</string>
     <key>tv_home_recently_played</key>
@@ -3828,14 +3890,36 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Följda podcasts visas här, redo att spelas upp.</string>
     <key>tv_podcasts_empty_title</key>
     <string>Dags att fylla upp detta.</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Öppnar profil- och kontoalternativ</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Profil</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Skapa konto</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Logga in</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Logga ut</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Stjärnmärkta avsnitt</string>
+    <key>tv_search_failed</key>
+    <string>Sökning misslyckades: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Podcasts, shower, författare</string>
+    <key>tv_search_searching</key>
+    <string>Söker ...</string>
+    <key>tv_search_type_something</key>
+    <string>Skriv något …</string>
     <key>tv_sign_in_enter_code</key>
     <string>eller ange följande kod</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>går till [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>eller ange denna kod i [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Öppna kameran och peka på denna QR-kod</string>
     <key>tv_sign_in_title</key>
-    <string>Logga in med din telefon</string>
+    <string>Logga in i Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Dina podcasts synkroniseras, vi loggar in dig snart!</string>
     <key>tv_signing_in_title</key>
@@ -3854,6 +3938,14 @@ Din e-postadress, ditt lösenord eller annan känslig information delas aldrig.<
     <string>Lägg till avsnitt i Nästa så spelas de upp i ordning, ett efter ett</string>
     <key>tv_up_next_empty_title</key>
     <string>Inget köat</string>
+    <key>tv_user_profile_actions</key>
+    <string>Användarinställningar</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Inloggningstyp</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Användare/pass</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Använd utan konto</string>
     <key>tv_welcome_create_free_account</key>

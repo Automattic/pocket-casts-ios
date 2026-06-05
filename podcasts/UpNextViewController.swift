@@ -27,25 +27,26 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         InsetAdjuster(ignoreMiniPlayer: !self.showingInTab)
     }()
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
             guard oldValue != isMultiSelectEnabled else { return }
 
-            self.updateNavBarButtons()
-            self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
+            updateNavBarButtons()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
             contentInseter.isMultiSelectEnabled = isMultiSelectEnabled
-            if !self.isMultiSelectEnabled {
-                self.multiSelectActionBar.isHidden = true
-                self.selectedPlayListEpisodes.removeAll()
-                self.track(.upNextMultiSelectExited)
+            if !isMultiSelectEnabled {
+                multiSelectActionBar.isHidden = true
+                selectedPlayListEpisodes.removeAll()
+                track(.upNextMultiSelectExited)
             } else {
-                self.track(.upNextMultiSelectEntered)
+                track(.upNextMultiSelectEntered)
             }
-            self.updateNavBarButtons(animated: true)
-            if self.showingInTab {
-                self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
+            updateNavBarButtons(animated: true)
+            if showingInTab {
+                multiSelectActionBarBottomConstraint.constant = Constants.effectiveMiniPlayerOffset + Self.bottomMargin
             }
-            self.animateMultiSelectChange()
+            animateMultiSelectChange()
         }
     }
 

@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="64" estimatedRowHeight="64" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="tgC-Bb-blq" customClass="ThemeableTable" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="AFR-ab-MUX"/>
@@ -35,7 +35,7 @@
                 <constraint firstItem="tgC-Bb-blq" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="6rM-NW-2X2"/>
                 <constraint firstItem="tgC-Bb-blq" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="PfI-ki-F1o"/>
                 <constraint firstItem="tgC-Bb-blq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hdz-nz-Ka5"/>
-                <constraint firstItem="tgC-Bb-blq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" id="orp-JN-eFo"/>
+                <constraint firstItem="tgC-Bb-blq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="orp-JN-eFo"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="-207" y="120"/>

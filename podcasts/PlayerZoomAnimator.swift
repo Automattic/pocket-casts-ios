@@ -13,6 +13,10 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
+    private var isVideoPodcast: Bool {
+        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    }
+
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
     private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.45 }
     private var presentDamping: CGFloat { isInteractive ? 0.9 : 1.0 }
@@ -64,6 +68,12 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let container = context.containerView
         let toVC = fullPlayer
         let miniVC = miniPlayer
+        // Drop the mini-player handoff artwork for video — otherwise it would
+        // be installed on `episodeImage` in `willBeAddedToPlayer` and bleed
+        // through the floating video's letterbox bands.
+        if isVideoPodcast {
+            toVC.nowPlayingItem.placeholderArtwork = nil
+        }
         toVC.loadViewIfNeeded()
         toVC.nowPlayingItem.loadViewIfNeeded()
         miniVC.loadViewIfNeeded()
@@ -173,12 +183,18 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
-        let floating = makeFloatingArtwork(
-            image: toArtwork.image ?? miniArtwork.imageView?.image,
-            frame: sourceArtFrame,
-            cornerRadius: miniArtwork.layer.cornerRadius
-        )
-        container.addSubview(floating)
+        let floating: UIImageView?
+        if isVideoPodcast {
+            floating = nil
+        } else {
+            let art = makeFloatingArtwork(
+                image: toArtwork.image ?? miniArtwork.imageView?.image,
+                frame: sourceArtFrame,
+                cornerRadius: miniArtwork.layer.cornerRadius
+            )
+            container.addSubview(art)
+            floating = art
+        }
 
         // Fade toView in partway through so the player content doesn't
         // paint solidly from frame zero — toView's root background is clear,
@@ -201,8 +217,8 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             panel.frame = container.bounds
             panel.layer.cornerRadius = finalCornerRadius
             toView.frame = CGRect(x: 0, y: 0, width: finalFrame.width, height: finalFrame.height)
-            floating.frame = destArtFrame
-            floating.layer.cornerRadius = toArtwork.layer.cornerRadius
+            floating?.frame = destArtFrame
+            floating?.layer.cornerRadius = toArtwork.layer.cornerRadius
             // Mini chrome rides up pinned to the panel's top edge and fades out
             // over the full duration, so it animates the whole way rather than
             // vanishing in the first frames.
@@ -218,9 +234,13 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             toVC.resetCornersAfterPlayerTransition()
             panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
-            floating.removeFromSuperview()
+            floating?.removeFromSuperview()
             self.miniSnapshotController = nil
-            toArtwork.alpha = 1
+            // Restore the artwork only for audio — `update()` on the player
+            // controller already left video artwork effectively hidden.
+            if !self.isVideoPodcast {
+                toArtwork.alpha = 1
+            }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }
@@ -274,13 +294,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // inside `mainScrollView`, so morphing an artwork view back to the
         // mini player would slide it across the screen from nowhere visible.
         // Skip the morph entirely in that case and let the mini snapshot's
-        // own artwork appear in place instead.
-        let isOnNowPlaying = fromVC.tabsView.currentTab == 0
+        // own artwork appear in place instead. Video podcasts also skip the
+        // morph because `episodeImage` is hidden behind the floating video.
+        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoPodcast
         let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
-        if isOnNowPlaying {
+        if shouldMorphArtwork {
             miniArtwork.alpha = 0
             fromArtwork.alpha = 0
         }
@@ -310,14 +331,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
             isInline: isMiniInline,
-            artworkImage: isOnNowPlaying ? nil : miniArtwork.imageView?.image
+            artworkImage: shouldMorphArtwork ? nil : miniArtwork.imageView?.image
         )
         miniSnapshot.alpha = 0
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
         let floating: UIImageView?
-        if isOnNowPlaying {
+        if shouldMorphArtwork {
             let art = makeFloatingArtwork(
                 image: fromArtwork.image ?? miniArtwork.imageView?.image,
                 frame: sourceArtFrame,

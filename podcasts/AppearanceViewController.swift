@@ -10,7 +10,7 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
     private let plusLockedInfoCellId = "PlusLockedCell"
 
     private enum TableRow {
-        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout, darkUpNextTheme
+        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout, darkUpNextTheme, tabBarMinimizing
     }
 
     private var tableData = [[TableRow]]()
@@ -107,6 +107,15 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
 
             return cell
 
+        case .tabBarMinimizing:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
+            cell.cellLabel.text = L10n.appearanceTabBarMinimizing
+            cell.cellSwitch.isOn = Settings.tabBarMinimizingEnabled
+            cell.cellSwitch.removeTarget(self, action: nil, for: .valueChanged)
+            cell.cellSwitch.addTarget(self, action: #selector(tabBarMinimizingToggled(_:)), for: .valueChanged)
+
+            return cell
+
         case .lightTheme:
             let cell = tableView.dequeueReusableCell(withIdentifier: disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = Settings.shouldFollowSystemTheme() ? L10n.appearanceLightTheme : L10n.appearanceThemeHeader
@@ -200,6 +209,8 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceArtworkHeader)
         case .darkUpNextTheme:
             return SettingsTableHeader(frame: headerFrame, title: L10n.upNext)
+        case .tabBarMinimizing:
+            return SettingsTableHeader(frame: headerFrame, title: L10n.appearanceTabBarHeader)
         default:
             return nil
         }
@@ -211,6 +222,8 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
             L10n.appearanceEmbeddedArtworkSubtitle
         case .darkUpNextTheme:
             L10n.settingsUpNextDarkModeFooter
+        case .tabBarMinimizing:
+            L10n.appearanceTabBarMinimizingFooter
         default: nil
         }
     }
@@ -252,12 +265,23 @@ class AppearanceViewController: PCViewController, UITableViewDataSource, UITable
         Settings.loadEmbeddedImages = sender.isOn
     }
 
+    @objc private func tabBarMinimizingToggled(_ sender: UISwitch) {
+        Settings.tabBarMinimizingEnabled = sender.isOn
+        NavigationManager.sharedManager.miniPlayer?.applyTabBarMinimizingPreference()
+        Settings.trackValueToggled(.settingsAppearanceTabBarMinimizingToggled, enabled: sender.isOn)
+    }
+
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
         if Settings.shouldFollowSystemTheme() {
             newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
         } else {
             newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork], [.darkUpNextTheme]]
+        }
+
+        // The tab bar's minimize-on-scroll behavior only exists on iOS 26's Liquid Glass tab bar.
+        if LiquidGlass.isEnabled {
+            newTableData.append([.tabBarMinimizing])
         }
 
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {

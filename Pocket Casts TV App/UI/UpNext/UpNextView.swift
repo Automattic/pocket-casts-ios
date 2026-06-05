@@ -26,11 +26,15 @@ struct UpNextView: View {
         ProgressView()
     }
 
+    @State private var showNowPlayingPlayer: Bool = false
+
     var upNextView: some View {
         List {
             Section {
                 if let currentPlaying = model.episodes.first {
-                    NowPlayingRow(model: currentPlaying)
+                    NowPlayingRow(model: currentPlaying) {
+                        showNowPlayingPlayer = true
+                    }
                         .frame(width: 1242, alignment: .leading)
                 }
             }
@@ -43,9 +47,13 @@ struct UpNextView: View {
             } header: {
                 Text(L10n.tvTabUpNext)
                     .font(.title2)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
             }
             .focusScope(rowNamespace)
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 

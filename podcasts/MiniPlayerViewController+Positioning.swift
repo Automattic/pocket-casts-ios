@@ -36,7 +36,7 @@ extension MiniPlayerViewController {
             guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory == nil else { return }
             let accessory = UITabAccessory(contentView: view)
             tabBarController.setBottomAccessory(accessory, animated: true)
-            tabBarController.tabBarMinimizeBehavior = .onScrollDown
+            tabBarController.tabBarMinimizeBehavior = Settings.tabBarMinimizingEnabled ? .onScrollDown : .never
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.miniPlayerDidAppear)
             return
         }
@@ -112,9 +112,16 @@ extension MiniPlayerViewController {
         view.superview?.layoutIfNeeded()
     }
 
+    /// Re-applies `tabBarMinimizeBehavior` from the current `Settings.tabBarMinimizingEnabled`
+    /// so a toggle flip in Appearance takes effect right away while the mini player is showing.
+    func applyTabBarMinimizingPreference() {
+        guard LiquidGlass.isEnabled, #available(iOS 26.0, *) else { return }
+        guard let tabBarController = parent as? UITabBarController, tabBarController.bottomAccessory != nil else { return }
+        tabBarController.tabBarMinimizeBehavior = Settings.tabBarMinimizingEnabled ? .onScrollDown : .never
+    }
+
     func closeUpNextAndFullPlayer(completion: (() -> Void)? = nil) {
         if let fullScreenPlayer {
-            _ = fullScreenPlayer.children.map { $0.dismiss(animated: false, completion: nil) }
             closeFullScreenPlayer(completion: {
                 completion?()
             })

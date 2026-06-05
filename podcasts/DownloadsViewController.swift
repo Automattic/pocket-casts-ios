@@ -21,37 +21,38 @@ class DownloadsViewController: PCViewController {
         return queue
     }()
 
-    @IBOutlet var downloadsTable: UITableView! {
+    @IBOutlet var downloadsTable: ThemeableTable! {
         didSet {
             registerTableCells()
             registerLongPress()
             downloadsTable.allowsMultipleSelectionDuringEditing = true
+            if LiquidGlass.isEnabled {
+                downloadsTable.themeStyle = .primaryUi02
+            }
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.downloadsTable.beginUpdates()
-                self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                self.downloadsTable.endUpdates()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            downloadsTable.beginUpdates()
+            downloadsTable.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            downloadsTable.endUpdates()
 
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.downloadsMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.downloadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.downloadsMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                Analytics.track(.downloadsMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    downloadsTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.downloadsMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -222,11 +223,12 @@ class DownloadsViewController: PCViewController {
 
     func setupNavBar() {
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        let rightButton = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        rightButton.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.setCustomRightBtn(rightButton, animated: true)
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.setLeftBarButton(isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped)) : nil, animated: true)
+        navigationItem.setHidesBackButton(isMultiSelectEnabled, animated: true)
     }
 
     @objc private func doneTapped() {

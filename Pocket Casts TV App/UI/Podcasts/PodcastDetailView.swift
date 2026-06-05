@@ -74,17 +74,17 @@ struct PodcastDetailView: View {
             PodcastImage(uuid: model.podcastUuid, size: .page)
                 .frame(width: Layout.podcastImageSize, height: Layout.podcastImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
+                .shadow(color: .pcShadowStrong, radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.podcast?.author ?? "")
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.pcTextSecondary)
                 Text(model.podcast?.title ?? "")
                     .font(.title2)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.pcTextPrimary)
                 Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.pcTextSecondary)
             }
             HStack(spacing: 8) {
                 Button() {
@@ -140,10 +140,10 @@ struct PodcastDetailView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L10n.tvPodcastDetailStartHere)
                             .font(.title3)
-                            .foregroundStyle(Color.textPrimary)
+                            .foregroundStyle(Color.pcTextPrimary)
                         Text(L10n.tvPodcastDetailStartHereSubtitle)
                             .font(.caption)
-                            .foregroundStyle(Color.textSecondary)
+                            .foregroundStyle(Color.pcTextSecondary)
                     }
                 }
             }
@@ -155,12 +155,12 @@ struct PodcastDetailView: View {
             } header: {
                 Text(L10n.tvPodcastDetailAllEpisodes)
                     .font(.title3)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
             }
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
     }
 }

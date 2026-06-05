@@ -266,6 +266,12 @@ internal enum L10n {
   internal static var appearanceRefreshAllArtworkConfMsg: String { return L10n.tr("Localizable", "appearance_refresh_all_artwork_conf_msg", fallback: "Refreshing your artwork now") }
   /// Confirmation title used to inform the user that the refresh has been successfully triggered.
   internal static var appearanceRefreshAllArtworkConfTitle: String { return L10n.tr("Localizable", "appearance_refresh_all_artwork_conf_title", fallback: "Aye Aye Captain") }
+  /// Section header for the appearance settings related to the tab bar.
+  internal static var appearanceTabBarHeader: String { return L10n.tr("Localizable", "appearance_tab_bar_header", fallback: "Tab Bar") }
+  /// Toggle that controls whether the tab bar shrinks into a compact pill as the user scrolls (iOS 26 Liquid Glass).
+  internal static var appearanceTabBarMinimizing: String { return L10n.tr("Localizable", "appearance_tab_bar_minimizing", fallback: "Minimize on Scroll") }
+  /// Subtitle explaining the tab bar minimize-on-scroll toggle.
+  internal static var appearanceTabBarMinimizingFooter: String { return L10n.tr("Localizable", "appearance_tab_bar_minimizing_footer", fallback: "When enabled, the tab bar shrinks into a compact pill as you scroll down so more content stays in view.") }
   /// Section header for the appearance settings related to themes.
   internal static var appearanceThemeHeader: String { return L10n.tr("Localizable", "appearance_theme_header", fallback: "Theme") }
   /// Header for asking the user to select a theme.
@@ -2382,6 +2388,8 @@ internal enum L10n {
   internal static var playerActionsRearrangeTitle: String { return L10n.tr("Localizable", "player_actions_rearrange_title", fallback: "Rearrange Actions") }
   /// Confirmation prompt for archiving an episode.
   internal static var playerArchivedConfirmation: String { return L10n.tr("Localizable", "player_archived_confirmation", fallback: "Archive this episode?") }
+  /// Message body shown in the confirmation prompt for archiving an episode.
+  internal static var playerArchivedConfirmationMessage: String { return L10n.tr("Localizable", "player_archived_confirmation_message", fallback: "Hidden from your feed, not deleted.") }
   /// Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title.
   internal static func playerArtwork(_ p1: Any) -> String {
     return L10n.tr("Localizable", "player_artwork", String(describing: p1), fallback: "%1$@ Artwork")
@@ -2418,6 +2426,8 @@ internal enum L10n {
   internal static var playerIncrementTime: String { return L10n.tr("Localizable", "player_increment_time", fallback: "Increment time") }
   /// Confirmation prompt for marking an episode as played.
   internal static var playerMarkAsPlayedConfirmation: String { return L10n.tr("Localizable", "player_mark_as_played_confirmation", fallback: "Mark this episode as played?") }
+  /// Message body shown in the confirmation prompt for marking an episode as played.
+  internal static var playerMarkAsPlayedConfirmationMessage: String { return L10n.tr("Localizable", "player_mark_as_played_confirmation_message", fallback: "It'll move out of Up Next and into your history.") }
   /// Warning that comes along with selecting to play all. Informs the user that their queue will be cleared.
   internal static var playerOptionsPlayAllMessage: String { return L10n.tr("Localizable", "player_options_play_all_message", fallback: "This will clear your current Up Next queue.") }
   /// Prompt to play a single episode from a multi-select screen.
@@ -2621,7 +2631,7 @@ internal enum L10n {
   internal static var plusCancelTerms: String { return L10n.tr("Localizable", "plus_cancel_terms", fallback: "Can be canceled at any time") }
   /// Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion"
   internal static var plusChampion: String { return L10n.tr("Localizable", "plus_champion", fallback: "Pocket Casts Champion") }
-  /// Message displayed when teh user tap "Pocket Casts Champion" button
+  /// Message displayed when the user taps "Pocket Casts Champion" button
   internal static var plusChampionMessage: String { return L10n.tr("Localizable", "plus_champion_message", fallback: "Thanks for being with Pocket Casts from the start. You're a real champion!") }
   /// The available cloud storage limit available to Pocket Casts Plus Subscribers. '%1$@' is a placeholder for the available storage.
   internal static func plusCloudStorageLimitFormat(_ p1: Any) -> String {
@@ -4303,6 +4313,12 @@ internal enum L10n {
   internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
     return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1), fallback: "Sorry, but this transcript format is not supported: %1$@")
   }
+  /// Highlighted transcripts What's New announcement footnote shown below the call to action button
+  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available on new episodes to start") }
+  /// Highlighted transcripts What's New announcement sheet message
+  internal static var transcriptHighlightAnnouncementMessage: String { return L10n.tr("Localizable", "transcript_highlight_announcement_message", fallback: "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.") }
+  /// Highlighted transcripts What's New announcement sheet title
+  internal static var transcriptHighlightAnnouncementTitle: String { return L10n.tr("Localizable", "transcript_highlight_announcement_title", fallback: "Read along. Even at 2x.") }
   /// Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target.
   internal static var transcriptTapToSeekStreamingUnavailable: String { return L10n.tr("Localizable", "transcript_tap_to_seek_streaming_unavailable", fallback: "Download the episode to tap to seek") }
   /// Label indicating that the trial period for the subscription or promotion has ended.
@@ -4313,14 +4329,36 @@ internal enum L10n {
   internal static var tryAgain: String { return L10n.tr("Localizable", "try_again", fallback: "Try Again") }
   /// Button label for a feature that the user can enable
   internal static var tryItNow: String { return L10n.tr("Localizable", "try_it_now", fallback: "Try It Now") }
+  /// tv create account banner action button title
+  internal static var tvBannerCreateAccountActionTitle: String { return L10n.tr("Localizable", "tv_banner_create_account_action_title", fallback: "Create a free account") }
+  /// tv create account banner subtitle
+  internal static var tvBannerCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_banner_create_account_subtitle", fallback: "Your follows, your progress... exactly where you left them.") }
+  /// tv create account banner title
+  internal static var tvBannerCreateAccountTitle: String { return L10n.tr("Localizable", "tv_banner_create_account_title", fallback: "One account. Every screen") }
+  /// tv discover more banner action button title
+  internal static var tvBannerDiscoverMoreActionTitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_action_title", fallback: "Discover more shows") }
+  /// tv discover more banner subtitle
+  internal static var tvBannerDiscoverMoreSubtitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_subtitle", fallback: "Your next obsession is in here somewhere.") }
+  /// tv discover more banner title
+  internal static var tvBannerDiscoverMoreTitle: String { return L10n.tr("Localizable", "tv_banner_discover_more_title", fallback: "You haven't seen the half of it.") }
   /// tv create account enter code
   internal static var tvCreateAccountComeBack: String { return L10n.tr("Localizable", "tv_create_account_come_back", fallback: "Once you’ve created your account, come back and sign in") }
   /// tv create account subtitle
   internal static var tvCreateAccountSubtitle: String { return L10n.tr("Localizable", "tv_create_account_subtitle", fallback: "Scan this code to get started on your phone, it only takes a minute.") }
   /// tv create account title
   internal static var tvCreateAccountTitle: String { return L10n.tr("Localizable", "tv_create_account_title", fallback: "Create your free account") }
+  /// Discover - Button title on a featured podcast card that opens the podcast.
+  internal static var tvDiscoverFeaturedGoToPodcast: String { return L10n.tr("Localizable", "tv_discover_featured_go_to_podcast", fallback: "Go to podcast") }
+  /// Discover - Button title on a featured podcast card that plays the podcast's most recent episode.
+  internal static var tvDiscoverFeaturedPlayLatestEpisode: String { return L10n.tr("Localizable", "tv_discover_featured_play_latest_episode", fallback: "Play latest episode") }
+  /// Discover - Button title on a discover episode that makes it play.
+  internal static var tvDiscoverPlayEpisode: String { return L10n.tr("Localizable", "tv_discover_play_episode", fallback: "Play episode") }
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
+  /// tv home Browse Categories section title
+  internal static var tvHomeBrowseCategoriesSectionTitle: String { return L10n.tr("Localizable", "tv_home_browse_categories_section_title", fallback: "Browse categories") }
+  /// tv home Featured section title
+  internal static var tvHomeFeaturedSectionTitle: String { return L10n.tr("Localizable", "tv_home_featured_section_title", fallback: "Featured on Pocket Casts") }
   /// tv keep listening title
   internal static var tvHomeKeepListeningTitle: String { return L10n.tr("Localizable", "tv_home_keep_listening_title", fallback: "Picking up where you left off") }
   /// tv home new releases section title
@@ -4335,6 +4373,8 @@ internal enum L10n {
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "You'll probably want these") }
   /// tv home Trending section title
   internal static var tvHomeTrendingSectionTitle: String { return L10n.tr("Localizable", "tv_home_trending_section_title", fallback: "What everyone's on this week") }
+  /// tv home Video section title
+  internal static var tvHomeVideoSectionTitle: String { return L10n.tr("Localizable", "tv_home_video_section_title", fallback: "Made for TV") }
   /// tv player playback effects menu title
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title

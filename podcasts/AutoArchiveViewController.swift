@@ -82,7 +82,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
                 addArchivePlayedAction(time: 2.days, to: options)
                 addArchivePlayedAction(time: 1.week, to: options)
 
-                options.show(statusBarStyle: preferredStatusBarStyle)
+                options.present(from: self)
             } else if indexPath.row == 1 {
                 let options = OptionsPicker(title: L10n.settingsArchiveInactiveTitle)
 
@@ -92,7 +92,7 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
                 addArchiveInactiveAction(time: 30.days, to: options)
                 addArchiveInactiveAction(time: 90.days, to: options)
 
-                options.show(statusBarStyle: preferredStatusBarStyle)
+                options.present(from: self)
             }
         }
     }

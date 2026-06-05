@@ -2,6 +2,10 @@
 -----
 - Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
 - Add explicit content badge to discover and search [#4427](https://github.com/Automattic/pocket-casts-ios/pull/4427)
+- Added highlighted transcripts for recent episodes [#4458](https://github.com/Automattic/pocket-casts-ios/pull/4458)
+- Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
+- Update remaining menus to use sheet presentation [#4426](https://github.com/Automattic/pocket-casts-ios/pull/4426)
+- Fix rare crash in Stats [#4445](https://github.com/Automattic/pocket-casts-ios/pull/4445)
 
 8.13
 -----

@@ -42,6 +42,30 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         }
     }
 
+    private var topDivider: ThemeDividerView?
+
+    /// Shows a hairline divider along the top edge of the cell. Used by lists where the
+    /// section header is transparent (Liquid Glass plain-style sticky headers) and can't
+    /// host the divider itself.
+    var showsTopDivider = false {
+        didSet {
+            guard showsTopDivider != oldValue else { return }
+            if showsTopDivider, topDivider == nil {
+                let divider = ThemeDividerView()
+                divider.translatesAutoresizingMaskIntoConstraints = false
+                contentView.addSubview(divider)
+                NSLayoutConstraint.activate([
+                    divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale),
+                    divider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                    divider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                    divider.topAnchor.constraint(equalTo: contentView.topAnchor)
+                ])
+                topDivider = divider
+            }
+            topDivider?.isHidden = !showsTopDivider
+        }
+    }
+
     @IBOutlet var dayName: ThemeableLabel! {
         didSet {
             dayName.style = .primaryText02
@@ -546,7 +570,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     func errorTapped() {
         guard let episode else { return }
 
-        let statusBarStyle = playlistUuid == nil ? UIStatusBarStyle.lightContent : AppTheme.defaultStatusBarStyle()
         if episode.playbackError() {
             let optionsPicker = OptionsPicker(title: nil)
             let retryAction = OptionAction(label: L10n.retry, icon: nil, action: { [weak self] in
@@ -554,7 +577,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
             })
 
             optionsPicker.addDescriptiveActions(title: L10n.playbackFailed, message: episode.playbackErrorDetails, icon: "option-alert", actions: [retryAction])
-            optionsPicker.show(statusBarStyle: statusBarStyle)
+            optionsPicker.present()
         } else {
             let downloadError = episode.readableErrorMessage()
             let optionsPicker = OptionsPicker(title: nil)
@@ -562,7 +585,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                 self?.downloadTapped()
             })
             optionsPicker.addDescriptiveActions(title: L10n.downloadFailed, message: downloadError, icon: "option-alert", actions: [retryAction])
-            optionsPicker.show(statusBarStyle: statusBarStyle)
+            optionsPicker.present()
         }
     }
 

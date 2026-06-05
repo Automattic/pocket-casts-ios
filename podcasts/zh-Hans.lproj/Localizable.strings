@@ -119,6 +119,10 @@
     <string>选择账户类型</string>
     <key>account_sign_out</key>
     <string>注销</string>
+    <key>account_sign_out_alert_message</key>
+    <string>当您回来时，您的播客、进度和数据都会显示在此处。</string>
+    <key>account_sign_out_alert_title</key>
+    <string>注销？</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>注销将从此设备中删除 %1$@ 个受支持的播客。 是否确定？</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ Pocket Casts。</string>
     <string>添加 1 个播客</string>
     <key>folder_add_remove_podcasts</key>
     <string>添加或移除播客</string>
+    <key>folder_add_to</key>
+    <string>添加到文件夹</string>
     <key>folder_change</key>
     <string>更改文件夹</string>
     <key>folder_choose_color</key>
@@ -2631,6 +2637,8 @@ Pocket Casts。</string>
     <string>仅最新剧集</string>
     <key>podcasts_badges</key>
     <string>徽章</string>
+    <key>podcasts_edit</key>
+    <string>编辑播客</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>自定义顺序</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2920,8 +2928,12 @@ Pocket Casts。</string>
     <string>无法上传文件，请稍后重试。</string>
     <key>server_error_files_uuid_required</key>
     <string>文件 uuid 为必填项。</string>
+    <key>server_error_login_access_denied</key>
+    <string>用户拒绝了该授权请求</string>
     <key>server_error_login_account_locked</key>
     <string>您的账户因登录尝试次数过多而被锁定，请稍后重试。</string>
+    <key>server_error_login_auth_pending</key>
+    <string>授权待处理</string>
     <key>server_error_login_email_blank</key>
     <string>输入电子邮件地址。</string>
     <key>server_error_login_email_invalid</key>
@@ -2930,6 +2942,10 @@ Pocket Casts。</string>
     <string>未找到电子邮件</string>
     <key>server_error_login_email_taken</key>
     <string>已接收电子邮件</string>
+    <key>server_error_login_expired_token</key>
+    <string>设备代码已过期。</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>所提供的授权凭证无效、已过期或已被撤销。</string>
     <key>server_error_login_password_blank</key>
     <string>输入密码。</string>
     <key>server_error_login_password_incorrect</key>
@@ -2960,6 +2976,8 @@ Pocket Casts。</string>
     <string>允许我们收集分析数据。</string>
     <key>settings_allow_collection_third_party</key>
     <string>允许我们使用可信的第三方服务来收集匿名数据。</string>
+    <key>settings_analytics</key>
+    <string>分析数据</string>
     <key>settings_appearance</key>
     <string>外观</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3332,6 +3350,8 @@ Pocket Casts。</string>
     <string>移动数据</string>
     <key>settings_storage_usage</key>
     <string>使用情况</string>
+    <key>settings_storage_usage_footer</key>
+    <string>这可能与您的 iPhone 设置中显示的存储空间不同。iOS 会自动管理缓存数据，并在需要时将其释放。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3412,6 +3432,48 @@ Pocket Casts。</string>
     <string>创建共享页面时出错</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>共享失败</string>
+    <key>share_profile</key>
+    <string>共享个人资料</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>添加照片和名称</string>
+    <key>share_profile_add_your_name</key>
+    <string>添加您的名称</string>
+    <key>share_profile_choose_photo</key>
+    <string>选择照片</string>
+    <key>share_profile_display_name</key>
+    <string>显示名称</string>
+    <key>share_profile_edit</key>
+    <string>编辑个人资料</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>编辑照片和名称</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>已关注的播客</string>
+    <key>share_profile_name_description</key>
+    <string>这就是您在共享个人资料中的显示效果。 您之后可以对其进行更改。</string>
+    <key>share_profile_playlists</key>
+    <string>播放列表</string>
+    <key>share_profile_preview</key>
+    <string>预览个人资料</string>
+    <key>share_profile_privacy</key>
+    <string>隐私</string>
+    <key>share_profile_privacy_description</key>
+    <string>您可以在 %1$@ 中管理您共享的内容</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>控制在您共享个人资料时他人可以看到的内容。</string>
+    <key>share_profile_profile_sharing</key>
+    <string>个人资料共享</string>
+    <key>share_profile_recent_episodes</key>
+    <string>近期剧集</string>
+    <key>share_profile_remove_photo</key>
+    <string>删除照片</string>
+    <key>share_profile_save</key>
+    <string>保存</string>
+    <key>share_profile_share_my_profile</key>
+    <string>共享我的个人资料</string>
+    <key>share_profile_take_photo</key>
+    <string>拍摄照片</string>
+    <key>share_profile_what_to_share</key>
+    <string>您想共享什么？</string>
     <key>share_select_podcasts</key>
     <string>选择播客</string>
     <key>shared_item_loading</key>
@@ -3759,7 +3821,7 @@ Pocket Casts。</string>
     <key>tv_episode_info</key>
     <string>剧集信息</string>
     <key>tv_home_keep_listening_title</key>
-    <string>继续收听</string>
+    <string>从您上次离开的地方继续</string>
     <key>tv_home_new_releases</key>
     <string>新发布</string>
     <key>tv_home_recently_played</key>
@@ -3828,14 +3890,36 @@ Pocket Casts。</string>
     <string>已关注的播客将显示在此处，随时可以播放。</string>
     <key>tv_podcasts_empty_title</key>
     <string>是时候将这里填满了。</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>打开个人资料和账户选项</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>个人资料</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>创建账户</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>登录</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>注销</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>星标剧集</string>
+    <key>tv_search_failed</key>
+    <string>搜索失败：%1$@</string>
+    <key>tv_search_prompt</key>
+    <string>播客、节目、作者</string>
+    <key>tv_search_searching</key>
+    <string>正在搜索...</string>
+    <key>tv_search_type_something</key>
+    <string>输入内容…</string>
     <key>tv_sign_in_enter_code</key>
     <string>或输入以下代码</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>前往 [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>或在 [%1$@](%2$@) 中输入此代码</string>
     <key>tv_sign_in_subtitle</key>
     <string>打开您的摄像头，对准此二维码</string>
     <key>tv_sign_in_title</key>
-    <string>使用手机登录</string>
+    <string>登录 Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>您的播客正在同步，我们很快会为您登录！</string>
     <key>tv_signing_in_title</key>
@@ -3854,6 +3938,14 @@ Pocket Casts。</string>
     <string>将剧集添加到“接下来播放”中，它们就会按顺序连续播放</string>
     <key>tv_up_next_empty_title</key>
     <string>没有待播内容</string>
+    <key>tv_user_profile_actions</key>
+    <string>用户设置</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>登录类型</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>用户/通行证</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>二维码</string>
     <key>tv_welcome_browse_without_account</key>
     <string>无需账户即可浏览</string>
     <key>tv_welcome_create_free_account</key>

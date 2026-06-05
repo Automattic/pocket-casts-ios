@@ -104,7 +104,7 @@ class EpisodeRowViewModel: Identifiable {
     }
 
     func play() {
-        guard !PlaybackManager.shared.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
+        guard !playbackManager.isActivelyPlaying(episodeUuid: episode.uuid) else { return }
         PlaybackActionHelper.play(episode: episode, podcastUuid: podcastUuid)
     }
 

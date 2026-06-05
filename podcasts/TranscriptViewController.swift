@@ -14,6 +14,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var canScrollToDismiss = true
 
     private var isUserScrolling = false
+    private var hasNonEmptySelection = false
     // Stays `true` for the entire scroll-back grace period, not just while the
     // user's finger is on the view. `isUserScrolling` flips back to false the
     // instant the drag ends, so without this, the next playback tick would
@@ -144,7 +145,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     func didDisappear() {
         let syncedState = FingerprintTimingManager.shared.state
-        var properties: [AnyHashable: Any] = [
+        var properties: [String: Sendable] = [
             "synced_state_at_dismiss": syncedState.analyticsName,
             "synced_seeks_count": syncedSeeksCount
         ]
@@ -159,7 +160,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func setHasGeneratedTranscripts(_ value: Bool) {
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
 
         if FeatureFlag.generatedTranscripts.enabled, value {
             transcriptViewTopConstraint?.constant = 80.0 + topMargin
@@ -283,7 +284,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
@@ -441,17 +442,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private lazy var closeButton: TintableImageButton! = {
         let closeButton = TintableImageButton()
         closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.primaryIcon02()
+        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
     }()
 
     private lazy var searchButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let searchButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
@@ -475,11 +478,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }()
 
     private lazy var shareButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let shareButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
@@ -525,7 +530,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         updateColors()
         loadTranscript()
         addObservers()
-        (transcriptView as UIScrollView).delegate = self
+        transcriptView.delegate = self
         #if DEBUG
         let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.debugOverlay?.update()
@@ -630,7 +635,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
                     if isDisplayingGenerated {
-                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: self.playbackManager.episodeUUID) {
                             FingerprintTimingManager.shared.prepareForCurrentEpisode()
                         }
                         self.startHighlightDisplayLink()
@@ -754,6 +759,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         previousRange = nil
         cachedCueIndex = 0
         self.transcript = transcript
+        hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
         if resetPosition {
             transcriptView.setContentOffset(.zero, animated: false)
@@ -789,7 +795,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         formattedText.beginEditing()
         let normalStyle = makeStyle()
         var highlightStyle = normalStyle
-        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast01()
+        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.playerContrast01()
 
         let fullLength = NSRange(location: 0, length: formattedText.length)
         formattedText.addAttributes(normalStyle, range: fullLength)
@@ -954,7 +960,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // user who deliberately scrolled elsewhere to read.
         guard !isSearching, !isUserScrolling, playbackManager.isPlayingEpisode, let previousRange else { return }
         transcriptView.scrollToRange(previousRange, verticalAnchor: Self.highlightVerticalAnchor)
-        var properties: [AnyHashable: Any] = [:]
+        var properties: [String: Sendable] = [:]
         if let suppressedDate = autoScrollSuppressedDate {
             properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
         }
@@ -1105,7 +1111,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     // MARK: - Tracks
 
-    func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+    func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
 
         if let episodeUUID = playbackManager.episodeUUID,
@@ -1163,6 +1169,17 @@ extension TranscriptViewController: UIScrollViewDelegate {
     private func userScrollDidEnd() {
         isUserScrolling = false
         scheduleAutoScrollBack()
+    }
+}
+
+extension TranscriptViewController: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        let wasEmpty = !hasNonEmptySelection
+        let isNonEmpty = textView.selectedRange.length > 0
+        hasNonEmptySelection = isNonEmpty
+        if wasEmpty && isNonEmpty {
+            track(.transcriptTextHighlighted)
+        }
     }
 }
 
@@ -1258,7 +1275,7 @@ fileprivate class RoundPlayPauseButton: RoundButton {
 
     var buttonState: ButtonState = .play {
         didSet {
-            let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+            let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
             let image = UIImage(systemName: buttonState.imageName, withConfiguration: config)?
                 .withRenderingMode(.alwaysTemplate)
             let attributes: [NSAttributedString.Key: Any] = [
@@ -1277,8 +1294,8 @@ fileprivate class RoundPlayPauseButton: RoundButton {
     }
 
     static func makeButton(playbackManager: TranscriptPlaybackManaging) -> RoundPlayPauseButton {
-        let titleColor = ThemeColor.primaryText01()
-        let tintColor = ThemeColor.primaryUi05()
+        let titleColor = ThemeColor.primaryInteractive01()
+        let tintColor = ThemeColor.primaryInteractive01().withAlphaComponent(0.1)
 
         var  bg = UIBackgroundConfiguration.clear()
         bg.backgroundColor = tintColor
@@ -1286,7 +1303,7 @@ fileprivate class RoundPlayPauseButton: RoundButton {
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
         configuration.imagePadding = 8.0
         configuration.background = bg
-        configuration.baseForegroundColor = ThemeColor.primaryIcon03()
+        configuration.baseForegroundColor = ThemeColor.primaryInteractive01()
 
         let playButton = RoundPlayPauseButton(type: .system)
         playButton.playbackManager = playbackManager

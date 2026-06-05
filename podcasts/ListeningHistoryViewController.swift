@@ -38,28 +38,26 @@ class ListeningHistoryViewController: PCViewController {
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.listeningHistoryTable.beginUpdates()
-                self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.listeningHistoryTable.endUpdates()
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.listeningHistoryMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.listeningHistoryTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.listeningHistoryMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            listeningHistoryTable.beginUpdates()
+            listeningHistoryTable.setEditing(isMultiSelectEnabled, animated: true)
+            listeningHistoryTable.endUpdates()
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            if isMultiSelectEnabled {
+                Analytics.track(.listeningHistoryMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    listeningHistoryTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.listeningHistoryMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -177,8 +175,8 @@ class ListeningHistoryViewController: PCViewController {
         super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
         super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilityMoreActions
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.setLeftBarButton(isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped)) : nil, animated: true)
+        navigationItem.setHidesBackButton(isMultiSelectEnabled, animated: true)
     }
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
@@ -220,7 +218,7 @@ class ListeningHistoryViewController: PCViewController {
         var config: UIContentConfiguration?
 
         listeningHistoryTable.backgroundView = UIView()
-        listeningHistoryTable.themeStyle = .primaryUi04
+        listeningHistoryTable.themeStyle = LiquidGlass.isEnabled ? .primaryUi02 : .primaryUi04
 
         if episodes.isEmpty {
             if searchController?.searchTextField.text?.isEmpty == false {
@@ -241,7 +239,7 @@ class ListeningHistoryViewController: PCViewController {
                 let message = L10n.profileListeningHistoryEmptyDescription
                 config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("options-history").renderingMode(.template) }, actions: [
                     .init(title: L10n.goToDiscover, action: {
-                        Analytics.shared.track(.listeningHistoryDiscoverButtonTapped)
+                        Analytics.track(.listeningHistoryDiscoverButtonTapped)
                         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                     })
                 ])
