@@ -4,7 +4,6 @@ struct NowPlayingTab: View {
 
     @FocusState private var isFocused: Bool
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    @State private var showTab: Bool = true
 
     var body: some View {
         NowPlayingView()
@@ -12,7 +11,6 @@ struct NowPlayingTab: View {
             .ignoresSafeArea()
             .onChange(of: isFocused) { _, newValue in
                 withAnimation(.default) {
-                    showTab = !newValue
                     tabRouter.isShowingDetail = newValue
                 }
             }
@@ -29,6 +27,6 @@ struct NowPlayingTab: View {
                     }
                 }
             }
-            .toolbar(showTab ? .visible : .hidden, for: .tabBar)
+            .toolbar(!isFocused ? .visible : .hidden, for: .tabBar)
     }
 }
