@@ -15,6 +15,7 @@ struct NowPlayingTab: View {
         .onChange(of: isFocused) { _, newValue in
             withAnimation(.default) {
                 showTab = !newValue
+                tabRouter.isShowingDetail = newValue
             }
         }
         .animation(.easeIn, value: isFocused)
