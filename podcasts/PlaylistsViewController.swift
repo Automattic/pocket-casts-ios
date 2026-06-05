@@ -16,7 +16,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     @IBOutlet var filtersTable: ThemeableTable! {
         didSet {
             registerCells()
-            filtersTable.themeStyle = .primaryUi01
+            filtersTable.themeStyle = .primaryUi02
             filtersTable.dragDelegate = self
             filtersTable.dropDelegate = self
             filtersTable.separatorStyle = .none
@@ -178,7 +178,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
         updateNavTintColors()
         newFilterButton.layer.borderColor = ThemeColor.primaryInteractive01().cgColor
         newFilterButton.titleLabel?.textColor = ThemeColor.primaryInteractive01()
-        view.backgroundColor = ThemeColor.primaryUi04()
+        view.backgroundColor = ThemeColor.primaryUi01()
         if !LiquidGlass.isEnabled {
             customRightBtn?.tintColor = ThemeColor.secondaryIcon01()
         }
