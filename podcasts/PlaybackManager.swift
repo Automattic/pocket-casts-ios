@@ -691,6 +691,49 @@ class PlaybackManager: ServerPlaybackDelegate {
         uuidOfPlayingList = playlist.uuid
     }
 
+    /// Plays every episode of `playlist`, or resumes the current playback when the Up Next queue
+    /// already matches it. Returns `false` without playing anything when a non-empty Up Next queue
+    /// would be replaced, so the caller can confirm the replacement before playback starts.
+    func playIfSafe(playlist: EpisodeFilter, episodeIDs: [String]) -> Bool {
+        guard isPlaylistDifferentFromUpNext(playlistEpisodeIDs: episodeIDs) else {
+            resumeIfPaused()
+            return true
+        }
+        guard queue.upNextCount() == 0 else {
+            return false
+        }
+        play(playlist: playlist)
+        return true
+    }
+
+    /// Whether playing `playlistEpisodeIDs` would change the current Up Next queue or the episode being played.
+    private func isPlaylistDifferentFromUpNext(playlistEpisodeIDs: [String]) -> Bool {
+        let upNextEpisodeIDs = DataManager.sharedManager
+            .allUpNextEpisodeUuids()
+            .compactMap(\.uuid)
+        if playlistEpisodeIDs != upNextEpisodeIDs {
+            return true
+        }
+
+        guard let firstPlaylistID = playlistEpisodeIDs.first else {
+            return false
+        }
+
+        guard let currentID = currentEpisode()?.uuid else {
+            return true
+        }
+
+        return currentID != firstPlaylistID
+    }
+
+    /// Resumes playback when it's currently paused. Used by the playlist "Play All" flow when the
+    /// Up Next queue already matches the playlist being played.
+    private func resumeIfPaused() {
+        guard !playing() else { return }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
+        play()
+    }
+
     func internalPlayerForVideoPlayback() -> AVPlayer? {
         if let episode = currentEpisode(), player == nil {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
@@ -1261,17 +1304,15 @@ class PlaybackManager: ServerPlaybackDelegate {
             // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
             switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
         } else {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                // there's a new list of episodes to play, so clear what's currently playing and play that
-                self?.load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
+            // there's a new list of episodes to play, so clear what's currently playing and play that
+            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
 
-                let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
-                if filteredEpisodes.isEmpty {
-                    return
-                }
-                self?.queue.bulkAdd(filteredEpisodes)
+            let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
+            if filteredEpisodes.isEmpty {
+                return
             }
+            queue.bulkAdd(filteredEpisodes)
         }
     }
 

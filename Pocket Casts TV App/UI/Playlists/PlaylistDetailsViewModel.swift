@@ -15,6 +15,9 @@ class PlaylistDetailsViewModel {
 
     var state: State = .loading
 
+    var isShowingReplaceUpNextConfirmation = false
+    var isShowingNowPlaying = false
+
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
 
@@ -40,7 +43,18 @@ class PlaylistDetailsViewModel {
     }
 
     func playAll() {
+        guard !episodes.isEmpty else { return }
+
+        if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
+            isShowingNowPlaying = true
+        } else {
+            isShowingReplaceUpNextConfirmation = true
+        }
+    }
+
+    func buttonConfirmPlayPlaylistTapped() {
         playbackManager.play(playlist: playlist)
+        isShowingNowPlaying = true
     }
 
     var playlistName: String {
