@@ -284,6 +284,26 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// The reference time for `playbackTime`, but only when it's on matched content
+    /// (see `isWithinMatchedContent`). Combines the gate and the interpolation into
+    /// a single `queue.sync` so the highlight tick — driven by the display link at
+    /// ~60Hz — pays one lock per frame and can't see the two disagree if the mapping
+    /// mutates between them.
+    func matchedReferenceTime(forPlaybackTime playbackTime: Double) -> Double? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
+            guard Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: playbackToReference) else {
+                return nil
+            }
+            return Self.interpolate(
+                time: playbackTime,
+                in: playbackToReference,
+                keyPath: \.playbackTime,
+                valuePath: \.referenceTime
+            )
+        }
+    }
+
     #if DEBUG
     var totalDuration: Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))

@@ -872,8 +872,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         // cleared. Crossing the last matched anchor flips this immediately, so we
         // never highlight ad words first and retract them.
         guard case .active = FingerprintTimingManager.shared.state,
-              FingerprintTimingManager.shared.isWithinMatchedContent(forPlaybackTime: rawTime),
-              let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
+              let position = FingerprintTimingManager.shared.matchedReferenceTime(forPlaybackTime: rawTime) else {
             clearHighlight(transcript: transcript)
             return
         }
