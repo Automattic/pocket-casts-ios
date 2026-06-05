@@ -91,7 +91,7 @@ struct CenterButton: View {
 struct MainTabView: View {
     @Namespace var mainTabFocusNS
 
-    @State private var tabSelection = MainTabRouter()
+    @State private var tabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
     @Environment(\.resetFocus) var resetFocus
@@ -106,11 +106,11 @@ struct MainTabView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TabView(selection: $tabSelection.selectedTab) {
+            TabView(selection: $tabRouter.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
                     Tab(value: tab) {
                         MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
-                            .environment(tabSelection)
+                            .environment(tabRouter)
                             .focused($focusedArea, equals: .content)
                     } label: {
                         Label {
@@ -136,7 +136,7 @@ struct MainTabView: View {
 
     @ViewBuilder
     var accessoryView: some View {
-        if !tabSelection.isShowingDetail {
+        if !tabRouter.isShowingDetail {
             VStack() {
                 HStack() {
                     profileAccessory
@@ -158,7 +158,7 @@ struct MainTabView: View {
             // after the focus engine handles the move — otherwise rapid lefts
             // from Podcasts → Home → (try profile) read a stale selectedTab.
             DispatchQueue.main.async {
-                if tabSelection.selectedTab == MainTab.allCases.first {
+                if tabRouter.selectedTab == MainTab.allCases.first {
                     focusedArea = .profile
                 }
             }
@@ -204,12 +204,12 @@ struct MainTabView: View {
         .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
-                tabSelection.pendingAuthFlow = destination
+                tabRouter.pendingAuthFlow = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabRouter.pendingAuthFlow) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
@@ -237,7 +237,7 @@ struct MainTabView: View {
             }
             .environment(coordinator)
             .onExitCommand {
-                tabSelection.pendingAuthFlow = nil
+                tabRouter.pendingAuthFlow = nil
             }
         }
     }
