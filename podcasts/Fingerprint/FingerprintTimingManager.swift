@@ -83,6 +83,14 @@ final class FingerprintTimingManager: NSObject {
     private var referenceToPlayback: [TimeMappingEntry] = []
     private var lastProgressPosition: Double = -1
 
+    /// Playback-time span the matcher has consumed in the current stream, whether
+    /// or not it committed anchors there. Lets ad detection tell "matcher walked
+    /// over here and committed nothing" (an ad / non-matching audio) from "matcher
+    /// hasn't reached here yet" (un-fingerprinted content). Both reset on every
+    /// (re)start so they describe only the active stream's processed window.
+    private var processedPlaybackStart: Double = -1
+    private var processedPlaybackFrontier: Double = -1
+
     private var preparationStartDate: Date?
     private var hasReachedActive = false
     private var hasEmittedPreparationStarted = false
@@ -267,6 +275,29 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Returns the playback-time range of a dynamically-inserted ad containing
+    /// `playbackTime`, or nil when playback is on mapped content.
+    ///
+    /// Dynamic ads aren't in the reference fingerprint, so the matcher walks over
+    /// them but commits no anchors (they show as the red rejection chunks in the
+    /// debug overlay). An ad is therefore any stretch the matcher has *processed*
+    /// — bounded by `processedPlaybackStart`/`processedPlaybackFrontier` — that has
+    /// no committed anchor for at least `adMinimumGapSeconds`. This covers an ad
+    /// before the first anchor, between two anchors, or past the last anchor alike;
+    /// the only thing that disqualifies a gap is the matcher not having reached it
+    /// yet (un-fingerprinted content), which the processed window excludes.
+    func adRegion(forPlaybackTime playbackTime: Double) -> ClosedRange<Double>? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
+            Self.adRegion(
+                forPlaybackTime: playbackTime,
+                in: playbackToReference,
+                processedStart: processedPlaybackStart,
+                processedFrontier: processedPlaybackFrontier
+            )
+        }
+    }
+
     #if DEBUG
     var totalDuration: Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
@@ -310,6 +341,8 @@ final class FingerprintTimingManager: NSObject {
     private func resetFilterState() {
         filterLastTrusted = nil
         filterCandidatePool.removeAll()
+        processedPlaybackStart = -1
+        processedPlaybackFrontier = -1
     }
 
     private func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
@@ -504,6 +537,11 @@ final class FingerprintTimingManager: NSObject {
 
             if isWithinMappedRange(currentTime) {
                 filterLastTrusted = cached.entries.last
+                // A full cache means the whole file was fingerprinted in a prior
+                // session, so treat the entire timeline as processed — ad gaps
+                // already baked into the cached mapping are then detectable.
+                processedPlaybackStart = 0
+                processedPlaybackFrontier = duration
                 let coverage = cached.entries.count
                 updateState(.active(coverage: coverage))
                 if !hasReachedActive {
@@ -977,6 +1015,18 @@ final class FingerprintTimingManager: NSObject {
             inserted += consider(candidate: candidate)
         }
 
+        // Record the playback span we just walked — including windows that matched
+        // nothing — so ad detection knows this stretch was processed and left
+        // uncommitted on purpose, rather than simply not reached yet.
+        if let firstWindow = windows.first {
+            let start = startOffset + Double(firstWindow.timestampMs) / 1000.0
+            processedPlaybackStart = processedPlaybackStart < 0 ? start : min(processedPlaybackStart, start)
+        }
+        if let lastWindow = windows.last {
+            let frontier = startOffset + Double(lastWindow.timestampMs) / 1000.0
+            processedPlaybackFrontier = max(processedPlaybackFrontier, frontier)
+        }
+
         let coverage = playbackToReference.count
         if coverage >= FingerprintConstants.minimumCoverageForActive {
             updateState(.active(coverage: coverage))
@@ -1175,6 +1225,65 @@ final class FingerprintTimingManager: NSObject {
 
         let fraction = (t1 > t0) ? (time - t0) / (t1 - t0) : 0
         return v0 + fraction * (v1 - v0)
+    }
+
+    /// Finds the commit-gap of processed audio containing `playbackTime` and
+    /// returns it when it's wide enough to be a dynamic ad. See
+    /// `adRegion(forPlaybackTime:)`.
+    static func adRegion(
+        forPlaybackTime playbackTime: Double,
+        in entries: [TimeMappingEntry],
+        processedStart: Double,
+        processedFrontier: Double
+    ) -> ClosedRange<Double>? {
+        // Outside the matcher's processed window we can't tell an ad from audio
+        // that simply hasn't been fingerprinted yet.
+        guard processedStart >= 0,
+              playbackTime >= processedStart,
+              playbackTime <= processedFrontier else { return nil }
+
+        // Binary search for the anchors bracketing `playbackTime`. `hi` is the
+        // first anchor strictly after it; `hi - 1` the last at or before it.
+        var lo = 0
+        var hi = entries.count
+        while lo < hi {
+            let mid = (lo + hi) / 2
+            if entries[mid].playbackTime <= playbackTime {
+                lo = mid + 1
+            } else {
+                hi = mid
+            }
+        }
+
+        // Bound the gap by the bracketing anchors, but never beyond the processed
+        // window — anchors outside it belong to a different region (e.g. before a
+        // seek) and mustn't shrink the gap we're measuring here. Track whether
+        // each bound came from a real committed anchor versus the processed-window
+        // edge.
+        var lower = processedStart
+        var lowerIsAnchor = false
+        if hi - 1 >= 0, entries[hi - 1].playbackTime > lower {
+            lower = entries[hi - 1].playbackTime
+            lowerIsAnchor = true
+        }
+        var upper = processedFrontier
+        var upperIsAnchor = false
+        if hi < entries.count, entries[hi].playbackTime < upper {
+            upper = entries[hi].playbackTime
+            upperIsAnchor = true
+        }
+
+        guard upper - lower >= FingerprintConstants.adMinimumGapSeconds else { return nil }
+
+        // The gap must be anchored by committed content on at least one side. A
+        // gap bounded only by the processed-window edges is a region the matcher
+        // has walked but not yet anchored anywhere near — the transient state
+        // right after a seek, before the first anchor confirms. Flagging it would
+        // fire spurious "ad started / ended" toasts while tapping around content
+        // that has no ads.
+        guard lowerIsAnchor || upperIsAnchor else { return nil }
+
+        return lower...upper
     }
 
     // MARK: - Helpers

@@ -269,4 +269,126 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(first, 100.0, accuracy: 0.001)
         XCTAssertEqual(last, 200.0, accuracy: 0.001)
     }
+
+    // MARK: - Ad detection
+
+    // Dense anchors on real content (every ~2s) → no gap wide enough to be an ad.
+    private static let denseContent: [Entry] = stride(from: 0.0, through: 60.0, by: 2.0)
+        .map { Entry(playbackTime: $0, referenceTime: $0) }
+
+    func testAdRegionNilOnDenselyMappedContent() {
+        let region = FingerprintTimingManager.adRegion(
+            forPlaybackTime: 30,
+            in: Self.denseContent,
+            processedStart: 0,
+            processedFrontier: 60
+        )
+        XCTAssertNil(region)
+    }
+
+    func testAdRegionNilWhenNotYetProcessed() {
+        // Frontier hasn't reached the queried time: it's un-fingerprinted content,
+        // not an ad, even though there's no anchor here.
+        let entries = [Entry(playbackTime: 0, referenceTime: 0), Entry(playbackTime: 2, referenceTime: 2)]
+        let region = FingerprintTimingManager.adRegion(
+            forPlaybackTime: 40,
+            in: entries,
+            processedStart: 0,
+            processedFrontier: 5
+        )
+        XCTAssertNil(region)
+    }
+
+    func testAdRegionDetectsLeadingAdBeforeFirstAnchor() throws {
+        // All committed anchors sit after the ad; playback is in the processed-but-
+        // uncommitted stretch ahead of them — the case the first implementation missed.
+        let entries = [Entry(playbackTime: 50, referenceTime: 30), Entry(playbackTime: 52, referenceTime: 32)]
+        let region = try XCTUnwrap(FingerprintTimingManager.adRegion(
+            forPlaybackTime: 40,
+            in: entries,
+            processedStart: 20,
+            processedFrontier: 55
+        ))
+        XCTAssertEqual(region.lowerBound, 20, accuracy: 0.001)
+        XCTAssertEqual(region.upperBound, 50, accuracy: 0.001)
+    }
+
+    func testAdRegionDetectsInteriorAdBetweenAnchors() throws {
+        // Reference barely advances (30→31) while playback jumps 20→50: a 30s ad.
+        let entries = [
+            Entry(playbackTime: 18, referenceTime: 29),
+            Entry(playbackTime: 20, referenceTime: 30),
+            Entry(playbackTime: 50, referenceTime: 31),
+            Entry(playbackTime: 52, referenceTime: 33)
+        ]
+        let region = try XCTUnwrap(FingerprintTimingManager.adRegion(
+            forPlaybackTime: 35,
+            in: entries,
+            processedStart: 0,
+            processedFrontier: 60
+        ))
+        XCTAssertEqual(region.lowerBound, 20, accuracy: 0.001)
+        XCTAssertEqual(region.upperBound, 50, accuracy: 0.001)
+    }
+
+    func testAdRegionDetectsTrailingAdPastLastAnchor() throws {
+        // Playback has run past the newest anchor into audio the matcher walked
+        // (frontier 60) but committed nothing for.
+        let entries = [Entry(playbackTime: 18, referenceTime: 18), Entry(playbackTime: 20, referenceTime: 20)]
+        let region = try XCTUnwrap(FingerprintTimingManager.adRegion(
+            forPlaybackTime: 40,
+            in: entries,
+            processedStart: 0,
+            processedFrontier: 60
+        ))
+        XCTAssertEqual(region.lowerBound, 20, accuracy: 0.001)
+        XCTAssertEqual(region.upperBound, 60, accuracy: 0.001)
+    }
+
+    func testAdRegionNilForShortGapBelowThreshold() {
+        // A 4s commit gap (e.g. the matcher's normal latency confirming a run) is
+        // below `adMinimumGapSeconds` and must not be flagged.
+        let entries = [Entry(playbackTime: 20, referenceTime: 20), Entry(playbackTime: 24, referenceTime: 24)]
+        let region = FingerprintTimingManager.adRegion(
+            forPlaybackTime: 22,
+            in: entries,
+            processedStart: 0,
+            processedFrontier: 30
+        )
+        XCTAssertNil(region)
+    }
+
+    func testAdRegionNilForUnanchoredProcessedWindowAfterSeek() {
+        // Just after a seek the matcher has processed a stretch (40→54) but not yet
+        // confirmed its first anchor there; the only anchors are stale ones from
+        // before the seek. A gap bounded solely by the processed-window edges must
+        // not be flagged, or tapping around content would fire spurious ad toasts.
+        let entries = [Entry(playbackTime: 0, referenceTime: 0), Entry(playbackTime: 5, referenceTime: 5)]
+        let region = FingerprintTimingManager.adRegion(
+            forPlaybackTime: 45,
+            in: entries,
+            processedStart: 40,
+            processedFrontier: 54
+        )
+        XCTAssertNil(region)
+    }
+
+    func testAdRegionIgnoresStaleAnchorsOutsideProcessedWindow() throws {
+        // Anchors before a seek (at 0/5) shouldn't shrink the gap measured in the
+        // post-seek processed window [40, 80]; the ad spans the whole new window.
+        let entries = [
+            Entry(playbackTime: 0, referenceTime: 0),
+            Entry(playbackTime: 5, referenceTime: 5),
+            Entry(playbackTime: 70, referenceTime: 8),
+            Entry(playbackTime: 72, referenceTime: 10)
+        ]
+        let region = try XCTUnwrap(FingerprintTimingManager.adRegion(
+            forPlaybackTime: 50,
+            in: entries,
+            processedStart: 40,
+            processedFrontier: 80
+        ))
+        XCTAssertEqual(region.lowerBound, 40, accuracy: 0.001)
+        XCTAssertEqual(region.upperBound, 70, accuracy: 0.001)
+    }
 }

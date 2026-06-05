@@ -11,6 +11,11 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private var transcript: TranscriptModel?
     private var previousRange: NSRange?
 
+    // True while a dynamically-inserted ad is playing. The reference timeline
+    // doesn't advance through ad audio, so highlighting is suppressed and the
+    // listener is toasted at the ad's start and end.
+    private var isInDynamicAd = false
+
     private var canScrollToDismiss = true
 
     private var isUserScrolling = false
@@ -758,6 +763,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         setupShowTranscriptState()
         previousRange = nil
         cachedCueIndex = 0
+        isInDynamicAd = false
         self.transcript = transcript
         hasNonEmptySelection = false
         transcriptView.attributedText = styleText(transcript: transcript)
@@ -858,10 +864,17 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     @objc private func updateTranscriptPosition() {
         guard let transcript else { return }
 
+        let rawTime = playbackManager.currentTime()
+
+        // Dynamically-inserted ads aren't in the reference fingerprint, so any cue
+        // we'd pick while one plays is wrong. Suppress highlighting and toast the
+        // ad's start/end instead.
+        updateDynamicAdState(playbackTime: rawTime, transcript: transcript)
+        guard !isInDynamicAd else { return }
+
         // Only highlight when the fingerprint flow has an actual mapping for this
         // playback time. Without that, falling back to raw playback time would
         // highlight arbitrary VTT lines during ads and other non-matching audio.
-        let rawTime = playbackManager.currentTime()
         guard case .active = FingerprintTimingManager.shared.state,
               let position = FingerprintTimingManager.shared.referenceTime(forPlaybackTime: rawTime) else {
             if previousRange != nil {
@@ -895,6 +908,33 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
             }
         }
+    }
+
+    /// Detects whether `playbackTime` falls inside a dynamically-inserted ad and,
+    /// on entering one, clears the highlight (it stays cleared until the ad ends,
+    /// when the normal highlight loop resumes on the next tick).
+    private func updateDynamicAdState(playbackTime: Double, transcript: TranscriptModel) {
+        let inAd: Bool
+        if case .active = FingerprintTimingManager.shared.state {
+            inAd = FingerprintTimingManager.shared.adRegion(forPlaybackTime: playbackTime) != nil
+        } else {
+            // No mapping to classify against — assume we're not in an ad.
+            inAd = false
+        }
+
+        guard inAd != isInDynamicAd else { return }
+        isInDynamicAd = inAd
+        guard inAd else { return }
+
+        // Drop any highlight for the duration of the ad. Restyle unconditionally —
+        // `previousRange` can already be nil while a stale highlight is still
+        // rendered (e.g. after seeking into the ad), so gating on it would leave
+        // that highlight stuck on screen. Mutate `textStorage` in place rather than
+        // assigning `attributedText`: the latter resets the text view's scroll
+        // position on the next layout pass, yanking the transcript. The content is
+        // identical bar colour, so an in-place attribute swap keeps the scroll put.
+        previousRange = nil
+        transcriptView.textStorage.setAttributedString(styleText(transcript: transcript))
     }
 
     // Resolves the cue containing `position` in O(1) amortized for normal

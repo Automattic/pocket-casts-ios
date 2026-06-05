@@ -101,4 +101,14 @@ enum FingerprintConstants {
     /// Persistent cache schema version. Bump when the on-disk shape changes so
     /// older files are silently discarded on the next load.
     static let mappingCacheSchemaVersion: Int = 2
+
+    /// A dynamically-inserted ad is audio present in the playback timeline but
+    /// absent from the reference fingerprint, so the matcher walks over it yet
+    /// commits no anchors (those candidates show as red rejections in the debug
+    /// overlay). It surfaces as a stretch of *processed* audio with no committed
+    /// anchor. A gap must span at least this many seconds to count as an ad —
+    /// comfortably above the matcher's normal commit latency over real content
+    /// (a few seconds to confirm the first anchor of a run) so ordinary playback
+    /// is never mistaken for an ad, while real ads (≥15s) are caught.
+    static let adMinimumGapSeconds: Double = 8
 }
