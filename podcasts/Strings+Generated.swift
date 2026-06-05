@@ -4409,6 +4409,14 @@ internal enum L10n {
   }
   /// tv playlist detail play all button title
   internal static var tvPlaylistDetailPlayAll: String { return L10n.tr("Localizable", "tv_playlist_detail_play_all", fallback: "Play all episodes") }
+  /// tv playlist play all confirmation action that wipes Up Next and starts playing the playlist
+  internal static var tvPlaylistPlayAllConfirmAction: String { return L10n.tr("Localizable", "tv_playlist_play_all_confirm_action", fallback: "Clear and play") }
+  /// tv playlist play all confirmation message. '%1$@' is a placeholder for the number of episodes currently in Up Next.
+  internal static func tvPlaylistPlayAllConfirmMessage(_ p1: Any) -> String {
+    return L10n.tr("Localizable", "tv_playlist_play_all_confirm_message", String(describing: p1), fallback: "You currently have %1$@ episodes in Up Next")
+  }
+  /// tv playlist play all confirmation alert title shown when the user already has episodes in Up Next
+  internal static var tvPlaylistPlayAllConfirmTitle: String { return L10n.tr("Localizable", "tv_playlist_play_all_confirm_title", fallback: "This will clear your Up Next") }
   /// tv playlists empty button action title
   internal static var tvPlaylistsEmptyActionTitle: String { return L10n.tr("Localizable", "tv_playlists_empty_action_title", fallback: "Create a playlist") }
   /// tv playlists empty subtitle

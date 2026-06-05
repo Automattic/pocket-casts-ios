@@ -43,6 +43,17 @@ class PlaylistDetailsViewModel {
         playbackManager.play(playlist: playlist)
     }
 
+    /// True when Up Next holds at least one episode beyond the currently playing one,
+    /// meaning a Play All would discard that queue.
+    var shouldConfirmClearUpNext: Bool {
+        upNextCount > 0
+    }
+
+    /// Number of episodes in Up Next excluding the currently playing one.
+    var upNextCount: Int {
+        playbackManager.queue.upNextCount()
+    }
+
     var playlistName: String {
         return playlist.playlistName
     }

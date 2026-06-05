@@ -6103,6 +6103,15 @@
 /* tv playlist detail play all button title */
 "tv_playlist_detail_play_all" = "Play all episodes";
 
+/* tv playlist play all confirmation alert title shown when the user already has episodes in Up Next */
+"tv_playlist_play_all_confirm_title" = "This will clear your Up Next";
+
+/* tv playlist play all confirmation action that wipes Up Next and starts playing the playlist */
+"tv_playlist_play_all_confirm_action" = "Clear and play";
+
+/* tv playlist play all confirmation message. '%1$@' is a placeholder for the number of episodes currently in Up Next. */
+"tv_playlist_play_all_confirm_message" = "You currently have %1$@ episodes in Up Next";
+
 /* tv playlists empty title */
 "tv_playlists_empty_title" = "Your playlists live here";
 

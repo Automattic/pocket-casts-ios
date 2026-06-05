@@ -6,6 +6,8 @@ struct PlaylistDetailView: View {
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
     let model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
+    @State private var isShowingClearConfirmation = false
+    @State private var isShowingPlayer = false
 
     enum FocusSection: Hashable {
         case episodes
@@ -123,7 +125,11 @@ struct PlaylistDetailView: View {
             }
             if !model.episodes.isEmpty {
                 Button {
-                    model.playAll()
+                    if model.shouldConfirmClearUpNext {
+                        isShowingClearConfirmation = true
+                    } else {
+                        playAllAndShowPlayer()
+                    }
                 } label: {
                     Text(L10n.tvPlaylistDetailPlayAll)
                         .font(.caption2)
@@ -131,6 +137,27 @@ struct PlaylistDetailView: View {
             }
         }
         .focusSection()
+        .confirmationDialog(
+            L10n.tvPlaylistPlayAllConfirmTitle,
+            isPresented: $isShowingClearConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(L10n.tvPlaylistPlayAllConfirmAction, role: .destructive) {
+                playAllAndShowPlayer()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.tvPlaylistPlayAllConfirmMessage(model.upNextCount))
+        }
+        .fullScreenCover(isPresented: $isShowingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
+    }
+
+    private func playAllAndShowPlayer() {
+        model.playAll()
+        isShowingPlayer = true
     }
 
     @Namespace private var episodeListNamespace
