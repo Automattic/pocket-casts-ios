@@ -150,7 +150,6 @@ class SearchViewModel: SearchableViewModel {
                 podcastResults = combinedPodcastsResults
                 episodeResults = episodes
                 state = (combinedPodcastsResults.isEmpty && episodes.isEmpty) ? .empty : .results
-
             }  catch is CancellationError {
                 return
             } catch {
