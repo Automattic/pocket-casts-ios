@@ -31,9 +31,17 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             case .results:
                 switch model.scope {
                 case .podcasts:
-                    results
+                    if model.episodeResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        results
+                    }
                 case .episodes:
-                    episodeResults
+                    if model.episodeResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        episodeResults
+                    }
                 }
             case .error(let error):
                 Text(L10n.tvSearchFailed(error.localizedDescription))
