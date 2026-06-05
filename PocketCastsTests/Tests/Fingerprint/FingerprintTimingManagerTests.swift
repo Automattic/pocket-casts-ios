@@ -335,6 +335,22 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 25, processedStart: 10, processedFrontier: 40, hasReachedActive: false))
     }
 
+    func testSeekForwardAheadOfFingerprintingNotFlaggedAsAd() {
+        let manager = FingerprintTimingManager()
+        // Anchors from before a forward seek, all clustered near the start.
+        [0, 2, 4].forEach { manager.insert(mapping: Entry(playbackTime: Double($0), referenceTime: Double($0))) }
+
+        // The listener seeks far ahead to 300 s; the stream re-anchors there and
+        // has only examined a few seconds past it. The nearest anchor at-or-before
+        // is the stale one at 4 s — without clamping the bounds to the examined
+        // range, the gap (4 → 305) reads as a 300 s ad. It must not.
+        XCTAssertFalse(manager.evaluateAdStateForTesting(playbackTime: 300, processedStart: 300, processedFrontier: 305))
+
+        // Once the loop has examined well past the resume point with nothing
+        // matching, it genuinely is unmatched audio (a post-seek ad) and flags.
+        XCTAssertTrue(manager.evaluateAdStateForTesting(playbackTime: 300, processedStart: 300, processedFrontier: 320))
+    }
+
     func testGapWidthUsesStrictThreshold() {
         // Exactly adCoverageGapSeconds (12) wide → not an ad (strict greater-than).
         let atThreshold = FingerprintTimingManager()

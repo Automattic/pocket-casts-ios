@@ -257,7 +257,10 @@ final class FingerprintTimingManager: NSObject {
     /// Only positions the loop has actually examined are judged. Outside
     /// `[processedStart, processedFrontier]` coverage simply hasn't been generated
     /// yet (notably the live-streaming edge), and flagging an ad there would
-    /// suppress legitimate highlighting.
+    /// suppress legitimate highlighting. For the same reason the bounding anchors
+    /// are clamped to that range — an anchor left behind by a pre-seek stream
+    /// segment must not stretch the measured gap across audio this stream never
+    /// examined.
     private func evaluateAdState(playbackTime: Double) {
         guard hasReachedActive,
               playbackTime >= processedStart,
@@ -277,8 +280,15 @@ final class FingerprintTimingManager: NSObject {
             above = playbackToReference.isEmpty ? nil : 0
         }
 
-        let lowerBound = below.map { playbackToReference[$0].playbackTime } ?? processedStart
-        let upperBound = above.map { playbackToReference[$0].playbackTime } ?? processedFrontier
+        // Clamp the bounding anchors to the examined range. Only
+        // `[processedStart, processedFrontier]` was actually fingerprinted by the
+        // current stream; an anchor outside it belongs to an earlier segment with
+        // unexamined audio in between. Without this clamp, seeking forward — which
+        // keeps the pre-seek anchors far behind the freshly re-anchored resume
+        // point — would measure the entire skipped span as one unmatched stretch
+        // and false-flag an ad while the loop is merely catching up.
+        let lowerBound = max(below.map { playbackToReference[$0].playbackTime } ?? processedStart, processedStart)
+        let upperBound = min(above.map { playbackToReference[$0].playbackTime } ?? processedFrontier, processedFrontier)
 
         setAdInProgress(upperBound - lowerBound > FingerprintConstants.adCoverageGapSeconds)
     }
