@@ -137,16 +137,63 @@ struct PlaylistDetailView: View {
 
     var episodeList: some View {
         List {
-            ForEach(model.episodes, id: \.uuid) { episode in
-                EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
-                    .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
-                    .listRowInsets(Layout.rowInsets)
+            Section {
+                ForEach(model.episodes, id: \.uuid) { episode in
+                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
+                        .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                        .listRowInsets(Layout.rowInsets)
+                }
+            } header: {
+                HStack {
+                    Spacer()
+                    archivedFilterMenu
+                }
+                .padding(.bottom, 32)
             }
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
+    }
+
+    private var archivedFilterMenu: some View {
+        Menu {
+            Button {
+                model.setShowArchived(false)
+            } label: {
+                if model.showArchived {
+                    Text(L10n.tvPodcastDetailHideArchived)
+                } else {
+                    Label(L10n.tvPodcastDetailHideArchived, systemImage: "checkmark")
+                }
+            }
+            Button {
+                model.setShowArchived(true)
+            } label: {
+                if model.showArchived {
+                    Label(L10n.tvPodcastDetailShowArchived, systemImage: "checkmark")
+                } else {
+                    Text(L10n.tvPodcastDetailShowArchived)
+                }
+            }
+        } label: {
+            ArchivedFilterLabel(showArchived: model.showArchived)
+        }
+    }
+
+    private struct ArchivedFilterLabel: View {
+        let showArchived: Bool
+        @Environment(\.isFocused) private var isFocused: Bool
+
+        var body: some View {
+            HStack(spacing: 8) {
+                Text(showArchived ? L10n.tvPodcastDetailShowArchived : L10n.tvPodcastDetailHideArchived)
+                Image(systemName: "chevron.down")
+            }
+            .font(.caption2)
+            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+        }
     }
 }
 

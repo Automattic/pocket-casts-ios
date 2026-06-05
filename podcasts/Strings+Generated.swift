@@ -4419,10 +4419,14 @@ internal enum L10n {
   internal static var tvPodcastDetailAbout: String { return L10n.tr("Localizable", "tv_podcast_detail_about", fallback: "About") }
   /// tv podcast detail all episodes section title
   internal static var tvPodcastDetailAllEpisodes: String { return L10n.tr("Localizable", "tv_podcast_detail_all_episodes", fallback: "All episodes") }
+  /// tv podcast detail archive filter label
+  internal static var tvPodcastDetailArchivedFilter: String { return L10n.tr("Localizable", "tv_podcast_detail_archived_filter", fallback: "Archived episodes") }
   /// tv podcast details follow button title
   internal static var tvPodcastDetailFollowTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_follow_title", fallback: "Follow this podcast") }
   /// tv podcast details following button title
   internal static var tvPodcastDetailFollowingTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_following_title", fallback: "Following") }
+  /// tv podcast detail option to hide archived episodes from the list
+  internal static var tvPodcastDetailHideArchived: String { return L10n.tr("Localizable", "tv_podcast_detail_hide_archived", fallback: "Hide archived") }
   /// tv podcast details more info button title
   internal static var tvPodcastDetailMoreInfoTitle: String { return L10n.tr("Localizable", "tv_podcast_detail_more_info_title", fallback: "More info") }
   /// tv podcast more info network label
@@ -4431,6 +4435,8 @@ internal enum L10n {
   internal static var tvPodcastDetailNextEpisode: String { return L10n.tr("Localizable", "tv_podcast_detail_next_episode", fallback: "Next episode") }
   /// tv podcast more info schedule label
   internal static var tvPodcastDetailSchedule: String { return L10n.tr("Localizable", "tv_podcast_detail_schedule", fallback: "Schedule") }
+  /// tv podcast detail option to show archived episodes in the list
+  internal static var tvPodcastDetailShowArchived: String { return L10n.tr("Localizable", "tv_podcast_detail_show_archived", fallback: "Show archived") }
   /// tv podcast detail recommended episode section title
   internal static var tvPodcastDetailStartHere: String { return L10n.tr("Localizable", "tv_podcast_detail_start_here", fallback: "The episode to try first") }
   /// tv podcast detail recommended episode section subtitle

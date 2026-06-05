@@ -17,9 +17,15 @@ class PlaylistDetailsViewModel {
 
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
+    var showArchived: Bool = false
 
+    private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
     private let playbackManager: PlaybackManager
+
+    private static func archiveStorageKey(for playlist: EpisodeFilter) -> String {
+        "showArchived_playlist_\(playlist.uuid)"
+    }
 
     init(playlist: EpisodeFilter,
          dataManager: DataManager = DataManager.sharedManager,
@@ -27,16 +33,28 @@ class PlaylistDetailsViewModel {
         self.playlist = playlist
         self.dataManager = dataManager
         self.playbackManager = playbackManager
+        self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist))
     }
 
     func load() {
         Task {
             let playlistEpisodes = dataManager.playlistEpisodes(for: playlist)
             await MainActor.run {
-                episodes = playlistEpisodes
+                allEpisodes = playlistEpisodes
+                applyArchivedFilter()
                 state = .ready
             }
         }
+    }
+
+    func setShowArchived(_ value: Bool) {
+        showArchived = value
+        applyArchivedFilter()
+        UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
+    }
+
+    private func applyArchivedFilter() {
+        episodes = showArchived ? allEpisodes : allEpisodes.filter { !$0.archived }
     }
 
     func playAll() {

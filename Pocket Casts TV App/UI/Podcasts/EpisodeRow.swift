@@ -61,8 +61,15 @@ struct EpisodeRow: View {
             Spacer()
         }
         .padding(24)
+        .opacity(archivedOpacity)
+        .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
         .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var archivedOpacity: Double {
+        guard model.isArchived else { return 1.0 }
+        return isHighlighted ? 1.0 : 0.3
     }
 }
 

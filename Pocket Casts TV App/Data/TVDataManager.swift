@@ -38,11 +38,11 @@ class TVDataManager {
         }
     }
 
-    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil) -> [Episode] {
+    func fetchEpisodes(podcast: Podcast?, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) -> [Episode] {
         guard let podcast else {
             return []
         }
-        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast, sortOrder: sortOrder)
+        let (query, arguments) = EpisodesQueryBuilder.makeEpisodeQuery(podcast: podcast, sortOrder: sortOrder, includeArchived: includeArchived)
         return dataManager.findEpisodesWhere(customWhere: query, arguments: arguments)
     }
 

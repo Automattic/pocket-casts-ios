@@ -127,6 +127,45 @@ struct PodcastDetailView: View {
         EpisodeRowWithActions(model: episode)
     }
 
+    private var archivedFilterMenu: some View {
+        Menu {
+            Button {
+                model.setShowArchived(false)
+            } label: {
+                if model.showArchived {
+                    Text(L10n.tvPodcastDetailHideArchived)
+                } else {
+                    Label(L10n.tvPodcastDetailHideArchived, systemImage: "checkmark")
+                }
+            }
+            Button {
+                model.setShowArchived(true)
+            } label: {
+                if model.showArchived {
+                    Label(L10n.tvPodcastDetailShowArchived, systemImage: "checkmark")
+                } else {
+                    Text(L10n.tvPodcastDetailShowArchived)
+                }
+            }
+        } label: {
+            ArchivedFilterLabel(showArchived: model.showArchived)
+        }
+    }
+
+    private struct ArchivedFilterLabel: View {
+        let showArchived: Bool
+        @Environment(\.isFocused) private var isFocused: Bool
+
+        var body: some View {
+            HStack(spacing: 8) {
+                Text(showArchived ? L10n.tvPodcastDetailShowArchived : L10n.tvPodcastDetailHideArchived)
+                Image(systemName: "chevron.down")
+            }
+            .font(.caption2)
+            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+        }
+    }
+
     @Namespace private var episodeListNamespace
 
     var episodeContent: some View {
@@ -145,6 +184,7 @@ struct PodcastDetailView: View {
                             .font(.caption)
                             .foregroundStyle(Color.pcTextSecondary)
                     }
+                    .padding(.bottom, 32)
                 }
             }
             Section {
@@ -153,9 +193,15 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                Text(L10n.tvPodcastDetailAllEpisodes)
-                    .font(.title3)
-                    .foregroundStyle(Color.pcTextPrimary)
+                HStack(alignment: .center) {
+                    Text(L10n.tvPodcastDetailAllEpisodes)
+                        .font(.title3)
+                        .foregroundStyle(Color.pcTextPrimary)
+                    Spacer()
+                    archivedFilterMenu
+                }
+                .padding(.top, 40)
+                .padding(.bottom, 32)
             }
         }
         .focusScope(episodeListNamespace)

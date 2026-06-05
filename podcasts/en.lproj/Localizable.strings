@@ -6094,6 +6094,15 @@
 /* tv podcast detail all episodes section title */
 "tv_podcast_detail_all_episodes" = "All episodes";
 
+/* tv podcast detail archive filter label */
+"tv_podcast_detail_archived_filter" = "Archived episodes";
+
+/* tv podcast detail option to hide archived episodes from the list */
+"tv_podcast_detail_hide_archived" = "Hide archived";
+
+/* tv podcast detail option to show archived episodes in the list */
+"tv_podcast_detail_show_archived" = "Show archived";
+
 /* tv episode action to view episode info */
 "tv_episode_info" = "Episode info";
 
