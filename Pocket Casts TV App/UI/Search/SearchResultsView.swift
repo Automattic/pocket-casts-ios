@@ -31,7 +31,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             case .results:
                 switch model.scope {
                 case .podcasts:
-                    if model.episodeResults.isEmpty {
+                    if model.podcastResults.isEmpty {
                         ContentUnavailableView.search(text: model.searchTerm)
                     } else {
                         results
@@ -62,7 +62,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
     var results: some View {
         ScrollView {
             LazyVGrid(columns: items, spacing: 48, content: {
-                ForEach(model.results, id: \.self) { result in
+                ForEach(model.podcastResults, id: \.self) { result in
                     switch result {
                     case .podcast(let podcast):
                         NavigationLink(value: podcast) {

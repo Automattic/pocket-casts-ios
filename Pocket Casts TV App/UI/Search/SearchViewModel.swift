@@ -28,7 +28,7 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     var searchTerm: String { get }
     var state: SearchState { get }
     var scope: SearchScope { get set }
-    var results: [CombinedSearchResultType] { get }
+    var podcastResults: [CombinedSearchResultType] { get }
     var episodeResults: [EpisodeSearchResult] { get }
     var searchHistory: [String] { get }
     var autoCompleteSuggestions: [String] { get }
@@ -62,7 +62,7 @@ class SearchViewModel: SearchableViewModel {
 
     var scope: SearchScope = .podcasts
 
-    var results: [CombinedSearchResultType] = []
+    var podcastResults: [CombinedSearchResultType] = []
 
     var episodeResults: [EpisodeSearchResult] = []
 
@@ -86,7 +86,7 @@ class SearchViewModel: SearchableViewModel {
         // Cancel any previous task
         searchTask?.cancel()
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            if !results.isEmpty { results = [] }
+            if !podcastResults.isEmpty { podcastResults = [] }
             if !autoCompleteSuggestions.isEmpty { autoCompleteSuggestions = [] }
             state = .query
             return
@@ -98,7 +98,7 @@ class SearchViewModel: SearchableViewModel {
             guard !Task.isCancelled else { return }
             var uuids: Set<String> = []
             state = .searching
-            var combinedResults: [CombinedSearchResultType] = []
+            var combinedPodcastsResults: [CombinedSearchResultType] = []
             var suggestions: [String] = []
             do {
                 let searchResults = try await predictiveSearchTask.search(term: query)
@@ -111,7 +111,7 @@ class SearchViewModel: SearchableViewModel {
                     case .podcast:
                         if let podcastResult = PodcastFolderSearchResult(from: searchResult) {
                             uuids.insert(podcastResult.uuid)
-                            combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                            combinedPodcastsResults.append(CombinedSearchResultType.podcast(podcastResult))
                         }
                     default:
                         continue
@@ -121,13 +121,13 @@ class SearchViewModel: SearchableViewModel {
                 let localPodcasts = try await searchLocalPodcasts(query: query)
                 for localPodcast in localPodcasts {
                     if !uuids.contains(localPodcast.uuid), let podcastResult = PodcastFolderSearchResult(from: localPodcast) {
-                        combinedResults.append(CombinedSearchResultType.podcast(podcastResult))
+                        combinedPodcastsResults.append(CombinedSearchResultType.podcast(podcastResult))
                         uuids.insert(podcastResult.uuid)
                     }
                 }
 
-                state = combinedResults.isEmpty ? .empty : .results
-                results = combinedResults
+                state = combinedPodcastsResults.isEmpty ? .empty : .results
+                podcastResults = combinedPodcastsResults
                 autoCompleteSuggestions = suggestions
 
                 guard !Task.isCancelled else { return }
@@ -138,7 +138,7 @@ class SearchViewModel: SearchableViewModel {
                     switch searchResult {
                     case .podcast(let podcast):
                         if !uuids.contains(podcast.uuid) {
-                            combinedResults.append(searchResult)
+                            combinedPodcastsResults.append(searchResult)
                         }
                     case .episode(let episode):
                         episodes.append(episode)
@@ -147,9 +147,10 @@ class SearchViewModel: SearchableViewModel {
 
                 guard !Task.isCancelled else { return }
 
-                state = (combinedResults.isEmpty && episodes.isEmpty) ? .empty : .results
-                results = combinedResults
+                podcastResults = combinedPodcastsResults
                 episodeResults = episodes
+                state = (combinedPodcastsResults.isEmpty && episodes.isEmpty) ? .empty : .results
+
             }  catch is CancellationError {
                 return
             } catch {
