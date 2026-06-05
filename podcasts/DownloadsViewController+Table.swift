@@ -44,7 +44,6 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DownloadsViewController.cellId, for: indexPath) as! EpisodeCell
 
-        cell.delegate = self
         cell.playlist = .downloads
         if let episode = episodeAtIndexPath(indexPath) {
             cell.populateFrom(episode: episode, tintColor: ThemeColor.primaryIcon01())

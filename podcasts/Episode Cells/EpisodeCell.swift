@@ -2,7 +2,7 @@ import PocketCastsDataModel
 import PocketCastsServer
 import UIKit
 
-class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
+class EpisodeCell: ThemeableCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
     @IBOutlet var episodeImage: PodcastImageView!
@@ -182,15 +182,27 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     var isMultiSelectEnabled = false
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(false, animated: animated)
-        isMultiSelectEnabled = editing
 
-        shouldShowSelect = editing
-        if editing {
-            hideSwipe(animated: true)
-        } else {
+        // Native swipe actions also call `setEditing(true:)` while the swipe is open, but only
+        // table-wide multi-select (which puts the *table* into editing) should reveal the
+        // selection circle. Gate on the table's editing state so a swipe doesn't show the tick.
+        let multiSelect = editing && (parentTableView?.isEditing ?? false)
+        isMultiSelectEnabled = multiSelect
+
+        shouldShowSelect = multiSelect
+        if !multiSelect {
             showTick = false
         }
         accessibilityLabel = labelForAccessibility(episode: episode)
+    }
+
+    private var parentTableView: UITableView? {
+        var view = superview
+        while let current = view {
+            if let tableView = current as? UITableView { return tableView }
+            view = current.superview
+        }
+        return nil
     }
 
     override func layoutSubviews() {

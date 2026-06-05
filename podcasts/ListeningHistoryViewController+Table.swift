@@ -44,7 +44,6 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListeningHistoryViewController.episodeCellId, for: indexPath) as! EpisodeCell
 
-        cell.delegate = self
         if let episode = episodes[safe: indexPath.section]?.elements[safe: indexPath.row]?.episode {
             cell.populateFrom(episode: episode, tintColor: nil)
             cell.shouldShowSelect = isMultiSelectEnabled

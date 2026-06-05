@@ -1,5 +1,5 @@
 import Foundation
-import SwipeCellKit
+import UIKit
 
 class TableSwipeActions {
     private var actions = [TableSwipeAction]()
@@ -12,11 +12,14 @@ class TableSwipeActions {
         actions.insert(action, at: index)
     }
 
-    func swipeActions() -> UISwipeActionsConfiguration? {
+    func swipeActions(performsFirstActionWithFullSwipe: Bool = true) -> UISwipeActionsConfiguration? {
         var swipeActions = [UIContextualAction]()
         for tableAction in actions {
-            let style = tableAction.removesFromList ? UIContextualAction.Style.destructive : UIContextualAction.Style.normal
-            let convertedAction = UIContextualAction(style: style, title: nil, handler: { _, _, completionHandler in
+            // All actions use the `.normal` style. `.destructive` would make the table view
+            // auto-animate the row's removal on a full swipe, which conflicts with the handlers'
+            // own list reloads and can crash; the handler stays the single source of truth for
+            // removal (matching SwipeCellKit's `.destructive(automaticallyDelete: false)`).
+            let convertedAction = UIContextualAction(style: .normal, title: nil, handler: { _, _, completionHandler in
                 let completed = tableAction.handler(tableAction.indexPath)
                 completionHandler(completed)
             })
@@ -30,26 +33,9 @@ class TableSwipeActions {
             swipeActions.append(convertedAction)
         }
 
-        return UISwipeActionsConfiguration(actions: swipeActions)
-    }
-
-    func swipeKitActions() -> [SwipeAction] {
-        var swipeActions = [SwipeAction]()
-        for tableAction in actions {
-            let style: SwipeActionStyle = tableAction.removesFromList ? .destructive : .default
-            let swipeAction = SwipeAction(style: style, title: nil) { _, indexPath in
-                _ = tableAction.handler(indexPath)
-            }
-            swipeAction.backgroundColor = tableAction.backgroundColor
-            if let image = tableAction.icon {
-                swipeAction.image = image
-            }
-            swipeAction.hidesWhenSelected = tableAction.hidesWhenSelected
-            swipeAction.accessibilityLabel = tableAction.title
-            swipeActions.append(swipeAction)
-        }
-
-        return swipeActions
+        let configuration = UISwipeActionsConfiguration(actions: swipeActions)
+        configuration.performsFirstActionWithFullSwipe = performsFirstActionWithFullSwipe
+        return configuration
     }
 }
 

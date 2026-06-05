@@ -143,7 +143,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.playlist = .podcast(uuid: podcast.uuid)
                 }
 
-                cell.delegate = self
                 cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
                 cell.shouldShowSelect = isMultiSelectEnabled
                 if isMultiSelectEnabled {
