@@ -87,7 +87,7 @@ class SettingsTableHeader: ThemeableView {
     func addInfoButton(selector: Selector, target: Any, accessibilityLabel: String) {
         titleLabel.setContentHuggingPriority(.required, for: .horizontal)
 
-        let infoButton = UIButton(type: .system)
+        let infoButton = HitTargetButton(type: .system)
         infoButton.setImage(UIImage(named: "empty-playlist-info")?.withRenderingMode(.alwaysTemplate), for: .normal)
         infoButton.tintColor = AppTheme.colorForStyle(.primaryText02, themeOverride: themeOverride)
         infoButton.imageView?.contentMode = .scaleAspectFit
@@ -123,5 +123,17 @@ class SettingsTableHeader: ThemeableView {
         let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
         let iconSize = max(24, iconMetric.scaledValue(for: 24))
         lockImage?.updateSizeConstraints(to: iconSize)
+    }
+}
+
+/// A button whose tappable area is expanded to a minimum size, centered on its
+/// bounds, without affecting its visible layout.
+private final class HitTargetButton: UIButton {
+    var minimumHitTarget = CGSize(width: 44, height: 44)
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let dx = min(0, (bounds.width - minimumHitTarget.width) / 2)
+        let dy = min(0, (bounds.height - minimumHitTarget.height) / 2)
+        return bounds.insetBy(dx: dx, dy: dy).contains(point)
     }
 }
