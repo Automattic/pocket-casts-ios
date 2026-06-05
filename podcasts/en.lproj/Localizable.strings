@@ -6265,4 +6265,8 @@
 /* tv home Video section title */
 "tv_home_video_section_title" = "Made for TV";
 
+/* tv app Now Playing tab */
+"tv_tab_now_playing" = "Now Playing";
+
+
 

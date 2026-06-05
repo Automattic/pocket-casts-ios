@@ -16,7 +16,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .podcasts: L10n.tvTabPodcasts
         case .playlists: L10n.tvTabPlaylists
         case .upNext: L10n.tvTabUpNext
-        case .nowPlaying: "Now Playing"
+        case .nowPlaying: L10n.tvTabNowPlaying
         case .search: nil
         }
     }
@@ -70,21 +70,7 @@ struct MainTabContentView: View {
         case .search:
             SearchView(model: SearchViewModel())
         case .nowPlaying:
-            ZStack {
-                NowPlayingView()
-            }
-            .ignoresSafeArea()
-            .onAppear {
-                if !PlaybackManager.shared.playing() {
-                    DispatchQueue.main.async {
-                        PlaybackManager.shared.play(completion: {
-                            DispatchQueue.main.async {
-                                PlaybackManager.shared.pause()
-                            }
-                        }, userInitiated: false)
-                    }
-                }
-            }
+            NowPlayingTab()
         }
     }
 }
@@ -103,10 +89,12 @@ struct CenterButton: View {
 }
 
 struct MainTabView: View {
+    @Namespace var mainTabFocusNS
 
     @State private var tabSelection = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
+    @Environment(\.resetFocus) var resetFocus
     @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator
 
@@ -138,6 +126,7 @@ struct MainTabView: View {
             accessoryView
         }
         .defaultFocus($focusedArea, .tabBar)
+        .focusScope(mainTabFocusNS)
         .onMoveCommand { direction in
             handleMove(direction)
         }

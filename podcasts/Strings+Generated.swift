@@ -4485,6 +4485,8 @@ internal enum L10n {
   internal static var tvSigningInTitle: String { return L10n.tr("Localizable", "tv_signing_in_title", fallback: "Good to see you.") }
   /// tv app home tab
   internal static var tvTabHome: String { return L10n.tr("Localizable", "tv_tab_home", fallback: "Home") }
+  /// tv app Now Playing tab
+  internal static var tvTabNowPlaying: String { return L10n.tr("Localizable", "tv_tab_now_playing", fallback: "Now Playing") }
   /// tv app Playlists tab
   internal static var tvTabPlaylists: String { return L10n.tr("Localizable", "tv_tab_playlists", fallback: "Playlists") }
   /// tv app podcasts tab
