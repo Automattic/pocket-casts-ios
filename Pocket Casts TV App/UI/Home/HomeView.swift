@@ -56,6 +56,7 @@ struct HomeView: View {
                         nowPlayingRow
                         upNextRow
                         youMightLikeRow
+                        videoRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
@@ -64,6 +65,7 @@ struct HomeView: View {
                         }
                     } else {
                         featuredRow
+                        videoRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
@@ -131,6 +133,12 @@ struct HomeView: View {
     var featuredRow: some View {
         HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
             DiscoverFeaturedPodcastsRow(type: .featured)
+        }
+    }
+
+    var videoRow: some View {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+            DiscoverVideoEpisodesRow(type: .video)
         }
     }
 
@@ -210,12 +218,25 @@ struct HomeSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
-            Text(title)
-                .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.pcTextPrimary)
+            titleView
             content
         }
         .focusSection()
+    }
+
+    // Always reserve space for the larger (focused) title so the layout
+    // doesn't jump when the title resizes on focus changes. A hidden copy at
+    // the largest font sizes the slot; the visible title is overlaid and
+    // bottom-aligned so its distance to the content below stays constant.
+    private var titleView: some View {
+        Text(title)
+            .font(.title2)
+            .hidden()
+            .overlay(alignment: .bottomLeading) {
+                Text(title)
+                    .font(isFocusedSection ? .title2 : .headline)
+                    .foregroundStyle(Color.pcTextPrimary)
+            }
     }
 }
 

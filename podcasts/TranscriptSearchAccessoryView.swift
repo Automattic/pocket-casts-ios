@@ -45,13 +45,18 @@ class TranscriptSearchAccessoryView: UIInputView {
         return stackView
     }()
 
-    private lazy var doneButton: UIButton = createButton(
-        title: L10n.done,
-        action: #selector(done),
-        titleColor: .label,
-        highlightedTitleColor: .systemGray,
-        contentInsets: .init(top: 8, leading: 16, bottom: 8, trailing: 16)
-    )
+    private lazy var doneButton: UIButton = {
+        if #available(iOS 26.0, *) {
+            return createDoneGlassButton()
+        }
+        return createButton(
+            title: L10n.done,
+            action: #selector(done),
+            titleColor: .label,
+            highlightedTitleColor: .systemGray,
+            contentInsets: .init(top: 8, leading: 16, bottom: 8, trailing: 16)
+        )
+    }()
 
     private lazy var downButton: UIButton = createSymbolButton(
         imageName: "chevron.down",
@@ -91,9 +96,36 @@ class TranscriptSearchAccessoryView: UIInputView {
         addSubview(mainStackView)
         mainStackView.addArrangedSubview(innerStackView)
         innerStackView.addArrangedSubview(doneButton)
-        innerStackView.addArrangedSubview(textField)
-        innerStackView.addArrangedSubview(upButton)
-        innerStackView.addArrangedSubview(downButton)
+
+        // On iOS 26 the keyboard input view is transparent, so we float the field
+        // and the navigation buttons as Liquid Glass capsules over the keyboard.
+        // Older versions keep the previous flat layout backed by the keyboard style.
+        if #available(iOS 26.0, *) {
+            innerStackView.spacing = 8
+            // Fill so the field capsule matches the height of the chevron capsule.
+            innerStackView.alignment = .fill
+            mainStackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+            mainStackView.isLayoutMarginsRelativeArrangement = true
+
+            // Keep the Done checkmark circular by matching its width to its height.
+            doneButton.widthAnchor.constraint(equalTo: doneButton.heightAnchor).isActive = true
+
+            let fieldContainer = makeGlassContainer(wrapping: textField)
+            fieldContainer.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            fieldContainer.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            innerStackView.addArrangedSubview(fieldContainer)
+
+            let chevronStackView = UIStackView(arrangedSubviews: [upButton, downButton])
+            chevronStackView.axis = .horizontal
+            let chevronContainer = makeGlassContainer(wrapping: chevronStackView)
+            chevronContainer.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            chevronContainer.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            innerStackView.addArrangedSubview(chevronContainer)
+        } else {
+            innerStackView.addArrangedSubview(textField)
+            innerStackView.addArrangedSubview(upButton)
+            innerStackView.addArrangedSubview(downButton)
+        }
 
         setupConstraints()
         configureHuggingAndCompressionPriorities()
@@ -154,8 +186,13 @@ private extension TranscriptSearchAccessoryView {
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         textField.clearButtonMode = .whileEditing
-        textField.layer.cornerRadius = 8
-        textField.backgroundColor = .systemGray3
+        if #available(iOS 26.0, *) {
+            // The surrounding glass capsule provides the background and shape.
+            textField.backgroundColor = .clear
+        } else {
+            textField.layer.cornerRadius = 8
+            textField.backgroundColor = .systemGray3
+        }
         textField.rightLabel.textColor = .secondaryLabel
         textField.delegate = self
         textField.font = UIFont.font(with: .body, maxSizeCategory: maxContentSizeCategory)
@@ -163,6 +200,36 @@ private extension TranscriptSearchAccessoryView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
         textField.rightLabel.adjustsFontForContentSizeCategory = false
+    }
+
+    @available(iOS 26.0, *)
+    func createDoneGlassButton() -> UIButton {
+        var config = UIButton.Configuration.prominentGlass()
+        config.image = UIImage(systemName: "checkmark")
+        config.baseBackgroundColor = .systemBlue
+        config.cornerStyle = .capsule
+        let button = UIButton(configuration: config)
+        button.tintColor = .white
+        button.accessibilityLabel = L10n.done
+        button.addTarget(self, action: #selector(done), for: .touchUpInside)
+        return button
+    }
+
+    @available(iOS 26.0, *)
+    func makeGlassContainer(wrapping content: UIView) -> UIVisualEffectView {
+        let effect = UIGlassEffect()
+        effect.isInteractive = true
+        let container = UIVisualEffectView(effect: effect)
+        container.cornerConfiguration = .capsule()
+        content.translatesAutoresizingMaskIntoConstraints = false
+        container.contentView.addSubview(content)
+        NSLayoutConstraint.activate([
+            content.leadingAnchor.constraint(equalTo: container.contentView.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: container.contentView.trailingAnchor),
+            content.topAnchor.constraint(equalTo: container.contentView.topAnchor),
+            content.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor)
+        ])
+        return container
     }
 
     func createButton(title: String, action: Selector, titleColor: UIColor, highlightedTitleColor: UIColor, contentInsets: NSDirectionalEdgeInsets) -> UIButton {

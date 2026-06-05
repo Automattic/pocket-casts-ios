@@ -174,6 +174,7 @@ public struct PodcastInfo: Codable {
     public var title: String?
     public var uuid: String?
     public var iTunesId: Int?
+    public var isExplicit: Bool?
 
     public init() {}
 
@@ -181,11 +182,13 @@ public struct PodcastInfo: Codable {
         author = searchResult.author
         title = searchResult.title
         uuid = searchResult.uuid
+        isExplicit = searchResult.explicit
     }
 
     public enum CodingKeys: String, CodingKey {
         case shortDescription = "description"
         case iTunesId = "collection_id"
+        case isExplicit = "explicit"
 
         case title, uuid, author
     }
@@ -195,6 +198,7 @@ public struct PodcastInfo: Codable {
         shortDescription = discoverPodcast.shortDescription
         title = discoverPodcast.title
         uuid = discoverPodcast.uuid
+        isExplicit = discoverPodcast.isExplicit
         if let iTunes = discoverPodcast.iTunesId {
             iTunesId = Int(iTunes)
         }
@@ -404,12 +408,14 @@ public struct DiscoverPodcast: Codable, Equatable, Hashable {
     public var uuid: String?
     public var website: String?
     public var iTunesId: String?
+    public var isExplicit: Bool?
 
     public init() {}
 
     public enum CodingKeys: String, CodingKey {
         case shortDescription = "description"
         case iTunesId = "itunes"
+        case isExplicit = "explicit"
 
         case title, uuid, author, website
     }
@@ -504,5 +510,18 @@ public struct DiscoverEpisode: Decodable {
     public var isTrailer: Bool {
         guard let type else { return false }
         return type == "trailer"
+    }
+
+    public init(uuid: String, title: String? = nil, duration: Int? = nil, url: String? = nil, podcastUuid: String? = nil, podcastTitle: String? = nil, type: String? = nil, published: Date? = nil, season: Int? = nil, number: Int? = nil) {
+        self.uuid = uuid
+        self.title = title
+        self.duration = duration
+        self.url = url
+        self.podcastUuid = podcastUuid
+        self.podcastTitle = podcastTitle
+        self.type = type
+        self.published = published
+        self.season = season
+        self.number = number
     }
 }

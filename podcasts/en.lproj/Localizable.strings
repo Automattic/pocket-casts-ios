@@ -1249,6 +1249,15 @@
 /* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
 "stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
 
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -1871,6 +1880,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -4778,6 +4790,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available on new episodes to start";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -6031,6 +6052,9 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
+/* tv sign in error title shown when the app fails to fetch the QR sign in code */
+"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
+
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
 
@@ -6252,4 +6276,11 @@
 
 /* Discover - Button title on a featured podcast card that opens the podcast. */
 "tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
 

@@ -3,6 +3,7 @@ import PocketCastsServer
 enum DiscoverType: String {
     case featured
     case trending
+    case video
     case recommendationsUser = "recommendations_user" // You might like ...
     case recommendationsSocial = "recommendations_social" // Loved By Users of ...
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
@@ -174,5 +175,15 @@ actor DiscoverManager {
             resultPodcasts[position] = discoverPodcast
         }
         return resultPodcasts
+    }
+
+    func loadDiscoverVideoSection() async -> [DiscoverEpisode] {
+        let videoSource = "https://lists.pocketcasts.com/tv_featured_videos.json"
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: videoSource, authenticated: false)
+        guard let listOfEpisodes = podcastCollection?.episodes else {
+            return []
+        }
+
+        return listOfEpisodes
     }
 }

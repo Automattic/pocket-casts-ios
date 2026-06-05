@@ -2879,6 +2879,8 @@ internal enum L10n {
   internal static var podcastErrorMessage: String { return L10n.tr("Localizable", "podcast_error_message", fallback: "Unable to load podcast details :(") }
   /// Title for a generic error used when a podcast fails to load without a more detailed reason why. Meant to be a fun cultural reference.
   internal static var podcastErrorTitle: String { return L10n.tr("Localizable", "podcast_error_title", fallback: "Literally Can't Even") }
+  /// Accessibility label for the explicit content badge displayed on podcasts with explicit content.
+  internal static var podcastExplicitContent: String { return L10n.tr("Localizable", "podcast_explicit_content", fallback: "Explicit content") }
   /// Name for group of episodes that don't have a season defined when sorting in serial mode
   internal static var podcastExtras: String { return L10n.tr("Localizable", "podcast_extras", fallback: "Extras") }
   /// Indicates that a file has failed to download.
@@ -4143,6 +4145,12 @@ internal enum L10n {
   internal static func statsListeningActivityAccessibilityLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "stats_listening_activity_accessibility_label", String(describing: p1), fallback: "Listening activity heatmap. Days listened: %1$@ of 365.")
   }
+  /// VoiceOver label for the info button next to the listening activity section header.
+  internal static var statsListeningActivityInfoAccessibilityLabel: String { return L10n.tr("Localizable", "stats_listening_activity_info_accessibility_label", fallback: "About listening activity") }
+  /// Body text for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoMessage: String { return L10n.tr("Localizable", "stats_listening_activity_info_message", fallback: "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.") }
+  /// Title for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoTitle: String { return L10n.tr("Localizable", "stats_listening_activity_info_title", fallback: "Listening activity") }
   /// Label for the low end of the heatmap legend
   internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
   /// Label for the high end of the heatmap legend
@@ -4319,6 +4327,12 @@ internal enum L10n {
   internal static func transcriptErrorNotSupported(_ p1: Any) -> String {
     return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1), fallback: "Sorry, but this transcript format is not supported: %1$@")
   }
+  /// Highlighted transcripts What's New announcement footnote shown below the call to action button
+  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available on new episodes to start") }
+  /// Highlighted transcripts What's New announcement sheet message
+  internal static var transcriptHighlightAnnouncementMessage: String { return L10n.tr("Localizable", "transcript_highlight_announcement_message", fallback: "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.") }
+  /// Highlighted transcripts What's New announcement sheet title
+  internal static var transcriptHighlightAnnouncementTitle: String { return L10n.tr("Localizable", "transcript_highlight_announcement_title", fallback: "Read along. Even at 2x.") }
   /// Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target.
   internal static var transcriptTapToSeekStreamingUnavailable: String { return L10n.tr("Localizable", "transcript_tap_to_seek_streaming_unavailable", fallback: "Download the episode to tap to seek") }
   /// Label indicating that the trial period for the subscription or promotion has ended.
@@ -4351,6 +4365,8 @@ internal enum L10n {
   internal static var tvDiscoverFeaturedGoToPodcast: String { return L10n.tr("Localizable", "tv_discover_featured_go_to_podcast", fallback: "Go to podcast") }
   /// Discover - Button title on a featured podcast card that plays the podcast's most recent episode.
   internal static var tvDiscoverFeaturedPlayLatestEpisode: String { return L10n.tr("Localizable", "tv_discover_featured_play_latest_episode", fallback: "Play latest episode") }
+  /// Discover - Button title on a discover episode that makes it play.
+  internal static var tvDiscoverPlayEpisode: String { return L10n.tr("Localizable", "tv_discover_play_episode", fallback: "Play episode") }
   /// tv episode action to view episode info
   internal static var tvEpisodeInfo: String { return L10n.tr("Localizable", "tv_episode_info", fallback: "Episode info") }
   /// tv home Browse Categories section title
@@ -4371,6 +4387,8 @@ internal enum L10n {
   internal static var tvHomeRecommendedForYouTitle: String { return L10n.tr("Localizable", "tv_home_recommended_for_you_title", fallback: "You'll probably want these") }
   /// tv home Trending section title
   internal static var tvHomeTrendingSectionTitle: String { return L10n.tr("Localizable", "tv_home_trending_section_title", fallback: "What everyone's on this week") }
+  /// tv home Video section title
+  internal static var tvHomeVideoSectionTitle: String { return L10n.tr("Localizable", "tv_home_video_section_title", fallback: "Made for TV") }
   /// tv player playback effects menu title
   internal static var tvPlayerPlaybackEffects: String { return L10n.tr("Localizable", "tv_player_playback_effects", fallback: "Playback effects") }
   /// tv player playback speed menu title
@@ -4471,6 +4489,8 @@ internal enum L10n {
   internal static func tvSignInEnterCodeInUrl(_ p1: Any, _ p2: Any) -> String {
     return L10n.tr("Localizable", "tv_sign_in_enter_code_in_url", String(describing: p1), String(describing: p2), fallback: "or enter this code in [%1$@](%2$@)")
   }
+  /// tv sign in error title shown when the app fails to fetch the QR sign in code
+  internal static var tvSignInQrCodeErrorTitle: String { return L10n.tr("Localizable", "tv_sign_in_qr_code_error_title", fallback: "Couldn't get your sign in code") }
   /// tv sign in subtitle
   internal static var tvSignInSubtitle: String { return L10n.tr("Localizable", "tv_sign_in_subtitle", fallback: "Open your camera and point to this QR code") }
   /// tv sign in title

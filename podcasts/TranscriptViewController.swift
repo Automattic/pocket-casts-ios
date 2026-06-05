@@ -160,7 +160,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     func setHasGeneratedTranscripts(_ value: Bool) {
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
 
         if FeatureFlag.generatedTranscripts.enabled, value {
             transcriptViewTopConstraint?.constant = 80.0 + topMargin
@@ -284,7 +284,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        let topMargin = showFromEpisode ? 24.0 : 0.0
+        let topMargin = showFromEpisode ? 8.0 : 0.0
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topMargin),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
@@ -442,17 +442,19 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private lazy var closeButton: TintableImageButton! = {
         let closeButton = TintableImageButton()
         closeButton.setImage(UIImage(named: "close"), for: .normal)
-        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.primaryIcon02()
+        closeButton.tintColor = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.primaryIcon02()
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         return closeButton
     }()
 
     private lazy var searchButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let searchButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
@@ -476,11 +478,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }()
 
     private lazy var shareButton: RoundButton = {
-        let titleColor = showFromEpisode ? ThemeColor.primaryText01() : .white
-        let tintColor = showFromEpisode ? ThemeColor.primaryUi05() : .white.withAlphaComponent(0.2)
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
 
         var configuration = UIButton.Configuration.filled()
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
 
         let shareButton = RoundButton(type: .system)
         let attributes: [NSAttributedString.Key: Any] = [
@@ -631,7 +635,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 await MainActor.run {
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
                     if isDisplayingGenerated {
-                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode {
+                        if FeatureFlag.syncedTranscripts.enabled, !self.showFromEpisode || PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: self.playbackManager.episodeUUID) {
                             FingerprintTimingManager.shared.prepareForCurrentEpisode()
                         }
                         self.startHighlightDisplayLink()
@@ -791,7 +795,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         formattedText.beginEditing()
         let normalStyle = makeStyle()
         var highlightStyle = normalStyle
-        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryText01() : ThemeColor.playerContrast01()
+        highlightStyle[.foregroundColor] = showFromEpisode ? ThemeColor.primaryInteractive01() : ThemeColor.playerContrast01()
 
         let fullLength = NSRange(location: 0, length: formattedText.length)
         formattedText.addAttributes(normalStyle, range: fullLength)
@@ -1271,7 +1275,7 @@ fileprivate class RoundPlayPauseButton: RoundButton {
 
     var buttonState: ButtonState = .play {
         didSet {
-            let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+            let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
             let image = UIImage(systemName: buttonState.imageName, withConfiguration: config)?
                 .withRenderingMode(.alwaysTemplate)
             let attributes: [NSAttributedString.Key: Any] = [
@@ -1290,8 +1294,8 @@ fileprivate class RoundPlayPauseButton: RoundButton {
     }
 
     static func makeButton(playbackManager: TranscriptPlaybackManaging) -> RoundPlayPauseButton {
-        let titleColor = ThemeColor.primaryText01()
-        let tintColor = ThemeColor.primaryUi05()
+        let titleColor = ThemeColor.primaryInteractive01()
+        let tintColor = ThemeColor.primaryInteractive01().withAlphaComponent(0.1)
 
         var  bg = UIBackgroundConfiguration.clear()
         bg.backgroundColor = tintColor
@@ -1299,7 +1303,7 @@ fileprivate class RoundPlayPauseButton: RoundButton {
         configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
         configuration.imagePadding = 8.0
         configuration.background = bg
-        configuration.baseForegroundColor = ThemeColor.primaryIcon03()
+        configuration.baseForegroundColor = ThemeColor.primaryInteractive01()
 
         let playButton = RoundPlayPauseButton(type: .system)
         playButton.playbackManager = playbackManager

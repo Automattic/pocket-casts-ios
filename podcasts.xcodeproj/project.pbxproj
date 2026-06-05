@@ -2963,12 +2963,10 @@
 		FF8FF6A72FAA47450086A867 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Analytics.swift,
-				AnalyticsEvent.swift,
-				Helpers/AnalyticsCoordinator.swift,
-				Helpers/AnalyticsEpisodeHelper.swift,
-				Helpers/AnalyticsPlaybackHelper.swift,
-				"String+Analytics.swift",
+				"Adapters/Crash Logging/CrashLoggingAdapter.swift",
+				"Adapters/Crash Logging/CrashLoggingDataProvider.swift",
+				AnalyticsAppThemeProvider.swift,
+				WidgetAnalytics.swift,
 			);
 			target = FF4B83AD2F981D8E001B8C56 /* Pocket Casts TV App */;
 		};
@@ -5981,6 +5979,8 @@
 				FF49FEAB2F9BBC7600E68E0C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				3F7479452F555197004C7FF6 /* ABTest */,
+				3F7479C32F5551AA004C7FF6 /* Analytics */,
 				FF4B83AF2F981D8E001B8C56 /* Pocket Casts TV App */,
 			);
 			name = "Pocket Casts TV App";

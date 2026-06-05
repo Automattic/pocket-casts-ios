@@ -434,6 +434,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case transcriptsWhatsNew = "transcripts_whats_new"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber
