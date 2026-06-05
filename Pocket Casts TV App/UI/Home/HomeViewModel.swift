@@ -27,6 +27,8 @@ class HomeViewModel {
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
 
+    var firstLoad = true
+
     func load() {
         Task {
             let podcasts = fetchPodcasts()
@@ -86,5 +88,16 @@ class HomeViewModel {
                 self?.load()
             }
             .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackStarted)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.firstLoad = false
+            }
+            .store(in: &cancellables)
+    }
+
+    var shouldShowNowPlayingRow: Bool {
+        return firstLoad && currentPlaying != nil
     }
 }
