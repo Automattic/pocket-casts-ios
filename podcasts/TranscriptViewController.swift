@@ -897,7 +897,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             )
             #endif
         } else if let startTime = transcript.cues.first?.startTime, position < startTime {
-            previousRange = nil
+            // Before the first cue there's nothing to highlight — clear any rendered
+            // highlight rather than just nil'ing `previousRange`, which would leave a
+            // painted range on screen.
+            clearHighlight(transcript: transcript)
             if !isUserScrolling, !isSearching, !isAutoScrollSuppressed {
                 transcriptView.scrollRangeToVisible(NSRange(location: 0, length: 0))
             }
