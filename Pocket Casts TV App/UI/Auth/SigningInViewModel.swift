@@ -163,7 +163,7 @@ class SigningInViewModelMock: SigningInViewModelProtocol {
 
     var state: SigningInState = .waitingForPodcastsSync
 
-    var totalPodcastsToImport: Int = MockData.makeStubPodcasts().count
+    var totalPodcastsToImport: Int = MockData.makeStubArtworkPodcasts().count
 
     var totalPodcastsImported: Int = 0
 
@@ -174,7 +174,8 @@ class SigningInViewModelMock: SigningInViewModelProtocol {
     var podcasts: [Podcast] = []
 
     func sync() {
-        cancellable = Timer.publish(every: 1.0, on: .main, in: .common)
+        let allPodcasts = MockData.makeStubArtworkPodcasts()
+        cancellable = Timer.publish(every: 0.7, on: .main, in: .common)
                     .autoconnect()
                     .sink { [weak self] _ in
                         guard let self else { return }
@@ -184,7 +185,7 @@ class SigningInViewModelMock: SigningInViewModelProtocol {
                         } else {
                             state = .finished
                         }
-                        podcasts = Array(MockData.makeStubPodcasts().prefix(totalPodcastsImported))
+                        podcasts = Array(allPodcasts.prefix(totalPodcastsImported))
                         progress = CGFloat(totalPodcastsImported) / CGFloat(totalPodcastsToImport)
                     }
     }
