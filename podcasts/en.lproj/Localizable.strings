@@ -1872,6 +1872,9 @@
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
 
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
+
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
 

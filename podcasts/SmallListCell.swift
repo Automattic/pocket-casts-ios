@@ -58,7 +58,7 @@ class SmallListCell: ThemeableCollectionCell {
     func populateFrom(_ discoverPodcast: DiscoverPodcast, isSubscribed: Bool) {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {
-            podcastTitle.text = title
+            setTitle(title, for: discoverPodcast)
         }
         if let author = discoverPodcast.author {
             podcastAuthor.text = author
@@ -93,7 +93,7 @@ class SmallListCell: ThemeableCollectionCell {
             subscribeButton.shouldAnimate = true
 
             if let title = discoverPodcast?.title?.localized {
-                podcastTitle.text = title
+                setTitle(title, for: info)
             }
             if let author = discoverPodcast?.author {
                 podcastAuthor.text = author
@@ -105,10 +105,22 @@ class SmallListCell: ThemeableCollectionCell {
         }
     }
 
+    private func setTitle(_ title: String, for discoverPodcast: DiscoverPodcast) {
+        let isExplicit = discoverPodcast.isExplicit ?? false
+        if isExplicit {
+            podcastTitle.attributedText = ExplicitBadgeHelper.attributedTitle(title, font: podcastTitle.font)
+        } else {
+            podcastTitle.text = title
+        }
+    }
+
     override func handleThemeDidChange() {
         subscribeButton.tintColor = ThemeColor.primaryIcon02()
         subscribeButton.onImage = UIImage(named: "discover_tick")?.tintedImage(ThemeColor.support02())
         subscribeButton.offImage = UIImage(named: "discover_add")?.tintedImage(ThemeColor.primaryIcon02())
+        if let discoverPodcast, let title = discoverPodcast.title?.localized {
+            setTitle(title, for: discoverPodcast)
+        }
     }
 
     override func prepareForReuse() {

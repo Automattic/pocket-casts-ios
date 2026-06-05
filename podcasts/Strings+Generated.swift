@@ -2879,6 +2879,8 @@ internal enum L10n {
   internal static var podcastErrorMessage: String { return L10n.tr("Localizable", "podcast_error_message", fallback: "Unable to load podcast details :(") }
   /// Title for a generic error used when a podcast fails to load without a more detailed reason why. Meant to be a fun cultural reference.
   internal static var podcastErrorTitle: String { return L10n.tr("Localizable", "podcast_error_title", fallback: "Literally Can't Even") }
+  /// Accessibility label for the explicit content badge displayed on podcasts with explicit content.
+  internal static var podcastExplicitContent: String { return L10n.tr("Localizable", "podcast_explicit_content", fallback: "Explicit content") }
   /// Name for group of episodes that don't have a season defined when sorting in serial mode
   internal static var podcastExtras: String { return L10n.tr("Localizable", "podcast_extras", fallback: "Extras") }
   /// Indicates that a file has failed to download.
