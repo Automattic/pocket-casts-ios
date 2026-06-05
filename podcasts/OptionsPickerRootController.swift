@@ -43,7 +43,9 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     private weak var dismissView: UIView?
     private(set) var isPresentedAsSheet = false
 
-    private let sheetTopPadding: CGFloat = 12
+    private var sheetTopPadding: CGFloat {
+        stackView.arrangedSubviews.count > 1 ? 12 : 0
+    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle

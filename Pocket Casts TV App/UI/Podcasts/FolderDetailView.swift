@@ -24,7 +24,7 @@ struct FolderDetailView: View {
             VStack(alignment: .leading, spacing: 40) {
                 Text(model.folder.name)
                     .font(.title2)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
                 LazyVGrid(columns: Self.gridColumns, spacing: 48) {
                     ForEach(model.podcasts) { podcast in
                         NavigationLink(value: podcast) {

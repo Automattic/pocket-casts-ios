@@ -21,7 +21,7 @@ private let allowedHost = "pocketcasts.com"
 ///
 /// Failure Handling:
 /// - Fire and forget model - failures are logged but not retried
-final class LiveAnalyticsStreamer: AnalyticsAdapter {
+actor LiveAnalyticsStreamer: AnalyticsAdapter {
     private enum Config {
         static let maxBufferSize = 1000
         static let flushDelayMs: UInt64 = 500
@@ -35,7 +35,6 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
         let platform: String
     }
 
-    private let queue = DispatchQueue(label: "au.com.shiftyjelly.pocketcasts.liveanalytics")
     private var eventBuffer: [AnalyticsEvent] = []
     private var isFlushScheduled = false
     private var isBackingOff = false
@@ -48,10 +47,7 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
         return URLSession(configuration: config)
     }()
 
-    private let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        return encoder
-    }()
+    private let encoder = JSONEncoder()
 
     private let dateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
@@ -61,24 +57,17 @@ final class LiveAnalyticsStreamer: AnalyticsAdapter {
 
     // MARK: - AnalyticsAdapter
 
-    func track(name: String, properties: [AnyHashable: Any]?) {
-        // Don't send if analytics are disabled
-        guard !Settings.analyticsOptOut() else {
-            return
-        }
-
+    func track(name: String, properties: [String: Sendable]) {
+        guard !Settings.analyticsOptOut() else { return }
         let event = AnalyticsEvent(
             name: name,
             timestamp: dateFormatter.string(from: Date()),
-            properties: properties?.reduce(into: [String: String]()) { result, entry in
-                result[String(describing: entry.key)] = String(describing: entry.value)
+            properties: properties.reduce(into: [String: String]()) { result, entry in
+                result[entry.key] = String(describing: entry.value)
             },
             platform: "iOS"
         )
-
-        queue.async { [weak self] in
-            self?.bufferEvent(event)
-        }
+        bufferEvent(event)
     }
 }
 
@@ -110,14 +99,17 @@ private extension LiveAnalyticsStreamer {
         // Immediately flush, then wait 500ms before next flush
         flush()
 
-        queue.asyncAfter(deadline: .now() + .milliseconds(Int(Config.flushDelayMs))) { [weak self] in
-            guard let self else { return }
+        Task { [weak self] in
+            try? await Task.sleep(nanoseconds: Config.flushDelayMs * NSEC_PER_MSEC)
+            await self?.flushOrStop()
+        }
+    }
 
-            if self.eventBuffer.isEmpty {
-                self.isFlushScheduled = false
-            } else {
-                self.scheduleFlush()
-            }
+    func flushOrStop() {
+        if eventBuffer.isEmpty {
+            isFlushScheduled = false
+        } else {
+            scheduleFlush()
         }
     }
 
@@ -152,14 +144,18 @@ private extension LiveAnalyticsStreamer {
         guard !isBackingOff else { return }
         isBackingOff = true
 
-        queue.asyncAfter(deadline: .now() + .milliseconds(Int(Config.errorBackoffMs))) { [weak self] in
-            guard let self else { return }
-            self.isBackingOff = false
+        Task { [weak self] in
+            try? await Task.sleep(nanoseconds: Config.errorBackoffMs * NSEC_PER_MSEC)
+            await self?.endBackoff()
+        }
+    }
 
-            if !self.eventBuffer.isEmpty, !self.isFlushScheduled {
-                self.isFlushScheduled = true
-                self.scheduleFlush()
-            }
+    func endBackoff() {
+        isBackingOff = false
+
+        if !eventBuffer.isEmpty, !isFlushScheduled {
+            isFlushScheduled = true
+            scheduleFlush()
         }
     }
 
@@ -201,8 +197,8 @@ private extension LiveAnalyticsStreamer {
             }
 
             if failed {
-                self?.queue.async {
-                    self?.startBackoff()
+                Task { [weak self] in
+                    await self?.startBackoff()
                 }
             }
         }.resume()

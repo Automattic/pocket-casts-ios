@@ -4,6 +4,7 @@ import SwiftUI
 import PocketCastsUtils
 import StoreKit
 
+@MainActor
 public class UserSatisfactionSurveyManager: NSObject {
     public static let shared = UserSatisfactionSurveyManager()
 
@@ -158,7 +159,7 @@ extension UserSatisfactionSurveyManager: UIAdaptivePresentationControllerDelegat
 // MARK: - AnalyticsAdapter
 
 extension UserSatisfactionSurveyManager: AnalyticsAdapter {
-    public func track(name: String, properties: [AnyHashable: Any]?) {
+    public func track(name: String, properties: [String: Sendable]) async {
         let handled = handleDeferredSurveyReleaseIfNeeded(for: name, properties: properties)
 
         guard handled == false else {
@@ -173,7 +174,7 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
         }
     }
 
-    private func mapAnalyticsEventToSurveyTrigger(name: String, properties: [AnyHashable: Any]?) -> SurveyTriggerEvent? {
+    private func mapAnalyticsEventToSurveyTrigger(name: String, properties: [String: Sendable]) -> SurveyTriggerEvent? {
         switch name {
         case AnalyticsEvent.episodeStarred.eventName:
             return .episodeStarred
@@ -198,7 +199,7 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
         case AnalyticsEvent.endOfYearStoryShared.eventName:
             return .endOfYearStoryShared
         case AnalyticsEvent.endOfYearStoryShown.eventName:
-            if (properties as? [String: String])?["story"] == "ending" {
+            if properties["story"] as? String == "ending" {
                 return .endOfYearCompleted
             }
             return nil
@@ -227,7 +228,7 @@ extension UserSatisfactionSurveyManager: AnalyticsAdapter {
         deferredSurveyEvents[event] = dates
     }
 
-    private func handleDeferredSurveyReleaseIfNeeded(for analyticsEventName: String, properties: [AnyHashable: Any]?) -> Bool {
+    private func handleDeferredSurveyReleaseIfNeeded(for analyticsEventName: String, properties: [String: Sendable]) -> Bool {
         let readyEvents = deferredSurveyEvents
             .filter { $0.key.shouldShowAnalytics(for: analyticsEventName, properties: properties) }
 
@@ -341,7 +342,7 @@ enum SurveyTriggerEvent: String, CaseIterable {
 }
 
 private extension SurveyTriggerEvent {
-    func shouldShowAnalytics(for event: String, properties: [AnyHashable: Any]?) -> Bool {
+    func shouldShowAnalytics(for event: String, properties: [String: Sendable]) -> Bool {
         switch self {
         case .endOfYearStoryShared, .endOfYearCompleted:
             if AnalyticsEvent.endOfYearStoriesDismissed.eventName == event {

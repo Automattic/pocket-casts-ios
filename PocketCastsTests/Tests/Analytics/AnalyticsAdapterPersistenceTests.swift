@@ -124,9 +124,9 @@ class AnalyticsAdapterPersistenceTests: XCTestCase {
 private class TestAnalyticsAdapter: AnalyticsAdapter {
     var trackCallCount = 0
     var lastTrackedEvent: String?
-    var lastTrackedProperties: [AnyHashable: Any]?
+    var lastTrackedProperties: [String: Sendable]?
 
-    func track(name: String, properties: [AnyHashable: Any]?) {
+    func track(name: String, properties: [String: Sendable]) async {
         trackCallCount += 1
         lastTrackedEvent = name
         lastTrackedProperties = properties

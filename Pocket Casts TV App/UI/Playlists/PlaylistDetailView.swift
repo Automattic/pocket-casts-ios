@@ -107,19 +107,19 @@ struct PlaylistDetailView: View {
     var playlistInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
             mosaicCover
-                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
+                .shadow(color: .pcShadowStrong, radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.pcTextSecondary)
                 }
                 Text(model.playlistName)
                     .font(.title2)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.pcTextPrimary)
                 Text("\(model.episodeCountText) · \(model.totalDuration)")
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.pcTextSecondary)
             }
             if !model.episodes.isEmpty {
                 Button {
@@ -145,7 +145,7 @@ struct PlaylistDetailView: View {
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
     }
 }

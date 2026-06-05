@@ -11,6 +11,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
             registerLongPress()
+            if LiquidGlass.isEnabled {
+                uploadsTable.themeStyle = .primaryUi02
+            }
             uploadsTable.allowsMultipleSelectionDuringEditing = true
             uploadsTable.rowHeight = UITableView.automaticDimension
             uploadsTable.estimatedRowHeight = 80
@@ -58,29 +61,27 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.setEnclosingTabBarHidden(self.isMultiSelectEnabled, animated: false)
-                self.uploadsTable.beginUpdates()
-                self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = self.isMultiSelectEnabled
-                self.uploadsTable.endUpdates()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            uploadsTable.beginUpdates()
+            uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            uploadsTable.endUpdates()
 
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.uploadedFilesMultiSelectEntered)
-                    self.multiSelectActionBar.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.uploadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.uploadedFilesMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                Analytics.track(.uploadedFilesMultiSelectEntered)
+                multiSelectActionBar.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectActionBarBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    uploadsTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.uploadedFilesMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }

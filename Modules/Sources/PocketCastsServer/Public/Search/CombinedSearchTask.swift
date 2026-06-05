@@ -18,6 +18,7 @@ public struct CombinedSearchResult: Decodable, Hashable {
     public let podcastUuid: String?
     public let podcastTitle: String?
     public let author: String?
+    public let explicit: Bool?
 
     public var resolvedResultType: CombinedSearchResultType? {
         switch type {

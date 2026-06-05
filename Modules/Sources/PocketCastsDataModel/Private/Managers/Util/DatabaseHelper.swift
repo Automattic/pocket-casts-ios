@@ -903,6 +903,16 @@ class DatabaseHelper {
             }
         }
 
+        if schemaVersion < 74 {
+            do {
+                try db.executeUpdate("ALTER TABLE SJPodcast ADD COLUMN isExplicit INTEGER DEFAULT 0;", values: nil)
+                schemaVersion = 74
+            } catch {
+                failedAt(74)
+                return
+            }
+        }
+
         db.commit()
     }
 }

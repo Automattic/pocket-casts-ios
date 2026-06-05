@@ -1552,6 +1552,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message body shown in the confirmation prompt for archiving an episode. */
+"player_archived_confirmation_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1578,6 +1581,9 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Message body shown in the confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation_message" = "It'll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";
@@ -1865,6 +1871,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -4766,6 +4775,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available on new episodes to start";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -6214,6 +6232,9 @@
 /* tv home Featured section title */
 "tv_home_featured_section_title" = "Featured on Pocket Casts";
 
+/* tv home Browse Categories section title */
+"tv_home_browse_categories_section_title" = "Browse categories";
+
 /* tv create account banner title */
 "tv_banner_create_account_title" = "One account. Every screen";
 
@@ -6231,3 +6252,17 @@
 
 /* tv discover more banner action button title */
 "tv_banner_discover_more_action_title" = "Discover more shows";
+
+/* Discover - Button title on a featured podcast card that plays the podcast's most recent episode. */
+"tv_discover_featured_play_latest_episode" = "Play latest episode";
+
+/* Discover - Button title on a featured podcast card that opens the podcast. */
+"tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+

@@ -142,6 +142,7 @@ struct MainTabView: View {
             handleMove(direction)
         }
         .ignoresSafeArea()
+        .background(Color.pcBackgroundSurface)
     }
 
     @ViewBuilder
@@ -221,7 +222,7 @@ struct MainTabView: View {
         }
         .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
             ZStack {
-                Color.backgroundSurface.ignoresSafeArea()
+                Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
                     Group {
                         switch destination {
@@ -233,7 +234,7 @@ struct MainTabView: View {
                     }
                     .navigationDestination(for: WelcomeView.Destination.self) { destination in
                         ZStack {
-                            Color.backgroundSurface
+                            Color.pcBackgroundSurface
                                 .ignoresSafeArea()
                             switch destination {
                             case .signIn:
@@ -259,7 +260,7 @@ struct MainTabView: View {
 
 /// Custom button style that renders only the label, with no platform chrome
 /// (no background, lift, or pressed-state overlay).
-private struct ChromelessButtonStyle: ButtonStyle {
+struct ChromelessButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
     }

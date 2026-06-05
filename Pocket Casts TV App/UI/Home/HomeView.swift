@@ -56,6 +56,7 @@ struct HomeView: View {
                         nowPlayingRow
                         upNextRow
                         youMightLikeRow
+                        videoRow
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
@@ -64,10 +65,12 @@ struct HomeView: View {
                         }
                     } else {
                         featuredRow
+                        videoRow
                         BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
+                        categoriesRow
                         curatedRow
                         BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
                             tabRouter.selectedTab = .search
@@ -79,6 +82,9 @@ struct HomeView: View {
                 if let uuid = podcast.uuid {
                     PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
                 }
+            }
+            .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+                DiscoverPodcastsListView(category: discoverCategory)
             }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
@@ -126,7 +132,13 @@ struct HomeView: View {
 
     var featuredRow: some View {
         HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
-            DiscoverPodcastRow(type: .featured)
+            DiscoverFeaturedPodcastsRow(type: .featured)
+        }
+    }
+
+    var videoRow: some View {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+            DiscoverVideoEpisodesRow(type: .video)
         }
     }
 
@@ -136,6 +148,12 @@ struct HomeView: View {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
+        }
+    }
+
+    var categoriesRow: some View {
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
+            DiscoverCategoriesRow()
         }
     }
 
@@ -202,7 +220,7 @@ struct HomeSection<Content: View>: View {
         VStack(alignment: .leading, spacing: 32) {
             Text(title)
                 .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
             content
         }
         .focusSection()

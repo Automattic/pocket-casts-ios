@@ -312,7 +312,7 @@ final class FingerprintTimingManager: NSObject {
         filterCandidatePool.removeAll()
     }
 
-    private func track(_ event: AnalyticsEvent, properties: [AnyHashable: Any] = [:]) {
+    private func track(_ event: AnalyticsEvent, properties: [String: Sendable] = [:]) {
         var properties = properties
         if let episodeUuid = context?.episodeUuid {
             properties["episode_uuid"] = episodeUuid
@@ -600,11 +600,11 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Snap a playback time to the window-interval grid so that the windows we
-    /// emit align with the reference checkpoint timestamps. The reference is
-    /// produced with the same `windowIntervalMs` stride starting at 0, so any
-    /// off-grid start would yield windows whose audio content is shifted
-    /// relative to the reference and would fail to match.
+    /// Snap a playback time to the window-interval grid so emitted window
+    /// timestamps are deterministic (stable across restarts and cache reuse).
+    /// Windows are emitted every `windowIntervalMs`, finer than the reference's
+    /// 2s checkpoint grid, so a correctly-phased window exists for any dynamic-ad
+    /// offset rather than relying on a single phase happening to line up.
     private static func alignToWindowGrid(_ time: Double) -> Double {
         let stride = Double(FingerprintConstants.windowIntervalMs) / 1000.0
         guard stride > 0 else { return max(0, time) }

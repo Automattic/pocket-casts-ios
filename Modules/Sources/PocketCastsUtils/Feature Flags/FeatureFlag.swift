@@ -313,6 +313,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Enable the Liquid Glass UI redesign
     case liquidGlass
 
+    /// Show explicit content badges on podcasts
+    case showExplicitBadges
+
     /// Enable the Share Profile feature
     case shareProfile
 
@@ -528,6 +531,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .liquidGlass:
             true
+        case .showExplicitBadges:
+            false
         case .shareProfile:
             BuildEnvironment.current == .debug
         }

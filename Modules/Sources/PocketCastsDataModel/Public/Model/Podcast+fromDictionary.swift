@@ -57,6 +57,11 @@ extension Podcast {
         if let isPrivate = podcastJson["is_private"] as? Bool {
             podcast.isPrivate = isPrivate
         }
+        if let isExplicit = podcastJson["explicit"] as? Bool {
+            podcast.isExplicit = isExplicit
+        } else if let isExplicit = podcastJson["explicit"] as? Int {
+            podcast.isExplicit = isExplicit > 0
+        }
         if let fundingsJson = podcastJson["fundings"] as? [[String: Any]], let url = fundingsJson.first?["url"] as? String {
             podcast.fundingURL = url
         }

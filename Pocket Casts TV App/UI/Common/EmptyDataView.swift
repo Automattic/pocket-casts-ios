@@ -19,11 +19,11 @@ struct EmptyDataView: View {
             Spacer()
             Text(title)
                 .font(.title)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
             if let subtitle {
                 Text(subtitle)
                     .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundStyle(Color.pcTextSecondary)
                 Spacer()
             }
             if let actionTitle {

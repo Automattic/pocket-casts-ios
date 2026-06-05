@@ -47,7 +47,7 @@ struct UpNextView: View {
             } header: {
                 Text(L10n.tvTabUpNext)
                     .font(.title2)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(Color.pcTextPrimary)
             }
             .focusScope(rowNamespace)
         }
