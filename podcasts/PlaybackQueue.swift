@@ -99,7 +99,7 @@ class PlaybackQueue: NSObject {
         FileLog.shared.addMessage("PlaybackQueue: added single episode \(episode.title ?? "Untitled")")
 
         let notificationName = fireNotification ? Constants.Notifications.upNextEpisodeAdded : nil
-        refreshAppFiring(notificationName: notificationName, notificationObject: episode.uuid)
+        refreshAppFiring(notificationName: notificationName, notificationObject: episode.uuid, notificationUserInfo: [Constants.Notifications.upNextEpisodeAddedToTopKey: toTop])
     }
 
     func bulkOperationDidComplete() {
@@ -386,13 +386,11 @@ class PlaybackQueue: NSObject {
         topEpisode = episodeAt(index: -1)
     }
 
-    private func refreshAppFiring(notificationName: Notification.Name?, notificationObject: Any? = nil) {
+    private func refreshAppFiring(notificationName: Notification.Name?, notificationObject: Any? = nil, notificationUserInfo: [AnyHashable: Any]? = nil) {
         refreshList(checkForAutoDownload: true)
 
-        if let name = notificationName, let object = notificationObject {
-            NotificationCenter.postOnMainThread(notification: name, object: object)
-        } else if let name = notificationName {
-            NotificationCenter.postOnMainThread(notification: name)
+        if let name = notificationName {
+            NotificationCenter.postOnMainThread(notification: name, object: notificationObject, userInfo: notificationUserInfo)
         }
 
         startSyncTimer()
