@@ -4791,7 +4791,7 @@
 "transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
 
 /* Highlighted transcripts What's New announcement footnote shown below the call to action button */
-"transcript_highlight_announcement_footnote" = "Synced transcripts available on new episodes to start";
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
 
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";

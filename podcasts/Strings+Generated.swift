@@ -4320,7 +4320,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1), fallback: "Sorry, but this transcript format is not supported: %1$@")
   }
   /// Highlighted transcripts What's New announcement footnote shown below the call to action button
-  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available on new episodes to start") }
+  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available for recent episodes only.") }
   /// Highlighted transcripts What's New announcement sheet message
   internal static var transcriptHighlightAnnouncementMessage: String { return L10n.tr("Localizable", "transcript_highlight_announcement_message", fallback: "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.") }
   /// Highlighted transcripts What's New announcement sheet title
