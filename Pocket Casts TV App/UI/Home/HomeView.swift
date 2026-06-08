@@ -153,7 +153,7 @@ struct HomeView: View {
 
     var categoriesRow: some View {
         HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
-            DiscoverCategoriesRow()
+            DiscoverCategoriesRow(popularOnly: true)
         }
     }
 

@@ -8,7 +8,11 @@ struct DiscoverCategoriesRow: View {
         static let cellHeight = CGFloat(258)
     }
 
-    @State private var model = DiscoverCategoriesModel()
+    @State private var model: DiscoverCategoriesModel
+
+    init(popularOnly: Bool) {
+        _model = State(wrappedValue: DiscoverCategoriesModel(popularOnly: popularOnly))
+    }
 
     var body: some View {
         Group {

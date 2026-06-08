@@ -28,7 +28,7 @@ struct DiscoverAllView: View {
                     HomeSection(title: item.title ?? "", focusSection: item.uuid) {
                         switch item.rowType {
                         case .categories:
-                            DiscoverCategoriesRow()
+                            DiscoverCategoriesRow(popularOnly: false)
                         case .featured:
                             DiscoverFeaturedPodcastsRow(type: .featured)
                         case .listPodcast:

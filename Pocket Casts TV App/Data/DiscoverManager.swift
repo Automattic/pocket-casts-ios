@@ -122,51 +122,24 @@ actor DiscoverManager {
     }
 
     func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
-        guard let sourceItem = await findItem(of: type), let source = sourceItem.source else {
+        guard let sourceItem = await findItem(of: type) else {
             return DiscoverSection(title: nil, podcasts: [])
         }
 
         return await loadDiscoverSection(sourceItem: sourceItem)
     }
 
-    func loadDiscoverCategories() async -> [DiscoverCategory] {
-        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return []
-        }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if item.type == "categories" {
-                selectedItem = item
-                break
-            }
-        }
-
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+    func loadDiscoverCategories(popularOnly: Bool = false) async -> [DiscoverCategory] {
+        guard let sourceItem = await findItem(of: .categories), let source = sourceItem.source else {
             return []
         }
 
         let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
 
-        return categories
-    }
-
-    func loadDiscoverPopularCategories() async -> [DiscoverCategory] {
-        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return []
-        }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if item.type == "categories" {
-                selectedItem = item
-                break
-            }
+        guard popularOnly else {
+            return categories
         }
 
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
-            return []
-        }
-
-        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
         var popularCategories: [DiscoverCategory] = []
 
         if let popularIds = sourceItem.popular {
