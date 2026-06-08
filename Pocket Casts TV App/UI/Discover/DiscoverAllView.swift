@@ -25,7 +25,7 @@ struct DiscoverAllView: View {
         ScrollView {
             LazyVStack {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                    DiscoverRowSection(item: item)                    
+                    DiscoverRowSection(item: item)
                 }
             }
         }
