@@ -50,8 +50,8 @@ class DiscoverSectionModel {
         await MainActor.run {
             state = section.podcasts.isEmpty ? .empty : .ready
             podcasts = section.podcasts
-            var composedTitle = section.title ?? ""
-            if let subtitle = section.subtitle, !subtitle.isEmpty {
+            var composedTitle = section.title?.localized ?? ""
+            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
                 composedTitle = subtitle + ": " + composedTitle
             }
             title = composedTitle
