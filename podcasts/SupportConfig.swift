@@ -63,6 +63,10 @@ struct SupportConfig: ZDConfig {
             tagList.append("satisfaction_survey")
         }
 
+        if case .chatbotSupport = type {
+            tagList.append("chatbot_support")
+        }
+
         return tagList
     }
 
