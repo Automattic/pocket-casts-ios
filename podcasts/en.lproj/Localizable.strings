@@ -6181,6 +6181,12 @@
 /* tv up next empty button action title */
 "tv_up_next_empty_action_title" = "Add episodes";
 
+/* tv starred episodes empty title */
+"tv_starred_empty_title" = "No starred episodes";
+
+/* tv starred episodes empty subtitle */
+"tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
+
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 
