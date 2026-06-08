@@ -1,6 +1,6 @@
 import PocketCastsServer
 
-enum DiscoverType: String {
+enum DiscoverType: String, CaseIterable {
     case featured
     case trending
     case video
@@ -10,15 +10,34 @@ enum DiscoverType: String {
     case popularRegion = "popular_region" // Popular in region ...
     case curatedList
     case categories
+    case other
 
     func match(item: DiscoverItem) -> Bool {
         switch self {
+        case .featured:
+            return item.id == self.rawValue || item.uuid == self.rawValue
         case .curatedList:
             return item.curated == true && item.type == "podcast_list" && item.summaryStyle == "large_list"
+        case .categories:
+            return item.type == "categories"
         default:
             return item.id == self.rawValue || item.uuid == self.rawValue
         }
     }
+
+    static func itemType(for item: DiscoverItem) -> DiscoverType? {
+        for type in DiscoverType.allCases {
+            if type.match(item: item) {
+                return type
+            }
+        }
+        return .other
+    }
+}
+
+enum DiscoverListType: String {
+
+    case podcastList = "podcast_list"
 }
 
 struct DiscoverSection {
@@ -58,23 +77,22 @@ actor DiscoverManager {
         return layout
     }
 
-    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+    func loadAllDiscoverSections() async -> [DiscoverItem] {
         guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return DiscoverSection(title: nil, podcasts: [])
-        }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if type.match(item: item) {
-                selectedItem = item
-                break
-            }
+            return []
         }
 
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+        return items
+    }
+
+    func loadDiscoverSection(sourceItem: DiscoverItem) async -> DiscoverSection {
+        guard  let discoverLayout = await getLayout(), let source = sourceItem.source else {
             return DiscoverSection(title: nil, podcasts: [])
         }
+        let regionCode = regionCode(for: discoverLayout)
+        let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
 
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated)
         guard var listOfPodcasts = podcastCollection?.podcasts else {
             return DiscoverSection(title: podcastCollection?.title, podcasts: [])
         }
@@ -87,6 +105,28 @@ actor DiscoverManager {
         }
 
         return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
+    }
+
+    func findItem(of type: DiscoverType) async -> DiscoverItem? {
+        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
+            return nil
+        }
+        var selectedItem: DiscoverItem?
+        for item in items {
+            if type.match(item: item) {
+                selectedItem = item
+                break
+            }
+        }
+        return selectedItem
+    }
+
+    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+        guard let sourceItem = await findItem(of: type), let source = sourceItem.source else {
+            return DiscoverSection(title: nil, podcasts: [])
+        }
+
+        return await loadDiscoverSection(sourceItem: sourceItem)
     }
 
     func loadDiscoverCategories() async -> [DiscoverCategory] {
