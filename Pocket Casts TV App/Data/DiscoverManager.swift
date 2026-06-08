@@ -77,7 +77,7 @@ actor DiscoverManager {
         return layout
     }
 
-    func loadAllDiscoverSections() async -> [DiscoverItem] {
+    func loadDiscoverItems() async -> [DiscoverItem] {
         guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return []
         }
