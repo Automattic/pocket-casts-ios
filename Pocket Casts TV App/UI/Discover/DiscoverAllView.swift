@@ -57,7 +57,7 @@ struct DiscoverRowSection: View {
             case .categories:
                 DiscoverCategoriesRow(popularOnly: false)
             case .featured:
-                DiscoverFeaturedPodcastsRow(type: .featured)
+                DiscoverFeaturedPodcastsRow(item: item)
             case .listPodcast:
                 DiscoverPodcastRow(item: item) { title in
                     if let title {

@@ -16,6 +16,11 @@ struct DiscoverFeaturedPodcastsRow: View {
         self.callback = callback
     }
 
+    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+        self.callback = callback
+    }
+
     var body: some View {
         Group {
             switch model.state {
