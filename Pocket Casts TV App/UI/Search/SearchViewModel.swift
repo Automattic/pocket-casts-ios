@@ -38,6 +38,8 @@ protocol SearchableViewModel: AnyObject, Observation.Observable {
     func saveHistory(_ term: String)
 
     func playEpisode(_ episode: EpisodeSearchResult) async -> Bool
+
+    var isInSearchMode: Bool { get }
 }
 
 @Observable
@@ -54,6 +56,15 @@ class SearchViewModel: SearchableViewModel {
         self.dataManager = dataManager
         self.tvDataManager = tvDataManager
         self.searchModel = searchModel
+    }
+
+    var isInSearchMode: Bool {
+        switch state {
+        case .query:
+            false
+        default:
+            true
+        }
     }
 
     var searchTerm: String = ""
