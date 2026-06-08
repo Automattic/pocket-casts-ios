@@ -1253,6 +1253,15 @@
 /* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
 "stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
 
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -1556,6 +1565,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message body shown in the confirmation prompt for archiving an episode. */
+"player_archived_confirmation_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1582,6 +1594,9 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Message body shown in the confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation_message" = "It'll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";
@@ -1685,7 +1700,7 @@
 /* Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion" */
 "plus_champion" = "Pocket Casts Champion";
 
-/* Message displayed when teh user tap "Pocket Casts Champion" button */
+/* Message displayed when the user taps "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
 /* Pocket Casts Plus marketing page, description of generated transcriptsg */
@@ -1869,6 +1884,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -4770,6 +4788,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -6023,6 +6050,9 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
+/* tv sign in error title shown when the app fails to fetch the QR sign in code */
+"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
+
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
 
@@ -6033,10 +6063,10 @@
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
 
 /* tv signing in title */
-"tv_signing_in_title" = "Welcome back!";
+"tv_signing_in_title" = "Good to see you.";
 
 /* tv signing in subtitle */
-"tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
+"tv_signing_in_subtitle" = "Loading your podcasts now.";
 
 /* tv podcasts empty title */
 "tv_podcasts_empty_title" = "Time to fill this up.";
@@ -6102,7 +6132,7 @@
 "tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
-"tv_home_recommended_for_you_title" = "Recommended for you";
+"tv_home_recommended_for_you_title" = "You'll probably want these";
 
 /* tv home recently played section title */
 "tv_home_recently_played" = "Recently played";
@@ -6208,6 +6238,50 @@
 
 /* info message when authorization is invalid on server */
 "server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
+
+/* tv home recommendations for listeners of podcast title. Ex: Loved by listeners of The Daily */
+"tv_home_recommend_user_podcast_section_title" = "Loved by listeners of %1$@";
+
+/* tv home Trending section title */
+"tv_home_trending_section_title" = "What everyone's on this week";
+
+/* tv home Featured section title */
+"tv_home_featured_section_title" = "Featured on Pocket Casts";
+
+/* tv home Browse Categories section title */
+"tv_home_browse_categories_section_title" = "Browse categories";
+
+/* tv create account banner title */
+"tv_banner_create_account_title" = "One account. Every screen";
+
+/* tv create account banner subtitle */
+"tv_banner_create_account_subtitle" = "Your follows, your progress... exactly where you left them.";
+
+/* tv create account banner action button title */
+"tv_banner_create_account_action_title" = "Create a free account";
+
+/* tv discover more banner title */
+"tv_banner_discover_more_title" = "You haven't seen the half of it.";
+
+/* tv discover more banner subtitle */
+"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere.";
+
+/* tv discover more banner action button title */
+"tv_banner_discover_more_action_title" = "Discover more shows";
+
+/* Discover - Button title on a featured podcast card that plays the podcast's most recent episode. */
+"tv_discover_featured_play_latest_episode" = "Play latest episode";
+
+/* Discover - Button title on a featured podcast card that opens the podcast. */
+"tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+
 
 /* MARK: - InfoPlist.strings */
 
