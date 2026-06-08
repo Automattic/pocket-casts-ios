@@ -4137,6 +4137,12 @@ internal enum L10n {
   internal static func statsListeningActivityAccessibilityLabel(_ p1: Any) -> String {
     return L10n.tr("Localizable", "stats_listening_activity_accessibility_label", String(describing: p1), fallback: "Listening activity heatmap. Days listened: %1$@ of 365.")
   }
+  /// VoiceOver label for the info button next to the listening activity section header.
+  internal static var statsListeningActivityInfoAccessibilityLabel: String { return L10n.tr("Localizable", "stats_listening_activity_info_accessibility_label", fallback: "About listening activity") }
+  /// Body text for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoMessage: String { return L10n.tr("Localizable", "stats_listening_activity_info_message", fallback: "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.") }
+  /// Title for the sheet that explains how the listening activity heatmap is calculated.
+  internal static var statsListeningActivityInfoTitle: String { return L10n.tr("Localizable", "stats_listening_activity_info_title", fallback: "Listening activity") }
   /// Label for the low end of the heatmap legend
   internal static var statsListeningActivityLegendLess: String { return L10n.tr("Localizable", "stats_listening_activity_legend_less", fallback: "Less") }
   /// Label for the high end of the heatmap legend
@@ -4314,7 +4320,7 @@ internal enum L10n {
     return L10n.tr("Localizable", "transcript_error_not_supported", String(describing: p1), fallback: "Sorry, but this transcript format is not supported: %1$@")
   }
   /// Highlighted transcripts What's New announcement footnote shown below the call to action button
-  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available on new episodes to start") }
+  internal static var transcriptHighlightAnnouncementFootnote: String { return L10n.tr("Localizable", "transcript_highlight_announcement_footnote", fallback: "Synced transcripts available for recent episodes only.") }
   /// Highlighted transcripts What's New announcement sheet message
   internal static var transcriptHighlightAnnouncementMessage: String { return L10n.tr("Localizable", "transcript_highlight_announcement_message", fallback: "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.") }
   /// Highlighted transcripts What's New announcement sheet title

@@ -269,4 +269,57 @@ final class FingerprintTimingManagerTests: XCTestCase {
         XCTAssertEqual(first, 100.0, accuracy: 0.001)
         XCTAssertEqual(last, 200.0, accuracy: 0.001)
     }
+
+    // MARK: - Matched-content gate (highlight opt-in)
+
+    // Dense anchors on real content (every ~2s) → always within matched content.
+    private static let denseContent: [Entry] = stride(from: 0.0, through: 60.0, by: 2.0)
+        .map { Entry(playbackTime: $0, referenceTime: $0) }
+
+    func testMatchedOnDenselyMappedContent() {
+        XCTAssertTrue(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 30, in: Self.denseContent))
+    }
+
+    func testMatchedBridgesQuickGapBetweenAnchors() {
+        // A short sparse stretch (a "quick red" the matcher couldn't anchor) still
+        // sits between two close committed anchors, so it counts as matched.
+        let entries = [Entry(playbackTime: 20, referenceTime: 20), Entry(playbackTime: 26, referenceTime: 26)]
+        XCTAssertTrue(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 23, in: entries))
+    }
+
+    func testNotMatchedInWideGap() {
+        // A 30s gap between anchors is an ad break: not matched content.
+        let entries = [Entry(playbackTime: 20, referenceTime: 20), Entry(playbackTime: 50, referenceTime: 21)]
+        XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 35, in: entries))
+    }
+
+    func testNotMatchedPastLastAnchor() {
+        // Playback has run past the newest anchor (e.g. into an ad whose far side
+        // isn't anchored yet) — no anchor ahead, so don't highlight.
+        let entries = [Entry(playbackTime: 18, referenceTime: 18), Entry(playbackTime: 20, referenceTime: 20)]
+        XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 40, in: entries))
+    }
+
+    func testNotMatchedBeforeFirstAnchor() {
+        let entries = [Entry(playbackTime: 18, referenceTime: 18), Entry(playbackTime: 20, referenceTime: 20)]
+        XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 5, in: entries))
+    }
+
+    func testNotMatchedWithEmptyMapping() {
+        XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 10, in: []))
+    }
+
+    func testMatchedFlipsImmediatelyAtLastAnchorBeforeAd() {
+        // Anchors up to 14 (ad start), next committed anchor only after the ad at 44.
+        // Just before 14 we're matched; the instant we cross it the bracket widens
+        // to 14→44 and we stop — no lag.
+        let entries = [
+            Entry(playbackTime: 12, referenceTime: 12),
+            Entry(playbackTime: 14, referenceTime: 14),
+            Entry(playbackTime: 44, referenceTime: 15),
+            Entry(playbackTime: 45, referenceTime: 16)
+        ]
+        XCTAssertTrue(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 13.9, in: entries))
+        XCTAssertFalse(FingerprintTimingManager.isWithinMatchedContent(forPlaybackTime: 14.1, in: entries))
+    }
 }
