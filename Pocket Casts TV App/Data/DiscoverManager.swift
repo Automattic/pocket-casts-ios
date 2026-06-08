@@ -81,8 +81,13 @@ actor DiscoverManager {
         guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
             return []
         }
+        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
 
-        return items
+        let filteredItems = items.filter { item in
+            item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
+        }
+
+        return filteredItems
     }
 
     func loadDiscoverSection(sourceItem: DiscoverItem) async -> DiscoverSection {

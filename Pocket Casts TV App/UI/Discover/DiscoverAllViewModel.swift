@@ -20,7 +20,9 @@ class DiscoverAllViewModel {
     }
 
     func load() async {
-        let items = await discoverManager.loadAllDiscoverSections()
+        let items = await discoverManager.loadAllDiscoverSections().filter { item in
+            return item.categoryID == nil
+        }
 
         await MainActor.run {
             state = items.isEmpty ? .empty : .ready
