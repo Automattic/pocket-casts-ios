@@ -25,20 +25,7 @@ struct DiscoverAllView: View {
         ScrollView {
             LazyVStack {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                    HomeSection(title: item.title ?? "", focusSection: item.uuid) {
-                        switch item.rowType {
-                        case .categories:
-                            DiscoverCategoriesRow(popularOnly: false)
-                        case .featured:
-                            DiscoverFeaturedPodcastsRow(type: .featured)
-                        case .listPodcast:
-                            DiscoverPodcastRow(item: item)
-                        case .singlePodcast:
-                            DiscoverSinglePodcastRow(item: item)
-                        default:
-                            DiscoverPodcastRow(item: item)
-                        }
-                    }
+                    DiscoverRowSection(item: item)                    
                 }
             }
         }
@@ -49,6 +36,47 @@ struct DiscoverAllView: View {
         }
         .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
             DiscoverPodcastsListView(category: discoverCategory)
+        }
+    }
+}
+
+struct DiscoverRowSection: View {
+
+    var item: DiscoverItem
+
+    @State var title: String
+
+    init(item: DiscoverItem) {
+        self.item = item
+        _title = State<String>(initialValue: item.title ?? "")
+    }
+
+    var body: some View {
+        HomeSection(title: title, focusSection: item.uuid ?? item.id) {
+            switch item.rowType {
+            case .categories:
+                DiscoverCategoriesRow(popularOnly: false)
+            case .featured:
+                DiscoverFeaturedPodcastsRow(type: .featured)
+            case .listPodcast:
+                DiscoverPodcastRow(item: item) { title in
+                    if let title {
+                        self.title = title
+                    }
+                }
+            case .singlePodcast:
+                DiscoverSinglePodcastRow(item: item) { title in
+                    if let title {
+                        self.title = title
+                    }
+                }
+            default:
+                DiscoverPodcastRow(item: item) { title in
+                    if let title {
+                        self.title = title
+                    }
+                }
+            }
         }
     }
 }

@@ -42,11 +42,13 @@ enum DiscoverListType: String {
 
 struct DiscoverSection {
     let title: String?
+    let subtitle: String?
     let podcasts: [DiscoverPodcast]
     let sponsoredPodcastsIDs: Set<String>
 
-    init(title: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
         self.title = title
+        self.subtitle = subtitle
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
     }
@@ -109,7 +111,7 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
+        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
     }
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {

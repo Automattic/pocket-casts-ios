@@ -50,9 +50,13 @@ class DiscoverSectionModel {
         await MainActor.run {
             state = section.podcasts.isEmpty ? .empty : .ready
             podcasts = section.podcasts
-            title = section.title
+            var composedTitle = section.title ?? ""
+            if let subtitle = section.subtitle, !subtitle.isEmpty {
+                composedTitle = subtitle + ": " + composedTitle
+            }
+            title = composedTitle
             sponsored = section.sponsoredPodcastsIDs
             isSponsored = item?.isSponsored ?? false
         }
-    }    
+    }
 }
