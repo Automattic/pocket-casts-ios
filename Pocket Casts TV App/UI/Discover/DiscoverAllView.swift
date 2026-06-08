@@ -33,6 +33,8 @@ struct DiscoverAllView: View {
                             DiscoverFeaturedPodcastsRow(type: .featured)
                         case .listPodcast:
                             DiscoverPodcastRow(item: item)
+                        case .singlePodcast:
+                            DiscoverSinglePodcastRow(item: item)
                         default:
                             DiscoverPodcastRow(item: item)
                         }

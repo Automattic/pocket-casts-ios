@@ -10,6 +10,8 @@ class DiscoverSectionModel {
 
     var sponsored = Set<String>()
 
+    var isSponsored: Bool = false
+
     var title: String?
 
     let type: DiscoverType?
@@ -50,6 +52,7 @@ class DiscoverSectionModel {
             podcasts = section.podcasts
             title = section.title
             sponsored = section.sponsoredPodcastsIDs
+            isSponsored = item?.isSponsored ?? false
         }
-    }
+    }    
 }
