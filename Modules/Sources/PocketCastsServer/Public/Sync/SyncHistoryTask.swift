@@ -8,13 +8,15 @@ class SyncHistoryTask: ApiBaseTask {
         case add = 1, delete = 2, clearAll = 3
     }
 
-    /// Called once the task finishes, regardless of success. The local database
-    /// has already been updated with any server changes by the time this fires,
-    /// so callers can simply re-read history from the database afterwards.
-    var completion: (() -> Void)?
+    /// Called once the task finishes. The `Bool` is `true` when the sync
+    /// succeeded (the server returned `ok` or `notModified`), `false` otherwise.
+    /// The local database has already been updated with any server changes by the
+    /// time this fires, so callers can simply re-read history from the database.
+    var completion: ((Bool) -> Void)?
 
     override func apiTokenAcquired(token: String) {
-        defer { completion?() }
+        var didSucceed = false
+        defer { completion?(didSucceed) }
 
         var dataToSync = Api_HistorySyncRequest()
         dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
@@ -49,8 +51,10 @@ class SyncHistoryTask: ApiBaseTask {
             let (response, httpStatus) = postToServer(url: url, token: token, data: data)
             if httpStatus == ServerConstants.HttpConstants.notModified {
                 DataManager.sharedManager.markAllEpisodePlaybackHistorySynced()
+                didSucceed = true
             } else if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
+                didSucceed = true
             } else {
                 print("SyncHistoryTask Unable to sync with server got status \(httpStatus)")
             }
@@ -61,7 +65,7 @@ class SyncHistoryTask: ApiBaseTask {
 
     override func apiTokenAcquisitionFailed() {
         super.apiTokenAcquisitionFailed()
-        completion?()
+        completion?(false)
     }
 
     private func process(serverData: Data) {

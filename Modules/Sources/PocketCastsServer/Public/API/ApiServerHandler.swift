@@ -48,9 +48,10 @@ public class ApiServerHandler {
     }
 
     /// Syncs listening history with the server, writing any server-side changes
-    /// into the local database before calling `completion`. Callers should then
-    /// re-read history from the database to get a consistent, locally-backed list.
-    public func retrieveHistory(completion: @escaping () -> Void) {
+    /// into the local database before calling `completion`. The `Bool` reports
+    /// whether the sync succeeded; callers should re-read history from the
+    /// database afterwards to get a consistent, locally-backed list.
+    public func retrieveHistory(completion: @escaping (Bool) -> Void) {
         let syncTask = SyncHistoryTask()
         syncTask.completion = completion
         apiQueue.addOperation(syncTask)

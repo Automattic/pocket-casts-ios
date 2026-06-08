@@ -6202,6 +6202,12 @@
 /* tv listening history empty subtitle */
 "tv_history_empty_subtitle" = "Episodes you play will show up here";
 
+/* tv listening history error title, shown when the history failed to load and there's nothing stored locally */
+"tv_history_error_title" = "Couldn't load your history";
+
+/* tv listening history error subtitle */
+"tv_history_error_subtitle" = "Check your connection and try again";
+
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 

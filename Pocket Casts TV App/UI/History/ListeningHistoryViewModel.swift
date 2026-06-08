@@ -10,6 +10,7 @@ class ListeningHistoryViewModel {
         case loading
         case ready
         case empty
+        case error
     }
 
     private(set) var state: State = .loading
@@ -29,22 +30,31 @@ class ListeningHistoryViewModel {
         if SyncManager.isUserLoggedIn() {
             refreshFromServer()
         } else {
-            fetchLocalData()
+            // Logged-out users only ever have local history, so there's nothing
+            // that can "fail" — treat it as a successful (if empty) load.
+            fetchLocalData(syncSucceeded: true)
         }
+    }
+
+    func retry() {
+        state = .loading
+        load()
     }
 
     /// Pulls the latest history from the server. `SyncHistoryTask` writes the
     /// returned changes into the local database before completing, so once it
     /// finishes we simply re-read from the database to get a consistent,
-    /// locally-backed list. On failure we fall back to whatever is already
-    /// stored locally.
+    /// locally-backed list.
     private func refreshFromServer() {
-        apiHandler.retrieveHistory { [weak self] in
-            self?.fetchLocalData()
+        apiHandler.retrieveHistory { [weak self] succeeded in
+            self?.fetchLocalData(syncSucceeded: succeeded)
         }
     }
 
-    private func fetchLocalData() {
+    /// Re-reads history from the database and resolves the display state. We
+    /// prefer showing whatever is stored locally; the error state is only used
+    /// when a server sync failed *and* there's nothing to fall back to.
+    private func fetchLocalData(syncSucceeded: Bool) {
         Task {
             let fetched = fetchHistoryEpisodes()
             let episodes = fetched.map { episode in
@@ -53,7 +63,17 @@ class ListeningHistoryViewModel {
             await MainActor.run { [weak self] in
                 guard let self else { return }
                 self.episodes = episodes
-                self.state = episodes.isEmpty ? .empty : .ready
+                if !episodes.isEmpty {
+                    self.state = .ready
+                    // We already have history to show, so surface a sync failure
+                    // unobtrusively with a toast rather than replacing the list.
+                    if !syncSucceeded {
+                        ToastManager.shared.show(L10n.refreshFailed)
+                    }
+                } else {
+                    // Nothing to fall back to: show the full error state with a retry.
+                    self.state = syncSucceeded ? .empty : .error
+                }
             }
         }
     }
@@ -74,7 +94,9 @@ class ListeningHistoryViewModel {
         Publishers.MergeMany(names.map { NotificationCenter.default.publisher(for: $0) })
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.fetchLocalData()
+                // A local change (play / remove / sync update) is never a failure,
+                // so don't let it flip a populated list into the error state.
+                self?.fetchLocalData(syncSucceeded: true)
             }
             .store(in: &cancellables)
     }

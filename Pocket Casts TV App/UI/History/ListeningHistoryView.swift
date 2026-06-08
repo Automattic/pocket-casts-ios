@@ -14,6 +14,8 @@ struct ListeningHistoryView: View {
                 episodeList
             case .empty:
                 emptyView
+            case .error:
+                errorView
             }
         }
         .task {
@@ -40,6 +42,15 @@ struct ListeningHistoryView: View {
 
     private var emptyView: some View {
         EmptyDataView(title: L10n.tvHistoryEmptyTitle, subtitle: L10n.tvHistoryEmptySubtitle)
+    }
+
+    private var errorView: some View {
+        EmptyDataView(
+            title: L10n.tvHistoryErrorTitle,
+            subtitle: L10n.tvHistoryErrorSubtitle,
+            actionTitle: L10n.tryAgain,
+            action: { model.retry() }
+        )
     }
 }
 
