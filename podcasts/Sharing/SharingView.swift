@@ -79,7 +79,7 @@ struct SharingView: View {
             SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, destinations: destinations, style: shareable.style, clipUUID: clipUUID, source: source)
         }
         .onAppear {
-            var properties = [:]
+            var properties: [String: Sendable] = [:]
             let type: String
 
             switch shareable.option {

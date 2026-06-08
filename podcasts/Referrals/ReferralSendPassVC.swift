@@ -14,7 +14,7 @@ class ReferralSendPassVC: ThemedHostingController<ReferralSendPassView> {
         super.init(rootView: screen)
     }
 
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+    @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -154,7 +154,7 @@ class ImageShareSource: NSObject, UIActivityItemSource {
         metadata.originalURL = URL(string: ServerConstants.Urls.pocketcastsDotCom)
         metadata.url = URL(string: ServerConstants.Urls.pocketcastsDotCom)
         metadata.title = title
-        metadata.imageProvider = NSItemProvider.init(contentsOf: url)
+        metadata.imageProvider = NSItemProvider(contentsOf: url)
 
         return metadata
     }

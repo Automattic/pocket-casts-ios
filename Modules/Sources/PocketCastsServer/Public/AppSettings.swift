@@ -108,5 +108,5 @@ public struct AppSettings: JSONCodable {
 }
 
 extension SettingsStore<AppSettings> {
-    public static internal(set) var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
+    public internal(set) static var appSettings = SettingsStore(key: "app_settings", value: AppSettings.defaults)
 }

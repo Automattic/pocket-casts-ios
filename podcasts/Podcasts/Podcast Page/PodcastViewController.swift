@@ -153,6 +153,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     @MainActor
     var isMultiSelectEnabled = false {
         didSet {
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
             // For non-episode cells we don't enable editing. It needs to be for Bookmarks and already if for You Might Like.
             if currentViewMode == .episodes {
                 self.episodesTable.beginUpdates()
@@ -280,6 +281,8 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
 
         super.viewDidLoad()
 
+        view.backgroundColor = ThemeColor.primaryUi01()
+
         if FeatureFlag.podcastFeedUpdate.enabled {
             podcastFeedViewModel = PodcastFeedViewModel(uuid: podcast?.uuid ?? podcastInfo?.uuid)
 
@@ -287,8 +290,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             forceCollapsingHeaderIfNeeded()
         }
 
-        searchController = EpisodeListSearchController()
-        searchController?.podcastDelegate = self
+        let searchController = EpisodeListSearchController()
+        searchController.podcastDelegate = self
+        addChild(searchController)
+        searchController.didMove(toParent: self)
+        self.searchController = searchController
 
         operationQueue.maxConcurrentOperationCount = 1
 
@@ -333,6 +339,12 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             } else {
                 assertionFailure("Expected PCNavigationController")
             }
+        }
+
+        if podcast != nil, episodeInfo.isEmpty {
+            let searchHeader = ListHeader(headerTitle: L10n.search, isSectionHeader: true, sectionNumber: -1)
+            episodeInfo = [ArraySection(model: searchHeader.headerTitle, elements: [searchHeader])]
+            reloadData()
         }
 
         loadPodcastInfo()
@@ -473,9 +485,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         addCustomObserver(Constants.Notifications.playbackStarted, selector: #selector(hideSearchKeyboard))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(refreshEpisodes))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(upNextChanged))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(upNextChanged))
         addCustomObserver(Constants.Notifications.searchRequested, selector: #selector(searchRequested))
 
         // Episode grouping can change based on download and play status, so listen for both those events and refresh when they happen
@@ -579,6 +588,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
     }
 
     private func updateColors() {
+        view.backgroundColor = ThemeColor.primaryUi01()
         reloadData()
         navTitleLabel.textColor = ThemeColor.primaryText01()
     }
@@ -747,12 +757,12 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         guard let podcast else { return }
 
         let optionsPicker = OptionsPicker(title: nil)
-        let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: nil) {
+        let refreshAction = OptionAction(label: L10n.podcastRefreshArtwork, icon: "option-download-retry") {
             ImageManager.sharedManager.clearCache(podcastUuid: podcast.uuid, recacheWhenDone: true)
         }
         optionsPicker.addAction(action: refreshAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     func unsubscribe() {
@@ -1079,7 +1089,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
             archiveActionForSeason(season)
         ].compactMap(\.self))
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionPicker.present(from: self)
     }
 
     private func downloadActionForSeason(_ season: Int) -> OptionAction? {
@@ -1358,7 +1368,7 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, SyncSigni
         }
         optionsPicker.addAction(action: goToFolderAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     private func showFolderPickerDialog() {

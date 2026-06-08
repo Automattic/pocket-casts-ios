@@ -7,37 +7,71 @@ import PocketCastsServer
 import PocketCastsUtils
 #endif
 
-class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
-    // Dependencies
-    let userDefaults: UserDefaults
+class TracksAdapter: AnalyticsAdapter {
+    private let userDefaults: UserDefaults
 
     /// Returns a UUID id to use if the user is in a logged out state
-    ///
-    var anonymousUUID: String {
-        generateAnonymousUUID()
+    private var anonymousUUID: String {
+        AnonymousUUID.generate(userDefaults: userDefaults)
     }
 
+    private let trackerTask: Task<TracksTracker, Never>
+
+    init(
+        userDefaults: UserDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard,
+        subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
+        notificationCenter: NotificationCenter = .default,
+        abTestProvider: ABTestProviding = ABTestProvider.shared
+    ) {
+        self.userDefaults = userDefaults
+
+        trackerTask = Task {
+            await TracksTracker(
+                userDefaults: userDefaults,
+                subscriptionData: subscriptionData,
+                notificationCenter: notificationCenter,
+                abTestProvider: abTestProvider
+            )
+        }
+    }
+
+    func track(name: String, properties: [String: Sendable]) async {
+        await trackerTask.value.track(name: name, properties: properties)
+    }
+}
+
+// MARK: - TracksTracker
+
+/// Owns the underlying `TracksService` and performs the actual event tracking on its own
+/// isolation domain. Constructed via an async init so the heavy `TracksContextManager`
+/// setup runs off the launch path.
+private actor TracksTracker {
+    private let userDefaults: UserDefaults
     private let subscriptionData: TracksSubscriptionData
     private let notificationCenter: NotificationCenter
     private let abTestProvider: ABTestProviding
-
-    // Config
     private let tracksService: TracksService
 
+    private var anonymousUUID: String {
+        AnonymousUUID.generate(userDefaults: userDefaults)
+    }
+
     private enum TracksConfig {
+#if os(tvOS)
+        static let prefix = "pctvos"
+#else
         static let prefix = "pcios"
+#endif
         static let userKey = "pocketcasts:user_id"
         static let platform = "pocketcasts"
     }
 
-    deinit {
-        notificationCenter.removeObserver(self)
-    }
-
-    init(userDefaults: UserDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) ?? .standard,
-         subscriptionData: TracksSubscriptionData = PocketCastsTracksSubscriptionData(),
-         notificationCenter: NotificationCenter = .default,
-         abTestProvider: ABTestProviding = ABTestProvider.shared) {
+    init(
+        userDefaults: UserDefaults,
+        subscriptionData: TracksSubscriptionData,
+        notificationCenter: NotificationCenter,
+        abTestProvider: ABTestProviding
+    ) async {
         self.userDefaults = userDefaults
         self.subscriptionData = subscriptionData
         self.notificationCenter = notificationCenter
@@ -55,33 +89,30 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
 #endif
         // Setup the rest of the properties
         reloadExPlat()
-        updateUserProperties()
+        await updateUserProperties()
         addNotificationObservers()
         updateAuthenticationState()
     }
 
-    func track(name: String, properties: [AnyHashable: Any]?) {
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+
+    func track(name: String, properties: [String: Sendable]) {
         #if DEBUG
-        if let properties {
-            validateProperties(properties)
-        }
+        validateProperties(properties)
         #endif
         tracksService.trackEventName(name, withCustomProperties: properties)
     }
 
-    private func validateProperties(_ properties: [AnyHashable: Any]) {
-        guard let castedProperties = properties as? [String: Any] else {
-            assertionFailure("Tracks event properties types keys must be a String")
-            return
-        }
-
-        for key in castedProperties.keys {
+    private func validateProperties(_ properties: [String: Sendable]) {
+        for key in properties.keys {
             if Self.reservedPropertyNames.contains(key) {
                 assertionFailure("Tracks event properties key `\(key)` is reserved property name.")
                 return
             }
 
-            let value = castedProperties[key]
+            let value = properties[key]
             if !(value is Int || value is Int32 || value is Int64 || value is String || value is NSString || value is Double || value is Bool || value is Float) {
                 assertionFailure("Tracks event properties value for `\(key)` must be of one the valid types: Int, String, Bool, Double, Float")
                 return
@@ -89,7 +120,8 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
         }
     }
 
-    private var defaultProperties: [String: AnyHashable] {
+    @MainActor
+    private func getDefaultProperties(with subscriptionData: TracksSubscriptionData) -> [String: AnyHashable] {
         let hasSubscription = subscriptionData.hasActiveSubscription()
         let platform = subscriptionData.subscriptionPlatform()
         let type = hasSubscription ? subscriptionData.subscriptionType() : .none
@@ -121,11 +153,11 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
 
     private func addNotificationObservers() {
         notificationCenter.addObserver(forName: ServerNotifications.subscriptionStatusChanged, object: nil, queue: .main) { [weak self] _ in
-            self?.updateUserProperties()
+            Task { await self?.updateUserProperties() }
         }
 
         notificationCenter.addObserver(forName: .userLoginDidChange, object: nil, queue: .main) { [weak self] _ in
-            self?.updateAuthenticationState()
+            Task { await self?.updateAuthenticationState() }
         }
     }
 
@@ -178,10 +210,11 @@ class TracksAdapter: AnalyticsAdapter, AnonymousIdentifiable {
     ])
 }
 
-private extension TracksAdapter {
-    func updateUserProperties() {
-        defaultProperties.forEach { (key: String, value: AnyHashable) in
-            self.tracksService.userProperties[key] = value
+private extension TracksTracker {
+    func updateUserProperties() async {
+        let properties = await getDefaultProperties(with: subscriptionData)
+        for (key, value) in properties {
+            tracksService.userProperties[key] = value
         }
     }
 
@@ -199,8 +232,8 @@ private extension TracksAdapter {
     }
 
     func reloadABTest() {
-        Task { @MainActor [weak self] in
-            await self?.abTestProvider.start()
+        Task { @MainActor [abTestProvider] in
+            await abTestProvider.start()
         }
     }
 }

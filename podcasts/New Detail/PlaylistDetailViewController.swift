@@ -20,7 +20,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         }
     }
 
-    lazy private(set) var searchHeaderView: UIView = {
+    private(set) lazy var searchHeaderView: UIView = {
         let header = UIView(frame: .zero)
         header.backgroundColor = AppTheme.colorForStyle(.primaryUi02)
         return header
@@ -63,37 +63,35 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
 
     private var refreshControl: CustomRefreshControl?
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            tableView.beginUpdates()
+            tableView.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            tableView.endUpdates()
 
-                self.tableView.beginUpdates()
-                self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                self.tableView.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    if self.viewModel.isSearching {
-                        self.searchController.searchTextField.resignFirstResponder()
-                    }
-                    self.track(.filterMultiSelectEntered)
-                    if self.selectedEpisodes.isEmpty, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
-                        self.tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
-                    }
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.tableView.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                } else {
-                    self.track(.filterMultiSelectExited)
-                    self.multiSelectFooter.isHidden = true
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                if viewModel.isSearching {
+                    searchController.searchTextField.resignFirstResponder()
                 }
-                self.updateMultiSelectNavBar()
+                track(.filterMultiSelectEntered)
+                if selectedEpisodes.isEmpty, longPressMultiSelectIndexPath == nil, !multiSelectGestureInProgress {
+                    tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 1), at: .top, animated: true)
+                }
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    tableView.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
+                }
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+            } else {
+                track(.filterMultiSelectExited)
+                multiSelectFooter.isHidden = true
+                selectedEpisodes.removeAll()
             }
+            updateMultiSelectNavBar()
         }
     }
 
@@ -108,6 +106,7 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
     var multiSelectGestureInProgress = false
     var longPressMultiSelectIndexPath: IndexPath?
     var multiSelectActionInProgress = false
+    var preSearchContentOffset: CGPoint?
 
     var multiSelectFooter: MultiSelectFooterView! {
         didSet {
@@ -365,6 +364,19 @@ class PlaylistDetailViewController: PCViewController, UIScrollViewDelegate {
         blurHeaderView.isHidden = viewModel.episodes.isEmpty
         reloadEmptyState()
         refreshMultiSelectEpisodes()
+
+        if !viewModel.isSearching, let offset = preSearchContentOffset {
+            preSearchContentOffset = nil
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.tableView.layoutIfNeeded()
+                let minOffset = -self.tableView.adjustedContentInset.top
+                let maxOffset = max(minOffset, self.tableView.contentSize.height - self.tableView.bounds.height + self.tableView.adjustedContentInset.bottom)
+                let clampedY = min(max(offset.y, minOffset), maxOffset)
+                let clamped = CGPoint(x: offset.x, y: clampedY)
+                self.tableView.setContentOffset(clamped, animated: true)
+            }
+        }
     }
 
     private func didFinishRefresh() {

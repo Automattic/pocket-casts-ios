@@ -103,7 +103,7 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
             case .playPodcast:
                 cell.titleLabel?.text = L10n.settingsSiriShortcutsSpecificPodcast
             case .playPlaylist:
-                cell.titleLabel?.text = FeatureFlag.playlistsRebranding.enabled ? L10n.settingsSiriShortcutsSpecificPlaylist : L10n.settingsSiriShortcutsSpecificFilter
+                cell.titleLabel?.text = L10n.settingsSiriShortcutsSpecificPlaylist
             }
             return cell
         }

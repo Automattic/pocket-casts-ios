@@ -53,6 +53,8 @@ extension ListeningHistoryViewController: UITableViewDelegate, UITableViewDataSo
             }
         }
 
+        cell.showsTopDivider = LiquidGlass.isEnabled && indexPath.row == 0
+
         return cell
     }
 

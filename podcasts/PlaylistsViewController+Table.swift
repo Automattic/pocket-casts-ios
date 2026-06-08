@@ -5,14 +5,8 @@ import UIKit
 import SwiftUI
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
-    private static let playlistCellId = "PlaylistCell"
-
     func registerCells() {
-        if FeatureFlag.playlistsRebranding.enabled {
-            filtersTable.register(NewPlaylistCell.self, forCellReuseIdentifier: NewPlaylistCell.reuseIdentifier)
-        } else {
-            filtersTable.register(UINib(nibName: "FilterNameCell", bundle: nil), forCellReuseIdentifier: PlaylistsViewController.playlistCellId)
-        }
+        filtersTable.register(NewPlaylistCell.self, forCellReuseIdentifier: NewPlaylistCell.reuseIdentifier)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -28,64 +22,26 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FeatureFlag.playlistsRebranding.enabled ? NewPlaylistCell.cellHeight : FilterNameCell.cellHeight
+        return NewPlaylistCell.cellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if FeatureFlag.playlistsRebranding.enabled {
-            let cell = cell(tableView, for: NewPlaylistCell.reuseIdentifier) as! NewPlaylistCell
-            if cell.tag != indexPath.row { cell.reset() }
-            cell.tag = indexPath.row
-            if let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
-                cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
-                cell.loadMetadata(for: playlist)
-                cell.hideSeparator(indexPath.row == listPlaylistItems.count - 1)
-            }
-            return cell
+        let cell = cell(tableView, for: NewPlaylistCell.reuseIdentifier) as! NewPlaylistCell
+        if cell.tag != indexPath.row { cell.reset() }
+        cell.tag = indexPath.row
+        if let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
+            cell.set(playlistName: playlist.playlistName, isManualPlaylist: playlist.manual)
+            cell.loadMetadata(for: playlist)
+            cell.hideSeparator(indexPath.row == listPlaylistItems.count - 1)
         }
-
-        let cell = cell(tableView, for: PlaylistsViewController.playlistCellId) as! FilterNameCell
-
-        if let filter = listPlaylistItems[safe: indexPath.row]?.playlist {
-            cell.filterName.text = filter.playlistName
-            cell.filterImage.image = filter.iconImage()
-            cell.filterImage.tintColor = filter.playlistColor()
-            cell.filterName.textColor = AppTheme.mainTextColor()
-            cell.episodeCount.textColor = ThemeColor.primaryText02()
-            cell.accessoryType = .disclosureIndicator
-
-            if cell.tag != indexPath.row { cell.episodeCount?.text = nil }
-            cell.tag = indexPath.row // store this so that we know when the cell has been reused to not set the number on it
-            DispatchQueue.global(qos: .default).async { () in
-                let count = DataManager.sharedManager.episodeCount(for: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries())
-                DispatchQueue.main.async { () in
-                    if cell.tag != indexPath.row { return }
-
-                    cell.episodeCount?.text = "\(count)"
-                }
-            }
-        }
-
         return cell
     }
 
     private func cell(_ tableView: UITableView, for identifier: String) -> ThemeableCell? {
-        if FeatureFlag.playlistsRebranding.enabled {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NewPlaylistCell {
-                return cell
-            }
-            return NewPlaylistCell(style: .default, reuseIdentifier: identifier)
-        } else {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? FilterNameCell {
-                return cell
-            }
-            let nib = UINib(nibName: "FilterNameCell", bundle: nil)
-            let objects = nib.instantiate(withOwner: nil, options: nil)
-            if let cell = objects.first as? FilterNameCell {
-                return cell
-            }
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? NewPlaylistCell {
+            return cell
         }
-        return nil
+        return NewPlaylistCell(style: .default, reuseIdentifier: identifier)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -139,11 +95,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let playlist = listPlaylistItems[safe: indexPath.row]?.playlist {
-            if FeatureFlag.playlistsRebranding.enabled {
-                showDeleteConfirmationDialog(for: playlist, at: indexPath, in: tableView)
-            } else {
-                delete(playlist: playlist, at: indexPath, in: tableView)
-            }
+            showDeleteConfirmationDialog(for: playlist, at: indexPath, in: tableView)
         }
     }
 
@@ -196,11 +148,8 @@ extension PlaylistsViewController {
         tableView.deleteRows(at: [indexPath], with: .top)
         tableView.endUpdates()
 
-        var properties: [AnyHashable: Any]? = [:]
-
-        if FeatureFlag.playlistsRebranding.enabled {
-            properties?["filter_type"] = playlist.manual ? "manual" : "smart"
-        }
+        var properties: [String: Sendable] = [:]
+        properties["filter_type"] = playlist.manual ? "manual" : "smart"
 
         Analytics.track(.filterDeleted, properties: properties)
     }
@@ -211,7 +160,7 @@ extension PlaylistsViewController {
 extension PlaylistsViewController {
     func showNewFilterTip() {
         guard
-            let vc = FeatureFlag.playlistsRebranding.enabled ? smartPlaylistsTip() : filtersTip()
+            let vc = smartPlaylistsTip()
         else {
             return
         }
@@ -230,11 +179,6 @@ extension PlaylistsViewController {
     }
 
     func showPlaylistsTipIfNeeded() {
-        if !FeatureFlag.playlistsRebranding.enabled {
-            showNewFilterTip()
-            return
-        }
-
         if SyncManager.isUserLoggedIn(),
            Settings.shouldShowNewFilterTip,
            !hasPremadePlaylists(),
@@ -263,15 +207,6 @@ extension PlaylistsViewController {
             return true
         }
         return false
-    }
-
-    private func filtersTip() -> UIHostingController<AnyView>? {
-        return tip(
-            title: L10n.filtersTipViewTitle,
-            message: L10n.filtersTipViewDescription,
-            sourceView: newFilterButton,
-            sourceRect: newFilterButton.bounds.offsetBy(dx: 0, dy: 10)
-        )
     }
 
     private func smartPlaylistsTip() -> UIHostingController<AnyView>? {

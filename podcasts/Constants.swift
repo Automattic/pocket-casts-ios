@@ -5,6 +5,10 @@ import UIKit
 struct Constants {
     enum Notifications {
         static let upNextEpisodeAdded = NSNotification.Name(rawValue: "SJUpNextEpisodeAdded")
+        /// `userInfo` key on `upNextEpisodeAdded` — a `Bool` that's `true` when
+        /// the episode was added to the top of the queue (Play Next) rather than
+        /// the bottom (Play Last). Drives the add-animation badge.
+        static let upNextEpisodeAddedToTopKey = "PCUpNextAddedToTop"
         static let upNextEpisodeRemoved = NSNotification.Name(rawValue: "SJUpNextEpisodeRemoved")
         static let upNextQueueChanged = NSNotification.Name(rawValue: "SJUpNextChanged")
         static let upNextShuffleToggle = NSNotification.Name(rawValue: "SJUpNextShuffleToggle")
@@ -33,7 +37,6 @@ struct Constants {
         static let miniPlayerDidDisappear = NSNotification.Name(rawValue: "SJMiniPlayerDisappeared")
         static let miniPlayerDidAppear = NSNotification.Name(rawValue: "SJMiniPlayerAppeared")
         static let playlistChanged = NSNotification.Name(rawValue: "FilterChanged")
-        static let playlistTempChange = NSNotification.Name(rawValue: "playlistTempChange")
         static let statusBarHeightChanged = NSNotification.Name(rawValue: "SJBarHeightChanged")
         static let podcastSearchRequest = NSNotification.Name(rawValue: "PodcastSearchRequest")
         static let podcastSearchCancelled = NSNotification.Name(rawValue: "PodcastSearchCancelled")
@@ -206,6 +209,7 @@ struct Constants {
 
         enum appearance {
             static let darkUpNextTheme = SettingValue("appearance.darkUpNextTheme", defaultValue: true)
+            static let tabBarMinimizingEnabled = SettingValue("appearance.tabBarMinimizingEnabled", defaultValue: true)
         }
 
         enum kidsProfile {
@@ -291,7 +295,7 @@ struct Constants {
             static let watchListItems = 50
         #else
             static let maxListItemsToSendToWatch = 50
-            static let maxFilterItems = FeatureFlag.playlistsRebranding.enabled ? 1000 : 500
+            static let maxFilterItems = 1000
             static let maxCarplayItems = 100
             static let maxBulkDownloads = 100
             static let maxSubscriptionExpirySeconds: TimeInterval = 30.days
@@ -434,6 +438,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case transcriptsWhatsNew = "transcripts_whats_new"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber

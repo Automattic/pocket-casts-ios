@@ -116,7 +116,7 @@ extension MediaFileHandle {
     func deleteFile() {
         do {
             try FileManager.default.removeItem(atPath: filePath)
-        } catch let error {
+        } catch {
             FileLog.shared.addMessage("MediaFileHandle: File [\(filePath)] deletion error: \(error)")
         }
     }

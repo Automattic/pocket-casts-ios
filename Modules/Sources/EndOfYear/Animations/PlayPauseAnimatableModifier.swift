@@ -1,7 +1,7 @@
 import SwiftUI
 
 public class PlayPauseAnimationViewModel: ObservableObject {
-    @Published private(set) public var paused = true
+    @Published public private(set) var paused = true
 
     private var duration: TimeInterval
 

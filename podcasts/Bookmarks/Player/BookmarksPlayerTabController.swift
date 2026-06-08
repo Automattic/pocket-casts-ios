@@ -100,7 +100,7 @@ class BookmarksPlayerTabController: PlayerItemViewController {
         guard isNew else { return }
 
         if canceled {
-            Task.init {
+            Task {
                 let _ = await bookmarkManager.remove([bookmark])
                 viewModel.reload()
             }

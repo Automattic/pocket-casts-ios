@@ -174,6 +174,6 @@ extension PlusLandingViewModel {
     @ViewBuilder
     private static func defaultPaywall(with viewModel: PlusLandingViewModel, headline: String? = nil) -> some View {
             UpgradeLandingView(viewModel: viewModel)
-                .setupDefaultEnvironment(theme: Theme.init(previewTheme: .light))
+                .setupDefaultEnvironment(theme: Theme(previewTheme: .light))
     }
 }

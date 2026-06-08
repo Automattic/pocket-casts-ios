@@ -679,25 +679,59 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     func play(playlist: EpisodeFilter) {
         let playlistEpisodes: [Episode]
-        if FeatureFlag.playlistsRebranding.enabled {
-            let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
-            playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
-            if playlist.manual {
-                let archivedEpisodes = playlistEpisodes.filter(\.archived)
-                EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
-            }
-        } else {
-            let query = PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit())
-            playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: query, arguments: nil)
+        let query = PlaylistQueryBuilder.query(clause: .episode, for: playlist, episodeUuidToAdd: playlist.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit(), shouldShowArchived: playlist.showArchivedEpisodes)
+        playlistEpisodes = DataManager.sharedManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
+        if playlist.manual {
+            let archivedEpisodes = playlistEpisodes.filter(\.archived)
+            EpisodeManager.bulkUnarchive(episodes: archivedEpisodes, trackEvent: false)
         }
         guard let startingEpisode = playlistEpisodes.first else { return }
 
-        if FeatureFlag.playlistsRebranding.enabled {
-            populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
-        } else {
-            populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
-        }
+        populateFrom(episodes: playlistEpisodes, startingAtEpisode: startingEpisode)
         uuidOfPlayingList = playlist.uuid
+    }
+
+    /// Plays every episode of `playlist`, or resumes the current playback when the Up Next queue
+    /// already matches it. Returns `false` without playing anything when a non-empty Up Next queue
+    /// would be replaced, so the caller can confirm the replacement before playback starts.
+    func playIfSafe(playlist: EpisodeFilter, episodeIDs: [String]) -> Bool {
+        guard isPlaylistDifferentFromUpNext(playlistEpisodeIDs: episodeIDs) else {
+            resumeIfPaused()
+            return true
+        }
+        guard queue.upNextCount() == 0 else {
+            return false
+        }
+        play(playlist: playlist)
+        return true
+    }
+
+    /// Whether playing `playlistEpisodeIDs` would change the current Up Next queue or the episode being played.
+    private func isPlaylistDifferentFromUpNext(playlistEpisodeIDs: [String]) -> Bool {
+        let upNextEpisodeIDs = DataManager.sharedManager
+            .allUpNextEpisodeUuids()
+            .compactMap(\.uuid)
+        if playlistEpisodeIDs != upNextEpisodeIDs {
+            return true
+        }
+
+        guard let firstPlaylistID = playlistEpisodeIDs.first else {
+            return false
+        }
+
+        guard let currentID = currentEpisode()?.uuid else {
+            return true
+        }
+
+        return currentID != firstPlaylistID
+    }
+
+    /// Resumes playback when it's currently paused. Used by the playlist "Play All" flow when the
+    /// Up Next queue already matches the playlist being played.
+    private func resumeIfPaused() {
+        guard !playing() else { return }
+        NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
+        play()
     }
 
     func internalPlayerForVideoPlayback() -> AVPlayer? {
@@ -1143,7 +1177,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             cancelSleepTimer()
             return
         }
-        // once playback is over iOS can be agressive about killing off our app, so start a short lived background task to let it know we're doing stuff
+        // once playback is over iOS can be aggressive about killing off our app, so start a short-lived background task to let it know we're doing stuff
         startBackgroundTask()
         defer {
             endBackgroundTask()
@@ -1265,7 +1299,7 @@ class PlaybackManager: ServerPlaybackDelegate {
 
     // MARK: - Helper Methods
 
-    private func populateFromEpisodes(_ episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
+    private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
         if episodes == nil, queue.upNextCount() > 0 {
             // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
             switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
@@ -1274,44 +1308,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
 
-            var foundEpisode = false
-            var addedEpisodes = 0
-            for episode in episodes! {
-                if !foundEpisode {
-                    if episode.uuid == startingAtEpisode.uuid {
-                        foundEpisode = true
-                    }
-
-                    continue
-                }
-
-                queue.add(episode: episode, fireNotification: false, partOfBulkAdd: true)
-                addedEpisodes += 1
-                // honor the queue auto add limit
-                if addedEpisodes >= ServerSettings.autoAddToUpNextLimit() {
-                    break
-                }
+            let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
+            if filteredEpisodes.isEmpty {
+                return
             }
-            queue.bulkOperationDidComplete()
-        }
-    }
-
-    private func populateFrom(episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
-        if episodes == nil, queue.upNextCount() > 0 {
-            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
-            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
-        } else {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                // there's a new list of episodes to play, so clear what's currently playing and play that
-                self?.load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-
-                let filteredEpisodes = episodes!.filter { $0.uuid != startingAtEpisode.uuid }
-                if filteredEpisodes.isEmpty {
-                    return
-                }
-                self?.queue.bulkAdd(filteredEpisodes)
-            }
+            queue.bulkAdd(filteredEpisodes)
         }
     }
 
@@ -2065,7 +2066,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: currEpisode, autoPlay: autoPlay, overrideUpNext: false)
         } else if reason == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue {
             player?.routeDidChange(shouldPause: true)
-        } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue {
+        } else if reason == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue || reason == AVAudioSession.RouteChangeReason.override.rawValue || reason == AVAudioSession.RouteChangeReason.categoryChange.rawValue {
             player?.routeDidChange(shouldPause: false)
             updateAllNowPlayingData()
         }

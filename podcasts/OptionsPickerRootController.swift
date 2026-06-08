@@ -43,7 +43,9 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
     private weak var dismissView: UIView?
     private(set) var isPresentedAsSheet = false
 
-    private let sheetTopPadding: CGFloat = LiquidGlass.isEnabled ? 20 : 12
+    private var sheetTopPadding: CGFloat {
+        stackView.arrangedSubviews.count > 1 ? 12 : 0
+    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         overrideStatusBarStyle
@@ -229,15 +231,22 @@ class OptionsPickerRootController: UIViewController, UIGestureRecognizerDelegate
         scrollViewHeightConstraint?.isActive = false
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: sheetTopPadding),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+
+        scrollView.contentInset = UIEdgeInsets(top: sheetTopPadding, left: 0, bottom: 0, right: 0)
+
+        for arrangedSubview in stackView.arrangedSubviews {
+            (arrangedSubview as? SimpleActionView)?.configureForSheetPresentation()
+        }
     }
 
     /// The height needed to show every option without scrolling, capped at `maxHeight`.
     func preferredSheetHeight(limitedTo maxHeight: CGFloat, traitCollection: UITraitCollection) -> CGFloat {
+        let width = view.bounds.width > 0 ? view.bounds.width : 320
         let contentHeight = stackView.systemLayoutSizeFitting(
-            CGSize(width: 320, height: UIView.layoutFittingCompressedSize.height),
+            CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         ).height

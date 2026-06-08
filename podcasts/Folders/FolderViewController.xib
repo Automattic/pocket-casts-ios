@@ -40,8 +40,8 @@
             <constraints>
                 <constraint firstItem="47A-43-GRI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3Vn-s7-RuP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="47A-43-GRI" secondAttribute="trailing" id="QQL-a4-Mvq"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="47A-43-GRI" secondAttribute="bottom" id="ZO9-S6-sVk"/>
-                <constraint firstItem="47A-43-GRI" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="pDg-Yl-YRq"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="bottom" secondItem="47A-43-GRI" secondAttribute="bottom" id="ZO9-S6-sVk"/>
+                <constraint firstItem="47A-43-GRI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="pDg-Yl-YRq"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
         </view>

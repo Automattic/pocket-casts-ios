@@ -119,6 +119,10 @@
     <string>Tria el tipus de compte</string>
     <key>account_sign_out</key>
     <string>Surt</string>
+    <key>account_sign_out_alert_message</key>
+    <string>Els teus pòdcasts, el progrés i les dades seran aquí quan tornis.</string>
+    <key>account_sign_out_alert_title</key>
+    <string>Vols tancar la sessió?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>Quan es tanqui la sessió, s'eliminaran %1$@ pòdcasts compatibles amb aquest dispositiu. Segur que vols continuar?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -245,6 +249,12 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Actualizant les caràtules ara</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Entesos, capità</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Barra de pestanyes</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimitza en fer scroll</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Quan està activat, la barra de pestanyes es redueix fins a convertir-se en una píndola compacta mentre fas scroll cap avall, de manera que es veu més contingut.</string>
     <key>appearance_theme_header</key>
     <string>Tema</string>
     <key>appearance_theme_select</key>
@@ -1270,6 +1280,8 @@ Ens veiem el 2024!</string>
     <string>Afegeix 1 pòdcast</string>
     <key>folder_add_remove_podcasts</key>
     <string>Afegeix o elimina pòdcasts</string>
+    <key>folder_add_to</key>
+    <string>Afegeix a la carpeta</string>
     <key>folder_change</key>
     <string>Canvia de carpeta</string>
     <key>folder_choose_color</key>
@@ -2624,6 +2636,8 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <string>Només el darrer episodi</string>
     <key>podcasts_badges</key>
     <string>Insígnia</string>
+    <key>podcasts_edit</key>
+    <string>Edita els pòdcasts</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>Ordre personalitzat</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2729,7 +2743,7 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <key>rating_error</key>
     <string>Ep! Hi ha hagut un error.</string>
     <key>rating_listen_to_this_podcast_message</key>
-    <string>Només els oients d'aquest pòdcast poden fer  una valoració. Escolta uns quants episodis i després torna aquí per a fer la teva valoració. Estem desitjant saber què et sembla!</string>
+    <string>Només els oients d'aquest pòdcast poden valorar-lo. Escolta alguns episodis i torna per deixar la teva valoració. Estem desitjant saber què t'ha semblat!</string>
     <key>rating_listen_to_this_podcast_title</key>
     <string>Escolta aquest pòdcast primer abans de valorar-lo</string>
     <key>rating_login_required</key>
@@ -2913,8 +2927,12 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>No s'ha pogut pujar el fitxer, intenta-ho més tard.</string>
     <key>server_error_files_uuid_required</key>
     <string>Es necessita l'identificador únic universal (UUID)  de l'arxiu.</string>
+    <key>server_error_login_access_denied</key>
+    <string>L'usuari ha denegat la sol·licitud d'autorització</string>
     <key>server_error_login_account_locked</key>
     <string>El teu compte s'ha bloquejat perquè hi ha hagut massa intents d'inici de sessió. Torneu-ho a provar més tard.</string>
+    <key>server_error_login_auth_pending</key>
+    <string>Autorització pendent</string>
     <key>server_error_login_email_blank</key>
     <string>Introdueix una adreça de correu electrònic.</string>
     <key>server_error_login_email_invalid</key>
@@ -2923,6 +2941,10 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>No s'ha trobat el correu electrònic</string>
     <key>server_error_login_email_taken</key>
     <string>El correu electrònic ja està en ús</string>
+    <key>server_error_login_expired_token</key>
+    <string>El codi del dispositiu ha caducat.</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>L'autorització proporcionada no és vàlida, ha caducat o s'ha revocat.</string>
     <key>server_error_login_password_blank</key>
     <string>Introdueix una contrasenya.</string>
     <key>server_error_login_password_incorrect</key>
@@ -2953,6 +2975,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Permet-nos recopilar dades analítiques.</string>
     <key>settings_allow_collection_third_party</key>
     <string>Permet-nos utilitzar serveis de tercers de confiança per a recollir dades anònimes.</string>
+    <key>settings_analytics</key>
+    <string>Analítica</string>
     <key>settings_appearance</key>
     <string>Aspecte</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3325,6 +3349,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>DADES MÒBILS</string>
     <key>settings_storage_usage</key>
     <string>ÚS</string>
+    <key>settings_storage_usage_footer</key>
+    <string>Pot diferir de l'emmagatzematge que es mostra a la Configuració de l'iPhone. iOS gestiona les dades en memòria cau automàticament i les allibera quan cal.</string>
     <key>settings_third_party_analytics</key>
     <string>Analítiques de tercers</string>
     <key>settings_title</key>
@@ -3405,6 +3431,48 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>S'ha produït un error en crear la teva pàgina compartida</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>S'ha produït un error en compartir</string>
+    <key>share_profile</key>
+    <string>Comparteix el perfil</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>Afegeix la foto i el nom</string>
+    <key>share_profile_add_your_name</key>
+    <string>Afegeix el teu nom</string>
+    <key>share_profile_choose_photo</key>
+    <string>Tria una foto</string>
+    <key>share_profile_display_name</key>
+    <string>Nom visible</string>
+    <key>share_profile_edit</key>
+    <string>Edita el perfil</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>Edita la foto i el nom</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>Pòdcasts seguits</string>
+    <key>share_profile_name_description</key>
+    <string>Així apareixeràs als perfils compartits. Ho pots canviar més endavant.</string>
+    <key>share_profile_playlists</key>
+    <string>Llistes de reproducció</string>
+    <key>share_profile_preview</key>
+    <string>Previsualitza el perfil</string>
+    <key>share_profile_privacy</key>
+    <string>Privadesa</string>
+    <key>share_profile_privacy_description</key>
+    <string>Pots gestionar què comparteixes a %1$@</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>Controla què pot veure la gent quan comparteixis el teu perfil.</string>
+    <key>share_profile_profile_sharing</key>
+    <string>Compartir el perfil</string>
+    <key>share_profile_recent_episodes</key>
+    <string>Episodis recents</string>
+    <key>share_profile_remove_photo</key>
+    <string>Elimina la foto</string>
+    <key>share_profile_save</key>
+    <string>Desa</string>
+    <key>share_profile_share_my_profile</key>
+    <string>Comparteix el meu perfil</string>
+    <key>share_profile_take_photo</key>
+    <string>Fes una foto</string>
+    <key>share_profile_what_to_share</key>
+    <string>Què vols compartir?</string>
     <key>share_select_podcasts</key>
     <string>Selecciona pòdcasts</string>
     <key>shared_item_loading</key>
@@ -3751,7 +3819,7 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <key>tv_episode_info</key>
     <string>Informació de l'episodi</string>
     <key>tv_home_keep_listening_title</key>
-    <string>Continua escoltant</string>
+    <string>Continuem on ho vau deixar</string>
     <key>tv_home_new_releases</key>
     <string>Novetats</string>
     <key>tv_home_recently_played</key>
@@ -3820,14 +3888,36 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Els pòdcasts que segueixes apareixeran aquí, a punt per reproduir.</string>
     <key>tv_podcasts_empty_title</key>
     <string>És hora d'omplir-ho.</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>Obre les opcions de perfil i compte</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>Perfil</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>Crea un compte</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>Inicia sessió</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>Tanca la sessió</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>Episodis destacats</string>
+    <key>tv_search_failed</key>
+    <string>La cerca ha fallat: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>Pòdcasts, programes, autors</string>
+    <key>tv_search_searching</key>
+    <string>Cercant...</string>
+    <key>tv_search_type_something</key>
+    <string>Escriu alguna cosa...</string>
     <key>tv_sign_in_enter_code</key>
     <string>o introdueix el codi següent</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>anant a [%1$@](%2$@)</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>o introdueix aquest codi a [%1$@](%2$@)</string>
     <key>tv_sign_in_subtitle</key>
     <string>Obre la càmera i apunta-la a aquest codi QR</string>
     <key>tv_sign_in_title</key>
-    <string>Inicia la sessió amb el teu telèfon</string>
+    <string>Inicia sessió a Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
     <string>Els teus pòdcasts s'estan sincronitzant, aviat iniciaràs la sessió!</string>
     <key>tv_signing_in_title</key>
@@ -3846,6 +3936,14 @@ Mai es compartirà la teva adreça de correu electrònic, ni la contrasenya ni c
     <string>Afegeix episodis a «Tot seguit» i es reproduiran en ordre, un darrere l'altre</string>
     <key>tv_up_next_empty_title</key>
     <string>No hi ha res a la cua</string>
+    <key>tv_user_profile_actions</key>
+    <string>Configuració de l'usuari</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>Tipus d'inici de sessió</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>Usuari/Contrasenya</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
     <key>tv_welcome_browse_without_account</key>
     <string>Navega sense un compte</string>
     <key>tv_welcome_create_free_account</key>

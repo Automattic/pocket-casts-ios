@@ -11,6 +11,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
             registerLongPress()
+            if LiquidGlass.isEnabled {
+                uploadsTable.themeStyle = .primaryUi02
+            }
             uploadsTable.allowsMultipleSelectionDuringEditing = true
             uploadsTable.rowHeight = UITableView.automaticDimension
             uploadsTable.estimatedRowHeight = 80
@@ -58,28 +61,27 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
     }
 
+    @MainActor
     var isMultiSelectEnabled = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.uploadsTable.beginUpdates()
-                self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.insetAdjuster.isMultiSelectEnabled = self.isMultiSelectEnabled
-                self.uploadsTable.endUpdates()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            uploadsTable.beginUpdates()
+            uploadsTable.setEditing(isMultiSelectEnabled, animated: true)
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            uploadsTable.endUpdates()
 
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.uploadedFilesMultiSelectEntered)
-                    self.multiSelectActionBar.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectActionBarBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.uploadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.uploadedFilesMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            if isMultiSelectEnabled {
+                Analytics.track(.uploadedFilesMultiSelectEntered)
+                multiSelectActionBar.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectActionBarBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    uploadsTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.uploadedFilesMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -169,9 +171,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         addCustomObserver(ServerNotifications.userEpisodesRefreshed, selector: #selector(handleReloadFromNotification))
         addCustomObserver(ServerNotifications.userEpisodesRefreshFailed, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(handleReloadFromNotification))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.userEpisodeDeleted, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.playbackFailed, selector: #selector(handleReloadFromNotification))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(handleReloadFromNotification))
@@ -182,11 +181,12 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     func setupNavBar() {
         supportsGoogleCast = isMultiSelectEnabled ? false : true
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        let rightButton = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        rightButton.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.setCustomRightBtn(rightButton, animated: true)
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.setLeftBarButton(isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped)) : nil, animated: true)
+        navigationItem.setHidesBackButton(isMultiSelectEnabled, animated: true)
     }
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
@@ -208,8 +208,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
-            self.showSortByPicker()
+            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
         }
+        sortAction.submenu = { [weak self] in self?.makeSortByPicker() }
         optionsPicker.addAction(action: sortAction)
 
         let settingsAction = OptionAction(label: L10n.settingsFiles, icon: "podcast-settings") { [weak self] in
@@ -218,7 +219,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         }
         optionsPicker.addAction(action: settingsAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     @objc private func handleReloadFromNotification() {
@@ -264,16 +265,14 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         present(documentPicker, animated: true)
     }
 
-    func showSortByPicker() {
-        Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
-
+    func makeSortByPicker() -> OptionsPicker {
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
 
         UploadedSort.allCases.forEach { sort in
             optionsPicker.addAction(action: createSortAction(sort: sort))
         }
 
-        optionsPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        return optionsPicker
     }
 
     private func createSortAction(sort: UploadedSort) -> OptionAction {

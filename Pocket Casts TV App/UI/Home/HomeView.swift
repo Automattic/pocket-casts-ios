@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsDataModel
+import PocketCastsServer
 
 struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
@@ -7,8 +8,18 @@ struct HomeView: View {
 
     @State private var model = HomeViewModel()
 
+    @State private var showNowPlayingPlayer: Bool = false
+
     enum Layout {
         static let gridSize = CGFloat(250)
+        static let sectionSpacing = CGFloat(80)
+    }
+
+    enum Section: String {
+        case homeNowPlaying
+        case homeUpNext
+        case homeNewReleases
+        case homeBanner
     }
 
     var body: some View {
@@ -40,97 +51,192 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvHomeKeepListeningTitle)
-                        .font(.title2)
-                        .foregroundStyle(Color.textPrimary)
-                    if let currentPlaying = model.currentPlaying {
-                        EpisodePlayerButton(model: currentPlaying)
-                            .frame(maxWidth: 864, alignment: .leading)
+                VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
+                    if coordinator.userState.isLoggedIn {
+                        nowPlayingRow
+                        upNextRow
+                        youMightLikeRow
+                        videoRow
+                        newReleasesRow
+                        lovedByListenersOfRow
+                        trendingRow
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                            tabRouter.selectedTab = .search
+                        }
+                    } else {
+                        featuredRow
+                        videoRow
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                            tabRouter.pendingAuthFlow = .createAccount
+                        }
+                        trendingRow
+                        categoriesRow
+                        curatedRow
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                            tabRouter.selectedTab = .search
+                        }
                     }
-                    VStack(alignment: .leading, spacing: 24) {
-                        Text(L10n.tvHomeRecommendedForYouTitle)
-                            .font(.title3)
-                            .foregroundStyle(Color.textPrimary)
-                        discoverCollection
-                    }
-                    Text(L10n.tvTabUpNext)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    upNextRow
-                    VStack(alignment: .leading, spacing: 24) {
-                        Text(L10n.tvHomeRecentlyPlayed)
-                            .font(.title3)
-                            .foregroundStyle(Color.textPrimary)
-                        recentlyPlayedRow
-                    }
-                    Text(L10n.tvHomeNewReleases)
-                        .font(.title3)
-                        .foregroundStyle(Color.textPrimary)
-                    newReleasesRow
                 }
+            }
+            .navigationDestination(for: DiscoverPodcast.self) { podcast in
+                if let uuid = podcast.uuid {
+                    PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
+                }
+            }
+            .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+                DiscoverPodcastsListView(category: discoverCategory)
+            }
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
+    }
+
+    @ViewBuilder
+    var nowPlayingRow: some View {
+        if let currentPlaying = model.currentPlaying {
+            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying) {
+                NowPlayingRow(model: currentPlaying) {
+                    showNowPlayingPlayer = true
+                }
+                .frame(width: 1242, alignment: .leading)
+                .setFocus(section: Section.homeNowPlaying)
+            }
+        } else {
+            EmptyView()
+        }
+    }
+
+    var youMightLikeRow: some View {
+        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser) {
+            DiscoverPodcastRow(type: .recommendationsUser)
+        }
+    }
+
+    @State private var sectionPodcast: String?
+
+    var lovedByListenersOfRow: some View {
+        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial) {
+            DiscoverPodcastRow(type: .recommendationsSocial) { title in
+                sectionPodcast = title
             }
         }
     }
 
-    @Namespace private var podcastGridNamespace
+    var trendingRow: some View {
+        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
+            DiscoverPodcastRow(type: .trending)
+        }
+    }
 
-    var discoverCollection: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 0, content: {
-                ForEach(model.podcasts) { podcast in
-                    NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast.uuid, size: .page)
-                            .frame(width: Layout.gridSize, height: Layout.gridSize)
-                    }
-                    .buttonStyle(.card)
-                    .padding(24)
-                    .prefersDefaultFocus(model.podcasts.first?.uuid == podcast.uuid, in: podcastGridNamespace)
-                }
-            })
-            .focusScope(podcastGridNamespace)
-            .navigationDestination(for: Podcast.self) { podcast in
-                PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+    var featuredRow: some View {
+        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
+            DiscoverFeaturedPodcastsRow(type: .featured)
+        }
+    }
+
+    var videoRow: some View {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+            DiscoverVideoEpisodesRow(type: .video)
+        }
+    }
+
+    @State private var curatedTitle: String?
+    var curatedRow: some View {
+        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
+            DiscoverPodcastRow(type: .curatedList) { title in
+                curatedTitle = title
             }
         }
     }
+
+    var categoriesRow: some View {
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
+            DiscoverCategoriesRow()
+        }
+    }
+
+    @ViewBuilder
     var upNextRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 24) {
-                ForEach(model.upNext) { episode in
-                    EpisodePlayerButton(model: episode)
-                        .frame(width: 864)
+        if model.upNext.count > 1 {
+            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext) {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 24) {
+                        ForEach(model.upNext) { episode in
+                            upNextButton(model: episode)
+                                .frame(width: 864)
+                                .setFocus(section: Section.homeUpNext)
+                        }
+                    }
                 }
             }
-            .padding(.horizontal, 24)
         }
     }
 
-    var recentlyPlayedRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 0) {
-                ForEach(model.recentlyPlayed) { podcast in
-                    NavigationLink(value: podcast) {
-                        PodcastImage(uuid: podcast.uuid, size: .page)
-                            .frame(width: Layout.gridSize, height: Layout.gridSize)
-                    }
-                    .buttonStyle(.card)
-                    .padding(24)
-                }
-            }
+    func upNextButton(model: EpisodeRowViewModel) -> some View {
+        Button {
+            model.play()
+            showNowPlayingPlayer = true
+        } label: {
+            EpisodeRow(model: model, isActive: false)
         }
+        .buttonStyle(EpisodeRowButtonStyle())
     }
 
     var newReleasesRow: some View {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 24) {
-                ForEach(model.newReleases) { episode in
-                    EpisodePlayerButton(model: episode)
-                        .frame(width: 864)
+        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases) {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 24) {
+                    ForEach(model.newReleases) { episode in
+                        EpisodePlayerButton(model: episode)
+                            .frame(width: 864)
+                            .setFocus(section: Section.homeNewReleases)
+                    }
                 }
             }
-            .padding(.horizontal, 24)
         }
+    }
+}
+
+struct HomeSection<Content: View>: View {
+    private let title: String
+    private let focusSection: AnyHashable
+    private let content: Content
+
+    @Environment(FocusStore.self) var focusStore
+
+    init(title: String, focusSection: AnyHashable, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+        self.focusSection = focusSection
+    }
+
+    private var isFocusedSection: Bool {
+        focusStore.focusedID == focusSection
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 32) {
+            titleView
+            content
+        }
+        .focusSection()
+    }
+
+    // Always reserve space for the larger (focused) title so the layout
+    // doesn't jump when the title resizes on focus changes. A hidden copy at
+    // the largest font sizes the slot; the visible title is overlaid and
+    // bottom-aligned so its distance to the content below stays constant.
+    private var titleView: some View {
+        Text(title)
+            .font(.title2)
+            .hidden()
+            .overlay(alignment: .bottomLeading) {
+                Text(title)
+                    .font(isFocusedSection ? .title2 : .headline)
+                    .foregroundStyle(Color.pcTextPrimary)
+            }
     }
 }
 

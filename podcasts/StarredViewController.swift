@@ -26,27 +26,26 @@ class StarredViewController: PCViewController {
     }
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
+    @MainActor
     var isMultiSelectEnabled: Bool = false {
         didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.setupNavBar()
-                self.starredTable.beginUpdates()
-                self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.starredTable.endUpdates()
-                self.insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
-                if self.isMultiSelectEnabled {
-                    Analytics.track(.starredMultiSelectEntered)
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.starredTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    Analytics.track(.starredMultiSelectExited)
-                    self.selectedEpisodes.removeAll()
+            setupNavBar()
+            setEnclosingTabBarHidden(isMultiSelectEnabled, animated: false)
+            starredTable.beginUpdates()
+            starredTable.setEditing(isMultiSelectEnabled, animated: true)
+            starredTable.endUpdates()
+            insetAdjuster.isMultiSelectEnabled = isMultiSelectEnabled
+            if isMultiSelectEnabled {
+                Analytics.track(.starredMultiSelectEntered)
+                multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
+                multiSelectFooterBottomConstraint.constant = Constants.effectiveFooterViewPadding
+                if let selectedIndexPath = longPressMultiSelectIndexPath {
+                    starredTable.selectIndexPath(selectedIndexPath)
+                    longPressMultiSelectIndexPath = nil
                 }
+            } else {
+                Analytics.track(.starredMultiSelectExited)
+                selectedEpisodes.removeAll()
             }
         }
     }
@@ -100,7 +99,7 @@ class StarredViewController: PCViewController {
                 let oldData = self.episodes
                 var newData = [ListEpisode]()
                 for episode in episodes {
-                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor(), isInUpNext: PlaybackManager.shared.inUpNext(episode: episode)))
+                    newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor()))
                 }
 
                 DispatchQueue.main.sync { [weak self] in
@@ -149,9 +148,6 @@ class StarredViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextEpisodeRemoved, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextEpisodeAdded, selector: #selector(refreshEpisodesFromNotification(notification:)))
-        addCustomObserver(Constants.Notifications.upNextQueueChanged, selector: #selector(refreshEpisodesFromNotification(notification:)))
     }
 
     @objc private func refreshEpisodesFromNotification(notification: Notification) {

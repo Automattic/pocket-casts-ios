@@ -253,6 +253,15 @@
 /* Label for letting the user choose a theme for iOS dark mode. */
 "appearance_dark_theme" = "Dark Theme";
 
+/* Section header for the appearance settings related to the tab bar. */
+"appearance_tab_bar_header" = "Tab Bar";
+
+/* Toggle that controls whether the tab bar shrinks into a compact pill as the user scrolls (iOS 26 Liquid Glass). */
+"appearance_tab_bar_minimizing" = "Minimize on Scroll";
+
+/* Subtitle explaining the tab bar minimize-on-scroll toggle. */
+"appearance_tab_bar_minimizing_footer" = "When enabled, the tab bar shrinks into a compact pill as you scroll down so more content stays in view.";
+
 /* A common string used throughout the app. Prompt to archive the selected item(s). */
 "archive" = "Archive";
 
@@ -1240,6 +1249,15 @@
 /* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
 "stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
 
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -1543,6 +1561,9 @@
 /* Confirmation prompt for archiving an episode. */
 "player_archived_confirmation" = "Archive this episode?";
 
+/* Message body shown in the confirmation prompt for archiving an episode. */
+"player_archived_confirmation_message" = "Hidden from your feed, not deleted.";
+
 /* Accessibility label calling out the current artwork that's being displayed. '%1$@' is a placeholder for either the episode name or the chapter title. */
 "player_artwork" = "%1$@ Artwork";
 
@@ -1569,6 +1590,9 @@
 
 /* Confirmation prompt for marking an episode as played. */
 "player_mark_as_played_confirmation" = "Mark this episode as played?";
+
+/* Message body shown in the confirmation prompt for marking an episode as played. */
+"player_mark_as_played_confirmation_message" = "It'll move out of Up Next and into your history.";
 
 /* Warning that comes along with selecting to play all. Informs the user that their queue will be cleared. */
 "player_options_play_all_message" = "This will clear your current Up Next queue.";
@@ -1672,7 +1696,7 @@
 /* Account detail message informing the user that they have been granted a lifetime membership, don't translate "Pocket Casts Champion" */
 "plus_champion" = "Pocket Casts Champion";
 
-/* Message displayed when teh user tap "Pocket Casts Champion" button */
+/* Message displayed when the user taps "Pocket Casts Champion" button */
 "plus_champion_message" = "Thanks for being with Pocket Casts from the start. You're a real champion!";
 
 /* Pocket Casts Plus marketing page, description of generated transcriptsg */
@@ -1856,6 +1880,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -2875,6 +2902,9 @@
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_first_party_analytics" = "First-party analytics";
 
+/* Section header for analytics in privacy settings */
+"settings_analytics" = "Analytics";
+
 /* Label displayed next to the toggle to opt-in/out for First-Party Analytics tracking */
 "settings_third_party_analytics" = "Third-party analytics";
 
@@ -2982,6 +3012,69 @@
 
 /* A message shown when trying to share a private podcast, which is disabled. */
 "share_podcast_private_not_available" = "Sharing is not available for private podcasts";
+
+/* Title for the share profile screen */
+"share_profile" = "Share profile";
+
+/* Title for the add photo and name step */
+"share_profile_add_photo_and_name" = "Add photo and name";
+
+/* Title for the edit photo and name screen */
+"share_profile_edit_photo_and_name" = "Edit photo and name";
+
+/* Choose photo from library */
+"share_profile_choose_photo" = "Choose Photo";
+
+/* Take a new photo with camera */
+"share_profile_take_photo" = "Take Photo";
+
+/* Remove the current profile photo */
+"share_profile_remove_photo" = "Remove Photo";
+
+/* Label for the display name field */
+"share_profile_display_name" = "Display name";
+
+/* Placeholder text for the name input field */
+"share_profile_add_your_name" = "Add your name";
+
+/* Description text below the name input field */
+"share_profile_name_description" = "This is how you'll appear on shared profiles. You can change it later.";
+
+/* Title for the preview profile step */
+"share_profile_preview" = "Preview profile";
+
+/* Button label for sharing the profile */
+"share_profile_share_my_profile" = "Share my profile";
+
+/* Title for the edit profile step */
+"share_profile_edit" = "Edit profile";
+
+/* Section header for the share options */
+"share_profile_what_to_share" = "What do you want to share?";
+
+/* Toggle label for including followed podcasts in shared profile */
+"share_profile_followed_podcasts" = "Followed podcasts";
+
+/* Toggle label for including recent episodes in shared profile */
+"share_profile_recent_episodes" = "Recent episodes";
+
+/* Toggle label for including playlists in shared profile */
+"share_profile_playlists" = "Playlists";
+
+/* Description text for the privacy settings hint on edit profile. %1$@ is the "Privacy" link text */
+"share_profile_privacy_description" = "You can manage what you're sharing in %1$@";
+
+/* Share Profile: Privacy link label */
+"share_profile_privacy" = "Privacy";
+
+/* Share Profile: Profile sharing section header in privacy settings */
+"share_profile_profile_sharing" = "Profile sharing";
+
+/* Share Profile: Privacy settings footer text */
+"share_profile_privacy_settings_footer" = "Control what others can see when you share your profile.";
+
+/* Generic save button */
+"share_profile_save" = "Save";
 
 /* Error message for when sharing fails. */
 "share_podcasts_sharing_failed_msg" = "Something went wrong creating your share page";
@@ -4691,6 +4784,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -5930,16 +6032,22 @@
 "tv_welcome_browse_without_account" = "Browse without an account";
 
 /* tv sign in title */
-"tv_sign_in_title" = "Sign in with your phone";
+"tv_sign_in_title" = "Log in to Pocket Casts";
 
 /* tv sign in subtitle */
 "tv_sign_in_subtitle" = "Open your camera and point to this QR code";
+
+/* tv sign enter code. '%1$@' is the visible (white, underlined) pair URL, '%2$@' is the full URL to navigate to. */
+"tv_sign_in_enter_code_in_url" = "or enter this code in [%1$@](%2$@)";
 
 /* tv sign enter code */
 "tv_sign_in_enter_code" = "or enter the following code";
 
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
+
+/* tv sign in error title shown when the app fails to fetch the QR sign in code */
+"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
 
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
@@ -5951,10 +6059,10 @@
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
 
 /* tv signing in title */
-"tv_signing_in_title" = "Welcome back!";
+"tv_signing_in_title" = "Good to see you.";
 
 /* tv signing in subtitle */
-"tv_signing_in_subtitle" = "Your podcasts are syncing, we’ll sign you in soon!";
+"tv_signing_in_subtitle" = "Loading your podcasts now.";
 
 /* tv podcasts empty title */
 "tv_podcasts_empty_title" = "Time to fill this up.";
@@ -6017,10 +6125,10 @@
 "tv_playlists_empty_action_title" = "Create a playlist";
 
 /* tv keep listening title */
-"tv_home_keep_listening_title" = "Keep listening";
+"tv_home_keep_listening_title" = "Picking up where you left off";
 
 /* tv home recommended for you title */
-"tv_home_recommended_for_you_title" = "Recommended for you";
+"tv_home_recommended_for_you_title" = "You'll probably want these";
 
 /* tv home recently played section title */
 "tv_home_recently_played" = "Recently played";
@@ -6076,6 +6184,24 @@
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 
+/* tv Profile button — VoiceOver label for the image-only profile button shown in the top bar of the main tab view */
+"tv_profile_button_accessibility_label" = "Profile";
+
+/* tv Profile button — VoiceOver hint describing what happens when activating the profile button in the top bar of the main tab view */
+"tv_profile_button_accessibility_hint" = "Opens profile and account options";
+
+/* tv Profile menu — opens the Starred Episodes list */
+"tv_profile_menu_starred_episodes" = "Starred Episodes";
+
+/* tv Profile menu — log out action */
+"tv_profile_menu_log_out" = "Log out";
+
+/* tv Profile menu — log in action (signed-out state) */
+"tv_profile_menu_log_in" = "Log in";
+
+/* tv Profile menu — create account action (signed-out state) */
+"tv_profile_menu_create_account" = "Create account";
+
 /* tv Sign In Login Type title */
 "tv_user_sign_in_login_type" = "Login Type";
 
@@ -6084,6 +6210,18 @@
 
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
+
+/* tv search field placeholder prompt */
+"tv_search_prompt" = "Podcasts, shows, authors";
+
+/* tv search in-progress indicator label */
+"tv_search_searching" = "Searching...";
+
+/* tv search initial placeholder shown before any query is entered */
+"tv_search_type_something" = "Type something...";
+
+/* tv search error label. '%1$@' is a placeholder for a localized error description. */
+"tv_search_failed" = "Search failed: %1$@";
 
 /* info message when authorization is pending on server */
 "server_error_login_auth_pending" = "Authorization pending";
@@ -6096,3 +6234,47 @@
 
 /* info message when authorization is invalid on server */
 "server_error_login_invalid_grant" = "The provided grant is invalid, expired or has been revoked.";
+
+/* tv home recommendations for listeners of podcast title. Ex: Loved by listeners of The Daily */
+"tv_home_recommend_user_podcast_section_title" = "Loved by listeners of %1$@";
+
+/* tv home Trending section title */
+"tv_home_trending_section_title" = "What everyone's on this week";
+
+/* tv home Featured section title */
+"tv_home_featured_section_title" = "Featured on Pocket Casts";
+
+/* tv home Browse Categories section title */
+"tv_home_browse_categories_section_title" = "Browse categories";
+
+/* tv create account banner title */
+"tv_banner_create_account_title" = "One account. Every screen";
+
+/* tv create account banner subtitle */
+"tv_banner_create_account_subtitle" = "Your follows, your progress... exactly where you left them.";
+
+/* tv create account banner action button title */
+"tv_banner_create_account_action_title" = "Create a free account";
+
+/* tv discover more banner title */
+"tv_banner_discover_more_title" = "You haven't seen the half of it.";
+
+/* tv discover more banner subtitle */
+"tv_banner_discover_more_subtitle" = "Your next obsession is in here somewhere.";
+
+/* tv discover more banner action button title */
+"tv_banner_discover_more_action_title" = "Discover more shows";
+
+/* Discover - Button title on a featured podcast card that plays the podcast's most recent episode. */
+"tv_discover_featured_play_latest_episode" = "Play latest episode";
+
+/* Discover - Button title on a featured podcast card that opens the podcast. */
+"tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+

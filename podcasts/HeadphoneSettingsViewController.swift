@@ -211,7 +211,7 @@ private extension HeadphoneSettingsViewController {
                 onChange(option)
             }
         })
-        picker.show(statusBarStyle: preferredStatusBarStyle)
+        picker.present(from: self)
     }
 }
 

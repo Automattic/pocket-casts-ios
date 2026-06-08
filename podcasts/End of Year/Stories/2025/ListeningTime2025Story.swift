@@ -95,7 +95,7 @@ struct ListeningTime2025Story: ShareableStory {
     }
 }
 
-final private class LottieTextProvider: AnimationKeypathTextProvider {
+private final class LottieTextProvider: AnimationKeypathTextProvider {
 
     private var startTime: Double
     private var endTime: Double

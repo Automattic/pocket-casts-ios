@@ -62,6 +62,6 @@ extension UIViewController {
             optionPicker.addAction(action: allBelowAction)
         }
 
-        optionPicker.show(statusBarStyle: statusBarStyle ?? preferredStatusBarStyle)
+        optionPicker.present(from: self)
     }
 }

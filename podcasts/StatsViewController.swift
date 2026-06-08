@@ -19,14 +19,18 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         case timeSavedTotal
     }
 
-    private var sections: [StatsSection] {
-        guard loadingState == .loaded else { return [.header] }
-        var sections: [StatsSection] = [.header]
-        if FeatureFlag.statsHeatmap.enabled {
-            sections.append(.heatmap)
+    private var sections: [StatsSection] = [.header]
+
+    private func reloadSections() {
+        var newSections: [StatsSection] = [.header]
+        if loadingState == .loaded {
+            if FeatureFlag.statsHeatmap.enabled {
+                newSections.append(.heatmap)
+            }
+            newSections.append(contentsOf: [.timeSavedBreakdown, .timeSavedTotal])
         }
-        sections.append(contentsOf: [.timeSavedBreakdown, .timeSavedTotal])
-        return sections
+        sections = newSections
+        statsTable?.reloadData()
     }
 
     private var localOnly = !SyncManager.isUserLoggedIn()
@@ -82,7 +86,9 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         switch sections[section] {
         case .heatmap:
-            return SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
+            let header = SettingsTableHeader(frame: headerFrame, title: L10n.statsListeningActivitySectionTitle)
+            header.addInfoButton(selector: #selector(showHeatmapInfo), target: self, accessibilityLabel: L10n.statsListeningActivityInfoAccessibilityLabel)
+            return header
         case .timeSavedBreakdown:
             return SettingsTableHeader(frame: headerFrame, title: L10n.statsTimeSaved)
         case .header, .timeSavedTotal:
@@ -194,22 +200,25 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private func loadStats() {
         if localOnly {
             loadingState = LoadingStatus.loaded
-            statsTable.reloadData()
+            reloadSections()
 
             return
         }
 
         loadingState = LoadingStatus.loading
+        reloadSections()
+
         StatsManager.shared.loadRemoteStats { success in
-            self.loadingState = success ? .loaded : .failed
             DispatchQueue.main.async { [weak self] in
-                self?.statsTable.reloadData()
-                self?.requestReviewIfPossible()
+                guard let self else { return }
+                self.loadingState = success ? .loaded : .failed
+                self.reloadSections()
+                self.requestReviewIfPossible()
             }
 
             RefreshManager.shared.refreshPodcasts { _ in
                 DispatchQueue.main.async { [weak self] in
-                    self?.statsTable.reloadData()
+                    self?.reloadSections()
                 }
             }
         }
@@ -237,6 +246,20 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     private func formatStat(_ stat: Double) -> String {
         stat.localizedTimeDescription ?? L10n.statsTimeZeroSeconds
+    }
+
+    @objc private func showHeatmapInfo() {
+        let view = ModalMessageView(
+            title: L10n.statsListeningActivityInfoTitle,
+            message: L10n.statsListeningActivityInfoMessage,
+            actionTitle: L10n.gotIt
+        )
+        BottomSheetSwiftUIWrapper.present(
+            view.environmentObject(Theme.sharedTheme),
+            autoSize: true,
+            showingGrabber: true,
+            in: self
+        )
     }
 
     private func requestReviewIfPossible() {

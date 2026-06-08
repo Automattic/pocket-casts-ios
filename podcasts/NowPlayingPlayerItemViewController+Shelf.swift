@@ -295,7 +295,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             yesAction.destructive = true
             confirmation.addAction(action: yesAction)
 
-            confirmation.show(statusBarStyle: preferredStatusBarStyle)
+            confirmation.present(from: self)
         } else if episode.isInDownloadProcess {
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
             Toast.show(L10n.playerEpisodeDownloadCancelled)
@@ -460,15 +460,13 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func markPlayed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
-        let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-
-        let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
+        let alert = UIAlertController(title: L10n.playerMarkAsPlayedConfirmation, message: L10n.playerMarkAsPlayedConfirmationMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.markPlayedShort, style: .destructive) { _ in
             AnalyticsEpisodeHelper.shared.currentSource = self.analyticsSource
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-        }
-        markPlayedAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerMarkAsPlayedConfirmation, message: nil, icon: "shelf_played", actions: [markPlayedAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        })
+        present(alert, animated: true)
     }
 
     private func delete() {
@@ -483,14 +481,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
         AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
-        let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
-
-        let archiveAction = OptionAction(label: L10n.archive, icon: nil) {
+        let alert = UIAlertController(title: L10n.playerArchivedConfirmation, message: L10n.playerArchivedConfirmationMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.archive, style: .destructive) { _ in
             EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
-        }
-        archiveAction.destructive = true
-        optionsPicker.addDescriptiveActions(title: L10n.playerArchivedConfirmation, message: nil, icon: "shelf_archive", actions: [archiveAction])
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        })
+        present(alert, animated: true)
     }
     #endif
 

@@ -609,7 +609,8 @@ class Settings: NSObject {
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
         if FeatureFlag.newSettingsStorage.enabled {
-            return SettingsStore.appSettings.filesAutoUpNext = value
+            SettingsStore.appSettings.filesAutoUpNext = value
+            return
         }
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
         trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
@@ -1261,6 +1262,11 @@ class Settings: NSObject {
             }
             Constants.UserDefaults.appearance.darkUpNextTheme.save(newValue)
         }
+    }
+
+    static var tabBarMinimizingEnabled: Bool {
+        get { Constants.UserDefaults.appearance.tabBarMinimizingEnabled.value }
+        set { Constants.UserDefaults.appearance.tabBarMinimizingEnabled.save(newValue) }
     }
 
     static var skipBackTime: Int {

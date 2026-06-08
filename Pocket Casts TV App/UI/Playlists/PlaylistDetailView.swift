@@ -16,9 +16,11 @@ struct PlaylistDetailView: View {
         static let mosaicTileSize = CGFloat(209)
         static let infoPanelWidth = CGFloat(568)
         static let gutter = CGFloat(24)
+        static let rowInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
     }
 
     var body: some View {
+        @Bindable var model = model
         ZStack {
             switch model.state {
             case .loading:
@@ -31,6 +33,22 @@ struct PlaylistDetailView: View {
         .defaultFocus($focusedSection, .episodes)
         .onAppear { tabRouter.isShowingDetail = true }
         .onDisappear { tabRouter.isShowingDetail = false }
+        .confirmationDialog(
+            L10n.playlistPlayAllSheetTitle,
+            isPresented: $model.isShowingReplaceUpNextConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
+                model.buttonConfirmPlayPlaylistTapped()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.playlistPlayAllSheetDescription)
+        }
+        .fullScreenCover(isPresented: $model.isShowingNowPlaying) {
+            NowPlayingView()
+                .ignoresSafeArea()
+        }
         .task {
             model.load()
         }
@@ -66,7 +84,7 @@ struct PlaylistDetailView: View {
                 }
             }
         } else if let first = images.first {
-            Image(first).resizable().aspectRatio(contentMode: .fill)
+            PodcastImage(uuid: first, size: .page).aspectRatio(contentMode: .fill)
         }
     }
 
@@ -106,19 +124,19 @@ struct PlaylistDetailView: View {
     var playlistInfo: some View {
         VStack(alignment: .leading, spacing: 40) {
             mosaicCover
-                .shadow(color: .black.opacity(0.6), radius: 40, x: 0, y: 20)
+                .shadow(color: .pcShadowStrong, radius: 40, x: 0, y: 20)
             VStack(alignment: .leading, spacing: 8) {
                 if !model.isManual {
                     Text(L10n.smartPlaylist)
                         .font(.caption)
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.pcTextSecondary)
                 }
                 Text(model.playlistName)
                     .font(.title2)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.pcTextPrimary)
                 Text("\(model.episodeCountText) · \(model.totalDuration)")
                     .font(.caption)
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.pcTextSecondary)
             }
             if !model.episodes.isEmpty {
                 Button {
@@ -139,11 +157,12 @@ struct PlaylistDetailView: View {
             ForEach(model.episodes, id: \.uuid) { episode in
                 EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil))
                     .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                    .listRowInsets(Layout.rowInsets)
             }
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
     }
 }

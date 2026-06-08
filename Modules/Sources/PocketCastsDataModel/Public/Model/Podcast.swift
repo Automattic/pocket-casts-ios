@@ -58,6 +58,7 @@ public class Podcast: NSObject, Identifiable {
     @objc public var folderUuid: String?
     @objc public var usedCustomEffectsBefore = false
     @objc public var isPrivate = false
+    @objc public var isExplicit = false
     @objc public var fundingURL: String?
 
     @GRDBIgnore
@@ -176,7 +177,7 @@ extension TrimSilence {
 }
 
 extension Podcast {
-    public override var debugDescription: String {
+    override public var debugDescription: String {
         "Podcast: \(uuid) - \(title ?? "missing title")"
     }
 }

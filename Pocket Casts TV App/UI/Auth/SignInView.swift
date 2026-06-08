@@ -14,12 +14,12 @@ struct SignInView: View {
         static let qrSize = CGFloat(240)
     }
 
-    var attributed: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeGoUrl(model.pairURLPretty, model.pairURLString)
+    var enterCodePrompt: AttributedString {
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairURLPretty, model.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
-        linkStyle.foregroundColor = Color.textPrimary
+        linkStyle.foregroundColor = Color.pcTextPrimary
         linkStyle.underlineStyle = .single
 
         for run in attributedString.runs where run.link != nil {
@@ -45,13 +45,10 @@ struct SignInView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 32) {
-                Spacer()
                 Image(ImageResource.pcLogo)
                 Text(L10n.tvSignInTitle)
                     .font(.title)
-                Text(L10n.tvSignInSubtitle)
-                    .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundColor(Color.pcTextPrimary)
                 Picker(L10n.tvUserSignInLoginType, selection: $loginType) {
                     ForEach(LoginType.allCases, id: \.self) { type in
                         Text(type.description).tag(type)
@@ -59,24 +56,37 @@ struct SignInView: View {
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 500)
-                switch loginType {
-                case .manual:
-                    usernamePasswordLogin
-                case .qr:
-                    QRCodeView(url: model.pairURLString)
-                    separator
-                    Text(L10n.tvSignInEnterCode)
-                        .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
-                    qrCodeDigits
-                    Text(attributed)
-                        .font(.headline)
-                        .foregroundStyle(Color.textSecondary)
+                // Mode-specific content area, fixed height so the logo,
+                // title, and picker above never shift when switching modes.
+                VStack(spacing: 32) {
+                    switch loginType {
+                    case .manual:
+                        usernamePasswordLogin
+                            .padding(.top, 64)
+                    case .qr:
+                        if case .error(_, let message) = model.state {
+                            qrCodeError(message: message)
+                        } else {
+                            Text(L10n.tvSignInSubtitle)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            QRCodeView(url: model.pairURLString)
+                            separator
+                            Text(enterCodePrompt)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            qrCodeDigits
+                        }
+                    }
                 }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
+            .padding(.top, 80)
+            .offset(y: -64)
         }
-        .task {
+        .task(id: loginType) {
+            // Clear any leftover error so it doesn't leak across login modes.
+            model.state = .start
             switch loginType {
             case .qr:
                 await model.thirdPartyApprovalSignin()
@@ -90,6 +100,25 @@ struct SignInView: View {
                 coordinator.state = .userSync
             }
         }
+        .background(Color.pcBackgroundBase)
+    }
+
+    func qrCodeError(message: String) -> some View {
+        ContentUnavailableView {
+            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+        } description: {
+            Text(message)
+        } actions: {
+            Button {
+                Task {
+                    await model.thirdPartyApprovalSignin()
+                }
+            } label: {
+                Text(L10n.tryAgain)
+                    .frame(minWidth: 300)
+            }
+        }
+        .padding(.top, 64)
     }
 
     var qrCodeDigits: some View {
@@ -101,9 +130,9 @@ struct SignInView: View {
                     ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
                         Text(code)
                             .font(.caption2)
-                            .foregroundStyle(Color.textSecondary)
+                            .foregroundStyle(Color.pcTextSecondary)
                             .padding()
-                            .background(Color.backgroundActive50)
+                            .background(Color.pcBackgroundActive50)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
@@ -115,7 +144,7 @@ struct SignInView: View {
         Rectangle()
         .foregroundColor(.clear)
         .frame(width: 566, height: 1)
-        .background(Color.textDisabled)
+        .background(Color.pcTextDisabled)
     }
 
     @FocusState private var focusedField: Field?

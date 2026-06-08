@@ -44,7 +44,7 @@ extension ModifiedDate where Value: RawRepresentable {
 
     /// Updates the ModifiedDate instance with values from an ApiSetting
     /// - Parameter setting: An `ApiSetting` instance which contains a value and (optional) modified date to set on this `ModifiedDate`
-    mutating private func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
+    private mutating func uncaughtUpdate<S: ApiSetting>(setting: S) throws where Value.RawValue == S.ReturnValue.T {
         let referenceDate = Date(timeIntervalSinceReferenceDate: 0)
         if setting.modifiedAt.date > modifiedAt ?? referenceDate {
             guard let value = Value(rawValue: setting.value.value) else {
@@ -59,7 +59,7 @@ extension ModifiedDate where Value: RawRepresentable {
     mutating func update<S: ApiSetting>(setting: S) where Value.RawValue == S.ReturnValue.T {
         do {
             try uncaughtUpdate(setting: setting)
-        } catch let error {
+        } catch {
             switch error {
             case ApiUpdateError.representableNotFound(value: let value, representable: let representable):
                 FileLog.shared.addMessage("Failed to represent value: \(value) representing: \(representable)")

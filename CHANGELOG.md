@@ -1,9 +1,30 @@
+8.15
+-----
+
+
+8.14
+-----
+- Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
+- Add explicit content badge to discover and search [#4427](https://github.com/Automattic/pocket-casts-ios/pull/4427)
+- Added highlighted transcripts for recent episodes [#4458](https://github.com/Automattic/pocket-casts-ios/pull/4458)
+- Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
+- Update remaining menus to use sheet presentation [#4426](https://github.com/Automattic/pocket-casts-ios/pull/4426)
+- Fix rare crash in Stats [#4445](https://github.com/Automattic/pocket-casts-ios/pull/4445)
+- Add visual feedback for adding items to Up Next when tab bar is collapsed [#4479](https://github.com/Automattic/pocket-casts-ios/pull/4479)
+- Add a listening activity heatmap to the Stats screen [#4443](https://github.com/Automattic/pocket-casts-ios/pull/4443)
+
 8.13
 -----
 - Add Liquid Glass support [#4302](https://github.com/Automattic/pocket-casts-ios/pull/4302)
 - Add context menus for Podcasts [#4297](https://github.com/Automattic/pocket-casts-ios/pull/4297)
+- Show chapter art in mini player [#4382](https://github.com/Automattic/pocket-casts-ios/pull/4382)
+- Update "Up Next" episode cells to show up to two lines of episode title [4398](https://github.com/Automattic/pocket-casts-ios/pull/4398)
 - Fix an issue with diagonal swipes not dismissing the player [#4335](https://github.com/Automattic/pocket-casts-ios/pull/4335)
+- Allow podcast images in Widget to be tinted [#4206](https://github.com/Automattic/pocket-casts-ios/pull/4206)
 - Fix player interactive dismiss gesture interaction with vertical scroll views [#4349](https://github.com/Automattic/pocket-casts-ios/pull/4349)
+- Fix Show Archived toggle in Playlists during search [#4329](https://github.com/Automattic/pocket-casts-ios/pull/4329)
+- Fix an issue where full player will occasionally show generic placeholder for artwork instead of using available smaller actual artwork thumbnail [#4391](https://github.com/Automattic/pocket-casts-ios/pull/4391)
+- Hide the tab bar during multi-select to create more space [#4364](https://github.com/Automattic/pocket-casts-ios/pull/4364)
 
 8.12
 -----

@@ -54,7 +54,7 @@ class SessionManager: NSObject, WCSessionDelegate {
             let value = flags[flag.rawValue] ?? flag.default
             do {
                 try FeatureFlagOverrideStore().override(flag, withValue: value)
-            } catch let error {
+            } catch {
                 assertionFailure("Failed to override \(flag.rawValue) with \(value): \(error)")
             }
         }

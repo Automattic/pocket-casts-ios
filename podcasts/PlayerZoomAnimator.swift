@@ -13,15 +13,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
+    private var isVideoPodcast: Bool {
+        PlaybackManager.shared.currentEpisode()?.videoPodcast() ?? false
+    }
+
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
-    private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.5 }
+    private var dismissDuration: TimeInterval { isInteractive ? 0.4 : 0.45 }
     private var presentDamping: CGFloat { isInteractive ? 0.9 : 1.0 }
     private var dismissDamping: CGFloat { isInteractive ? 0.85 : 1.0 }
-
-    /// iOS 26 modal-sheet large corner radius. Matches the device display radius
-    /// closely enough on modern iPhones that the full player corners read as
-    /// continuous with the screen edges.
-    private let finalCornerRadius: CGFloat = 55
 
     /// Keeps the live mini-player clone alive for the duration of the
     /// transition. The clone is a real `MiniPlayerViewController` view (see
@@ -69,6 +68,12 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let container = context.containerView
         let toVC = fullPlayer
         let miniVC = miniPlayer
+        // Drop the mini-player handoff artwork for video — otherwise it would
+        // be installed on `episodeImage` in `willBeAddedToPlayer` and bleed
+        // through the floating video's letterbox bands.
+        if isVideoPodcast {
+            toVC.nowPlayingItem.placeholderArtwork = nil
+        }
         toVC.loadViewIfNeeded()
         toVC.nowPlayingItem.loadViewIfNeeded()
         miniVC.loadViewIfNeeded()
@@ -150,11 +155,11 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toVC.setPlayerHeaderHidden(true, animated: false)
         toVC.setPlayerHeaderHidden(false, animated: true, delay: presentDuration * 0.35)
 
-        // Give toView the final corner radius now so the rounded corners persist
-        // after the panel is removed at the end of the transition.
-        toView.layer.cornerRadius = finalCornerRadius
-        toView.layer.cornerCurve = .continuous
-        toView.clipsToBounds = true
+        // Round the player's corners to the device's display radius for the
+        // morph; the same value drives the panel's corner animation below. The
+        // corners are squared again once the player settles (see the completion
+        // block) so it covers the whole screen with no edge gaps.
+        let finalCornerRadius = toVC.roundCornersForPlayerTransition()
 
         // Panel starts as glass (matching the tab accessory) and the
         // full-player color overlay fades in over the transition so the pill
@@ -178,12 +183,18 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
-        let floating = makeFloatingArtwork(
-            image: toArtwork.image ?? miniArtwork.imageView?.image,
-            frame: sourceArtFrame,
-            cornerRadius: miniArtwork.layer.cornerRadius
-        )
-        container.addSubview(floating)
+        let floating: UIImageView?
+        if isVideoPodcast {
+            floating = nil
+        } else {
+            let art = makeFloatingArtwork(
+                image: toArtwork.image ?? miniArtwork.imageView?.image,
+                frame: sourceArtFrame,
+                cornerRadius: miniArtwork.layer.cornerRadius
+            )
+            container.addSubview(art)
+            floating = art
+        }
 
         // Fade toView in partway through so the player content doesn't
         // paint solidly from frame zero — toView's root background is clear,
@@ -204,10 +215,10 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             options: [.curveEaseInOut]
         ) {
             panel.frame = container.bounds
-            panel.layer.cornerRadius = self.finalCornerRadius
+            panel.layer.cornerRadius = finalCornerRadius
             toView.frame = CGRect(x: 0, y: 0, width: finalFrame.width, height: finalFrame.height)
-            floating.frame = destArtFrame
-            floating.layer.cornerRadius = toArtwork.layer.cornerRadius
+            floating?.frame = destArtFrame
+            floating?.layer.cornerRadius = toArtwork.layer.cornerRadius
             // Mini chrome rides up pinned to the panel's top edge and fades out
             // over the full duration, so it animates the whole way rather than
             // vanishing in the first frames.
@@ -218,11 +229,18 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             container.addSubview(toView)
             toView.frame = finalFrame
             toView.alpha = 1
+            // Settled full-screen: square the corners so the player fills the
+            // screen and the device display mask renders the curvature exactly.
+            toVC.resetCornersAfterPlayerTransition()
             panel.removeFromSuperview()
             miniSnapshot.removeFromSuperview()
-            floating.removeFromSuperview()
+            floating?.removeFromSuperview()
             self.miniSnapshotController = nil
-            toArtwork.alpha = 1
+            // Restore the artwork only for audio — `update()` on the player
+            // controller already left video artwork effectively hidden.
+            if !self.isVideoPodcast {
+                toArtwork.alpha = 1
+            }
             context.completeTransition(!context.transitionWasCancelled)
         }
     }
@@ -276,20 +294,23 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // inside `mainScrollView`, so morphing an artwork view back to the
         // mini player would slide it across the screen from nowhere visible.
         // Skip the morph entirely in that case and let the mini snapshot's
-        // own artwork appear in place instead.
-        let isOnNowPlaying = fromVC.tabsView.currentTab == 0
+        // own artwork appear in place instead. Video podcasts also skip the
+        // morph because `episodeImage` is hidden behind the floating video.
+        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoPodcast
         let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
 
-        if isOnNowPlaying {
+        if shouldMorphArtwork {
             miniArtwork.alpha = 0
             fromArtwork.alpha = 0
         }
 
-        // The panel handles outer clipping with the iOS 26 corner radius, so
-        // remove the corner radius from fromView to avoid double-clipping.
-        fromView.layer.cornerRadius = 0
+        // Round the player's corners (if a drag didn't already) and resolve the
+        // display radius so the panel can morph its corners to match, then drop
+        // fromView's own clipping — the panel handles the single outer clip
+        // during the descent.
+        let finalCornerRadius = fromVC.roundCornersForPlayerTransition()
         fromView.clipsToBounds = false
 
         let fullPlayerColor = fromVC.nowPlayingItem.view.backgroundColor
@@ -310,14 +331,14 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
             isInline: isMiniInline,
-            artworkImage: isOnNowPlaying ? nil : miniArtwork.imageView?.image
+            artworkImage: shouldMorphArtwork ? nil : miniArtwork.imageView?.image
         )
         miniSnapshot.alpha = 0
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
         let floating: UIImageView?
-        if isOnNowPlaying {
+        if shouldMorphArtwork {
             let art = makeFloatingArtwork(
                 image: fromArtwork.image ?? miniArtwork.imageView?.image,
                 frame: sourceArtFrame,
@@ -467,6 +488,71 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
 
 @available(iOS 26, *)
 extension PlayerContainerViewController {
+    private struct ScreenCornerRadiusCacheKey: Equatable {
+        let bounds: CGRect
+        let userInterfaceIdiom: UIUserInterfaceIdiom
+        let horizontalSizeClass: UIUserInterfaceSizeClass
+        let verticalSizeClass: UIUserInterfaceSizeClass
+        let displayScale: CGFloat
+
+        init(window: UIWindow) {
+            bounds = window.bounds
+            userInterfaceIdiom = window.traitCollection.userInterfaceIdiom
+            horizontalSizeClass = window.traitCollection.horizontalSizeClass
+            verticalSizeClass = window.traitCollection.verticalSizeClass
+            displayScale = window.traitCollection.displayScale
+        }
+    }
+
+    private static var screenCornerRadiusCache: [ObjectIdentifier: (key: ScreenCornerRadiusCacheKey, radius: CGFloat)] = [:]
+
+    /// Rounds the player's corners to the device's display radius for the zoom
+    /// transition and the interactive drag-dismiss. Returns the radius so the
+    /// transition's morph panel can animate to the same value.
+    @discardableResult
+    func roundCornersForPlayerTransition() -> CGFloat {
+        let radius = Self.screenCornerRadius(for: view)
+        view.layer.cornerRadius = radius
+        view.layer.cornerCurve = .continuous
+        view.clipsToBounds = true
+        return radius
+    }
+
+    /// Squares the player's corners once it's settled full-screen so it covers
+    /// the whole screen. The device's display mask then renders the screen
+    /// curvature exactly — keeping a rounded corner on the view itself leaves
+    /// thin gaps at the edges because a layer corner can't match the hardware
+    /// mask precisely.
+    func resetCornersAfterPlayerTransition() {
+        view.layer.cornerRadius = 0
+    }
+
+    /// The device's display corner radius (≈55 on modern iPhones, 30 on iPad,
+    /// 0 on square-cornered devices), or the window's own radius when the app is
+    /// resized on iPad. No public API exposes it directly, so measure it with
+    /// the iOS 26 container-concentric API on a throwaway full-window probe: a
+    /// window-filling view reports its concentric corner radius as the display
+    /// radius. Falls back to an iPhone-scale value if there's no window yet.
+    static func screenCornerRadius(for view: UIView) -> CGFloat {
+        guard let host = view.window else { return 55 }
+        let cacheKey = ScreenCornerRadiusCacheKey(window: host)
+        let cacheIdentifier = ObjectIdentifier(host)
+        if let cached = screenCornerRadiusCache[cacheIdentifier], cached.key == cacheKey {
+            return cached.radius
+        }
+        let probe = UIView(frame: host.bounds)
+        probe.cornerConfiguration = .corners(radius: .containerConcentric())
+        host.addSubview(probe)
+        probe.isUserInteractionEnabled = false
+        probe.isAccessibilityElement = false
+        probe.accessibilityElementsHidden = true
+        probe.layoutIfNeeded()
+        let radius = probe.effectiveRadius(corner: .allCorners)
+        probe.removeFromSuperview()
+        screenCornerRadiusCache[cacheIdentifier] = (key: cacheKey, radius: radius)
+        return radius
+    }
+
     /// Toggles the player header (close button, up next, tabs row) so the
     /// transition can fade it back in after the panel has grown past the
     /// header's frame.

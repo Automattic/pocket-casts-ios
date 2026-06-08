@@ -71,7 +71,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
                                 icon: { Image("upnext") },
                 actions: [
                     .init(title: L10n.goToDiscover) {
-                        Analytics.shared.track(.upNextDiscoverButtonTapped)
+                        Analytics.track(.upNextDiscoverButtonTapped)
                         NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                     }
                 ])

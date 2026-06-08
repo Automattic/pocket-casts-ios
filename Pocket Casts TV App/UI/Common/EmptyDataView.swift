@@ -7,16 +7,23 @@ struct EmptyDataView: View {
     let actionTitle: String?
     let action: (() -> ())?
 
+    init(title: String, subtitle: String? = nil, actionTitle: String? = nil, action: (() -> ())? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.actionTitle = actionTitle
+        self.action = action
+    }
+
     var body: some View {
         VStack(spacing: 32) {
             Spacer()
             Text(title)
                 .font(.title)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pcTextPrimary)
             if let subtitle {
                 Text(subtitle)
                     .font(.headline)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundStyle(Color.pcTextSecondary)
                 Spacer()
             }
             if let actionTitle {

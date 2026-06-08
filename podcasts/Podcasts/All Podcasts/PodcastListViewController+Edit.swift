@@ -40,7 +40,7 @@ extension PodcastListViewController {
 
         podcastsCollectionView.dragInteractionEnabled = true
         podcastsCollectionView.allowsSelection = false
-        setTabBarHidden(true, animated: true)
+        setEnclosingTabBarHidden(true, animated: true)
 
         for cell in podcastsCollectionView.visibleCells {
             applyEditingTreatment(to: cell)
@@ -50,7 +50,7 @@ extension PodcastListViewController {
     private func exitEditMode() {
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.allowsSelection = true
-        setTabBarHidden(false, animated: true)
+        setEnclosingTabBarHidden(false, animated: true)
 
         setCustomRightBtn(savedRightBarButtonItem, animated: true)
         savedRightBarButtonItem = nil
@@ -58,11 +58,6 @@ extension PodcastListViewController {
         for cell in podcastsCollectionView.visibleCells {
             removeEditingTreatment(from: cell)
         }
-    }
-
-    private func setTabBarHidden(_ hidden: Bool, animated: Bool) {
-        guard #available(iOS 18.0, *), let tabBarController else { return }
-        tabBarController.setTabBarHidden(hidden, animated: animated)
     }
 
     // MARK: Wiggle (grid)

@@ -38,7 +38,7 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
             icon: { Image("podcastlist_smallgrid").renderingMode(.template) },
             actions: [
                 .init(title: L10n.podcastGridDiscoverPodcasts, action: {
-                    Analytics.shared.track(.podcastsListDiscoverButtonTapped)
+                    Analytics.track(.podcastsListDiscoverButtonTapped)
                     NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey)
                 })
             ],

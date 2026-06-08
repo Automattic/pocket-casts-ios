@@ -8,6 +8,12 @@ public struct PredictivePodcastSearchResult: Codable, Hashable {
     public let uuid: String
     let title: String
     let author: String
+    public let isExplicit: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case uuid, title, author
+        case isExplicit = "explicit"
+    }
 }
 
 public enum PredictiveSearchResultType: Hashable {

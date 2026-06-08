@@ -17,8 +17,18 @@ enum FingerprintConstants {
     /// Duration of each windowed fingerprint produced during live matching, in milliseconds.
     static let windowDurationMs: UInt32 = 8000
 
-    /// Interval between windowed fingerprints produced during live matching, in milliseconds.
-    static let windowIntervalMs: UInt32 = 2000
+    /// Interval between windowed fingerprints emitted during live matching, in
+    /// milliseconds. Deliberately FINER than the reference's 2s checkpoint grid
+    /// (oversampling). A dynamic ad whose duration isn't a 2s multiple phase-shifts
+    /// our windows off that grid, so at a 2s stride every following window straddles
+    /// two checkpoints and matches neither cleanly (the post-mid-roll failure).
+    /// Emitting every 1s guarantees that for any ad offset a window lands within
+    /// ~0.5s of a checkpoint — that well-aligned window scores dominantly and
+    /// commits, while the off-phase ones straddle and are dropped by the existing
+    /// dominance gate. No score inflation, no gate changes, so precision is
+    /// unchanged elsewhere. Cost: ~2x window hashing/matching. Halve again (500) for
+    /// ~0.25s alignment if 1s doesn't score dominantly enough post-ad.
+    static let windowIntervalMs: UInt32 = 1000
 
     /// Seconds of decoded PCM read per AVAudioFile chunk during streaming
     /// fingerprint generation. Smaller = more responsive UI, larger = less per-call overhead.
@@ -91,4 +101,14 @@ enum FingerprintConstants {
     /// Persistent cache schema version. Bump when the on-disk shape changes so
     /// older files are silently discarded on the next load.
     static let mappingCacheSchemaVersion: Int = 2
+
+    /// Highlighting is opt-in: a transcript word is only highlighted while playback
+    /// sits between two committed anchors no further apart than this. Real content
+    /// commits anchors every second or two, and sparse "quick red" gaps within
+    /// matched audio stay under this bound, so highlighting tracks continuously.
+    /// Dynamic ads and other unmatched audio open a much wider gap (or leave no
+    /// committed anchor ahead at all), so the instant playback crosses the last
+    /// matched anchor the gap jumps past this and highlighting stops — no ad
+    /// detection, no lag. Comfortably below a typical ad break (≥15s).
+    static let highlightMaxGapSeconds: Double = 8
 }

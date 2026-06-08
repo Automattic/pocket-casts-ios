@@ -29,7 +29,7 @@ public class CustomTextField: UITextField {
         addSubview(rightLabel)
     }
 
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         let clearButtonWidth: CGFloat = clearButtonRect(forBounds: bounds).width
@@ -47,15 +47,15 @@ public class CustomTextField: UITextField {
         )
     }
 
-    public override func textRect(forBounds bounds: CGRect) -> CGRect {
+    override public func textRect(forBounds bounds: CGRect) -> CGRect {
         return adjustRect(forBounds: bounds)
     }
 
-    public override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
         return adjustRect(forBounds: bounds)
     }
 
-    public override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+    override public func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return adjustRect(forBounds: bounds)
     }
 

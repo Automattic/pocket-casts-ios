@@ -33,6 +33,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private var lastEpisodeUuidImageLoaded = ""
     private var lastEpisodeUuidAutoOpened = ""
+    private var showingChapterArtwork = false
     var fullScreenPlayer: PlayerContainerViewController?
 
     /// Carries the upward pan velocity from the open-gesture recognizer to
@@ -66,6 +67,22 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private enum GlassMetrics {
         /// How much the Liquid Glass skip glyphs are scaled down from the asset.
         static let skipIconScale: CGFloat = 0.9
+    }
+
+    /// Wraps `content` in a vibrancy effect so it blends with the tab accessory's glass.
+    private static func makeVibrancyWrapper(style: UIVibrancyEffectStyle, content: UIView) -> UIVisualEffectView {
+        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .systemChromeMaterial), style: style)
+        let wrapper = UIVisualEffectView(effect: vibrancy)
+        wrapper.translatesAutoresizingMaskIntoConstraints = false
+        content.translatesAutoresizingMaskIntoConstraints = false
+        wrapper.contentView.addSubview(content)
+        NSLayoutConstraint.activate([
+            content.leadingAnchor.constraint(equalTo: wrapper.contentView.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: wrapper.contentView.trailingAnchor),
+            content.topAnchor.constraint(equalTo: wrapper.contentView.topAnchor),
+            content.bottomAnchor.constraint(equalTo: wrapper.contentView.bottomAnchor),
+        ])
+        return wrapper
     }
 
     /// When set, the next time-left value update is wrapped in `withAnimation`
@@ -141,32 +158,34 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
 
         let title = MiniPlayerScrollingTitleView()
-        title.translatesAutoresizingMaskIntoConstraints = false
         title.font = .font(ofSize: 13, weight: .medium, scalingWith: .subheadline)
         episodeTitleLabel = title
+        let titleVibrancy = Self.makeVibrancyWrapper(style: .label, content: title)
 
         // Hosted SwiftUI so the time-left digits can use the native
         // `.numericText` content transition when the user skips.
         let timeLeftModel = MiniPlayerTimeLeftModel()
         let timeLeftHost = UIHostingController(rootView: MiniPlayerTimeLeftView(model: timeLeftModel))
-        timeLeftHost.view.translatesAutoresizingMaskIntoConstraints = false
         timeLeftHost.view.backgroundColor = .clear
         timeLeftHost.sizingOptions = .intrinsicContentSize
         timeLeftHost.safeAreaRegions = []
         addChild(timeLeftHost)
+
         self.timeLeftModel = timeLeftModel
         self.timeLeftHostingController = timeLeftHost
 
-        let progressView = MiniPlayerGlassProgressView()
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        glassProgressView = progressView
+        let timeLeftVibrancy = Self.makeVibrancyWrapper(style: .secondaryLabel, content: timeLeftHost.view)
 
-        let bottomRow = UIStackView(arrangedSubviews: [progressView, timeLeftHost.view])
+        let progressView = MiniPlayerGlassProgressView()
+        glassProgressView = progressView
+        let progressVibrancy = Self.makeVibrancyWrapper(style: .fill, content: progressView)
+
+        let bottomRow = UIStackView(arrangedSubviews: [progressVibrancy, timeLeftVibrancy])
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
 
-        let textStack = UIStackView(arrangedSubviews: [title, bottomRow])
+        let textStack = UIStackView(arrangedSubviews: [titleVibrancy, bottomRow])
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
@@ -188,9 +207,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             podcastArtwork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             podcastArtwork.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
-            textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 10),
+            textStack.leadingAnchor.constraint(equalTo: podcastArtwork.trailingAnchor, constant: 8),
             textStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2),
+            {
+                let constraint = textStack.trailingAnchor.constraint(lessThanOrEqualTo: buttonStack.leadingAnchor, constant: 2)
+                constraint.priority = UILayoutPriority(999)
+                return constraint
+            }(),
 
             progressView.heightAnchor.constraint(equalToConstant: 5),
 
@@ -220,6 +243,19 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
         }
         super.updateViewConstraints()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard let timeLeftHost = timeLeftHostingController?.view else {
+            return
+        }
+
+        let timeLeftMaxX = timeLeftHost.convert(timeLeftHost.bounds, to: view).maxX
+        let buttonSkipMinX = skipBackBtn.convert(skipBackBtn.bounds, to: view).minX
+
+        timeLeftHost.alpha = timeLeftMaxX > buttonSkipMinX + 12 ? 0 : 1
     }
 
     deinit {
@@ -397,13 +433,30 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     private func setupForEpisode(_ episode: BaseEpisode) {
         updateColors()
+        updateArtwork(for: episode)
+        updateTitle(for: episode)
+    }
 
-        if lastEpisodeUuidImageLoaded != episode.uuid {
-            lastEpisodeUuidImageLoaded = episode.uuid
-            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
+    /// Shows the current chapter's embedded artwork when available, falling
+    /// back to the episode artwork otherwise — matching the full screen player.
+    private func updateArtwork(for episode: BaseEpisode, forceReload: Bool = false) {
+        let chapters = PlaybackManager.shared.currentChapters()
+        if PlaybackManager.shared.chapterCount() != 0, let artwork = chapters.artwork {
+            showingChapterArtwork = true
+            podcastArtwork.setImageManually(image: artwork, size: .list)
+            return
         }
 
-        updateTitle(for: episode)
+        let needsReload = forceReload || showingChapterArtwork || lastEpisodeUuidImageLoaded != episode.uuid
+        showingChapterArtwork = false
+        guard needsReload else { return }
+
+        lastEpisodeUuidImageLoaded = episode.uuid
+        if let userEpisode = episode as? UserEpisode {
+            podcastArtwork.setUserEpisode(uuid: userEpisode.uuid, size: .list)
+        } else {
+            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
+        }
     }
 
     /// Shows the current chapter title when the episode has chapters, falling
@@ -426,6 +479,9 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     @objc private func chapterDidChange() {
         updateTitle()
+        if let episode = PlaybackManager.shared.currentEpisode() {
+            updateArtwork(for: episode)
+        }
     }
 
     @objc private func playbackStarted() {
@@ -567,7 +623,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let iconColor = ThemeColor.podcastIcon03(podcastColor: actionColor)
         let bgColor = ThemeColor.primaryUi02()
 
-        episodeTitleLabel?.textColor = ThemeColor.primaryText01()
+        // System color so the vibrancy wrapper can modulate it.
+        episodeTitleLabel?.textColor = .label
         timeLeftModel?.color = Color(ThemeColor.primaryText02())
 
         playPauseBtn.playButtonColor = bgColor
@@ -601,12 +658,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
         updateColors()
-
-        if let userEpisode = episode as? UserEpisode {
-            podcastArtwork.setUserEpisode(uuid: userEpisode.uuid, size: .list)
-        } else {
-            podcastArtwork.setBaseEpisode(episode: episode, size: .list)
-        }
+        updateArtwork(for: episode, forceReload: true)
     }
 
     func showUpNext(from source: UpNextViewSource) {
@@ -645,6 +697,5 @@ struct MiniPlayerTimeLeftView: View {
             .foregroundColor(model.color)
             .contentTransition(.numericText(countsDown: model.countsDown))
             .lineLimit(1)
-            .fixedSize()
     }
 }

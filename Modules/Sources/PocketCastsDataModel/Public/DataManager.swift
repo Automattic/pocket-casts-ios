@@ -30,7 +30,7 @@ public class DataManager {
 
     let dbQueue: PCDBQueue
 
-    public static internal(set) var sharedManager = DataManager()
+    public internal(set) static var sharedManager = DataManager()
 
     public static var logger: ErrorLogger?
 
@@ -950,11 +950,7 @@ public class DataManager {
     }
 
     public func episodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {
-        if FeatureFlag.playlistsRebranding.enabled {
-            playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd)
-        } else {
-            playlistManager.episodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd, dbQueue: dbQueue)
-        }
+        playlistEpisodeCount(for: playlist, episodeUuidToAdd: episodeUuidToAdd)
     }
 
     public func playlistEpisodeCount(for playlist: EpisodeFilter, episodeUuidToAdd: String?) -> Int {

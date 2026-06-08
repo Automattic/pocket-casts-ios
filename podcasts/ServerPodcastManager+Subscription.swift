@@ -1,5 +1,6 @@
 import PocketCastsServer
 import PocketCastsUtils
+import PocketCastsDataModel
 
 extension ServerPodcastManager {
 

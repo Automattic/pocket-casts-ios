@@ -104,6 +104,14 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
+    public func discoverPodcastCollection(source: String, authenticated: Bool?) async -> PodcastCollection? {
+        await withCheckedContinuation { continuation in
+            discoverPodcastCollection(source: source, authenticated: authenticated) { result in
+                continuation.resume(returning: result)
+            }
+        }
+    }
+
     public func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
         guard let source else {
             return Fail(error: DiscoverServerError.badRequest).eraseToAnyPublisher()

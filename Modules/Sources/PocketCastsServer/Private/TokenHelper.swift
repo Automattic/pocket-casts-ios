@@ -187,7 +187,7 @@ class TokenHelper {
 
             let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: response, error: nil)
             throw errorResponse ?? .UNKNOWN
-        } catch let error {
+        } catch {
             FileLog.shared.addMessage("TokenHelper acquireToken failed \(error.localizedDescription)")
             throw error
         }
@@ -202,7 +202,7 @@ class TokenHelper {
                 completion(.success(authenticationResponse))
                 return
             }
-        } catch let error {
+        } catch {
             completion(.failure(error))
             return
         }
@@ -211,7 +211,7 @@ class TokenHelper {
             do {
                 let authenticationResponse = try await acquireIdentityToken()
                 completion(.success(authenticationResponse))
-            } catch let error {
+            } catch {
                 completion(.failure(error))
             }
         }
@@ -244,7 +244,7 @@ class TokenHelper {
             if try ServerSettings.refreshToken() == nil {
                 logMessages.append("no SSO token")
             }
-        } catch let error {
+        } catch {
             if case let KeychainHelper.KeychainError.status(status) = error, status == errSecInteractionNotAllowed {
                 logMessages.append("no SSO token")
                 FileLog.shared.addMessage("Acquire Token was called, however the user has \(logMessages.joined(separator: ", ")).")

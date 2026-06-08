@@ -1,4 +1,3 @@
-
 import UIKit
 
 class DateHeadingView: UIView {
@@ -17,31 +16,39 @@ class DateHeadingView: UIView {
     }
 
     private func setup() {
-        // add the label and dividers
-        let dividerHeight = 1 / UIScreen.main.scale
-        let topDivider = ThemeDividerView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: dividerHeight))
-        topDivider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(topDivider)
+        let label: UILabel
 
-        titleLabel = ThemeableLabel()
-        titleLabel?.textAlignment = .natural
-        titleLabel?.text = title
-        titleLabel?.font = UIFont.font(ofSize: 22, weight: UIFont.Weight.bold, scalingWith: .largeTitle)
-        titleLabel?.adjustsFontForContentSizeCategory = true
-        addSubview(titleLabel!)
-        titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+        if LiquidGlass.isEnabled {
+            label = UILabel()
+        } else {
+            let dividerHeight = 1 / UIScreen.main.scale
+            let topDivider = ThemeDividerView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: dividerHeight))
+            topDivider.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(topDivider)
 
-        // setup constraints so that they are all in the right place
+            NSLayoutConstraint.activate([
+                topDivider.heightAnchor.constraint(equalToConstant: dividerHeight),
+                topDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
+                topDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
+                topDivider.topAnchor.constraint(equalTo: topAnchor)
+            ])
+
+            label = ThemeableLabel()
+        }
+
+        label.textAlignment = .natural
+        label.text = title
+        label.font = UIFont.font(ofSize: 22, weight: UIFont.Weight.bold, scalingWith: .largeTitle)
+        label.adjustsFontForContentSizeCategory = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+        titleLabel = label
+
         NSLayoutConstraint.activate([
-            topDivider.heightAnchor.constraint(equalToConstant: dividerHeight),
-            topDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topDivider.topAnchor.constraint(equalTo: topAnchor),
-
-            titleLabel!.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel!.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            titleLabel!.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            titleLabel!.topAnchor.constraint(equalTo: topAnchor, constant: 0)
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.topAnchor.constraint(equalTo: topAnchor)
         ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
@@ -57,6 +64,6 @@ class DateHeadingView: UIView {
     }
 
     private func setBgColorForTheme() {
-        backgroundColor = ThemeColor.primaryUi02()
+        backgroundColor = LiquidGlass.isEnabled ? .clear : ThemeColor.primaryUi02()
     }
 }

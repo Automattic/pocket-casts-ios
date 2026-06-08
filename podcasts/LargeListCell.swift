@@ -1,3 +1,4 @@
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 import UIKit
@@ -42,6 +43,14 @@ class LargeListCell: ThemeableCollectionCell {
         }
     }
 
+    private lazy var explicitBadgeView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .center
+        imageView.isHidden = true
+        return imageView
+    }()
+
     var onSubscribe: (() -> Void)?
     private var discoverPodcast: DiscoverPodcast?
 
@@ -51,7 +60,29 @@ class LargeListCell: ThemeableCollectionCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupExplicitBadge()
         updateSize()
+    }
+
+    private func setupExplicitBadge() {
+        guard let verticalStack = podcastTitle.superview as? UIStackView else { return }
+
+        let titleRow = UIStackView(arrangedSubviews: [podcastTitle, explicitBadgeView])
+        titleRow.axis = .horizontal
+        titleRow.alignment = .center
+        titleRow.spacing = 4
+        titleRow.translatesAutoresizingMaskIntoConstraints = false
+
+        verticalStack.insertArrangedSubview(titleRow, at: 0)
+
+        let size = ExplicitBadgeHelper.badgeSize
+        NSLayoutConstraint.activate([
+            explicitBadgeView.widthAnchor.constraint(equalToConstant: size),
+            explicitBadgeView.heightAnchor.constraint(equalToConstant: size),
+        ])
+        podcastTitle.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        explicitBadgeView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        explicitBadgeView.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     private func setHighlightedState(_ highlighted: Bool) {
@@ -62,6 +93,11 @@ class LargeListCell: ThemeableCollectionCell {
         self.discoverPodcast = discoverPodcast
         if let title = discoverPodcast.title?.localized {
             podcastTitle.text = title
+            let isExplicit = FeatureFlag.showExplicitBadges.enabled && (discoverPodcast.isExplicit ?? false)
+            explicitBadgeView.isHidden = !isExplicit
+            if isExplicit {
+                explicitBadgeView.image = ExplicitBadgeHelper.badgeImage()
+            }
         }
         if let author = discoverPodcast.author {
             podcastAuthor.text = author
@@ -84,12 +120,19 @@ class LargeListCell: ThemeableCollectionCell {
         }
     }
 
+    override func handleThemeDidChange() {
+        if !explicitBadgeView.isHidden {
+            explicitBadgeView.image = ExplicitBadgeHelper.badgeImage()
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
         podcastImage.clearArtwork()
         subscribeButton.shouldAnimate = false
         subscribeButton.currentlyOn = false
+        explicitBadgeView.isHidden = true
         discoverPodcast = nil
         updateSize()
     }

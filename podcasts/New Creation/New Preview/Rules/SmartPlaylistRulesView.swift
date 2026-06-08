@@ -155,7 +155,7 @@ struct SmartPlaylistRulesEpisodesSection: View {
 
             if episodes.isEmpty {
                 EmptyStateView(
-                    title: FeatureFlag.playlistsRebranding.enabled ? L10n.filterCreateNoEpisodes.sentenceCased : L10n.filterCreateNoEpisodes,
+                    title: L10n.filterCreateNoEpisodes.sentenceCased,
                     message: L10n.playlistCreateNoEpisodesDescription,
                     icon: {
                         Image("empty-playlist-info")

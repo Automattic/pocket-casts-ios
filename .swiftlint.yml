@@ -33,6 +33,10 @@ only_rules:
   # There should be no space before and one after any comma.
   - comma
 
+  # Commas in protocol/superclass inheritance lists should be followed by a
+  # single space (e.g., prefer `class Foo: Bar, Baz` over `class Foo: Bar,Baz`).
+  - comma_inheritance
+
   # Prefer `contains` over `filter(where:).count`.
   - contains_over_filter_count
 
@@ -61,6 +65,9 @@ only_rules:
   # Prefer `() -> ` over `Void -> `.
   - empty_parameters
 
+  # Prefer `Type()` over `Type.init()` when creating a value of a known type.
+  - explicit_init
+
   # Prefer `first(where:)` over `filter { }.first`.
   - first_where
 
@@ -81,9 +88,15 @@ only_rules:
   # MARK comment should be in valid format.
   - mark
 
+  # Modifiers (e.g. `public`, `final`, `lazy`) should be specified in a consistent order.
+  - modifier_order
+
   # Opening braces should be preceded by a single space and on the same line as
   # the declaration.
   - opening_brace
+
+  # Periods should not be followed by whitespace inside an expression.
+  - period_spacing
 
   # Prefer `0` over explicit `Int(0)` / `CGFloat(0)` etc.
   - prefer_zero_over_explicit_init
@@ -96,6 +109,9 @@ only_rules:
 
   # Type annotations are redundant when the type can be inferred.
   - redundant_type_annotation
+
+  # Don't `return` a value from a function whose return type is `Void`.
+  - return_value_from_void_function
 
   # Prefer shorthand optional binding `if let foo {` over `if let foo = foo {`.
   - shorthand_optional_binding
@@ -111,6 +127,9 @@ only_rules:
 
   # Lines should not have trailing whitespace.
   - trailing_whitespace
+
+  # `catch` statements should not declare error variables without type casting.
+  - untyped_error_in_catch
 
   # Unused parameters in a closure should be replaced with `_`.
   - unused_closure_parameter

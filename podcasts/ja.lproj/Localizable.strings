@@ -119,6 +119,10 @@
     <string>アカウントタイプを選択</string>
     <key>account_sign_out</key>
     <string>ログアウト</string>
+    <key>account_sign_out_alert_message</key>
+    <string>戻った際、ポッドキャスト、進捗、データがこちらに表示されます。</string>
+    <key>account_sign_out_alert_title</key>
+    <string>サインアウトしますか ?</string>
     <key>account_sign_out_supporter_prompt</key>
     <string>ログアウトすると、サポートされている%1$@件のポッドキャストがこの端末から削除されます。 よろしいですか ?</string>
     <key>account_sign_out_supporter_subtitle</key>
@@ -1274,6 +1278,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストを1件追加</string>
     <key>folder_add_remove_podcasts</key>
     <string>ポッドキャストを追加または削除</string>
+    <key>folder_add_to</key>
+    <string>フォルダーに追加</string>
     <key>folder_change</key>
     <string>フォルダーを変更</string>
     <key>folder_choose_color</key>
@@ -2629,6 +2635,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>最新エピソードのみ</string>
     <key>podcasts_badges</key>
     <string>バッジ</string>
+    <key>podcasts_edit</key>
+    <string>ポッドキャストを編集</string>
     <key>podcasts_episode_sort_drag_and_drop</key>
     <string>カスタム順序</string>
     <key>podcasts_episode_sort_longest_to_shortest</key>
@@ -2918,8 +2926,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ファイルをアップロードできません。後ほど、もう一度お試しください。</string>
     <key>server_error_files_uuid_required</key>
     <string>ファイルの UUID が必要です。</string>
+    <key>server_error_login_access_denied</key>
+    <string>ユーザーが認証リクエストを拒否しました</string>
     <key>server_error_login_account_locked</key>
     <string>ログインの試行回数が多すぎたため、アカウントがロックされています。後ほど、もう一度お試しください。</string>
+    <key>server_error_login_auth_pending</key>
+    <string>認証が保留中</string>
     <key>server_error_login_email_blank</key>
     <string>メールアドレスを入力してください。</string>
     <key>server_error_login_email_invalid</key>
@@ -2928,6 +2940,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>メールアドレスが見つかりません</string>
     <key>server_error_login_email_taken</key>
     <string>登録済みのメールアドレスです</string>
+    <key>server_error_login_expired_token</key>
+    <string>端末のコードの有効期限が切れています。</string>
+    <key>server_error_login_invalid_grant</key>
+    <string>付与された認証は無効か、期限切れか、取り消されています。</string>
     <key>server_error_login_password_blank</key>
     <string>パスワードを入力してください。</string>
     <key>server_error_login_password_incorrect</key>
@@ -2958,6 +2974,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アナリティクスの収集を許可します。</string>
     <key>settings_allow_collection_third_party</key>
     <string>信頼できるサードパーティのサービスを使用した当社による匿名のデータ収集を許可します。</string>
+    <key>settings_analytics</key>
+    <string>アナリティクス</string>
     <key>settings_appearance</key>
     <string>外観</string>
     <key>settings_archive_inactive_episodes</key>
@@ -3330,6 +3348,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>モバイルデータ</string>
     <key>settings_storage_usage</key>
     <string>使用量</string>
+    <key>settings_storage_usage_footer</key>
+    <string>これは iPhone の設定に表示されるストレージとは異なる場合があります。iOS はキャッシュされたデータを自動的に管理し、必要に応じて解放します。</string>
     <key>settings_third_party_analytics</key>
     <string>サードパーティのアナリティクス</string>
     <key>settings_title</key>
@@ -3410,6 +3430,48 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>共有ページの作成中に問題が発生しました</string>
     <key>share_podcasts_sharing_failed_title</key>
     <string>共有に失敗</string>
+    <key>share_profile</key>
+    <string>プロフィールを共有</string>
+    <key>share_profile_add_photo_and_name</key>
+    <string>写真と名前を追加</string>
+    <key>share_profile_add_your_name</key>
+    <string>名前を追加</string>
+    <key>share_profile_choose_photo</key>
+    <string>写真を選択</string>
+    <key>share_profile_display_name</key>
+    <string>表示名</string>
+    <key>share_profile_edit</key>
+    <string>プロフィールを編集</string>
+    <key>share_profile_edit_photo_and_name</key>
+    <string>写真と名前を編集</string>
+    <key>share_profile_followed_podcasts</key>
+    <string>フォロー中のポッドキャスト</string>
+    <key>share_profile_name_description</key>
+    <string>共有プロフィールにはこのように表示されます。 後で変更できます。</string>
+    <key>share_profile_playlists</key>
+    <string>プレイリスト</string>
+    <key>share_profile_preview</key>
+    <string>プロフィールをプレビュー</string>
+    <key>share_profile_privacy</key>
+    <string>プライバシー</string>
+    <key>share_profile_privacy_description</key>
+    <string>%1$@ で共有している内容を管理できます</string>
+    <key>share_profile_privacy_settings_footer</key>
+    <string>プロフィールを共有したときに他のユーザーが閲覧できる内容を管理します。</string>
+    <key>share_profile_profile_sharing</key>
+    <string>プロフィールの共有</string>
+    <key>share_profile_recent_episodes</key>
+    <string>最近のエピソード</string>
+    <key>share_profile_remove_photo</key>
+    <string>写真を削除</string>
+    <key>share_profile_save</key>
+    <string>保存</string>
+    <key>share_profile_share_my_profile</key>
+    <string>プロフィールを共有</string>
+    <key>share_profile_take_photo</key>
+    <string>写真を撮影</string>
+    <key>share_profile_what_to_share</key>
+    <string>何を共有しますか ?</string>
     <key>share_select_podcasts</key>
     <string>ポッドキャストを選択</string>
     <key>shared_item_loading</key>
@@ -3753,7 +3815,7 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>tv_episode_info</key>
     <string>エピソード情報</string>
     <key>tv_home_keep_listening_title</key>
-    <string>聴取を継続</string>
+    <string>前回の続きから開始</string>
     <key>tv_home_new_releases</key>
     <string>新規リリース</string>
     <key>tv_home_recently_played</key>
@@ -3822,14 +3884,36 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>フォロー済みのポッドキャストがここに表示され、再生できます。</string>
     <key>tv_podcasts_empty_title</key>
     <string>ここを埋めてみましょう。</string>
+    <key>tv_profile_button_accessibility_hint</key>
+    <string>プロフィールとアカウントのオプションを開く</string>
+    <key>tv_profile_button_accessibility_label</key>
+    <string>プロフィール</string>
+    <key>tv_profile_menu_create_account</key>
+    <string>アカウントを作成</string>
+    <key>tv_profile_menu_log_in</key>
+    <string>ログイン</string>
+    <key>tv_profile_menu_log_out</key>
+    <string>ログアウト</string>
+    <key>tv_profile_menu_starred_episodes</key>
+    <string>星付きエピソード</string>
+    <key>tv_search_failed</key>
+    <string>検索に失敗: %1$@</string>
+    <key>tv_search_prompt</key>
+    <string>ポッドキャスト、番組、作成者</string>
+    <key>tv_search_searching</key>
+    <string>検索中…</string>
+    <key>tv_search_type_something</key>
+    <string>入力してください…</string>
     <key>tv_sign_in_enter_code</key>
     <string>または、次のコードを入力</string>
     <key>tv_sign_in_enter_code_go_url</key>
     <string>[%1$@](%2$@) に移動</string>
+    <key>tv_sign_in_enter_code_in_url</key>
+    <string>または [%1$@](%2$@) にこのコードを入力</string>
     <key>tv_sign_in_subtitle</key>
     <string>カメラを開き、この QR コードに向けます</string>
     <key>tv_sign_in_title</key>
-    <string>スマートフォンでログイン</string>
+    <string>Pocket Casts にログイン</string>
     <key>tv_signing_in_subtitle</key>
     <string>ポッドキャストを同期しています。間もなくログインします。</string>
     <key>tv_signing_in_title</key>
@@ -3848,6 +3932,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>エピソードを「次のエピソード」に追加すると、順番に再生されます</string>
     <key>tv_up_next_empty_title</key>
     <string>待機がありません</string>
+    <key>tv_user_profile_actions</key>
+    <string>ユーザー設定</string>
+    <key>tv_user_sign_in_login_type</key>
+    <string>ログインタイプ</string>
+    <key>tv_user_sign_in_option_manual</key>
+    <string>ユーザー / パス</string>
+    <key>tv_user_sign_in_option_qr</key>
+    <string>QR</string>
     <key>tv_welcome_browse_without_account</key>
     <string>アカウントなしで閲覧</string>
     <key>tv_welcome_create_free_account</key>

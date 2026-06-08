@@ -4,8 +4,6 @@ import UIKit
 import SwiftUI
 
 class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UITableViewDataSource {
-    private static let playlistAutoDownloadCell = "PlaylistAutoDownloadCell"
-
     var allPlaylists = [EpisodeFilter]()
     var selectedPlaylists = [String]()
     var playlistSelected: ((EpisodeFilter) -> Void)?
@@ -22,11 +20,7 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
 
     @IBOutlet var playlistSelectionTable: UITableView! {
         didSet {
-            if FeatureFlag.playlistsRebranding.enabled {
-                playlistSelectionTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
-            } else {
-                playlistSelectionTable.register(UINib(nibName: "FilterDownloadCell", bundle: nil), forCellReuseIdentifier: PlaylistSelectionViewController.playlistAutoDownloadCell)
-            }
+            playlistSelectionTable.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseIdentifier)
         }
     }
 
@@ -35,10 +29,6 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
 
         playlistSelectionTable.reloadData()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: playlistSelectionTable)
-
-        if !FeatureFlag.playlistsRebranding.enabled {
-            title = L10n.settingsSelectFiltersPlural
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,7 +44,7 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FeatureFlag.playlistsRebranding.enabled ? PlaylistCell.cellHeight : 62.0
+        return PlaylistCell.cellHeight
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,27 +63,19 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
             self.didChange = true
         }
 
-        if FeatureFlag.playlistsRebranding.enabled {
-            let isSelected = Binding<Bool>(
-                get: { [weak self] in
-                    guard let self else { return false }
-                    return self.selectedPlaylists.contains(playlist.uuid)
-                },
-                set: { newValue in
-                    onToggleChange(newValue)
-                }
-            )
+        let isSelected = Binding<Bool>(
+            get: { [weak self] in
+                guard let self else { return false }
+                return self.selectedPlaylists.contains(playlist.uuid)
+            },
+            set: { newValue in
+                onToggleChange(newValue)
+            }
+        )
 
-            let isLastRow = indexPath.row == allPlaylists.count - 1
-            let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
-            cell.configure(cellType: .toggle, playlist: playlist, isLastRow: isLastRow, isSelected: isSelected)
-            return cell
-        }
-
-        let selected = selectedPlaylists.contains(playlist.uuid)
-        let cell = cell(tableView, for: PlaylistSelectionViewController.playlistAutoDownloadCell) as! FilterDownloadCell
-        cell.populateFrom(filter: playlist, selected: selected)
-        cell.filterSwitchToggled = onToggleChange
+        let isLastRow = indexPath.row == allPlaylists.count - 1
+        let cell = cell(tableView, for: PlaylistCell.reuseIdentifier) as! PlaylistCell
+        cell.configure(cellType: .toggle, playlist: playlist, isLastRow: isLastRow, isSelected: isSelected)
         return cell
     }
 
@@ -107,21 +89,9 @@ class PlaylistSelectionViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private func cell(_ tableView: UITableView, for identifier: String) -> ThemeableCell? {
-        if FeatureFlag.playlistsRebranding.enabled {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PlaylistCell {
-                return cell
-            }
-            return PlaylistCell(style: .default, reuseIdentifier: identifier)
-        } else {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? FilterDownloadCell {
-                return cell
-            }
-            let nib = UINib(nibName: "FilterDownloadCell", bundle: nil)
-            let objects = nib.instantiate(withOwner: nil, options: nil)
-            if let cell = objects.first as? FilterDownloadCell {
-                return cell
-            }
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PlaylistCell {
+            return cell
         }
-        return nil
+        return PlaylistCell(style: .default, reuseIdentifier: identifier)
     }
 }

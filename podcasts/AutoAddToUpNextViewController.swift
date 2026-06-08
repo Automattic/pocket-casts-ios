@@ -85,13 +85,13 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
                 addAutoAddLimit(amount: 500, to: options)
                 addAutoAddLimit(amount: 1000, to: options)
 
-                options.show(statusBarStyle: preferredStatusBarStyle)
+                options.present(from: self)
             case .ifLimitReached:
                 let options = OptionsPicker(title: L10n.settingsAutoAddLimitReached)
                 addOnLimitReached(action: .addToTopOnly, to: options)
                 addOnLimitReached(action: .stopAdding, to: options)
 
-                options.show(statusBarStyle: preferredStatusBarStyle)
+                options.present(from: self)
             case .selectPodcasts:
                 let podcastSelectViewController = PodcastChooserViewController()
                 podcastSelectViewController.analyticsSource = .autoAdd
@@ -106,12 +106,12 @@ class AutoAddToUpNextViewController: PCViewController, UITableViewDelegate, UITa
             addActionForPodcast(podcast: podcast, setting: .addFirst, label: L10n.top, to: options)
             addActionForPodcast(podcast: podcast, setting: .addLast, label: L10n.bottom, to: options)
 
-            options.show(statusBarStyle: preferredStatusBarStyle)
+            options.present(from: self)
         }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? nil : L10n.settingsAutoAddPodcasts
+        section == 0 || autoDownloadPodcasts.isEmpty ? nil : L10n.settingsAutoAddPodcasts
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
