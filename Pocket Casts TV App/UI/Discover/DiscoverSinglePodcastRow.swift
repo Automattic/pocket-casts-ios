@@ -37,7 +37,6 @@ struct DiscoverSinglePodcastRow: View {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     NavigationLink(value: podcast) {
                         DiscoverSinglePodcastCell(model: podcast, sponsored: model.isSponsored)
-                            .setFocus(section: model.item?.uuid ?? model.type?.rawValue)
                             .containerRelativeFrame( .horizontal, alignment: .leading) { length, axis in
                                 if axis == .vertical {
                                     return 368
@@ -46,6 +45,7 @@ struct DiscoverSinglePodcastRow: View {
                                 }
                             }
                     }
+                    .setFocus(section: model.focusStoreID)
                     .buttonStyle(ChromelessButtonStyle())
                 }
             })

@@ -51,7 +51,7 @@ struct DiscoverPodcastRow: View {
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
-                        .setFocus(section: model.type?.rawValue ?? model.item?.uuid)
+                        .setFocus(section: model.focusStoreID)
                     }
                 }
             })

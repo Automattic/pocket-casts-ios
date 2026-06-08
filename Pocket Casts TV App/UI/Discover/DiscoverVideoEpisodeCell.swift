@@ -101,7 +101,7 @@ struct DiscoverVideoEpisodeCell: View {
         .foregroundStyle(.clear)
         .focusable(!isFocused)
         .focused($isContainerFocused)
-        .setFocus(section: DiscoverType.video)
+        .setFocus(section: DiscoverType.video.rawValue)
         .buttonStyle(ChromelessButtonStyle())
         .onChange(of: isContainerFocused) { _, focused in
             if focused, !isAnimating {
@@ -125,13 +125,13 @@ struct DiscoverVideoEpisodeCell: View {
                 }
             }
             .focused($focusedButton, equals: FocusValues.playEpisode)
-            .setFocus(section: DiscoverType.video)
+            .setFocus(section: DiscoverType.video.rawValue)
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
                 .focused($focusedButton, equals: FocusValues.goPodcast)
-                .setFocus(section: DiscoverType.video)
+                .setFocus(section: DiscoverType.video.rawValue)
             }
             Spacer()
         }

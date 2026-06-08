@@ -52,7 +52,7 @@ struct DiscoverRowSection: View {
     }
 
     var body: some View {
-        HomeSection(title: title, focusSection: item.uuid ?? item.id ?? item.type) {
+        HomeSection(title: title, focusSection: item.focusStoreID) {
             switch item.rowType {
             case .categories:
                 DiscoverCategoriesRow(popularOnly: false)
@@ -78,5 +78,12 @@ struct DiscoverRowSection: View {
                 }
             }
         }
+    }
+}
+
+extension DiscoverItem {
+
+    var focusStoreID: String {
+        return self.uuid ?? self.id ?? self.type ?? ""
     }
 }

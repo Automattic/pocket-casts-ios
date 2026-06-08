@@ -15,6 +15,7 @@ struct FocusObserving: ViewModifier {
             .focused($isFocused)
             .onChange(of: isFocused) { _, newValue in
                 if newValue {
+                    print(section)
                     withAnimation(.easeInOut(duration: 0.2)) {
                         focusStore.focusedID = section
                     }
@@ -24,7 +25,7 @@ struct FocusObserving: ViewModifier {
 }
 
 extension View {
-    func setFocus(section: AnyHashable) -> some View {
+    func setFocus(section: String) -> some View {
         modifier(FocusObserving(section: section))
     }
 }

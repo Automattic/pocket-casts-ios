@@ -59,4 +59,8 @@ class DiscoverSectionModel {
             isSponsored = item?.isSponsored ?? false
         }
     }
+
+    var focusStoreID: String {
+        return  self.item?.focusStoreID ?? self.type?.rawValue ?? ""
+    }
 }
