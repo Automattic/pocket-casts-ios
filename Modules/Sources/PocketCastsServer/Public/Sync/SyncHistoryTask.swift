@@ -8,7 +8,14 @@ class SyncHistoryTask: ApiBaseTask {
         case add = 1, delete = 2, clearAll = 3
     }
 
+    /// Called once the task finishes, regardless of success. The local database
+    /// has already been updated with any server changes by the time this fires,
+    /// so callers can simply re-read history from the database afterwards.
+    var completion: (() -> Void)?
+
     override func apiTokenAcquired(token: String) {
+        defer { completion?() }
+
         var dataToSync = Api_HistorySyncRequest()
         dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         dataToSync.version = apiVersion
@@ -50,6 +57,11 @@ class SyncHistoryTask: ApiBaseTask {
         } catch {
             print("SyncHistoryTask had issues encoding protobuf \(error.localizedDescription)")
         }
+    }
+
+    override func apiTokenAcquisitionFailed() {
+        super.apiTokenAcquisitionFailed()
+        completion?()
     }
 
     private func process(serverData: Data) {

@@ -208,6 +208,8 @@ struct MainTabView: View {
                 switch destination {
                 case .starred:
                     StarredEpisodesView()
+                case .history:
+                    ListeningHistoryView()
                 }
             }
             .environment(coordinator)

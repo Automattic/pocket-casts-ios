@@ -6196,6 +6196,12 @@
 /* tv starred episodes empty subtitle */
 "tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
 
+/* tv listening history empty title */
+"tv_history_empty_title" = "No listening history";
+
+/* tv listening history empty subtitle */
+"tv_history_empty_subtitle" = "Episodes you play will show up here";
+
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
 

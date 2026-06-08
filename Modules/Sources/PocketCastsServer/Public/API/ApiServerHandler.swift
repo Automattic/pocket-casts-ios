@@ -47,6 +47,15 @@ public class ApiServerHandler {
         apiQueue.addOperation(retrieveTask)
     }
 
+    /// Syncs listening history with the server, writing any server-side changes
+    /// into the local database before calling `completion`. Callers should then
+    /// re-read history from the database to get a consistent, locally-backed list.
+    public func retrieveHistory(completion: @escaping () -> Void) {
+        let syncTask = SyncHistoryTask()
+        syncTask.completion = completion
+        apiQueue.addOperation(syncTask)
+    }
+
     public func deleteAccount(completion: @escaping (Bool, String?) -> Void) {
         let deleteAccountTask = DeleteAccountTask()
         deleteAccountTask.completion = completion

@@ -22,6 +22,7 @@ struct ProfileMenuView: View {
 
     enum ProfileDestination: Hashable, Identifiable {
         case starred
+        case history
         var id: Self { self }
     }
 
@@ -77,7 +78,7 @@ struct ProfileMenuView: View {
                     .frame(minWidth: 400)
             }
             Button {
-                // Listening history destination not yet implemented for TV
+                onProfileSelected(.history)
             } label: {
                 Text(L10n.listeningHistory)
                     .frame(minWidth: 400)
