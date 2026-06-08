@@ -150,11 +150,8 @@ actor DiscoverManager {
         var popularCategories: [DiscoverCategory] = []
 
         if let popularIds = sourceItem.popular {
-            for popularId in popularIds {
-                if let category = categories.first(where: { $0.id == popularId } ) {
-                    popularCategories.append(category)
-                }
-            }
+            let categoriesByID = Dictionary(categories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            popularCategories = popularIds.compactMap { categoriesByID[$0] }
         }
         if popularCategories.isEmpty {
             popularCategories = categories

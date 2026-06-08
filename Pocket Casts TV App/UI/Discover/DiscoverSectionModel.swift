@@ -61,6 +61,6 @@ class DiscoverSectionModel {
     }
 
     var focusStoreID: String {
-        return  self.item?.focusStoreID ?? self.type?.rawValue ?? ""
+        self.item?.focusStoreID ?? self.type?.rawValue ?? ""
     }
 }

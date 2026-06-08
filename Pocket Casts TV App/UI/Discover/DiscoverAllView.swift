@@ -58,12 +58,6 @@ struct DiscoverRowSection: View {
                 DiscoverCategoriesRow(popularOnly: false)
             case .featured:
                 DiscoverFeaturedPodcastsRow(item: item)
-            case .listPodcast:
-                DiscoverPodcastRow(item: item) { title in
-                    if let title {
-                        self.title = title
-                    }
-                }
             case .singlePodcast:
                 DiscoverSinglePodcastRow(item: item) { title in
                     if let title {
@@ -84,6 +78,6 @@ struct DiscoverRowSection: View {
 extension DiscoverItem {
 
     var focusStoreID: String {
-        return self.uuid ?? self.id ?? self.type ?? ""
+        self.uuid ?? self.id ?? self.type ?? ""
     }
 }

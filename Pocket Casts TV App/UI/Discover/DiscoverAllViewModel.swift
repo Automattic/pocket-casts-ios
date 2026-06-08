@@ -21,7 +21,7 @@ class DiscoverAllViewModel {
 
     func load() async {
         let items = await discoverManager.loadDiscoverItems().filter { item in
-            return item.categoryID == nil
+            item.categoryID == nil
         }
 
         await MainActor.run {
@@ -69,7 +69,7 @@ extension DiscoverItem {
             return .listPodcast
         default:
             FileLog.shared.addMessage("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
-            assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknow")")
+            assertionFailure("Unknown Discover Item: \(type ?? "unknown") \(summaryStyle ?? "unknown")")
             return nil
         }
     }
