@@ -40,7 +40,7 @@ struct DiscoverCategoriesRow: View {
                                 .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)
-                        .setFocus(section: DiscoverType.categories)
+                        .setFocus(section: DiscoverType.categories.rawValue)
                         .padding(.vertical, 24)
                     }
                 }
