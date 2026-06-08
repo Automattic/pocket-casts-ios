@@ -45,5 +45,8 @@ struct DiscoverAllView: View {
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: uuid))
             }
         }
+        .navigationDestination(for: DiscoverCategory.self) { discoverCategory in
+            DiscoverPodcastsListView(category: discoverCategory)
+        }
     }
 }
