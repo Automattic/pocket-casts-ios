@@ -38,6 +38,7 @@ enum DiscoverRowType: CaseIterable {
     case singlePodcast
     case listEpisode
     case singleEpisode
+    case listVideoEpisode
 }
 
 extension DiscoverItem {
@@ -63,6 +64,8 @@ extension DiscoverItem {
             return .singleEpisode
         case ("episode_list", "collection", "plain_list"):
             return .listEpisode
+        case ("episode_video_list", "collection", "plain_list"):
+            return .listVideoEpisode
         case ("category_podcast_list", _, _):
             return .categories
         case ("podcast_list", "large_list_with_podcast", _):

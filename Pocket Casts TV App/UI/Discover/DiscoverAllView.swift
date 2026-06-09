@@ -58,6 +58,8 @@ struct DiscoverRowSection: View {
                 DiscoverCategoriesRow(popularOnly: false)
             case .featured:
                 DiscoverFeaturedPodcastsRow(item: item)
+            case .listVideoEpisode:
+                DiscoverVideoEpisodesRow(item: item)
             case .singlePodcast:
                 DiscoverSinglePodcastRow(item: item) { title in
                     if item.isSponsored == true {

@@ -85,10 +85,12 @@ actor DiscoverManager {
         }
         let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
 
-        let filteredItems = items.filter { item in
+        var filteredItems = items.filter { item in
             item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
         }
 
+        let videoItem = makeVideoItem(layout: discoverLayout)
+        filteredItems.insert(videoItem, at: 2)
         return filteredItems
     }
 
@@ -115,9 +117,7 @@ actor DiscoverManager {
     }
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {
-        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return nil
-        }
+        let items = await loadDiscoverItems()
         var selectedItem: DiscoverItem?
         for item in items {
             if type.match(item: item) {
@@ -194,13 +194,37 @@ actor DiscoverManager {
         return resultPodcasts
     }
 
-    func loadDiscoverVideoSection() async -> [DiscoverEpisode] {
-        let videoSource = "https://lists.pocketcasts.com/tv_featured_videos.json"
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: videoSource, authenticated: false)
+    func loadDiscoverEpisodesSection(type: DiscoverType) async -> [DiscoverEpisode] {
+        guard let sourceItem = await findItem(of: type) else {
+            return []
+        }
+        return await loadDiscoverEpisodesSection(item: sourceItem)
+    }
+
+    func loadDiscoverEpisodesSection(item: DiscoverItem) async -> [DiscoverEpisode] {
+        guard let source = item.source else {
+            return []
+        }
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: false)
         guard let listOfEpisodes = podcastCollection?.episodes else {
             return []
         }
 
         return listOfEpisodes
+    }
+
+    func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
+        let videoItem = DiscoverItem(id: "video",
+                                     uuid: "video",
+                                     title: L10n.tvHomeVideoSectionTitle,
+                                     type: "episode_video_list",
+                                     summaryStyle: "collection",
+                                     summaryItemCount: nil,
+                                     expandedStyle: "plain_list",
+                                     source: "https://lists.pocketcasts.com/tv_featured_videos.json",
+                                     sponsoredPodcasts: nil,
+                                     expandedTopItemLabel: nil,
+                                     regions: Array(layout.regions?.keys.sorted() ?? []) )
+        return videoItem
     }
 }

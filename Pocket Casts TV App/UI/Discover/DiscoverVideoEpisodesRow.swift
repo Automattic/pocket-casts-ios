@@ -20,6 +20,11 @@ struct DiscoverVideoEpisodesRow: View {
         self.callback = callback
     }
 
+    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionEpisodesModel(item: item))
+        self.callback = callback
+    }
+
     var body: some View {
         Group {
             switch model.state {
@@ -46,7 +51,7 @@ struct DiscoverVideoEpisodesRow: View {
                 ForEach(model.episodes, id: \.uuid) { episode in
                     DiscoverVideoEpisodeCell(episode: episode)
                         .padding(.vertical, Layout.spacing / 2)
-                        .setFocus(section: model.type.rawValue)
+                        .setFocus(section: model.type?.rawValue ?? "")
                         .focused($focusedID, equals: episode.uuid)
                         .prefersDefaultFocus(model.episodes.first?.uuid == episode.uuid, in: focusNS)
                 }

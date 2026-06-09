@@ -16,7 +16,7 @@ struct DiscoverSinglePodcastCell: View {
     @ViewBuilder
     private var thumbnail: some View {
         if let uuid = model.uuid {
-            PodcastImage(uuid: uuid, size: .list)
+            PodcastImage(uuid: uuid, size: .page)
         }
     }
 
@@ -25,7 +25,7 @@ struct DiscoverSinglePodcastCell: View {
             thumbnail
                 .frame(width: Layout.imageSize, height: Layout.imageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 4) {
                     if sponsored {
                         Text(L10n.discoverSponsored.sentenceCased)
