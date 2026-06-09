@@ -47,20 +47,6 @@ public class ApiServerHandler {
         apiQueue.addOperation(retrieveTask)
     }
 
-    public func retrieveHistory() async throws {
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            let syncTask = SyncHistoryTask()
-            syncTask.completion = { error in
-                if let error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume()
-                }
-            }
-            apiQueue.addOperation(syncTask)
-        }
-    }
-
     public func deleteAccount(completion: @escaping (Bool, String?) -> Void) {
         let deleteAccountTask = DeleteAccountTask()
         deleteAccountTask.completion = completion

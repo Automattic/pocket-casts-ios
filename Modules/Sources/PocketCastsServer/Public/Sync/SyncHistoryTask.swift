@@ -3,38 +3,12 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-/// Errors that can occur during a listening history sync.
-public enum HistorySyncError: LocalizedError {
-    /// No auth token could be acquired, so the request was never made.
-    case tokenUnavailable
-    /// The server responded with an unexpected HTTP status.
-    case serverSyncFailed(httpStatus: Int)
-    /// The request could not be encoded before being sent.
-    case protobufEncodingFailed(underlyingError: Error)
-
-    public var errorDescription: String? {
-        switch self {
-        case .tokenUnavailable:
-            return "History sync failed: unable to acquire an auth token"
-        case .serverSyncFailed(let httpStatus):
-            return "History sync failed with HTTP status: \(httpStatus)"
-        case .protobufEncodingFailed(let error):
-            return "History sync protobuf encoding failed: \(error.localizedDescription)"
-        }
-    }
-}
-
 class SyncHistoryTask: ApiBaseTask {
     enum HistoryAction: Int {
         case add = 1, delete = 2, clearAll = 3
     }
 
-    var completion: ((Error?) -> Void)?
-
     override func apiTokenAcquired(token: String) {
-        var syncError: Error?
-        defer { completion?(syncError) }
-
         var dataToSync = Api_HistorySyncRequest()
         dataToSync.deviceTime = TimeFormatter.currentUTCTimeInMillis()
         dataToSync.version = apiVersion
@@ -71,18 +45,11 @@ class SyncHistoryTask: ApiBaseTask {
             } else if let response, httpStatus == ServerConstants.HttpConstants.ok {
                 process(serverData: response)
             } else {
-                syncError = HistorySyncError.serverSyncFailed(httpStatus: httpStatus)
-                FileLog.shared.addMessage("SyncHistoryTask unable to sync with server, got status \(httpStatus)")
+                print("SyncHistoryTask Unable to sync with server got status \(httpStatus)")
             }
         } catch {
-            syncError = HistorySyncError.protobufEncodingFailed(underlyingError: error)
-            FileLog.shared.addMessage("SyncHistoryTask had issues encoding protobuf \(error.localizedDescription)")
+            print("SyncHistoryTask had issues encoding protobuf \(error.localizedDescription)")
         }
-    }
-
-    override func apiTokenAcquisitionFailed() {
-        super.apiTokenAcquisitionFailed()
-        completion?(HistorySyncError.tokenUnavailable)
     }
 
     private func process(serverData: Data) {
