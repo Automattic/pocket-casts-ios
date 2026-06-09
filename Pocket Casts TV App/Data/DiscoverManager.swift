@@ -188,7 +188,7 @@ actor DiscoverManager {
         guard let source = item.source else {
             return []
         }
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: false)
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated)
         guard let listOfEpisodes = podcastCollection?.episodes else {
             return []
         }
