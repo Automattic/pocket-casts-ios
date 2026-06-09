@@ -1,15 +1,21 @@
 import SwiftUI
 import CoreImage.CIFilterBuiltins
-import PocketCastsServer
 
 /// A modal card that nudges a signed-out viewer to create a free account by
 /// scanning a QR code with their phone. Matches the "Your podcasts deserve a
 /// home" design: a frosted card with the QR code on the leading side and the
 /// three onboarding steps on the trailing side.
 ///
-/// The QR code is currently a placeholder pointing at the marketing create
-/// URL — the real device-pairing flow is not wired up yet.
+/// Drives the same device-pairing flow as ``SignInView``: it owns a
+/// ``PairingSession`` that fetches a device code, renders it as the QR the
+/// viewer scans, and polls until the phone approves the request — at which
+/// point the card dismisses and the app moves on to syncing the new account.
 struct CreateAccountModalView: View {
+    @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.dismiss) private var dismiss
+
+    /// The QR / device-pairing flow, shared with the sign-in screen.
+    @State private var pairing = PairingSession()
 
     /// The ordered steps shown next to the QR code.
     private let steps = [
@@ -21,15 +27,30 @@ struct CreateAccountModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 64) {
             header
-            HStack(alignment: .center, spacing: 64) {
-                // TODO: Replace the placeholder QR code with the real
-                // device-pairing QR once the pairing flow is implemented.
-                PlaceholderQRCode(url: ServerConstants.Urls.tvCreate)
-                stepsList
+            if case .error(_, let message) = pairing.state {
+                pairingError(message: message)
+            } else {
+                HStack(alignment: .center, spacing: 64) {
+                    QRCodeTile(url: pairing.pairURLComplete)
+                    stepsList
+                }
             }
         }
         .padding(80)
         .frame(width: 952, alignment: .leading)
+        .task {
+            await pairing.start()
+        }
+        .onChange(of: pairing.state) {
+            if case .finished = pairing.state {
+                finish()
+            }
+        }
+    }
+
+    private func finish() {
+        dismiss()
+        coordinator.state = .userSync
     }
 
     private var header: some View {
@@ -71,11 +92,32 @@ struct CreateAccountModalView: View {
         // letting VoiceOver land on the bare number badge separately.
         .accessibilityElement(children: .combine)
     }
+
+    /// Shown in place of the QR code and steps when the device-pairing request
+    /// fails, mirroring the sign-in screen's error treatment and reusing its
+    /// strings.
+    private func pairingError(message: String) -> some View {
+        ContentUnavailableView {
+            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+        } description: {
+            Text(message)
+        } actions: {
+            Button {
+                Task {
+                    await pairing.start()
+                }
+            } label: {
+                Text(L10n.tryAgain)
+                    .frame(minWidth: 300)
+            }
+        }
+    }
 }
 
-/// Renders a QR code synchronously onto a white rounded tile. Used as a
-/// stand-in until the real device-pairing QR code is available.
-private struct PlaceholderQRCode: View {
+/// Renders the device-pairing QR code onto a white rounded tile. Shows a
+/// spinner until the device code arrives, and regenerates whenever the code
+/// changes (e.g. after the previous one expires or "Try Again" is tapped).
+private struct QRCodeTile: View {
 
     enum Layout {
         static let tileSize = CGFloat(268)
@@ -83,7 +125,8 @@ private struct PlaceholderQRCode: View {
         static let cornerRadius = CGFloat(24)
     }
 
-    let url: String
+    /// The pairing URL to encode, or `nil` while the device code is being fetched.
+    let url: String?
 
     @State private var image: UIImage?
 
@@ -98,20 +141,18 @@ private struct PlaceholderQRCode: View {
                     .interpolation(.none)
                     .scaledToFit()
             } else {
-                Color.white
+                ProgressView()
             }
         }
         .padding(Layout.padding)
         .frame(width: Layout.tileSize, height: Layout.tileSize)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
-        // Generate once and cache the result rather than rebuilding the QR on
-        // every body re-evaluation. Done synchronously (the work is cheap) so
-        // the tile is never empty, including in preview snapshots.
-        .onAppear {
-            if image == nil {
-                image = makeImage(from: url)
-            }
+        // Regenerate whenever the code changes — including the first time it
+        // arrives — and clear the image while we're waiting on a new one so the
+        // tile falls back to the spinner rather than showing a stale QR.
+        .onChange(of: url, initial: true) { _, url in
+            image = url.flatMap(makeImage)
         }
     }
 
@@ -133,6 +174,7 @@ private struct PlaceholderQRCode: View {
     CreateAccountModalPreviewBackdrop()
         .sheet(isPresented: $isPresented) {
             CreateAccountModalView()
+                .environment(AppCoordinator())
         }
 }
 
