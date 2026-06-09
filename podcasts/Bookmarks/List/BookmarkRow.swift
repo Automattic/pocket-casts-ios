@@ -22,10 +22,23 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     var body: some View {
         let selected = viewModel.isSelected(bookmark)
         MultiSelectRow(showSelectButton: viewModel.isMultiSelecting, selected: selected) {
-            HStack(spacing: RowConstants.spacing) {
-                imageView
-                detailsView
-                playButtonView
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 14) {
+                    imageView
+                    detailsView
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    playButton
+                }
+
+                if let transcriptText = rowModel.transcriptText {
+                    Text(transcriptText)
+                        .foregroundStyle(style.secondaryText)
+                        .font(.footnote.italic())
+                        .lineLimit(2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, imageSize + 14)
+                        .padding(.top, 4)
+                }
             }
         } onSelectionToggled: {
             withAnimation {
@@ -33,15 +46,10 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
             }
         }
         .selectButtonStyle(tintColor: style.selectButton, checkColor: style.selectCheck, strokeColor: style.selectButtonStroke)
-        .padding(.horizontal, RowConstants.horizontalPadding)
-        .padding(.vertical, RowConstants.verticalPadding)
+        .padding(.vertical, 14)
+        .background(selected ? style.rowSelected : (highlighted ? style.rowHighlight : Color.clear))
         .animation(.default, value: viewModel.isMultiSelecting)
-
-        // Display a highlight when tapped, or the row is selected
-        .background((!selected && highlighted) ? style.rowHighlight : nil)
         .animation(.linear, value: highlighted)
-
-        .background(selected ? style.rowSelected : nil)
         .animation(.linear, value: selected)
     }
 
@@ -59,10 +67,9 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         }
     }
 
-    /// Displays a title and subtitle
     private var detailsView: some View {
         NonBlockingLongPressView {
-            VStack(alignment: .leading, spacing: rowModel.heading != nil ? 4 : 8) {
+            VStack(alignment: .leading, spacing: 4) {
                 rowModel.heading.map {
                     Text($0)
                         .foregroundStyle(style.tertiaryText)
@@ -73,21 +80,13 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                 Text(rowModel.title)
                     .foregroundStyle(style.primaryText)
                     .font(style: .subheadline, weight: .medium)
-
-                if let transcriptText = rowModel.transcriptText {
-                    Text(transcriptText)
-                        .foregroundStyle(style.secondaryText)
-                        .font(style: .caption)
-                        .lineLimit(2)
-                        .italic()
-                }
+                    .lineLimit(1)
 
                 Text(rowModel.subtitle)
                     .foregroundStyle(style.tertiaryText)
                     .font(style: .caption, weight: .semibold)
                     .lineLimit(1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         } onTapped: {
             viewModel.tapped(item: bookmark)
         } onPressed: { pressed in
@@ -99,8 +98,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         }
     }
 
-    /// Displays the play button view, and adds the action to it
-    private var playButtonView: some View {
+    private var playButton: some View {
         PlayButton(title: rowModel.playButton, style: style).buttonize {
             viewModel.bookmarkPlayTapped(bookmark)
         } customize: { config in
@@ -118,33 +116,26 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
         @ObservedObject var style: ButtonStyle
 
         var body: some View {
-            HStack(spacing: 10) {
+            HStack(spacing: 6) {
                 Text(title)
                     .font(style: .subheadline, weight: .medium)
                     .fixedSize()
 
-                Image("bookmarks-icon-play")
-                    .renderingMode(.template)
+                Image(systemName: "play.fill")
+                    .font(.system(size: 10))
             }
             .foregroundStyle(style.playButtonText)
-            .padding(.horizontal, RowConstants.horizontalPadding)
-            .padding(.vertical, RowConstants.playButtonVerticalPadding)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
             .background(style.playButtonBackground)
-            .cornerRadius(.infinity) // Always rounded
+            .cornerRadius(.infinity)
             .overlay(
                 style.playButtonStroke.map {
                     RoundedRectangle(cornerRadius: .infinity, style: .continuous)
                         .inset(by: 1)
-                        .stroke($0, lineWidth: 2)
+                        .stroke($0, lineWidth: 1.5)
                 }
             )
         }
     }
-}
-
-private enum RowConstants {
-    static let horizontalPadding = 16.0
-    static let spacing = 12.0
-    static let verticalPadding = 12.0
-    static let playButtonVerticalPadding = 8.0
 }

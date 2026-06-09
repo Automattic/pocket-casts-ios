@@ -55,7 +55,8 @@ extension BookmarkListRouter where Self: UIViewController {
                         onSaved()
                     }
                     controller.source = analyticsSource
-                    self.present(controller, animated: true)
+                    let presenter = self.presentedViewController ?? self
+                    presenter.present(controller, animated: true)
                 }
             } catch {
                 await MainActor.run { self.bookmarkEdit(bookmark) }

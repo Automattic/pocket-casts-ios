@@ -79,9 +79,10 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                         viewModel.showMoreOptions()
                     }) {
                         Image("podcast-more-options")
-                            .padding(.trailing, 1) // Needed to nudge this over to match exactly. Not sure why.
+                            .renderingMode(.template)
+                            .padding(.trailing, 1)
                     }
-                    .foregroundStyle(searchTheme.icon)
+                    .foregroundStyle(style.primaryText)
                 }
                 .padding(.horizontal, BookmarkListConstants.padding)
                 .padding(.bottom, BookmarkListConstants.searchFieldBottomPadding)
@@ -93,6 +94,7 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                 listView
             }
         }
+        .background(style.pageBackground.ignoresSafeArea())
         .environmentObject(viewModel)
     }
 
@@ -131,7 +133,6 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
                     .padding(.bottom, BookmarkListConstants.headerPadding)
             }
             headerView
-            divider
         }
 
         actionBarView {
@@ -180,36 +181,30 @@ struct BookmarksListView<ListStyle: BookmarksStyle>: View {
     private var scrollView: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(viewModel.bookmarks) { bookmark in
-                    BookmarkRow(bookmark: bookmark, style: style)
-
-                    if !viewModel.isLast(item: bookmark) {
-                        divider
-                    }
-                }
-
-                // Add padding to the bottom of the list when the action bar is visible so it's not blocking the view
-                if actionBarVisible && !useExternalActionBar {
-                    Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding)
-                }
+                bookmarksRows
             }
+            .padding(.horizontal, BookmarkListConstants.padding)
         }
     }
 
     private var stableContainer: some View {
         LazyVStack(spacing: 0) { bookmarksRows }
+            .padding(.horizontal, BookmarkListConstants.padding)
     }
 
     @ViewBuilder
     private var listContent: some View {
         LazyVStack(spacing: 0) { bookmarksRows }
+            .padding(.horizontal, BookmarkListConstants.padding)
     }
 
     @ViewBuilder
     private var bookmarksRows: some View {
-        ForEach(viewModel.bookmarks) { bookmark in
+        ForEach(Array(viewModel.bookmarks.enumerated()), id: \.element.id) { index, bookmark in
             BookmarkRow(bookmark: bookmark, style: style)
-            if !viewModel.isLast(item: bookmark) { divider }
+            if index < viewModel.bookmarks.count - 1 {
+                HairlineSeparator(color: style.divider)
+            }
         }
         if actionBarVisible && !useExternalActionBar { Spacer(minLength: BookmarkListConstants.multiSelectionBottomPadding) }
     }

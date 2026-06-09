@@ -112,7 +112,8 @@ class BookmarksPlayerTabController: PlayerItemViewController {
 
         controller.source = viewModel.analyticsSource
 
-        present(controller, animated: true)
+        let presenter = presentedViewController ?? self
+        presenter.present(controller, animated: true)
     }
 
     private func showSmartBookmarkIfAvailable(bookmark: Bookmark, episode: Episode, completion: @escaping (Bool) -> Void) {
@@ -213,6 +214,9 @@ extension BookmarksPlayerTabController: BookmarkListRouter {
                     done()
                 }
             },
+            onShare: (bookmark.episode ?? viewModel.episode) is Episode ? { [weak self] in
+                self?.bookmarkShare(bookmark)
+            } : nil,
             isModal: true,
             bookmarkLookup: { [weak self] uuid in
                 self?.bookmarkManager.bookmark(for: uuid)

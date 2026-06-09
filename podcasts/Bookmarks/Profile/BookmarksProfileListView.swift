@@ -33,7 +33,7 @@ struct BookmarksProfileListView: View {
                         Text(L10n.selectAll)
                     }
                 }
-                .tint(style.theme.secondaryIcon01)
+                .tint(style.theme.primaryText01)
             }
         }
 
@@ -54,7 +54,7 @@ struct BookmarksProfileListView: View {
                 }
                 .disabled(!viewModel.feature.isUnlocked)
                 .opacity(viewModel.feature.isUnlocked ? 1 : 0)
-                .tint(style.theme.secondaryIcon01)
+                .tint(style.theme.primaryText01)
             }
         }
     }

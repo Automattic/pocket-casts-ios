@@ -18,11 +18,13 @@ struct BookmarkDetailView: View {
 
     private let bookmarkLookup: () -> Bookmark?
     private let editAction: ((@escaping () -> Void) -> Void)?
+    private let shareAction: (() -> Void)?
 
     init(bookmark: Bookmark,
          episode: BaseEpisode?,
          onPlay: @escaping () -> Void,
          onEdit: ((@escaping () -> Void) -> Void)? = nil,
+         onShare: (() -> Void)? = nil,
          isModal: Bool = false,
          bookmarkLookup: ((String) -> Bookmark?)? = nil) {
         self.bookmark = bookmark
@@ -33,6 +35,7 @@ struct BookmarkDetailView: View {
         self.episode = episode
         self.onPlay = onPlay
         self.editAction = onEdit
+        self.shareAction = onShare
         self.isModal = isModal
         let uuid = bookmark.uuid
         self.bookmarkLookup = { bookmarkLookup?(uuid) }
@@ -58,10 +61,9 @@ struct BookmarkDetailView: View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 16) {
                 headerView
-                Divider()
             }
             .padding([.horizontal, .top])
-            .padding(.bottom, 12)
+            .padding(.bottom, 28)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -71,6 +73,7 @@ struct BookmarkDetailView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.top, 12)
                 .padding(.bottom)
             }
             .mask(
@@ -92,22 +95,36 @@ struct BookmarkDetailView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .symbolRenderingMode(.hierarchical)
-                            .foregroundStyle(AppTheme.color(for: .primaryText02, theme: theme))
+                        Image(systemName: "xmark")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundStyle(AppTheme.color(for: .primaryText01, theme: theme))
                     }
                 }
             }
-            if editAction != nil {
+            if editAction != nil || shareAction != nil {
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        editAction? {
-                            refreshFromDatabase()
+                    Menu {
+                        if editAction != nil {
+                            Button {
+                                editAction? {
+                                    refreshFromDatabase()
+                                }
+                            } label: {
+                                Label(L10n.smartBookmarkEditTitle, systemImage: "pencil")
+                            }
+                        }
+                        if shareAction != nil {
+                            Button {
+                                shareAction?()
+                            } label: {
+                                Label(L10n.share, systemImage: "square.and.arrow.up")
+                            }
                         }
                     } label: {
-                        Image("folder-edit")
-                            .renderingMode(.template)
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 15, weight: .bold))
                             .foregroundStyle(AppTheme.color(for: .primaryText01, theme: theme))
+                            .frame(width: 32, height: 32)
                     }
                 }
             }
@@ -150,10 +167,19 @@ struct BookmarkDetailView: View {
 
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 4) {
+            Text(formattedDate)
+                .font(style: .caption, weight: .semibold)
+                .foregroundStyle(AppTheme.color(for: .primaryText02, theme: theme))
             Text(title)
                 .font(size: 22, style: .title2, weight: .bold)
                 .foregroundStyle(AppTheme.color(for: .primaryText01, theme: theme))
         }
+    }
+
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d · h:mm a"
+        return formatter.string(from: bookmark.created)
     }
 
     // MARK: - Transcript
@@ -173,8 +199,8 @@ struct BookmarkDetailView: View {
 
             ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
                 Text(paragraph)
-                    .font(style: .body)
-                    .foregroundStyle(AppTheme.color(for: .primaryText01, theme: theme))
+                    .font(.system(.body, design: .serif))
+                    .foregroundStyle(AppTheme.color(for: .primaryText02, theme: theme))
             }
         }
         .textSelection(.enabled)
@@ -189,14 +215,15 @@ struct BookmarkDetailView: View {
             onPlay()
         } label: {
             HStack(spacing: 6) {
-                Image(systemName: "play.fill")
-                    .font(.system(size: 11))
                 Text(timestamp)
-                    .font(style: .footnote, weight: .semibold)
+                    .font(style: .subheadline, weight: .medium)
+                    .fixedSize()
+                Image(systemName: "play.fill")
+                    .font(.system(size: 10))
             }
             .foregroundStyle(AppTheme.color(for: .primaryInteractive02, theme: theme))
             .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .padding(.vertical, 7)
             .background(AppTheme.color(for: .primaryInteractive01, theme: theme))
             .clipShape(Capsule())
         }

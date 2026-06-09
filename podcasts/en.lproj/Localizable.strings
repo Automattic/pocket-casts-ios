@@ -4430,7 +4430,7 @@
 "smart_bookmark_line_count" = "%1$d lines";
 
 /* Label above the bookmark title text field */
-"smart_bookmark_title_label" = "Title";
+"smart_bookmark_title_label" = "Bookmark Title";
 
 /* Shown while Apple Intelligence generates a title */
 "smart_bookmark_generating_title" = "Generating title…";

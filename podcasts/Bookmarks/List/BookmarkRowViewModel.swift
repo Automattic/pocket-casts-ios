@@ -15,9 +15,9 @@ class BookmarkRowViewModel: ObservableObject {
         self.episode = bookmark.episode
         self.title = bookmark.title
         self.playButton = TimeFormatter.shared.playTimeFormat(time: bookmark.time)
-        self.subtitle = DateFormatter.localizedString(from: bookmark.created,
-                                                      dateStyle: .medium,
-                                                      timeStyle: .short)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d · h:mm a"
+        self.subtitle = dateFormatter.string(from: bookmark.created)
         self.transcriptText = bookmark.transcriptText
         if let episode {
             updateFromEpisode(episode)

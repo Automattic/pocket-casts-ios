@@ -1777,6 +1777,9 @@ extension PodcastViewController: BookmarkListRouter {
                     done()
                 }
             },
+            onShare: bookmark.episode is Episode ? { [weak self] in
+                self?.bookmarkShare(bookmark)
+            } : nil,
             bookmarkLookup: { uuid in
                 bookmarkManager.bookmark(for: uuid)
             }

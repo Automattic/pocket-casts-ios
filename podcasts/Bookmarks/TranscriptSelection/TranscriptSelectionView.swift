@@ -8,7 +8,7 @@ struct TranscriptSelectionView: View {
     @ObservedObject var theme: TranscriptSelectionTheme
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             mainView
 
             Image("close")
@@ -40,7 +40,7 @@ struct TranscriptSelectionView: View {
     }
 
     private var headerView: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 8) {
             Text(viewModel.isEditing ? L10n.smartBookmarkEditTitle : L10n.smartBookmarkTitle)
                 .foregroundStyle(theme.title)
                 .font(size: 19, style: .title3, weight: .bold)
@@ -62,6 +62,7 @@ struct TranscriptSelectionView: View {
                 }
                 .padding(.horizontal, 4)
             }
+            .padding(.vertical, 8)
             .frame(maxHeight: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .onAppear {
@@ -93,7 +94,7 @@ struct TranscriptSelectionView: View {
             }
 
             Text(text)
-                .font(style: .body)
+                .font(.system(.body, design: .serif))
                 .foregroundStyle(isSelected ? theme.selectedText : theme.dimmedText)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }

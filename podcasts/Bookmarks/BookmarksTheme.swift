@@ -10,6 +10,8 @@ protocol BookmarksStyle: ObservableObject {
     var tertiaryText: Color { get }
     var titleText: Color { get }
     var divider: Color { get }
+    var pageBackground: Color { get }
+    var cardBackground: Color { get }
     var rowHighlight: Color { get }
     var rowSelected: Color { get }
     var selectButtonStroke: Color { get }
@@ -47,6 +49,8 @@ class BookmarksPlayerTabStyle: ThemeObserver, BookmarksStyle {
     var tertiaryText: Color { theme.playerContrast02 }
     var titleText: Color { theme.playerContrast01 }
     var divider: Color { theme.playerContrast05 }
+    var pageBackground: Color { theme.playerBackground01 }
+    var cardBackground: Color { theme.playerContrast05.opacity(0.15) }
     var rowHighlight: Color { theme.playerContrast05 }
     var rowSelected: Color { rowHighlight }
     var selectButton: Color { theme.playerContrast01 }
@@ -68,6 +72,8 @@ class ThemedBookmarksStyle: ThemeObserver, BookmarksStyle {
     var tertiaryText: Color { theme.primaryText02 }
     var titleText: Color { theme.secondaryText01 }
     var divider: Color { theme.primaryUi05 }
+    var pageBackground: Color { theme.primaryUi01 }
+    var cardBackground: Color { Color(.secondarySystemGroupedBackground) }
     var rowHighlight: Color { theme.primaryUi02Active }
     var rowSelected: Color { theme.primaryUi02Selected }
     var selectButtonStroke: Color { theme.primaryIcon02 }
@@ -95,6 +101,8 @@ class OverrideThemedBookmarksStyle: ThemedBookmarksStyle {
     override var tertiaryText: Color { Color(ThemeColor.primaryText02(for: overrideTheme)) }
     override var titleText: Color { Color(ThemeColor.secondaryText01(for: overrideTheme)) }
     override var divider: Color { Color(ThemeColor.primaryUi05(for: overrideTheme)) }
+    override var pageBackground: Color { Color(ThemeColor.primaryUi04(for: overrideTheme)) }
+    override var cardBackground: Color { Color(ThemeColor.primaryUi01(for: overrideTheme)) }
     override var rowHighlight: Color { Color(ThemeColor.primaryUi02Active(for: overrideTheme)) }
     override var rowSelected: Color { Color(ThemeColor.primaryUi02Selected(for: overrideTheme)) }
     override var selectButtonStroke: Color { Color(ThemeColor.primaryIcon02(for: overrideTheme)) }
