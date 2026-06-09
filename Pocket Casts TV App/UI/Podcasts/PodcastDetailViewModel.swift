@@ -24,7 +24,7 @@ class PodcastDetailViewModel {
     var episodes: [EpisodeRowViewModel] = []
     var recommendedEpisode: EpisodeRowViewModel?
     var isFollowing: Bool = false
-    var showArchived: Bool = false    
+    var showArchived: Bool = false
 
     private static func archiveStorageKey(for podcastUuid: String) -> String {
         "showArchived_podcast_\(podcastUuid)"
