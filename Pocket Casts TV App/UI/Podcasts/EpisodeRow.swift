@@ -140,7 +140,7 @@ struct EpisodeRowWithActions: View {
             Button(L10n.playLastInUpNext) { model.playLast() }
             Button(L10n.markPlayed) { model.markAsPlayed() }
             if model.canArchive {
-                Button(L10n.archive) { model.archive() }
+                Button(model.isArchived ? L10n.unarchive : L10n.archive) { model.isArchived ? model.unarchive() : model.archive() }
             }
         case .upNext:
             Button(L10n.playNext) { model.playNext() }
