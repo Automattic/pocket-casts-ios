@@ -2200,8 +2200,8 @@
 /* Accessibility label indicating the current podcast is playing and it's episode date. '%1$@' is a placeholder for the episode date. */
 "queue_now_playing_accessibility" = "Now Playing. %1$@";
 
-/* Label indicating the amount of time remains on an episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
-"queue_time_remaining" = "%1$@ remaining";
+/* Label on the Up Next now playing cell indicating how much time is left on the currently-playing episode. '%1$@' is a placeholder for a localized time format for the remaining time. */
+"queue_time_remaining" = "%1$@ left";
 
 /* Up Next header showing episode count and time remaining for a single episode. '%1$@' is a placeholder for the total time remaining. */
 "queue_up_next_header_one_episode" = "1 episode · %1$@ left";
