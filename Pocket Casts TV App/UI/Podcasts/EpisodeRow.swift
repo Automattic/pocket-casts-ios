@@ -71,6 +71,13 @@ if model.isVideo {
         .padding(24)
         .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .opacity(archivedOpacity)
+        .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+    }
+
+    private var archivedOpacity: Double {
+        guard model.isArchived else { return 1.0 }
+        return isHighlighted ? 1.0 : 0.3
     }
 }
 

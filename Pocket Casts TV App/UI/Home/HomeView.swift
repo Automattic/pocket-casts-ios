@@ -218,12 +218,25 @@ struct HomeSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
-            Text(title)
-                .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.pcTextPrimary)
+            titleView
             content
         }
         .focusSection()
+    }
+
+    // Always reserve space for the larger (focused) title so the layout
+    // doesn't jump when the title resizes on focus changes. A hidden copy at
+    // the largest font sizes the slot; the visible title is overlaid and
+    // bottom-aligned so its distance to the content below stays constant.
+    private var titleView: some View {
+        Text(title)
+            .font(.title2)
+            .hidden()
+            .overlay(alignment: .bottomLeading) {
+                Text(title)
+                    .font(isFocusedSection ? .title2 : .headline)
+                    .foregroundStyle(Color.pcTextPrimary)
+            }
     }
 }
 
