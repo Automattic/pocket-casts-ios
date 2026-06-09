@@ -2,7 +2,7 @@ import PocketCastsDataModel
 
 enum EpisodesQueryBuilder {
 
-    static func makeEpisodeQuery(podcast: Podcast, sortOrder: PodcastEpisodeSortOrder? = nil) -> (query: String, arguments: [Any]) {
+    static func makeEpisodeQuery(podcast: Podcast, sortOrder: PodcastEpisodeSortOrder? = nil, includeArchived: Bool = false) -> (query: String, arguments: [Any]) {
 
         let episodeSortOrder = sortOrder ?? podcast.podcastSortOrder
 
@@ -25,6 +25,7 @@ enum EpisodesQueryBuilder {
             sortStr = "ORDER BY CASE WHEN seasonNumber < 1 THEN 9999 ELSE seasonNumber END, CASE WHEN episodeNumber < 1 THEN 9999 ELSE episodeNumber END ASC, publishedDate ASC"
         }
 
-        return ("podcast_id = ? AND archived = 0 AND wasDeleted = 0 \(sortStr)", [podcast.id])
+        let archivedFilter = includeArchived ? "" : "AND archived = 0 "
+        return ("podcast_id = ? \(archivedFilter)AND wasDeleted = 0 \(sortStr)", [podcast.id])
     }
 }

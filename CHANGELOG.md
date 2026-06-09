@@ -1,3 +1,7 @@
+8.15
+-----
+- Tag Ask AI widget tickets for dedicated inbox routing [#4227](https://github.com/Automattic/pocket-casts-ios/pull/4227)
+
 8.14
 -----
 - Fix swipe action animations when adding episodes to Up Next [#4366](https://github.com/Automattic/pocket-casts-ios/pull/4366)
@@ -7,6 +11,7 @@
 - Update remaining menus to use sheet presentation [#4426](https://github.com/Automattic/pocket-casts-ios/pull/4426)
 - Fix rare crash in Stats [#4445](https://github.com/Automattic/pocket-casts-ios/pull/4445)
 - Show episode count and time left in the Up Next header [#4462](https://github.com/Automattic/pocket-casts-ios/pull/4462)
+- Add visual feedback for adding items to Up Next when tab bar is collapsed [#4479](https://github.com/Automattic/pocket-casts-ios/pull/4479)
 - Add a listening activity heatmap to the Stats screen [#4443](https://github.com/Automattic/pocket-casts-ios/pull/4443)
 
 8.13

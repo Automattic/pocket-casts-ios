@@ -47,9 +47,17 @@ struct EpisodeRow: View {
                 .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             VStack(alignment: .leading) {
-                Text(model.displayDate)
-                    .font(.caption)
-                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                HStack(spacing: 6) {
+                    if model.isVideo {
+                        Image(systemName: "play.rectangle.fill")
+                            .font(.caption)
+                            .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                            .accessibilityLabel(L10n.filterMediaTypeVideo)
+                    }
+                    Text(model.displayDate)
+                        .font(.caption)
+                        .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                }
                 Text(model.episode.displayableTitle())
                     .font(.body)
                     .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
@@ -63,6 +71,13 @@ struct EpisodeRow: View {
         .padding(24)
         .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .opacity(archivedOpacity)
+        .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
+    }
+
+    private var archivedOpacity: Double {
+        guard model.isArchived else { return 1.0 }
+        return isHighlighted ? 1.0 : 0.3
     }
 }
 

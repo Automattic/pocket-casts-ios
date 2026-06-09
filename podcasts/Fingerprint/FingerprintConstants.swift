@@ -101,4 +101,14 @@ enum FingerprintConstants {
     /// Persistent cache schema version. Bump when the on-disk shape changes so
     /// older files are silently discarded on the next load.
     static let mappingCacheSchemaVersion: Int = 2
+
+    /// Highlighting is opt-in: a transcript word is only highlighted while playback
+    /// sits between two committed anchors no further apart than this. Real content
+    /// commits anchors every second or two, and sparse "quick red" gaps within
+    /// matched audio stay under this bound, so highlighting tracks continuously.
+    /// Dynamic ads and other unmatched audio open a much wider gap (or leave no
+    /// committed anchor ahead at all), so the instant playback crosses the last
+    /// matched anchor the gap jumps past this and highlighting stops — no ad
+    /// detection, no lag. Comfortably below a typical ad break (≥15s).
+    static let highlightMaxGapSeconds: Double = 8
 }
