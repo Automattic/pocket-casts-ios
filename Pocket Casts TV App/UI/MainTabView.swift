@@ -225,7 +225,7 @@ struct MainTabView: View {
                         case .signIn:
                             SignInView()
                         case .createAccount:
-                            CreateAccountView()
+                            CreateAccountView(style: .fullScreen)
                         }
                     }
                     .navigationDestination(for: WelcomeView.Destination.self) { destination in
@@ -236,7 +236,7 @@ struct MainTabView: View {
                             case .signIn:
                                 SignInView()
                             case .createAccount:
-                                CreateAccountView()
+                                CreateAccountView(style: .fullScreen)
                             }
                         }
                     }

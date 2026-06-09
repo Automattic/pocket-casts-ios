@@ -6055,6 +6055,9 @@
 /* tv create account subtitle */
 "tv_create_account_subtitle" = "Scan this code to get started on your phone, it only takes a minute.";
 
+/* tv create account screen subtitle telling the viewer to point their phone camera at the QR code */
+"tv_create_account_qr_instruction" = "Open the camera and point to this QR code.";
+
 /* tv create account enter code */
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
 
