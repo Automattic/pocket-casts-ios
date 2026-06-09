@@ -1,20 +1,11 @@
 import SwiftUI
 import PocketCastsServer
 
-struct DiscoverFeaturedPodcastsRow: View {
-
-    fileprivate enum Layout {
-        static let gridSize = CGFloat(250)
-    }
+struct DiscoverSinglePodcastRow: View {
 
     @State private var model: DiscoverSectionModel
 
     private let callback: ((String?)->())?
-
-    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(type: type))
-        self.callback = callback
-    }
 
     init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
         _model = State(wrappedValue: DiscoverSectionModel(item: item))
@@ -40,27 +31,24 @@ struct DiscoverFeaturedPodcastsRow: View {
         }
     }
 
-    @FocusState private var focusedID: String?
-    @State private var scrollPosition: String?
-
     var podcastList: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 48, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
-                    DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""))
-                        .setFocus(section: model.focusStoreID)
-                        .id(podcast.uuid)
-                        .focused($focusedID, equals: podcast.uuid)
+                    NavigationLink(value: podcast) {
+                        DiscoverSinglePodcastCell(model: podcast, sponsored: model.isSponsored)
+                            .containerRelativeFrame( .horizontal, alignment: .leading) { length, axis in
+                                if axis == .vertical {
+                                    return 368
+                                } else {
+                                    return length * 0.92
+                                }
+                            }
+                    }
+                    .setFocus(section: model.focusStoreID)
+                    .buttonStyle(ChromelessButtonStyle())
                 }
             })
-            .scrollTargetLayout()
-        }
-        .scrollPosition(id: $scrollPosition, anchor: .leading)
-        .scrollDisabled(true)
-        .onChange(of: focusedID) { _, id in
-            withAnimation(.default) {
-                scrollPosition = id
-            }
         }
     }
 }

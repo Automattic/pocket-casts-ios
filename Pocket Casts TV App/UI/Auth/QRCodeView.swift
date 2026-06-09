@@ -50,5 +50,5 @@ struct QRCodeView: View {
 }
 
 #Preview {
-    QRCodeView(url: "https://pocketcasts.com")
+    QRCodeView(url: "https://pocketcasts.net/pair")
 }

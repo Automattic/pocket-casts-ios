@@ -12,10 +12,19 @@ class DiscoverSectionEpisodesModel {
 
     var title: String?
 
-    let type: DiscoverType
+    let type: DiscoverType?
+
+    let item: DiscoverItem?
 
     init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = type
+        self.item = nil
+        self.discoverManager = discoverManager
+    }
+
+    init(item: DiscoverItem, discoverManager: DiscoverManager = DiscoverManager.shared) {
+        self.type = nil
+        self.item = item
         self.discoverManager = discoverManager
     }
 
@@ -26,7 +35,15 @@ class DiscoverSectionEpisodesModel {
     }
 
     func load() async {
-        let episodes = await discoverManager.loadDiscoverVideoSection()
+        let episodes: [DiscoverEpisode]
+        if let type {
+            episodes = await discoverManager.loadDiscoverEpisodesSection(type: type)
+        } else if let item {
+            episodes = await discoverManager.loadDiscoverEpisodesSection(item: item)
+        } else {
+            state = .empty
+            return
+        }
 
         await MainActor.run {
             state = episodes.isEmpty ? .empty : .ready

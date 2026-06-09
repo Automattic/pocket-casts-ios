@@ -8,7 +8,11 @@ struct DiscoverCategoriesRow: View {
         static let cellHeight = CGFloat(258)
     }
 
-    @State private var model = DiscoverCategoriesModel()
+    @State private var model: DiscoverCategoriesModel
+
+    init(popularOnly: Bool) {
+        _model = State(wrappedValue: DiscoverCategoriesModel(popularOnly: popularOnly))
+    }
 
     var body: some View {
         Group {
@@ -36,7 +40,7 @@ struct DiscoverCategoriesRow: View {
                                 .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)
-                        .setFocus(section: DiscoverType.categories)
+                        .setFocus(section: DiscoverType.categories.rawValue)
                         .padding(.vertical, 24)
                     }
                 }

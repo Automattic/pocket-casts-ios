@@ -24,7 +24,7 @@ struct FocusObserving: ViewModifier {
 }
 
 extension View {
-    func setFocus(section: AnyHashable) -> some View {
+    func setFocus(section: String) -> some View {
         modifier(FocusObserving(section: section))
     }
 }

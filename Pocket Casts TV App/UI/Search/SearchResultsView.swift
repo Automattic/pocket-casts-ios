@@ -48,9 +48,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                     .font(.headline)
                     .foregroundStyle(Color.pcTextSecondary)
             case .query:
-                Text(L10n.tvSearchTypeSomething)
-                    .font(.headline)
-                    .foregroundStyle(Color.pcTextSecondary)
+                DiscoverAllView()
             }
         }
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
