@@ -116,6 +116,43 @@ struct MockData {
         return self.stubPodcasts
     }
 
+    /// Real Pocket Casts podcast UUIDs, so mock podcasts render real artwork from
+    /// the image CDN instead of blank placeholders in previews and demos.
+    static let artworkUUIDs = [
+        "e7a6f7d0-02f2-0133-1c51-059c869cc4eb",
+        "da3271a0-69e7-0132-d9fd-5f4c86fd3263",
+        "3782b780-0bc5-012e-fb02-00163e1b201c",
+        "9349e8d0-a87f-013a-d8af-0acc26574db2",
+        "82e37e80-755d-0138-eddc-0acc26574db2",
+        "9478cc80-7c42-0138-edfe-0acc26574db2",
+        "37082d70-e945-0137-b6eb-0acc26574db2",
+        "62200ab0-b7ec-0139-f606-0acc26574db2",
+        "b0689300-ecd3-012e-e054-525400c11844",
+        "68504d20-dc2b-012e-da14-525400c11844",
+        "43e949f0-60ec-0131-7415-723c91aeae46"
+    ]
+
+    static var stubArtworkPodcasts: [Podcast] = []
+
+    /// Stub podcasts whose `uuid` resolves to real artwork on the image CDN.
+    /// Use these where the mock should look populated (e.g. the signing-in animation).
+    static func makeStubArtworkPodcasts() -> [Podcast] {
+        guard stubArtworkPodcasts.isEmpty else {
+            return stubArtworkPodcasts
+        }
+        var results = [Podcast]()
+        for (i, uuid) in artworkUUIDs.enumerated() {
+            let podcast = Podcast()
+            podcast.id = Int64(i)
+            podcast.uuid = uuid
+            podcast.title = podcastNames[i % podcastNames.count]
+            podcast.author = authorNames[i % authorNames.count]
+            results.append(podcast)
+        }
+        stubArtworkPodcasts = results
+        return results
+    }
+
     private static func makeStubFolder(name: String, podcastCount: Int, from allPodcasts: [Podcast], startIndex: Int) -> Folder {
         let folderPodcasts = Array(allPodcasts[startIndex..<min(startIndex + podcastCount, allPodcasts.count)])
         let folder = Folder()

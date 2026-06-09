@@ -22,6 +22,19 @@ class PodcastDetailViewModel {
     var episodes: [EpisodeRowViewModel] = []
     var recommendedEpisode: EpisodeRowViewModel?
     var isFollowing: Bool = false
+    var showArchived: Bool = false
+
+    private var allEpisodes: [Episode] = []
+
+    private static func archiveStorageKey(for podcastUuid: String) -> String {
+        "showArchived_podcast_\(podcastUuid)"
+    }
+
+    func setShowArchived(_ value: Bool) {
+        showArchived = value
+        applyArchivedFilter()
+        UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: podcastUuid))
+    }
 
     init(podcastUuid: String,
          dataManager: TVDataManager = TVDataManager.shared,
@@ -31,6 +44,7 @@ class PodcastDetailViewModel {
         self.dataManager = dataManager
         self.serverPodcastManager = serverPodcastManager
         self.podcastManager = podcastManager
+        self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: podcastUuid))
     }
 
     convenience init(podcast: Podcast,
@@ -54,17 +68,24 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let episodesModel = dataManager.fetchEpisodes(podcast: podcast).map {
-                EpisodeRowViewModel(episode: $0, podcast: podcast)
-            }
+            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: true)
             await MainActor.run {
                 self.podcast = podcast
                 self.isFollowing = podcast.subscribed != 0
-                self.episodes = episodesModel
-                self.recommendedEpisode = episodesModel.first
+                self.allEpisodes = allEpisodes
+                self.applyArchivedFilter()
+                self.recommendedEpisode = allEpisodes
+                    .first { !$0.archived }
+                    .map { EpisodeRowViewModel(episode: $0, podcast: podcast) }
                 self.state = .ready
             }
         }
+    }
+
+    private func applyArchivedFilter() {
+        guard let podcast else { return }
+        let visible = showArchived ? allEpisodes : allEpisodes.filter { !$0.archived }
+        episodes = visible.map { EpisodeRowViewModel(episode: $0, podcast: podcast) }
     }
 
     func subscribe() {

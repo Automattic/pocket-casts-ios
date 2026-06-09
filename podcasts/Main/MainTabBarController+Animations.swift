@@ -126,8 +126,12 @@ extension MainTabBarController {
             return
         }
 
+        // Whether this was a "Play Next" (top) or "Play Last" (bottom) add, so
+        // the flying badge can show the matching glyph and tint.
+        let toTop = (notification.userInfo?[Constants.Notifications.upNextEpisodeAddedToTopKey] as? Bool) ?? false
+
         DispatchQueue.main.async { [weak self] in
-            self?.playUpNextAddedGenieAnimation(for: episode)
+            self?.playUpNextAddedGenieAnimation(for: episode, toTop: toTop)
         }
     }
 
@@ -140,22 +144,15 @@ extension MainTabBarController {
         return bottomAccessory?.contentView.traitCollection.tabAccessoryEnvironment == .inline
     }
 
-    func playUpNextAddedGenieAnimation(for episode: BaseEpisode) {
-        // Skip the animation (and just keep the count current) when there's no
-        // visible Up Next tab to fly into: tab bar collapsed into its pill, the
-        // bar isn't on screen, the landing point would be off-screen, or
-        // another genie is already in flight. When minimized, UIKit keeps the
-        // private tab-button views laid out at their original positions even
-        // though they aren't visible, so a frame check alone isn't enough —
-        // the trait-based `isTabBarMinimized` is the reliable signal.
-        guard !isTabBarMinimized,
-              view.window != nil,
-              !tabBar.isHidden,
-              tabBar.alpha > 0.01,
-              tabBar.window != nil,
-              let targetFrame = upNextTabTargetFrame(in: view),
-              view.bounds.contains(CGPoint(x: targetFrame.midX, y: targetFrame.midY)),
-              view.viewWithTag(Self.upNextGenieViewTag) == nil else {
+    func playUpNextAddedGenieAnimation(for episode: BaseEpisode, toTop: Bool) {
+        // Fly the artwork into wherever the queue is represented on screen: the
+        // Up Next tab when the tab bar is visible, or — when the tab bar is
+        // collapsed into its pill — the mini player's now-playing artwork. Skip
+        // the animation (and just keep the count current) when neither landing
+        // point is on screen or another genie is already in flight.
+        guard view.window != nil,
+              view.viewWithTag(Self.upNextGenieViewTag) == nil,
+              let targetFrame = upNextGenieTargetFrame() else {
             refreshUpNextTabBadge()
             return
         }
@@ -188,18 +185,45 @@ extension MainTabBarController {
         ImageManager.sharedManager.loadImage(episode: episode, imageView: artwork, size: .list)
         container.addSubview(artwork)
 
+        // A circled "Play Next" / "Play Last" glyph perched on the top-right
+        // corner so the flying artwork clearly reads as "being added" — and as
+        // *which* add — rather than just a floating thumbnail.
+        let badge = makeUpNextAddBadge(toTop: toTop, diameter: 26)
+        badge.center = CGPoint(x: container.bounds.width - 5, y: 5)
+        container.addSubview(badge)
+
         view.addSubview(container)
 
-        // Phase 1: pop in, hovering just above the Up Next tab.
+        // Phase 1: pop in, hovering just above the landing point.
         container.alpha = 0
         container.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.5, options: [.allowUserInteraction, .curveEaseOut], animations: {
             container.alpha = 1
             container.transform = .identity
         }, completion: { _ in
-            // Phase 2: genie-suck down into the Up Next tab along a curve.
+            // Phase 2: genie-suck down into it along a curve.
             self.runUpNextGenieSuck(on: container, from: start, to: target)
         })
+    }
+
+    /// A circled badge showing the add that just happened — a white "Play Next"
+    /// or "Play Last" glyph and ring over the matching swipe-action tint
+    /// (`support04` for Play Next, `support03` for Play Last) — sized to perch on
+    /// the top-right corner of the flying artwork.
+    private func makeUpNextAddBadge(toTop: Bool, diameter: CGFloat) -> UIView {
+        let badge = UIView(frame: CGRect(x: 0, y: 0, width: diameter, height: diameter))
+        badge.backgroundColor = toTop ? ThemeColor.support04() : ThemeColor.support03()
+        badge.layer.cornerRadius = diameter / 2
+        badge.layer.borderWidth = 1.5
+        badge.layer.borderColor = UIColor.white.cgColor
+
+        let glyph = UIImage(named: toTop ? "list_playnext" : "list_playlast")?.withRenderingMode(.alwaysTemplate)
+        let icon = UIImageView(image: glyph)
+        icon.tintColor = .white
+        icon.contentMode = .scaleAspectFit
+        icon.frame = badge.bounds.insetBy(dx: diameter * 0.24, dy: diameter * 0.24)
+        badge.addSubview(icon)
+        return badge
     }
 
     func runUpNextGenieSuck(on container: UIView, from start: CGPoint, to target: CGPoint) {
@@ -246,9 +270,38 @@ extension MainTabBarController {
         }
     }
 
+    /// The frame the "added to Up Next" genie should fly into, in `view`'s
+    /// coordinate space, or `nil` when no landing point is on screen.
+    ///
+    /// Normally that's the Up Next tab. When the tab bar is collapsed into its
+    /// pill the tab isn't visible — but the mini player accessory still shows
+    /// the now-playing episode artwork, so the genie lands on that instead.
+    /// When minimized, UIKit keeps the private tab-button views laid out at
+    /// their original (now hidden) positions, so a frame check alone can't tell
+    /// the tab is gone — the trait-based `isTabBarMinimized` is the reliable
+    /// signal.
+    private func upNextGenieTargetFrame() -> CGRect? {
+        let frame: CGRect?
+        if isTabBarMinimized {
+            // The mini player's episode artwork, still on screen in the pill.
+            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+                  artwork.window != nil else { return nil }
+            frame = artwork.superview?.convert(artwork.frame, to: view)
+        } else {
+            guard !tabBar.isHidden, tabBar.alpha > 0.01, tabBar.window != nil else { return nil }
+            frame = upNextTabTargetFrame(in: view)
+        }
+
+        guard let frame, !frame.isNull, frame.width > 0, frame.height > 0,
+              view.bounds.contains(CGPoint(x: frame.midX, y: frame.midY)) else {
+            return nil
+        }
+        return frame
+    }
+
     /// The on-screen frame of the Up Next tab in `target`'s coordinate space,
     /// measured from the real (private) tab-button views so the genie lands
-    /// exactly where `pulseUpNextTabButton` fires. Falls back to an even split
+    /// exactly where `pulseUpNextTarget` fires. Falls back to an even split
     /// of the tab bar only when those views can't be located.
     func upNextTabTargetFrame(in target: UIView) -> CGRect? {
         if #available(iOS 26.0, *) {
@@ -277,29 +330,48 @@ extension MainTabBarController {
         return target.convert(itemRect, from: tabBar)
     }
 
-    /// A quick spring "pop" on the Up Next tab so a queue change is felt, not
-    /// just silently re-rendered.
+    /// A quick spring "pop" on whatever currently represents Up Next on screen
+    /// — the tab button, or the mini player artwork when the tab bar is
+    /// collapsed into its pill — so a queue change is felt, not just silently
+    /// re-rendered.
     @available(iOS 26.0, *)
-    func pulseUpNextTabButton() {
-        // A burst of rapid adds shouldn't stack overlapping springs on the
-        // (private) button views — one pop already conveys "queue grew".
-        guard !isPulsingUpNextTab else { return }
-        let buttons = upNextTabButtonViews()
-        guard !buttons.isEmpty else { return }
-        isPulsingUpNextTab = true
+    func pulseUpNextTarget() {
+        // A burst of rapid adds shouldn't stack overlapping springs — one pop
+        // already conveys "queue grew".
+        guard !isPulsingUpNextTarget else { return }
 
-        // A snappy, bounce-free grow, then a single softly springy settle.
-        // The grow is short enough that the peak isn't visibly held, and one
-        // gentle bounce on the way back reads as lively rather than jittery.
+        let targets: [UIView]
+        if isTabBarMinimized {
+            // The tab is hidden inside the pill; pop the mini player artwork.
+            guard let artwork = NavigationManager.sharedManager.miniPlayer?.podcastArtwork,
+                  artwork.window != nil else { return }
+            targets = [artwork]
+        } else {
+            targets = upNextTabButtonViews()
+        }
+        guard !targets.isEmpty else { return }
+
+        isPulsingUpNextTarget = true
+        Self.playUpNextPopAnimation(on: targets) { [weak self] in
+            self?.isPulsingUpNextTarget = false
+        }
+    }
+
+    /// A snappy, bounce-free grow, then a single softly springy settle. The
+    /// grow is short enough that the peak isn't visibly held, and one gentle
+    /// bounce on the way back reads as lively rather than jittery. Shared by the
+    /// Up Next tab button and the mini player artwork so both react identically.
+    @available(iOS 26.0, *)
+    static func playUpNextPopAnimation(on views: [UIView], completion: (() -> Void)? = nil) {
         UIView.animate(springDuration: 0.15, bounce: 0, initialSpringVelocity: 0,
                        options: [.allowUserInteraction]) {
-            buttons.forEach { $0.transform = CGAffineTransform(scaleX: 1.15, y: 1.15) }
-        } completion: { [weak self] _ in
+            views.forEach { $0.transform = CGAffineTransform(scaleX: 1.15, y: 1.15) }
+        } completion: { _ in
             UIView.animate(springDuration: 0.45, bounce: 0.28, initialSpringVelocity: 0,
                            options: [.allowUserInteraction]) {
-                buttons.forEach { $0.transform = .identity }
+                views.forEach { $0.transform = .identity }
             } completion: { _ in
-                self?.isPulsingUpNextTab = false
+                completion?()
             }
         }
     }

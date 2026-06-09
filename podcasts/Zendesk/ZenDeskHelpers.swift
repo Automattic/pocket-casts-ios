@@ -16,6 +16,7 @@ enum ZDType {
     case feedback
     case satisfactionSurvey
     case support
+    case chatbotSupport
 }
 
 extension ZDConfig {
