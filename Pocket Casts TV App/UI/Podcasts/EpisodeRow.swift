@@ -48,12 +48,12 @@ struct EpisodeRow: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             VStack(alignment: .leading) {
                 HStack(spacing: 6) {
-if model.isVideo {
-    Image(systemName: "play.rectangle.fill")
-        .font(.caption)
-        .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
-        .accessibilityLabel(L10n.filterMediaTypeVideo)
-}
+                    if model.isVideo {
+                        Image(systemName: "play.rectangle.fill")
+                            .font(.caption)
+                            .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                            .accessibilityLabel(L10n.filterMediaTypeVideo)
+                    }
                     Text(model.displayDate)
                         .font(.caption)
                         .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
