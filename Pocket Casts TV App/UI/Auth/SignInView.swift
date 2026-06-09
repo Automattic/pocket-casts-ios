@@ -64,15 +64,19 @@ struct SignInView: View {
                         usernamePasswordLogin
                             .padding(.top, 64)
                     case .qr:
-                        Text(L10n.tvSignInSubtitle)
-                            .font(.headline)
-                            .foregroundStyle(Color.pcTextSecondary)
-                        QRCodeView(url: model.pairURLString)
-                        separator
-                        Text(enterCodePrompt)
-                            .font(.headline)
-                            .foregroundStyle(Color.pcTextSecondary)
-                        qrCodeDigits
+                        if case .error(_, let message) = model.state {
+                            qrCodeError(message: message)
+                        } else {
+                            Text(L10n.tvSignInSubtitle)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            QRCodeView(url: model.pairURLString)
+                            separator
+                            Text(enterCodePrompt)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            qrCodeDigits
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -80,7 +84,9 @@ struct SignInView: View {
             .padding(.top, 80)
             .offset(y: -64)
         }
-        .task {
+        .task(id: loginType) {
+            // Clear any leftover error so it doesn't leak across login modes.
+            model.state = .start
             switch loginType {
             case .qr:
                 await model.thirdPartyApprovalSignin()
@@ -95,6 +101,24 @@ struct SignInView: View {
             }
         }
         .background(Color.pcBackgroundBase)
+    }
+
+    func qrCodeError(message: String) -> some View {
+        ContentUnavailableView {
+            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+        } description: {
+            Text(message)
+        } actions: {
+            Button {
+                Task {
+                    await model.thirdPartyApprovalSignin()
+                }
+            } label: {
+                Text(L10n.tryAgain)
+                    .frame(minWidth: 300)
+            }
+        }
+        .padding(.top, 64)
     }
 
     var qrCodeDigits: some View {

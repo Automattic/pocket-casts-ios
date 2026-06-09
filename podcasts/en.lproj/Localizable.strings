@@ -1249,6 +1249,15 @@
 /* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
 "stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
 
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -4782,7 +4791,7 @@
 "transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
 
 /* Highlighted transcripts What's New announcement footnote shown below the call to action button */
-"transcript_highlight_announcement_footnote" = "Synced transcripts available on new episodes to start";
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
 
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
@@ -6037,6 +6046,9 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
+/* tv sign in error title shown when the app fails to fetch the QR sign in code */
+"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
+
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
 
@@ -6177,6 +6189,12 @@
 
 /* tv up next empty button action title */
 "tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv starred episodes empty title */
+"tv_starred_empty_title" = "No starred episodes";
+
+/* tv starred episodes empty subtitle */
+"tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
 
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
