@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
+import Combine
 
 @Observable
 class PodcastDetailViewModel {
@@ -8,6 +9,7 @@ class PodcastDetailViewModel {
     private let dataManager: TVDataManager
     private let serverPodcastManager: ServerPodcastManager
     private let podcastManager: PodcastManager
+    private var cancellables: Set<AnyCancellable> = []
 
     enum State: Equatable, Hashable {
         case loading
@@ -22,9 +24,7 @@ class PodcastDetailViewModel {
     var episodes: [EpisodeRowViewModel] = []
     var recommendedEpisode: EpisodeRowViewModel?
     var isFollowing: Bool = false
-    var showArchived: Bool = false
-
-    private var allEpisodes: [Episode] = []
+    var showArchived: Bool = false    
 
     private static func archiveStorageKey(for podcastUuid: String) -> String {
         "showArchived_podcast_\(podcastUuid)"
@@ -32,7 +32,7 @@ class PodcastDetailViewModel {
 
     func setShowArchived(_ value: Bool) {
         showArchived = value
-        applyArchivedFilter()
+        load()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: podcastUuid))
     }
 
@@ -45,6 +45,7 @@ class PodcastDetailViewModel {
         self.serverPodcastManager = serverPodcastManager
         self.podcastManager = podcastManager
         self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: podcastUuid))
+        setupObservers()
     }
 
     convenience init(podcast: Podcast,
@@ -68,24 +69,17 @@ class PodcastDetailViewModel {
                 await MainActor.run { state = .failed }
                 return
             }
-            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: true)
+            let allEpisodes = dataManager.fetchEpisodes(podcast: podcast, includeArchived: showArchived).map {
+                EpisodeRowViewModel(episode: $0, podcast: podcast)
+            }
             await MainActor.run {
                 self.podcast = podcast
                 self.isFollowing = podcast.subscribed != 0
-                self.allEpisodes = allEpisodes
-                self.applyArchivedFilter()
-                self.recommendedEpisode = allEpisodes
-                    .first { !$0.archived }
-                    .map { EpisodeRowViewModel(episode: $0, podcast: podcast) }
+                self.episodes = allEpisodes
+                self.recommendedEpisode = nil
                 self.state = .ready
             }
         }
-    }
-
-    private func applyArchivedFilter() {
-        guard let podcast else { return }
-        let visible = showArchived ? allEpisodes : allEpisodes.filter { !$0.archived }
-        episodes = visible.map { EpisodeRowViewModel(episode: $0, podcast: podcast) }
     }
 
     func subscribe() {
@@ -98,5 +92,24 @@ class PodcastDetailViewModel {
         guard let podcast else { return }
         isFollowing = false
         podcastManager.unsubscribe(podcast: podcast)
+    }
+
+    private func setupObservers() {
+        NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] notification in
+            guard let self else {
+                return
+            }
+            if let uuid = notification.object as? String {
+                let contains = episodes.contains { episode in
+                    episode.id == uuid
+                }
+                if contains {
+                    load()
+                }
+            }
+        }
+        .store(in: &cancellables)
     }
 }
