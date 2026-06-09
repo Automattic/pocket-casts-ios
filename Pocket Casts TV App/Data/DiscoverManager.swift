@@ -24,15 +24,6 @@ enum DiscoverType: String, CaseIterable {
             return item.id == self.rawValue || item.uuid == self.rawValue
         }
     }
-
-    static func itemType(for item: DiscoverItem) -> DiscoverType? {
-        for type in DiscoverType.allCases {
-            if type.match(item: item) {
-                return type
-            }
-        }
-        return .other
-    }
 }
 
 enum DiscoverListType: String {
@@ -90,7 +81,11 @@ actor DiscoverManager {
         }
 
         let videoItem = makeVideoItem(layout: discoverLayout)
-        filteredItems.insert(videoItem, at: 2)
+        if filteredItems.count > 2 {
+            filteredItems.insert(videoItem, at: 2)
+        } else {
+            filteredItems.append(videoItem)
+        }
         return filteredItems
     }
 
@@ -118,14 +113,7 @@ actor DiscoverManager {
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {
         let items = await loadDiscoverItems()
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if type.match(item: item) {
-                selectedItem = item
-                break
-            }
-        }
-        return selectedItem
+        return items.first(where: { type.match(item: $0) })
     }
 
     func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
