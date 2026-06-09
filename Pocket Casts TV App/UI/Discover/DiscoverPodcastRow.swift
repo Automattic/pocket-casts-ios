@@ -51,5 +51,6 @@ struct DiscoverPodcastRow: View {
                 }
             })
         }
+        .scrollClipDisabled()
     }
 }
