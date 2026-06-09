@@ -986,7 +986,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if let suppressedDate = autoScrollSuppressedDate {
             properties["manual_scroll_duration_ms"] = Int(Date().timeIntervalSince(suppressedDate) * 1000)
         }
-        track(.syncedTranscriptAutoScrollResumed, properties: properties)
+        track(.syncedTranscriptsAutoScrollResumed, properties: properties)
     }
 
     @objc private func transcriptTapped(_ gesture: UITapGestureRecognizer) {
@@ -1019,7 +1019,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         guard let seekTime = FingerprintTimingManager.shared.playbackTime(forReferenceTime: referenceTime) else {
             let syncedState = FingerprintTimingManager.shared.state
-            track(.syncedTranscriptSeekFailed, properties: [
+            track(.syncedTranscriptsSeekFailed, properties: [
                 "reason": "mapping_unavailable",
                 "synced_state": syncedState.analyticsName
             ])
@@ -1035,7 +1035,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         let fromPosition = playbackManager.currentTime()
         playbackManager.seekTo(time: seekTime)
         syncedSeeksCount += 1
-        track(.syncedTranscriptSeekUsed, properties: [
+        track(.syncedTranscriptsSeekUsed, properties: [
             "from_position_seconds": Int(fromPosition),
             "to_position_seconds": Int(seekTime)
         ])
