@@ -14,7 +14,6 @@ struct PocketCastsTVApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .preferredColorScheme(.dark)
         }
         .onChange(of: scenePhase) { _, newPhase in
             appLifecycleAnalytics.handle(scenePhase: newPhase)

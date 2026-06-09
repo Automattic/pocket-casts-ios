@@ -6115,6 +6115,12 @@
 /* tv podcast detail option to show archived episodes in the list */
 "tv_podcast_detail_show_archived" = "Show archived";
 
+/* tv podcast detail empty state title shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_title" = "No Episodes";
+
+/* tv podcast detail empty state subtitle shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_subtitle" = "Episodes from this podcast will show up here.";
+
 /* tv episode action to view episode info */
 "tv_episode_info" = "Episode info";
 
@@ -6195,6 +6201,12 @@
 
 /* tv starred episodes empty subtitle */
 "tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
+
+/* tv listening history empty title */
+"tv_history_empty_title" = "No listening history";
+
+/* tv listening history empty subtitle */
+"tv_history_empty_subtitle" = "Episodes you play will show up here";
 
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";

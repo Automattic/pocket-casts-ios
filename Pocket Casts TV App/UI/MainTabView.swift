@@ -176,11 +176,11 @@ struct MainTabView: View {
                 }
             }
             .frame(width: 64, height: 64)
-            .background(Color.white.opacity(0.15), in: Circle())
+            .background(Color.pcTextPrimary.opacity(0.15), in: Circle())
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color.white, lineWidth: profileFocused ? 4 : 0)
+                    .stroke(Color.pcTextPrimary, lineWidth: profileFocused ? 4 : 0)
             )
         }
         .buttonStyle(ChromelessButtonStyle())
@@ -208,6 +208,8 @@ struct MainTabView: View {
                 switch destination {
                 case .starred:
                     StarredEpisodesView()
+                case .history:
+                    ListeningHistoryView()
                 }
             }
             .environment(coordinator)

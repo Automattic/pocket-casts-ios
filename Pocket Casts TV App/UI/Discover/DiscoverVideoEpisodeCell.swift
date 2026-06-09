@@ -135,6 +135,10 @@ struct DiscoverVideoEpisodeCell: View {
             }
             Spacer()
         }
+        // These buttons always sit over the card's black gradient overlay, so force the
+        // dark color scheme to keep the default tvOS button readable (light label / bright
+        // focus pill) in light mode too.
+        .environment(\.colorScheme, .dark)
         .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
@@ -150,13 +154,13 @@ struct DiscoverVideoEpisodeCell: View {
                     if let title = model.episode.podcastTitle {
                         Text(title)
                             .font(.caption)
-                            .foregroundColor(.pcTextSecondary)
+                            .foregroundColor(.pcTextOnColorSecondary)
                     }
                     if let description = model.episode.title {
                         Text(description)
                             .lineLimit(1)
                             .font(.caption)
-                            .foregroundColor(.pcTextPrimary)
+                            .foregroundColor(.pcTextOnColorPrimary)
                     }
                 }
                 Spacer()

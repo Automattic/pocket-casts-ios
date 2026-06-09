@@ -169,7 +169,25 @@ struct PodcastDetailView: View {
 
     @Namespace private var episodeListNamespace
 
+    @ViewBuilder
     var episodeContent: some View {
+        if model.episodes.isEmpty {
+            noEpisodesView
+        } else {
+            episodeList
+        }
+    }
+
+    var noEpisodesView: some View {
+        ContentUnavailableView(
+            L10n.tvPodcastDetailNoEpisodesTitle,
+            systemImage: "list.bullet",
+            description: Text(L10n.tvPodcastDetailNoEpisodesSubtitle)
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    var episodeList: some View {
         List {
             if let recommended = model.recommendedEpisode {
                 Section {

@@ -132,7 +132,7 @@ struct SignInView: View {
                             .font(.caption2)
                             .foregroundStyle(Color.pcTextSecondary)
                             .padding()
-                            .background(Color.pcBackgroundActive50)
+                            .background(Color.pcBackgroundActive20)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
