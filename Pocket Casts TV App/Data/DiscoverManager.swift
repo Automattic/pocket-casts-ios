@@ -26,11 +26,6 @@ enum DiscoverType: String, CaseIterable {
     }
 }
 
-enum DiscoverListType: String {
-
-    case podcastList = "podcast_list"
-}
-
 struct DiscoverSection {
     let title: String?
     let subtitle: String?
