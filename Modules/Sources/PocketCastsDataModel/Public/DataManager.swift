@@ -30,6 +30,11 @@ public class DataManager {
 
     let dbQueue: PCDBQueue
 
+    /// `true` if the database was created from scratch during init (no tables existed).
+    /// On tvOS, where the database lives in the purgeable Caches directory, a logged-in
+    /// user seeing this means their data was wiped and a full resync is required.
+    public let databaseWasCreated: Bool
+
     public internal(set) static var sharedManager = DataManager()
 
     public static var logger: ErrorLogger?
@@ -82,7 +87,7 @@ public class DataManager {
     public init(dbQueue: PCDBQueue) {
         self.dbQueue = dbQueue
 
-        DatabaseHelper.setup(queue: dbQueue)
+        self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
 
         // closing it above won't affect these calls, since they will re-open it
         podcastManager.setup(dbQueue: dbQueue)
@@ -1152,6 +1157,12 @@ public class DataManager {
         let folderPath = pathToDbFolder() as NSString
 
         return folderPath.appendingPathComponent("podcast_newDB_backup.sqlite3")
+    }
+
+    /// The database file plus its WAL/SHM sidecars — the full on-disk file set.
+    public static func databaseFilePaths() -> [String] {
+        let dbPath = pathToDb()
+        return [dbPath, "\(dbPath)-wal", "\(dbPath)-shm"]
     }
 
     private static func pathToDbFolder() -> String {
