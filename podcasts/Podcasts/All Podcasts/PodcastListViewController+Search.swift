@@ -21,22 +21,7 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func setupSearchBar() {
         searchController = PCSearchBarController()
-
-        searchController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(searchController)
-        view.addSubview(searchController.view)
-        searchController.didMove(toParent: self)
-
-        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            heightConstraint
-        ])
-        searchController.searchControllerHeightConstraint = heightConstraint
-
-        searchController.setupScrollView(podcastsCollectionView, hideSearchInitially: false)
+        searchController.install(in: self, attachedTo: podcastsCollectionView)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }
