@@ -1,13 +1,9 @@
 import SwiftUI
 import PocketCastsServer
 
-/// Drives the TV device-pairing flow used to authenticate a viewer from their
-/// phone: it requests a device code, exposes the pairing URL and user code for
-/// display (as text and as a QR code), and polls until the code is approved or
-/// the attempt fails.
-///
-/// The sign-in and create-account screens share an identical flow, so both own
-/// a `PairingSession` rather than duplicating the polling logic.
+/// Drives the TV device-pairing flow: requests a device code, exposes the
+/// pairing URL and user code for display (as text and QR), and polls until the
+/// code is approved or fails. Shared by the sign-in and create-account screens.
 @MainActor
 @Observable
 class PairingSession {
@@ -36,13 +32,10 @@ class PairingSession {
     /// The verification URL with the code embedded, encoded into the QR code.
     private(set) var pairURLComplete: String?
 
-    /// Requests a fresh device code and polls until it's approved. If the code
-    /// expires before approval it transparently requests a new one and keeps
-    /// polling, so the screen can stay open indefinitely.
+    /// Requests a fresh device code and polls until it's approved, transparently
+    /// requesting a new code if the current one expires before approval.
     func start() async {
-        // Clear the previous attempt's code so a re-run (e.g. "Try Again", or a
-        // reused session) doesn't briefly show a stale QR / digits while the new
-        // device code is being fetched.
+        // Clear the previous attempt so a re-run doesn't show a stale QR/digits.
         codes = []
         pairURL = nil
         pairURLComplete = nil
