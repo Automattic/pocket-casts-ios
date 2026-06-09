@@ -45,11 +45,8 @@ class StarredEpisodesViewModel {
     }
 
     private func fetchLocalData() {
-        Task {
-            let fetched = fetchStarredEpisodes()
-            let episodes = fetched.map { episode in
-                EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager))
-            }
+        Task.detached { [dataManager] in
+            let episodes = self.loadEpisodeViewModels(using: dataManager)
             await MainActor.run { [weak self] in
                 guard let self else { return }
                 self.episodes = episodes
@@ -58,8 +55,10 @@ class StarredEpisodesViewModel {
         }
     }
 
-    private func fetchStarredEpisodes() -> [Episode] {
-        dataManager.findEpisodesWhere(customWhere: "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000", arguments: nil)
+    nonisolated private func loadEpisodeViewModels(using dataManager: DataManager) -> [EpisodeRowViewModel] {
+        dataManager.fetchStarredEpisodes().map { episode in
+            EpisodeRowViewModel(episode: episode, podcast: episode.parentPodcast(dataManager: dataManager))
+        }
     }
 
     private func observeStarredChanges() {
@@ -69,5 +68,11 @@ class StarredEpisodesViewModel {
                 self?.fetchLocalData()
             }
             .store(in: &cancellables)
+    }
+}
+
+private extension DataManager {
+    func fetchStarredEpisodes() -> [Episode] {
+        findEpisodesWhere(customWhere: "keepEpisode = 1 ORDER BY starredModified DESC LIMIT 1000", arguments: nil)
     }
 }
