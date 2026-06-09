@@ -41,20 +41,22 @@ class ListeningHistoryViewModel {
         load()
     }
 
-    /// Pulls the latest history from the server. `SyncHistoryTask` writes the
-    /// returned changes into the local database before completing, so once it
-    /// finishes we simply re-read from the database to get a consistent,
-    /// locally-backed list.
     private func refreshFromServer() {
-        apiHandler.retrieveHistory { [weak self] succeeded in
-            self?.fetchLocalData(syncSucceeded: succeeded)
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await self.apiHandler.retrieveHistory()
+                self.fetchLocalData(syncSucceeded: true)
+            } catch {
+                self.fetchLocalData(syncSucceeded: false, error: error)
+            }
         }
     }
 
     /// Re-reads history from the database and resolves the display state. We
     /// prefer showing whatever is stored locally; the error state is only used
     /// when a server sync failed *and* there's nothing to fall back to.
-    private func fetchLocalData(syncSucceeded: Bool) {
+    private func fetchLocalData(syncSucceeded: Bool, error: Error? = nil) {
         Task {
             let fetched = fetchHistoryEpisodes()
             let episodes = fetched.map { episode in
@@ -68,7 +70,7 @@ class ListeningHistoryViewModel {
                     // We already have history to show, so surface a sync failure
                     // unobtrusively with a toast rather than replacing the list.
                     if !syncSucceeded {
-                        ToastManager.shared.show(L10n.refreshFailed)
+                        ToastManager.shared.show(error?.localizedMessage ?? L10n.refreshFailed)
                     }
                 } else {
                     // Nothing to fall back to: show the full error state with a retry.

@@ -47,14 +47,18 @@ public class ApiServerHandler {
         apiQueue.addOperation(retrieveTask)
     }
 
-    /// Syncs listening history with the server, writing any server-side changes
-    /// into the local database before calling `completion`. The `Bool` reports
-    /// whether the sync succeeded; callers should re-read history from the
-    /// database afterwards to get a consistent, locally-backed list.
-    public func retrieveHistory(completion: @escaping (Bool) -> Void) {
-        let syncTask = SyncHistoryTask()
-        syncTask.completion = completion
-        apiQueue.addOperation(syncTask)
+    public func retrieveHistory() async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            let syncTask = SyncHistoryTask()
+            syncTask.completion = { error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+            apiQueue.addOperation(syncTask)
+        }
     }
 
     public func deleteAccount(completion: @escaping (Bool, String?) -> Void) {
