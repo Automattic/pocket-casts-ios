@@ -6295,4 +6295,10 @@
 /* tv Sponsored Podcast Title */
 "tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
 
+/* tv Discover failed to load title*/
+"tv_discover_failed_to_load_title" = "Discover failed to load.";
+
+/* tv Discover failed to load subtitle*/
+"tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
+
 
