@@ -6277,4 +6277,7 @@
 /* tv home Video section title */
 "tv_home_video_section_title" = "Made for TV";
 
+/* tv Sponsored Podcast Title */
+"tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
+
 

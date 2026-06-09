@@ -60,8 +60,12 @@ struct DiscoverRowSection: View {
                 DiscoverFeaturedPodcastsRow(item: item)
             case .singlePodcast:
                 DiscoverSinglePodcastRow(item: item) { title in
-                    if let title {
-                        self.title = title
+                    if item.isSponsored == true {
+                        self.title = L10n.tvSponsoredPodcastSectionTitle
+                    } else {
+                        if let title {
+                            self.title = title
+                        }
                     }
                 }
             default:
