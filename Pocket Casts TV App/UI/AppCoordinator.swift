@@ -17,6 +17,12 @@ class AppCoordinator {
 
     var userState = UserStateModel()
 
+    /// An action parked while the viewer creates an account. The create-account
+    /// flow resets the app (so the action can't live in a view that's about to be
+    /// torn down); it's replayed by ``runPendingAccountAction()`` once sign-in
+    /// completes. See `RequireAccount`.
+    var pendingAccountAction: (() -> Void)?
+
     func load() async {
         // Ensure database and tables are setup before we go forward
         let _ = DataManager.sharedManager
@@ -48,6 +54,18 @@ class AppCoordinator {
 
     func signIn() {
         state = .welcome
+    }
+
+    /// Runs and clears any action parked in ``pendingAccountAction`` (set when a
+    /// signed-out viewer triggered a sign-in-gated action and was sent to create
+    /// an account). Called once sign-in completes; a no-op otherwise.
+    func runPendingAccountAction() {
+        let action = pendingAccountAction
+        pendingAccountAction = nil
+        // Only replay once sign-in actually succeeded — a failed sync also lands
+        // here, and a login-gated action must not run while signed out.
+        guard userState.isLoggedIn else { return }
+        action?()
     }
 
     private func setupCredentials() {

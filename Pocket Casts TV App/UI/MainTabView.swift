@@ -122,6 +122,7 @@ struct MainTabView: View {
         }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
+        .requireAccountSupport()
     }
 
     @ViewBuilder
