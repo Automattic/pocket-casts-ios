@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// Runs a closure only when the viewer is signed in. If they're signed out it
-/// presents the create-account flow and runs the closure once the new account
-/// has been created and synced.
+/// presents the create-account flow instead and the closure is *not* run — once
+/// they have an account they can trigger the action again.
 ///
 /// Read it from the environment and call it like a function:
 ///
@@ -59,22 +59,10 @@ private struct RequireAccountModifier: ViewModifier {
                 if coordinator.userState.isLoggedIn {
                     action()
                 } else {
-                    // Park on the coordinator so the action survives the app-wide
-                    // reset to `.userSync` that completing the flow triggers; it's
-                    // replayed once syncing finishes (see AppCoordinator).
-                    coordinator.pendingAccountAction = action
                     isShowingCreateAccount = true
                 }
             })
-            .sheet(isPresented: $isShowingCreateAccount, onDismiss: {
-                // Completing the flow advances the app to `.userSync`; if it
-                // hasn't, the viewer backed out — drop the parked action so it
-                // can't fire later from an unrelated sign-in.
-                guard case .userSync = coordinator.state else {
-                    coordinator.pendingAccountAction = nil
-                    return
-                }
-            }) {
+            .sheet(isPresented: $isShowingCreateAccount) {
                 CreateAccountView(style: .modal)
                     .environment(coordinator)
             }

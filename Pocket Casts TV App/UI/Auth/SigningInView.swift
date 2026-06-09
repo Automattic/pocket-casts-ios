@@ -127,10 +127,6 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
         try? await Task.sleep(for: .seconds(Pacing.fadeDuration))
         if Task.isCancelled { return }
 
-        // Replay any action parked before the create-account flow took over (e.g.
-        // a Follow tapped while signed out), now that syncing has finished.
-        coordinator.runPendingAccountAction()
-
         coordinator.state = .signedIn
     }
 
