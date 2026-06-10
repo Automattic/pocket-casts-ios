@@ -16,6 +16,11 @@ struct DiscoverPodcastRow: View {
         self.callback = callback
     }
 
+    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+        self.callback = callback
+    }
+
     var body: some View {
         Group {
             switch model.state {
@@ -46,10 +51,11 @@ struct DiscoverPodcastRow: View {
                         }
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
-                        .setFocus(section: model.type)
+                        .setFocus(section: model.focusStoreID)
                     }
                 }
             })
         }
+        .scrollClipDisabled()
     }
 }

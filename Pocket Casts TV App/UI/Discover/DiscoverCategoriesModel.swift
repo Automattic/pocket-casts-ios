@@ -8,7 +8,10 @@ class DiscoverCategoriesModel {
 
     var categories = [DiscoverCategory]()
 
-    init(discoverManager: DiscoverManager = DiscoverManager.shared) {
+    let popularOnly: Bool
+
+    init(popularOnly: Bool = false, discoverManager: DiscoverManager = DiscoverManager.shared) {
+        self.popularOnly = popularOnly
         self.discoverManager = discoverManager
     }
 
@@ -19,7 +22,7 @@ class DiscoverCategoriesModel {
     }
 
     func load() async {
-        let categories = await discoverManager.loadDiscoverPopularCategories()
+        let categories = await discoverManager.loadDiscoverCategories(popularOnly: popularOnly)
 
         await MainActor.run {
             state = categories.isEmpty ? .empty : .ready

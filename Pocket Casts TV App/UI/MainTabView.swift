@@ -128,6 +128,7 @@ struct MainTabView: View {
         }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
+        .requireAccountSupport()
     }
 
     @ViewBuilder
@@ -182,11 +183,11 @@ struct MainTabView: View {
                 }
             }
             .frame(width: 64, height: 64)
-            .background(Color.white.opacity(0.15), in: Circle())
+            .background(Color.pcTextPrimary.opacity(0.15), in: Circle())
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color.white, lineWidth: profileFocused ? 4 : 0)
+                    .stroke(Color.pcTextPrimary, lineWidth: profileFocused ? 4 : 0)
             )
         }
         .buttonStyle(ChromelessButtonStyle())
@@ -202,10 +203,29 @@ struct MainTabView: View {
             ProfileMenuView(onAuthSelected: { destination in
                 tabRouter.pendingAuthFlow = destination
                 showProfileMenu = false
+            }, onProfileSelected: { destination in
+                tabSelection.profileDestination = destination
+                showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $tabRouter.pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabSelection.profileDestination) { destination in
+            ZStack {
+                Color.pcBackgroundSurface.ignoresSafeArea()
+                switch destination {
+                case .starred:
+                    StarredEpisodesView()
+                case .history:
+                    ListeningHistoryView()
+                }
+            }
+            .environment(coordinator)
+            .environment(tabSelection)
+            .onExitCommand {
+                tabSelection.profileDestination = nil
+            }
+        }
+        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
@@ -214,7 +234,7 @@ struct MainTabView: View {
                         case .signIn:
                             SignInView()
                         case .createAccount:
-                            CreateAccountView()
+                            CreateAccountView(style: .fullScreen)
                         }
                     }
                     .navigationDestination(for: WelcomeView.Destination.self) { destination in
@@ -225,7 +245,7 @@ struct MainTabView: View {
                             case .signIn:
                                 SignInView()
                             case .createAccount:
-                                CreateAccountView()
+                                CreateAccountView(style: .fullScreen)
                             }
                         }
                     }

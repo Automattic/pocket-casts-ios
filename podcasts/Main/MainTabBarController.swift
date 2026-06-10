@@ -25,10 +25,11 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     /// when the queue actually changes (not on every refresh notification).
     private var previousUpNextCount: Int?
 
-    /// `true` while the Up Next tab "pulse" spring is in flight, so a burst of
-    /// rapid adds doesn't stack overlapping transforms on the tab button.
+    /// `true` while the Up Next "pulse" spring is in flight, so a burst of
+    /// rapid adds doesn't stack overlapping transforms on the target (the tab
+    /// button, or the mini player artwork when minimized).
     /// Not `private`: set from the pulse code in `+Animations`.
-    var isPulsingUpNextTab = false
+    var isPulsingUpNextTarget = false
 
 
     /// The viewDidAppear can trigger more than once per lifecycle, setting this flag on the first did appear prevents use from prompting more than once per lifecycle. But still wait until the tab bar has appeared to do so.
@@ -1250,7 +1251,7 @@ extension MainTabBarController {
         upNextTabBarItem.selectedImage = Self.composeUpNextTabImage(count: count, isSelected: true)
 
         // Only celebrate the queue growing — a drain (playing/removing) shouldn't pop.
-        if previous.map({ count > $0 }) ?? false { pulseUpNextTabButton() }
+        if previous.map({ count > $0 }) ?? false { pulseUpNextTarget() }
     }
 
     func resetUpNextTabImage() {

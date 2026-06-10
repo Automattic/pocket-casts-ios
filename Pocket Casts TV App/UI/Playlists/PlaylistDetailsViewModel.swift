@@ -15,11 +15,20 @@ class PlaylistDetailsViewModel {
 
     var state: State = .loading
 
+    var isShowingReplaceUpNextConfirmation = false
+    var isShowingNowPlaying = false
+
     let playlist: EpisodeFilter
     var episodes: [Episode] = []
+    var showArchived: Bool = false
 
+    private var allEpisodes: [Episode] = []
     private let dataManager: DataManager
     private let playbackManager: PlaybackManager
+
+    private static func archiveStorageKey(for playlist: EpisodeFilter) -> String {
+        "showArchived_playlist_\(playlist.uuid)"
+    }
 
     init(playlist: EpisodeFilter,
          dataManager: DataManager = DataManager.sharedManager,
@@ -27,20 +36,55 @@ class PlaylistDetailsViewModel {
         self.playlist = playlist
         self.dataManager = dataManager
         self.playbackManager = playbackManager
+        self.showArchived = UserDefaults.standard.bool(forKey: Self.archiveStorageKey(for: playlist))
     }
 
     func load() {
         Task {
-            let playlistEpisodes = dataManager.playlistEpisodes(for: playlist)
+            // `DataManager.playlistEpisodes(for:)` always filters archived out, so go through the
+            // query builder directly with `shouldShowArchived: true` to keep archived episodes in
+            // `allEpisodes` and let the local toggle decide what to display.
+            let query = PlaylistQueryBuilder.query(
+                clause: .episode,
+                for: playlist,
+                limit: Self.playlistEpisodeLimit,
+                shouldShowArchived: true
+            )
+            let playlistEpisodes = dataManager.findPlaylistEpisodesWhere(query: query, arguments: nil)
             await MainActor.run {
-                episodes = playlistEpisodes
+                allEpisodes = playlistEpisodes
+                applyArchivedFilter()
                 state = .ready
             }
         }
     }
 
+    /// Mirrors `EpisodeDataManager.Constants.Limits.maxPlaylistItems`, which is private to the data module.
+    private static let playlistEpisodeLimit = 1000
+
+    func setShowArchived(_ value: Bool) {
+        showArchived = value
+        applyArchivedFilter()
+        UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
+    }
+
+    private func applyArchivedFilter() {
+        episodes = showArchived ? allEpisodes : allEpisodes.filter { !$0.archived }
+    }
+
     func playAll() {
+        guard !episodes.isEmpty else { return }
+
+        if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
+            isShowingNowPlaying = true
+        } else {
+            isShowingReplaceUpNextConfirmation = true
+        }
+    }
+
+    func buttonConfirmPlayPlaylistTapped() {
         playbackManager.play(playlist: playlist)
+        isShowingNowPlaying = true
     }
 
     var playlistName: String {

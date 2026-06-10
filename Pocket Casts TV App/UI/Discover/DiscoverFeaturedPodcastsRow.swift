@@ -16,6 +16,11 @@ struct DiscoverFeaturedPodcastsRow: View {
         self.callback = callback
     }
 
+    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+        self.callback = callback
+    }
+
     var body: some View {
         Group {
             switch model.state {
@@ -43,7 +48,7 @@ struct DiscoverFeaturedPodcastsRow: View {
             LazyHStack(spacing: 48, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
                     DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""))
-                        .setFocus(section: model.type)
+                        .setFocus(section: model.focusStoreID)
                         .id(podcast.uuid)
                         .focused($focusedID, equals: podcast.uuid)
                 }

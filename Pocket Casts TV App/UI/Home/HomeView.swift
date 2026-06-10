@@ -60,19 +60,19 @@ struct HomeView: View {
                         newReleasesRow
                         lovedByListenersOfRow
                         trendingRow
-                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.selectedTab = .search
                         }
                     } else {
                         featuredRow
                         videoRow
-                        BannerRow(type: .createAccount, focusSection: Section.homeBanner) {
+                        BannerRow(type: .createAccount, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.pendingAuthFlow = .createAccount
                         }
                         trendingRow
                         categoriesRow
                         curatedRow
-                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner) {
+                        BannerRow(type: .discoverMore, focusSection: Section.homeBanner.rawValue) {
                             tabRouter.selectedTab = .search
                         }
                     }
@@ -96,12 +96,12 @@ struct HomeView: View {
     @ViewBuilder
     var nowPlayingRow: some View {
         if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
-            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying) {
+            HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true
                 }
                 .frame(width: 1242, alignment: .leading)
-                .setFocus(section: Section.homeNowPlaying)
+                .setFocus(section: Section.homeNowPlaying.rawValue)
             }
         } else {
             EmptyView()
@@ -109,7 +109,7 @@ struct HomeView: View {
     }
 
     var youMightLikeRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser) {
+        HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser.rawValue) {
             DiscoverPodcastRow(type: .recommendationsUser)
         }
     }
@@ -117,7 +117,7 @@ struct HomeView: View {
     @State private var sectionPodcast: String?
 
     var lovedByListenersOfRow: some View {
-        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial) {
+        HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial.rawValue) {
             DiscoverPodcastRow(type: .recommendationsSocial) { title in
                 sectionPodcast = title
             }
@@ -125,26 +125,26 @@ struct HomeView: View {
     }
 
     var trendingRow: some View {
-        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending) {
+        HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending.rawValue) {
             DiscoverPodcastRow(type: .trending)
         }
     }
 
     var featuredRow: some View {
-        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured) {
+        HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured.rawValue) {
             DiscoverFeaturedPodcastsRow(type: .featured)
         }
     }
 
     var videoRow: some View {
-        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video) {
+        HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video.rawValue) {
             DiscoverVideoEpisodesRow(type: .video)
         }
     }
 
     @State private var curatedTitle: String?
     var curatedRow: some View {
-        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList) {
+        HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList.rawValue) {
             DiscoverPodcastRow(type: .curatedList) { title in
                 curatedTitle = title
             }
@@ -152,21 +152,21 @@ struct HomeView: View {
     }
 
     var categoriesRow: some View {
-        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories) {
-            DiscoverCategoriesRow()
+        HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
+            DiscoverCategoriesRow(popularOnly: true)
         }
     }
 
     @ViewBuilder
     var upNextRow: some View {
         if model.upNext.count > 1 {
-            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext) {
+            HomeSection(title: L10n.tvTabUpNext, focusSection: Section.homeUpNext.rawValue) {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 24) {
                         ForEach(model.upNext) { episode in
                             upNextButton(model: episode)
                                 .frame(width: 864)
-                                .setFocus(section: Section.homeUpNext)
+                                .setFocus(section: Section.homeUpNext.rawValue)
                         }
                     }
                 }
@@ -185,13 +185,13 @@ struct HomeView: View {
     }
 
     var newReleasesRow: some View {
-        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases) {
+        HomeSection(title: L10n.tvHomeNewReleases, focusSection: Section.homeNewReleases.rawValue) {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 24) {
                     ForEach(model.newReleases) { episode in
                         EpisodePlayerButton(model: episode)
                             .frame(width: 864)
-                            .setFocus(section: Section.homeNewReleases)
+                            .setFocus(section: Section.homeNewReleases.rawValue)
                     }
                 }
             }
@@ -218,12 +218,25 @@ struct HomeSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
-            Text(title)
-                .font(isFocusedSection ? .title2 : .headline)
-                .foregroundStyle(Color.pcTextPrimary)
+            titleView
             content
         }
         .focusSection()
+    }
+
+    // Always reserve space for the larger (focused) title so the layout
+    // doesn't jump when the title resizes on focus changes. A hidden copy at
+    // the largest font sizes the slot; the visible title is overlaid and
+    // bottom-aligned so its distance to the content below stays constant.
+    private var titleView: some View {
+        Text(title)
+            .font(.title2)
+            .hidden()
+            .overlay(alignment: .bottomLeading) {
+                Text(title)
+                    .font(isFocusedSection ? .title2 : .headline)
+                    .foregroundStyle(Color.pcTextPrimary)
+            }
     }
 }
 

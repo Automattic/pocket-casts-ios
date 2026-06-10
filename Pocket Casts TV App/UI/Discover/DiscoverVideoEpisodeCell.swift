@@ -101,7 +101,7 @@ struct DiscoverVideoEpisodeCell: View {
         .foregroundStyle(.clear)
         .focusable(!isFocused)
         .focused($isContainerFocused)
-        .setFocus(section: DiscoverType.video)
+        .setFocus(section: DiscoverType.video.rawValue)
         .buttonStyle(ChromelessButtonStyle())
         .onChange(of: isContainerFocused) { _, focused in
             if focused, !isAnimating {
@@ -125,16 +125,20 @@ struct DiscoverVideoEpisodeCell: View {
                 }
             }
             .focused($focusedButton, equals: FocusValues.playEpisode)
-            .setFocus(section: DiscoverType.video)
+            .setFocus(section: DiscoverType.video.rawValue)
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
                     Text(L10n.tvDiscoverFeaturedGoToPodcast)
                 }
                 .focused($focusedButton, equals: FocusValues.goPodcast)
-                .setFocus(section: DiscoverType.video)
+                .setFocus(section: DiscoverType.video.rawValue)
             }
             Spacer()
         }
+        // These buttons always sit over the card's black gradient overlay, so force the
+        // dark color scheme to keep the default tvOS button readable (light label / bright
+        // focus pill) in light mode too.
+        .environment(\.colorScheme, .dark)
         .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
@@ -150,13 +154,13 @@ struct DiscoverVideoEpisodeCell: View {
                     if let title = model.episode.podcastTitle {
                         Text(title)
                             .font(.caption)
-                            .foregroundColor(.pcTextSecondary)
+                            .foregroundColor(.pcTextOnColorSecondary)
                     }
                     if let description = model.episode.title {
                         Text(description)
                             .lineLimit(1)
                             .font(.caption)
-                            .foregroundColor(.pcTextPrimary)
+                            .foregroundColor(.pcTextOnColorPrimary)
                     }
                 }
                 Spacer()

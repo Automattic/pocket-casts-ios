@@ -59,9 +59,9 @@ struct BannerRow: View {
     let gradient: Bool
     let action: (() -> ())?
 
-    let focusSection: AnyHashable
+    let focusSection: String
 
-    init(type: BannerType, focusSection: AnyHashable = "BannerRow", action: (() -> ())? = nil) {
+    init(type: BannerType, focusSection: String = "BannerRow", action: (() -> ())? = nil) {
         self.title = type.title
         self.subtitle = type.subtitle
         self.actionTitle = type.actionTitle

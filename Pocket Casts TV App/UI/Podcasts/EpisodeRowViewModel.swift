@@ -136,10 +136,23 @@ class EpisodeRowViewModel: Identifiable {
         episode is Episode
     }
 
+    var isArchived: Bool {
+        (episode as? Episode)?.archived ?? false
+    }
+
+    var isVideo: Bool {
+        episode.videoPodcast()
+    }
+
     func archive() {
         guard let episode = episode as? Episode else { return }
         EpisodeManager.archiveEpisode(episode: episode, fireNotification: true)
         ToastManager.shared.show(L10n.podcastArchived)
+    }
+
+    func unarchive() {
+        guard let episode = episode as? Episode else { return }
+        EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true)
     }
 
     func removeFromUpNext() {
@@ -152,6 +165,20 @@ class EpisodeRowViewModel: Identifiable {
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
             self?.updateProgress()
+        }
+        .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.episodeArchiveStatusChanged)
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] notification in
+            guard let self else {
+                return
+            }
+            if let uuid = notification.object as? String, uuid == episode.uuid {
+                if let newEpisode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) {
+                    episode = newEpisode
+                }
+            }
         }
         .store(in: &cancellables)
     }
