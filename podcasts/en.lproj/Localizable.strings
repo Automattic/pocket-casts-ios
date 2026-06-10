@@ -6055,8 +6055,26 @@
 /* tv create account subtitle */
 "tv_create_account_subtitle" = "Scan this code to get started on your phone, it only takes a minute.";
 
+/* tv create account screen subtitle telling the viewer to point their phone camera at the QR code */
+"tv_create_account_qr_instruction" = "Open the camera and point to this QR code.";
+
 /* tv create account enter code */
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
+
+/* tv create account modal title */
+"tv_create_account_modal_title" = "Your podcasts deserve a home";
+
+/* tv create account modal subtitle */
+"tv_create_account_modal_subtitle" = "Create a free account to follow podcasts, build your Up Next, and pick up right where you left off, on any device.";
+
+/* tv create account modal step - scan the QR code */
+"tv_create_account_modal_step_scan" = "Scan the QR code";
+
+/* tv create account modal step - create your account */
+"tv_create_account_modal_step_create" = "Create your account";
+
+/* tv create account modal step - the TV signs you in automatically */
+"tv_create_account_modal_step_sign_in" = "The TV will sign you in";
 
 /* tv signing in title */
 "tv_signing_in_title" = "Good to see you.";

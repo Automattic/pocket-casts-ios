@@ -4,6 +4,7 @@ import PocketCastsDataModel
 struct PodcastDetailView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
@@ -88,11 +89,13 @@ struct PodcastDetailView: View {
             }
             HStack(spacing: 8) {
                 Button() {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        if model.isFollowing {
-                            model.unsubscribe()
-                        } else {
-                            model.subscribe()
+                    requireAccount {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            if model.isFollowing {
+                                model.unsubscribe()
+                            } else {
+                                model.subscribe()
+                            }
                         }
                     }
                 } label: {
