@@ -19,6 +19,8 @@ struct RootView: View {
                 MainTabView()
             case .userSync:
                 SigningInView()
+            case .dataLossResync:
+                DataLossResyncView()
             }
         }
         .environment(coordinator)

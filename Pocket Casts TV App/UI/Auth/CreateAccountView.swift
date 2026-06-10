@@ -145,7 +145,7 @@ struct CreateAccountView: View {
                 .font(.caption2)
                 .foregroundStyle(Color.pcTextSecondary)
                 .frame(width: 40, height: 40)
-                .background(Color.pcBackgroundActive50, in: Circle())
+                .background(Color.pcBackgroundActive20, in: Circle())
             Text(text)
                 .font(.body)
                 .foregroundStyle(Color.pcTextSecondary)

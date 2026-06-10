@@ -7,6 +7,9 @@ struct PocketCastsTVApp: App {
     private let appLifecycleAnalytics = AppLifecycleAnalytics()
 
     init() {
+        // Before anything opens the database, so a requested wipe hits a closed file.
+        DataLossSimulator.simulateIfRequested()
+
         AnalyticsSetup.setupIfNeeded()
         _ = appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
     }
