@@ -375,13 +375,13 @@ final class FingerprintTimingManager: NSObject {
 
         guard FeatureFlag.syncedTranscripts.enabled else {
             updateState(.unavailable)
-            track(.syncedTranscriptUnavailable, properties: ["reason": "feature_disabled"])
+            track(.syncedTranscriptsUnavailable, properties: ["reason": "feature_disabled"])
             return
         }
 
         guard let episode else {
             updateState(.unavailable)
-            track(.syncedTranscriptUnavailable, properties: ["reason": "no_episode"])
+            track(.syncedTranscriptsUnavailable, properties: ["reason": "no_episode"])
             return
         }
 
@@ -394,7 +394,7 @@ final class FingerprintTimingManager: NSObject {
 
         preparationStartDate = Date()
         updateState(.preparing)
-        track(.syncedTranscriptPreparationStarted, properties: [
+        track(.syncedTranscriptsPreparationStarted, properties: [
             "episode_uuid": uuid,
             "episode_duration_seconds": episode.duration
         ])
@@ -415,7 +415,7 @@ final class FingerprintTimingManager: NSObject {
 
                 guard let data, let reference = ReferenceFingerprint.decode(from: data) else {
                     self.updateState(.unavailable)
-                    self.track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
+                    self.track(.syncedTranscriptsUnavailable, properties: ["reason": "no_reference"])
                     FileLog.shared.addMessage("FingerprintTimingManager: no reference available for \(uuid)")
                     return
                 }
@@ -448,7 +448,7 @@ final class FingerprintTimingManager: NSObject {
         let duration = episode.duration
         guard duration > 0 else {
             updateState(.unavailable)
-            track(.syncedTranscriptUnavailable, properties: ["reason": "invalid_duration"])
+            track(.syncedTranscriptsUnavailable, properties: ["reason": "invalid_duration"])
             return
         }
 
@@ -475,7 +475,7 @@ final class FingerprintTimingManager: NSObject {
 
         guard !libraryCheckpoints.isEmpty else {
             updateState(.unavailable)
-            track(.syncedTranscriptUnavailable, properties: ["reason": "no_reference"])
+            track(.syncedTranscriptsUnavailable, properties: ["reason": "no_reference"])
             FileLog.shared.addMessage("FingerprintTimingManager: reference for \(uuid) has no usable checkpoints")
             return
         }
@@ -508,7 +508,7 @@ final class FingerprintTimingManager: NSObject {
         }
         updateState(.preparing)
         if !hasEmittedPreparationStarted {
-            track(.syncedTranscriptPreparationStarted, properties: [
+            track(.syncedTranscriptsPreparationStarted, properties: [
                 "is_streaming": isStreaming,
                 "episode_duration_seconds": duration
             ])
@@ -545,7 +545,7 @@ final class FingerprintTimingManager: NSObject {
                 updateState(.active(coverage: coverage))
                 if !hasReachedActive {
                     hasReachedActive = true
-                    track(.syncedTranscriptPreparationCompleted, properties: [
+                    track(.syncedTranscriptsPreparationCompleted, properties: [
                         "duration_ms": preparationDurationMs,
                         "is_streaming": isStreaming
                     ])
@@ -618,7 +618,7 @@ final class FingerprintTimingManager: NSObject {
                 switch terminalState {
                 case .failed(let error):
                     let nsError = error as NSError
-                    self.track(.syncedTranscriptPreparationFailed, properties: [
+                    self.track(.syncedTranscriptsPreparationFailed, properties: [
                         "error_code": nsError.code,
                         "error_domain": nsError.domain,
                         "stage": "fingerprint_generation",
@@ -626,7 +626,7 @@ final class FingerprintTimingManager: NSObject {
                     ])
                 case .unavailable:
                     let reason = ctx.isStreaming ? "streaming_unsupported" : "no_matches"
-                    self.track(.syncedTranscriptUnavailable, properties: [
+                    self.track(.syncedTranscriptsUnavailable, properties: [
                         "reason": reason,
                         "is_streaming": ctx.isStreaming
                     ])
@@ -1019,7 +1019,7 @@ final class FingerprintTimingManager: NSObject {
             updateState(.active(coverage: coverage))
             if !hasReachedActive {
                 hasReachedActive = true
-                track(.syncedTranscriptPreparationCompleted, properties: [
+                track(.syncedTranscriptsPreparationCompleted, properties: [
                     "duration_ms": preparationDurationMs,
                     "is_streaming": context?.isStreaming ?? false
                 ])
