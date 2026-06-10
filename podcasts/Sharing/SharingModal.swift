@@ -105,7 +105,7 @@ enum SharingModal {
             optionPicker.addAction(action: fileAction)
         }
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionPicker.present(from: viewController)
     }
 
     static func show(option: Option, from source: AnalyticsSource, in viewController: UIViewController) {
