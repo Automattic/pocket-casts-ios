@@ -6082,6 +6082,9 @@
 /* tv signing in subtitle */
 "tv_signing_in_subtitle" = "Loading your podcasts now.";
 
+/* tv data loss resync — subtle spinner label shown when the local database was purged (e.g. by tvOS) and we re-fetch everything before entering the app */
+"tv_resync_fetching_episodes" = "Fetching latest episodes";
+
 /* tv podcasts empty title */
 "tv_podcasts_empty_title" = "Time to fill this up.";
 

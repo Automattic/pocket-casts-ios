@@ -2,12 +2,18 @@ import Foundation
 import PocketCastsUtils
 
 class DatabaseHelper {
-    class func setup(queue: PCDBQueue) {
+    /// Sets up the database schema, running any required migrations.
+    /// - Returns: `true` if the database was created from scratch this call (starting
+    ///   schema version 0) — i.e. there were no tables to begin with.
+    @discardableResult
+    class func setup(queue: PCDBQueue) -> Bool {
+        var databaseWasCreated = false
         queue.write { db in
             do {
                 try db.executeQuery("PRAGMA busy_timeout = 10000", values: nil).close()
 
                 let startingSchemaVersion = db.pragmaUserVersion() ?? 0
+                databaseWasCreated = startingSchemaVersion < 1
 
                 var newSchemaVersion = startingSchemaVersion
                 upgradeIfRequired(schemaVersion: &newSchemaVersion, db: db)
@@ -21,6 +27,7 @@ class DatabaseHelper {
                 FileLog.shared.addMessage("Failed to setup database \(db.lastErrorCode()): \(db.lastErrorMessage()) actual error: \(error)")
             }
         }
+        return databaseWasCreated
     }
 
     private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {

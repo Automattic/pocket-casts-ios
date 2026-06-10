@@ -11,6 +11,7 @@ class AppCoordinator {
         case browsing
         case signedIn
         case userSync
+        case dataLossResync
     }
 
     var state: State = .loading
@@ -30,15 +31,20 @@ class AppCoordinator {
 
         setupFirebase()
 
+        // Fresh database + still logged in (keychain survived) = the system purged our
+        // data; re-fetch everything behind a spinner first.
+        let needsDataLossResync = DataManager.sharedManager.databaseWasCreated && SyncManager.isUserLoggedIn()
+
         await MainActor.run {
             userState.refresh()
             if userState.isLoggedIn {
-                state = .signedIn
+                state = needsDataLossResync ? .dataLossResync : .signedIn
             } else {
                 state = .welcome
             }
         }
-        if userState.isLoggedIn {
+        // The resync screen drives its own full sync.
+        if userState.isLoggedIn, !needsDataLossResync {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
             RefreshManager.shared.syncUpNext()
         }
