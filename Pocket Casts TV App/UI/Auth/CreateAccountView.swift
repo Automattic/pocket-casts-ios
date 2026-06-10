@@ -186,7 +186,7 @@ private struct QRCodeTile: View {
     let url: String?
 
     @State private var image: UIImage?
-    private let context = CIContext()
+    @State private var context = CIContext()
 
     var body: some View {
         Group {
