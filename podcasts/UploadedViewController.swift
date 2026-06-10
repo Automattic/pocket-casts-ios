@@ -332,7 +332,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
             openAddFilesVC.cancelTapped()
         }
         if let openUserEpiosdeDetails = userEpisodeDetailVC {
-            openUserEpiosdeDetails.animateOut()
+            openUserEpiosdeDetails.close()
         }
     }
 
