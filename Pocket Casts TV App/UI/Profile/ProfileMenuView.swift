@@ -4,6 +4,8 @@ struct ProfileMenuView: View {
     @Environment(AppCoordinator.self) private var coordinator
     @Environment(\.dismiss) private var dismiss
 
+    @State private var isShowingLogoutConfirmation = false
+
     /// Called with the chosen destination when the signed-out user taps
     /// "Log in" or "Create account". The presenter is responsible for
     /// dismissing this menu and showing the destination.
@@ -37,6 +39,19 @@ struct ProfileMenuView: View {
         .padding(80)
         .frame(width: 862, alignment: .center)
         .fixedSize(horizontal: true, vertical: false)
+        .confirmationDialog(
+            L10n.tvProfileMenuLogOutConfirmationTitle,
+            isPresented: $isShowingLogoutConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(L10n.tvProfileMenuLogOut, role: .destructive) {
+                coordinator.logout()
+                dismiss()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.tvProfileMenuLogOutConfirmationMessage)
+        }
     }
 
     // MARK: - Signed-in
@@ -89,8 +104,7 @@ struct ProfileMenuView: View {
 
             // Group 3
             Button {
-                coordinator.userState.logout()
-                dismiss()
+                isShowingLogoutConfirmation = true
             } label: {
                 Label(L10n.tvProfileMenuLogOut, systemImage: "rectangle.portrait.and.arrow.right")
                     .foregroundStyle(.red)

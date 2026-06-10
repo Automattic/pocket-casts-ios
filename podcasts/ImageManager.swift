@@ -435,6 +435,15 @@ class ImageManager {
 
     // MARK: - Cleanup
 
+    /// Clears every image cache, memory and disk. Used by tvOS logout.
+    func clearAllImageCaches() {
+        let caches = [networkImageCache, searchImageCache, subscribedPodcastsCache, userEpisodeCache, discoverCache, discoverVideoThumbnailCache]
+        for cache in caches {
+            cache.clearMemoryCache()
+            cache.clearDiskCache()
+        }
+    }
+
     func clearPodcastCache(recacheWhenDone: Bool) {
         // clear out all the saved colors, since they might change when the images do
         DataManager.sharedManager.setAllPodcastImageVersions(to: 0)

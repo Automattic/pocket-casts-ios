@@ -89,16 +89,21 @@ public class DataManager {
 
         self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
 
-        // closing it above won't affect these calls, since they will re-open it
-        podcastManager.setup(dbQueue: dbQueue)
-        folderManager.setup(dbQueue: dbQueue)
-        upNextManager.setup(dbQueue: dbQueue)
-
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
         ratings = RatingsDataManager()
         // Force unwrap is safe here as dbQueue is always a GRDBQueue at runtime
         networkDataUsageManager = NetworkDataUsageManager(dbQueue: dbQueue as! GRDBQueue)
+
+        setupInMemoryCaches()
+    }
+
+    /// (Re)loads the in-memory caches that mirror database tables. Keep in sync when adding a
+    /// new cached manager.
+    private func setupInMemoryCaches() {
+        podcastManager.setup(dbQueue: dbQueue)
+        folderManager.setup(dbQueue: dbQueue)
+        upNextManager.setup(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
@@ -1380,5 +1385,27 @@ extension DataManager {
         }
 
         try? sourceDbQueue.close()
+    }
+}
+
+// MARK: - Full data wipe
+
+extension DataManager {
+    /// Deletes every row from every table, leaving the schema and the live database connection
+    /// intact so objects already holding a `DataManager` reference keep working. Used by tvOS
+    /// logout; a later login repopulates the database via a full sync.
+    public func deleteAllData() {
+        do {
+            try (dbQueue as? GRDBQueue)?.dbPool.write { db in
+                let tableNames = try String.fetchAll(db, sql: "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")
+                for tableName in tableNames {
+                    try db.execute(sql: "DELETE FROM \(tableName.quotedDatabaseIdentifier)")
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("DataManager.deleteAllData failed: \(error)")
+        }
+
+        setupInMemoryCaches()
     }
 }

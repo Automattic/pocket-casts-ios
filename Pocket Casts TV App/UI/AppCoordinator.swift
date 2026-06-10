@@ -56,6 +56,54 @@ class AppCoordinator {
         state = .welcome
     }
 
+    /// Logs the user out and removes all local data and cache, returning to the signed-out
+    /// experience. Unlike iOS, tvOS keeps nothing locally once signed out.
+    func logout() {
+        Task {
+            // Clear credentials first so anything below can't push the about-to-be-wiped data
+            // up to the server.
+            SignOutHelper.signout()
+
+            // Stop audio and clear the queue before its backing data is removed (main actor).
+            await MainActor.run {
+                PlaybackManager.shared.endPlayback(saveCurrentEpisode: false)
+            }
+
+            DataManager.sharedManager.deleteAllData()
+            DownloadManager.shared.removeAllDownloadedFiles()
+            ImageManager.sharedManager.clearAllImageCaches()
+            clearUserDefaults()
+
+            await MainActor.run {
+                userState.refresh()
+                state = .welcome
+            }
+        }
+    }
+
+    /// Wipes `UserDefaults` apart from device-level keys, so the next account to sign in on a
+    /// shared Apple TV doesn't inherit the previous user's preferences (playback speed, theme, …).
+    private func clearUserDefaults() {
+        let defaults = UserDefaults.standard
+
+        let preservedKeys = [
+            Constants.UserDefaults.appId,
+            Constants.UserDefaults.analyticsOptOut,
+            Constants.UserDefaults.reviewRequestDates
+        ]
+        let preserved = preservedKeys.reduce(into: [String: Any]()) { result, key in
+            result[key] = defaults.object(forKey: key)
+        }
+
+        if let bundleId = Bundle.main.bundleIdentifier {
+            defaults.removePersistentDomain(forName: bundleId)
+        }
+
+        for (key, value) in preserved {
+            defaults.set(value, forKey: key)
+        }
+    }
+
     private func setupCredentials() {
         ServerCredentials.sharing = ApiCredentials.sharingServerSecret
     }
