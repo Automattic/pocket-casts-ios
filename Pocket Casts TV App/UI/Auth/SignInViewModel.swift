@@ -1,11 +1,11 @@
 import SwiftUI
-import Combine
 import PocketCastsServer
 
 @MainActor
 @Observable
 class SignInViewModel {
-    private var cancellable: AnyCancellable?
+    /// The QR / device-pairing flow, shared with the create-account screen.
+    let pairing = PairingSession()
 
     enum State: Equatable {
         static func == (lhs: SignInViewModel.State, rhs: SignInViewModel.State) -> Bool {
@@ -28,40 +28,8 @@ class SignInViewModel {
         case finished
     }
 
+    /// State of the manual username / password sign-in.
     var state: State = .start
-
-    var codes: [String] = []
-
-    var pairURL: String?
-
-    var pairURLComplete: String?
-
-    func thirdPartyApprovalSignin() async {
-        var tryAgain = true
-        while tryAgain {
-            do {
-                let authorizeResponse = try await AuthenticationHelper.deviceAuthorizeCode()
-                codes = authorizeResponse.userCode.map({ char in
-                    String(char)
-                })
-                pairURL = authorizeResponse.verificationURI
-                pairURLComplete = authorizeResponse.verificationURIComplete
-
-                try await AuthenticationHelper.deviceWaitForApproval(deviceCode: authorizeResponse.deviceCode)
-                state = .finished
-            } catch let error as APIError {
-                if case APIError.EXPIRED_TOKEN = error {
-                    tryAgain = true
-                } else {
-                    tryAgain = false
-                    state = .error(error, error.localizedDescription)
-                }
-            } catch {
-                tryAgain = false
-                state = .error(error, error.localizedDescription)
-            }
-        }
-    }
 
     func manualSignIn(username: String, password: String) async {
         state = .waiting
@@ -75,18 +43,5 @@ class SignInViewModel {
         } catch {
             state = .error(error, "Please try again")
         }
-    }
-
-    var pairURLPretty: String {
-        guard let url = URL(string: pairURL ?? ServerConstants.Urls.tvPair),
-             let host = url.host()
-        else {
-            return ServerConstants.Urls.tvPair
-        }
-        return host + url.path()
-    }
-
-    var pairURLString: String {
-        return pairURLComplete ?? ServerConstants.Urls.tvPair
     }
 }

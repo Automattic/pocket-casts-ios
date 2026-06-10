@@ -7,21 +7,7 @@ extension DiscoverCollectionViewController {
         addCustomObserver(Constants.Notifications.chartRegionChanged, selector: #selector(chartRegionDidChange))
         addCustomObserver(Constants.Notifications.tappedOnSelectedTab, selector: #selector(checkForScrollTap(_:)))
 
-        searchController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(searchController)
-        view.addSubview(searchController.view)
-        searchController.didMove(toParent: self)
-
-        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            heightConstraint
-        ])
-        searchController.searchControllerHeightConstraint = heightConstraint
-
-        searchController.setupScrollView(collectionView, hideSearchInitially: false)
+        searchController.install(in: self, attachedTo: collectionView)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }

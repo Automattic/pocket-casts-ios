@@ -7,49 +7,11 @@ extension PlaylistDetailViewController: UISheetPresentationControllerDelegate, P
 
         track(.filterPlayAllTapped)
 
-        Task { [weak self] in
-            guard let self else { return }
-            let hasDifferencesWithUpNext = await self.checkDifferencesWithUpNext()
-            if hasDifferencesWithUpNext {
-                if PlaybackManager.shared.queue.upNextCount() == 0 {
-                    // there's nothing to over-write, so nothing to confirm either
-                    await MainActor.run {
-                        self.viewModel.playAllEpisodes()
-                    }
-                    return
-                }
-                await MainActor.run {
-                    let sheet = PlaylistPlayAllSheetHost(delegate: self)
-                    self.present(sheet, animated: true)
-                }
-            } else if !PlaybackManager.shared.playing() {
-                NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackStarting)
-                PlaybackManager.shared.play()
-            }
+        let playlistEpisodeIDs = viewModel.episodes.map { $0.episode.uuid }
+        if !PlaybackManager.shared.playIfSafe(playlist: viewModel.playlist, episodeIDs: playlistEpisodeIDs) {
+            let sheet = PlaylistPlayAllSheetHost(delegate: self)
+            present(sheet, animated: true)
         }
-    }
-
-    private func checkDifferencesWithUpNext() async -> Bool {
-        let playlistEpisodeUuids = viewModel.episodes.map { $0.episode.uuid }
-        let upNextEpisodeUuids = viewModel.dataManager.allUpNextEpisodeUuids().compactMap(\.uuid)
-
-        if playlistEpisodeUuids.count != upNextEpisodeUuids.count {
-            return true
-        }
-
-        if playlistEpisodeUuids != upNextEpisodeUuids {
-            return true
-        }
-
-        guard let firstPlaylistUuid = playlistEpisodeUuids.first else {
-            return false
-        }
-
-        guard let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid else {
-            return true
-        }
-
-        return currentUuid != firstPlaylistUuid
     }
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {

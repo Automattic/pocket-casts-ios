@@ -9,9 +9,20 @@ struct ProfileMenuView: View {
     /// dismissing this menu and showing the destination.
     let onAuthSelected: (AuthDestination) -> Void
 
+    /// Called with the chosen destination when a signed-in user taps one of
+    /// the content actions (e.g. "Starred Episodes"). The presenter is
+    /// responsible for dismissing this menu and showing the destination.
+    let onProfileSelected: (ProfileDestination) -> Void
+
     enum AuthDestination: Hashable, Identifiable {
         case signIn
         case createAccount
+        var id: Self { self }
+    }
+
+    enum ProfileDestination: Hashable, Identifiable {
+        case starred
+        case history
         var id: Self { self }
     }
 
@@ -55,7 +66,7 @@ struct ProfileMenuView: View {
 
             // Group 2
             Button {
-                // Starred episodes destination not yet implemented for TV
+                onProfileSelected(.starred)
             } label: {
                 Text(L10n.tvProfileMenuStarredEpisodes)
                     .frame(minWidth: 400)
@@ -67,7 +78,7 @@ struct ProfileMenuView: View {
                     .frame(minWidth: 400)
             }
             Button {
-                // Listening history destination not yet implemented for TV
+                onProfileSelected(.history)
             } label: {
                 Text(L10n.listeningHistory)
                     .frame(minWidth: 400)
@@ -109,6 +120,6 @@ struct ProfileMenuView: View {
 }
 
 #Preview {
-    ProfileMenuView(onAuthSelected: { _ in })
+    ProfileMenuView(onAuthSelected: { _ in }, onProfileSelected: { _ in })
         .environment(AppCoordinator())
 }

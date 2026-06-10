@@ -4,6 +4,7 @@ import PocketCastsDataModel
 struct PodcastDetailView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
     @State var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
@@ -88,11 +89,13 @@ struct PodcastDetailView: View {
             }
             HStack(spacing: 8) {
                 Button() {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        if model.isFollowing {
-                            model.unsubscribe()
-                        } else {
-                            model.subscribe()
+                    requireAccount {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            if model.isFollowing {
+                                model.unsubscribe()
+                            } else {
+                                model.subscribe()
+                            }
                         }
                     }
                 } label: {
@@ -127,9 +130,67 @@ struct PodcastDetailView: View {
         EpisodeRowWithActions(model: episode)
     }
 
+    private var archivedFilterMenu: some View {
+        Menu {
+            Button {
+                model.setShowArchived(false)
+            } label: {
+                if model.showArchived {
+                    Text(L10n.tvPodcastDetailHideArchived)
+                } else {
+                    Label(L10n.tvPodcastDetailHideArchived, systemImage: "checkmark")
+                }
+            }
+            Button {
+                model.setShowArchived(true)
+            } label: {
+                if model.showArchived {
+                    Label(L10n.tvPodcastDetailShowArchived, systemImage: "checkmark")
+                } else {
+                    Text(L10n.tvPodcastDetailShowArchived)
+                }
+            }
+        } label: {
+            ArchivedFilterLabel(showArchived: model.showArchived)
+        }
+        .accessibilityLabel(L10n.tvPodcastDetailArchivedFilter)
+    }
+
+    private struct ArchivedFilterLabel: View {
+        let showArchived: Bool
+        @Environment(\.isFocused) private var isFocused: Bool
+
+        var body: some View {
+            HStack(spacing: 8) {
+                Text(showArchived ? L10n.tvPodcastDetailShowArchived : L10n.tvPodcastDetailHideArchived)
+                Image(systemName: "chevron.down")
+            }
+            .font(.caption2)
+            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+        }
+    }
+
     @Namespace private var episodeListNamespace
 
+    @ViewBuilder
     var episodeContent: some View {
+        if model.episodes.isEmpty {
+            noEpisodesView
+        } else {
+            episodeList
+        }
+    }
+
+    var noEpisodesView: some View {
+        ContentUnavailableView(
+            L10n.tvPodcastDetailNoEpisodesTitle,
+            systemImage: "list.bullet",
+            description: Text(L10n.tvPodcastDetailNoEpisodesSubtitle)
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    var episodeList: some View {
         List {
             if let recommended = model.recommendedEpisode {
                 Section {
@@ -145,6 +206,7 @@ struct PodcastDetailView: View {
                             .font(.caption)
                             .foregroundStyle(Color.pcTextSecondary)
                     }
+                    .padding(.bottom, 32)
                 }
             }
             Section {
@@ -153,14 +215,20 @@ struct PodcastDetailView: View {
                         .listRowInsets(Layout.rowInsets)
                 }
             } header: {
-                Text(L10n.tvPodcastDetailAllEpisodes)
-                    .font(.title3)
-                    .foregroundStyle(Color.pcTextPrimary)
+                HStack(alignment: .center) {
+                    Text(L10n.tvPodcastDetailAllEpisodes)
+                        .font(.title3)
+                        .foregroundStyle(Color.pcTextPrimary)
+                    Spacer()
+                    archivedFilterMenu
+                }
+                .padding(.top, 40)
+                .padding(.bottom, 32)
             }
         }
         .focusScope(episodeListNamespace)
         .padding(.horizontal, 24)
-        .padding(.bottom, 24)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .focused($focusedSection, equals: .episodes)
     }
 }

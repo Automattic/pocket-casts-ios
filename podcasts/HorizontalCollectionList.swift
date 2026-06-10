@@ -2,6 +2,7 @@ import SwiftUI
 import Foundation
 import WrappingHStack
 import PocketCastsServer
+import PocketCastsDataModel
 
 struct HorizontalCollectionList: View {
 
@@ -103,7 +104,7 @@ struct HorizontalCollectionList: View {
             Spacer().frame(width: 10)
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
-                    Text(podcast.title ?? "")
+                    ExplicitBadgeHelper.inlineTitle(podcast.title ?? "", isExplicit: podcast.isExplicit ?? false, theme: theme.activeTheme)
                         .foregroundStyle(theme.primaryText01)
                         .font(.subheadline.weight(.medium))
                         .lineLimit(2)

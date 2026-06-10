@@ -1,19 +1,25 @@
 import PocketCastsServer
 
-enum DiscoverType: String {
+enum DiscoverType: String, CaseIterable {
     case featured
     case trending
+    case video
     case recommendationsUser = "recommendations_user" // You might like ...
     case recommendationsSocial = "recommendations_social" // Loved By Users of ...
     case recommendationsUserPodcast = "recommendations_user_podcast" // Because you like ...
     case popularRegion = "popular_region" // Popular in region ...
     case curatedList
     case categories
+    case other
 
     func match(item: DiscoverItem) -> Bool {
         switch self {
+        case .featured:
+            return item.id == self.rawValue || item.uuid == self.rawValue
         case .curatedList:
             return item.curated == true && item.type == "podcast_list" && item.summaryStyle == "large_list"
+        case .categories:
+            return item.type == "categories"
         default:
             return item.id == self.rawValue || item.uuid == self.rawValue
         }
@@ -22,11 +28,13 @@ enum DiscoverType: String {
 
 struct DiscoverSection {
     let title: String?
+    let subtitle: String?
     let podcasts: [DiscoverPodcast]
     let sponsoredPodcastsIDs: Set<String>
 
-    init(title: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
         self.title = title
+        self.subtitle = subtitle
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
     }
@@ -57,23 +65,33 @@ actor DiscoverManager {
         return layout
     }
 
-    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+    func loadDiscoverItems() async -> [DiscoverItem] {
         guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return DiscoverSection(title: nil, podcasts: [])
+            return []
         }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if type.match(item: item) {
-                selectedItem = item
-                break
-            }
+        let currentRegion = Settings.discoverRegion(discoverLayout: discoverLayout)
+
+        var filteredItems = items.filter { item in
+            item.shouldShowAuthenticated() && item.regions.contains(currentRegion)
         }
 
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+        let videoItem = makeVideoItem(layout: discoverLayout)
+        if filteredItems.count > 2 {
+            filteredItems.insert(videoItem, at: 2)
+        } else {
+            filteredItems.append(videoItem)
+        }
+        return filteredItems
+    }
+
+    func loadDiscoverSection(sourceItem: DiscoverItem) async -> DiscoverSection {
+        guard  let discoverLayout = await getLayout(), let source = sourceItem.source else {
             return DiscoverSection(title: nil, podcasts: [])
         }
+        let regionCode = regionCode(for: discoverLayout)
+        let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
 
-        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: sourceItem.authenticated)
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated)
         guard var listOfPodcasts = podcastCollection?.podcasts else {
             return DiscoverSection(title: podcastCollection?.title, podcasts: [])
         }
@@ -85,55 +103,38 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
+        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
     }
 
-    func loadDiscoverCategories() async -> [DiscoverCategory] {
-        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return []
-        }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if item.type == "categories" {
-                selectedItem = item
-                break
-            }
+    func findItem(of type: DiscoverType) async -> DiscoverItem? {
+        let items = await loadDiscoverItems()
+        return items.first(where: { type.match(item: $0) })
+    }
+
+    func loadDiscoverSection(type: DiscoverType) async -> DiscoverSection {
+        guard let sourceItem = await findItem(of: type) else {
+            return DiscoverSection(title: nil, podcasts: [])
         }
 
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
+        return await loadDiscoverSection(sourceItem: sourceItem)
+    }
+
+    func loadDiscoverCategories(popularOnly: Bool = false) async -> [DiscoverCategory] {
+        guard let sourceItem = await findItem(of: .categories), let source = sourceItem.source else {
             return []
         }
 
         let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
 
-        return categories
-    }
-
-    func loadDiscoverPopularCategories() async -> [DiscoverCategory] {
-        guard let discoverLayout = await getLayout(), let items = discoverLayout.layout else {
-            return []
-        }
-        var selectedItem: DiscoverItem?
-        for item in items {
-            if item.type == "categories" {
-                selectedItem = item
-                break
-            }
+        guard popularOnly else {
+            return categories
         }
 
-        guard let sourceItem = selectedItem, let source = sourceItem.source else {
-            return []
-        }
-
-        let categories = await discoverServerHandler.discoverCategories(source: source, authenticated: sourceItem.authenticated)
         var popularCategories: [DiscoverCategory] = []
 
         if let popularIds = sourceItem.popular {
-            for popularId in popularIds {
-                if let category = categories.first(where: { $0.id == popularId } ) {
-                    popularCategories.append(category)
-                }
-            }
+            let categoriesByID = Dictionary(categories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            popularCategories = popularIds.compactMap { categoriesByID[$0] }
         }
         if popularCategories.isEmpty {
             popularCategories = categories
@@ -174,5 +175,39 @@ actor DiscoverManager {
             resultPodcasts[position] = discoverPodcast
         }
         return resultPodcasts
+    }
+
+    func loadDiscoverEpisodesSection(type: DiscoverType) async -> [DiscoverEpisode] {
+        guard let sourceItem = await findItem(of: type) else {
+            return []
+        }
+        return await loadDiscoverEpisodesSection(item: sourceItem)
+    }
+
+    func loadDiscoverEpisodesSection(item: DiscoverItem) async -> [DiscoverEpisode] {
+        guard let source = item.source else {
+            return []
+        }
+        let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated)
+        guard let listOfEpisodes = podcastCollection?.episodes else {
+            return []
+        }
+
+        return listOfEpisodes
+    }
+
+    func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
+        let videoItem = DiscoverItem(id: "video",
+                                     uuid: "video",
+                                     title: L10n.tvHomeVideoSectionTitle,
+                                     type: "episode_video_list",
+                                     summaryStyle: "collection",
+                                     summaryItemCount: nil,
+                                     expandedStyle: "plain_list",
+                                     source: "https://lists.pocketcasts.com/tv_featured_videos.json",
+                                     sponsoredPodcasts: nil,
+                                     expandedTopItemLabel: nil,
+                                     regions: Array(layout.regions?.keys.sorted() ?? []) )
+        return videoItem
     }
 }

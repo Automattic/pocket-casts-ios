@@ -301,32 +301,18 @@ extension ListeningHistoryViewController: PCSearchBarDelegate {
 
     private func setupSearchController() {
         searchController = PCSearchBarController()
-        searchController?.searchDebounce = 0.2
 
         guard let searchController else {
             return
         }
 
-        searchController.view.translatesAutoresizingMaskIntoConstraints = false
-        addChild(searchController)
-        view.addSubview(searchController.view)
-        searchController.didMove(toParent: self)
-
-        let heightConstraint = searchController.view.heightAnchor.constraint(equalToConstant: 0)
-        NSLayoutConstraint.activate([
-            searchController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            heightConstraint,
-            searchController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        ])
-        searchController.searchControllerHeightConstraint = heightConstraint
+        searchController.install(in: self, attachedTo: listeningHistoryTable)
         // Plain-style table view pins section headers below `adjustedContentInset.top`, so keep
         // the inset matched to the bar height — otherwise headers would pin where the (collapsed)
         // bar used to be, leaving a gap under the nav bar.
         searchController.tracksContentInsetToBarHeight = true
 
         searchController.placeholderText = L10n.search
-        searchController.setupScrollView(listeningHistoryTable, hideSearchInitially: false)
         searchController.searchDebounce = Settings.podcastSearchDebounceTime()
         searchController.searchDelegate = self
     }

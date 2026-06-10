@@ -220,6 +220,20 @@ class WhatsNewtests: XCTestCase {
         XCTAssertEqual(whatsNewWithAnnouncementEnabled.visibleAnnouncement?.version, "7.40")
     }
 
+    /// Upgrading from a single-digit minor (e.g. 8.9) to a double-digit minor (8.14)
+    /// should still show the announcement. Lexicographic comparison would treat
+    /// "8.14" < "8.9" and incorrectly hide it.
+    func testShowWhatsNewWhenUpgradingToDoubleDigitMinor() {
+        let whatsNew = WhatsNew(
+            announcements: [announcement(version: "8.14")],
+            previousOpenedVersion: "8.9",
+            currentVersion: "8.14",
+            lastWhatsNewShown: nil
+        )
+
+        XCTAssertEqual(whatsNew.visibleAnnouncement?.version, "8.14")
+    }
+
     private func announcement(version: String, isEnabled: Bool = true) -> WhatsNew.Announcement {
         return .init(version: version, header: AnyView(EmptyView()), title: "", message: "", buttonTitle: "", action: {}, isEnabled: isEnabled)
     }

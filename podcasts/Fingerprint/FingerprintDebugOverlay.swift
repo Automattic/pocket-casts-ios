@@ -7,6 +7,7 @@ class FingerprintDebugOverlay: UIView {
     private var rejections: [FingerprintTimingManager.TimeMappingEntry] = []
     private var totalDuration: Double = 0
     private var playbackPosition: Double = 0
+    private var isHighlighting = false
 
     private let statusLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +48,8 @@ class FingerprintDebugOverlay: UIView {
         let fingerprintDuration = FingerprintTimingManager.shared.totalDuration ?? 0
         totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration()
         playbackPosition = PlaybackManager.shared.currentTime()
-        statusLabel.text = describe(state: FingerprintTimingManager.shared.state)
+        isHighlighting = FingerprintTimingManager.shared.isWithinMatchedContent(forPlaybackTime: playbackPosition)
+        statusLabel.text = "\(describe(state: FingerprintTimingManager.shared.state)) · \(isHighlighting ? "🟢 highlighting" : "🔴 suppressed")"
         setNeedsDisplay()
     }
 

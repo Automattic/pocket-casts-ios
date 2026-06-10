@@ -34,6 +34,8 @@ struct DiscoverPodcastsListView: View {
         .task {
             await model.load()
         }
+        .onAppear { tabRouter.isShowingDetail = true }
+        .onDisappear { tabRouter.isShowingDetail = false }
     }
 
     var loadingView: some View {

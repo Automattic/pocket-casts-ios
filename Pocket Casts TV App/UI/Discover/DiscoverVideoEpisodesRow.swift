@@ -1,0 +1,63 @@
+import SwiftUI
+import PocketCastsServer
+
+struct DiscoverVideoEpisodesRow: View {
+
+    fileprivate enum Layout {
+        static let spacing = CGFloat(48)
+    }
+
+    @FocusState private var focusedID: String?
+    @Namespace private var focusNS
+    @Environment(\.resetFocus) var resetFocus
+
+    @State private var model: DiscoverSectionEpisodesModel
+
+    private let callback: ((String?)->())?
+
+    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionEpisodesModel(type: type))
+        self.callback = callback
+    }
+
+    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionEpisodesModel(item: item))
+        self.callback = callback
+    }
+
+    var body: some View {
+        Group {
+            switch model.state {
+            case .loading:
+                ProgressView()
+            case .empty:
+                EmptyView()
+            case .ready:
+                mainContent
+            }
+        }
+        .task {
+            await model.load()
+            await MainActor.run {
+                callback?(model.title)
+                resetFocus(in: focusNS)
+            }
+        }
+    }
+
+    var mainContent: some View {
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: Layout.spacing, content: {
+                ForEach(model.episodes, id: \.uuid) { episode in
+                    DiscoverVideoEpisodeCell(episode: episode)
+                        .padding(.vertical, Layout.spacing / 2)
+                        .setFocus(section: model.item?.focusStoreID ?? "")
+                        .focused($focusedID, equals: episode.uuid)
+                        .prefersDefaultFocus(model.episodes.first?.uuid == episode.uuid, in: focusNS)
+                }
+            })
+            .focusSection()
+            .focusScope(focusNS)
+        }
+    }
+}

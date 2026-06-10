@@ -43,7 +43,7 @@ class DiscoverCategoryModel {
     }
 
     var name: String {
-        return category.name ?? ""
+        return category.name?.localized ?? ""
     }
 
     var podcasts: [DiscoverPodcast] {

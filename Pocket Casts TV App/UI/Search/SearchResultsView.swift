@@ -10,33 +10,57 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     @Bindable var model: ViewModel
 
+    @State private var showNowPlayingPlayer = false
+
     private let items: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.cellSize), spacing: 48)
     }
 
+    private let episodeItems: [GridItem] = [
+        GridItem(.flexible(), spacing: 32),
+        GridItem(.flexible(), spacing: 32)
+    ]
+
     var body: some View {
-        switch model.state {
-        case .searching:
-            ProgressView(L10n.tvSearchSearching)
-        case .empty:
-            ContentUnavailableView.search(text: model.searchTerm)
-        case .results:
-            results
-        case .error(let error):
-            Text(L10n.tvSearchFailed(error.localizedDescription))
-                .font(.headline)
-                .foregroundStyle(Color.pcTextSecondary)
-        case .query:
-            Text(L10n.tvSearchTypeSomething)
-                .font(.headline)
-                .foregroundStyle(Color.pcTextSecondary)
+        Group {
+            switch model.state {
+            case .searching:
+                ProgressView(L10n.tvSearchSearching)
+            case .empty:
+                ContentUnavailableView.search(text: model.searchTerm)
+            case .results:
+                switch model.scope {
+                case .podcasts:
+                    if model.podcastResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        results
+                    }
+                case .episodes:
+                    if model.episodeResults.isEmpty {
+                        ContentUnavailableView.search(text: model.searchTerm)
+                    } else {
+                        episodeResults
+                    }
+                }
+            case .error(let error):
+                Text(L10n.tvSearchFailed(error.localizedDescription))
+                    .font(.headline)
+                    .foregroundStyle(Color.pcTextSecondary)
+            case .query:
+                DiscoverAllView()
+            }
+        }
+        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+            NowPlayingView()
+                .ignoresSafeArea()
         }
     }
 
     var results: some View {
         ScrollView {
             LazyVGrid(columns: items, spacing: 48, content: {
-                ForEach(model.results, id: \.self) { result in
+                ForEach(model.podcastResults, id: \.self) { result in
                     switch result {
                     case .podcast(let podcast):
                         NavigationLink(value: podcast) {
@@ -52,6 +76,30 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
             .navigationDestination(for: PodcastFolderSearchResult.self) { podcast in
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
             }
+        }
+    }
+
+    var episodeResults: some View {
+        ScrollView {
+            LazyVGrid(columns: episodeItems, spacing: 24, content: {
+                ForEach(model.episodeResults, id: \.self) { episode in
+                    Button() {
+                        Task {
+                            let playSuccess = await model.playEpisode(episode)
+                            await MainActor.run {
+                                if playSuccess {
+                                    showNowPlayingPlayer = true
+                                } else {
+                                    ToastManager.shared.show(L10n.playbackFailed)
+                                }
+                            }
+                        }
+                    } label: {
+                        SearchEpisodeRow(model: episode)
+                    }
+                    .buttonStyle(.card)
+                }
+            })
         }
     }
 }

@@ -63,7 +63,7 @@ struct WelcomeView: View {
                     case .signIn:
                         SignInView()
                     case .createAccount:
-                        CreateAccountView()
+                        CreateAccountView(style: .fullScreen)
                     }
                 }
             }

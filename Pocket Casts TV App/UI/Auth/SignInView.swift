@@ -15,7 +15,7 @@ struct SignInView: View {
     }
 
     var enterCodePrompt: AttributedString {
-        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairURLPretty, model.pairURLString)
+        let baseString = L10n.tvSignInEnterCodeInUrl(model.pairing.pairURLPretty, model.pairing.pairURLString)
         var attributedString = (try? AttributedString(markdown: baseString)) ?? AttributedString(baseString)
 
         var linkStyle = AttributeContainer()
@@ -64,15 +64,19 @@ struct SignInView: View {
                         usernamePasswordLogin
                             .padding(.top, 64)
                     case .qr:
-                        Text(L10n.tvSignInSubtitle)
-                            .font(.headline)
-                            .foregroundStyle(Color.pcTextSecondary)
-                        QRCodeView(url: model.pairURLString)
-                        separator
-                        Text(enterCodePrompt)
-                            .font(.headline)
-                            .foregroundStyle(Color.pcTextSecondary)
-                        qrCodeDigits
+                        if case .error(_, let message) = model.pairing.state {
+                            qrCodeError(message: message)
+                        } else {
+                            Text(L10n.tvSignInSubtitle)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            QRCodeView(url: model.pairing.pairURLString)
+                            separator
+                            Text(enterCodePrompt)
+                                .font(.headline)
+                                .foregroundStyle(Color.pcTextSecondary)
+                            qrCodeDigits
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -80,35 +84,63 @@ struct SignInView: View {
             .padding(.top, 80)
             .offset(y: -64)
         }
-        .task {
+        .task(id: loginType) {
             switch loginType {
             case .qr:
-                await model.thirdPartyApprovalSignin()
+                await model.pairing.start()
             case .manual:
-                break
+                // Clear any leftover error so it doesn't leak across login modes.
+                model.state = .start
             }
         }
         .onChange(of: model.state) {
             if case .finished = model.state {
-                dismiss()
-                coordinator.state = .userSync
+                finishSignIn()
+            }
+        }
+        .onChange(of: model.pairing.state) {
+            if case .finished = model.pairing.state {
+                finishSignIn()
             }
         }
         .background(Color.pcBackgroundBase)
     }
 
+    private func finishSignIn() {
+        dismiss()
+        coordinator.state = .userSync
+    }
+
+    func qrCodeError(message: String) -> some View {
+        ContentUnavailableView {
+            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+        } description: {
+            Text(message)
+        } actions: {
+            Button {
+                Task {
+                    await model.pairing.start()
+                }
+            } label: {
+                Text(L10n.tryAgain)
+                    .frame(minWidth: 300)
+            }
+        }
+        .padding(.top, 64)
+    }
+
     var qrCodeDigits: some View {
         Group {
-            if model.codes.isEmpty {
+            if model.pairing.codes.isEmpty {
                 ProgressView()
             } else {
                 HStack(spacing: 8) {
-                    ForEach(Array(model.codes.enumerated()), id: \.offset) { _, code in
+                    ForEach(Array(model.pairing.codes.enumerated()), id: \.offset) { _, code in
                         Text(code)
                             .font(.caption2)
                             .foregroundStyle(Color.pcTextSecondary)
                             .padding()
-                            .background(Color.pcBackgroundActive50)
+                            .background(Color.pcBackgroundActive20)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }

@@ -57,7 +57,11 @@ private actor TracksTracker {
     }
 
     private enum TracksConfig {
+#if os(tvOS)
+        static let prefix = "pctvos"
+#else
         static let prefix = "pcios"
+#endif
         static let userKey = "pocketcasts:user_id"
         static let platform = "pocketcasts"
     }

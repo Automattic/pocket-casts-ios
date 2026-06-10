@@ -1249,6 +1249,15 @@
 /* VoiceOver label for the listening activity heatmap. '%1$@' is a placeholder for the number of days with listening activity out of the last 365. */
 "stats_listening_activity_accessibility_label" = "Listening activity heatmap. Days listened: %1$@ of 365.";
 
+/* VoiceOver label for the info button next to the listening activity section header. */
+"stats_listening_activity_info_accessibility_label" = "About listening activity";
+
+/* Title for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_title" = "Listening activity";
+
+/* Body text for the sheet that explains how the listening activity heatmap is calculated. */
+"stats_listening_activity_info_message" = "An estimate of when you've been listening, based on your playback history. If you finish an episode over a few days, it shows on the last day.";
+
 /* A common string used throughout the app. Often refers to the Listening History screen. */
 "listening_history" = "Listening History";
 
@@ -1871,6 +1880,9 @@
 
 /* Confirmation message that appears alongside the various bulk archive prompts. */
 "podcast_archive_prompt_msg" = "You should only do this if you don't want to see them anymore.";
+
+/* Accessibility label for the explicit content badge displayed on podcasts with explicit content. */
+"podcast_explicit_content" = "Explicit content";
 
 /* Indicates that the episode has been archived. */
 "podcast_archived" = "Archived";
@@ -4772,6 +4784,15 @@
 /* Toast shown when the user taps inside the transcript but the fingerprint mapping has no anchors yet, so we can't resolve an accurate seek target. */
 "transcript_tap_to_seek_streaming_unavailable" = "Download the episode to tap to seek";
 
+/* Highlighted transcripts What's New announcement sheet title */
+"transcript_highlight_announcement_title" = "Read along. Even at 2x.";
+
+/* Highlighted transcripts What's New announcement sheet message */
+"transcript_highlight_announcement_message" = "Read fast, miss nothing. The name you blew past, the book they recommended, the stat you wanted — tap the word, jump back.";
+
+/* Highlighted transcripts What's New announcement footnote shown below the call to action button */
+"transcript_highlight_announcement_footnote" = "Synced transcripts available for recent episodes only.";
+
 /* Title of the Transcript excerpt in Episode detail */
 "view_transcript" = "View Transcript";
 
@@ -6025,14 +6046,35 @@
 /* tv sign enter code go url.  %1$@ is the visible url and %2$@ the full url to enter the code*/
 "tv_sign_in_enter_code_go_url" = "going to [%1$@](%2$@)";
 
+/* tv sign in error title shown when the app fails to fetch the QR sign in code */
+"tv_sign_in_qr_code_error_title" = "Couldn't get your sign in code";
+
 /* tv create account title */
 "tv_create_account_title" = "Create your free account";
 
 /* tv create account subtitle */
 "tv_create_account_subtitle" = "Scan this code to get started on your phone, it only takes a minute.";
 
+/* tv create account screen subtitle telling the viewer to point their phone camera at the QR code */
+"tv_create_account_qr_instruction" = "Open the camera and point to this QR code.";
+
 /* tv create account enter code */
 "tv_create_account_come_back" = "Once you’ve created your account, come back and sign in";
+
+/* tv create account modal title */
+"tv_create_account_modal_title" = "Your podcasts deserve a home";
+
+/* tv create account modal subtitle */
+"tv_create_account_modal_subtitle" = "Create a free account to follow podcasts, build your Up Next, and pick up right where you left off, on any device.";
+
+/* tv create account modal step - scan the QR code */
+"tv_create_account_modal_step_scan" = "Scan the QR code";
+
+/* tv create account modal step - create your account */
+"tv_create_account_modal_step_create" = "Create your account";
+
+/* tv create account modal step - the TV signs you in automatically */
+"tv_create_account_modal_step_sign_in" = "The TV will sign you in";
 
 /* tv signing in title */
 "tv_signing_in_title" = "Good to see you.";
@@ -6081,6 +6123,21 @@
 
 /* tv podcast detail all episodes section title */
 "tv_podcast_detail_all_episodes" = "All episodes";
+
+/* tv podcast detail archive filter label */
+"tv_podcast_detail_archived_filter" = "Archived episodes";
+
+/* tv podcast detail option to hide archived episodes from the list */
+"tv_podcast_detail_hide_archived" = "Hide archived";
+
+/* tv podcast detail option to show archived episodes in the list */
+"tv_podcast_detail_show_archived" = "Show archived";
+
+/* tv podcast detail empty state title shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_title" = "No Episodes";
+
+/* tv podcast detail empty state subtitle shown when a podcast has no episodes */
+"tv_podcast_detail_no_episodes_subtitle" = "Episodes from this podcast will show up here.";
 
 /* tv episode action to view episode info */
 "tv_episode_info" = "Episode info";
@@ -6156,6 +6213,18 @@
 
 /* tv up next empty button action title */
 "tv_up_next_empty_action_title" = "Add episodes";
+
+/* tv starred episodes empty title */
+"tv_starred_empty_title" = "No starred episodes";
+
+/* tv starred episodes empty subtitle */
+"tv_starred_empty_subtitle" = "Star episodes to keep them handy, and they'll show up here";
+
+/* tv listening history empty title */
+"tv_history_empty_title" = "No listening history";
+
+/* tv listening history empty subtitle */
+"tv_history_empty_subtitle" = "Episodes you play will show up here";
 
 /* tv User Profile actions title */
 "tv_user_profile_actions" = "User settings";
@@ -6246,4 +6315,20 @@
 
 /* Discover - Button title on a featured podcast card that opens the podcast. */
 "tv_discover_featured_go_to_podcast" = "Go to podcast";
+
+/* Discover - Button title on a discover episode that makes it play. */
+"tv_discover_play_episode" = "Play episode";
+
+/* tv home Video section title */
+"tv_home_video_section_title" = "Made for TV";
+
+/* tv Sponsored Podcast Title */
+"tv_sponsored_podcast_section_title" = "Pocket Casts recommends";
+
+/* tv Discover failed to load title*/
+"tv_discover_failed_to_load_title" = "Discover failed to load.";
+
+/* tv Discover failed to load subtitle*/
+"tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
+
 

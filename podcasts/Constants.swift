@@ -5,6 +5,10 @@ import UIKit
 struct Constants {
     enum Notifications {
         static let upNextEpisodeAdded = NSNotification.Name(rawValue: "SJUpNextEpisodeAdded")
+        /// `userInfo` key on `upNextEpisodeAdded` — a `Bool` that's `true` when
+        /// the episode was added to the top of the queue (Play Next) rather than
+        /// the bottom (Play Last). Drives the add-animation badge.
+        static let upNextEpisodeAddedToTopKey = "PCUpNextAddedToTop"
         static let upNextEpisodeRemoved = NSNotification.Name(rawValue: "SJUpNextEpisodeRemoved")
         static let upNextQueueChanged = NSNotification.Name(rawValue: "SJUpNextChanged")
         static let upNextShuffleToggle = NSNotification.Name(rawValue: "SJUpNextShuffleToggle")
@@ -434,6 +438,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
+    case transcriptsWhatsNew = "transcripts_whats_new"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber

@@ -267,6 +267,43 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
+    /// Whether `playbackTime` sits on confidently-matched content — bracketed by
+    /// committed anchors no more than `highlightMaxGapSeconds` apart.
+    ///
+    /// Highlighting keys off this so it only ever runs while we're sure where we
+    /// are. Real content commits anchors every second or two, so a sparse "quick
+    /// red" gap stays under the bound and still counts as matched. A dynamic ad
+    /// (absent from the reference fingerprint, so no anchors commit across it)
+    /// opens a wide gap — or leaves no committed anchor ahead of the play-head at
+    /// all — so the instant playback crosses the last matched anchor this returns
+    /// false and highlighting stops, with no ad-detection step to lag behind.
+    func isWithinMatchedContent(forPlaybackTime playbackTime: Double) -> Bool {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
+            Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: playbackToReference)
+        }
+    }
+
+    /// The reference time for `playbackTime`, but only when it's on matched content
+    /// (see `isWithinMatchedContent`). Combines the gate and the interpolation into
+    /// a single `queue.sync` so the highlight tick — driven by the display link at
+    /// ~60Hz — pays one lock per frame and can't see the two disagree if the mapping
+    /// mutates between them.
+    func matchedReferenceTime(forPlaybackTime playbackTime: Double) -> Double? {
+        dispatchPrecondition(condition: .notOnQueue(queue))
+        return queue.sync {
+            guard Self.isWithinMatchedContent(forPlaybackTime: playbackTime, in: playbackToReference) else {
+                return nil
+            }
+            return Self.interpolate(
+                time: playbackTime,
+                in: playbackToReference,
+                keyPath: \.playbackTime,
+                valuePath: \.referenceTime
+            )
+        }
+    }
+
     #if DEBUG
     var totalDuration: Double? {
         dispatchPrecondition(condition: .notOnQueue(queue))
@@ -600,11 +637,11 @@ final class FingerprintTimingManager: NSObject {
         }
     }
 
-    /// Snap a playback time to the window-interval grid so that the windows we
-    /// emit align with the reference checkpoint timestamps. The reference is
-    /// produced with the same `windowIntervalMs` stride starting at 0, so any
-    /// off-grid start would yield windows whose audio content is shifted
-    /// relative to the reference and would fail to match.
+    /// Snap a playback time to the window-interval grid so emitted window
+    /// timestamps are deterministic (stable across restarts and cache reuse).
+    /// Windows are emitted every `windowIntervalMs`, finer than the reference's
+    /// 2s checkpoint grid, so a correctly-phased window exists for any dynamic-ad
+    /// offset rather than relying on a single phase happening to line up.
     private static func alignToWindowGrid(_ time: Double) -> Double {
         let stride = Double(FingerprintConstants.windowIntervalMs) / 1000.0
         guard stride > 0 else { return max(0, time) }
@@ -1175,6 +1212,33 @@ final class FingerprintTimingManager: NSObject {
 
         let fraction = (t1 > t0) ? (time - t0) / (t1 - t0) : 0
         return v0 + fraction * (v1 - v0)
+    }
+
+    /// Whether `playbackTime` is bracketed by two committed anchors no further
+    /// apart than `highlightMaxGapSeconds`. See `isWithinMatchedContent(forPlaybackTime:)`.
+    static func isWithinMatchedContent(
+        forPlaybackTime playbackTime: Double,
+        in entries: [TimeMappingEntry]
+    ) -> Bool {
+        // Binary search for the anchors bracketing `playbackTime`. `hi` is the
+        // first anchor strictly after it; `hi - 1` the last at or before it.
+        var lo = 0
+        var hi = entries.count
+        while lo < hi {
+            let mid = (lo + hi) / 2
+            if entries[mid].playbackTime <= playbackTime {
+                lo = mid + 1
+            } else {
+                hi = mid
+            }
+        }
+
+        // Need a committed anchor on each side: before the first or past the last
+        // we aren't confidently on matched content, so don't highlight.
+        guard hi - 1 >= 0, hi < entries.count else { return false }
+
+        let gap = entries[hi].playbackTime - entries[hi - 1].playbackTime
+        return gap <= FingerprintConstants.highlightMaxGapSeconds
     }
 
     // MARK: - Helpers
