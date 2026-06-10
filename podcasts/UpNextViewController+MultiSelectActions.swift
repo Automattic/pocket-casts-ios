@@ -23,10 +23,6 @@ extension UpNextViewController: MultiSelectActionDelegate {
         isMultiSelectEnabled = false
     }
 
-    func multiSelectPreferredStatusBarStyle() -> UIStatusBarStyle {
-        preferredStatusBarStyle
-    }
-
     var multiSelectViewSource: AnalyticsSource {
         analyticsSource
     }
