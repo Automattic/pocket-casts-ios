@@ -63,6 +63,8 @@ class PairingSession {
                         state = .error(error, error.localizedDescription)
                     }
                 }
+            } catch is CancellationError {
+                return
             } catch {
                 tryAgain = false
                 if !Task.isCancelled {
