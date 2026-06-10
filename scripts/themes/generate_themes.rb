@@ -119,7 +119,9 @@ File.write(file_path_styles, "// ************ WARNING AUTO GENERATED, DO NOT EDI
 
 index = 0
 all_token_names = []
-CSV.foreach(ARGV[0]) do |row|
+# Explicit encoding so the script works in locale-less environments
+# (e.g. Xcode build phases), where Ruby defaults to US-ASCII.
+CSV.foreach(ARGV[0], encoding: 'bom|utf-8') do |row|
   token_name = row[0]
 
   light_hex_value = row[2]
