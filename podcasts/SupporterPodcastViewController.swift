@@ -311,7 +311,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         let message = firstPodcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue ? deleteAfterExpiryMessage : L10n.paidPodcastCancelMsgRetainAccess(expiryDateStr)
         actionSheet.addDescriptiveActions(title: L10n.areYouSure, message: message, icon: "cancelsubscription-large", actions: [cancelAction])
 
-        actionSheet.show(statusBarStyle: preferredStatusBarStyle)
+        actionSheet.present(from: self)
     }
 
     private var progressAlert: ShiftyLoadingAlert?
@@ -469,7 +469,7 @@ class SupporterPodcastViewController: PCViewController, UITableViewDataSource, U
         unsubscribeAction.destructive = true
         optionPicker.addDescriptiveActions(title: L10n.unsubscribe, message: L10n.paidPodcastUnsubscribeMsg, icon: "option-alert", actions: [unsubscribeAction])
 
-        optionPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionPicker.present(from: self)
     }
 
     private func unsubscribeAll() {
