@@ -204,12 +204,12 @@ struct MainTabView: View {
                 tabRouter.pendingAuthFlow = destination
                 showProfileMenu = false
             }, onProfileSelected: { destination in
-                tabSelection.profileDestination = destination
+                tabRouter.profileDestination = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $tabSelection.profileDestination) { destination in
+        .fullScreenCover(item: $tabRouter.profileDestination) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 switch destination {
@@ -220,12 +220,12 @@ struct MainTabView: View {
                 }
             }
             .environment(coordinator)
-            .environment(tabSelection)
+            .environment(tabRouter)
             .onExitCommand {
-                tabSelection.profileDestination = nil
+                tabRouter.profileDestination = nil
             }
         }
-        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabRouter.pendingAuthFlow) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
