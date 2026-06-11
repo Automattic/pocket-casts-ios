@@ -10,7 +10,7 @@ enum AnalyticsSetup {
         var adapters: [AnalyticsAdapter] = []
 
         if !Settings.analyticsOptOut() {
-            adapters = [AnalyticsLoggingAdapter(), TracksAdapter()]
+            adapters = [AnalyticsLoggingAdapter(), AnalyticsOSLogAdapter(), TracksAdapter()]
         }
 
         adapters.append(LiveAnalyticsStreamer())
