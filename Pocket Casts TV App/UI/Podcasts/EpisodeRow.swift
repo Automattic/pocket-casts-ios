@@ -106,6 +106,7 @@ struct EpisodeRowWithActions: View {
     let model: EpisodeRowViewModel
     var context: Context = .default
 
+    @Environment(\.requireAccount) private var requireAccount
     @FocusState private var focusedElement: FocusElement?
     @State private var isPlaying = false
     @State private var isShowingActions = false
@@ -132,15 +133,15 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) { model.playNext() }
-            Button(L10n.playLastInUpNext) { model.playLast() }
-            Button(L10n.markPlayed) { model.markAsPlayed() }
+            Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
+            Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
             if model.canArchive {
-                Button(model.isArchived ? L10n.unarchive : L10n.archive) { model.isArchived ? model.unarchive() : model.archive() }
+                Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
             }
         case .upNext:
-            Button(L10n.playNext) { model.playNext() }
-            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.playNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLast) { requireAccount { model.playLast() } }
             Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
     }
