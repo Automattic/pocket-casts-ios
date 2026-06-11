@@ -15,9 +15,9 @@ enum AnalyticsSetup {
             adapters.append(AnalyticsOSLogAdapter())
 #endif
         }
-        
+
         adapters.append(LiveAnalyticsStreamer())
-        
+
         Analytics.register(adapters: adapters)
     }
 }
