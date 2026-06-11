@@ -52,7 +52,7 @@ protocol NavigationProtocol: AnyObject {
     func showWhatsNew(whatsNewInfo: WhatsNewInfo)
 
     func showApproveDevice(code: String?)
-    
+
     func showInSafariViewController(urlString: String)
 
     func showEndOfYearStories()
