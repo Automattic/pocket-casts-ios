@@ -166,13 +166,13 @@ struct SignInView: View {
 
     var usernamePasswordLogin: some View {
         VStack {
-            TextField("Username", text: $username)
+            TextField(L10n.tvUserSignInUsernamePlaceholder, text: $username)
                 .textContentType(.username)
                 .focused($focusedField, equals: .username)
                 .submitLabel(.next)
                 .onSubmit { focusedField = .password }
 
-            SecureField("Password", text: $password)
+            SecureField(L10n.signInPasswordPrompt, text: $password)
                 .textContentType(.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.done)
@@ -191,7 +191,7 @@ struct SignInView: View {
             } label: {
                 switch model.state {
                 case .start, .error:
-                    Text("Sign In")
+                    Text(L10n.signIn)
                         .frame(minWidth: 300)
                 case .waiting:
                     ProgressView()

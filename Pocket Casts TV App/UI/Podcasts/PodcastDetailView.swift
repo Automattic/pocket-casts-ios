@@ -121,7 +121,7 @@ struct PodcastDetailView: View {
             if let podcast = model.podcast {
                 PodcastMoreInfoView(podcast: podcast)
             } else {
-                Text("Loading Info")
+                Text(L10n.loading)
             }
         }
     }

@@ -6259,6 +6259,9 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* tv Sign In manual login username text field placeholder */
+"tv_user_sign_in_username_placeholder" = "Username";
+
 /* tv search field placeholder prompt */
 "tv_search_prompt" = "Podcasts, shows, authors";
 
@@ -6333,6 +6336,10 @@
 
 /* tv Discover failed to load subtitle*/
 "tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
+
+/* tv app Now Playing tab */
+"tv_tab_now_playing" = "Now Playing";
+
 
 /* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
 "device_approve_title" = "Connect to Apple TV";

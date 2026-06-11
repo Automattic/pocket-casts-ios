@@ -41,7 +41,7 @@ class SignInViewModel {
         } catch let error as APIError {
             state = .error(error, error.localizedDescription)
         } catch {
-            state = .error(error, "Please try again")
+            state = .error(error, L10n.pleaseTryAgain)
         }
     }
 }

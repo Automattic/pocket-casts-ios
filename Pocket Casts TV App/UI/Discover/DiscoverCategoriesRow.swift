@@ -33,10 +33,10 @@ struct DiscoverCategoriesRow: View {
     var list: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 48, content: {
-                ForEach(model.categories, id: \.id) { category in
+                ForEach(Array(model.categories.enumerated()), id: \.element.id) { index, category in
                     if category.id != nil {
                         NavigationLink(value: category) {
-                            DiscoverCategoryCell(category: category)
+                            DiscoverCategoryCell(category: category, colorIndex: index)
                                 .frame(width: Layout.cellWidth, height: Layout.cellHeight)
                         }
                         .buttonStyle(.card)

@@ -5,6 +5,7 @@ import Kingfisher
 
 struct DiscoverCategoryCell: View {
     @State var model: DiscoverCategoryModel
+    let colorIndex: Int
 
     @Environment(\.isFocused) var isFocused: Bool
 
@@ -15,8 +16,9 @@ struct DiscoverCategoryCell: View {
         static let iconSize = CGFloat(48)
     }
 
-    init(category: DiscoverCategory) {
+    init(category: DiscoverCategory, colorIndex: Int) {
         _model = State(wrappedValue: DiscoverCategoryModel(category: category))
+        self.colorIndex = colorIndex
     }
 
     var body: some View {
@@ -46,21 +48,21 @@ struct DiscoverCategoryCell: View {
                     HStack {
                         PodcastImage(uuid: firstPodcast, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                             .shadow(color: .pcShadowLight, radius: 37.5, x: 0, y: 0)
-                            .offset(x: isFocused ? -Layout.imageSize : 0)
-                            .scaleEffect(isFocused ? 1.0 : 0.6)
+                            .offset(x: isFocused ? -Layout.imageSize + 8 : -Layout.imageSize * 2)
+                            .scaleEffect(isFocused ? 1.0 : 0.85)
                             .opacity(isFocused ? 1.0 : 0.0)
-                            .animation(.default, value: isFocused)
+                            .animation(.spring(duration: 0.35, bounce: 0.35), value: isFocused)
                         Spacer()
                         PodcastImage(uuid: lastPodcast, size: .page)
                             .frame(width: Layout.imageSize, height: Layout.imageSize)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                             .shadow(color: .pcShadowLight, radius: 37.5, x: 0, y: 0)
-                            .offset(x: isFocused ? Layout.imageSize : 0)
-                            .scaleEffect(isFocused ? 1.0 : 0.6)
+                            .offset(x: isFocused ? Layout.imageSize - 8 : Layout.imageSize * 2)
+                            .scaleEffect(isFocused ? 1.0 : 0.85)
                             .opacity(isFocused ? 1.0 : 0.0)
-                            .animation(.default, value: isFocused)
+                            .animation(.spring(duration: 0.35, bounce: 0.35), value: isFocused)
                     }
                 }
             }
@@ -68,7 +70,7 @@ struct DiscoverCategoryCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(style(for: model.category))
+        .background(style(for: colorIndex))
         .clipped()
         .task {
             await model.load()
@@ -76,19 +78,17 @@ struct DiscoverCategoryCell: View {
     }
 
     @ViewBuilder
-    func style(for category: DiscoverCategory) -> some View {
+    func style(for colorIndex: Int) -> some View {
         if !isFocused {
             Color.pcBackgroundOverlay
-        } else if let id = category.id {
-            CategoryStyle.allCases[id % CategoryStyle.allCases.count].gradient
         } else {
-            CategoryStyle.red.tintColor
+            CategoryStyle.assignableCases[colorIndex % CategoryStyle.assignableCases.count].gradient
         }
     }
 }
 
 #Preview {
-    DiscoverCategoryCell(category: DiscoverCategory(id: 1, name: "True Crime"))
+    DiscoverCategoryCell(category: DiscoverCategory(id: 1, name: "True Crime"), colorIndex: 0)
         .environment(AppCoordinator())
         .environment(MainTabRouter())
 }

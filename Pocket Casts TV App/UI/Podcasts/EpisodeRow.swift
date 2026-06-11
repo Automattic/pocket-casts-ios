@@ -24,10 +24,6 @@ struct EpisodeRow: View {
         self.isActive = isActive
     }
 
-    private var isHighlighted: Bool {
-        isFocused
-    }
-
     enum Layout {
         static let episodeImageSize = CGFloat(124)
     }
@@ -51,25 +47,25 @@ struct EpisodeRow: View {
                     if model.isVideo {
                         Image(systemName: "play.rectangle.fill")
                             .font(.caption)
-                            .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                            .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                             .accessibilityLabel(L10n.filterMediaTypeVideo)
                     }
                     Text(model.displayDate)
                         .font(.caption)
-                        .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                 }
                 Text(model.episode.displayableTitle())
                     .font(.body)
-                    .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
+                    .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
                 Text(model.displayDuration)
                     .font(.caption)
-                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
             }
             Spacer()
         }
-        .padding(24)
-        .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
+        .padding(32)
+        .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
@@ -77,7 +73,7 @@ struct EpisodeRow: View {
 
     private var archivedOpacity: Double {
         guard model.isArchived else { return 1.0 }
-        return isHighlighted ? 1.0 : 0.3
+        return isFocused ? 1.0 : 0.3
     }
 }
 
@@ -110,6 +106,7 @@ struct EpisodeRowWithActions: View {
     let model: EpisodeRowViewModel
     var context: Context = .default
 
+    @Environment(\.requireAccount) private var requireAccount
     @FocusState private var focusedElement: FocusElement?
     @State private var isPlaying = false
     @State private var isShowingActions = false
@@ -136,15 +133,15 @@ struct EpisodeRowWithActions: View {
     private var actionButtons: some View {
         switch context {
         case .default:
-            Button(L10n.playNextInUpNext) { model.playNext() }
-            Button(L10n.playLastInUpNext) { model.playLast() }
-            Button(L10n.markPlayed) { model.markAsPlayed() }
+            Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
+            Button(L10n.markPlayed) { requireAccount { model.markAsPlayed() } }
             if model.canArchive {
-                Button(model.isArchived ? L10n.unarchive : L10n.archive) { model.isArchived ? model.unarchive() : model.archive() }
+                Button(model.isArchived ? L10n.unarchive : L10n.archive) { requireAccount { model.isArchived ? model.unarchive() : model.archive() } }
             }
         case .upNext:
-            Button(L10n.playNext) { model.playNext() }
-            Button(L10n.playLast) { model.playLast() }
+            Button(L10n.playNext) { requireAccount { model.playNext() } }
+            Button(L10n.playLast) { requireAccount { model.playLast() } }
             Button(L10n.removeFromUpNext) { model.removeFromUpNext() }
         }
     }
