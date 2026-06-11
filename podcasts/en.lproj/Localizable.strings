@@ -6334,4 +6334,8 @@
 /* tv Discover failed to load subtitle*/
 "tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
 
+/* tv app Now Playing tab */
+"tv_tab_now_playing" = "Now Playing";
+
+
 

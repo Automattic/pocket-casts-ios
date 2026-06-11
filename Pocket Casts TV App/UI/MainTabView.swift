@@ -5,6 +5,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
     case podcasts
     case playlists
     case upNext
+    case nowPlaying
     case search
 
     var id: Int { return self.rawValue }
@@ -15,6 +16,7 @@ enum MainTab: Int, CaseIterable, Identifiable {
         case .podcasts: L10n.tvTabPodcasts
         case .playlists: L10n.tvTabPlaylists
         case .upNext: L10n.tvTabUpNext
+        case .nowPlaying: L10n.tvTabNowPlaying
         case .search: nil
         }
     }
@@ -64,6 +66,13 @@ struct MainTabContentView: View {
                 }
         case .search:
             SearchView(model: SearchViewModel())
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
+        case .nowPlaying:
+            NowPlayingTab()
         }
     }
 }
@@ -82,8 +91,9 @@ struct CenterButton: View {
 }
 
 struct MainTabView: View {
+    @Namespace var mainTabFocusNS
 
-    @State private var tabSelection = MainTabRouter()
+    @State private var tabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
     @State private var scrollOffset: Double = 0
@@ -97,17 +107,19 @@ struct MainTabView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TabView(selection: $tabSelection.selectedTab) {
+            TabView(selection: $tabRouter.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
-                    Tab(value: tab) {
-                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
-                            .environment(tabSelection)
-                            .focused($focusedArea, equals: .content)
-                    } label: {
-                        Label {
-                            if let title = tab.title { Text(title) }
-                        } icon: {
-                            if let icon = tab.icon { Image(systemName: icon) }
+                    if tabRouter.shouldShowTab(tab) {
+                        Tab(value: tab) {
+                            MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
+                                .environment(tabRouter)
+                                .focused($focusedArea, equals: .content)
+                        } label: {
+                            Label {
+                                if let title = tab.title { Text(title) }
+                            } icon: {
+                                if let icon = tab.icon { Image(systemName: icon) }
+                            }
                         }
                     }
                 }
@@ -117,8 +129,11 @@ struct MainTabView: View {
             accessoryView
         }
         .defaultFocus($focusedArea, .tabBar)
-        .onMoveCommand { direction in
-            handleMove(direction)
+        .focusScope(mainTabFocusNS)
+        .if(tabRouter.selectedTab == .home) { content in
+            content.onMoveCommand { direction in
+                handleMove(direction)
+            }
         }
         .ignoresSafeArea()
         .background(Color.pcBackgroundSurface)
@@ -127,7 +142,7 @@ struct MainTabView: View {
 
     @ViewBuilder
     var accessoryView: some View {
-        if !tabSelection.isShowingDetail {
+        if !tabRouter.isShowingDetail {
             VStack() {
                 HStack() {
                     profileAccessory
@@ -149,7 +164,7 @@ struct MainTabView: View {
             // after the focus engine handles the move — otherwise rapid lefts
             // from Podcasts → Home → (try profile) read a stale selectedTab.
             DispatchQueue.main.async {
-                if tabSelection.selectedTab == MainTab.allCases.first {
+                if tabRouter.selectedTab == MainTab.allCases.first {
                     focusedArea = .profile
                 }
             }
@@ -195,15 +210,15 @@ struct MainTabView: View {
         .accessibilityHint(L10n.tvProfileButtonAccessibilityHint)
         .sheet(isPresented: $showProfileMenu) {
             ProfileMenuView(onAuthSelected: { destination in
-                tabSelection.pendingAuthFlow = destination
+                tabRouter.pendingAuthFlow = destination
                 showProfileMenu = false
             }, onProfileSelected: { destination in
-                tabSelection.profileDestination = destination
+                tabRouter.profileDestination = destination
                 showProfileMenu = false
             })
             .environment(coordinator)
         }
-        .fullScreenCover(item: $tabSelection.profileDestination) { destination in
+        .fullScreenCover(item: $tabRouter.profileDestination) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 switch destination {
@@ -214,12 +229,12 @@ struct MainTabView: View {
                 }
             }
             .environment(coordinator)
-            .environment(tabSelection)
+            .environment(tabRouter)
             .onExitCommand {
-                tabSelection.profileDestination = nil
+                tabRouter.profileDestination = nil
             }
         }
-        .fullScreenCover(item: $tabSelection.pendingAuthFlow) { destination in
+        .fullScreenCover(item: $tabRouter.pendingAuthFlow) { destination in
             ZStack {
                 Color.pcBackgroundSurface.ignoresSafeArea()
                 NavigationStack {
@@ -247,7 +262,7 @@ struct MainTabView: View {
             }
             .environment(coordinator)
             .onExitCommand {
-                tabSelection.pendingAuthFlow = nil
+                tabRouter.pendingAuthFlow = nil
             }
         }
     }

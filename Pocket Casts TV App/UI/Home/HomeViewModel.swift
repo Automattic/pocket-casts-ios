@@ -27,6 +27,10 @@ class HomeViewModel {
     var upNext: [EpisodeRowViewModel] = []
     var newReleases: [EpisodeRowViewModel] = []
 
+    /// True until playback first starts this session. Used to show the
+    /// "Keep Listening" row on Home only before the user has played anything.
+    var playbackNotYetStarted = true
+
     func load() {
         Task {
             let podcasts = fetchPodcasts()
@@ -86,5 +90,16 @@ class HomeViewModel {
                 self?.load()
             }
             .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: Constants.Notifications.playbackStarted)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.playbackNotYetStarted = false
+            }
+            .store(in: &cancellables)
+    }
+
+    var shouldShowNowPlayingRow: Bool {
+        return playbackNotYetStarted && currentPlaying != nil
     }
 }

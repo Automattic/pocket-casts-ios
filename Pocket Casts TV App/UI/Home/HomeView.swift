@@ -95,7 +95,7 @@ struct HomeView: View {
 
     @ViewBuilder
     var nowPlayingRow: some View {
-        if let currentPlaying = model.currentPlaying {
+        if model.shouldShowNowPlayingRow, let currentPlaying = model.currentPlaying {
             HomeSection(title: L10n.tvHomeKeepListeningTitle, focusSection: Section.homeNowPlaying.rawValue) {
                 NowPlayingRow(model: currentPlaying) {
                     showNowPlayingPlayer = true

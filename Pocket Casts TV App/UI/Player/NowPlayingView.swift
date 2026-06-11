@@ -10,6 +10,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
         let controller = AVPlayerViewController()
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
+        controller.appliesPreferredDisplayCriteriaAutomatically = false
         model.load()
         addOverlay(to: controller)
         return controller
@@ -38,7 +39,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
             return
         }
 
-        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model, isTransportBarVisible: $isTransportBarVisible))
+        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model, isTransportBarVisible: $model.isLoading))
 
         guard let overlayView = overlayHostingController.view else {
             return
@@ -65,6 +66,14 @@ struct NowPlayingView: UIViewControllerRepresentable {
             makePlaybackSpeedMenu(),
             makePlaybackEffectsMenu()
         ]
+        // Suppress AVKit's system loading spinner while the player is still
+        // preparing. Hiding playback controls also hides the spinner that
+        // lives in the same transport overlay; our branded loading UI in
+        // `MediaOverlayView` takes over during this window.
+        let shouldShowControls = !model.isLoading
+        if uiViewController.showsPlaybackControls != shouldShowControls {
+            uiViewController.showsPlaybackControls = shouldShowControls
+        }
     }
 
     private func createMetadataItems() -> [AVMetadataItem] {
