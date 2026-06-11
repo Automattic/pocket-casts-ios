@@ -46,6 +46,10 @@ final class MainTabRouter {
                     return
                 }
                 currentPlayingEpisode = PlaybackManager.shared.currentEpisode()
+                if currentPlayingEpisode == nil, selectedTab == .nowPlaying {
+                     selectedTab = .home
+                     isShowingDetail = false
+                 }
             }
             .store(in: &cancellables)
     }
