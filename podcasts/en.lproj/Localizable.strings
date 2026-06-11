@@ -6346,4 +6346,10 @@
 /* Button title to confirm pairing the account with the Apple TV. */
 "device_approve_connect_button" = "Connect";
 
+/* Label shown above the user's email on the device approval screen, indicating which account is being used to sign in. */
+"device_approve_signing_in_as" = "Signing in as...";
+
+/* Message shown on the device approval screen when the user is not logged in, prompting them to sign in or create an account before connecting their device. */
+"device_approve_login_required" = "In order to connect your device you need to have an account. Please sign in or create an account and try again.";
+
 

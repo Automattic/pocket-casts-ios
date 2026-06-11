@@ -1,4 +1,16 @@
 import SwiftUI
+import PocketCastsServer
+
+class DeviceApproveViewModel: ObservableObject {
+
+    var isUserLoggedIn: Bool {
+        return SyncManager.isUserLoggedIn()
+    }
+
+    var email: String {
+        return ServerSettings.syncingEmail() ?? ""
+    }
+}
 
 struct DeviceApproveView: View {
 
@@ -8,12 +20,15 @@ struct DeviceApproveView: View {
 
     @State private var userCode: String
 
+    @StateObject private var model = DeviceApproveViewModel()
+
     init(userCode: String?) {
         _userCode = State(initialValue: userCode ?? "")
     }
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
             Spacer()
+                .frame(height: 100)
             HStack {
                 Spacer()
                 CircleLogo(name: "smallPCLogo", size: CGSize(width: 24, height: 24))
@@ -31,28 +46,63 @@ struct DeviceApproveView: View {
                 .font(size: 15, style: .caption, weight: .regular)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(theme.primaryText02)
-            TextField(L10n.deviceApproveCodePlaceholder, text: $userCode)
-                .multilineTextAlignment(.center)
-                .font(.system(size: 24, weight: .semibold, design: .rounded))
-                .padding()
-                .foregroundStyle(theme.primaryText02)
+            HStack(alignment: .center, spacing: 16) {
+                if model.isUserLoggedIn {
+                    ProfileImage(email: model.email)
+                        .frame(width: 48, height: 48)
+                        .clipShape(Circle())
+                    VStack(alignment: .leading) {
+                        Text(L10n.deviceApproveSigningInAs)
+                            .font(size: 15, style: .caption, weight: .regular)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(theme.primaryText02)
+                        Text(model.email)
+                            .font(size: 15, style: .caption, weight: .semibold)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(theme.primaryText01)
+                    }
+                } else {
+                    Text(L10n.deviceApproveLoginRequired)
+                        .font(size: 15, style: .caption, weight: .regular)
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(theme.primaryText02)
+                }
+            }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .background(theme.primaryUi02)
                 .cornerRadius(12)
-                .padding(.horizontal)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .inset(by: 0.5)
+                        .stroke(theme.primaryUi05, lineWidth: 1)
+                )
+            if model.isUserLoggedIn {
+                TextField(L10n.deviceApproveCodePlaceholder, text: $userCode)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
+                    .padding()
+                    .foregroundStyle(theme.primaryText02)
+                    .background(theme.primaryUi02)
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+            }
             Button {
-                Task {
-                    let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
-                    if result.success {
-                        dismiss()
-                    } else {
-
+                if model.isUserLoggedIn {
+                    Task {
+                        let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
+                        if result.success {
+                            dismiss()
+                        } else {
+                        }
                     }
+                } else {
+                    dismiss()
                 }
             } label: {
-                Text(L10n.deviceApproveConnectButton)
+                Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.close)
                     .textStyle(RoundedButton())
             }
-            Spacer()
         }
         .padding()
     }
@@ -86,5 +136,5 @@ struct CircleLogo: View {
 
 #Preview {
     DeviceApproveView(userCode: "12345")
-        .environmentObject(Theme(previewTheme: .dark))
+        .environmentObject(Theme(previewTheme: .light))
 }
