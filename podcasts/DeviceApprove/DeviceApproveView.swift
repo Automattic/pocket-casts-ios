@@ -22,6 +22,8 @@ struct DeviceApproveView: View {
 
     @StateObject private var model = DeviceApproveViewModel()
 
+    @State private var showFailureAlert: Bool = false
+
     init(userCode: String?) {
         _userCode = State(initialValue: userCode ?? "")
     }
@@ -103,6 +105,7 @@ struct DeviceApproveView: View {
                         if result.success {
                             dismiss()
                         } else {
+                            showFailureAlert = true
                         }
                     }
                 } else {
@@ -117,6 +120,13 @@ struct DeviceApproveView: View {
         .padding()
         .onAppear() {
             Analytics.track(.deviceApproveShown)
+        }
+        .alert(L10n.deviceApproveExpiredAlertTitle, isPresented: $showFailureAlert) {
+            Button(L10n.ok, role: .cancel) {
+                dismiss()
+            }
+        } message: {
+            Text(L10n.deviceApproveExpiredAlertMessage)
         }
     }
 }
