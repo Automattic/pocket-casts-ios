@@ -44,7 +44,7 @@ class NowPlayingViewModel: Identifiable {
         currentItemObservation?.invalidate()
     }
 
-    func load() async {
+    func load() {
         let newEpisode = playbackManager.currentEpisode()
         guard newEpisode?.uuid != episode?.uuid else {
             return
@@ -194,9 +194,7 @@ class NowPlayingViewModel: Identifiable {
                 guard let self else {
                     return
                 }
-                Task.detached { [weak self] in
-                    await self?.load()
-                }
+                load()
             }
             .store(in: &cancellables)
     }

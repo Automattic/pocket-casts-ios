@@ -11,9 +11,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
         controller.appliesPreferredDisplayCriteriaAutomatically = false
-        Task.detached {
-            await model.load()
-        }
+        model.load()        
         addOverlay(to: controller)
         return controller
     }
