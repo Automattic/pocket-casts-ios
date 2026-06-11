@@ -47,9 +47,6 @@ struct MediaOverlayView: View {
             .animation(.easeInOut(duration: 0.2), value: model.isLoading)
         }
         .ignoresSafeArea()
-        .task {
-            model.load()
-        }
     }
 
     /// Branded loading state shown while AVKit's system spinner is suppressed.

@@ -10,7 +10,10 @@ struct NowPlayingView: UIViewControllerRepresentable {
         let controller = AVPlayerViewController()
         controller.allowedSubtitleOptionLanguages = []
         controller.delegate = context.coordinator
-        model.load()
+        controller.appliesPreferredDisplayCriteriaAutomatically = false
+        Task.detached {
+            await model.load()
+        }
         addOverlay(to: controller)
         return controller
     }
