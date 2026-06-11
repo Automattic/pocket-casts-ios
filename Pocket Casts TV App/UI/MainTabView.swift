@@ -66,6 +66,11 @@ struct MainTabContentView: View {
                 }
         case .search:
             SearchView(model: SearchViewModel())
+                .onScrollGeometryChange(for: Double.self) { geometry in
+                    geometry.contentInsets.top + geometry.contentOffset.y
+                } action: { _, after in
+                    self.scrollOffset = after
+                }
         case .nowPlaying:
             NowPlayingTab()
         }
@@ -104,15 +109,17 @@ struct MainTabView: View {
         ZStack(alignment: .topTrailing) {
             TabView(selection: $tabRouter.selectedTab) {
                 ForEach(MainTab.allCases) { tab in
-                    Tab(value: tab) {
-                        MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
-                            .environment(tabRouter)
-                            .focused($focusedArea, equals: .content)
-                    } label: {
-                        Label {
-                            if let title = tab.title { Text(title) }
-                        } icon: {
-                            if let icon = tab.icon { Image(systemName: icon) }
+                    if tabRouter.shouldShowTab(tab) {
+                        Tab(value: tab) {
+                            MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
+                                .environment(tabRouter)
+                                .focused($focusedArea, equals: .content)
+                        } label: {
+                            Label {
+                                if let title = tab.title { Text(title) }
+                            } icon: {
+                                if let icon = tab.icon { Image(systemName: icon) }
+                            }
                         }
                     }
                 }
