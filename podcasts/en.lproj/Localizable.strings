@@ -6259,6 +6259,9 @@
 /* tv Sign In Option Username and Password */
 "tv_user_sign_in_option_manual" = "User/Pass";
 
+/* tv Sign In manual login username text field placeholder */
+"tv_user_sign_in_username_placeholder" = "Username";
+
 /* tv search field placeholder prompt */
 "tv_search_prompt" = "Podcasts, shows, authors";
 
