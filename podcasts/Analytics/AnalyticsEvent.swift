@@ -1026,4 +1026,10 @@ enum AnalyticsEvent: String {
     case bannerAdImpression
     case bannerAdTapped
     case bannerAdReport
+
+    // MARK: - Device Approval
+
+    case deviceApproveShown
+    case deviceApproveConnectTapped
+    case deviceApproveDismissed
 }

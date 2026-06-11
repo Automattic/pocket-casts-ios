@@ -98,6 +98,7 @@ struct DeviceApproveView: View {
             Button {
                 if model.isUserLoggedIn {
                     Task {
+                        Analytics.track(.deviceApproveConnectTapped)
                         let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
                         if result.success {
                             dismiss()
@@ -106,6 +107,7 @@ struct DeviceApproveView: View {
                     }
                 } else {
                     dismiss()
+                    Analytics.track(.deviceApproveDismissed)
                 }
             } label: {
                 Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.close)
@@ -113,6 +115,9 @@ struct DeviceApproveView: View {
             }
         }
         .padding()
+        .onAppear() {
+            Analytics.track(.deviceApproveShown)
+        }
     }
 }
 
