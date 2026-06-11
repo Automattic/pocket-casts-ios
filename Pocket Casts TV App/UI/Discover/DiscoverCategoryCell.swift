@@ -70,7 +70,7 @@ struct DiscoverCategoryCell: View {
         }
         .padding(.horizontal, 36)
         .frame(height: Layout.cardHeight)
-        .background(style(for: model.category))
+        .background(style(for: colorIndex))
         .clipped()
         .task {
             await model.load()
@@ -78,7 +78,7 @@ struct DiscoverCategoryCell: View {
     }
 
     @ViewBuilder
-    func style(for category: DiscoverCategory) -> some View {
+    func style(for colorIndex: Int) -> some View {
         if !isFocused {
             Color.pcBackgroundOverlay
         } else {
