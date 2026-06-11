@@ -4,8 +4,6 @@ import SwiftProtobuf
 
 public struct DeviceApproveResult: Decodable {
     public let success: Bool
-    public let message: String
-    public let messageId: String
 }
 
 class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
@@ -35,9 +33,9 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
                 completion?(.failure(APIError.UNKNOWN))
                 return
             }
-            let changeResponse = try Api_UserChangeResponse(serializedBytes: responseData)
+            let changeResponse = try Api_DeviceApproveResponse(serializedBytes: responseData)
 
-            completion?(.success(DeviceApproveResult(success: changeResponse.success.value, message: changeResponse.message, messageId: changeResponse.messageID)))
+            completion?(.success(DeviceApproveResult(success: true)))
             FileLog.shared.addMessage("API device approved response \(changeResponse)")
         } catch {
             FileLog.shared.addMessage("Failed to approve device \(error.localizedDescription)")
