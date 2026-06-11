@@ -471,52 +471,14 @@ extension AppDelegate {
 
     func setupTVPairingRoutes() {
         JLRoutes.global().addRoute("/pair") { [weak self] parameters -> Bool in
-            guard let self else {
+            guard self != nil else {
                 return true
             }
             let userCode = parameters["user_code"] as? String
-            self.showApproveDialog(code: userCode)
+
+            NavigationManager.sharedManager.navigateTo(NavigationManager.deviceApprovePageKey, data: [NavigationManager.deviceApproveCodeKey: userCode])
             return true
         }
-    }
-
-    private func showApproveDialog(code: String?) {
-        let alert = UIAlertController(title: "Approve device", message: "Inser code bellow", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: L10n.ok, style: .default) { _ in
-            guard let code = alert.textFields?.first?.text else {
-                return
-            }
-            Task {
-                do {
-                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: true)
-                } catch {
-                    print("Failed")
-                }
-            }
-        }
-        alert.addAction(okAction)
-
-        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
-            guard let code = alert.textFields?.first?.text else {
-                return
-            }
-            Task {
-                do {
-                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: false)
-                } catch {
-                    print("Failed")
-                }
-            }
-        }
-
-        alert.addAction(cancelAction)
-
-        alert.addTextField { codeField in
-            codeField.tag = 1
-            codeField.placeholder = "Insert code"
-            codeField.text = code
-        }
-        SceneHelper.rootViewController()?.present(alert, animated: true)
     }
 
     func openSharePath(_ path: String, controller: UIViewController, onErrorOpen: URL?) {
