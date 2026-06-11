@@ -1285,6 +1285,8 @@
 		FF32F3E92FAB86C700226E58 /* PlayerColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2F3B9F2366C01400416633 /* PlayerColorHelper.swift */; };
 		FF32F3EB2FAB972700226E58 /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647623028F70CD0006D005A /* AuthenticationHelper.swift */; };
 		FF40C0662C65175B003A9D93 /* TranscriptErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */; };
+		FF46FCFF2FDB25E3004FCE17 /* DeviceApprove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF46FCFE2FDB25DC004FCE17 /* DeviceApprove.swift */; };
+		FF46FD032FDB28F4004FCE17 /* DeviceApprove.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF46FD022FDB28F4004FCE17 /* DeviceApprove.xcassets */; };
 		FF49232D2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App in Frameworks */ = {isa = PBXBuildFile; productRef = FF49232C2F9BCC9500E68E0C /* XcodeTarget_Pocket Casts TV App */; };
 		FF492A7A2F9BDA9A00E68E0C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
 		FF49FEAC2F9BBC9A00E68E0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 460C375526D831E3008B3609 /* Localizable.strings */; };
@@ -2694,6 +2696,8 @@
 		FF32F3E02FAB846400226E58 /* PlaylistArchiveViewCellPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistArchiveViewCellPlaceholder.swift; sourceTree = "<group>"; };
 		FF32F3E42FAB850E00226E58 /* PlaylistHeaderViewCellPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewCellPlaceholder.swift; sourceTree = "<group>"; };
 		FF40C0652C65175B003A9D93 /* TranscriptErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptErrorView.swift; sourceTree = "<group>"; };
+		FF46FCFE2FDB25DC004FCE17 /* DeviceApprove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceApprove.swift; sourceTree = "<group>"; };
+		FF46FD022FDB28F4004FCE17 /* DeviceApprove.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = DeviceApprove.xcassets; sourceTree = "<group>"; };
 		FF4A73D52C8745D200587128 /* ReferralSendPassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassView.swift; sourceTree = "<group>"; };
 		FF4A73D72C87694300587128 /* ReferralCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralCardView.swift; sourceTree = "<group>"; };
 		FF4A73D92C876D5E00587128 /* ReferralSendPassVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSendPassVC.swift; sourceTree = "<group>"; };
@@ -3969,6 +3973,7 @@
 		BD2A49EE1701AA8500C2F192 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				FF46FCFD2FDB25CD004FCE17 /* DeviceApprove */,
 				3F5850042F5689C2005A3593 /* Podcasts */,
 				3F584FFA2F5687F9005A3593 /* Common Components */,
 				3F584FF32F56869B005A3593 /* Folders */,
@@ -4801,6 +4806,7 @@
 				BDBD53F917019B2A0048C8C5 /* podcasts-Info.plist */,
 				C7D813A82A0D575E007F715F /* AlternateAppIcons.xcassets */,
 				40FFCDA722FA756300395CA5 /* Appearance.xcassets */,
+				FF46FD022FDB28F4004FCE17 /* DeviceApprove.xcassets */,
 				BD0D7AF31F6BC564006B673F /* AppIcon.xcassets */,
 				C7360CB72A42128300456930 /* Bookmarks.xcassets */,
 				BDEED1531EB06E26003FE87D /* Carplay.xcassets */,
@@ -5576,6 +5582,14 @@
 			path = Banner;
 			sourceTree = "<group>";
 		};
+		FF46FCFD2FDB25CD004FCE17 /* DeviceApprove */ = {
+			isa = PBXGroup;
+			children = (
+				FF46FCFE2FDB25DC004FCE17 /* DeviceApprove.swift */,
+			);
+			path = DeviceApprove;
+			sourceTree = "<group>";
+		};
 		FF4A73D42C8745AE00587128 /* Referrals */ = {
 			isa = PBXGroup;
 			children = (
@@ -6338,6 +6352,7 @@
 				40164A6C23DAAF8B0043907B /* PromotionAcknowledgementViewController.xib in Resources */,
 				BDA002EC1F7B318B00DCB4AE /* AppIcon-Round29x29@2x~ipad.png in Resources */,
 				BDBCE6D0244E7755004FFE13 /* AppIcon-Radioactive29x29~ipad.png in Resources */,
+				FF46FD032FDB28F4004FCE17 /* DeviceApprove.xcassets in Resources */,
 				4084263B2138DBF90076D82E /* DiscoverFeaturedView.xib in Resources */,
 				BDA002FC1F7B318B00DCB4AE /* AppIcon-Default20x20~ipad.png in Resources */,
 				BD98C5501BA8058800E85D3B /* PodcastHeaderListViewController.xib in Resources */,
@@ -7143,6 +7158,7 @@
 				C713D4F52A04C90500A78468 /* ProfileImage.swift in Sources */,
 				466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */,
 				9AD809AF2EA12D940050649B /* PlaylistDetailFetchOperation.swift in Sources */,
+				FF46FCFF2FDB25E3004FCE17 /* DeviceApprove.swift in Sources */,
 				BD585C232047B9A400AC842C /* SharedItemImporter.swift in Sources */,
 				8B87C47C29F0129A00257B96 /* EpisodeArtwork.swift in Sources */,
 				4041FEA1218AA5EC0089D4A1 /* SiriShortcutAddCell.swift in Sources */,

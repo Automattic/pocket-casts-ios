@@ -596,42 +596,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showApproveDevice(code: String?) {
         guard let controller = view.window?.rootViewController else { return }
-        let alert = UIAlertController(title: "Approve device", message: "Inser code bellow", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: L10n.ok, style: .default) { _ in
-            guard let code = alert.textFields?.first?.text else {
-                return
-            }
-            Task {
-                do {
-                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: true)
-                } catch {
-                    print("Failed")
-                }
-            }
-        }
-        alert.addAction(okAction)
-
-        let cancelAction = UIAlertAction(title: L10n.cancel, style: .cancel) { _ in
-            guard let code = alert.textFields?.first?.text else {
-                return
-            }
-            Task {
-                do {
-                    let _ = try await AuthenticationHelper.deviceApprove(userCode: code, approve: false)
-                } catch {
-                    print("Failed")
-                }
-            }
-        }
-
-        alert.addAction(cancelAction)
-
-        alert.addTextField { codeField in
-            codeField.tag = 1
-            codeField.placeholder = "Insert code"
-            codeField.text = code
-        }
-        controller.present(alert, animated: true)
+        let vc = ThemedHostingController(rootView: DeviceApproveView(userCode: code))
+        controller.present(vc, animated: true)
     }
 
     func navigateToFilterTab() {

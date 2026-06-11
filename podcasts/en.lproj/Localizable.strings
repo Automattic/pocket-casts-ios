@@ -6334,4 +6334,16 @@
 /* tv Discover failed to load subtitle*/
 "tv_discover_failed_to_load_subtitle" = "Make sure you are connected to the internet and try again.";
 
+/* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
+"device_approve_title" = "Connect to Apple TV";
+
+/* Description on the device approval screen explaining that listening will sync and can be disconnected from Settings. */
+"device_approve_description" = "Your listening will sync automatically.\nYou can disconnect at any time from Settings.";
+
+/* Placeholder text for the text field where the user enters the pairing code shown on their Apple TV. */
+"device_approve_code_placeholder" = "Insert code";
+
+/* Button title to confirm pairing the account with the Apple TV. */
+"device_approve_connect_button" = "Connect";
+
 
