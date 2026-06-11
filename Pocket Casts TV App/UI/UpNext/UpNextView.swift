@@ -18,6 +18,7 @@ struct UpNextView: View {
             }
         }
         .task {
+            Analytics.track(.upNextShown, properties: ["source": "tab_bar"])
             model.load()
         }
     }

@@ -52,6 +52,9 @@ struct ProfileMenuView: View {
         } message: {
             Text(L10n.tvProfileMenuLogOutConfirmationMessage)
         }
+        .onAppear {
+            Analytics.track(.profileShown)
+        }
     }
 
     // MARK: - Signed-in
@@ -70,6 +73,7 @@ struct ProfileMenuView: View {
 
             // Group 1
             Button {
+                Analytics.track(.profileSettingsButtonTapped)
                 // Settings destination not yet implemented for TV
             } label: {
                 Label(L10n.settings, systemImage: "gearshape")

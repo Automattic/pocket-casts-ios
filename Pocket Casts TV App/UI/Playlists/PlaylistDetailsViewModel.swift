@@ -63,6 +63,8 @@ class PlaylistDetailsViewModel {
     private static let playlistEpisodeLimit = 1000
 
     func setShowArchived(_ value: Bool) {
+        guard value != showArchived else { return }
+        Analytics.track(value ? .filterShowArchivedTapped : .filterHideArchivedTapped)
         showArchived = value
         applyArchivedFilter()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: playlist))
@@ -75,6 +77,8 @@ class PlaylistDetailsViewModel {
     func playAll() {
         guard !episodes.isEmpty else { return }
 
+        Analytics.track(.filterPlayAllTapped)
+
         if playbackManager.playIfSafe(playlist: playlist, episodeIDs: episodes.map(\.uuid)) {
             isShowingNowPlaying = true
         } else {
@@ -83,6 +87,7 @@ class PlaylistDetailsViewModel {
     }
 
     func buttonConfirmPlayPlaylistTapped() {
+        Analytics.track(.filterPlayAllReplaceAndPlayTapped, properties: ["save_up_next": Settings.saveCurrentUpNextQueueIntoPlaylist])
         playbackManager.play(playlist: playlist)
         isShowingNowPlaying = true
     }

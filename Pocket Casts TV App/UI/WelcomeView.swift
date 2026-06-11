@@ -39,9 +39,15 @@ struct WelcomeView: View {
                         NavigationLink(value: Destination.signIn) {
                             Text(L10n.tvWelcomeSignIn)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
+                        })
                         NavigationLink(value: Destination.createAccount) {
                             Text(L10n.tvWelcomeCreateFreeAccount)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Analytics.track(.setupAccountButtonTapped, properties: ["button": "create_account"])
+                        })
                     }
                     Spacer()
                     Button(L10n.tvWelcomeBrowseWithoutAccount) {
@@ -73,6 +79,9 @@ struct WelcomeView: View {
                 podcastGrid
                 gradientView
             }
+        }
+        .task {
+            Analytics.track(.setupAccountShown)
         }
     }
 

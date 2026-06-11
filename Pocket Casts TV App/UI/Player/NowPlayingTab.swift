@@ -16,6 +16,7 @@ struct NowPlayingTab: View {
             }
             .animation(.easeIn, value: isFocused)
             .onAppear {
+                Analytics.track(.playerShown)
                 //This is to force the player to load the current episode
                 if !PlaybackManager.shared.playing() {
                     DispatchQueue.main.async {

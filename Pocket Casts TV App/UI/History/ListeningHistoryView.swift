@@ -17,6 +17,7 @@ struct ListeningHistoryView: View {
             }
         }
         .task {
+            Analytics.track(.listeningHistoryShown)
             model.load()
         }
     }

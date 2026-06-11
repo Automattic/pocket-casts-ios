@@ -17,6 +17,7 @@ struct StarredEpisodesView: View {
             }
         }
         .task {
+            Analytics.track(.starredShown)
             model.load()
         }
     }
