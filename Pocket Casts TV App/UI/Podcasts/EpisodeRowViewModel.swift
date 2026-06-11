@@ -1,6 +1,5 @@
 import Foundation
 import PocketCastsDataModel
-import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 import Combine
@@ -14,7 +13,6 @@ class EpisodeRowViewModel: Identifiable {
 
     var episode: BaseEpisode
     var podcast: Podcast?
-    var imageData: Data?
     var progress: Double
     var id: String { episode.uuid }
 
@@ -27,15 +25,6 @@ class EpisodeRowViewModel: Identifiable {
         self.playbackManager = playbackManager
         self.progress = episode.playedUpTo / episode.duration
         setupObservers()
-    }
-
-    func loadEpisodeArtwork() {
-        Task.detached { [weak self] in
-            let data = await self?.loadEpisodeArtworkData()
-            await MainActor.run { [weak self] in
-                self?.imageData = data
-            }
-        }
     }
 
     var duration: Double {
@@ -70,10 +59,6 @@ class EpisodeRowViewModel: Identifiable {
         return episode.displayableTimeLeft()
     }
 
-    var displayImageData: Data? {
-        return imageData
-    }
-
     var currentPodcastTintColor: Color? {
         if let podcast {
             return Color(ColorManager.darkThemeTintForPodcast(podcast))
@@ -82,17 +67,6 @@ class EpisodeRowViewModel: Identifiable {
         } else {
             return Color(AppTheme.userEpisodeColor(number: 1))
         }
-    }
-
-    private func loadEpisodeArtworkData() async -> Data? {
-        let imageUrl = ServerHelper.image(podcastUuid: episode.parentIdentifier(), size: 340)
-        guard let url = URL(string: imageUrl),
-              let (data, _) = try? await URLSession.shared.data(for: URLRequest(url: url)),
-              let uiImage = UIImage(data: data)
-        else {
-            return nil
-        }
-        return uiImage.pngData()
     }
 
     var podcastUuid: String? {
