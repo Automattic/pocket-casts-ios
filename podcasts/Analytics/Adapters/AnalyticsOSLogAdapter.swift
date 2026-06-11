@@ -10,8 +10,6 @@ struct AnalyticsOSLogAdapter: AnalyticsAdapter {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "PocketCasts", category: "Analytics")
 
     func track(name: String, properties: [String: Sendable]) async {
-        // Event name is public (non-sensitive, useful for filtering); properties default to
-        // private so they're visible while debugging but redacted in release logs.
         if properties.isEmpty {
             Self.logger.debug("🔵 Tracked: \(name, privacy: .public)")
         } else {
