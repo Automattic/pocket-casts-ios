@@ -25,6 +25,7 @@ struct DeviceApproveView: View {
     init(userCode: String?) {
         _userCode = State(initialValue: userCode ?? "")
     }
+
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
             Spacer()
@@ -86,7 +87,14 @@ struct DeviceApproveView: View {
                     .background(theme.primaryUi02)
                     .cornerRadius(12)
                     .padding(.horizontal)
+                    .textInputAutocapitalization(.characters)
+                    .onChange(of: userCode) { newValue in
+                        if newValue.count > 6 {
+                            userCode = String(newValue.prefix(6))
+                        }
+                    }
             }
+            Spacer()
             Button {
                 if model.isUserLoggedIn {
                     Task {
