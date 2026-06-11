@@ -24,10 +24,6 @@ struct EpisodeRow: View {
         self.isActive = isActive
     }
 
-    private var isHighlighted: Bool {
-        isFocused
-    }
-
     enum Layout {
         static let episodeImageSize = CGFloat(124)
     }
@@ -51,25 +47,25 @@ struct EpisodeRow: View {
                     if model.isVideo {
                         Image(systemName: "play.rectangle.fill")
                             .font(.caption)
-                            .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                            .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                             .accessibilityLabel(L10n.filterMediaTypeVideo)
                     }
                     Text(model.displayDate)
                         .font(.caption)
-                        .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                 }
                 Text(model.episode.displayableTitle())
                     .font(.body)
-                    .foregroundColor(isHighlighted ? .pcTextPrimaryActive : .pcTextPrimary)
+                    .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
                     .lineLimit(2)
                 Text(model.displayDuration)
                     .font(.caption)
-                    .foregroundColor(isHighlighted ? .pcTextSecondaryActive : .pcTextSecondary)
+                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
             }
             Spacer()
         }
-        .padding(24)
-        .background(isHighlighted ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
+        .padding(32)
+        .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .opacity(archivedOpacity)
         .animation(.easeInOut(duration: 0.15), value: archivedOpacity)
@@ -77,7 +73,7 @@ struct EpisodeRow: View {
 
     private var archivedOpacity: Double {
         guard model.isArchived else { return 1.0 }
-        return isHighlighted ? 1.0 : 0.3
+        return isFocused ? 1.0 : 0.3
     }
 }
 

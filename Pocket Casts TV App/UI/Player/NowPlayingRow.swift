@@ -8,6 +8,21 @@ struct NowPlayingRow: View {
 
     var callback: (() -> ())?
 
+    var body: some View {
+        Button {
+            model.play()
+            callback?()
+        } label: {
+            NowPlayingRowLabel(model: model)
+        }
+        .buttonStyle(EpisodeRowButtonStyle())
+    }
+}
+
+private struct NowPlayingRowLabel: View {
+
+    @Bindable var model: EpisodeRowViewModel
+
     @Environment(\.isFocused) private var isFocused: Bool
 
     enum Layout {
@@ -24,37 +39,33 @@ struct NowPlayingRow: View {
     }
 
     var body: some View {
-        Button {
-            model.play()
-            callback?()
-        } label: {
-            HStack(spacing: 48) {
-                thumbnail
-                    .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                VStack(alignment: .leading) {
-                    Spacer()
-                    Text(model.displayDate)
-                        .font(.body)
-                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
-                    Text(model.episode.displayableTitle())
-                        .font(.title3)
-                        .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
-                        .lineLimit(2)
-                    ProgressView(value: model.progress)
-                        .foregroundStyle(.blue)
-                        .tint(model.currentPodcastTintColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 100))
-                    Text(model.timeLeft)
-                        .font(.body)
-                        .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
-                    Spacer()
-                }
+        HStack(spacing: 48) {
+            thumbnail
+                .frame(width: Layout.episodeImageSize, height: Layout.episodeImageSize)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            VStack(alignment: .leading) {
+                Spacer()
+                Text(model.displayDate)
+                    .font(.body)
+                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
+                Text(model.episode.displayableTitle())
+                    .font(.title3)
+                    .foregroundColor(isFocused ? .pcTextPrimaryActive : .pcTextPrimary)
+                    .lineLimit(2)
+                ProgressView(value: model.progress)
+                    .foregroundStyle(.blue)
+                    .tint(model.currentPodcastTintColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                Text(model.timeLeft)
+                    .font(.body)
+                    .foregroundColor(isFocused ? .pcTextSecondaryActive : .pcTextSecondary)
                 Spacer()
             }
-            .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
+            Spacer()
         }
-        .buttonStyle(.card)
+        .padding(32)
+        .background(isFocused ? Color.pcBackgroundActive : Color.pcBackgroundSunken)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
