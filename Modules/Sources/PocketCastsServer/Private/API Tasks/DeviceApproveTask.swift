@@ -42,4 +42,9 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
             completion?(.failure(APIError.UNKNOWN))
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        FileLog.shared.addMessage("[DeviceApproveTask] Token acquisition failed")
+        completion?(.failure(APIError.UNKNOWN))
+    }
 }
