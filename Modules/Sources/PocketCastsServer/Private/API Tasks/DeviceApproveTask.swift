@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-public struct DeviceApproveResult: Decodable {
+public struct DeviceApproveResult {
     public let success: Bool
 }
 
