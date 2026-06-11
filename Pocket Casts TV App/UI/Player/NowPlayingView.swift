@@ -39,7 +39,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
             return
         }
 
-        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model, isTransportBarVisible: $isTransportBarVisible))
+        let overlayHostingController = UIHostingController(rootView: MediaOverlayView(model: model, isTransportBarVisible: $model.isLoading))
 
         guard let overlayView = overlayHostingController.view else {
             return
