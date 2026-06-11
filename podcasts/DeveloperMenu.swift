@@ -12,6 +12,7 @@ struct DeveloperMenu: View {
     @State var showingRecommendationsOnboardingSelected = false
     @State var showSurvey = false
     @State var showIntroCarousel = false
+    @State var showDeviceApproval = false
     @State var showingNotificationsPermissions = false
     @State var enableDebugPlaylistLimit = false
 
@@ -387,6 +388,16 @@ struct DeveloperMenu: View {
                 Text("Onboarding")
             }
 
+            Section {
+                Button("Show Device Approval") {
+                    showDeviceApproval = true
+                }
+                .sheet(isPresented: $showDeviceApproval) {
+                    DeviceApproveView(userCode: "")
+                }
+            } header: {
+                Text("TV")
+            }
             Section {
                 Toggle(isOn: $enableDebugPlaylistLimit) {
                     Text("Enable Debug Playlists limit")
