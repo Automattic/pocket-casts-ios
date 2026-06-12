@@ -70,7 +70,7 @@ struct ProfileMenuView: View {
             } label: {
                 Text(L10n.tvProfileMenuStarredEpisodes)
                     .frame(minWidth: 400)
-            }            
+            }
             Button {
                 onProfileSelected(.history)
             } label: {
