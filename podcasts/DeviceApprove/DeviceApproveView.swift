@@ -10,6 +10,20 @@ class DeviceApproveViewModel: ObservableObject {
     var email: String {
         return ServerSettings.syncingEmail() ?? ""
     }
+
+    func presentAccountFlow() {
+        let controller = OnboardingFlow.shared.begin(flow: .none, source: .onboarding, accountCreated: { created in
+            print("Account created:\(created)")
+        })
+        let baseVC = presentingViewController.presentedViewController ?? presentingViewController
+        baseVC.present(controller, animated: true)
+    }
+
+    let presentingViewController: UIViewController
+
+    init(presentingViewController: UIViewController) {
+        self.presentingViewController = presentingViewController
+    }
 }
 
 struct DeviceApproveView: View {
@@ -20,12 +34,13 @@ struct DeviceApproveView: View {
 
     @State private var userCode: String
 
-    @StateObject private var model = DeviceApproveViewModel()
+    @StateObject private var model: DeviceApproveViewModel
 
     @State private var showFailureAlert: Bool = false
 
-    init(userCode: String?) {
+    init(userCode: String?, model: DeviceApproveViewModel) {
         _userCode = State(initialValue: userCode ?? "")
+        _model = StateObject(wrappedValue: model)
     }
 
     var body: some View {
@@ -36,6 +51,7 @@ struct DeviceApproveView: View {
             title
             description
             accountCard
+            accountFlowLink
             if model.isUserLoggedIn {
                 codeField
             }
@@ -115,6 +131,19 @@ struct DeviceApproveView: View {
         )
     }
 
+    @ViewBuilder
+    private var accountFlowLink: some View {
+        if !model.isUserLoggedIn {
+            Button {
+                model.presentAccountFlow()
+            } label: {
+                Text(L10n.setupAccount)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundStyle(theme.primaryInteractive01)
+            }
+        }
+    }
+
     private var codeField: some View {
         TextField(L10n.deviceApproveCodePlaceholder, text: $userCode)
             .multilineTextAlignment(.center)
@@ -182,6 +211,6 @@ private struct CircleLogo: View {
 }
 
 #Preview {
-    DeviceApproveView(userCode: "12345")
+    DeviceApproveView(userCode: "12345", model: DeviceApproveViewModel(presentingViewController: UIViewController()))
         .environmentObject(Theme(previewTheme: .light))
 }
