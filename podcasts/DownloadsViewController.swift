@@ -274,7 +274,7 @@ class DownloadsViewController: PCViewController {
         }
         optionsPicker.addAction(action: cleanupAction)
 
-        optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
+        optionsPicker.present(from: self)
     }
 
     private func pauseAllDownloads() {

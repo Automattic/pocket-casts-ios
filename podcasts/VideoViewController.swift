@@ -211,7 +211,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
             options.addAction(action: skipToNextAction)
         }
 
-        options.show(statusBarStyle: preferredStatusBarStyle)
+        options.present(from: self)
     }
 
     // MARK: - Picture In Picture

@@ -141,19 +141,20 @@ extension BookmarkListViewModel {
     func showMoreOptions() {
         let optionPicker = OptionsPicker(title: nil)
 
+        let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.label, icon: "podcast-sort") { }
+        sortAction.submenu = { [weak self] in self?.makeSortOptionsPicker() }
+
         optionPicker.addActions([
             .init(label: L10n.selectBookmarks, icon: "option-multiselect") { [weak self] in
                 self?.toggleMultiSelection()
             },
-            .init(label: L10n.sortBy, secondaryLabel: sortOption.label, icon: "podcast-sort") { [weak self] in
-                self?.showSortOptions()
-            }
+            sortAction
         ])
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        optionPicker.present()
     }
 
-    func showSortOptions() {
+    func makeSortOptionsPicker() -> OptionsPicker {
         let optionPicker = OptionsPicker(title: L10n.sortBy)
         let currentSort = sortOption
 
@@ -163,7 +164,7 @@ extension BookmarkListViewModel {
             }
         }))
 
-        optionPicker.show(statusBarStyle: AppTheme.defaultStatusBarStyle())
+        return optionPicker
     }
 }
 
