@@ -84,12 +84,16 @@ class PodcastDetailViewModel {
 
     func subscribe() {
         guard let podcast else { return }
+        Analytics.track(.podcastScreenSubscribeTapped)
+        Analytics.track(.podcastSubscribed, properties: ["source": "podcast_screen", "uuid": podcast.uuid])
         isFollowing = true
         serverPodcastManager.subscribe(to: podcast.uuid, completion: nil)
     }
 
     func unsubscribe() {
         guard let podcast else { return }
+        Analytics.track(.podcastScreenUnsubscribeTapped)
+        Analytics.track(.podcastUnsubscribed, properties: ["source": "podcast_screen", "uuid": podcast.uuid])
         isFollowing = false
         podcastManager.unsubscribe(podcast: podcast)
     }

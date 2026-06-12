@@ -6,6 +6,7 @@ struct PlaylistsView: View {
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
     @State private var model = PlaylistsViewModel()
+    @State private var didTrackShown = false
 
     enum Layout {
         static let gridSize = CGFloat(496)
@@ -24,6 +25,11 @@ struct PlaylistsView: View {
         }
         .task {
             model.load()
+        }
+        .onChange(of: model.state) { _, newState in
+            guard !didTrackShown, newState != .loading else { return }
+            didTrackShown = true
+            Analytics.track(.filterListShown, properties: ["filter_count": model.playlists.count])
         }
     }
 

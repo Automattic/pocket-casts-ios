@@ -32,6 +32,11 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
         }
         .task {
             await model.load()
+            Analytics.track(.podcastsListShown, properties: [
+                "sort_order": "name",
+                "number_of_podcasts": model.items.filter { $0.podcast != nil }.count,
+                "number_of_folders": model.items.filter { $0.folder != nil }.count
+            ])
         }
     }
 
@@ -69,11 +74,17 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .frame(width: Layout.gridSize, height: Layout.gridSize)
                     }
                     .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        Analytics.track(.podcastsListPodcastTapped)
+                    })
                 } else if let folder = item.folder {
                     NavigationLink(value: folder) {
                         FolderCardView(folder: folder)
                     }
                     .buttonStyle(.card)
+                    .simultaneousGesture(TapGesture().onEnded {
+                        Analytics.track(.podcastsListFolderTapped)
+                    })
                 }
             }
         }

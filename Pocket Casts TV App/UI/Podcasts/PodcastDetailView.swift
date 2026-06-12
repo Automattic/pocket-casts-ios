@@ -45,6 +45,7 @@ struct PodcastDetailView: View {
         .onAppear { tabRouter.isShowingDetail = true }
         .onDisappear { tabRouter.isShowingDetail = false }
         .task {
+            Analytics.track(.podcastScreenShown, properties: ["uuid": model.podcastUuid])
             model.load()
         }
     }

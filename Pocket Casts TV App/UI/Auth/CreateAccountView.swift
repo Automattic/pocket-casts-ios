@@ -29,6 +29,7 @@ struct CreateAccountView: View {
     var body: some View {
         layout
             .task {
+                Analytics.track(.createAccountShown)
                 await pairing.start()
             }
             .onChange(of: pairing.state) {
@@ -48,6 +49,7 @@ struct CreateAccountView: View {
     }
 
     private func finish() {
+        Analytics.track(.userAccountCreated, properties: ["source": "qr_code"])
         dismiss()
         coordinator.state = .userSync
     }

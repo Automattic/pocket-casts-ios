@@ -11,6 +11,9 @@ enum AnalyticsSetup {
 
         if !Settings.analyticsOptOut() {
             adapters = [AnalyticsLoggingAdapter(), TracksAdapter()]
+#if DEBUG
+            adapters.append(AnalyticsOSLogAdapter())
+#endif
         }
 
         adapters.append(LiveAnalyticsStreamer())

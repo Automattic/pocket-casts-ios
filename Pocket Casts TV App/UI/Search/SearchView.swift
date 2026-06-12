@@ -4,6 +4,7 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
 
     @Bindable var model: ViewModel
     @State private var searchText = ""
+    @State private var didTrackShown = false
 
     var body: some View {
         NavigationStack {
@@ -39,6 +40,11 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             }
             .onChange(of: searchText) { _, newValue in
                 model.search(query: newValue)
+            }
+            .onAppear {
+                guard !didTrackShown else { return }
+                didTrackShown = true
+                Analytics.track(.searchShown, properties: ["source": "search"])
             }
         }
     }

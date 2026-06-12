@@ -41,7 +41,9 @@ struct PlaylistDetailView: View {
             Button(L10n.playlistPlayAllSheetButtonTitle, role: .confirm) {
                 model.buttonConfirmPlayPlaylistTapped()
             }
-            Button(L10n.cancel, role: .cancel) {}
+            Button(L10n.cancel, role: .cancel) {
+                Analytics.track(.filterPlayAllDismissed)
+            }
         } message: {
             Text(L10n.playlistPlayAllSheetDescription)
         }
@@ -50,6 +52,7 @@ struct PlaylistDetailView: View {
                 .ignoresSafeArea()
         }
         .task {
+            Analytics.track(.filterShown)
             model.load()
         }
     }

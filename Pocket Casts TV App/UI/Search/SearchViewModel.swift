@@ -109,6 +109,7 @@ class SearchViewModel: SearchableViewModel {
             guard !Task.isCancelled else { return }
             var uuids: Set<String> = []
             state = .searching
+            Analytics.track(.searchPerformed, properties: ["source": "search"])
             var combinedPodcastsResults: [CombinedSearchResultType] = []
             var suggestions: [String] = []
             do {

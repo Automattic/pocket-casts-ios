@@ -95,18 +95,22 @@ struct SignInView: View {
         }
         .onChange(of: model.state) {
             if case .finished = model.state {
-                finishSignIn()
+                finishSignIn(source: "password")
             }
         }
         .onChange(of: model.pairing.state) {
             if case .finished = model.pairing.state {
-                finishSignIn()
+                finishSignIn(source: "qr_code")
             }
+        }
+        .onAppear {
+            Analytics.track(.signInShown)
         }
         .background(Color.pcBackgroundBase)
     }
 
-    private func finishSignIn() {
+    private func finishSignIn(source: String) {
+        Analytics.track(.userSignedIn, properties: ["source": source])
         dismiss()
         coordinator.state = .userSync
     }
