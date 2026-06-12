@@ -23,7 +23,7 @@ struct EpisodeShowNotesView: View {
             content
         }
         .padding(80)
-        .frame(width: 862, height: 960, alignment: .topLeading)
+        .frame(width: 1200, height: 920, alignment: .topLeading)
         .task {
             await loadShowNotes()
         }
