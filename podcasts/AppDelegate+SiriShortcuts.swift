@@ -7,8 +7,6 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        handleContinue(userActivity)
-
         // This is temporary workaround to avoid the app handling the /pair urls as a share url until we implement the proper pair URL handling on 8.15
         // This will make the user to be redirected to the web page
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
@@ -18,6 +16,8 @@ extension AppDelegate {
                 return false
             }
         }
+
+        handleContinue(userActivity)
 
         return true
     }
