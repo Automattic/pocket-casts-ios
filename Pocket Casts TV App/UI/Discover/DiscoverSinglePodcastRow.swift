@@ -7,8 +7,8 @@ struct DiscoverSinglePodcastRow: View {
 
     private let callback: ((String?)->())?
 
-    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+    init(item: DiscoverItem, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item, source: source))
         self.callback = callback
     }
 
@@ -27,6 +27,7 @@ struct DiscoverSinglePodcastRow: View {
             await model.load()
             await MainActor.run {
                 callback?(model.title)
+                model.trackImpression()
             }
         }
     }
@@ -47,6 +48,9 @@ struct DiscoverSinglePodcastRow: View {
                     }
                     .setFocus(section: model.focusStoreID)
                     .buttonStyle(ChromelessButtonStyle())
+                    .simultaneousGesture(TapGesture().onEnded {
+                        model.trackPodcastTapped(podcast)
+                    })
                 }
             })
         }

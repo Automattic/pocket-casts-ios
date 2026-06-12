@@ -31,12 +31,34 @@ struct DiscoverSection {
     let subtitle: String?
     let podcasts: [DiscoverPodcast]
     let sponsoredPodcastsIDs: Set<String>
+    /// Analytics list identifier for the section, used by the `discover_list_*` events.
+    let listId: String?
 
-    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = []) {
+    init(title: String? = nil, subtitle: String? = nil, podcasts: [DiscoverPodcast] = [], sponsoredPodcastsIDs: Set<String> = [], listId: String? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.podcasts = podcasts
         self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
+        self.listId = listId
+    }
+}
+
+struct DiscoverEpisodesSection {
+    let episodes: [DiscoverEpisode]
+    /// Analytics list identifier for the section, used by the `discover_list_*` events.
+    let listId: String?
+
+    init(episodes: [DiscoverEpisode] = [], listId: String? = nil) {
+        self.episodes = episodes
+        self.listId = listId
+    }
+}
+
+extension DiscoverItem {
+    /// Resolves the analytics `list_id` for a section, matching the iOS scheme:
+    /// the item's uuid, falling back to the collection's `list_id`, then the item's id.
+    func listId(collection: PodcastCollection?) -> String? {
+        uuid ?? collection?.listId ?? id
     }
 }
 
@@ -86,14 +108,15 @@ actor DiscoverManager {
 
     func loadDiscoverSection(sourceItem: DiscoverItem) async -> DiscoverSection {
         guard  let discoverLayout = await getLayout(), let source = sourceItem.source else {
-            return DiscoverSection(title: nil, podcasts: [])
+            return DiscoverSection(title: nil, podcasts: [], listId: sourceItem.listId(collection: nil))
         }
         let regionCode = regionCode(for: discoverLayout)
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
 
         let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: regionSource, authenticated: sourceItem.authenticated)
+        let listId = sourceItem.listId(collection: podcastCollection)
         guard var listOfPodcasts = podcastCollection?.podcasts else {
-            return DiscoverSection(title: podcastCollection?.title, podcasts: [])
+            return DiscoverSection(title: podcastCollection?.title, podcasts: [], listId: listId)
         }
 
         let sponsoredPodcasts = await loadSponsoredPodcasts(item: sourceItem)
@@ -103,7 +126,7 @@ actor DiscoverManager {
             }
         }
 
-        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})))
+        return DiscoverSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, podcasts: listOfPodcasts, sponsoredPodcastsIDs: Set(sponsoredPodcasts.values.compactMap({$0.uuid})), listId: listId)
     }
 
     func findItem(of type: DiscoverType) async -> DiscoverItem? {
@@ -177,23 +200,31 @@ actor DiscoverManager {
         return resultPodcasts
     }
 
-    func loadDiscoverEpisodesSection(type: DiscoverType) async -> [DiscoverEpisode] {
+    func currentRegion() async -> String? {
+        guard let discoverLayout = await getLayout() else {
+            return nil
+        }
+        return Settings.discoverRegion(discoverLayout: discoverLayout)
+    }
+
+    func loadDiscoverEpisodesSection(type: DiscoverType) async -> DiscoverEpisodesSection {
         guard let sourceItem = await findItem(of: type) else {
-            return []
+            return DiscoverEpisodesSection()
         }
         return await loadDiscoverEpisodesSection(item: sourceItem)
     }
 
-    func loadDiscoverEpisodesSection(item: DiscoverItem) async -> [DiscoverEpisode] {
+    func loadDiscoverEpisodesSection(item: DiscoverItem) async -> DiscoverEpisodesSection {
         guard let source = item.source else {
-            return []
+            return DiscoverEpisodesSection(listId: item.listId(collection: nil))
         }
         let podcastCollection = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated)
+        let listId = item.listId(collection: podcastCollection)
         guard let listOfEpisodes = podcastCollection?.episodes else {
-            return []
+            return DiscoverEpisodesSection(listId: listId)
         }
 
-        return listOfEpisodes
+        return DiscoverEpisodesSection(episodes: listOfEpisodes, listId: listId)
     }
 
     func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
