@@ -6118,11 +6118,11 @@
 /* tv podcast more info next episode label */
 "tv_podcast_detail_next_episode" = "Next episode";
 
-/* tv episode row action that opens the episode description modal. The leading ⓘ glyph stands in for an SF Symbol since tvOS .confirmationDialog strips Labels' images. */
-"tv_episode_show_notes_action" = "ⓘ  Episode description";
+/* tv episode row action that opens the episode details modal. The leading ⓘ glyph stands in for an SF Symbol since tvOS .confirmationDialog strips Labels' images. */
+"tv_episode_show_notes_action" = "ⓘ  Episode details";
 
-/* tv title shown above the rendered HTML episode description inside the modal */
-"tv_episode_show_notes_title" = "Episode description";
+/* tv title shown above the rendered HTML episode description inside the episode details modal */
+"tv_episode_show_notes_title" = "Episode details";
 
 /* tv fallback message shown inside the modal while the episode description is being fetched */
 "tv_episode_show_notes_loading" = "Loading episode description…";

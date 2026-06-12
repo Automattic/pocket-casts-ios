@@ -18,7 +18,7 @@ struct EpisodeShowNotesView: View {
         VStack(alignment: .leading, spacing: 32) {
             header
             Text(L10n.tvEpisodeShowNotesTitle)
-                .font(.title3)
+                .font(.headline)
                 .foregroundStyle(Color.pcTextPrimary)
             content
         }
@@ -31,9 +31,9 @@ struct EpisodeShowNotesView: View {
 
     @ViewBuilder
     private var header: some View {
-        HStack(alignment: .top, spacing: 40) {
+        HStack(alignment: .top, spacing: 32) {
             artwork
-                .frame(width: 200, height: 200)
+                .frame(width: 160, height: 160)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 8) {
                 if let podcastTitle = podcast?.title {
