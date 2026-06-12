@@ -109,6 +109,7 @@ struct PodcastDetailView: View {
                     .font(.caption2)
                 }
                 Button() {
+                    Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": true])
                     isShowingMoreInfo = true
                 } label: {
                     Text(L10n.tvPodcastDetailMoreInfoTitle)
