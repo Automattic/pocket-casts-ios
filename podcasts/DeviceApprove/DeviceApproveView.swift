@@ -59,7 +59,7 @@ struct DeviceApproveView: View {
         HStack {
             Spacer()
             CircleLogo(name: "smallPCLogo", size: CGSize(width: 24, height: 24))
-            Image("more")
+            Image("connectDots")
                 .renderingMode(.template)
                 .foregroundStyle(theme.primaryUi05)
             CircleLogo(name: "appleTVLogo", size: CGSize(width: 40, height: 20))
