@@ -23,7 +23,7 @@ struct EpisodeShowNotesView: View {
             content
         }
         .padding(80)
-        .frame(width: 862, alignment: .topLeading)
+        .frame(width: 862, height: 960, alignment: .topLeading)
         .task {
             await loadShowNotes()
         }
@@ -42,7 +42,7 @@ struct EpisodeShowNotesView: View {
                         .foregroundStyle(Color.pcTextSecondary)
                 }
                 Text(episode.displayableTitle())
-                    .font(.headline)
+                    .font(.body)
                     .foregroundStyle(Color.pcTextPrimary)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(metadataLine)
@@ -67,12 +67,12 @@ struct EpisodeShowNotesView: View {
     private var content: some View {
         if let showNotes {
             // `UITextView` with `isScrollEnabled = true` reports no intrinsic
-            // height, so without an explicit frame the modal collapses to just
-            // the header. The fixed height gives the text view a real frame to
-            // render and scroll within.
+            // height, so it relies on the parent's fixed frame to know what
+            // area it can render and scroll within. `maxHeight: .infinity`
+            // makes it absorb whatever space the header leaves inside the
+            // modal's fixed outer height.
             ShowNotesWebView(html: showNotes)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: 720)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         } else {
             HStack(spacing: 16) {
                 ProgressView()
