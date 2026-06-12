@@ -87,12 +87,6 @@ struct ProfileMenuView: View {
                     .frame(minWidth: 400)
             }
             Button {
-                // Files destination not yet implemented for TV
-            } label: {
-                Text(L10n.files)
-                    .frame(minWidth: 400)
-            }
-            Button {
                 onProfileSelected(.history)
             } label: {
                 Text(L10n.listeningHistory)
