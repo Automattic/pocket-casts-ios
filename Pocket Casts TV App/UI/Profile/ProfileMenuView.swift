@@ -70,13 +70,7 @@ struct ProfileMenuView: View {
             } label: {
                 Text(L10n.tvProfileMenuStarredEpisodes)
                     .frame(minWidth: 400)
-            }
-            Button {
-                // Files destination not yet implemented for TV
-            } label: {
-                Text(L10n.files)
-                    .frame(minWidth: 400)
-            }
+            }            
             Button {
                 onProfileSelected(.history)
             } label: {
