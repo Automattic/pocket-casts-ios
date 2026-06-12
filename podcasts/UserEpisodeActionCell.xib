@@ -42,7 +42,7 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="TqZ-tP-wzo" firstAttribute="leading" secondItem="qBR-tJ-Mzf" secondAttribute="trailing" constant="30" id="GUz-Z7-rCG"/>
+                    <constraint firstItem="TqZ-tP-wzo" firstAttribute="leading" secondItem="qBR-tJ-Mzf" secondAttribute="trailing" constant="16" id="GUz-Z7-rCG"/>
                     <constraint firstItem="3U3-HS-2I2" firstAttribute="leading" secondItem="TqZ-tP-wzo" secondAttribute="trailing" constant="8" id="Lpa-Og-3am"/>
                     <constraint firstItem="TqZ-tP-wzo" firstAttribute="centerY" secondItem="qBR-tJ-Mzf" secondAttribute="centerY" id="PCC-lx-E89"/>
                     <constraint firstItem="3U3-HS-2I2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="g44-zE-ZiY"/>

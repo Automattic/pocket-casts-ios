@@ -62,7 +62,7 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
             cell.titleLabel.text = L10n.delete
             cell.titleLabel.style = .support05
             cell.actionImage?.image = UIImage(named: "delete")
-            cell.actionImage?.tintColor = ThemeColor.primaryIcon01()
+            cell.actionImage?.tintColor = ThemeColor.support05(for: themeOverride)
         case .cancelUpload:
             cell.titleLabel.text = L10n.customEpisodeCancelUpload
             cell.titleLabel.style = .primaryText01
@@ -83,39 +83,40 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
 
         switch tableRow {
         case .bookmarks:
+            close()
             delegate?.showBookmarks(userEpisode: episode)
-            animateOut()
 
         case .download:
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "download"])
             PlaybackActionHelper.download(episodeUuid: episode.uuid)
-            animateOut()
+            close()
         case .cancelDownload:
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "cancel_download"])
             PlaybackActionHelper.stopDownload(episodeUuid: episode.uuid)
-            animateOut()
+            close()
         case .upload:
             if SubscriptionHelper.hasActiveSubscription() {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload"])
                 PlaybackActionHelper.upload(episodeUuid: episode.uuid)
-                animateOut()
+                close()
             } else {
-                animateOut()
-                delegate?.showUpgradeRequired()
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "upload_upgrade_required"])
+                close()
+                delegate?.showUpgradeRequired()
             }
         case .cancelUpload:
             PlaybackActionHelper.stopUpload(episodeUuid: episode.uuid)
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "cancel_upload"])
-            animateOut()
+            close()
         case .removeFromCloud:
             UserEpisodeManager.deleteFromCloud(episode: episode)
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete_from_cloud"])
-            animateOut()
+            close()
         case .upNext:
             if PlaybackManager.shared.inUpNext(episode: episode) {
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "up_next_delete"])
                 PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: true)
+                close()
             } else {
                 let addToUpNextPicker = OptionsPicker(title: L10n.addToUpNext.localizedUppercase)
                 let playNextAction = OptionAction(label: L10n.playNext, icon: "list_playnext") {
@@ -130,9 +131,14 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
                 }
                 addToUpNextPicker.addAction(action: playLastAction)
 
-                addToUpNextPicker.show(statusBarStyle: preferredStatusBarStyle)
+                let presentingVC = presentingViewController
+                close()
+                if let presentingVC {
+                    addToUpNextPicker.present(from: presentingVC)
+                } else {
+                    assertionFailure("Missing presenting view controller")
+                }
             }
-            animateOut()
         case .markAsPlayed:
             AnalyticsEpisodeHelper.shared.currentSource = analyticsSource
 
@@ -143,15 +149,15 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
                 Analytics.track(.userFileDetailOptionTapped, properties: ["option": "mark_played"])
                 EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
             }
-            animateOut()
+            close()
         case .editDetails:
-            animateOut()
-            delegate?.showEdit(userEpisode: episode)
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "edit"])
+            close()
+            delegate?.showEdit(userEpisode: episode)
         case .delete:
-            animateOut()
-            delegate?.showDeleteConfirmation(userEpisode: episode)
             Analytics.track(.userFileDetailOptionTapped, properties: ["option": "delete"])
+            close()
+            delegate?.showDeleteConfirmation(userEpisode: episode)
         }
     }
 
@@ -183,13 +189,13 @@ extension UserEpisodeDetailViewController: UITableViewDelegate, UITableViewDataS
         if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
             // dismiss the dialog if the user hit play
             if !PlaybackManager.shared.playing() {
-                animateOut()
+                close()
             }
 
             PlaybackActionHelper.playPause()
         } else {
             PlaybackActionHelper.play(episode: episode, playlist: playlist)
-            animateOut()
+            close()
         }
     }
 }
