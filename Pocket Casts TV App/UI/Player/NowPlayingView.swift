@@ -94,7 +94,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
 
     private static let episodeDescriptionActionIdentifier = UIAction.Identifier("com.pocketcasts.tv.episodeDescription")
 
-    /// Appends an "Episode description" action to the player's default Info tab
+    /// Appends an "Episode details" action to the player's default Info tab
     /// alongside the system-provided "Play from Beginning" entry. Identifier-
     /// keyed so repeated `updateUIViewController` calls don't stack duplicates.
     /// The handler flips a SwiftUI `@Binding` rather than calling
@@ -113,7 +113,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         ) { _ in
             isShowingDescription = true
         }
-        // Prepend so "Episode description" appears above the system's default
+        // Prepend so "Episode details" appears above the system's default
         // "Play from Beginning" entry in the Info tab.
         playerViewController.infoViewActions = [action] + current
     }
