@@ -6347,4 +6347,28 @@
 "tv_tab_now_playing" = "Now Playing";
 
 
+/* Title on the screen prompting the user to approve pairing their account with an Apple TV. */
+"device_approve_title" = "Connect to Apple TV";
+
+/* Description on the device approval screen explaining that listening will sync and can be disconnected from Settings. */
+"device_approve_description" = "Your listening will sync automatically.\nYou can disconnect at any time from Settings.";
+
+/* Placeholder text for the text field where the user enters the pairing code shown on their Apple TV. */
+"device_approve_code_placeholder" = "Insert code";
+
+/* Button title to confirm pairing the account with the Apple TV. */
+"device_approve_connect_button" = "Connect";
+
+/* Label shown above the user's email on the device approval screen, indicating which account is being used to sign in. */
+"device_approve_signing_in_as" = "Signing in as...";
+
+/* Message shown on the device approval screen when the user is not logged in, prompting them to sign in or create an account before connecting their device. */
+"device_approve_login_required" = "In order to connect your device you need to have an account. Please sign in or create an account and try again.";
+
+/* Title of the alert shown when the pairing code (QR code) the user entered has expired. */
+"device_approve_expired_alert_title" = "Your QR code expired";
+
+/* Message of the alert shown when the pairing code has expired, telling the user to generate a new code on their TV. */
+"device_approve_expired_alert_message" = "Please go back to your TV to generate a new one.";
+
 

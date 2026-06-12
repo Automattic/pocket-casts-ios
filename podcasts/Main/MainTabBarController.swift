@@ -594,6 +594,12 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         }
     }
 
+    func showApproveDevice(code: String?) {
+        guard let controller = view.window?.rootViewController else { return }
+        let vc = ThemedHostingController(rootView: DeviceApproveView(userCode: code))
+        controller.present(vc, animated: true)
+    }
+
     func navigateToFilterTab() {
         switchToTab(.filter)
     }
