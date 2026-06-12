@@ -50,13 +50,15 @@ struct DeviceApproveView: View {
             logos
             title
             description
-            accountCard
-            accountFlowLink
             if model.isUserLoggedIn {
+                accountCard
                 codeField
             }
             Spacer()
             actionButton
+        }
+        .overlay(alignment: .topTrailing) {
+            closeButton
         }
         .padding()
         .onAppear() {
@@ -91,15 +93,15 @@ struct DeviceApproveView: View {
     }
 
     private var description: some View {
-        Text(L10n.deviceApproveDescription)
+        Text(model.isUserLoggedIn ? L10n.deviceApproveDescription : L10n.deviceApproveLoginRequired)
             .font(size: 15, style: .caption, weight: .regular)
             .multilineTextAlignment(.center)
             .foregroundStyle(theme.primaryText02)
     }
 
+    @ViewBuilder
     private var accountCard: some View {
         HStack(alignment: .center, spacing: 16) {
-            if model.isUserLoggedIn {
                 ProfileImage(email: model.email)
                     .frame(width: 48, height: 48)
                     .clipShape(Circle())
@@ -113,12 +115,6 @@ struct DeviceApproveView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(theme.primaryText01)
                 }
-            } else {
-                Text(L10n.deviceApproveLoginRequired)
-                    .font(size: 15, style: .caption, weight: .regular)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(theme.primaryText02)
-            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -129,19 +125,6 @@ struct DeviceApproveView: View {
                 .inset(by: 0.5)
                 .stroke(theme.primaryUi05, lineWidth: 1)
         )
-    }
-
-    @ViewBuilder
-    private var accountFlowLink: some View {
-        if !model.isUserLoggedIn {
-            Button {
-                model.presentAccountFlow()
-            } label: {
-                Text(L10n.setupAccount)
-                    .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(theme.primaryInteractive01)
-            }
-        }
     }
 
     private var codeField: some View {
@@ -174,13 +157,30 @@ struct DeviceApproveView: View {
                     }
                 }
             } else {
-                dismiss()
-                Analytics.track(.deviceApproveDismissed)
+                Analytics.track(.deviceSetupAccountTapped)
+                model.presentAccountFlow()
             }
         } label: {
-            Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.close)
+            Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.setupAccount)
                 .textStyle(RoundedButton())
         }
+    }
+
+    private var closeButton: some View {
+        Button() {
+            Analytics.track(.deviceApproveDismissed)
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(theme.primaryUi01)
+                .frame(width: 32, height: 32)
+                .background(theme.primaryInteractive01)
+                .clipShape(Circle())
+        }
+        .accessibilityLabel(L10n.close)
+        .padding(.top, 16)
+        .padding(.trailing, 16)
     }
 }
 
