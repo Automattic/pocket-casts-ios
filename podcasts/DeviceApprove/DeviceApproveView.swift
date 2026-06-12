@@ -161,7 +161,7 @@ struct DeviceApproveView: View {
                     Analytics.track(.deviceApproveConnectTapped)
                     let result = try? await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
                     if result?.success == true {
-                        Analytics.track(.deviceApproveSuccessfull)
+                        Analytics.track(.deviceApproveSuccessful)
                         showSuccessAlert = true
                     } else {
                         Analytics.track(.deviceApproveFailed)
