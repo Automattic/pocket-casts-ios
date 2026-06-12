@@ -14,6 +14,16 @@ enum SearchScope: CaseIterable {
             return L10n.episodes
         }
     }
+
+    /// Matches the iOS `SearchResultsListView.DisplayMode` analytics values.
+    var analyticsDescription: String {
+        switch self {
+        case .podcasts:
+            return "podcasts"
+        case .episodes:
+            return "episodes"
+        }
+    }
 }
 
 enum SearchState {
