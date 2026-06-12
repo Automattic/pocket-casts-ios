@@ -172,6 +172,9 @@ struct OnboardingFlow: AnalyticsSourceProvider {
 
         case encourageAccountCreation = "encourage_account_creation"
 
+        /// When approving a tv device login
+        case deviceApproval = "device_approval"
+
         var analyticsDescription: String { rawValue }
 
         /// If after a successful sign in or sign up the onboarding flow

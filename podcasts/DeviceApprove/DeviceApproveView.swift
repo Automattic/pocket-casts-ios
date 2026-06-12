@@ -1,5 +1,6 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
 
 class DeviceApproveViewModel: ObservableObject {
 
@@ -12,8 +13,8 @@ class DeviceApproveViewModel: ObservableObject {
     }
 
     func presentAccountFlow() {
-        let controller = OnboardingFlow.shared.begin(flow: .none, source: .onboarding, accountCreated: { created in
-            print("Account created:\(created)")
+        let controller = OnboardingFlow.shared.begin(flow: .deviceApproval, source: .deviceApproval, accountCreated: { created in
+            FileLog.shared.addMessage("Account created:\(created)")
         })
         let baseVC = presentingViewController.presentedViewController ?? presentingViewController
         baseVC.present(controller, animated: true)
@@ -37,6 +38,8 @@ struct DeviceApproveView: View {
     @StateObject private var model: DeviceApproveViewModel
 
     @State private var showFailureAlert: Bool = false
+
+    @State private var showSuccessAlert: Bool = false
 
     init(userCode: String?, model: DeviceApproveViewModel) {
         _userCode = State(initialValue: userCode ?? "")
@@ -70,6 +73,13 @@ struct DeviceApproveView: View {
             }
         } message: {
             Text(L10n.deviceApproveExpiredAlertMessage)
+        }
+        .alert(L10n.deviceApproveSuccessAlertTitle, isPresented: $showSuccessAlert) {
+            Button(L10n.ok, role: .cancel) {
+                dismiss()
+            }
+        } message: {
+            Text(L10n.deviceApproveSuccessAlertMessage)
         }
     }
 
@@ -149,10 +159,17 @@ struct DeviceApproveView: View {
             if model.isUserLoggedIn {
                 Task {
                     Analytics.track(.deviceApproveConnectTapped)
-                    let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
-                    if result.success {
-                        dismiss()
-                    } else {
+                    do {
+                        let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
+                        if result.success {
+                            Analytics.track(.deviceApproveSuccessfull)
+                            showSuccessAlert = true
+                        } else {
+                            Analytics.track(.deviceApproveFailed)
+                            showFailureAlert = true
+                        }
+                    } catch {
+                        Analytics.track(.deviceApproveFailed)
                         showFailureAlert = true
                     }
                 }
