@@ -14,12 +14,11 @@ extension AppDelegate {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             if let incomingURL = userActivity.webpageURL,
                let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
-               let path = components.path
-                path.startsWith(string: "/pair") {
+               let path = components.path, path.startsWith(string: "/pair") {
                 return false
             }
         }
-        
+
         return true
     }
 
