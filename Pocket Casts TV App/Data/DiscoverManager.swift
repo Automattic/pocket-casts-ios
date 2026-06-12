@@ -51,13 +51,20 @@ actor DiscoverManager {
     }
 
     private var cachedLayout: DiscoverLayout?
+    private var layoutFetchTask: Task<(DiscoverLayout?, Bool), Never>?
 
     private func getLayout() async -> DiscoverLayout? {
-        if cachedLayout != nil {
+        if let cachedLayout {
             return cachedLayout
         }
 
-        let (result, _) = await discoverServerHandler.discoverPage()
+        let task = layoutFetchTask ?? Task {
+            await discoverServerHandler.discoverPage()
+        }
+        layoutFetchTask = task
+        let (result, _) = await task.value
+        layoutFetchTask = nil
+
         guard let layout = result else {
             return nil
         }
