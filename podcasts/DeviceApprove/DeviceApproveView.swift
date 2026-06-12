@@ -159,16 +159,11 @@ struct DeviceApproveView: View {
             if model.isUserLoggedIn {
                 Task {
                     Analytics.track(.deviceApproveConnectTapped)
-                    do {
-                        let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
-                        if result.success {
-                            Analytics.track(.deviceApproveSuccessfull)
-                            showSuccessAlert = true
-                        } else {
-                            Analytics.track(.deviceApproveFailed)
-                            showFailureAlert = true
-                        }
-                    } catch {
+                    let result = try? await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
+                    if result?.success == true {
+                        Analytics.track(.deviceApproveSuccessfull)
+                        showSuccessAlert = true
+                    } else {
                         Analytics.track(.deviceApproveFailed)
                         showFailureAlert = true
                     }
