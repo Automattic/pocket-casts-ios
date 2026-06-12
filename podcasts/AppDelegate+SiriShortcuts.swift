@@ -43,6 +43,12 @@ extension AppDelegate {
                 return
             }
 
+            // This is temporary workaround to avoid the app handling the /pair urls as a share url until we implement the proper pair URL handling on 8.15
+            // This will make the user to be redirected to the web page
+            if path.startsWith(string: "/pair") {
+                return
+            }
+
             if path.startsWith(string: "/redeem") {
                 handleReferralsDeepLink(url: incomingURL)
                 return
