@@ -195,7 +195,7 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     private func skipForwardLongPressed() {
         guard let episode = PlaybackManager.shared.currentEpisode() else { return }
 
-        let options = OptionsPicker(title: nil, themeOverride: .dark, portraitOnly: false)
+        let options = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
             AnalyticsEpisodeHelper.shared.currentSource = .videoPlayerSkipForwardLongPress

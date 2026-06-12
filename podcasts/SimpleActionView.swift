@@ -199,16 +199,13 @@ class SimpleActionView: UIView {
         } else if let submenu = action.submenu?(), let delegate {
             action.action()
             submenu.present(from: delegate)
-        } else if delegate?.isPresentedAsSheet == true {
+        } else {
             // The sheet is a real presented view controller. Start its
             // dismissal *before* running the action so that an action which
             // presents another screen doesn't hit "already presenting" — this
             // lets UIKit serialize the dismiss and the new presentation.
             delegate?.animateOut(optionChosen: true)
             action.action()
-        } else {
-            action.action()
-            delegate?.animateOut(optionChosen: true)
         }
     }
 
