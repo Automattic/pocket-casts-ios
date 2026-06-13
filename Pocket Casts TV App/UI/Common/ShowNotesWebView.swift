@@ -56,12 +56,16 @@ private struct ShowNotesAttributedTextView: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.attributedText = makeAttributedString()
+        textView.tag = html.hashValue
         coordinator.textView = textView
         return textView
     }
 
     func updateUIView(_ textView: UITextView, context: Context) {
-        textView.attributedText = makeAttributedString()
+        if textView.tag != html.hashValue {
+            textView.attributedText = makeAttributedString()
+            textView.tag = html.hashValue
+        }
         coordinator.textView = textView
     }
 
