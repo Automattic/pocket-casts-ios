@@ -1,6 +1,7 @@
 import SwiftUI
 import PocketCastsServer
 import PocketCastsUtils
+import UIKit
 
 class DeviceApproveViewModel: ObservableObject {
 
