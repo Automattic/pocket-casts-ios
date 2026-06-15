@@ -61,7 +61,7 @@ struct DeviceApproveView: View {
             Spacer()
             actionButton
         }
-        .overlay(alignment: .topTrailing) {
+        .overlay(alignment: .topLeading) {
             closeButton
         }
         .padding()
@@ -193,7 +193,7 @@ struct DeviceApproveView: View {
         }
         .accessibilityLabel(L10n.close)
         .padding(.top, 16)
-        .padding(.trailing, 16)
+        .padding(.leading, 16)
     }
 }
 
