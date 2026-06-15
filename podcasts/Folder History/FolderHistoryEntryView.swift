@@ -51,7 +51,7 @@ struct FolderHistoryEntryView: View {
                 .listRowSeparatorTint(theme.primaryUi05)
             }
         }
-        .modifier(HiddenScrollContentBackground())
+        .scrollContentBackground(.hidden)
         .background(theme.primaryUi04)
         .onAppear { model.loadFoldersHistory(for: entryDate) }
         .navigationTitle("\(entryDate.formatted())")
