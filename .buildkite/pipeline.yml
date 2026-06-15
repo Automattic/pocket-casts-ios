@@ -68,6 +68,13 @@ steps:
         agents:
           queue: "linter"
 
+      # Guards that the theme generator keeps working in Xcode build phases,
+      # which run with an empty environment and possibly only system Ruby.
+      - label: ":ruby: Theme Generator under System Ruby"
+        command: env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
+        agents:
+          queue: mac
+
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
           if .buildkite/commands/should-skip-job.sh --job-type localization; then

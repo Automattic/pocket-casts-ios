@@ -113,13 +113,15 @@ File.truncate(file_path_colors, 0) if File.exist?(file_path_colors)
 File.truncate(file_path_styles, 0) if File.exist?(file_path_styles)
 
 File.write(file_path_colors,
-           "import PocketCastsUtils\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nstruct ThemeColor {\n", mode: 'a')
+           "import PocketCastsUtils\nimport PocketCastsServer\nimport UIKit\n\n// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nstruct ThemeColor {\n", mode: 'a')
 File.write(file_path_styles, "// ************ WARNING AUTO GENERATED, DO NOT EDIT ************\nenum ThemeStyle {\n",
            mode: 'a')
 
 index = 0
 all_token_names = []
-CSV.foreach(ARGV[0]) do |row|
+# Explicit encoding so the script works in locale-less environments
+# (e.g. Xcode build phases), where Ruby defaults to US-ASCII.
+CSV.foreach(ARGV[0], encoding: 'bom|utf-8') do |row|
   token_name = row[0]
 
   light_hex_value = row[2]
@@ -257,7 +259,8 @@ all_token_names.each do |token|
   File.write(file_path_colors, token_str, mode: 'a')
 end
 
-File.write(file_path_colors, '}', mode: 'a')
+File.truncate(file_path_colors, File.size(file_path_colors) - 1) # collapse the blank line left by the last token
+File.write(file_path_colors, "}\n", mode: 'a')
 
 File.truncate(file_path_styles, File.size(file_path_styles) - 2) # remove the trailing comma
 File.write(file_path_styles, "\n}\n", mode: 'a')
