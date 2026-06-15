@@ -71,6 +71,9 @@ extension UIColor {
 
     static let pcTextPrimary = appearance(light: "#161718", dark: "#FBFBFC")
 
+    // Brand pink used for links in rendered descriptions / show notes.
+    static let pcLink = UIColor(hex: "#F43769")
+
     static let pcBackgroundOverlay = appearance(light: "#FFFFFF", dark: "#323538")
 
     /// Resolves to `light` in light mode, otherwise `dark`.
