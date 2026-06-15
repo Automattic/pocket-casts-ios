@@ -1,7 +1,22 @@
 import SwiftUI
 import PocketCastsServer
+import PocketCastsUtils
+import UIKit
 
+@MainActor
 class DeviceApproveViewModel: ObservableObject {
+
+    @Published
+    var showSuccessAlert: Bool = false
+
+    @Published
+    var showFailureAlert: Bool = false
+
+    @Published
+    var errorMessage: String = ""
+
+    @Published
+    var errorTitle: String = ""
 
     var isUserLoggedIn: Bool {
         return SyncManager.isUserLoggedIn()
@@ -9,6 +24,52 @@ class DeviceApproveViewModel: ObservableObject {
 
     var email: String {
         return ServerSettings.syncingEmail() ?? ""
+    }
+
+    func presentAccountFlow() {
+        let controller = OnboardingFlow.shared.begin(flow: .deviceApproval, source: .deviceApproval, accountCreated: { created in
+            FileLog.shared.addMessage("Account created:\(created)")
+        })
+        let baseVC = presentingViewController.presentedViewController ?? presentingViewController
+        baseVC.present(controller, animated: true)
+    }
+
+    let presentingViewController: UIViewController
+
+    func actionButtonTapped(userCode: String) {
+        guard isUserLoggedIn else {
+            Analytics.track(.deviceSetupAccountTapped)
+            presentAccountFlow()
+            return
+        }
+        Task {
+            Analytics.track(.deviceApproveConnectTapped)
+            do {
+                let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
+                if result.success == true {
+                    Analytics.track(.deviceApproveSuccessful)
+                    showSuccessAlert = true
+                } else {
+                    Analytics.track(.deviceApproveFailed)
+                    errorTitle = L10n.deviceApproveExpiredAlertTitle
+                    errorMessage = L10n.deviceApproveExpiredAlertMessage
+                    showFailureAlert = true
+                }
+            } catch let error as APIError {
+                showFailureAlert = true
+                if error == APIError.INVALID_GRANT {
+                    errorTitle = L10n.deviceApproveExpiredAlertTitle
+                    errorMessage = L10n.deviceApproveExpiredAlertMessage
+                } else {
+                    errorTitle = L10n.deviceApproveGenericErrorAlertTitle
+                    errorMessage = L10n.pleaseTryAgainLater
+                }
+            }
+        }
+    }
+
+    init(presentingViewController: UIViewController) {
+        self.presentingViewController = presentingViewController
     }
 }
 
@@ -20,12 +81,11 @@ struct DeviceApproveView: View {
 
     @State private var userCode: String
 
-    @StateObject private var model = DeviceApproveViewModel()
+    @StateObject private var model: DeviceApproveViewModel
 
-    @State private var showFailureAlert: Bool = false
-
-    init(userCode: String?) {
+    init(userCode: String?, model: DeviceApproveViewModel) {
         _userCode = State(initialValue: userCode ?? "")
+        _model = StateObject(wrappedValue: model)
     }
 
     var body: some View {
@@ -33,25 +93,37 @@ struct DeviceApproveView: View {
             Spacer()
                 .frame(height: 100)
             logos
-            title
-            description
-            accountCard
+            VStack(spacing: 8) {
+                title
+                description
+            }
             if model.isUserLoggedIn {
+                accountCard
                 codeField
             }
             Spacer()
             actionButton
         }
+        .overlay(alignment: .topLeading) {
+            closeButton
+        }
         .padding()
         .onAppear() {
             Analytics.track(.deviceApproveShown)
         }
-        .alert(L10n.deviceApproveExpiredAlertTitle, isPresented: $showFailureAlert) {
+        .alert(model.errorTitle, isPresented: $model.showFailureAlert) {
             Button(L10n.ok, role: .cancel) {
                 dismiss()
             }
         } message: {
-            Text(L10n.deviceApproveExpiredAlertMessage)
+            Text(model.errorMessage)
+        }
+        .alert(L10n.deviceApproveSuccessAlertTitle, isPresented: $model.showSuccessAlert) {
+            Button(L10n.ok, role: .cancel) {
+                dismiss()
+            }
+        } message: {
+            Text(L10n.deviceApproveSuccessAlertMessage)
         }
     }
 
@@ -75,15 +147,15 @@ struct DeviceApproveView: View {
     }
 
     private var description: some View {
-        Text(L10n.deviceApproveDescription)
+        Text(model.isUserLoggedIn ? L10n.deviceApproveDescription : L10n.deviceApproveLoginRequired)
             .font(size: 15, style: .caption, weight: .regular)
             .multilineTextAlignment(.center)
             .foregroundStyle(theme.primaryText02)
     }
 
+    @ViewBuilder
     private var accountCard: some View {
         HStack(alignment: .center, spacing: 16) {
-            if model.isUserLoggedIn {
                 ProfileImage(email: model.email)
                     .frame(width: 48, height: 48)
                     .clipShape(Circle())
@@ -97,12 +169,6 @@ struct DeviceApproveView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(theme.primaryText01)
                 }
-            } else {
-                Text(L10n.deviceApproveLoginRequired)
-                    .font(size: 15, style: .caption, weight: .regular)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(theme.primaryText02)
-            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -134,25 +200,65 @@ struct DeviceApproveView: View {
 
     private var actionButton: some View {
         Button {
-            if model.isUserLoggedIn {
-                Task {
-                    Analytics.track(.deviceApproveConnectTapped)
-                    let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
-                    if result.success {
-                        dismiss()
-                    } else {
-                        showFailureAlert = true
-                    }
-                }
-            } else {
-                dismiss()
-                Analytics.track(.deviceApproveDismissed)
-            }
+            model.actionButtonTapped(userCode: userCode)
         } label: {
-            Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.close)
+            Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.setupAccount)
                 .textStyle(RoundedButton())
         }
     }
+
+    private var closeButton: some View {
+        Button() {
+            Analytics.track(.deviceApproveDismissed)
+            dismiss()
+        } label: {
+            Image("close")
+                .font(.system(size: 14, weight: .bold))
+                .frame(width: 44, height: 44)
+                .if(!isiOS26) { content in
+                    content
+                        .foregroundStyle(theme.primaryUi01)
+                        .background(theme.primaryInteractive01)
+                        .clipShape(Circle())
+                }
+                .if(isiOS26) { content in
+                    content
+                        .foregroundStyle(theme.primaryText01)
+                }
+        }
+        .glassStyle()
+        .accessibilityLabel(L10n.close)
+        .padding(.top, 16)
+        .padding(.leading, 16)
+    }
+
+    var isiOS26: Bool {
+        if #available(iOS 26.0, *) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+struct GlassButtonModifier: ViewModifier {
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .buttonStyle(.plain)
+                .glassEffect(.regular.interactive(), in: .circle)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func glassStyle()
+    -> some View {
+        modifier(GlassButtonModifier())
+  }
 }
 
 private struct CircleLogo: View {
@@ -182,6 +288,6 @@ private struct CircleLogo: View {
 }
 
 #Preview {
-    DeviceApproveView(userCode: "12345")
-        .environmentObject(Theme(previewTheme: .light))
+    DeviceApproveView(userCode: "12345", model: DeviceApproveViewModel(presentingViewController: UIViewController()))
+        .environmentObject(Theme(previewTheme: .dark))
 }

@@ -596,7 +596,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
 
     func showApproveDevice(code: String?) {
         guard let controller = view.window?.rootViewController else { return }
-        let vc = ThemedHostingController(rootView: DeviceApproveView(userCode: code))
+        let vc = ThemedHostingController(rootView: DeviceApproveView(userCode: code, model: DeviceApproveViewModel(presentingViewController: controller)))
         controller.present(vc, animated: true)
     }
 

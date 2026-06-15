@@ -1032,4 +1032,7 @@ enum AnalyticsEvent: String {
     case deviceApproveShown
     case deviceApproveConnectTapped
     case deviceApproveDismissed
+    case deviceSetupAccountTapped
+    case deviceApproveSuccessful
+    case deviceApproveFailed
 }
