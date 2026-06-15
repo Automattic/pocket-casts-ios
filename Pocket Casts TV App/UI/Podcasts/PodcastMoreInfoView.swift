@@ -98,6 +98,7 @@ struct PodcastMoreInfoView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PodcastMoreInfoView(podcast: {
         let podcast = MockData.makeStubPodcasts().first!
@@ -105,3 +106,4 @@ struct PodcastMoreInfoView: View {
         return podcast
     }())
 }
+#endif
