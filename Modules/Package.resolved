@@ -1,5 +1,5 @@
 {
-  "originHash" : "9432273f1581b26f58e9b33ef1f1ef4c2a45f288df5ddc2d6346db54e774597d",
+  "originHash" : "db741593a59d57d398e6bc2a2e7a6494331bf6b834530d25257eeca52aaa9856",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -42,7 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/Automattic-Tracks-iOS",
       "state" : {
-        "revision" : "5b648ab79fc1857d4a8fecc78b73505c2be6fbdd"
+        "revision" : "5b648ab79fc1857d4a8fecc78b73505c2be6fbdd",
+        "version" : "4.3.0"
       }
     },
     {
