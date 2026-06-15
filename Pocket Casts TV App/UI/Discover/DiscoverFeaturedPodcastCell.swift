@@ -9,6 +9,8 @@ struct DiscoverFeaturedPodcastCell: View {
 
     let podcast: DiscoverPodcast
     let sponsored: Bool
+    let listId: String?
+    let source: String
 
     @Environment(\.isFocused) var isFocused: Bool
 
@@ -20,9 +22,11 @@ struct DiscoverFeaturedPodcastCell: View {
         static let cardWidth = CGFloat(1604)
     }
 
-    init(podcast: DiscoverPodcast, sponsored: Bool = false) {
+    init(podcast: DiscoverPodcast, sponsored: Bool = false, listId: String? = nil, source: String = "") {
         self.podcast = podcast
         self.sponsored = sponsored
+        self.listId = listId
+        self.source = source
     }
 
     var body: some View {
@@ -76,6 +80,11 @@ struct DiscoverFeaturedPodcastCell: View {
                         NavigationLink(value: podcast) {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            if let listId, let podcastUuid = podcast.uuid {
+                                DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
+                            }
+                        })
                     }
                     .padding(.vertical, 24)
                 }

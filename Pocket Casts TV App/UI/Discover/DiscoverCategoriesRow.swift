@@ -10,8 +10,8 @@ struct DiscoverCategoriesRow: View {
 
     @State private var model: DiscoverCategoriesModel
 
-    init(popularOnly: Bool) {
-        _model = State(wrappedValue: DiscoverCategoriesModel(popularOnly: popularOnly))
+    init(popularOnly: Bool, source: String) {
+        _model = State(wrappedValue: DiscoverCategoriesModel(popularOnly: popularOnly, source: source))
     }
 
     var body: some View {
@@ -42,6 +42,9 @@ struct DiscoverCategoriesRow: View {
                         .buttonStyle(.card)
                         .setFocus(section: DiscoverType.categories.rawValue)
                         .padding(.vertical, 24)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            model.trackPillTapped(category)
+                        })
                     }
                 }
             })

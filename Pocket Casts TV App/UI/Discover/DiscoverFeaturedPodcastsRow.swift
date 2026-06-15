@@ -11,13 +11,13 @@ struct DiscoverFeaturedPodcastsRow: View {
 
     private let callback: ((String?)->())?
 
-    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(type: type))
+    init(type: DiscoverType, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(type: type, source: source))
         self.callback = callback
     }
 
-    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+    init(item: DiscoverItem, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item, source: source))
         self.callback = callback
     }
 
@@ -36,6 +36,7 @@ struct DiscoverFeaturedPodcastsRow: View {
             await model.load()
             await MainActor.run {
                 callback?(model.title)
+                model.trackImpression()
             }
         }
     }
@@ -47,7 +48,7 @@ struct DiscoverFeaturedPodcastsRow: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 48, content: {
                 ForEach(model.podcasts, id: \.uuid) { podcast in
-                    DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""))
+                    DiscoverFeaturedPodcastCell(podcast: podcast, sponsored: model.sponsored.contains(podcast.uuid ?? ""), listId: model.listId, source: model.source)
                         .setFocus(section: model.focusStoreID)
                         .id(podcast.uuid)
                         .focused($focusedID, equals: podcast.uuid)
