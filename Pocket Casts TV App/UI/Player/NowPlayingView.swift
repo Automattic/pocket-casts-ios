@@ -2,8 +2,23 @@ import SwiftUI
 import AVKit
 import PocketCastsDataModel
 
-struct NowPlayingView: UIViewControllerRepresentable {
+struct NowPlayingView: View {
     @State private var model = NowPlayingViewModel()
+    @State private var isShowingDescription = false
+
+    var body: some View {
+        NowPlayingPlayerRepresentable(model: model, isShowingDescription: $isShowingDescription)
+            .sheet(isPresented: $isShowingDescription) {
+                if let episode = model.episode {
+                    EpisodeShowNotesView(episode: episode, podcast: model.podcast)
+                }
+            }
+    }
+}
+
+private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
+    @Bindable var model: NowPlayingViewModel
+    @Binding var isShowingDescription: Bool
     @State private var isTransportBarVisible = true
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
@@ -66,6 +81,7 @@ struct NowPlayingView: UIViewControllerRepresentable {
             makePlaybackSpeedMenu(),
             makePlaybackEffectsMenu()
         ]
+        ensureEpisodeDescriptionInfoAction(on: uiViewController)
         // Suppress AVKit's system loading spinner while the player is still
         // preparing. Hiding playback controls also hides the spinner that
         // lives in the same transport overlay; our branded loading UI in
@@ -74,6 +90,32 @@ struct NowPlayingView: UIViewControllerRepresentable {
         if uiViewController.showsPlaybackControls != shouldShowControls {
             uiViewController.showsPlaybackControls = shouldShowControls
         }
+    }
+
+    private static let episodeDescriptionActionIdentifier = UIAction.Identifier("com.pocketcasts.tv.episodeDescription")
+
+    /// Appends an "Episode details" action to the player's default Info tab
+    /// alongside the system-provided "Play from Beginning" entry. Identifier-
+    /// keyed so repeated `updateUIViewController` calls don't stack duplicates.
+    /// The handler flips a SwiftUI `@Binding` rather than calling
+    /// `AVPlayerViewController.present(...)` directly — UIKit modal presentation
+    /// from inside an Info-tab action is unreliable on tvOS, so the parent
+    /// SwiftUI view owns the sheet instead.
+    private func ensureEpisodeDescriptionInfoAction(on playerViewController: AVPlayerViewController) {
+        let identifier = Self.episodeDescriptionActionIdentifier
+        let current = playerViewController.infoViewActions ?? []
+        guard !current.contains(where: { $0.identifier == identifier }) else { return }
+
+        let action = UIAction(
+            title: L10n.tvEpisodeShowNotesTitle,
+            image: UIImage(systemName: "info.circle"),
+            identifier: identifier
+        ) { _ in
+            isShowingDescription = true
+        }
+        // Prepend so "Episode details" appears above the system's default
+        // "Play from Beginning" entry in the Info tab.
+        playerViewController.infoViewActions = [action] + current
     }
 
     private func createMetadataItems() -> [AVMetadataItem] {
