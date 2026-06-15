@@ -66,46 +66,38 @@ private struct ScrollableTextRepresentable: UIViewRepresentable {
     }
 }
 
-/// Applies base font/colour, resolves `emphasisAttributeKey` into font traits, and
-/// colours links. Paragraph rhythm comes from the converter's blank lines, so list
+/// Applies base font/colour, resolves `.inlinePresentationIntent` into font traits, and
+/// underlines links. Paragraph rhythm comes from the converter's blank lines, so list
 /// items (single newlines) stay tight.
-private func themed(
-    _ semantic: NSAttributedString,
-    font: UIFont = .preferredFont(forTextStyle: .body),
-    textColor: UIColor = .pcTextPrimary,
-    linkColor: UIColor = .pcLink,
-    lineSpacing: CGFloat = 6
-) -> NSAttributedString {
+private func themed(_ semantic: NSAttributedString) -> NSAttributedString {
     let result = NSMutableAttributedString(attributedString: semantic)
     let fullRange = NSRange(location: 0, length: result.length)
     guard fullRange.length > 0 else { return result }
 
+    let font = UIFont.preferredFont(forTextStyle: .body)
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = lineSpacing
+    paragraphStyle.lineSpacing = 6
 
     result.addAttributes([
         .font: font,
-        .foregroundColor: textColor,
+        .foregroundColor: UIColor.pcTextPrimary,
         .paragraphStyle: paragraphStyle
     ], range: fullRange)
 
-    result.enumerateAttribute(HTMLToAttributedStringConverter.emphasisAttributeKey, in: fullRange) { value, range, _ in
-        guard let raw = (value as? NSNumber)?.intValue else { return }
-        let emphasis = HTMLToAttributedStringConverter.Emphasis(rawValue: raw)
+    result.enumerateAttribute(.inlinePresentationIntent, in: fullRange) { value, range, _ in
+        guard let intent = value as? InlinePresentationIntent else { return }
         var traits: UIFontDescriptor.SymbolicTraits = []
-        if emphasis.contains(.bold) { traits.insert(.traitBold) }
-        if emphasis.contains(.italic) { traits.insert(.traitItalic) }
+        if intent.contains(.stronglyEmphasized) { traits.insert(.traitBold) }
+        if intent.contains(.emphasized) { traits.insert(.traitItalic) }
         guard !traits.isEmpty,
               let descriptor = font.fontDescriptor.withSymbolicTraits(traits) else { return }
         result.addAttribute(.font, value: UIFont(descriptor: descriptor, size: font.pointSize), range: range)
     }
 
+    // Links keep the body colour; the underline is the only affordance.
     result.enumerateAttribute(.link, in: fullRange) { value, range, _ in
         guard value != nil else { return }
-        result.addAttributes([
-            .foregroundColor: linkColor,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ], range: range)
+        result.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
     }
 
     return result

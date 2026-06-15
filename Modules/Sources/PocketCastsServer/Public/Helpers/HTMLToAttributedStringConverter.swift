@@ -1,28 +1,15 @@
+#if os(iOS) || os(tvOS)
 import Foundation
 import SwiftSoup
 
 /// Converts podcast / episode description HTML into a *semantic* `NSAttributedString`:
-/// inline emphasis is tagged with ``emphasisAttributeKey``, links with `.link`, and
+/// inline emphasis is tagged with `.inlinePresentationIntent`, links with `.link`, and
 /// block structure (paragraphs, line breaks, list markers) becomes plain text. The UI
-/// layer applies fonts and colours, which keeps this converter UIKit-free and usable
-/// across platforms.
+/// layer applies fonts and colors, which keeps this converter UIKit-free.
 ///
 /// Avoids `NSAttributedString(documentType: .html)`, whose WebKit-backed importer is
 /// synchronous, main-thread-only, and hangs intermittently in production.
 public enum HTMLToAttributedStringConverter {
-
-    public struct Emphasis: OptionSet {
-        public let rawValue: Int
-        public init(rawValue: Int) { self.rawValue = rawValue }
-
-        public static let bold = Emphasis(rawValue: 1 << 0)
-        public static let italic = Emphasis(rawValue: 1 << 1)
-    }
-
-    /// Value is an `NSNumber` wrapping an ``Emphasis`` raw value. Deliberately not
-    /// Apple's `InlinePresentationIntent`, which requires macOS 12 (this package
-    /// targets 10.15).
-    public static let emphasisAttributeKey = NSAttributedString.Key("PCEmphasis")
 
     public static func attributedString(from html: String) -> NSAttributedString {
         guard !html.isEmpty else { return NSAttributedString() }
@@ -45,7 +32,7 @@ public enum HTMLToAttributedStringConverter {
         }
     }
 
-    public static func plainText(from html: String) -> String {
+    private static func plainText(from html: String) -> String {
         (try? SwiftSoup.parse(html).text()) ?? html
     }
 
@@ -61,13 +48,13 @@ public enum HTMLToAttributedStringConverter {
 }
 
 private struct InlineContext {
-    var emphasis: HTMLToAttributedStringConverter.Emphasis = []
+    var presentationIntent: InlinePresentationIntent = []
     var link: URL?
 
     var attributes: [NSAttributedString.Key: Any] {
         var attributes: [NSAttributedString.Key: Any] = [:]
-        if !emphasis.isEmpty {
-            attributes[HTMLToAttributedStringConverter.emphasisAttributeKey] = NSNumber(value: emphasis.rawValue)
+        if !presentationIntent.isEmpty {
+            attributes[.inlinePresentationIntent] = presentationIntent
         }
         if let link {
             attributes[.link] = link
@@ -133,11 +120,11 @@ private final class AttributedStringBuilder {
             }
         case "strong", "b":
             var context = context
-            context.emphasis.insert(.bold)
+            context.presentationIntent.insert(.stronglyEmphasized)
             try append(node: element, context: context)
         case "em", "i":
             var context = context
-            context.emphasis.insert(.italic)
+            context.presentationIntent.insert(.emphasized)
             try append(node: element, context: context)
         case "a":
             var context = context
@@ -166,7 +153,7 @@ private final class AttributedStringBuilder {
         case "h1", "h2", "h3", "h4", "h5", "h6":
             ensureBlockSeparation()
             var context = context
-            context.emphasis.insert(.bold)
+            context.presentationIntent.insert(.stronglyEmphasized)
             try append(node: element, context: context)
             ensureBlockSeparation()
         case "blockquote":
@@ -252,3 +239,4 @@ private enum ASCII {
         character == space || character == newline || character == tab || character == carriageReturn
     }
 }
+#endif

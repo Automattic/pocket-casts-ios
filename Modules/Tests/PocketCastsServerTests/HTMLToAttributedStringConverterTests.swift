@@ -12,12 +12,12 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
         attributed(html).string
     }
 
-    private func emphasis(_ attributed: NSAttributedString, at location: Int) -> HTMLToAttributedStringConverter.Emphasis {
+    private func intent(_ attributed: NSAttributedString, at location: Int) -> InlinePresentationIntent {
         guard location < attributed.length,
-              let raw = (attributed.attribute(HTMLToAttributedStringConverter.emphasisAttributeKey, at: location, effectiveRange: nil) as? NSNumber)?.intValue else {
+              let intent = attributed.attribute(.inlinePresentationIntent, at: location, effectiveRange: nil) as? InlinePresentationIntent else {
             return []
         }
-        return HTMLToAttributedStringConverter.Emphasis(rawValue: raw)
+        return intent
     }
 
     private func link(_ attributed: NSAttributedString, at location: Int) -> URL? {
@@ -71,33 +71,33 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
     func testBold() {
         let result = attributed("<strong>Hello</strong>")
         XCTAssertEqual(result.string, "Hello")
-        XCTAssertTrue(emphasis(result, at: 0).contains(.bold))
+        XCTAssertTrue(intent(result, at: 0).contains(.stronglyEmphasized))
 
-        XCTAssertTrue(emphasis(attributed("<b>Hello</b>"), at: 0).contains(.bold))
+        XCTAssertTrue(intent(attributed("<b>Hello</b>"), at: 0).contains(.stronglyEmphasized))
     }
 
     func testItalic() {
-        XCTAssertTrue(emphasis(attributed("<em>Hello</em>"), at: 0).contains(.italic))
-        XCTAssertTrue(emphasis(attributed("<i>Hello</i>"), at: 0).contains(.italic))
+        XCTAssertTrue(intent(attributed("<em>Hello</em>"), at: 0).contains(.emphasized))
+        XCTAssertTrue(intent(attributed("<i>Hello</i>"), at: 0).contains(.emphasized))
     }
 
     func testEmphasisAppliesOnlyToItsRun() {
         let result = attributed("a <b>b</b> c") // "a b c"
         XCTAssertEqual(result.string, "a b c")
-        XCTAssertTrue(emphasis(result, at: 2).contains(.bold))   // "b"
-        XCTAssertFalse(emphasis(result, at: 0).contains(.bold))  // "a"
+        XCTAssertTrue(intent(result, at: 2).contains(.stronglyEmphasized))   // "b"
+        XCTAssertFalse(intent(result, at: 0).contains(.stronglyEmphasized))  // "a"
     }
 
     func testHeadingsAreBold() {
         let result = attributed("<h3>Title</h3>")
         XCTAssertEqual(result.string, "Title")
-        XCTAssertTrue(emphasis(result, at: 0).contains(.bold))
+        XCTAssertTrue(intent(result, at: 0).contains(.stronglyEmphasized))
     }
 
     func testMalformedHTMLDoesNotCrashAndStillFormats() {
         let result = attributed("<p>Unclosed <b>bold") // SwiftSoup normalises the DOM
         XCTAssertEqual(result.string, "Unclosed bold")
-        XCTAssertTrue(emphasis(result, at: result.length - 1).contains(.bold))
+        XCTAssertTrue(intent(result, at: result.length - 1).contains(.stronglyEmphasized))
     }
 
     // MARK: - Links
@@ -117,7 +117,7 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
     func testNestedInlineCarriesBothBoldAndLink() {
         let result = attributed(#"<b>see <a href="u">link</a></b>"#) // "see link"
         XCTAssertEqual(result.string, "see link")
-        XCTAssertTrue(emphasis(result, at: 4).contains(.bold))   // "link"
+        XCTAssertTrue(intent(result, at: 4).contains(.stronglyEmphasized))   // "link"
         XCTAssertEqual(link(result, at: 4), URL(string: "u"))
         XCTAssertNil(link(result, at: 0))                        // "see "
     }
