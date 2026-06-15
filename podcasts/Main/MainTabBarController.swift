@@ -873,7 +873,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     private func registerSceneAppearanceObserverIfNeeded() {
         guard systemAppearanceObservation == nil,
               LiquidGlass.isEnabled,
-              #available(iOS 17.0, *),
               let scene = view.window?.windowScene else { return }
         systemAppearanceObservation = scene.registerForTraitChanges(
             [UITraitUserInterfaceStyle.self]

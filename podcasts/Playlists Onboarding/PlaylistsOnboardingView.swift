@@ -12,25 +12,19 @@ struct PlaylistsOnboardingView: View {
         GeometryReader { size in
             VStack {
                 ScrollView(.vertical) {
-                    ScrollViewReader { proxy in
-                        ScrollView(.horizontal) {
-                            LazyHStack(alignment: .top, spacing: 0) {
-                                ForEach(Array(cards.enumerated()), id: \.element.id) { i, card in
-                                    PlaylistsOnboardingCardView(card: card)
-                                        .frame(width: size.size.width)
-                                        .id(i)
-                                }
+                    ScrollView(.horizontal) {
+                        LazyHStack(alignment: .top, spacing: 0) {
+                            ForEach(Array(cards.enumerated()), id: \.element.id) { i, card in
+                                PlaylistsOnboardingCardView(card: card)
+                                    .frame(width: size.size.width)
+                                    .id(i)
                             }
-                            .withScrollTargetLayout()
                         }
-                        .scrollIndicators(.hidden)
-                        .withPaging(
-                            minPage: 0,
-                            maxPage: cards.count,
-                            currentPage: $currentIndex,
-                            scrollProxy: proxy
-                        )
+                        .scrollTargetLayout()
                     }
+                    .scrollIndicators(.hidden)
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollPosition(id: $currentIndex, anchor: .leading)
                 }
                 .scrollIndicators(.hidden)
                 PageIndicatorView(numberOfItems: cards.count, currentPage: currentIndex ?? 0)
