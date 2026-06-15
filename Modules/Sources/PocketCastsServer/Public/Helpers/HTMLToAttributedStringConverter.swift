@@ -47,6 +47,20 @@ public enum HTMLToAttributedStringConverter {
     }
 }
 
+/// Schemes turned into tappable `.link`s. Everything else — `javascript:`, `data:`,
+/// and scheme-less/relative hrefs — is rendered as plain text, so a renderer that does
+/// open links can't be tricked into running a non-web URL.
+private let allowedLinkSchemes: Set<String> = ["http", "https", "mailto"]
+
+private func safeLinkURL(_ href: String) -> URL? {
+    guard let url = URL(string: href),
+          let scheme = url.scheme?.lowercased(),
+          allowedLinkSchemes.contains(scheme) else {
+        return nil
+    }
+    return url
+}
+
 private struct InlineContext {
     var presentationIntent: InlinePresentationIntent = []
     var link: URL?
@@ -129,7 +143,7 @@ private final class AttributedStringBuilder {
         case "a":
             var context = context
             if let href = try? element.attr("href").trimmingCharacters(in: .whitespaces),
-               !href.isEmpty, let url = URL(string: href) {
+               let url = safeLinkURL(href) {
                 context.link = url
             }
             try append(node: element, context: context)

@@ -115,11 +115,30 @@ final class HTMLToAttributedStringConverterTests: XCTestCase {
     }
 
     func testNestedInlineCarriesBothBoldAndLink() {
-        let result = attributed(#"<b>see <a href="u">link</a></b>"#) // "see link"
+        let result = attributed(#"<b>see <a href="https://pca.st">link</a></b>"#) // "see link"
         XCTAssertEqual(result.string, "see link")
         XCTAssertTrue(intent(result, at: 4).contains(.stronglyEmphasized))   // "link"
-        XCTAssertEqual(link(result, at: 4), URL(string: "u"))
+        XCTAssertEqual(link(result, at: 4), URL(string: "https://pca.st"))
         XCTAssertNil(link(result, at: 0))                        // "see "
+    }
+
+    func testMailtoLinkIsAllowed() {
+        let result = attributed(#"<a href="mailto:hi@pocketcasts.com">Email</a>"#)
+        XCTAssertEqual(result.string, "Email")
+        XCTAssertEqual(link(result, at: 0), URL(string: "mailto:hi@pocketcasts.com"))
+    }
+
+    func testJavascriptSchemeIsNotLinked() {
+        let result = attributed(#"<a href="javascript:alert(1)">Tap</a>"#)
+        XCTAssertEqual(result.string, "Tap") // text preserved, link dropped
+        XCTAssertNil(link(result, at: 0))
+    }
+
+    func testRelativeURLIsNotLinked() {
+        // Scheme-less hrefs can't be opened safely on their own, so they stay plain text.
+        let result = attributed(#"<a href="/episodes/1">Episode</a>"#)
+        XCTAssertEqual(result.string, "Episode")
+        XCTAssertNil(link(result, at: 0))
     }
 
     // MARK: - Lists
