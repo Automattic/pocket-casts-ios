@@ -52,7 +52,7 @@ struct DiscoverVideoEpisodesRow: View {
                 ForEach(model.episodes, id: \.uuid) { episode in
                     DiscoverVideoEpisodeCell(episode: episode, listId: model.listId, source: model.source)
                         .padding(.vertical, Layout.spacing / 2)
-                        .setFocus(section: model.item?.focusStoreID ?? "")
+                        .setFocus(section: model.item?.focusStoreID ?? model.type?.rawValue ?? "")
                         .focused($focusedID, equals: episode.uuid)
                         .prefersDefaultFocus(model.episodes.first?.uuid == episode.uuid, in: focusNS)
                 }

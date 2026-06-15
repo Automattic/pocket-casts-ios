@@ -12,7 +12,12 @@ struct DiscoverFeaturedPodcastCell: View {
     let listId: String?
     let source: String
 
-    @Environment(\.isFocused) var isFocused: Bool
+    @FocusState private var focusedButton: FocusValues?
+
+    enum FocusValues {
+        case playEpisode
+        case goPodcast
+    }
 
     @State var showNowPlayingPlayer: Bool = false
 
@@ -77,6 +82,7 @@ struct DiscoverFeaturedPodcastCell: View {
                                 }
                             }
                         }
+                        .focused($focusedButton, equals: FocusValues.playEpisode)
                         NavigationLink(value: podcast) {
                             Text(L10n.tvDiscoverFeaturedGoToPodcast)
                         }
@@ -85,6 +91,7 @@ struct DiscoverFeaturedPodcastCell: View {
                                 DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
                             }
                         })
+                        .focused($focusedButton, equals: FocusValues.goPodcast)
                     }
                     .padding(.vertical, 24)
                 }
@@ -107,6 +114,8 @@ struct DiscoverFeaturedPodcastCell: View {
         .background(Color.pcBackgroundSunken)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
+        .scaleEffect(focusedButton != nil ? 1 : 0.95)
+        .animation(.default, value: focusedButton)
         .focusSection()
         .focusScope(ns)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
