@@ -225,7 +225,6 @@ struct DeviceApproveView: View {
                     content
                         .foregroundStyle(theme.primaryText01)
                 }
-
         }
         .glassStyle()
         .accessibilityLabel(L10n.close)
