@@ -110,7 +110,7 @@ struct HomeView: View {
 
     var youMightLikeRow: some View {
         HomeSection(title: L10n.tvHomeRecommendedForYouTitle, focusSection: DiscoverType.recommendationsUser.rawValue) {
-            DiscoverPodcastRow(type: .recommendationsUser)
+            DiscoverPodcastRow(type: .recommendationsUser, source: DiscoverAnalytics.homeSource)
         }
     }
 
@@ -118,7 +118,7 @@ struct HomeView: View {
 
     var lovedByListenersOfRow: some View {
         HomeSection(title: L10n.tvHomeRecommendUserPodcastSectionTitle(sectionPodcast ?? ""), focusSection: DiscoverType.recommendationsSocial.rawValue) {
-            DiscoverPodcastRow(type: .recommendationsSocial) { title in
+            DiscoverPodcastRow(type: .recommendationsSocial, source: DiscoverAnalytics.homeSource) { title in
                 sectionPodcast = title
             }
         }
@@ -126,26 +126,26 @@ struct HomeView: View {
 
     var trendingRow: some View {
         HomeSection(title: L10n.tvHomeTrendingSectionTitle, focusSection: DiscoverType.trending.rawValue) {
-            DiscoverPodcastRow(type: .trending)
+            DiscoverPodcastRow(type: .trending, source: DiscoverAnalytics.homeSource)
         }
     }
 
     var featuredRow: some View {
         HomeSection(title: L10n.tvHomeFeaturedSectionTitle, focusSection: DiscoverType.featured.rawValue) {
-            DiscoverFeaturedPodcastsRow(type: .featured)
+            DiscoverFeaturedPodcastsRow(type: .featured, source: DiscoverAnalytics.homeSource)
         }
     }
 
     var videoRow: some View {
         HomeSection(title: L10n.tvHomeVideoSectionTitle, focusSection: DiscoverType.video.rawValue) {
-            DiscoverVideoEpisodesRow(type: .video)
+            DiscoverVideoEpisodesRow(type: .video, source: DiscoverAnalytics.homeSource)
         }
     }
 
     @State private var curatedTitle: String?
     var curatedRow: some View {
         HomeSection(title: curatedTitle ?? L10n.loading, focusSection: DiscoverType.curatedList.rawValue) {
-            DiscoverPodcastRow(type: .curatedList) { title in
+            DiscoverPodcastRow(type: .curatedList, source: DiscoverAnalytics.homeSource) { title in
                 curatedTitle = title
             }
         }
@@ -153,7 +153,7 @@ struct HomeView: View {
 
     var categoriesRow: some View {
         HomeSection(title: L10n.tvHomeBrowseCategoriesSectionTitle, focusSection: DiscoverType.categories.rawValue) {
-            DiscoverCategoriesRow(popularOnly: true)
+            DiscoverCategoriesRow(popularOnly: true, source: DiscoverAnalytics.homeSource)
         }
     }
 

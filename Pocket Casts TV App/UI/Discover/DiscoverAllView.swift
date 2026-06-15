@@ -25,7 +25,7 @@ struct DiscoverAllView: View {
         ScrollView {
             LazyVStack(spacing: 80) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
-                    DiscoverRowSection(item: item)
+                    DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
                 }
             }
         }
@@ -43,11 +43,13 @@ struct DiscoverAllView: View {
 struct DiscoverRowSection: View {
 
     var item: DiscoverItem
+    let source: String
 
     @State var title: String
 
-    init(item: DiscoverItem) {
+    init(item: DiscoverItem, source: String) {
         self.item = item
+        self.source = source
         _title = State<String>(initialValue: item.title?.localized ?? "")
     }
 
@@ -55,13 +57,13 @@ struct DiscoverRowSection: View {
         HomeSection(title: title, focusSection: item.focusStoreID) {
             switch item.rowType {
             case .categories:
-                DiscoverCategoriesRow(popularOnly: false)
+                DiscoverCategoriesRow(popularOnly: false, source: source)
             case .featured:
-                DiscoverFeaturedPodcastsRow(item: item)
+                DiscoverFeaturedPodcastsRow(item: item, source: source)
             case .listVideoEpisode:
-                DiscoverVideoEpisodesRow(item: item)
+                DiscoverVideoEpisodesRow(item: item, source: source)
             case .singlePodcast:
-                DiscoverSinglePodcastRow(item: item) { title in
+                DiscoverSinglePodcastRow(item: item, source: source) { title in
                     if item.isSponsored == true {
                         self.title = L10n.tvSponsoredPodcastSectionTitle
                     } else {
@@ -71,7 +73,7 @@ struct DiscoverRowSection: View {
                     }
                 }
             default:
-                DiscoverPodcastRow(item: item) { title in
+                DiscoverPodcastRow(item: item, source: source) { title in
                     if let title {
                         self.title = title
                     }

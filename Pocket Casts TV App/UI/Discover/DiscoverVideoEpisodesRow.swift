@@ -15,13 +15,13 @@ struct DiscoverVideoEpisodesRow: View {
 
     private let callback: ((String?)->())?
 
-    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionEpisodesModel(type: type))
+    init(type: DiscoverType, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionEpisodesModel(type: type, source: source))
         self.callback = callback
     }
 
-    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionEpisodesModel(item: item))
+    init(item: DiscoverItem, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionEpisodesModel(item: item, source: source))
         self.callback = callback
     }
 
@@ -40,6 +40,7 @@ struct DiscoverVideoEpisodesRow: View {
             await model.load()
             await MainActor.run {
                 callback?(model.title)
+                model.trackImpression()
                 resetFocus(in: focusNS)
             }
         }
@@ -49,7 +50,7 @@ struct DiscoverVideoEpisodesRow: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: Layout.spacing, content: {
                 ForEach(model.episodes, id: \.uuid) { episode in
-                    DiscoverVideoEpisodeCell(episode: episode)
+                    DiscoverVideoEpisodeCell(episode: episode, listId: model.listId, source: model.source)
                         .padding(.vertical, Layout.spacing / 2)
                         .setFocus(section: model.item?.focusStoreID ?? model.type?.rawValue ?? "")
                         .focused($focusedID, equals: episode.uuid)

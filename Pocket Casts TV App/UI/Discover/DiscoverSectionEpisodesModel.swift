@@ -16,15 +16,22 @@ class DiscoverSectionEpisodesModel {
 
     let item: DiscoverItem?
 
-    init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    /// Analytics source ("home" or "search") used by the `discover_list_*` events.
+    let source: String
+
+    private(set) var listId: String?
+
+    init(type: DiscoverType, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = type
         self.item = nil
+        self.source = source
         self.discoverManager = discoverManager
     }
 
-    init(item: DiscoverItem, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    init(item: DiscoverItem, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = nil
         self.item = item
+        self.source = source
         self.discoverManager = discoverManager
     }
 
@@ -35,20 +42,27 @@ class DiscoverSectionEpisodesModel {
     }
 
     func load() async {
-        let episodes: [DiscoverEpisode]
+        let section: DiscoverEpisodesSection
         if let type {
-            episodes = await discoverManager.loadDiscoverEpisodesSection(type: type)
+            section = await discoverManager.loadDiscoverEpisodesSection(type: type)
         } else if let item {
-            episodes = await discoverManager.loadDiscoverEpisodesSection(item: item)
+            section = await discoverManager.loadDiscoverEpisodesSection(item: item)
         } else {
             state = .empty
             return
         }
 
         await MainActor.run {
-            state = episodes.isEmpty ? .empty : .ready
-            self.episodes = episodes
+            state = section.episodes.isEmpty ? .empty : .ready
+            self.episodes = section.episodes
             title =  L10n.tvHomeVideoSectionTitle
+            listId = section.listId
         }
+    }
+
+    /// Fires once the section's episodes are on screen, mirroring iOS's `viewDidAppear` impression.
+    func trackImpression() {
+        guard state == .ready, let listId else { return }
+        DiscoverAnalytics.listImpression(listId: listId, source: source)
     }
 }

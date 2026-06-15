@@ -3,6 +3,7 @@ import SwiftUI
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = UpNextViewModel()
 
@@ -57,7 +58,7 @@ struct UpNextView: View {
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvUpNextEmptyTitle, subtitle: L10n.tvUpNextEmptySubtitle, actionTitle: L10n.tvUpNextEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+            requireAccount { tabRouter.selectedTab = .home }
         }
     }
 

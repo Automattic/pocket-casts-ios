@@ -41,6 +41,9 @@ struct SearchView<ViewModel: SearchableViewModel>: View {
             .onChange(of: searchText) { _, newValue in
                 model.search(query: newValue)
             }
+            .onChange(of: model.scope) { _, newValue in
+                Analytics.track(.searchFilterTapped, properties: ["source": "search", "filter": newValue.analyticsDescription])
+            }
             .onAppear {
                 guard !didTrackShown else { return }
                 didTrackShown = true

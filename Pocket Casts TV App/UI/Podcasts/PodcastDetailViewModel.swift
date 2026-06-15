@@ -31,9 +31,11 @@ class PodcastDetailViewModel {
     }
 
     func setShowArchived(_ value: Bool) {
+        guard value != showArchived else { return }
         showArchived = value
         load()
         UserDefaults.standard.set(value, forKey: Self.archiveStorageKey(for: podcastUuid))
+        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": value])
     }
 
     init(podcastUuid: String,

@@ -11,13 +11,13 @@ struct DiscoverPodcastRow: View {
 
     private let callback: ((String?)->())?
 
-    init(type: DiscoverType, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(type: type))
+    init(type: DiscoverType, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(type: type, source: source))
         self.callback = callback
     }
 
-    init(item: DiscoverItem, callback: ((String?) -> ())? = nil) {
-        _model = State(wrappedValue: DiscoverSectionModel(item: item))
+    init(item: DiscoverItem, source: String, callback: ((String?) -> ())? = nil) {
+        _model = State(wrappedValue: DiscoverSectionModel(item: item, source: source))
         self.callback = callback
     }
 
@@ -36,6 +36,7 @@ struct DiscoverPodcastRow: View {
             await model.load()
             await MainActor.run {
                 callback?(model.title)
+                model.trackImpression()
             }
         }
     }
@@ -52,6 +53,9 @@ struct DiscoverPodcastRow: View {
                         .buttonStyle(.card)
                         .padding(.vertical, 24)
                         .setFocus(section: model.focusStoreID)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            model.trackPodcastTapped(podcast)
+                        })
                     }
                 }
             })

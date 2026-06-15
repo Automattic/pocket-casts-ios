@@ -11,6 +11,9 @@ struct DiscoverVideoEpisodeCell: View {
 
     @State private var model: DiscoverVideoEpisodeModel
 
+    private let listId: String?
+    private let source: String
+
     enum FocusValues {
         case playEpisode
         case goPodcast
@@ -31,8 +34,10 @@ struct DiscoverVideoEpisodeCell: View {
         static let cardWidth = CGFloat(716)
     }
 
-    init(episode: DiscoverEpisode) {
+    init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
         _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
+        self.listId = listId
+        self.source = source
     }
 
     var body: some View {
@@ -75,6 +80,16 @@ struct DiscoverVideoEpisodeCell: View {
         }
     }
 
+    private func trackEpisodeTapped() {
+        guard let listId, let episodeUuid = model.episode.uuid else { return }
+        DiscoverAnalytics.episodeTapped(listId: listId, podcastUuid: model.episode.podcastUuid, episodeUuid: episodeUuid, source: source)
+    }
+
+    private func trackPodcastTapped() {
+        guard let listId, let podcastUuid = model.episode.podcastUuid else { return }
+        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
+    }
+
     private func expand() {
         guard !isAnimating else { return }
         isAnimating = true
@@ -113,6 +128,7 @@ struct DiscoverVideoEpisodeCell: View {
     var focusedContent: some View {
         HStack(alignment: .bottom) {
             Button(L10n.tvDiscoverPlayEpisode) {
+                trackEpisodeTapped()
                 Task {
                     let successPlay = await TVDataManager.shared.playEpisode(model.episode)
                     await MainActor.run {
@@ -132,6 +148,9 @@ struct DiscoverVideoEpisodeCell: View {
                 }
                 .focused($focusedButton, equals: FocusValues.goPodcast)
                 .setFocus(section: DiscoverType.video.rawValue)
+                .simultaneousGesture(TapGesture().onEnded {
+                    trackPodcastTapped()
+                })
             }
             Spacer()
         }
