@@ -93,8 +93,10 @@ struct DeviceApproveView: View {
             Spacer()
                 .frame(height: 100)
             logos
-            title
-            description
+            VStack(spacing: 8) {
+                title
+                description
+            }
             if model.isUserLoggedIn {
                 accountCard
                 codeField
@@ -210,17 +212,54 @@ struct DeviceApproveView: View {
             Analytics.track(.deviceApproveDismissed)
             dismiss()
         } label: {
-            Image(systemName: "xmark")
+            Image("close")
                 .font(.system(size: 14, weight: .bold))
-                .foregroundStyle(theme.primaryUi01)
-                .frame(width: 32, height: 32)
-                .background(theme.primaryInteractive01)
-                .clipShape(Circle())
+                .frame(width: 44, height: 44)
+                .if(!isiOS26) { content in
+                    content
+                        .foregroundStyle(theme.primaryUi01)
+                        .background(theme.primaryInteractive01)
+                        .clipShape(Circle())
+                }
+                .if(isiOS26) { content in
+                    content
+                        .foregroundStyle(theme.primaryText01)
+                }
+
         }
+        .glassStyle()
         .accessibilityLabel(L10n.close)
         .padding(.top, 16)
         .padding(.leading, 16)
     }
+
+    var isiOS26: Bool {
+        if #available(iOS 26.0, *) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+struct GlassButtonModifier: ViewModifier {
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .buttonStyle(.plain)
+                .glassEffect(.regular.interactive(), in: .circle)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func glassStyle()
+    -> some View {
+        modifier(GlassButtonModifier())
+  }
 }
 
 private struct CircleLogo: View {
@@ -251,5 +290,5 @@ private struct CircleLogo: View {
 
 #Preview {
     DeviceApproveView(userCode: "12345", model: DeviceApproveViewModel(presentingViewController: UIViewController()))
-        .environmentObject(Theme(previewTheme: .light))
+        .environmentObject(Theme(previewTheme: .dark))
 }
