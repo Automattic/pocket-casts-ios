@@ -6377,4 +6377,5 @@
 /* Message of the alert shown when the Apple TV has been successfully connected to the user's account. */
 "device_approve_success_alert_message" = "Your Apple TV is now connected to your account.";
 
-
+/* Title of the alert shown when approval failed. */
+"device_approve_generic_error_alert_title" = "Device approval failed";

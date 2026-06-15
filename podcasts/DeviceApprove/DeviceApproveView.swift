@@ -3,7 +3,20 @@ import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 
+@MainActor
 class DeviceApproveViewModel: ObservableObject {
+
+    @Published
+    var showSuccessAlert: Bool = false
+
+    @Published
+    var showFailureAlert: Bool = false
+
+    @Published
+    var errorMessage: String = ""
+
+    @Published
+    var errorTitle: String = ""
 
     var isUserLoggedIn: Bool {
         return SyncManager.isUserLoggedIn()
@@ -23,6 +36,38 @@ class DeviceApproveViewModel: ObservableObject {
 
     let presentingViewController: UIViewController
 
+    func actionButtonTapped(userCode: String) {
+        guard isUserLoggedIn else {
+            Analytics.track(.deviceSetupAccountTapped)
+            presentAccountFlow()
+            return
+        }
+        Task {
+            Analytics.track(.deviceApproveConnectTapped)
+            do {
+                let result = try await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
+                if result.success == true {
+                    Analytics.track(.deviceApproveSuccessful)
+                    showSuccessAlert = true
+                } else {
+                    Analytics.track(.deviceApproveFailed)
+                    errorTitle = L10n.deviceApproveExpiredAlertTitle
+                    errorMessage = L10n.deviceApproveExpiredAlertMessage
+                    showFailureAlert = true
+                }
+            } catch let error as APIError {
+                showFailureAlert = true
+                if error == APIError.INVALID_GRANT {
+                    errorTitle = L10n.deviceApproveExpiredAlertTitle
+                    errorMessage = L10n.deviceApproveExpiredAlertMessage
+                } else {
+                    errorTitle = L10n.deviceApproveGenericErrorAlertTitle
+                    errorMessage = L10n.pleaseTryAgainLater
+                }
+            }
+        }
+    }
+
     init(presentingViewController: UIViewController) {
         self.presentingViewController = presentingViewController
     }
@@ -37,10 +82,6 @@ struct DeviceApproveView: View {
     @State private var userCode: String
 
     @StateObject private var model: DeviceApproveViewModel
-
-    @State private var showFailureAlert: Bool = false
-
-    @State private var showSuccessAlert: Bool = false
 
     init(userCode: String?, model: DeviceApproveViewModel) {
         _userCode = State(initialValue: userCode ?? "")
@@ -68,14 +109,14 @@ struct DeviceApproveView: View {
         .onAppear() {
             Analytics.track(.deviceApproveShown)
         }
-        .alert(L10n.deviceApproveExpiredAlertTitle, isPresented: $showFailureAlert) {
+        .alert(model.errorTitle, isPresented: $model.showFailureAlert) {
             Button(L10n.ok, role: .cancel) {
                 dismiss()
             }
         } message: {
-            Text(L10n.deviceApproveExpiredAlertMessage)
+            Text(model.errorMessage)
         }
-        .alert(L10n.deviceApproveSuccessAlertTitle, isPresented: $showSuccessAlert) {
+        .alert(L10n.deviceApproveSuccessAlertTitle, isPresented: $model.showSuccessAlert) {
             Button(L10n.ok, role: .cancel) {
                 dismiss()
             }
@@ -157,22 +198,7 @@ struct DeviceApproveView: View {
 
     private var actionButton: some View {
         Button {
-            if model.isUserLoggedIn {
-                Task {
-                    Analytics.track(.deviceApproveConnectTapped)
-                    let result = try? await AuthenticationHelper.deviceApprove(userCode: userCode, approve: true)
-                    if result?.success == true {
-                        Analytics.track(.deviceApproveSuccessful)
-                        showSuccessAlert = true
-                    } else {
-                        Analytics.track(.deviceApproveFailed)
-                        showFailureAlert = true
-                    }
-                }
-            } else {
-                Analytics.track(.deviceSetupAccountTapped)
-                model.presentAccountFlow()
-            }
+            model.actionButtonTapped(userCode: userCode)
         } label: {
             Text(model.isUserLoggedIn ? L10n.deviceApproveConnectButton : L10n.setupAccount)
                 .textStyle(RoundedButton())
