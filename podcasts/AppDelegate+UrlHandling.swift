@@ -476,7 +476,7 @@ extension AppDelegate {
             }
             let userCode = parameters["user_code"] as? String
 
-            NavigationManager.sharedManager.navigateTo(NavigationManager.deviceApprovePageKey, data: [NavigationManager.deviceApproveCodeKey: userCode])
+            NavigationManager.sharedManager.navigateTo(NavigationManager.deviceApprovePageKey, data: [NavigationManager.deviceApproveCodeKey: userCode as Any])
             return true
         }
     }
