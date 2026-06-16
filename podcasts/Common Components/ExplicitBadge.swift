@@ -13,7 +13,13 @@ enum ExplicitBadgeHelper {
     private static var imageCache: [Theme.ThemeType: UIImage] = [:]
     private static var cacheSize = CGFloat(badgeFontSize)
 
-    static func badgeImage(for theme: Theme.ThemeType? = nil, fontSize: CGFloat = badgeFontSize) -> UIImage {
+    static func badgeImage(for theme: Theme.ThemeType? = nil) -> UIImage {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let fontSize = metric.scaledValue(for: badgeFontSize)
+        return badgeImage(for: theme, fontSize: fontSize)
+    }
+
+    private static func badgeImage(for theme: Theme.ThemeType? = nil, fontSize: CGFloat = badgeFontSize) -> UIImage {
         if cacheSize != fontSize {
             cacheSize = fontSize
             imageCache.removeAll()
