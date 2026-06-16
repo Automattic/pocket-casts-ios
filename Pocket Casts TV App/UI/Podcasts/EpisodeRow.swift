@@ -142,9 +142,6 @@ struct EpisodeRowWithActions: View {
             }
             .buttonStyle(EpisodeRowButtonStyle())
             .focused($focusedElement, equals: .episode)
-            .contextMenu {
-                EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
-            }
 
             if shouldShowMoreButton {
                 Button {
@@ -157,6 +154,9 @@ struct EpisodeRowWithActions: View {
                 .focused($focusedElement, equals: .more)
                 .transition(.opacity.combined(with: .scale(scale: 0.8)).animation(.easeOut(duration: 0.2).delay(0.15)))
             }
+        }
+        .contextMenu {
+            EpisodeActionButtons(model: model, context: context, isShowingShowNotes: $isShowingShowNotes)
         }
         .if(isFocused) { content in
             content.clipShape(RoundedRectangle(cornerRadius: 12))
@@ -244,75 +244,54 @@ extension View {
     }
 }
 
-@MainActor
-@Observable
-final class DiscoveryEpisodeActionsModel {
-
-    private let podcastUuid: String
-    private let episodeUuid: String
-    private let dataManager: TVDataManager
-
-    var showNotesEpisode: EpisodeRowViewModel?
-
-    private var loaded: EpisodeRowViewModel?
-
-    init(podcastUuid: String, episodeUuid: String, dataManager: TVDataManager = .shared) {
-        self.podcastUuid = podcastUuid
-        self.episodeUuid = episodeUuid
-        self.dataManager = dataManager
-    }
-
-    private func loadModel() async -> EpisodeRowViewModel? {
-        if let loaded { return loaded }
-        guard let result = await dataManager.loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
-            ToastManager.shared.show(L10n.playbackFailed)
-            return nil
-        }
-        let model = EpisodeRowViewModel(episode: result.episode, podcast: result.podcast)
-        loaded = model
-        return model
-    }
-
-    func playNext() {
-        Task { await loadModel()?.playNext() }
-    }
-
-    func playLast() {
-        Task { await loadModel()?.playLast() }
-    }
-
-    func showNotes() {
-        Task { showNotesEpisode = await loadModel() }
-    }
+/// An episode loaded from its UUIDs, ready to act on or present show notes for.
+struct DiscoveryLoadedEpisode: Identifiable {
+    let episode: Episode
+    let podcast: Podcast?
+    var id: String { episode.uuid }
 }
 
+/// Context menu for episodes known only by their UUIDs (Discover, Search). The
+/// `Episode` is loaded lazily the first time an action runs; show notes are
+/// surfaced through `showNotesEpisode` so the presenting view owns the sheet.
 struct DiscoveryEpisodeMenuButtons: View {
 
-    let model: DiscoveryEpisodeActionsModel
+    let podcastUuid: String
+    let episodeUuid: String
+    @Binding var showNotesEpisode: DiscoveryLoadedEpisode?
 
     @Environment(\.requireAccount) private var requireAccount
 
     var body: some View {
-        Button(L10n.tvEpisodeShowNotesAction) { model.showNotes() }
-        Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
-        Button(L10n.playLastInUpNext) { requireAccount { model.playLast() } }
+        Button(L10n.tvEpisodeShowNotesAction) { load { showNotesEpisode = $0 } }
+        Button(L10n.playNextInUpNext) { requireAccount { load { EpisodeUpNextActions.playNext($0.episode) } } }
+        Button(L10n.playLastInUpNext) { requireAccount { load { EpisodeUpNextActions.playLast($0.episode) } } }
+    }
+
+    private func load(_ action: @escaping (DiscoveryLoadedEpisode) -> Void) {
+        Task {
+            guard let result = await TVDataManager.shared.loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
+                ToastManager.shared.show(L10n.playbackFailed)
+                return
+            }
+            action(DiscoveryLoadedEpisode(episode: result.episode, podcast: result.podcast))
+        }
     }
 }
 
 private struct DiscoveryEpisodeContextMenuModifier: ViewModifier {
 
-    @State private var model: DiscoveryEpisodeActionsModel
+    let podcastUuid: String
+    let episodeUuid: String
 
-    init(podcastUuid: String, episodeUuid: String) {
-        _model = State(initialValue: DiscoveryEpisodeActionsModel(podcastUuid: podcastUuid, episodeUuid: episodeUuid))
-    }
+    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
 
     func body(content: Content) -> some View {
         content
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(model: model)
+                DiscoveryEpisodeMenuButtons(podcastUuid: podcastUuid, episodeUuid: episodeUuid, showNotesEpisode: $showNotesEpisode)
             }
-            .sheet(item: $model.showNotesEpisode) { episode in
+            .sheet(item: $showNotesEpisode) { episode in
                 EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
             }
     }

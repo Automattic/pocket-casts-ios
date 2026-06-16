@@ -10,7 +10,7 @@ struct DiscoverVideoEpisodeCell: View {
     @Environment(FocusStore.self) var focusStore
 
     @State private var model: DiscoverVideoEpisodeModel
-    @State private var actionsModel: DiscoveryEpisodeActionsModel
+    @State private var showNotesEpisode: DiscoveryLoadedEpisode?
 
     private let listId: String?
     private let source: String
@@ -37,7 +37,6 @@ struct DiscoverVideoEpisodeCell: View {
 
     init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
         _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
-        _actionsModel = State(wrappedValue: DiscoveryEpisodeActionsModel(podcastUuid: episode.podcastUuid ?? "", episodeUuid: episode.uuid ?? ""))
         self.listId = listId
         self.source = source
     }
@@ -80,7 +79,7 @@ struct DiscoverVideoEpisodeCell: View {
             NowPlayingView()
                 .ignoresSafeArea()
         }
-        .sheet(item: $actionsModel.showNotesEpisode) { episode in
+        .sheet(item: $showNotesEpisode) { episode in
             EpisodeShowNotesView(episode: episode.episode, podcast: episode.podcast)
         }
     }
@@ -148,7 +147,7 @@ struct DiscoverVideoEpisodeCell: View {
             .focused($focusedButton, equals: FocusValues.playEpisode)
             .setFocus(section: DiscoverType.video.rawValue)
             .contextMenu {
-                DiscoveryEpisodeMenuButtons(model: actionsModel)
+                DiscoveryEpisodeMenuButtons(podcastUuid: model.episode.podcastUuid ?? "", episodeUuid: model.episode.uuid ?? "", showNotesEpisode: $showNotesEpisode)
             }
             if let podcast = model.podcast {
                 NavigationLink(value: podcast) {
