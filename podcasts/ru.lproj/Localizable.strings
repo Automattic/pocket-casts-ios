@@ -249,6 +249,12 @@
     <string>Обновляем вашу тему.</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Есть, капитан.</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Панель вкладок</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Свернуть при прокрутке</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Если эта опция включена, панель вкладок при прокрутке вниз сжимается до кружка, чтобы освободить место для контента.</string>
     <key>appearance_theme_header</key>
     <string>Тема</string>
     <key>appearance_theme_select</key>
@@ -2096,6 +2102,8 @@ Pocket Casts на полную мощность.</string>
     <string>Перестроить действия</string>
     <key>player_archived_confirmation</key>
     <string>Архивировать этот выпуск?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Скрыт из ленты, но не удалён.</string>
     <key>player_artwork</key>
     <string>Тема %1$@</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2134,8 @@ Pocket Casts на полную мощность.</string>
     <string>Интервал перемотки вперед</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Отметить этот эпизод как прослушанный?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Он будет перемещён из списка «Следующие» в вашу историю.</string>
     <key>player_options_play_all_message</key>
     <string>При этом текущая очередь «Следующие» будет очищена.</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2526,8 @@ Pocket Casts на полную мощность.</string>
     <string>Не удается загрузить сведения о подкасте :(</string>
     <key>podcast_error_title</key>
     <string>Ничего не получается</string>
+    <key>podcast_explicit_content</key>
+    <string>Откровенный контент</string>
     <key>podcast_extras</key>
     <string>Дополнения</string>
     <key>podcast_failed_download</key>
@@ -3640,6 +3652,12 @@ Pocket Casts на полную мощность.</string>
     <string>Вы слушали в течение</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Тепловая карта прослушиваний. Дней прослушивания: %1$@ из 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>О прослушивании</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Оценка времени прослушивания на основе истории воспроизведения. Если вы прослушаете выпуск за несколько дней, он будет датирован последним днём.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Прослушивание</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Меньше</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3802,6 +3820,12 @@ Pocket Casts на полную мощность.</string>
     <string>К сожалению, в этом выпуске нет расшифровки</string>
     <key>transcript_error_not_supported</key>
     <string>К сожалению, этот формат расшифровки не поддерживается: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Синхронизированные расшифровки доступны только в последних выпусках.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Читайте, чтобы ничего не упустить. Имя, которое вы не расслышали, книга, на которую ссылаются, нужная для статистики цифра — просто нажмите на слово и прослушайте заново.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Слушайте и читайте. Даже в ускоренном режиме.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Скачать выпуск, чтобы искать нажатием</string>
     <key>trial_finished</key>
@@ -3812,22 +3836,50 @@ Pocket Casts на полную мощность.</string>
     <string>Попробуйте еще раз.</string>
     <key>try_it_now</key>
     <string>Попробовать</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Создать бесплатную учётную запись</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Ваши подписки, ваши успехи… всё на своих местах.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Одна учётная запись. На всех экранах</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Посмотреть другие шоу</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Ваше новое увлечение в двух шагах от вас.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Вы не видели ещё и половины.</string>
     <key>tv_create_account_come_back</key>
     <string>Создайте учётную запись, а затем вернитесь и выполните вход</string>
     <key>tv_create_account_subtitle</key>
     <string>Отсканируйте этот код, чтобы начать работу с телефона. Это займёт всего минуту.</string>
     <key>tv_create_account_title</key>
     <string>Создать бесплатную учётную запись</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Перейти к подкасту</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Воспроизвести последний выпуск</string>
+    <key>tv_discover_play_episode</key>
+    <string>Воспроизвести выпуск</string>
     <key>tv_episode_info</key>
     <string>Информация о выпуске</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Просмотр рубрик</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Популярное в Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
     <string>Продолжаем с того места, где вы остановились</string>
     <key>tv_home_new_releases</key>
     <string>Новые выпуски</string>
     <key>tv_home_recently_played</key>
     <string>Недавно прослушанные</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Нравится слушателям %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Рекомендуется для вас</string>
+    <string>Это вам точно понравится</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Тренды недели</string>
+    <key>tv_home_video_section_title</key>
+    <string>Создано для телевидения</string>
     <key>tv_player_playback_effects</key>
     <string>Эффекты воспроизведения</string>
     <key>tv_player_playback_speed</key>
@@ -3916,14 +3968,16 @@ Pocket Casts на полную мощность.</string>
     <string>переход к [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>или введите этот код в [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>Не удалось получить код для входа</string>
     <key>tv_sign_in_subtitle</key>
     <string>Откройте камеру и наведите на этот QR-код</string>
     <key>tv_sign_in_title</key>
     <string>Войти в Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Ваши подкасты синхронизируются, скоро мы включим их для вас!</string>
+    <string>Мы загружаем ваши подкасты.</string>
     <key>tv_signing_in_title</key>
-    <string>С возвращением!</string>
+    <string>Рады вас видеть!</string>
     <key>tv_tab_home</key>
     <string>Главная</string>
     <key>tv_tab_playlists</key>

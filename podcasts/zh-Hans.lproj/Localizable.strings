@@ -249,6 +249,12 @@
     <string>立即刷新您的插图</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Aye Aye Captain</string>
+    <key>appearance_tab_bar_header</key>
+    <string>选项卡栏</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>滚动时最小化</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>启用此功能后，当您向下滚动时，选项卡栏会收缩成一个紧凑的胶囊形，以便将更多内容保持在可视区域内。</string>
     <key>appearance_theme_header</key>
     <string>主题</string>
     <key>appearance_theme_select</key>
@@ -2096,6 +2102,8 @@ Pocket Casts。</string>
     <string>重新排列操作</string>
     <key>player_archived_confirmation</key>
     <string>存档此剧集?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>已从您的源中隐藏，并未删除。</string>
     <key>player_artwork</key>
     <string>%1$@ 插图</string>
     <key>player_chapter_count</key>
@@ -2126,6 +2134,8 @@ Pocket Casts。</string>
     <string>增量时间</string>
     <key>player_mark_as_played_confirmation</key>
     <string>将此剧集标记为已播放？</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>它将从“接下来播放”中移出，进入您的历史记录。</string>
     <key>player_options_play_all_message</key>
     <string>这将清除您当前的“接下来播放”队列。</string>
     <key>player_options_play_episode_singular</key>
@@ -2516,6 +2526,8 @@ Pocket Casts。</string>
     <string>无法加载播客详情 :(</string>
     <key>podcast_error_title</key>
     <string>失败了</string>
+    <key>podcast_explicit_content</key>
+    <string>成人内容</string>
     <key>podcast_extras</key>
     <string>其他</string>
     <key>podcast_failed_download</key>
@@ -3640,6 +3652,12 @@ Pocket Casts。</string>
     <string>您已收听</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>收听活动热图。 已收听的天数：%1$@/365。</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>关于收听活动</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>根据您的播放历史记录估算您收听的时间。 如果您分几天听完一集，则它会显示在最后一天。</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>收听活动</string>
     <key>stats_listening_activity_legend_less</key>
     <string>更少</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3802,6 +3820,12 @@ Pocket Casts。</string>
     <string>很抱歉，本剧集没有文字转录稿</string>
     <key>transcript_error_not_supported</key>
     <string>很抱歉，此文字转录稿格式不受支持：%1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>仅提供近期剧集的同步文字转录稿。</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>快速阅读，不漏看任何内容。 您曾匆匆掠过的名字、他们推荐的书、您想要的统计信息 — 点击词条，即可跳转回原文。</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>同步阅读。 即使在 2 倍速下也是如此。</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>下载该剧集后，即可通过点击跳转播放位置</string>
     <key>trial_finished</key>
@@ -3812,22 +3836,50 @@ Pocket Casts。</string>
     <string>重试</string>
     <key>try_it_now</key>
     <string>立即试用</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>创建一个免费账户</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>您的关注、您的进度…一切都保持原样。</string>
+    <key>tv_banner_create_account_title</key>
+    <string>一个账户。 适配所有屏幕</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>探索更多节目</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>您的下一个心头好，就在这里等着您。</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>这还只是冰山一角。</string>
     <key>tv_create_account_come_back</key>
     <string>创建账户后，请返回并登录</string>
     <key>tv_create_account_subtitle</key>
     <string>扫描此二维码即可在手机上开始使用，整个过程只需一分钟。</string>
     <key>tv_create_account_title</key>
     <string>创建您的免费账户</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>转至播客</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>播放最新剧集</string>
+    <key>tv_discover_play_episode</key>
+    <string>播放剧集</string>
     <key>tv_episode_info</key>
     <string>剧集信息</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>浏览分类</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Pocket Casts 精选</string>
     <key>tv_home_keep_listening_title</key>
     <string>从您上次离开的地方继续</string>
     <key>tv_home_new_releases</key>
     <string>新发布</string>
     <key>tv_home_recently_played</key>
     <string>最近播放</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>深受 %1$@ 听众喜爱</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>为您推荐</string>
+    <string>您可能想要这些</string>
+    <key>tv_home_trending_section_title</key>
+    <string>本周热门</string>
+    <key>tv_home_video_section_title</key>
+    <string>专为电视制作</string>
     <key>tv_player_playback_effects</key>
     <string>播放效果</string>
     <key>tv_player_playback_speed</key>
@@ -3916,14 +3968,16 @@ Pocket Casts。</string>
     <string>前往 [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>或在 [%1$@](%2$@) 中输入此代码</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>无法获取您的登录代码</string>
     <key>tv_sign_in_subtitle</key>
     <string>打开您的摄像头，对准此二维码</string>
     <key>tv_sign_in_title</key>
     <string>登录 Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>您的播客正在同步，我们很快会为您登录！</string>
+    <string>正在加载您的播客。</string>
     <key>tv_signing_in_title</key>
-    <string>欢迎回来！</string>
+    <string>很高兴见到您。</string>
     <key>tv_tab_home</key>
     <string>主页</string>
     <key>tv_tab_playlists</key>
