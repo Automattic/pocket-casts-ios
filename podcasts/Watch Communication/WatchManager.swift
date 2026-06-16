@@ -240,6 +240,8 @@ class WatchManager: NSObject, WCSessionDelegate {
             if DateUtil.hasEnoughTimePassed(since: ServerSettings.lastRefreshEndTime(), time: 30.minutes) {
                 RefreshManager.shared.refreshPodcasts()
             }
+        } else if WatchConstants.Messages.PlaybackProgressUpdate.type == messageType {
+            handlePlaybackProgressUpdate(payload: payload)
         } else if WatchConstants.Messages.LoginDetailsRequest.type == messageType {
             // Watch is requesting login details but message was delivered without reply handler
             // This can happen with WatchConnectivity timing issues
@@ -358,6 +360,40 @@ class WatchManager: NSObject, WCSessionDelegate {
             }
         } catch {
             FileLog.shared.addMessage("WatchManager: Failed to read transferred log file: \(error.localizedDescription)")
+        }
+    }
+
+    /// Applies a playback position pushed directly from the watch (local fast-path) so the phone
+    /// reflects watch progress without waiting on a server round-trip. Mirrors the server sync's
+    /// last-write-wins rule via `playedUpToModified`, and re-marks the episode dirty so the phone
+    /// still uploads to the server for other devices.
+    private func handlePlaybackProgressUpdate(payload: [String: Any]) {
+        guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
+              let uuid = payload[WatchConstants.Messages.PlaybackProgressUpdate.episodeUuid] as? String,
+              let playedUpTo = (payload[WatchConstants.Messages.PlaybackProgressUpdate.playedUpTo] as? NSNumber)?.doubleValue,
+              let modifiedAt = (payload[WatchConstants.Messages.PlaybackProgressUpdate.modifiedAt] as? NSNumber)?.int64Value,
+              let episode = DataManager.sharedManager.findBaseEpisode(uuid: uuid) else { return }
+
+        // Don't clobber a position the phone itself is actively producing.
+        if PlaybackManager.shared.isActivelyPlaying(episodeUuid: uuid) { return }
+
+        // Last-write-wins: only apply if the watch's change is newer than what we already have.
+        guard modifiedAt > episode.playedUpToModified else { return }
+
+        DataManager.sharedManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
+        DataManager.sharedManager.updateEpisodePlaybackInteractionDate(episode: episode)
+        FileLog.shared.addMessage("WatchManager: applied playback progress \(playedUpTo) from watch for \(uuid)")
+
+        // If this episode is loaded in the phone's player (and paused), move the live position so the
+        // mini player / now playing updates immediately rather than only after a relaunch. This mirrors
+        // how the server sync applies a remote position (see SyncTask+ServerChanges). Otherwise just
+        // refresh any visible episode cell via the notification.
+        if PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: uuid), !PlaybackManager.shared.playing() {
+            DispatchQueue.main.async {
+                PlaybackManager.shared.seekToFromSync(time: playedUpTo, syncChanges: false, startPlaybackAfterSeek: false)
+            }
+        } else {
+            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPositionSaved, object: uuid)
         }
     }
 
@@ -656,6 +692,7 @@ class WatchManager: NSObject, WCSessionDelegate {
             let duration = playbackManager.duration()
             let currentTime = playbackManager.currentTime()
             nowPlayingInfo[WatchConstants.Keys.nowPlayingCurrentTime] = currentTime
+            nowPlayingInfo[WatchConstants.Keys.nowPlayingPlayedUpToModified] = playingEpisode.playedUpToModified
             nowPlayingInfo[WatchConstants.Keys.nowPlayingDuration] = duration > 0 ? duration : 0
 
             nowPlayingInfo[WatchConstants.Keys.nowPlayingUpNextCount] = playbackManager.queue.upNextCount()

@@ -18,6 +18,7 @@ class WatchSyncManager {
         NotificationCenter.default.addObserver(self, selector: #selector(checkSubscriptionStatus), name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(subscriptionStatusUpdated), name: Notification.Name(rawValue: ServerNotifications.subscriptionStatusChanged.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleContextUpdate), name: WatchConstants.Notifications.dataUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playbackPaused), name: Constants.Notifications.playbackPaused, object: nil)
     }
 
     deinit {
@@ -290,6 +291,21 @@ class WatchSyncManager {
 
     @objc private func minorEpisodeChangeMade() {
         syncThenNotifyPhone(significantChange: false, syncRequired: true)
+    }
+
+    /// When the watch pauses, push the new playback position straight to the phone so it updates
+    /// without a manual refresh. This is a cheap WatchConnectivity message — no extra server work:
+    /// `recordPlaybackPosition` already uploaded the position via `ApiServerHandler.saveUpTo`, and the
+    /// phone re-marks the episode dirty when it applies this, so other devices still converge normally.
+    @objc private func playbackPaused() {
+        guard FeatureFlag.watchPlaybackProgressLocalSync.enabled,
+              SyncManager.isUserLoggedIn(),
+              let episode = PlaybackManager.shared.currentEpisode() else { return }
+
+        FileLog.shared.addMessage("WatchSync: pushing playback progress \(episode.playedUpTo) to phone for \(episode.uuid)")
+        SessionManager.shared.sendPlaybackProgress(episodeUuid: episode.uuid,
+                                                   playedUpTo: episode.playedUpTo,
+                                                   modifiedAt: episode.playedUpToModified)
     }
 
     @objc private func syncCompleted() {

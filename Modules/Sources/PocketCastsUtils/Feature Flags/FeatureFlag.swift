@@ -292,6 +292,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Remove the 50-episode limit when syncing Up Next to Apple Watch
     case unlimitedWatchUpNextSync
 
+    /// On pause, sync the playback position directly between the watch and phone over
+    /// WatchConnectivity (both directions) so progress appears on the other device without a manual refresh
+    case watchPlaybackProgressLocalSync
+
     /// Ensure that tmp files are removed when no longer needed
     case cleanUpTmpFiles
 
@@ -516,6 +520,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .watchTransferUserInfoApi:
             true
         case .unlimitedWatchUpNextSync:
+            true
+        case .watchPlaybackProgressLocalSync:
             true
         case .cleanUpTmpFiles:
             true
