@@ -249,6 +249,12 @@
     <string>アートワークを再読み込みしています</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>了解</string>
+    <key>appearance_tab_bar_header</key>
+    <string>タブバー</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>スクロールで最小化</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>有効にすると、下にスクロールした際にタブバーが小さなピル型になり、より多くのコンテンツが引き続き表示されるようになります。</string>
     <key>appearance_theme_header</key>
     <string>テーマ</string>
     <key>appearance_theme_select</key>
@@ -2056,6 +2062,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>2025年の聴取時間は変わりませんでした</string>
     <key>playback_2025_year_over_year_comparison_up_message</key>
     <string>より多くのポッドキャスト、より多くの喜び</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>2024年と比較して、聴取時間が%1$@ 急増しました</string>
     <key>playback_effect_all_podcasts</key>
     <string>すべてのポッドキャスト</string>
     <key>playback_effect_this_podcast</key>
@@ -2094,6 +2102,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アクションを並べ替え</string>
     <key>player_archived_confirmation</key>
     <string>このエピソードをアーカイブしますか ?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>フィードから非表示になりますが、削除はされません。</string>
     <key>player_artwork</key>
     <string>%1$@のアートワーク</string>
     <key>player_chapter_count</key>
@@ -2124,6 +2134,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>早送りする時間幅</string>
     <key>player_mark_as_played_confirmation</key>
     <string>このエピソードを再生済みとしてマークしますか ?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>「次のエピソード」から履歴に移動します。</string>
     <key>player_options_play_all_message</key>
     <string>この選択により、現在の次のエピソード待機リストの項目はクリアされます。</string>
     <key>player_options_play_episode_singular</key>
@@ -2514,6 +2526,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ポッドキャストの詳細を読み込めませんでした :(</string>
     <key>podcast_error_title</key>
     <string>読み込めません</string>
+    <key>podcast_explicit_content</key>
+    <string>成人向けコンテンツ</string>
     <key>podcast_extras</key>
     <string>その他</string>
     <key>podcast_failed_download</key>
@@ -3634,6 +3648,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>聴取時間</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>聴取アクティビティのヒートマップ。 聴取日数: %1$@/ 365。</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>聴取アクティビティについて</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>再生履歴に基づいた再生タイミングの概算。 エピソードを数日にわたって完了した場合は、最終日に表示されます。</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>聴取アクティビティ</string>
     <key>stats_listening_activity_legend_less</key>
     <string>未満</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3796,6 +3816,12 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>申し訳ありません、このエピソードではトランスクリプトを利用できません</string>
     <key>transcript_error_not_supported</key>
     <string>申し訳ありません、このトランスクリプトのフォーマットはサポートされていません: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>同期されたトランスクリプトは最近のエピソードでのみ利用可能です。</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>すばやく読んで、逃さない。 聞き逃した名前、紹介された本、気になった統計情報。文字をタップして、そこまでジャンプ。</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>併せて読む。 2倍速でも。</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>エピソードをダウンロードし、タップして検索</string>
     <key>trial_finished</key>
@@ -3806,22 +3832,50 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>もう一度お試しください</string>
     <key>try_it_now</key>
     <string>今すぐお試しください</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>無料アカウントを作成</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>お気に入りの番組も、再生した内容も...中断したまさにその場所から。</string>
+    <key>tv_banner_create_account_title</key>
+    <string>1つのアカウント。 すべての画面</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>番組をもっと見る</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>こちらで次のお気に入りを見つけましょう。</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>まだ半分も見ていませんよ。</string>
     <key>tv_create_account_come_back</key>
     <string>アカウントを作成したら、戻ってログインしてください</string>
     <key>tv_create_account_subtitle</key>
     <string>このコードをスキャンして、スマートフォンで開始できます。わずか1分で完了します。</string>
     <key>tv_create_account_title</key>
     <string>無料アカウントを作成</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>ポッドキャストに移動</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>最新エピソードを再生</string>
+    <key>tv_discover_play_episode</key>
+    <string>エピソードを再生</string>
     <key>tv_episode_info</key>
     <string>エピソード情報</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>カテゴリーを表示</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Pocket Casts で特集されました</string>
     <key>tv_home_keep_listening_title</key>
     <string>前回の続きから開始</string>
     <key>tv_home_new_releases</key>
     <string>新規リリース</string>
     <key>tv_home_recently_played</key>
     <string>最近再生済み</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>%1$@ のリスナーから高い評価を得ています</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>あなたへのおすすめ</string>
+    <string>あなたにきっと必要なポッドキャスト</string>
+    <key>tv_home_trending_section_title</key>
+    <string>今週の人気ポッドキャスト</string>
+    <key>tv_home_video_section_title</key>
+    <string>テレビ向け</string>
     <key>tv_player_playback_effects</key>
     <string>再生エフェクト</string>
     <key>tv_player_playback_speed</key>
@@ -3910,14 +3964,16 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>[%1$@](%2$@) に移動</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>または [%1$@](%2$@) にこのコードを入力</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>ログインコードを取得できませんでした</string>
     <key>tv_sign_in_subtitle</key>
     <string>カメラを開き、この QR コードに向けます</string>
     <key>tv_sign_in_title</key>
     <string>Pocket Casts にログイン</string>
     <key>tv_signing_in_subtitle</key>
-    <string>ポッドキャストを同期しています。間もなくログインします。</string>
+    <string>ポッドキャストを読み込んでいます。</string>
     <key>tv_signing_in_title</key>
-    <string>おかえりなさい。</string>
+    <string>お会いできて嬉しいです。</string>
     <key>tv_tab_home</key>
     <string>ホーム</string>
     <key>tv_tab_playlists</key>
