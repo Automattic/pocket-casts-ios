@@ -39,28 +39,28 @@ struct MainTabContentView: View {
             switch tab {
             case .home:
                 HomeView()
-                    .onScrollGeometryChange(for: Double.self) { geometry in
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
                         tabRouter.scrollOffset = after
                     }
             case .podcasts:
                 PodcastsView()
-                    .onScrollGeometryChange(for: Double.self) { geometry in
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
                         tabRouter.scrollOffset = after
                     }
             case .playlists:
                 PlaylistsView()
-                    .onScrollGeometryChange(for: Double.self) { geometry in
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
                         tabRouter.scrollOffset = after
                     }
             case .upNext:
                 UpNextView()
-                    .onScrollGeometryChange(for: Double.self) { geometry in
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
                         geometry.contentInsets.top + geometry.contentOffset.y
                     } action: { _, after in
                         tabRouter.scrollOffset = after
