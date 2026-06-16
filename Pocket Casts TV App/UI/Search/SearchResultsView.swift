@@ -9,7 +9,7 @@ fileprivate enum Layout {
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    
+
     @Bindable var model: ViewModel
 
     @State private var showNowPlayingPlayer = false

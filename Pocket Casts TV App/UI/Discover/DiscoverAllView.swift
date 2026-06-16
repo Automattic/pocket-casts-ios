@@ -4,7 +4,7 @@ import PocketCastsServer
 struct DiscoverAllView: View {
 
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
-    
+
     @State private var model = DiscoverAllViewModel()
 
     var body: some View {
