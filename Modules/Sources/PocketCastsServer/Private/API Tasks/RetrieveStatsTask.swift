@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveStatsTask: ApiBaseTask {
+class RetrieveStatsTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((RemoteStats?) -> Void)?
 
     var getFullStatsData = false

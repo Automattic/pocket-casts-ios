@@ -119,7 +119,7 @@ extension AppSettings {
     }
 }
 
-class SyncSettingsTask: ApiBaseTask {
+class SyncSettingsTask: ApiBaseTask, @unchecked Sendable {
 
     private let appSettings: SettingsStore<AppSettings>
 

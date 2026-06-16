@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RecommendEpisodesTask: ApiBaseTask {
+class RecommendEpisodesTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Episode?) -> Void)?
 
     override func apiTokenAcquired(token: String) {

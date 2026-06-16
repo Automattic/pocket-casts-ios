@@ -3,7 +3,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 import UIKit
 
-class PurchaseReceiptTask: ApiBaseTask {
+class PurchaseReceiptTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "subscription/purchase/ios"
