@@ -38,8 +38,11 @@ class Analytics {
     }
 
     private func _track(_ eventName: String, properties: [String: Sendable]? = nil) {
-        var properties: [String: Sendable] = (properties ?? [:]).mapValues { value in
-            (value as? AnalyticsDescribable)?.analyticsDescription ?? value
+        var properties: [String: Sendable] = (properties ?? [:]).mapValues { value -> Sendable in
+            if let describable = value as? AnalyticsDescribable {
+                return describable.analyticsDescription
+            }
+            return value
         }
 #if !os(watchOS) && !APPCLIP && !os(tvOS)
         if FeatureFlag.appThemePropertiesLogging.enabled {
