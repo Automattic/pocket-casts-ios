@@ -74,7 +74,8 @@ class PodcastDataManager {
         "folderUuid",
         "usedCustomEffectsBefore",
         "isPrivate",
-        "fundingURL"
+        "fundingURL",
+        "isExplicit"
     ]
 
     func setup(dbQueue: PCDBQueue) {
