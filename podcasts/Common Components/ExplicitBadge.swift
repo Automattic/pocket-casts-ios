@@ -2,22 +2,34 @@ import SwiftUI
 import PocketCastsUtils
 
 enum ExplicitBadgeHelper {
-    static let badgeSize: CGFloat = 11
+
+    static let badgeFontSize: CGFloat = 8
+    static var badgeSize: CGFloat {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let fontSize = metric.scaledValue(for: badgeFontSize)
+        return fontSize * 1.5
+    }
 
     private static var imageCache: [Theme.ThemeType: UIImage] = [:]
+    private static var cacheSize = CGFloat(badgeFontSize)
 
-    static func badgeImage(for theme: Theme.ThemeType? = nil) -> UIImage {
+    static func badgeImage(for theme: Theme.ThemeType? = nil, fontSize: CGFloat = badgeFontSize) -> UIImage {
+        if cacheSize != fontSize {
+            cacheSize = fontSize
+            imageCache.removeAll()
+        }
         let resolvedTheme = theme ?? Theme.sharedTheme.activeTheme
         if let cached = imageCache[resolvedTheme] {
             return cached
         }
-        let image = renderBadgeImage(for: resolvedTheme)
+        let image = renderBadgeImage(for: resolvedTheme, fontSize: fontSize)
         imageCache[resolvedTheme] = image
         return image
     }
 
-    private static func renderBadgeImage(for theme: Theme.ThemeType) -> UIImage {
+    private static func renderBadgeImage(for theme: Theme.ThemeType, fontSize: CGFloat = badgeFontSize) -> UIImage {
         let bgColor = ThemeColor.primaryIcon03(for: theme)
+        let badgeSize = fontSize * 1.5
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: badgeSize, height: badgeSize))
         return renderer.image { _ in
             let rect = CGRect(origin: .zero, size: CGSize(width: badgeSize, height: badgeSize))
@@ -26,7 +38,7 @@ enum ExplicitBadgeHelper {
 
             let text = "E" as NSString
             let attrs: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 7, weight: .heavy),
+                .font: UIFont.systemFont(ofSize: fontSize, weight: .heavy),
                 .foregroundColor: UIColor.white,
             ]
             let textSize = text.size(withAttributes: attrs)
@@ -41,8 +53,10 @@ enum ExplicitBadgeHelper {
     }
 
     static func inlineTitle(_ title: String, isExplicit: Bool, theme: Theme.ThemeType? = nil) -> Text {
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let fontSize = metric.scaledValue(for: badgeFontSize)
         if FeatureFlag.showExplicitBadges.enabled, isExplicit {
-            return Text(title) + Text(" ") + Text(Image(uiImage: badgeImage(for: theme))).baselineOffset(-1).accessibilityLabel(L10n.podcastExplicitContent)
+            return Text(title) + Text(" ") + Text(Image(uiImage: badgeImage(for: theme, fontSize: fontSize))).baselineOffset(-1).accessibilityLabel(L10n.podcastExplicitContent)
         }
         return Text(title)
     }
@@ -52,8 +66,12 @@ enum ExplicitBadgeHelper {
             return NSAttributedString(string: title, attributes: [.font: font])
         }
         let result = NSMutableAttributedString(string: title + " ", attributes: [.font: font])
-        let image = badgeImage(for: theme)
 
+        let metric = UIFontMetrics(forTextStyle: .largeTitle)
+        let fontSize = metric.scaledValue(for: badgeFontSize)
+        let badgeSize = fontSize * 1.5
+
+        let image = badgeImage(for: theme, fontSize: fontSize)
         let attachment = NSTextAttachment()
         attachment.image = image
         let yOffset = (font.capHeight - badgeSize) / 2
