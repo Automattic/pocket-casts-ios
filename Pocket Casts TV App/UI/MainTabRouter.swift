@@ -12,6 +12,8 @@ final class MainTabRouter {
     var pendingAuthFlow: ProfileMenuView.AuthDestination?
     var profileDestination: ProfileMenuView.ProfileDestination?
 
+    var scrollOffset: CGFloat = 0
+
     var currentPlayingEpisode: BaseEpisode?
 
     init() {
