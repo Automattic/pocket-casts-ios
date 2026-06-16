@@ -87,6 +87,7 @@ struct PodcastDetailView: View {
                 Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
                     .foregroundColor(.pcTextSecondary)
+                    .lineLimit(3)
             }
             HStack(spacing: 8) {
                 Button() {
