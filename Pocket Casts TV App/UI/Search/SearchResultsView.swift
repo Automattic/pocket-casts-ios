@@ -110,6 +110,7 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         SearchEpisodeRow(model: episode)
                     }
                     .buttonStyle(.card)
+                    .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
         }
