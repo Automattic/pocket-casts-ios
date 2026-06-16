@@ -764,6 +764,7 @@ class PodcastDataManager {
         values.append(podcast.usedCustomEffectsBefore)
         values.append(podcast.isPrivate)
         values.append(DBUtils.nullIfNil(value: podcast.fundingURL))
+        values.append(podcast.isExplicit)
 
         if includeIdForWhere {
             values.append(podcast.id)
