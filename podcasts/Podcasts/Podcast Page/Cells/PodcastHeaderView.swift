@@ -83,7 +83,7 @@ struct PodcastHeaderView: View {
     func makeText() -> Text {
         var output = Text(viewModel.displayCategoryAndAuthor)
         if FeatureFlag.showExplicitBadges.enabled, viewModel.podcast.isExplicit {
-            output = output + ExplicitBadgeHelper.inlineTitle(" ·", isExplicit: true)
+            output = output + ExplicitBadgeHelper.inlineTitle(" ·", isExplicit: true, theme: theme.activeTheme)
         }
         return output
     }
