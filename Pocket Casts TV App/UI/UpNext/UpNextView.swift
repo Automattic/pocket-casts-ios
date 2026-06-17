@@ -7,7 +7,6 @@ struct UpNextView: View {
     @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = UpNextViewModel()
-    @State private var showNowPlayingPlayer: Bool = false
 
     @Namespace private var rowNamespace
 
@@ -43,10 +42,6 @@ struct UpNextView: View {
                 }
             }
             .focusScope(rowNamespace)
-            .fullScreenCover(isPresented: $showNowPlayingPlayer) {
-                NowPlayingView()
-                    .ignoresSafeArea()
-            }
         }
     }
 
@@ -74,7 +69,7 @@ struct UpNextView: View {
         let count = queuedEpisodes.count
         let episodeText = count == 1
             ? L10n.podcastEpisodeCountSingular
-            : L10n.podcastEpisodeCountPluralFormat("\(count)")
+            : L10n.podcastEpisodeCountPluralFormat(count.localized())
         let totalSeconds = queuedEpisodes.reduce(0.0) { sum, episode in
             sum + max(0, episode.duration - episode.playedUpTo)
         }
