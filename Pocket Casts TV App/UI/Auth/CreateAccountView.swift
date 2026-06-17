@@ -33,8 +33,13 @@ struct CreateAccountView: View {
                 await pairing.start()
             }
             .onChange(of: pairing.state) {
-                if case .finished = pairing.state {
+                switch pairing.state {
+                case .finished:
                     finish()
+                case .error(let error, _):
+                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error as NSError).code])
+                default:
+                    break
                 }
             }
     }
