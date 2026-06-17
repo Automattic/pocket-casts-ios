@@ -12,7 +12,7 @@ struct UpNextView: View {
         ItemListContainer(isEmpty: viewModel.isEmpty, noItemsTitle: L10n.watchUpNextNoItemsTitle, noItemsSubtitle: L10n.watchUpNextNoItemsSubtitle) {
             List {
                 NowPlayingRow(isPlaying: $viewModel.isPlaying, podcastName: $viewModel.upNextTitle)
-                EpisodeListView(title: L10n.settingsFiles.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: nil)
+                EpisodeListView(title: L10n.upNext.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: nil)
                     .padding(.vertical, 10)
             }
             .listStyle(.plain)

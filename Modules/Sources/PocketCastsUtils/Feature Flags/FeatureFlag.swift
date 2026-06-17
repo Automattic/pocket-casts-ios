@@ -538,7 +538,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .liquidGlass:
             true
         case .showExplicitBadges:
-            false
+            true
         case .shareProfile:
             BuildEnvironment.current == .debug
         }

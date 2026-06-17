@@ -28,7 +28,7 @@ class TranscriptAnnouncementViewModel {
                 return
             }
 
-            PaidFeature.syncedTranscripts.presentUpgradeController(from: rootViewController, source: .transcriptsWhatsNew)
+            PaidFeature.syncedTranscripts.presentUpgradeController(from: rootViewController, source: .syncedTranscripts)
         }
     }
 }

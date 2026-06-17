@@ -924,13 +924,13 @@ enum AnalyticsEvent: String {
     case episodeTranscriptShown
     case transcriptShared
     case transcriptTextHighlighted
-    case syncedTranscriptSeekUsed
-    case syncedTranscriptPreparationStarted
-    case syncedTranscriptPreparationCompleted
-    case syncedTranscriptPreparationFailed
-    case syncedTranscriptUnavailable
-    case syncedTranscriptSeekFailed
-    case syncedTranscriptAutoScrollResumed
+    case syncedTranscriptsSeekUsed
+    case syncedTranscriptsPreparationStarted
+    case syncedTranscriptsPreparationCompleted
+    case syncedTranscriptsPreparationFailed
+    case syncedTranscriptsUnavailable
+    case syncedTranscriptsSeekFailed
+    case syncedTranscriptsAutoScrollResumed
 
     // MARK: - Widgets
 
