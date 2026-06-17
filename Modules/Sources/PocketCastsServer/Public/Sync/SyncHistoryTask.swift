@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class SyncHistoryTask: ApiBaseTask {
+class SyncHistoryTask: ApiBaseTask, @unchecked Sendable {
     enum HistoryAction: Int {
         case add = 1, delete = 2, clearAll = 3
     }

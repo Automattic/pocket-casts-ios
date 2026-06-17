@@ -29,7 +29,7 @@ public enum UpNextSyncError: LocalizedError {
     }
 }
 
-class UpNextSyncTask: ApiBaseTask {
+class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     private static let processDataLock = NSObject()
 
     override func main() {

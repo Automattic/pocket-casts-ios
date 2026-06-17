@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class UploadFileRequestTask: ApiBaseTask {
+class UploadFileRequestTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((URL?) -> Void)?
     private let episode: UserEpisode
 

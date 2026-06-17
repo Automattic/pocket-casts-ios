@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveStarredTask: ApiBaseTask {
+class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([Episode]?) -> Void)?
 
     private var convertedEpisodes = [Episode]()
