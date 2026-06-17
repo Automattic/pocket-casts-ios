@@ -6737,6 +6737,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		30E86BEDCAC549C19A296B6A /* Colors */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/scripts/themes/theme.csv",
+				"$(SRCROOT)/scripts/themes/generate_themes.rb",
+			);
+			name = Colors;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/podcasts/ThemeColor.swift",
+				"$(SRCROOT)/podcasts/ThemeStyle.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make generate_colors\n";
+		};
 		3C5194112B716756006632DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -6817,28 +6839,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "make generate_code\n";
-		};
-		30E86BEDCAC549C19A296B6A /* Colors */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/scripts/themes/theme.csv",
-				"$(SRCROOT)/scripts/themes/generate_themes.rb",
-			);
-			name = Colors;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/podcasts/ThemeColor.swift",
-				"$(SRCROOT)/podcasts/ThemeStyle.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "make generate_colors\n";
 		};
 		C716FF45296F2BE3006B787D /* Modify Plist */ = {
 			isa = PBXShellScriptBuildPhase;
