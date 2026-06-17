@@ -15,7 +15,7 @@ struct DiscoverPodcastCell: View {
                 .padding(.horizontal, isSponsored ? 36 : 0)
                 .padding(.top, isSponsored ? 18 : 0)
             if isSponsored {
-                Text(L10n.discoverSponsored)
+                Text(L10n.discoverSponsored.sentenceCased)
                     .font(.caption2)
                     .foregroundColor(.pcTextSecondary)
                     .padding(.bottom, 14)
