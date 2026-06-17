@@ -41,6 +41,13 @@ struct FocusObserving: ViewModifier {
                     }
                 }
             }
+            // If this view is torn down (list recycling, tab swap) the
+            // `isFocused` change to `false` may never fire, leaving the
+            // section title stuck in the highlighted state. `relinquish`
+            // checks the holder, so this won't wipe a sibling's claim.
+            .onDisappear {
+                focusStore.relinquish(holder: identity)
+            }
     }
 }
 
