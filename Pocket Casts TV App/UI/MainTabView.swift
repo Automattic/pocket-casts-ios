@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum MainTab: Int, CaseIterable, Identifiable {
+enum MainTab: Int, CaseIterable, Identifiable, Equatable {
     case home = 0
     case podcasts
     case playlists
@@ -32,47 +32,44 @@ enum MainTab: Int, CaseIterable, Identifiable {
 struct MainTabContentView: View {
     let tab: MainTab
 
-    @Binding var scrollOffset: Double
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
 
     var body: some View {
-        switch tab {
-        case .home:
-            HomeView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
-        case .podcasts:
-            PodcastsView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
-        case .playlists:
-            PlaylistsView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
-        case .upNext:
-            UpNextView()
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
-        case .search:
-            SearchView(model: SearchViewModel())
-                .onScrollGeometryChange(for: Double.self) { geometry in
-                    geometry.contentInsets.top + geometry.contentOffset.y
-                } action: { _, after in
-                    self.scrollOffset = after
-                }
-        case .nowPlaying:
-            NowPlayingTab()
+        ZStack {
+            switch tab {
+            case .home:
+                HomeView()
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                        geometry.contentInsets.top + geometry.contentOffset.y
+                    } action: { _, after in
+                        tabRouter.scrollOffset = after
+                    }
+            case .podcasts:
+                PodcastsView()
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                        geometry.contentInsets.top + geometry.contentOffset.y
+                    } action: { _, after in
+                        tabRouter.scrollOffset = after
+                    }
+            case .playlists:
+                PlaylistsView()
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                        geometry.contentInsets.top + geometry.contentOffset.y
+                    } action: { _, after in
+                        tabRouter.scrollOffset = after
+                    }
+            case .upNext:
+                UpNextView()
+                    .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                        geometry.contentInsets.top + geometry.contentOffset.y
+                    } action: { _, after in
+                        tabRouter.scrollOffset = after
+                    }
+            case .search:
+                SearchViewContainer()
+            case .nowPlaying:
+                NowPlayingTab()
+            }
         }
     }
 }
@@ -96,7 +93,6 @@ struct MainTabView: View {
     @State private var tabRouter = MainTabRouter()
     @FocusState private var focusedArea: FocusArea?
     @FocusState private var profileFocused: Bool
-    @State private var scrollOffset: Double = 0
     @Environment(AppCoordinator.self) var coordinator
 
     enum FocusArea: Hashable {
@@ -111,7 +107,7 @@ struct MainTabView: View {
                 ForEach(MainTab.allCases) { tab in
                     if tabRouter.shouldShowTab(tab) {
                         Tab(value: tab) {
-                            MainTabContentView(tab: tab, scrollOffset: $scrollOffset)
+                            MainTabContentView(tab: tab)
                                 .environment(tabRouter)
                                 .focused($focusedArea, equals: .content)
                         } label: {
@@ -151,7 +147,7 @@ struct MainTabView: View {
                 }
                 .padding(.vertical, 48)
                 .padding(.horizontal, 84)
-                .offset(x: 0, y: -scrollOffset)
+                .offset(x: 0, y: -tabRouter.scrollOffset)
                 Spacer()
             }
         }
