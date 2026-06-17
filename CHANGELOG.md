@@ -2,6 +2,7 @@
 -----
 - Tag Ask AI widget tickets for dedicated inbox routing [#4227](https://github.com/Automattic/pocket-casts-ios/pull/4227)
 - Drop iOS 16 and watchOS 9 [#4521](https://github.com/Automattic/pocket-casts-ios/issues/4521)
+- Fix incorrect section heading when opening an episode on the Apple Watch [#4528](https://github.com/Automattic/pocket-casts-ios/pull/4528)
 
 8.14
 -----

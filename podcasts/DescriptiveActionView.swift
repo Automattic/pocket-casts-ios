@@ -155,15 +155,10 @@ class DescriptiveActionView: UIView {
         config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
 
         let actionButton = UIButton(configuration: config, primaryAction: UIAction(title: action.label, handler: { [weak self] _ in
-            if self?.delegate?.isPresentedAsSheet == true {
-                // Dismiss the sheet before running the action so an action that
-                // presents another screen doesn't hit "already presenting".
-                self?.delegate?.animateOut(optionChosen: true)
-                action.action()
-            } else {
-                action.action()
-                self?.delegate?.animateOut(optionChosen: true)
-            }
+            // Dismiss the sheet before running the action so an action that
+            // presents another screen doesn't hit "already presenting".
+            self?.delegate?.animateOut(optionChosen: true)
+            action.action()
         }))
         actionButton.configurationUpdateHandler = { button in
             var config = button.configuration
@@ -190,15 +185,10 @@ class DescriptiveActionView: UIView {
         actionButton.isOn = !action.outline
         actionButton.setup()
         actionButton.buttonTapped = { [weak self] in
-            if self?.delegate?.isPresentedAsSheet == true {
-                // Dismiss the sheet before running the action so an action that
-                // presents another screen doesn't hit "already presenting".
-                self?.delegate?.animateOut(optionChosen: true)
-                action.action()
-            } else {
-                action.action()
-                self?.delegate?.animateOut(optionChosen: true)
-            }
+            // Dismiss the sheet before running the action so an action that
+            // presents another screen doesn't hit "already presenting".
+            self?.delegate?.animateOut(optionChosen: true)
+            action.action()
         }
         return actionButton
     }

@@ -8,6 +8,7 @@ fileprivate enum Layout {
 struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
 
     @State private var model: ViewModel
 
@@ -59,7 +60,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+            requireAccount { tabRouter.selectedTab = .home }
         }
     }
 

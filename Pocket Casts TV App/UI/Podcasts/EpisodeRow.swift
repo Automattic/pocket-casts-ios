@@ -110,6 +110,7 @@ struct EpisodeRowWithActions: View {
     @FocusState private var focusedElement: FocusElement?
     @State private var isPlaying = false
     @State private var isShowingActions = false
+    @State private var isShowingShowNotes = false
     @State private var restoreFocus = false
 
     private enum FocusElement: Hashable {
@@ -131,6 +132,9 @@ struct EpisodeRowWithActions: View {
 
     @ViewBuilder
     private var actionButtons: some View {
+        if model.podcastUuid != nil {
+            Button(L10n.tvEpisodeShowNotesAction) { isShowingShowNotes = true }
+        }
         switch context {
         case .default:
             Button(L10n.playNextInUpNext) { requireAccount { model.playNext() } }
@@ -196,6 +200,9 @@ struct EpisodeRowWithActions: View {
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()
+        }
+        .sheet(isPresented: $isShowingShowNotes) {
+            EpisodeShowNotesView(episode: model.episode, podcast: model.podcast)
         }
         .confirmationDialog(model.displayTitle, isPresented: $isShowingActions) {
             actionButtons

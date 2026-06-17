@@ -2969,8 +2969,6 @@
 		FF8FF6A72FAA47450086A867 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Adapters/Crash Logging/CrashLoggingAdapter.swift",
-				"Adapters/Crash Logging/CrashLoggingDataProvider.swift",
 				AnalyticsAppThemeProvider.swift,
 				WidgetAnalytics.swift,
 			);

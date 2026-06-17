@@ -391,7 +391,7 @@ struct DeveloperMenu: View {
                     showDeviceApproval = true
                 }
                 .sheet(isPresented: $showDeviceApproval) {
-                    DeviceApproveView(userCode: "")
+                    DeviceApproveView(userCode: "", model: DeviceApproveViewModel(presentingViewController: SceneHelper.rootViewController(includeTopMost: true) ?? UIViewController()))
                 }
             } header: {
                 Text("TV")

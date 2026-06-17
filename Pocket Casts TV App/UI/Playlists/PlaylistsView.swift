@@ -4,6 +4,7 @@ import PocketCastsDataModel
 struct PlaylistsView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = PlaylistsViewModel()
     @State private var didTrackShown = false
@@ -52,7 +53,7 @@ struct PlaylistsView: View {
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvPlaylistsEmptyTitle, subtitle: L10n.tvPlaylistsEmptySubtitle, actionTitle: L10n.tvPlaylistsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+            requireAccount { tabRouter.selectedTab = .home }
         }
     }
 

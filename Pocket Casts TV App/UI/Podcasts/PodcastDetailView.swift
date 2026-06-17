@@ -87,6 +87,7 @@ struct PodcastDetailView: View {
                 Text(model.podcast?.podcastDescription ?? "")
                     .font(.caption)
                     .foregroundColor(.pcTextSecondary)
+                    .lineLimit(3)
             }
             HStack(spacing: 8) {
                 Button() {
@@ -109,6 +110,7 @@ struct PodcastDetailView: View {
                     .font(.caption2)
                 }
                 Button() {
+                    Analytics.track(.podcastScreenToggleSummary, properties: ["is_expanded": true])
                     isShowingMoreInfo = true
                 } label: {
                     Text(L10n.tvPodcastDetailMoreInfoTitle)

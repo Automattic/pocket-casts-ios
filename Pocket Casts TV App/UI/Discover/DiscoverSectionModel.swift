@@ -18,15 +18,22 @@ class DiscoverSectionModel {
 
     let item: DiscoverItem?
 
-    init(type: DiscoverType, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    /// Analytics source ("home" or "search") used by the `discover_list_*` events.
+    let source: String
+
+    private(set) var listId: String?
+
+    init(type: DiscoverType, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = type
         self.item = nil
+        self.source = source
         self.discoverManager = discoverManager
     }
 
-    init(item: DiscoverItem, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    init(item: DiscoverItem, source: String, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.type = nil
         self.item = item
+        self.source = source
         self.discoverManager = discoverManager
     }
 
@@ -57,7 +64,19 @@ class DiscoverSectionModel {
             title = composedTitle
             sponsored = section.sponsoredPodcastsIDs
             isSponsored = item?.isSponsored ?? false
+            listId = section.listId
         }
+    }
+
+    /// Fires once the section's podcasts are on screen, mirroring iOS's `viewDidAppear` impression.
+    func trackImpression() {
+        guard state == .ready, let listId else { return }
+        DiscoverAnalytics.listImpression(listId: listId, source: source)
+    }
+
+    func trackPodcastTapped(_ podcast: DiscoverPodcast) {
+        guard let listId, let podcastUuid = podcast.uuid else { return }
+        DiscoverAnalytics.podcastTapped(listId: listId, podcastUuid: podcastUuid, source: source)
     }
 
     var focusStoreID: String {

@@ -3,6 +3,7 @@ import SwiftUI
 struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+    @Environment(\.requireAccount) private var requireAccount
 
     @State private var model = UpNextViewModel()
 
@@ -30,37 +31,34 @@ struct UpNextView: View {
     @State private var showNowPlayingPlayer: Bool = false
 
     var upNextView: some View {
-        List {
-            Section {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 24) {
                 if let currentPlaying = model.episodes.first {
                     NowPlayingRow(model: currentPlaying) {
                         showNowPlayingPlayer = true
                     }
-                        .frame(width: 1242, alignment: .leading)
+                    .frame(width: 1242, alignment: .leading)
                 }
-            }
-            Section {
+                Text(L10n.tvTabUpNext)
+                    .font(.title2)
+                    .foregroundStyle(Color.pcTextPrimary)
                 ForEach(model.episodes.dropFirst()) { episode in
                     EpisodeRowWithActions(model: episode, context: .upNext)
                         .frame(width: 1160)
                         .prefersDefaultFocus(episode.id == model.episodes.first?.id, in: rowNamespace)
                 }
-            } header: {
-                Text(L10n.tvTabUpNext)
-                    .font(.title2)
-                    .foregroundStyle(Color.pcTextPrimary)
+                .focusScope(rowNamespace)
             }
-            .focusScope(rowNamespace)
-        }
-        .fullScreenCover(isPresented: $showNowPlayingPlayer) {
-            NowPlayingView()
-                .ignoresSafeArea()
+            .fullScreenCover(isPresented: $showNowPlayingPlayer) {
+                NowPlayingView()
+                    .ignoresSafeArea()
+            }
         }
     }
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvUpNextEmptyTitle, subtitle: L10n.tvUpNextEmptySubtitle, actionTitle: L10n.tvUpNextEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+            requireAccount { tabRouter.selectedTab = .home }
         }
     }
 

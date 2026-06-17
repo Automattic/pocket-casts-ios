@@ -6118,6 +6118,15 @@
 /* tv podcast more info next episode label */
 "tv_podcast_detail_next_episode" = "Next episode";
 
+/* tv episode row action that opens the episode details modal. The leading ⓘ glyph stands in for an SF Symbol since tvOS .confirmationDialog strips Labels' images. */
+"tv_episode_show_notes_action" = "ⓘ  Episode details";
+
+/* tv title shown above the rendered HTML episode description inside the episode details modal */
+"tv_episode_show_notes_title" = "Episode details";
+
+/* tv fallback message shown inside the episode details modal while the show notes are being fetched */
+"tv_episode_show_notes_loading" = "Loading episode details…";
+
 /* tv podcast detail recommended episode section title */
 "tv_podcast_detail_start_here" = "The episode to try first";
 
@@ -6371,4 +6380,11 @@
 /* Message of the alert shown when the pairing code has expired, telling the user to generate a new code on their TV. */
 "device_approve_expired_alert_message" = "Please go back to your TV to generate a new one.";
 
+/* Title of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_title" = "Apple TV connected";
 
+/* Message of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_message" = "Your Apple TV is now connected to your account.";
+
+/* Title of the alert shown when approval failed. */
+"device_approve_generic_error_alert_title" = "Device approval failed";

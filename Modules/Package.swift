@@ -47,7 +47,7 @@ let package = Package(
         .package(url: "https://github.com/ra1028/DifferenceKit", from: "1.2.0"),
         .package(url: "https://github.com/krisk/fuse-swift", from: "1.4.0"),
         .package(url: "https://github.com/shiftyjelly/SwipeCellKit", from: "2.7.6"),
-        .package(url: "https://github.com/Automattic/Automattic-Tracks-iOS", revision: "8e889c30cd8234d5809966f25fd61abbb10d345e"),
+        .package(url: "https://github.com/Automattic/Automattic-Tracks-iOS", exact: "4.3.0"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.23.0"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS", from: "7.1.0"),
         .package(url: "https://github.com/Automattic/Agrume", from: "5.6.12"),
@@ -57,6 +57,7 @@ let package = Package(
         .package(url: "https://github.com/Automattic/google-cast", from: "1.0.1"),
         .package(url: "https://github.com/ksemianov/WrappingHStack", from: "0.2.0"),
         .package(url: "https://github.com/Automattic/pocket-casts-ios-fingerprint", branch: "trunk"),
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.7.0"),
     ],
     targets: XcodeSupport.targets + [
         .target(
@@ -127,6 +128,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Swime", package: "Swime"),
+                .product(name: "SwiftSoup", package: "SwiftSoup"),
                 "PocketCastsDataModel",
                 "PocketCastsUtils",
             ],
