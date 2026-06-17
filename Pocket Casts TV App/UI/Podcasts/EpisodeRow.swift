@@ -165,7 +165,12 @@ struct EpisodeRowWithActions: View {
         .animation(.easeInOut(duration: 0.2), value: shouldShowMoreButton)
         .onChange(of: isShowingActions) { _, showing in
             guard !showing else { return }
-            DispatchQueue.main.async {
+            // tvOS runs its own focus restoration as the dialog animates out,
+            // and it lands focus on whatever surrounds the row (often the tab
+            // bar). Wait for that pass to settle before pulling focus back to
+            // the ellipsis ourselves, otherwise our assignment is overwritten.
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(100))
                 var transaction = Transaction()
                 transaction.disablesAnimations = true
                 withTransaction(transaction) {
