@@ -40,7 +40,11 @@ struct ListeningHistoryView: View {
     }
 
     private var emptyView: some View {
-        EmptyDataView(title: L10n.tvHistoryEmptyTitle, subtitle: L10n.tvHistoryEmptySubtitle)
+        ContentUnavailableView {
+            Text(L10n.tvHistoryEmptyTitle)
+        } description: {
+            Text(L10n.tvHistoryEmptySubtitle)
+        }
     }
 }
 

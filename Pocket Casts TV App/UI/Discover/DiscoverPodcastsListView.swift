@@ -55,8 +55,14 @@ struct DiscoverPodcastsListView: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            tabRouter.selectedTab = .home
+        ContentUnavailableView {
+            Text(L10n.tvPodcastsEmptyTitle)
+        } description: {
+            Text(L10n.tvPodcastsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPodcastsEmptyActionTitle) {
+                tabRouter.selectedTab = .home
+            }
         }
     }
 

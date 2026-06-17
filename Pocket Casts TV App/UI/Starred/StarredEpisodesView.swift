@@ -40,7 +40,11 @@ struct StarredEpisodesView: View {
     }
 
     private var emptyView: some View {
-        EmptyDataView(title: L10n.tvStarredEmptyTitle, subtitle: L10n.tvStarredEmptySubtitle)
+        ContentUnavailableView {
+            Text(L10n.tvStarredEmptyTitle)
+        } description: {
+            Text(L10n.tvStarredEmptySubtitle)
+        }
     }
 }
 
