@@ -50,7 +50,7 @@ struct ProfileMenuView: View {
             }
             Button(L10n.cancel, role: .cancel) {}
         } message: {
-            Text(L10n.tvProfileMenuLogOutConfirmationMessage)
+            Text(L10n.tvProfileMenuLogOutConfirmationMessageVersion2)
         }
         .onAppear {
             Analytics.track(.profileShown)

@@ -23,7 +23,7 @@ struct CreateAccountView: View {
     private let steps = [
         L10n.tvCreateAccountModalStepScan,
         L10n.tvCreateAccountModalStepCreate,
-        L10n.tvCreateAccountModalStepSignIn
+        L10n.tvCreateAccountModalStepLogIn
     ]
 
     var body: some View {
@@ -163,7 +163,7 @@ struct CreateAccountView: View {
 
     private func pairingError(message: String) -> some View {
         ContentUnavailableView {
-            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+            Label(L10n.tvLogInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
         } description: {
             Text(message)
         } actions: {
