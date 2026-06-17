@@ -197,23 +197,21 @@ actor DiscoverManager {
 
         let regionCode = regionCode(for: discoverLayout)
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
-        var details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false)
-
-        var sponsoredUuids = Set<String>()
-        if let layout = discoverLayout.layout {
-            for item in layout {
-                if item.categoryID == category.id,
-                   item.isSponsored == true,
-                   let source = item.source,
-                   let podcasts = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated == true)?.podcasts {
-                    details?.podcasts?.append(contentsOf: podcasts)
-                    sponsoredUuids = sponsoredUuids.union(Set(podcasts.compactMap({$0.uuid})))
-                }
-            }
-        }
-        guard let details else {
+        guard var details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false) else {
             return nil
         }
+
+        var sponsoredUuids = Set<String>()
+        for item in discoverLayout.layout ?? [] {
+            if item.categoryID == category.id,
+               item.isSponsored == true,
+               let source = item.source,
+               let podcasts = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated == true)?.podcasts {
+                details.podcasts?.append(contentsOf: podcasts)
+                sponsoredUuids = sponsoredUuids.union(Set(podcasts.compactMap({$0.uuid})))
+            }
+        }
+
         return DiscoverCategorySection(categoryDetails: details, sponsoredPodcastsIDs: sponsoredUuids)
     }
 
