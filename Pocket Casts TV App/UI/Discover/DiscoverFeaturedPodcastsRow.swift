@@ -29,7 +29,7 @@ struct DiscoverFeaturedPodcastsRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                HomeSection(title: model.title ?? "", focusSection: model.focusStoreID) {
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
                     podcastList
                 }
             }
