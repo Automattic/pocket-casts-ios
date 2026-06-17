@@ -52,7 +52,7 @@ struct DiscoverPodcastRow: View {
                             PodcastImage(uuid: uuid, size: .page)
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
                         }
-                        .buttonStyle(.card)                        
+                        .buttonStyle(.card)
                         .setFocus(section: model.focusStoreID)
                         .simultaneousGesture(TapGesture().onEnded {
                             model.trackPodcastTapped(podcast)
