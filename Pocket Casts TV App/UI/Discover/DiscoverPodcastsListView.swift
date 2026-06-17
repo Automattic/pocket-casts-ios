@@ -46,7 +46,7 @@ struct DiscoverPodcastsListView: View {
     var podcastsView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
-                Text(model.name)
+                Text(L10n.mostPopularWithName(model.name))
                     .font(.title2)
                     .foregroundStyle(Color.pcTextPrimary)
                 podcastGrid
