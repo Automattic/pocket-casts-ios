@@ -1,6 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 import SwiftUI
+import PocketCastsUtils
 
 struct PodcastBlurHeaderView: View {
 
@@ -79,9 +80,16 @@ struct PodcastHeaderView: View {
         .padding(.horizontal, 16)
     }
 
+    func makeText() -> Text {
+        var output = Text(viewModel.displayCategoryAndAuthor)
+        if FeatureFlag.showExplicitBadges.enabled, viewModel.podcast.isExplicit {
+            output = output + ExplicitBadgeHelper.inlineTitle(" ·", isExplicit: true, theme: theme.activeTheme)
+        }
+        return output
+    }
     private var podcastCategory: some View {
         VStack {
-            Text(viewModel.displayCategoryAndAuthor)
+                makeText()
                 .font(.footnote)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
