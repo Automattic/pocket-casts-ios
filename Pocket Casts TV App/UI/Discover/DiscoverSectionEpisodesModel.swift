@@ -10,7 +10,7 @@ class DiscoverSectionEpisodesModel {
 
     var sponsored = Set<String>()
 
-    var title: String?
+    var title: String = ""
 
     let type: DiscoverType?
 
@@ -64,5 +64,9 @@ class DiscoverSectionEpisodesModel {
     func trackImpression() {
         guard state == .ready, let listId else { return }
         DiscoverAnalytics.listImpression(listId: listId, source: source)
+    }
+
+    var focusStoreID: String {
+        self.item?.focusStoreID ?? self.type?.rawValue ?? ""
     }
 }
