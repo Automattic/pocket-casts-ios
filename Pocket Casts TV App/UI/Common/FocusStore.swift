@@ -2,21 +2,42 @@ import SwiftUI
 
 @Observable
 class FocusStore {
-    var focusedID: AnyHashable?
+    private(set) var focusedID: AnyHashable?
+    private var holder: UUID?
+
+    /// Marks `section` as focused on behalf of a specific item. The `holder`
+    /// uniquely identifies the claimant so a later `relinquish` can tell
+    /// whether the claim is still its own or has been replaced by a sibling.
+    func claim(section: AnyHashable, holder: UUID) {
+        self.holder = holder
+        focusedID = section
+    }
+
+    /// Clears the focused section, but only if `holder` matches the current
+    /// claimant. Lets a sibling in the same section take over without the
+    /// outgoing item wiping the new claim during a focus handoff.
+    func relinquish(holder: UUID) {
+        guard self.holder == holder else { return }
+        self.holder = nil
+        focusedID = nil
+    }
 }
 
 struct FocusObserving: ViewModifier {
     @Environment(FocusStore.self) var focusStore
     @FocusState private var isFocused: Bool
+    @State private var identity = UUID()
     let section: AnyHashable
 
     func body(content: Content) -> some View {
         content
             .focused($isFocused)
             .onChange(of: isFocused) { _, newValue in
-                if newValue {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        focusStore.focusedID = section
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    if newValue {
+                        focusStore.claim(section: section, holder: identity)
+                    } else {
+                        focusStore.relinquish(holder: identity)
                     }
                 }
             }

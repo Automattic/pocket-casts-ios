@@ -23,7 +23,7 @@ struct DiscoverAllView: View {
 
     var discoverList: some View {
         ScrollView {
-            LazyVStack(spacing: 80) {
+            LazyVStack(spacing: HomeSectionLayout.sectionSpacing) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
                     DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
                 }
