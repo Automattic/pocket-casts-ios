@@ -8,7 +8,7 @@ class DiscoverCategoryModel {
 
     let category: DiscoverCategory
 
-    var categoryDetails: DiscoverCategoryDetails?
+    var categorySection: DiscoverCategorySection?
 
     var coverPodcastsUuids: [String] = []
 
@@ -24,12 +24,12 @@ class DiscoverCategoryModel {
     }
 
     func load() async {
-        let detail = await discoverManager.loadDiscoverCategoryDetails(for: category)
+        let categorySection = await discoverManager.loadDiscoverCategoryDetails(for: category)
 
         await MainActor.run {
-            state = detail != nil ? .ready : .empty
-            self.categoryDetails = detail
-            if let podcasts = categoryDetails?.podcasts {
+            state = categorySection != nil ? .ready : .empty
+            self.categorySection = categorySection
+            if let podcasts = categorySection?.categoryDetails.podcasts {
                 self.coverPodcastsUuids = podcasts.compactMap { $0.uuid }
             }
         }
@@ -47,6 +47,17 @@ class DiscoverCategoryModel {
     }
 
     var podcasts: [DiscoverPodcast] {
-        return categoryDetails?.podcasts ?? []
+        return categorySection?.categoryDetails.podcasts ?? []
+    }
+
+    var sposoredPodcastsUuids: Set<String> {
+        return categorySection?.sponsoredPodcastsIDs ?? []
+    }
+
+    func isSponsored(podcast: DiscoverPodcast) -> Bool {
+        guard let section = categorySection, let uuid = podcast.uuid else {
+            return false
+        }
+        return section.sponsoredPodcastsIDs.contains(uuid)
     }
 }

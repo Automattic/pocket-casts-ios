@@ -62,10 +62,20 @@ struct DiscoverPodcastsListView: View {
 
     var podcastGrid: some View {
         LazyVGrid(columns: gridColumns, spacing: 48) {
-            ForEach(model.categoryDetails?.podcasts ?? [], id: \.uuid) { podcast in
+            ForEach(model.podcasts, id: \.uuid) { podcast in
                 NavigationLink(value: podcast) {
-                    PodcastImage(uuid: podcast.uuid ?? "", size: .page)
-                        .frame(width: Layout.gridSize, height: Layout.gridSize)
+                    VStack(alignment: .center, spacing: 10) {
+                        PodcastImage(uuid: podcast.uuid ?? "", size: .page)
+                            .padding(.horizontal, model.isSponsored(podcast: podcast) ? 36 : 0)
+                            .padding(.top, model.isSponsored(podcast: podcast) ? 18 : 0)
+                        if model.isSponsored(podcast: podcast) {
+                            Text(L10n.discoverSponsored)
+                                .font(.caption2)
+                                .foregroundColor(.pcTextSecondary)
+                                .padding(.bottom, 14)
+                        }
+                    }
+                    .frame(width: Layout.gridSize, height: Layout.gridSize)
                 }
                 .buttonStyle(.card)
             }
