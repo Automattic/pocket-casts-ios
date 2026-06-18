@@ -55,7 +55,11 @@ class DiscoverSectionEpisodesModel {
         await MainActor.run {
             state = section.episodes.isEmpty ? .empty : .ready
             self.episodes = section.episodes
-            title =  L10n.tvHomeVideoSectionTitle
+            var composedTitle = section.title?.localized ?? ""
+            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
+                composedTitle = subtitle + ": " + composedTitle
+            }
+            title = composedTitle              
             listId = section.listId
         }
     }

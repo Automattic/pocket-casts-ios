@@ -44,11 +44,15 @@ struct DiscoverSection {
 }
 
 struct DiscoverEpisodesSection {
+    let title: String?
+    let subtitle: String?
     let episodes: [DiscoverEpisode]
     /// Analytics list identifier for the section, used by the `discover_list_*` events.
     let listId: String?
 
-    init(episodes: [DiscoverEpisode] = [], listId: String? = nil) {
+    init(title: String? = nil, subtitle: String? = nil, episodes: [DiscoverEpisode] = [], listId: String? = nil) {
+        self.title = title
+        self.subtitle = subtitle
         self.episodes = episodes
         self.listId = listId
     }
@@ -255,13 +259,13 @@ actor DiscoverManager {
             return DiscoverEpisodesSection(listId: listId)
         }
 
-        return DiscoverEpisodesSection(episodes: listOfEpisodes, listId: listId)
+        return DiscoverEpisodesSection(title: podcastCollection?.title, subtitle: podcastCollection?.subtitle, episodes: listOfEpisodes, listId: listId)
     }
 
     func makeVideoItem(layout: DiscoverLayout) -> DiscoverItem {
         let videoItem = DiscoverItem(id: "video",
                                      uuid: "video",
-                                     title: L10n.tvHomeVideoSectionTitle,
+                                     title: "made for tv",
                                      type: "episode_video_list",
                                      summaryStyle: "collection",
                                      summaryItemCount: nil,
