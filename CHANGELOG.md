@@ -6,6 +6,7 @@
 - Fix the Filters search header popping back when few episodes match [#4527](https://github.com/Automattic/pocket-casts-ios/pull/4527)
 - Drop iOS 16 and watchOS 9 [#4521](https://github.com/Automattic/pocket-casts-ios/issues/4521)
 - Fix incorrect section heading when opening an episode on the Apple Watch [#4528](https://github.com/Automattic/pocket-casts-ios/pull/4528)
+- Make the mini player play/pause button larger [#4566](https://github.com/Automattic/pocket-casts-ios/pull/4566)
 
 8.14
 -----
