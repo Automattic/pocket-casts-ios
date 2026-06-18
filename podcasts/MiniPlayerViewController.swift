@@ -146,7 +146,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         podcastArtwork.layer.cornerRadius = 6
         podcastArtwork.layer.masksToBounds = true
 
-        playPauseBtn.visualSize = 28
+        playPauseBtn.visualSize = 32
 
         // The skip glyphs read a touch heavy next to the smaller glass
         // play/pause button, so scale the (template) assets down slightly.
@@ -237,7 +237,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
             NSLayoutConstraint.deactivate(accessoryEnvironmentConstraints)
             accessoryEnvironmentConstraints = [
-                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 44),
+                glassProgressView.widthAnchor.constraint(equalToConstant: isInline ? 34 : 52),
                 glassButtonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: isInline ? -4 : -8),
             ]
             NSLayoutConstraint.activate(accessoryEnvironmentConstraints)
