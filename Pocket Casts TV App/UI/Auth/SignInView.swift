@@ -127,7 +127,7 @@ struct SignInView: View {
 
     func qrCodeError(message: String) -> some View {
         ContentUnavailableView {
-            Label(L10n.tvSignInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
+            Label(L10n.tvLogInQrCodeErrorTitle, systemImage: "wifi.exclamationmark")
         } description: {
             Text(message)
         } actions: {
@@ -205,7 +205,7 @@ struct SignInView: View {
             } label: {
                 switch model.state {
                 case .start, .error:
-                    Text(L10n.signIn)
+                    Text(L10n.accountLogin)
                         .frame(minWidth: 300)
                 case .waiting:
                     ProgressView()

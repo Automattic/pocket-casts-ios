@@ -37,7 +37,7 @@ struct WelcomeView: View {
                         .padding(.bottom, 16)
                     HStack(spacing: 16) {
                         NavigationLink(value: Destination.signIn) {
-                            Text(L10n.tvWelcomeSignIn)
+                            Text(L10n.tvWelcomeLogIn)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
                             Analytics.track(.setupAccountButtonTapped, properties: ["button": "sign_in"])
