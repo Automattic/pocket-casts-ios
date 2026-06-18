@@ -24,6 +24,7 @@ struct PlaylistsView: View {
                 emptyView
             }
         }
+        .animation(.easeInOut, value: model.state)
         .task {
             model.load()
         }

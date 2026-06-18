@@ -31,6 +31,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 emptyView
             }
         }
+        .animation(.easeInOut, value: model.state)
         .task {
             await model.load()
             Analytics.track(.podcastsListShown, properties: [

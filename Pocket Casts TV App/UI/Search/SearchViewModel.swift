@@ -26,12 +26,26 @@ enum SearchScope: CaseIterable {
     }
 }
 
-enum SearchState {
+enum SearchState: Equatable {
     case query
     case searching
     case results
     case error(Error)
     case empty
+
+    static func == (lhs: SearchState, rhs: SearchState) -> Bool {
+        switch (lhs, rhs) {
+        case (.query, .query),
+             (.searching, .searching),
+             (.results, .results),
+             (.empty, .empty):
+            return true
+        case let (.error(lhsError), .error(rhsError)):
+            return (lhsError as NSError) == (rhsError as NSError)
+        default:
+            return false
+        }
+    }
 }
 
 protocol SearchableViewModel: AnyObject, Observation.Observable {
