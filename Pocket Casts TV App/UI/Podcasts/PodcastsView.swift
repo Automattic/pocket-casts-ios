@@ -60,7 +60,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvPodcastsEmptyTitle, subtitle: L10n.tvPodcastsEmptySubtitle, actionTitle: L10n.tvPodcastsEmptyActionTitle) {
-            requireAccount { tabRouter.selectedTab = .home }
+            tabRouter.selectedTab = .search
         }
     }
 

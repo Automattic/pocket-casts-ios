@@ -16,7 +16,17 @@ struct UpNextView: View {
             case .loading:
                 loadingView
             case .ready:
-                upNextView
+                // The model's "empty" state means the entire queue is empty
+                // (including the currently playing episode at index 0). When
+                // the user clears every queued episode but something is still
+                // playing, only that currently playing item remains and the
+                // visible list — `queuedEpisodes` — is empty even though the
+                // model is `.ready`. Show the empty state in that case too.
+                if queuedEpisodes.isEmpty {
+                    emptyView
+                } else {
+                    upNextView
+                }
             case .empty:
                 emptyView
             }
@@ -81,7 +91,7 @@ struct UpNextView: View {
 
     var emptyView: some View {
         EmptyDataView(title: L10n.tvUpNextEmptyTitle, subtitle: L10n.tvUpNextEmptySubtitle, actionTitle: L10n.tvUpNextEmptyActionTitle) {
-            requireAccount { tabRouter.selectedTab = .home }
+            tabRouter.selectedTab = .search
         }
     }
 }
