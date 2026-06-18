@@ -53,6 +53,8 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                 DiscoverAllView()
             }
         }
+        .animation(.easeInOut, value: model.state)
+        .animation(.easeInOut, value: model.scope)
         .fullScreenCover(isPresented: $showNowPlayingPlayer) {
             NowPlayingView()
                 .ignoresSafeArea()

@@ -23,6 +23,7 @@ struct RootView: View {
                 DataLossResyncView()
             }
         }
+        .animation(.easeInOut, value: coordinator.state)
         .environment(coordinator)
         .environment(focusStore)
         .task {
