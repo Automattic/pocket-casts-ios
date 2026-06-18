@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-class DeleteAccountTask: ApiBaseTask {
+class DeleteAccountTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool, String?) -> Void)?
 
     override func apiTokenAcquired(token: String) {

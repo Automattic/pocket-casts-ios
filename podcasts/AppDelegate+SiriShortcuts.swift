@@ -7,6 +7,7 @@ import PocketCastsUtils
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+
         handleContinue(userActivity)
 
         return true

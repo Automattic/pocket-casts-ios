@@ -12,6 +12,7 @@ struct EpisodePlayerButton: View {
             EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model)
         .fullScreenCover(isPresented: $isPlaying) {
             NowPlayingView()
                 .ignoresSafeArea()

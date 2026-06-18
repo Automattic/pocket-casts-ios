@@ -161,8 +161,8 @@ struct UpgradeAccountView: View {
                     .padding(.horizontal, 24)
                 }
                 .scrollIndicators(.visible)
-                .withScrollFlashIndicator(trigger: flash)
-                .onChange(of: model.selectedProduct) { _ in
+                .scrollIndicatorsFlash(trigger: flash)
+                .onChange(of: model.selectedProduct) { _, _ in
                     if !model.isFreeTrialAvailable {
                         withAnimation {
                             expand = false
@@ -194,26 +194,6 @@ struct UpgradeAccountView: View {
             theme.primaryUi01.opacity(up ? 0 : 1)
         ], startPoint: UnitPoint.top, endPoint: UnitPoint.bottom))
         .allowsHitTesting(false)
-    }
-}
-
-// MARK: - Special modifier to support versions previous than iOS 17
-struct WithScrollFlashIndicatorModifier: ViewModifier {
-
-    let trigger: Bool
-
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content.scrollIndicatorsFlash(trigger: trigger)
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func withScrollFlashIndicator(trigger: Bool) -> some View {
-        self.modifier(WithScrollFlashIndicatorModifier(trigger: trigger))
     }
 }
 

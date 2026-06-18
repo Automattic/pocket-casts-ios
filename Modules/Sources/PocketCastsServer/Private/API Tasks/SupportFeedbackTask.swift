@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-class SupportFeedbackTask: ApiBaseTask {
+class SupportFeedbackTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
     private let message: String

@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveFileUsageTask: ApiBaseTask {
+class RetrieveFileUsageTask: ApiBaseTask, @unchecked Sendable {
     override func apiTokenAcquired(token: String) {
         let url = ServerConstants.Urls.api() + "files/usage/"
 

@@ -12,7 +12,6 @@ struct HomeView: View {
 
     enum Layout {
         static let gridSize = CGFloat(250)
-        static let sectionSpacing = CGFloat(80)
     }
 
     enum Section: String {
@@ -51,7 +50,7 @@ struct HomeView: View {
     var homeView: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
+                VStack(alignment: .leading, spacing: HomeSectionLayout.sectionSpacing) {
                     if coordinator.userState.isLoggedIn {
                         nowPlayingRow
                         upNextRow
@@ -182,6 +181,7 @@ struct HomeView: View {
             EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model, context: .upNext)
     }
 
     var newReleasesRow: some View {
@@ -197,6 +197,13 @@ struct HomeView: View {
             }
         }
     }
+}
+
+/// Single source of truth for the spacing between Home + Discover sections
+/// and between a section's title and its content row.
+enum HomeSectionLayout {
+    static let titleSpacing: CGFloat = 16
+    static let sectionSpacing: CGFloat = 64
 }
 
 struct HomeSection<Content: View>: View {
@@ -217,7 +224,7 @@ struct HomeSection<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
+        VStack(alignment: .leading, spacing: HomeSectionLayout.titleSpacing) {
             titleView
             content
         }
@@ -230,11 +237,11 @@ struct HomeSection<Content: View>: View {
     // bottom-aligned so its distance to the content below stays constant.
     private var titleView: some View {
         Text(title)
-            .font(.title2)
+            .font(.title3)
             .hidden()
             .overlay(alignment: .bottomLeading) {
                 Text(title)
-                    .font(isFocusedSection ? .title2 : .headline)
+                    .font(isFocusedSection ? .title3 : .headline)
                     .foregroundStyle(Color.pcTextPrimary)
             }
     }

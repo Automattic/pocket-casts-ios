@@ -27,10 +27,15 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
 
             let data = try request.serializedData()
 
-            let (response, httpStatus) = postToServer(url: urlString, token: token, data: data)
+            let (responseData, httpStatus) = postToServer(url: urlString, token: token, data: data)
 
-            guard let responseData = response, httpStatus == ServerConstants.HttpConstants.ok else {
-                completion?(.failure(APIError.UNKNOWN))
+            guard let responseData, httpStatus == ServerConstants.HttpConstants.ok else {
+                if let errorResponse = ApiServerHandler.extractErrorResponse(data: responseData, response: nil, error: nil) {
+                    FileLog.shared.addMessage("Unable to approve device, status code: \(httpStatus), server error: \(errorResponse.rawValue)")
+                    completion?(.failure(errorResponse))
+                    return
+                }
+                completion?(httpStatus == ServerConstants.HttpConstants.serverError ? .failure(APIError.NO_CONNECTION) : .failure(APIError.UNKNOWN))
                 return
             }
             let changeResponse = try Api_DeviceApproveResponse(serializedBytes: responseData)
@@ -39,7 +44,7 @@ class DeviceApproveTask: ApiBaseTask, @unchecked Sendable {
             FileLog.shared.addMessage("API device approved response \(changeResponse)")
         } catch {
             FileLog.shared.addMessage("Failed to approve device \(error.localizedDescription)")
-            completion?(.failure(APIError.UNKNOWN))
+            completion?((error as NSError).isConnectivityError ? .failure(APIError.NO_CONNECTION) : .failure(error))
         }
     }
 

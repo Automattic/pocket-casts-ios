@@ -291,11 +291,7 @@ class PlaylistsViewController: PCViewController, FilterCreatedDelegate {
     }
 
     private func set(configuration: UIContentConfiguration?) {
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = configuration
-        } else {
-            self.setContentUnavailableConfiguration(configuration)
-        }
+        self.contentUnavailableConfiguration = configuration
     }
 
     // MARK: - Stale Cache Handling

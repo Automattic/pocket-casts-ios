@@ -3,6 +3,8 @@ import PocketCastsServer
 
 struct DiscoverAllView: View {
 
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+
     @State private var model = DiscoverAllViewModel()
 
     var body: some View {
@@ -23,11 +25,16 @@ struct DiscoverAllView: View {
 
     var discoverList: some View {
         ScrollView {
-            LazyVStack(spacing: 80) {
+            LazyVStack(spacing: HomeSectionLayout.sectionSpacing) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
                     DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
                 }
             }
+        }
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentInsets.top + geometry.contentOffset.y
+        } action: { _, after in
+            tabRouter.scrollOffset = after
         }
         .navigationDestination(for: DiscoverPodcast.self) { podcast in
             if let uuid = podcast.uuid {

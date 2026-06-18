@@ -3,7 +3,7 @@ import PocketCastsUtils
 import SwiftProtobuf
 import UIKit
 
-class RedeemPromoCodeTask: ApiBaseTask {
+class RedeemPromoCodeTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Int, String?, APIError?) -> Void)?
     private var promoCode: String
 
