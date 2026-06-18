@@ -83,7 +83,7 @@ class DiscoverVideoEpisodeModel {
         episode.discoverPodcast
     }
 
-    private var isFadePausing = false
+    private var isFadePausing: Bool { fadeTimer != nil }
 
     private func setupPlayer() {
         guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
@@ -110,29 +110,28 @@ class DiscoverVideoEpisodeModel {
         // Cancel any in-flight fade so it can't pause this fresh playback.
         fadeTimer?.invalidate()
         fadeTimer = nil
-        isFadePausing = false
 
         player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player?.play()
         player?.volume = playbackManager.playing() ? 0 : 1
-        DispatchQueue.main.async { [weak self] in
-            self?.isPlaying = true
-        }
+        isPlaying = true
     }
 
     func pause() {
         fadePause(duration: fadeDuration)
-        DispatchQueue.main.async { [weak self] in
-            self?.isPlaying = false
-        }
+        isPlaying = false
     }
 
     func fadePause(duration: TimeInterval) {
         guard let player else {
-            isFadePausing = false
             return
         }
-        isFadePausing = true
+
+        // Nothing to fade when already muted (something else is playing) — just stop.
+        guard player.volume > 0 else {
+            player.pause()
+            return
+        }
 
         let steps = 20
         let stepDuration = duration / Double(steps)
@@ -148,7 +147,6 @@ class DiscoverVideoEpisodeModel {
                 timer.invalidate()
                 self?.fadeTimer = nil
                 player.pause()
-                self?.isFadePausing = false
                 player.volume = 1.0
             }
         }
