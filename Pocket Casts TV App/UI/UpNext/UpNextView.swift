@@ -80,8 +80,14 @@ struct UpNextView: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvUpNextEmptyTitle, subtitle: L10n.tvUpNextEmptySubtitle, actionTitle: L10n.tvUpNextEmptyActionTitle) {
-            requireAccount { tabRouter.selectedTab = .home }
+        ContentUnavailableView {
+            Text(L10n.tvUpNextEmptyTitle)
+        } description: {
+            Text(L10n.tvUpNextEmptySubtitle)
+        } actions: {
+            Button(L10n.tvUpNextEmptyActionTitle) {
+                requireAccount { tabRouter.selectedTab = .home }
+            }
         }
     }
 }

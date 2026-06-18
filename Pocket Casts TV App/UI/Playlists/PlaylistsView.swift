@@ -52,8 +52,14 @@ struct PlaylistsView: View {
     }
 
     var emptyView: some View {
-        EmptyDataView(title: L10n.tvPlaylistsEmptyTitle, subtitle: L10n.tvPlaylistsEmptySubtitle, actionTitle: L10n.tvPlaylistsEmptyActionTitle) {
-            requireAccount { tabRouter.selectedTab = .home }
+        ContentUnavailableView {
+            Text(L10n.tvPlaylistsEmptyTitle)
+        } description: {
+            Text(L10n.tvPlaylistsEmptySubtitle)
+        } actions: {
+            Button(L10n.tvPlaylistsEmptyActionTitle) {
+                requireAccount { tabRouter.selectedTab = .home }
+            }
         }
     }
 

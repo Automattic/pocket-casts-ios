@@ -15,7 +15,11 @@ struct DiscoverAllView: View {
             case .ready:
                 discoverList
             case .empty:
-                EmptyDataView(title: L10n.tvDiscoverFailedToLoadTitle, subtitle: L10n.tvDiscoverFailedToLoadSubtitle)
+                ContentUnavailableView {
+                    Text(L10n.tvDiscoverFailedToLoadTitle)
+                } description: {
+                    Text(L10n.tvDiscoverFailedToLoadSubtitle)
+                }
             }
         }
         .task {
