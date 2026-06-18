@@ -33,10 +33,12 @@ struct DiscoverVideoEpisodeCell: View {
         static let imageSize = CGFloat(72)
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
+        static let fadeDuration: TimeInterval = 0.5
+        static let playDelay: TimeInterval = 2
     }
 
     init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
-        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
+        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration, playDelay: Layout.playDelay))
         self.listId = listId
         self.source = source
     }
@@ -56,7 +58,23 @@ struct DiscoverVideoEpisodeCell: View {
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .background {
-            backgroundThumbnail
+            Group {
+                if isFocused, let player = model.player, model.isPlaying {
+                    VideoPlayer(player: player)
+                        .focusable(false)
+                } else {
+                    backgroundThumbnail
+                }
+            }
+            .transition(.opacity)
+            .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
+        }
+        .onChange(of: isFocused) { _, newValue in
+            if newValue {
+                model.play()
+            } else {
+                model.pause()
+            }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
@@ -130,7 +148,7 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var focusedContent: some View {
-        HStack(alignment: .bottom) {
+        HStack(alignment: .bottom, spacing: 16) {
             Button(L10n.tvDiscoverPlayEpisode) {
                 trackEpisodeTapped()
                 Task {
