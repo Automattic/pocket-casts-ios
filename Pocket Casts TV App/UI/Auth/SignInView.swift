@@ -94,13 +94,23 @@ struct SignInView: View {
             }
         }
         .onChange(of: model.state) {
-            if case .finished = model.state {
+            switch model.state {
+            case .finished:
                 finishSignIn(source: "password")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "password", "error_code": (error as NSError).code])
+            default:
+                break
             }
         }
         .onChange(of: model.pairing.state) {
-            if case .finished = model.pairing.state {
+            switch model.pairing.state {
+            case .finished:
                 finishSignIn(source: "qr_code")
+            case .error(let error, _):
+                Analytics.track(.userSignInFailed, properties: ["source": "qr_code", "error_code": (error as NSError).code])
+            default:
+                break
             }
         }
         .onAppear {

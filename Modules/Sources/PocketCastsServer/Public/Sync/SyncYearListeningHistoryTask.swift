@@ -28,7 +28,7 @@ public class SyncYearListeningProgress: ObservableObject {
     }
 }
 
-class SyncYearListeningHistoryTask: ApiBaseTask {
+class SyncYearListeningHistoryTask: ApiBaseTask, @unchecked Sendable {
     private var token: String?
 
     private let yearToSync: Int32

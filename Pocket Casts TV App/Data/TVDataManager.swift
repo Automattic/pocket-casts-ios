@@ -70,10 +70,18 @@ class TVDataManager {
         return await playEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid)
     }
 
-    func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
-        _ = await loadPodcast(podcastUuid: podcastUuid)
+    func loadEpisode(podcastUuid: String, episodeUuid: String) async -> (episode: Episode, podcast: Podcast?)? {
+        let podcast = await loadPodcast(podcastUuid: podcastUuid)
 
         guard let episode = dataManager.findEpisode(uuid: episodeUuid) else {
+            return nil
+        }
+
+        return (episode, podcast)
+    }
+
+    func playEpisode(podcastUuid: String, episodeUuid: String) async -> Bool {
+        guard let (episode, _) = await loadEpisode(podcastUuid: podcastUuid, episodeUuid: episodeUuid) else {
             return false
         }
 

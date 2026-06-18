@@ -54,6 +54,16 @@ struct DiscoverEpisodesSection {
     }
 }
 
+struct DiscoverCategorySection {
+    let categoryDetails: DiscoverCategoryDetails
+    let sponsoredPodcastsIDs: Set<String>
+
+    init(categoryDetails: DiscoverCategoryDetails, sponsoredPodcastsIDs: Set<String> = []) {
+        self.categoryDetails = categoryDetails
+        self.sponsoredPodcastsIDs = sponsoredPodcastsIDs
+    }
+}
+
 extension DiscoverItem {
     /// Resolves the analytics `list_id` for a section, matching the iOS scheme:
     /// the item's uuid, falling back to the collection's `list_id`, then the item's id.
@@ -178,7 +188,7 @@ actor DiscoverManager {
         return serverRegion
     }
 
-    func loadDiscoverCategoryDetails(for category: DiscoverCategory) async -> DiscoverCategoryDetails? {
+    func loadDiscoverCategoryDetails(for category: DiscoverCategory) async -> DiscoverCategorySection? {
         guard let discoverLayout = await getLayout(),
               let source = category.source
         else {
@@ -187,8 +197,22 @@ actor DiscoverManager {
 
         let regionCode = regionCode(for: discoverLayout)
         let regionSource = source.replacingOccurrences(of: discoverLayout.regionCodeToken, with: regionCode)
-        let details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false)
-        return details
+        guard var details = await discoverServerHandler.discoverCategoryDetails(source: regionSource, authenticated: false) else {
+            return nil
+        }
+
+        var sponsoredUuids = Set<String>()
+        for item in discoverLayout.layout ?? [] {
+            if item.categoryID == category.id,
+               item.isSponsored == true,
+               let source = item.source,
+               let podcasts = await discoverServerHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated == true)?.podcasts {
+                details.podcasts?.append(contentsOf: podcasts)
+                sponsoredUuids = sponsoredUuids.union(Set(podcasts.compactMap({$0.uuid})))
+            }
+        }
+
+        return DiscoverCategorySection(categoryDetails: details, sponsoredPodcastsIDs: sponsoredUuids)
     }
 
     func loadSponsoredPodcasts(item: DiscoverItem) async -> [Int: DiscoverPodcast] {

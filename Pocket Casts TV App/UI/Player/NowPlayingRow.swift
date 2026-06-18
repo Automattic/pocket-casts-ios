@@ -16,6 +16,7 @@ struct NowPlayingRow: View {
             NowPlayingRowLabel(model: model)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model)
     }
 }
 

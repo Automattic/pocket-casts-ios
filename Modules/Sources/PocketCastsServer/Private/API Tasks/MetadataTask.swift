@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class MetadataTask: Operation {
+class MetadataTask: Operation, @unchecked Sendable {
     static let minBytesInFile = 150 * 1024 as Int64
 
     var episodeUuid = ""

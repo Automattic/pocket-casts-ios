@@ -171,11 +171,16 @@ class SearchViewModel: SearchableViewModel {
 
                 podcastResults = combinedPodcastsResults
                 episodeResults = episodes
-                state = (combinedPodcastsResults.isEmpty && episodes.isEmpty) ? .empty : .results
+                let isEmpty = combinedPodcastsResults.isEmpty && episodes.isEmpty
+                if isEmpty {
+                    Analytics.track(.searchEmptyResults, properties: ["source": "search", "term": query])
+                }
+                state = isEmpty ? .empty : .results
             }  catch is CancellationError {
                 return
             } catch {
                 guard !Task.isCancelled else { return }
+                Analytics.track(.searchFailed, properties: ["source": "search", "error_code": (error as NSError).code])
                 state  = .error(error)
             }
         }

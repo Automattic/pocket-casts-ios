@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrievePodcastsTask: ApiBaseTask {
+class RetrievePodcastsTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([PodcastSyncInfo]?, [FolderSyncInfo]?, Bool) -> Void)?
 
     override func apiTokenAcquired(token: String) {

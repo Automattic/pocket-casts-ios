@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrievePlaylistsTask: ApiBaseTask {
+class RetrievePlaylistsTask: ApiBaseTask, @unchecked Sendable {
     var completion: (([(EpisodeFilter, [Episode])]?) -> Void)?
 
     override func apiTokenAcquired(token: String) {

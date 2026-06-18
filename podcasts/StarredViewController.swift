@@ -175,11 +175,7 @@ class StarredViewController: PCViewController {
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("star_empty") })
         }
 
-        if #available(iOS 17.0, *) {
-            self.contentUnavailableConfiguration = config
-        } else {
-            self.setContentUnavailableConfiguration(config)
-        }
+        self.contentUnavailableConfiguration = config
     }
 }
 

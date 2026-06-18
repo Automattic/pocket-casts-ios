@@ -126,7 +126,7 @@ class IAPHelper: NSObject {
     }
 
     func showManageSubscriptions(in windowScene: UIWindowScene) async throws {
-        if let groupID = await findLastSubscriptionPurchased()?.subscriptionGroupID, #available(iOS 17.0, *) {
+        if let groupID = await findLastSubscriptionPurchased()?.subscriptionGroupID {
             FileLog.shared.console("[CancelConfirmationViewModel] Last subscription purchased group ID: \(groupID)")
 
             try await StoreKit.AppStore.showManageSubscriptions(in: windowScene, subscriptionGroupID: groupID)

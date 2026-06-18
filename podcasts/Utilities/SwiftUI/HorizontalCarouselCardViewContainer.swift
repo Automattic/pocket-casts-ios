@@ -10,13 +10,6 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
 
     @Binding private var currentIndex: Int?
 
-    private var currentIndexNonOptional: Binding<Int> {
-        Binding<Int>(
-            get: { currentIndex ?? 0 },
-            set: { currentIndex = $0 }
-        )
-    }
-
     init(spacing: CGFloat = 16.0, items: [Item], currentIndex: Binding<Int?>, cardSize: CGSize, hPadding: CGFloat = 24.0, showPagination: Bool = false, paginationColor: Color) {
         self.spacing = spacing
         self.items = items
@@ -29,38 +22,23 @@ struct HorizontalCarouselCardViewContainer<Item: HorizontalCarouselItemRepresent
 
     var body: some View {
         VStack(spacing: 0) {
-            if #available(iOS 17.0, *) {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: spacing) {
-                        ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
-                            HorizontalCarouselCard(item: item)
-                                .frame(width: cardSize.width)
-                                .frame(maxHeight: cardSize.height)
-                                .id(i)
-                        }
-                    }
-                    .scrollTargetLayout()
-                }
-                .scrollTargetBehavior(.viewAligned)
-                .safeAreaPadding(.horizontal, hPadding)
-                .scrollPosition(id: $currentIndex)
-                .scrollIndicators(.hidden)
-                .frame(maxHeight: cardSize.height)
-            } else {
-                GeometryReader { proxy in
-                    HorizontalCarousel(currentIndex: currentIndexNonOptional, items: items) { item in
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: spacing) {
+                    ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
                         HorizontalCarouselCard(item: item)
                             .frame(width: cardSize.width)
                             .frame(maxHeight: cardSize.height)
-                            .id(item.id)
+                            .id(i)
                     }
-                    .carouselItemSpacing(spacing)
-                    .carouselPeekAmount(.constant(proxy.size.width - (cardSize.width + spacing + hPadding + hPadding)))
-                    .carouselScrollEnabled(true)
-                    .padding(.horizontal, hPadding)
                 }
-                .frame(maxHeight: cardSize.height)
+                .scrollTargetLayout()
             }
+            .scrollTargetBehavior(.viewAligned)
+            .safeAreaPadding(.horizontal, hPadding)
+            .scrollPosition(id: $currentIndex)
+            .scrollIndicators(.hidden)
+            .frame(maxHeight: cardSize.height)
+
             if showPagination {
                 PageIndicatorView(numberOfItems: items.count, currentPage: currentIndex ?? 0)
                     .foregroundColor(paginationColor)

@@ -244,11 +244,7 @@ class ListeningHistoryViewController: PCViewController {
                     })
                 ])
 
-                if #available(iOS 17.0, *) {
-                    self.contentUnavailableConfiguration = config
-                } else {
-                    self.setContentUnavailableConfiguration(config)
-                }
+                self.contentUnavailableConfiguration = config
             }
         }
     }

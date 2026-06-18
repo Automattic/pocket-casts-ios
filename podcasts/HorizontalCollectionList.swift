@@ -159,20 +159,19 @@ struct HorizontalCollectionList: View {
         VStack(spacing: 8) {
             header
             GeometryReader { geometry in
-                ScrollViewReader { proxy in
-                    ScrollView([.horizontal]) {
-                        LazyHStack(alignment: .top, spacing: 0) {
-                            poster
-                                .id(0)
-                            list(pairs: pairs, width: geometry.size.width)
-                            Spacer()
-                                .frame(width: 24)
-                        }
-                        .withScrollTargetLayout()
+                ScrollView([.horizontal]) {
+                    LazyHStack(alignment: .top, spacing: 0) {
+                        poster
+                            .id(0)
+                        list(pairs: pairs, width: geometry.size.width)
+                        Spacer()
+                            .frame(width: 24)
                     }
-                    .scrollIndicators(.hidden)
-                    .withPaging(minPage: 0, maxPage: pairs.count, currentPage: $currentPage, scrollProxy: proxy)
+                    .scrollTargetLayout()
                 }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $currentPage, anchor: .leading)
             }
             DiscoveryPageIndicatorView(numberOfItems: pairs.count + 1, currentPage: $currentPage)
             Rectangle()
@@ -182,64 +181,6 @@ struct HorizontalCollectionList: View {
                 .padding(.vertical, 8)
         }
         .frame(height: adjustedHeight)
-    }
-}
-
-// MARK: - Special modifier to support versions previous than iOS 17
-struct WithScrollTargetModifier: ViewModifier {
-
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content.scrollTargetLayout()
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func withScrollTargetLayout() -> some View {
-        self.modifier(WithScrollTargetModifier())
-    }
-}
-
-struct WithPagingModifier: ViewModifier {
-
-    let minPage: Int
-    let maxPage: Int
-    @Binding var currentPage: Int?
-    let scrollProxy: ScrollViewProxy
-
-    func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
-            content
-                .scrollTargetBehavior(.viewAligned)
-                .scrollPosition(id: $currentPage, anchor: .leading)
-        } else {
-            content.scrollDisabled(true)
-                .gesture(DragGesture(minimumDistance: 3, coordinateSpace: .local)
-                    .onEnded({ value in
-                        if value.translation.width < 0 {
-                            currentPage = min(maxPage, (currentPage ?? 0) + 1)
-                        }
-
-                        if value.translation.width > 0 {
-                            currentPage = max(minPage, (currentPage ?? 0) - 1)
-                        }
-                    }))
-                .onChange(of: currentPage) { newValue in
-                    withAnimation {
-                        scrollProxy.scrollTo(newValue, anchor: .leading)
-                    }
-                }
-        }
-    }
-}
-
-
-extension View {
-    func withPaging(minPage: Int, maxPage: Int, currentPage: Binding<Int?>, scrollProxy: ScrollViewProxy) -> some View {
-        return self.modifier(WithPagingModifier(minPage: minPage, maxPage: maxPage, currentPage: currentPage, scrollProxy: scrollProxy))
     }
 }
 

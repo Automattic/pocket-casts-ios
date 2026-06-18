@@ -182,6 +182,7 @@ struct HomeView: View {
             EpisodeRow(model: model, isActive: false)
         }
         .buttonStyle(EpisodeRowButtonStyle())
+        .episodeContextMenu(model: model, context: .upNext)
     }
 
     var newReleasesRow: some View {

@@ -3,7 +3,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 import SwiftProtobuf
 
-class ChangePasswordTask: ApiBaseTask {
+class ChangePasswordTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((Bool) -> Void)?
 
     private var oldPassword: String

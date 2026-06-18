@@ -98,7 +98,7 @@ struct SuggestedFoldersView: View {
             foldersView
                 .padding(.horizontal, -Constants.margin)
                 // hack to allow the scroll indicator to be visible without overlapping the content
-                .customHorizontalMargin(margin: Constants.margin)
+                .contentMargins(.horizontal, Constants.margin, for: .scrollContent)
             Button {
                 if model.showConfirmation {
                     track(.suggestedFoldersReplaceFoldersTapped)

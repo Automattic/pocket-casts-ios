@@ -1,7 +1,7 @@
 import Foundation
 
 /// Swaps the current Authorization token with one for use with Sonos connections
-class ExchangeSonosTask: ApiBaseTask {
+class ExchangeSonosTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((String?) -> Void)?
 
     override func apiTokenAcquired(token: String) {

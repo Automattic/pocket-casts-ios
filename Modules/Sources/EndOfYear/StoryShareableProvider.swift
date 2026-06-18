@@ -8,7 +8,7 @@ import PocketCastsUtils
 /// and when the user taps "Share" we use this provider to
 /// avoid blocking the main thread and the share sheet
 /// having a delay when appearing.
-public class StoryShareableProvider: UIActivityItemProvider {
+public class StoryShareableProvider: UIActivityItemProvider, @unchecked Sendable {
     public static var shared = StoryShareableProvider()
 
     public var generatedItem: Any?
