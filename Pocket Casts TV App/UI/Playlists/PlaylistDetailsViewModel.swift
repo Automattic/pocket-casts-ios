@@ -6,7 +6,6 @@ import PocketCastsDataModel
 @Observable
 class PlaylistDetailsViewModel {
 
-    private var cancellable: AnyCancellable?
     @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
     /// Bumped when a podcast colour download lands so `playlistColor` re-runs
     /// against the freshly-updated row instead of the stale defaults.
@@ -56,7 +55,7 @@ class PlaylistDetailsViewModel {
                 guard
                     let self,
                     let uuid = notification.object as? String,
-                    self.coverPodcastsUuids.contains(uuid)
+                    self.episodes.first?.podcastUuid == uuid
                 else { return }
                 self.colorRefreshTrigger &+= 1
             }
@@ -142,7 +141,7 @@ class PlaylistDetailsViewModel {
         // Touch the trigger so `@Observable` re-runs this getter when a
         // delayed colour download lands.
         _ = colorRefreshTrigger
-        if let uuid = coverPodcastsUuids.first,
+        if let uuid = episodes.first?.podcastUuid,
            let podcast = dataManager.findPodcast(uuid: uuid, includeUnsubscribed: true),
            let color = Self.pillColor(from: ColorManager.lightThemeTintForPodcast(podcast)) {
             return color
