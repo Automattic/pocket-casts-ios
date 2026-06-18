@@ -91,7 +91,7 @@ class DiscoverVideoEpisodeModel {
         }
         player = AVPlayer(url: videoUrl)
 
-        let interval = CMTime(seconds: 0.01, preferredTimescale: 600)
+        let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
 
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: interval,
