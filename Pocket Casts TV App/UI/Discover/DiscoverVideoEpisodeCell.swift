@@ -59,8 +59,12 @@ struct DiscoverVideoEpisodeCell: View {
             if isFocused, let player = model.player, model.isPlaying {
                 VideoPlayer(player: player)
                     .focusable(false)
+                    .transition(.opacity)
+                    .animation(.smooth(duration: 1), value: model.isPlaying)
             } else {
                 backgroundThumbnail
+                    .transition(.opacity)
+                    .animation(.smooth(duration: 1), value: model.isPlaying)
             }
         }
         .onChange(of: isFocused) { _, newValue in
