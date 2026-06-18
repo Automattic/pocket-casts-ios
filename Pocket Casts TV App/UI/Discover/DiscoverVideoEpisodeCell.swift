@@ -34,10 +34,11 @@ struct DiscoverVideoEpisodeCell: View {
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
         static let fadeDuration: TimeInterval = 0.5
+        static let playDelay: TimeInterval = 2
     }
 
     init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
-        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration))
+        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration, playDelay: Layout.playDelay))
         self.listId = listId
         self.source = source
     }

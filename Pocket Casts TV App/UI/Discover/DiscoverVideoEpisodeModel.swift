@@ -16,6 +16,8 @@ class DiscoverVideoEpisodeModel {
 
     let fadeDuration: TimeInterval
 
+    let playDelay: TimeInterval
+
     var thumbnail: UIImage?
 
     var player: AVPlayer?
@@ -26,12 +28,16 @@ class DiscoverVideoEpisodeModel {
 
     private var fadeTimer: Timer?
 
+    private var playDelayTimer: Timer?
+
     init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, fadeDuration: TimeInterval = 0.5,
+         playDelay: TimeInterval = 2,
          discoverManager: DiscoverManager = DiscoverManager.shared,
          playbackManager: PlaybackManager = .shared) {
         self.episode = episode
         self.maxPreviewTime = maxPreviewTime
         self.fadeDuration = fadeDuration
+        self.playDelay = playDelay
         self.discoverManager = discoverManager
         self.playbackManager = playbackManager
     }
@@ -41,6 +47,7 @@ class DiscoverVideoEpisodeModel {
             player?.removeTimeObserver(observer)
         }
         fadeTimer?.invalidate()
+        playDelayTimer?.invalidate()
     }
 
     func load() async {
@@ -107,6 +114,15 @@ class DiscoverVideoEpisodeModel {
     }
 
     func play() {
+        // Wait a moment before starting so scrolling past a card doesn't trigger playback.
+        playDelayTimer?.invalidate()
+        playDelayTimer = Timer.scheduledTimer(withTimeInterval: playDelay, repeats: false) { [weak self] _ in
+            self?.playDelayTimer = nil
+            self?.startPlayback()
+        }
+    }
+
+    private func startPlayback() {
         // Cancel any in-flight fade so it can't pause this fresh playback.
         fadeTimer?.invalidate()
         fadeTimer = nil
@@ -123,6 +139,10 @@ class DiscoverVideoEpisodeModel {
     }
 
     func pause() {
+        // Cancel a pending delayed play so an unfocused card never starts.
+        playDelayTimer?.invalidate()
+        playDelayTimer = nil
+
         fadePause(duration: fadeDuration)
         isPlaying = false
     }
