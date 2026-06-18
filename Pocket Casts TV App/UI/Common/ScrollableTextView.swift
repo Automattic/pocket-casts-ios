@@ -51,6 +51,10 @@ private struct ScrollableTextRepresentable: UIViewRepresentable {
         textView.backgroundColor = .clear
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
+        textView.linkTextAttributes = [
+            .foregroundColor: UIColor.pcTextPrimary,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
         textView.attributedText = themed(attributedText)
         textView.tag = attributedText.hash
         coordinator.textView = textView
