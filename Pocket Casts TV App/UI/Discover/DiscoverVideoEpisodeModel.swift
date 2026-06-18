@@ -107,7 +107,7 @@ class DiscoverVideoEpisodeModel {
             guard let self else {
                 return
             }
-            if time.seconds >= self.maxPreviewTime, !isFadePausing {
+            if time.seconds >= self.maxPreviewTime, self.isPlaying, !isFadePausing {
                 self.pause()
             }
         }
