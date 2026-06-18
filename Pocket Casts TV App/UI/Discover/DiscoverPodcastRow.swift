@@ -53,6 +53,7 @@ struct DiscoverPodcastRow: View {
                                 .frame(width: Layout.gridSize, height: Layout.gridSize)
                         }
                         .buttonStyle(.card)
+                        .padding(.vertical, 24)
                         .setFocus(section: model.focusStoreID)
                         .simultaneousGesture(TapGesture().onEnded {
                             model.trackPodcastTapped(podcast)

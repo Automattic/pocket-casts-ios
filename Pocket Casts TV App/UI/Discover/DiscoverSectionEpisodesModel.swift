@@ -59,7 +59,7 @@ class DiscoverSectionEpisodesModel {
             if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
                 composedTitle = subtitle + ": " + composedTitle
             }
-            title = composedTitle              
+            title = composedTitle
             listId = section.listId
         }
     }
