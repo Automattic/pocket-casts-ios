@@ -141,7 +141,7 @@ class DiscoverVideoEpisodeModel {
         fadeTimer?.invalidate()
         fadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
             currentStep += 1
-            player.volume -= volumeStep
+            player.volume = max(0, player.volume - volumeStep)
 
             if currentStep >= steps {
                 timer.invalidate()
