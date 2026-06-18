@@ -2,7 +2,7 @@ import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
 
-enum SearchScope: CaseIterable {
+enum SearchScope: CaseIterable, Equatable {
     case podcasts
     case episodes
 
