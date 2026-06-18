@@ -111,9 +111,14 @@ class DiscoverVideoEpisodeModel {
         fadeTimer?.invalidate()
         fadeTimer = nil
 
-        player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
-        player?.play()
-        player?.volume = playbackManager.playing() ? 0 : 1
+        guard let player else {
+            isPlaying = false
+            return
+        }
+
+        player.volume = playbackManager.playing() ? 0 : 1
+        player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+        player.play()
         isPlaying = true
     }
 
