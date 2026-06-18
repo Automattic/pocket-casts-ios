@@ -12,9 +12,10 @@ struct PodcastMoreInfoView: View {
     private enum Layout {
         static let modalWidth = CGFloat(1280)
         static let modalHeight = CGFloat(880)
-        static let metadataColumnWidth = CGFloat(360)
+        static let metadataColumnWidth = CGFloat(420)
         static let artworkSize = CGFloat(240)
-        static let columnGutter = CGFloat(64)
+        static let columnGutter = CGFloat(40)
+        static let contentInsets = EdgeInsets(top: 80, leading: 80, bottom: 0, trailing: 80)
     }
 
     private var descriptionHTML: String {
@@ -25,12 +26,13 @@ struct PodcastMoreInfoView: View {
         HStack(alignment: .top, spacing: Layout.columnGutter) {
             metadataColumn
                 .frame(width: Layout.metadataColumnWidth, alignment: .leading)
+                .padding(.bottom, 40)
             if !descriptionHTML.isEmpty {
                 aboutColumn
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-        .padding(80)
+        .padding(Layout.contentInsets)
         .frame(width: Layout.modalWidth, height: Layout.modalHeight, alignment: .topLeading)
         .task { buildDescription() }
     }
@@ -99,11 +101,20 @@ struct PodcastMoreInfoView: View {
 }
 
 #if DEBUG
+// Presents `PodcastMoreInfoView` over a backdrop the way `PodcastDetailView` does in the
+// app (via `.sheet`), so the preview reflects the real modal presentation.
 #Preview {
-    PodcastMoreInfoView(podcast: {
+    @Previewable @State var isPresented = true
+    let podcast: Podcast = {
         let podcast = MockData.makeStubPodcasts().first!
-        podcast.podcastHTMLDescription = RichTextPreviewSamples.descriptionHTML
+        podcast.podcastHTMLDescription = RichTextPreviewSamples.longDescriptionHTML
         return podcast
-    }())
+    }()
+
+    Color.pcBackgroundBase
+        .ignoresSafeArea()
+        .sheet(isPresented: $isPresented) {
+            PodcastMoreInfoView(podcast: podcast)
+        }
 }
 #endif
