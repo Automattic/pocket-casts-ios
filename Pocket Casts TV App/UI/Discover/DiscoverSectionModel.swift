@@ -12,7 +12,7 @@ class DiscoverSectionModel {
 
     var isSponsored: Bool = false
 
-    var title: String?
+    var title: String = ""
 
     let type: DiscoverType?
 

@@ -5,7 +5,7 @@ struct DownloadListView: View {
     var body: some View {
         ItemListContainer(isEmpty: viewModel.episodes.isEmpty, loading: viewModel.isLoading) {
             List {
-                EpisodeListView(title: L10n.podcastsPlural.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .downloads)
+                EpisodeListView(title: L10n.downloads.prefixSourceUnicode, showArtwork: true, episodes: $viewModel.episodes, playlist: .downloads)
             }
         }
         .navigationTitle(L10n.downloads.prefixSourceUnicode)

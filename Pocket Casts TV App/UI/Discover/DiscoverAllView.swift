@@ -3,6 +3,8 @@ import PocketCastsServer
 
 struct DiscoverAllView: View {
 
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+
     @State private var model = DiscoverAllViewModel()
 
     var body: some View {
@@ -13,7 +15,11 @@ struct DiscoverAllView: View {
             case .ready:
                 discoverList
             case .empty:
-                EmptyDataView(title: L10n.tvDiscoverFailedToLoadTitle, subtitle: L10n.tvDiscoverFailedToLoadSubtitle)
+                ContentUnavailableView {
+                    Text(L10n.tvDiscoverFailedToLoadTitle)
+                } description: {
+                    Text(L10n.tvDiscoverFailedToLoadSubtitle)
+                }
             }
         }
         .task {
@@ -23,11 +29,16 @@ struct DiscoverAllView: View {
 
     var discoverList: some View {
         ScrollView {
-            LazyVStack(spacing: 80) {
+            LazyVStack(spacing: HomeSectionLayout.sectionSpacing) {
                 ForEach(Array(model.sections.enumerated()), id: \.offset) { _, item in
                     DiscoverRowSection(item: item, source: DiscoverAnalytics.searchSource)
                 }
             }
+        }
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentInsets.top + geometry.contentOffset.y
+        } action: { _, after in
+            tabRouter.scrollOffset = after
         }
         .navigationDestination(for: DiscoverPodcast.self) { podcast in
             if let uuid = podcast.uuid {
@@ -45,16 +56,13 @@ struct DiscoverRowSection: View {
     var item: DiscoverItem
     let source: String
 
-    @State var title: String
-
     init(item: DiscoverItem, source: String) {
         self.item = item
         self.source = source
-        _title = State<String>(initialValue: item.title?.localized ?? "")
     }
 
     var body: some View {
-        HomeSection(title: title, focusSection: item.focusStoreID) {
+        ZStack {
             switch item.rowType {
             case .categories:
                 DiscoverCategoriesRow(popularOnly: false, source: source)
@@ -63,21 +71,9 @@ struct DiscoverRowSection: View {
             case .listVideoEpisode:
                 DiscoverVideoEpisodesRow(item: item, source: source)
             case .singlePodcast:
-                DiscoverSinglePodcastRow(item: item, source: source) { title in
-                    if item.isSponsored == true {
-                        self.title = L10n.tvSponsoredPodcastSectionTitle
-                    } else {
-                        if let title {
-                            self.title = title
-                        }
-                    }
-                }
+                DiscoverSinglePodcastRow(item: item, source: source)
             default:
-                DiscoverPodcastRow(item: item, source: source) { title in
-                    if let title {
-                        self.title = title
-                    }
-                }
+                DiscoverPodcastRow(item: item, source: source)
             }
         }
     }

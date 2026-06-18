@@ -20,7 +20,9 @@ struct DiscoverSinglePodcastRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                podcastList
+                HomeSection(title: (model.item?.isSponsored ?? false) ? L10n.tvSponsoredPodcastSectionTitle : model.title, focusSection: model.focusStoreID) {
+                    podcastList
+                }
             }
         }
         .task {

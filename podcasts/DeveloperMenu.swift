@@ -20,44 +20,42 @@ struct DeveloperMenu: View {
 
     var body: some View {
         List {
-            if #available(iOS 17.0, *) {
-                Section {
-                    Button(action: {
-                        showingImporter.toggle()
-                    }, label: {
-                        Text("Import Bundle")
-                    })
-                    .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
-                        switch result {
-                        case .success(let url):
-                            print("Selected: \(url)")
-                            Task {
-                                let fileWrapper = try FileWrapper(url: url)
-                                try PCBundleDoc.performImport(from: fileWrapper)
-                            }
-                        case .failure(let error):
-                            print("Failed to import pcasts: \(error)")
+            Section {
+                Button(action: {
+                    showingImporter.toggle()
+                }, label: {
+                    Text("Import Bundle")
+                })
+                .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.pcasts]) { result in
+                    switch result {
+                    case .success(let url):
+                        print("Selected: \(url)")
+                        Task {
+                            let fileWrapper = try FileWrapper(url: url)
+                            try PCBundleDoc.performImport(from: fileWrapper)
                         }
+                    case .failure(let error):
+                        print("Failed to import pcasts: \(error)")
                     }
-                    Button(action: {
-                        showingExporter.toggle()
-                    }, label: {
-                        Text("Export Bundle")
-                    })
-                    .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
-                        switch result {
-                        case .success(let url):
-                            print("Saved to: \(url)")
-                        case .failure(let error):
-                            print("Failed to export pcasts: \(error)")
-                        }
-                    }
-                    Button(action: {
-                        PCBundleDoc.delete()
-                    }, label: {
-                        Text("Reset Database + Settings")
-                    })
                 }
+                Button(action: {
+                    showingExporter.toggle()
+                }, label: {
+                    Text("Export Bundle")
+                })
+                .fileExporter(isPresented: $showingExporter, document: PCBundleDoc()) { result in
+                    switch result {
+                    case .success(let url):
+                        print("Saved to: \(url)")
+                    case .failure(let error):
+                        print("Failed to export pcasts: \(error)")
+                    }
+                }
+                Button(action: {
+                    PCBundleDoc.delete()
+                }, label: {
+                    Text("Reset Database + Settings")
+                })
             }
             Section {
                 Button(action: {
@@ -393,7 +391,7 @@ struct DeveloperMenu: View {
                     showDeviceApproval = true
                 }
                 .sheet(isPresented: $showDeviceApproval) {
-                    DeviceApproveView(userCode: "")
+                    DeviceApproveView(userCode: "", model: DeviceApproveViewModel(presentingViewController: SceneHelper.rootViewController(includeTopMost: true) ?? UIViewController()))
                 }
             } header: {
                 Text("TV")

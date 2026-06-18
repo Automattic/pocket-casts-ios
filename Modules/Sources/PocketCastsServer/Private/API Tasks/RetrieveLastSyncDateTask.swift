@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsUtils
 import SwiftProtobuf
 
-class RetrieveLastSyncDateTask: ApiBaseTask {
+class RetrieveLastSyncDateTask: ApiBaseTask, @unchecked Sendable {
     var completion: ((String?) -> Void)?
 
     override func apiTokenAcquired(token: String) {

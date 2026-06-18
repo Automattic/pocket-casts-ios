@@ -22,14 +22,16 @@ struct DiscoverPodcastRow: View {
     }
 
     var body: some View {
-        Group {
+        ZStack {
             switch model.state {
             case .loading:
                 ProgressView()
             case .empty:
                 EmptyView()
             case .ready:
-                podcastList
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
+                    podcastList
+                }
             }
         }
         .task {

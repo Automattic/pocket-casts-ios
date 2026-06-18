@@ -26,7 +26,7 @@ struct EpisodeView: View {
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .backwardWidgetAccentable(isAccentedRenderingMode)
-                    if isFirstEpisode, #available(iOS 17, *) {
+                    if isFirstEpisode {
                         Spacer()
                         Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {
                             topText
@@ -46,7 +46,7 @@ struct EpisodeView: View {
                             .opacity(isAccentedRenderingMode ? 0.6 : 1.0)
                     }
                 }
-                if !isFirstEpisode, #available(iOS 17, *) {
+                if !isFirstEpisode {
                     Toggle(isOn: isPlaying, intent: PlayEpisodeIntent(episodeUuid: episode.episodeUuid)) {}
                     .toggleStyle(WidgetPlayToggleStyle(colorScheme: colorScheme))
                 }

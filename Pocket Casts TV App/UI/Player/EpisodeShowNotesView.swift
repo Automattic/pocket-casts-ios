@@ -3,15 +3,13 @@ import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-/// Modal that renders an episode's HTML show notes alongside a header summary
-/// (artwork, episode title, podcast name, publish date).
-///
-/// Presentation is via `.sheet`, matching `PodcastMoreInfoView`'s pattern.
+/// Modal `.sheet` rendering an episode's show notes below a header (artwork, title,
+/// podcast name, date).
 struct EpisodeShowNotesView: View {
     let episode: BaseEpisode
     let podcast: Podcast?
 
-    @State private var showNotes: String?
+    @State private var attributedShowNotes: NSAttributedString?
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -22,7 +20,7 @@ struct EpisodeShowNotesView: View {
                 .foregroundStyle(Color.pcTextPrimary)
             content
         }
-        .padding(80)
+        .padding([.horizontal, .top], 80)
         .frame(width: 1200, height: 920, alignment: .topLeading)
         .task {
             await loadShowNotes()
@@ -65,13 +63,10 @@ struct EpisodeShowNotesView: View {
 
     @ViewBuilder
     private var content: some View {
-        if let showNotes {
-            // `UITextView` with `isScrollEnabled = true` reports no intrinsic
-            // height, so it relies on the parent's fixed frame to know what
-            // area it can render and scroll within. `maxHeight: .infinity`
-            // makes it absorb whatever space the header leaves inside the
-            // modal's fixed outer height.
-            ShowNotesWebView(html: showNotes)
+        if let attributedShowNotes {
+            // Scrolling UITextView has no intrinsic height; it fills the space the
+            // header leaves inside the modal's fixed frame.
+            ScrollableTextView(attributedText: attributedShowNotes)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         } else {
             HStack(spacing: 16) {
@@ -91,13 +86,15 @@ struct EpisodeShowNotesView: View {
     }
 
     private func loadShowNotes() async {
-        guard let podcastUuid = (episode as? Episode)?.podcastUuid else {
-            showNotes = CacheServerHandler.noShowNotesMessage
-            return
+        let html: String
+        if let podcastUuid = (episode as? Episode)?.podcastUuid {
+            html = await ShowNotesLoader.shared.loadShowNotes(
+                podcastUuid: podcastUuid,
+                episodeUuid: episode.uuid
+            )
+        } else {
+            html = CacheServerHandler.noShowNotesMessage
         }
-        showNotes = await ShowNotesLoader.shared.loadShowNotes(
-            podcastUuid: podcastUuid,
-            episodeUuid: episode.uuid
-        )
+        attributedShowNotes = HTMLToAttributedStringConverter.attributedString(from: html)
     }
 }

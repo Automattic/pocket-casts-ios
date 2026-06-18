@@ -438,7 +438,7 @@ enum PlusUpgradeViewSource: String {
     case settings
     case referral
     case deselectChapterWhatsNew = "deselect_chapters_whats_new"
-    case transcriptsWhatsNew = "transcripts_whats_new"
+    case syncedTranscripts = "synced_transcripts"
     case bookmarksLocked = "bookmarks_locked"
     case overflowMenu = "overflow_menu"
     case slumber
@@ -448,6 +448,7 @@ enum PlusUpgradeViewSource: String {
     case whatsNew
     case sonosLink = "sonos_link"
     case deepLink
+    case deviceApproval = "device_approval"
 
     /// Converts the enum into a Firebase promotionId, this matches the values set on Android
     func promotionId() -> String {

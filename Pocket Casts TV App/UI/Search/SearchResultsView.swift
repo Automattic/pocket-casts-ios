@@ -8,6 +8,8 @@ fileprivate enum Layout {
 
 struct SearchResultsView<ViewModel: SearchableViewModel>: View {
 
+    @Environment(MainTabRouter.self) var tabRouter: MainTabRouter
+
     @Bindable var model: ViewModel
 
     @State private var showNowPlayingPlayer = false
@@ -84,6 +86,11 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                 PodcastDetailView(model: PodcastDetailViewModel(podcastUuid: podcast.uuid))
             }
         }
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentInsets.top + geometry.contentOffset.y
+        } action: { _, after in
+            tabRouter.scrollOffset = after
+        }
     }
 
     var episodeResults: some View {
@@ -110,8 +117,14 @@ struct SearchResultsView<ViewModel: SearchableViewModel>: View {
                         SearchEpisodeRow(model: episode)
                     }
                     .buttonStyle(.card)
+                    .discoveryEpisodeContextMenu(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
                 }
             })
+        }
+        .onScrollGeometryChange(for: CGFloat.self) { geometry in
+            geometry.contentInsets.top + geometry.contentOffset.y
+        } action: { _, after in
+            tabRouter.scrollOffset = after
         }
     }
 }

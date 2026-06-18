@@ -249,6 +249,12 @@ Download de app voor de volledige ervaring!</string>
     <string>Je artwork wordt nu vernieuwd</string>
     <key>appearance_refresh_all_artwork_conf_title</key>
     <string>Ay ay, kapitein</string>
+    <key>appearance_tab_bar_header</key>
+    <string>Tabbalk</string>
+    <key>appearance_tab_bar_minimizing</key>
+    <string>Minimaliseren bij scrollen</string>
+    <key>appearance_tab_bar_minimizing_footer</key>
+    <string>Wanneer ingeschakeld, krimpt de tabbalk in een compacte pil terwijl je naar beneden scrolt, zodat meer inhoud in beeld blijft.</string>
     <key>appearance_theme_header</key>
     <string>Thema</string>
     <key>appearance_theme_select</key>
@@ -2054,6 +2060,8 @@ Dat is waar we voor staan!</string>
     <string>Je luisterervaring van 2025 is stabiel gebleven</string>
     <key>playback_2025_year_over_year_comparison_up_message</key>
     <string>Meer podcasts, meer plezier</string>
+    <key>playback_2025_year_over_year_comparison_up_title</key>
+    <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2092,6 +2100,8 @@ Dat is waar we voor staan!</string>
     <string>Acties herschikken</string>
     <key>player_archived_confirmation</key>
     <string>Deze aflevering archiveren?</string>
+    <key>player_archived_confirmation_message</key>
+    <string>Verborgen in je feed, niet verwijderd.</string>
     <key>player_artwork</key>
     <string>%1$@ artwork</string>
     <key>player_chapter_count</key>
@@ -2122,6 +2132,8 @@ Dat is waar we voor staan!</string>
     <string>Duur van toename</string>
     <key>player_mark_as_played_confirmation</key>
     <string>Deze aflevering markeren als afgespeeld?</string>
+    <key>player_mark_as_played_confirmation_message</key>
+    <string>Het verplaatst zich van Hierna naar je geschiedenis.</string>
     <key>player_options_play_all_message</key>
     <string>Hierdoor wordt je huidige wachtrij Hierna gewist.</string>
     <key>player_options_play_episode_singular</key>
@@ -2510,6 +2522,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Kan podcastgegevens niet laden :(</string>
     <key>podcast_error_title</key>
     <string>Het kan echt niet</string>
+    <key>podcast_explicit_content</key>
+    <string>Grof taalgebruik</string>
     <key>podcast_extras</key>
     <string>Extra's</string>
     <key>podcast_failed_download</key>
@@ -3632,6 +3646,12 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Je hebt geluisterd gedurende</string>
     <key>stats_listening_activity_accessibility_label</key>
     <string>Heatmap luisteractiviteit. Dagen geluisterd: %1$@ van 365.</string>
+    <key>stats_listening_activity_info_accessibility_label</key>
+    <string>Over luisteractiviteit</string>
+    <key>stats_listening_activity_info_message</key>
+    <string>Een schatting van wanneer je hebt geluisterd, op basis van je afspeelgeschiedenis. Als je een paar dagen over een aflevering doet, wordt deze op de laatste dag weergegeven.</string>
+    <key>stats_listening_activity_info_title</key>
+    <string>Luisteractiviteit</string>
     <key>stats_listening_activity_legend_less</key>
     <string>Minder</string>
     <key>stats_listening_activity_legend_more</key>
@@ -3794,6 +3814,12 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Er is helaas geen transcriptie beschikbaar voor deze aflevering</string>
     <key>transcript_error_not_supported</key>
     <string>Deze transcriptie-indeling wordt helaas niet ondersteund: %1$@</string>
+    <key>transcript_highlight_announcement_footnote</key>
+    <string>Gesynchroniseerde transcripties alleen beschikbaar voor recente afleveringen.</string>
+    <key>transcript_highlight_announcement_message</key>
+    <string>Lees snel, mis niets. De naam die je bent vergeten, het boek dat ze aanraadden, de statistiek die je wilde - tik op het woord, spring terug.</string>
+    <key>transcript_highlight_announcement_title</key>
+    <string>Lees mee. Zelfs bij 2x.</string>
     <key>transcript_tap_to_seek_streaming_unavailable</key>
     <string>Download de aflevering om te zoeken</string>
     <key>trial_finished</key>
@@ -3804,22 +3830,50 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>Probeer opnieuw</string>
     <key>try_it_now</key>
     <string>Probeer het nu</string>
+    <key>tv_banner_create_account_action_title</key>
+    <string>Een gratis account aanmaken</string>
+    <key>tv_banner_create_account_subtitle</key>
+    <string>Je volgers, je voortgang ... precies waar je ze hebt achtergelaten.</string>
+    <key>tv_banner_create_account_title</key>
+    <string>Eén account. Elk scherm</string>
+    <key>tv_banner_discover_more_action_title</key>
+    <string>Ontdek meer shows</string>
+    <key>tv_banner_discover_more_subtitle</key>
+    <string>Je volgende obsessie zit hier ergens.</string>
+    <key>tv_banner_discover_more_title</key>
+    <string>Je hebt nog lang niet alles gezien.</string>
     <key>tv_create_account_come_back</key>
     <string>Zodra je je account hebt aangemaakt, kom je terug en meld je je aan</string>
     <key>tv_create_account_subtitle</key>
     <string>Scan deze code om aan de slag te gaan op je telefoon, het duurt maar een minuut.</string>
     <key>tv_create_account_title</key>
     <string>Je gratis account aanmaken</string>
+    <key>tv_discover_featured_go_to_podcast</key>
+    <string>Naar podcast</string>
+    <key>tv_discover_featured_play_latest_episode</key>
+    <string>Nieuwste aflevering afspelen</string>
+    <key>tv_discover_play_episode</key>
+    <string>Aflevering afspelen</string>
     <key>tv_episode_info</key>
     <string>Informatie over aflevering</string>
+    <key>tv_home_browse_categories_section_title</key>
+    <string>Door categorieën bladeren</string>
+    <key>tv_home_featured_section_title</key>
+    <string>Uitgelicht op Pocket Casts</string>
     <key>tv_home_keep_listening_title</key>
     <string>Verdergaan waar je gebleven was</string>
     <key>tv_home_new_releases</key>
     <string>Nieuwe releases</string>
     <key>tv_home_recently_played</key>
     <string>Recent afgespeeld</string>
+    <key>tv_home_recommend_user_podcast_section_title</key>
+    <string>Geliefd bij luisteraars van %1$@</string>
     <key>tv_home_recommended_for_you_title</key>
-    <string>Aanbevolen voor jou</string>
+    <string>Je zult deze waarschijnlijk willen</string>
+    <key>tv_home_trending_section_title</key>
+    <string>Wat iedereen deze week doet</string>
+    <key>tv_home_video_section_title</key>
+    <string>Gemaakt voor tv</string>
     <key>tv_player_playback_effects</key>
     <string>Afspeeleffecten</string>
     <key>tv_player_playback_speed</key>
@@ -3908,14 +3962,16 @@ Je e-mailadres, wachtwoord en andere gevoelige gegevens worden nooit gedeeld.</s
     <string>naar [%1$@](%2$@)</string>
     <key>tv_sign_in_enter_code_in_url</key>
     <string>of voer deze code in [%1$@](%2$@)</string>
+    <key>tv_sign_in_qr_code_error_title</key>
+    <string>Kon je inlogcode niet ophalen</string>
     <key>tv_sign_in_subtitle</key>
     <string>Open je camera en wijs naar deze QR-code</string>
     <key>tv_sign_in_title</key>
     <string>Log in bij Pocket Casts</string>
     <key>tv_signing_in_subtitle</key>
-    <string>Je podcasts worden gesynchroniseerd, we melden je snel aan!</string>
+    <string>Je podcasts worden geladen.</string>
     <key>tv_signing_in_title</key>
-    <string>Welkom terug</string>
+    <string>Goed je te zien.</string>
     <key>tv_tab_home</key>
     <string>Home</string>
     <key>tv_tab_playlists</key>

@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsUtils
 
-class ApiBaseTask: Operation {
+class ApiBaseTask: Operation, @unchecked Sendable {
     private let syncTimeout = 60 as TimeInterval
     private let isoDateFormatter = ISO8601DateFormatter()
     let apiVersion = "2"

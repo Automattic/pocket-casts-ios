@@ -6380,4 +6380,11 @@
 /* Message of the alert shown when the pairing code has expired, telling the user to generate a new code on their TV. */
 "device_approve_expired_alert_message" = "Please go back to your TV to generate a new one.";
 
+/* Title of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_title" = "Apple TV connected";
 
+/* Message of the alert shown when the Apple TV has been successfully connected to the user's account. */
+"device_approve_success_alert_message" = "Your Apple TV is now connected to your account.";
+
+/* Title of the alert shown when approval failed. */
+"device_approve_generic_error_alert_title" = "Device approval failed";

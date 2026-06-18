@@ -2,7 +2,7 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 
-class OpmlImporter: Operation, XMLParserDelegate {
+class OpmlImporter: Operation, XMLParserDelegate, @unchecked Sendable {
     private var podcastsToAdd = [String]()
     private var pollUuids = [String]()
     private var failedCount = 0

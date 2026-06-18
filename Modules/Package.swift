@@ -57,6 +57,7 @@ let package = Package(
         .package(url: "https://github.com/Automattic/google-cast", from: "1.0.1"),
         .package(url: "https://github.com/ksemianov/WrappingHStack", from: "0.2.0"),
         .package(url: "https://github.com/Automattic/pocket-casts-ios-fingerprint", branch: "trunk"),
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.7.0"),
     ],
     targets: XcodeSupport.targets + [
         .target(
@@ -127,6 +128,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Swime", package: "Swime"),
+                .product(name: "SwiftSoup", package: "SwiftSoup"),
                 "PocketCastsDataModel",
                 "PocketCastsUtils",
             ],

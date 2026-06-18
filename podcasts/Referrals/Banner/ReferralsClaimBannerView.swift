@@ -52,7 +52,6 @@ struct ReferralsClaimBannerView: View {
 #Preview {
     ReferralsClaimBannerView(viewModel: ReferralClaimPassModel(referralURL: nil, coordinator: ReferralsCoordinator.shared))
             .environmentObject(Theme(previewTheme: .light))
-            .previewLayout(.sizeThatFits)
             .padding(16)
             .frame(height: 105)
 }
