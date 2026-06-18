@@ -10,7 +10,7 @@ class DiscoverSectionEpisodesModel {
 
     var sponsored = Set<String>()
 
-    var title: String?
+    var title: String = ""
 
     let type: DiscoverType?
 
@@ -55,7 +55,11 @@ class DiscoverSectionEpisodesModel {
         await MainActor.run {
             state = section.episodes.isEmpty ? .empty : .ready
             self.episodes = section.episodes
-            title =  L10n.tvHomeVideoSectionTitle
+            var composedTitle = section.title?.localized ?? ""
+            if let subtitle = section.subtitle?.localized, !subtitle.isEmpty {
+                composedTitle = subtitle + ": " + composedTitle
+            }
+            title = composedTitle
             listId = section.listId
         }
     }
@@ -64,5 +68,9 @@ class DiscoverSectionEpisodesModel {
     func trackImpression() {
         guard state == .ready, let listId else { return }
         DiscoverAnalytics.listImpression(listId: listId, source: source)
+    }
+
+    var focusStoreID: String {
+        self.item?.focusStoreID ?? self.type?.rawValue ?? ""
     }
 }

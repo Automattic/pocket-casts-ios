@@ -52,16 +52,13 @@ struct DiscoverRowSection: View {
     var item: DiscoverItem
     let source: String
 
-    @State var title: String
-
     init(item: DiscoverItem, source: String) {
         self.item = item
         self.source = source
-        _title = State<String>(initialValue: item.title?.localized ?? "")
     }
 
     var body: some View {
-        HomeSection(title: title, focusSection: item.focusStoreID) {
+        ZStack {
             switch item.rowType {
             case .categories:
                 DiscoverCategoriesRow(popularOnly: false, source: source)
@@ -70,21 +67,9 @@ struct DiscoverRowSection: View {
             case .listVideoEpisode:
                 DiscoverVideoEpisodesRow(item: item, source: source)
             case .singlePodcast:
-                DiscoverSinglePodcastRow(item: item, source: source) { title in
-                    if item.isSponsored == true {
-                        self.title = L10n.tvSponsoredPodcastSectionTitle
-                    } else {
-                        if let title {
-                            self.title = title
-                        }
-                    }
-                }
+                DiscoverSinglePodcastRow(item: item, source: source)
             default:
-                DiscoverPodcastRow(item: item, source: source) { title in
-                    if let title {
-                        self.title = title
-                    }
-                }
+                DiscoverPodcastRow(item: item, source: source)
             }
         }
     }

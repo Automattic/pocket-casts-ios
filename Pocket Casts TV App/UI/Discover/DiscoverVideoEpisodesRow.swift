@@ -33,7 +33,9 @@ struct DiscoverVideoEpisodesRow: View {
             case .empty:
                 EmptyView()
             case .ready:
-                mainContent
+                HomeSection(title: model.title, focusSection: model.focusStoreID) {
+                    mainContent
+                }
             }
         }
         .task {
