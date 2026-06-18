@@ -16,4 +16,4 @@ Fixes PCIOS- <!-- issue number, if applicable -->
 
 - [ ] I have considered if this change warrants user-facing release notes and have added them to `CHANGELOG.md` if necessary.
 - [ ] I have considered adding unit tests for my changes.
-- [ ] I have updated (or requested that someone edit) [the spreadsheet](https://docs.google.com/spreadsheets/d/107jqrutZhU0fVZJ19SBqxxVKbV2NWSdQC9MFYdLiAxc/edit?usp=sharing) to reflect any new or changed analytics.
+- [ ] I have updated (or requested that someone edit) [the Event Horizon schema](https://github.com/Automattic/EventHorizonSchemas/blob/trunk/schema/pocket-casts.yml) to reflect any new or changed analytics.
