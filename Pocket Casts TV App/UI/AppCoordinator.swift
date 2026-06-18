@@ -5,7 +5,7 @@ import Firebase
 
 @Observable
 class AppCoordinator {
-    enum State {
+    enum State: Equatable {
         case loading
         case welcome
         case browsing
