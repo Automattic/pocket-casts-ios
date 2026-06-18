@@ -592,17 +592,33 @@ enum UpNextSortOption: CaseIterable, AnalyticsDescribable {
         }
     }
 
-    /// Returns the episodes reordered for this option; for duration sorts, zero/unknown durations sink to the bottom and ties break by added date.
+    /// Returns the episodes reordered for this option. Both publish-date and duration sorts break ties by added date so the order is deterministic; for duration sorts, zero/unknown durations also sink to the bottom.
     func sort(_ episodes: [BaseEpisode]) -> [BaseEpisode] {
         switch self {
         case .newestToOldest:
-            return episodes.sorted { ($0.publishedDate ?? .distantPast) > ($1.publishedDate ?? .distantPast) }
+            return sortedByPublishedDate(episodes, ascending: false)
         case .oldestToNewest:
-            return episodes.sorted { ($0.publishedDate ?? .distantFuture) < ($1.publishedDate ?? .distantFuture) }
+            return sortedByPublishedDate(episodes, ascending: true)
         case .shortestToLongest:
             return sortedByDuration(episodes, ascending: true)
         case .longestToShortest:
             return sortedByDuration(episodes, ascending: false)
+        }
+    }
+
+    private func sortedByPublishedDate(_ episodes: [BaseEpisode], ascending: Bool) -> [BaseEpisode] {
+        // Missing dates sort last: to the future when ascending, to the past when descending.
+        let fallback: Date = ascending ? .distantFuture : .distantPast
+        return episodes.sorted { lhs, rhs in
+            let lhsDate = lhs.publishedDate ?? fallback
+            let rhsDate = rhs.publishedDate ?? fallback
+
+            // Same published date (including both missing): keep the order they were added.
+            if lhsDate == rhsDate {
+                return (lhs.addedDate ?? .distantPast) < (rhs.addedDate ?? .distantPast)
+            }
+
+            return ascending ? lhsDate < rhsDate : lhsDate > rhsDate
         }
     }
 

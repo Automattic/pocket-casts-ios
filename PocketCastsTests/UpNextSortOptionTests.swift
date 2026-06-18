@@ -41,6 +41,31 @@ final class UpNextSortOptionTests: XCTestCase {
         XCTAssertEqual(sorted, ["old", "mid", "new"])
     }
 
+    func testEqualPublishedDatesBreakTieByAddedDate() {
+        let episodes = [
+            episode("addedLater", published: date(1), added: date(2)),
+            episode("addedEarlier", published: date(1), added: date(1))
+        ]
+
+        XCTAssertEqual(UpNextSortOption.newestToOldest.sort(episodes).map { $0.uuid },
+                       ["addedEarlier", "addedLater"])
+        XCTAssertEqual(UpNextSortOption.oldestToNewest.sort(episodes).map { $0.uuid },
+                       ["addedEarlier", "addedLater"])
+    }
+
+    func testEpisodesWithoutPublishedDateGoToTheBottom() {
+        let episodes = [
+            episode("noDate", published: nil, added: date(1)),
+            episode("new", published: date(3)),
+            episode("old", published: date(1))
+        ]
+
+        XCTAssertEqual(UpNextSortOption.newestToOldest.sort(episodes).map { $0.uuid },
+                       ["new", "old", "noDate"])
+        XCTAssertEqual(UpNextSortOption.oldestToNewest.sort(episodes).map { $0.uuid },
+                       ["old", "new", "noDate"])
+    }
+
     func testShortestToLongestSortsByDurationAscending() {
         let episodes = [
             episode("long", duration: 3_000),
