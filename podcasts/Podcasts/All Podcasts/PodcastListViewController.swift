@@ -331,12 +331,14 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         bottomBlurView.isHidden = Settings.libraryType() == .list
     }
 
-    /// Picks the blur material per theme. The same material reads heavier in dark mode,
-    /// so use a thinner one there to keep the soft edge subtle.
+    /// Tunes the blur per theme. The same material reads heavier in dark mode, so use a
+    /// thinner one there to keep the blur subtle, and instead layer in extra opacity
+    /// (fading toward the grid's own background) to dim the bright artwork enough.
     private func updateBottomBlurEffect() {
         guard LiquidGlass.isEnabled else { return }
-        let style: UIBlurEffect.Style = Theme.sharedTheme.activeTheme.isDark ? .systemThinMaterial : .systemMaterial
-        bottomBlurView.setBlurEffect(UIBlurEffect(style: style))
+        let isDark = Theme.sharedTheme.activeTheme.isDark
+        bottomBlurView.setBlurEffect(UIBlurEffect(style: isDark ? .systemThinMaterial : .systemMaterial))
+        bottomBlurView.setTintColor(isDark ? ThemeColor.primaryUi02().withAlphaComponent(0.4) : nil)
     }
 
     @objc func refreshGridItems() {

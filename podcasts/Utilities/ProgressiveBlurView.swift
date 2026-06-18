@@ -7,8 +7,11 @@ import UIKit
 /// multicolor content (such as a grid of podcast artwork) it washes out and barely
 /// registers. This view lays a controllable, consistently visible material blur over
 /// the bottom of that content so it fades out cleanly behind floating bottom bars.
+/// An optional tint can be layered on top to push the edge more opaque than the blur
+/// material alone manages.
 final class ProgressiveBlurView: UIView {
     private let blurView: UIVisualEffectView
+    private let tintView = UIView()
     private let gradientMask = CAGradientLayer()
 
     init(effect: UIVisualEffect = UIBlurEffect(style: .systemMaterial)) {
@@ -19,14 +22,16 @@ final class ProgressiveBlurView: UIView {
         // for the content scrolling underneath it.
         isUserInteractionEnabled = false
         blurView.isUserInteractionEnabled = false
+        tintView.isUserInteractionEnabled = false
         addSubview(blurView)
+        addSubview(tintView)
 
-        // Alpha mask: transparent at the top, opaque at the bottom. Masking the
-        // effect view fades the blur in towards the bottom edge.
+        // Alpha mask: transparent at the top, opaque at the bottom. Masking the whole
+        // view fades both the blur and the tint in towards the bottom edge together.
         gradientMask.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
         gradientMask.startPoint = CGPoint(x: 0.5, y: 0)
         gradientMask.endPoint = CGPoint(x: 0.5, y: 1)
-        blurView.layer.mask = gradientMask
+        layer.mask = gradientMask
     }
 
     required init?(coder: NSCoder) {
@@ -39,14 +44,21 @@ final class ProgressiveBlurView: UIView {
         blurView.effect = effect
     }
 
+    /// Lays an optional tint over the blur (faded by the same gradient) to make the
+    /// edge more opaque than the blur material alone. Pass `nil` for no tint.
+    func setTintColor(_ color: UIColor?) {
+        tintView.backgroundColor = color ?? .clear
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
         // The mask is a CALayer, so disable implicit animations to keep it pinned to
-        // the blur view during bounds changes (rotation, safe-area updates).
+        // the view during bounds changes (rotation, safe-area updates).
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         blurView.frame = bounds
+        tintView.frame = bounds
         gradientMask.frame = bounds
         CATransaction.commit()
     }
