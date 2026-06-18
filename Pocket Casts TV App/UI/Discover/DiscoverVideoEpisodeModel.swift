@@ -10,17 +10,19 @@ class DiscoverVideoEpisodeModel {
 
     let episode: DiscoverEpisode
 
-    let loopTime: Double
+    let maxPreviewTime: Double
 
     var thumbnail: UIImage?
 
     var player: AVPlayer?
 
+    var isPlaying: Bool = false
+
     private var timeObserver: Any?
 
-    init(episode: DiscoverEpisode, loopTime: Double = 30, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.episode = episode
-        self.loopTime = loopTime
+        self.maxPreviewTime = maxPreviewTime
         self.discoverManager = discoverManager
     }
 
@@ -74,6 +76,8 @@ class DiscoverVideoEpisodeModel {
         return PlaybackManager.shared.playing()
     }
 
+    private var isFadePausing = false
+
     private func setupPlayer() {
         guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
             return
@@ -85,23 +89,53 @@ class DiscoverVideoEpisodeModel {
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: interval,
             queue: .main
-        ) { [weak player, weak self] time in
+        ) { [weak self] time in
             guard let self else {
                 return
             }
-            if time.seconds >= self.loopTime {
-                player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+            if time.seconds >= self.maxPreviewTime, !isFadePausing {
+                self.pause()
             }
         }
     }
 
     func play() {
+        player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player?.play()
+        DispatchQueue.main.async { [weak self] in
+            self?.isPlaying = true
+        }
     }
 
     func pause() {
-        player?.pause()
-        player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+        fadePause()
+        DispatchQueue.main.async { [weak self] in
+            self?.isPlaying = false
+        }
+    }
+
+    func fadePause(duration: TimeInterval = 1) {
+        isFadePausing = true
+        guard let player else {
+            isFadePausing = false
+            return
+        }
+        let steps = 20
+        let stepDuration = duration / Double(steps)
+        let volumeStep = player.volume / Float(steps)
+
+        var currentStep = 0
+        Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
+            currentStep += 1
+            player.volume -= volumeStep
+
+            if currentStep >= steps {
+                timer.invalidate()
+                player.pause()
+                self?.isFadePausing = false
+                player.volume = 1.0  // restore for next play
+            }
+        }
     }
 }
 

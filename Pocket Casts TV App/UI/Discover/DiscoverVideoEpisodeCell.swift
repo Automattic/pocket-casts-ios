@@ -56,7 +56,7 @@ struct DiscoverVideoEpisodeCell: View {
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .background {
-            if isFocused, let player = model.player {
+            if isFocused, let player = model.player, model.isPlaying {
                 VideoPlayer(player: player)
                     .focusable(false)
             } else {
