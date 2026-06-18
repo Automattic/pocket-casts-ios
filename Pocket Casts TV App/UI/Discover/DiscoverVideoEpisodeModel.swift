@@ -10,13 +10,24 @@ class DiscoverVideoEpisodeModel {
 
     let episode: DiscoverEpisode
 
+    let loopTime: Double
+
     var thumbnail: UIImage?
 
     var player: AVPlayer?
 
-    init(episode: DiscoverEpisode, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    private var timeObserver: Any?
+
+    init(episode: DiscoverEpisode, loopTime: Double = 30, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.episode = episode
+        self.loopTime = loopTime
         self.discoverManager = discoverManager
+    }
+
+    deinit {
+        if let observer = timeObserver {
+            player?.removeTimeObserver(observer)
+        }
     }
 
     func load() async {
@@ -68,6 +79,20 @@ class DiscoverVideoEpisodeModel {
             return
         }
         player = AVPlayer(url: videoUrl)
+
+        let interval = CMTime(seconds: 0.01, preferredTimescale: 600)
+
+        timeObserver = player?.addPeriodicTimeObserver(
+            forInterval: interval,
+            queue: .main
+        ) { [weak player, weak self] time in
+            guard let self else {
+                return
+            }
+            if time.seconds >= self.loopTime {
+                player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+            }
+        }
     }
 
     func play() {
@@ -76,8 +101,8 @@ class DiscoverVideoEpisodeModel {
 
     func pause() {
         player?.pause()
+        player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
     }
-
 }
 
 extension DiscoverEpisode {
