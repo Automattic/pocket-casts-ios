@@ -205,7 +205,6 @@ struct PlaylistDetailView: View {
 
     private struct ArchivedFilterLabel: View {
         let showArchived: Bool
-        @Environment(\.isFocused) private var isFocused: Bool
 
         var body: some View {
             HStack(spacing: 8) {
@@ -213,7 +212,7 @@ struct PlaylistDetailView: View {
                 Image(systemName: "chevron.down")
             }
             .font(.caption2)
-            .foregroundStyle(isFocused ? Color.pcTextPrimaryActive : Color.pcTextPrimary)
+            .foregroundStyle(Color.pcTextPrimary)
         }
     }
 }
