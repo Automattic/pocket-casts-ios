@@ -110,6 +110,7 @@ class DiscoverVideoEpisodeModel {
     func play() {
         player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player?.play()
+        player?.volume = playbackManager.playing() ? 0 : 1
         DispatchQueue.main.async { [weak self] in
             self?.isPlaying = true
         }
