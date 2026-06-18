@@ -52,12 +52,9 @@ struct DiscoverRowSection: View {
     var item: DiscoverItem
     let source: String
 
-    @State var title: String
-
     init(item: DiscoverItem, source: String) {
         self.item = item
         self.source = source
-        _title = State<String>(initialValue: item.title?.localized ?? "")
     }
 
     var body: some View {
