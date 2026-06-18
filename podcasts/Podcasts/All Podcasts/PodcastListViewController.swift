@@ -332,13 +332,14 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     }
 
     /// Tunes the blur per theme. The same material reads heavier in dark mode, so use a
-    /// thinner one there to keep the blur subtle, and instead layer in extra opacity
-    /// (fading toward the grid's own background) to dim the bright artwork enough.
+    /// thinner one there to keep the blur subtle. In both modes layer in extra opacity
+    /// (fading toward the grid's own background) to dim the bright artwork enough — light
+    /// mode needs the heavier tint since the material washes out more there.
     private func updateBottomBlurEffect() {
         guard LiquidGlass.isEnabled else { return }
         let isDark = Theme.sharedTheme.activeTheme.isDark
         bottomBlurView.setBlurEffect(UIBlurEffect(style: isDark ? .systemThinMaterial : .systemMaterial))
-        bottomBlurView.setTintColor(isDark ? ThemeColor.primaryUi02().withAlphaComponent(0.4) : nil)
+        bottomBlurView.setTintColor(ThemeColor.primaryUi02().withAlphaComponent(isDark ? 0.4 : 0.6))
     }
 
     @objc func refreshGridItems() {
