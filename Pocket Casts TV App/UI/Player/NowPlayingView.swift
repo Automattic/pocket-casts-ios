@@ -5,20 +5,67 @@ import PocketCastsDataModel
 struct NowPlayingView: View {
     @State private var model = NowPlayingViewModel()
     @State private var isShowingDescription = false
+    @State private var isShowingMarkAsPlayedConfirmation = false
+    @State private var isShowingArchiveConfirmation = false
+    // `NowPlayingView` is hosted inside a `fullScreenCover`, which doesn't
+    // inherit the requireAccount environment from its presenter — read it
+    // back here so the ellipsis-menu actions can gate themselves.
+    @Environment(\.requireAccount) private var requireAccount
+    // Mark Played and Archive both stop playback, which leaves the player
+    // empty. Dismiss closes the fullScreenCover variants; the Now Playing
+    // *tab* is separately swapped back to Home by `MainTabRouter`'s
+    // existing playback observer.
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NowPlayingPlayerRepresentable(model: model, isShowingDescription: $isShowingDescription)
-            .sheet(isPresented: $isShowingDescription) {
-                if let episode = model.episode {
-                    EpisodeShowNotesView(episode: episode, podcast: model.podcast)
-                }
+        NowPlayingPlayerRepresentable(
+            model: model,
+            isShowingDescription: $isShowingDescription,
+            isShowingMarkAsPlayedConfirmation: $isShowingMarkAsPlayedConfirmation,
+            isShowingArchiveConfirmation: $isShowingArchiveConfirmation,
+            requireAccount: requireAccount
+        )
+        .requireAccountSupport()
+        .sheet(isPresented: $isShowingDescription) {
+            if let episode = model.episode {
+                EpisodeShowNotesView(episode: episode, podcast: model.podcast)
             }
+        }
+        // Mark Played and Archive both end playback (via
+        // `EpisodeManager.markAsPlayed` / `archiveEpisode` →
+        // `PlaybackManager.removeIfPlayingOrQueued`), so mirror the iOS
+        // player and confirm before doing it. The reverse actions
+        // (Mark Unplayed / Unarchive) skip confirmation since they
+        // don't interrupt anything.
+        .alert(L10n.playerMarkAsPlayedConfirmation, isPresented: $isShowingMarkAsPlayedConfirmation) {
+            Button(L10n.markPlayedShort, role: .destructive) {
+                model.markAsPlayed()
+                ToastManager.shared.show(L10n.markPlayed)
+                dismiss()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.playerMarkAsPlayedConfirmationMessage)
+        }
+        .alert(L10n.playerArchivedConfirmation, isPresented: $isShowingArchiveConfirmation) {
+            Button(L10n.archive, role: .destructive) {
+                model.archive()
+                ToastManager.shared.show(L10n.podcastArchived)
+                dismiss()
+            }
+            Button(L10n.cancel, role: .cancel) {}
+        } message: {
+            Text(L10n.playerArchivedConfirmationMessage)
+        }
     }
 }
 
 private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
     @Bindable var model: NowPlayingViewModel
     @Binding var isShowingDescription: Bool
+    @Binding var isShowingMarkAsPlayedConfirmation: Bool
+    @Binding var isShowingArchiveConfirmation: Bool
+    let requireAccount: RequireAccountAction
     @State private var isTransportBarVisible = true
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
@@ -79,7 +126,8 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
         uiViewController.player?.currentItem?.externalMetadata = createMetadataItems()
         uiViewController.transportBarCustomMenuItems = [
             makePlaybackSpeedMenu(),
-            makePlaybackEffectsMenu()
+            makePlaybackEffectsMenu(),
+            makeEpisodeActionsMenu()
         ]
         ensureEpisodeDescriptionInfoAction(on: uiViewController)
         // Suppress AVKit's system loading spinner while the player is still
@@ -189,6 +237,72 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
             title: L10n.tvPlayerPlaybackEffects,
             image: UIImage(systemName: "speaker.wave.3"),
             children: [volumeBoostSection]
+        )
+    }
+
+    /// Builds the ellipsis menu sitting alongside the playback-speed and
+    /// playback-effects round buttons on the transport bar. Shows the
+    /// played/unplayed and archive/unarchive entries that match the current
+    /// episode's state, so the action label always reflects what the tap
+    /// will do.
+    private func makeEpisodeActionsMenu() -> UIMenu {
+        // Mark Played and Archive both stop playback as a side effect of
+        // `EpisodeManager.markAsPlayed` / `archiveEpisode`, so the
+        // destructive sides defer to the parent SwiftUI view's `.alert`
+        // for a confirmation step before running. The reverses are direct.
+        let playToggle: UIAction
+        if model.isPlayed {
+            playToggle = UIAction(
+                title: L10n.markUnplayedShort,
+                image: UIImage(systemName: "circle")
+            ) { _ in
+                requireAccount {
+                    model.markAsUnplayed()
+                    ToastManager.shared.show(L10n.markUnplayedShort)
+                }
+            }
+        } else {
+            playToggle = UIAction(
+                title: L10n.markPlayedShort,
+                image: UIImage(systemName: "checkmark.circle")
+            ) { _ in
+                requireAccount {
+                    isShowingMarkAsPlayedConfirmation = true
+                }
+            }
+        }
+
+        var children: [UIAction] = [playToggle]
+
+        if model.canArchive {
+            let archiveToggle: UIAction
+            if model.isArchived {
+                archiveToggle = UIAction(
+                    title: L10n.unarchive,
+                    image: UIImage(systemName: "tray.and.arrow.up")
+                ) { _ in
+                    requireAccount {
+                        model.unarchive()
+                        ToastManager.shared.show(L10n.unarchive)
+                    }
+                }
+            } else {
+                archiveToggle = UIAction(
+                    title: L10n.archive,
+                    image: UIImage(systemName: "archivebox")
+                ) { _ in
+                    requireAccount {
+                        isShowingArchiveConfirmation = true
+                    }
+                }
+            }
+            children.append(archiveToggle)
+        }
+
+        return UIMenu(
+            title: L10n.tvPlayerMore,
+            image: UIImage(systemName: "ellipsis"),
+            children: children
         )
     }
 
