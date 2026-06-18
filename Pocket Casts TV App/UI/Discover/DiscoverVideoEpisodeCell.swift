@@ -142,7 +142,7 @@ struct DiscoverVideoEpisodeCell: View {
     }
 
     var focusedContent: some View {
-        HStack(alignment: .bottom) {
+        HStack(alignment: .bottom, spacing: 16) {
             Button(L10n.tvDiscoverPlayEpisode) {
                 trackEpisodeTapped()
                 Task {
