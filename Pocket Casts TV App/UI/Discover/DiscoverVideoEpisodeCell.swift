@@ -33,10 +33,11 @@ struct DiscoverVideoEpisodeCell: View {
         static let imageSize = CGFloat(72)
         static let cardHeight = CGFloat(402)
         static let cardWidth = CGFloat(716)
+        static let fadeDuration: TimeInterval = 0.5
     }
 
     init(episode: DiscoverEpisode, listId: String? = nil, source: String = "") {
-        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode))
+        _model = State(wrappedValue: DiscoverVideoEpisodeModel(episode: episode, fadeDuration: Layout.fadeDuration))
         self.listId = listId
         self.source = source
     }
@@ -56,16 +57,16 @@ struct DiscoverVideoEpisodeCell: View {
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .background {
-            if isFocused, let player = model.player, model.isPlaying {
-                VideoPlayer(player: player)
-                    .focusable(false)
-                    .transition(.opacity)
-                    .animation(.smooth(duration: 1), value: model.isPlaying)
-            } else {
-                backgroundThumbnail
-                    .transition(.opacity)
-                    .animation(.smooth(duration: 1), value: model.isPlaying)
+            Group {
+                if isFocused, let player = model.player, model.isPlaying {
+                    VideoPlayer(player: player)
+                        .focusable(false)
+                } else {
+                    backgroundThumbnail
+                }
             }
+            .transition(.opacity)
+            .animation(.smooth(duration: Layout.fadeDuration), value: model.isPlaying)
         }
         .onChange(of: isFocused) { _, newValue in
             if newValue {

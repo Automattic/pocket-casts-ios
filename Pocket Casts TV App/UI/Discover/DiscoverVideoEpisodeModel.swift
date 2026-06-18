@@ -8,9 +8,13 @@ class DiscoverVideoEpisodeModel {
 
     private let discoverManager: DiscoverManager
 
+    private let playbackManager: PlaybackManager
+
     let episode: DiscoverEpisode
 
     let maxPreviewTime: Double
+
+    let fadeDuration: TimeInterval
 
     var thumbnail: UIImage?
 
@@ -20,10 +24,14 @@ class DiscoverVideoEpisodeModel {
 
     private var timeObserver: Any?
 
-    init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, discoverManager: DiscoverManager = DiscoverManager.shared) {
+    init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, fadeDuration: TimeInterval = 0.5,
+         discoverManager: DiscoverManager = DiscoverManager.shared,
+         playbackManager: PlaybackManager = .shared) {
         self.episode = episode
         self.maxPreviewTime = maxPreviewTime
+        self.fadeDuration = fadeDuration
         self.discoverManager = discoverManager
+        self.playbackManager = playbackManager
     }
 
     deinit {
@@ -108,7 +116,7 @@ class DiscoverVideoEpisodeModel {
     }
 
     func pause() {
-        fadePause()
+        fadePause(duration: self.fadeDuration)
         DispatchQueue.main.async { [weak self] in
             self?.isPlaying = false
         }
