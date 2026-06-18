@@ -111,8 +111,6 @@ struct HomeView: View {
         DiscoverPodcastRow(type: .recommendationsUser, source: DiscoverAnalytics.homeSource)
     }
 
-    @State private var sectionPodcast: String?
-
     var lovedByListenersOfRow: some View {
         DiscoverPodcastRow(type: .recommendationsSocial, source: DiscoverAnalytics.homeSource)
     }
