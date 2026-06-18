@@ -12,29 +12,35 @@ class DiscoverVideoEpisodeModel {
 
     var thumbnail: UIImage?
 
+    var player: AVPlayer?
+
     init(episode: DiscoverEpisode, discoverManager: DiscoverManager = DiscoverManager.shared) {
         self.episode = episode
         self.discoverManager = discoverManager
     }
 
     func load() async {
-        if let urlString = episode.url, let videoUrl = URL(string: urlString) {
-            do {
-                var videoFrame: UIImage?
-                let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
-                if cachedVideoFrame != nil {
-                    videoFrame = cachedVideoFrame
-                } else {
-                    let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
-                    let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
-                    videoFrame = image
-                }
-                await MainActor.run { [videoFrame] in
-                    thumbnail = videoFrame
-                }
-            } catch {
-                FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to generate discover video thumbnail for episode \(episode.uuid ?? "unknown"): \(error.localizedDescription)")
+        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+            return
+        }
+
+        setupPlayer()
+
+        do {
+            var videoFrame: UIImage?
+            let cachedVideoFrame = await ImageManager.sharedManager.retrieveDiscoverVideoThumbnail(imageUrl: urlString)
+            if cachedVideoFrame != nil {
+                videoFrame = cachedVideoFrame
+            } else {
+                let image = try await thumbnail(url: videoUrl, at: CMTime(seconds: 1, preferredTimescale: 600))
+                let _ = await ImageManager.sharedManager.storeDiscoverVideoThumbnail(for: urlString, image: image)
+                videoFrame = image
             }
+            await MainActor.run { [videoFrame] in
+                thumbnail = videoFrame
+            }
+        } catch {
+            FileLog.shared.addMessage("[DiscoverVideoEpisodeModel] Failed to generate discover video thumbnail for episode \(episode.uuid ?? "unknown"): \(error.localizedDescription)")
         }
     }
 
@@ -52,6 +58,26 @@ class DiscoverVideoEpisodeModel {
     var podcast: DiscoverPodcast? {
         episode.discoverPodcast
     }
+
+    var shouldAutoPlay: Bool {
+        return PlaybackManager.shared.playing()
+    }
+
+    private func setupPlayer() {
+        guard let urlString = episode.url, let videoUrl = URL(string: urlString) else {
+            return
+        }
+        player = AVPlayer(url: videoUrl)
+    }
+
+    func play() {
+        player?.play()
+    }
+
+    func pause() {
+        player?.pause()
+    }
+
 }
 
 extension DiscoverEpisode {

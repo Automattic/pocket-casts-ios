@@ -56,7 +56,19 @@ struct DiscoverVideoEpisodeCell: View {
         .padding(32)
         .frame(width: Layout.cardWidth, height: Layout.cardHeight)
         .background {
-            backgroundThumbnail
+            if isFocused, let player = model.player {
+                VideoPlayer(player: player)
+                    .focusable(false)
+            } else {
+                backgroundThumbnail
+            }
+        }
+        .onChange(of: isFocused) { _, newValue in
+            if newValue {
+                model.play()
+            } else {
+                model.pause()
+            }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .clipped()
