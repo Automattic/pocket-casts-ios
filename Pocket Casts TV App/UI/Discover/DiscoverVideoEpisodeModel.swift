@@ -24,6 +24,8 @@ class DiscoverVideoEpisodeModel {
 
     private var timeObserver: Any?
 
+    private var fadeTimer: Timer?
+
     init(episode: DiscoverEpisode, maxPreviewTime: Double = 30, fadeDuration: TimeInterval = 0.5,
          discoverManager: DiscoverManager = DiscoverManager.shared,
          playbackManager: PlaybackManager = .shared) {
@@ -38,6 +40,7 @@ class DiscoverVideoEpisodeModel {
         if let observer = timeObserver {
             player?.removeTimeObserver(observer)
         }
+        fadeTimer?.invalidate()
     }
 
     func load() async {
@@ -80,10 +83,6 @@ class DiscoverVideoEpisodeModel {
         episode.discoverPodcast
     }
 
-    var shouldAutoPlay: Bool {
-        return PlaybackManager.shared.playing()
-    }
-
     private var isFadePausing = false
 
     private func setupPlayer() {
@@ -108,6 +107,11 @@ class DiscoverVideoEpisodeModel {
     }
 
     func play() {
+        // Cancel any in-flight fade so it can't pause this fresh playback.
+        fadeTimer?.invalidate()
+        fadeTimer = nil
+        isFadePausing = false
+
         player?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         player?.play()
         player?.volume = playbackManager.playing() ? 0 : 1
@@ -117,32 +121,35 @@ class DiscoverVideoEpisodeModel {
     }
 
     func pause() {
-        fadePause(duration: self.fadeDuration)
+        fadePause(duration: fadeDuration)
         DispatchQueue.main.async { [weak self] in
             self?.isPlaying = false
         }
     }
 
-    func fadePause(duration: TimeInterval = 1) {
-        isFadePausing = true
+    func fadePause(duration: TimeInterval) {
         guard let player else {
             isFadePausing = false
             return
         }
+        isFadePausing = true
+
         let steps = 20
         let stepDuration = duration / Double(steps)
         let volumeStep = player.volume / Float(steps)
 
         var currentStep = 0
-        Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
+        fadeTimer?.invalidate()
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) { [weak self] timer in
             currentStep += 1
             player.volume -= volumeStep
 
             if currentStep >= steps {
                 timer.invalidate()
+                self?.fadeTimer = nil
                 player.pause()
                 self?.isFadePausing = false
-                player.volume = 1.0  // restore for next play
+                player.volume = 1.0
             }
         }
     }
