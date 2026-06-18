@@ -39,8 +39,9 @@ struct NowPlayingView: View {
         // don't interrupt anything.
         .alert(L10n.playerMarkAsPlayedConfirmation, isPresented: $isShowingMarkAsPlayedConfirmation) {
             Button(L10n.markPlayedShort, role: .destructive) {
+                AnalyticsEpisodeHelper.shared.currentSource = .player
                 model.markAsPlayed()
-                ToastManager.shared.show(L10n.markPlayed)
+                ToastManager.shared.show(L10n.markPlayedShort)
                 dismiss()
             }
             Button(L10n.cancel, role: .cancel) {}
@@ -49,6 +50,7 @@ struct NowPlayingView: View {
         }
         .alert(L10n.playerArchivedConfirmation, isPresented: $isShowingArchiveConfirmation) {
             Button(L10n.archive, role: .destructive) {
+                AnalyticsEpisodeHelper.shared.currentSource = .player
                 model.archive()
                 ToastManager.shared.show(L10n.podcastArchived)
                 dismiss()
@@ -257,6 +259,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
                 image: UIImage(systemName: "circle")
             ) { _ in
                 requireAccount {
+                    AnalyticsEpisodeHelper.shared.currentSource = .player
                     model.markAsUnplayed()
                     ToastManager.shared.show(L10n.markUnplayedShort)
                 }
@@ -282,6 +285,7 @@ private struct NowPlayingPlayerRepresentable: UIViewControllerRepresentable {
                     image: UIImage(systemName: "tray.and.arrow.up")
                 ) { _ in
                     requireAccount {
+                        AnalyticsEpisodeHelper.shared.currentSource = .player
                         model.unarchive()
                         ToastManager.shared.show(L10n.unarchive)
                     }
