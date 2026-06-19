@@ -119,24 +119,6 @@ struct MainTabView: View {
         }
     }
 
-    private func handleMove(_ direction: MoveCommandDirection) {
-        switch (focusedArea, direction) {
-        case (.tabBar, .left):
-            // Dispatch async so the tab selection binding has time to settle
-            // after the focus engine handles the move — otherwise rapid lefts
-            // from Podcasts → Home → (try profile) read a stale selectedTab.
-            DispatchQueue.main.async {
-                if tabRouter.selectedTab == MainTab.allCases.first {
-                    focusedArea = .profile
-                }
-            }
-        case (.profile, .right):
-            focusedArea = .tabBar
-        default:
-            break
-        }
-    }
-
     @State private var showProfileMenu: Bool = false
 
     var profileAccessory: some View {
@@ -249,7 +231,7 @@ private struct MainTabScrollOffsetModifier: ViewModifier {
     }
 }
 
-extension View {
+private extension View {
     /// Tracks the vertical scroll offset of the underlying scroll view
     func trackScrollOffset() -> some View {
         modifier(MainTabScrollOffsetModifier())
