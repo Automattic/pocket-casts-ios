@@ -6,13 +6,14 @@ struct UpNextView: View {
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
-    @State private var model = UpNextViewModel()
+    @State private var model: UpNextViewModel
 
     @Namespace private var rowNamespace
 
-    init(model: UpNextViewModel = UpNextViewModel()) {
+    init(model: UpNextViewModel) {
         _model = State(wrappedValue: model)
     }
+
     var body: some View {
         ZStack {
             switch model.state {
@@ -96,7 +97,7 @@ struct UpNextView: View {
 }
 
 #Preview {
-    UpNextView()
+    UpNextView(model: UpNextViewModel())
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }

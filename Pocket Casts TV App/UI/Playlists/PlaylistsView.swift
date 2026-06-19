@@ -13,7 +13,7 @@ struct PlaylistsView: View {
         static let gridSize = CGFloat(496)
     }
 
-    init(model: PlaylistsViewModel = PlaylistsViewModel()) {
+    init(model: PlaylistsViewModel) {
         _model = State(wrappedValue: model)
     }
 
@@ -92,7 +92,7 @@ struct PlaylistsView: View {
 }
 
 #Preview {
-    PlaylistsView()
+    PlaylistsView(model: PlaylistsViewModel())
         .environment(AppCoordinator())
         .environment(MainTabViewModel())
 }
