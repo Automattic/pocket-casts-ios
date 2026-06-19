@@ -171,20 +171,21 @@ class PlaylistDetailsViewModel {
 
     /// Deterministic per-seed palette so playlists whose front cover has no
     /// usable colour metadata still render distinct from each other.
+    private static let fallbackPalette: [Color] = [
+        Color(red: 0.15, green: 0.25, blue: 0.5),
+        Color(red: 0.5, green: 0.17, blue: 0.15),
+        Color(red: 0.21, green: 0.22, blue: 0.14),
+        Color(red: 0.5, green: 0.35, blue: 0.12),
+        Color(red: 0.15, green: 0.4, blue: 0.3),
+        Color(red: 0.3, green: 0.2, blue: 0.45)
+    ]
+
     private static func fallbackPillColor(for seed: String) -> Color {
-        let palette: [Color] = [
-            Color(red: 0.15, green: 0.25, blue: 0.5),
-            Color(red: 0.5, green: 0.17, blue: 0.15),
-            Color(red: 0.21, green: 0.22, blue: 0.14),
-            Color(red: 0.5, green: 0.35, blue: 0.12),
-            Color(red: 0.15, green: 0.4, blue: 0.3),
-            Color(red: 0.3, green: 0.2, blue: 0.45)
-        ]
         // `String.hashValue` is per-run randomised in Swift; sum the unicode
         // scalars instead so a given playlist gets the same pill colour each
         // launch.
-        let index = seed.unicodeScalars.reduce(0) { $0 + Int($1.value) } % palette.count
-        return palette[index]
+        let index = seed.unicodeScalars.reduce(0) { $0 + Int($1.value) } % fallbackPalette.count
+        return fallbackPalette[index]
     }
 
     var coverPodcastsUuids: [String] {
